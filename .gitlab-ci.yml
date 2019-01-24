@@ -1,0 +1,54 @@
+image: ubuntu:18.10
+
+stages:
+  - test
+  - deploy
+
+before_script:
+- bash ci/docker_install.sh
+
+# test with NC14 and produce coverage report
+test_nc14:
+  stage: test
+  only:
+    refs:
+      - master
+      - test
+  artifacts:
+    paths:
+      - coverage
+  coverage: '/^\s*Lines:\s*(\d+.\d+)\%/'
+  script:
+    # copy local copy that has been cloned already
+    - cp -r . /tmp/spend
+    - mkdir -p /var/www/html ; pushd /var/www/html
+    - wget -q https://download.nextcloud.com/server/releases/nextcloud-14.0.3.zip ; unzip -q nextcloud-14.0.3.zip ; rm nextcloud-14.0.3.zip
+    # temporary fix of autoloader.php
+    - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
+    - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/spend ./
+    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
+    - sudo -u www-data php /var/www/html/nextcloud/occ app:enable spend
+    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
+    # check code with occ
+    - sudo -u www-data php /var/www/html/nextcloud/occ app:check-code spend
+    # check JS code
+    - jshint --verbose spend/js/spend.js && echo "jshint OK" || echo "jshint has complaints"
+    - popd ; popd ; mkdir coverage
+    - phpunit --configuration /var/www/html/nextcloud/apps/spend/phpunit.xml --coverage-text --color=never --coverage-html coverage
+
+pages:
+  stage: deploy
+  dependencies:
+    - test_nc14
+  before_script:
+    - echo 'nothing to install for pages jobs'
+  only:
+    refs:
+      - master
+  artifacts:
+    paths:
+      - public
+  script:
+    - sleep 5
+    - mkdir public
+    - mv coverage public/

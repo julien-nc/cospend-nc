@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<info>
+    <id>spend</id>
+    <name>Spend</name>
+    <summary lang="en">Shared budget manager</summary>
+    <description>
+# Spend Nextcloud application
+
+🌍 Help us to translate this app on [Nextcloud-Spend Crowdin project](https://crowdin.com/project/spend).
+
+⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/spend-nc/blob/master/CONTRIBUTING.md).
+
+How to use Spend :
+
+This app is tested on Nextcloud 15 with Firefox 57+ and Chromium.
+
+This app is under development.
+
+## Donation
+
+I develop this app during my free time.
+
+* [Donate with Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=66PALMY8SF5JE) (you don't need a paypal account)
+* [Donate with Liberapay : ![Donate using Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/eneiluj/donate)
+
+## Install
+
+See the [AdminDoc](https://gitlab.com/eneiluj/spend-nc/wikis/admindoc) for installation details.
+
+Check [CHANGELOG](https://gitlab.com/eneiluj/spend-nc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
+
+Check [AUTHORS](https://gitlab.com/eneiluj/spend-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+
+## Known issues
+
+* ...
+
+Any feedback will be appreciated.
+
+    </description>
+    <version>0.0.1</version>
+    <licence>agpl</licence>
+    <author mail="eneiluj@posteo.net">Julien Veyssier</author>
+    <namespace>Spend</namespace>
+    <documentation>
+        <user>https://gitlab.com/eneiluj/spend-nc/wikis/userdoc</user>
+        <admin>https://gitlab.com/eneiluj/spend-nc/wikis/admindoc</admin>
+        <developer>https://gitlab.com/eneiluj/spend-nc/wikis/devdoc</developer>
+    </documentation>
+    <category>tools</category>
+    <category>social</category>
+    <website>https://gitlab.com/eneiluj/spend-nc</website>
+    <bugs>https://gitlab.com/eneiluj/spend-nc/issues</bugs>
+    <screenshot>https://gitlab.com/eneiluj/1.jpeg</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/2.jpeg</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/3.jpeg</screenshot>
+    <dependencies>
+        <database min-version="9.4">pgsql</database>
+        <database>sqlite</database>
+        <database min-version="5.5">mysql</database>
+        <nextcloud min-version="14.0" max-version="15.9"/>
+    </dependencies>
+    <settings>
+        <admin>OCA\Spend\Settings\Admin</admin>
+    </settings>
+</info>

@@ -27,6 +27,6 @@ function setAllowAnonymousCreation(val) {
 
 $(document).ready(function() {
     $('body').on('change', 'input#allowAnonymousCreation', function(e) {
-        setAllowAnonymousCreation($(this).val());
+        setAllowAnonymousCreation($(this).is(':checked') ? '1' : '0');
     });
 });

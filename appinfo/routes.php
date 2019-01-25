@@ -27,5 +27,6 @@ return [
         ['name' => 'page#apiGetProjectStatistics', 'url' => '/api/projects/{projectid}/statistics', 'verb' => 'GET'],
         ['name' => 'utils#getOptionsValues', 'url' => '/getOptionsValues', 'verb' => 'POST'],
         ['name' => 'utils#saveOptionValue', 'url' => '/saveOptionValue', 'verb' => 'POST'],
+        ['name' => 'utils#setAllowAnonymousCreation', 'url' => '/setAllowAnonymousCreation', 'verb' => 'POST'],
     ]
 ];

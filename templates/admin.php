@@ -12,7 +12,7 @@ OCP\Util::addstyle('spend', 'admin');
     <br />
     <div id="spendinputs">
         <input id="allowAnonymousCreation" type="checkbox"
-        <?php if ($_['allowAnonymousCreation'] !== 0) p('checked'); ?>
+        <?php if ($_['allowAnonymousCreation'] !== '0') p('checked'); ?>
         />
         <label for="allowAnonymousCreation"><?php p($l->t('Allow anonymous project creation')); ?></label>
     </div>

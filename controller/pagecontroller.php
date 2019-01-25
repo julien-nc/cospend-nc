@@ -106,4 +106,68 @@ class PageController extends Controller {
         $response->setContentSecurityPolicy($csp);
         return $response;
     }
+
+    /**
+     * curl -X POST https://ihatemoney.org/api/projects \
+     *   -d 'name=yay&id=yay&password=yay&contact_email=yay@notmyidea.org'
+     *   "yay"
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     */
+    public function apiCreateProject($name, $id, $password, $contact_email) {
+        $allow = intval($this->config->getAppValue('spend', 'allowAnonymousCreation'));
+        if ($allow) {
+            return $this->createProject($name, $id, $password, $contact_email);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Anonymous project creation is not allowed on this server']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    private function createProject($name, $id, $password, $contact_email) {
+        $sql = '
+            SELECT id
+            FROM *PREFIX*spend_projects
+            WHERE id='.$this->db_quote_escape_string($id).' ;';
+        $req = $this->dbconnection->prepare($sql);
+        $req->execute();
+        $dbid = null;
+        while ($row = $req->fetch()){
+            $dbid = $row['id'];
+            break;
+        }
+        $req->closeCursor();
+        if ($dbid === null) {
+            $dbPassword = password_hash($password, PASSWORD_BCRYPT);
+            $sql = '
+                INSERT INTO *PREFIX*spend_projects
+                (userid, id, name, password, email)
+                VALUES ('.
+                    $this->db_quote_escape_string('').','.
+                    $this->db_quote_escape_string($id).','.
+                    $this->db_quote_escape_string($name).','.
+                    $this->db_quote_escape_string($dbPassword).','.
+                    $this->db_quote_escape_string($contact_email).
+                ') ;';
+            $req = $this->dbconnection->prepare($sql);
+            $req->execute();
+            $req->closeCursor();
+
+            $response = new DataResponse($id);
+            return $response;
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'A project with id "'.$id.'" already exists']
+                , 403
+            );
+            return $response;
+        }
+    }
+
 }

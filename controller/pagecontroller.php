@@ -210,6 +210,42 @@ class PageController extends Controller {
         }
     }
 
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     */
+    public function apiDeleteMember($projectid, $password, $memberid) {
+        if ($this->checkLogin($projectid, $password)) {
+            return $this->deleteMember($projectid, $memberid);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     */
+    public function apiEditMember($projectid, $password, $memberid, $name, $weight, $activated) {
+        if ($this->checkLogin($projectid, $password)) {
+            return $this->editMember($projectid, $memberid, $name, $weight, $activated);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                , 401
+            );
+            return $response;
+        }
+    }
+
     private function createProject($name, $id, $password, $contact_email) {
         $sql = '
             SELECT id
@@ -356,6 +392,32 @@ class PageController extends Controller {
         return $member;
     }
 
+    private function getMemberById($projectId, $memberId) {
+        $member = null;
+        $sql = '
+            SELECT id, name, weight, activated
+            FROM *PREFIX*spend_members
+            WHERE projectid='.$this->db_quote_escape_string($projectId).'
+                AND id='.$this->db_quote_escape_string($memberId).' ;';
+        $req = $this->dbconnection->prepare($sql);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbMemberId = $row['id'];
+            $dbWeight = floatval($row['weight']);
+            $dbName = $row['name'];
+            $dbActivated= intval($row['activated']);
+            $member = [
+                    'activated' => ($dbActivated === 1),
+                    'name' => $dbName,
+                    'id' => $dbMemberId,
+                    'weight' => $dbWeight
+            ];
+            break;
+        }
+        $req->closeCursor();
+        return $member;
+    }
+
     private function addMember($projectid, $name, $weight) {
         if ($name !== null && $name !== '') {
             if ($this->getMemberByName($projectid, $name) === null) {
@@ -394,6 +456,87 @@ class PageController extends Controller {
                 $response = new DataResponse(
                     ['name'=>["This project already have this member"]]
                     , 400
+                );
+                return $response;
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ["name"=> ["This field is required."]]
+                , 400
+            );
+            return $response;
+        }
+    }
+
+    private function deleteMember($projectid, $memberid) {
+        $memberToDelete = $this->getMemberById($projectid, $memberid);
+        if ($memberToDelete !== null) {
+            if ($memberToDelete['activated']) {
+                $sqlupd = '
+                        UPDATE *PREFIX*spend_members
+                        SET
+                             activated='.$this->db_quote_escape_string('0').'
+                        WHERE id='.$this->db_quote_escape_string($memberid).'
+                              AND projectid='.$this->db_quote_escape_string($projectid).' ;';
+                $req = $this->dbconnection->prepare($sqlupd);
+                $req->execute();
+                $req->closeCursor();
+            }
+            $response = new DataResponse("OK");
+            return $response;
+        }
+        else {
+            $response = new DataResponse(
+                ["Not Found"]
+                , 404
+            );
+            return $response;
+        }
+    }
+
+    private function editMember($projectid, $memberid, $name, $weight, $activated) {
+        if ($name !== null && $name !== '') {
+            if ($this->getMemberById($projectid, $memberid) !== null) {
+                $weightSql = '';
+                $activatedSql = '';
+                if ($weight !== null && $weight !== '') {
+                    if (is_numeric($weight)) {
+                        $newWeight = floatval($weight);
+                        $weightSql = 'weight='.$this->db_quote_escape_string($newWeight).',';
+                    }
+                    else {
+                        $response = new DataResponse(
+                            ["weight"=> ["Not a valid decimal value"]]
+                            , 400
+                        );
+                        return $response;
+                    }
+                }
+                if ($activated !== null && $activated !== '' && ($activated === 'true' || $activated === 'false')) {
+                    $activatedSql = 'activated='.$this->db_quote_escape_string($activated === 'true' ? '1' : '0').',';
+                }
+                $sqlupd = '
+                        UPDATE *PREFIX*spend_members
+                        SET
+                             '.$weightSql.'
+                             '.$activatedSql.'
+                             name='.$this->db_quote_escape_string($name).'
+                        WHERE id='.$this->db_quote_escape_string($memberid).'
+                              AND projectid='.$this->db_quote_escape_string($projectid).' ;';
+                $req = $this->dbconnection->prepare($sqlupd);
+                $req->execute();
+                $req->closeCursor();
+
+                $editedMember = $this->getMemberById($projectid, $memberid);
+
+                $response = new DataResponse($editedMember);
+                return $response;
+            }
+            else {
+                $response = new DataResponse(
+                    ['name'=>["This project have no such member"]]
+                    , 404
                 );
                 return $response;
             }

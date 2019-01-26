@@ -289,6 +289,24 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      */
+    public function apiDeleteBill($projectid, $password, $billid) {
+        if ($this->checkLogin($projectid, $password)) {
+            return $this->deleteBill($projectid, $billid);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     */
     public function apiDeleteMember($projectid, $password, $memberid) {
         if ($this->checkLogin($projectid, $password)) {
             return $this->deleteMember($projectid, $memberid);
@@ -939,6 +957,31 @@ class PageController extends Controller {
             $response = new DataResponse(
                 ["name"=> ["This field is required."]]
                 , 400
+            );
+            return $response;
+        }
+    }
+
+    private function deleteBill($projectid, $billid) {
+        $billToDelete = $this->getBill($projectid, $billid);
+        if ($billToDelete !== null) {
+            $this->deleteBillOwersOfBill($billid);
+
+            $sqldel = '
+                    DELETE FROM *PREFIX*spend_bills
+                    WHERE id='.$this->db_quote_escape_string($billid).'
+                        AND projectid='.$this->db_quote_escape_string($projectid).' ;';
+            $req = $this->dbconnection->prepare($sqldel);
+            $req->execute();
+            $req->closeCursor();
+
+            $response = new DataResponse("OK");
+            return $response;
+        }
+        else {
+            $response = new DataResponse(
+                ["message" => "Not Found"]
+                , 404
             );
             return $response;
         }

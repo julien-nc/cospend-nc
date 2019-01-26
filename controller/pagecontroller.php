@@ -410,35 +410,24 @@ class PageController extends Controller {
 
     private function getBills($projectId) {
         $bills = [];
+
+        // first get all bill ids
+        $billIds = [];
         $sql = '
-            SELECT id, what, date, amount, payerid
+            SELECT id
             FROM *PREFIX*spend_bills
             WHERE projectid='.$this->db_quote_escape_string($projectId).' ;';
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
         while ($row = $req->fetch()){
-            $dbBillId = $row['id'];
-            $dbAmount = floatval($row['amount']);
-            $dbWhat = $row['what'];
-            $dbDate = $row['date'];
-            $dbPayerId= intval($row['payerid']);
-            array_push(
-                $bills,
-                [
-                    'id' => $dbBillId,
-                    'amount' => $dbAmount,
-                    'what' => $dbWhat,
-                    'date' => $dbDate,
-                    'payerid' => $dbPayerId,
-                    'owers' => []
-                ]
-            );
+            array_push($billIds, $row['id']);
         }
         $req->closeCursor();
 
         // get bill owers
-        foreach ($bills as $bill) {
-            $billId = $bill['id'];
+        $billOwersByBill = [];
+        foreach ($billIds as $billId) {
+            $billOwers = [];
 
             $sql = '
                 SELECT memberid,
@@ -451,24 +440,50 @@ class PageController extends Controller {
             $req = $this->dbconnection->prepare($sql);
             $req->execute();
             while ($row = $req->fetch()){
-                error_log('plop : '.$row['name']);
                 $dbWeight = floatval($row['weight']);
                 $dbName = $row['name'];
                 $dbActivated = (intval($row['activated']) === 1);
-                $dbOwerId= intval($row['payerid']);
+                $dbOwerId= intval($row['memberid']);
                 array_push(
-                    // TODO fix it
-                    $bill['owers'],
+                    $billOwers,
                     [
                         'id' => $dbOwerId,
                         'weight' => $dbWeight,
                         'name' => $dbName,
-                        'activatd' => $dbActivated
+                        'activated' => $dbActivated
                     ]
                 );
             }
             $req->closeCursor();
+            $billOwersByBill[$billId] = $billOwers;
         }
+
+        $sql = '
+            SELECT id, what, date, amount, payerid
+            FROM *PREFIX*spend_bills
+            WHERE projectid='.$this->db_quote_escape_string($projectId).' ;';
+        $req = $this->dbconnection->prepare($sql);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbBillId = intval($row['id']);
+            $dbAmount = floatval($row['amount']);
+            $dbWhat = $row['what'];
+            $dbDate = $row['date'];
+            $dbPayerId= intval($row['payerid']);
+            array_push(
+                $bills,
+                [
+                    'id' => $dbBillId,
+                    'amount' => $dbAmount,
+                    'what' => $dbWhat,
+                    'date' => $dbDate,
+                    'payerid' => $dbPayerId,
+                    'owers' => $billOwersByBill[$row['id']]
+                ]
+            );
+        }
+        $req->closeCursor();
+
         return $bills;
     }
 
@@ -628,7 +643,6 @@ class PageController extends Controller {
             );
             return $response;
         }
-        error_log("'".$payed_for."'");
         foreach ($owerIds as $owerId) {
             if (!is_numeric($owerId)) {
                 $response = new DataResponse(

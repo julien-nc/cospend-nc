@@ -177,6 +177,24 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      */
+    public function apiSetProjectInfo($projectid, $passwd, $name, $contact_email, $password) {
+        if ($this->checkLogin($projectid, $passwd)) {
+            return $this->editProject($projectid, $name, $contact_email, $password);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     */
     public function apiGetMembers($projectid, $password) {
         if ($this->checkLogin($projectid, $password)) {
             $members = $this->getMembers($projectid);
@@ -418,6 +436,33 @@ class PageController extends Controller {
         return $member;
     }
 
+    private function getProjectById($projectId) {
+        $project = null;
+        $sql = '
+            SELECT id, userid, name, email, password
+            FROM *PREFIX*spend_projects
+            WHERE id='.$this->db_quote_escape_string($projectId).' ;';
+        $req = $this->dbconnection->prepare($sql);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbId = $row['id'];
+            $dbPassword = $row['password'];
+            $dbName = $row['name'];
+            $dbUserId = $row['userid'];
+            $dbEmail = $row['email'];
+            $project = [
+                    'id' => $dbId,
+                    'name' => $dbName,
+                    'userid' => $dbUserId,
+                    'password' => $dbPassword,
+                    'email' => $dbEmail
+            ];
+            break;
+        }
+        $req->closeCursor();
+        return $project;
+    }
+
     private function addMember($projectid, $name, $weight) {
         if ($name !== null && $name !== '') {
             if ($this->getMemberByName($projectid, $name) === null) {
@@ -545,6 +590,65 @@ class PageController extends Controller {
             $response = new DataResponse(
                 ["name"=> ["This field is required."]]
                 , 400
+            );
+            return $response;
+        }
+    }
+
+    private function editProject($projectid, $name, $contact_email, $password) {
+        if ($name === null || $name === '') {
+            $response = new DataResponse(
+                ["name"=> ["This field is required."]]
+                , 400
+            );
+            return $response;
+        }
+        if ($contact_email === null || $name === '') {
+            $response = new DataResponse(
+                ["contact_email"=> ["This field is required."]]
+                , 400
+            );
+            return $response;
+        }
+        if ($password === null || $password === '') {
+            $response = new DataResponse(
+                ["password"=> ["This field is required."]]
+                , 400
+            );
+            return $response;
+        }
+        if ($this->getProjectById($projectid) !== null) {
+            if (filter_var($contact_email, FILTER_VALIDATE_EMAIL)) {
+                $emailSql = 'email='.$this->db_quote_escape_string($contact_email).',';
+            }
+            else {
+                $response = new DataResponse(
+                    ["contact_email"=> ["Invalid email address"]]
+                    , 400
+                );
+                return $response;
+            }
+            $nameSql = 'name='.$this->db_quote_escape_string($name).',';
+            $dbPassword = password_hash($password, PASSWORD_DEFAULT);
+            $passwordSql = 'password='.$this->db_quote_escape_string($dbPassword);
+            $sqlupd = '
+                    UPDATE *PREFIX*spend_projects
+                    SET
+                         '.$nameSql.'
+                         '.$emailSql.'
+                         '.$passwordSql.'
+                    WHERE id='.$this->db_quote_escape_string($projectid).' ;';
+            $req = $this->dbconnection->prepare($sqlupd);
+            $req->execute();
+            $req->closeCursor();
+
+            $response = new DataResponse("UPDATED");
+            return $response;
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>["There is no such project"]]
+                , 404
             );
             return $response;
         }

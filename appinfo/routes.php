@@ -14,7 +14,7 @@ return [
         ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
         ['name' => 'page#apiCreateProject', 'url' => '/api/projects', 'verb' => 'POST'],
         ['name' => 'page#apiGetProjectInfo', 'url' => '/api/projects/{projectid}/{password}', 'verb' => 'GET'],
-        ['name' => 'page#apiSetProjectInfo', 'url' => '/api/projects/{projectid}', 'verb' => 'PUT'],
+        ['name' => 'page#apiSetProjectInfo', 'url' => '/api/projects/{projectid}/{passwd}', 'verb' => 'PUT'],
         ['name' => 'page#apiDeleteProject', 'url' => '/api/projects/{projectid}', 'verb' => 'DELETE'],
         ['name' => 'page#apiGetMembers', 'url' => '/api/projects/{projectid}/{password}/members', 'verb' => 'GET'],
         ['name' => 'page#apiAddMember', 'url' => '/api/projects/{projectid}/{password}/members', 'verb' => 'POST'],

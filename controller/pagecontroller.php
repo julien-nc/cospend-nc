@@ -251,6 +251,24 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      */
+    public function apiDeleteProject($projectid, $password) {
+        if ($this->checkLogin($projectid, $password)) {
+            return $this->deleteProject($projectid);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     */
     public function apiEditMember($projectid, $password, $memberid, $name, $weight, $activated) {
         if ($this->checkLogin($projectid, $password)) {
             return $this->editMember($projectid, $memberid, $name, $weight, $activated);
@@ -350,6 +368,37 @@ class PageController extends Controller {
             );
             return $response;
         }
+    }
+
+    private function getProjectBills($projectId) {
+        $bills = [];
+        $sql = '
+            SELECT id, projectid, what, date, amount, payerid
+            FROM *PREFIX*spend_bills
+            WHERE projectid='.$this->db_quote_escape_string($projectId).' ;';
+        $req = $this->dbconnection->prepare($sql);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbBillId = $row['id'];
+            $dbProjectId = $row['projectid'];
+            $dbAmount = floatval($row['amount']);
+            $dbWhat = $row['what'];
+            $dbDate = $row['date'];
+            $dbPayerId= intval($row['payerid']);
+            array_push(
+                $bills,
+                [
+                    'id' => $dbBillId,
+                    'projectid' => $dbProjectId,
+                    'amount' => $dbAmount,
+                    'what' => $dbWhat,
+                    'date' => $dbDate,
+                    'payerid' => $dbPayerId
+                ]
+            );
+        }
+        $req->closeCursor();
+        return $bills;
     }
 
     private function getMembers($projectId) {
@@ -529,6 +578,55 @@ class PageController extends Controller {
                 $req->closeCursor();
             }
             $response = new DataResponse("OK");
+            return $response;
+        }
+        else {
+            $response = new DataResponse(
+                ["Not Found"]
+                , 404
+            );
+            return $response;
+        }
+    }
+
+    private function deleteBillOwersOfBill($billid) {
+        $sqldel = '
+                DELETE FROM *PREFIX*spend_bill_owers
+                WHERE billid='.$this->db_quote_escape_string($billid).' ;';
+        $req = $this->dbconnection->prepare($sqldel);
+        $req->execute();
+        $req->closeCursor();
+    }
+
+    private function deleteProject($projectid) {
+        $projectToDelete = $this->getProjectById($projectid);
+        if ($projectToDelete !== null) {
+            // delete project bills
+            $bills = $this->getProjectBills($projectid);
+            foreach ($bills as $bill) {
+                $this->deleteBillOwersOfBill($bill['id']);
+            }
+            $sqldel = '
+                    DELETE FROM *PREFIX*spend_bills
+                    WHERE projectid='.$this->db_quote_escape_string($projectid).' ;';
+            $req = $this->dbconnection->prepare($sqldel);
+            $req->execute();
+            $req->closeCursor();
+            // delete project members
+            $sqldel = '
+                    DELETE FROM *PREFIX*spend_members
+                    WHERE projectid='.$this->db_quote_escape_string($projectid).' ;';
+            $req = $this->dbconnection->prepare($sqldel);
+            $req->execute();
+            $req->closeCursor();
+            // delete project
+            $sqldel = '
+                    DELETE FROM *PREFIX*spend_projects
+                    WHERE id='.$this->db_quote_escape_string($projectid).' ;';
+            $req = $this->dbconnection->prepare($sqldel);
+            $req->execute();
+            $req->closeCursor();
+            $response = new DataResponse("DELETED");
             return $response;
         }
         else {

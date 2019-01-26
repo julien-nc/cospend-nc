@@ -271,6 +271,24 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      */
+    public function apiEditBill($projectid, $password, $billid, $date, $what, $payer, $payed_for, $amount) {
+        if ($this->checkLogin($projectid, $password)) {
+            return $this->editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     */
     public function apiDeleteMember($projectid, $password, $memberid) {
         if ($this->checkLogin($projectid, $password)) {
             return $this->deleteMember($projectid, $memberid);
@@ -406,6 +424,65 @@ class PageController extends Controller {
             );
             return $response;
         }
+    }
+
+    private function getBill($projectId, $billId) {
+        $bill = null;
+        // get bill owers
+        $billOwers = [];
+
+        $sql = '
+            SELECT memberid,
+                *PREFIX*spend_members.name as name,
+                *PREFIX*spend_members.weight as weight,
+                *PREFIX*spend_members.activated as activated
+            FROM *PREFIX*spend_bill_owers
+            INNER JOIN *PREFIX*spend_members ON memberid=*PREFIX*spend_members.id
+            WHERE *PREFIX*spend_bill_owers.billid='.$this->db_quote_escape_string($billId).' ;';
+        $req = $this->dbconnection->prepare($sql);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbWeight = floatval($row['weight']);
+            $dbName = $row['name'];
+            $dbActivated = (intval($row['activated']) === 1);
+            $dbOwerId= intval($row['memberid']);
+            array_push(
+                $billOwers,
+                [
+                    'id' => $dbOwerId,
+                    'weight' => $dbWeight,
+                    'name' => $dbName,
+                    'activated' => $dbActivated
+                ]
+            );
+        }
+        $req->closeCursor();
+
+        // get the bill
+        $sql = '
+            SELECT id, what, date, amount, payerid
+            FROM *PREFIX*spend_bills
+            WHERE projectid='.$this->db_quote_escape_string($projectId).' ;';
+        $req = $this->dbconnection->prepare($sql);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbBillId = intval($row['id']);
+            $dbAmount = floatval($row['amount']);
+            $dbWhat = $row['what'];
+            $dbDate = $row['date'];
+            $dbPayerId= intval($row['payerid']);
+            $bill = [
+                'id' => $dbBillId,
+                'amount' => $dbAmount,
+                'what' => $dbWhat,
+                'date' => $dbDate,
+                'payerid' => $dbPayerId,
+                'owers' => $billOwers
+            ];
+        }
+        $req->closeCursor();
+
+        return $bill;
     }
 
     private function getBills($projectId) {
@@ -596,6 +673,115 @@ class PageController extends Controller {
         }
         $req->closeCursor();
         return $project;
+    }
+
+    private function editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount) {
+        // first check the bill exists
+        if ($this->getBill($projectid, $billid) === null) {
+            $response = new DataResponse(
+                ["message"=> ["There is no such bill"]]
+                , 404
+            );
+            return $response;
+        }
+        // then edit the hell of it
+        if ($what === null || $what === '') {
+            $response = new DataResponse(
+                ["what"=> ["This field is required."]]
+                , 400
+            );
+            return $response;
+        }
+        $whatSql = 'what='.$this->db_quote_escape_string($what);
+
+        $dateSql = '';
+        if ($date !== null && $date !== '') {
+            $dateSql = 'date='.$this->db_quote_escape_string($date).',';
+        }
+        $amountSql = '';
+        if ($amount !== null && $amount !== '' && is_numeric($amount)) {
+            $amountSql = 'amount='.$this->db_quote_escape_string($amount).',';
+        }
+        $payerSql = '';
+        if ($payer !== null && $payer !== '' && is_numeric($payer)) {
+            if ($this->getMemberById($projectid, $payer) === null) {
+                $response = new DataResponse(
+                    ['payer'=>["Not a valid choice"]]
+                    , 400
+                );
+                return $response;
+            }
+            else {
+                $payerSql = 'payerid='.$this->db_quote_escape_string($payer).',';
+            }
+        }
+
+        $owerIds = null;
+        // check owers
+        if ($payed_for !== null && $payed_for !== '') {
+            $owerIds = explode(',', $payed_for);
+            if (count($owerIds) === 0) {
+                $response = new DataResponse(
+                    ['payed_for'=>["Invalid value"]]
+                    , 400
+                );
+                return $response;
+            }
+            else {
+                foreach ($owerIds as $owerId) {
+                    if (!is_numeric($owerId)) {
+                        $response = new DataResponse(
+                            ['payed_for'=>["Invalid value"]]
+                            , 400
+                        );
+                        return $response;
+                    }
+                    if ($this->getMemberById($projectid, $owerId) === null) {
+                        $response = new DataResponse(
+                            ['payed_for'=>["Not a valid choice"]]
+                            , 400
+                        );
+                        return $response;
+                    }
+                }
+            }
+        }
+
+        // do it already !
+        $sqlupd = '
+                UPDATE *PREFIX*spend_bills
+                SET
+                     '.$dateSql.'
+                     '.$amountSql.'
+                     '.$payerSql.'
+                     '.$whatSql.'
+                WHERE id='.$this->db_quote_escape_string($billid).'
+                      AND projectid='.$this->db_quote_escape_string($projectid).' ;';
+        $req = $this->dbconnection->prepare($sqlupd);
+        $req->execute();
+        $req->closeCursor();
+
+        // edit the bill owers
+        if ($owerIds !== null) {
+            // delete old bill owers
+            $this->deleteBillOwersOfBill($billid);
+            // insert bill owers
+            foreach ($owerIds as $owerId) {
+                $sql = '
+                    INSERT INTO *PREFIX*spend_bill_owers
+                    (billid, memberid)
+                    VALUES ('.
+                        $this->db_quote_escape_string($billid).','.
+                        $this->db_quote_escape_string($owerId).
+                    ') ;';
+                $req = $this->dbconnection->prepare($sql);
+                $req->execute();
+                $req->closeCursor();
+            }
+        }
+
+        $response = new DataResponse($billid);
+        return $response;
     }
 
     private function addBill($projectid, $date, $what, $payer, $payed_for, $amount) {

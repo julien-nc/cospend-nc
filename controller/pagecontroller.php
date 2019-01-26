@@ -215,9 +215,47 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      */
+    public function apiGetBills($projectid, $password) {
+        if ($this->checkLogin($projectid, $password)) {
+            $bills = $this->getBills($projectid);
+            $response = new DataResponse($bills);
+            return $response;
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     */
     public function apiAddMember($projectid, $password, $name, $weight) {
         if ($this->checkLogin($projectid, $password)) {
             return $this->addMember($projectid, $name, $weight);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     */
+    public function apiAddBill($projectid, $password, $date, $what, $payer, $payed_for, $amount) {
+        if ($this->checkLogin($projectid, $password)) {
+            return $this->addBill($projectid, $date, $what, $payer, $payed_for, $amount);
         }
         else {
             $response = new DataResponse(
@@ -370,7 +408,7 @@ class PageController extends Controller {
         }
     }
 
-    private function getProjectBills($projectId) {
+    private function getBills($projectId) {
         $bills = [];
         $sql = '
             SELECT id, what, date, amount, payerid
@@ -407,17 +445,19 @@ class PageController extends Controller {
                     *PREFIX*spend_members.name as name,
                     *PREFIX*spend_members.weight as weight,
                     *PREFIX*spend_members.activated as activated
-                FROM *PREFIX*spend_bills
+                FROM *PREFIX*spend_bill_owers
                 INNER JOIN *PREFIX*spend_members ON memberid=*PREFIX*spend_members.id
-                WHERE billid='.$this->db_quote_escape_string($billId).' ;';
+                WHERE *PREFIX*spend_bill_owers.billid='.$this->db_quote_escape_string($billId).' ;';
             $req = $this->dbconnection->prepare($sql);
             $req->execute();
             while ($row = $req->fetch()){
+                error_log('plop : '.$row['name']);
                 $dbWeight = floatval($row['weight']);
                 $dbName = $row['name'];
                 $dbActivated = (intval($row['activated']) === 1);
-                $dbOwerId= intval($row['memberid']);
+                $dbOwerId= intval($row['payerid']);
                 array_push(
+                    // TODO fix it
                     $bill['owers'],
                     [
                         'id' => $dbOwerId,
@@ -543,6 +583,116 @@ class PageController extends Controller {
         return $project;
     }
 
+    private function addBill($projectid, $date, $what, $payer, $payed_for, $amount) {
+        if ($date === null || $date === '') {
+            $response = new DataResponse(
+                ["date"=> ["This field is required."]]
+                , 400
+            );
+            return $response;
+        }
+        if ($what === null || $what === '') {
+            $response = new DataResponse(
+                ["what"=> ["This field is required."]]
+                , 400
+            );
+            return $response;
+        }
+        if ($amount === null || $amount === '' || !is_numeric($amount)) {
+            $response = new DataResponse(
+                ["amount"=> ["This field is required."]]
+                , 400
+            );
+            return $response;
+        }
+        if ($payer === null || $payer === '' || !is_numeric($payer)) {
+            $response = new DataResponse(
+                ["payer"=> ["This field is required."]]
+                , 400
+            );
+            return $response;
+        }
+        if ($this->getMemberById($projectid, $payer) === null) {
+            $response = new DataResponse(
+                ['payer'=>["Not a valid choice"]]
+                , 400
+            );
+            return $response;
+        }
+        // check owers
+        $owerIds = explode(',', $payed_for);
+        if ($payed_for === null || $payed_for === '' || count($owerIds) === 0) {
+            $response = new DataResponse(
+                ['payed_for'=>["Invalid value"]]
+                , 400
+            );
+            return $response;
+        }
+        error_log("'".$payed_for."'");
+        foreach ($owerIds as $owerId) {
+            if (!is_numeric($owerId)) {
+                $response = new DataResponse(
+                    ['payed_for'=>["Invalid value"]]
+                    , 400
+                );
+                return $response;
+            }
+            if ($this->getMemberById($projectid, $owerId) === null) {
+                $response = new DataResponse(
+                    ['payed_for'=>["Not a valid choice"]]
+                    , 400
+                );
+                return $response;
+            }
+        }
+
+        // do it already !
+        $sql = '
+            INSERT INTO *PREFIX*spend_bills
+            (projectid, what, date, amount, payerid)
+            VALUES ('.
+                $this->db_quote_escape_string($projectid).','.
+                $this->db_quote_escape_string($what).','.
+                $this->db_quote_escape_string($date).','.
+                $this->db_quote_escape_string($amount).','.
+                $this->db_quote_escape_string($payer).
+            ') ;';
+        $req = $this->dbconnection->prepare($sql);
+        $req->execute();
+        $req->closeCursor();
+
+        // get inserted bill id
+        $sql = '
+            SELECT id
+            FROM *PREFIX*spend_bills
+            WHERE projectid='.$this->db_quote_escape_string($projectid).'
+            ORDER BY id DESC LIMIT 1 ;';
+        $req = $this->dbconnection->prepare($sql);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $insertedBillId = $row['id'];
+            break;
+        }
+        $req->closeCursor();
+
+        // insert bill owers
+        foreach ($owerIds as $owerId) {
+            $sql = '
+                INSERT INTO *PREFIX*spend_bill_owers
+                (billid, memberid)
+                VALUES ('.
+                    $this->db_quote_escape_string($insertedBillId).','.
+                    $this->db_quote_escape_string($owerId).
+                ') ;';
+            $req = $this->dbconnection->prepare($sql);
+            $req->execute();
+            $req->closeCursor();
+        }
+
+        $response = new DataResponse($insertedBillId);
+        return $response;
+    }
+
     private function addMember($projectid, $name, $weight) {
         if ($name !== null && $name !== '') {
             if ($this->getMemberByName($projectid, $name) === null) {
@@ -633,7 +783,7 @@ class PageController extends Controller {
         $projectToDelete = $this->getProjectById($projectid);
         if ($projectToDelete !== null) {
             // delete project bills
-            $bills = $this->getProjectBills($projectid);
+            $bills = $this->getBills($projectid);
             foreach ($bills as $bill) {
                 $this->deleteBillOwersOfBill($bill['id']);
             }

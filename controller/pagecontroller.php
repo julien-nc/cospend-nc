@@ -373,14 +373,13 @@ class PageController extends Controller {
     private function getProjectBills($projectId) {
         $bills = [];
         $sql = '
-            SELECT id, projectid, what, date, amount, payerid
+            SELECT id, what, date, amount, payerid
             FROM *PREFIX*spend_bills
             WHERE projectid='.$this->db_quote_escape_string($projectId).' ;';
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
         while ($row = $req->fetch()){
             $dbBillId = $row['id'];
-            $dbProjectId = $row['projectid'];
             $dbAmount = floatval($row['amount']);
             $dbWhat = $row['what'];
             $dbDate = $row['date'];
@@ -389,15 +388,47 @@ class PageController extends Controller {
                 $bills,
                 [
                     'id' => $dbBillId,
-                    'projectid' => $dbProjectId,
                     'amount' => $dbAmount,
                     'what' => $dbWhat,
                     'date' => $dbDate,
-                    'payerid' => $dbPayerId
+                    'payerid' => $dbPayerId,
+                    'owers' => []
                 ]
             );
         }
         $req->closeCursor();
+
+        // get bill owers
+        foreach ($bills as $bill) {
+            $billId = $bill['id'];
+
+            $sql = '
+                SELECT memberid,
+                    *PREFIX*spend_members.name as name,
+                    *PREFIX*spend_members.weight as weight,
+                    *PREFIX*spend_members.activated as activated
+                FROM *PREFIX*spend_bills
+                INNER JOIN *PREFIX*spend_members ON memberid=*PREFIX*spend_members.id
+                WHERE billid='.$this->db_quote_escape_string($billId).' ;';
+            $req = $this->dbconnection->prepare($sql);
+            $req->execute();
+            while ($row = $req->fetch()){
+                $dbWeight = floatval($row['weight']);
+                $dbName = $row['name'];
+                $dbActivated = (intval($row['activated']) === 1);
+                $dbOwerId= intval($row['memberid']);
+                array_push(
+                    $bill['owers'],
+                    [
+                        'id' => $dbOwerId,
+                        'weight' => $dbWeight,
+                        'name' => $dbName,
+                        'activatd' => $dbActivated
+                    ]
+                );
+            }
+            $req->closeCursor();
+        }
         return $bills;
     }
 

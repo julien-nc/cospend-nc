@@ -356,6 +356,81 @@ class PageController extends Controller {
         }
     }
 
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     */
+    public function apiGetProjectStatistics($projectid, $password, $memberid) {
+        if ($this->checkLogin($projectid, $password)) {
+            return $this->getProjectStatistics($projectid);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    private function getProjectStatistics($projectId) {
+        $membersWeight = [];
+        $membersNbBills = [];
+        $membersBalance = [];
+        $membersPaid = [];
+        $membersSpent = [];
+
+        $members = $this->getMembers($projectId);
+        foreach ($members as $member) {
+            $memberId = $member['id'];
+            $memberWeight = $member['weight'];
+            $membersWeight[$memberId] = $memberWeight;
+            $membersNbBills[$memberId] = 0;
+            $membersBalance[$memberId] = 0.0;
+            $membersPaid[$memberId] = 0.0;
+            $membersSpent[$memberId] = 0.0;
+        }
+
+        $bills = $this->getBills($projectId);
+        foreach ($bills as $bill) {
+            $payerId = $bill['payerid'];
+            $amount = $bill['amount'];
+            $owers = $bill['owers'];
+
+            $membersNbBills[$payerId]++;
+            $membersBalance[$payerId] += $amount;
+            $membersPaid[$payerId] += $amount;
+
+            $nbOwerShares = 0.0;
+            foreach ($owers as $ower) {
+                $nbOwerShares += $ower['weight'];
+            }
+            foreach ($owers as $ower) {
+                $owerWeight = $ower['weight'];
+                $owerId = $ower['id'];
+                $spent = $amount / $nbOwerShares * $owerWeight;
+                $membersBalance[$owerId] -= $spent;
+                $membersSpent[$owerId] += $spent;
+            }
+        }
+
+        $statistics = [];
+        foreach ($members as $member) {
+            $memberId = $member['id'];
+            $statistic = [
+                'balance' => $membersBalance[$memberId],
+                'paid' => $membersPaid[$memberId],
+                'spent' => $membersSpent[$memberId],
+                'member' => $member
+            ];
+            array_push($statistics, $statistic);
+        }
+
+        $response = new DataResponse($statistics);
+        return $response;
+    }
+
     private function createProject($name, $id, $password, $contact_email) {
         $sql = '
             SELECT id

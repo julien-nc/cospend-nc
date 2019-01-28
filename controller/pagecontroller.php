@@ -394,7 +394,7 @@ class PageController extends Controller {
 
         $bills = $this->getBills($projectId);
         foreach ($bills as $bill) {
-            $payerId = $bill['payerid'];
+            $payerId = $bill['payer_id'];
             $amount = $bill['amount'];
             $owers = $bill['owers'];
 
@@ -569,7 +569,7 @@ class PageController extends Controller {
                 'amount' => $dbAmount,
                 'what' => $dbWhat,
                 'date' => $dbDate,
-                'payerid' => $dbPayerId,
+                'payer_id' => $dbPayerId,
                 'owers' => $billOwers
             ];
         }
@@ -647,7 +647,7 @@ class PageController extends Controller {
                     'amount' => $dbAmount,
                     'what' => $dbWhat,
                     'date' => $dbDate,
-                    'payerid' => $dbPayerId,
+                    'payer_id' => $dbPayerId,
                     'owers' => $billOwersByBill[$row['id']]
                 ]
             );
@@ -699,7 +699,7 @@ class PageController extends Controller {
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
         while ($row = $req->fetch()){
-            $dbMemberId = $row['id'];
+            $dbMemberId = intval($row['id']);
             $dbWeight = floatval($row['weight']);
             $dbName = $row['name'];
             $dbActivated= intval($row['activated']);
@@ -725,7 +725,7 @@ class PageController extends Controller {
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
         while ($row = $req->fetch()){
-            $dbMemberId = $row['id'];
+            $dbMemberId = intval($row['id']);
             $dbWeight = floatval($row['weight']);
             $dbName = $row['name'];
             $dbActivated= intval($row['activated']);
@@ -873,7 +873,7 @@ class PageController extends Controller {
             }
         }
 
-        $response = new DataResponse($billid);
+        $response = new DataResponse(intval($billid));
         return $response;
     }
 
@@ -963,7 +963,7 @@ class PageController extends Controller {
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
         while ($row = $req->fetch()){
-            $insertedBillId = $row['id'];
+            $insertedBillId = intval($row['id']);
             break;
         }
         $req->closeCursor();

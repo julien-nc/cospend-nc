@@ -666,7 +666,7 @@ class PageController extends Controller {
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
         while ($row = $req->fetch()){
-            $dbMemberId = $row['id'];
+            $dbMemberId = intval($row['id']);
             $dbWeight = floatval($row['weight']);
             $dbName = $row['name'];
             $dbActivated= intval($row['activated']);

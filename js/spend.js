@@ -15,6 +15,7 @@
     //////////////// VAR DEFINITION /////////////////////
 
     var spend = {
+        restoredSelectedProjectId: null
     };
 
     //////////////// UTILS /////////////////////
@@ -169,7 +170,11 @@
 
         var name = project.name;
         var projectid = project.id;
-        var li = `<li class="projectitem collapsible" projectid="${projectid}"><a class="icon-folder" href="#" title="${projectid}">
+        var projectSelected = '';
+        if (spend.restoredSelectedProjectId === projectid) {
+            projectSelected = ' open';
+        }
+        var li = `<li class="projectitem collapsible${projectSelected}" projectid="${projectid}"><a class="icon-folder" href="#" title="${projectid}">
                 <span>${name}</span>
             </a>
             <div class="app-navigation-entry-utils">
@@ -264,15 +269,65 @@
         $(li).appendTo('#projectlist li.projectitem[projectid='+projectid+'] .memberlist');
     }
 
+    function saveOptionValue(optionValues) {
+        if (!spend.pageIsPublic) {
+            var req = {
+                options: optionValues
+            };
+            var url = OC.generateUrl('/apps/spend/saveOptionValue');
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: req,
+                async: true
+            }).done(function (response) {
+            }).fail(function() {
+                OC.Notification.showTemporary(
+                    t('spend', 'Failed to save option values')
+                );
+            });
+        }
+    }
+
+    function restoreOptions() {
+        var mom;
+        var url = OC.generateUrl('/apps/spend/getOptionsValues');
+        var req = {
+        };
+        var optionsValues = {};
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            optionsValues = response.values;
+            if (optionsValues) {
+                for (var k in optionsValues) {
+                    if (k === 'selectedProject') {
+                        spend.restoredSelectedProjectId = optionsValues[k];
+                    }
+                }
+            }
+            // quite important ;-)
+            main();
+        }).fail(function() {
+            OC.Notification.showTemporary(
+                t('spend', 'Failed to restore options values')
+            );
+        });
+    }
+
+
     $(document).ready(function() {
         spend.pageIsPublic = (document.URL.indexOf('/whatever') !== -1);
         if ( !spend.pageIsPublic ) {
-            //restoreOptions();
+            restoreOptions();
         }
         else {
             //restoreOptionsFromUrlParams();
+            main();
         }
-        main();
     });
 
     function main() {
@@ -303,6 +358,8 @@
             $('.projectitem.open').removeClass('open');
             if (!wasOpen) {
                 $(this).parent().addClass('open');
+                var projectid = $(this).parent().attr('projectid');
+                saveOptionValue({selectedProject: projectid});
             }
         });
 

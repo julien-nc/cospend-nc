@@ -83,6 +83,37 @@
         });
     }
 
+    function createMember(projectid, name) {
+        var req = {
+            projectid: projectid,
+            name: name
+        };
+        var url = OC.generateUrl('/apps/spend/addMember');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true,
+        }).done(function (response) {
+            var member = {
+                id: response,
+                name: name,
+                weight: 1
+            };
+            addMember(projectid, member, 0);
+            $('#newmemberdiv').slideUp();
+            updateNumberOfMember(projectid);
+        }).always(function() {
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('spend', 'Failed to add member') + ' ' + response.responseText);
+        });
+    }
+
+    function updateNumberOfMember(projectid) {
+        var nbMembers = $('li.projectitem[projectid='+projectid+'] ul.memberlist > li').length;
+        $('li.projectitem[projectid='+projectid+'] .app-navigation-entry-utils-counter').text(nbMembers);
+    }
+
     function deleteProject(id) {
         var req = {
             projectid: id
@@ -124,7 +155,6 @@
                 return xhr;
             }
         }).done(function (response) {
-            console.log(response);
             for (var i = 0; i < response.length; i++) {
                 addProject(response[i]);
             }
@@ -153,7 +183,7 @@
             <div class="app-navigation-entry-menu">
                 <ul>
                     <li>
-                        <a href="#">
+                        <a href="#" class="addMember">
                             <span class="icon-add"></span>
                             <span>Add member</span>
                         </a>
@@ -189,8 +219,11 @@
         if (balance > 0) {
             balanceStr = '<b class="balancePositive">+'+balance.toFixed(2)+'</b>';
         }
-        else {
+        else if (balance < 0) {
             balanceStr = '<b class="balanceNegative">'+balance.toFixed(2)+'</b>';
+        }
+        else {
+            balanceStr = '<b class="balanceZero">'+balance.toFixed(2)+'</b>';
         }
 
         var li = `<li memberid="${member.id}"><a class="icon-user" href="#">
@@ -249,9 +282,12 @@
 
         window.onclick = function(event) {
             if (!event.target.matches('.app-navigation-entry-utils-menu-button button')) {
-                console.log(event.target);
                 $('.app-navigation-entry-menu.open').removeClass('open');
             }
+            if (!event.target.matches('#newmemberdiv, #newmemberdiv input, #newmemberdiv label, #newmemberdiv button, .addMember, .addMember span')) {
+                $('#newmemberdiv').slideUp();
+            }
+            console.log(event.target);
         }
 
         $('body').on('click', '.app-navigation-entry-utils-menu-button', function(e) {
@@ -311,6 +347,38 @@
         $('body').on('click', '.deleteProject', function(e) {
             var id = $(this).parent().parent().parent().parent().attr('projectid');
             deleteProject(id);
+        });
+
+        $('body').on('click', '.addMember', function(e) {
+            var id = $(this).parent().parent().parent().parent().attr('projectid');
+            var name = $('.projectitem[projectid='+id+'] > a > span').text();
+            $('#newmemberdiv').slideDown();
+            $('#newmemberdiv #newmemberbutton').text(t('spend', 'Add member to project {pname}', {pname: name}));
+            $('#newmemberdiv #newmemberbutton').attr('projectid', id);
+        });
+
+        $('#newmemberbutton').click(function() {
+            var projectid = $(this).attr('projectid');
+            var name = $(this).parent().find('input').val();
+            if (projectid && name) {
+                createMember(projectid, name);
+            }
+            else {
+                OC.Notification.showTemporary(t('spend', 'Invalid values'));
+            }
+        });
+
+        $('#newmembername').on('keyup', function(e) {
+            if (e.key === 'Enter') {
+                var name = $(this).val();
+                var projectid = $(this).parent().find('button').attr('projectid');
+                if (projectid && name) {
+                    createMember(projectid, name);
+                }
+                else {
+                    OC.Notification.showTemporary(t('spend', 'Invalid values'));
+                }
+            }
         });
 
         // last thing to do : get the projects

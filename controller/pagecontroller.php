@@ -139,6 +139,24 @@ class PageController extends Controller {
      * @NoAdminRequired
      *
      */
+    public function webAddMember($projectid, $name) {
+        $projectInfo = $this->getProjectInfo($projectid);
+        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+            return $this->addMember($projectid, $name, 1);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to add member to this project']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     *
+     */
     public function webGetProjects() {
         $projects = [];
 

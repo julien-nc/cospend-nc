@@ -16,9 +16,17 @@
         <label for="projectpasswordinput"><?php p($l->t('project password')); ?></label>
         <input id="projectpasswordinput" type="password" value="lala"/>
         <button id="createproject" type="button" class="icon-add">
-            Add project
+            <?php p($l->t('Add project')); ?>
         </button>
 
+    </div>
+
+    <div id="newmemberdiv">
+        <hr/>
+        <label for="newmembername"><?php p($l->t('member name')); ?></label>
+        <input id="newmembername" type="text" value=""/>
+        <button id="newmemberbutton" projectid="" type="button" class="icon-add">
+        </button>
     </div>
 
 </div>

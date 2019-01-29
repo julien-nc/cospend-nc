@@ -4,12 +4,14 @@
 .balanceNegative {
     color: red;
 }
-.balanceNegative, .balancePositive {
+.balanceNegative, .balancePositive, .balanceZero {
     float: right;
 }
+#newmemberdiv,
 #newprojectdiv {
     display: none;
 }
+#newmemberdiv label,
 #newprojectdiv label {
     margin: 3px 3px 3px 3px;
     line-height: 32px;
@@ -17,7 +19,11 @@
     text-align: right;
     float: left;
 }
+#newmemberdiv input,
 #newprojectdiv input {
     width: 45%;
     float: right;
+}
+.newmemberdiv {
+    display: none;
 }

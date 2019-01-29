@@ -107,6 +107,56 @@ class PageController extends Controller {
         return $response;
     }
 
+    /**
+     * @NoAdminRequired
+     *
+     * get sessions owned by and shared with current user
+     */
+    public function getProjects() {
+        $projects = [];
+
+        $sql = '
+            SELECT id, password, name, email
+            FROM *PREFIX*spend_projects
+            WHERE userid='.$this->db_quote_escape_string($this->userId).' ;';
+        $req = $this->dbconnection->prepare($sql);
+        $req->execute();
+        $dbProjectId = null;
+        $dbPassword = null;
+        while ($row = $req->fetch()){
+            $dbProjectId = $row['id'];
+            $dbPassword = $row['password'];
+            $dbName = $row['name'];
+            $dbEmail= $row['email'];
+            array_push($projects, [
+                'name'=>$dbName,
+                'contact_email'=>$dbEmail,
+                'id'=>$dbProjectId,
+                'active_members'=>null,
+                'members'=>null,
+                'balance'=>null
+            ]);
+        }
+        $req->closeCursor();
+        for ($i = 0; $i < count($projects); $i++) {
+            $dbProjectId = $projects[$i]['id'];
+            $members = $this->getMembers($dbProjectId);
+            $activeMembers = [];
+            foreach ($members as $member) {
+                if ($member['activated']) {
+                    array_push($activeMembers, $member);
+                }
+            }
+            $balance = $this->getBalance($dbProjectId);
+            $projects[$i]['active_members'] = $activeMembers;
+            $projects[$i]['members'] = $members;
+            $projects[$i]['balance'] = $balance;
+        }
+
+        $response = new DataResponse($projects);
+        return $response;
+    }
+
     private function checkLogin($projectId, $password) {
         if ($projectId === '' || $projectId === null ||
             $password === '' || $password === null
@@ -685,8 +735,38 @@ class PageController extends Controller {
     }
 
     private function getBalance($projectId) {
-        // TODO
-        return [];
+        $membersWeight = [];
+        $membersBalance = [];
+
+        $members = $this->getMembers($projectId);
+        foreach ($members as $member) {
+            $memberId = $member['id'];
+            $memberWeight = $member['weight'];
+            $membersWeight[$memberId] = $memberWeight;
+            $membersBalance[$memberId] = 0.0;
+        }
+
+        $bills = $this->getBills($projectId);
+        foreach ($bills as $bill) {
+            $payerId = $bill['payer_id'];
+            $amount = $bill['amount'];
+            $owers = $bill['owers'];
+
+            $membersBalance[$payerId] += $amount;
+
+            $nbOwerShares = 0.0;
+            foreach ($owers as $ower) {
+                $nbOwerShares += $ower['weight'];
+            }
+            foreach ($owers as $ower) {
+                $owerWeight = $ower['weight'];
+                $owerId = $ower['id'];
+                $spent = $amount / $nbOwerShares * $owerWeight;
+                $membersBalance[$owerId] -= $spent;
+            }
+        }
+
+        return $membersBalance;
     }
 
     private function getMemberByName($projectId, $name) {

@@ -1,0 +1,9 @@
+.balancePositive {
+    color: green;
+}
+.balanceNegative {
+    color: red;
+}
+.balanceNegative, .balancePositive {
+    float: right;
+}

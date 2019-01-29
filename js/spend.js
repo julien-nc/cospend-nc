@@ -52,6 +52,134 @@
         }
     }
 
+    function getProjects() {
+        var req = {
+        };
+        var url = OC.generateUrl('/apps/spend/getProjects');
+        spend.currentGetProjectsAjax = $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true,
+            xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.addEventListener('progress', function(evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total * 100;
+                        //$('#loadingpc').text(parseInt(percentComplete) + '%');
+                    }
+                }, false);
+
+                return xhr;
+            }
+        }).done(function (response) {
+            console.log(response);
+            for (var i = 0; i < response.length; i++) {
+                addProject(response[i]);
+            }
+        }).always(function() {
+            spend.currentGetProjectsAjax = null;
+        }).fail(function() {
+            OC.Notification.showTemporary(t('spend', 'Failed to contact server to get projects'));
+        });
+    }
+
+    function addProject(project) {
+
+        var name = project.name;
+        var projectid = project.id;
+        var li = `<li class="projectitem collapsible" projectid="${projectid}"><a class="icon-folder" href="#">
+                <span>${name}</span>
+            </a>
+            <div class="app-navigation-entry-utils">
+                <ul>
+                    <li class="app-navigation-entry-utils-counter">${project.members.length}</li>
+                    <li class="app-navigation-entry-utils-menu-button">
+                        <button></button>
+                    </li>
+                </ul>
+            </div>
+            <div class="app-navigation-entry-menu">
+                <ul>
+                    <li>
+                        <a href="#">
+                            <span class="icon-add"></span>
+                            <span>Add member</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon-rename"></span>
+                            <span>Edit</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon-delete"></span>
+                            <span>Delete</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <ul class="memberlist"></ul>
+            </li>`;
+
+        $(li).appendTo('#projectlist');
+
+        for (var i=0; i < project.members.length; i++) {
+            var memberId = project.members[i].id;
+            addMember(projectid, project.members[i], project.balance[memberId]);
+        }
+    }
+
+    function addMember(projectid, member, balance) {
+
+        var balanceStr;
+        if (balance > 0) {
+            balanceStr = '<b class="balancePositive">+'+balance.toFixed(2)+'</b>';
+        }
+        else {
+            balanceStr = '<b class="balanceNegative">'+balance.toFixed(2)+'</b>';
+        }
+
+        var li = `<li memberid="${member.id}"><a class="icon-user" href="#">
+                <span>${member.name} (x${member.weight}) ${balanceStr}</span>
+            </a>
+            <div class="app-navigation-entry-utils">
+                <ul>
+                    <!--li class="app-navigation-entry-utils-counter">1</li-->
+                    <li class="app-navigation-entry-utils-menu-button">
+                        <button></button>
+                    </li>
+                </ul>
+            </div>
+            <div class="app-navigation-entry-menu">
+                <ul>
+                    <li>
+                        <a href="#">
+                            <span class="icon-rename"></span>
+                            <span>Rename</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon-rename"></span>
+                            <span>Change weight</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon-delete"></span>
+                            <span>Remove</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>`;
+
+        $(li).appendTo('#projectlist li.projectitem[projectid='+projectid+'] .memberlist');
+    }
+
     $(document).ready(function() {
         spend.pageIsPublic = (document.URL.indexOf('/whatever') !== -1);
         if ( !spend.pageIsPublic ) {
@@ -75,16 +203,25 @@
             }
         }
 
-        $('.app-navigation-entry-utils-menu-button').click(function() {
+        $('body').on('click', '.app-navigation-entry-utils-menu-button', function(e) {
             $('.app-navigation-entry-menu.open').removeClass('open');
-            $(this).parent().parent().parent().find('.app-navigation-entry-menu').addClass('open');
+            $(this).parent().parent().parent().find('>.app-navigation-entry-menu').addClass('open');
         });
-        //$('#projectSelect').change(function() {
-        //    if (isUserLoggedIn()) {
-        //        saveOptions($(this).attr('id'));
-        //    }
-        //});
 
+        $('body').on('click', '.projectitem > a', function(e) {
+            var wasOpen = $(this).parent().hasClass('open');
+            $('.projectitem.open').removeClass('open');
+            if (!wasOpen) {
+                $(this).parent().addClass('open');
+            }
+        });
+
+        // last thing to do : get the projects
+        if (!spend.pageIsPublic) {
+            getProjects();
+        }
+        else {
+        }
     }
 
 })(jQuery, OC);

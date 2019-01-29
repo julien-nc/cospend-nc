@@ -5,7 +5,7 @@ script('spend', 'spend');
 
 //style('spend', 'style');
 style('spend', 'fontawesome/css/all.min');
-style('spend', 'pspend');
+style('spend', 'spend');
 
 ?>
 

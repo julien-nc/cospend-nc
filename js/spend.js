@@ -54,13 +54,13 @@
 
     $(document).ready(function() {
         spend.pageIsPublic = (document.URL.indexOf('/whatever') !== -1);
-        if ( !pageIsPublic() ) {
-            restoreOptions();
+        if ( !spend.pageIsPublic ) {
+            //restoreOptions();
         }
         else {
-            restoreOptionsFromUrlParams();
-            main();
+            //restoreOptionsFromUrlParams();
         }
+        main();
     });
 
     function main() {
@@ -68,11 +68,22 @@
         // get key events
         document.onkeydown = checkKey;
 
-        $('#projectSelect').change(function() {
-            if (isUserLoggedIn()) {
-                saveOptions($(this).attr('id'));
+        window.onclick = function(event) {
+            if (!event.target.matches('.app-navigation-entry-utils-menu-button button')) {
+                console.log(event.target);
+                $('.app-navigation-entry-menu.open').removeClass('open');
             }
+        }
+
+        $('.app-navigation-entry-utils-menu-button').click(function() {
+            $('.app-navigation-entry-menu.open').removeClass('open');
+            $(this).parent().parent().parent().find('.app-navigation-entry-menu').addClass('open');
         });
+        //$('#projectSelect').change(function() {
+        //    if (isUserLoggedIn()) {
+        //        saveOptions($(this).attr('id'));
+        //    }
+        //});
 
     }
 

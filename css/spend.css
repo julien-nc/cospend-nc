@@ -7,3 +7,17 @@
 .balanceNegative, .balancePositive {
     float: right;
 }
+#newprojectdiv {
+    display: none;
+}
+#newprojectdiv label {
+    margin: 3px 3px 3px 3px;
+    line-height: 32px;
+    width: 45%;
+    text-align: right;
+    float: left;
+}
+#newprojectdiv input {
+    width: 45%;
+    float: right;
+}

@@ -29,5 +29,6 @@ return [
         ['name' => 'utils#saveOptionValue', 'url' => '/saveOptionValue', 'verb' => 'POST'],
         ['name' => 'utils#setAllowAnonymousCreation', 'url' => '/setAllowAnonymousCreation', 'verb' => 'POST'],
         ['name' => 'page#getProjects', 'url' => 'getProjects', 'verb' => 'POST'],
+        ['name' => 'page#addProject', 'url' => 'addProject', 'verb' => 'POST'],
     ]
 ];

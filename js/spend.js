@@ -52,6 +52,34 @@
         }
     }
 
+    function createProject(id, name, password) {
+        var req = {
+            id: id,
+            name: name,
+            password: password
+        };
+        var url = OC.generateUrl('/apps/spend/addProject');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true,
+        }).done(function (response) {
+            console.log(response);
+            addProject({
+                id: id,
+                name: name,
+                contact_email: '',
+                members: [],
+                active_members: [],
+                balance: {}
+            });
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('spend', 'Failed to create project'));
+        });
+    }
+
     function getProjects() {
         var req = {
         };
@@ -217,6 +245,31 @@
             if (!wasOpen) {
                 $(this).parent().addClass('open');
             }
+        });
+
+        $('#newprojectbutton').click(function() {
+            var div = $('#newprojectdiv');
+            if (div.is(':visible')) {
+                div.slideUp();
+                $(this).removeClass('icon-triangle-s').addClass('icon-triangle-e');
+            }
+            else {
+                div.slideDown();
+                $(this).removeClass('icon-triangle-e').addClass('icon-triangle-s');
+            }
+        });
+
+        $('#createproject').click(function() {
+            var name = $('#projectnameinput').val();
+            var id = $('#projectidinput').val();
+            var password = $('#projectpasswordinput').val();
+            if (name && id && password) {
+                createProject(id, name);
+            }
+            else {
+                OC.Notification.showTemporary(t('spend', 'Invalid values'));
+            }
+
         });
 
         // last thing to do : get the projects

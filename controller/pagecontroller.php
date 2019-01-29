@@ -110,7 +110,16 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      *
-     * get sessions owned by and shared with current user
+     */
+    public function addProject($id, $name, $password) {
+        $user = $this->userManager->get($this->userId);
+        $userEmail = $user->getEMailAddress();
+        return $this->createProject($name, $id, $password, $userEmail, $this->userId);
+    }
+
+    /**
+     * @NoAdminRequired
+     *
      */
     public function getProjects() {
         $projects = [];
@@ -481,7 +490,7 @@ class PageController extends Controller {
         return $response;
     }
 
-    private function createProject($name, $id, $password, $contact_email) {
+    private function createProject($name, $id, $password, $contact_email, $userid='') {
         $sql = '
             SELECT id
             FROM *PREFIX*spend_projects
@@ -500,7 +509,7 @@ class PageController extends Controller {
                 INSERT INTO *PREFIX*spend_projects
                 (userid, id, name, password, email)
                 VALUES ('.
-                    $this->db_quote_escape_string('').','.
+                    $this->db_quote_escape_string($userid).','.
                     $this->db_quote_escape_string($id).','.
                     $this->db_quote_escape_string($name).','.
                     $this->db_quote_escape_string($dbPassword).','.

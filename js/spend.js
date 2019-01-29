@@ -204,8 +204,11 @@
         }
 
         $('body').on('click', '.app-navigation-entry-utils-menu-button', function(e) {
+            var wasOpen = $(this).parent().parent().parent().find('>.app-navigation-entry-menu').hasClass('open');
             $('.app-navigation-entry-menu.open').removeClass('open');
-            $(this).parent().parent().parent().find('>.app-navigation-entry-menu').addClass('open');
+            if (!wasOpen) {
+                $(this).parent().parent().parent().find('>.app-navigation-entry-menu').addClass('open');
+            }
         });
 
         $('body').on('click', '.projectitem > a', function(e) {

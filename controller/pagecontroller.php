@@ -111,7 +111,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      *
      */
-    public function addProject($id, $name, $password) {
+    public function webCreateProject($id, $name, $password) {
         $user = $this->userManager->get($this->userId);
         $userEmail = $user->getEMailAddress();
         return $this->createProject($name, $id, $password, $userEmail, $this->userId);
@@ -121,7 +121,25 @@ class PageController extends Controller {
      * @NoAdminRequired
      *
      */
-    public function getProjects() {
+    public function webDeleteProject($projectid) {
+        $projectInfo = $this->getProjectInfo($projectid);
+        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+            return $this->deleteProject($projectid);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to delete this project']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     *
+     */
+    public function webGetProjects() {
         $projects = [];
 
         $sql = '
@@ -220,7 +238,18 @@ class PageController extends Controller {
      */
     public function apiGetProjectInfo($projectid, $password) {
         if ($this->checkLogin($projectid, $password)) {
-            return $this->getProjectInfo($projectid);
+            $projectInfo = $this->getProjectInfo($projectid);
+            if ($projectInfo !== null) {
+                unset($projectInfo['userid']);
+                return new DataResponse($projectInfo);
+            }
+            else {
+                $response = new DataResponse(
+                    ['message'=>'Project not found in the database']
+                    , 404
+                );
+                return $response;
+            }
         }
         else {
             $response = new DataResponse(
@@ -532,8 +561,10 @@ class PageController extends Controller {
     }
 
     private function getProjectInfo($projectid) {
+        $projectInfo = null;
+
         $sql = '
-            SELECT id, password, name, email
+            SELECT id, password, name, email, userid
             FROM *PREFIX*spend_projects
             WHERE id='.$this->db_quote_escape_string($projectid).' ;';
         $req = $this->dbconnection->prepare($sql);
@@ -545,6 +576,7 @@ class PageController extends Controller {
             $dbPassword = $row['password'];
             $dbName = $row['name'];
             $dbEmail= $row['email'];
+            $dbUserId = $row['userid'];
             break;
         }
         $req->closeCursor();
@@ -557,25 +589,18 @@ class PageController extends Controller {
                 }
             }
             $balance = $this->getBalance($dbProjectId);
-            $response = new DataResponse(
-                [
-                    'name'=>$dbName,
-                    'contact_email'=>$dbEmail,
-                    'id'=>$dbProjectId,
-                    'active_members'=>$activeMembers,
-                    'members'=>$members,
-                    'balance'=>$balance
-                ]
-            );
-            return $response;
+            $projectInfo = [
+                'userid'=>$dbUserId,
+                'name'=>$dbName,
+                'contact_email'=>$dbEmail,
+                'id'=>$dbProjectId,
+                'active_members'=>$activeMembers,
+                'members'=>$members,
+                'balance'=>$balance
+            ];
         }
-        else {
-            $response = new DataResponse(
-                ['message'=>'Project not found in the database']
-                , 404
-            );
-            return $response;
-        }
+
+        return $projectInfo;
     }
 
     private function getBill($projectId, $billId) {

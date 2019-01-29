@@ -58,7 +58,7 @@
             name: name,
             password: password
         };
-        var url = OC.generateUrl('/apps/spend/addProject');
+        var url = OC.generateUrl('/apps/spend/createProject');
         $.ajax({
             type: 'POST',
             url: url,
@@ -80,6 +80,26 @@
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(t('spend', 'Failed to create project') + ' ' + response.responseText);
+        });
+    }
+
+    function deleteProject(id) {
+        var req = {
+            projectid: id
+        };
+        var url = OC.generateUrl('/apps/spend/deleteProject');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true,
+        }).done(function (response) {
+            $('.projectitem[projectid='+id+']').fadeOut('slow', function() {
+                $(this).remove();
+            });
+        }).always(function() {
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('spend', 'Failed to delete project') + ' ' + response.responseText);
         });
     }
 
@@ -145,7 +165,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="#" class="deleteProject">
                             <span class="icon-delete"></span>
                             <span>Delete</span>
                         </a>
@@ -286,6 +306,11 @@
             else {
                 OC.Notification.showTemporary(t('spend', 'Invalid values'));
             }
+        });
+
+        $('body').on('click', '.deleteProject', function(e) {
+            var id = $(this).parent().parent().parent().parent().attr('projectid');
+            deleteProject(id);
         });
 
         // last thing to do : get the projects

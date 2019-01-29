@@ -13,9 +13,12 @@
     'use strict';
 
     //////////////// VAR DEFINITION /////////////////////
+    var MEMBER_NAME_EDITION = 1;
+    var MEMBER_WEIGHT_EDITION = 2;
 
     var spend = {
-        restoredSelectedProjectId: null
+        restoredSelectedProjectId: null,
+        memberEditionMode: null
     };
 
     //////////////// UTILS /////////////////////
@@ -107,6 +110,37 @@
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(t('spend', 'Failed to add member') + ' ' + response.responseText);
+        });
+    }
+
+    function editMember(projectid, memberid, newName, newWeight, newActivated) {
+        var req = {
+            projectid: projectid,
+            memberid: memberid,
+            name: newName,
+            weight: newWeight,
+            activated: newActivated
+        };
+        var url = OC.generateUrl('/apps/spend/editMember');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true,
+        }).done(function (response) {
+            var memberLine = $('.projectitem[projectid='+projectid+'] ul.memberlist > li[memberid='+memberid+']');
+            // update member values
+            if (newName) {
+                memberLine.find('b.memberName').text(newName);
+            }
+            if (newWeight) {
+                memberLine.find('b.memberWeight').text(newWeight);
+            }
+            // remove editing mode
+            memberLine.removeClass('editing');
+        }).always(function() {
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('spend', 'Failed to edit member') + ' ' + response.responseText);
         });
     }
 
@@ -222,17 +256,17 @@
 
         var balanceStr;
         if (balance > 0) {
-            balanceStr = '<b class="balancePositive">+'+balance.toFixed(2)+'</b>';
+            balanceStr = '<b class="balance balancePositive">+'+balance.toFixed(2)+'</b>';
         }
         else if (balance < 0) {
-            balanceStr = '<b class="balanceNegative">'+balance.toFixed(2)+'</b>';
+            balanceStr = '<b class="balance balanceNegative">'+balance.toFixed(2)+'</b>';
         }
         else {
-            balanceStr = '<b class="balanceZero">'+balance.toFixed(2)+'</b>';
+            balanceStr = '<b class="balance">'+balance.toFixed(2)+'</b>';
         }
 
         var li = `<li memberid="${member.id}"><a class="icon-user" href="#">
-                <span>${member.name} (x${member.weight}) ${balanceStr}</span>
+                <span><b class="memberName">${member.name}</b> (x<b class="memberWeight">${member.weight}</b>) ${balanceStr}</span>
             </a>
             <div class="app-navigation-entry-utils">
                 <ul>
@@ -245,13 +279,13 @@
             <div class="app-navigation-entry-menu">
                 <ul>
                     <li>
-                        <a href="#">
+                        <a href="#" class="renameMember">
                             <span class="icon-rename"></span>
                             <span>Rename</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="#" class="editWeightMember">
                             <span class="icon-rename"></span>
                             <span>Change weight</span>
                         </a>
@@ -263,6 +297,13 @@
                         </a>
                     </li>
                 </ul>
+            </div>
+            <div class="app-navigation-entry-edit">
+                <div>
+                    <input type="text" value="${member.name}" class="editMemberInput">
+                    <input type="submit" value="" class="icon-close editMemberClose">
+                    <input type="submit" value="" class="icon-checkmark editMemberOk">
+                </div>
             </div>
         </li>`;
 
@@ -435,6 +476,42 @@
                 else {
                     OC.Notification.showTemporary(t('spend', 'Invalid values'));
                 }
+            }
+        });
+
+        $('body').on('click', '.renameMember', function(e) {
+            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            var name = $(this).parent().parent().parent().parent().find('a > span > b.memberName').text();
+            $(this).parent().parent().parent().parent().find('.editMemberInput').val(name).focus();
+            $('.memberlist li').removeClass('editing');
+            $(this).parent().parent().parent().parent().addClass('editing');
+            spend.memberEditionMode = MEMBER_NAME_EDITION;
+        });
+
+        $('body').on('click', '.editWeightMember', function(e) {
+            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            var weight = $(this).parent().parent().parent().parent().find('a > span > b.memberWeight').text();
+            $(this).parent().parent().parent().parent().find('.editMemberInput').val(weight).focus();
+            $('.memberlist li').removeClass('editing');
+            $(this).parent().parent().parent().parent().addClass('editing');
+            spend.memberEditionMode = MEMBER_WEIGHT_EDITION;
+        });
+
+        $('body').on('click', '.editMemberClose', function(e) {
+            $(this).parent().parent().parent().removeClass('editing');
+        });
+
+        $('body').on('click', '.editMemberOk', function(e) {
+            var memberid = $(this).parent().parent().parent().attr('memberid');
+            var projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
+            if (spend.memberEditionMode === MEMBER_NAME_EDITION) {
+                var newName = $(this).parent().find('.editMemberInput').val();
+                editMember(projectid, memberid, newName, null, null);
+            }
+            else if (spend.memberEditionMode === MEMBER_WEIGHT_EDITION) {
+                var newWeight = $(this).parent().find('.editMemberInput').val();
+                var newName = $(this).parent().parent().parent().find('b.memberName').text();
+                editMember(projectid, memberid, newName, newWeight, null);
             }
         });
 

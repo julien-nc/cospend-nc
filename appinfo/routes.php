@@ -32,5 +32,6 @@ return [
         ['name' => 'page#webCreateProject', 'url' => 'createProject', 'verb' => 'POST'],
         ['name' => 'page#webDeleteProject', 'url' => 'deleteProject', 'verb' => 'POST'],
         ['name' => 'page#webAddMember', 'url' => 'addMember', 'verb' => 'POST'],
+        ['name' => 'page#webEditMember', 'url' => 'editMember', 'verb' => 'POST'],
     ]
 ];

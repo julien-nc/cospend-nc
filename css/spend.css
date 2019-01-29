@@ -4,7 +4,7 @@
 .balanceNegative {
     color: red;
 }
-.balanceNegative, .balancePositive, .balanceZero {
+.balance {
     float: right;
 }
 #newmemberdiv,
@@ -26,4 +26,7 @@
 }
 .newmemberdiv {
     display: none;
+}
+b.memberName, b.memberWeight, .balance {
+    font-weight: normal;
 }

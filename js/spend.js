@@ -65,7 +65,6 @@
             data: req,
             async: true,
         }).done(function (response) {
-            console.log(response);
             addProject({
                 id: id,
                 name: name,
@@ -74,9 +73,13 @@
                 active_members: [],
                 balance: {}
             });
+
+            var div = $('#newprojectdiv');
+            div.slideUp();
+            $(this).removeClass('icon-triangle-s').addClass('icon-triangle-e');
         }).always(function() {
-        }).fail(function() {
-            OC.Notification.showTemporary(t('spend', 'Failed to create project'));
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('spend', 'Failed to create project') + ' ' + response.responseText);
         });
     }
 
@@ -116,7 +119,7 @@
 
         var name = project.name;
         var projectid = project.id;
-        var li = `<li class="projectitem collapsible" projectid="${projectid}"><a class="icon-folder" href="#">
+        var li = `<li class="projectitem collapsible" projectid="${projectid}"><a class="icon-folder" href="#" title="${projectid}">
                 <span>${name}</span>
             </a>
             <div class="app-navigation-entry-utils">
@@ -259,6 +262,20 @@
             }
         });
 
+        $('#projectnameinput, #projectidinput, #projectpasswordinput').on('keyup', function(e) {
+            if (e.key === 'Enter') {
+                var name = $('#projectnameinput').val();
+                var id = $('#projectidinput').val();
+                var password = $('#projectpasswordinput').val();
+                if (name && id && password) {
+                    createProject(id, name);
+                }
+                else {
+                    OC.Notification.showTemporary(t('spend', 'Invalid values'));
+                }
+            }
+        });
+
         $('#createproject').click(function() {
             var name = $('#projectnameinput').val();
             var id = $('#projectidinput').val();
@@ -269,7 +286,6 @@
             else {
                 OC.Notification.showTemporary(t('spend', 'Invalid values'));
             }
-
         });
 
         // last thing to do : get the projects

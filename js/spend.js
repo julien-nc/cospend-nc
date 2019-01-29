@@ -16,9 +16,13 @@
     var MEMBER_NAME_EDITION = 1;
     var MEMBER_WEIGHT_EDITION = 2;
 
+    var PROJECT_NAME_EDITION = 1;
+    var PROJECT_PASSWORD_EDITION = 2;
+
     var spend = {
         restoredSelectedProjectId: null,
-        memberEditionMode: null
+        memberEditionMode: null,
+        projectEditionMode: null
     };
 
     //////////////// UTILS /////////////////////
@@ -144,6 +148,33 @@
         });
     }
 
+    function editProject(projectid, newName, newEmail, newPassword) {
+        var req = {
+            projectid: projectid,
+            name: newName,
+            contact_email: newEmail,
+            password: newPassword
+        };
+        var url = OC.generateUrl('/apps/spend/editProject');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true,
+        }).done(function (response) {
+            var projectLine = $('.projectitem[projectid='+projectid+']');
+            // update project values
+            if (newName) {
+                projectLine.find('>a span').text(newName);
+            }
+            // remove editing mode
+            projectLine.removeClass('editing');
+        }).always(function() {
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('spend', 'Failed to edit project') + ' ' + response.responseText);
+        });
+    }
+
     function updateNumberOfMember(projectid) {
         var nbMembers = $('li.projectitem[projectid='+projectid+'] ul.memberlist > li').length;
         $('li.projectitem[projectid='+projectid+'] .app-navigation-entry-utils-counter').text(nbMembers);
@@ -219,6 +250,13 @@
                     </li>
                 </ul>
             </div>
+            <div class="app-navigation-entry-edit">
+                <div>
+                    <input type="text" value="${project.name}" class="editProjectInput">
+                    <input type="submit" value="" class="icon-close editProjectClose">
+                    <input type="submit" value="" class="icon-checkmark editProjectOk">
+                </div>
+            </div>
             <div class="app-navigation-entry-menu">
                 <ul>
                     <li>
@@ -228,9 +266,15 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="#" class="editProjectName">
                             <span class="icon-rename"></span>
-                            <span>Edit</span>
+                            <span>Rename</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="editProjectPassword">
+                            <span class="icon-rename"></span>
+                            <span>Change password</span>
                         </a>
                     </li>
                     <li>
@@ -383,7 +427,7 @@
             if (!event.target.matches('#newmemberdiv, #newmemberdiv input, #newmemberdiv label, #newmemberdiv button, .addMember, .addMember span')) {
                 $('#newmemberdiv').slideUp();
             }
-            console.log(event.target);
+            //console.log(event.target);
         }
 
         $('body').on('click', '.app-navigation-entry-utils-menu-button', function(e) {
@@ -512,6 +556,40 @@
                 var newWeight = $(this).parent().find('.editMemberInput').val();
                 var newName = $(this).parent().parent().parent().find('b.memberName').text();
                 editMember(projectid, memberid, newName, newWeight, null);
+            }
+        });
+
+        $('body').on('click', '.editProjectName', function(e) {
+            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
+            var name = $(this).parent().parent().parent().parent().find('>a > span').text();
+            $(this).parent().parent().parent().parent().find('.editProjectInput').val(name).attr('type', 'text').focus();
+            $('#projectlist > li').removeClass('editing');
+            $(this).parent().parent().parent().parent().removeClass('open').addClass('editing');
+            spend.projectEditionMode = PROJECT_NAME_EDITION;
+        });
+
+        $('body').on('click', '.editProjectPassword', function(e) {
+            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
+            $(this).parent().parent().parent().parent().find('.editProjectInput').attr('type', 'password').val('').focus();
+            $('#projectlist > li').removeClass('editing');
+            $(this).parent().parent().parent().parent().removeClass('open').addClass('editing');
+            spend.projectEditionMode = PROJECT_PASSWORD_EDITION;
+        });
+
+        $('body').on('click', '.editProjectClose', function(e) {
+            $(this).parent().parent().parent().removeClass('editing');
+        });
+
+        $('body').on('click', '.editProjectOk', function(e) {
+            var projectid = $(this).parent().parent().parent().attr('projectid');
+            if (spend.projectEditionMode === PROJECT_NAME_EDITION) {
+                var newName = $(this).parent().find('.editProjectInput').val();
+                editProject(projectid, newName, null, null);
+            }
+            else if (spend.projectEditionMode === PROJECT_PASSWORD_EDITION) {
+                var newPassword = $(this).parent().find('.editProjectInput').val();
+                var newName = $(this).parent().parent().parent().find('>a span').text();
+                editProject(projectid, newName, null, newPassword);
             }
         });
 

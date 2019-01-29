@@ -157,6 +157,24 @@ class PageController extends Controller {
      * @NoAdminRequired
      *
      */
+    public function webEditProject($projectid, $name, $contact_email, $password) {
+        $projectInfo = $this->getProjectInfo($projectid);
+        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+            return $this->editProject($projectid, $name, $contact_email, $password);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to edit this project']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     *
+     */
     public function webAddMember($projectid, $name) {
         $projectInfo = $this->getProjectInfo($projectid);
         if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
@@ -1350,21 +1368,8 @@ class PageController extends Controller {
             );
             return $response;
         }
-        if ($contact_email === null || $name === '') {
-            $response = new DataResponse(
-                ["contact_email"=> ["This field is required."]]
-                , 400
-            );
-            return $response;
-        }
-        if ($password === null || $password === '') {
-            $response = new DataResponse(
-                ["password"=> ["This field is required."]]
-                , 400
-            );
-            return $response;
-        }
-        if ($this->getProjectById($projectid) !== null) {
+        $emailSql = '';
+        if ($contact_email !== null && $contact_email !== '') {
             if (filter_var($contact_email, FILTER_VALIDATE_EMAIL)) {
                 $emailSql = 'email='.$this->db_quote_escape_string($contact_email).',';
             }
@@ -1375,15 +1380,20 @@ class PageController extends Controller {
                 );
                 return $response;
             }
-            $nameSql = 'name='.$this->db_quote_escape_string($name).',';
+        }
+        $passwordSql = '';
+        if ($password !== null && $password !== '') {
             $dbPassword = password_hash($password, PASSWORD_DEFAULT);
-            $passwordSql = 'password='.$this->db_quote_escape_string($dbPassword);
+            $passwordSql = 'password='.$this->db_quote_escape_string($dbPassword).',';
+        }
+        if ($this->getProjectById($projectid) !== null) {
+            $nameSql = 'name='.$this->db_quote_escape_string($name);
             $sqlupd = '
                     UPDATE *PREFIX*spend_projects
                     SET
-                         '.$nameSql.'
                          '.$emailSql.'
                          '.$passwordSql.'
+                         '.$nameSql.'
                     WHERE id='.$this->db_quote_escape_string($projectid).' ;';
             $req = $this->dbconnection->prepare($sqlupd);
             $req->execute();

@@ -139,6 +139,25 @@ class PageController extends Controller {
      * @NoAdminRequired
      *
      */
+    public function webGetProjectInfo($projectid) {
+        $projectInfo = $this->getProjectInfo($projectid);
+        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+            $response = new DataResponse($projectInfo);
+            return $response;
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to get this project\'s info']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     *
+     */
     public function webEditMember($projectid, $memberid, $name, $weight, $activated) {
         $projectInfo = $this->getProjectInfo($projectid);
         if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
@@ -183,6 +202,26 @@ class PageController extends Controller {
         else {
             $response = new DataResponse(
                 ['message'=>'You are not allowed to add member to this project']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     *
+     */
+    public function webGetBills($projectid) {
+        $projectInfo = $this->getProjectInfo($projectid);
+        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+            $bills = $this->getBills($projectid);
+            $response = new DataResponse($bills);
+            return $response;
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to get bills of this project']
                 , 403
             );
             return $response;

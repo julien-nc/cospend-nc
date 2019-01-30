@@ -34,5 +34,7 @@ return [
         ['name' => 'page#webAddMember', 'url' => 'addMember', 'verb' => 'POST'],
         ['name' => 'page#webEditMember', 'url' => 'editMember', 'verb' => 'POST'],
         ['name' => 'page#webEditProject', 'url' => 'editProject', 'verb' => 'POST'],
+        ['name' => 'page#webGetBills', 'url' => 'getBills', 'verb' => 'POST'],
+        ['name' => 'page#webGetProjectInfo', 'url' => 'getProjectInfo', 'verb' => 'POST'],
     ]
 ];

@@ -157,6 +157,7 @@
             }
             if (newWeight) {
                 memberLine.find('b.memberWeight').text(newWeight);
+                updateProjectBalances(projectid);
             }
             if (newActivated !== null && newActivated === false) {
                 memberLine.find('>a').removeClass('icon-user').addClass('icon-disabled-user');
@@ -262,6 +263,61 @@
         });
     }
 
+    function getBills(projectid) {
+        var req = {
+            projectid: projectid
+        };
+        var url = OC.generateUrl('/apps/spend/getBills');
+        spend.currentGetProjectsAjax = $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true,
+        }).done(function (response) {
+            console.log(response);
+            for (var i = 0; i < response.length; i++) {
+            }
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('spend', 'Failed to get bills'));
+        });
+    }
+
+    function updateProjectBalances(projectid) {
+        var req = {
+            projectid: projectid
+        };
+        var url = OC.generateUrl('/apps/spend/getProjectInfo');
+        spend.currentGetProjectsAjax = $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true,
+        }).done(function (response) {
+            console.log(response);
+            var balance, balanceField, balanceClass;
+            for (var memberid in response.balance) {
+                balance = response.balance[memberid];
+                balanceField = $('.projectitem[projectid='+projectid+'] .memberlist > li[memberid='+memberid+'] b.balance');
+                balanceField.removeClass('balancePositive').removeClass('balanceNegative');
+                if (balance < 0) {
+                    balanceClass = 'balanceNegative';
+                    balanceField.addClass(balanceClass).text(balance.toFixed(2));
+                }
+                else if (balance > 0) {
+                    balanceClass = 'balancePositive';
+                    balanceField.addClass(balanceClass).text(balance.toFixed(2));
+                }
+                else {
+                    balanceField.text(balance.toFixed(2));
+                }
+            }
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('spend', 'Failed to get bills'));
+        });
+    }
+
     function addProject(project) {
 
         var name = project.name;
@@ -269,6 +325,7 @@
         var projectSelected = '';
         if (spend.restoredSelectedProjectId === projectid) {
             projectSelected = ' open';
+            getBills(projectid);
         }
         var li = `<li class="projectitem collapsible${projectSelected}" projectid="${projectid}"><a class="icon-folder" href="#" title="${projectid}">
                 <span>${name}</span>
@@ -491,6 +548,7 @@
                 $(this).parent().addClass('open');
                 var projectid = $(this).parent().attr('projectid');
                 saveOptionValue({selectedProject: projectid});
+                getBills(projectid);
             }
         });
 

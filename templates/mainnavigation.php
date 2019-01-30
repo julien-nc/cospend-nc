@@ -20,6 +20,9 @@
         </button>
 
     </div>
+    <button id="createbill" type="button" class="icon-add">
+        <?php p($l->t('New bill')); ?>
+    </button>
 
     <div id="newmemberdiv">
         <hr/>

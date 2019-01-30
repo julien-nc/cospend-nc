@@ -231,6 +231,8 @@
             var bill = spend.bills[projectid][billid];
             updateBillItem(projectid, billid, bill);
 
+            updateProjectBalances(projectid);
+
             OC.Notification.showTemporary(t('spend', 'Bill saved'));
         }).always(function() {
         }).fail(function(response) {
@@ -313,6 +315,33 @@
                 $(this).remove();
             });
             OC.Notification.showTemporary(t('spend', 'Deleted project {id}', {id: id}));
+        }).always(function() {
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('spend', 'Failed to delete project') + ' ' + response.responseText);
+        });
+    }
+
+    function deleteBill(projectid, billid) {
+        var req = {
+            projectid: projectid,
+            billid: billid
+        };
+        var url = OC.generateUrl('/apps/spend/deleteBill');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true,
+        }).done(function (response) {
+            if ($('#bill-detail .bill-title').length > 0 && $('#bill-detail .bill-title').attr('billid') === billid) {
+                $('#bill-detail').html('');
+            }
+            $('.billitem[billid='+billid+']').fadeOut('slow', function() {
+                $(this).remove();
+            });
+            delete spend.bills[projectid][billid];
+            updateProjectBalances(projectid);
+            OC.Notification.showTemporary(t('spend', 'Deleted bill'));
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(t('spend', 'Failed to delete project') + ' ' + response.responseText);
@@ -423,6 +452,10 @@
                         <a class="icon icon-tag"></a><span>${t('spend', 'What?')}</span><br/>
                         <input type="text" class="input-bill-what" value="${bill.what}"/>
                     </div>
+                    <div class="bill-amount">
+                        <a class="icon icon-quota"></a><span>${t('spend', 'How much?')}</span><br/>
+                        <input type="number" class="input-bill-amount" value="${bill.amount}" step="0.01" min="0"/>
+                    </div>
                     <div class="bill-payer">
                         <a class="icon icon-user"></a><span>${t('spend', 'Who payed?')}</span><br/>
                         <select class="input-bill-payer">
@@ -432,10 +465,6 @@
                     <div class="bill-date">
                         <a class="icon icon-calendar-dark"></a><span>${t('spend', 'When?')}</span><br/>
                         <input type="date" class="input-bill-date" value="${bill.date}"/>
-                    </div>
-                    <div class="bill-amount">
-                        <a class="icon icon-quota"></a><span>${t('spend', 'How much?')}</span><br/>
-                        <input type="number" class="input-bill-amount" value="${bill.amount}" step="0.01" min="0"/>
                     </div>
                 </div>
                 <div class="bill-right">
@@ -486,7 +515,7 @@
             <div class="app-content-list-item-line-one">${bill.what}</div>
             <div class="app-content-list-item-line-two">${bill.amount.toFixed(2)} (${memberName} -> ${owerNames})</div>
             <span class="app-content-list-item-details">${bill.date}</span>
-            <div class="icon-delete"></div>
+            <div class="icon-delete deleteBillIcon"></div>
         </a>`;
         $(item).prependTo('.app-content-list');
     }
@@ -1003,6 +1032,12 @@
         $('body').on('click', '#owerNone', function(e) {
             $('.owerEntry input').prop('checked', false);
             onBillEdited();
+        });
+
+        $('body').on('click', '.deleteBillIcon', function(e) {
+            var billid = $(this).parent().attr('billid');
+            var projectid = $(this).parent().attr('projectid');
+            deleteBill(projectid, billid);
         });
 
         // last thing to do : get the projects

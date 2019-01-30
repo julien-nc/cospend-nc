@@ -1,6 +1,9 @@
 #app {
     width: 100%;
 }
+#newBillButton {
+    margin-top: 10px !important;
+}
 .balancePositive {
     color: green;
 }

@@ -618,57 +618,59 @@
             spend.currentProjectId = projectid;
             getBills(projectid);
         }
-        var li = `<li class="projectitem collapsible${projectSelected}" projectid="${projectid}"><a class="icon-folder" href="#" title="${projectid}">
-                <span>${name}</span>
-            </a>
-            <div class="app-navigation-entry-utils">
-                <ul>
-                    <li class="app-navigation-entry-utils-counter">${project.members.length}</li>
-                    <li class="app-navigation-entry-utils-menu-button">
-                        <button></button>
-                    </li>
-                </ul>
-            </div>
-            <div class="app-navigation-entry-edit">
-                <div>
-                    <input type="text" value="${project.name}" class="editProjectInput">
-                    <input type="submit" value="" class="icon-close editProjectClose">
-                    <input type="submit" value="" class="icon-checkmark editProjectOk">
+        var li = `
+            <li class="projectitem collapsible${projectSelected}" projectid="${projectid}">
+                <a class="icon-folder" href="#" title="${projectid}">
+                    <span>${name}</span>
+                </a>
+                <div class="app-navigation-entry-utils">
+                    <ul>
+                        <li class="app-navigation-entry-utils-counter">${project.members.length}</li>
+                        <li class="app-navigation-entry-utils-menu-button">
+                            <button></button>
+                        </li>
+                    </ul>
                 </div>
-            </div>
-            <div class="app-navigation-entry-menu">
-                <ul>
-                    <li>
-                        <a href="#" class="addMember">
-                            <span class="icon-add"></span>
-                            <span>${t('spend', 'Add member')}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="editProjectName">
-                            <span class="icon-rename"></span>
-                            <span>${t('spend', 'Rename')}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="editProjectPassword">
-                            <span class="icon-rename"></span>
-                            <span>${t('spend', 'Change password')}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="deleteProject">
-                            <span class="icon-delete"></span>
-                            <span>${t('spend', 'Delete')}</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="app-navigation-entry-deleted">
-                <div class="app-navigation-entry-deleted-description">${t('spend', 'Deleted {id}', {id: project.id})}</div>
-                <button class="app-navigation-entry-deleted-button icon-history undoDeleteProject" title="Undo"></button>
-            </div>
-            <ul class="memberlist"></ul>
+                <div class="app-navigation-entry-edit">
+                    <div>
+                        <input type="text" value="${project.name}" class="editProjectInput">
+                        <input type="submit" value="" class="icon-close editProjectClose">
+                        <input type="submit" value="" class="icon-checkmark editProjectOk">
+                    </div>
+                </div>
+                <div class="app-navigation-entry-menu">
+                    <ul>
+                        <li>
+                            <a href="#" class="addMember">
+                                <span class="icon-add"></span>
+                                <span>${t('spend', 'Add member')}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="editProjectName">
+                                <span class="icon-rename"></span>
+                                <span>${t('spend', 'Rename')}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="editProjectPassword">
+                                <span class="icon-rename"></span>
+                                <span>${t('spend', 'Change password')}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="deleteProject">
+                                <span class="icon-delete"></span>
+                                <span>${t('spend', 'Delete')}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="app-navigation-entry-deleted">
+                    <div class="app-navigation-entry-deleted-description">${t('spend', 'Deleted {id}', {id: project.id})}</div>
+                    <button class="app-navigation-entry-deleted-button icon-history undoDeleteProject" title="Undo"></button>
+                </div>
+                <ul class="memberlist"></ul>
             </li>`;
 
         $(li).appendTo('#projectlist');
@@ -996,7 +998,7 @@
         $('body').on('click', '.renameMember', function(e) {
             var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
             var name = $(this).parent().parent().parent().parent().find('a > span > b.memberName').text();
-            $(this).parent().parent().parent().parent().find('.editMemberInput').val(name).focus();
+            $(this).parent().parent().parent().parent().find('.editMemberInput').val(name).focus().select();
             $('.memberlist li').removeClass('editing');
             $(this).parent().parent().parent().parent().addClass('editing');
             spend.memberEditionMode = MEMBER_NAME_EDITION;
@@ -1005,7 +1007,7 @@
         $('body').on('click', '.editWeightMember', function(e) {
             var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
             var weight = $(this).parent().parent().parent().parent().find('a > span > b.memberWeight').text();
-            $(this).parent().parent().parent().parent().find('.editMemberInput').val(weight).focus();
+            $(this).parent().parent().parent().parent().find('.editMemberInput').val(weight).focus().select();
             $('.memberlist li').removeClass('editing');
             $(this).parent().parent().parent().parent().addClass('editing');
             spend.memberEditionMode = MEMBER_WEIGHT_EDITION;
@@ -1040,7 +1042,7 @@
         $('body').on('click', '.editProjectName', function(e) {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
             var name = $(this).parent().parent().parent().parent().find('>a > span').text();
-            $(this).parent().parent().parent().parent().find('.editProjectInput').val(name).attr('type', 'text').focus();
+            $(this).parent().parent().parent().parent().find('.editProjectInput').val(name).attr('type', 'text').focus().select();
             $('#projectlist > li').removeClass('editing');
             $(this).parent().parent().parent().parent().removeClass('open').addClass('editing');
             spend.projectEditionMode = PROJECT_NAME_EDITION;
@@ -1048,7 +1050,7 @@
 
         $('body').on('click', '.editProjectPassword', function(e) {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
-            $(this).parent().parent().parent().parent().find('.editProjectInput').attr('type', 'password').val('').focus();
+            $(this).parent().parent().parent().parent().find('.editProjectInput').attr('type', 'password').val('').focus().select();
             $('#projectlist > li').removeClass('editing');
             $(this).parent().parent().parent().parent().removeClass('open').addClass('editing');
             spend.projectEditionMode = PROJECT_PASSWORD_EDITION;
@@ -1117,7 +1119,7 @@
                 var bill = {
                     id: 0,
                     what: t('spend', 'New Bill'),
-                    date: '',
+                    date: moment().format('YYYY-MM-DD'),
                     amount: 0.0,
                     payer_id: 0,
                     owers: []
@@ -1125,6 +1127,10 @@
                 addBill(projectid, bill)
                 displayBill(projectid, bill.id);
             }
+        });
+
+        $('body').on('focus', '.input-bill-what, .input-bill-amount', function(e) {
+            $(this).select();
         });
 
         // last thing to do : get the projects

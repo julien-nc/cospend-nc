@@ -350,7 +350,7 @@
         }
         $('#bill-detail').html('');
         var detail = `
-            <h2 class="bill-title">${t('spend', 'Bill "{what}" of project {proj}', {what: bill.what, proj: projectName})}</h2>
+            <h2 class="bill-title" billid="${bill.id}">${t('spend', 'Bill "{what}" of project {proj}', {what: bill.what, proj: projectName})}</h2>
             <div class="bill-form">
                 <div class="bill-left">
                     <div class="bill-what">
@@ -375,6 +375,10 @@
                 <div class="bill-right">
                     <div class="bill-owers">
                         <a class="icon icon-group"></a><span>${t('spend', 'For whom?')}</span>
+                        <div class="owerAllNoneDiv">
+                        <button id="owerAll">${t('spend', 'All')}</button>
+                        <button id="owerNone">${t('spend', 'None')}</button>
+                        </div>
                         ${owerCheckboxes}
                     </div>
                 </div>
@@ -599,6 +603,57 @@
         </li>`;
 
         $(li).appendTo('#projectlist li.projectitem[projectid='+projectid+'] .memberlist');
+    }
+
+    function onBillEdited() {
+        // get bill info
+        var billid = $('.bill-title').attr('billid');
+        // check fields validity
+        var valid = true;
+
+        var what = $('.input-bill-what').val();
+        var date = $('.input-bill-date').val();
+        var amount = parseFloat($('.input-bill-amount').val());
+        var payer_id = parseInt($('.input-bill-payer').val());
+        var owerIds = [];
+        var owerId;
+        $('.owerEntry input').each(function() {
+            if ($(this).is(':checked')) {
+                owerId = parseInt($(this).attr('owerid'));
+                if (isNaN(owerId)) {
+                    valid = false;
+                }
+                else {
+                    owerIds.push(owerId);
+                }
+            }
+        });
+
+        if (what === null || what === '') {
+            valid = false;
+        }
+        if (date === null || date === '' || date.match(/^\d\d\d\d-\d\d-\d\d$/g) === null) {
+            valid = false;
+        }
+        if (isNaN(amount) || isNaN(payer_id)) {
+            valid = false;
+        }
+        if (owerIds.length === 0) {
+            valid = false;
+        }
+
+        // if valid, save the bill or create it if needed
+        if (valid) {
+            if (billid === '0') {
+                //createBill(what, amount, payer_id, date, owers);
+            }
+            else {
+                //saveBill(billid, what, amount, payer_id, date, owers);
+            }
+        }
+        else {
+            OC.Notification.showTemporary(t('spend', 'Bill values are not valid'));
+        }
     }
 
     function saveOptionValue(optionValues) {
@@ -867,6 +922,20 @@
             var billid = $(this).attr('billid');
             var projectid = $(this).attr('projectid');
             displayBill(projectid, billid);
+        });
+
+        $('body').on('change', '#bill-detail input, #bill-detail select', function(e) {
+            onBillEdited();
+        });
+
+        $('body').on('click', '#owerAll', function(e) {
+            $('.owerEntry input').prop('checked', true);
+            onBillEdited();
+        });
+
+        $('body').on('click', '#owerNone', function(e) {
+            $('.owerEntry input').prop('checked', false);
+            onBillEdited();
         });
 
         // last thing to do : get the projects

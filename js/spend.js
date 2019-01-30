@@ -538,12 +538,7 @@
 
     function addBill(projectid, bill) {
         spend.bills[projectid][bill.id] = bill;
-        //'id' => $dbBillId,
-        //'amount' => $dbAmount,
-        //'what' => $dbWhat,
-        //'date' => $dbDate,
-        //'payer_id' => $dbPayerId,
-        //'owers' => $billOwersByBill[$row['id']]
+
         var owerNames = '';
         var ower;
         for (var i=0; i < bill.owers.length; i++) {
@@ -551,23 +546,21 @@
             owerNames = owerNames + getMemberName(projectid, ower.id) + ', ';
         }
         owerNames = owerNames.replace(/, $/, '');
-        var memberName;
-        if (bill.id !== 0) {
-            memberName = getMemberName(projectid, bill.payer_id);
-        }
-        else {
-            memberName = '---';
-        }
-        var memberFirstLetter = memberName[0];
-
-        var title = bill.what + '\n' + bill.amount.toFixed(2) + '\n' +
-            bill.date + '\n' + memberName + ' -> ' + owerNames;
+        var title = '';
+        var memberName = '';
+        var memberFirstLetter
         var c;
         if (bill.id !== 0) {
+            memberName = getMemberName(projectid, bill.payer_id);
+            memberFirstLetter = memberName[0];
+
+            title = bill.what + '\n' + bill.amount.toFixed(2) + '\n' +
+                bill.date + '\n' + memberName + ' -> ' + owerNames;
             c = spend.letterColors[memberFirstLetter.toLowerCase()];
         }
         else {
             c = {h: 0, s: 0, l: 50};
+            memberFirstLetter = '-';
         }
         var item = `<a href="#" class="app-content-list-item billitem" billid="${bill.id}" projectid="${projectid}" title="${title}">
             <div class="app-content-list-item-icon" style="background-color: hsl(${c.h}, ${c.s}%, ${c.l}%);">${memberFirstLetter}</div>

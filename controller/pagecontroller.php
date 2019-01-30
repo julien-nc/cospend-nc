@@ -862,7 +862,7 @@ class PageController extends Controller {
         $sql = '
             SELECT id, what, date, amount, payerid
             FROM *PREFIX*spend_bills
-            WHERE projectid='.$this->db_quote_escape_string($projectId).' ;';
+            WHERE projectid='.$this->db_quote_escape_string($projectId).' ORDER BY date ASC;';
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
         while ($row = $req->fetch()){

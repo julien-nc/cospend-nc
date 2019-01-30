@@ -275,12 +275,48 @@
             async: true,
         }).done(function (response) {
             console.log(response);
+            $('#bill-list').html('');
             for (var i = 0; i < response.length; i++) {
+                addBill(projectid, response[i]);
             }
         }).always(function() {
         }).fail(function() {
             OC.Notification.showTemporary(t('spend', 'Failed to get bills'));
         });
+    }
+
+    function getMemberName(projectid, memberid) {
+        var memberName = $('.projectitem[projectid='+projectid+'] .memberlist > li[memberid='+memberid+'] b.memberName').text();
+        return memberName;
+    }
+
+    function addBill(projectid, bill) {
+        //'id' => $dbBillId,
+        //'amount' => $dbAmount,
+        //'what' => $dbWhat,
+        //'date' => $dbDate,
+        //'payer_id' => $dbPayerId,
+        //'owers' => $billOwersByBill[$row['id']]
+        var owerNames = '';
+        var ower;
+        for (var i=0; i < bill.owers.length; i++) {
+            ower = bill.owers[i];
+            owerNames = owerNames + getMemberName(projectid, ower.id) + ', ';
+        }
+        owerNames = owerNames.replace(/, $/, '');
+        var memberName = getMemberName(projectid, bill.payer_id);
+        var memberFirstLetter = memberName[0];
+
+        var title = bill.what + '\n' + bill.amount.toFixed(2) + '\n' +
+            bill.date + '\n' + memberName + ' -> ' + owerNames;
+        var item = `<a href="#" class="app-content-list-item" billid="${bill.id}" projectid="${projectid}" title="${title}">
+            <div class="app-content-list-item-icon" style="background-color: rgb(41, 97, 156);">${memberFirstLetter}</div>
+            <div class="app-content-list-item-line-one">${bill.what}</div>
+            <div class="app-content-list-item-line-two">${bill.amount.toFixed(2)} (${memberName} -> ${owerNames})</div>
+            <span class="app-content-list-item-details">${bill.date}</span>
+            <div class="icon-delete"></div>
+        </a>`;
+        $(item).prependTo('.app-content-list');
     }
 
     function updateProjectBalances(projectid) {

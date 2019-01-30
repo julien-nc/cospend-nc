@@ -140,8 +140,19 @@
             if (newWeight) {
                 memberLine.find('b.memberWeight').text(newWeight);
             }
+            if (newActivated !== null && newActivated === false) {
+                memberLine.find('>a').removeClass('icon-user').addClass('icon-disabled-user');
+                memberLine.find('.toggleMember span').first().removeClass('icon-delete').addClass('icon-history');
+                memberLine.find('.toggleMember span').eq(1).text(t('spend', 'Reactivate'));
+            }
+            else if (newActivated !== null && newActivated === true) {
+                memberLine.find('>a').removeClass('icon-disabled-user').addClass('icon-user');
+                memberLine.find('.toggleMember span').first().removeClass('icon-history').addClass('icon-delete');
+                memberLine.find('.toggleMember span').eq(1).text(t('spend', 'Remove'));
+            }
             // remove editing mode
             memberLine.removeClass('editing');
+            OC.Notification.showTemporary(t('spend', 'Member successfully edited'));
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(t('spend', 'Failed to edit member') + ' ' + response.responseText);
@@ -169,6 +180,7 @@
             }
             // remove editing mode
             projectLine.removeClass('editing');
+            OC.Notification.showTemporary(t('spend', 'Project successfully edited'));
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(t('spend', 'Failed to edit project') + ' ' + response.responseText);
@@ -194,6 +206,7 @@
             $('.projectitem[projectid='+id+']').fadeOut('slow', function() {
                 $(this).remove();
             });
+            OC.Notification.showTemporary(t('spend', 'Deleted project {id}', {id: id}));
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(t('spend', 'Failed to delete project') + ' ' + response.responseText);
@@ -262,25 +275,25 @@
                     <li>
                         <a href="#" class="addMember">
                             <span class="icon-add"></span>
-                            <span>Add member</span>
+                            <span>${t('spend', 'Add member')}</span>
                         </a>
                     </li>
                     <li>
                         <a href="#" class="editProjectName">
                             <span class="icon-rename"></span>
-                            <span>Rename</span>
+                            <span>${t('spend', 'Rename')}</span>
                         </a>
                     </li>
                     <li>
                         <a href="#" class="editProjectPassword">
                             <span class="icon-rename"></span>
-                            <span>Change password</span>
+                            <span>${t('spend', 'Change password')}</span>
                         </a>
                     </li>
                     <li>
                         <a href="#" class="deleteProject">
                             <span class="icon-delete"></span>
-                            <span>Delete</span>
+                            <span>${t('spend', 'Delete')}</span>
                         </a>
                     </li>
                 </ul>
@@ -308,8 +321,19 @@
         else {
             balanceStr = '<b class="balance">'+balance.toFixed(2)+'</b>';
         }
+        var iconStr, iconToggleStr, toggleStr;
+        if (member.activated) {
+            iconStr = 'icon-user';
+            iconToggleStr = 'icon-delete';
+            toggleStr = t('spend', 'Remove');
+        }
+        else {
+            iconStr = 'icon-disabled-user';
+            iconToggleStr = 'icon-history';
+            toggleStr = t('spend', 'Reactivate');
+        }
 
-        var li = `<li memberid="${member.id}"><a class="icon-user" href="#">
+        var li = `<li memberid="${member.id}"><a class="${iconStr}" href="#">
                 <span><b class="memberName">${member.name}</b> (x<b class="memberWeight">${member.weight}</b>) ${balanceStr}</span>
             </a>
             <div class="app-navigation-entry-utils">
@@ -325,19 +349,19 @@
                     <li>
                         <a href="#" class="renameMember">
                             <span class="icon-rename"></span>
-                            <span>Rename</span>
+                            <span>${t('spend', 'Rename')}</span>
                         </a>
                     </li>
                     <li>
                         <a href="#" class="editWeightMember">
                             <span class="icon-rename"></span>
-                            <span>Change weight</span>
+                            <span>${t('spend', 'Change weight')}</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                            <span class="icon-delete"></span>
-                            <span>Remove</span>
+                        <a href="#" class="toggleMember">
+                            <span class="${iconToggleStr}"></span>
+                            <span>${toggleStr}</span>
                         </a>
                     </li>
                 </ul>
@@ -557,6 +581,14 @@
                 var newName = $(this).parent().parent().parent().find('b.memberName').text();
                 editMember(projectid, memberid, newName, newWeight, null);
             }
+        });
+
+        $('body').on('click', '.toggleMember', function(e) {
+            var memberid = $(this).parent().parent().parent().parent().attr('memberid');
+            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            var newName = $(this).parent().parent().parent().parent().find('>a span b.memberName').text();
+            var activated = $(this).find('span').first().hasClass('icon-history');
+            editMember(projectid, memberid, newName, null, activated);
         });
 
         $('body').on('click', '.editProjectName', function(e) {

@@ -555,7 +555,7 @@
             memberFirstLetter = memberName[0];
 
             title = bill.what + '\n' + bill.amount.toFixed(2) + '\n' +
-                bill.date + '\n' + memberName + ' -> ' + owerNames;
+                bill.date + '\n' + memberName + ' → ' + owerNames;
             c = spend.letterColors[memberFirstLetter.toLowerCase()];
         }
         else {
@@ -565,7 +565,7 @@
         var item = `<a href="#" class="app-content-list-item billitem" billid="${bill.id}" projectid="${projectid}" title="${title}">
             <div class="app-content-list-item-icon" style="background-color: hsl(${c.h}, ${c.s}%, ${c.l}%);">${memberFirstLetter}</div>
             <div class="app-content-list-item-line-one">${bill.what}</div>
-            <div class="app-content-list-item-line-two">${bill.amount.toFixed(2)} (${memberName} -> ${owerNames})</div>
+            <div class="app-content-list-item-line-two">${bill.amount.toFixed(2)} (${memberName} → ${owerNames})</div>
             <span class="app-content-list-item-details">${bill.date}</span>
             <div class="icon-delete deleteBillIcon"></div>
         </a>`;

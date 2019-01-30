@@ -195,6 +195,8 @@
             // remove editing mode
             memberLine.removeClass('editing');
             OC.Notification.showTemporary(t('spend', 'Member successfully edited'));
+            // get bills again to refresh names
+            getBills(projectid);
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(t('spend', 'Failed to edit member') + ' ' + response.responseText);

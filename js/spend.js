@@ -1017,6 +1017,22 @@
             $(this).parent().parent().parent().removeClass('editing');
         });
 
+        $('body').on('keyup', '.editMemberInput', function(e) {
+            if (e.key === 'Enter') {
+                var memberid = $(this).parent().parent().parent().attr('memberid');
+                var projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
+                if (spend.memberEditionMode === MEMBER_NAME_EDITION) {
+                    var newName = $(this).val();
+                    editMember(projectid, memberid, newName, null, null);
+                }
+                else if (spend.memberEditionMode === MEMBER_WEIGHT_EDITION) {
+                    var newWeight = $(this).val();
+                    var newName = $(this).parent().parent().parent().find('b.memberName').text();
+                    editMember(projectid, memberid, newName, newWeight, null);
+                }
+            }
+        });
+
         $('body').on('click', '.editMemberOk', function(e) {
             var memberid = $(this).parent().parent().parent().attr('memberid');
             var projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
@@ -1050,7 +1066,7 @@
 
         $('body').on('click', '.editProjectPassword', function(e) {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
-            $(this).parent().parent().parent().parent().find('.editProjectInput').attr('type', 'password').val('').focus().select();
+            $(this).parent().parent().parent().parent().find('.editProjectInput').attr('type', 'password').val('').focus();
             $('#projectlist > li').removeClass('editing');
             $(this).parent().parent().parent().parent().removeClass('open').addClass('editing');
             spend.projectEditionMode = PROJECT_PASSWORD_EDITION;
@@ -1058,6 +1074,21 @@
 
         $('body').on('click', '.editProjectClose', function(e) {
             $(this).parent().parent().parent().removeClass('editing');
+        });
+
+        $('body').on('keyup', '.editProjectInput', function(e) {
+            if (e.key === 'Enter') {
+                var projectid = $(this).parent().parent().parent().attr('projectid');
+                if (spend.projectEditionMode === PROJECT_NAME_EDITION) {
+                    var newName = $(this).val();
+                    editProject(projectid, newName, null, null);
+                }
+                else if (spend.projectEditionMode === PROJECT_PASSWORD_EDITION) {
+                    var newPassword = $(this).val();
+                    var newName = $(this).parent().parent().parent().find('>a span').text();
+                    editProject(projectid, newName, null, newPassword);
+                }
+            }
         });
 
         $('body').on('click', '.editProjectOk', function(e) {

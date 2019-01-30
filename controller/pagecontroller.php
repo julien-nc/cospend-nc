@@ -893,7 +893,8 @@ class PageController extends Controller {
         $sql = '
             SELECT id, name, weight, activated
             FROM *PREFIX*spend_members
-            WHERE projectid='.$this->db_quote_escape_string($projectId).' ;';
+            WHERE projectid='.$this->db_quote_escape_string($projectId).'
+            ORDER BY LOWER(name) ASC ;';
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
         while ($row = $req->fetch()){

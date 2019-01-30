@@ -496,11 +496,11 @@
             <div class="bill-form">
                 <div class="bill-left">
                     <div class="bill-what">
-                        <a class="icon icon-tag"></a><span>${t('spend', 'What?')}</span><br/>
+                        <a class="icon icon-tag"></a><span>${t('spend', 'What? (press enter to validate)')}</span><br/>
                         <input type="text" class="input-bill-what" value="${bill.what}"/>
                     </div>
                     <div class="bill-amount">
-                        <a class="icon icon-quota"></a><span>${t('spend', 'How much?')}</span><br/>
+                        <a class="icon icon-quota"></a><span>${t('spend', 'How much? (press enter to validate)')}</span><br/>
                         <input type="number" class="input-bill-amount" value="${bill.amount}" step="0.01" min="0"/>
                     </div>
                     <div class="bill-payer">
@@ -1130,6 +1130,7 @@
                     owers: []
                 };
                 addBill(projectid, bill)
+                displayBill(projectid, bill.id);
             }
         });
 

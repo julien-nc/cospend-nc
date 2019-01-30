@@ -64,6 +64,9 @@ b.memberName, b.memberWeight, .balance {
     margin-top: 5px;
     margin-bottom: 5px;
 }
+.owerEntry input {
+    cursor: pointer;
+}
 .bill-title {
     text-align: center;
 }

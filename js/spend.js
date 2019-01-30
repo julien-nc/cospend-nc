@@ -23,10 +23,20 @@
         restoredSelectedProjectId: null,
         memberEditionMode: null,
         projectEditionMode: null,
-        projectDeletionTimer: null
+        projectDeletionTimer: null,
+        letterColors: {}
     };
 
     //////////////// UTILS /////////////////////
+
+    function getLetterColor(letter) {
+        var letterIndex = letter.toLowerCase().charCodeAt(0) - 'a'.charCodeAt(0);
+        var letterCoef = letterIndex / 26;
+        var h = letterCoef * 360;
+        var s = 70 + letterCoef * 10;
+        var l = 50 + letterCoef * 10;
+        return {h: Math.round(h), s: Math.round(s), l: Math.round(l)};
+    }
 
     function Timer(callback, delay) {
         var timerId, start, remaining = delay;
@@ -309,8 +319,9 @@
 
         var title = bill.what + '\n' + bill.amount.toFixed(2) + '\n' +
             bill.date + '\n' + memberName + ' -> ' + owerNames;
+        var c = spend.letterColors[memberFirstLetter.toLowerCase()];
         var item = `<a href="#" class="app-content-list-item" billid="${bill.id}" projectid="${projectid}" title="${title}">
-            <div class="app-content-list-item-icon" style="background-color: rgb(41, 97, 156);">${memberFirstLetter}</div>
+            <div class="app-content-list-item-icon" style="background-color: hsl(${c.h}, ${c.s}%, ${c.l}%);">${memberFirstLetter}</div>
             <div class="app-content-list-item-line-one">${bill.what}</div>
             <div class="app-content-list-item-line-two">${bill.amount.toFixed(2)} (${memberName} -> ${owerNames})</div>
             <span class="app-content-list-item-details">${bill.date}</span>
@@ -555,6 +566,11 @@
     });
 
     function main() {
+        // generate colors
+        var alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+        _.each(alphabet, function(letter) {
+            spend.letterColors[letter] = getLetterColor(letter);
+        });
 
         // get key events
         document.onkeydown = checkKey;

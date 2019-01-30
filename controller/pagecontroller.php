@@ -139,6 +139,24 @@ class PageController extends Controller {
      * @NoAdminRequired
      *
      */
+    public function webDeleteBill($projectid, $billid) {
+        $projectInfo = $this->getProjectInfo($projectid);
+        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+            return $this->deleteBill($projectid, $billid);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to delete this bill']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     *
+     */
     public function webGetProjectInfo($projectid) {
         $projectInfo = $this->getProjectInfo($projectid);
         if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
@@ -176,6 +194,24 @@ class PageController extends Controller {
      * @NoAdminRequired
      *
      */
+    public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount) {
+        $projectInfo = $this->getProjectInfo($projectid);
+        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+            return $this->editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to edit this bill']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     *
+     */
     public function webEditProject($projectid, $name, $contact_email, $password) {
         $projectInfo = $this->getProjectInfo($projectid);
         if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
@@ -184,6 +220,24 @@ class PageController extends Controller {
         else {
             $response = new DataResponse(
                 ['message'=>'You are not allowed to edit this project']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     *
+     */
+    public function webAddBill($projectid, $date, $what, $payer, $payed_for, $amount) {
+        $projectInfo = $this->getProjectInfo($projectid);
+        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+            return $this->addBill($projectid, $date, $what, $payer, $payed_for, $amount);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to add a bill to this project']
                 , 403
             );
             return $response;

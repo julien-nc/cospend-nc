@@ -200,6 +200,70 @@
         });
     }
 
+    function saveBill(projectid, billid, what, amount, payer_id, date, owerIds) {
+        var req = {
+            projectid: projectid,
+            billid: billid,
+            what: what,
+            payer: payer_id,
+            payed_for: owerIds.join(','),
+            amount: amount
+        };
+        var url = OC.generateUrl('/apps/spend/editBill');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true,
+        }).done(function (response) {
+            // update dict
+            spend.bills[projectid][billid].what = what;
+            spend.bills[projectid][billid].date = date;
+            spend.bills[projectid][billid].amount = amount;
+            spend.bills[projectid][billid].payer_id = payer_id;
+            var billOwers = [];
+            for (var i=0; i < owerIds.length; i++) {
+                billOwers.push({id: owerIds[i]});
+            }
+            spend.bills[projectid][billid].owers = billOwers;
+
+            // update ui
+            var bill = spend.bills[projectid][billid];
+            updateBillItem(projectid, billid, bill);
+
+            OC.Notification.showTemporary(t('spend', 'Bill saved'));
+        }).always(function() {
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('spend', 'Failed to edit project') + ' ' + response.responseText);
+        });
+    }
+
+    function updateBillItem(projectid, billid, bill) {
+        var billItem = $('.billitem[billid='+billid+']');
+
+        var owerNames = '';
+        var ower;
+        for (var i=0; i < bill.owers.length; i++) {
+            ower = bill.owers[i];
+            owerNames = owerNames + getMemberName(projectid, ower.id) + ', ';
+        }
+        owerNames = owerNames.replace(/, $/, '');
+        var memberName = getMemberName(projectid, bill.payer_id);
+        var memberFirstLetter = memberName[0];
+
+        var title = bill.what + '\n' + bill.amount.toFixed(2) + '\n' +
+            bill.date + '\n' + memberName + ' -> ' + owerNames;
+        var c = spend.letterColors[memberFirstLetter.toLowerCase()];
+        var item = `<a href="#" class="app-content-list-item billitem" billid="${bill.id}" projectid="${projectid}" title="${title}">
+            <div class="app-content-list-item-icon" style="background-color: hsl(${c.h}, ${c.s}%, ${c.l}%);">${memberFirstLetter}</div>
+            <div class="app-content-list-item-line-one">${bill.what}</div>
+            <div class="app-content-list-item-line-two">${bill.amount.toFixed(2)} (${memberName} -> ${owerNames})</div>
+            <span class="app-content-list-item-details">${bill.date}</span>
+            <div class="icon-delete"></div>
+        </a>`;
+        billItem.replaceWith(item);
+    }
+
     function editProject(projectid, newName, newEmail, newPassword) {
         var req = {
             projectid: projectid,
@@ -350,7 +414,9 @@
         }
         $('#bill-detail').html('');
         var detail = `
-            <h2 class="bill-title" billid="${bill.id}">${t('spend', 'Bill "{what}" of project {proj}', {what: bill.what, proj: projectName})}</h2>
+            <h2 class="bill-title" projectid="${projectid}" billid="${bill.id}">
+                ${t('spend', 'Bill "{what}" of project {proj}', {what: bill.what, proj: projectName})}
+            </h2>
             <div class="bill-form">
                 <div class="bill-left">
                     <div class="bill-what">
@@ -608,6 +674,7 @@
     function onBillEdited() {
         // get bill info
         var billid = $('.bill-title').attr('billid');
+        var projectid = $('.bill-title').attr('projectid');
         // check fields validity
         var valid = true;
 
@@ -645,10 +712,10 @@
         // if valid, save the bill or create it if needed
         if (valid) {
             if (billid === '0') {
-                //createBill(what, amount, payer_id, date, owers);
+                //createBill(projectid, what, amount, payer_id, date, owers);
             }
             else {
-                //saveBill(billid, what, amount, payer_id, date, owers);
+                saveBill(projectid, billid, what, amount, payer_id, date, owerIds);
             }
         }
         else {

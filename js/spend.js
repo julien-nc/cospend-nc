@@ -22,10 +22,28 @@
     var spend = {
         restoredSelectedProjectId: null,
         memberEditionMode: null,
-        projectEditionMode: null
+        projectEditionMode: null,
+        projectDeletionTimer: null
     };
 
     //////////////// UTILS /////////////////////
+
+    function Timer(callback, delay) {
+        var timerId, start, remaining = delay;
+
+        this.pause = function() {
+            window.clearTimeout(timerId);
+            remaining -= new Date() - start;
+        };
+
+        this.resume = function() {
+            start = new Date();
+            window.clearTimeout(timerId);
+            timerId = window.setTimeout(callback, remaining);
+        };
+
+        this.resume();
+    }
 
     function pad(n) {
         return (n < 10) ? ('0' + n) : n;
@@ -298,6 +316,10 @@
                     </li>
                 </ul>
             </div>
+            <div class="app-navigation-entry-deleted">
+                <div class="app-navigation-entry-deleted-description">${t('spend', 'Deleted {id}', {id: project.id})}</div>
+                <button class="app-navigation-entry-deleted-button icon-history undoDeleteProject" title="Undo"></button>
+            </div>
             <ul class="memberlist"></ul>
             </li>`;
 
@@ -512,7 +534,16 @@
 
         $('body').on('click', '.deleteProject', function(e) {
             var id = $(this).parent().parent().parent().parent().attr('projectid');
-            deleteProject(id);
+            $(this).parent().parent().parent().parent().addClass('deleted');
+            spend.projectDeletionTimer = new Timer(function() {
+                deleteProject(id);
+            }, 7000);
+        });
+
+        $('body').on('click', '.undoDeleteProject', function(e) {
+            $(this).parent().parent().removeClass('deleted');
+            spend.projectDeletionTimer.pause();
+            spend.projectDeletionTimer = null;
         });
 
         $('body').on('click', '.addMember', function(e) {

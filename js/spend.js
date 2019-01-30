@@ -29,7 +29,8 @@
         bills: {},
         // indexed by projectid, then by memberid
         members: {},
-        projects: {}
+        projects: {},
+        currentProjectId: null
     };
 
     //////////////// UTILS /////////////////////
@@ -200,11 +201,57 @@
         });
     }
 
+    function createBill(projectid, what, amount, payer_id, date, owerIds) {
+        var req = {
+            projectid: projectid,
+            what: what,
+            date: date,
+            payer: payer_id,
+            payed_for: owerIds.join(','),
+            amount: amount
+        };
+        var url = OC.generateUrl('/apps/spend/addBill');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true,
+        }).done(function (response) {
+            var billid = response;
+            // update dict
+            spend.bills[projectid][billid] = {
+                id: billid,
+                what: what,
+                date: date,
+                amount: amount,
+                payer_id: payer_id
+            };
+            var billOwers = [];
+            for (var i=0; i < owerIds.length; i++) {
+                billOwers.push({id: owerIds[i]});
+            }
+            spend.bills[projectid][billid].owers = billOwers;
+
+            // update ui
+            var bill = spend.bills[projectid][billid];
+            updateBillItem(projectid, 0, bill);
+            $('.bill-title').attr('billid', billid);
+
+            updateProjectBalances(projectid);
+
+            OC.Notification.showTemporary(t('spend', 'Bill created'));
+        }).always(function() {
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('spend', 'Failed to create bill') + ' ' + response.responseText);
+        });
+    }
+
     function saveBill(projectid, billid, what, amount, payer_id, date, owerIds) {
         var req = {
             projectid: projectid,
             billid: billid,
             what: what,
+            date: date,
             payer: payer_id,
             payed_for: owerIds.join(','),
             amount: amount
@@ -333,8 +380,8 @@
             data: req,
             async: true,
         }).done(function (response) {
-            if ($('#bill-detail .bill-title').length > 0 && $('#bill-detail .bill-title').attr('billid') === billid) {
-                $('#bill-detail').html('');
+            if ($('#billdetail .bill-title').length > 0 && $('#billdetail .bill-title').attr('billid') === billid) {
+                $('#billdetail').html('');
             }
             $('.billitem[billid='+billid+']').fadeOut('slow', function() {
                 $(this).remove();
@@ -441,7 +488,7 @@
                 </div>
             `;
         }
-        $('#bill-detail').html('');
+        $('#billdetail').html('');
         var detail = `
             <h2 class="bill-title" projectid="${projectid}" billid="${bill.id}">
                 ${t('spend', 'Bill "{what}" of project {proj}', {what: bill.what, proj: projectName})}
@@ -480,7 +527,7 @@
             </div>
         `;
 
-        $(detail).appendTo('#bill-detail');
+        $(detail).appendTo('#billdetail');
     }
 
     function getMemberName(projectid, memberid) {
@@ -504,12 +551,24 @@
             owerNames = owerNames + getMemberName(projectid, ower.id) + ', ';
         }
         owerNames = owerNames.replace(/, $/, '');
-        var memberName = getMemberName(projectid, bill.payer_id);
+        var memberName;
+        if (bill.id !== 0) {
+            memberName = getMemberName(projectid, bill.payer_id);
+        }
+        else {
+            memberName = '---';
+        }
         var memberFirstLetter = memberName[0];
 
         var title = bill.what + '\n' + bill.amount.toFixed(2) + '\n' +
             bill.date + '\n' + memberName + ' -> ' + owerNames;
-        var c = spend.letterColors[memberFirstLetter.toLowerCase()];
+        var c;
+        if (bill.id !== 0) {
+            c = spend.letterColors[memberFirstLetter.toLowerCase()];
+        }
+        else {
+            c = {h: 0, s: 0, l: 50};
+        }
         var item = `<a href="#" class="app-content-list-item billitem" billid="${bill.id}" projectid="${projectid}" title="${title}">
             <div class="app-content-list-item-icon" style="background-color: hsl(${c.h}, ${c.s}%, ${c.l}%);">${memberFirstLetter}</div>
             <div class="app-content-list-item-line-one">${bill.what}</div>
@@ -563,6 +622,7 @@
         var projectSelected = '';
         if (spend.restoredSelectedProjectId === projectid) {
             projectSelected = ' open';
+            spend.currentProjectId = projectid;
             getBills(projectid);
         }
         var li = `<li class="projectitem collapsible${projectSelected}" projectid="${projectid}"><a class="icon-folder" href="#" title="${projectid}">
@@ -741,14 +801,16 @@
         // if valid, save the bill or create it if needed
         if (valid) {
             if (billid === '0') {
-                //createBill(projectid, what, amount, payer_id, date, owers);
+                createBill(projectid, what, amount, payer_id, date, owerIds);
             }
             else {
                 saveBill(projectid, billid, what, amount, payer_id, date, owerIds);
             }
         }
         else {
-            OC.Notification.showTemporary(t('spend', 'Bill values are not valid'));
+            if (billid !== '0') {
+                OC.Notification.showTemporary(t('spend', 'Bill values are not valid'));
+            }
         }
     }
 
@@ -848,6 +910,8 @@
                 $(this).parent().addClass('open');
                 var projectid = $(this).parent().attr('projectid');
                 saveOptionValue({selectedProject: projectid});
+                spend.currentProjectId = projectid;
+                $('#billdetail').html('');
                 getBills(projectid);
             }
         });
@@ -1015,12 +1079,14 @@
         });
 
         $('body').on('click', '.billitem', function(e) {
-            var billid = $(this).attr('billid');
-            var projectid = $(this).attr('projectid');
-            displayBill(projectid, billid);
+            if (!$(e.target).hasClass('deleteBillIcon')) {
+                var billid = $(this).attr('billid');
+                var projectid = $(this).attr('projectid');
+                displayBill(projectid, billid);
+            }
         });
 
-        $('body').on('change', '#bill-detail input, #bill-detail select', function(e) {
+        $('body').on('change', '#billdetail input, #billdetail select', function(e) {
             onBillEdited();
         });
 
@@ -1036,8 +1102,35 @@
 
         $('body').on('click', '.deleteBillIcon', function(e) {
             var billid = $(this).parent().attr('billid');
-            var projectid = $(this).parent().attr('projectid');
-            deleteBill(projectid, billid);
+            if (billid !== '0') {
+                var projectid = $(this).parent().attr('projectid');
+                deleteBill(projectid, billid);
+            }
+            else {
+                console.log($('.bill-title'));
+                console.log($('.bill-title').attr('billid'));
+                if ($('.bill-title').length > 0 && $('.bill-title').attr('billid') === billid) {
+                    $('#billdetail').html('');
+                }
+                $(this).parent().fadeOut('slow', function() {
+                    $(this).remove();
+                });
+            }
+        });
+
+        $('body').on('click', '#newBillButton', function(e) {
+            var projectid = spend.currentProjectId;
+            if (spend.currentProjectId !== null && $('.billitem[billid=0]').length === 0) {
+                var bill = {
+                    id: 0,
+                    what: t('spend', 'New Bill'),
+                    date: '',
+                    amount: 0.0,
+                    payer_id: 0,
+                    owers: []
+                };
+                addBill(projectid, bill)
+            }
         });
 
         // last thing to do : get the projects

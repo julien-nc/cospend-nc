@@ -24,7 +24,12 @@
         memberEditionMode: null,
         projectEditionMode: null,
         projectDeletionTimer: null,
-        letterColors: {}
+        letterColors: {},
+        // indexed by projectid, then by billid
+        bills: {},
+        // indexed by projectid, then by memberid
+        members: {},
+        projects: {}
     };
 
     //////////////// UTILS /////////////////////
@@ -134,9 +139,12 @@
             var member = {
                 id: response,
                 name: name,
-                weight: 1
+                weight: 1,
+                activated: true
             };
+            // add member to UI
             addMember(projectid, member, 0);
+            // fold new member form
             $('#newmemberdiv').slideUp();
             updateNumberOfMember(projectid);
         }).always(function() {
@@ -164,20 +172,24 @@
             // update member values
             if (newName) {
                 memberLine.find('b.memberName').text(newName);
+                spend.members[projectid][memberid].name = newName;
             }
             if (newWeight) {
                 memberLine.find('b.memberWeight').text(newWeight);
+                spend.members[projectid][memberid].weight = newWeight;
                 updateProjectBalances(projectid);
             }
             if (newActivated !== null && newActivated === false) {
                 memberLine.find('>a').removeClass('icon-user').addClass('icon-disabled-user');
                 memberLine.find('.toggleMember span').first().removeClass('icon-delete').addClass('icon-history');
                 memberLine.find('.toggleMember span').eq(1).text(t('spend', 'Reactivate'));
+                spend.members[projectid][memberid].activated = newActivated;
             }
             else if (newActivated !== null && newActivated === true) {
                 memberLine.find('>a').removeClass('icon-disabled-user').addClass('icon-user');
                 memberLine.find('.toggleMember span').first().removeClass('icon-history').addClass('icon-delete');
                 memberLine.find('.toggleMember span').eq(1).text(t('spend', 'Remove'));
+                spend.members[projectid][memberid].activated = newActivated;
             }
             // remove editing mode
             memberLine.removeClass('editing');
@@ -206,6 +218,7 @@
             // update project values
             if (newName) {
                 projectLine.find('>a span').text(newName);
+                spend.projects[projectid].name = newName;
             }
             // remove editing mode
             projectLine.removeClass('editing');
@@ -284,10 +297,12 @@
             data: req,
             async: true,
         }).done(function (response) {
-            console.log(response);
             $('#bill-list').html('');
+            spend.bills[projectid] = {};
+            var bill;
             for (var i = 0; i < response.length; i++) {
-                addBill(projectid, response[i]);
+                bill = response[i];
+                addBill(projectid, bill);
             }
         }).always(function() {
         }).fail(function() {
@@ -295,12 +310,88 @@
         });
     }
 
+    function getProjectName(projectid) {
+        return spend.projects[projectid].name;
+    }
+
+    function displayBill(projectid, billid) {
+        var bill = spend.bills[projectid][billid];
+        var projectName = getProjectName(projectid);
+
+        var owers = bill.owers;
+        var owerIds = [];
+        for (var i=0; i < owers.length; i++) {
+            owerIds.push(owers[i].id);
+        }
+
+        var owerCheckboxes = '';
+        var payerOptions = '';
+        var member;
+        var selected, checked;
+        for (var memberid in spend.members[projectid]) {
+            member = spend.members[projectid][memberid];
+            // payer
+            selected = '';
+            if (member.id === bill.payer_id) {
+                selected = ' selected';
+            }
+            payerOptions = payerOptions + `<option value="${member.id}"${selected}>${member.name}</option>`;
+            // owers
+            checked = '';
+            if (owerIds.indexOf(member.id) !== -1) {
+                checked = ' checked';
+            }
+            owerCheckboxes = owerCheckboxes + `
+                <div class="owerEntry">
+                <input id="${projectid}${member.id}" owerid="${member.id}" type="checkbox"${checked}/>
+                <label for="${projectid}${member.id}">${member.name}</label>
+                </div>
+            `;
+        }
+        $('#bill-detail').html('');
+        var detail = `
+            <h2 class="bill-title">${t('spend', 'Bill "{what}" of project {proj}', {what: bill.what, proj: projectName})}</h2>
+            <div class="bill-form">
+                <div class="bill-left">
+                    <div class="bill-what">
+                        <a class="icon icon-tag"></a><span>${t('spend', 'What?')}</span><br/>
+                        <input type="text" class="input-bill-what" value="${bill.what}"/>
+                    </div>
+                    <div class="bill-payer">
+                        <a class="icon icon-user"></a><span>${t('spend', 'Who payed?')}</span><br/>
+                        <select class="input-bill-payer">
+                            ${payerOptions}
+                        </select>
+                    </div>
+                    <div class="bill-date">
+                        <a class="icon icon-calendar-dark"></a><span>${t('spend', 'When?')}</span><br/>
+                        <input type="date" class="input-bill-date" value="${bill.date}"/>
+                    </div>
+                    <div class="bill-amount">
+                        <a class="icon icon-quota"></a><span>${t('spend', 'How much?')}</span><br/>
+                        <input type="number" class="input-bill-amount" value="${bill.amount}" step="0.01" min="0"/>
+                    </div>
+                </div>
+                <div class="bill-right">
+                    <div class="bill-owers">
+                        <a class="icon icon-group"></a><span>${t('spend', 'For whom?')}</span>
+                        ${owerCheckboxes}
+                    </div>
+                </div>
+            </div>
+        `;
+
+        $(detail).appendTo('#bill-detail');
+    }
+
     function getMemberName(projectid, memberid) {
-        var memberName = $('.projectitem[projectid='+projectid+'] .memberlist > li[memberid='+memberid+'] b.memberName').text();
+        //var memberName = $('.projectitem[projectid='+projectid+'] .memberlist > li[memberid='+memberid+'] b.memberName').text();
+        var memberName = spend.members[projectid][memberid].name;
         return memberName;
     }
 
     function addBill(projectid, bill) {
+        spend.bills[projectid][bill.id] = bill;
         //'id' => $dbBillId,
         //'amount' => $dbAmount,
         //'what' => $dbWhat,
@@ -320,7 +411,7 @@
         var title = bill.what + '\n' + bill.amount.toFixed(2) + '\n' +
             bill.date + '\n' + memberName + ' -> ' + owerNames;
         var c = spend.letterColors[memberFirstLetter.toLowerCase()];
-        var item = `<a href="#" class="app-content-list-item" billid="${bill.id}" projectid="${projectid}" title="${title}">
+        var item = `<a href="#" class="app-content-list-item billitem" billid="${bill.id}" projectid="${projectid}" title="${title}">
             <div class="app-content-list-item-icon" style="background-color: hsl(${c.h}, ${c.s}%, ${c.l}%);">${memberFirstLetter}</div>
             <div class="app-content-list-item-line-one">${bill.what}</div>
             <div class="app-content-list-item-line-two">${bill.amount.toFixed(2)} (${memberName} -> ${owerNames})</div>
@@ -366,6 +457,7 @@
     }
 
     function addProject(project) {
+        spend.projects[project.id] = project;
 
         var name = project.name;
         var projectid = project.id;
@@ -436,6 +528,11 @@
     }
 
     function addMember(projectid, member, balance) {
+        // add member to dict
+        if (!spend.members.hasOwnProperty(projectid)) {
+            spend.members[projectid] = {};
+        }
+        spend.members[projectid][member.id] = member;
 
         var balanceStr;
         if (balance > 0) {
@@ -459,7 +556,7 @@
             toggleStr = t('spend', 'Reactivate');
         }
 
-        var li = `<li memberid="${member.id}"><a class="${iconStr}" href="#">
+        var li = `<li memberid="${member.id}" class="memberitem"><a class="${iconStr}" href="#">
                 <span><b class="memberName">${member.name}</b> (x<b class="memberWeight">${member.weight}</b>) ${balanceStr}</span>
             </a>
             <div class="app-navigation-entry-utils">
@@ -764,6 +861,12 @@
                 var newName = $(this).parent().parent().parent().find('>a span').text();
                 editProject(projectid, newName, null, newPassword);
             }
+        });
+
+        $('body').on('click', '.billitem', function(e) {
+            var billid = $(this).attr('billid');
+            var projectid = $(this).attr('projectid');
+            displayBill(projectid, billid);
         });
 
         // last thing to do : get the projects

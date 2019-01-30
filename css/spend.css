@@ -1,3 +1,6 @@
+#app {
+    width: 100%;
+}
 .balancePositive {
     color: green;
 }
@@ -29,4 +32,41 @@
 }
 b.memberName, b.memberWeight, .balance {
     font-weight: normal;
+}
+
+.bill-left select,
+.bill-left input {
+    margin: 0 12px 0 12px;
+    width: 100%;
+}
+.bill-form a.icon {
+    justify-content: space-between;
+    line-height: 44px;
+    min-height: 44px;
+    padding: 0 12px 0 44px;
+}
+.bill-left {
+    float: left;
+    width: 45%;
+}
+.bill-right {
+    float: right;
+    width: 45%;
+}
+.bill-owers input {
+    height: 18px;
+    min-height: 18px;
+}
+.owerEntry {
+    margin-left: 56px;
+    margin-right: 40px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.bill-title {
+    text-align: center;
+}
+input[type=number] {
+    -moz-appearance: number-input !important;
+    -webkit-appearance: initial !important;
 }

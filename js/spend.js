@@ -24,7 +24,6 @@
         memberEditionMode: null,
         projectEditionMode: null,
         projectDeletionTimer: null,
-        letterColors: {},
         // indexed by projectid, then by billid
         bills: {},
         // indexed by projectid, then by memberid
@@ -35,11 +34,12 @@
 
     //////////////// UTILS /////////////////////
 
-    function getLetterColor(letter) {
-        var letterIndex = letter.toLowerCase().charCodeAt(0) - 'a'.charCodeAt(0);
-        var letterCoef = letterIndex / 26;
+    function getLetterColor(letter1, letter2) {
+        var letter1Index = letter1.toLowerCase().charCodeAt(0);
+        var letter2Index = letter2.toLowerCase().charCodeAt(0);
+        var letterCoef = (letter1Index * letter2Index) % 100 / 100;
         var h = letterCoef * 360;
-        var s = 70 + letterCoef * 10;
+        var s = 45 + letterCoef * 10;
         var l = 50 + letterCoef * 10;
         return {h: Math.round(h), s: Math.round(s), l: Math.round(l)};
     }
@@ -304,7 +304,7 @@
 
         var title = bill.what + '\n' + bill.amount.toFixed(2) + '\n' +
             bill.date + '\n' + memberName + ' -> ' + owerNames;
-        var c = spend.letterColors[memberFirstLetter.toLowerCase()];
+        var c = getMemberColor(memberName);
         var item = `<a href="#" class="app-content-list-item billitem" billid="${bill.id}" projectid="${projectid}" title="${title}">
             <div class="app-content-list-item-icon" style="background-color: hsl(${c.h}, ${c.s}%, ${c.l}%);">${memberFirstLetter}</div>
             <div class="app-content-list-item-line-one">${bill.what}</div>
@@ -466,6 +466,7 @@
             owerIds.push(owers[i].id);
         }
 
+        var c = {h: 0, s: 0, l: 50};
         var owerCheckboxes = '';
         var payerOptions = '';
         var member;
@@ -489,10 +490,12 @@
                 <label for="${projectid}${member.id}">${member.name}</label>
                 </div>
             `;
+            var memberName = getMemberName(projectid, bill.payer_id);
+            c = getMemberColor(memberName);
         }
         $('#billdetail').html('');
         var detail = `
-            <h2 class="bill-title" projectid="${projectid}" billid="${bill.id}">
+            <h2 class="bill-title" projectid="${projectid}" billid="${bill.id}" style="background-color: hsl(${c.h}, ${c.s}%, ${c.l}%);">
                 ${t('spend', 'Bill "{what}" of project {proj}', {what: bill.what, proj: projectName})}
             </h2>
             <div class="bill-form">
@@ -538,6 +541,16 @@
         return memberName;
     }
 
+    function getMemberColor(memberName) {
+        var memberFirstLetter = memberName[0];
+        var memberSecondLetter = 'a';
+        if (memberName.length > 1) {
+            memberSecondLetter = memberName[1];
+        }
+        var c = getLetterColor(memberFirstLetter, memberSecondLetter);
+        return c;
+    }
+
     function addBill(projectid, bill) {
         spend.bills[projectid][bill.id] = bill;
 
@@ -550,7 +563,7 @@
         owerNames = owerNames.replace(/, $/, '');
         var title = '';
         var memberName = '';
-        var memberFirstLetter
+        var memberFirstLetter;
         var c;
         if (bill.id !== 0) {
             memberName = getMemberName(projectid, bill.payer_id);
@@ -558,7 +571,7 @@
 
             title = bill.what + '\n' + bill.amount.toFixed(2) + '\n' +
                 bill.date + '\n' + memberName + ' → ' + owerNames;
-            c = spend.letterColors[memberFirstLetter.toLowerCase()];
+            c = getMemberColor(memberName);
         }
         else {
             c = {h: 0, s: 0, l: 50};
@@ -873,12 +886,6 @@
     });
 
     function main() {
-        // generate colors
-        var alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
-        _.each(alphabet, function(letter) {
-            spend.letterColors[letter] = getLetterColor(letter);
-        });
-
         // get key events
         document.onkeydown = checkKey;
 

@@ -194,9 +194,11 @@
             }
             // remove editing mode
             memberLine.removeClass('editing');
-            OC.Notification.showTemporary(t('spend', 'Member successfully edited'));
+            OC.Notification.showTemporary(t('spend', 'Edited member'));
             // get bills again to refresh names
             getBills(projectid);
+            // reset bill edition
+            $('#billdetail').html('');
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(t('spend', 'Failed to edit member') + ' ' + response.responseText);
@@ -337,7 +339,9 @@
             }
             // remove editing mode
             projectLine.removeClass('editing');
-            OC.Notification.showTemporary(t('spend', 'Project successfully edited'));
+            // reset bill edition
+            $('#billdetail').html('');
+            OC.Notification.showTemporary(t('spend', 'Edited project'));
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(t('spend', 'Failed to edit project') + ' ' + response.responseText);

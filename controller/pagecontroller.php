@@ -176,6 +176,24 @@ class PageController extends Controller {
      * @NoAdminRequired
      *
      */
+    public function webGetProjectStatistics($projectid) {
+        $projectInfo = $this->getProjectInfo($projectid);
+        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+            return $this->getProjectStatistics($projectid);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to get this project\'s statistics']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     *
+     */
     public function webEditMember($projectid, $memberid, $name, $weight, $activated) {
         $projectInfo = $this->getProjectInfo($projectid);
         if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
@@ -596,7 +614,7 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      */
-    public function apiGetProjectStatistics($projectid, $password, $memberid) {
+    public function apiGetProjectStatistics($projectid, $password) {
         if ($this->checkLogin($projectid, $password)) {
             return $this->getProjectStatistics($projectid);
         }

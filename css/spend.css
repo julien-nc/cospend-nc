@@ -83,3 +83,13 @@ input[type=number] {
     -moz-appearance: number-input !important;
     -webkit-appearance: initial !important;
 }
+#statsTable {
+    width: 100%;
+    margin: 20px 20px 20px 20px;
+}
+#statsTable th {
+    font-weight: bold;
+}
+#statsTitle {
+    text-align: center;
+}

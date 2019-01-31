@@ -432,6 +432,64 @@
         });
     }
 
+    function getProjectStatistics(projectid) {
+        var req = {
+            projectid: projectid
+        };
+        var url = OC.generateUrl('/apps/spend/getStatistics');
+        spend.currentGetProjectsAjax = $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true,
+        }).done(function (response) {
+            displayStatistics(projectid, response);
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('spend', 'Failed to get bills'));
+        });
+    }
+
+    function displayStatistics(projectid, statList) {
+        var projectName = getProjectName(projectid);
+        $('#billdetail').html('');
+        var statsStr = `
+            <h2 id="statsTitle">${t('spend', 'Statistics of project {name}', {name: projectName})}</h2>
+            <table id="statsTable"><thead>
+                <th>${t('spend', 'Member name')}</th>
+                <th>${t('spend', 'Paid')}</th>
+                <th>${t('spend', 'Spent')}</th>
+                <th>${t('spend', 'Balance')}</th>
+            </thead>
+        `;
+        var paid, spent, balance, name, balanceClass;
+        for (var i=0; i < statList.length; i++) {
+            balanceClass = '';
+            if (statList[i].balance > 0) {
+                balanceClass = ' class="balancePositive"';
+            }
+            else if (statList[i].balance < 0) {
+                balanceClass = ' class="balanceNegative"';
+            }
+            paid = statList[i].paid.toFixed(2);
+            spent = statList[i].spent.toFixed(2);
+            balance = statList[i].balance.toFixed(2);
+            name = statList[i].member.name;
+            statsStr = statsStr + `
+                <tr>
+                    <td>${name}</td>
+                    <td>${paid}</td>
+                    <td>${spent}</td>
+                    <td${balanceClass}>${balance}</td>
+                </tr>
+            `;
+        }
+        statsStr = statsStr + `
+            </table>
+        `;
+        $('#billdetail').html(statsStr);
+    }
+
     function getBills(projectid) {
         var req = {
             projectid: projectid
@@ -1175,6 +1233,12 @@
 
         $('body').on('focus', '.input-bill-what, .input-bill-amount', function(e) {
             $(this).select();
+        });
+
+        $('#statsButton').click(function() {
+            if (spend.currentProjectId !== null) {
+                getProjectStatistics(spend.currentProjectId);
+            }
         });
 
         // last thing to do : get the projects

@@ -407,9 +407,18 @@
     function getProjects() {
         var req = {
         };
-        var url = OC.generateUrl('/apps/spend/getProjects');
+        var url;
+        var type;
+        if (!spend.pageIsPublic) {
+            url = OC.generateUrl('/apps/spend/getProjects');
+            type = 'POST';
+        }
+        else {
+            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}`);
+            type = 'GET';
+        }
         spend.currentGetProjectsAjax = $.ajax({
-            type: 'POST',
+            type: type,
             url: url,
             data: req,
             async: true,
@@ -425,8 +434,13 @@
                 return xhr;
             }
         }).done(function (response) {
-            for (var i = 0; i < response.length; i++) {
-                addProject(response[i]);
+            if (!spend.pageIsPublic) {
+                for (var i = 0; i < response.length; i++) {
+                    addProject(response[i]);
+                }
+            }
+            else {
+                addProject(response);
             }
         }).always(function() {
             spend.currentGetProjectsAjax = null;
@@ -955,14 +969,18 @@
         });
     }
 
-
     $(document).ready(function() {
-        spend.pageIsPublic = (document.URL.indexOf('/whatever') !== -1);
+        spend.pageIsPublic = (document.URL.indexOf('/spend/project') !== -1);
         if ( !spend.pageIsPublic ) {
             restoreOptions();
         }
         else {
             //restoreOptionsFromUrlParams();
+            spend.projectid = $('#projectid').text();
+            spend.password = $('#password').text();
+            console.log(spend.projectid+' and '+spend.password);
+            $('#projectid').html('');
+            $('#password').html('');
             main();
         }
     });
@@ -1275,11 +1293,7 @@
         });
 
         // last thing to do : get the projects
-        if (!spend.pageIsPublic) {
-            getProjects();
-        }
-        else {
-        }
+        getProjects();
     }
 
 })(jQuery, OC);

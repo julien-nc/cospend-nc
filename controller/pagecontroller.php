@@ -91,6 +91,8 @@ class PageController extends Controller {
     public function index() {
         // PARAMS to view
         $params = [
+            'projectid'=>'',
+            'password'=>'',
             'username'=>$this->userId,
             'spend_version'=>$this->appVersion
         ];
@@ -105,6 +107,86 @@ class PageController extends Controller {
             ->addAllowedConnectDomain('*');
         $response->setContentSecurityPolicy($csp);
         return $response;
+    }
+
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     */
+    public function pubLoginProject($projectid) {
+        // PARAMS to view
+        $params = [
+            'projectid'=>$projectid,
+            'spend_version'=>$this->appVersion
+        ];
+        $response = new TemplateResponse('spend', 'login', $params);
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedChildSrcDomain('*')
+          //->addAllowedChildSrcDomain("'self'")
+            ->addAllowedObjectDomain('*')
+            ->addAllowedScriptDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     */
+    public function pubLogin() {
+        // PARAMS to view
+        $params = [
+            'spend_version'=>$this->appVersion
+        ];
+        $response = new TemplateResponse('spend', 'login', $params);
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedChildSrcDomain('*')
+          //->addAllowedChildSrcDomain("'self'")
+            ->addAllowedObjectDomain('*')
+            ->addAllowedScriptDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     */
+    public function pubProject($projectid, $password) {
+        error_log($projectid.' '.$password);
+        if ($this->checkLogin($projectid, $password)) {
+            // PARAMS to view
+            $params = [
+                'projectid'=>$projectid,
+                'password'=>$password,
+                'spend_version'=>$this->appVersion
+            ];
+            $response = new TemplateResponse('spend', 'main', $params);
+            $csp = new ContentSecurityPolicy();
+            $csp->addAllowedImageDomain('*')
+                ->addAllowedMediaDomain('*')
+                ->addAllowedChildSrcDomain('*')
+              //->addAllowedChildSrcDomain("'self'")
+                ->addAllowedObjectDomain('*')
+                ->addAllowedScriptDomain('*')
+                ->addAllowedConnectDomain('*');
+            $response->setContentSecurityPolicy($csp);
+            return $response;
+        }
+        else {
+            $response = new DataResponse(null, 403);
+            return $response;
+        }
     }
 
     /**

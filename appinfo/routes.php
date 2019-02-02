@@ -41,5 +41,8 @@ return [
         ['name' => 'page#webDeleteBill', 'url' => 'deleteBill', 'verb' => 'POST'],
         ['name' => 'page#webGetProjectStatistics', 'url' => 'getStatistics', 'verb' => 'POST'],
         ['name' => 'page#webGetProjectSettlement', 'url' => 'getSettlement', 'verb' => 'POST'],
+        ['name' => 'page#pubLoginProject', 'url' => 'loginproject/{projectid}', 'verb' => 'GET'],
+        ['name' => 'page#pubLogin', 'url' => 'login', 'verb' => 'GET'],
+        ['name' => 'page#pubProject', 'url' => 'project', 'verb' => 'POST'],
     ]
 ];

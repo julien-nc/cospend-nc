@@ -38,19 +38,21 @@
 </ul>
 
 <div id="app-settings">
-        <div id="app-settings-header">
-            <button class="settings-button"
-                    data-apps-slide-toggle="#app-settings-content">
-                <?php p($l->t('Settings')); ?>
-            </button>
-        </div>
-        <div id="app-settings-content">
-            <!-- Your settings content here -->
-            <button id="statsButton" type="button">
-                <?php p($l->t('Project statistics')); ?>
-            </button>
-            <button id="settleButton" type="button">
-                <?php p($l->t('Settle')); ?>
-            </button>
-        </div>
+    <div id="app-settings-header">
+        <button class="settings-button"
+                data-apps-slide-toggle="#app-settings-content">
+            <?php p($l->t('Settings')); ?>
+        </button>
     </div>
+    <div id="app-settings-content">
+        <!-- Your settings content here -->
+        <button id="statsButton" type="button">
+            <?php p($l->t('Project statistics')); ?>
+        </button>
+        <button id="settleButton" type="button">
+            <?php p($l->t('Settle')); ?>
+        </button>
+    </div>
+</div>
+<p id="projectid"><?php p($_['projectid']); ?></p>
+<p id="password"><?php p($_['password']); ?></p>

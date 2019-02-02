@@ -93,3 +93,6 @@ input[type=number] {
 #statsTitle {
     text-align: center;
 }
+.undoDeleteBill {
+    display: none;
+}

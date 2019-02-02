@@ -23,7 +23,8 @@
         restoredSelectedProjectId: null,
         memberEditionMode: null,
         projectEditionMode: null,
-        projectDeletionTimer: null,
+        projectDeletionTimer: {},
+        billDeletionTimer: {},
         // indexed by projectid, then by billid
         bills: {},
         // indexed by projectid, then by memberid
@@ -118,7 +119,7 @@
 
             var div = $('#newprojectdiv');
             div.slideUp();
-            $(this).removeClass('icon-triangle-s').addClass('icon-triangle-e');
+            $('#newprojectbutton').removeClass('icon-triangle-s').addClass('icon-triangle-e');
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(t('spend', 'Failed to create project') + ' ' + response.responseText);
@@ -313,7 +314,8 @@
             <div class="app-content-list-item-line-one">${bill.what}</div>
             <div class="app-content-list-item-line-two">${bill.amount.toFixed(2)} (${memberName} -> ${owerNames})</div>
             <span class="app-content-list-item-details">${bill.date}</span>
-            <div class="icon-delete"></div>
+            <div class="icon-delete deleteBillIcon"></div>
+            <div class="icon-history undoDeleteBill" title="Undo"></div>
         </a>`;
         billItem.replaceWith(item);
     }
@@ -662,6 +664,7 @@
             <div class="app-content-list-item-line-two">${bill.amount.toFixed(2)} (${memberName} → ${owerNames})</div>
             <span class="app-content-list-item-details">${bill.date}</span>
             <div class="icon-delete deleteBillIcon"></div>
+            <div class="icon-history undoDeleteBill" title="Undo"></div>
         </a>`;
         $(item).prependTo('.app-content-list');
     }
@@ -1038,17 +1041,18 @@
         });
 
         $('body').on('click', '.deleteProject', function(e) {
-            var id = $(this).parent().parent().parent().parent().attr('projectid');
+            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
             $(this).parent().parent().parent().parent().addClass('deleted');
-            spend.projectDeletionTimer = new Timer(function() {
-                deleteProject(id);
+            spend.projectDeletionTimer[projectid] = new Timer(function() {
+                deleteProject(projectid);
             }, 7000);
         });
 
         $('body').on('click', '.undoDeleteProject', function(e) {
+            var projectid = $(this).parent().parent().attr('projectid');
             $(this).parent().parent().removeClass('deleted');
-            spend.projectDeletionTimer.pause();
-            spend.projectDeletionTimer = null;
+            spend.projectDeletionTimer[projectid].pause();
+            delete spend.projectDeletionTimer[projectid];
         });
 
         $('body').on('click', '.addMember', function(e) {
@@ -1193,7 +1197,7 @@
         });
 
         $('body').on('click', '.billitem', function(e) {
-            if (!$(e.target).hasClass('deleteBillIcon')) {
+            if (!$(e.target).hasClass('deleteBillIcon') && !$(e.target).hasClass('undoDeleteBill')) {
                 var billid = $(this).attr('billid');
                 var projectid = $(this).attr('projectid');
                 displayBill(projectid, billid);
@@ -1214,11 +1218,23 @@
             onBillEdited();
         });
 
+        $('body').on('click', '.undoDeleteBill', function(e) {
+            var billid = $(this).parent().attr('billid');
+            spend.billDeletionTimer[billid].pause();
+            delete spend.billDeletionTimer[billid];
+            $(this).parent().find('.deleteBillIcon').show();
+            $(this).hide();
+        });
+
         $('body').on('click', '.deleteBillIcon', function(e) {
             var billid = $(this).parent().attr('billid');
             if (billid !== '0') {
                 var projectid = $(this).parent().attr('projectid');
-                deleteBill(projectid, billid);
+                $(this).parent().find('.undoDeleteBill').show();
+                $(this).hide();
+                spend.billDeletionTimer[billid] = new Timer(function() {
+                    deleteBill(projectid, billid);
+                }, 7000);
             }
             else {
                 console.log($('.bill-title'));
@@ -1248,7 +1264,7 @@
             }
         });
 
-        $('body').on('focus', '.input-bill-what, .input-bill-amount', function(e) {
+        $('body').on('focus', '.input-bill-what, .input-bill-amount, #projectidinput, #projectnameinput, #projectpasswordinput', function(e) {
             $(this).select();
         });
 

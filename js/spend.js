@@ -239,7 +239,7 @@
             // update ui
             var bill = spend.bills[projectid][billid];
             updateBillItem(projectid, 0, bill);
-            $('.bill-title').attr('billid', billid);
+            updateDisplayedBill(projectid, billid, what, payer_id);
 
             updateProjectBalances(projectid);
 
@@ -281,6 +281,7 @@
             // update ui
             var bill = spend.bills[projectid][billid];
             updateBillItem(projectid, billid, bill);
+            updateDisplayedBill(projectid, billid, what, payer_id);
 
             updateProjectBalances(projectid);
 
@@ -518,6 +519,20 @@
         return spend.projects[projectid].name;
     }
 
+    function updateDisplayedBill(projectid, billid, what, payer_id) {
+        var projectName = getProjectName(projectid);
+        $('.bill-title').attr('billid', billid);
+        var c = {h: 0, s: 0, l: 50};
+        if (billid !== 0) {
+            var payerName = getMemberName(projectid, payer_id);
+            c = getMemberColor(payerName);
+        }
+        $('.bill-title').text(
+            `${t('spend', 'Bill "{what}" of project {proj}', {what: what, proj: projectName})}`
+        );
+        $('.bill-title').attr('style', `background-color: hsl(${c.h}, ${c.s}%, ${c.l}%);`);
+    }
+
     function displayBill(projectid, billid) {
         var bill = spend.bills[projectid][billid];
         var projectName = getProjectName(projectid);
@@ -552,8 +567,10 @@
                 <label for="${projectid}${member.id}">${member.name}</label>
                 </div>
             `;
-            var memberName = getMemberName(projectid, bill.payer_id);
-            c = getMemberColor(memberName);
+        }
+        if (billid !== 0) {
+            var payerName = getMemberName(projectid, bill.payer_id);
+            c = getMemberColor(payerName);
         }
         $('#billdetail').html('');
         var detail = `

@@ -40,5 +40,6 @@ return [
         ['name' => 'page#webEditBill', 'url' => 'editBill', 'verb' => 'POST'],
         ['name' => 'page#webDeleteBill', 'url' => 'deleteBill', 'verb' => 'POST'],
         ['name' => 'page#webGetProjectStatistics', 'url' => 'getStatistics', 'verb' => 'POST'],
+        ['name' => 'page#webGetProjectSettlement', 'url' => 'getSettlement', 'verb' => 'POST'],
     ]
 ];

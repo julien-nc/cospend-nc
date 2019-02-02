@@ -47,7 +47,10 @@
         <div id="app-settings-content">
             <!-- Your settings content here -->
             <button id="statsButton" type="button">
-                <?php p($l->t('project statistics')); ?>
+                <?php p($l->t('Project statistics')); ?>
+            </button>
+            <button id="settleButton" type="button">
+                <?php p($l->t('Settle')); ?>
             </button>
         </div>
     </div>

@@ -907,6 +907,12 @@
                             </a>
                         </li>
                         <li>
+                            <a href="#" class="copyExtProjectUrl">
+                                <span class="icon-clippy"></span>
+                                <span>${t('spend', 'Guest access link')}</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="#" class="editProjectName">
                                 <span class="icon-rename"></span>
                                 <span>${t('spend', 'Rename')}</span>
@@ -1444,6 +1450,16 @@
             if (spend.currentProjectId !== null) {
                 getProjectSettlement(spend.currentProjectId);
             }
+        });
+
+        $('body').on('click', '.copyExtProjectUrl', function() {
+            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
+            var guestLink = OC.generateUrl(`/apps/spend/loginproject/${projectid}`);
+            var guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
+            var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select()
+            document.execCommand('copy');
+            $('#dummycopy').remove();
+            OC.Notification.showTemporary(t('spend', 'Guest link for \'{pid}\' copied to clipboard', {pid: projectid}));
         });
 
         // last thing to do : get the projects

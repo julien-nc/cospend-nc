@@ -434,12 +434,20 @@
 
     function deleteBill(projectid, billid) {
         var req = {
-            projectid: projectid,
-            billid: billid
         };
-        var url = OC.generateUrl('/apps/spend/deleteBill');
+        var url, type;
+        if (!spend.pageIsPublic) {
+            req.projectid = projectid;
+            req.billid = billid;
+            type = 'POST';
+            url = OC.generateUrl('/apps/spend/deleteBill');
+        }
+        else {
+            type = 'DELETE';
+            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}/bills/${billid}`);
+        }
         $.ajax({
-            type: 'POST',
+            type: type,
             url: url,
             data: req,
             async: true,
@@ -455,7 +463,7 @@
             OC.Notification.showTemporary(t('spend', 'Deleted bill'));
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('spend', 'Failed to delete project') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('spend', 'Failed to delete bill') + ' ' + response.responseText);
         });
     }
 
@@ -509,11 +517,20 @@
 
     function getProjectStatistics(projectid) {
         var req = {
-            projectid: projectid
         };
-        var url = OC.generateUrl('/apps/spend/getStatistics');
+        var url;
+        var type;
+        if (!spend.pageIsPublic) {
+            req.projectid = projectid;
+            type = 'POST';
+            url = OC.generateUrl('/apps/spend/getStatistics');
+        }
+        else {
+            type = 'GET';
+            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}/statistics`);
+        }
         spend.currentGetProjectsAjax = $.ajax({
-            type: 'POST',
+            type: type,
             url: url,
             data: req,
             async: true,

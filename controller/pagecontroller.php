@@ -1646,7 +1646,7 @@ class PageController extends Controller {
 
     private function getProjectSettlement($projectId) {
 
-        $statResp = $this->getProjectStatistics($projectId, 'id');
+        $statResp = $this->getProjectStatistics($projectId);
         $stats = $statResp->getData();
 
         //List<CreditDebt> credits = new ArrayList<>();
@@ -1677,10 +1677,7 @@ class PageController extends Controller {
         }
 
         // Try and find exact matches
-        $credKeys = array_keys($credits);
-        sort($credKeys, SORT_NUMERIC);
-        foreach ($credKeys as $credKey) {
-            $credit = $credits[$credKey];
+        foreach ($credits as $credKey=>$credit) {
             $match = $this->exactMatch($credit['amount'], $debts);
             if ($match !== null && count($match) > 0) {
                 foreach ($match as $m) {
@@ -1694,15 +1691,10 @@ class PageController extends Controller {
 
         // Split any remaining debts & credits
         while (count($credits) > 0 && count($debts) > 0) {
-            $credKeys = array_keys($credits);
-            sort($credKeys, SORT_NUMERIC);
-            $credKey = $credKeys[0];
-            $credit = $credits[$credKey];
-
-            $debtKeys = array_keys($debts);
-            sort($debtKeys, SORT_NUMERIC);
-            $debtKey = $debtKeys[0];
-            $debt = $debts[$debtKey];
+            $credKey = array_keys($credits)[0];
+            $credit = array_values($credits)[0];
+            $debtKey = array_keys($debts)[0];
+            $debt = array_values($debts)[0];
             if ($credit['amount'] > $debt['amount']) {
                 array_push($transactions,
                     [

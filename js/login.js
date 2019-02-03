@@ -12,37 +12,21 @@
 (function ($, OC) {
     'use strict';
 
-    function login() {
-        var projectid = $('#projectid').val();
-        var password = $('#projectpassword').val();
-        console.log('login '+projectid+' '+password);
-        var url = OC.generateUrl('/apps/spend/project');
-    }
-
     $(document).ready(function() {
         var pageUrlWithProjectid = (document.URL.indexOf('/loginproject') !== -1);
         if (!pageUrlWithProjectid) {
-            $('#projectpassword').val('');
-            $('#projectid').val('');
+            $('#passwordInput').val('');
+            $('#projectidInput').val('');
         }
+        else {
+        }
+        $('#projectidInput').focus().select();
         main();
     });
 
     function main() {
         var url = OC.generateUrl('/apps/spend/project');
         $('#loginform').attr('action', url);
-        //$('#loginform').submit(function(e) {
-        //    e.preventDefault();
-        //    login();
-        //});
-        //$('#okbutton').click(function() {
-        //    login();
-        //});
-        //$('#projectid).on('keyup', function(e) {
-        //    if (e.key === 'Enter') {
-        //        login();
-        //    }
-        //});
     }
 
 })(jQuery, OC);

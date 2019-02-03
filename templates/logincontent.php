@@ -2,16 +2,22 @@
 // todo ;-)
 ?>
 <form id="loginform" method="POST">
-<label for="projectid" id="projectidlabel">Lala</label>
-<input id="projectid" name="projectid" type="text" value="<?php 
+<h2><?php p($l->t('Authentication')); ?></h2>
+
+<label for="projectidInput" id="projectidlabel"><?php p($l->t('Project ID')); ?></label>
+<br/>
+<input id="projectidInput" name="projectid" type="text" value="<?php 
 if (array_key_exists('projectid', $_)) {
     p($_['projectid']);
 }
 ?>"/>
 
-<label for="projectpassword" id="passwordlabel">Password</label>
-<input id="password" name="password" type="password" value=""/>
+<br/>
+<label for="passwordInput" id="passwordlabel"><?php p($l->t('Project password (aka Access code)')); ?></label>
+<br/>
+<input id="passwordInput" name="password" type="password" value=""/>
 
-<button id="okbutton" type="submit">Ok</button>
+<br/>
+<button id="okbutton" type="submit">Submit</button>
 
 </form>

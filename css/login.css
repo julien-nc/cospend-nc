@@ -1,0 +1,13 @@
+#app {
+    width: 100%;
+}
+#loginform {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 30%
+}
+#loginform input {
+    width: 100%;
+}

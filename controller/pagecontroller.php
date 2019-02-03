@@ -1649,20 +1649,11 @@ class PageController extends Controller {
         $statResp = $this->getProjectStatistics($projectId);
         $stats = $statResp->getData();
 
-        //List<CreditDebt> credits = new ArrayList<>();
-        //List<CreditDebt> debts = new ArrayList<>();
-        //List<Transaction> transactions = new ArrayList<>();
         $credits = [];
         $debts = [];
         $transactions = [];
 
         // Create lists of credits and debts
-        //$statistic = [
-        //    'balance' => $membersBalance[$memberId],
-        //    'paid' => $membersPaid[$memberId],
-        //    'spent' => $membersSpent[$memberId],
-        //    'member' => $member
-        //];
         $k = 0;
         foreach ($stats as $stat) {
             $memberid = $stat['member']['id'];

@@ -744,14 +744,14 @@ class PageController extends Controller {
         }
     }
 
-    private function getProjectStatistics($projectId) {
+    private function getProjectStatistics($projectId, $memberOrder=null) {
         $membersWeight = [];
         $membersNbBills = [];
         $membersBalance = [];
         $membersPaid = [];
         $membersSpent = [];
 
-        $members = $this->getMembers($projectId);
+        $members = $this->getMembers($projectId, $memberOrder);
         foreach ($members as $member) {
             $memberId = $member['id'];
             $memberWeight = $member['weight'];
@@ -1023,13 +1023,17 @@ class PageController extends Controller {
         return $bills;
     }
 
-    private function getMembers($projectId) {
+    private function getMembers($projectId, $order=null) {
         $members = [];
+        $sqlOrder = 'LOWER(name)';
+        if ($order !== null) {
+            $sqlOrder = $order;
+        }
         $sql = '
             SELECT id, name, weight, activated
             FROM *PREFIX*spend_members
             WHERE projectid='.$this->db_quote_escape_string($projectId).'
-            ORDER BY LOWER(name) ASC ;';
+            ORDER BY '.$sqlOrder.' ASC ;';
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
         while ($row = $req->fetch()){
@@ -1642,7 +1646,7 @@ class PageController extends Controller {
 
     private function getProjectSettlement($projectId) {
 
-        $statResp = $this->getProjectStatistics($projectId);
+        $statResp = $this->getProjectStatistics($projectId, 'id');
         $stats = $statResp->getData();
 
         //List<CreditDebt> credits = new ArrayList<>();

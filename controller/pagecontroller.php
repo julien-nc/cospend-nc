@@ -163,7 +163,6 @@ class PageController extends Controller {
      * @PublicPage
      */
     public function pubProject($projectid, $password) {
-        error_log($projectid.' '.$password);
         if ($this->checkLogin($projectid, $password)) {
             // PARAMS to view
             $params = [

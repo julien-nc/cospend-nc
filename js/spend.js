@@ -350,14 +350,22 @@
 
     function editProject(projectid, newName, newEmail, newPassword) {
         var req = {
-            projectid: projectid,
             name: newName,
             contact_email: newEmail,
             password: newPassword
         };
-        var url = OC.generateUrl('/apps/spend/editProject');
+        var url, type;
+        if (!spend.pageIsPublic) {
+            req.projectid = projectid;
+            type = 'POST';
+            url = OC.generateUrl('/apps/spend/editProject');
+        }
+        else {
+            type = 'PUT';
+            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}`);
+        }
         $.ajax({
-            type: 'POST',
+            type: type,
             url: url,
             data: req,
             async: true,
@@ -367,6 +375,9 @@
             if (newName) {
                 projectLine.find('>a span').text(newName);
                 spend.projects[projectid].name = newName;
+            }
+            if (spend.pageIsPublic && newPassword) {
+                spend.password = newPassword;
             }
             // remove editing mode
             projectLine.removeClass('editing');
@@ -386,11 +397,19 @@
 
     function deleteProject(id) {
         var req = {
-            projectid: id
         };
-        var url = OC.generateUrl('/apps/spend/deleteProject');
+        var url, type;
+        if (!spend.pageIsPublic) {
+            req.projectid = id
+            url = OC.generateUrl('/apps/spend/deleteProject');
+            type = 'POST';
+        }
+        else {
+            type = 'DELETE';
+            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}`);
+        }
         $.ajax({
-            type: 'POST',
+            type: type,
             url: url,
             data: req,
             async: true,
@@ -398,6 +417,14 @@
             $('.projectitem[projectid='+id+']').fadeOut('slow', function() {
                 $(this).remove();
             });
+            if (spend.currentProjectId === id) {
+                $('#bill-list').html('');
+                $('#billdetail').html('');
+            }
+            if (spend.pageIsPublic) {
+                var redirectUrl = OC.generateUrl('/apps/spend/login');
+                window.location.replace(redirectUrl);
+            }
             OC.Notification.showTemporary(t('spend', 'Deleted project {id}', {id: id}));
         }).always(function() {
         }).fail(function(response) {
@@ -1086,7 +1113,7 @@
                 var id = $('#projectidinput').val();
                 var password = $('#projectpasswordinput').val();
                 if (name && id && password) {
-                    createProject(id, name);
+                    createProject(id, name, password);
                 }
                 else {
                     OC.Notification.showTemporary(t('spend', 'Invalid values'));
@@ -1099,7 +1126,7 @@
             var id = $('#projectidinput').val();
             var password = $('#projectpasswordinput').val();
             if (name && id && password) {
-                createProject(id, name);
+                createProject(id, name, password);
             }
             else {
                 OC.Notification.showTemporary(t('spend', 'Invalid values'));

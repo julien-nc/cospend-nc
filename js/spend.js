@@ -211,7 +211,6 @@
             memberLine.removeClass('editing');
             OC.Notification.showTemporary(t('spend', 'Edited member'));
             // get bills again to refresh names
-            console.log('addmember=>getbills of '+projectid);
             getBills(projectid);
             // reset bill edition
             $('#billdetail').html('');
@@ -223,14 +222,20 @@
 
     function createBill(projectid, what, amount, payer_id, date, owerIds) {
         var req = {
-            projectid: projectid,
             what: what,
             date: date,
             payer: payer_id,
             payed_for: owerIds.join(','),
             amount: amount
         };
-        var url = OC.generateUrl('/apps/spend/addBill');
+        var url, type;
+        if (!spend.pageIsPublic) {
+            req.projectid = projectid;
+            url = OC.generateUrl('/apps/spend/addBill');
+        }
+        else {
+            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}/bills`);
+        }
         $.ajax({
             type: 'POST',
             url: url,
@@ -268,17 +273,25 @@
 
     function saveBill(projectid, billid, what, amount, payer_id, date, owerIds) {
         var req = {
-            projectid: projectid,
-            billid: billid,
             what: what,
             date: date,
             payer: payer_id,
             payed_for: owerIds.join(','),
             amount: amount
         };
-        var url = OC.generateUrl('/apps/spend/editBill');
+        var url, type;
+        if (!spend.pageIsPublic) {
+            req.projectid = projectid;
+            req.billid = billid;
+            type = 'POST';
+            url = OC.generateUrl('/apps/spend/editBill');
+        }
+        else {
+            type = 'PUT';
+            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}/bills/${billid}`);
+        }
         $.ajax({
-            type: 'POST',
+            type: type,
             url: url,
             data: req,
             async: true,
@@ -301,10 +314,10 @@
 
             updateProjectBalances(projectid);
 
-            OC.Notification.showTemporary(t('spend', 'Bill saved'));
+            OC.Notification.showTemporary(t('spend', 'Edited bill'));
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('spend', 'Failed to edit project') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('spend', 'Failed to edit bill') + ' ' + response.responseText);
         });
     }
 
@@ -457,7 +470,7 @@
             else {
                 addProject(response);
                 $('.projectitem').addClass('open');
-                spend.currentProjectId = projectid;
+                spend.currentProjectId = spend.projectid;
                 getBills(spend.projectid);
             }
         }).always(function() {
@@ -536,9 +549,8 @@
             req.projectid = projectid;
         }
         else {
-            url = OC.generateUrl(`/apps/spend/api/projects/${projectid}/${spend.password}/bills`)
+            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}/bills`)
             type = 'GET';
-            console.log('url : '+url);
         }
         spend.currentGetProjectsAjax = $.ajax({
             type: type,
@@ -731,7 +743,6 @@
             data: req,
             async: true,
         }).done(function (response) {
-            console.log(response);
             var balance, balanceField, balanceClass;
             for (var memberid in response.balance) {
                 balance = response.balance[memberid];
@@ -1016,7 +1027,6 @@
             $('#newprojectbutton').hide();
             spend.projectid = $('#projectid').text();
             spend.password = $('#password').text();
-            console.log(spend.projectid+' and '+spend.password);
             $('#projectid').html('');
             $('#password').html('');
             main();
@@ -1294,8 +1304,6 @@
                 }, 7000);
             }
             else {
-                console.log($('.bill-title'));
-                console.log($('.bill-title').attr('billid'));
                 if ($('.bill-title').length > 0 && $('.bill-title').attr('billid') === billid) {
                     $('#billdetail').html('');
                 }

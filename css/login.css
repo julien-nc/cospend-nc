@@ -11,3 +11,7 @@
 #loginform input {
     width: 100%;
 }
+#wrongcredentials {
+    color: var(--color-error);
+    font-weight: bold;
+}

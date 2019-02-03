@@ -119,6 +119,7 @@ class PageController extends Controller {
         // PARAMS to view
         $params = [
             'projectid'=>$projectid,
+            'wrong'=>false,
             'spend_version'=>$this->appVersion
         ];
         $response = new TemplateResponse('spend', 'login', $params);
@@ -142,6 +143,7 @@ class PageController extends Controller {
     public function pubLogin() {
         // PARAMS to view
         $params = [
+            'wrong'=>false,
             'spend_version'=>$this->appVersion
         ];
         $response = new TemplateResponse('spend', 'login', $params);
@@ -183,7 +185,22 @@ class PageController extends Controller {
             return $response;
         }
         else {
-            $response = new DataResponse(null, 403);
+            //$response = new DataResponse(null, 403);
+            //return $response;
+            $params = [
+                'wrong'=>true,
+                'spend_version'=>$this->appVersion
+            ];
+            $response = new TemplateResponse('spend', 'login', $params);
+            $csp = new ContentSecurityPolicy();
+            $csp->addAllowedImageDomain('*')
+                ->addAllowedMediaDomain('*')
+                ->addAllowedChildSrcDomain('*')
+              //->addAllowedChildSrcDomain("'self'")
+                ->addAllowedObjectDomain('*')
+                ->addAllowedScriptDomain('*')
+                ->addAllowedConnectDomain('*');
+            $response->setContentSecurityPolicy($csp);
             return $response;
         }
     }

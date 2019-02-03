@@ -1,8 +1,13 @@
-<?php
-// todo ;-)
-?>
 <form id="loginform" method="POST">
 <h2><?php p($l->t('Authentication')); ?></h2>
+
+<?php
+if ($_['wrong']) {
+    echo '<p id="wrongcredentials">';
+    p($l->t('Wrong project Id or password'));
+    echo '</p>';
+}
+?>
 
 <label for="projectidInput" id="projectidlabel"><?php p($l->t('Project ID')); ?></label>
 <br/>

@@ -46,13 +46,13 @@
     </div>
     <div id="app-settings-content">
         <!-- Your settings content here -->
-        <button id="statsButton" type="button">
+        <button id="statsButton" class="icon-category-monitoring">
             <?php p($l->t('Project statistics')); ?>
         </button>
-        <button id="settleButton" type="button">
+        <button id="settleButton" class="icon-category-enabled">
             <?php p($l->t('Settle')); ?>
         </button>
-        <button id="generalGuestLinkButton" type="button">
+        <button id="generalGuestLinkButton" class="icon-clippy" >
             <?php p($l->t('Guest access link')); ?>
         </button>
     </div>

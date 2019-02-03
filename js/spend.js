@@ -1187,6 +1187,21 @@
             }
         });
 
+        $('body').on('click', '.projectitem', function(e) {
+            if (e.target.tagName === 'LI' && $(e.target).hasClass('projectitem')) {
+                var wasOpen = $(this).hasClass('open');
+                $('.projectitem.open').removeClass('open');
+                if (!wasOpen) {
+                    $(this).addClass('open');
+                    var projectid = $(this).attr('projectid');
+                    saveOptionValue({selectedProject: projectid});
+                    spend.currentProjectId = projectid;
+                    $('#billdetail').html('');
+                    getBills(projectid);
+                }
+            }
+        });
+
         $('#newprojectbutton').click(function() {
             var div = $('#newprojectdiv');
             if (div.is(':visible')) {
@@ -1466,12 +1481,10 @@
 
         $('body').on('click', '.getProjectStats', function(e) {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
-            console.log(projectid);
             getProjectStatistics(projectid);
         });
 
         $('body').on('click', '.getProjectSettlement', function(e) {
-            console.log(projectid);
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
             getProjectSettlement(projectid);
         });

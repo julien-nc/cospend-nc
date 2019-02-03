@@ -49,7 +49,7 @@
         <button id="statsButton" class="icon-category-monitoring">
             <?php p($l->t('Project statistics')); ?>
         </button>
-        <button id="settleButton" class="icon-category-enabled">
+        <button id="settleButton" class="icon-category-organization">
             <?php p($l->t('Settle')); ?>
         </button>
         <button id="generalGuestLinkButton" class="icon-clippy" >

@@ -925,6 +925,18 @@
                             </a>
                         </li>
                         <li>
+                            <a href="#" class="getProjectStats">
+                                <span class="icon-category-monitoring"></span>
+                                <span>${t('spend', 'Display statistics')}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="getProjectSettlement">
+                                <span class="icon-category-organization"></span>
+                                <span>${t('spend', 'Settle the project')}</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="#" class="deleteProject">
                                 <span class="icon-delete"></span>
                                 <span>${t('spend', 'Delete')}</span>
@@ -1450,6 +1462,18 @@
             if (spend.currentProjectId !== null) {
                 getProjectSettlement(spend.currentProjectId);
             }
+        });
+
+        $('body').on('click', '.getProjectStats', function(e) {
+            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
+            console.log(projectid);
+            getProjectStatistics(projectid);
+        });
+
+        $('body').on('click', '.getProjectSettlement', function(e) {
+            console.log(projectid);
+            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
+            getProjectSettlement(projectid);
         });
 
         $('body').on('click', '.copyExtProjectUrl', function() {

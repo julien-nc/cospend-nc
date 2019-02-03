@@ -275,6 +275,24 @@ class PageController extends Controller {
      * @NoAdminRequired
      *
      */
+    public function webGetProjectSettlement($projectid) {
+        $projectInfo = $this->getProjectInfo($projectid);
+        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+            return $this->getProjectSettlement($projectid);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to get this project\'s settlement']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     *
+     */
     public function webEditMember($projectid, $memberid, $name, $weight, $activated) {
         $projectInfo = $this->getProjectInfo($projectid);
         if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
@@ -698,6 +716,24 @@ class PageController extends Controller {
     public function apiGetProjectStatistics($projectid, $password) {
         if ($this->checkLogin($projectid, $password)) {
             return $this->getProjectStatistics($projectid);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     */
+    public function apiGetProjectSettlement($projectid, $password) {
+        if ($this->checkLogin($projectid, $password)) {
+            return $this->getProjectSettlement($projectid);
         }
         else {
             $response = new DataResponse(
@@ -1601,6 +1637,112 @@ class PageController extends Controller {
                 , 404
             );
             return $response;
+        }
+    }
+
+    private function getProjectSettlement($projectId) {
+
+        $statResp = $this->getProjectStatistics($projectId);
+        $stats = $statResp->getData();
+
+        //List<CreditDebt> credits = new ArrayList<>();
+        //List<CreditDebt> debts = new ArrayList<>();
+        //List<Transaction> transactions = new ArrayList<>();
+        $credits = [];
+        $debts = [];
+        $transactions = [];
+
+        // Create lists of credits and debts
+        //$statistic = [
+        //    'balance' => $membersBalance[$memberId],
+        //    'paid' => $membersPaid[$memberId],
+        //    'spent' => $membersSpent[$memberId],
+        //    'member' => $member
+        //];
+        $k = 0;
+        foreach ($stats as $stat) {
+            $memberid = $stat['member']['id'];
+            $rBalance = round($stat['balance'] * 100.0) / 100.0;
+            if ($rBalance > 0.0) {
+                $credits[$k] = ['key'=>$k, 'memberid'=>$memberid, 'amount'=>$stat['balance']];
+            }
+            else if ($rBalance < 0.0) {
+                $debts[$k] = ['key'=>$k, 'memberid'=>$memberid, 'amount'=>(-$stat['balance'])];
+            }
+            $k++;
+        }
+
+        // Try and find exact matches
+        foreach ($credits as $credKey=>$credit) {
+            $match = $this->exactMatch($credit['amount'], $debts);
+            if ($match !== null && count($match) > 0) {
+                foreach ($match as $m) {
+                    array_push($transactions, ['from'=>$m['memberid'], 'to'=>$credit['memberid'], 'amount'=>$m['amount']]);
+                    $debtKey = $m['key'];
+                    unset($debts[$debtKey]);
+                }
+                unset($credits[$credKey]);
+            }
+        }
+
+        // Split any remaining debts & credits
+        while (count($credits) > 0 && count($debts) > 0) {
+            $credKey = array_keys($credits)[0];
+            $credit = array_values($credits)[0];
+            $debtKey = array_keys($debts)[0];
+            $debt = array_values($debts)[0];
+            if ($credit['amount'] > $debt['amount']) {
+                array_push($transactions,
+                    [
+                        'from'=>$debt['memberid'],
+                        'to'=>$credit['memberid'],
+                        'amount'=>$debt['amount']
+                    ]
+                );
+                $credit['amount'] = $credit['amount'] - $debt['amount'];
+                $credits[$credKey] = $credit;
+                unset($debts[$debtKey]);
+            }
+            else {
+                array_push($transactions,
+                    [
+                        'from'=>$debt['memberid'],
+                        'to'=>$credit['memberid'],
+                        'amount'=>$credit['amount']
+                    ]
+                );
+                $debt['amount'] = $debt['amount'] - $credit['amount'];
+                $debts[$debtKey] = $debt;
+                unset($credits[$credKey]);
+            }
+        }
+
+        $response = new DataResponse($transactions);
+        return $response;
+    }
+
+    private function exactMatch($creditAmount, $debts) {
+        if (count($debts) === 0) {
+            return null;
+        }
+        $debtKey = array_keys($debts)[0];
+        $debt = array_values($debts)[0];
+        if ($debt['amount'] > $creditAmount) {
+            return $this->exactMatch($creditAmount, array_slice($debts, 1));
+        }
+        else if ($debt['amount'] === $creditAmount) {
+            $res = [$debt];
+            return $res;
+        }
+        else {
+            $match = $this->exactMatch($creditAmount - $debt['amount'], array_slice($debts, 1));
+            if ($match !== null && count($match) > 0) {
+                array_push($match, $debt);
+            }
+            else {
+                $match = $this->exactMatch($creditAmount, array_slice($debts, 1));
+            }
+            return $match;
         }
     }
 

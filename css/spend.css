@@ -86,13 +86,16 @@ input[type=number] {
     -moz-appearance: number-input !important;
     -webkit-appearance: initial !important;
 }
+#settlementTable,
 #statsTable {
     width: 100%;
     margin: 20px 20px 20px 20px;
 }
+#settlementTable th,
 #statsTable th {
     font-weight: bold;
 }
+#settlementTitle,
 #statsTitle {
     text-align: center;
 }

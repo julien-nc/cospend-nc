@@ -542,6 +542,63 @@
         });
     }
 
+    function getProjectSettlement(projectid) {
+        var req = {
+        };
+        var url;
+        var type;
+        if (!spend.pageIsPublic) {
+            req.projectid = projectid;
+            type = 'POST';
+            url = OC.generateUrl('/apps/spend/getSettlement');
+        }
+        else {
+            type = 'GET';
+            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}/settle`);
+        }
+        spend.currentGetProjectsAjax = $.ajax({
+            type: type,
+            url: url,
+            data: req,
+            async: true,
+        }).done(function (response) {
+            displaySettlement(projectid, response);
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('spend', 'Failed to get settlement'));
+        });
+    }
+
+    function displaySettlement(projectid, transactionList) {
+        var projectName = getProjectName(projectid);
+        $('#billdetail').html('');
+        var settlementStr = `
+            <h2 id="settlementTitle">${t('spend', 'Settlement of project {name}', {name: projectName})}</h2>
+            <table id="settlementTable"><thead>
+                <th>${t('spend', 'Who pays?')}</th>
+                <th>${t('spend', 'To whom?')}</th>
+                <th>${t('spend', 'How much?')}</th>
+            </thead>
+        `;
+        var whoPaysName, toWhomName, amount;
+        for (var i=0; i < transactionList.length; i++) {
+            amount = transactionList[i].amount.toFixed(2);
+            whoPaysName = getMemberName(projectid, transactionList[i].from);
+            toWhomName = getMemberName(projectid, transactionList[i].to);
+            settlementStr = settlementStr + `
+                <tr>
+                    <td>${whoPaysName}</td>
+                    <td>${toWhomName}</td>
+                    <td>${amount}</td>
+                </tr>
+            `;
+        }
+        settlementStr = settlementStr + `
+            </table>
+        `;
+        $('#billdetail').html(settlementStr);
+    }
+
     function displayStatistics(projectid, statList) {
         var projectName = getProjectName(projectid);
         $('#billdetail').html('');
@@ -1380,6 +1437,12 @@
         $('#statsButton').click(function() {
             if (spend.currentProjectId !== null) {
                 getProjectStatistics(spend.currentProjectId);
+            }
+        });
+
+        $('#settleButton').click(function() {
+            if (spend.currentProjectId !== null) {
+                getProjectSettlement(spend.currentProjectId);
             }
         });
 

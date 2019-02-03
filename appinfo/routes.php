@@ -25,6 +25,7 @@ return [
         ['name' => 'page#apiEditBill', 'url' => '/api/projects/{projectid}/{password}/bills/{billid}', 'verb' => 'PUT'],
         ['name' => 'page#apiDeleteBill', 'url' => '/api/projects/{projectid}/{password}/bills/{billid}', 'verb' => 'DELETE'],
         ['name' => 'page#apiGetProjectStatistics', 'url' => '/api/projects/{projectid}/{password}/statistics', 'verb' => 'GET'],
+        ['name' => 'page#apiGetProjectSettlement', 'url' => '/api/projects/{projectid}/{password}/settle', 'verb' => 'GET'],
         ['name' => 'utils#getOptionsValues', 'url' => '/getOptionsValues', 'verb' => 'POST'],
         ['name' => 'utils#saveOptionValue', 'url' => '/saveOptionValue', 'verb' => 'POST'],
         ['name' => 'utils#setAllowAnonymousCreation', 'url' => '/setAllowAnonymousCreation', 'verb' => 'POST'],

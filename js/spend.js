@@ -163,15 +163,23 @@
 
     function editMember(projectid, memberid, newName, newWeight, newActivated) {
         var req = {
-            projectid: projectid,
-            memberid: memberid,
             name: newName,
             weight: newWeight,
             activated: newActivated
         };
-        var url = OC.generateUrl('/apps/spend/editMember');
+        var url, type;
+        if (!spend.pageIsPublic) {
+            req.projectid = projectid;
+            req.memberid = memberid;
+            url = OC.generateUrl('/apps/spend/editMember');
+            type = 'POST';
+        }
+        else {
+            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}/members/${memberid}`);
+            type = 'PUT';
+        }
         $.ajax({
-            type: 'POST',
+            type: type,
             url: url,
             data: req,
             async: true,
@@ -203,6 +211,7 @@
             memberLine.removeClass('editing');
             OC.Notification.showTemporary(t('spend', 'Edited member'));
             // get bills again to refresh names
+            console.log('addmember=>getbills of '+projectid);
             getBills(projectid);
             // reset bill edition
             $('#billdetail').html('');
@@ -472,7 +481,7 @@
             displayStatistics(projectid, response);
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('spend', 'Failed to get bills'));
+            OC.Notification.showTemporary(t('spend', 'Failed to get statistics'));
         });
     }
 
@@ -529,6 +538,7 @@
         else {
             url = OC.generateUrl(`/apps/spend/api/projects/${projectid}/${spend.password}/bills`)
             type = 'GET';
+            console.log('url : '+url);
         }
         spend.currentGetProjectsAjax = $.ajax({
             type: type,
@@ -703,11 +713,20 @@
 
     function updateProjectBalances(projectid) {
         var req = {
-            projectid: projectid
         };
-        var url = OC.generateUrl('/apps/spend/getProjectInfo');
+        var url;
+        var type;
+        if (!spend.pageIsPublic) {
+            req.projectid = projectid;
+            url = OC.generateUrl('/apps/spend/getProjectInfo');
+            type = 'POST';
+        }
+        else {
+            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}`);
+            type = 'GET';
+        }
         spend.currentGetProjectsAjax = $.ajax({
-            type: 'POST',
+            type: type,
             url: url,
             data: req,
             async: true,
@@ -732,7 +751,7 @@
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('spend', 'Failed to get bills'));
+            OC.Notification.showTemporary(t('spend', 'Failed to update balances'));
         });
     }
 

@@ -128,10 +128,16 @@
 
     function createMember(projectid, name) {
         var req = {
-            projectid: projectid,
             name: name
         };
-        var url = OC.generateUrl('/apps/spend/addMember');
+        var url;
+        if (!spend.pageIsPublic) {
+            req.projectid = projectid;
+            url = OC.generateUrl('/apps/spend/addMember');
+        }
+        else {
+            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}/members`);
+        }
         $.ajax({
             type: 'POST',
             url: url,
@@ -441,6 +447,9 @@
             }
             else {
                 addProject(response);
+                $('.projectitem').addClass('open');
+                spend.currentProjectId = projectid;
+                getBills(spend.projectid);
             }
         }).always(function() {
             spend.currentGetProjectsAjax = null;
@@ -509,11 +518,20 @@
 
     function getBills(projectid) {
         var req = {
-            projectid: projectid
         };
-        var url = OC.generateUrl('/apps/spend/getBills');
+        var url;
+        var type;
+        if (!spend.pageIsPublic) {
+            url = OC.generateUrl('/apps/spend/getBills');
+            type = 'POST';
+            req.projectid = projectid;
+        }
+        else {
+            url = OC.generateUrl(`/apps/spend/api/projects/${projectid}/${spend.password}/bills`)
+            type = 'GET';
+        }
         spend.currentGetProjectsAjax = $.ajax({
-            type: 'POST',
+            type: type,
             url: url,
             data: req,
             async: true,
@@ -976,6 +994,7 @@
         }
         else {
             //restoreOptionsFromUrlParams();
+            $('#newprojectbutton').hide();
             spend.projectid = $('#projectid').text();
             spend.password = $('#password').text();
             console.log(spend.projectid+' and '+spend.password);
@@ -1077,6 +1096,7 @@
             var id = $(this).parent().parent().parent().parent().attr('projectid');
             var name = $('.projectitem[projectid='+id+'] > a > span').text();
             $('#newmemberdiv').slideDown();
+            $('#newmembername').val('').focus();
             $('#newmemberdiv #newmemberbutton').text(t('spend', 'Add member to project {pname}', {pname: name}));
             $('#newmemberdiv #newmemberbutton').attr('projectid', id);
         });

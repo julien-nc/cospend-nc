@@ -1462,6 +1462,15 @@
             OC.Notification.showTemporary(t('spend', 'Guest link for \'{pid}\' copied to clipboard', {pid: projectid}));
         });
 
+        $('body').on('click', '#generalGuestLinkButton', function() {
+            var guestLink = OC.generateUrl('/apps/spend/login');
+            var guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
+            var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select()
+            document.execCommand('copy');
+            $('#dummycopy').remove();
+            OC.Notification.showTemporary(t('spend', 'Guest link copied to clipboard'));
+        });
+
         // last thing to do : get the projects
         getProjects();
     }

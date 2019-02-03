@@ -52,6 +52,9 @@
         <button id="settleButton" type="button">
             <?php p($l->t('Settle')); ?>
         </button>
+        <button id="generalGuestLinkButton" type="button">
+            <?php p($l->t('Guest access link')); ?>
+        </button>
     </div>
 </div>
 <p id="projectid"><?php p($_['projectid']); ?></p>

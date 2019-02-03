@@ -1677,7 +1677,10 @@ class PageController extends Controller {
         }
 
         // Try and find exact matches
-        foreach ($credits as $credKey=>$credit) {
+        $credKeys = array_keys($credits);
+        sort($credKeys, SORT_NUMERIC);
+        foreach ($credKeys as $credKey) {
+            $credit = $credits[$credKey];
             $match = $this->exactMatch($credit['amount'], $debts);
             if ($match !== null && count($match) > 0) {
                 foreach ($match as $m) {
@@ -1691,10 +1694,15 @@ class PageController extends Controller {
 
         // Split any remaining debts & credits
         while (count($credits) > 0 && count($debts) > 0) {
-            $credKey = array_keys($credits)[0];
-            $credit = array_values($credits)[0];
-            $debtKey = array_keys($debts)[0];
-            $debt = array_values($debts)[0];
+            $credKeys = array_keys($credits);
+            sort($credKeys, SORT_NUMERIC);
+            $credKey = $credKeys[0];
+            $credit = $credits[$credKey];
+
+            $debtKeys = array_keys($debts);
+            sort($debtKeys, SORT_NUMERIC);
+            $debtKey = $debtKeys[0];
+            $debt = $debts[$debtKey];
             if ($credit['amount'] > $debt['amount']) {
                 array_push($transactions,
                     [

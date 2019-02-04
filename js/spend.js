@@ -771,7 +771,8 @@
             if (member.id === bill.payer_id) {
                 selected = ' selected';
             }
-            if (member.id === bill.payer_id || member.activated) {
+            // show member if it's the payer or if it's activated
+            if (member.activated || member.id === bill.payer_id) {
                 payerOptions = payerOptions + `<option value="${member.id}"${selected}>${member.name}</option>`;
             }
             // owers
@@ -783,12 +784,15 @@
             if (!member.activated) {
                 readonly = ' disabled';
             }
-            owerCheckboxes = owerCheckboxes + `
-                <div class="owerEntry">
-                <input id="${projectid}${member.id}" owerid="${member.id}" type="checkbox"${checked}${readonly}/>
-                <label for="${projectid}${member.id}">${member.name}</label>
-                </div>
-            `;
+            // show member if it's an ower or if it's activated
+            if (member.activated || owerIds.indexOf(member.id) !== -1) {
+                owerCheckboxes = owerCheckboxes + `
+                    <div class="owerEntry">
+                    <input id="${projectid}${member.id}" owerid="${member.id}" type="checkbox"${checked}${readonly}/>
+                    <label for="${projectid}${member.id}">${member.name}</label>
+                    </div>
+                `;
+            }
         }
         var payerDisabled = '';
         if (!spend.members[projectid][bill.payer_id].activated) {

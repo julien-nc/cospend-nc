@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
-"POT-Creation-Date: 2019-02-04 19:33+0100\n"
-"PO-Revision-Date: 2019-02-04 18:37\n"
+"POT-Creation-Date: 2019-02-05 00:21+0100\n"
+"PO-Revision-Date: 2019-02-04 23:24\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: English\n"
 "Language: en_US\n"
@@ -36,11 +36,11 @@ msgstr ""
 msgid "Failed to add member"
 msgstr ""
 
-#: payback.js:245 payback.js:1108
+#: payback.js:245 payback.js:1111
 msgid "Reactivate"
 msgstr ""
 
-#: payback.js:251 payback.js:1102
+#: payback.js:251 payback.js:1105
 msgid "Deactivate"
 msgstr ""
 
@@ -64,131 +64,171 @@ msgstr ""
 msgid "Saved bill"
 msgstr ""
 
-#: payback.js:375
+#: payback.js:376
 msgid "Failed to save bill"
 msgstr ""
 
-#: payback.js:487
+#: payback.js:443 payback.js:999
+msgid "Deleted {name}"
+msgstr ""
+
+#: payback.js:449
+msgid "Saved project"
+msgstr ""
+
+#: payback.js:453
+msgid "Failed to save project"
+msgstr ""
+
+#: payback.js:494
 msgid "Deleted project {id}"
 msgstr ""
 
-#: payback.js:490
+#: payback.js:497
 msgid "Failed to delete project"
 msgstr ""
 
-#: payback.js:522
+#: payback.js:529
 msgid "Deleted bill"
 msgstr ""
 
-#: payback.js:525
+#: payback.js:532
 msgid "Failed to delete bill"
 msgstr ""
 
-#: payback.js:573
+#: payback.js:580
 msgid "Failed to get projects"
 msgstr ""
 
-#: payback.js:600
+#: payback.js:607
 msgid "Failed to get statistics"
 msgstr ""
 
-#: payback.js:627
+#: payback.js:634
 msgid "Failed to get settlement"
 msgstr ""
 
-#: payback.js:635
+#: payback.js:642
 msgid "Settlement of project {name}"
 msgstr ""
 
-#: payback.js:636
+#: payback.js:643
 msgid "Who pays?"
 msgstr ""
 
-#: payback.js:637
+#: payback.js:644
 msgid "To whom?"
 msgstr ""
 
-#: payback.js:638
+#: payback.js:645
 msgid "How much?"
 msgstr ""
 
-#: payback.js:743
+#: payback.js:750
 msgid "Failed to get bills"
 msgstr ""
 
-#: payback.js:760 payback.js:826
+#: payback.js:767 payback.js:833
 msgid "Bill \"{what}\" of project {proj}"
 msgstr ""
 
-#: payback.js:821
+#: payback.js:828
 msgid "What? (press enter to validate)"
 msgstr ""
 
-#: payback.js:822
+#: payback.js:829
 msgid "How much? (press enter to validate)"
 msgstr ""
 
-#: payback.js:823
+#: payback.js:830
 msgid "Who payed?"
 msgstr ""
 
-#: payback.js:824
+#: payback.js:831
 msgid "When?"
 msgstr ""
 
-#: payback.js:825
+#: payback.js:832
 msgid "For whom?"
 msgstr ""
 
-#: payback.js:827
+#: payback.js:834
 msgid "All"
 msgstr ""
 
-#: payback.js:828
+#: payback.js:835
 msgid "None"
 msgstr ""
 
-#: payback.js:1113
+#: payback.js:976
+msgid "Failed to update balances"
+msgstr ""
+
+#: payback.js:992
+msgid "Add member"
+msgstr ""
+
+#: payback.js:993 mainnavigation.php:56
+msgid "Guest access link"
+msgstr ""
+
+#: payback.js:994 payback.js:1116
 msgid "Rename"
 msgstr ""
 
-#: payback.js:1114
+#: payback.js:995
+msgid "Change password"
+msgstr ""
+
+#: payback.js:996
+msgid "Display statistics"
+msgstr ""
+
+#: payback.js:997
+msgid "Settle the project"
+msgstr ""
+
+#: payback.js:998
+msgid "Delete"
+msgstr ""
+
+#: payback.js:1117
 msgid "Change weight"
 msgstr ""
 
-#: payback.js:1213
+#: payback.js:1216
 msgid "Bill values are not valid"
 msgstr ""
 
-#: payback.js:1232
+#: payback.js:1235
 msgid "Failed to save option values"
 msgstr ""
 
-#: payback.js:1262
+#: payback.js:1265
 msgid "Failed to restore options values"
 msgstr ""
 
-#: payback.js:1354 payback.js:1367 payback.js:1402 payback.js:1414
+#: payback.js:1357 payback.js:1370 payback.js:1405 payback.js:1417
 msgid "Invalid values"
 msgstr ""
 
-#: payback.js:1391
+#: payback.js:1394
 msgid "Add member to project {pname}"
 msgstr ""
 
-#: payback.js:1604
+#: payback.js:1607
 msgid "New Bill"
 msgstr ""
 
-#: payback.js:1615
+#: payback.js:1618
 msgid "2 active members are required to create a bill"
 msgstr ""
 
-#: payback.js:1652
+#: payback.js:1655
 msgid "Guest link for '{pid}' copied to clipboard"
 msgstr ""
 
-#: payback.js:1661
+#: payback.js:1664
 msgid "Guest link copied to clipboard"
 msgstr ""
 
@@ -267,9 +307,5 @@ msgstr ""
 
 #: mainnavigation.php:53
 msgid "Settle"
-msgstr ""
-
-#: mainnavigation.php:56
-msgid "Guest access link"
 msgstr ""
 

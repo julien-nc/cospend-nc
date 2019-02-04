@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
-"POT-Creation-Date: 2019-02-04 19:33+0100\n"
-"PO-Revision-Date: 2019-02-04 19:02\n"
+"POT-Creation-Date: 2019-02-05 00:21+0100\n"
+"PO-Revision-Date: 2019-02-04 23:36\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -36,11 +36,11 @@ msgstr "Échec de la création du projet"
 msgid "Failed to add member"
 msgstr "Échec de l'ajout du membre"
 
-#: payback.js:245 payback.js:1108
+#: payback.js:245 payback.js:1111
 msgid "Reactivate"
 msgstr "Réactiver"
 
-#: payback.js:251 payback.js:1102
+#: payback.js:251 payback.js:1105
 msgid "Deactivate"
 msgstr "Désactiver"
 
@@ -64,131 +64,171 @@ msgstr "Échec de la création de la facture"
 msgid "Saved bill"
 msgstr "Facture sauvegardée"
 
-#: payback.js:375
+#: payback.js:376
 msgid "Failed to save bill"
 msgstr "Échec de la sauvegarde de la facture"
 
-#: payback.js:487
+#: payback.js:443 payback.js:999
+msgid "Deleted {name}"
+msgstr "{name} supprimé"
+
+#: payback.js:449
+msgid "Saved project"
+msgstr "Projet sauvegardé"
+
+#: payback.js:453
+msgid "Failed to save project"
+msgstr "Échec de la sauvegarde du projet"
+
+#: payback.js:494
 msgid "Deleted project {id}"
 msgstr "Projet {id} sauvegardé"
 
-#: payback.js:490
+#: payback.js:497
 msgid "Failed to delete project"
 msgstr "Échec de la suppression du projet"
 
-#: payback.js:522
+#: payback.js:529
 msgid "Deleted bill"
 msgstr "Facture supprimée"
 
-#: payback.js:525
+#: payback.js:532
 msgid "Failed to delete bill"
 msgstr "Échec de la suppression de la facture"
 
-#: payback.js:573
+#: payback.js:580
 msgid "Failed to get projects"
 msgstr "Échec de la récupération des projets"
 
-#: payback.js:600
+#: payback.js:607
 msgid "Failed to get statistics"
 msgstr "Échec de la récupération des statistiques"
 
-#: payback.js:627
+#: payback.js:634
 msgid "Failed to get settlement"
 msgstr "Échec de la récupération des remboursements"
 
-#: payback.js:635
+#: payback.js:642
 msgid "Settlement of project {name}"
 msgstr "Remboursements du projet {name}"
 
-#: payback.js:636
+#: payback.js:643
 msgid "Who pays?"
-msgstr "Qui doit payer ?"
+msgstr "Qui paye ?"
 
-#: payback.js:637
+#: payback.js:644
 msgid "To whom?"
-msgstr "À qui?"
+msgstr "À qui ?"
 
-#: payback.js:638
+#: payback.js:645
 msgid "How much?"
 msgstr "Combien ?"
 
-#: payback.js:743
+#: payback.js:750
 msgid "Failed to get bills"
 msgstr "Échec de la récupération des factures"
 
-#: payback.js:760 payback.js:826
+#: payback.js:767 payback.js:833
 msgid "Bill \"{what}\" of project {proj}"
 msgstr "Facture \"{what}\" du projet {proj}"
 
-#: payback.js:821
+#: payback.js:828
 msgid "What? (press enter to validate)"
 msgstr "Quoi ? (appuyez sur entrée pour valider)"
 
-#: payback.js:822
+#: payback.js:829
 msgid "How much? (press enter to validate)"
 msgstr "Combien ? (appuyez sur entrée pour valider)"
 
-#: payback.js:823
+#: payback.js:830
 msgid "Who payed?"
 msgstr "Qui a payé ?"
 
-#: payback.js:824
+#: payback.js:831
 msgid "When?"
 msgstr "Quand ?"
 
-#: payback.js:825
+#: payback.js:832
 msgid "For whom?"
 msgstr "Pour qui ?"
 
-#: payback.js:827
+#: payback.js:834
 msgid "All"
 msgstr "Tous"
 
-#: payback.js:828
+#: payback.js:835
 msgid "None"
 msgstr "Aucun"
 
-#: payback.js:1113
+#: payback.js:976
+msgid "Failed to update balances"
+msgstr "Échec de la mise à jour des balances"
+
+#: payback.js:992
+msgid "Add member"
+msgstr "Ajouter un membre"
+
+#: payback.js:993 mainnavigation.php:56
+msgid "Guest access link"
+msgstr "Lien d'accès invité"
+
+#: payback.js:994 payback.js:1116
 msgid "Rename"
 msgstr "Renommer"
 
-#: payback.js:1114
+#: payback.js:995
+msgid "Change password"
+msgstr "Changer le mot de passe"
+
+#: payback.js:996
+msgid "Display statistics"
+msgstr "Afficher les statistiques"
+
+#: payback.js:997
+msgid "Settle the project"
+msgstr "Remboursements du projet"
+
+#: payback.js:998
+msgid "Delete"
+msgstr "Supprimer"
+
+#: payback.js:1117
 msgid "Change weight"
 msgstr "Changer le poids"
 
-#: payback.js:1213
+#: payback.js:1216
 msgid "Bill values are not valid"
 msgstr "Les valeurs de la facture sont invalides"
 
-#: payback.js:1232
+#: payback.js:1235
 msgid "Failed to save option values"
 msgstr "Échec de la sauvegarde des options"
 
-#: payback.js:1262
+#: payback.js:1265
 msgid "Failed to restore options values"
 msgstr "Échec de la restauration des options"
 
-#: payback.js:1354 payback.js:1367 payback.js:1402 payback.js:1414
+#: payback.js:1357 payback.js:1370 payback.js:1405 payback.js:1417
 msgid "Invalid values"
 msgstr "Valeurs invalides"
 
-#: payback.js:1391
+#: payback.js:1394
 msgid "Add member to project {pname}"
 msgstr "Ajouter un membre au projet {pname}"
 
-#: payback.js:1604
+#: payback.js:1607
 msgid "New Bill"
 msgstr "Nouvelle facture"
 
-#: payback.js:1615
+#: payback.js:1618
 msgid "2 active members are required to create a bill"
 msgstr "2 membres actifs sont nécessaires pour créer une facture"
 
-#: payback.js:1652
+#: payback.js:1655
 msgid "Guest link for '{pid}' copied to clipboard"
 msgstr "Lien invité pour '{pid}' copié dans le presse-papier"
 
-#: payback.js:1661
+#: payback.js:1664
 msgid "Guest link copied to clipboard"
 msgstr "Lien invité copié dans le presse-papier"
 
@@ -223,7 +263,7 @@ msgstr "Mauvais Id projet ou mot de passe"
 
 #: logincontent.php:12
 msgid "Project ID"
-msgstr "ID du projet"
+msgstr "ID projet"
 
 #: logincontent.php:21
 msgid "Project password (aka Access code)"
@@ -247,7 +287,7 @@ msgstr "mot de passe"
 
 #: mainnavigation.php:19
 msgid "Add project"
-msgstr "Ajouter un projet"
+msgstr "Ajouter le projet"
 
 #: mainnavigation.php:24
 msgid "New bill"
@@ -259,7 +299,7 @@ msgstr "nom du membre"
 
 #: mainnavigation.php:44
 msgid "Settings"
-msgstr "Paramètres"
+msgstr "Réglages"
 
 #: mainnavigation.php:50
 msgid "Project statistics"
@@ -268,8 +308,4 @@ msgstr "Statistiques du projet"
 #: mainnavigation.php:53
 msgid "Settle"
 msgstr "Remboursements"
-
-#: mainnavigation.php:56
-msgid "Guest access link"
-msgstr "Lien d'accès invité"
 

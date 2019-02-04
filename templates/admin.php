@@ -14,6 +14,6 @@ OCP\Util::addstyle('payback', 'admin');
         <input id="allowAnonymousCreation" type="checkbox"
         <?php if ($_['allowAnonymousCreation'] === '1') p('checked'); ?>
         />
-        <label for="allowAnonymousCreation"><?php p($l->t('Allow anonymous project creation')); ?></label>
+        <label for="allowAnonymousCreation"><?php p($l->t('Allow guests to create projects')); ?></label>
     </div>
 </div>

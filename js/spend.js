@@ -924,7 +924,7 @@
                 }
                 else if (balance > 0) {
                     balanceClass = 'balancePositive';
-                    balanceField.addClass(balanceClass).text(balance.toFixed(2));
+                    balanceField.addClass(balanceClass).text('+' + balance.toFixed(2));
                 }
                 else {
                     balanceField.text(balance.toFixed(2));

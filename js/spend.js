@@ -45,6 +45,48 @@
         return {h: Math.round(h), s: Math.round(s), l: Math.round(l)};
     }
 
+    function hslToRgb(h, s, l) {
+        var r, g, b;
+
+        if(s == 0){
+            r = g = b = l; // achromatic
+        }else{
+            var hue2rgb = function hue2rgb(p, q, t){
+                if(t < 0) t += 1;
+                if(t > 1) t -= 1;
+                if(t < 1/6) return p + (q - p) * 6 * t;
+                if(t < 1/2) return q;
+                if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                return p;
+            }
+
+            var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            var p = 2 * l - q;
+            r = hue2rgb(p, q, h + 1/3);
+            g = hue2rgb(p, q, h);
+            b = hue2rgb(p, q, h - 1/3);
+        }
+
+        //return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+        //return {r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255)};
+        var rgb = {r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255)};
+        var hexStringR = rgb.r.toString(16);
+        if (hexStringR.length % 2) {
+            hexStringR = '0' + hexStringR;
+        }
+        var hexStringG = rgb.g.toString(16);
+        if (hexStringG.length % 2) {
+            hexStringG = '0' + hexStringG;
+        }
+        var hexStringB = rgb.b.toString(16);
+        if (hexStringB.length % 2) {
+            hexStringB = '0' + hexStringB;
+        }
+        //console.log('r:'+hexStringR+' g:'+hexStringG+' b:'+hexStringB);
+        //console.log('rr:'+rgb.r+' gg:'+rgb.g+' bb:'+rgb.b);
+        return hexStringR+hexStringG+hexStringB;
+    }
+
     function Timer(callback, delay) {
         var timerId, start, remaining = delay;
 
@@ -207,6 +249,17 @@
                 memberLine.find('.toggleMember span').eq(1).text(t('spend', 'Remove'));
                 spend.members[projectid][memberid].activated = newActivated;
             }
+            // anyway : update icon
+            var c = getMemberColor(spend.members[projectid][memberid].name);
+            var rgbC = hslToRgb(c.h/360, c.s/100, c.l/100);
+            var imgurl;
+            if (spend.members[projectid][memberid].activated) {
+                imgurl = OC.generateUrl(`/svg/core/actions/user?color=${rgbC}`);
+            }
+            else {
+                imgurl = OC.generateUrl(`/svg/core/actions/disabled-user?color=${rgbC}`);
+            }
+            memberLine.find('>a').attr('style', `background-image: url(${imgurl})`);
             // remove editing mode
             memberLine.removeClass('editing');
             OC.Notification.showTemporary(t('spend', 'Edited member'));
@@ -976,59 +1029,68 @@
         else {
             balanceStr = '<b class="balance">'+balance.toFixed(2)+'</b>';
         }
-        var iconStr, iconToggleStr, toggleStr;
+        var iconStr, iconToggleStr, toggleStr, imgurl;
+        var c = getMemberColor(member.name);
+        var rgbC = hslToRgb(c.h/360, c.s/100, c.l/100);
         if (member.activated) {
             iconStr = 'icon-user';
             iconToggleStr = 'icon-delete';
             toggleStr = t('spend', 'Remove');
+            imgurl = OC.generateUrl(`/svg/core/actions/user?color=${rgbC}`);
         }
         else {
             iconStr = 'icon-disabled-user';
             iconToggleStr = 'icon-history';
             toggleStr = t('spend', 'Reactivate');
+            imgurl = OC.generateUrl(`/svg/core/actions/disabled-user?color=${rgbC}`);
         }
 
-        var li = `<li memberid="${member.id}" class="memberitem"><a class="${iconStr}" href="#">
-                <span><b class="memberName">${member.name}</b> (x<b class="memberWeight">${member.weight}</b>) ${balanceStr}</span>
-            </a>
-            <div class="app-navigation-entry-utils">
-                <ul>
-                    <!--li class="app-navigation-entry-utils-counter">1</li-->
-                    <li class="app-navigation-entry-utils-menu-button">
-                        <button></button>
-                    </li>
-                </ul>
-            </div>
-            <div class="app-navigation-entry-menu">
-                <ul>
-                    <li>
-                        <a href="#" class="renameMember">
-                            <span class="icon-rename"></span>
-                            <span>${t('spend', 'Rename')}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="editWeightMember">
-                            <span class="icon-rename"></span>
-                            <span>${t('spend', 'Change weight')}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="toggleMember">
-                            <span class="${iconToggleStr}"></span>
-                            <span>${toggleStr}</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="app-navigation-entry-edit">
-                <div>
-                    <input type="text" value="${member.name}" class="editMemberInput">
-                    <input type="submit" value="" class="icon-close editMemberClose">
-                    <input type="submit" value="" class="icon-checkmark editMemberOk">
+
+        var li = `
+            <li memberid="${member.id}" class="memberitem">
+                <a class="${iconStr}" style="background-image: url(${imgurl})" href="#">
+                    <span>
+                        <b class="memberName">${member.name}</b> (x<b class="memberWeight">${member.weight}</b>) ${balanceStr}
+                    </span>
+                </a>
+                <div class="app-navigation-entry-utils">
+                    <ul>
+                        <!--li class="app-navigation-entry-utils-counter">1</li-->
+                        <li class="app-navigation-entry-utils-menu-button">
+                            <button></button>
+                        </li>
+                    </ul>
                 </div>
-            </div>
-        </li>`;
+                <div class="app-navigation-entry-menu">
+                    <ul>
+                        <li>
+                            <a href="#" class="renameMember">
+                                <span class="icon-rename"></span>
+                                <span>${t('spend', 'Rename')}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="editWeightMember">
+                                <span class="icon-rename"></span>
+                                <span>${t('spend', 'Change weight')}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="toggleMember">
+                                <span class="${iconToggleStr}"></span>
+                                <span>${toggleStr}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="app-navigation-entry-edit">
+                    <div>
+                        <input type="text" value="${member.name}" class="editMemberInput">
+                        <input type="submit" value="" class="icon-close editMemberClose">
+                        <input type="submit" value="" class="icon-checkmark editMemberOk">
+                    </div>
+                </div>
+            </li>`;
 
         $(li).appendTo('#projectlist li.projectitem[projectid='+projectid+'] .memberlist');
     }

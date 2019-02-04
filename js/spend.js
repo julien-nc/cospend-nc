@@ -771,7 +771,9 @@
             if (member.id === bill.payer_id) {
                 selected = ' selected';
             }
-            payerOptions = payerOptions + `<option value="${member.id}"${selected}>${member.name}</option>`;
+            if (member.id === bill.payer_id || member.activated) {
+                payerOptions = payerOptions + `<option value="${member.id}"${selected}>${member.name}</option>`;
+            }
             // owers
             checked = '';
             if (owerIds.indexOf(member.id) !== -1) {
@@ -787,6 +789,10 @@
                 <label for="${projectid}${member.id}">${member.name}</label>
                 </div>
             `;
+        }
+        var payerDisabled = '';
+        if (!spend.members[projectid][bill.payer_id].activated) {
+            payerDisabled = ' disabled';
         }
         if (billid !== 0) {
             var payerName = getMemberName(projectid, bill.payer_id);
@@ -809,7 +815,7 @@
                     </div>
                     <div class="bill-payer">
                         <a class="icon icon-user"></a><span>${t('spend', 'Who payed?')}</span><br/>
-                        <select class="input-bill-payer">
+                        <select class="input-bill-payer"${payerDisabled}>
                             ${payerOptions}
                         </select>
                     </div>

@@ -923,6 +923,8 @@
                 balance = response.balance[memberid];
                 balanceField = $('.projectitem[projectid='+projectid+'] .memberlist > li[memberid='+memberid+'] b.balance');
                 balanceField.removeClass('balancePositive').removeClass('balanceNegative');
+                // just in case make member visible
+                $('.memberitem[memberid='+memberid+']').removeClass('invisibleMember');
                 if (balance < 0) {
                     balanceClass = 'balanceNegative';
                     balanceField.addClass(balanceClass).text(balance.toFixed(2));
@@ -933,6 +935,10 @@
                 }
                 else {
                     balanceField.text(balance.toFixed(2));
+                    // hide member if balance == 0 and disabled
+                    if (!spend.members[projectid][memberid].activated) {
+                        $('.memberitem[memberid='+memberid+']').addClass('invisibleMember');
+                    }
                 }
             }
         }).always(function() {
@@ -1042,6 +1048,7 @@
         }
         spend.members[projectid][member.id] = member;
 
+        var invisibleClass = '';
         var balanceStr;
         if (balance > 0) {
             balanceStr = '<b class="balance balancePositive">+'+balance.toFixed(2)+'</b>';
@@ -1051,6 +1058,9 @@
         }
         else {
             balanceStr = '<b class="balance">'+balance.toFixed(2)+'</b>';
+            if (!member.activated) {
+                invisibleClass = ' invisibleMember';
+            }
         }
         var iconStr, iconToggleStr, toggleStr, imgurl;
         var c = getMemberColor(member.name);
@@ -1070,7 +1080,7 @@
 
 
         var li = `
-            <li memberid="${member.id}" class="memberitem">
+            <li memberid="${member.id}" class="memberitem${invisibleClass}">
                 <a class="${iconStr}" style="background-image: url(${imgurl})" href="#">
                     <span>
                         <b class="memberName">${member.name}</b> (x<b class="memberWeight">${member.weight}</b>) ${balanceStr}

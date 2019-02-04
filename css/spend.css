@@ -113,3 +113,6 @@ input[type=number] {
     /*background-color: var(--color-warning);*/
     background-color: var(--color-background-darker);
 }
+.invisibleMember {
+    display: none !important;
+}

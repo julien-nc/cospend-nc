@@ -1,6 +1,6 @@
 <?php
 /**
- * Nextcloud - spend
+ * Nextcloud - payback
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -9,7 +9,7 @@
  * @copyright Julien Veyssier 2019
  */
 
-namespace OCA\Spend\Notification;
+namespace OCA\Payback\Notification;
 
 
 use OCP\IURLGenerator;
@@ -54,20 +54,20 @@ class Notifier implements INotifier {
      * @since 9.0.0
      */
     public function prepare(INotification $notification, $languageCode) {
-        if ($notification->getApp() !== 'spend') {
+        if ($notification->getApp() !== 'payback') {
             // Not my app => throw
             throw new \InvalidArgumentException();
         }
 
-        $l = $this->factory->get('spend', $languageCode);
+        $l = $this->factory->get('payback', $languageCode);
 
         switch ($notification->getSubject()) {
         case 'add_user_share':
             $p = $notification->getSubjectParameters();
-            $content = $l->t('User "%s" shared Spend project "%s" with you.', [$p[0], $p[1]]);
+            $content = $l->t('User "%s" shared Payback project "%s" with you.', [$p[0], $p[1]]);
 
             $notification->setParsedSubject($content)
-                ->setLink($this->url->linkToRouteAbsolute('spend.page.index'));
+                ->setLink($this->url->linkToRouteAbsolute('payback.page.index'));
             return $notification;
 
         default:

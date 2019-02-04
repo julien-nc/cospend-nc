@@ -1,15 +1,15 @@
-# Nextcloud Spend app
+# Nextcloud Payback app
 
-[![Build status](https://gitlab.com/eneiluj/spend-nc/badges/master/build.svg)](https://gitlab.com/eneiluj/spend-nc/commits/master)
-[![coverage report](https://gitlab.com/eneiluj/spend-nc/badges/master/coverage.svg)](https://eneiluj.gitlab.io/spend-nc/coverage/)
-[![Crowdin]()](https://crowdin.com/project/spend)
+[![Build status](https://gitlab.com/eneiluj/payback-nc/badges/master/build.svg)](https://gitlab.com/eneiluj/payback-nc/commits/master)
+[![coverage report](https://gitlab.com/eneiluj/payback-nc/badges/master/coverage.svg)](https://eneiluj.gitlab.io/payback-nc/coverage/)
+[![Crowdin]()](https://crowdin.com/project/payback)
 
 
 This app is tested on Nextcloud 15 with Firefox 57+ and Chromium.
 
 This app is under development.
 
-Link to Nextcloud application website : https://apps.nextcloud.com/apps/spend
+Link to Nextcloud application website : https://apps.nextcloud.com/apps/payback
 
 ## Donation
 
@@ -20,11 +20,11 @@ I develop this app during my free time.
 
 ## Install
 
-See the [AdminDoc](https://gitlab.com/eneiluj/spend-nc/wikis/admindoc) for installation details.
+See the [AdminDoc](https://gitlab.com/eneiluj/payback-nc/wikis/admindoc) for installation details.
 
-Check [CHANGELOG](https://gitlab.com/eneiluj/spend-nc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
+Check [CHANGELOG](https://gitlab.com/eneiluj/payback-nc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
 
-Check [AUTHORS](https://gitlab.com/eneiluj/spend-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+Check [AUTHORS](https://gitlab.com/eneiluj/payback-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
 
 ## Known issues
 

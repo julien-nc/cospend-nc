@@ -1,4 +1,4 @@
-app_name=spend
+app_name=payback
 app_version=$(version)
 project_dir=$(CURDIR)/../$(app_name)
 build_dir=/tmp/build

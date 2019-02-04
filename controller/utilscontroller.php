@@ -1,6 +1,6 @@
 <?php
 /**
- * Nextcloud - spend
+ * Nextcloud - payback
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -9,7 +9,7 @@
  * @copyright Julien Veyssier 2019
  */
 
-namespace OCA\Spend\Controller;
+namespace OCA\Payback\Controller;
 
 use OCP\App\IAppManager;
 
@@ -60,7 +60,7 @@ class UtilsController extends Controller {
      * set global point quota
      */
     public function setAllowAnonymousCreation($allow) {
-        $this->config->setAppValue('spend', 'allowAnonymousCreation', $allow);
+        $this->config->setAppValue('payback', 'allowAnonymousCreation', $allow);
         $response = new DataResponse(
             [
                 'done'=>'1'
@@ -79,9 +79,9 @@ class UtilsController extends Controller {
      * @NoAdminRequired
      */
     public function deleteOptionsValues() {
-        $keys = $this->config->getUserKeys($this->userId, 'spend');
+        $keys = $this->config->getUserKeys($this->userId, 'payback');
         foreach ($keys as $key) {
-            $this->config->deleteUserValue($this->userId, 'spend', $key);
+            $this->config->deleteUserValue($this->userId, 'payback', $key);
         }
 
         $response = new DataResponse(
@@ -103,7 +103,7 @@ class UtilsController extends Controller {
      */
     public function saveOptionValue($options) {
         foreach ($options as $key => $value) {
-            $this->config->setUserValue($this->userId, 'spend', $key, $value);
+            $this->config->setUserValue($this->userId, 'payback', $key, $value);
         }
 
         $response = new DataResponse(
@@ -125,9 +125,9 @@ class UtilsController extends Controller {
      */
     public function getOptionsValues() {
         $ov = array();
-        $keys = $this->config->getUserKeys($this->userId, 'spend');
+        $keys = $this->config->getUserKeys($this->userId, 'payback');
         foreach ($keys as $key) {
-            $value = $this->config->getUserValue($this->userId, 'spend', $key);
+            $value = $this->config->getUserValue($this->userId, 'payback', $key);
             $ov[$key] = $value;
         }
 

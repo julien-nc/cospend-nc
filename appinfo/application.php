@@ -1,6 +1,6 @@
 <?php
 /**
- * Nextcloud - spend
+ * Nextcloud - payback
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -9,20 +9,20 @@
  * @copyright Julien Veyssier 2018
  */
 
-namespace OCA\Spend\AppInfo;
+namespace OCA\Payback\AppInfo;
 
 use OCP\IContainer;
 
 use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 
-use OCA\Spend\Controller\PageController;
-use OCA\Spend\Controller\UtilsController;
+use OCA\Payback\Controller\PageController;
+use OCA\Payback\Controller\UtilsController;
 
 /**
  * Class Application
  *
- * @package OCA\Spend\AppInfo
+ * @package OCA\Payback\AppInfo
  */
 class Application extends App {
 
@@ -32,7 +32,7 @@ class Application extends App {
      * @param array $urlParams
      */
     public function __construct(array $urlParams = []) {
-        parent::__construct('spend', $urlParams);
+        parent::__construct('payback', $urlParams);
 
         $container = $this->getContainer();
 

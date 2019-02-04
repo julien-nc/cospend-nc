@@ -1,11 +1,11 @@
 (function() {
-    if (!OCA.Spend) {
-        OCA.Spend = {};
+    if (!OCA.Payback) {
+        OCA.Payback = {};
     }
 })();
 
 function setAllowAnonymousCreation(val) {
-    var url = OC.generateUrl('/apps/spend/setAllowAnonymousCreation');
+    var url = OC.generateUrl('/apps/payback/setAllowAnonymousCreation');
     var req = {
         allow: val
     }
@@ -16,11 +16,11 @@ function setAllowAnonymousCreation(val) {
         async: true
     }).done(function (response) {
         OC.Notification.showTemporary(
-            t('spend', 'Value was successfully saved')
+            t('payback', 'Value was successfully saved')
         );
     }).fail(function() {
         OC.Notification.showTemporary(
-            t('spend', 'Failed to save value')
+            t('payback', 'Failed to save value')
         );
     });
 }

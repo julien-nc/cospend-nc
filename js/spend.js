@@ -1,6 +1,6 @@
 /*jshint esversion: 6 */
 /**
- * Nextcloud - Spend
+ * Nextcloud - payback
  *
  *
  * This file is licensed under the Affero General Public License version 3 or
@@ -19,7 +19,7 @@
     var PROJECT_NAME_EDITION = 1;
     var PROJECT_PASSWORD_EDITION = 2;
 
-    var spend = {
+    var payback = {
         restoredSelectedProjectId: null,
         memberEditionMode: null,
         projectEditionMode: null,
@@ -145,7 +145,7 @@
             name: name,
             password: password
         };
-        var url = OC.generateUrl('/apps/spend/createProject');
+        var url = OC.generateUrl('/apps/payback/createProject');
         $.ajax({
             type: 'POST',
             url: url,
@@ -166,7 +166,7 @@
             $('#newprojectbutton').removeClass('icon-triangle-s').addClass('icon-triangle-e');
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('spend', 'Failed to create project') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('payback', 'Failed to create project') + ' ' + response.responseText);
         });
     }
 
@@ -175,12 +175,12 @@
             name: name
         };
         var url;
-        if (!spend.pageIsPublic) {
+        if (!payback.pageIsPublic) {
             req.projectid = projectid;
-            url = OC.generateUrl('/apps/spend/addMember');
+            url = OC.generateUrl('/apps/payback/addMember');
         }
         else {
-            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}/members`);
+            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}/members`);
         }
         $.ajax({
             type: 'POST',
@@ -201,7 +201,7 @@
             updateNumberOfMember(projectid);
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('spend', 'Failed to add member') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('payback', 'Failed to add member') + ' ' + response.responseText);
         });
     }
 
@@ -212,14 +212,14 @@
             activated: newActivated
         };
         var url, type;
-        if (!spend.pageIsPublic) {
+        if (!payback.pageIsPublic) {
             req.projectid = projectid;
             req.memberid = memberid;
-            url = OC.generateUrl('/apps/spend/editMember');
+            url = OC.generateUrl('/apps/payback/editMember');
             type = 'POST';
         }
         else {
-            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}/members/${memberid}`);
+            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}/members/${memberid}`);
             type = 'PUT';
         }
         $.ajax({
@@ -232,30 +232,30 @@
             // update member values
             if (newName) {
                 memberLine.find('b.memberName').text(newName);
-                spend.members[projectid][memberid].name = newName;
+                payback.members[projectid][memberid].name = newName;
             }
             if (newWeight) {
                 memberLine.find('b.memberWeight').text(newWeight);
-                spend.members[projectid][memberid].weight = newWeight;
+                payback.members[projectid][memberid].weight = newWeight;
                 updateProjectBalances(projectid);
             }
             if (newActivated !== null && newActivated === false) {
                 memberLine.find('>a').removeClass('icon-user').addClass('icon-disabled-user');
                 memberLine.find('.toggleMember span').first().removeClass('icon-delete').addClass('icon-history');
-                memberLine.find('.toggleMember span').eq(1).text(t('spend', 'Reactivate'));
-                spend.members[projectid][memberid].activated = newActivated;
+                memberLine.find('.toggleMember span').eq(1).text(t('payback', 'Reactivate'));
+                payback.members[projectid][memberid].activated = newActivated;
             }
             else if (newActivated !== null && newActivated === true) {
                 memberLine.find('>a').removeClass('icon-disabled-user').addClass('icon-user');
                 memberLine.find('.toggleMember span').first().removeClass('icon-history').addClass('icon-delete');
-                memberLine.find('.toggleMember span').eq(1).text(t('spend', 'Remove'));
-                spend.members[projectid][memberid].activated = newActivated;
+                memberLine.find('.toggleMember span').eq(1).text(t('payback', 'Remove'));
+                payback.members[projectid][memberid].activated = newActivated;
             }
             // anyway : update icon
-            var c = getMemberColor(spend.members[projectid][memberid].name);
+            var c = getMemberColor(payback.members[projectid][memberid].name);
             var rgbC = hslToRgb(c.h/360, c.s/100, c.l/100);
             var imgurl;
-            if (spend.members[projectid][memberid].activated) {
+            if (payback.members[projectid][memberid].activated) {
                 imgurl = OC.generateUrl(`/svg/core/actions/user?color=${rgbC}`);
             }
             else {
@@ -264,14 +264,14 @@
             memberLine.find('>a').attr('style', `background-image: url(${imgurl})`);
             // remove editing mode
             memberLine.removeClass('editing');
-            OC.Notification.showTemporary(t('spend', 'Edited member'));
+            OC.Notification.showTemporary(t('payback', 'Edited member'));
             // get bills again to refresh names
             getBills(projectid);
             // reset bill edition
             $('#billdetail').html('');
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('spend', 'Failed to edit member') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('payback', 'Failed to edit member') + ' ' + response.responseText);
         });
     }
 
@@ -284,12 +284,12 @@
             amount: amount
         };
         var url, type;
-        if (!spend.pageIsPublic) {
+        if (!payback.pageIsPublic) {
             req.projectid = projectid;
-            url = OC.generateUrl('/apps/spend/addBill');
+            url = OC.generateUrl('/apps/payback/addBill');
         }
         else {
-            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}/bills`);
+            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}/bills`);
         }
         $.ajax({
             type: 'POST',
@@ -299,7 +299,7 @@
         }).done(function (response) {
             var billid = response;
             // update dict
-            spend.bills[projectid][billid] = {
+            payback.bills[projectid][billid] = {
                 id: billid,
                 what: what,
                 date: date,
@@ -310,19 +310,19 @@
             for (var i=0; i < owerIds.length; i++) {
                 billOwers.push({id: owerIds[i]});
             }
-            spend.bills[projectid][billid].owers = billOwers;
+            payback.bills[projectid][billid].owers = billOwers;
 
             // update ui
-            var bill = spend.bills[projectid][billid];
+            var bill = payback.bills[projectid][billid];
             updateBillItem(projectid, 0, bill);
             updateDisplayedBill(projectid, billid, what, payer_id);
 
             updateProjectBalances(projectid);
 
-            OC.Notification.showTemporary(t('spend', 'Bill created'));
+            OC.Notification.showTemporary(t('payback', 'Bill created'));
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('spend', 'Failed to create bill') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('payback', 'Failed to create bill') + ' ' + response.responseText);
         });
     }
 
@@ -335,15 +335,15 @@
             amount: amount
         };
         var url, type;
-        if (!spend.pageIsPublic) {
+        if (!payback.pageIsPublic) {
             req.projectid = projectid;
             req.billid = billid;
             type = 'POST';
-            url = OC.generateUrl('/apps/spend/editBill');
+            url = OC.generateUrl('/apps/payback/editBill');
         }
         else {
             type = 'PUT';
-            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}/bills/${billid}`);
+            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}/bills/${billid}`);
         }
         $.ajax({
             type: type,
@@ -352,27 +352,27 @@
             async: true,
         }).done(function (response) {
             // update dict
-            spend.bills[projectid][billid].what = what;
-            spend.bills[projectid][billid].date = date;
-            spend.bills[projectid][billid].amount = amount;
-            spend.bills[projectid][billid].payer_id = payer_id;
+            payback.bills[projectid][billid].what = what;
+            payback.bills[projectid][billid].date = date;
+            payback.bills[projectid][billid].amount = amount;
+            payback.bills[projectid][billid].payer_id = payer_id;
             var billOwers = [];
             for (var i=0; i < owerIds.length; i++) {
                 billOwers.push({id: owerIds[i]});
             }
-            spend.bills[projectid][billid].owers = billOwers;
+            payback.bills[projectid][billid].owers = billOwers;
 
             // update ui
-            var bill = spend.bills[projectid][billid];
+            var bill = payback.bills[projectid][billid];
             updateBillItem(projectid, billid, bill);
             updateDisplayedBill(projectid, billid, what, payer_id);
 
             updateProjectBalances(projectid);
 
-            OC.Notification.showTemporary(t('spend', 'Edited bill'));
+            OC.Notification.showTemporary(t('payback', 'Edited bill'));
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('spend', 'Failed to edit bill') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('payback', 'Failed to edit bill') + ' ' + response.responseText);
         });
     }
 
@@ -410,14 +410,14 @@
             password: newPassword
         };
         var url, type;
-        if (!spend.pageIsPublic) {
+        if (!payback.pageIsPublic) {
             req.projectid = projectid;
             type = 'POST';
-            url = OC.generateUrl('/apps/spend/editProject');
+            url = OC.generateUrl('/apps/payback/editProject');
         }
         else {
             type = 'PUT';
-            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}`);
+            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}`);
         }
         $.ajax({
             type: type,
@@ -429,23 +429,23 @@
             // update project values
             if (newName) {
                 projectLine.find('>a span').text(newName);
-                spend.projects[projectid].name = newName;
+                payback.projects[projectid].name = newName;
             }
-            if (spend.pageIsPublic && newPassword) {
-                spend.password = newPassword;
+            if (payback.pageIsPublic && newPassword) {
+                payback.password = newPassword;
             }
             // update deleted text
             projectLine.find('.app-navigation-entry-deleted-description').text(
-                t('spend', 'Deleted {name}', {name: spend.projects[projectid].name})
+                t('payback', 'Deleted {name}', {name: payback.projects[projectid].name})
             );
             // remove editing mode
             projectLine.removeClass('editing');
             // reset bill edition
             $('#billdetail').html('');
-            OC.Notification.showTemporary(t('spend', 'Edited project'));
+            OC.Notification.showTemporary(t('payback', 'Edited project'));
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('spend', 'Failed to edit project') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('payback', 'Failed to edit project') + ' ' + response.responseText);
         });
     }
 
@@ -458,14 +458,14 @@
         var req = {
         };
         var url, type;
-        if (!spend.pageIsPublic) {
+        if (!payback.pageIsPublic) {
             req.projectid = id
-            url = OC.generateUrl('/apps/spend/deleteProject');
+            url = OC.generateUrl('/apps/payback/deleteProject');
             type = 'POST';
         }
         else {
             type = 'DELETE';
-            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}`);
+            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}`);
         }
         $.ajax({
             type: type,
@@ -476,18 +476,18 @@
             $('.projectitem[projectid='+id+']').fadeOut('slow', function() {
                 $(this).remove();
             });
-            if (spend.currentProjectId === id) {
+            if (payback.currentProjectId === id) {
                 $('#bill-list').html('');
                 $('#billdetail').html('');
             }
-            if (spend.pageIsPublic) {
-                var redirectUrl = OC.generateUrl('/apps/spend/login');
+            if (payback.pageIsPublic) {
+                var redirectUrl = OC.generateUrl('/apps/payback/login');
                 window.location.replace(redirectUrl);
             }
-            OC.Notification.showTemporary(t('spend', 'Deleted project {id}', {id: id}));
+            OC.Notification.showTemporary(t('payback', 'Deleted project {id}', {id: id}));
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('spend', 'Failed to delete project') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('payback', 'Failed to delete project') + ' ' + response.responseText);
         });
     }
 
@@ -495,15 +495,15 @@
         var req = {
         };
         var url, type;
-        if (!spend.pageIsPublic) {
+        if (!payback.pageIsPublic) {
             req.projectid = projectid;
             req.billid = billid;
             type = 'POST';
-            url = OC.generateUrl('/apps/spend/deleteBill');
+            url = OC.generateUrl('/apps/payback/deleteBill');
         }
         else {
             type = 'DELETE';
-            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}/bills/${billid}`);
+            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}/bills/${billid}`);
         }
         $.ajax({
             type: type,
@@ -517,12 +517,12 @@
             $('.billitem[billid='+billid+']').fadeOut('slow', function() {
                 $(this).remove();
             });
-            delete spend.bills[projectid][billid];
+            delete payback.bills[projectid][billid];
             updateProjectBalances(projectid);
-            OC.Notification.showTemporary(t('spend', 'Deleted bill'));
+            OC.Notification.showTemporary(t('payback', 'Deleted bill'));
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('spend', 'Failed to delete bill') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('payback', 'Failed to delete bill') + ' ' + response.responseText);
         });
     }
 
@@ -531,15 +531,15 @@
         };
         var url;
         var type;
-        if (!spend.pageIsPublic) {
-            url = OC.generateUrl('/apps/spend/getProjects');
+        if (!payback.pageIsPublic) {
+            url = OC.generateUrl('/apps/payback/getProjects');
             type = 'POST';
         }
         else {
-            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}`);
+            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}`);
             type = 'GET';
         }
-        spend.currentGetProjectsAjax = $.ajax({
+        payback.currentGetProjectsAjax = $.ajax({
             type: type,
             url: url,
             data: req,
@@ -556,7 +556,7 @@
                 return xhr;
             }
         }).done(function (response) {
-            if (!spend.pageIsPublic) {
+            if (!payback.pageIsPublic) {
                 for (var i = 0; i < response.length; i++) {
                     addProject(response[i]);
                 }
@@ -564,13 +564,13 @@
             else {
                 addProject(response);
                 $('.projectitem').addClass('open');
-                spend.currentProjectId = spend.projectid;
-                getBills(spend.projectid);
+                payback.currentProjectId = payback.projectid;
+                getBills(payback.projectid);
             }
         }).always(function() {
-            spend.currentGetProjectsAjax = null;
+            payback.currentGetProjectsAjax = null;
         }).fail(function() {
-            OC.Notification.showTemporary(t('spend', 'Failed to contact server to get projects'));
+            OC.Notification.showTemporary(t('payback', 'Failed to contact server to get projects'));
         });
     }
 
@@ -579,16 +579,16 @@
         };
         var url;
         var type;
-        if (!spend.pageIsPublic) {
+        if (!payback.pageIsPublic) {
             req.projectid = projectid;
             type = 'POST';
-            url = OC.generateUrl('/apps/spend/getStatistics');
+            url = OC.generateUrl('/apps/payback/getStatistics');
         }
         else {
             type = 'GET';
-            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}/statistics`);
+            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}/statistics`);
         }
-        spend.currentGetProjectsAjax = $.ajax({
+        payback.currentGetProjectsAjax = $.ajax({
             type: type,
             url: url,
             data: req,
@@ -597,7 +597,7 @@
             displayStatistics(projectid, response);
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('spend', 'Failed to get statistics'));
+            OC.Notification.showTemporary(t('payback', 'Failed to get statistics'));
         });
     }
 
@@ -606,16 +606,16 @@
         };
         var url;
         var type;
-        if (!spend.pageIsPublic) {
+        if (!payback.pageIsPublic) {
             req.projectid = projectid;
             type = 'POST';
-            url = OC.generateUrl('/apps/spend/getSettlement');
+            url = OC.generateUrl('/apps/payback/getSettlement');
         }
         else {
             type = 'GET';
-            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}/settle`);
+            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}/settle`);
         }
-        spend.currentGetProjectsAjax = $.ajax({
+        payback.currentGetProjectsAjax = $.ajax({
             type: type,
             url: url,
             data: req,
@@ -624,7 +624,7 @@
             displaySettlement(projectid, response);
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('spend', 'Failed to get settlement'));
+            OC.Notification.showTemporary(t('payback', 'Failed to get settlement'));
         });
     }
 
@@ -634,11 +634,11 @@
         $('.app-content-list').addClass('showdetails');
         var settlementStr = `
             <div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>
-            <h2 id="settlementTitle">${t('spend', 'Settlement of project {name}', {name: projectName})}</h2>
+            <h2 id="settlementTitle">${t('payback', 'Settlement of project {name}', {name: projectName})}</h2>
             <table id="settlementTable"><thead>
-                <th>${t('spend', 'Who pays?')}</th>
-                <th>${t('spend', 'To whom?')}</th>
-                <th>${t('spend', 'How much?')}</th>
+                <th>${t('payback', 'Who pays?')}</th>
+                <th>${t('payback', 'To whom?')}</th>
+                <th>${t('payback', 'How much?')}</th>
             </thead>
         `;
         var whoPaysName, toWhomName, amount;
@@ -666,12 +666,12 @@
         $('.app-content-list').addClass('showdetails');
         var statsStr = `
             <div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>
-            <h2 id="statsTitle">${t('spend', 'Statistics of project {name}', {name: projectName})}</h2>
+            <h2 id="statsTitle">${t('payback', 'Statistics of project {name}', {name: projectName})}</h2>
             <table id="statsTable"><thead>
-                <th>${t('spend', 'Member name')}</th>
-                <th>${t('spend', 'Paid')}</th>
-                <th>${t('spend', 'Spent')}</th>
-                <th>${t('spend', 'Balance')}</th>
+                <th>${t('payback', 'Member name')}</th>
+                <th>${t('payback', 'Paid')}</th>
+                <th>${t('payback', 'Spent')}</th>
+                <th>${t('payback', 'Balance')}</th>
             </thead>
         `;
         var paid, spent, balance, name, balanceClass;
@@ -707,23 +707,23 @@
         };
         var url;
         var type;
-        if (!spend.pageIsPublic) {
-            url = OC.generateUrl('/apps/spend/getBills');
+        if (!payback.pageIsPublic) {
+            url = OC.generateUrl('/apps/payback/getBills');
             type = 'POST';
             req.projectid = projectid;
         }
         else {
-            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}/bills`)
+            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}/bills`)
             type = 'GET';
         }
-        spend.currentGetProjectsAjax = $.ajax({
+        payback.currentGetProjectsAjax = $.ajax({
             type: type,
             url: url,
             data: req,
             async: true,
         }).done(function (response) {
             $('#bill-list').html('');
-            spend.bills[projectid] = {};
+            payback.bills[projectid] = {};
             var bill;
             for (var i = 0; i < response.length; i++) {
                 bill = response[i];
@@ -731,12 +731,12 @@
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('spend', 'Failed to get bills'));
+            OC.Notification.showTemporary(t('payback', 'Failed to get bills'));
         });
     }
 
     function getProjectName(projectid) {
-        return spend.projects[projectid].name;
+        return payback.projects[projectid].name;
     }
 
     function updateDisplayedBill(projectid, billid, what, payer_id) {
@@ -748,13 +748,13 @@
             c = getMemberColor(payerName);
         }
         $('.bill-title').text(
-            `${t('spend', 'Bill "{what}" of project {proj}', {what: what, proj: projectName})}`
+            `${t('payback', 'Bill "{what}" of project {proj}', {what: what, proj: projectName})}`
         );
         $('.bill-title').attr('style', `background-color: hsl(${c.h}, ${c.s}%, ${c.l}%);`);
     }
 
     function displayBill(projectid, billid) {
-        var bill = spend.bills[projectid][billid];
+        var bill = payback.bills[projectid][billid];
         var projectName = getProjectName(projectid);
 
         var owers = bill.owers;
@@ -768,8 +768,8 @@
         var payerOptions = '';
         var member;
         var selected, checked, readonly;
-        for (var memberid in spend.members[projectid]) {
-            member = spend.members[projectid][memberid];
+        for (var memberid in payback.members[projectid]) {
+            member = payback.members[projectid][memberid];
             // payer
             selected = '';
             if (member.id === bill.payer_id) {
@@ -801,7 +801,7 @@
         var payerDisabled = '';
         if (billid !== 0) {
             // disable payer select if bill is not new
-            if (!spend.members[projectid][bill.payer_id].activated) {
+            if (!payback.members[projectid][bill.payer_id].activated) {
                 payerDisabled = ' disabled';
             }
             var payerName = getMemberName(projectid, bill.payer_id);
@@ -812,35 +812,35 @@
         var detail = `
             <div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>
             <h2 class="bill-title" projectid="${projectid}" billid="${bill.id}" style="background-color: hsl(${c.h}, ${c.s}%, ${c.l}%);">
-                ${t('spend', 'Bill "{what}" of project {proj}', {what: bill.what, proj: projectName})}
+                ${t('payback', 'Bill "{what}" of project {proj}', {what: bill.what, proj: projectName})}
             </h2>
             <div class="bill-form">
                 <div class="bill-left">
                     <div class="bill-what">
-                        <a class="icon icon-tag"></a><span>${t('spend', 'What? (press enter to validate)')}</span><br/>
+                        <a class="icon icon-tag"></a><span>${t('payback', 'What? (press enter to validate)')}</span><br/>
                         <input type="text" class="input-bill-what" value="${bill.what}"/>
                     </div>
                     <div class="bill-amount">
-                        <a class="icon icon-quota"></a><span>${t('spend', 'How much? (press enter to validate)')}</span><br/>
+                        <a class="icon icon-quota"></a><span>${t('payback', 'How much? (press enter to validate)')}</span><br/>
                         <input type="number" class="input-bill-amount" value="${bill.amount}" step="0.01" min="0"/>
                     </div>
                     <div class="bill-payer">
-                        <a class="icon icon-user"></a><span>${t('spend', 'Who payed?')}</span><br/>
+                        <a class="icon icon-user"></a><span>${t('payback', 'Who payed?')}</span><br/>
                         <select class="input-bill-payer"${payerDisabled}>
                             ${payerOptions}
                         </select>
                     </div>
                     <div class="bill-date">
-                        <a class="icon icon-calendar-dark"></a><span>${t('spend', 'When?')}</span><br/>
+                        <a class="icon icon-calendar-dark"></a><span>${t('payback', 'When?')}</span><br/>
                         <input type="date" class="input-bill-date" value="${bill.date}"/>
                     </div>
                 </div>
                 <div class="bill-right">
                     <div class="bill-owers">
-                        <a class="icon icon-group"></a><span>${t('spend', 'For whom?')}</span>
+                        <a class="icon icon-group"></a><span>${t('payback', 'For whom?')}</span>
                         <div class="owerAllNoneDiv">
-                        <button id="owerAll">${t('spend', 'All')}</button>
-                        <button id="owerNone">${t('spend', 'None')}</button>
+                        <button id="owerAll">${t('payback', 'All')}</button>
+                        <button id="owerNone">${t('payback', 'None')}</button>
                         </div>
                         ${owerCheckboxes}
                     </div>
@@ -853,7 +853,7 @@
 
     function getMemberName(projectid, memberid) {
         //var memberName = $('.projectitem[projectid='+projectid+'] .memberlist > li[memberid='+memberid+'] b.memberName').text();
-        var memberName = spend.members[projectid][memberid].name;
+        var memberName = payback.members[projectid][memberid].name;
         return memberName;
     }
 
@@ -868,7 +868,7 @@
     }
 
     function addBill(projectid, bill) {
-        spend.bills[projectid][bill.id] = bill;
+        payback.bills[projectid][bill.id] = bill;
 
         var owerNames = '';
         var ower;
@@ -909,16 +909,16 @@
         };
         var url;
         var type;
-        if (!spend.pageIsPublic) {
+        if (!payback.pageIsPublic) {
             req.projectid = projectid;
-            url = OC.generateUrl('/apps/spend/getProjectInfo');
+            url = OC.generateUrl('/apps/payback/getProjectInfo');
             type = 'POST';
         }
         else {
-            url = OC.generateUrl(`/apps/spend/api/projects/${spend.projectid}/${spend.password}`);
+            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}`);
             type = 'GET';
         }
-        spend.currentGetProjectsAjax = $.ajax({
+        payback.currentGetProjectsAjax = $.ajax({
             type: type,
             url: url,
             data: req,
@@ -942,27 +942,27 @@
                 else {
                     balanceField.text(balance.toFixed(2));
                     // hide member if balance == 0 and disabled
-                    if (!spend.members[projectid][memberid].activated) {
+                    if (!payback.members[projectid][memberid].activated) {
                         $('.memberitem[memberid='+memberid+']').addClass('invisibleMember');
                     }
                 }
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('spend', 'Failed to update balances'));
+            OC.Notification.showTemporary(t('payback', 'Failed to update balances'));
         });
     }
 
     function addProject(project) {
-        spend.projects[project.id] = project;
-        spend.members[project.id] = {};
+        payback.projects[project.id] = project;
+        payback.members[project.id] = {};
 
         var name = project.name;
         var projectid = project.id;
         var projectSelected = '';
-        if (spend.restoredSelectedProjectId === projectid) {
+        if (payback.restoredSelectedProjectId === projectid) {
             projectSelected = ' open';
-            spend.currentProjectId = projectid;
+            payback.currentProjectId = projectid;
             getBills(projectid);
         }
         var li = `
@@ -990,49 +990,49 @@
                         <li>
                             <a href="#" class="addMember">
                                 <span class="icon-add"></span>
-                                <span>${t('spend', 'Add member')}</span>
+                                <span>${t('payback', 'Add member')}</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="copyExtProjectUrl">
                                 <span class="icon-clippy"></span>
-                                <span>${t('spend', 'Guest access link')}</span>
+                                <span>${t('payback', 'Guest access link')}</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="editProjectName">
                                 <span class="icon-rename"></span>
-                                <span>${t('spend', 'Rename')}</span>
+                                <span>${t('payback', 'Rename')}</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="editProjectPassword">
                                 <span class="icon-rename"></span>
-                                <span>${t('spend', 'Change password')}</span>
+                                <span>${t('payback', 'Change password')}</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="getProjectStats">
                                 <span class="icon-category-monitoring"></span>
-                                <span>${t('spend', 'Display statistics')}</span>
+                                <span>${t('payback', 'Display statistics')}</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="getProjectSettlement">
                                 <span class="icon-category-organization"></span>
-                                <span>${t('spend', 'Settle the project')}</span>
+                                <span>${t('payback', 'Settle the project')}</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="deleteProject">
                                 <span class="icon-delete"></span>
-                                <span>${t('spend', 'Delete')}</span>
+                                <span>${t('payback', 'Delete')}</span>
                             </a>
                         </li>
                     </ul>
                 </div>
                 <div class="app-navigation-entry-deleted">
-                    <div class="app-navigation-entry-deleted-description">${t('spend', 'Deleted {name}', {name: name})}</div>
+                    <div class="app-navigation-entry-deleted-description">${t('payback', 'Deleted {name}', {name: name})}</div>
                     <button class="app-navigation-entry-deleted-button icon-history undoDeleteProject" title="Undo"></button>
                 </div>
                 <ul class="memberlist"></ul>
@@ -1049,10 +1049,10 @@
     function addMember(projectid, member, balance) {
         // add member to dict
         // TODO remove this
-        if (!spend.members.hasOwnProperty(projectid)) {
-            spend.members[projectid] = {};
+        if (!payback.members.hasOwnProperty(projectid)) {
+            payback.members[projectid] = {};
         }
-        spend.members[projectid][member.id] = member;
+        payback.members[projectid][member.id] = member;
 
         var invisibleClass = '';
         var balanceStr;
@@ -1074,13 +1074,13 @@
         if (member.activated) {
             iconStr = 'icon-user';
             iconToggleStr = 'icon-delete';
-            toggleStr = t('spend', 'Remove');
+            toggleStr = t('payback', 'Remove');
             imgurl = OC.generateUrl(`/svg/core/actions/user?color=${rgbC}`);
         }
         else {
             iconStr = 'icon-disabled-user';
             iconToggleStr = 'icon-history';
-            toggleStr = t('spend', 'Reactivate');
+            toggleStr = t('payback', 'Reactivate');
             imgurl = OC.generateUrl(`/svg/core/actions/disabled-user?color=${rgbC}`);
         }
 
@@ -1105,13 +1105,13 @@
                         <li>
                             <a href="#" class="renameMember">
                                 <span class="icon-rename"></span>
-                                <span>${t('spend', 'Rename')}</span>
+                                <span>${t('payback', 'Rename')}</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="editWeightMember">
                                 <span class="icon-rename"></span>
-                                <span>${t('spend', 'Change weight')}</span>
+                                <span>${t('payback', 'Change weight')}</span>
                             </a>
                         </li>
                         <li>
@@ -1183,17 +1183,17 @@
         }
         else {
             if (billid !== '0') {
-                OC.Notification.showTemporary(t('spend', 'Bill values are not valid'));
+                OC.Notification.showTemporary(t('payback', 'Bill values are not valid'));
             }
         }
     }
 
     function saveOptionValue(optionValues) {
-        if (!spend.pageIsPublic) {
+        if (!payback.pageIsPublic) {
             var req = {
                 options: optionValues
             };
-            var url = OC.generateUrl('/apps/spend/saveOptionValue');
+            var url = OC.generateUrl('/apps/payback/saveOptionValue');
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -1202,7 +1202,7 @@
             }).done(function (response) {
             }).fail(function() {
                 OC.Notification.showTemporary(
-                    t('spend', 'Failed to save option values')
+                    t('payback', 'Failed to save option values')
                 );
             });
         }
@@ -1210,7 +1210,7 @@
 
     function restoreOptions() {
         var mom;
-        var url = OC.generateUrl('/apps/spend/getOptionsValues');
+        var url = OC.generateUrl('/apps/payback/getOptionsValues');
         var req = {
         };
         var optionsValues = {};
@@ -1224,7 +1224,7 @@
             if (optionsValues) {
                 for (var k in optionsValues) {
                     if (k === 'selectedProject') {
-                        spend.restoredSelectedProjectId = optionsValues[k];
+                        payback.restoredSelectedProjectId = optionsValues[k];
                     }
                 }
             }
@@ -1232,21 +1232,21 @@
             main();
         }).fail(function() {
             OC.Notification.showTemporary(
-                t('spend', 'Failed to restore options values')
+                t('payback', 'Failed to restore options values')
             );
         });
     }
 
     $(document).ready(function() {
-        spend.pageIsPublic = (document.URL.indexOf('/spend/project') !== -1);
-        if ( !spend.pageIsPublic ) {
+        payback.pageIsPublic = (document.URL.indexOf('/payback/project') !== -1);
+        if ( !payback.pageIsPublic ) {
             restoreOptions();
         }
         else {
             //restoreOptionsFromUrlParams();
             $('#newprojectbutton').hide();
-            spend.projectid = $('#projectid').text();
-            spend.password = $('#password').text();
+            payback.projectid = $('#projectid').text();
+            payback.password = $('#password').text();
             $('#projectid').html('');
             $('#password').html('');
             main();
@@ -1282,7 +1282,7 @@
                 $(this).parent().addClass('open');
                 var projectid = $(this).parent().attr('projectid');
                 saveOptionValue({selectedProject: projectid});
-                spend.currentProjectId = projectid;
+                payback.currentProjectId = projectid;
                 $('#billdetail').html('');
                 getBills(projectid);
             }
@@ -1296,7 +1296,7 @@
                     $(this).addClass('open');
                     var projectid = $(this).attr('projectid');
                     saveOptionValue({selectedProject: projectid});
-                    spend.currentProjectId = projectid;
+                    payback.currentProjectId = projectid;
                     $('#billdetail').html('');
                     getBills(projectid);
                 }
@@ -1324,7 +1324,7 @@
                     createProject(id, name, password);
                 }
                 else {
-                    OC.Notification.showTemporary(t('spend', 'Invalid values'));
+                    OC.Notification.showTemporary(t('payback', 'Invalid values'));
                 }
             }
         });
@@ -1337,14 +1337,14 @@
                 createProject(id, name, password);
             }
             else {
-                OC.Notification.showTemporary(t('spend', 'Invalid values'));
+                OC.Notification.showTemporary(t('payback', 'Invalid values'));
             }
         });
 
         $('body').on('click', '.deleteProject', function(e) {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
             $(this).parent().parent().parent().parent().addClass('deleted');
-            spend.projectDeletionTimer[projectid] = new Timer(function() {
+            payback.projectDeletionTimer[projectid] = new Timer(function() {
                 deleteProject(projectid);
             }, 7000);
         });
@@ -1352,8 +1352,8 @@
         $('body').on('click', '.undoDeleteProject', function(e) {
             var projectid = $(this).parent().parent().attr('projectid');
             $(this).parent().parent().removeClass('deleted');
-            spend.projectDeletionTimer[projectid].pause();
-            delete spend.projectDeletionTimer[projectid];
+            payback.projectDeletionTimer[projectid].pause();
+            delete payback.projectDeletionTimer[projectid];
         });
 
         $('body').on('click', '.addMember', function(e) {
@@ -1361,7 +1361,7 @@
             var name = $('.projectitem[projectid='+id+'] > a > span').text();
             $('#newmemberdiv').slideDown();
             $('#newmembername').val('').focus();
-            $('#newmemberdiv #newmemberbutton').text(t('spend', 'Add member to project {pname}', {pname: name}));
+            $('#newmemberdiv #newmemberbutton').text(t('payback', 'Add member to project {pname}', {pname: name}));
             $('#newmemberdiv #newmemberbutton').attr('projectid', id);
         });
 
@@ -1372,7 +1372,7 @@
                 createMember(projectid, name);
             }
             else {
-                OC.Notification.showTemporary(t('spend', 'Invalid values'));
+                OC.Notification.showTemporary(t('payback', 'Invalid values'));
             }
         });
 
@@ -1384,7 +1384,7 @@
                     createMember(projectid, name);
                 }
                 else {
-                    OC.Notification.showTemporary(t('spend', 'Invalid values'));
+                    OC.Notification.showTemporary(t('payback', 'Invalid values'));
                 }
             }
         });
@@ -1395,7 +1395,7 @@
             $(this).parent().parent().parent().parent().find('.editMemberInput').val(name).focus().select();
             $('.memberlist li').removeClass('editing');
             $(this).parent().parent().parent().parent().addClass('editing');
-            spend.memberEditionMode = MEMBER_NAME_EDITION;
+            payback.memberEditionMode = MEMBER_NAME_EDITION;
         });
 
         $('body').on('click', '.editWeightMember', function(e) {
@@ -1404,7 +1404,7 @@
             $(this).parent().parent().parent().parent().find('.editMemberInput').val(weight).focus().select();
             $('.memberlist li').removeClass('editing');
             $(this).parent().parent().parent().parent().addClass('editing');
-            spend.memberEditionMode = MEMBER_WEIGHT_EDITION;
+            payback.memberEditionMode = MEMBER_WEIGHT_EDITION;
         });
 
         $('body').on('click', '.editMemberClose', function(e) {
@@ -1415,11 +1415,11 @@
             if (e.key === 'Enter') {
                 var memberid = $(this).parent().parent().parent().attr('memberid');
                 var projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
-                if (spend.memberEditionMode === MEMBER_NAME_EDITION) {
+                if (payback.memberEditionMode === MEMBER_NAME_EDITION) {
                     var newName = $(this).val();
                     editMember(projectid, memberid, newName, null, null);
                 }
-                else if (spend.memberEditionMode === MEMBER_WEIGHT_EDITION) {
+                else if (payback.memberEditionMode === MEMBER_WEIGHT_EDITION) {
                     var newWeight = $(this).val();
                     var newName = $(this).parent().parent().parent().find('b.memberName').text();
                     editMember(projectid, memberid, newName, newWeight, null);
@@ -1430,11 +1430,11 @@
         $('body').on('click', '.editMemberOk', function(e) {
             var memberid = $(this).parent().parent().parent().attr('memberid');
             var projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
-            if (spend.memberEditionMode === MEMBER_NAME_EDITION) {
+            if (payback.memberEditionMode === MEMBER_NAME_EDITION) {
                 var newName = $(this).parent().find('.editMemberInput').val();
                 editMember(projectid, memberid, newName, null, null);
             }
-            else if (spend.memberEditionMode === MEMBER_WEIGHT_EDITION) {
+            else if (payback.memberEditionMode === MEMBER_WEIGHT_EDITION) {
                 var newWeight = $(this).parent().find('.editMemberInput').val();
                 var newName = $(this).parent().parent().parent().find('b.memberName').text();
                 editMember(projectid, memberid, newName, newWeight, null);
@@ -1455,7 +1455,7 @@
             $(this).parent().parent().parent().parent().find('.editProjectInput').val(name).attr('type', 'text').focus().select();
             $('#projectlist > li').removeClass('editing');
             $(this).parent().parent().parent().parent().removeClass('open').addClass('editing');
-            spend.projectEditionMode = PROJECT_NAME_EDITION;
+            payback.projectEditionMode = PROJECT_NAME_EDITION;
         });
 
         $('body').on('click', '.editProjectPassword', function(e) {
@@ -1463,7 +1463,7 @@
             $(this).parent().parent().parent().parent().find('.editProjectInput').attr('type', 'password').val('').focus();
             $('#projectlist > li').removeClass('editing');
             $(this).parent().parent().parent().parent().removeClass('open').addClass('editing');
-            spend.projectEditionMode = PROJECT_PASSWORD_EDITION;
+            payback.projectEditionMode = PROJECT_PASSWORD_EDITION;
         });
 
         $('body').on('click', '.editProjectClose', function(e) {
@@ -1473,11 +1473,11 @@
         $('body').on('keyup', '.editProjectInput', function(e) {
             if (e.key === 'Enter') {
                 var projectid = $(this).parent().parent().parent().attr('projectid');
-                if (spend.projectEditionMode === PROJECT_NAME_EDITION) {
+                if (payback.projectEditionMode === PROJECT_NAME_EDITION) {
                     var newName = $(this).val();
                     editProject(projectid, newName, null, null);
                 }
-                else if (spend.projectEditionMode === PROJECT_PASSWORD_EDITION) {
+                else if (payback.projectEditionMode === PROJECT_PASSWORD_EDITION) {
                     var newPassword = $(this).val();
                     var newName = $(this).parent().parent().parent().find('>a span').text();
                     editProject(projectid, newName, null, newPassword);
@@ -1487,11 +1487,11 @@
 
         $('body').on('click', '.editProjectOk', function(e) {
             var projectid = $(this).parent().parent().parent().attr('projectid');
-            if (spend.projectEditionMode === PROJECT_NAME_EDITION) {
+            if (payback.projectEditionMode === PROJECT_NAME_EDITION) {
                 var newName = $(this).parent().find('.editProjectInput').val();
                 editProject(projectid, newName, null, null);
             }
-            else if (spend.projectEditionMode === PROJECT_PASSWORD_EDITION) {
+            else if (payback.projectEditionMode === PROJECT_PASSWORD_EDITION) {
                 var newPassword = $(this).parent().find('.editProjectInput').val();
                 var newName = $(this).parent().parent().parent().find('>a span').text();
                 editProject(projectid, newName, null, newPassword);
@@ -1512,8 +1512,8 @@
 
         $('body').on('click', '#owerAll', function(e) {
             var projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
-            for (var memberid in spend.members[projectid]) {
-                if (spend.members[projectid][memberid].activated) {
+            for (var memberid in payback.members[projectid]) {
+                if (payback.members[projectid][memberid].activated) {
                     $('.bill-owers input[owerid='+memberid+']').prop('checked', true);
                 }
             }
@@ -1523,8 +1523,8 @@
 
         $('body').on('click', '#owerNone', function(e) {
             var projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
-            for (var memberid in spend.members[projectid]) {
-                if (spend.members[projectid][memberid].activated) {
+            for (var memberid in payback.members[projectid]) {
+                if (payback.members[projectid][memberid].activated) {
                     $('.bill-owers input[owerid='+memberid+']').prop('checked', false);
                 }
             }
@@ -1534,8 +1534,8 @@
 
         $('body').on('click', '.undoDeleteBill', function(e) {
             var billid = $(this).parent().attr('billid');
-            spend.billDeletionTimer[billid].pause();
-            delete spend.billDeletionTimer[billid];
+            payback.billDeletionTimer[billid].pause();
+            delete payback.billDeletionTimer[billid];
             $(this).parent().find('.deleteBillIcon').show();
             $(this).parent().removeClass('deleted');
             $(this).hide();
@@ -1548,7 +1548,7 @@
                 $(this).parent().find('.undoDeleteBill').show();
                 $(this).parent().addClass('deleted');
                 $(this).hide();
-                spend.billDeletionTimer[billid] = new Timer(function() {
+                payback.billDeletionTimer[billid] = new Timer(function() {
                     deleteBill(projectid, billid);
                 }, 7000);
             }
@@ -1563,18 +1563,18 @@
         });
 
         $('body').on('click', '#newBillButton', function(e) {
-            var projectid = spend.currentProjectId;
+            var projectid = payback.currentProjectId;
             var activatedMembers = [];
-            for (var mid in spend.members[projectid]) {
-                if (spend.members[projectid][mid].activated) {
+            for (var mid in payback.members[projectid]) {
+                if (payback.members[projectid][mid].activated) {
                     activatedMembers.push(mid);
                 }
             }
             if (activatedMembers.length > 1) {
-                if (spend.currentProjectId !== null && $('.billitem[billid=0]').length === 0) {
+                if (payback.currentProjectId !== null && $('.billitem[billid=0]').length === 0) {
                     var bill = {
                         id: 0,
-                        what: t('spend', 'New Bill'),
+                        what: t('payback', 'New Bill'),
                         date: moment().format('YYYY-MM-DD'),
                         amount: 0.0,
                         payer_id: 0,
@@ -1585,7 +1585,7 @@
                 }
             }
             else {
-                OC.Notification.showTemporary(t('spend', '2 active members are required to create a bill'));
+                OC.Notification.showTemporary(t('payback', '2 active members are required to create a bill'));
             }
         });
 
@@ -1594,14 +1594,14 @@
         });
 
         $('#statsButton').click(function() {
-            if (spend.currentProjectId !== null) {
-                getProjectStatistics(spend.currentProjectId);
+            if (payback.currentProjectId !== null) {
+                getProjectStatistics(payback.currentProjectId);
             }
         });
 
         $('#settleButton').click(function() {
-            if (spend.currentProjectId !== null) {
-                getProjectSettlement(spend.currentProjectId);
+            if (payback.currentProjectId !== null) {
+                getProjectSettlement(payback.currentProjectId);
             }
         });
 
@@ -1617,21 +1617,21 @@
 
         $('body').on('click', '.copyExtProjectUrl', function() {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
-            var guestLink = OC.generateUrl(`/apps/spend/loginproject/${projectid}`);
+            var guestLink = OC.generateUrl(`/apps/payback/loginproject/${projectid}`);
             var guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
             var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select()
             document.execCommand('copy');
             $('#dummycopy').remove();
-            OC.Notification.showTemporary(t('spend', 'Guest link for \'{pid}\' copied to clipboard', {pid: projectid}));
+            OC.Notification.showTemporary(t('payback', 'Guest link for \'{pid}\' copied to clipboard', {pid: projectid}));
         });
 
         $('body').on('click', '#generalGuestLinkButton', function() {
-            var guestLink = OC.generateUrl('/apps/spend/login');
+            var guestLink = OC.generateUrl('/apps/payback/login');
             var guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
             var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select()
             document.execCommand('copy');
             $('#dummycopy').remove();
-            OC.Notification.showTemporary(t('spend', 'Guest link copied to clipboard'));
+            OC.Notification.showTemporary(t('payback', 'Guest link copied to clipboard'));
         });
 
         $('body').on('click', '#app-details-toggle', function() {

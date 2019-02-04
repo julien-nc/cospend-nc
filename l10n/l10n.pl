@@ -132,7 +132,7 @@ if( $task eq 'read' ){
 		`php $whereami/../build/l10nParseAppInfo.php`;
 		my @totranslate = crawlFiles('.');
 		my %ignore = readIgnorelist();
-		my $output = "${whereami}/templates/spend.pot";
+		my $output = "${whereami}/templates/payback.pot";
         #print "OUUUUUUUUUUUUUUUUUUUUUUUUU $output";
         #print "  Processing $app\n";
 
@@ -149,7 +149,7 @@ if( $task eq 'read' ){
 			my $language = ( $file =~ /\.js$/ ? 'Javascript' : 'PHP');
 			my $joinexisting = ( -e $output ? '--join-existing' : '');
             #print "    Reading $file\n";
-			`xgettext --output="$output" $joinexisting $keywords --language=$language "$file" --add-comments=TRANSLATORS --from-code=UTF-8 --package-version="8.0.0" --package-name="Spend app" --msgid-bugs-address="ju-translations\@cassio.pe"`;
+			`xgettext --output="$output" $joinexisting $keywords --language=$language "$file" --add-comments=TRANSLATORS --from-code=UTF-8 --package-version="8.0.0" --package-name="Payback app" --msgid-bugs-address="ju-translations\@cassio.pe"`;
 		}
 		rmtree( "specialAppInfoFakeDummyForL10nScript.php" );
 		chdir( $whereami );
@@ -165,7 +165,7 @@ elsif( $task eq 'write' ){
 		foreach my $language ( @languages ){
 			next if $language eq 'templates';
 
-			my $input = "${whereami}/$language/spend.po";
+			my $input = "${whereami}/$language/Payback.po";
 			next unless -e $input;
 
             #print "    Language $language\n";
@@ -215,7 +215,7 @@ elsif( $task eq 'write' ){
 
 			# Write js file
 			open( OUT, ">$language.js" );
-			print OUT "OC.L10N.register(\n    \"spend\",\n    {\n    ";
+			print OUT "OC.L10N.register(\n    \"payback\",\n    {\n    ";
 			print OUT join( ",\n    ", @js_strings );
 			print OUT "\n},\n\"$plurals\");\n";
 			close( OUT );

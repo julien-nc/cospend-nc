@@ -5,6 +5,9 @@
     display: none;
 }
 @media only screen and (min-width:768px) {
+    #app-details-toggle {
+        display: none !important;
+    }
     #bill-list {
         max-width: 400px;
     }
@@ -115,4 +118,24 @@ input[type=number] {
 }
 .invisibleMember {
     display: none !important;
+}
+#app-details-toggle:hover {
+    opacity: 1;
+}
+#app-details-toggle {
+    position: fixed;
+    display: inline-block;
+    top: 6px;
+    left: 44px;
+    width: 44px;
+    height: 44px;
+    z-index: 149;
+    background-color: var(--color-main-background-darker);
+    cursor: pointer;
+    opacity: 0.6;
+    transform: rotate(180deg);
+    margin-top: 44px;
+}
+#billdetail > h2 {
+    padding: 20px 0px 20px 0px;
 }

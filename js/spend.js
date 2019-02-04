@@ -631,7 +631,9 @@
     function displaySettlement(projectid, transactionList) {
         var projectName = getProjectName(projectid);
         $('#billdetail').html('');
+        $('.app-content-list').addClass('showdetails');
         var settlementStr = `
+            <div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>
             <h2 id="settlementTitle">${t('spend', 'Settlement of project {name}', {name: projectName})}</h2>
             <table id="settlementTable"><thead>
                 <th>${t('spend', 'Who pays?')}</th>
@@ -661,7 +663,9 @@
     function displayStatistics(projectid, statList) {
         var projectName = getProjectName(projectid);
         $('#billdetail').html('');
+        $('.app-content-list').addClass('showdetails');
         var statsStr = `
+            <div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>
             <h2 id="statsTitle">${t('spend', 'Statistics of project {name}', {name: projectName})}</h2>
             <table id="statsTable"><thead>
                 <th>${t('spend', 'Member name')}</th>
@@ -804,7 +808,9 @@
             c = getMemberColor(payerName);
         }
         $('#billdetail').html('');
+        $('.app-content-list').addClass('showdetails');
         var detail = `
+            <div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>
             <h2 class="bill-title" projectid="${projectid}" billid="${bill.id}" style="background-color: hsl(${c.h}, ${c.s}%, ${c.l}%);">
                 ${t('spend', 'Bill "{what}" of project {proj}', {what: bill.what, proj: projectName})}
             </h2>
@@ -1626,6 +1632,10 @@
             document.execCommand('copy');
             $('#dummycopy').remove();
             OC.Notification.showTemporary(t('spend', 'Guest link copied to clipboard'));
+        });
+
+        $('body').on('click', '#app-details-toggle', function() {
+            $('.app-content-list').removeClass('showdetails');
         });
 
         // last thing to do : get the projects

@@ -165,7 +165,7 @@ elsif( $task eq 'write' ){
 		foreach my $language ( @languages ){
 			next if $language eq 'templates';
 
-			my $input = "${whereami}/$language/Payback.po";
+			my $input = "${whereami}/$language/payback.po";
 			next unless -e $input;
 
             #print "    Language $language\n";

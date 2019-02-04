@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
 "POT-Creation-Date: 2019-02-04 19:33+0100\n"
-"PO-Revision-Date: 2019-02-04 18:38\n"
+"PO-Revision-Date: 2019-02-04 19:02\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -98,7 +98,7 @@ msgstr "Échec de la récupération des remboursements"
 
 #: payback.js:635
 msgid "Settlement of project {name}"
-msgstr ""
+msgstr "Remboursements du projet {name}"
 
 #: payback.js:636
 msgid "Who pays?"
@@ -122,19 +122,19 @@ msgstr "Facture \"{what}\" du projet {proj}"
 
 #: payback.js:821
 msgid "What? (press enter to validate)"
-msgstr ""
+msgstr "Quoi ? (appuyez sur entrée pour valider)"
 
 #: payback.js:822
 msgid "How much? (press enter to validate)"
-msgstr ""
+msgstr "Combien ? (appuyez sur entrée pour valider)"
 
 #: payback.js:823
 msgid "Who payed?"
-msgstr ""
+msgstr "Qui a payé ?"
 
 #: payback.js:824
 msgid "When?"
-msgstr ""
+msgstr "Quand ?"
 
 #: payback.js:825
 msgid "For whom?"
@@ -142,7 +142,7 @@ msgstr "Pour qui ?"
 
 #: payback.js:827
 msgid "All"
-msgstr ""
+msgstr "Tous"
 
 #: payback.js:828
 msgid "None"
@@ -231,7 +231,7 @@ msgstr "Mot de passe du projet (code d'accès)"
 
 #: mainnavigation.php:6
 msgid "New project"
-msgstr ""
+msgstr "Nouveau projet"
 
 #: mainnavigation.php:10
 msgid "project id"
@@ -239,11 +239,11 @@ msgstr "id du projet"
 
 #: mainnavigation.php:13
 msgid "name"
-msgstr ""
+msgstr "nom"
 
 #: mainnavigation.php:16
 msgid "password"
-msgstr ""
+msgstr "mot de passe"
 
 #: mainnavigation.php:19
 msgid "Add project"

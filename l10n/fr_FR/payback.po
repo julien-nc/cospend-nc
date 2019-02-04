@@ -1,0 +1,259 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: moneybuster\n"
+"Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
+"POT-Creation-Date: 2019-02-04 18:46+0100\n"
+"PO-Revision-Date: 2019-02-04 17:52\n"
+"Last-Translator: eneiluj <eneiluj@posteo.net>\n"
+"Language-Team: French\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: crowdin.com\n"
+"X-Crowdin-Project: moneybuster\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-File: /master/l10n/templates/payback.pot\n"
+
+#: app.php:27 app.php:48 admin.php:7
+msgid "Payback"
+msgstr "Payback"
+
+#: admin.js:19
+msgid "Saved Payback setting"
+msgstr "Réglage de Payback enregistré"
+
+#: admin.js:23
+msgid "Failed to save Payback setting"
+msgstr "Échec de l'enregistrement du réglage de Payback"
+
+#: payback.js:169
+msgid "Failed to create project"
+msgstr "Échec de la création du projet"
+
+#: payback.js:204
+msgid "Failed to add member"
+msgstr "Échec de l'ajout du membre"
+
+#: payback.js:245 payback.js:1083
+msgid "Reactivate"
+msgstr "Réactiver"
+
+#: payback.js:251 payback.js:1077
+msgid "Deactivate"
+msgstr "Désactiver"
+
+#: payback.js:267
+msgid "Saved member"
+msgstr "Membre sauvegardé"
+
+#: payback.js:274
+msgid "Failed to save member"
+msgstr "Échec de la sauvegarde du membre"
+
+#: payback.js:322
+msgid "Bill created"
+msgstr "Facture créée"
+
+#: payback.js:325
+msgid "Failed to create bill"
+msgstr "Échec de la création de la facture"
+
+#: payback.js:372
+msgid "Saved bill"
+msgstr "Facture sauvegardée"
+
+#: payback.js:375
+msgid "Failed to save bill"
+msgstr "Échec de la sauvegarde de la facture"
+
+#: payback.js:487
+msgid "Deleted project {id}"
+msgstr "Projet {id} sauvegardé"
+
+#: payback.js:490
+msgid "Failed to delete project"
+msgstr "Échec de la suppression du projet"
+
+#: payback.js:522
+msgid "Deleted bill"
+msgstr "Facture supprimée"
+
+#: payback.js:525
+msgid "Failed to delete bill"
+msgstr "Échec de la suppression de la facture"
+
+#: payback.js:573
+msgid "Failed to get projects"
+msgstr "Échec de la récupération des projets"
+
+#: payback.js:600
+msgid "Failed to get statistics"
+msgstr "Échec de la récupération des statistiques"
+
+#: payback.js:627
+msgid "Failed to get settlement"
+msgstr "Échec de la récupération des remboursements"
+
+#: payback.js:639
+msgid "Who pays?"
+msgstr "Qui doit payer ?"
+
+#: payback.js:641
+msgid "How much?"
+msgstr "Combien ?"
+
+#: payback.js:669
+msgid "Statistics of project {name}"
+msgstr "Statistiques du projet {name}"
+
+#: payback.js:672
+msgid "Paid"
+msgstr "A payé"
+
+#: payback.js:674
+msgid "Balance"
+msgstr "Solde"
+
+#: payback.js:734
+msgid "Failed to get bills"
+msgstr "Échec de la récupération des factures"
+
+#: payback.js:751
+msgid "Bill \"{what}\" of project {proj}"
+msgstr "Facture \"{what}\" du projet {proj}"
+
+#: payback.js:840
+msgid "For whom?"
+msgstr "Pour qui ?"
+
+#: payback.js:843
+msgid "None"
+msgstr "Aucun"
+
+#: payback.js:1035
+msgid "Deleted {name}"
+msgstr "{name} supprimé"
+
+#: payback.js:1108
+msgid "Rename"
+msgstr "Renommer"
+
+#: payback.js:1114
+msgid "Change weight"
+msgstr "Changer le poids"
+
+#: payback.js:1186
+msgid "Bill values are not valid"
+msgstr "Les valeurs de la facture sont invalides"
+
+#: payback.js:1205
+msgid "Failed to save option values"
+msgstr "Échec de la sauvegarde des options"
+
+#: payback.js:1235
+msgid "Failed to restore options values"
+msgstr "Échec de la restauration des options"
+
+#: payback.js:1327 payback.js:1340 payback.js:1375 payback.js:1387
+msgid "Invalid values"
+msgstr "Valeurs invalides"
+
+#: payback.js:1364
+msgid "Add member to project {pname}"
+msgstr "Ajouter un membre au projet {pname}"
+
+#: payback.js:1577
+msgid "New Bill"
+msgstr "Nouvelle facture"
+
+#: payback.js:1588
+msgid "2 active members are required to create a bill"
+msgstr "2 membres actifs sont nécessaires pour créer une facture"
+
+#: payback.js:1625
+msgid "Guest link for '{pid}' copied to clipboard"
+msgstr "Lien invité pour '{pid}' copié dans le presse-papier"
+
+#: payback.js:1634
+msgid "Guest link copied to clipboard"
+msgstr "Lien invité copié dans le presse-papier"
+
+#: Notification/Notifier.php:67
+#, php-format
+msgid "User \"%s\" shared Payback project \"%s\" with you."
+msgstr "L'utilisateur \"%s\" a partagé le projet Payback \"%s\" avec vous."
+
+#: admin.php:8 admin.php:17
+msgid "Allow guests to create projects"
+msgstr "Autoriser les invités à créer des projets"
+
+#: admin.php:9
+msgid "Enabling this option will allow any visitor to create a project without having to log in."
+msgstr "Activer cette option autorisera n'importe quel visiteur à créer un projet sans avoir à s'identifier."
+
+#: admin.php:10
+msgid "This can be useful if you are in a local network and want to let anybody create a project."
+msgstr "Cela peut être utile si vous êtes dans un réseau local et voulez laissez n'importe qui créer un projet."
+
+#: admin.php:11
+msgid "Or maybe you are very generous and want to allow the entire world to use Payback without having an account on your Nextcloud instance."
+msgstr "Ou alors vous êtes très généreux et voulez autoriser le monde entier à utiliser Payback sans avoir de compte sur votre instance Nextcloud."
+
+#: logincontent.php:2
+msgid "Authentication"
+msgstr "Authentification"
+
+#: logincontent.php:7
+msgid "Wrong project Id or password"
+msgstr "Mauvais Id projet ou mot de passe"
+
+#: logincontent.php:12
+msgid "Project ID"
+msgstr "ID du projet"
+
+#: logincontent.php:21
+msgid "Project password (aka Access code)"
+msgstr "Mot de passe du projet (code d'accès)"
+
+#: mainnavigation.php:10
+msgid "project id"
+msgstr "id du projet"
+
+#: mainnavigation.php:13
+msgid "project name"
+msgstr "nom du projet"
+
+#: mainnavigation.php:16
+msgid "project password"
+msgstr "mot de passe du projet"
+
+#: mainnavigation.php:19
+msgid "Add project"
+msgstr "Ajouter un projet"
+
+#: mainnavigation.php:24
+msgid "New bill"
+msgstr "Nouvelle facture"
+
+#: mainnavigation.php:29
+msgid "member name"
+msgstr "nom du membre"
+
+#: mainnavigation.php:44
+msgid "Settings"
+msgstr "Paramètres"
+
+#: mainnavigation.php:50
+msgid "Project statistics"
+msgstr "Statistiques du projet"
+
+#: mainnavigation.php:53
+msgid "Settle"
+msgstr "Remboursements"
+
+#: mainnavigation.php:56
+msgid "Guest access link"
+msgstr "Lien d'accès invité"
+

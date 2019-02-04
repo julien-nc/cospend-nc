@@ -120,6 +120,8 @@
         return base;
     }
 
+    var undoDeleteBillStyle = 'opacity:1; background-image: url('+OC.generateUrl('/svg/core/actions/history?color=2AB4FF')+');';
+
     /*
      * get key events
      */
@@ -396,7 +398,7 @@
             <div class="app-content-list-item-line-two">${bill.amount.toFixed(2)} (${memberName} -> ${owerNames})</div>
             <span class="app-content-list-item-details">${bill.date}</span>
             <div class="icon-delete deleteBillIcon"></div>
-            <div class="icon-history undoDeleteBill" title="Undo"></div>
+            <div class="icon-history undoDeleteBill" style="${undoDeleteBillStyle}" title="Undo"></div>
         </a>`;
         billItem.replaceWith(item);
     }
@@ -432,6 +434,10 @@
             if (spend.pageIsPublic && newPassword) {
                 spend.password = newPassword;
             }
+            // update deleted text
+            projectLine.find('.app-navigation-entry-deleted-description').text(
+                t('spend', 'Deleted {name}', {name: spend.projects[projectid].name})
+            );
             // remove editing mode
             projectLine.removeClass('editing');
             // reset bill edition
@@ -872,7 +878,7 @@
             <div class="app-content-list-item-line-two">${bill.amount.toFixed(2)} (${memberName} → ${owerNames})</div>
             <span class="app-content-list-item-details">${bill.date}</span>
             <div class="icon-delete deleteBillIcon"></div>
-            <div class="icon-history undoDeleteBill" title="Undo"></div>
+            <div class="icon-history undoDeleteBill" style="${undoDeleteBillStyle}" title="Undo"></div>
         </a>`;
         $(item).prependTo('.app-content-list');
     }
@@ -998,7 +1004,7 @@
                     </ul>
                 </div>
                 <div class="app-navigation-entry-deleted">
-                    <div class="app-navigation-entry-deleted-description">${t('spend', 'Deleted {id}', {id: project.id})}</div>
+                    <div class="app-navigation-entry-deleted-description">${t('spend', 'Deleted {name}', {name: name})}</div>
                     <button class="app-navigation-entry-deleted-button icon-history undoDeleteProject" title="Undo"></button>
                 </div>
                 <ul class="memberlist"></ul>

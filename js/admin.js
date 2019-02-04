@@ -16,11 +16,11 @@ function setAllowAnonymousCreation(val) {
         async: true
     }).done(function (response) {
         OC.Notification.showTemporary(
-            t('payback', 'Value was successfully saved')
+            t('payback', 'Saved Payback setting')
         );
     }).fail(function() {
         OC.Notification.showTemporary(
-            t('payback', 'Failed to save value')
+            t('payback', 'Failed to save Payback setting')
         );
     });
 }

@@ -248,7 +248,7 @@
             else if (newActivated !== null && newActivated === true) {
                 memberLine.find('>a').removeClass('icon-disabled-user').addClass('icon-user');
                 memberLine.find('.toggleMember span').first().removeClass('icon-history').addClass('icon-delete');
-                memberLine.find('.toggleMember span').eq(1).text(t('payback', 'Remove'));
+                memberLine.find('.toggleMember span').eq(1).text(t('payback', 'Deactivate'));
                 payback.members[projectid][memberid].activated = newActivated;
             }
             // anyway : update icon
@@ -264,14 +264,14 @@
             memberLine.find('>a').attr('style', `background-image: url(${imgurl})`);
             // remove editing mode
             memberLine.removeClass('editing');
-            OC.Notification.showTemporary(t('payback', 'Edited member'));
+            OC.Notification.showTemporary(t('payback', 'Saved member'));
             // get bills again to refresh names
             getBills(projectid);
             // reset bill edition
             $('#billdetail').html('');
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('payback', 'Failed to edit member') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('payback', 'Failed to save member') + ' ' + response.responseText);
         });
     }
 
@@ -369,10 +369,10 @@
 
             updateProjectBalances(projectid);
 
-            OC.Notification.showTemporary(t('payback', 'Edited bill'));
+            OC.Notification.showTemporary(t('payback', 'Saved bill'));
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('payback', 'Failed to edit bill') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('payback', 'Failed to save bill') + ' ' + response.responseText);
         });
     }
 
@@ -442,10 +442,10 @@
             projectLine.removeClass('editing');
             // reset bill edition
             $('#billdetail').html('');
-            OC.Notification.showTemporary(t('payback', 'Edited project'));
+            OC.Notification.showTemporary(t('payback', 'Saved project'));
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('payback', 'Failed to edit project') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('payback', 'Failed to save project') + ' ' + response.responseText);
         });
     }
 
@@ -1074,7 +1074,7 @@
         if (member.activated) {
             iconStr = 'icon-user';
             iconToggleStr = 'icon-delete';
-            toggleStr = t('payback', 'Remove');
+            toggleStr = t('payback', 'Deactivate');
             imgurl = OC.generateUrl(`/svg/core/actions/user?color=${rgbC}`);
         }
         else {

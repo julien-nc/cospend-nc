@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Payback app 8.0.0\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
-"POT-Creation-Date: 2019-02-04 17:51+0100\n"
+"POT-Creation-Date: 2019-02-04 18:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,11 +22,11 @@ msgid "Payback"
 msgstr ""
 
 #: admin.js:19
-msgid "Value was successfully saved"
+msgid "Saved Payback setting"
 msgstr ""
 
 #: admin.js:23
-msgid "Failed to save value"
+msgid "Failed to save Payback setting"
 msgstr ""
 
 #: payback.js:169
@@ -42,15 +42,15 @@ msgid "Reactivate"
 msgstr ""
 
 #: payback.js:251 payback.js:1077
-msgid "Remove"
+msgid "Deactivate"
 msgstr ""
 
 #: payback.js:267
-msgid "Edited member"
+msgid "Saved member"
 msgstr ""
 
 #: payback.js:274
-msgid "Failed to edit member"
+msgid "Failed to save member"
 msgstr ""
 
 #: payback.js:322
@@ -62,11 +62,11 @@ msgid "Failed to create bill"
 msgstr ""
 
 #: payback.js:372
-msgid "Edited bill"
+msgid "Saved bill"
 msgstr ""
 
 #: payback.js:375
-msgid "Failed to edit bill"
+msgid "Failed to save bill"
 msgstr ""
 
 #: payback.js:487

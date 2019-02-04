@@ -180,7 +180,7 @@
             url = OC.generateUrl('/apps/payback/addMember');
         }
         else {
-            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}/members`);
+            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password+'/members');
         }
         $.ajax({
             type: 'POST',
@@ -219,7 +219,7 @@
             type = 'POST';
         }
         else {
-            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}/members/${memberid}`);
+            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password+'/members/'+memberid);
             type = 'PUT';
         }
         $.ajax({
@@ -372,7 +372,10 @@
             OC.Notification.showTemporary(t('payback', 'Saved bill'));
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('payback', 'Failed to save bill') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('payback', 'Failed to save bill') +
+                ' ' + response.responseText
+            );
         });
     }
 
@@ -417,7 +420,7 @@
         }
         else {
             type = 'PUT';
-            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}`);
+            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password);
         }
         $.ajax({
             type: type,
@@ -435,8 +438,9 @@
                 payback.password = newPassword;
             }
             // update deleted text
+            var projectName = payback.projects[projectid].name;
             projectLine.find('.app-navigation-entry-deleted-description').text(
-                t('payback', 'Deleted {name}', {name: payback.projects[projectid].name})
+                t('payback', 'Deleted {name}', {name: projectName})
             );
             // remove editing mode
             projectLine.removeClass('editing');
@@ -445,7 +449,10 @@
             OC.Notification.showTemporary(t('payback', 'Saved project'));
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('payback', 'Failed to save project') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('payback', 'Failed to save project') +
+                ' ' + response.responseText
+            );
         });
     }
 
@@ -465,7 +472,7 @@
         }
         else {
             type = 'DELETE';
-            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}`);
+            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password);
         }
         $.ajax({
             type: type,
@@ -503,7 +510,7 @@
         }
         else {
             type = 'DELETE';
-            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}/bills/${billid}`);
+            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password+'/bills/'+billid);
         }
         $.ajax({
             type: type,

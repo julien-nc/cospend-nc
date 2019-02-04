@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Payback app 8.0.0\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
-"POT-Creation-Date: 2019-02-04 18:04+0100\n"
+"POT-Creation-Date: 2019-02-04 18:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,7 +86,7 @@ msgid "Failed to delete bill"
 msgstr ""
 
 #: payback.js:573
-msgid "Failed to contact server to get projects"
+msgid "Failed to get projects"
 msgstr ""
 
 #: payback.js:600
@@ -186,8 +186,8 @@ msgstr ""
 msgid "User \"%s\" shared Payback project \"%s\" with you."
 msgstr ""
 
-#: admin.php:8 admin.php:17
-msgid "Allow anonymous project creation"
+#: admin.php:8
+msgid "Allow guests to create projects"
 msgstr ""
 
 #: admin.php:9
@@ -206,6 +206,10 @@ msgstr ""
 msgid ""
 "Or maybe you are very generous and want to allow the entire world to use "
 "Payback without having an account on your Nextcloud instance."
+msgstr ""
+
+#: admin.php:17
+msgid "Allow anonymous project creation"
 msgstr ""
 
 #: logincontent.php:2

@@ -570,7 +570,7 @@
         }).always(function() {
             payback.currentGetProjectsAjax = null;
         }).fail(function() {
-            OC.Notification.showTemporary(t('payback', 'Failed to contact server to get projects'));
+            OC.Notification.showTemporary(t('payback', 'Failed to get projects'));
         });
     }
 

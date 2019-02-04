@@ -1486,6 +1486,7 @@
             spend.billDeletionTimer[billid].pause();
             delete spend.billDeletionTimer[billid];
             $(this).parent().find('.deleteBillIcon').show();
+            $(this).parent().removeClass('deleted');
             $(this).hide();
         });
 
@@ -1494,6 +1495,7 @@
             if (billid !== '0') {
                 var projectid = $(this).parent().attr('projectid');
                 $(this).parent().find('.undoDeleteBill').show();
+                $(this).parent().addClass('deleted');
                 $(this).hide();
                 spend.billDeletionTimer[billid] = new Timer(function() {
                     deleteBill(projectid, billid);

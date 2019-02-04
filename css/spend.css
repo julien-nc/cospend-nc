@@ -20,6 +20,7 @@
 }
 .balance {
     float: right;
+    font-weight: bold;
 }
 #newmemberdiv,
 #newprojectdiv {
@@ -41,7 +42,7 @@
 .newmemberdiv {
     display: none;
 }
-b.memberName, b.memberWeight, .balance {
+b.memberName, b.memberWeight {
     font-weight: normal;
 }
 
@@ -107,4 +108,7 @@ input[type=number] {
     padding: 10px;
     padding-left: 34px;
     background-position: 10px center;
+}
+#bill-list > .deleted {
+    background-color: var(--color-warning);
 }

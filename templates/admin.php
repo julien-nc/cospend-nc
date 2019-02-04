@@ -12,7 +12,7 @@ OCP\Util::addstyle('payback', 'admin');
     <br />
     <div id="paybackinputs">
         <input id="allowAnonymousCreation" type="checkbox"
-        <?php if ($_['allowAnonymousCreation'] !== '0') p('checked'); ?>
+        <?php if ($_['allowAnonymousCreation'] === '1') p('checked'); ?>
         />
         <label for="allowAnonymousCreation"><?php p($l->t('Allow anonymous project creation')); ?></label>
     </div>

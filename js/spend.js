@@ -763,7 +763,7 @@
         var owerCheckboxes = '';
         var payerOptions = '';
         var member;
-        var selected, checked;
+        var selected, checked, readonly;
         for (var memberid in spend.members[projectid]) {
             member = spend.members[projectid][memberid];
             // payer
@@ -777,9 +777,13 @@
             if (owerIds.indexOf(member.id) !== -1) {
                 checked = ' checked';
             }
+            readonly = '';
+            if (!member.activated) {
+                readonly = ' disabled';
+            }
             owerCheckboxes = owerCheckboxes + `
                 <div class="owerEntry">
-                <input id="${projectid}${member.id}" owerid="${member.id}" type="checkbox"${checked}/>
+                <input id="${projectid}${member.id}" owerid="${member.id}" type="checkbox"${checked}${readonly}/>
                 <label for="${projectid}${member.id}">${member.name}</label>
                 </div>
             `;
@@ -1478,12 +1482,24 @@
         });
 
         $('body').on('click', '#owerAll', function(e) {
-            $('.owerEntry input').prop('checked', true);
+            var projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
+            for (var memberid in spend.members[projectid]) {
+                if (spend.members[projectid][memberid].activated) {
+                    $('.bill-owers input[owerid='+memberid+']').prop('checked', true);
+                }
+            }
+            //$('.owerEntry input').prop('checked', true);
             onBillEdited();
         });
 
         $('body').on('click', '#owerNone', function(e) {
-            $('.owerEntry input').prop('checked', false);
+            var projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
+            for (var memberid in spend.members[projectid]) {
+                if (spend.members[projectid][memberid].activated) {
+                    $('.bill-owers input[owerid='+memberid+']').prop('checked', false);
+                }
+            }
+            //$('.owerEntry input').prop('checked', false);
             onBillEdited();
         });
 

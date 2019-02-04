@@ -395,14 +395,14 @@
         var title = bill.what + '\n' + bill.amount.toFixed(2) + '\n' +
             bill.date + '\n' + memberName + ' -> ' + owerNames;
         var c = getMemberColor(memberName);
-        var item = `<a href="#" class="app-content-list-item billitem" billid="${bill.id}" projectid="${projectid}" title="${title}">
-            <div class="app-content-list-item-icon" style="background-color: hsl(${c.h}, ${c.s}%, ${c.l}%);">${memberFirstLetter}</div>
-            <div class="app-content-list-item-line-one">${bill.what}</div>
-            <div class="app-content-list-item-line-two">${bill.amount.toFixed(2)} (${memberName} -> ${owerNames})</div>
-            <span class="app-content-list-item-details">${bill.date}</span>
-            <div class="icon-delete deleteBillIcon"></div>
-            <div class="icon-history undoDeleteBill" style="${undoDeleteBillStyle}" title="Undo"></div>
-        </a>`;
+        var item = '<a href="#" class="app-content-list-item billitem" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
+            '<div class="app-content-list-item-icon" style="background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);">'+memberFirstLetter+'</div>' +
+            '<div class="app-content-list-item-line-one">'+bill.what+'</div>' +
+            '<div class="app-content-list-item-line-two">'+bill.amount.toFixed(2)+' ('+memberName+' -> '+owerNames+')</div>' +
+            '<span class="app-content-list-item-details">'+bill.date+'</span>' +
+            '<div class="icon-delete deleteBillIcon"></div>' +
+            '<div class="icon-history undoDeleteBill" style="'+undoDeleteBillStyle+'" title="Undo"></div>' +
+            '</a>';
         billItem.replaceWith(item);
     }
 
@@ -543,7 +543,7 @@
             type = 'POST';
         }
         else {
-            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}`);
+            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password);
             type = 'GET';
         }
         payback.currentGetProjectsAjax = $.ajax({
@@ -939,7 +939,7 @@
             type = 'POST';
         }
         else {
-            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}`);
+            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password);
             type = 'GET';
         }
         payback.currentGetProjectsAjax = $.ajax({
@@ -1080,10 +1080,6 @@
 
     function addMember(projectid, member, balance) {
         // add member to dict
-        // TODO remove this
-        if (!payback.members.hasOwnProperty(projectid)) {
-            payback.members[projectid] = {};
-        }
         payback.members[projectid][member.id] = member;
 
         var invisibleClass = '';

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Payback app 8.0.0\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
-"POT-Creation-Date: 2019-02-05 00:09+0100\n"
+"POT-Creation-Date: 2019-02-05 00:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,11 +37,11 @@ msgstr ""
 msgid "Failed to add member"
 msgstr ""
 
-#: payback.js:245 payback.js:1115
+#: payback.js:245 payback.js:1111
 msgid "Reactivate"
 msgstr ""
 
-#: payback.js:251 payback.js:1109
+#: payback.js:251 payback.js:1105
 msgid "Deactivate"
 msgstr ""
 
@@ -69,7 +69,7 @@ msgstr ""
 msgid "Failed to save bill"
 msgstr ""
 
-#: payback.js:443
+#: payback.js:443 payback.js:999
 msgid "Deleted {name}"
 msgstr ""
 
@@ -161,47 +161,75 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: payback.js:1120
+#: payback.js:976
+msgid "Failed to update balances"
+msgstr ""
+
+#: payback.js:992
+msgid "Add member"
+msgstr ""
+
+#: payback.js:993 mainnavigation.php:56
+msgid "Guest access link"
+msgstr ""
+
+#: payback.js:994 payback.js:1116
 msgid "Rename"
 msgstr ""
 
-#: payback.js:1121
+#: payback.js:995
+msgid "Change password"
+msgstr ""
+
+#: payback.js:996
+msgid "Display statistics"
+msgstr ""
+
+#: payback.js:997
+msgid "Settle the project"
+msgstr ""
+
+#: payback.js:998
+msgid "Delete"
+msgstr ""
+
+#: payback.js:1117
 msgid "Change weight"
 msgstr ""
 
-#: payback.js:1220
+#: payback.js:1216
 msgid "Bill values are not valid"
 msgstr ""
 
-#: payback.js:1239
+#: payback.js:1235
 msgid "Failed to save option values"
 msgstr ""
 
-#: payback.js:1269
+#: payback.js:1265
 msgid "Failed to restore options values"
 msgstr ""
 
-#: payback.js:1361 payback.js:1374 payback.js:1409 payback.js:1421
+#: payback.js:1357 payback.js:1370 payback.js:1405 payback.js:1417
 msgid "Invalid values"
 msgstr ""
 
-#: payback.js:1398
+#: payback.js:1394
 msgid "Add member to project {pname}"
 msgstr ""
 
-#: payback.js:1611
+#: payback.js:1607
 msgid "New Bill"
 msgstr ""
 
-#: payback.js:1622
+#: payback.js:1618
 msgid "2 active members are required to create a bill"
 msgstr ""
 
-#: payback.js:1659
+#: payback.js:1655
 msgid "Guest link for '{pid}' copied to clipboard"
 msgstr ""
 
-#: payback.js:1668
+#: payback.js:1664
 msgid "Guest link copied to clipboard"
 msgstr ""
 
@@ -286,8 +314,4 @@ msgstr ""
 
 #: mainnavigation.php:53
 msgid "Settle"
-msgstr ""
-
-#: mainnavigation.php:56
-msgid "Guest access link"
 msgstr ""

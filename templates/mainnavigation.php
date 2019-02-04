@@ -3,17 +3,17 @@
 ?>
 <div class="app-navigation-new">
     <button id="newprojectbutton" type="button" class="icon-triangle-e">
-        New project
+        <?php p($l->t('New project')); ?>
     </button>
     <div id="newprojectdiv">
 
         <label for="projectidinput"><?php p($l->t('project id')); ?></label>
         <input id="projectidinput" type="text" value="id"/>
 
-        <label for="projectnameinput"><?php p($l->t('project name')); ?></label>
+        <label for="projectnameinput"><?php p($l->t('name')); ?></label>
         <input id="projectnameinput" type="text" value="name"/>
 
-        <label for="projectpasswordinput"><?php p($l->t('project password')); ?></label>
+        <label for="projectpasswordinput"><?php p($l->t('password')); ?></label>
         <input id="projectpasswordinput" type="password" value="lala"/>
         <button id="createproject" type="button" class="icon-add">
             <?php p($l->t('Add project')); ?>

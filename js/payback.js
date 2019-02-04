@@ -632,13 +632,17 @@
         var projectName = getProjectName(projectid);
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
+        var titleStr = t('payback', 'Settlement of project {name}', {name: projectName});
+        var fromStr = t('payback', 'Who pays?');
+        var toStr = t('payback', 'To whom?');
+        var howMuchStr = t('payback', 'How much?');
         var settlementStr = `
             <div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>
-            <h2 id="settlementTitle">${t('payback', 'Settlement of project {name}', {name: projectName})}</h2>
+            <h2 id="settlementTitle">${titleStr}</h2>
             <table id="settlementTable"><thead>
-                <th>${t('payback', 'Who pays?')}</th>
-                <th>${t('payback', 'To whom?')}</th>
-                <th>${t('payback', 'How much?')}</th>
+                <th>${fromStr}</th>
+                <th>${toStr}</th>
+                <th>${howMuchStr}</th>
             </thead>
         `;
         var whoPaysName, toWhomName, amount;
@@ -664,14 +668,19 @@
         var projectName = getProjectName(projectid);
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
+        var titleStr = t('payback', 'Statistics of project {name}', {name: projectName});
+        var nameStr = t('payback', 'Member name');
+        var paidStr = t('payback', 'Paid');
+        var spentStr = t('payback', 'Spent');
+        var balanceStr = t('payback', 'Balance');
         var statsStr = `
             <div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>
-            <h2 id="statsTitle">${t('payback', 'Statistics of project {name}', {name: projectName})}</h2>
+            <h2 id="statsTitle">${titleStr}</h2>
             <table id="statsTable"><thead>
-                <th>${t('payback', 'Member name')}</th>
-                <th>${t('payback', 'Paid')}</th>
-                <th>${t('payback', 'Spent')}</th>
-                <th>${t('payback', 'Balance')}</th>
+                <th>${nameStr}</th>
+                <th>${paidStr}</th>
+                <th>${spentStr}</th>
+                <th>${balanceStr}</th>
             </thead>
         `;
         var paid, spent, balance, name, balanceClass;
@@ -748,7 +757,7 @@
             c = getMemberColor(payerName);
         }
         $('.bill-title').text(
-            `${t('payback', 'Bill "{what}" of project {proj}', {what: what, proj: projectName})}`
+            t('payback', 'Bill "{what}" of project {proj}', {what: what, proj: projectName})
         );
         $('.bill-title').attr('style', `background-color: hsl(${c.h}, ${c.s}%, ${c.l}%);`);
     }
@@ -809,38 +818,46 @@
         }
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
+        var whatStr = t('payback', 'What? (press enter to validate)');
+        var amountStr = t('payback', 'How much? (press enter to validate)');
+        var payerStr = t('payback', 'Who payed?');
+        var dateStr = t('payback', 'When?');
+        var owersStr = t('payback', 'For whom?');
+        var titleStr = t('payback', 'Bill "{what}" of project {proj}', {what: bill.what, proj: projectName});
+        var allStr = t('payback', 'All');
+        var noneStr = t('payback', 'None');
         var detail = `
             <div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>
             <h2 class="bill-title" projectid="${projectid}" billid="${bill.id}" style="background-color: hsl(${c.h}, ${c.s}%, ${c.l}%);">
-                ${t('payback', 'Bill "{what}" of project {proj}', {what: bill.what, proj: projectName})}
+                ${titleStr}
             </h2>
             <div class="bill-form">
                 <div class="bill-left">
                     <div class="bill-what">
-                        <a class="icon icon-tag"></a><span>${t('payback', 'What? (press enter to validate)')}</span><br/>
+                        <a class="icon icon-tag"></a><span>${whatStr}</span><br/>
                         <input type="text" class="input-bill-what" value="${bill.what}"/>
                     </div>
                     <div class="bill-amount">
-                        <a class="icon icon-quota"></a><span>${t('payback', 'How much? (press enter to validate)')}</span><br/>
+                        <a class="icon icon-quota"></a><span>${amountStr}</span><br/>
                         <input type="number" class="input-bill-amount" value="${bill.amount}" step="0.01" min="0"/>
                     </div>
                     <div class="bill-payer">
-                        <a class="icon icon-user"></a><span>${t('payback', 'Who payed?')}</span><br/>
+                        <a class="icon icon-user"></a><span>${payerStr}</span><br/>
                         <select class="input-bill-payer"${payerDisabled}>
                             ${payerOptions}
                         </select>
                     </div>
                     <div class="bill-date">
-                        <a class="icon icon-calendar-dark"></a><span>${t('payback', 'When?')}</span><br/>
+                        <a class="icon icon-calendar-dark"></a><span>${dateStr}</span><br/>
                         <input type="date" class="input-bill-date" value="${bill.date}"/>
                     </div>
                 </div>
                 <div class="bill-right">
                     <div class="bill-owers">
-                        <a class="icon icon-group"></a><span>${t('payback', 'For whom?')}</span>
+                        <a class="icon icon-group"></a><span>${owersStr}</span>
                         <div class="owerAllNoneDiv">
-                        <button id="owerAll">${t('payback', 'All')}</button>
-                        <button id="owerNone">${t('payback', 'None')}</button>
+                        <button id="owerAll">${allStr}</button>
+                        <button id="owerNone">${noneStr}</button>
                         </div>
                         ${owerCheckboxes}
                     </div>
@@ -965,6 +982,14 @@
             payback.currentProjectId = projectid;
             getBills(projectid);
         }
+        var addMemberStr = t('payback', 'Add member');
+        var guestAccessStr = t('payback', 'Guest access link');
+        var renameStr = t('payback', 'Rename');
+        var changePwdStr = t('payback', 'Change password');
+        var displayStatsStr = t('payback', 'Display statistics');
+        var settleStr = t('payback', 'Settle the project');
+        var deleteStr = t('payback', 'Delete');
+        var deletedStr = t('payback', 'Deleted {name}', {name: name});
         var li = `
             <li class="projectitem collapsible${projectSelected}" projectid="${projectid}">
                 <a class="icon-folder" href="#" title="${projectid}">
@@ -990,49 +1015,49 @@
                         <li>
                             <a href="#" class="addMember">
                                 <span class="icon-add"></span>
-                                <span>${t('payback', 'Add member')}</span>
+                                <span>${addMemberStr}</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="copyExtProjectUrl">
                                 <span class="icon-clippy"></span>
-                                <span>${t('payback', 'Guest access link')}</span>
+                                <span>${guestAccessStr}</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="editProjectName">
                                 <span class="icon-rename"></span>
-                                <span>${t('payback', 'Rename')}</span>
+                                <span>${renameStr}</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="editProjectPassword">
                                 <span class="icon-rename"></span>
-                                <span>${t('payback', 'Change password')}</span>
+                                <span>${changePwdStr}</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="getProjectStats">
                                 <span class="icon-category-monitoring"></span>
-                                <span>${t('payback', 'Display statistics')}</span>
+                                <span>${displayStatsStr}</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="getProjectSettlement">
                                 <span class="icon-category-organization"></span>
-                                <span>${t('payback', 'Settle the project')}</span>
+                                <span>${settleStr}</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="deleteProject">
                                 <span class="icon-delete"></span>
-                                <span>${t('payback', 'Delete')}</span>
+                                <span>${deleteStr}</span>
                             </a>
                         </li>
                     </ul>
                 </div>
                 <div class="app-navigation-entry-deleted">
-                    <div class="app-navigation-entry-deleted-description">${t('payback', 'Deleted {name}', {name: name})}</div>
+                    <div class="app-navigation-entry-deleted-description">${deletedStr}</div>
                     <button class="app-navigation-entry-deleted-button icon-history undoDeleteProject" title="Undo"></button>
                 </div>
                 <ul class="memberlist"></ul>
@@ -1085,6 +1110,8 @@
         }
 
 
+        var renameStr = t('payback', 'Rename');
+        var changeWeightStr = t('payback', 'Change weight');
         var li = `
             <li memberid="${member.id}" class="memberitem${invisibleClass}">
                 <a class="${iconStr}" style="background-image: url(${imgurl})" href="#">
@@ -1105,13 +1132,13 @@
                         <li>
                             <a href="#" class="renameMember">
                                 <span class="icon-rename"></span>
-                                <span>${t('payback', 'Rename')}</span>
+                                <span>${renameStr}</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="editWeightMember">
                                 <span class="icon-rename"></span>
-                                <span>${t('payback', 'Change weight')}</span>
+                                <span>${changeWeightStr}</span>
                             </a>
                         </li>
                         <li>

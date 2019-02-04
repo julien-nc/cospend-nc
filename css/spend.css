@@ -68,19 +68,26 @@ b.memberName, b.memberWeight {
     float: right;
     width: 45%;
 }
+.bill-owers label {
+    margin-left: 5px;
+}
 .bill-owers input {
-    height: 18px;
-    min-height: 18px;
+    cursor: pointer;
+    /*height: 16px;
+    min-height: 16px;*/
+    -ms-transform: scale(1.8); /* IE */
+    -moz-transform: scale(1.8); /* FF */
+    -webkit-transform: scale(1.8); /* Safari and Chrome */
+    -o-transform: scale(1.8); /* Opera */
+    padding: 5px;
+    min-height: 0px;
 }
 .owerAllNoneDiv,
 .owerEntry {
     margin-left: 56px;
     margin-right: 40px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-.owerEntry input {
-    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 .bill-title {
     text-align: center;

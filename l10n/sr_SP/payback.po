@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
-"POT-Creation-Date: 2019-02-04 18:46+0100\n"
-"PO-Revision-Date: 2019-02-04 17:52\n"
+"POT-Creation-Date: 2019-02-04 19:33+0100\n"
+"PO-Revision-Date: 2019-02-04 18:37\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Serbian (Cyrillic)\n"
 "Language: sr_SP\n"
@@ -36,11 +36,11 @@ msgstr ""
 msgid "Failed to add member"
 msgstr ""
 
-#: payback.js:245 payback.js:1083
+#: payback.js:245 payback.js:1108
 msgid "Reactivate"
 msgstr ""
 
-#: payback.js:251 payback.js:1077
+#: payback.js:251 payback.js:1102
 msgid "Deactivate"
 msgstr ""
 
@@ -96,47 +96,59 @@ msgstr ""
 msgid "Failed to get settlement"
 msgstr ""
 
-#: payback.js:639
+#: payback.js:635
+msgid "Settlement of project {name}"
+msgstr ""
+
+#: payback.js:636
 msgid "Who pays?"
 msgstr ""
 
-#: payback.js:641
+#: payback.js:637
+msgid "To whom?"
+msgstr ""
+
+#: payback.js:638
 msgid "How much?"
 msgstr ""
 
-#: payback.js:669
-msgid "Statistics of project {name}"
-msgstr ""
-
-#: payback.js:672
-msgid "Paid"
-msgstr ""
-
-#: payback.js:674
-msgid "Balance"
-msgstr ""
-
-#: payback.js:734
+#: payback.js:743
 msgid "Failed to get bills"
 msgstr ""
 
-#: payback.js:751
+#: payback.js:760 payback.js:826
 msgid "Bill \"{what}\" of project {proj}"
 msgstr ""
 
-#: payback.js:840
+#: payback.js:821
+msgid "What? (press enter to validate)"
+msgstr ""
+
+#: payback.js:822
+msgid "How much? (press enter to validate)"
+msgstr ""
+
+#: payback.js:823
+msgid "Who payed?"
+msgstr ""
+
+#: payback.js:824
+msgid "When?"
+msgstr ""
+
+#: payback.js:825
 msgid "For whom?"
 msgstr ""
 
-#: payback.js:843
+#: payback.js:827
+msgid "All"
+msgstr ""
+
+#: payback.js:828
 msgid "None"
 msgstr ""
 
-#: payback.js:1035
-msgid "Deleted {name}"
-msgstr ""
-
-#: payback.js:1108
+#: payback.js:1113
 msgid "Rename"
 msgstr ""
 
@@ -144,39 +156,39 @@ msgstr ""
 msgid "Change weight"
 msgstr ""
 
-#: payback.js:1186
+#: payback.js:1213
 msgid "Bill values are not valid"
 msgstr ""
 
-#: payback.js:1205
+#: payback.js:1232
 msgid "Failed to save option values"
 msgstr ""
 
-#: payback.js:1235
+#: payback.js:1262
 msgid "Failed to restore options values"
 msgstr ""
 
-#: payback.js:1327 payback.js:1340 payback.js:1375 payback.js:1387
+#: payback.js:1354 payback.js:1367 payback.js:1402 payback.js:1414
 msgid "Invalid values"
 msgstr ""
 
-#: payback.js:1364
+#: payback.js:1391
 msgid "Add member to project {pname}"
 msgstr ""
 
-#: payback.js:1577
+#: payback.js:1604
 msgid "New Bill"
 msgstr ""
 
-#: payback.js:1588
+#: payback.js:1615
 msgid "2 active members are required to create a bill"
 msgstr ""
 
-#: payback.js:1625
+#: payback.js:1652
 msgid "Guest link for '{pid}' copied to clipboard"
 msgstr ""
 
-#: payback.js:1634
+#: payback.js:1661
 msgid "Guest link copied to clipboard"
 msgstr ""
 
@@ -217,16 +229,20 @@ msgstr ""
 msgid "Project password (aka Access code)"
 msgstr ""
 
+#: mainnavigation.php:6
+msgid "New project"
+msgstr ""
+
 #: mainnavigation.php:10
 msgid "project id"
 msgstr ""
 
 #: mainnavigation.php:13
-msgid "project name"
+msgid "name"
 msgstr ""
 
 #: mainnavigation.php:16
-msgid "project password"
+msgid "password"
 msgstr ""
 
 #: mainnavigation.php:19

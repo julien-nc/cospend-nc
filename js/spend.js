@@ -795,10 +795,11 @@
             }
         }
         var payerDisabled = '';
-        if (!spend.members[projectid][bill.payer_id].activated) {
-            payerDisabled = ' disabled';
-        }
         if (billid !== 0) {
+            // disable payer select if bill is not new
+            if (!spend.members[projectid][bill.payer_id].activated) {
+                payerDisabled = ' disabled';
+            }
             var payerName = getMemberName(projectid, bill.payer_id);
             c = getMemberColor(payerName);
         }
@@ -942,6 +943,7 @@
 
     function addProject(project) {
         spend.projects[project.id] = project;
+        spend.members[project.id] = {};
 
         var name = project.name;
         var projectid = project.id;
@@ -1034,6 +1036,7 @@
 
     function addMember(projectid, member, balance) {
         // add member to dict
+        // TODO remove this
         if (!spend.members.hasOwnProperty(projectid)) {
             spend.members[projectid] = {};
         }
@@ -1545,17 +1548,28 @@
 
         $('body').on('click', '#newBillButton', function(e) {
             var projectid = spend.currentProjectId;
-            if (spend.currentProjectId !== null && $('.billitem[billid=0]').length === 0) {
-                var bill = {
-                    id: 0,
-                    what: t('spend', 'New Bill'),
-                    date: moment().format('YYYY-MM-DD'),
-                    amount: 0.0,
-                    payer_id: 0,
-                    owers: []
-                };
-                addBill(projectid, bill)
-                displayBill(projectid, bill.id);
+            var activatedMembers = [];
+            for (var mid in spend.members[projectid]) {
+                if (spend.members[projectid][mid].activated) {
+                    activatedMembers.push(mid);
+                }
+            }
+            if (activatedMembers.length > 1) {
+                if (spend.currentProjectId !== null && $('.billitem[billid=0]').length === 0) {
+                    var bill = {
+                        id: 0,
+                        what: t('spend', 'New Bill'),
+                        date: moment().format('YYYY-MM-DD'),
+                        amount: 0.0,
+                        payer_id: 0,
+                        owers: []
+                    };
+                    addBill(projectid, bill)
+                    displayBill(projectid, bill.id);
+                }
+            }
+            else {
+                OC.Notification.showTemporary(t('spend', '2 active members are required to create a bill'));
             }
         });
 

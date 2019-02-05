@@ -164,6 +164,7 @@
             var div = $('#newprojectdiv');
             div.slideUp();
             $('#newprojectbutton').removeClass('icon-triangle-s').addClass('icon-triangle-e');
+            $('#newBillButton').slideDown();
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(t('payback', 'Failed to create project') + ' ' + response.responseText);
@@ -636,6 +637,9 @@
     }
 
     function displaySettlement(projectid, transactionList) {
+        // unselect bill
+        $('.billitem').removeClass('selectedbill');
+
         var projectName = getProjectName(projectid);
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
@@ -672,6 +676,9 @@
     }
 
     function displayStatistics(projectid, statList) {
+        // unselect bill
+        $('.billitem').removeClass('selectedbill');
+
         var projectName = getProjectName(projectid);
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
@@ -770,6 +777,10 @@
     }
 
     function displayBill(projectid, billid) {
+        // select bill item
+        $('.billitem').removeClass('selectedbill');
+        $('.billitem[billid='+billid+']').addClass('selectedbill');
+
         var bill = payback.bills[projectid][billid];
         var projectName = getProjectName(projectid);
 
@@ -873,6 +884,7 @@
         `;
 
         $(detail).appendTo('#billdetail');
+        $('#billdetail .input-bill-what').focus().select();
     }
 
     function getMemberName(projectid, memberid) {
@@ -1075,6 +1087,12 @@
         for (var i=0; i < project.members.length; i++) {
             var memberId = project.members[i].id;
             addMember(projectid, project.members[i], project.balance[memberId]);
+        }
+
+        // set selected project
+        if (payback.restoredSelectedProjectId === projectid) {
+            $('.projectitem').removeClass('selectedproject');
+            $('.projectitem[projectid='+projectid+']').addClass('selectedproject');
         }
     }
 
@@ -1311,8 +1329,12 @@
             if (!wasOpen) {
                 $(this).parent().addClass('open');
                 var projectid = $(this).parent().attr('projectid');
+
                 saveOptionValue({selectedProject: projectid});
                 payback.currentProjectId = projectid;
+                $('.projectitem').removeClass('selectedproject');
+                $('.projectitem[projectid='+projectid+']').addClass('selectedproject');
+
                 $('#billdetail').html('');
                 getBills(projectid);
             }
@@ -1325,8 +1347,12 @@
                 if (!wasOpen) {
                     $(this).addClass('open');
                     var projectid = $(this).attr('projectid');
+
                     saveOptionValue({selectedProject: projectid});
                     payback.currentProjectId = projectid;
+                    $('.projectitem').removeClass('selectedproject');
+                    $('.projectitem[projectid='+projectid+']').addClass('selectedproject');
+
                     $('#billdetail').html('');
                     getBills(projectid);
                 }
@@ -1338,10 +1364,13 @@
             if (div.is(':visible')) {
                 div.slideUp();
                 $(this).removeClass('icon-triangle-s').addClass('icon-triangle-e');
+                $('#newBillButton').slideDown();
             }
             else {
                 div.slideDown();
                 $(this).removeClass('icon-triangle-e').addClass('icon-triangle-s');
+                $('#projectidinput').focus().select();
+                $('#newBillButton').slideUp();
             }
         });
 

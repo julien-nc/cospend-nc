@@ -129,6 +129,12 @@ input[type=number] {
 #app-details-toggle:hover {
     opacity: 1;
 }
+#app-navigation-toggle:focus {
+    opacity: 0.6;
+}
+#app-navigation-toggle:hover {
+    background-color: var(--color-background-darker);
+}
 #app-details-toggle {
     position: fixed;
     display: inline-block;
@@ -137,7 +143,7 @@ input[type=number] {
     width: 44px;
     height: 44px;
     z-index: 149;
-    background-color: var(--color-main-background-darker);
+    background-color: var(--color-background-darker);
     cursor: pointer;
     opacity: 0.6;
     transform: rotate(180deg);
@@ -145,4 +151,10 @@ input[type=number] {
 }
 #billdetail > h2 {
     padding: 20px 0px 20px 0px;
+}
+.selectedproject > a {
+    font-weight: bold;
+}
+.selectedbill {
+    background-color: var(--color-background-dark) !important;
 }

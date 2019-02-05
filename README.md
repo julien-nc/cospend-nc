@@ -4,9 +4,32 @@
 [![coverage report](https://gitlab.com/eneiluj/payback-nc/badges/master/coverage.svg)](https://eneiluj.gitlab.io/payback-nc/coverage/)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/moneybuster/localized.svg)](https://crowdin.com/project/moneybuster)
 
+Nextcloud Payback is a group/shared budget manager.
+It was inspired by the great [IHateMoney](https://github.com/spiral-project/ihatemoney/).
+It lets you create projects with members and bills. Each member has a balance computed from the project bills.
+This way you can see who owes the group and who the group owes. Ultimately you can ask for a settlement plan
+telling you which payments to make to reset the projet balances.
+
+Project members are independent from Nextcloud users. Projects can be accessed and modified by
+people without a Nextcloud account. Each project has an ID and a password for guest access.
+
+[MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android client is available (soon on F-Droid)
+
+## Features
+
+* create/edit/delete project, member, bill
+* check member balances
+* display project's statistics
+* display settlement plan
+* guest access for people outside Nextcloud
+
 This app is tested on Nextcloud 15 with Firefox 57+ and Chromium.
 
 This app is under development.
+
+🌍 Help us to translate this app on [Nextcloud-Payback/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
+
+⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/payback-nc/blob/master/CONTRIBUTING.md).
 
 Link to Nextcloud application website : https://apps.nextcloud.com/apps/payback
 

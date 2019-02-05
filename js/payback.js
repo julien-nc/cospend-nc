@@ -1010,6 +1010,8 @@
         var settleStr = t('payback', 'Settle the project');
         var deleteStr = t('payback', 'Delete');
         var deletedStr = t('payback', 'Deleted {name}', {name: name});
+        var extProjUrl = OC.generateUrl(`/apps/payback/loginproject/${projectid}`);
+        extProjUrl = window.location.protocol + '//' + window.location.hostname + extProjUrl;
         var li = `
             <li class="projectitem collapsible${projectSelected}" projectid="${projectid}">
                 <a class="icon-folder" href="#" title="${projectid}">
@@ -1039,7 +1041,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="copyExtProjectUrl">
+                            <a href="#" class="copyExtProjectUrl" title="${extProjUrl}">
                                 <span class="icon-clippy"></span>
                                 <span>${guestAccessStr}</span>
                             </a>
@@ -1680,16 +1682,20 @@
         $('body').on('click', '.copyExtProjectUrl', function() {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
             var guestLink = OC.generateUrl(`/apps/payback/loginproject/${projectid}`);
-            var guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
+            guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
             var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select()
             document.execCommand('copy');
             $('#dummycopy').remove();
             OC.Notification.showTemporary(t('payback', 'Guest link for \'{pid}\' copied to clipboard', {pid: projectid}));
         });
 
+        var guestLink = OC.generateUrl('/apps/payback/login');
+        guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
+        $('#generalGuestLinkButton').attr('title', guestLink);
+
         $('body').on('click', '#generalGuestLinkButton', function() {
             var guestLink = OC.generateUrl('/apps/payback/login');
-            var guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
+            guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
             var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select()
             document.execCommand('copy');
             $('#dummycopy').remove();

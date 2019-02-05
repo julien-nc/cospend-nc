@@ -60,7 +60,7 @@ Check [AUTHORS](https://gitlab.com/eneiluj/payback-nc/blob/master/AUTHORS.md#aut
 Any feedback will be appreciated.
 
     </description>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <licence>agpl</licence>
     <author mail="eneiluj@posteo.net">Julien Veyssier</author>
     <namespace>Payback</namespace>

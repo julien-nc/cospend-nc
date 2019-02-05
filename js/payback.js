@@ -460,7 +460,7 @@
 
     function updateNumberOfMember(projectid) {
         var nbMembers = $('li.projectitem[projectid='+projectid+'] ul.memberlist > li').length;
-        $('li.projectitem[projectid='+projectid+'] .app-navigation-entry-utils-counter').text(nbMembers);
+        $('li.projectitem[projectid='+projectid+'] .app-navigation-entry-utils-counter span').text(nbMembers);
     }
 
     function deleteProject(id) {
@@ -1031,8 +1031,11 @@
                 </a>
                 <div class="app-navigation-entry-utils">
                     <ul>
-                        <li class="app-navigation-entry-utils-counter">${project.members.length}</li>
-                        <li class="app-navigation-entry-utils-menu-button">
+                        <li class="app-navigation-entry-utils-counter"><span>${project.members.length}</span></li>
+                        <li class="app-navigation-entry-utils-menu-button shareProjectButton">
+                            <button class="icon-share"></button>
+                        </li>
+                        <li class="app-navigation-entry-utils-menu-button projectMenuButton">
                             <button></button>
                         </li>
                     </ul>
@@ -1044,6 +1047,10 @@
                         <input type="submit" value="" class="icon-checkmark editProjectOk">
                     </div>
                 </div>
+                <ul class="app-navigation-entry-share">
+                    <li class="shareinputli"><input type="text" class="shareinput"/></li>
+                    <li><span>plop</span><span class="icon-delete"></span></li>
+                </ul>
                 <div class="app-navigation-entry-menu">
                     <ul>
                         <li>
@@ -1108,6 +1115,8 @@
         if (payback.restoredSelectedProjectId === projectid) {
             $('.projectitem').removeClass('selectedproject');
             $('.projectitem[projectid='+projectid+']').addClass('selectedproject');
+            $('.app-navigation-entry-utils-counter').removeClass('highlighted');
+            $('.projectitem[projectid='+projectid+'] .app-navigation-entry-utils-counter').addClass('highlighted');
         }
     }
 
@@ -1158,7 +1167,7 @@
                 <div class="app-navigation-entry-utils">
                     <ul>
                         <!--li class="app-navigation-entry-utils-counter">1</li-->
-                        <li class="app-navigation-entry-utils-menu-button">
+                        <li class="app-navigation-entry-utils-menu-button memberMenuButton">
                             <button></button>
                         </li>
                     </ul>
@@ -1300,6 +1309,51 @@
         });
     }
 
+    function addUserAutocompletion(input) {
+        var req = {
+        };
+        var url = OC.generateUrl('/apps/payback/getUserList');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            payback.userIdName = response.users;
+            var nameList = [];
+            var name;
+            for (var id in response.users) {
+                name = response.users[id];
+                nameList.push(name);
+            }
+            input.autocomplete({
+                source: nameList
+            });
+        }).fail(function() {
+            OC.Notification.showTemporary(t('payback', 'Failed to get user list'));
+        });
+    }
+
+    function addUserShareDb(projectid, userId, userName) {
+        var req = {
+            projectid: projectid,
+            userId: userId
+        };
+        var url = OC.generateUrl('/apps/payback/addUserShare');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            addUserShare(projectid, userId, userName);
+        }).fail(function() {
+            OC.Notification.showTemporary(t('payback', 'Failed to add user share'));
+        });
+    }
+
+    // TODO addusershare
+
     $(document).ready(function() {
         payback.pageIsPublic = (document.URL.indexOf('/payback/project') !== -1);
         if ( !payback.pageIsPublic ) {
@@ -1330,7 +1384,36 @@
             //console.log(event.target);
         }
 
-        $('body').on('click', '.app-navigation-entry-utils-menu-button', function(e) {
+        $('body').on('focus','.shareinput', function(e) {
+            addUserAutocompletion($(this));
+        });
+
+        $('.shareinput').on('keyup', function(e) {
+            if (e.key === 'Enter') {
+                var projectid = $(this).parent().parent().parent().attr('projectid');
+                var username = $(this).val();
+                var userId = '';
+                for (var id in payback.userIdName) {
+                    if (username === payback.userIdName[id]) {
+                        userId = id;
+                        break;
+                    }
+                }
+                addUserShareDb(projectid, userId, username);
+            }
+        });
+
+        $('body').on('click', '.shareProjectButton', function(e) {
+            var shareDiv = $(this).parent().parent().parent().parent().find('.app-navigation-entry-share');
+            if (shareDiv.is(':visible')) {
+                shareDiv.slideUp();
+            }
+            else {
+                shareDiv.slideDown();
+            }
+        });
+
+        $('body').on('click', '.projectMenuButton, .memberMenuButton', function(e) {
             var wasOpen = $(this).parent().parent().parent().find('>.app-navigation-entry-menu').hasClass('open');
             $('.app-navigation-entry-menu.open').removeClass('open');
             if (!wasOpen) {
@@ -1349,6 +1432,8 @@
                 payback.currentProjectId = projectid;
                 $('.projectitem').removeClass('selectedproject');
                 $('.projectitem[projectid='+projectid+']').addClass('selectedproject');
+                $('.app-navigation-entry-utils-counter').removeClass('highlighted');
+                $('.projectitem[projectid='+projectid+'] .app-navigation-entry-utils-counter').addClass('highlighted');
 
                 $('#billdetail').html('');
                 getBills(projectid);
@@ -1367,6 +1452,8 @@
                     payback.currentProjectId = projectid;
                     $('.projectitem').removeClass('selectedproject');
                     $('.projectitem[projectid='+projectid+']').addClass('selectedproject');
+                    $('.app-navigation-entry-utils-counter').removeClass('highlighted');
+                    $('.projectitem[projectid='+projectid+'] .app-navigation-entry-utils-counter').addClass('highlighted');
 
                     $('#billdetail').html('');
                     getBills(projectid);

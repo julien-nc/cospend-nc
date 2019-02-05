@@ -159,3 +159,15 @@ input[type=number] {
 .selectedbill {
     background-color: var(--color-background-dark) !important;
 }
+.app-navigation-entry-share {
+    display: none;
+}
+.app-navigation-entry-share li {
+    padding-left: 5px !important;
+}
+.app-navigation-entry-share .icon-delete {
+    float: right;
+}
+.shareinput {
+    width: 100%;
+}

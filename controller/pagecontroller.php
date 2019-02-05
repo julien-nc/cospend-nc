@@ -251,6 +251,20 @@ class PageController extends Controller {
         }
     }
 
+    private function userCanAccessProject($userid, $projectid) {
+        $projectInfo = $this->getProjectInfo($projectid);
+        if ($projectInfo !== null) {
+            if ($projectInfo['userid'] === $userid) {
+                return true;
+            }
+            else {
+            }
+        }
+        else {
+            return false;
+        }
+    }
+
     /**
      * @NoAdminRequired
      *
@@ -1756,6 +1770,30 @@ class PageController extends Controller {
             }
             return $match;
         }
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function getUserList() {
+        $userNames = [];
+        foreach($this->userManager->search('') as $u) {
+            if ($u->getUID() !== $this->userId) {
+                //array_push($userNames, $u->getUID());
+                $userNames[$u->getUID()] = $u->getDisplayName();
+            }
+        }
+        $response = new DataResponse(
+            [
+                'users'=>$userNames
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
     }
 
 }

@@ -51,7 +51,7 @@ b.memberName, b.memberWeight {
 
 .bill-left select,
 .bill-left input {
-    margin: 0 12px 0 12px;
+    /*margin: 0 12px 0 12px;*/
     width: 100%;
 }
 .bill-form a.icon {
@@ -61,12 +61,13 @@ b.memberName, b.memberWeight {
     padding: 0 12px 0 44px;
 }
 .bill-left {
+    padding: 0px 10px 0px 15px;
     float: left;
-    width: 45%;
+    width: 49%;
 }
 .bill-right {
     float: right;
-    width: 45%;
+    width: 49%;
 }
 .bill-owers label {
     margin-left: 5px;

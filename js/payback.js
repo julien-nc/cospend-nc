@@ -853,22 +853,34 @@
             <div class="bill-form">
                 <div class="bill-left">
                     <div class="bill-what">
-                        <a class="icon icon-tag"></a><span>${whatStr}</span><br/>
-                        <input type="text" class="input-bill-what" value="${bill.what}"/>
+                        <label for="what">
+                            <a class="icon icon-tag"></a>
+                            ${whatStr}
+                        </label>
+                        <input type="text" id="what" class="input-bill-what" value="${bill.what}"/>
                     </div>
                     <div class="bill-amount">
-                        <a class="icon icon-quota"></a><span>${amountStr}</span><br/>
-                        <input type="number" class="input-bill-amount" value="${bill.amount}" step="0.01" min="0"/>
+                        <label for="amount">
+                            <a class="icon icon-quota"></a>
+                            ${amountStr}
+                        </label>
+                        <input type="number" id="amount" class="input-bill-amount" value="${bill.amount}" step="0.01" min="0"/>
                     </div>
                     <div class="bill-payer">
-                        <a class="icon icon-user"></a><span>${payerStr}</span><br/>
-                        <select class="input-bill-payer"${payerDisabled}>
+                        <label for="payer">
+                            <a class="icon icon-user"></a>
+                            ${payerStr}
+                        </label>
+                        <select id="payer" class="input-bill-payer"${payerDisabled}>
                             ${payerOptions}
                         </select>
                     </div>
                     <div class="bill-date">
-                        <a class="icon icon-calendar-dark"></a><span>${dateStr}</span><br/>
-                        <input type="date" class="input-bill-date" value="${bill.date}"/>
+                        <label for="date">
+                            <a class="icon icon-calendar-dark"></a>
+                            ${dateStr}
+                        </label>
+                        <input type="date" id="date" class="input-bill-date" value="${bill.date}"/>
                     </div>
                 </div>
                 <div class="bill-right">

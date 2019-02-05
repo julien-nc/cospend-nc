@@ -1384,9 +1384,9 @@
             }
             else {
                 $(this).removeClass('icon-triangle-e').addClass('icon-triangle-s');
-                $('#projectidinput').focus().select();
                 div.slideDown('slow', function() {
                     $('#newBillButton').fadeOut();
+                    $('#projectidinput').focus().select();
                 });
             }
         });

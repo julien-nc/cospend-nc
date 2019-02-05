@@ -162,9 +162,10 @@
             });
 
             var div = $('#newprojectdiv');
-            div.slideUp();
             $('#newprojectbutton').removeClass('icon-triangle-s').addClass('icon-triangle-e');
-            $('#newBillButton').slideDown();
+            div.slideUp('slow', function() {
+                $('#newBillButton').fadeIn();
+            });
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(t('payback', 'Failed to create project') + ' ' + response.responseText);
@@ -1362,15 +1363,17 @@
         $('#newprojectbutton').click(function() {
             var div = $('#newprojectdiv');
             if (div.is(':visible')) {
-                div.slideUp();
                 $(this).removeClass('icon-triangle-s').addClass('icon-triangle-e');
-                $('#newBillButton').slideDown();
+                div.slideUp('slow', function() {
+                    $('#newBillButton').fadeIn();
+                });
             }
             else {
-                div.slideDown();
                 $(this).removeClass('icon-triangle-e').addClass('icon-triangle-s');
                 $('#projectidinput').focus().select();
-                $('#newBillButton').slideUp();
+                div.slideDown('slow', function() {
+                    $('#newBillButton').fadeOut();
+                });
             }
         });
 

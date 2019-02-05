@@ -2,8 +2,7 @@
 
 [![Build status](https://gitlab.com/eneiluj/payback-nc/badges/master/build.svg)](https://gitlab.com/eneiluj/payback-nc/commits/master)
 [![coverage report](https://gitlab.com/eneiluj/payback-nc/badges/master/coverage.svg)](https://eneiluj.gitlab.io/payback-nc/coverage/)
-[![Crowdin]()](https://crowdin.com/project/payback)
-
+[![Crowdin](https://d322cqt584bo4o.cloudfront.net/moneybuster/localized.svg)](https://crowdin.com/project/moneybuster)
 
 This app is tested on Nextcloud 15 with Firefox 57+ and Chromium.
 

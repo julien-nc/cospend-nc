@@ -1,6 +1,6 @@
 # Translate Payback in your language
 
-Translation is done in the [Nextcloud Payback Crowdin project](https://crowdin.com/project/payback).
+Translation is done in the [Nextcloud Payback/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
 
 If your language is not present in the project, send me a private message in Crowdin or an e-mail and i'll add it.
 

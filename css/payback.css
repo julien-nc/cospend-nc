@@ -64,7 +64,7 @@ b.memberName, b.memberWeight {
     justify-content: space-between;
     line-height: 44px;
     min-height: 44px;
-    padding: 0 12px 0 44px;
+    padding: 0 12px 0 25px;
 }
 .bill-left {
     padding: 0px 10px 0px 15px;

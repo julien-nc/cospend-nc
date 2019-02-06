@@ -1480,7 +1480,8 @@
             }
             else {
                 shareDiv.slideDown();
-                $(this).parent().parent().parent().find('.shareinput').val('').focus();
+                var defaultShareText = t('payback', 'userName');
+                $(this).parent().parent().parent().find('.shareinput').val(defaultShareText).focus().select();
             }
         });
 

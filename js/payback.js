@@ -1457,6 +1457,7 @@
             }
             else {
                 shareDiv.slideDown();
+                $(this).parent().parent().parent().find('.shareinput').val('').focus();
             }
         });
 

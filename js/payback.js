@@ -1105,6 +1105,10 @@
 
         $(li).appendTo('#projectlist');
 
+        if (payback.pageIsPublic) {
+            $('.projectitem[projectid='+projectid+'] .shareProjectButton').hide();
+        }
+
         for (var i=0; i < project.members.length; i++) {
             var memberId = project.members[i].id;
             addMember(projectid, project.members[i], project.balance[memberId]);
@@ -1445,7 +1449,7 @@
         });
 
         $('body').on('click', '.shareProjectButton', function(e) {
-            var shareDiv = $(this).parent().parent().parent().parent().find('.app-navigation-entry-share');
+            var shareDiv = $(this).parent().parent().parent().find('.app-navigation-entry-share');
             if (shareDiv.is(':visible')) {
                 shareDiv.slideUp();
             }

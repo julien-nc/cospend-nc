@@ -163,11 +163,17 @@ input[type=number] {
     display: none;
 }
 .app-navigation-entry-share li {
-    padding-left: 5px !important;
-}
-.app-navigation-entry-share .icon-delete {
-    float: right;
+    display: inline-block !important;
+    padding: 5px 10px 5px 10px !important;
 }
 .shareinput {
     width: 100%;
+}
+.shareLabel {
+    float: left;
+}
+.deleteUserShareButton {
+    float: right;
+    padding-left: 15px;
+    padding-right: 15px;
 }

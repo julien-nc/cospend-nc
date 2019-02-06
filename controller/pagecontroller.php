@@ -447,6 +447,7 @@ class PageController extends Controller {
      */
     public function webGetProjects() {
         $projects = [];
+        $projectids = [];
 
         $sql = '
             SELECT id, password, name, email
@@ -458,6 +459,7 @@ class PageController extends Controller {
         $dbPassword = null;
         while ($row = $req->fetch()){
             $dbProjectId = $row['id'];
+            array_push($projectids, $dbProjectId);
             $dbPassword = $row['password'];
             $dbName = $row['name'];
             $dbEmail= $row['email'];
@@ -485,18 +487,22 @@ class PageController extends Controller {
         $dbPassword = null;
         while ($row = $req->fetch()){
             $dbProjectId = $row['id'];
-            $dbPassword = $row['password'];
-            $dbName = $row['name'];
-            $dbEmail= $row['email'];
-            array_push($projects, [
-                'name'=>$dbName,
-                'contact_email'=>$dbEmail,
-                'id'=>$dbProjectId,
-                'active_members'=>null,
-                'members'=>null,
-                'balance'=>null,
-                'shares'=>[]
-            ]);
+            // avoid putting twice the same project
+            // this can happen with a share loop
+            if (!in_array($dbProjectId, $projectids)) {
+                $dbPassword = $row['password'];
+                $dbName = $row['name'];
+                $dbEmail= $row['email'];
+                array_push($projects, [
+                    'name'=>$dbName,
+                    'contact_email'=>$dbEmail,
+                    'id'=>$dbProjectId,
+                    'active_members'=>null,
+                    'members'=>null,
+                    'balance'=>null,
+                    'shares'=>[]
+                ]);
+            }
         }
         $req->closeCursor();
         for ($i = 0; $i < count($projects); $i++) {

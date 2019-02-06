@@ -30,6 +30,8 @@ return [
         ['name' => 'utils#saveOptionValue', 'url' => '/saveOptionValue', 'verb' => 'POST'],
         ['name' => 'utils#setAllowAnonymousCreation', 'url' => '/setAllowAnonymousCreation', 'verb' => 'POST'],
         ['name' => 'page#getUserList', 'url' => '/getUserList', 'verb' => 'POST'],
+        ['name' => 'page#addUserShare', 'url' => '/addUserShare', 'verb' => 'POST'],
+        ['name' => 'page#deleteUserShare', 'url' => '/deleteUserShare', 'verb' => 'POST'],
         ['name' => 'page#webGetProjects', 'url' => 'getProjects', 'verb' => 'POST'],
         ['name' => 'page#webCreateProject', 'url' => 'createProject', 'verb' => 'POST'],
         ['name' => 'page#webDeleteProject', 'url' => 'deleteProject', 'verb' => 'POST'],

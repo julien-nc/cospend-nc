@@ -1049,7 +1049,6 @@
                 </div>
                 <ul class="app-navigation-entry-share">
                     <li class="shareinputli"><input type="text" class="shareinput"/></li>
-                    <li><span>plop</span><span class="icon-delete"></span></li>
                 </ul>
                 <div class="app-navigation-entry-menu">
                     <ul>
@@ -1109,6 +1108,14 @@
         for (var i=0; i < project.members.length; i++) {
             var memberId = project.members[i].id;
             addMember(projectid, project.members[i], project.balance[memberId]);
+        }
+
+        if (project.shares) {
+            for (var i=0; i < project.shares.length; i++) {
+                var userid = project.shares[i].userid;
+                var username = project.shares[i].name;
+                addUserShare(projectid, userid, username);
+            }
         }
 
         // set selected project
@@ -1334,10 +1341,10 @@
         });
     }
 
-    function addUserShareDb(projectid, userId, userName) {
+    function addUserShareDb(projectid, userid, username) {
         var req = {
             projectid: projectid,
-            userId: userId
+            userid: userid
         };
         var url = OC.generateUrl('/apps/payback/addUserShare');
         $.ajax({
@@ -1346,13 +1353,40 @@
             data: req,
             async: true
         }).done(function (response) {
-            addUserShare(projectid, userId, userName);
-        }).fail(function() {
-            OC.Notification.showTemporary(t('payback', 'Failed to add user share'));
+            addUserShare(projectid, userid, username);
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('payback', 'Failed to add user share') + ' ' + response.responseText);
         });
     }
 
-    // TODO addusershare
+    function addUserShare(projectid, userid, username) {
+        var li = '<li userid="'+escapeHTML(userid)+'" username="' + escapeHTML(username) + '"><span>' +
+            t('phonetrack', 'Shared with {u}', {'u': username}) + '</span>' +
+            '<span class="icon-delete deleteUserShareButton"></span></li>';
+        $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share').append(li);
+        $('.projectitem[projectid="' + projectid + '"] .shareinput').val('');
+    }
+
+    function deleteUserShareDb(projectid, userid) {
+        var req = {
+            projectid: projectid,
+            userid: userid
+        };
+        var url = OC.generateUrl('/apps/payback/deleteUserShare');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            var li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[userid=' + userid + ']');
+            li.fadeOut('slow', function() {
+                li.remove();
+            });
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('payback', 'Failed to delete user share') + ' ' + response.responseText);
+        });
+    }
 
     $(document).ready(function() {
         payback.pageIsPublic = (document.URL.indexOf('/payback/project') !== -1);
@@ -1364,6 +1398,7 @@
             $('#newprojectbutton').hide();
             payback.projectid = $('#projectid').text();
             payback.password = $('#password').text();
+            payback.restoredSelectedProjectId = payback.projectid;
             $('#projectid').html('');
             $('#password').html('');
             main();
@@ -1388,7 +1423,7 @@
             addUserAutocompletion($(this));
         });
 
-        $('.shareinput').on('keyup', function(e) {
+        $('body').on('keyup','.shareinput', function(e) {
             if (e.key === 'Enter') {
                 var projectid = $(this).parent().parent().parent().attr('projectid');
                 var username = $(this).val();
@@ -1401,6 +1436,12 @@
                 }
                 addUserShareDb(projectid, userId, username);
             }
+        });
+
+        $('body').on('click', '.deleteUserShareButton', function(e) {
+            var projectid = $(this).parent().parent().parent().attr('projectid');
+            var userid = $(this).parent().attr('userid');
+            deleteUserShareDb(projectid, userid);
         });
 
         $('body').on('click', '.shareProjectButton', function(e) {

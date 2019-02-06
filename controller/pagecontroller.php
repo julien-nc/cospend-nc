@@ -251,6 +251,10 @@ class PageController extends Controller {
         }
     }
 
+    /**
+     * check if user owns the project
+     * or if the project is shared with the user
+     */
     private function userCanAccessProject($userid, $projectid) {
         $projectInfo = $this->getProjectInfo($projectid);
         if ($projectInfo !== null) {
@@ -258,6 +262,21 @@ class PageController extends Controller {
                 return true;
             }
             else {
+                $sql = '
+                    SELECT projectid, userid
+                    FROM *PREFIX*payback_shares
+                    WHERE userid='.$this->db_quote_escape_string($userid).'
+                        AND projectid='.$this->db_quote_escape_string($projectid).' ;';
+                $req = $this->dbconnection->prepare($sql);
+                $req->execute();
+                $dbProjectId = null;
+                while ($row = $req->fetch()){
+                    $dbProjectId = $row['projectid'];
+                    break;
+                }
+                $req->closeCursor();
+
+                return ($dbProjectId !== null);
             }
         }
         else {
@@ -463,6 +482,7 @@ class PageController extends Controller {
         for ($i = 0; $i < count($projects); $i++) {
             $dbProjectId = $projects[$i]['id'];
             $members = $this->getMembers($dbProjectId);
+            $shares = $this->getUserShares($dbProjectId);
             $activeMembers = [];
             foreach ($members as $member) {
                 if ($member['activated']) {
@@ -473,10 +493,35 @@ class PageController extends Controller {
             $projects[$i]['active_members'] = $activeMembers;
             $projects[$i]['members'] = $members;
             $projects[$i]['balance'] = $balance;
+            $projects[$i]['shares'] = $shares;
         }
 
         $response = new DataResponse($projects);
         return $response;
+    }
+
+    private function getUserShares($projectid) {
+        $shares = [];
+
+        $userIdToName = [];
+        foreach($this->userManager->search('') as $u) {
+            $userIdToName[$u->getUID()] = $u->getDisplayName();
+        }
+
+        $sqlchk = '
+            SELECT userid, projectid
+            FROM *PREFIX*payback_shares
+            WHERE projectid='.$this->db_quote_escape_string($projectid).' ;';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbuserId = $row['userid'];
+            $dbprojectId = $row['projectid'];
+            array_push($shares, ['userid'=>$dbuserId, 'name'=>$userIdToName[$dbuserId]]);
+        }
+        $req->closeCursor();
+
+        return $shares;
     }
 
     private function checkLogin($projectId, $password) {
@@ -1793,6 +1838,155 @@ class PageController extends Controller {
             ->addAllowedMediaDomain('*')
             ->addAllowedConnectDomain('*');
         $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function addUserShare($projectid, $userid) {
+        // check if userId exists
+        $userIds = [];
+        foreach($this->userManager->search('') as $u) {
+            if ($u->getUID() !== $this->userId) {
+                array_push($userIds, $u->getUID());
+            }
+        }
+        if ($userid !== '' and in_array($userid, $userIds)) {
+            if ($this->userCanAccessProject($this->userId, $projectid)) {
+                // check if user share exists
+                $sqlchk = '
+                    SELECT userid, projectid
+                    FROM *PREFIX*payback_shares
+                    WHERE projectid='.$this->db_quote_escape_string($projectid).'
+                          AND userid='.$this->db_quote_escape_string($userid).' ;';
+                $req = $this->dbconnection->prepare($sqlchk);
+                $req->execute();
+                $dbuserId = null;
+                while ($row = $req->fetch()){
+                    $dbuserId = $row['userid'];
+                    break;
+                }
+                $req->closeCursor();
+
+                if ($dbuserId === null) {
+                    $projectInfo = $this->getProjectInfo($projectid);
+                    $sql = '
+                        INSERT INTO *PREFIX*payback_shares
+                        (projectid, userid)
+                        VALUES ('.
+                            $this->db_quote_escape_string($projectid).','.
+                            $this->db_quote_escape_string($userid).
+                        ') ;';
+                    $req = $this->dbconnection->prepare($sql);
+                    $req->execute();
+                    $req->closeCursor();
+
+                    $response = new DataResponse('OK');
+
+                    // SEND NOTIFICATION
+                    $manager = \OC::$server->getNotificationManager();
+                    $notification = $manager->createNotification();
+
+                    $acceptAction = $notification->createAction();
+                    $acceptAction->setLabel('accept')
+                        ->setLink('/apps/payback', 'GET');
+
+                    $declineAction = $notification->createAction();
+                    $declineAction->setLabel('decline')
+                        ->setLink('/apps/payback', 'GET');
+
+                    $notification->setApp('payback')
+                        ->setUser($userid)
+                        ->setDateTime(new \DateTime())
+                        ->setObject('addusershare', $projectid)
+                        ->setSubject('add_user_share', [$this->userId, $projectInfo['name']])
+                        ->addAction($acceptAction)
+                        ->addAction($declineAction)
+                        ;
+
+                    $manager->notify($notification);
+                }
+                else {
+                    $response = new DataResponse(['message'=>'Already shared with this user'], 403);
+                }
+            }
+            else {
+                $response = new DataResponse(['message'=>'Access denied'], 403);
+            }
+        }
+        else {
+            $response = new DataResponse(['message'=>'No such user'], 401);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function deleteUserShare($projectid, $userid) {
+        if ($this->userCanAccessProject($this->userId, $projectid)) {
+            // check if user share exists
+            $sqlchk = '
+                SELECT userid, projectid
+                FROM *PREFIX*payback_shares
+                WHERE projectid='.$this->db_quote_escape_string($projectid).'
+                      AND userid='.$this->db_quote_escape_string($userid).' ;';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbuserId = null;
+            while ($row = $req->fetch()){
+                $dbuserId = $row['userid'];
+                break;
+            }
+            $req->closeCursor();
+
+            if ($dbuserId !== null) {
+                // delete
+                $sqldel = '
+                    DELETE FROM *PREFIX*payback_shares
+                    WHERE projectid='.$this->db_quote_escape_string($projectid).'
+                          AND userid='.$this->db_quote_escape_string($userid).' ;';
+                $req = $this->dbconnection->prepare($sqldel);
+                $req->execute();
+                $req->closeCursor();
+
+                $response = new DataResponse('OK');
+
+                // SEND NOTIFICATION
+                $projectInfo = $this->getProjectInfo($projectid);
+
+                $manager = \OC::$server->getNotificationManager();
+                $notification = $manager->createNotification();
+
+                $acceptAction = $notification->createAction();
+                $acceptAction->setLabel('accept')
+                    ->setLink('/apps/payback', 'GET');
+
+                $declineAction = $notification->createAction();
+                $declineAction->setLabel('decline')
+                    ->setLink('/apps/payback', 'GET');
+
+                $notification->setApp('payback')
+                    ->setUser($userid)
+                    ->setDateTime(new \DateTime())
+                    ->setObject('deleteusershare', $projectid)
+                    ->setSubject('delete_user_share', [$this->userId, $projectInfo['name']])
+                    ->addAction($acceptAction)
+                    ->addAction($declineAction)
+                    ;
+
+                $manager->notify($notification);
+            }
+            else {
+                $response = new DataResponse(['message'=>'No such share'], 401);
+            }
+        }
+        else {
+            $response = new DataResponse(['message'=>'Access denied'], 403);
+        }
+
         return $response;
     }
 

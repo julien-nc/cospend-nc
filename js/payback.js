@@ -1358,6 +1358,8 @@
             async: true
         }).done(function (response) {
             addUserShare(projectid, userid, username);
+            var projectname = getProjectName(projectid);
+            OC.Notification.showTemporary(t('payback', 'Shared project {pname} with {uname}', {pname: projectname, uname: username}));
         }).fail(function(response) {
             OC.Notification.showTemporary(t('payback', 'Failed to add user share') + ' ' + response.responseText);
         });

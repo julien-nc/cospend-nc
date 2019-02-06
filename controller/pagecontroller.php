@@ -1880,61 +1880,67 @@ class PageController extends Controller {
         }
         if ($userid !== '' and in_array($userid, $userIds)) {
             if ($this->userCanAccessProject($this->userId, $projectid)) {
-                // check if user share exists
-                $sqlchk = '
-                    SELECT userid, projectid
-                    FROM *PREFIX*payback_shares
-                    WHERE projectid='.$this->db_quote_escape_string($projectid).'
-                          AND userid='.$this->db_quote_escape_string($userid).' ;';
-                $req = $this->dbconnection->prepare($sqlchk);
-                $req->execute();
-                $dbuserId = null;
-                while ($row = $req->fetch()){
-                    $dbuserId = $row['userid'];
-                    break;
-                }
-                $req->closeCursor();
-
-                if ($dbuserId === null) {
-                    $projectInfo = $this->getProjectInfo($projectid);
-                    $sql = '
-                        INSERT INTO *PREFIX*payback_shares
-                        (projectid, userid)
-                        VALUES ('.
-                            $this->db_quote_escape_string($projectid).','.
-                            $this->db_quote_escape_string($userid).
-                        ') ;';
-                    $req = $this->dbconnection->prepare($sql);
+                $projectInfo = $this->getProjectInfo($projectid);
+                // check if someone tries to share the project with its owner
+                if ($userid !== $projectInfo['userid']) {
+                    // check if user share exists
+                    $sqlchk = '
+                        SELECT userid, projectid
+                        FROM *PREFIX*payback_shares
+                        WHERE projectid='.$this->db_quote_escape_string($projectid).'
+                              AND userid='.$this->db_quote_escape_string($userid).' ;';
+                    $req = $this->dbconnection->prepare($sqlchk);
                     $req->execute();
+                    $dbuserId = null;
+                    while ($row = $req->fetch()){
+                        $dbuserId = $row['userid'];
+                        break;
+                    }
                     $req->closeCursor();
 
-                    $response = new DataResponse('OK');
+                    if ($dbuserId === null) {
+                        $sql = '
+                            INSERT INTO *PREFIX*payback_shares
+                            (projectid, userid)
+                            VALUES ('.
+                                $this->db_quote_escape_string($projectid).','.
+                                $this->db_quote_escape_string($userid).
+                            ') ;';
+                        $req = $this->dbconnection->prepare($sql);
+                        $req->execute();
+                        $req->closeCursor();
 
-                    // SEND NOTIFICATION
-                    $manager = \OC::$server->getNotificationManager();
-                    $notification = $manager->createNotification();
+                        $response = new DataResponse('OK');
 
-                    $acceptAction = $notification->createAction();
-                    $acceptAction->setLabel('accept')
-                        ->setLink('/apps/payback', 'GET');
+                        // SEND NOTIFICATION
+                        $manager = \OC::$server->getNotificationManager();
+                        $notification = $manager->createNotification();
 
-                    $declineAction = $notification->createAction();
-                    $declineAction->setLabel('decline')
-                        ->setLink('/apps/payback', 'GET');
+                        $acceptAction = $notification->createAction();
+                        $acceptAction->setLabel('accept')
+                            ->setLink('/apps/payback', 'GET');
 
-                    $notification->setApp('payback')
-                        ->setUser($userid)
-                        ->setDateTime(new \DateTime())
-                        ->setObject('addusershare', $projectid)
-                        ->setSubject('add_user_share', [$this->userId, $projectInfo['name']])
-                        ->addAction($acceptAction)
-                        ->addAction($declineAction)
-                        ;
+                        $declineAction = $notification->createAction();
+                        $declineAction->setLabel('decline')
+                            ->setLink('/apps/payback', 'GET');
 
-                    $manager->notify($notification);
+                        $notification->setApp('payback')
+                            ->setUser($userid)
+                            ->setDateTime(new \DateTime())
+                            ->setObject('addusershare', $projectid)
+                            ->setSubject('add_user_share', [$this->userId, $projectInfo['name']])
+                            ->addAction($acceptAction)
+                            ->addAction($declineAction)
+                            ;
+
+                        $manager->notify($notification);
+                    }
+                    else {
+                        $response = new DataResponse(['message'=>'Already shared with this user'], 403);
+                    }
                 }
                 else {
-                    $response = new DataResponse(['message'=>'Already shared with this user'], 403);
+                    $response = new DataResponse(['message'=>'Impossible to share the project with its owner'], 403);
                 }
             }
             else {

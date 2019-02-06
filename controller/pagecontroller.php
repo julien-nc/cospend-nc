@@ -220,8 +220,7 @@ class PageController extends Controller {
      *
      */
     public function webDeleteProject($projectid) {
-        $projectInfo = $this->getProjectInfo($projectid);
-        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+        if ($this->userCanAccessProject($this->userId, $projectid)) {
             return $this->deleteProject($projectid);
         }
         else {
@@ -238,8 +237,7 @@ class PageController extends Controller {
      *
      */
     public function webDeleteBill($projectid, $billid) {
-        $projectInfo = $this->getProjectInfo($projectid);
-        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+        if ($this->userCanAccessProject($this->userId, $projectid)) {
             return $this->deleteBill($projectid, $billid);
         }
         else {
@@ -258,10 +256,12 @@ class PageController extends Controller {
     private function userCanAccessProject($userid, $projectid) {
         $projectInfo = $this->getProjectInfo($projectid);
         if ($projectInfo !== null) {
+            // does the user own the project ?
             if ($projectInfo['userid'] === $userid) {
                 return true;
             }
             else {
+                // is the project shared with the user ?
                 $sql = '
                     SELECT projectid, userid
                     FROM *PREFIX*payback_shares
@@ -289,8 +289,8 @@ class PageController extends Controller {
      *
      */
     public function webGetProjectInfo($projectid) {
-        $projectInfo = $this->getProjectInfo($projectid);
-        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+        if ($this->userCanAccessProject($this->userId, $projectid)) {
+            $projectInfo = $this->getProjectInfo($projectid);
             $response = new DataResponse($projectInfo);
             return $response;
         }
@@ -308,8 +308,7 @@ class PageController extends Controller {
      *
      */
     public function webGetProjectStatistics($projectid) {
-        $projectInfo = $this->getProjectInfo($projectid);
-        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+        if ($this->userCanAccessProject($this->userId, $projectid)) {
             return $this->getProjectStatistics($projectid);
         }
         else {
@@ -326,8 +325,7 @@ class PageController extends Controller {
      *
      */
     public function webGetProjectSettlement($projectid) {
-        $projectInfo = $this->getProjectInfo($projectid);
-        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+        if ($this->userCanAccessProject($this->userId, $projectid)) {
             return $this->getProjectSettlement($projectid);
         }
         else {
@@ -344,8 +342,7 @@ class PageController extends Controller {
      *
      */
     public function webEditMember($projectid, $memberid, $name, $weight, $activated) {
-        $projectInfo = $this->getProjectInfo($projectid);
-        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+        if ($this->userCanAccessProject($this->userId, $projectid)) {
             return $this->editMember($projectid, $memberid, $name, $weight, $activated);
         }
         else {
@@ -362,8 +359,7 @@ class PageController extends Controller {
      *
      */
     public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount) {
-        $projectInfo = $this->getProjectInfo($projectid);
-        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+        if ($this->userCanAccessProject($this->userId, $projectid)) {
             return $this->editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount);
         }
         else {
@@ -380,8 +376,7 @@ class PageController extends Controller {
      *
      */
     public function webEditProject($projectid, $name, $contact_email, $password) {
-        $projectInfo = $this->getProjectInfo($projectid);
-        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+        if ($this->userCanAccessProject($this->userId, $projectid)) {
             return $this->editProject($projectid, $name, $contact_email, $password);
         }
         else {
@@ -398,8 +393,7 @@ class PageController extends Controller {
      *
      */
     public function webAddBill($projectid, $date, $what, $payer, $payed_for, $amount) {
-        $projectInfo = $this->getProjectInfo($projectid);
-        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+        if ($this->userCanAccessProject($this->userId, $projectid)) {
             return $this->addBill($projectid, $date, $what, $payer, $payed_for, $amount);
         }
         else {
@@ -416,8 +410,7 @@ class PageController extends Controller {
      *
      */
     public function webAddMember($projectid, $name) {
-        $projectInfo = $this->getProjectInfo($projectid);
-        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+        if ($this->userCanAccessProject($this->userId, $projectid)) {
             return $this->addMember($projectid, $name, 1);
         }
         else {
@@ -434,8 +427,7 @@ class PageController extends Controller {
      *
      */
     public function webGetBills($projectid) {
-        $projectInfo = $this->getProjectInfo($projectid);
-        if ($projectInfo !== null && $projectInfo['userid'] === $this->userId) {
+        if ($this->userCanAccessProject($this->userId, $projectid)) {
             $bills = $this->getBills($projectid);
             $response = new DataResponse($bills);
             return $response;
@@ -475,7 +467,35 @@ class PageController extends Controller {
                 'id'=>$dbProjectId,
                 'active_members'=>null,
                 'members'=>null,
-                'balance'=>null
+                'balance'=>null,
+                'shares'=>[]
+            ]);
+        }
+        $req->closeCursor();
+
+        // shared with user
+        $sql = '
+            SELECT *PREFIX*payback_projects.id AS id, password, name, email
+            FROM *PREFIX*payback_projects
+            INNER JOIN *PREFIX*payback_shares ON *PREFIX*payback_shares.projectid=*PREFIX*payback_projects.id
+            WHERE *PREFIX*payback_shares.userid='.$this->db_quote_escape_string($this->userId).' ;';
+        $req = $this->dbconnection->prepare($sql);
+        $req->execute();
+        $dbProjectId = null;
+        $dbPassword = null;
+        while ($row = $req->fetch()){
+            $dbProjectId = $row['id'];
+            $dbPassword = $row['password'];
+            $dbName = $row['name'];
+            $dbEmail= $row['email'];
+            array_push($projects, [
+                'name'=>$dbName,
+                'contact_email'=>$dbEmail,
+                'id'=>$dbProjectId,
+                'active_members'=>null,
+                'members'=>null,
+                'balance'=>null,
+                'shares'=>[]
             ]);
         }
         $req->closeCursor();

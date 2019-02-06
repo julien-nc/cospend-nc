@@ -917,6 +917,13 @@
         return c;
     }
 
+    function reload(msg) {
+        OC.Notification.showTemporary(msg);
+        new Timer(function() {
+            location.reload();
+        }, 5000);
+    }
+
     function addBill(projectid, bill) {
         payback.bills[projectid][bill.id] = bill;
 
@@ -924,6 +931,10 @@
         var ower;
         for (var i=0; i < bill.owers.length; i++) {
             ower = bill.owers[i];
+            if (!payback.members[projectid].hasOwnProperty(ower.id)) {
+                reload(t('payback', 'Member list is not up to date. Reloading in 5 sec.'));
+                return;
+            }
             owerNames = owerNames + getMemberName(projectid, ower.id) + ', ';
         }
         owerNames = owerNames.replace(/, $/, '');
@@ -932,6 +943,10 @@
         var memberFirstLetter;
         var c;
         if (bill.id !== 0) {
+            if (!payback.members[projectid].hasOwnProperty(bill.payer_id)) {
+                reload(t('payback', 'Member list is not up to date. Reloading in 5 sec.'));
+                return;
+            }
             memberName = getMemberName(projectid, bill.payer_id);
             memberFirstLetter = memberName[0];
 
@@ -1719,7 +1734,7 @@
 
         $('body').on('click', '.billitem', function(e) {
             if (!$(e.target).hasClass('deleteBillIcon') && !$(e.target).hasClass('undoDeleteBill')) {
-                var billid = $(this).attr('billid');
+                var billid = parseInt($(this).attr('billid'));
                 var projectid = $(this).attr('projectid');
                 displayBill(projectid, billid);
             }

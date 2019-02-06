@@ -25,11 +25,21 @@
     float: right;
     font-weight: bold;
 }
-#newmemberdiv,
+.newmemberbutton {
+    float: right;
+    width: 40px;
+}
+.newmemberdiv input {
+    width: 100%;
+}
+.newmemberdiv {
+    width: 100%;
+    padding: 5px 10px 5px 10px;
+}
+.newmemberdiv,
 #newprojectdiv {
     display: none;
 }
-#newmemberdiv label,
 #newprojectdiv label {
     margin: 3px 3px 3px 3px;
     line-height: 32px;
@@ -37,13 +47,9 @@
     text-align: right;
     float: left;
 }
-#newmemberdiv input,
 #newprojectdiv input {
     width: 45%;
     float: right;
-}
-.newmemberdiv {
-    display: none;
 }
 b.memberName, b.memberWeight {
     font-weight: normal;

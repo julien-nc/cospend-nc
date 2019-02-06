@@ -199,8 +199,9 @@
             // add member to UI
             addMember(projectid, member, 0);
             // fold new member form
-            $('#newmemberdiv').slideUp();
+            $('.newmemberdiv').slideUp();
             updateNumberOfMember(projectid);
+            OC.Notification.showTemporary(t('payback', 'Created member {name}', {name: name}));
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(t('payback', 'Failed to add member') + ' ' + response.responseText);
@@ -1050,6 +1051,12 @@
                 <ul class="app-navigation-entry-share">
                     <li class="shareinputli"><input type="text" class="shareinput"/></li>
                 </ul>
+
+                <div class="newmemberdiv">
+                    <input class="newmembername" type="text" value=""/>
+                    <button class="newmemberbutton icon-add"></button>
+                </div>
+
                 <div class="app-navigation-entry-menu">
                     <ul>
                         <li>
@@ -1419,8 +1426,8 @@
             if (!event.target.matches('.app-navigation-entry-utils-menu-button button')) {
                 $('.app-navigation-entry-menu.open').removeClass('open');
             }
-            if (!event.target.matches('#newmemberdiv, #newmemberdiv input, #newmemberdiv label, #newmemberdiv button, .addMember, .addMember span')) {
-                $('#newmemberdiv').slideUp();
+            if (!event.target.matches('.newmemberdiv, .newmemberdiv input, .newmemberdiv .newmemberbutton, .addMember, .addMember span')) {
+                $('.newmemberdiv').slideUp();
             }
             //console.log(event.target);
         }
@@ -1568,16 +1575,17 @@
         });
 
         $('body').on('click', '.addMember', function(e) {
-            var id = $(this).parent().parent().parent().parent().attr('projectid');
-            var name = $('.projectitem[projectid='+id+'] > a > span').text();
-            $('#newmemberdiv').slideDown();
-            $('#newmembername').val('').focus();
-            $('#newmemberdiv #newmemberbutton').text(t('payback', 'Add member to project {pname}', {pname: name}));
-            $('#newmemberdiv #newmemberbutton').attr('projectid', id);
+            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
+            var name = $('.projectitem[projectid='+projectid+'] > a > span').text();
+
+            var newmemberdiv = $('.projectitem[projectid='+projectid+'] .newmemberdiv');
+            newmemberdiv.show().attr('style', 'display: inline-flex;');
+            var defaultMemberName = t('payback', 'newMemberName');
+            newmemberdiv.find('.newmembername').val(defaultMemberName).focus().select();
         });
 
-        $('#newmemberbutton').click(function() {
-            var projectid = $(this).attr('projectid');
+        $('body').on('click', '.newmemberbutton', function(e) {
+            var projectid = $(this).parent().parent().attr('projectid');
             var name = $(this).parent().find('input').val();
             if (projectid && name) {
                 createMember(projectid, name);
@@ -1587,10 +1595,10 @@
             }
         });
 
-        $('#newmembername').on('keyup', function(e) {
+        $('body').on('keyup', '.newmembername', function(e) {
             if (e.key === 'Enter') {
                 var name = $(this).val();
-                var projectid = $(this).parent().find('button').attr('projectid');
+                var projectid = $(this).parent().parent().attr('projectid');
                 if (projectid && name) {
                     createMember(projectid, name);
                 }

@@ -24,14 +24,6 @@
         <?php p($l->t('New bill')); ?>
     </button>
 
-    <div id="newmemberdiv">
-        <hr/>
-        <label for="newmembername"><?php p($l->t('member name')); ?></label>
-        <input id="newmembername" type="text" value=""/>
-        <button id="newmemberbutton" projectid="" type="button" class="icon-add">
-        </button>
-    </div>
-
 </div>
 
 <ul id="projectlist">

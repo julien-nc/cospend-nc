@@ -1039,7 +1039,7 @@
         var settleStr = t('payback', 'Settle the project');
         var deleteStr = t('payback', 'Delete');
         var deletedStr = t('payback', 'Deleted {name}', {name: name});
-        var extProjUrl = OC.generateUrl(`/apps/payback/loginproject/${projectid}`);
+        var extProjUrl = OC.generateUrl('/apps/payback/loginproject/'+projectid);
         extProjUrl = window.location.protocol + '//' + window.location.hostname + extProjUrl;
         var li = `
             <li class="projectitem collapsible${projectSelected}" projectid="${projectid}">
@@ -1179,13 +1179,13 @@
             iconStr = 'icon-user';
             iconToggleStr = 'icon-delete';
             toggleStr = t('payback', 'Deactivate');
-            imgurl = OC.generateUrl(`/svg/core/actions/user?color=${rgbC}`);
+            imgurl = OC.generateUrl('/svg/core/actions/user?color='+rgbC);
         }
         else {
             iconStr = 'icon-disabled-user';
             iconToggleStr = 'icon-history';
             toggleStr = t('payback', 'Reactivate');
-            imgurl = OC.generateUrl(`/svg/core/actions/disabled-user?color=${rgbC}`);
+            imgurl = OC.generateUrl('/svg/core/actions/disabled-user?color='+rgbC);
         }
 
 

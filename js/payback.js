@@ -201,6 +201,7 @@
             // fold new member form
             $('.newmemberdiv').slideUp();
             updateNumberOfMember(projectid);
+            $('#billdetail').html('');
             OC.Notification.showTemporary(t('payback', 'Created member {name}', {name: name}));
         }).always(function() {
         }).fail(function(response) {

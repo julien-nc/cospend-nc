@@ -1040,6 +1040,7 @@
         var deleteStr = t('payback', 'Delete');
         var deletedStr = t('payback', 'Deleted {name}', {name: name});
         var extProjUrl = OC.generateUrl('/apps/payback/loginproject/'+projectid);
+        var shareTitle = t('payback', 'Press enter to validate');
         extProjUrl = window.location.protocol + '//' + window.location.hostname + extProjUrl;
         var li = `
             <li class="projectitem collapsible${projectSelected}" projectid="${projectid}">
@@ -1065,7 +1066,7 @@
                     </div>
                 </div>
                 <ul class="app-navigation-entry-share">
-                    <li class="shareinputli"><input type="text" class="shareinput"/></li>
+                    <li class="shareinputli" title="${shareTitle}"><input type="text" class="shareinput"/></li>
                 </ul>
 
                 <div class="newmemberdiv">

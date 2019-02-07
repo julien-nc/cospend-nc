@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Payback app 8.0.0\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
-"POT-Creation-Date: 2019-02-07 00:46+0100\n"
+"POT-Creation-Date: 2019-02-07 01:02+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,11 +41,11 @@ msgstr ""
 msgid "Failed to add member"
 msgstr ""
 
-#: payback.js:249 payback.js:1187
+#: payback.js:249 payback.js:1188
 msgid "Reactivate"
 msgstr ""
 
-#: payback.js:255 payback.js:1181
+#: payback.js:255 payback.js:1182
 msgid "Deactivate"
 msgstr ""
 
@@ -177,7 +177,7 @@ msgstr ""
 msgid "Guest access link"
 msgstr ""
 
-#: payback.js:1036 payback.js:1192
+#: payback.js:1036 payback.js:1193
 msgid "Rename"
 msgstr ""
 
@@ -197,67 +197,71 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: payback.js:1193
+#: payback.js:1043
+msgid "Press enter to validate"
+msgstr ""
+
+#: payback.js:1194
 msgid "Change weight"
 msgstr ""
 
-#: payback.js:1292
+#: payback.js:1293
 msgid "Bill values are not valid"
 msgstr ""
 
-#: payback.js:1311
+#: payback.js:1312
 msgid "Failed to save option values"
 msgstr ""
 
-#: payback.js:1341
+#: payback.js:1342
 msgid "Failed to restore options values"
 msgstr ""
 
-#: payback.js:1367
+#: payback.js:1368
 msgid "Failed to get user list"
 msgstr ""
 
-#: payback.js:1385
+#: payback.js:1386
 msgid "Shared project {pname} with {uname}"
 msgstr ""
 
-#: payback.js:1387
+#: payback.js:1388
 msgid "Failed to add user share"
 msgstr ""
 
-#: payback.js:1393
+#: payback.js:1394
 msgid "Shared with {u}"
 msgstr ""
 
-#: payback.js:1416
+#: payback.js:1417
 msgid "Failed to delete user share"
 msgstr ""
 
-#: payback.js:1483
+#: payback.js:1484
 msgid "userName"
 msgstr ""
 
-#: payback.js:1562 payback.js:1575 payback.js:1611 payback.js:1623
+#: payback.js:1563 payback.js:1576 payback.js:1612 payback.js:1624
 msgid "Invalid values"
 msgstr ""
 
-#: payback.js:1600
+#: payback.js:1601
 msgid "newMemberName"
 msgstr ""
 
-#: payback.js:1813
+#: payback.js:1814
 msgid "New Bill"
 msgstr ""
 
-#: payback.js:1824
+#: payback.js:1825
 msgid "2 active members are required to create a bill"
 msgstr ""
 
-#: payback.js:1861
+#: payback.js:1862
 msgid "Guest link for '{pid}' copied to clipboard"
 msgstr ""
 
-#: payback.js:1874
+#: payback.js:1875
 msgid "Guest link copied to clipboard"
 msgstr ""
 

@@ -15,10 +15,12 @@ It lets you create projects with members and bills. Each member has a balance co
 This way you can see who owes the group and who the group owes. Ultimately you can ask for a settlement plan
 telling you which payments to make to reset the projet balances.
 
-Project members are independent from Nextcloud users. Projects can be accessed and modified by
+Project members are independent from Nextcloud users.
+Once you've got access to a project (as a guest or as a Nextcloud user), there is no restriction on what you can add/edit/delete.
+Projects can be accessed and modified by
 people without a Nextcloud account. Each project has an ID and a password for guest access.
 
-[MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android client is available (soon on F-Droid)
+[MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android client is available (soon on F-Droid).
 
 ## Features
 
@@ -27,6 +29,7 @@ people without a Nextcloud account. Each project has an ID and a password for gu
 * display project's statistics
 * display settlement plan
 * guest access for people outside Nextcloud
+* share a project with Nextcloud users
 
 This app is tested on Nextcloud 15 with Firefox 57+ and Chromium.
 
@@ -73,14 +76,14 @@ Any feedback will be appreciated.
     <category>organization</category>
     <website>https://gitlab.com/eneiluj/payback-nc</website>
     <bugs>https://gitlab.com/eneiluj/payback-nc/issues</bugs>
-    <screenshot>https://gitlab.com/eneiluj/1.jpeg</screenshot>
-    <screenshot>https://gitlab.com/eneiluj/2.jpeg</screenshot>
-    <screenshot>https://gitlab.com/eneiluj/3.jpeg</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/payback-nc/wikis/uploads/044d9700ac6f7e1f965df4336f09b4ef/payb1.png</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/payback-nc/wikis/uploads/8803d3fa32322e95d31cdd63c4cb3efd/payb2.png</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/payback-nc/wikis/uploads/7cb6c83f0214ba5bb27b3abf5286c221/payb3.png</screenshot>
     <dependencies>
         <database min-version="9.4">pgsql</database>
         <database>sqlite</database>
         <database min-version="5.5">mysql</database>
-        <nextcloud min-version="14.0" max-version="15.9"/>
+        <nextcloud min-version="15.0" max-version="15.9"/>
     </dependencies>
     <settings>
         <admin>OCA\Payback\Settings\Admin</admin>

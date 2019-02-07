@@ -42,6 +42,7 @@ appstore: clean
 	--exclude=screenshots \
 	--exclude=phpunit*xml \
 	--exclude=tests \
+	--exclude=ci \
 	--exclude=vendor/bin \
 	$(project_dir) $(sign_dir)
 	# give the webserver user the right to create signature file

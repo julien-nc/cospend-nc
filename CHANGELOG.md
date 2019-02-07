@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.0.2 – 2019-02-07
+### Added
+- ability to share projects to NC users
+
 ## 0.0.1 – 2019-02-01
 ### Added
 - the app

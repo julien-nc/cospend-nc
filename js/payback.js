@@ -1450,6 +1450,7 @@
         }
 
         $('body').on('focus','.shareinput', function(e) {
+            $(this).select();
             addUserAutocompletion($(this));
         });
 

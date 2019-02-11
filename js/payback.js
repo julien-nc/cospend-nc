@@ -151,6 +151,7 @@
     }
 
     function createProject(id, name, password) {
+        $('#createproject').addClass('icon-loading-small');
         var req = {
             id: id,
             name: name,
@@ -180,12 +181,14 @@
             // select created project
             selectProject($('.projectitem[projectid='+id+']'));
         }).always(function() {
+            $('#createproject').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('payback', 'Failed to create project') + ' ' + response.responseText);
         });
     }
 
     function createMember(projectid, name) {
+        $('.projectitem[projectid='+projectid+']').addClass('icon-loading-small');
         var req = {
             name: name
         };
@@ -217,12 +220,16 @@
             $('#billdetail').html('');
             OC.Notification.showTemporary(t('payback', 'Created member {name}', {name: name}));
         }).always(function() {
+            $('.projectitem[projectid='+projectid+']').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('payback', 'Failed to add member') + ' ' + response.responseText);
         });
     }
 
     function editMember(projectid, memberid, newName, newWeight, newActivated) {
+        $('.projectitem[projectid='+projectid+'] ul.memberlist > li[memberid='+memberid+']')
+            .addClass('icon-loading-small')
+            .removeClass('editing');
         var req = {
             name: newName,
             weight: newWeight,
@@ -279,14 +286,13 @@
                 imgurl = OC.generateUrl('/svg/core/actions/disabled-user?color='+rgbC);
             }
             memberLine.find('>a').attr('style', 'background-image: url('+imgurl+')');
-            // remove editing mode
-            memberLine.removeClass('editing');
             OC.Notification.showTemporary(t('payback', 'Saved member'));
             // get bills again to refresh names
             getBills(projectid);
             // reset bill edition
             $('#billdetail').html('');
         }).always(function() {
+            $('.projectitem[projectid='+projectid+'] ul.memberlist > li[memberid='+memberid+']').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('payback', 'Failed to save member') + ' ' + response.responseText);
         });
@@ -1377,6 +1383,7 @@
     }
 
     function addUserShareDb(projectid, userid, username) {
+        $('.projectitem[projectid='+projectid+']').addClass('icon-loading-small');
         var req = {
             projectid: projectid,
             userid: userid
@@ -1391,6 +1398,8 @@
             addUserShare(projectid, userid, username);
             var projectname = getProjectName(projectid);
             OC.Notification.showTemporary(t('payback', 'Shared project {pname} with {uname}', {pname: projectname, uname: username}));
+        }).always(function() {
+            $('.projectitem[projectid='+projectid+']').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('payback', 'Failed to add user share') + ' ' + response.responseText);
         });
@@ -1405,6 +1414,7 @@
     }
 
     function deleteUserShareDb(projectid, userid) {
+        $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[userid=' + userid + '] .deleteUserShareButton').addClass('icon-loading-small');
         var req = {
             projectid: projectid,
             userid: userid
@@ -1420,6 +1430,8 @@
             li.fadeOut('slow', function() {
                 li.remove();
             });
+        }).always(function() {
+            $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[userid=' + userid + '] .deleteUserShareButton').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('payback', 'Failed to delete user share') + ' ' + response.responseText);
         });

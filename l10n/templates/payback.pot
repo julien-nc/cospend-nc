@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Payback app 8.0.0\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
-"POT-Creation-Date: 2019-02-07 01:02+0100\n"
+"POT-Creation-Date: 2019-02-11 01:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,11 +41,11 @@ msgstr ""
 msgid "Failed to add member"
 msgstr ""
 
-#: payback.js:249 payback.js:1188
+#: payback.js:249 payback.js:1179
 msgid "Reactivate"
 msgstr ""
 
-#: payback.js:255 payback.js:1182
+#: payback.js:255 payback.js:1173
 msgid "Deactivate"
 msgstr ""
 
@@ -73,7 +73,7 @@ msgstr ""
 msgid "Failed to save bill"
 msgstr ""
 
-#: payback.js:447 payback.js:1041
+#: payback.js:447 payback.js:1032
 msgid "Deleted {name}"
 msgstr ""
 
@@ -129,139 +129,159 @@ msgstr ""
 msgid "How much?"
 msgstr ""
 
-#: payback.js:760
+#: payback.js:683
+msgid "Statistics of project {name}"
+msgstr ""
+
+#: payback.js:684
+msgid "Member name"
+msgstr ""
+
+#: payback.js:685
+msgid "Paid"
+msgstr ""
+
+#: payback.js:686
+msgid "Spent"
+msgstr ""
+
+#: payback.js:687
+msgid "Balance"
+msgstr ""
+
+#: payback.js:749
 msgid "Failed to get bills"
 msgstr ""
 
-#: payback.js:777 payback.js:847
+#: payback.js:766 payback.js:835
 msgid "Bill \"{what}\" of project {proj}"
 msgstr ""
 
-#: payback.js:842
+#: payback.js:830
 msgid "What? (press enter to validate)"
 msgstr ""
 
-#: payback.js:843
+#: payback.js:831
 msgid "How much? (press enter to validate)"
 msgstr ""
 
-#: payback.js:844
+#: payback.js:832
 msgid "Who payed?"
 msgstr ""
 
-#: payback.js:845
+#: payback.js:833
 msgid "When?"
 msgstr ""
 
-#: payback.js:846
+#: payback.js:834
 msgid "For whom?"
 msgstr ""
 
-#: payback.js:848
+#: payback.js:836
 msgid "All"
 msgstr ""
 
-#: payback.js:849
+#: payback.js:837
 msgid "None"
 msgstr ""
 
-#: payback.js:1018
+#: payback.js:1009
 msgid "Failed to update balances"
 msgstr ""
 
-#: payback.js:1034
+#: payback.js:1025
 msgid "Add member"
 msgstr ""
 
-#: payback.js:1035 mainnavigation.php:48
+#: payback.js:1026 mainnavigation.php:48
 msgid "Guest access link"
 msgstr ""
 
-#: payback.js:1036 payback.js:1193
+#: payback.js:1027 payback.js:1184
 msgid "Rename"
 msgstr ""
 
-#: payback.js:1037
+#: payback.js:1028
 msgid "Change password"
 msgstr ""
 
-#: payback.js:1038
+#: payback.js:1029
 msgid "Display statistics"
 msgstr ""
 
-#: payback.js:1039
+#: payback.js:1030
 msgid "Settle the project"
 msgstr ""
 
-#: payback.js:1040
+#: payback.js:1031
 msgid "Delete"
 msgstr ""
 
-#: payback.js:1043
+#: payback.js:1034
 msgid "Press enter to validate"
 msgstr ""
 
-#: payback.js:1194
+#: payback.js:1185
 msgid "Change weight"
 msgstr ""
 
-#: payback.js:1293
+#: payback.js:1284
 msgid "Bill values are not valid"
 msgstr ""
 
-#: payback.js:1312
+#: payback.js:1303
 msgid "Failed to save option values"
 msgstr ""
 
-#: payback.js:1342
+#: payback.js:1333
 msgid "Failed to restore options values"
 msgstr ""
 
-#: payback.js:1368
+#: payback.js:1359
 msgid "Failed to get user list"
 msgstr ""
 
-#: payback.js:1386
+#: payback.js:1377
 msgid "Shared project {pname} with {uname}"
 msgstr ""
 
-#: payback.js:1388
+#: payback.js:1379
 msgid "Failed to add user share"
 msgstr ""
 
-#: payback.js:1394
+#: payback.js:1385
 msgid "Shared with {u}"
 msgstr ""
 
-#: payback.js:1417
+#: payback.js:1408
 msgid "Failed to delete user share"
 msgstr ""
 
-#: payback.js:1484
+#: payback.js:1476
 msgid "userName"
 msgstr ""
 
-#: payback.js:1563 payback.js:1576 payback.js:1612 payback.js:1624
+#: payback.js:1555 payback.js:1568 payback.js:1604 payback.js:1616
 msgid "Invalid values"
 msgstr ""
 
-#: payback.js:1601
+#: payback.js:1593
 msgid "newMemberName"
 msgstr ""
 
-#: payback.js:1814
+#: payback.js:1806
 msgid "New Bill"
 msgstr ""
 
-#: payback.js:1825
+#: payback.js:1817
 msgid "2 active members are required to create a bill"
 msgstr ""
 
-#: payback.js:1862
+#: payback.js:1854
 msgid "Guest link for '{pid}' copied to clipboard"
 msgstr ""
 
-#: payback.js:1875
+#: payback.js:1867
 msgid "Guest link copied to clipboard"
 msgstr ""
 

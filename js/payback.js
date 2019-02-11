@@ -260,12 +260,12 @@
             var rgbC = hslToRgb(c.h/360, c.s/100, c.l/100);
             var imgurl;
             if (payback.members[projectid][memberid].activated) {
-                imgurl = OC.generateUrl(`/svg/core/actions/user?color=${rgbC}`);
+                imgurl = OC.generateUrl('/svg/core/actions/user?color='+rgbC);
             }
             else {
-                imgurl = OC.generateUrl(`/svg/core/actions/disabled-user?color=${rgbC}`);
+                imgurl = OC.generateUrl('/svg/core/actions/disabled-user?color='+rgbC);
             }
-            memberLine.find('>a').attr('style', `background-image: url(${imgurl})`);
+            memberLine.find('>a').attr('style', 'background-image: url('+imgurl+')');
             // remove editing mode
             memberLine.removeClass('editing');
             OC.Notification.showTemporary(t('payback', 'Saved member'));
@@ -293,7 +293,7 @@
             url = OC.generateUrl('/apps/payback/addBill');
         }
         else {
-            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}/bills`);
+            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password+'/bills');
         }
         $.ajax({
             type: 'POST',
@@ -347,7 +347,7 @@
         }
         else {
             type = 'PUT';
-            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}/bills/${billid}`);
+            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password+'/bills/'+billid);
         }
         $.ajax({
             type: type,
@@ -597,7 +597,7 @@
         }
         else {
             type = 'GET';
-            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}/statistics`);
+            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password+'/statistics');
         }
         payback.currentGetProjectsAjax = $.ajax({
             type: type,
@@ -624,7 +624,7 @@
         }
         else {
             type = 'GET';
-            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}/settle`);
+            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password+'/settle');
         }
         payback.currentGetProjectsAjax = $.ajax({
             type: type,
@@ -650,31 +650,26 @@
         var fromStr = t('payback', 'Who pays?');
         var toStr = t('payback', 'To whom?');
         var howMuchStr = t('payback', 'How much?');
-        var settlementStr = `
-            <div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>
-            <h2 id="settlementTitle">${titleStr}</h2>
-            <table id="settlementTable"><thead>
-                <th>${fromStr}</th>
-                <th>${toStr}</th>
-                <th>${howMuchStr}</th>
-            </thead>
-        `;
+        var settlementStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
+            '<h2 id="settlementTitle">'+titleStr+'</h2>' +
+            '<table id="settlementTable"><thead>' +
+            '<th>'+fromStr+'</th>' +
+            '<th>'+toStr+'</th>' +
+            '<th>'+howMuchStr+'</th>' +
+            '</thead>';
         var whoPaysName, toWhomName, amount;
         for (var i=0; i < transactionList.length; i++) {
             amount = transactionList[i].amount.toFixed(2);
             whoPaysName = getMemberName(projectid, transactionList[i].from);
             toWhomName = getMemberName(projectid, transactionList[i].to);
-            settlementStr = settlementStr + `
-                <tr>
-                    <td>${whoPaysName}</td>
-                    <td>${toWhomName}</td>
-                    <td>${amount}</td>
-                </tr>
-            `;
+            settlementStr = settlementStr +
+                '<tr>' +
+                '<td>'+whoPaysName+'</td>' +
+                '<td>'+toWhomName+'</td>' +
+                '<td>'+amount+'</td>' +
+                '</tr>';
         }
-        settlementStr = settlementStr + `
-            </table>
-        `;
+        settlementStr = settlementStr + '</table>';
         $('#billdetail').html(settlementStr);
     }
 
@@ -690,16 +685,14 @@
         var paidStr = t('payback', 'Paid');
         var spentStr = t('payback', 'Spent');
         var balanceStr = t('payback', 'Balance');
-        var statsStr = `
-            <div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>
-            <h2 id="statsTitle">${titleStr}</h2>
-            <table id="statsTable"><thead>
-                <th>${nameStr}</th>
-                <th>${paidStr}</th>
-                <th>${spentStr}</th>
-                <th>${balanceStr}</th>
-            </thead>
-        `;
+        var statsStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
+            '<h2 id="statsTitle">'+titleStr+'</h2>' +
+            '<table id="statsTable"><thead>' +
+            '<th>'+nameStr+'</th>' +
+            '<th>'+paidStr+'</th>' +
+            '<th>'+spentStr+'</th>' +
+            '<th>'+balanceStr+'</th>' +
+            '</thead>';
         var paid, spent, balance, name, balanceClass;
         for (var i=0; i < statList.length; i++) {
             balanceClass = '';
@@ -713,24 +706,20 @@
             spent = statList[i].spent.toFixed(2);
             balance = statList[i].balance.toFixed(2);
             name = statList[i].member.name;
-            statsStr = statsStr + `
-                <tr>
-                    <td>${name}</td>
-                    <td>${paid}</td>
-                    <td>${spent}</td>
-                    <td${balanceClass}>${balance}</td>
-                </tr>
-            `;
+            statsStr = statsStr +
+                '<tr>' +
+                '<td>'+name+'</td>' +
+                '<td>'+paid+'</td>' +
+                '<td>'+spent+'</td>' +
+                '<td'+balanceClass+'>'+balance+'</td>' +
+                '</tr>';
         }
-        statsStr = statsStr + `
-            </table>
-        `;
+        statsStr = statsStr + '</table>';
         $('#billdetail').html(statsStr);
     }
 
     function getBills(projectid) {
-        var req = {
-        };
+        var req = {};
         var url;
         var type;
         if (!payback.pageIsPublic) {
@@ -739,7 +728,7 @@
             req.projectid = projectid;
         }
         else {
-            url = OC.generateUrl(`/apps/payback/api/projects/${payback.projectid}/${payback.password}/bills`)
+            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password+'/bills');
             type = 'GET';
         }
         payback.currentGetProjectsAjax = $.ajax({
@@ -776,7 +765,7 @@
         $('.bill-title').text(
             t('payback', 'Bill "{what}" of project {proj}', {what: what, proj: projectName})
         );
-        $('.bill-title').attr('style', `background-color: hsl(${c.h}, ${c.s}%, ${c.l}%);`);
+        $('.bill-title').attr('style', 'background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);');
     }
 
     function displayBill(projectid, billid) {
@@ -807,7 +796,7 @@
             }
             // show member if it's the payer or if it's activated
             if (member.activated || member.id === bill.payer_id) {
-                payerOptions = payerOptions + `<option value="${member.id}"${selected}>${member.name}</option>`;
+                payerOptions = payerOptions + '<option value="'+member.id+'"'+selected+'>'+member.name+'</option>';
             }
             // owers
             checked = '';
@@ -820,12 +809,11 @@
             }
             // show member if it's an ower or if it's activated
             if (member.activated || owerIds.indexOf(member.id) !== -1) {
-                owerCheckboxes = owerCheckboxes + `
-                    <div class="owerEntry">
-                    <input id="${projectid}${member.id}" owerid="${member.id}" type="checkbox"${checked}${readonly}/>
-                    <label for="${projectid}${member.id}">${member.name}</label>
-                    </div>
-                `;
+                owerCheckboxes = owerCheckboxes +
+                    '<div class="owerEntry">' +
+                    '<input id="'+projectid+member.id+'" owerid="'+member.id+'" type="checkbox"'+checked+readonly+'/>' +
+                    '<label for="'+projectid+member.id+'">'+member.name+'</label>' +
+                    '</div>';
             }
         }
         var payerDisabled = '';
@@ -959,14 +947,15 @@
             c = {h: 0, s: 0, l: 50};
             memberFirstLetter = '-';
         }
-        var item = `<a href="#" class="app-content-list-item billitem" billid="${bill.id}" projectid="${projectid}" title="${title}">
-            <div class="app-content-list-item-icon" style="background-color: hsl(${c.h}, ${c.s}%, ${c.l}%);">${memberFirstLetter}</div>
-            <div class="app-content-list-item-line-one">${bill.what}</div>
-            <div class="app-content-list-item-line-two">${bill.amount.toFixed(2)} (${memberName} → ${owerNames})</div>
-            <span class="app-content-list-item-details">${bill.date}</span>
-            <div class="icon-delete deleteBillIcon"></div>
-            <div class="icon-history undoDeleteBill" style="${undoDeleteBillStyle}" title="Undo"></div>
-        </a>`;
+        var item = '<a href="#" class="app-content-list-item billitem" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
+            '<div class="app-content-list-item-icon" style="background-color: ' +
+            'hsl('+c.h+', '+c.s+'%, '+c.l+'%);">'+memberFirstLetter+'</div>'+
+            '<div class="app-content-list-item-line-one">'+bill.what+'</div>' +
+            '<div class="app-content-list-item-line-two">'+bill.amount.toFixed(2)+' ('+memberName+' → '+owerNames+')</div>' +
+            '<span class="app-content-list-item-details">'+bill.date+'</span>' +
+            '<div class="icon-delete deleteBillIcon"></div>' +
+            '<div class="icon-history undoDeleteBill" style="'+undoDeleteBillStyle+'" title="Undo"></div>' +
+            '</a>';
         $(item).prependTo('.app-content-list');
     }
 
@@ -990,7 +979,7 @@
             data: req,
             async: true,
         }).done(function (response) {
-            var balance, balanceField, balanceClass;
+            var balance, balanceField, balanceClass, balanceTxt;
             for (var memberid in response.balance) {
                 balance = response.balance[memberid];
                 balanceField = $('.projectitem[projectid='+projectid+'] .memberlist > li[memberid='+memberid+'] b.balance');
@@ -999,11 +988,13 @@
                 $('.memberitem[memberid='+memberid+']').removeClass('invisibleMember');
                 if (balance < 0) {
                     balanceClass = 'balanceNegative';
-                    balanceField.addClass(balanceClass).text(balance.toFixed(2));
+                    balanceTxt = balance.toFixed(2);
+                    balanceField.addClass(balanceClass).text(balanceTxt);
                 }
                 else if (balance > 0) {
                     balanceClass = 'balancePositive';
-                    balanceField.addClass(balanceClass).text('+' + balance.toFixed(2));
+                    balanceTxt = '+' + balance.toFixed(2);
+                    balanceField.addClass(balanceClass).text(balanceTxt);
                 }
                 else {
                     balanceField.text(balance.toFixed(2));
@@ -1855,7 +1846,7 @@
 
         $('body').on('click', '.copyExtProjectUrl', function() {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
-            var guestLink = OC.generateUrl(`/apps/payback/loginproject/${projectid}`);
+            var guestLink = OC.generateUrl('/apps/payback/loginproject/'+projectid);
             guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
             var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select()
             document.execCommand('copy');

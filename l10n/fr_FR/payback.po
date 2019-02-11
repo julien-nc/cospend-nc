@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
-"POT-Creation-Date: 2019-02-07 01:02+0100\n"
-"PO-Revision-Date: 2019-02-07 00:16\n"
+"POT-Creation-Date: 2019-02-11 04:10+0100\n"
+"PO-Revision-Date: 2019-02-11 12:17\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -28,239 +28,263 @@ msgstr "Réglage de Payback enregistré"
 msgid "Failed to save Payback setting"
 msgstr "Échec de l'enregistrement du réglage de Payback"
 
-#: payback.js:171
+#: payback.js:186
 msgid "Failed to create project"
 msgstr "Échec de la création du projet"
 
-#: payback.js:205
+#: payback.js:221
 msgid "Created member {name}"
 msgstr "Membre {name} créé"
 
-#: payback.js:208
+#: payback.js:225
 msgid "Failed to add member"
 msgstr "Échec de l'ajout du membre"
 
-#: payback.js:249 payback.js:1188
+#: payback.js:269 payback.js:1212
 msgid "Reactivate"
 msgstr "Réactiver"
 
-#: payback.js:255 payback.js:1182
+#: payback.js:275 payback.js:1206
 msgid "Deactivate"
 msgstr "Désactiver"
 
-#: payback.js:271
+#: payback.js:289
 msgid "Saved member"
 msgstr "Membre sauvegardé"
 
-#: payback.js:278
+#: payback.js:297
 msgid "Failed to save member"
 msgstr "Échec de la sauvegarde du membre"
 
-#: payback.js:326
+#: payback.js:346
 msgid "Bill created"
 msgstr "Facture créée"
 
-#: payback.js:329
+#: payback.js:350
 msgid "Failed to create bill"
 msgstr "Échec de la création de la facture"
 
-#: payback.js:376
+#: payback.js:398
 msgid "Saved bill"
 msgstr "Facture sauvegardée"
 
-#: payback.js:380
+#: payback.js:403
 msgid "Failed to save bill"
 msgstr "Échec de la sauvegarde de la facture"
 
-#: payback.js:447 payback.js:1041
+#: payback.js:470 payback.js:1060
 msgid "Deleted {name}"
 msgstr "{name} supprimé"
 
-#: payback.js:453
+#: payback.js:476
 msgid "Saved project"
 msgstr "Projet sauvegardé"
 
-#: payback.js:457
+#: payback.js:480
 msgid "Failed to save project"
 msgstr "Échec de la sauvegarde du projet"
 
-#: payback.js:498
+#: payback.js:521
 msgid "Deleted project {id}"
 msgstr "Projet {id} sauvegardé"
 
-#: payback.js:501
+#: payback.js:524
 msgid "Failed to delete project"
 msgstr "Échec de la suppression du projet"
 
-#: payback.js:533
+#: payback.js:556
 msgid "Deleted bill"
 msgstr "Facture supprimée"
 
-#: payback.js:536
+#: payback.js:559
 msgid "Failed to delete bill"
 msgstr "Échec de la suppression de la facture"
 
-#: payback.js:584
+#: payback.js:607
 msgid "Failed to get projects"
 msgstr "Échec de la récupération des projets"
 
-#: payback.js:611
+#: payback.js:635
 msgid "Failed to get statistics"
 msgstr "Échec de la récupération des statistiques"
 
-#: payback.js:638
+#: payback.js:664
 msgid "Failed to get settlement"
 msgstr "Échec de la récupération des remboursements"
 
-#: payback.js:649
+#: payback.js:676
 msgid "Settlement of project {name}"
 msgstr "Remboursements du projet {name}"
 
-#: payback.js:650
+#: payback.js:677
 msgid "Who pays?"
 msgstr "Qui paye ?"
 
-#: payback.js:651
+#: payback.js:678
 msgid "To whom?"
 msgstr "À qui ?"
 
-#: payback.js:652
+#: payback.js:679 payback.js:865
 msgid "How much?"
 msgstr "Combien ?"
 
-#: payback.js:760
+#: payback.js:710
+msgid "Statistics of project {name}"
+msgstr "Statistiques du projet {name}"
+
+#: payback.js:711
+msgid "Member name"
+msgstr "Nom du membre"
+
+#: payback.js:712
+msgid "Paid"
+msgstr "A payé"
+
+#: payback.js:713
+msgid "Spent"
+msgstr "A dépensé"
+
+#: payback.js:714
+msgid "Balance"
+msgstr "Solde"
+
+#: payback.js:778
+msgid "No bill yet"
+msgstr "Pas encore de facture"
+
+#: payback.js:782
 msgid "Failed to get bills"
 msgstr "Échec de la récupération des factures"
 
-#: payback.js:777 payback.js:847
+#: payback.js:800 payback.js:869
 msgid "Bill \"{what}\" of project {proj}"
 msgstr "Facture \"{what}\" du projet {proj}"
 
-#: payback.js:842
-msgid "What? (press enter to validate)"
-msgstr "Quoi ? (appuyez sur entrée pour valider)"
+#: payback.js:864
+msgid "What?"
+msgstr "Quoi ?"
 
-#: payback.js:843
-msgid "How much? (press enter to validate)"
-msgstr "Combien ? (appuyez sur entrée pour valider)"
-
-#: payback.js:844
+#: payback.js:866
 msgid "Who payed?"
 msgstr "Qui a payé ?"
 
-#: payback.js:845
+#: payback.js:867
 msgid "When?"
 msgstr "Quand ?"
 
-#: payback.js:846
+#: payback.js:868
 msgid "For whom?"
 msgstr "Pour qui ?"
 
-#: payback.js:848
+#: payback.js:870
 msgid "All"
 msgstr "Tous"
 
-#: payback.js:849
+#: payback.js:871
 msgid "None"
 msgstr "Aucun"
 
-#: payback.js:1018
+#: payback.js:958 payback.js:970
+msgid "Member list is not up to date. Reloading in 5 sec."
+msgstr "La liste des membres n’est pas à jour. Rechargement dans 5 sec."
+
+#: payback.js:1043
 msgid "Failed to update balances"
 msgstr "Échec de la mise à jour des balances"
 
-#: payback.js:1034
+#: payback.js:1053
 msgid "Add member"
 msgstr "Ajouter un membre"
 
-#: payback.js:1035 mainnavigation.php:48
+#: payback.js:1054 mainnavigation.php:48
 msgid "Guest access link"
 msgstr "Lien d'accès invité"
 
-#: payback.js:1036 payback.js:1193
+#: payback.js:1055 payback.js:1217
 msgid "Rename"
 msgstr "Renommer"
 
-#: payback.js:1037
+#: payback.js:1056
 msgid "Change password"
 msgstr "Changer le mot de passe"
 
-#: payback.js:1038
+#: payback.js:1057
 msgid "Display statistics"
 msgstr "Afficher les statistiques"
 
-#: payback.js:1039
+#: payback.js:1058
 msgid "Settle the project"
 msgstr "Remboursements du projet"
 
-#: payback.js:1040
+#: payback.js:1059
 msgid "Delete"
 msgstr "Supprimer"
 
-#: payback.js:1043
+#: payback.js:1062
 msgid "Press enter to validate"
 msgstr "Appuyez sur entrée pour valider"
 
-#: payback.js:1194
+#: payback.js:1218
 msgid "Change weight"
 msgstr "Changer le poids"
 
-#: payback.js:1293
+#: payback.js:1317
 msgid "Bill values are not valid"
 msgstr "Les valeurs de la facture sont invalides"
 
-#: payback.js:1312
+#: payback.js:1336
 msgid "Failed to save option values"
 msgstr "Échec de la sauvegarde des options"
 
-#: payback.js:1342
+#: payback.js:1366
 msgid "Failed to restore options values"
 msgstr "Échec de la restauration des options"
 
-#: payback.js:1368
+#: payback.js:1392
 msgid "Failed to get user list"
 msgstr "Échec de la récupération de la liste des utilisateurs"
 
-#: payback.js:1386
+#: payback.js:1411
 msgid "Shared project {pname} with {uname}"
 msgstr "Projet {pname} partagé avec {uname}"
 
-#: payback.js:1388
+#: payback.js:1415
 msgid "Failed to add user share"
 msgstr "Échec de l'ajout du partage"
 
-#: payback.js:1394
+#: payback.js:1421
 msgid "Shared with {u}"
 msgstr "Partagé avec {u}"
 
-#: payback.js:1417
+#: payback.js:1447
 msgid "Failed to delete user share"
 msgstr "Échec de la suppression du partage"
 
-#: payback.js:1484
+#: payback.js:1534
 msgid "userName"
 msgstr "nomDUtilisateur"
 
-#: payback.js:1563 payback.js:1576 payback.js:1612 payback.js:1624
+#: payback.js:1583 payback.js:1596 payback.js:1632 payback.js:1644
 msgid "Invalid values"
 msgstr "Valeurs invalides"
 
-#: payback.js:1601
+#: payback.js:1621
 msgid "newMemberName"
 msgstr "nomNouveauMembre"
 
-#: payback.js:1814
+#: payback.js:1840
 msgid "New Bill"
 msgstr "Nouvelle facture"
 
-#: payback.js:1825
+#: payback.js:1851
 msgid "2 active members are required to create a bill"
 msgstr "2 membres actifs sont nécessaires pour créer une facture"
 
-#: payback.js:1862
+#: payback.js:1888
 msgid "Guest link for '{pid}' copied to clipboard"
 msgstr "Lien invité pour '{pid}' copié dans le presse-papier"
 
-#: payback.js:1875
+#: payback.js:1901
 msgid "Guest link copied to clipboard"
 msgstr "Lien invité copié dans le presse-papier"
 

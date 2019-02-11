@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Payback app 8.0.0\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
-"POT-Creation-Date: 2019-02-11 01:00+0100\n"
+"POT-Creation-Date: 2019-02-11 01:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,11 +41,11 @@ msgstr ""
 msgid "Failed to add member"
 msgstr ""
 
-#: payback.js:249 payback.js:1179
+#: payback.js:249 payback.js:1178
 msgid "Reactivate"
 msgstr ""
 
-#: payback.js:255 payback.js:1173
+#: payback.js:255 payback.js:1172
 msgid "Deactivate"
 msgstr ""
 
@@ -73,7 +73,7 @@ msgstr ""
 msgid "Failed to save bill"
 msgstr ""
 
-#: payback.js:447 payback.js:1032
+#: payback.js:447 payback.js:1031
 msgid "Deleted {name}"
 msgstr ""
 
@@ -185,103 +185,107 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: payback.js:1009
+#: payback.js:923 payback.js:935
+msgid "Member list is not up to date. Reloading in 5 sec."
+msgstr ""
+
+#: payback.js:1008
 msgid "Failed to update balances"
 msgstr ""
 
-#: payback.js:1025
+#: payback.js:1024
 msgid "Add member"
 msgstr ""
 
-#: payback.js:1026 mainnavigation.php:48
+#: payback.js:1025 mainnavigation.php:48
 msgid "Guest access link"
 msgstr ""
 
-#: payback.js:1027 payback.js:1184
+#: payback.js:1026 payback.js:1183
 msgid "Rename"
 msgstr ""
 
-#: payback.js:1028
+#: payback.js:1027
 msgid "Change password"
 msgstr ""
 
-#: payback.js:1029
+#: payback.js:1028
 msgid "Display statistics"
 msgstr ""
 
-#: payback.js:1030
+#: payback.js:1029
 msgid "Settle the project"
 msgstr ""
 
-#: payback.js:1031
+#: payback.js:1030
 msgid "Delete"
 msgstr ""
 
-#: payback.js:1034
+#: payback.js:1033
 msgid "Press enter to validate"
 msgstr ""
 
-#: payback.js:1185
+#: payback.js:1184
 msgid "Change weight"
 msgstr ""
 
-#: payback.js:1284
+#: payback.js:1283
 msgid "Bill values are not valid"
 msgstr ""
 
-#: payback.js:1303
+#: payback.js:1302
 msgid "Failed to save option values"
 msgstr ""
 
-#: payback.js:1333
+#: payback.js:1332
 msgid "Failed to restore options values"
 msgstr ""
 
-#: payback.js:1359
+#: payback.js:1358
 msgid "Failed to get user list"
 msgstr ""
 
-#: payback.js:1377
+#: payback.js:1376
 msgid "Shared project {pname} with {uname}"
 msgstr ""
 
-#: payback.js:1379
+#: payback.js:1378
 msgid "Failed to add user share"
 msgstr ""
 
-#: payback.js:1385
+#: payback.js:1384
 msgid "Shared with {u}"
 msgstr ""
 
-#: payback.js:1408
+#: payback.js:1407
 msgid "Failed to delete user share"
 msgstr ""
 
-#: payback.js:1476
+#: payback.js:1475
 msgid "userName"
 msgstr ""
 
-#: payback.js:1555 payback.js:1568 payback.js:1604 payback.js:1616
+#: payback.js:1554 payback.js:1567 payback.js:1603 payback.js:1615
 msgid "Invalid values"
 msgstr ""
 
-#: payback.js:1593
+#: payback.js:1592
 msgid "newMemberName"
 msgstr ""
 
-#: payback.js:1806
+#: payback.js:1805
 msgid "New Bill"
 msgstr ""
 
-#: payback.js:1817
+#: payback.js:1816
 msgid "2 active members are required to create a bill"
 msgstr ""
 
-#: payback.js:1854
+#: payback.js:1853
 msgid "Guest link for '{pid}' copied to clipboard"
 msgstr ""
 
-#: payback.js:1867
+#: payback.js:1866
 msgid "Guest link copied to clipboard"
 msgstr ""
 

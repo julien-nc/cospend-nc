@@ -835,56 +835,55 @@
         var titleStr = t('payback', 'Bill "{what}" of project {proj}', {what: bill.what, proj: projectName});
         var allStr = t('payback', 'All');
         var noneStr = t('payback', 'None');
-        var detail = `
-            <div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>
-            <h2 class="bill-title" projectid="${projectid}" billid="${bill.id}" style="background-color: hsl(${c.h}, ${c.s}%, ${c.l}%);">
-                ${titleStr}
-            </h2>
-            <div class="bill-form">
-                <div class="bill-left">
-                    <div class="bill-what">
-                        <label for="what">
-                            <a class="icon icon-tag"></a>
-                            ${whatStr}
-                        </label>
-                        <input type="text" id="what" class="input-bill-what" value="${bill.what}"/>
-                    </div>
-                    <div class="bill-amount">
-                        <label for="amount">
-                            <a class="icon icon-quota"></a>
-                            ${amountStr}
-                        </label>
-                        <input type="number" id="amount" class="input-bill-amount" value="${bill.amount}" step="0.01" min="0"/>
-                    </div>
-                    <div class="bill-payer">
-                        <label for="payer">
-                            <a class="icon icon-user"></a>
-                            ${payerStr}
-                        </label>
-                        <select id="payer" class="input-bill-payer"${payerDisabled}>
-                            ${payerOptions}
-                        </select>
-                    </div>
-                    <div class="bill-date">
-                        <label for="date">
-                            <a class="icon icon-calendar-dark"></a>
-                            ${dateStr}
-                        </label>
-                        <input type="date" id="date" class="input-bill-date" value="${bill.date}"/>
-                    </div>
-                </div>
-                <div class="bill-right">
-                    <div class="bill-owers">
-                        <a class="icon icon-group"></a><span>${owersStr}</span>
-                        <div class="owerAllNoneDiv">
-                        <button id="owerAll">${allStr}</button>
-                        <button id="owerNone">${noneStr}</button>
-                        </div>
-                        ${owerCheckboxes}
-                    </div>
-                </div>
-            </div>
-        `;
+        var detail =
+            '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
+            '<h2 class="bill-title" projectid="'+projectid+'" billid="'+bill.id+'" style="background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);">' +
+            '    '+titleStr+
+            '</h2>' +
+            '<div class="bill-form">' +
+            '    <div class="bill-left">' +
+            '        <div class="bill-what">' +
+            '            <label for="what">' +
+            '                <a class="icon icon-tag"></a>' +
+            '                '+whatStr+
+            '            </label>' +
+            '            <input type="text" id="what" class="input-bill-what" value="'+bill.what+'"/>' +
+            '        </div>' +
+            '        <div class="bill-amount">' +
+            '            <label for="amount">' +
+            '                <a class="icon icon-quota"></a>' +
+            '                '+amountStr+
+            '            </label>' +
+            '            <input type="number" id="amount" class="input-bill-amount" value="'+bill.amount+'" step="0.01" min="0"/>' +
+            '        </div>' +
+            '        <div class="bill-payer">' +
+            '            <label for="payer">' +
+            '                <a class="icon icon-user"></a>' +
+            '                '+payerStr+
+            '            </label>' +
+            '            <select id="payer" class="input-bill-payer"'+payerDisabled+'>' +
+            '                '+payerOptions+
+            '            </select>' +
+            '        </div>' +
+            '        <div class="bill-date">' +
+            '            <label for="date">' +
+            '                <a class="icon icon-calendar-dark"></a>' +
+            '                '+dateStr+
+            '            </label>' +
+            '            <input type="date" id="date" class="input-bill-date" value="'+bill.date+'"/>' +
+            '        </div>' +
+            '    </div>' +
+            '    <div class="bill-right">' +
+            '        <div class="bill-owers">' +
+            '            <a class="icon icon-group"></a><span>'+owersStr+'</span>' +
+            '            <div class="owerAllNoneDiv">' +
+            '            <button id="owerAll">'+allStr+'</button>' +
+            '            <button id="owerNone">'+noneStr+'</button>' +
+            '            </div>' +
+            '            '+owerCheckboxes +
+            '        </div>' +
+            '    </div>' +
+            '</div>';
 
         $(detail).appendTo('#billdetail');
         $('#billdetail .input-bill-what').focus().select();
@@ -1033,90 +1032,90 @@
         var extProjUrl = OC.generateUrl('/apps/payback/loginproject/'+projectid);
         var shareTitle = t('payback', 'Press enter to validate');
         extProjUrl = window.location.protocol + '//' + window.location.hostname + extProjUrl;
-        var li = `
-            <li class="projectitem collapsible${projectSelected}" projectid="${projectid}">
-                <a class="icon-folder" href="#" title="${projectid}">
-                    <span>${name}</span>
-                </a>
-                <div class="app-navigation-entry-utils">
-                    <ul>
-                        <li class="app-navigation-entry-utils-counter"><span>${project.members.length}</span></li>
-                        <li class="app-navigation-entry-utils-menu-button shareProjectButton">
-                            <button class="icon-share"></button>
-                        </li>
-                        <li class="app-navigation-entry-utils-menu-button projectMenuButton">
-                            <button></button>
-                        </li>
-                    </ul>
-                </div>
-                <div class="app-navigation-entry-edit">
-                    <div>
-                        <input type="text" value="${project.name}" class="editProjectInput">
-                        <input type="submit" value="" class="icon-close editProjectClose">
-                        <input type="submit" value="" class="icon-checkmark editProjectOk">
-                    </div>
-                </div>
-                <ul class="app-navigation-entry-share">
-                    <li class="shareinputli" title="${shareTitle}"><input type="text" class="shareinput"/></li>
-                </ul>
+        var li =
+            '<li class="projectitem collapsible'+projectSelected+'" projectid="'+projectid+'">' +
+            '    <a class="icon-folder" href="#" title="'+projectid+'">' +
+            '        <span>'+name+'</span>' +
+            '    </a>' +
+            '    <div class="app-navigation-entry-utils">' +
+            '        <ul>' +
+            '            <li class="app-navigation-entry-utils-counter"><span>'+project.members.length+'</span></li>' +
+            '            <li class="app-navigation-entry-utils-menu-button shareProjectButton">' +
+            '                <button class="icon-share"></button>' +
+            '            </li>' +
+            '            <li class="app-navigation-entry-utils-menu-button projectMenuButton">' +
+            '                <button></button>' +
+            '            </li>' +
+            '        </ul>' +
+            '    </div>' +
+            '    <div class="app-navigation-entry-edit">' +
+            '        <div>' +
+            '            <input type="text" value="'+project.name+'" class="editProjectInput">' +
+            '            <input type="submit" value="" class="icon-close editProjectClose">' +
+            '            <input type="submit" value="" class="icon-checkmark editProjectOk">' +
+            '        </div>' +
+            '    </div>' +
+            '    <ul class="app-navigation-entry-share">' +
+            '        <li class="shareinputli" title="'+shareTitle+'"><input type="text" class="shareinput"/></li>' +
+            '    </ul>' +
 
-                <div class="newmemberdiv">
-                    <input class="newmembername" type="text" value=""/>
-                    <button class="newmemberbutton icon-add"></button>
-                </div>
+            '    <div class="newmemberdiv">' +
+            '        <input class="newmembername" type="text" value=""/>' +
+            '        <button class="newmemberbutton icon-add"></button>' +
+            '    </div>' +
 
-                <div class="app-navigation-entry-menu">
-                    <ul>
-                        <li>
-                            <a href="#" class="addMember">
-                                <span class="icon-add"></span>
-                                <span>${addMemberStr}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="copyExtProjectUrl" title="${extProjUrl}">
-                                <span class="icon-clippy"></span>
-                                <span>${guestAccessStr}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="editProjectName">
-                                <span class="icon-rename"></span>
-                                <span>${renameStr}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="editProjectPassword">
-                                <span class="icon-rename"></span>
-                                <span>${changePwdStr}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="getProjectStats">
-                                <span class="icon-category-monitoring"></span>
-                                <span>${displayStatsStr}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="getProjectSettlement">
-                                <span class="icon-category-organization"></span>
-                                <span>${settleStr}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="deleteProject">
-                                <span class="icon-delete"></span>
-                                <span>${deleteStr}</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="app-navigation-entry-deleted">
-                    <div class="app-navigation-entry-deleted-description">${deletedStr}</div>
-                    <button class="app-navigation-entry-deleted-button icon-history undoDeleteProject" title="Undo"></button>
-                </div>
-                <ul class="memberlist"></ul>
-            </li>`;
+            '    <div class="app-navigation-entry-menu">' +
+            '        <ul>' +
+            '            <li>' +
+            '                <a href="#" class="addMember">' +
+            '                    <span class="icon-add"></span>' +
+            '                    <span>'+addMemberStr+'</span>' +
+            '                </a>' +
+            '            </li>' +
+            '            <li>' +
+            '                <a href="#" class="copyExtProjectUrl" title="'+extProjUrl+'">' +
+            '                    <span class="icon-clippy"></span>' +
+            '                    <span>'+guestAccessStr+'</span>' +
+            '                </a>' +
+            '            </li>' +
+            '            <li>' +
+            '                <a href="#" class="editProjectName">' +
+            '                    <span class="icon-rename"></span>' +
+            '                    <span>'+renameStr+'</span>' +
+            '                </a>' +
+            '            </li>' +
+            '            <li>' +
+            '                <a href="#" class="editProjectPassword">' +
+            '                    <span class="icon-rename"></span>' +
+            '                    <span>'+changePwdStr+'</span>' +
+            '                </a>' +
+            '            </li>' +
+            '            <li>' +
+            '                <a href="#" class="getProjectStats">' +
+            '                    <span class="icon-category-monitoring"></span>' +
+            '                    <span>'+displayStatsStr+'</span>' +
+            '                </a>' +
+            '            </li>' +
+            '            <li>' +
+            '                <a href="#" class="getProjectSettlement">' +
+            '                    <span class="icon-category-organization"></span>' +
+            '                    <span>'+settleStr+'</span>' +
+            '                </a>' +
+            '            </li>' +
+            '            <li>' +
+            '                <a href="#" class="deleteProject">' +
+            '                    <span class="icon-delete"></span>' +
+            '                    <span>'+deleteStr+'</span>' +
+            '                </a>' +
+            '            </li>' +
+            '        </ul>' +
+            '    </div>' +
+            '    <div class="app-navigation-entry-deleted">' +
+            '        <div class="app-navigation-entry-deleted-description">'+deletedStr+'</div>' +
+            '        <button class="app-navigation-entry-deleted-button icon-history undoDeleteProject" title="Undo"></button>' +
+            '    </div>' +
+            '    <ul class="memberlist"></ul>' +
+            '</li>';
 
         $(li).appendTo('#projectlist');
 
@@ -1183,51 +1182,51 @@
 
         var renameStr = t('payback', 'Rename');
         var changeWeightStr = t('payback', 'Change weight');
-        var li = `
-            <li memberid="${member.id}" class="memberitem${invisibleClass}">
-                <a class="${iconStr}" style="background-image: url(${imgurl})" href="#">
-                    <span>
-                        <b class="memberName">${member.name}</b> (x<b class="memberWeight">${member.weight}</b>) ${balanceStr}
-                    </span>
-                </a>
-                <div class="app-navigation-entry-utils">
-                    <ul>
-                        <!--li class="app-navigation-entry-utils-counter">1</li-->
-                        <li class="app-navigation-entry-utils-menu-button memberMenuButton">
-                            <button></button>
-                        </li>
-                    </ul>
-                </div>
-                <div class="app-navigation-entry-menu">
-                    <ul>
-                        <li>
-                            <a href="#" class="renameMember">
-                                <span class="icon-rename"></span>
-                                <span>${renameStr}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="editWeightMember">
-                                <span class="icon-rename"></span>
-                                <span>${changeWeightStr}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="toggleMember">
-                                <span class="${iconToggleStr}"></span>
-                                <span>${toggleStr}</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="app-navigation-entry-edit">
-                    <div>
-                        <input type="text" value="${member.name}" class="editMemberInput">
-                        <input type="submit" value="" class="icon-close editMemberClose">
-                        <input type="submit" value="" class="icon-checkmark editMemberOk">
-                    </div>
-                </div>
-            </li>`;
+        var li =
+            '<li memberid="'+member.id+'" class="memberitem'+invisibleClass+'">' +
+            '    <a class="'+iconStr+'" style="background-image: url('+imgurl+')" href="#">' +
+            '        <span>' +
+            '            <b class="memberName">'+member.name+'</b> (x<b class="memberWeight">'+member.weight+'</b>) '+balanceStr+'' +
+            '        </span>' +
+            '    </a>' +
+            '    <div class="app-navigation-entry-utils">' +
+            '        <ul>' +
+            '            <!--li class="app-navigation-entry-utils-counter">1</li-->' +
+            '            <li class="app-navigation-entry-utils-menu-button memberMenuButton">' +
+            '                <button></button>' +
+            '            </li>' +
+            '        </ul>' +
+            '    </div>' +
+            '    <div class="app-navigation-entry-menu">' +
+            '        <ul>' +
+            '            <li>' +
+            '                <a href="#" class="renameMember">' +
+            '                    <span class="icon-rename"></span>' +
+            '                    <span>'+renameStr+'</span>' +
+            '                </a>' +
+            '            </li>' +
+            '            <li>' +
+            '                <a href="#" class="editWeightMember">' +
+            '                    <span class="icon-rename"></span>' +
+            '                    <span>'+changeWeightStr+'</span>' +
+            '                </a>' +
+            '            </li>' +
+            '            <li>' +
+            '                <a href="#" class="toggleMember">' +
+            '                    <span class="'+iconToggleStr+'"></span>' +
+            '                    <span>'+toggleStr+'</span>' +
+            '                </a>' +
+            '            </li>' +
+            '        </ul>' +
+            '    </div>' +
+            '    <div class="app-navigation-entry-edit">' +
+            '        <div>' +
+            '            <input type="text" value="'+member.name+'" class="editMemberInput">' +
+            '            <input type="submit" value="" class="icon-close editMemberClose">' +
+            '            <input type="submit" value="" class="icon-checkmark editMemberOk">' +
+            '        </div>' +
+            '    </div>' +
+            '</li>';
 
         $(li).appendTo('#projectlist li.projectitem[projectid='+projectid+'] .memberlist');
     }

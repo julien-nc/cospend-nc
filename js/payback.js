@@ -104,6 +104,17 @@
         this.resume();
     }
 
+    var timer = 0;
+    function delay(callback, ms) {
+        return function() {
+            var context = this, args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                callback.apply(context, args);
+            }, ms || 0);
+        };
+    }
+
     function pad(n) {
         return (n < 10) ? ('0' + n) : n;
     }
@@ -829,8 +840,8 @@
         }
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
-        var whatStr = t('payback', 'What? (press enter to validate)');
-        var amountStr = t('payback', 'How much? (press enter to validate)');
+        var whatStr = t('payback', 'What?');
+        var amountStr = t('payback', 'How much?');
         var payerStr = t('payback', 'Who payed?');
         var dateStr = t('payback', 'When?');
         var owersStr = t('payback', 'For whom?');
@@ -1724,7 +1735,13 @@
             }
         });
 
-        $('body').on('change', '#billdetail input, #billdetail select', function(e) {
+        // what and amount : delay on edition
+        $('body').on('keyup paste change', '.input-bill-what, .input-bill-amount', delay(function(e) {
+            onBillEdited();
+        }, 2000));
+
+        // other bill fields : direct on edition
+        $('body').on('change', '#billdetail input[type=checkbox], .input-bill-date, #billdetail select', function(e) {
             onBillEdited();
         });
 

@@ -166,6 +166,8 @@
             div.slideUp('slow', function() {
                 $('#newBillButton').fadeIn();
             });
+            // select created project
+            selectProject($('.projectitem[projectid='+id+']'));
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(t('payback', 'Failed to create project') + ' ' + response.responseText);
@@ -1408,6 +1410,25 @@
         });
     }
 
+    function selectProject(projectitem) {
+        var wasOpen = projectitem.hasClass('open');
+        $('.projectitem.open').removeClass('open');
+        if (!wasOpen) {
+            projectitem.addClass('open');
+            var projectid = projectitem.attr('projectid');
+
+            saveOptionValue({selectedProject: projectid});
+            payback.currentProjectId = projectid;
+            $('.projectitem').removeClass('selectedproject');
+            $('.projectitem[projectid='+projectid+']').addClass('selectedproject');
+            $('.app-navigation-entry-utils-counter').removeClass('highlighted');
+            $('.projectitem[projectid='+projectid+'] .app-navigation-entry-utils-counter').addClass('highlighted');
+
+            $('#billdetail').html('');
+            getBills(projectid);
+        }
+    }
+
     $(document).ready(function() {
         payback.pageIsPublic = (document.URL.indexOf('/payback/project') !== -1);
         if ( !payback.pageIsPublic ) {
@@ -1486,42 +1507,12 @@
         });
 
         $('body').on('click', '.projectitem > a', function(e) {
-            var wasOpen = $(this).parent().hasClass('open');
-            $('.projectitem.open').removeClass('open');
-            if (!wasOpen) {
-                $(this).parent().addClass('open');
-                var projectid = $(this).parent().attr('projectid');
-
-                saveOptionValue({selectedProject: projectid});
-                payback.currentProjectId = projectid;
-                $('.projectitem').removeClass('selectedproject');
-                $('.projectitem[projectid='+projectid+']').addClass('selectedproject');
-                $('.app-navigation-entry-utils-counter').removeClass('highlighted');
-                $('.projectitem[projectid='+projectid+'] .app-navigation-entry-utils-counter').addClass('highlighted');
-
-                $('#billdetail').html('');
-                getBills(projectid);
-            }
+            selectProject($(this).parent());
         });
 
         $('body').on('click', '.projectitem', function(e) {
             if (e.target.tagName === 'LI' && $(e.target).hasClass('projectitem')) {
-                var wasOpen = $(this).hasClass('open');
-                $('.projectitem.open').removeClass('open');
-                if (!wasOpen) {
-                    $(this).addClass('open');
-                    var projectid = $(this).attr('projectid');
-
-                    saveOptionValue({selectedProject: projectid});
-                    payback.currentProjectId = projectid;
-                    $('.projectitem').removeClass('selectedproject');
-                    $('.projectitem[projectid='+projectid+']').addClass('selectedproject');
-                    $('.app-navigation-entry-utils-counter').removeClass('highlighted');
-                    $('.projectitem[projectid='+projectid+'] .app-navigation-entry-utils-counter').addClass('highlighted');
-
-                    $('#billdetail').html('');
-                    getBills(projectid);
-                }
+                selectProject($(this));
             }
         });
 

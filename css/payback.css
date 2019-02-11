@@ -183,3 +183,6 @@ input[type=number] {
     padding-left: 15px;
     padding-right: 15px;
 }
+.loading-bill {
+    margin-left: 20px;
+}

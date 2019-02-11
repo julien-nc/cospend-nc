@@ -293,6 +293,7 @@
     }
 
     function createBill(projectid, what, amount, payer_id, date, owerIds) {
+        $('.loading-bill').addClass('icon-loading-small');
         var req = {
             what: what,
             date: date,
@@ -338,12 +339,14 @@
 
             OC.Notification.showTemporary(t('payback', 'Bill created'));
         }).always(function() {
+            $('.loading-bill').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('payback', 'Failed to create bill') + ' ' + response.responseText);
         });
     }
 
     function saveBill(projectid, billid, what, amount, payer_id, date, owerIds) {
+        $('.loading-bill').addClass('icon-loading-small');
         var req = {
             what: what,
             date: date,
@@ -388,6 +391,7 @@
 
             OC.Notification.showTemporary(t('payback', 'Saved bill'));
         }).always(function() {
+            $('.loading-bill').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(
                 t('payback', 'Failed to save bill') +
@@ -852,6 +856,7 @@
             '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 class="bill-title" projectid="'+projectid+'" billid="'+bill.id+'" style="background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);">' +
             '    '+titleStr+
+            '    <span class="loading-bill"></span>' +
             '</h2>' +
             '<div class="bill-form">' +
             '    <div class="bill-left">' +

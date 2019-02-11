@@ -186,3 +186,7 @@ input[type=number] {
 .loading-bill {
     margin-left: 20px;
 }
+.nobill {
+    text-align: center;
+    color: var(--color-text-lighter);
+}

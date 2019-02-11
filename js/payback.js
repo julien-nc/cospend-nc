@@ -767,10 +767,15 @@
         }).done(function (response) {
             $('#bill-list').html('');
             payback.bills[projectid] = {};
-            var bill;
-            for (var i = 0; i < response.length; i++) {
-                bill = response[i];
-                addBill(projectid, bill);
+            if (response.length > 0) {
+                var bill;
+                for (var i = 0; i < response.length; i++) {
+                    bill = response[i];
+                    addBill(projectid, bill);
+                }
+            }
+            else {
+                $('#bill-list').html('<h2 class="nobill">'+t('payback', 'No bill yet')+'</h2>');
             }
         }).always(function() {
         }).fail(function() {

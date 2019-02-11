@@ -609,6 +609,7 @@
     }
 
     function getProjectStatistics(projectid) {
+        $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
         var req = {
         };
         var url;
@@ -632,10 +633,12 @@
         }).always(function() {
         }).fail(function() {
             OC.Notification.showTemporary(t('payback', 'Failed to get statistics'));
+            $('#billdetail').html('');
         });
     }
 
     function getProjectSettlement(projectid) {
+        $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
         var req = {
         };
         var url;
@@ -659,6 +662,7 @@
         }).always(function() {
         }).fail(function() {
             OC.Notification.showTemporary(t('payback', 'Failed to get settlement'));
+            $('#billdetail').html('');
         });
     }
 
@@ -742,6 +746,7 @@
     }
 
     function getBills(projectid) {
+        $('#bill-list').html('<h2 class="icon-loading-small"></h2>');
         var req = {};
         var url;
         var type;
@@ -770,6 +775,7 @@
         }).always(function() {
         }).fail(function() {
             OC.Notification.showTemporary(t('payback', 'Failed to get bills'));
+            $('#bill-list').html('');
         });
     }
 

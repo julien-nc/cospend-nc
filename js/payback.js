@@ -1017,12 +1017,6 @@
 
         var name = project.name;
         var projectid = project.id;
-        var projectSelected = '';
-        if (payback.restoredSelectedProjectId === projectid) {
-            projectSelected = ' open';
-            payback.currentProjectId = projectid;
-            getBills(projectid);
-        }
         var addMemberStr = t('payback', 'Add member');
         var guestAccessStr = t('payback', 'Guest access link');
         var renameStr = t('payback', 'Rename');
@@ -1035,7 +1029,7 @@
         var shareTitle = t('payback', 'Press enter to validate');
         extProjUrl = window.location.protocol + '//' + window.location.hostname + extProjUrl;
         var li =
-            '<li class="projectitem collapsible'+projectSelected+'" projectid="'+projectid+'">' +
+            '<li class="projectitem collapsible" projectid="'+projectid+'">' +
             '    <a class="icon-folder" href="#" title="'+projectid+'">' +
             '        <span>'+name+'</span>' +
             '    </a>' +
@@ -1120,6 +1114,11 @@
             '</li>';
 
         $(li).appendTo('#projectlist');
+
+        // select project if it was the last selected (option restore on page load)
+        if (payback.restoredSelectedProjectId === projectid) {
+            selectProject($('.projectitem[projectid='+projectid+']'));
+        }
 
         if (payback.pageIsPublic) {
             $('.projectitem[projectid='+projectid+'] .shareProjectButton').hide();

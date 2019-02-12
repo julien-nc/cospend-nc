@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
 "POT-Creation-Date: 2019-02-12 02:05+0100\n"
-"PO-Revision-Date: 2019-02-12 01:07\n"
+"PO-Revision-Date: 2019-02-12 01:15\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -18,351 +18,351 @@ msgstr ""
 
 #: app.php:27 app.php:48 admin.php:7
 msgid "Cospend"
-msgstr ""
+msgstr "Cospend"
 
 #: admin.js:19
 msgid "Saved Cospend setting"
-msgstr ""
+msgstr "Paramètre de Cospend sauvegardé"
 
 #: admin.js:23
 msgid "Failed to save Cospend setting"
-msgstr ""
+msgstr "Échec de l'enregistrement du réglage de Cospend"
 
 #: cospend.js:186
 msgid "Failed to create project"
-msgstr ""
+msgstr "Échec de la création du projet"
 
 #: cospend.js:221
 msgid "Created member {name}"
-msgstr ""
+msgstr "Membre {name} créé"
 
 #: cospend.js:225
 msgid "Failed to add member"
-msgstr ""
+msgstr "Échec de l'ajout du membre"
 
 #: cospend.js:269 cospend.js:1212
 msgid "Reactivate"
-msgstr ""
+msgstr "Réactiver"
 
 #: cospend.js:275 cospend.js:1206
 msgid "Deactivate"
-msgstr ""
+msgstr "Désactiver"
 
 #: cospend.js:289
 msgid "Saved member"
-msgstr ""
+msgstr "Membre sauvegardé"
 
 #: cospend.js:297
 msgid "Failed to save member"
-msgstr ""
+msgstr "Échec de la sauvegarde du membre"
 
 #: cospend.js:346
 msgid "Bill created"
-msgstr ""
+msgstr "Facture créée"
 
 #: cospend.js:350
 msgid "Failed to create bill"
-msgstr ""
+msgstr "Échec de la création de la facture"
 
 #: cospend.js:398
 msgid "Saved bill"
-msgstr ""
+msgstr "Facture sauvegardée"
 
 #: cospend.js:403
 msgid "Failed to save bill"
-msgstr ""
+msgstr "Échec de la sauvegarde de la facture"
 
 #: cospend.js:470 cospend.js:1060
 msgid "Deleted {name}"
-msgstr ""
+msgstr "{name} supprimé"
 
 #: cospend.js:476
 msgid "Saved project"
-msgstr ""
+msgstr "Projet sauvegardé"
 
 #: cospend.js:480
 msgid "Failed to save project"
-msgstr ""
+msgstr "Échec de la sauvegarde du projet"
 
 #: cospend.js:521
 msgid "Deleted project {id}"
-msgstr ""
+msgstr "Projet {id} sauvegardé"
 
 #: cospend.js:524
 msgid "Failed to delete project"
-msgstr ""
+msgstr "Échec de la suppression du projet"
 
 #: cospend.js:556
 msgid "Deleted bill"
-msgstr ""
+msgstr "Facture supprimée"
 
 #: cospend.js:559
 msgid "Failed to delete bill"
-msgstr ""
+msgstr "Échec de la suppression de la facture"
 
 #: cospend.js:607
 msgid "Failed to get projects"
-msgstr ""
+msgstr "Échec de la récupération des projets"
 
 #: cospend.js:635
 msgid "Failed to get statistics"
-msgstr ""
+msgstr "Échec de la récupération des statistiques"
 
 #: cospend.js:664
 msgid "Failed to get settlement"
-msgstr ""
+msgstr "Échec de la récupération des remboursements"
 
 #: cospend.js:676
 msgid "Settlement of project {name}"
-msgstr ""
+msgstr "Remboursements du projet {name}"
 
 #: cospend.js:677
 msgid "Who pays?"
-msgstr ""
+msgstr "Qui doit payer ?"
 
 #: cospend.js:678
 msgid "To whom?"
-msgstr ""
+msgstr "À qui?"
 
 #: cospend.js:679 cospend.js:865
 msgid "How much?"
-msgstr ""
+msgstr "Combien ?"
 
 #: cospend.js:710
 msgid "Statistics of project {name}"
-msgstr ""
+msgstr "Statistiques du projet {name}"
 
 #: cospend.js:711
 msgid "Member name"
-msgstr ""
+msgstr "Nom du membre"
 
 #: cospend.js:712
 msgid "Paid"
-msgstr ""
+msgstr "A payé"
 
 #: cospend.js:713
 msgid "Spent"
-msgstr ""
+msgstr "A dépensé"
 
 #: cospend.js:714
 msgid "Balance"
-msgstr ""
+msgstr "Solde"
 
 #: cospend.js:778
 msgid "No bill yet"
-msgstr ""
+msgstr "Pas encore de facture"
 
 #: cospend.js:782
 msgid "Failed to get bills"
-msgstr ""
+msgstr "Échec de la récupération des factures"
 
 #: cospend.js:800 cospend.js:869
 msgid "Bill \"{what}\" of project {proj}"
-msgstr ""
+msgstr "Facture \"{what}\" du projet {proj}"
 
 #: cospend.js:864
 msgid "What?"
-msgstr ""
+msgstr "Quoi ?"
 
 #: cospend.js:866
 msgid "Who payed?"
-msgstr ""
+msgstr "Qui a payé ?"
 
 #: cospend.js:867
 msgid "When?"
-msgstr ""
+msgstr "Quand ?"
 
 #: cospend.js:868
 msgid "For whom?"
-msgstr ""
+msgstr "Pour qui ?"
 
 #: cospend.js:870
 msgid "All"
-msgstr ""
+msgstr "Tous"
 
 #: cospend.js:871
 msgid "None"
-msgstr ""
+msgstr "Aucun"
 
 #: cospend.js:958 cospend.js:970
 msgid "Member list is not up to date. Reloading in 5 sec."
-msgstr ""
+msgstr "La liste des membres n’est pas à jour. Rechargement dans 5 sec."
 
 #: cospend.js:1043
 msgid "Failed to update balances"
-msgstr ""
+msgstr "Échec de la mise à jour des balances"
 
 #: cospend.js:1053
 msgid "Add member"
-msgstr ""
+msgstr "Ajouter un membre"
 
 #: cospend.js:1054 mainnavigation.php:48
 msgid "Guest access link"
-msgstr ""
+msgstr "Lien d'accès invité"
 
 #: cospend.js:1055 cospend.js:1217
 msgid "Rename"
-msgstr ""
+msgstr "Renommer"
 
 #: cospend.js:1056
 msgid "Change password"
-msgstr ""
+msgstr "Changer le mot de passe"
 
 #: cospend.js:1057
 msgid "Display statistics"
-msgstr ""
+msgstr "Afficher les statistiques"
 
 #: cospend.js:1058
 msgid "Settle the project"
-msgstr ""
+msgstr "Remboursements du projet"
 
 #: cospend.js:1059
 msgid "Delete"
-msgstr ""
+msgstr "Supprimer"
 
 #: cospend.js:1062
 msgid "Press enter to validate"
-msgstr ""
+msgstr "Appuyez sur entrée pour valider"
 
 #: cospend.js:1218
 msgid "Change weight"
-msgstr ""
+msgstr "Changer le poids"
 
 #: cospend.js:1317
 msgid "Bill values are not valid"
-msgstr ""
+msgstr "Les valeurs de la facture sont invalides"
 
 #: cospend.js:1336
 msgid "Failed to save option values"
-msgstr ""
+msgstr "Échec de la sauvegarde des options"
 
 #: cospend.js:1366
 msgid "Failed to restore options values"
-msgstr ""
+msgstr "Échec de la restauration des options"
 
 #: cospend.js:1392
 msgid "Failed to get user list"
-msgstr ""
+msgstr "Impossible d'obtenir la liste des utilisateurs"
 
 #: cospend.js:1411
 msgid "Shared project {pname} with {uname}"
-msgstr ""
+msgstr "Projet {pname} partagé avec {uname}"
 
 #: cospend.js:1415
 msgid "Failed to add user share"
-msgstr ""
+msgstr "Échec de l'ajout du partage"
 
 #: cospend.js:1421
 msgid "Shared with {u}"
-msgstr ""
+msgstr "Partagé avec {u}"
 
 #: cospend.js:1447
 msgid "Failed to delete user share"
-msgstr ""
+msgstr "Échec de la suppression du partage"
 
 #: cospend.js:1534
 msgid "userName"
-msgstr ""
+msgstr "nomDUtilisateur"
 
 #: cospend.js:1583 cospend.js:1596 cospend.js:1632 cospend.js:1644
 msgid "Invalid values"
-msgstr ""
+msgstr "Valeurs invalides"
 
 #: cospend.js:1621
 msgid "newMemberName"
-msgstr ""
+msgstr "nomNouveauMembre"
 
 #: cospend.js:1840
 msgid "New Bill"
-msgstr ""
+msgstr "Nouvelle facture"
 
 #: cospend.js:1851
 msgid "2 active members are required to create a bill"
-msgstr ""
+msgstr "2 membres actifs sont nécessaires pour créer une facture"
 
 #: cospend.js:1888
 msgid "Guest link for '{pid}' copied to clipboard"
-msgstr ""
+msgstr "Lien invité pour '{pid}' copié dans le presse-papier"
 
 #: cospend.js:1901
 msgid "Guest link copied to clipboard"
-msgstr ""
+msgstr "Lien invité copié dans le presse-papier"
 
 #: Notification/Notifier.php:67
 #, php-format
 msgid "User \"%s\" shared Cospend project \"%s\" with you."
-msgstr ""
+msgstr "L'utilisateur \"%s\" a partagé le projet Cospend \"%s\" avec vous."
 
 #: Notification/Notifier.php:75
 #, php-format
 msgid "User \"%s\" stopped sharing Cospend project \"%s\" with you."
-msgstr ""
+msgstr "L'utilisateur \"%s\" a arrêté de partager le projet Cospend \"%s\" avec vous."
 
 #: admin.php:8 admin.php:17
 msgid "Allow guests to create projects"
-msgstr ""
+msgstr "Autoriser les invités à créer des projets"
 
 #: admin.php:9
 msgid "Enabling this option will allow any visitor to create a project without having to log in."
-msgstr ""
+msgstr "Activer cette option autorisera n'importe quel visiteur à créer un projet sans avoir à s'identifier."
 
 #: admin.php:10
 msgid "This can be useful if you are in a local network and want to let anybody create a project."
-msgstr ""
+msgstr "Cela peut être utile si vous êtes dans un réseau local et voulez laissez n'importe qui créer un projet."
 
 #: admin.php:11
 msgid "Or maybe you are very generous and want to allow the entire world to use Cospend without having an account on your Nextcloud instance."
-msgstr ""
+msgstr "Ou alors vous êtes très généreux et voulez autoriser le monde entier à utiliser Cospend sans avoir de compte sur votre instance Nextcloud."
 
 #: logincontent.php:2
 msgid "Authentication"
-msgstr ""
+msgstr "Authentification"
 
 #: logincontent.php:7
 msgid "Wrong project Id or password"
-msgstr ""
+msgstr "Mauvais Id projet ou mot de passe"
 
 #: logincontent.php:12
 msgid "Project ID"
-msgstr ""
+msgstr "ID projet"
 
 #: logincontent.php:21
 msgid "Project password (aka Access code)"
-msgstr ""
+msgstr "Mot de passe du projet (code d'accès)"
 
 #: mainnavigation.php:6
 msgid "New project"
-msgstr ""
+msgstr "Nouveau projet"
 
 #: mainnavigation.php:10
 msgid "project id"
-msgstr ""
+msgstr "id du projet"
 
 #: mainnavigation.php:13
 msgid "name"
-msgstr ""
+msgstr "nom"
 
 #: mainnavigation.php:16
 msgid "password"
-msgstr ""
+msgstr "mot de passe"
 
 #: mainnavigation.php:19
 msgid "Add project"
-msgstr ""
+msgstr "Ajouter le projet"
 
 #: mainnavigation.php:24
 msgid "New bill"
-msgstr ""
+msgstr "Nouvelle facture"
 
 #: mainnavigation.php:36
 msgid "Settings"
-msgstr ""
+msgstr "Paramètres"
 
 #: mainnavigation.php:42
 msgid "Project statistics"
-msgstr ""
+msgstr "Statistiques du projet"
 
 #: mainnavigation.php:45
 msgid "Settle"
-msgstr ""
+msgstr "Remboursements"
 

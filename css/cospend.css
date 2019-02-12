@@ -190,3 +190,7 @@ input[type=number] {
     text-align: center;
     color: var(--color-text-lighter);
 }
+#billdetail h2 span[class^=icon-] {
+    display: inline-block;
+    width: 30px;
+}

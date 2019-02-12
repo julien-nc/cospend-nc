@@ -682,7 +682,7 @@
         var toStr = t('cospend', 'To whom?');
         var howMuchStr = t('cospend', 'How much?');
         var settlementStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
-            '<h2 id="settlementTitle">'+titleStr+'</h2>' +
+            '<h2 id="settlementTitle"><span class="icon-category-organization"></span>'+titleStr+'</h2>' +
             '<table id="settlementTable"><thead>' +
             '<th>'+fromStr+'</th>' +
             '<th>'+toStr+'</th>' +
@@ -717,7 +717,7 @@
         var spentStr = t('cospend', 'Spent');
         var balanceStr = t('cospend', 'Balance');
         var statsStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
-            '<h2 id="statsTitle">'+titleStr+'</h2>' +
+            '<h2 id="statsTitle"><span class="icon-category-monitoring"></span>'+titleStr+'</h2>' +
             '<table id="statsTable"><thead>' +
             '<th>'+nameStr+'</th>' +
             '<th>'+paidStr+'</th>' +
@@ -800,7 +800,8 @@
             var payerName = getMemberName(projectid, payer_id);
             c = getMemberColor(payerName);
         }
-        $('.bill-title').text(
+        $('.bill-title').html(
+            '<span class="icon-edit-white"></span>' +
             t('cospend', 'Bill "{what}" of project {proj}', {what: what, proj: projectName})
         );
         $('.bill-title').attr('style', 'background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);');
@@ -849,7 +850,7 @@
             if (member.activated || owerIds.indexOf(member.id) !== -1) {
                 owerCheckboxes = owerCheckboxes +
                     '<div class="owerEntry">' +
-                    '<input id="'+projectid+member.id+'" owerid="'+member.id+'" type="checkbox"'+checked+readonly+'/>' +
+                    '<input id="'+projectid+member.id+'" owerid="'+member.id+'" class="checkbox" type="checkbox"'+checked+readonly+'/>' +
                     '<label for="'+projectid+member.id+'">'+member.name+'</label>' +
                     '</div>';
             }
@@ -876,7 +877,7 @@
         var detail =
             '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 class="bill-title" projectid="'+projectid+'" billid="'+bill.id+'" style="background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);">' +
-            '    '+titleStr+
+            '    <span class="icon-edit-white"></span>'+titleStr+
             '    <span class="loading-bill"></span>' +
             '</h2>' +
             '<div class="bill-form">' +

@@ -7,17 +7,19 @@
     </button>
     <div id="newprojectdiv">
 
-        <label for="projectidinput"><?php p($l->t('project id')); ?></label>
-        <input id="projectidinput" type="text" value="id"/>
+        <form id="newprojectform" autocomplete="off">
+            <label for="projectidinput"><?php p($l->t('project id')); ?></label>
+            <input id="projectidinput" type="text" value="id"/>
 
-        <label for="projectnameinput"><?php p($l->t('name')); ?></label>
-        <input id="projectnameinput" type="text" value="name"/>
+            <label for="projectnameinput"><?php p($l->t('name')); ?></label>
+            <input id="projectnameinput" type="text" value="name"/>
 
-        <label for="projectpasswordinput"><?php p($l->t('password')); ?></label>
-        <input id="projectpasswordinput" type="password" value="lala"/>
-        <button id="createproject" type="button" class="icon-add">
-            <?php p($l->t('Add project')); ?>
-        </button>
+            <label for="projectpasswordinput"><?php p($l->t('password')); ?></label>
+            <input id="projectpasswordinput" type="password" value="lala"/>
+            <button id="createproject" type="button" class="icon-add">
+                <?php p($l->t('Add project')); ?>
+            </button>
+        </form>
 
     </div>
     <button id="newBillButton" type="button" class="icon-add">

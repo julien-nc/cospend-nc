@@ -1591,6 +1591,19 @@
             }
         });
 
+        $('#newprojectform').submit(function(e) {
+            var name = $('#projectnameinput').val();
+            var id = $('#projectidinput').val();
+            var password = $('#projectpasswordinput').val();
+            if (name && id && password) {
+                createProject(id, name, password);
+            }
+            else {
+                OC.Notification.showTemporary(t('cospend', 'Invalid values'));
+            }
+            e.preventDefault();
+        });
+
         $('#createproject').click(function() {
             var name = $('#projectnameinput').val();
             var id = $('#projectidinput').val();

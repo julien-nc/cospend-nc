@@ -1,6 +1,6 @@
 <?php
 /**
- * Nextcloud - payback
+ * Nextcloud - cospend
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -9,7 +9,7 @@
  * @copyright Julien Veyssier 2019
  */
 
-namespace OCA\Payback\Notification;
+namespace OCA\Cospend\Notification;
 
 
 use OCP\IURLGenerator;
@@ -54,28 +54,28 @@ class Notifier implements INotifier {
      * @since 9.0.0
      */
     public function prepare(INotification $notification, $languageCode) {
-        if ($notification->getApp() !== 'payback') {
+        if ($notification->getApp() !== 'cospend') {
             // Not my app => throw
             throw new \InvalidArgumentException();
         }
 
-        $l = $this->factory->get('payback', $languageCode);
+        $l = $this->factory->get('cospend', $languageCode);
 
         switch ($notification->getSubject()) {
         case 'add_user_share':
             $p = $notification->getSubjectParameters();
-            $content = $l->t('User "%s" shared Payback project "%s" with you.', [$p[0], $p[1]]);
+            $content = $l->t('User "%s" shared Cospend project "%s" with you.', [$p[0], $p[1]]);
 
             $notification->setParsedSubject($content)
-                ->setLink($this->url->linkToRouteAbsolute('payback.page.index'));
+                ->setLink($this->url->linkToRouteAbsolute('cospend.page.index'));
             return $notification;
 
         case 'delete_user_share':
             $p = $notification->getSubjectParameters();
-            $content = $l->t('User "%s" stopped sharing Payback project "%s" with you.', [$p[0], $p[1]]);
+            $content = $l->t('User "%s" stopped sharing Cospend project "%s" with you.', [$p[0], $p[1]]);
 
             $notification->setParsedSubject($content)
-                ->setLink($this->url->linkToRouteAbsolute('payback.page.index'));
+                ->setLink($this->url->linkToRouteAbsolute('cospend.page.index'));
             return $notification;
 
         default:

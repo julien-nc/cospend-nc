@@ -1,5 +1,5 @@
 rm *.js*
-perl l10n.pl write payback
+perl l10n.pl write cospend
 rename 's/fr_FR/fr/g' *.js*
 rename 's/es_ES/es/g' *.js*
 rename 's/de_DE/de/g' *.js*

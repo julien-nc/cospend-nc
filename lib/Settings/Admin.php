@@ -1,5 +1,5 @@
 <?php
-namespace OCA\Payback\Settings;
+namespace OCA\Cospend\Settings;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -39,12 +39,12 @@ class Admin implements ISettings {
      * @return TemplateResponse
      */
     public function getForm() {
-        $allow = $this->config->getAppValue('payback', 'allowAnonymousCreation');
+        $allow = $this->config->getAppValue('cospend', 'allowAnonymousCreation');
 
         $parameters = [
             'allowAnonymousCreation' => $allow
         ];
-        return new TemplateResponse('payback', 'admin', $parameters, '');
+        return new TemplateResponse('cospend', 'admin', $parameters, '');
     }
 
     /**
@@ -70,12 +70,12 @@ class Admin implements ISettings {
      * for ownCloud 10+
      */
     public function getPanel() {
-        $allow = $this->config->getAppValue('payback', 'allowAnonymousCreation');
+        $allow = $this->config->getAppValue('cospend', 'allowAnonymousCreation');
 
         $parameters = [
             'allowAnonymousCreation' => $allow
         ];
-        return new TemplateResponse('payback', 'admin', $parameters, '');
+        return new TemplateResponse('cospend', 'admin', $parameters, '');
     }
 
     /**

@@ -1,11 +1,11 @@
 <?php
-script('payback', 'moment-timezone-with-data.min');
-script('payback', 'kjua.min');
-script('payback', 'payback');
+script('cospend', 'moment-timezone-with-data.min');
+script('cospend', 'kjua.min');
+script('cospend', 'cospend');
 
-//style('payback', 'style');
-style('payback', 'fontawesome/css/all.min');
-style('payback', 'payback');
+//style('cospend', 'style');
+style('cospend', 'fontawesome/css/all.min');
+style('cospend', 'cospend');
 
 ?>
 

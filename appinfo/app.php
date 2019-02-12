@@ -1,6 +1,6 @@
 <?php
 /**
- * Nextcloud - payback
+ * Nextcloud - cospend
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -9,10 +9,10 @@
  * @copyright Julien Veyssier 2018
  */
 
-namespace OCA\Payback\AppInfo;
+namespace OCA\Cospend\AppInfo;
 
 use OCP\AppFramework\App;
-use OCA\Payback\Notification\Notifier;
+use OCA\Cospend\Notification\Notifier;
 
 $app = new Application();
 $container = $app->getContainer();
@@ -21,10 +21,10 @@ $manager = \OC::$server->getNotificationManager();
 $manager->registerNotifier(function() {
         return \OC::$server->query(Notifier::class);
 }, function() {
-        $l = \OC::$server->getL10N('payback');
+        $l = \OC::$server->getL10N('cospend');
         return [
                 'id' => 'spned',
-                'name' => $l->t('Payback'),
+                'name' => $l->t('Cospend'),
         ];
 });
 
@@ -32,19 +32,19 @@ $container->query('OCP\INavigationManager')->add(function () use ($container) {
     $urlGenerator = $container->query('OCP\IURLGenerator');
     $l10n = $container->query('OCP\IL10N');
     return [
-        'id' => 'payback',
+        'id' => 'cospend',
 
         'order' => 10,
 
         // the route that will be shown on startup
-        'href' => $urlGenerator->linkToRoute('payback.page.index'),
+        'href' => $urlGenerator->linkToRoute('cospend.page.index'),
 
         // the icon that will be shown in the navigation
         // this file needs to exist in img/
-        'icon' => $urlGenerator->imagePath('payback', 'app.svg'),
+        'icon' => $urlGenerator->imagePath('cospend', 'app.svg'),
 
         // the title of your application. This will be used in the
         // navigation or on the settings page of your app
-        'name' => $l10n->t('Payback'),
+        'name' => $l10n->t('Cospend'),
     ];
 });

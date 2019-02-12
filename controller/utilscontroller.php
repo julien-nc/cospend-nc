@@ -1,6 +1,6 @@
 <?php
 /**
- * Nextcloud - payback
+ * Nextcloud - cospend
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -9,7 +9,7 @@
  * @copyright Julien Veyssier 2019
  */
 
-namespace OCA\Payback\Controller;
+namespace OCA\Cospend\Controller;
 
 use OCP\App\IAppManager;
 
@@ -60,7 +60,7 @@ class UtilsController extends Controller {
      * set global point quota
      */
     public function setAllowAnonymousCreation($allow) {
-        $this->config->setAppValue('payback', 'allowAnonymousCreation', $allow);
+        $this->config->setAppValue('cospend', 'allowAnonymousCreation', $allow);
         $response = new DataResponse(
             [
                 'done'=>'1'
@@ -79,9 +79,9 @@ class UtilsController extends Controller {
      * @NoAdminRequired
      */
     public function deleteOptionsValues() {
-        $keys = $this->config->getUserKeys($this->userId, 'payback');
+        $keys = $this->config->getUserKeys($this->userId, 'cospend');
         foreach ($keys as $key) {
-            $this->config->deleteUserValue($this->userId, 'payback', $key);
+            $this->config->deleteUserValue($this->userId, 'cospend', $key);
         }
 
         $response = new DataResponse(
@@ -103,7 +103,7 @@ class UtilsController extends Controller {
      */
     public function saveOptionValue($options) {
         foreach ($options as $key => $value) {
-            $this->config->setUserValue($this->userId, 'payback', $key, $value);
+            $this->config->setUserValue($this->userId, 'cospend', $key, $value);
         }
 
         $response = new DataResponse(
@@ -125,9 +125,9 @@ class UtilsController extends Controller {
      */
     public function getOptionsValues() {
         $ov = array();
-        $keys = $this->config->getUserKeys($this->userId, 'payback');
+        $keys = $this->config->getUserKeys($this->userId, 'cospend');
         foreach ($keys as $key) {
-            $value = $this->config->getUserValue($this->userId, 'payback', $key);
+            $value = $this->config->getUserValue($this->userId, 'cospend', $key);
             $ov[$key] = $value;
         }
 

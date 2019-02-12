@@ -1,6 +1,6 @@
 /*jshint esversion: 6 */
 /**
- * Nextcloud - payback
+ * Nextcloud - cospend
  *
  *
  * This file is licensed under the Affero General Public License version 3 or
@@ -19,7 +19,7 @@
     var PROJECT_NAME_EDITION = 1;
     var PROJECT_PASSWORD_EDITION = 2;
 
-    var payback = {
+    var cospend = {
         restoredSelectedProjectId: null,
         memberEditionMode: null,
         projectEditionMode: null,
@@ -157,7 +157,7 @@
             name: name,
             password: password
         };
-        var url = OC.generateUrl('/apps/payback/createProject');
+        var url = OC.generateUrl('/apps/cospend/createProject');
         $.ajax({
             type: 'POST',
             url: url,
@@ -183,7 +183,7 @@
         }).always(function() {
             $('#createproject').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('payback', 'Failed to create project') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('cospend', 'Failed to create project') + ' ' + response.responseText);
         });
     }
 
@@ -193,12 +193,12 @@
             name: name
         };
         var url;
-        if (!payback.pageIsPublic) {
+        if (!cospend.pageIsPublic) {
             req.projectid = projectid;
-            url = OC.generateUrl('/apps/payback/addMember');
+            url = OC.generateUrl('/apps/cospend/addMember');
         }
         else {
-            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password+'/members');
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/members');
         }
         $.ajax({
             type: 'POST',
@@ -218,11 +218,11 @@
             $('.newmemberdiv').slideUp();
             updateNumberOfMember(projectid);
             $('#billdetail').html('');
-            OC.Notification.showTemporary(t('payback', 'Created member {name}', {name: name}));
+            OC.Notification.showTemporary(t('cospend', 'Created member {name}', {name: name}));
         }).always(function() {
             $('.projectitem[projectid='+projectid+']').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('payback', 'Failed to add member') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('cospend', 'Failed to add member') + ' ' + response.responseText);
         });
     }
 
@@ -236,14 +236,14 @@
             activated: newActivated
         };
         var url, type;
-        if (!payback.pageIsPublic) {
+        if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             req.memberid = memberid;
-            url = OC.generateUrl('/apps/payback/editMember');
+            url = OC.generateUrl('/apps/cospend/editMember');
             type = 'POST';
         }
         else {
-            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password+'/members/'+memberid);
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/members/'+memberid);
             type = 'PUT';
         }
         $.ajax({
@@ -256,37 +256,37 @@
             // update member values
             if (newName) {
                 memberLine.find('b.memberName').text(newName);
-                payback.members[projectid][memberid].name = newName;
+                cospend.members[projectid][memberid].name = newName;
             }
             if (newWeight) {
                 memberLine.find('b.memberWeight').text(newWeight);
-                payback.members[projectid][memberid].weight = newWeight;
+                cospend.members[projectid][memberid].weight = newWeight;
                 updateProjectBalances(projectid);
             }
             if (newActivated !== null && newActivated === false) {
                 memberLine.find('>a').removeClass('icon-user').addClass('icon-disabled-user');
                 memberLine.find('.toggleMember span').first().removeClass('icon-delete').addClass('icon-history');
-                memberLine.find('.toggleMember span').eq(1).text(t('payback', 'Reactivate'));
-                payback.members[projectid][memberid].activated = newActivated;
+                memberLine.find('.toggleMember span').eq(1).text(t('cospend', 'Reactivate'));
+                cospend.members[projectid][memberid].activated = newActivated;
             }
             else if (newActivated !== null && newActivated === true) {
                 memberLine.find('>a').removeClass('icon-disabled-user').addClass('icon-user');
                 memberLine.find('.toggleMember span').first().removeClass('icon-history').addClass('icon-delete');
-                memberLine.find('.toggleMember span').eq(1).text(t('payback', 'Deactivate'));
-                payback.members[projectid][memberid].activated = newActivated;
+                memberLine.find('.toggleMember span').eq(1).text(t('cospend', 'Deactivate'));
+                cospend.members[projectid][memberid].activated = newActivated;
             }
             // anyway : update icon
-            var c = getMemberColor(payback.members[projectid][memberid].name);
+            var c = getMemberColor(cospend.members[projectid][memberid].name);
             var rgbC = hslToRgb(c.h/360, c.s/100, c.l/100);
             var imgurl;
-            if (payback.members[projectid][memberid].activated) {
+            if (cospend.members[projectid][memberid].activated) {
                 imgurl = OC.generateUrl('/svg/core/actions/user?color='+rgbC);
             }
             else {
                 imgurl = OC.generateUrl('/svg/core/actions/disabled-user?color='+rgbC);
             }
             memberLine.find('>a').attr('style', 'background-image: url('+imgurl+')');
-            OC.Notification.showTemporary(t('payback', 'Saved member'));
+            OC.Notification.showTemporary(t('cospend', 'Saved member'));
             // get bills again to refresh names
             getBills(projectid);
             // reset bill edition
@@ -294,7 +294,7 @@
         }).always(function() {
             $('.projectitem[projectid='+projectid+'] ul.memberlist > li[memberid='+memberid+']').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('payback', 'Failed to save member') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('cospend', 'Failed to save member') + ' ' + response.responseText);
         });
     }
 
@@ -308,12 +308,12 @@
             amount: amount
         };
         var url, type;
-        if (!payback.pageIsPublic) {
+        if (!cospend.pageIsPublic) {
             req.projectid = projectid;
-            url = OC.generateUrl('/apps/payback/addBill');
+            url = OC.generateUrl('/apps/cospend/addBill');
         }
         else {
-            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password+'/bills');
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/bills');
         }
         $.ajax({
             type: 'POST',
@@ -323,7 +323,7 @@
         }).done(function (response) {
             var billid = response;
             // update dict
-            payback.bills[projectid][billid] = {
+            cospend.bills[projectid][billid] = {
                 id: billid,
                 what: what,
                 date: date,
@@ -334,20 +334,20 @@
             for (var i=0; i < owerIds.length; i++) {
                 billOwers.push({id: owerIds[i]});
             }
-            payback.bills[projectid][billid].owers = billOwers;
+            cospend.bills[projectid][billid].owers = billOwers;
 
             // update ui
-            var bill = payback.bills[projectid][billid];
+            var bill = cospend.bills[projectid][billid];
             updateBillItem(projectid, 0, bill);
             updateDisplayedBill(projectid, billid, what, payer_id);
 
             updateProjectBalances(projectid);
 
-            OC.Notification.showTemporary(t('payback', 'Bill created'));
+            OC.Notification.showTemporary(t('cospend', 'Bill created'));
         }).always(function() {
             $('.loading-bill').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('payback', 'Failed to create bill') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('cospend', 'Failed to create bill') + ' ' + response.responseText);
         });
     }
 
@@ -361,15 +361,15 @@
             amount: amount
         };
         var url, type;
-        if (!payback.pageIsPublic) {
+        if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             req.billid = billid;
             type = 'POST';
-            url = OC.generateUrl('/apps/payback/editBill');
+            url = OC.generateUrl('/apps/cospend/editBill');
         }
         else {
             type = 'PUT';
-            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password+'/bills/'+billid);
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/bills/'+billid);
         }
         $.ajax({
             type: type,
@@ -378,29 +378,29 @@
             async: true,
         }).done(function (response) {
             // update dict
-            payback.bills[projectid][billid].what = what;
-            payback.bills[projectid][billid].date = date;
-            payback.bills[projectid][billid].amount = amount;
-            payback.bills[projectid][billid].payer_id = payer_id;
+            cospend.bills[projectid][billid].what = what;
+            cospend.bills[projectid][billid].date = date;
+            cospend.bills[projectid][billid].amount = amount;
+            cospend.bills[projectid][billid].payer_id = payer_id;
             var billOwers = [];
             for (var i=0; i < owerIds.length; i++) {
                 billOwers.push({id: owerIds[i]});
             }
-            payback.bills[projectid][billid].owers = billOwers;
+            cospend.bills[projectid][billid].owers = billOwers;
 
             // update ui
-            var bill = payback.bills[projectid][billid];
+            var bill = cospend.bills[projectid][billid];
             updateBillItem(projectid, billid, bill);
             updateDisplayedBill(projectid, billid, what, payer_id);
 
             updateProjectBalances(projectid);
 
-            OC.Notification.showTemporary(t('payback', 'Saved bill'));
+            OC.Notification.showTemporary(t('cospend', 'Saved bill'));
         }).always(function() {
             $('.loading-bill').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(
-                t('payback', 'Failed to save bill') +
+                t('cospend', 'Failed to save bill') +
                 ' ' + response.responseText
             );
         });
@@ -440,14 +440,14 @@
             password: newPassword
         };
         var url, type;
-        if (!payback.pageIsPublic) {
+        if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             type = 'POST';
-            url = OC.generateUrl('/apps/payback/editProject');
+            url = OC.generateUrl('/apps/cospend/editProject');
         }
         else {
             type = 'PUT';
-            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password);
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
         }
         $.ajax({
             type: type,
@@ -459,25 +459,25 @@
             // update project values
             if (newName) {
                 projectLine.find('>a span').text(newName);
-                payback.projects[projectid].name = newName;
+                cospend.projects[projectid].name = newName;
             }
-            if (payback.pageIsPublic && newPassword) {
-                payback.password = newPassword;
+            if (cospend.pageIsPublic && newPassword) {
+                cospend.password = newPassword;
             }
             // update deleted text
-            var projectName = payback.projects[projectid].name;
+            var projectName = cospend.projects[projectid].name;
             projectLine.find('.app-navigation-entry-deleted-description').text(
-                t('payback', 'Deleted {name}', {name: projectName})
+                t('cospend', 'Deleted {name}', {name: projectName})
             );
             // remove editing mode
             projectLine.removeClass('editing');
             // reset bill edition
             $('#billdetail').html('');
-            OC.Notification.showTemporary(t('payback', 'Saved project'));
+            OC.Notification.showTemporary(t('cospend', 'Saved project'));
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(
-                t('payback', 'Failed to save project') +
+                t('cospend', 'Failed to save project') +
                 ' ' + response.responseText
             );
         });
@@ -492,14 +492,14 @@
         var req = {
         };
         var url, type;
-        if (!payback.pageIsPublic) {
+        if (!cospend.pageIsPublic) {
             req.projectid = id
-            url = OC.generateUrl('/apps/payback/deleteProject');
+            url = OC.generateUrl('/apps/cospend/deleteProject');
             type = 'POST';
         }
         else {
             type = 'DELETE';
-            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password);
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
         }
         $.ajax({
             type: type,
@@ -510,18 +510,18 @@
             $('.projectitem[projectid='+id+']').fadeOut('slow', function() {
                 $(this).remove();
             });
-            if (payback.currentProjectId === id) {
+            if (cospend.currentProjectId === id) {
                 $('#bill-list').html('');
                 $('#billdetail').html('');
             }
-            if (payback.pageIsPublic) {
-                var redirectUrl = OC.generateUrl('/apps/payback/login');
+            if (cospend.pageIsPublic) {
+                var redirectUrl = OC.generateUrl('/apps/cospend/login');
                 window.location.replace(redirectUrl);
             }
-            OC.Notification.showTemporary(t('payback', 'Deleted project {id}', {id: id}));
+            OC.Notification.showTemporary(t('cospend', 'Deleted project {id}', {id: id}));
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('payback', 'Failed to delete project') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('cospend', 'Failed to delete project') + ' ' + response.responseText);
         });
     }
 
@@ -529,15 +529,15 @@
         var req = {
         };
         var url, type;
-        if (!payback.pageIsPublic) {
+        if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             req.billid = billid;
             type = 'POST';
-            url = OC.generateUrl('/apps/payback/deleteBill');
+            url = OC.generateUrl('/apps/cospend/deleteBill');
         }
         else {
             type = 'DELETE';
-            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password+'/bills/'+billid);
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/bills/'+billid);
         }
         $.ajax({
             type: type,
@@ -551,12 +551,12 @@
             $('.billitem[billid='+billid+']').fadeOut('slow', function() {
                 $(this).remove();
             });
-            delete payback.bills[projectid][billid];
+            delete cospend.bills[projectid][billid];
             updateProjectBalances(projectid);
-            OC.Notification.showTemporary(t('payback', 'Deleted bill'));
+            OC.Notification.showTemporary(t('cospend', 'Deleted bill'));
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('payback', 'Failed to delete bill') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('cospend', 'Failed to delete bill') + ' ' + response.responseText);
         });
     }
 
@@ -565,15 +565,15 @@
         };
         var url;
         var type;
-        if (!payback.pageIsPublic) {
-            url = OC.generateUrl('/apps/payback/getProjects');
+        if (!cospend.pageIsPublic) {
+            url = OC.generateUrl('/apps/cospend/getProjects');
             type = 'POST';
         }
         else {
-            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password);
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
             type = 'GET';
         }
-        payback.currentGetProjectsAjax = $.ajax({
+        cospend.currentGetProjectsAjax = $.ajax({
             type: type,
             url: url,
             data: req,
@@ -590,7 +590,7 @@
                 return xhr;
             }
         }).done(function (response) {
-            if (!payback.pageIsPublic) {
+            if (!cospend.pageIsPublic) {
                 for (var i = 0; i < response.length; i++) {
                     addProject(response[i]);
                 }
@@ -598,13 +598,13 @@
             else {
                 addProject(response);
                 $('.projectitem').addClass('open');
-                payback.currentProjectId = payback.projectid;
-                getBills(payback.projectid);
+                cospend.currentProjectId = cospend.projectid;
+                getBills(cospend.projectid);
             }
         }).always(function() {
-            payback.currentGetProjectsAjax = null;
+            cospend.currentGetProjectsAjax = null;
         }).fail(function() {
-            OC.Notification.showTemporary(t('payback', 'Failed to get projects'));
+            OC.Notification.showTemporary(t('cospend', 'Failed to get projects'));
         });
     }
 
@@ -614,16 +614,16 @@
         };
         var url;
         var type;
-        if (!payback.pageIsPublic) {
+        if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             type = 'POST';
-            url = OC.generateUrl('/apps/payback/getStatistics');
+            url = OC.generateUrl('/apps/cospend/getStatistics');
         }
         else {
             type = 'GET';
-            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password+'/statistics');
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/statistics');
         }
-        payback.currentGetProjectsAjax = $.ajax({
+        cospend.currentGetProjectsAjax = $.ajax({
             type: type,
             url: url,
             data: req,
@@ -632,7 +632,7 @@
             displayStatistics(projectid, response);
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('payback', 'Failed to get statistics'));
+            OC.Notification.showTemporary(t('cospend', 'Failed to get statistics'));
             $('#billdetail').html('');
         });
     }
@@ -643,16 +643,16 @@
         };
         var url;
         var type;
-        if (!payback.pageIsPublic) {
+        if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             type = 'POST';
-            url = OC.generateUrl('/apps/payback/getSettlement');
+            url = OC.generateUrl('/apps/cospend/getSettlement');
         }
         else {
             type = 'GET';
-            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password+'/settle');
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/settle');
         }
-        payback.currentGetProjectsAjax = $.ajax({
+        cospend.currentGetProjectsAjax = $.ajax({
             type: type,
             url: url,
             data: req,
@@ -661,7 +661,7 @@
             displaySettlement(projectid, response);
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('payback', 'Failed to get settlement'));
+            OC.Notification.showTemporary(t('cospend', 'Failed to get settlement'));
             $('#billdetail').html('');
         });
     }
@@ -673,10 +673,10 @@
         var projectName = getProjectName(projectid);
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
-        var titleStr = t('payback', 'Settlement of project {name}', {name: projectName});
-        var fromStr = t('payback', 'Who pays?');
-        var toStr = t('payback', 'To whom?');
-        var howMuchStr = t('payback', 'How much?');
+        var titleStr = t('cospend', 'Settlement of project {name}', {name: projectName});
+        var fromStr = t('cospend', 'Who pays?');
+        var toStr = t('cospend', 'To whom?');
+        var howMuchStr = t('cospend', 'How much?');
         var settlementStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 id="settlementTitle">'+titleStr+'</h2>' +
             '<table id="settlementTable"><thead>' +
@@ -707,11 +707,11 @@
         var projectName = getProjectName(projectid);
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
-        var titleStr = t('payback', 'Statistics of project {name}', {name: projectName});
-        var nameStr = t('payback', 'Member name');
-        var paidStr = t('payback', 'Paid');
-        var spentStr = t('payback', 'Spent');
-        var balanceStr = t('payback', 'Balance');
+        var titleStr = t('cospend', 'Statistics of project {name}', {name: projectName});
+        var nameStr = t('cospend', 'Member name');
+        var paidStr = t('cospend', 'Paid');
+        var spentStr = t('cospend', 'Spent');
+        var balanceStr = t('cospend', 'Balance');
         var statsStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 id="statsTitle">'+titleStr+'</h2>' +
             '<table id="statsTable"><thead>' +
@@ -750,23 +750,23 @@
         var req = {};
         var url;
         var type;
-        if (!payback.pageIsPublic) {
-            url = OC.generateUrl('/apps/payback/getBills');
+        if (!cospend.pageIsPublic) {
+            url = OC.generateUrl('/apps/cospend/getBills');
             type = 'POST';
             req.projectid = projectid;
         }
         else {
-            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password+'/bills');
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/bills');
             type = 'GET';
         }
-        payback.currentGetProjectsAjax = $.ajax({
+        cospend.currentGetProjectsAjax = $.ajax({
             type: type,
             url: url,
             data: req,
             async: true,
         }).done(function (response) {
             $('#bill-list').html('');
-            payback.bills[projectid] = {};
+            cospend.bills[projectid] = {};
             if (response.length > 0) {
                 var bill;
                 for (var i = 0; i < response.length; i++) {
@@ -775,17 +775,17 @@
                 }
             }
             else {
-                $('#bill-list').html('<h2 class="nobill">'+t('payback', 'No bill yet')+'</h2>');
+                $('#bill-list').html('<h2 class="nobill">'+t('cospend', 'No bill yet')+'</h2>');
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('payback', 'Failed to get bills'));
+            OC.Notification.showTemporary(t('cospend', 'Failed to get bills'));
             $('#bill-list').html('');
         });
     }
 
     function getProjectName(projectid) {
-        return payback.projects[projectid].name;
+        return cospend.projects[projectid].name;
     }
 
     function updateDisplayedBill(projectid, billid, what, payer_id) {
@@ -797,7 +797,7 @@
             c = getMemberColor(payerName);
         }
         $('.bill-title').text(
-            t('payback', 'Bill "{what}" of project {proj}', {what: what, proj: projectName})
+            t('cospend', 'Bill "{what}" of project {proj}', {what: what, proj: projectName})
         );
         $('.bill-title').attr('style', 'background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);');
     }
@@ -807,7 +807,7 @@
         $('.billitem').removeClass('selectedbill');
         $('.billitem[billid='+billid+']').addClass('selectedbill');
 
-        var bill = payback.bills[projectid][billid];
+        var bill = cospend.bills[projectid][billid];
         var projectName = getProjectName(projectid);
 
         var owers = bill.owers;
@@ -821,8 +821,8 @@
         var payerOptions = '';
         var member;
         var selected, checked, readonly;
-        for (var memberid in payback.members[projectid]) {
-            member = payback.members[projectid][memberid];
+        for (var memberid in cospend.members[projectid]) {
+            member = cospend.members[projectid][memberid];
             // payer
             selected = '';
             if (member.id === bill.payer_id) {
@@ -853,7 +853,7 @@
         var payerDisabled = '';
         if (billid !== 0) {
             // disable payer select if bill is not new
-            if (!payback.members[projectid][bill.payer_id].activated) {
+            if (!cospend.members[projectid][bill.payer_id].activated) {
                 payerDisabled = ' disabled';
             }
             var payerName = getMemberName(projectid, bill.payer_id);
@@ -861,14 +861,14 @@
         }
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
-        var whatStr = t('payback', 'What?');
-        var amountStr = t('payback', 'How much?');
-        var payerStr = t('payback', 'Who payed?');
-        var dateStr = t('payback', 'When?');
-        var owersStr = t('payback', 'For whom?');
-        var titleStr = t('payback', 'Bill "{what}" of project {proj}', {what: bill.what, proj: projectName});
-        var allStr = t('payback', 'All');
-        var noneStr = t('payback', 'None');
+        var whatStr = t('cospend', 'What?');
+        var amountStr = t('cospend', 'How much?');
+        var payerStr = t('cospend', 'Who payed?');
+        var dateStr = t('cospend', 'When?');
+        var owersStr = t('cospend', 'For whom?');
+        var titleStr = t('cospend', 'Bill "{what}" of project {proj}', {what: bill.what, proj: projectName});
+        var allStr = t('cospend', 'All');
+        var noneStr = t('cospend', 'None');
         var detail =
             '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 class="bill-title" projectid="'+projectid+'" billid="'+bill.id+'" style="background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);">' +
@@ -926,7 +926,7 @@
 
     function getMemberName(projectid, memberid) {
         //var memberName = $('.projectitem[projectid='+projectid+'] .memberlist > li[memberid='+memberid+'] b.memberName').text();
-        var memberName = payback.members[projectid][memberid].name;
+        var memberName = cospend.members[projectid][memberid].name;
         return memberName;
     }
 
@@ -948,14 +948,14 @@
     }
 
     function addBill(projectid, bill) {
-        payback.bills[projectid][bill.id] = bill;
+        cospend.bills[projectid][bill.id] = bill;
 
         var owerNames = '';
         var ower;
         for (var i=0; i < bill.owers.length; i++) {
             ower = bill.owers[i];
-            if (!payback.members[projectid].hasOwnProperty(ower.id)) {
-                reload(t('payback', 'Member list is not up to date. Reloading in 5 sec.'));
+            if (!cospend.members[projectid].hasOwnProperty(ower.id)) {
+                reload(t('cospend', 'Member list is not up to date. Reloading in 5 sec.'));
                 return;
             }
             owerNames = owerNames + getMemberName(projectid, ower.id) + ', ';
@@ -966,8 +966,8 @@
         var memberFirstLetter;
         var c;
         if (bill.id !== 0) {
-            if (!payback.members[projectid].hasOwnProperty(bill.payer_id)) {
-                reload(t('payback', 'Member list is not up to date. Reloading in 5 sec.'));
+            if (!cospend.members[projectid].hasOwnProperty(bill.payer_id)) {
+                reload(t('cospend', 'Member list is not up to date. Reloading in 5 sec.'));
                 return;
             }
             memberName = getMemberName(projectid, bill.payer_id);
@@ -998,16 +998,16 @@
         };
         var url;
         var type;
-        if (!payback.pageIsPublic) {
+        if (!cospend.pageIsPublic) {
             req.projectid = projectid;
-            url = OC.generateUrl('/apps/payback/getProjectInfo');
+            url = OC.generateUrl('/apps/cospend/getProjectInfo');
             type = 'POST';
         }
         else {
-            url = OC.generateUrl('/apps/payback/api/projects/'+payback.projectid+'/'+payback.password);
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
             type = 'GET';
         }
-        payback.currentGetProjectsAjax = $.ajax({
+        cospend.currentGetProjectsAjax = $.ajax({
             type: type,
             url: url,
             data: req,
@@ -1033,33 +1033,33 @@
                 else {
                     balanceField.text(balance.toFixed(2));
                     // hide member if balance == 0 and disabled
-                    if (!payback.members[projectid][memberid].activated) {
+                    if (!cospend.members[projectid][memberid].activated) {
                         $('.memberitem[memberid='+memberid+']').addClass('invisibleMember');
                     }
                 }
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('payback', 'Failed to update balances'));
+            OC.Notification.showTemporary(t('cospend', 'Failed to update balances'));
         });
     }
 
     function addProject(project) {
-        payback.projects[project.id] = project;
-        payback.members[project.id] = {};
+        cospend.projects[project.id] = project;
+        cospend.members[project.id] = {};
 
         var name = project.name;
         var projectid = project.id;
-        var addMemberStr = t('payback', 'Add member');
-        var guestAccessStr = t('payback', 'Guest access link');
-        var renameStr = t('payback', 'Rename');
-        var changePwdStr = t('payback', 'Change password');
-        var displayStatsStr = t('payback', 'Display statistics');
-        var settleStr = t('payback', 'Settle the project');
-        var deleteStr = t('payback', 'Delete');
-        var deletedStr = t('payback', 'Deleted {name}', {name: name});
-        var extProjUrl = OC.generateUrl('/apps/payback/loginproject/'+projectid);
-        var shareTitle = t('payback', 'Press enter to validate');
+        var addMemberStr = t('cospend', 'Add member');
+        var guestAccessStr = t('cospend', 'Guest access link');
+        var renameStr = t('cospend', 'Rename');
+        var changePwdStr = t('cospend', 'Change password');
+        var displayStatsStr = t('cospend', 'Display statistics');
+        var settleStr = t('cospend', 'Settle the project');
+        var deleteStr = t('cospend', 'Delete');
+        var deletedStr = t('cospend', 'Deleted {name}', {name: name});
+        var extProjUrl = OC.generateUrl('/apps/cospend/loginproject/'+projectid);
+        var shareTitle = t('cospend', 'Press enter to validate');
         extProjUrl = window.location.protocol + '//' + window.location.hostname + extProjUrl;
         var li =
             '<li class="projectitem collapsible" projectid="'+projectid+'">' +
@@ -1149,11 +1149,11 @@
         $(li).appendTo('#projectlist');
 
         // select project if it was the last selected (option restore on page load)
-        if (payback.restoredSelectedProjectId === projectid) {
+        if (cospend.restoredSelectedProjectId === projectid) {
             selectProject($('.projectitem[projectid='+projectid+']'));
         }
 
-        if (payback.pageIsPublic) {
+        if (cospend.pageIsPublic) {
             $('.projectitem[projectid='+projectid+'] .shareProjectButton').hide();
         }
 
@@ -1171,7 +1171,7 @@
         }
 
         // set selected project
-        if (payback.restoredSelectedProjectId === projectid) {
+        if (cospend.restoredSelectedProjectId === projectid) {
             $('.projectitem').removeClass('selectedproject');
             $('.projectitem[projectid='+projectid+']').addClass('selectedproject');
             $('.app-navigation-entry-utils-counter').removeClass('highlighted');
@@ -1181,7 +1181,7 @@
 
     function addMember(projectid, member, balance) {
         // add member to dict
-        payback.members[projectid][member.id] = member;
+        cospend.members[projectid][member.id] = member;
 
         var invisibleClass = '';
         var balanceStr;
@@ -1203,19 +1203,19 @@
         if (member.activated) {
             iconStr = 'icon-user';
             iconToggleStr = 'icon-delete';
-            toggleStr = t('payback', 'Deactivate');
+            toggleStr = t('cospend', 'Deactivate');
             imgurl = OC.generateUrl('/svg/core/actions/user?color='+rgbC);
         }
         else {
             iconStr = 'icon-disabled-user';
             iconToggleStr = 'icon-history';
-            toggleStr = t('payback', 'Reactivate');
+            toggleStr = t('cospend', 'Reactivate');
             imgurl = OC.generateUrl('/svg/core/actions/disabled-user?color='+rgbC);
         }
 
 
-        var renameStr = t('payback', 'Rename');
-        var changeWeightStr = t('payback', 'Change weight');
+        var renameStr = t('cospend', 'Rename');
+        var changeWeightStr = t('cospend', 'Change weight');
         var li =
             '<li memberid="'+member.id+'" class="memberitem'+invisibleClass+'">' +
             '    <a class="'+iconStr+'" style="background-image: url('+imgurl+')" href="#">' +
@@ -1314,17 +1314,17 @@
         }
         else {
             if (billid !== '0') {
-                OC.Notification.showTemporary(t('payback', 'Bill values are not valid'));
+                OC.Notification.showTemporary(t('cospend', 'Bill values are not valid'));
             }
         }
     }
 
     function saveOptionValue(optionValues) {
-        if (!payback.pageIsPublic) {
+        if (!cospend.pageIsPublic) {
             var req = {
                 options: optionValues
             };
-            var url = OC.generateUrl('/apps/payback/saveOptionValue');
+            var url = OC.generateUrl('/apps/cospend/saveOptionValue');
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -1333,7 +1333,7 @@
             }).done(function (response) {
             }).fail(function() {
                 OC.Notification.showTemporary(
-                    t('payback', 'Failed to save option values')
+                    t('cospend', 'Failed to save option values')
                 );
             });
         }
@@ -1341,7 +1341,7 @@
 
     function restoreOptions() {
         var mom;
-        var url = OC.generateUrl('/apps/payback/getOptionsValues');
+        var url = OC.generateUrl('/apps/cospend/getOptionsValues');
         var req = {
         };
         var optionsValues = {};
@@ -1355,7 +1355,7 @@
             if (optionsValues) {
                 for (var k in optionsValues) {
                     if (k === 'selectedProject') {
-                        payback.restoredSelectedProjectId = optionsValues[k];
+                        cospend.restoredSelectedProjectId = optionsValues[k];
                     }
                 }
             }
@@ -1363,7 +1363,7 @@
             main();
         }).fail(function() {
             OC.Notification.showTemporary(
-                t('payback', 'Failed to restore options values')
+                t('cospend', 'Failed to restore options values')
             );
         });
     }
@@ -1371,14 +1371,14 @@
     function addUserAutocompletion(input) {
         var req = {
         };
-        var url = OC.generateUrl('/apps/payback/getUserList');
+        var url = OC.generateUrl('/apps/cospend/getUserList');
         $.ajax({
             type: 'POST',
             url: url,
             data: req,
             async: true
         }).done(function (response) {
-            payback.userIdName = response.users;
+            cospend.userIdName = response.users;
             var nameList = [];
             var name;
             for (var id in response.users) {
@@ -1389,7 +1389,7 @@
                 source: nameList
             });
         }).fail(function() {
-            OC.Notification.showTemporary(t('payback', 'Failed to get user list'));
+            OC.Notification.showTemporary(t('cospend', 'Failed to get user list'));
         });
     }
 
@@ -1399,7 +1399,7 @@
             projectid: projectid,
             userid: userid
         };
-        var url = OC.generateUrl('/apps/payback/addUserShare');
+        var url = OC.generateUrl('/apps/cospend/addUserShare');
         $.ajax({
             type: 'POST',
             url: url,
@@ -1408,11 +1408,11 @@
         }).done(function (response) {
             addUserShare(projectid, userid, username);
             var projectname = getProjectName(projectid);
-            OC.Notification.showTemporary(t('payback', 'Shared project {pname} with {uname}', {pname: projectname, uname: username}));
+            OC.Notification.showTemporary(t('cospend', 'Shared project {pname} with {uname}', {pname: projectname, uname: username}));
         }).always(function() {
             $('.projectitem[projectid='+projectid+']').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('payback', 'Failed to add user share') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('cospend', 'Failed to add user share') + ' ' + response.responseText);
         });
     }
 
@@ -1430,7 +1430,7 @@
             projectid: projectid,
             userid: userid
         };
-        var url = OC.generateUrl('/apps/payback/deleteUserShare');
+        var url = OC.generateUrl('/apps/cospend/deleteUserShare');
         $.ajax({
             type: 'POST',
             url: url,
@@ -1444,7 +1444,7 @@
         }).always(function() {
             $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[userid=' + userid + '] .deleteUserShareButton').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('payback', 'Failed to delete user share') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('cospend', 'Failed to delete user share') + ' ' + response.responseText);
         });
     }
 
@@ -1456,7 +1456,7 @@
             var projectid = projectitem.attr('projectid');
 
             saveOptionValue({selectedProject: projectid});
-            payback.currentProjectId = projectid;
+            cospend.currentProjectId = projectid;
             $('.projectitem').removeClass('selectedproject');
             $('.projectitem[projectid='+projectid+']').addClass('selectedproject');
             $('.app-navigation-entry-utils-counter').removeClass('highlighted');
@@ -1468,16 +1468,16 @@
     }
 
     $(document).ready(function() {
-        payback.pageIsPublic = (document.URL.indexOf('/payback/project') !== -1);
-        if ( !payback.pageIsPublic ) {
+        cospend.pageIsPublic = (document.URL.indexOf('/cospend/project') !== -1);
+        if ( !cospend.pageIsPublic ) {
             restoreOptions();
         }
         else {
             //restoreOptionsFromUrlParams();
             $('#newprojectbutton').hide();
-            payback.projectid = $('#projectid').text();
-            payback.password = $('#password').text();
-            payback.restoredSelectedProjectId = payback.projectid;
+            cospend.projectid = $('#projectid').text();
+            cospend.password = $('#password').text();
+            cospend.restoredSelectedProjectId = cospend.projectid;
             $('#projectid').html('');
             $('#password').html('');
             main();
@@ -1508,8 +1508,8 @@
                 var projectid = $(this).parent().parent().parent().attr('projectid');
                 var username = $(this).val();
                 var userId = '';
-                for (var id in payback.userIdName) {
-                    if (username === payback.userIdName[id]) {
+                for (var id in cospend.userIdName) {
+                    if (username === cospend.userIdName[id]) {
                         userId = id;
                         break;
                     }
@@ -1531,7 +1531,7 @@
             }
             else {
                 shareDiv.slideDown();
-                var defaultShareText = t('payback', 'userName');
+                var defaultShareText = t('cospend', 'userName');
                 $(this).parent().parent().parent().find('.shareinput').val(defaultShareText).focus().select();
             }
         });
@@ -1580,7 +1580,7 @@
                     createProject(id, name, password);
                 }
                 else {
-                    OC.Notification.showTemporary(t('payback', 'Invalid values'));
+                    OC.Notification.showTemporary(t('cospend', 'Invalid values'));
                 }
             }
         });
@@ -1593,14 +1593,14 @@
                 createProject(id, name, password);
             }
             else {
-                OC.Notification.showTemporary(t('payback', 'Invalid values'));
+                OC.Notification.showTemporary(t('cospend', 'Invalid values'));
             }
         });
 
         $('body').on('click', '.deleteProject', function(e) {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
             $(this).parent().parent().parent().parent().addClass('deleted');
-            payback.projectDeletionTimer[projectid] = new Timer(function() {
+            cospend.projectDeletionTimer[projectid] = new Timer(function() {
                 deleteProject(projectid);
             }, 7000);
         });
@@ -1608,8 +1608,8 @@
         $('body').on('click', '.undoDeleteProject', function(e) {
             var projectid = $(this).parent().parent().attr('projectid');
             $(this).parent().parent().removeClass('deleted');
-            payback.projectDeletionTimer[projectid].pause();
-            delete payback.projectDeletionTimer[projectid];
+            cospend.projectDeletionTimer[projectid].pause();
+            delete cospend.projectDeletionTimer[projectid];
         });
 
         $('body').on('click', '.addMember', function(e) {
@@ -1618,7 +1618,7 @@
 
             var newmemberdiv = $('.projectitem[projectid='+projectid+'] .newmemberdiv');
             newmemberdiv.show().attr('style', 'display: inline-flex;');
-            var defaultMemberName = t('payback', 'newMemberName');
+            var defaultMemberName = t('cospend', 'newMemberName');
             newmemberdiv.find('.newmembername').val(defaultMemberName).focus().select();
         });
 
@@ -1629,7 +1629,7 @@
                 createMember(projectid, name);
             }
             else {
-                OC.Notification.showTemporary(t('payback', 'Invalid values'));
+                OC.Notification.showTemporary(t('cospend', 'Invalid values'));
             }
         });
 
@@ -1641,7 +1641,7 @@
                     createMember(projectid, name);
                 }
                 else {
-                    OC.Notification.showTemporary(t('payback', 'Invalid values'));
+                    OC.Notification.showTemporary(t('cospend', 'Invalid values'));
                 }
             }
         });
@@ -1652,7 +1652,7 @@
             $(this).parent().parent().parent().parent().find('.editMemberInput').val(name).focus().select();
             $('.memberlist li').removeClass('editing');
             $(this).parent().parent().parent().parent().addClass('editing');
-            payback.memberEditionMode = MEMBER_NAME_EDITION;
+            cospend.memberEditionMode = MEMBER_NAME_EDITION;
         });
 
         $('body').on('click', '.editWeightMember', function(e) {
@@ -1661,7 +1661,7 @@
             $(this).parent().parent().parent().parent().find('.editMemberInput').val(weight).focus().select();
             $('.memberlist li').removeClass('editing');
             $(this).parent().parent().parent().parent().addClass('editing');
-            payback.memberEditionMode = MEMBER_WEIGHT_EDITION;
+            cospend.memberEditionMode = MEMBER_WEIGHT_EDITION;
         });
 
         $('body').on('click', '.editMemberClose', function(e) {
@@ -1672,11 +1672,11 @@
             if (e.key === 'Enter') {
                 var memberid = $(this).parent().parent().parent().attr('memberid');
                 var projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
-                if (payback.memberEditionMode === MEMBER_NAME_EDITION) {
+                if (cospend.memberEditionMode === MEMBER_NAME_EDITION) {
                     var newName = $(this).val();
                     editMember(projectid, memberid, newName, null, null);
                 }
-                else if (payback.memberEditionMode === MEMBER_WEIGHT_EDITION) {
+                else if (cospend.memberEditionMode === MEMBER_WEIGHT_EDITION) {
                     var newWeight = $(this).val();
                     var newName = $(this).parent().parent().parent().find('b.memberName').text();
                     editMember(projectid, memberid, newName, newWeight, null);
@@ -1687,11 +1687,11 @@
         $('body').on('click', '.editMemberOk', function(e) {
             var memberid = $(this).parent().parent().parent().attr('memberid');
             var projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
-            if (payback.memberEditionMode === MEMBER_NAME_EDITION) {
+            if (cospend.memberEditionMode === MEMBER_NAME_EDITION) {
                 var newName = $(this).parent().find('.editMemberInput').val();
                 editMember(projectid, memberid, newName, null, null);
             }
-            else if (payback.memberEditionMode === MEMBER_WEIGHT_EDITION) {
+            else if (cospend.memberEditionMode === MEMBER_WEIGHT_EDITION) {
                 var newWeight = $(this).parent().find('.editMemberInput').val();
                 var newName = $(this).parent().parent().parent().find('b.memberName').text();
                 editMember(projectid, memberid, newName, newWeight, null);
@@ -1712,7 +1712,7 @@
             $(this).parent().parent().parent().parent().find('.editProjectInput').val(name).attr('type', 'text').focus().select();
             $('#projectlist > li').removeClass('editing');
             $(this).parent().parent().parent().parent().removeClass('open').addClass('editing');
-            payback.projectEditionMode = PROJECT_NAME_EDITION;
+            cospend.projectEditionMode = PROJECT_NAME_EDITION;
         });
 
         $('body').on('click', '.editProjectPassword', function(e) {
@@ -1720,7 +1720,7 @@
             $(this).parent().parent().parent().parent().find('.editProjectInput').attr('type', 'password').val('').focus();
             $('#projectlist > li').removeClass('editing');
             $(this).parent().parent().parent().parent().removeClass('open').addClass('editing');
-            payback.projectEditionMode = PROJECT_PASSWORD_EDITION;
+            cospend.projectEditionMode = PROJECT_PASSWORD_EDITION;
         });
 
         $('body').on('click', '.editProjectClose', function(e) {
@@ -1730,11 +1730,11 @@
         $('body').on('keyup', '.editProjectInput', function(e) {
             if (e.key === 'Enter') {
                 var projectid = $(this).parent().parent().parent().attr('projectid');
-                if (payback.projectEditionMode === PROJECT_NAME_EDITION) {
+                if (cospend.projectEditionMode === PROJECT_NAME_EDITION) {
                     var newName = $(this).val();
                     editProject(projectid, newName, null, null);
                 }
-                else if (payback.projectEditionMode === PROJECT_PASSWORD_EDITION) {
+                else if (cospend.projectEditionMode === PROJECT_PASSWORD_EDITION) {
                     var newPassword = $(this).val();
                     var newName = $(this).parent().parent().parent().find('>a span').text();
                     editProject(projectid, newName, null, newPassword);
@@ -1744,11 +1744,11 @@
 
         $('body').on('click', '.editProjectOk', function(e) {
             var projectid = $(this).parent().parent().parent().attr('projectid');
-            if (payback.projectEditionMode === PROJECT_NAME_EDITION) {
+            if (cospend.projectEditionMode === PROJECT_NAME_EDITION) {
                 var newName = $(this).parent().find('.editProjectInput').val();
                 editProject(projectid, newName, null, null);
             }
-            else if (payback.projectEditionMode === PROJECT_PASSWORD_EDITION) {
+            else if (cospend.projectEditionMode === PROJECT_PASSWORD_EDITION) {
                 var newPassword = $(this).parent().find('.editProjectInput').val();
                 var newName = $(this).parent().parent().parent().find('>a span').text();
                 editProject(projectid, newName, null, newPassword);
@@ -1775,8 +1775,8 @@
 
         $('body').on('click', '#owerAll', function(e) {
             var projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
-            for (var memberid in payback.members[projectid]) {
-                if (payback.members[projectid][memberid].activated) {
+            for (var memberid in cospend.members[projectid]) {
+                if (cospend.members[projectid][memberid].activated) {
                     $('.bill-owers input[owerid='+memberid+']').prop('checked', true);
                 }
             }
@@ -1786,8 +1786,8 @@
 
         $('body').on('click', '#owerNone', function(e) {
             var projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
-            for (var memberid in payback.members[projectid]) {
-                if (payback.members[projectid][memberid].activated) {
+            for (var memberid in cospend.members[projectid]) {
+                if (cospend.members[projectid][memberid].activated) {
                     $('.bill-owers input[owerid='+memberid+']').prop('checked', false);
                 }
             }
@@ -1797,8 +1797,8 @@
 
         $('body').on('click', '.undoDeleteBill', function(e) {
             var billid = $(this).parent().attr('billid');
-            payback.billDeletionTimer[billid].pause();
-            delete payback.billDeletionTimer[billid];
+            cospend.billDeletionTimer[billid].pause();
+            delete cospend.billDeletionTimer[billid];
             $(this).parent().find('.deleteBillIcon').show();
             $(this).parent().removeClass('deleted');
             $(this).hide();
@@ -1811,7 +1811,7 @@
                 $(this).parent().find('.undoDeleteBill').show();
                 $(this).parent().addClass('deleted');
                 $(this).hide();
-                payback.billDeletionTimer[billid] = new Timer(function() {
+                cospend.billDeletionTimer[billid] = new Timer(function() {
                     deleteBill(projectid, billid);
                 }, 7000);
             }
@@ -1826,18 +1826,18 @@
         });
 
         $('body').on('click', '#newBillButton', function(e) {
-            var projectid = payback.currentProjectId;
+            var projectid = cospend.currentProjectId;
             var activatedMembers = [];
-            for (var mid in payback.members[projectid]) {
-                if (payback.members[projectid][mid].activated) {
+            for (var mid in cospend.members[projectid]) {
+                if (cospend.members[projectid][mid].activated) {
                     activatedMembers.push(mid);
                 }
             }
             if (activatedMembers.length > 1) {
-                if (payback.currentProjectId !== null && $('.billitem[billid=0]').length === 0) {
+                if (cospend.currentProjectId !== null && $('.billitem[billid=0]').length === 0) {
                     var bill = {
                         id: 0,
-                        what: t('payback', 'New Bill'),
+                        what: t('cospend', 'New Bill'),
                         date: moment().format('YYYY-MM-DD'),
                         amount: 0.0,
                         payer_id: 0,
@@ -1848,7 +1848,7 @@
                 }
             }
             else {
-                OC.Notification.showTemporary(t('payback', '2 active members are required to create a bill'));
+                OC.Notification.showTemporary(t('cospend', '2 active members are required to create a bill'));
             }
         });
 
@@ -1857,14 +1857,14 @@
         });
 
         $('#statsButton').click(function() {
-            if (payback.currentProjectId !== null) {
-                getProjectStatistics(payback.currentProjectId);
+            if (cospend.currentProjectId !== null) {
+                getProjectStatistics(cospend.currentProjectId);
             }
         });
 
         $('#settleButton').click(function() {
-            if (payback.currentProjectId !== null) {
-                getProjectSettlement(payback.currentProjectId);
+            if (cospend.currentProjectId !== null) {
+                getProjectSettlement(cospend.currentProjectId);
             }
         });
 
@@ -1880,25 +1880,25 @@
 
         $('body').on('click', '.copyExtProjectUrl', function() {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
-            var guestLink = OC.generateUrl('/apps/payback/loginproject/'+projectid);
+            var guestLink = OC.generateUrl('/apps/cospend/loginproject/'+projectid);
             guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
             var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select()
             document.execCommand('copy');
             $('#dummycopy').remove();
-            OC.Notification.showTemporary(t('payback', 'Guest link for \'{pid}\' copied to clipboard', {pid: projectid}));
+            OC.Notification.showTemporary(t('cospend', 'Guest link for \'{pid}\' copied to clipboard', {pid: projectid}));
         });
 
-        var guestLink = OC.generateUrl('/apps/payback/login');
+        var guestLink = OC.generateUrl('/apps/cospend/login');
         guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
         $('#generalGuestLinkButton').attr('title', guestLink);
 
         $('body').on('click', '#generalGuestLinkButton', function() {
-            var guestLink = OC.generateUrl('/apps/payback/login');
+            var guestLink = OC.generateUrl('/apps/cospend/login');
             guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
             var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select()
             document.execCommand('copy');
             $('#dummycopy').remove();
-            OC.Notification.showTemporary(t('payback', 'Guest link copied to clipboard'));
+            OC.Notification.showTemporary(t('cospend', 'Guest link copied to clipboard'));
         });
 
         $('body').on('click', '#app-details-toggle', function() {

@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <info>
-    <id>payback</id>
-    <name>Payback</name>
+    <id>cospend</id>
+    <name>Cospend</name>
     <summary lang="en">Shared budget manager</summary>
     <description>
-# Nextcloud Payback
+# Nextcloud Cospend
 
-Nextcloud Payback is a group/shared budget manager.
+Nextcloud Cospend is a group/shared budget manager.
 It was inspired by the great [IHateMoney](https://github.com/spiral-project/ihatemoney/).
 
 You can use it when you share a house, when you go in vacation with friends, whenever you share money with others.
@@ -35,11 +35,11 @@ This app is tested on Nextcloud 15 with Firefox 57+ and Chromium.
 
 This app is under development.
 
-🌍 Help us to translate this app on [Nextcloud-Payback/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
+🌍 Help us to translate this app on [Nextcloud-Cospend/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/payback-nc/blob/master/CONTRIBUTING.md).
+⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
-Link to Nextcloud application website : https://apps.nextcloud.com/apps/payback
+Link to Nextcloud application website : https://apps.nextcloud.com/apps/cospend
 
 ## Donation
 
@@ -50,11 +50,11 @@ I develop this app during my free time.
 
 ## Install
 
-See the [AdminDoc](https://gitlab.com/eneiluj/payback-nc/wikis/admindoc) for installation details.
+See the [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc) for installation details.
 
-Check [CHANGELOG](https://gitlab.com/eneiluj/payback-nc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
+Check [CHANGELOG](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
 
-Check [AUTHORS](https://gitlab.com/eneiluj/payback-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+Check [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
 
 ## Known issues
 
@@ -63,22 +63,22 @@ Check [AUTHORS](https://gitlab.com/eneiluj/payback-nc/blob/master/AUTHORS.md#aut
 Any feedback will be appreciated.
 
     </description>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <licence>agpl</licence>
     <author mail="eneiluj@posteo.net">Julien Veyssier</author>
-    <namespace>Payback</namespace>
+    <namespace>Cospend</namespace>
     <documentation>
-        <user>https://gitlab.com/eneiluj/payback-nc/wikis/userdoc</user>
-        <admin>https://gitlab.com/eneiluj/payback-nc/wikis/admindoc</admin>
-        <developer>https://gitlab.com/eneiluj/payback-nc/wikis/devdoc</developer>
+        <user>https://gitlab.com/eneiluj/cospend-nc/wikis/userdoc</user>
+        <admin>https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc</admin>
+        <developer>https://gitlab.com/eneiluj/cospend-nc/wikis/devdoc</developer>
     </documentation>
     <category>tools</category>
     <category>organization</category>
-    <website>https://gitlab.com/eneiluj/payback-nc</website>
-    <bugs>https://gitlab.com/eneiluj/payback-nc/issues</bugs>
-    <screenshot>https://gitlab.com/eneiluj/payback-nc/wikis/uploads/044d9700ac6f7e1f965df4336f09b4ef/payb1.png</screenshot>
-    <screenshot>https://gitlab.com/eneiluj/payback-nc/wikis/uploads/8803d3fa32322e95d31cdd63c4cb3efd/payb2.png</screenshot>
-    <screenshot>https://gitlab.com/eneiluj/payback-nc/wikis/uploads/7cb6c83f0214ba5bb27b3abf5286c221/payb3.png</screenshot>
+    <website>https://gitlab.com/eneiluj/cospend-nc</website>
+    <bugs>https://gitlab.com/eneiluj/cospend-nc/issues</bugs>
+    <screenshot>https://gitlab.com/eneiluj/cospend-nc/wikis/uploads/044d9700ac6f7e1f965df4336f09b4ef/payb1.png</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/cospend-nc/wikis/uploads/8803d3fa32322e95d31cdd63c4cb3efd/payb2.png</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/cospend-nc/wikis/uploads/7cb6c83f0214ba5bb27b3abf5286c221/payb3.png</screenshot>
     <dependencies>
         <database min-version="9.4">pgsql</database>
         <database>sqlite</database>
@@ -86,6 +86,6 @@ Any feedback will be appreciated.
         <nextcloud min-version="15.0" max-version="15.9"/>
     </dependencies>
     <settings>
-        <admin>OCA\Payback\Settings\Admin</admin>
+        <admin>OCA\Cospend\Settings\Admin</admin>
     </settings>
 </info>

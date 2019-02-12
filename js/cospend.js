@@ -545,11 +545,15 @@
             data: req,
             async: true,
         }).done(function (response) {
+            // if the deleted bill was displayed in details, empty detail
             if ($('#billdetail .bill-title').length > 0 && $('#billdetail .bill-title').attr('billid') === billid) {
                 $('#billdetail').html('');
             }
             $('.billitem[billid='+billid+']').fadeOut('slow', function() {
                 $(this).remove();
+                if ($('.billitem').length === 0) {
+                    $('#bill-list').html('<h2 class="nobill">'+t('cospend', 'No bill yet')+'</h2>');
+                }
             });
             delete cospend.bills[projectid][billid];
             updateProjectBalances(projectid);
@@ -991,6 +995,8 @@
             '<div class="icon-history undoDeleteBill" style="'+undoDeleteBillStyle+'" title="Undo"></div>' +
             '</a>';
         $(item).prependTo('.app-content-list');
+
+        $('#bill-list .nobill').remove();
     }
 
     function updateProjectBalances(projectid) {
@@ -1821,6 +1827,9 @@
                 }
                 $(this).parent().fadeOut('slow', function() {
                     $(this).remove();
+                    if ($('.billitem').length === 0) {
+                        $('#bill-list').html('<h2 class="nobill">'+t('cospend', 'No bill yet')+'</h2>');
+                    }
                 });
             }
         });

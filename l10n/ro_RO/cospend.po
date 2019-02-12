@@ -1,0 +1,368 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: moneybuster\n"
+"Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
+"POT-Creation-Date: 2019-02-12 02:05+0100\n"
+"PO-Revision-Date: 2019-02-12 01:07\n"
+"Last-Translator: eneiluj <eneiluj@posteo.net>\n"
+"Language-Team: Romanian\n"
+"Language: ro_RO\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);\n"
+"X-Generator: crowdin.com\n"
+"X-Crowdin-Project: moneybuster\n"
+"X-Crowdin-Language: ro\n"
+"X-Crowdin-File: /master/l10n/templates/cospend.pot\n"
+
+#: app.php:27 app.php:48 admin.php:7
+msgid "Cospend"
+msgstr ""
+
+#: admin.js:19
+msgid "Saved Cospend setting"
+msgstr ""
+
+#: admin.js:23
+msgid "Failed to save Cospend setting"
+msgstr ""
+
+#: cospend.js:186
+msgid "Failed to create project"
+msgstr ""
+
+#: cospend.js:221
+msgid "Created member {name}"
+msgstr ""
+
+#: cospend.js:225
+msgid "Failed to add member"
+msgstr ""
+
+#: cospend.js:269 cospend.js:1212
+msgid "Reactivate"
+msgstr ""
+
+#: cospend.js:275 cospend.js:1206
+msgid "Deactivate"
+msgstr ""
+
+#: cospend.js:289
+msgid "Saved member"
+msgstr ""
+
+#: cospend.js:297
+msgid "Failed to save member"
+msgstr ""
+
+#: cospend.js:346
+msgid "Bill created"
+msgstr ""
+
+#: cospend.js:350
+msgid "Failed to create bill"
+msgstr ""
+
+#: cospend.js:398
+msgid "Saved bill"
+msgstr ""
+
+#: cospend.js:403
+msgid "Failed to save bill"
+msgstr ""
+
+#: cospend.js:470 cospend.js:1060
+msgid "Deleted {name}"
+msgstr ""
+
+#: cospend.js:476
+msgid "Saved project"
+msgstr ""
+
+#: cospend.js:480
+msgid "Failed to save project"
+msgstr ""
+
+#: cospend.js:521
+msgid "Deleted project {id}"
+msgstr ""
+
+#: cospend.js:524
+msgid "Failed to delete project"
+msgstr ""
+
+#: cospend.js:556
+msgid "Deleted bill"
+msgstr ""
+
+#: cospend.js:559
+msgid "Failed to delete bill"
+msgstr ""
+
+#: cospend.js:607
+msgid "Failed to get projects"
+msgstr ""
+
+#: cospend.js:635
+msgid "Failed to get statistics"
+msgstr ""
+
+#: cospend.js:664
+msgid "Failed to get settlement"
+msgstr ""
+
+#: cospend.js:676
+msgid "Settlement of project {name}"
+msgstr ""
+
+#: cospend.js:677
+msgid "Who pays?"
+msgstr ""
+
+#: cospend.js:678
+msgid "To whom?"
+msgstr ""
+
+#: cospend.js:679 cospend.js:865
+msgid "How much?"
+msgstr ""
+
+#: cospend.js:710
+msgid "Statistics of project {name}"
+msgstr ""
+
+#: cospend.js:711
+msgid "Member name"
+msgstr ""
+
+#: cospend.js:712
+msgid "Paid"
+msgstr ""
+
+#: cospend.js:713
+msgid "Spent"
+msgstr ""
+
+#: cospend.js:714
+msgid "Balance"
+msgstr ""
+
+#: cospend.js:778
+msgid "No bill yet"
+msgstr ""
+
+#: cospend.js:782
+msgid "Failed to get bills"
+msgstr ""
+
+#: cospend.js:800 cospend.js:869
+msgid "Bill \"{what}\" of project {proj}"
+msgstr ""
+
+#: cospend.js:864
+msgid "What?"
+msgstr ""
+
+#: cospend.js:866
+msgid "Who payed?"
+msgstr ""
+
+#: cospend.js:867
+msgid "When?"
+msgstr ""
+
+#: cospend.js:868
+msgid "For whom?"
+msgstr ""
+
+#: cospend.js:870
+msgid "All"
+msgstr ""
+
+#: cospend.js:871
+msgid "None"
+msgstr ""
+
+#: cospend.js:958 cospend.js:970
+msgid "Member list is not up to date. Reloading in 5 sec."
+msgstr ""
+
+#: cospend.js:1043
+msgid "Failed to update balances"
+msgstr ""
+
+#: cospend.js:1053
+msgid "Add member"
+msgstr ""
+
+#: cospend.js:1054 mainnavigation.php:48
+msgid "Guest access link"
+msgstr ""
+
+#: cospend.js:1055 cospend.js:1217
+msgid "Rename"
+msgstr ""
+
+#: cospend.js:1056
+msgid "Change password"
+msgstr ""
+
+#: cospend.js:1057
+msgid "Display statistics"
+msgstr ""
+
+#: cospend.js:1058
+msgid "Settle the project"
+msgstr ""
+
+#: cospend.js:1059
+msgid "Delete"
+msgstr ""
+
+#: cospend.js:1062
+msgid "Press enter to validate"
+msgstr ""
+
+#: cospend.js:1218
+msgid "Change weight"
+msgstr ""
+
+#: cospend.js:1317
+msgid "Bill values are not valid"
+msgstr ""
+
+#: cospend.js:1336
+msgid "Failed to save option values"
+msgstr ""
+
+#: cospend.js:1366
+msgid "Failed to restore options values"
+msgstr ""
+
+#: cospend.js:1392
+msgid "Failed to get user list"
+msgstr ""
+
+#: cospend.js:1411
+msgid "Shared project {pname} with {uname}"
+msgstr ""
+
+#: cospend.js:1415
+msgid "Failed to add user share"
+msgstr ""
+
+#: cospend.js:1421
+msgid "Shared with {u}"
+msgstr ""
+
+#: cospend.js:1447
+msgid "Failed to delete user share"
+msgstr ""
+
+#: cospend.js:1534
+msgid "userName"
+msgstr ""
+
+#: cospend.js:1583 cospend.js:1596 cospend.js:1632 cospend.js:1644
+msgid "Invalid values"
+msgstr ""
+
+#: cospend.js:1621
+msgid "newMemberName"
+msgstr ""
+
+#: cospend.js:1840
+msgid "New Bill"
+msgstr ""
+
+#: cospend.js:1851
+msgid "2 active members are required to create a bill"
+msgstr ""
+
+#: cospend.js:1888
+msgid "Guest link for '{pid}' copied to clipboard"
+msgstr ""
+
+#: cospend.js:1901
+msgid "Guest link copied to clipboard"
+msgstr ""
+
+#: Notification/Notifier.php:67
+#, php-format
+msgid "User \"%s\" shared Cospend project \"%s\" with you."
+msgstr ""
+
+#: Notification/Notifier.php:75
+#, php-format
+msgid "User \"%s\" stopped sharing Cospend project \"%s\" with you."
+msgstr ""
+
+#: admin.php:8 admin.php:17
+msgid "Allow guests to create projects"
+msgstr ""
+
+#: admin.php:9
+msgid "Enabling this option will allow any visitor to create a project without having to log in."
+msgstr ""
+
+#: admin.php:10
+msgid "This can be useful if you are in a local network and want to let anybody create a project."
+msgstr ""
+
+#: admin.php:11
+msgid "Or maybe you are very generous and want to allow the entire world to use Cospend without having an account on your Nextcloud instance."
+msgstr ""
+
+#: logincontent.php:2
+msgid "Authentication"
+msgstr ""
+
+#: logincontent.php:7
+msgid "Wrong project Id or password"
+msgstr ""
+
+#: logincontent.php:12
+msgid "Project ID"
+msgstr ""
+
+#: logincontent.php:21
+msgid "Project password (aka Access code)"
+msgstr ""
+
+#: mainnavigation.php:6
+msgid "New project"
+msgstr ""
+
+#: mainnavigation.php:10
+msgid "project id"
+msgstr ""
+
+#: mainnavigation.php:13
+msgid "name"
+msgstr ""
+
+#: mainnavigation.php:16
+msgid "password"
+msgstr ""
+
+#: mainnavigation.php:19
+msgid "Add project"
+msgstr ""
+
+#: mainnavigation.php:24
+msgid "New bill"
+msgstr ""
+
+#: mainnavigation.php:36
+msgid "Settings"
+msgstr ""
+
+#: mainnavigation.php:42
+msgid "Project statistics"
+msgstr ""
+
+#: mainnavigation.php:45
+msgid "Settle"
+msgstr ""
+

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
 "POT-Creation-Date: 2019-02-12 02:05+0100\n"
-"PO-Revision-Date: 2019-02-12 01:07\n"
+"PO-Revision-Date: 2019-02-12 01:24\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: English, United States\n"
 "Language: en_US\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: app.php:27 app.php:48 admin.php:7
 msgid "Cospend"
-msgstr ""
+msgstr "Cospend"
 
 #: admin.js:19
 msgid "Saved Cospend setting"

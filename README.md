@@ -1,10 +1,10 @@
-# Nextcloud Payback app
+# Nextcloud Cospend app
 
-[![Build status](https://gitlab.com/eneiluj/payback-nc/badges/master/build.svg)](https://gitlab.com/eneiluj/payback-nc/commits/master)
-[![coverage report](https://gitlab.com/eneiluj/payback-nc/badges/master/coverage.svg)](https://eneiluj.gitlab.io/payback-nc/coverage/)
+[![Build status](https://gitlab.com/eneiluj/cospend-nc/badges/master/build.svg)](https://gitlab.com/eneiluj/cospend-nc/commits/master)
+[![coverage report](https://gitlab.com/eneiluj/cospend-nc/badges/master/coverage.svg)](https://eneiluj.gitlab.io/cospend-nc/coverage/)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/moneybuster/localized.svg)](https://crowdin.com/project/moneybuster)
 
-Nextcloud Payback is a group/shared budget manager.
+Nextcloud Cospend is a group/shared budget manager.
 It was inspired by the great [IHateMoney](https://github.com/spiral-project/ihatemoney/).
 
 You can use it when you share a house, when you go in vacation with friends, whenever you share money with others.
@@ -33,11 +33,11 @@ This app is tested on Nextcloud 15 with Firefox 57+ and Chromium.
 
 This app is under development.
 
-🌍 Help us to translate this app on [Nextcloud-Payback/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
+🌍 Help us to translate this app on [Nextcloud-Cospend/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/payback-nc/blob/master/CONTRIBUTING.md).
+⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
-Link to Nextcloud application website : https://apps.nextcloud.com/apps/payback
+Link to Nextcloud application website : https://apps.nextcloud.com/apps/cospend
 
 ## Donation
 
@@ -48,11 +48,11 @@ I develop this app during my free time.
 
 ## Install
 
-See the [AdminDoc](https://gitlab.com/eneiluj/payback-nc/wikis/admindoc) for installation details.
+See the [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc) for installation details.
 
-Check [CHANGELOG](https://gitlab.com/eneiluj/payback-nc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
+Check [CHANGELOG](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
 
-Check [AUTHORS](https://gitlab.com/eneiluj/payback-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+Check [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
 
 ## Known issues
 
@@ -62,6 +62,6 @@ Any feedback will be appreciated.
 
 ## Screenshots
 
-![payb1](https://gitlab.com/eneiluj/payback-nc/wikis/uploads/044d9700ac6f7e1f965df4336f09b4ef/payb1.png)
-![payb2](https://gitlab.com/eneiluj/payback-nc/wikis/uploads/8803d3fa32322e95d31cdd63c4cb3efd/payb2.png)
-![payb3](https://gitlab.com/eneiluj/payback-nc/wikis/uploads/7cb6c83f0214ba5bb27b3abf5286c221/payb3.png)
+![payb1](https://gitlab.com/eneiluj/cospend-nc/wikis/uploads/044d9700ac6f7e1f965df4336f09b4ef/payb1.png)
+![payb2](https://gitlab.com/eneiluj/cospend-nc/wikis/uploads/8803d3fa32322e95d31cdd63c4cb3efd/payb2.png)
+![payb3](https://gitlab.com/eneiluj/cospend-nc/wikis/uploads/7cb6c83f0214ba5bb27b3abf5286c221/payb3.png)

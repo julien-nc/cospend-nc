@@ -1,6 +1,6 @@
 <?php
 /**
- * Nextcloud - payback
+ * Nextcloud - cospend
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -9,7 +9,7 @@
  * @copyright Julien Veyssier 2019
  */
 
-namespace OCA\Payback\Controller;
+namespace OCA\Cospend\Controller;
 
 use OCP\App\IAppManager;
 
@@ -55,7 +55,7 @@ class PageController extends Controller {
         parent::__construct($AppName, $request);
         $this->logger = $logger;
         $this->appName = $AppName;
-        $this->appVersion = $config->getAppValue('payback', 'installed_version');
+        $this->appVersion = $config->getAppValue('cospend', 'installed_version');
         $this->userId = $UserId;
         $this->userManager = $userManager;
         $this->dbtype = $config->getSystemValue('dbtype');
@@ -94,9 +94,9 @@ class PageController extends Controller {
             'projectid'=>'',
             'password'=>'',
             'username'=>$this->userId,
-            'payback_version'=>$this->appVersion
+            'cospend_version'=>$this->appVersion
         ];
-        $response = new TemplateResponse('payback', 'main', $params);
+        $response = new TemplateResponse('cospend', 'main', $params);
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedImageDomain('*')
             ->addAllowedMediaDomain('*')
@@ -120,9 +120,9 @@ class PageController extends Controller {
         $params = [
             'projectid'=>$projectid,
             'wrong'=>false,
-            'payback_version'=>$this->appVersion
+            'cospend_version'=>$this->appVersion
         ];
-        $response = new TemplateResponse('payback', 'login', $params);
+        $response = new TemplateResponse('cospend', 'login', $params);
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedImageDomain('*')
             ->addAllowedMediaDomain('*')
@@ -144,9 +144,9 @@ class PageController extends Controller {
         // PARAMS to view
         $params = [
             'wrong'=>false,
-            'payback_version'=>$this->appVersion
+            'cospend_version'=>$this->appVersion
         ];
-        $response = new TemplateResponse('payback', 'login', $params);
+        $response = new TemplateResponse('cospend', 'login', $params);
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedImageDomain('*')
             ->addAllowedMediaDomain('*')
@@ -170,9 +170,9 @@ class PageController extends Controller {
             $params = [
                 'projectid'=>$projectid,
                 'password'=>$password,
-                'payback_version'=>$this->appVersion
+                'cospend_version'=>$this->appVersion
             ];
-            $response = new TemplateResponse('payback', 'main', $params);
+            $response = new TemplateResponse('cospend', 'main', $params);
             $csp = new ContentSecurityPolicy();
             $csp->addAllowedImageDomain('*')
                 ->addAllowedMediaDomain('*')
@@ -189,9 +189,9 @@ class PageController extends Controller {
             //return $response;
             $params = [
                 'wrong'=>true,
-                'payback_version'=>$this->appVersion
+                'cospend_version'=>$this->appVersion
             ];
-            $response = new TemplateResponse('payback', 'login', $params);
+            $response = new TemplateResponse('cospend', 'login', $params);
             $csp = new ContentSecurityPolicy();
             $csp->addAllowedImageDomain('*')
                 ->addAllowedMediaDomain('*')
@@ -264,7 +264,7 @@ class PageController extends Controller {
                 // is the project shared with the user ?
                 $sql = '
                     SELECT projectid, userid
-                    FROM *PREFIX*payback_shares
+                    FROM *PREFIX*cospend_shares
                     WHERE userid='.$this->db_quote_escape_string($userid).'
                         AND projectid='.$this->db_quote_escape_string($projectid).' ;';
                 $req = $this->dbconnection->prepare($sql);
@@ -451,7 +451,7 @@ class PageController extends Controller {
 
         $sql = '
             SELECT id, password, name, email
-            FROM *PREFIX*payback_projects
+            FROM *PREFIX*cospend_projects
             WHERE userid='.$this->db_quote_escape_string($this->userId).' ;';
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
@@ -477,10 +477,10 @@ class PageController extends Controller {
 
         // shared with user
         $sql = '
-            SELECT *PREFIX*payback_projects.id AS id, password, name, email
-            FROM *PREFIX*payback_projects
-            INNER JOIN *PREFIX*payback_shares ON *PREFIX*payback_shares.projectid=*PREFIX*payback_projects.id
-            WHERE *PREFIX*payback_shares.userid='.$this->db_quote_escape_string($this->userId).' ;';
+            SELECT *PREFIX*cospend_projects.id AS id, password, name, email
+            FROM *PREFIX*cospend_projects
+            INNER JOIN *PREFIX*cospend_shares ON *PREFIX*cospend_shares.projectid=*PREFIX*cospend_projects.id
+            WHERE *PREFIX*cospend_shares.userid='.$this->db_quote_escape_string($this->userId).' ;';
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
         $dbProjectId = null;
@@ -536,7 +536,7 @@ class PageController extends Controller {
 
         $sqlchk = '
             SELECT userid, projectid
-            FROM *PREFIX*payback_shares
+            FROM *PREFIX*cospend_shares
             WHERE projectid='.$this->db_quote_escape_string($projectid).' ;';
         $req = $this->dbconnection->prepare($sqlchk);
         $req->execute();
@@ -559,7 +559,7 @@ class PageController extends Controller {
         else {
             $sql = '
                 SELECT id, password
-                FROM *PREFIX*payback_projects
+                FROM *PREFIX*cospend_projects
                 WHERE id='.$this->db_quote_escape_string($projectId).' ;';
             $req = $this->dbconnection->prepare($sql);
             $req->execute();
@@ -584,7 +584,7 @@ class PageController extends Controller {
      * @PublicPage
      */
     public function apiCreateProject($name, $id, $password, $contact_email) {
-        $allow = intval($this->config->getAppValue('payback', 'allowAnonymousCreation'));
+        $allow = intval($this->config->getAppValue('cospend', 'allowAnonymousCreation'));
         if ($allow) {
             return $this->createProject($name, $id, $password, $contact_email);
         }
@@ -906,7 +906,7 @@ class PageController extends Controller {
     private function createProject($name, $id, $password, $contact_email, $userid='') {
         $sql = '
             SELECT id
-            FROM *PREFIX*payback_projects
+            FROM *PREFIX*cospend_projects
             WHERE id='.$this->db_quote_escape_string($id).' ;';
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
@@ -919,7 +919,7 @@ class PageController extends Controller {
         if ($dbid === null) {
             $dbPassword = password_hash($password, PASSWORD_DEFAULT);
             $sql = '
-                INSERT INTO *PREFIX*payback_projects
+                INSERT INTO *PREFIX*cospend_projects
                 (userid, id, name, password, email)
                 VALUES ('.
                     $this->db_quote_escape_string($userid).','.
@@ -949,7 +949,7 @@ class PageController extends Controller {
 
         $sql = '
             SELECT id, password, name, email, userid
-            FROM *PREFIX*payback_projects
+            FROM *PREFIX*cospend_projects
             WHERE id='.$this->db_quote_escape_string($projectid).' ;';
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
@@ -994,12 +994,12 @@ class PageController extends Controller {
 
         $sql = '
             SELECT memberid,
-                *PREFIX*payback_members.name as name,
-                *PREFIX*payback_members.weight as weight,
-                *PREFIX*payback_members.activated as activated
-            FROM *PREFIX*payback_bill_owers
-            INNER JOIN *PREFIX*payback_members ON memberid=*PREFIX*payback_members.id
-            WHERE *PREFIX*payback_bill_owers.billid='.$this->db_quote_escape_string($billId).' ;';
+                *PREFIX*cospend_members.name as name,
+                *PREFIX*cospend_members.weight as weight,
+                *PREFIX*cospend_members.activated as activated
+            FROM *PREFIX*cospend_bill_owers
+            INNER JOIN *PREFIX*cospend_members ON memberid=*PREFIX*cospend_members.id
+            WHERE *PREFIX*cospend_bill_owers.billid='.$this->db_quote_escape_string($billId).' ;';
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
         while ($row = $req->fetch()){
@@ -1022,7 +1022,7 @@ class PageController extends Controller {
         // get the bill
         $sql = '
             SELECT id, what, date, amount, payerid
-            FROM *PREFIX*payback_bills
+            FROM *PREFIX*cospend_bills
             WHERE projectid='.$this->db_quote_escape_string($projectId).' ;';
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
@@ -1053,7 +1053,7 @@ class PageController extends Controller {
         $billIds = [];
         $sql = '
             SELECT id
-            FROM *PREFIX*payback_bills
+            FROM *PREFIX*cospend_bills
             WHERE projectid='.$this->db_quote_escape_string($projectId).' ;';
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
@@ -1069,12 +1069,12 @@ class PageController extends Controller {
 
             $sql = '
                 SELECT memberid,
-                    *PREFIX*payback_members.name as name,
-                    *PREFIX*payback_members.weight as weight,
-                    *PREFIX*payback_members.activated as activated
-                FROM *PREFIX*payback_bill_owers
-                INNER JOIN *PREFIX*payback_members ON memberid=*PREFIX*payback_members.id
-                WHERE *PREFIX*payback_bill_owers.billid='.$this->db_quote_escape_string($billId).' ;';
+                    *PREFIX*cospend_members.name as name,
+                    *PREFIX*cospend_members.weight as weight,
+                    *PREFIX*cospend_members.activated as activated
+                FROM *PREFIX*cospend_bill_owers
+                INNER JOIN *PREFIX*cospend_members ON memberid=*PREFIX*cospend_members.id
+                WHERE *PREFIX*cospend_bill_owers.billid='.$this->db_quote_escape_string($billId).' ;';
             $req = $this->dbconnection->prepare($sql);
             $req->execute();
             while ($row = $req->fetch()){
@@ -1098,7 +1098,7 @@ class PageController extends Controller {
 
         $sql = '
             SELECT id, what, date, amount, payerid
-            FROM *PREFIX*payback_bills
+            FROM *PREFIX*cospend_bills
             WHERE projectid='.$this->db_quote_escape_string($projectId).' ORDER BY date ASC;';
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
@@ -1133,7 +1133,7 @@ class PageController extends Controller {
         }
         $sql = '
             SELECT id, name, weight, activated
-            FROM *PREFIX*payback_members
+            FROM *PREFIX*cospend_members
             WHERE projectid='.$this->db_quote_escape_string($projectId).'
             ORDER BY '.$sqlOrder.' ASC ;';
         $req = $this->dbconnection->prepare($sql);
@@ -1196,7 +1196,7 @@ class PageController extends Controller {
         $member = null;
         $sql = '
             SELECT id, name, weight, activated
-            FROM *PREFIX*payback_members
+            FROM *PREFIX*cospend_members
             WHERE projectid='.$this->db_quote_escape_string($projectId).'
                 AND name='.$this->db_quote_escape_string($name).' ;';
         $req = $this->dbconnection->prepare($sql);
@@ -1222,7 +1222,7 @@ class PageController extends Controller {
         $member = null;
         $sql = '
             SELECT id, name, weight, activated
-            FROM *PREFIX*payback_members
+            FROM *PREFIX*cospend_members
             WHERE projectid='.$this->db_quote_escape_string($projectId).'
                 AND id='.$this->db_quote_escape_string($memberId).' ;';
         $req = $this->dbconnection->prepare($sql);
@@ -1248,7 +1248,7 @@ class PageController extends Controller {
         $project = null;
         $sql = '
             SELECT id, userid, name, email, password
-            FROM *PREFIX*payback_projects
+            FROM *PREFIX*cospend_projects
             WHERE id='.$this->db_quote_escape_string($projectId).' ;';
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
@@ -1345,7 +1345,7 @@ class PageController extends Controller {
 
         // do it already !
         $sqlupd = '
-                UPDATE *PREFIX*payback_bills
+                UPDATE *PREFIX*cospend_bills
                 SET
                      '.$dateSql.'
                      '.$amountSql.'
@@ -1364,7 +1364,7 @@ class PageController extends Controller {
             // insert bill owers
             foreach ($owerIds as $owerId) {
                 $sql = '
-                    INSERT INTO *PREFIX*payback_bill_owers
+                    INSERT INTO *PREFIX*cospend_bill_owers
                     (billid, memberid)
                     VALUES ('.
                         $this->db_quote_escape_string($billid).','.
@@ -1444,7 +1444,7 @@ class PageController extends Controller {
 
         // do it already !
         $sql = '
-            INSERT INTO *PREFIX*payback_bills
+            INSERT INTO *PREFIX*cospend_bills
             (projectid, what, date, amount, payerid)
             VALUES ('.
                 $this->db_quote_escape_string($projectid).','.
@@ -1460,7 +1460,7 @@ class PageController extends Controller {
         // get inserted bill id
         $sql = '
             SELECT id
-            FROM *PREFIX*payback_bills
+            FROM *PREFIX*cospend_bills
             WHERE projectid='.$this->db_quote_escape_string($projectid).'
             ORDER BY id DESC LIMIT 1 ;';
         $req = $this->dbconnection->prepare($sql);
@@ -1474,7 +1474,7 @@ class PageController extends Controller {
         // insert bill owers
         foreach ($owerIds as $owerId) {
             $sql = '
-                INSERT INTO *PREFIX*payback_bill_owers
+                INSERT INTO *PREFIX*cospend_bill_owers
                 (billid, memberid)
                 VALUES ('.
                     $this->db_quote_escape_string($insertedBillId).','.
@@ -1506,7 +1506,7 @@ class PageController extends Controller {
                     }
                 }
                 $sql = '
-                    INSERT INTO *PREFIX*payback_members
+                    INSERT INTO *PREFIX*cospend_members
                     (projectid, name, weight, activated)
                     VALUES ('.
                         $this->db_quote_escape_string($projectid).','.
@@ -1546,7 +1546,7 @@ class PageController extends Controller {
             $this->deleteBillOwersOfBill($billid);
 
             $sqldel = '
-                    DELETE FROM *PREFIX*payback_bills
+                    DELETE FROM *PREFIX*cospend_bills
                     WHERE id='.$this->db_quote_escape_string($billid).'
                         AND projectid='.$this->db_quote_escape_string($projectid).' ;';
             $req = $this->dbconnection->prepare($sqldel);
@@ -1570,7 +1570,7 @@ class PageController extends Controller {
         if ($memberToDelete !== null) {
             if ($memberToDelete['activated']) {
                 $sqlupd = '
-                        UPDATE *PREFIX*payback_members
+                        UPDATE *PREFIX*cospend_members
                         SET
                              activated='.$this->db_quote_escape_string('0').'
                         WHERE id='.$this->db_quote_escape_string($memberid).'
@@ -1593,7 +1593,7 @@ class PageController extends Controller {
 
     private function deleteBillOwersOfBill($billid) {
         $sqldel = '
-                DELETE FROM *PREFIX*payback_bill_owers
+                DELETE FROM *PREFIX*cospend_bill_owers
                 WHERE billid='.$this->db_quote_escape_string($billid).' ;';
         $req = $this->dbconnection->prepare($sqldel);
         $req->execute();
@@ -1609,21 +1609,21 @@ class PageController extends Controller {
                 $this->deleteBillOwersOfBill($bill['id']);
             }
             $sqldel = '
-                    DELETE FROM *PREFIX*payback_bills
+                    DELETE FROM *PREFIX*cospend_bills
                     WHERE projectid='.$this->db_quote_escape_string($projectid).' ;';
             $req = $this->dbconnection->prepare($sqldel);
             $req->execute();
             $req->closeCursor();
             // delete project members
             $sqldel = '
-                    DELETE FROM *PREFIX*payback_members
+                    DELETE FROM *PREFIX*cospend_members
                     WHERE projectid='.$this->db_quote_escape_string($projectid).' ;';
             $req = $this->dbconnection->prepare($sqldel);
             $req->execute();
             $req->closeCursor();
             // delete project
             $sqldel = '
-                    DELETE FROM *PREFIX*payback_projects
+                    DELETE FROM *PREFIX*cospend_projects
                     WHERE id='.$this->db_quote_escape_string($projectid).' ;';
             $req = $this->dbconnection->prepare($sqldel);
             $req->execute();
@@ -1662,7 +1662,7 @@ class PageController extends Controller {
                     $activatedSql = 'activated='.$this->db_quote_escape_string($activated === 'true' ? '1' : '0').',';
                 }
                 $sqlupd = '
-                        UPDATE *PREFIX*payback_members
+                        UPDATE *PREFIX*cospend_members
                         SET
                              '.$weightSql.'
                              '.$activatedSql.'
@@ -1724,7 +1724,7 @@ class PageController extends Controller {
         if ($this->getProjectById($projectid) !== null) {
             $nameSql = 'name='.$this->db_quote_escape_string($name);
             $sqlupd = '
-                    UPDATE *PREFIX*payback_projects
+                    UPDATE *PREFIX*cospend_projects
                     SET
                          '.$emailSql.'
                          '.$passwordSql.'
@@ -1886,7 +1886,7 @@ class PageController extends Controller {
                     // check if user share exists
                     $sqlchk = '
                         SELECT userid, projectid
-                        FROM *PREFIX*payback_shares
+                        FROM *PREFIX*cospend_shares
                         WHERE projectid='.$this->db_quote_escape_string($projectid).'
                               AND userid='.$this->db_quote_escape_string($userid).' ;';
                     $req = $this->dbconnection->prepare($sqlchk);
@@ -1900,7 +1900,7 @@ class PageController extends Controller {
 
                     if ($dbuserId === null) {
                         $sql = '
-                            INSERT INTO *PREFIX*payback_shares
+                            INSERT INTO *PREFIX*cospend_shares
                             (projectid, userid)
                             VALUES ('.
                                 $this->db_quote_escape_string($projectid).','.
@@ -1918,13 +1918,13 @@ class PageController extends Controller {
 
                         $acceptAction = $notification->createAction();
                         $acceptAction->setLabel('accept')
-                            ->setLink('/apps/payback', 'GET');
+                            ->setLink('/apps/cospend', 'GET');
 
                         $declineAction = $notification->createAction();
                         $declineAction->setLabel('decline')
-                            ->setLink('/apps/payback', 'GET');
+                            ->setLink('/apps/cospend', 'GET');
 
-                        $notification->setApp('payback')
+                        $notification->setApp('cospend')
                             ->setUser($userid)
                             ->setDateTime(new \DateTime())
                             ->setObject('addusershare', $projectid)
@@ -1962,7 +1962,7 @@ class PageController extends Controller {
             // check if user share exists
             $sqlchk = '
                 SELECT userid, projectid
-                FROM *PREFIX*payback_shares
+                FROM *PREFIX*cospend_shares
                 WHERE projectid='.$this->db_quote_escape_string($projectid).'
                       AND userid='.$this->db_quote_escape_string($userid).' ;';
             $req = $this->dbconnection->prepare($sqlchk);
@@ -1977,7 +1977,7 @@ class PageController extends Controller {
             if ($dbuserId !== null) {
                 // delete
                 $sqldel = '
-                    DELETE FROM *PREFIX*payback_shares
+                    DELETE FROM *PREFIX*cospend_shares
                     WHERE projectid='.$this->db_quote_escape_string($projectid).'
                           AND userid='.$this->db_quote_escape_string($userid).' ;';
                 $req = $this->dbconnection->prepare($sqldel);
@@ -1994,13 +1994,13 @@ class PageController extends Controller {
 
                 $acceptAction = $notification->createAction();
                 $acceptAction->setLabel('accept')
-                    ->setLink('/apps/payback', 'GET');
+                    ->setLink('/apps/cospend', 'GET');
 
                 $declineAction = $notification->createAction();
                 $declineAction->setLabel('decline')
-                    ->setLink('/apps/payback', 'GET');
+                    ->setLink('/apps/cospend', 'GET');
 
-                $notification->setApp('payback')
+                $notification->setApp('cospend')
                     ->setUser($userid)
                     ->setDateTime(new \DateTime())
                     ->setObject('deleteusershare', $projectid)

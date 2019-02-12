@@ -1,8 +1,8 @@
 <?php
-script('payback', 'login');
+script('cospend', 'login');
 
-//style('payback', 'style');
-style('payback', 'login');
+//style('cospend', 'style');
+style('cospend', 'login');
 
 ?>
 

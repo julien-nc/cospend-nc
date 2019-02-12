@@ -1,6 +1,6 @@
 /*jshint esversion: 6 */
 /**
- * Nextcloud - payback
+ * Nextcloud - cospend
  *
  *
  * This file is licensed under the Affero General Public License version 3 or
@@ -25,7 +25,7 @@
     });
 
     function main() {
-        var url = OC.generateUrl('/apps/payback/project');
+        var url = OC.generateUrl('/apps/cospend/project');
         $('#loginform').attr('action', url);
     }
 

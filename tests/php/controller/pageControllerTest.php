@@ -15,9 +15,9 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Payback\Controller;
+namespace OCA\Cospend\Controller;
 
-use \OCA\Payback\AppInfo\Application;
+use \OCA\Cospend\AppInfo\Application;
 
 class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
@@ -45,7 +45,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function setUp() {
-        $this->appName = 'payback';
+        $this->appName = 'cospend';
         $this->request = $this->getMockBuilder('\OCP\IRequest')
             ->disableOriginalConstructor()
             ->getMock();

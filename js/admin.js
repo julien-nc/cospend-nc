@@ -1,11 +1,11 @@
 (function() {
-    if (!OCA.Payback) {
-        OCA.Payback = {};
+    if (!OCA.Cospend) {
+        OCA.Cospend = {};
     }
 })();
 
 function setAllowAnonymousCreation(val) {
-    var url = OC.generateUrl('/apps/payback/setAllowAnonymousCreation');
+    var url = OC.generateUrl('/apps/cospend/setAllowAnonymousCreation');
     var req = {
         allow: val
     }
@@ -16,11 +16,11 @@ function setAllowAnonymousCreation(val) {
         async: true
     }).done(function (response) {
         OC.Notification.showTemporary(
-            t('payback', 'Saved Payback setting')
+            t('cospend', 'Saved Cospend setting')
         );
     }).fail(function() {
         OC.Notification.showTemporary(
-            t('payback', 'Failed to save Payback setting')
+            t('cospend', 'Failed to save Cospend setting')
         );
     });
 }

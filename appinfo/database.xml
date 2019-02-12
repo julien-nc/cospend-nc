@@ -5,7 +5,7 @@
  <overwrite>false</overwrite>
  <charset>utf8</charset>
  <table>
-  <name>*dbprefix*payback_projects</name>
+  <name>*dbprefix*cospend_projects</name>
   <declaration>
     <field>
       <name>id</name>
@@ -39,7 +39,7 @@
   </declaration>
 </table>
  <table>
-  <name>*dbprefix*payback_shares</name>
+  <name>*dbprefix*cospend_shares</name>
   <declaration>
     <field>
       <name>id</name>
@@ -63,7 +63,7 @@
   </declaration>
 </table>
  <table>
-  <name>*dbprefix*payback_members</name>
+  <name>*dbprefix*cospend_members</name>
   <declaration>
     <field>
       <name>id</name>
@@ -101,7 +101,7 @@
   </declaration>
 </table>
  <table>
-  <name>*dbprefix*payback_bills</name>
+  <name>*dbprefix*cospend_bills</name>
   <declaration>
     <field>
       <name>id</name>
@@ -144,7 +144,7 @@
   </declaration>
 </table>
  <table>
-  <name>*dbprefix*payback_bill_owers</name>
+  <name>*dbprefix*cospend_bill_owers</name>
   <declaration>
     <field>
       <name>id</name>

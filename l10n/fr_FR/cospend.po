@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
-"POT-Creation-Date: 2019-02-12 02:05+0100\n"
-"PO-Revision-Date: 2019-02-12 01:15\n"
+"POT-Creation-Date: 2019-02-14 15:02+0100\n"
+"PO-Revision-Date: 2019-02-14 14:04\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -40,11 +40,11 @@ msgstr "Membre {name} créé"
 msgid "Failed to add member"
 msgstr "Échec de l'ajout du membre"
 
-#: cospend.js:269 cospend.js:1212
+#: cospend.js:269 cospend.js:1219
 msgid "Reactivate"
 msgstr "Réactiver"
 
-#: cospend.js:275 cospend.js:1206
+#: cospend.js:275 cospend.js:1213
 msgid "Deactivate"
 msgstr "Désactiver"
 
@@ -72,7 +72,7 @@ msgstr "Facture sauvegardée"
 msgid "Failed to save bill"
 msgstr "Échec de la sauvegarde de la facture"
 
-#: cospend.js:470 cospend.js:1060
+#: cospend.js:470 cospend.js:1067
 msgid "Deleted {name}"
 msgstr "{name} supprimé"
 
@@ -92,199 +92,200 @@ msgstr "Projet {id} sauvegardé"
 msgid "Failed to delete project"
 msgstr "Échec de la suppression du projet"
 
-#: cospend.js:556
-msgid "Deleted bill"
-msgstr "Facture supprimée"
-
-#: cospend.js:559
-msgid "Failed to delete bill"
-msgstr "Échec de la suppression de la facture"
-
-#: cospend.js:607
-msgid "Failed to get projects"
-msgstr "Échec de la récupération des projets"
-
-#: cospend.js:635
-msgid "Failed to get statistics"
-msgstr "Échec de la récupération des statistiques"
-
-#: cospend.js:664
-msgid "Failed to get settlement"
-msgstr "Échec de la récupération des remboursements"
-
-#: cospend.js:676
-msgid "Settlement of project {name}"
-msgstr "Remboursements du projet {name}"
-
-#: cospend.js:677
-msgid "Who pays?"
-msgstr "Qui doit payer ?"
-
-#: cospend.js:678
-msgid "To whom?"
-msgstr "À qui?"
-
-#: cospend.js:679 cospend.js:865
-msgid "How much?"
-msgstr "Combien ?"
-
-#: cospend.js:710
-msgid "Statistics of project {name}"
-msgstr "Statistiques du projet {name}"
-
-#: cospend.js:711
-msgid "Member name"
-msgstr "Nom du membre"
-
-#: cospend.js:712
-msgid "Paid"
-msgstr "A payé"
-
-#: cospend.js:713
-msgid "Spent"
-msgstr "A dépensé"
-
-#: cospend.js:714
-msgid "Balance"
-msgstr "Solde"
-
-#: cospend.js:778
+#: cospend.js:555 cospend.js:782 cospend.js:1845
 msgid "No bill yet"
 msgstr "Pas encore de facture"
 
-#: cospend.js:782
+#: cospend.js:560
+msgid "Deleted bill"
+msgstr "Facture supprimée"
+
+#: cospend.js:563
+msgid "Failed to delete bill"
+msgstr "Échec de la suppression de la facture"
+
+#: cospend.js:611
+msgid "Failed to get projects"
+msgstr "Échec de la récupération des projets"
+
+#: cospend.js:639
+msgid "Failed to get statistics"
+msgstr "Échec de la récupération des statistiques"
+
+#: cospend.js:668
+msgid "Failed to get settlement"
+msgstr "Échec de la récupération des remboursements"
+
+#: cospend.js:680
+msgid "Settlement of project {name}"
+msgstr "Remboursements du projet {name}"
+
+#: cospend.js:681
+msgid "Who pays?"
+msgstr "Qui doit payer ?"
+
+#: cospend.js:682
+msgid "To whom?"
+msgstr "À qui?"
+
+#: cospend.js:683 cospend.js:870
+msgid "How much?"
+msgstr "Combien ?"
+
+#: cospend.js:714
+msgid "Statistics of project {name}"
+msgstr "Statistiques du projet {name}"
+
+#: cospend.js:715
+msgid "Member name"
+msgstr "Nom du membre"
+
+#: cospend.js:716
+msgid "Paid"
+msgstr "A payé"
+
+#: cospend.js:717
+msgid "Spent"
+msgstr "A dépensé"
+
+#: cospend.js:718
+msgid "Balance"
+msgstr "Solde"
+
+#: cospend.js:786
 msgid "Failed to get bills"
 msgstr "Échec de la récupération des factures"
 
-#: cospend.js:800 cospend.js:869
+#: cospend.js:805 cospend.js:874
 msgid "Bill \"{what}\" of project {proj}"
 msgstr "Facture \"{what}\" du projet {proj}"
 
-#: cospend.js:864
+#: cospend.js:869
 msgid "What?"
 msgstr "Quoi ?"
 
-#: cospend.js:866
+#: cospend.js:871
 msgid "Who payed?"
 msgstr "Qui a payé ?"
 
-#: cospend.js:867
+#: cospend.js:872
 msgid "When?"
 msgstr "Quand ?"
 
-#: cospend.js:868
+#: cospend.js:873
 msgid "For whom?"
 msgstr "Pour qui ?"
 
-#: cospend.js:870
+#: cospend.js:875
 msgid "All"
 msgstr "Tous"
 
-#: cospend.js:871
+#: cospend.js:876
 msgid "None"
 msgstr "Aucun"
 
-#: cospend.js:958 cospend.js:970
+#: cospend.js:963 cospend.js:975
 msgid "Member list is not up to date. Reloading in 5 sec."
 msgstr "La liste des membres n’est pas à jour. Rechargement dans 5 sec."
 
-#: cospend.js:1043
+#: cospend.js:1050
 msgid "Failed to update balances"
 msgstr "Échec de la mise à jour des balances"
 
-#: cospend.js:1053
+#: cospend.js:1060
 msgid "Add member"
 msgstr "Ajouter un membre"
 
-#: cospend.js:1054 mainnavigation.php:48
+#: cospend.js:1061 mainnavigation.php:50
 msgid "Guest access link"
 msgstr "Lien d'accès invité"
 
-#: cospend.js:1055 cospend.js:1217
+#: cospend.js:1062 cospend.js:1224
 msgid "Rename"
 msgstr "Renommer"
 
-#: cospend.js:1056
+#: cospend.js:1063
 msgid "Change password"
 msgstr "Changer le mot de passe"
 
-#: cospend.js:1057
+#: cospend.js:1064
 msgid "Display statistics"
 msgstr "Afficher les statistiques"
 
-#: cospend.js:1058
+#: cospend.js:1065
 msgid "Settle the project"
 msgstr "Remboursements du projet"
 
-#: cospend.js:1059
+#: cospend.js:1066
 msgid "Delete"
 msgstr "Supprimer"
 
-#: cospend.js:1062
+#: cospend.js:1069
 msgid "Press enter to validate"
 msgstr "Appuyez sur entrée pour valider"
 
-#: cospend.js:1218
+#: cospend.js:1225
 msgid "Change weight"
 msgstr "Changer le poids"
 
-#: cospend.js:1317
+#: cospend.js:1324
 msgid "Bill values are not valid"
 msgstr "Les valeurs de la facture sont invalides"
 
-#: cospend.js:1336
+#: cospend.js:1343
 msgid "Failed to save option values"
 msgstr "Échec de la sauvegarde des options"
 
-#: cospend.js:1366
+#: cospend.js:1373
 msgid "Failed to restore options values"
 msgstr "Échec de la restauration des options"
 
-#: cospend.js:1392
+#: cospend.js:1399
 msgid "Failed to get user list"
 msgstr "Impossible d'obtenir la liste des utilisateurs"
 
-#: cospend.js:1411
+#: cospend.js:1418
 msgid "Shared project {pname} with {uname}"
 msgstr "Projet {pname} partagé avec {uname}"
 
-#: cospend.js:1415
+#: cospend.js:1422
 msgid "Failed to add user share"
 msgstr "Échec de l'ajout du partage"
 
-#: cospend.js:1421
+#: cospend.js:1428
 msgid "Shared with {u}"
 msgstr "Partagé avec {u}"
 
-#: cospend.js:1447
+#: cospend.js:1454
 msgid "Failed to delete user share"
 msgstr "Échec de la suppression du partage"
 
-#: cospend.js:1534
+#: cospend.js:1541
 msgid "userName"
 msgstr "nomDUtilisateur"
 
-#: cospend.js:1583 cospend.js:1596 cospend.js:1632 cospend.js:1644
+#: cospend.js:1590 cospend.js:1603 cospend.js:1616 cospend.js:1652
+#: cospend.js:1664
 msgid "Invalid values"
 msgstr "Valeurs invalides"
 
-#: cospend.js:1621
+#: cospend.js:1641
 msgid "newMemberName"
 msgstr "nomNouveauMembre"
 
-#: cospend.js:1840
+#: cospend.js:1863
 msgid "New Bill"
 msgstr "Nouvelle facture"
 
-#: cospend.js:1851
+#: cospend.js:1874
 msgid "2 active members are required to create a bill"
 msgstr "2 membres actifs sont nécessaires pour créer une facture"
 
-#: cospend.js:1888
+#: cospend.js:1911
 msgid "Guest link for '{pid}' copied to clipboard"
 msgstr "Lien invité pour '{pid}' copié dans le presse-papier"
 
-#: cospend.js:1901
+#: cospend.js:1924
 msgid "Guest link copied to clipboard"
 msgstr "Lien invité copié dans le presse-papier"
 
@@ -334,35 +335,35 @@ msgstr "Mot de passe du projet (code d'accès)"
 msgid "New project"
 msgstr "Nouveau projet"
 
-#: mainnavigation.php:10
+#: mainnavigation.php:11
 msgid "project id"
 msgstr "id du projet"
 
-#: mainnavigation.php:13
+#: mainnavigation.php:14
 msgid "name"
 msgstr "nom"
 
-#: mainnavigation.php:16
+#: mainnavigation.php:17
 msgid "password"
 msgstr "mot de passe"
 
-#: mainnavigation.php:19
+#: mainnavigation.php:20
 msgid "Add project"
 msgstr "Ajouter le projet"
 
-#: mainnavigation.php:24
+#: mainnavigation.php:26
 msgid "New bill"
 msgstr "Nouvelle facture"
 
-#: mainnavigation.php:36
+#: mainnavigation.php:38
 msgid "Settings"
 msgstr "Paramètres"
 
-#: mainnavigation.php:42
+#: mainnavigation.php:44
 msgid "Project statistics"
 msgstr "Statistiques du projet"
 
-#: mainnavigation.php:45
+#: mainnavigation.php:47
 msgid "Settle"
 msgstr "Remboursements"
 

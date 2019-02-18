@@ -1,9 +1,3 @@
-<?xml version="1.0"?>
-<info>
-    <id>cospend</id>
-    <name>Cospend</name>
-    <summary lang="en">Shared budget manager</summary>
-    <description lang="en">
 # Nextcloud Cospend
 
 Nextcloud Cospend is a group/shared budget manager.
@@ -41,13 +35,6 @@ This app is under development.
 
 Link to Nextcloud application website : https://apps.nextcloud.com/apps/cospend
 
-## Donation
-
-I develop this app during my free time.
-
-* [Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=66PALMY8SF5JE) (you don't need a paypal account)
-* [Liberapay : ![Donate using Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/eneiluj/donate)
-
 ## Install
 
 See the [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc) for installation details.
@@ -62,30 +49,3 @@ Check [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#aut
 
 Any feedback will be appreciated.
 
-    </description>
-    <version>0.0.3</version>
-    <licence>agpl</licence>
-    <author mail="eneiluj@posteo.net">Julien Veyssier</author>
-    <namespace>Cospend</namespace>
-    <documentation>
-        <user>https://gitlab.com/eneiluj/cospend-nc/wikis/userdoc</user>
-        <admin>https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc</admin>
-        <developer>https://gitlab.com/eneiluj/cospend-nc/wikis/devdoc</developer>
-    </documentation>
-    <category>tools</category>
-    <category>organization</category>
-    <website>https://gitlab.com/eneiluj/cospend-nc</website>
-    <bugs>https://gitlab.com/eneiluj/cospend-nc/issues</bugs>
-    <screenshot>https://gitlab.com/eneiluj/cospend-nc/wikis/uploads/044d9700ac6f7e1f965df4336f09b4ef/payb1.png</screenshot>
-    <screenshot>https://gitlab.com/eneiluj/cospend-nc/wikis/uploads/8803d3fa32322e95d31cdd63c4cb3efd/payb2.png</screenshot>
-    <screenshot>https://gitlab.com/eneiluj/cospend-nc/wikis/uploads/7cb6c83f0214ba5bb27b3abf5286c221/payb3.png</screenshot>
-    <dependencies>
-        <database min-version="9.4">pgsql</database>
-        <database>sqlite</database>
-        <database min-version="5.5">mysql</database>
-        <nextcloud min-version="15.0" max-version="15.9"/>
-    </dependencies>
-    <settings>
-        <admin>OCA\Cospend\Settings\Admin</admin>
-    </settings>
-</info>

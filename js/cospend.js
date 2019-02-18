@@ -1553,6 +1553,7 @@
     }
 
     function exportProject(projectid) {
+        $('.projectitem[projectid='+projectid+']').addClass('icon-loading-small');
         var req = {
             projectid: projectid
         };
@@ -1565,6 +1566,7 @@
         }).done(function (response) {
             OC.Notification.showTemporary(t('cospend', 'Project exported in {path}', {path: response.path}));
         }).always(function() {
+            $('.projectitem[projectid='+projectid+']').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('cospend', 'Failed to export project') + ' ' + response.responseText);
         });

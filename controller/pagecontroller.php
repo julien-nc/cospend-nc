@@ -919,6 +919,11 @@ class PageController extends Controller {
         }
         $req->closeCursor();
         if ($dbid === null) {
+            // check if id is valid
+            if (strpos($id, '/') !== false) {
+                $response = new DataResponse(['message'=>'Invalid project id'], 400);
+                return $response;
+            }
             $dbPassword = password_hash($password, PASSWORD_DEFAULT);
             $sql = '
                 INSERT INTO *PREFIX*cospend_projects

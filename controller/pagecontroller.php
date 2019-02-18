@@ -1527,7 +1527,7 @@ class PageController extends Controller {
             }
             else {
                 $response = new DataResponse(
-                    ['name'=>["This project already have this member"]]
+                    ['message'=>["This project already has this member"]]
                     , 400
                 );
                 return $response;
@@ -2089,7 +2089,7 @@ class PageController extends Controller {
                             $nbCol = count($data);
                             if ($nbCol !== 6) {
                                 fclose($handle);
-                                $response = new DataResponse(['message'=>'Malformed CSV, bad column number'], 401);
+                                $response = new DataResponse(['message'=>'Malformed CSV, bad column number'], 400);
                                 return $response;
                             }
                             else {
@@ -2105,7 +2105,7 @@ class PageController extends Controller {
                                 !array_key_exists('owers', $columns)
                             ) {
                                 fclose($handle);
-                                $response = new DataResponse(['message'=>'Malformed CSV, bad column names'], 401);
+                                $response = new DataResponse(['message'=>'Malformed CSV, bad column names'], 400);
                                 return $response;
                             }
                         }
@@ -2124,19 +2124,19 @@ class PageController extends Controller {
                             }
                             else {
                                 fclose($handle);
-                                $response = new DataResponse(['message'=>'Malformed CSV, bad payer weight on line '.$row], 401);
+                                $response = new DataResponse(['message'=>'Malformed CSV, bad payer weight on line '.$row], 400);
                                 return $response;
                             }
                             if (strlen($owers) === 0) {
                                 fclose($handle);
-                                $response = new DataResponse(['message'=>'Malformed CSV, bad owers on line '.$row], 401);
+                                $response = new DataResponse(['message'=>'Malformed CSV, bad owers on line '.$row], 400);
                                 return $response;
                             }
                             $owersArray = explode(', ', $owers);
                             foreach ($owersArray as $ower) {
                                 if (strlen($ower) === 0) {
                                     fclose($handle);
-                                    $response = new DataResponse(['message'=>'Malformed CSV, bad owers on line '.$row], 401);
+                                    $response = new DataResponse(['message'=>'Malformed CSV, bad owers on line '.$row], 400);
                                     return $response;
                                 }
                                 if (!array_key_exists($ower, $membersWeight)) {
@@ -2145,7 +2145,7 @@ class PageController extends Controller {
                             }
                             if (!is_numeric($amount)) {
                                 fclose($handle);
-                                $response = new DataResponse(['message'=>'Malformed CSV, bad amount on line '.$row], 401);
+                                $response = new DataResponse(['message'=>'Malformed CSV, bad amount on line '.$row], 400);
                                 return $response;
                             }
                             array_push($bills,
@@ -2171,14 +2171,15 @@ class PageController extends Controller {
                     $projectName = $projectid;
                     $projResult = $this->createProject($projectName, $projectid, 'password', $userEmail, $this->userId);
                     if ($projResult->getStatus() !== 200) {
-                        $response = new DataResponse(['message'=>'Error in project creation'], 401);
+                        $response = new DataResponse('Error in project creation '.$projResult->getData()['message'], 400);
                         return $response;
                     }
                     // add members
                     foreach ($membersWeight as $memberName => $weight) {
                         $addMemberResult =  $this->addMember($projectid, $memberName, $weight);
                         if ($addMemberResult->getStatus() !== 200) {
-                            $response = new DataResponse(['message'=>'Error when adding member '.$memberName], 401);
+                            $this->deleteProject($projectid);
+                            $response = new DataResponse(['message'=>'Error when adding member '.$memberName], 400);
                             return $response;
                         }
                         $data = $addMemberResult->getData();
@@ -2196,7 +2197,8 @@ class PageController extends Controller {
                         $owerIdsStr = implode(',', $owerIds);
                         $addBillResult = $this->addBill($projectid, $bill['date'], $bill['what'], $payerId, $owerIdsStr, $bill['amount']);
                         if ($addBillResult->getStatus() !== 200) {
-                            $response = new DataResponse(['message'=>'Error when adding bill '.$bill['what']], 401);
+                            $this->deleteProject($projectid);
+                            $response = new DataResponse(['message'=>'Error when adding bill '.$bill['what']], 400);
                             return $response;
                         }
                     }

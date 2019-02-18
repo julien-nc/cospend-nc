@@ -419,12 +419,19 @@
         var memberName = getMemberName(projectid, bill.payer_id);
         var memberFirstLetter = memberName[0];
 
-        var title = bill.what + '\n' + bill.amount.toFixed(2) + '\n' +
+        var links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
+        var formattedLinks = '';
+        for (var i=0; i < links.length; i++) {
+            formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">['+t('cospend', 'link')+']</a> ';
+        }
+        var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '');
+
+        var title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
             bill.date + '\n' + memberName + ' -> ' + owerNames;
         var c = getMemberColor(memberName);
         var item = '<a href="#" class="app-content-list-item billitem" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
             '<div class="app-content-list-item-icon" style="background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);">'+memberFirstLetter+'</div>' +
-            '<div class="app-content-list-item-line-one">'+bill.what+'</div>' +
+            '<div class="app-content-list-item-line-one">'+whatFormatted+'</div>' +
             '<div class="app-content-list-item-line-two">'+bill.amount.toFixed(2)+' ('+memberName+' -> '+owerNames+')</div>' +
             '<span class="app-content-list-item-details">'+bill.date+'</span>' +
             '<div class="icon-delete deleteBillIcon"></div>' +
@@ -800,9 +807,18 @@
             var payerName = getMemberName(projectid, payer_id);
             c = getMemberColor(payerName);
         }
+
+        var links = what.match(/https?:\/\/[^\s]+/gi) || [];
+        var formattedLinks = '';
+        for (var i=0; i < links.length; i++) {
+            formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">['+t('cospend', 'link')+']</a> ';
+        }
+        var whatFormatted = what.replace(/https?:\/\/[^\s]+/gi, '');
         $('.bill-title').html(
             '<span class="icon-edit-white"></span>' +
-            t('cospend', 'Bill "{what}" of project {proj}', {what: what, proj: projectName})
+            t('cospend', 'Bill : {what}', {what: whatFormatted}) +
+            ' ' + formattedLinks +
+            '<span class="loading-bill"></span>'
         );
         $('.bill-title').attr('style', 'background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);');
     }
@@ -871,13 +887,28 @@
         var payerStr = t('cospend', 'Who payed?');
         var dateStr = t('cospend', 'When?');
         var owersStr = t('cospend', 'For whom?');
-        var titleStr = t('cospend', 'Bill "{what}" of project {proj}', {what: bill.what, proj: projectName});
+
+        var links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
+        var formattedLinks = '';
+        for (var i=0; i < links.length; i++) {
+            formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">['+t('cospend', 'link')+']</a> ';
+        }
+        var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '');
+        var titleStr = t('cospend', 'Bill : {what}', {what: whatFormatted});
+
         var allStr = t('cospend', 'All');
         var noneStr = t('cospend', 'None');
+        var addFileLinkText = t('cospend', 'Attach link to file');
+
+        var addFileHtml = '';
+        if (!cospend.pageIsPublic) {
+            addFileHtml = '<button id="addFileLinkButton"><span class="icon-file"></span>'+addFileLinkText+'</button>';
+        }
+
         var detail =
             '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 class="bill-title" projectid="'+projectid+'" billid="'+bill.id+'" style="background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);">' +
-            '    <span class="icon-edit-white"></span>'+titleStr+
+            '    <span class="icon-edit-white"></span>'+titleStr+' '+formattedLinks +
             '    <span class="loading-bill"></span>' +
             '</h2>' +
             '<div class="bill-form">' +
@@ -888,7 +919,7 @@
             '                '+whatStr+
             '            </label>' +
             '            <input type="text" id="what" class="input-bill-what" value="'+bill.what+'"/>' +
-            '        </div>' +
+            '        </div>' + addFileHtml +
             '        <div class="bill-amount">' +
             '            <label for="amount">' +
             '                <a class="icon icon-quota"></a>' +
@@ -970,6 +1001,14 @@
         var memberName = '';
         var memberFirstLetter;
         var c;
+
+        var links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
+        var formattedLinks = '';
+        for (var i=0; i < links.length; i++) {
+            formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">['+t('cospend', 'link')+']</a> ';
+        }
+        var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '');
+
         if (bill.id !== 0) {
             if (!cospend.members[projectid].hasOwnProperty(bill.payer_id)) {
                 reload(t('cospend', 'Member list is not up to date. Reloading in 5 sec.'));
@@ -978,7 +1017,7 @@
             memberName = getMemberName(projectid, bill.payer_id);
             memberFirstLetter = memberName[0];
 
-            title = bill.what + '\n' + bill.amount.toFixed(2) + '\n' +
+            title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
                 bill.date + '\n' + memberName + ' → ' + owerNames;
             c = getMemberColor(memberName);
         }
@@ -989,7 +1028,7 @@
         var item = '<a href="#" class="app-content-list-item billitem" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
             '<div class="app-content-list-item-icon" style="background-color: ' +
             'hsl('+c.h+', '+c.s+'%, '+c.l+'%);">'+memberFirstLetter+'</div>'+
-            '<div class="app-content-list-item-line-one">'+bill.what+'</div>' +
+            '<div class="app-content-list-item-line-one">'+whatFormatted+'</div>' +
             '<div class="app-content-list-item-line-two">'+bill.amount.toFixed(2)+' ('+memberName+' → '+owerNames+')</div>' +
             '<span class="app-content-list-item-details">'+bill.date+'</span>' +
             '<div class="icon-delete deleteBillIcon"></div>' +
@@ -1474,6 +1513,33 @@
         }
     }
 
+    function generatePublicLinkToFile(targetPath) {
+        $('.loading-bill').addClass('icon-loading-small');
+        var req = {
+            path: targetPath
+        };
+        var url = OC.generateUrl('/apps/cospend/getPublicShare');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            $('.loading-bill').removeClass('icon-loading-small');
+
+            var filePublicUrl = window.location.protocol + '//' + window.location.hostname + OC.generateUrl('/s/'+response.token);
+
+            var what = $('#what').val();
+            what = what + ' ' + filePublicUrl;
+            $('#what').val(what);
+            onBillEdited();
+        }).always(function() {
+        }).fail(function(response) {
+            $('.loading-bill').removeClass('icon-loading-small');
+            OC.Notification.showTemporary(t('cospend', 'Failed to generate public link to file') + ' ' + response.responseText);
+        });
+    }
+
     $(document).ready(function() {
         cospend.pageIsPublic = (document.URL.indexOf('/cospend/project') !== -1);
         if ( !cospend.pageIsPublic ) {
@@ -1926,6 +1992,16 @@
 
         $('body').on('click', '#app-details-toggle', function() {
             $('.app-content-list').removeClass('showdetails');
+        });
+
+        $('body').on('click', '#addFileLinkButton', function() {
+            OC.dialogs.filepicker(
+                  t('cospend', 'Choose file'),
+                  function(targetPath) {
+                      generatePublicLinkToFile(targetPath);
+                  },
+                  false, null, true
+              );
         });
 
         // last thing to do : get the projects

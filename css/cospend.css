@@ -93,8 +93,8 @@ b.memberName, b.memberWeight {
 .owerEntry {
     margin-left: 56px;
     margin-right: 40px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 .bill-title {
     text-align: center;
@@ -193,4 +193,7 @@ input[type=number] {
 #billdetail h2 span[class^=icon-] {
     display: inline-block;
     width: 30px;
+}
+#addFileLinkButton {
+    margin-top: 20px;
 }

@@ -25,6 +25,8 @@ use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
+use OCP\Constants;
+use OCP\Share;
 
 function endswith($string, $test) {
     $strlen = strlen($string);
@@ -2019,6 +2021,51 @@ class PageController extends Controller {
             $response = new DataResponse(['message'=>'Access denied'], 403);
         }
 
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function getPublicShare($path) {
+        $cleanPath = str_replace(array('../', '..\\'), '',  $path);
+        $userFolder = \OC::$server->getUserFolder();
+        if ($userFolder->nodeExists($cleanPath)) {
+            $file = $userFolder->get($cleanPath);
+            if ($file->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
+                if ($file->isShareable()) {
+                    $shares = $this->shareManager->getSharesBy($this->userId,
+                        \OCP\Share::SHARE_TYPE_LINK, $file, false, 1, 0);
+                    if (count($shares) > 0){
+                        foreach($shares as $share){
+                            if ($share->getPassword() === null){
+                                $token = $share->getToken();
+                                break;
+                            }
+                        }
+                    }
+                    else {
+                        $share = $this->shareManager->newShare();
+                        $share->setNode($file);
+                        $share->setPermissions(Constants::PERMISSION_READ);
+                        $share->setShareType(Share::SHARE_TYPE_LINK);
+                        $share->setSharedBy($this->userId);
+                        $share = $this->shareManager->createShare($share);
+                        $token = $share->getToken();
+                    }
+                    $response = new DataResponse(['token'=>$token]);
+                }
+                else {
+                    $response = new DataResponse(['message'=>'Access denied'], 403);
+                }
+            }
+            else {
+                $response = new DataResponse(['message'=>'Access denied'], 403);
+            }
+        }
+        else {
+            $response = new DataResponse(['message'=>'Access denied'], 403);
+        }
         return $response;
     }
 

@@ -49,6 +49,9 @@
         <button id="generalGuestLinkButton" class="icon-clippy" >
             <?php p($l->t('Guest access link')); ?>
         </button>
+        <button id="importProjectButton" class="icon-download" >
+            <?php p($l->t('Import csv project file')); ?>
+        </button>
     </div>
 </div>
 <p id="projectid"><?php p($_['projectid']); ?></p>

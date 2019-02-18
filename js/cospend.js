@@ -602,6 +602,11 @@
             }
         }).done(function (response) {
             if (!cospend.pageIsPublic) {
+                $('.projectitem').remove();
+                $('#bill-list').html('');
+                cospend.bills = {};
+                cospend.members = {};
+                cospend.projects = {};
                 for (var i = 0; i < response.length; i++) {
                     addProject(response[i]);
                 }
@@ -1518,7 +1523,7 @@
         var req = {
             path: targetPath
         };
-        var url = OC.generateUrl('/apps/cospend/getPublicShare');
+        var url = OC.generateUrl('/apps/cospend/getPublicFileShare');
         $.ajax({
             type: 'POST',
             url: url,
@@ -1540,6 +1545,31 @@
         });
     }
 
+    function importProject(targetPath) {
+        if (!endsWith(targetPath, '.csv')) {
+            OC.Notification.showTemporary(t('cospend', 'Only CSV files can be imported'));
+            return;
+        }
+        $('#addFileLinkButton').addClass('icon-loading-small');
+        var req = {
+            path: targetPath
+        };
+        var url = OC.generateUrl('/apps/cospend/importCsvProject');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            $('#addFileLinkButton').removeClass('icon-loading-small');
+            getProjects();
+        }).always(function() {
+        }).fail(function(response) {
+            $('#addFileLinkButton').removeClass('icon-loading-small');
+            OC.Notification.showTemporary(t('cospend', 'Failed to import project file') + ' ' + response.responseText);
+        });
+    }
+
     $(document).ready(function() {
         cospend.pageIsPublic = (document.URL.indexOf('/cospend/project') !== -1);
         if ( !cospend.pageIsPublic ) {
@@ -1548,6 +1578,7 @@
         else {
             //restoreOptionsFromUrlParams();
             $('#newprojectbutton').hide();
+            $('#importProjectButton').hide();
             cospend.projectid = $('#projectid').text();
             cospend.password = $('#password').text();
             cospend.restoredSelectedProjectId = cospend.projectid;
@@ -1999,6 +2030,16 @@
                   t('cospend', 'Choose file'),
                   function(targetPath) {
                       generatePublicLinkToFile(targetPath);
+                  },
+                  false, null, true
+              );
+        });
+
+        $('body').on('click', '#importProjectButton', function() {
+            OC.dialogs.filepicker(
+                  t('cospend', 'Choose csv project file'),
+                  function(targetPath) {
+                      importProject(targetPath);
                   },
                   false, null, true
               );

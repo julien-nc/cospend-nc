@@ -2027,7 +2027,7 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
-    public function getPublicShare($path) {
+    public function getPublicFileShare($path) {
         $cleanPath = str_replace(array('../', '..\\'), '',  $path);
         $userFolder = \OC::$server->getUserFolder();
         if ($userFolder->nodeExists($cleanPath)) {
@@ -2066,6 +2066,154 @@ class PageController extends Controller {
         else {
             $response = new DataResponse(['message'=>'Access denied'], 403);
         }
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function importCsvProject($path) {
+        $cleanPath = str_replace(array('../', '..\\'), '',  $path);
+        $userFolder = \OC::$server->getUserFolder();
+        if ($userFolder->nodeExists($cleanPath)) {
+            $file = $userFolder->get($cleanPath);
+            if ($file->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
+                if (($handle = $file->fopen('r')) !== false) {
+                    $columns = [];
+                    $membersWeight = [];
+                    $bills = [];
+                    $row = 0;
+                    while (($data = fgetcsv($handle, 1000, ',')) !== false) {
+                        // first line : get column order
+                        if ($row === 0) {
+                            $nbCol = count($data);
+                            if ($nbCol !== 6) {
+                                fclose($handle);
+                                $response = new DataResponse(['message'=>'Malformed CSV, bad column number'], 401);
+                                return $response;
+                            }
+                            else {
+                                for ($c=0; $c < $nbCol; $c++) {
+                                    $columns[$data[$c]] = $c;
+                                }
+                            }
+                            if (!array_key_exists('what', $columns) or
+                                !array_key_exists('amount', $columns) or
+                                !array_key_exists('date', $columns) or
+                                !array_key_exists('payer_name', $columns) or
+                                !array_key_exists('payer_weight', $columns) or
+                                !array_key_exists('owers', $columns)
+                            ) {
+                                fclose($handle);
+                                $response = new DataResponse(['message'=>'Malformed CSV, bad column names'], 401);
+                                return $response;
+                            }
+                        }
+                        // normal line : bill
+                        else {
+                            $what = $data[$columns['what']];
+                            $amount = $data[$columns['amount']];
+                            $date = $data[$columns['date']];
+                            $payer_name = $data[$columns['payer_name']];
+                            $payer_weight = $data[$columns['payer_weight']];
+                            $owers = $data[$columns['owers']];
+
+                            // manage members
+                            if (is_numeric($payer_weight)) {
+                                $membersWeight[$payer_name] = floatval($payer_weight);
+                            }
+                            else {
+                                fclose($handle);
+                                $response = new DataResponse(['message'=>'Malformed CSV, bad payer weight on line '.$row], 401);
+                                return $response;
+                            }
+                            if (strlen($owers) === 0) {
+                                fclose($handle);
+                                $response = new DataResponse(['message'=>'Malformed CSV, bad owers on line '.$row], 401);
+                                return $response;
+                            }
+                            $owersArray = explode(', ', $owers);
+                            foreach ($owersArray as $ower) {
+                                if (strlen($ower) === 0) {
+                                    fclose($handle);
+                                    $response = new DataResponse(['message'=>'Malformed CSV, bad owers on line '.$row], 401);
+                                    return $response;
+                                }
+                                if (!array_key_exists($ower, $membersWeight)) {
+                                    $membersWeight[$ower] = 1.0;
+                                }
+                            }
+                            if (!is_numeric($amount)) {
+                                fclose($handle);
+                                $response = new DataResponse(['message'=>'Malformed CSV, bad amount on line '.$row], 401);
+                                return $response;
+                            }
+                            array_push($bills,
+                                [
+                                    'what'=>$what,
+                                    'date'=>$date,
+                                    'amount'=>$amount,
+                                    'payer_name'=>$payer_name,
+                                    'owers'=>$owersArray,
+                                ]
+                            );
+                        }
+                        $row++;
+                    }
+                    fclose($handle);
+
+                    $memberNameToId = [];
+
+                    // add project
+                    $user = $this->userManager->get($this->userId);
+                    $userEmail = $user->getEMailAddress();
+                    $projectid = str_replace('.csv', '', $file->getName());
+                    $projectName = $projectid;
+                    $projResult = $this->createProject($projectName, $projectid, 'password', $userEmail, $this->userId);
+                    if ($projResult->getStatus() !== 200) {
+                        $response = new DataResponse(['message'=>'Error in project creation'], 401);
+                        return $response;
+                    }
+                    // add members
+                    foreach ($membersWeight as $memberName => $weight) {
+                        $addMemberResult =  $this->addMember($projectid, $memberName, $weight);
+                        if ($addMemberResult->getStatus() !== 200) {
+                            $response = new DataResponse(['message'=>'Error when adding member '.$memberName], 401);
+                            return $response;
+                        }
+                        $data = $addMemberResult->getData();
+                        $memberId = $data;
+
+                        $memberNameToId[$memberName] = $memberId;
+                    }
+                    // add bills
+                    foreach ($bills as $bill) {
+                        $payerId = $memberNameToId[$bill['payer_name']];
+                        $owerIds = [];
+                        foreach ($bill['owers'] as $owerName) {
+                            array_push($owerIds, $memberNameToId[$owerName]);
+                        }
+                        $owerIdsStr = implode(',', $owerIds);
+                        $addBillResult = $this->addBill($projectid, $bill['date'], $bill['what'], $payerId, $owerIdsStr, $bill['amount']);
+                        if ($addBillResult->getStatus() !== 200) {
+                            $response = new DataResponse(['message'=>'Error when adding bill '.$bill['what']], 401);
+                            return $response;
+                        }
+                    }
+                    $response = new DataResponse($projectid);
+                }
+                else {
+                    $response = new DataResponse(['message'=>'Access denied'], 403);
+                }
+            }
+            else {
+                $response = new DataResponse(['message'=>'Access denied'], 403);
+            }
+        }
+        else {
+            $response = new DataResponse(['message'=>'Access denied'], 403);
+        }
+
         return $response;
     }
 

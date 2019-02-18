@@ -1213,6 +1213,7 @@
 
         if (cospend.pageIsPublic) {
             $('.projectitem[projectid='+projectid+'] .shareProjectButton').hide();
+            $('.projectitem[projectid='+projectid+'] .exportProject').parent().hide();
         }
 
         for (var i=0; i < project.members.length; i++) {

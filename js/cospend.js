@@ -697,8 +697,9 @@
         if (!cospend.pageIsPublic) {
             exportStr = ' <button class="exportSettlement" projectid="'+projectid+'"><span class="icon-file"></span>'+t('cospend', 'Export')+'</button>';
         }
+        var autoSettleStr = ' <button class="autoSettlement" projectid="'+projectid+'"><span class="icon-play"></span>'+t('cospend', 'Add these payments to project')+'</button>';
         var settlementStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
-            '<h2 id="settlementTitle"><span class="icon-category-organization"></span>'+titleStr+exportStr+'</h2>' +
+            '<h2 id="settlementTitle"><span class="icon-category-organization"></span>'+titleStr+exportStr+autoSettleStr+'</h2>' +
             '<table id="settlementTable"><thead>' +
             '<th>'+fromStr+'</th>' +
             '<th>'+toStr+'</th>' +
@@ -1621,6 +1622,36 @@
         });
     }
 
+    function autoSettlement(projectid) {
+        $('.autoSettlement[projectid='+projectid+'] span').addClass('icon-loading-small');
+        var req = {
+        };
+        var url, type;
+        if (!cospend.pageIsPublic) {
+            req.projectid = projectid;
+            url = OC.generateUrl('/apps/cospend/autoSettlement');
+            type = 'POST';
+        }
+        else {
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/autosettlement');
+            type = 'GET';
+        }
+        $.ajax({
+            type: type,
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            updateProjectBalances(projectid);
+            getBills(projectid);
+            OC.Notification.showTemporary(t('cospend', 'Project settlement bills added'));
+        }).always(function() {
+            $('.autoSettlement[projectid='+projectid+'] span').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to add project settlement bills') + ' ' + response.responseText);
+        });
+    }
+
     function importProject(targetPath) {
         if (!endsWith(targetPath, '.csv')) {
             OC.Notification.showTemporary(t('cospend', 'Only CSV files can be imported'));
@@ -2134,6 +2165,11 @@
         $('body').on('click', '.exportSettlement', function() {
             var projectid = $(this).attr('projectid');
             exportSettlement(projectid);
+        });
+
+        $('body').on('click', '.autoSettlement', function() {
+            var projectid = $(this).attr('projectid');
+            autoSettlement(projectid);
         });
 
         // last thing to do : get the projects

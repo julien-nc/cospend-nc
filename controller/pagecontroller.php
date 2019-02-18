@@ -346,6 +346,23 @@ class PageController extends Controller {
      * @NoAdminRequired
      *
      */
+    public function webAutoSettlement($projectid) {
+        if ($this->userCanAccessProject($this->userId, $projectid)) {
+            return $this->autoSettlement($projectid);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to settle this project automatically']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     *
+     */
     public function webEditMember($projectid, $memberid, $name, $weight, $activated) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
             return $this->editMember($projectid, $memberid, $name, $weight, $activated);
@@ -841,6 +858,24 @@ class PageController extends Controller {
     public function apiGetProjectSettlement($projectid, $password) {
         if ($this->checkLogin($projectid, $password)) {
             return $this->getProjectSettlement($projectid);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     */
+    public function apiAutoSettlement($projectid, $password) {
+        if ($this->checkLogin($projectid, $password)) {
+            return $this->autoSettlement($projectid);
         }
         else {
             $response = new DataResponse(
@@ -2411,6 +2446,38 @@ class PageController extends Controller {
             $response = new DataResponse(['message'=>'Access denied'], 403);
         }
 
+        return $response;
+    }
+
+    private function autoSettlement($projectid) {
+        $settleResp = $this->getProjectSettlement($projectid);
+        if ($settleResp->getStatus() !== 200) {
+            $response = new DataResponse(['message'=>'Error when getting project settlement transactions'], 403);
+            return $response;
+        }
+        $transactions = $settleResp->getData();
+
+        $members = $this->getMembers($projectid);
+        $memberIdToName = [];
+        foreach ($members as $member) {
+            $memberIdToName[$member['id']] = $member['name'];
+        }
+
+        $now = new \DateTime();
+        $date = $now->format('Y-m-d');
+
+        foreach ($transactions as $transaction) {
+            $fromId = $transaction['from'];
+            $toId = $transaction['to'];
+            $amount = floatval($transaction['amount']);
+            $billTitle = $memberIdToName[$fromId].' → '.$memberIdToName[$toId];
+            $addBillResult = $this->addBill($projectid, $date, $billTitle, $fromId, $toId, $amount);
+            if ($addBillResult->getStatus() !== 200) {
+                $response = new DataResponse(['message'=>'Error when addind a bill'], 400);
+                return $response;
+            }
+        }
+        $response = new DataResponse('OK');
         return $response;
     }
 

@@ -33,6 +33,7 @@ return [
         ['name' => 'page#addUserShare', 'url' => '/addUserShare', 'verb' => 'POST'],
         ['name' => 'page#getPublicFileShare', 'url' => '/getPublicFileShare', 'verb' => 'POST'],
         ['name' => 'page#importCsvProject', 'url' => '/importCsvProject', 'verb' => 'POST'],
+        ['name' => 'page#exportCsvProject', 'url' => '/exportCsvProject', 'verb' => 'POST'],
         ['name' => 'page#deleteUserShare', 'url' => '/deleteUserShare', 'verb' => 'POST'],
         ['name' => 'page#webGetProjects', 'url' => 'getProjects', 'verb' => 'POST'],
         ['name' => 'page#webCreateProject', 'url' => 'createProject', 'verb' => 'POST'],

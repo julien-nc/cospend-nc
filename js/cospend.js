@@ -903,11 +903,11 @@
 
         var allStr = t('cospend', 'All');
         var noneStr = t('cospend', 'None');
-        var addFileLinkText = t('cospend', 'Attach link to file');
+        var addFileLinkText = t('cospend', 'Attach public link to personal file');
 
         var addFileHtml = '';
         if (!cospend.pageIsPublic) {
-            addFileHtml = '<button id="addFileLinkButton"><span class="icon-file"></span>'+addFileLinkText+'</button>';
+            addFileHtml = '<button id="addFileLinkButton"><span class="icon-public"></span>'+addFileLinkText+'</button>';
         }
 
         var detail =
@@ -1107,6 +1107,7 @@
         var changePwdStr = t('cospend', 'Change password');
         var displayStatsStr = t('cospend', 'Display statistics');
         var settleStr = t('cospend', 'Settle the project');
+        var exportStr = t('cospend', 'Export to csv');
         var deleteStr = t('cospend', 'Delete');
         var deletedStr = t('cospend', 'Deleted {name}', {name: name});
         var extProjUrl = OC.generateUrl('/apps/cospend/loginproject/'+projectid);
@@ -1180,6 +1181,12 @@
             '                <a href="#" class="getProjectSettlement">' +
             '                    <span class="icon-category-organization"></span>' +
             '                    <span>'+settleStr+'</span>' +
+            '                </a>' +
+            '            </li>' +
+            '            <li>' +
+            '                <a href="#" class="exportProject">' +
+            '                    <span class="icon-category-office"></span>' +
+            '                    <span>'+exportStr+'</span>' +
             '                </a>' +
             '            </li>' +
             '            <li>' +
@@ -1542,6 +1549,24 @@
         }).fail(function(response) {
             $('.loading-bill').removeClass('icon-loading-small');
             OC.Notification.showTemporary(t('cospend', 'Failed to generate public link to file') + ' ' + response.responseText);
+        });
+    }
+
+    function exportProject(projectid) {
+        var req = {
+            projectid: projectid
+        };
+        var url = OC.generateUrl('/apps/cospend/exportCsvProject');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            OC.Notification.showTemporary(t('cospend', 'Project exported in {path}', {path: response.path}));
+        }).always(function() {
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to export project') + ' ' + response.responseText);
         });
     }
 
@@ -2043,6 +2068,11 @@
                   },
                   false, null, true
               );
+        });
+
+        $('body').on('click', '.exportProject', function() {
+            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
+            exportProject(projectid);
         });
 
         // last thing to do : get the projects

@@ -2072,6 +2072,75 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
+    public function exportCsvProject($projectid) {
+        if ($this->userCanAccessProject($this->userId, $projectid)) {
+            // create Cospend directory if needed
+            $userFolder = \OC::$server->getUserFolder();
+            if (!$userFolder->nodeExists('/Cospend')) {
+                $userFolder->newFolder('Cospend');
+            }
+            if ($userFolder->nodeExists('/Cospend')) {
+                $folder = $userFolder->get('/Cospend');
+                if ($folder->getType() !== \OCP\Files\FileInfo::TYPE_FOLDER) {
+                    $response = new DataResponse(['message'=>'/Cospend is not a folder'], 400);
+                    return $response;
+                }
+                else if (!$folder->isCreatable()) {
+                    $response = new DataResponse(['message'=>'/Cospend is not writeable'], 400);
+                    return $response;
+                }
+            }
+            else {
+                $response = new DataResponse(['message'=>'Impossible to create /Cospend'], 400);
+                return $response;
+            }
+
+            // create file
+            if ($folder->nodeExists($projectid.'.csv')) {
+                $folder->get($projectid.'.csv')->delete();
+            }
+            $file = $folder->newFile($projectid.'.csv');
+            $handler = $file->fopen('w');
+            fwrite($handler, "what,amount,date,payer_name,payer_weight,owers\n");
+            $members = $this->getMembers($projectid);
+            $memberIdToName = [];
+            $memberIdToWeight = [];
+            foreach ($members as $member) {
+                $memberIdToName[$member['id']] = $member['name'];
+                $memberIdToWeight[$member['id']] = $member['weight'];
+                fwrite($handler, 'deleteMeIfYouWant,1,1970-01-01,"'.$member['name'].'",'.floatval($member['weight']).',"'.$member['name'].'"'."\n");;
+            }
+            $bills = $this->getBills($projectid);
+            foreach ($bills as $bill) {
+                $owerNames = [];
+                foreach ($bill['owers'] as $ower) {
+                    array_push($owerNames, $ower['name']);
+                }
+                $owersTxt = implode(', ', $owerNames);
+
+                $payer_id = $bill['payer_id'];
+                $payer_name = $memberIdToName[$payer_id];
+                $payer_weight = $memberIdToWeight[$payer_id];
+                fwrite($handler, '"'.$bill['what'].'",'.floatval($bill['amount']).','.$bill['date'].',"'.$payer_name.'",'.floatval($payer_weight).',"'.$owersTxt.'"'."\n");
+            }
+
+            fclose($handler);
+            $file->touch();
+            $response = new DataResponse(['path'=>'/Cospend/'.$projectid.'.csv']);
+            return $response;
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to export this project']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     */
     public function importCsvProject($path) {
         $cleanPath = str_replace(array('../', '..\\'), '',  $path);
         $userFolder = \OC::$server->getUserFolder();

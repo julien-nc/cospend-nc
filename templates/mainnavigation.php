@@ -9,10 +9,10 @@
 
         <form id="newprojectform" autocomplete="off">
             <label for="projectidinput"><?php p($l->t('project id')); ?></label>
-            <input id="projectidinput" type="text" value="id"/>
+            <input id="projectidinput" type="text" value="<?php p($l->t('myProjectId')); ?>"/>
 
             <label for="projectnameinput"><?php p($l->t('name')); ?></label>
-            <input id="projectnameinput" type="text" value="name"/>
+            <input id="projectnameinput" type="text" value="<?php p($l->t('My project name')); ?>"/>
 
             <label for="projectpasswordinput"><?php p($l->t('password')); ?></label>
             <input id="projectpasswordinput" type="password" value="lala"/>

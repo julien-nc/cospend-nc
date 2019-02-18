@@ -1080,18 +1080,18 @@
                 balanceField.removeClass('balancePositive').removeClass('balanceNegative');
                 // just in case make member visible
                 $('.memberitem[memberid='+memberid+']').removeClass('invisibleMember');
-                if (balance < 0) {
+                if (balance <= -0.01) {
                     balanceClass = 'balanceNegative';
                     balanceTxt = balance.toFixed(2);
                     balanceField.addClass(balanceClass).text(balanceTxt);
                 }
-                else if (balance > 0) {
+                else if (balance >= 0.01) {
                     balanceClass = 'balancePositive';
                     balanceTxt = '+' + balance.toFixed(2);
                     balanceField.addClass(balanceClass).text(balanceTxt);
                 }
                 else {
-                    balanceField.text(balance.toFixed(2));
+                    balanceField.text('0.00');
                     // hide member if balance == 0 and disabled
                     if (!cospend.members[projectid][memberid].activated) {
                         $('.memberitem[memberid='+memberid+']').addClass('invisibleMember');
@@ -1253,14 +1253,14 @@
 
         var invisibleClass = '';
         var balanceStr;
-        if (balance > 0) {
+        if (balance >= 0.01) {
             balanceStr = '<b class="balance balancePositive">+'+balance.toFixed(2)+'</b>';
         }
-        else if (balance < 0) {
+        else if (balance <= -0.01) {
             balanceStr = '<b class="balance balanceNegative">'+balance.toFixed(2)+'</b>';
         }
         else {
-            balanceStr = '<b class="balance">'+balance.toFixed(2)+'</b>';
+            balanceStr = '<b class="balance">0.00</b>';
             if (!member.activated) {
                 invisibleClass = ' invisibleMember';
             }

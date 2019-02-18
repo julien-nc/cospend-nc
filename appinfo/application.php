@@ -50,6 +50,7 @@ class Application extends App {
                     $c->getServer()->getShareManager(),
                     $c->getServer()->getAppManager(),
                     $c->getServer()->getUserManager(),
+                    $c->query('ServerContainer')->getL10N($c->query('AppName')),
                     $c->query('ServerContainer')->getLogger()
                 );
             }

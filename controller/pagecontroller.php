@@ -15,6 +15,7 @@ use OCP\App\IAppManager;
 
 use OCP\IURLGenerator;
 use OCP\IConfig;
+use \OCP\IL10N;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -47,19 +48,21 @@ class PageController extends Controller {
     private $dbtype;
     private $dbdblquotes;
     private $defaultDeviceId;
+    private $trans;
     private $logger;
     protected $appName;
 
     public function __construct($AppName, IRequest $request, $UserId,
                                 $userfolder, $config, $shareManager,
                                 IAppManager $appManager, $userManager,
-                                $logger){
+                                IL10N $trans, $logger){
         parent::__construct($AppName, $request);
         $this->logger = $logger;
         $this->appName = $AppName;
         $this->appVersion = $config->getAppValue('cospend', 'installed_version');
         $this->userId = $UserId;
         $this->userManager = $userManager;
+        $this->trans = $trans;
         $this->dbtype = $config->getSystemValue('dbtype');
         // IConfig object
         $this->config = $config;
@@ -2072,6 +2075,124 @@ class PageController extends Controller {
             $response = new DataResponse(['message'=>'Access denied'], 403);
         }
         return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function exportCsvSettlement($projectid) {
+        if ($this->userCanAccessProject($this->userId, $projectid)) {
+            // create Cospend directory if needed
+            $userFolder = \OC::$server->getUserFolder();
+            if (!$userFolder->nodeExists('/Cospend')) {
+                $userFolder->newFolder('Cospend');
+            }
+            if ($userFolder->nodeExists('/Cospend')) {
+                $folder = $userFolder->get('/Cospend');
+                if ($folder->getType() !== \OCP\Files\FileInfo::TYPE_FOLDER) {
+                    $response = new DataResponse(['message'=>'/Cospend is not a folder'], 400);
+                    return $response;
+                }
+                else if (!$folder->isCreatable()) {
+                    $response = new DataResponse(['message'=>'/Cospend is not writeable'], 400);
+                    return $response;
+                }
+            }
+            else {
+                $response = new DataResponse(['message'=>'Impossible to create /Cospend'], 400);
+                return $response;
+            }
+
+            // create file
+            if ($folder->nodeExists($projectid.'-settlement.csv')) {
+                $folder->get($projectid.'-settlement.csv')->delete();
+            }
+            $file = $folder->newFile($projectid.'-settlement.csv');
+            $handler = $file->fopen('w');
+            fwrite($handler, $this->trans->t('Who pays?').','. $this->trans->t('To whom?').','. $this->trans->t('How much?')."\n");
+            $settleResp = $this->getProjectSettlement($projectid);
+            if ($settleResp->getStatus() !== 200) {
+            }
+            $transactions = $settleResp->getData();
+
+            $members = $this->getMembers($projectid);
+            $memberIdToName = [];
+            foreach ($members as $member) {
+                $memberIdToName[$member['id']] = $member['name'];
+            }
+
+            foreach ($transactions as $transaction) {
+                fwrite($handler, '"'.$memberIdToName[$transaction['from']].'","'.$memberIdToName[$transaction['to']].'",'.floatval($transaction['amount'])."\n");
+            }
+
+            fclose($handler);
+            $file->touch();
+            $response = new DataResponse(['path'=>'/Cospend/'.$projectid.'-settlement.csv']);
+            return $response;
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to export this project settlement']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function exportCsvStatistics($projectid) {
+        if ($this->userCanAccessProject($this->userId, $projectid)) {
+            // create Cospend directory if needed
+            $userFolder = \OC::$server->getUserFolder();
+            if (!$userFolder->nodeExists('/Cospend')) {
+                $userFolder->newFolder('Cospend');
+            }
+            if ($userFolder->nodeExists('/Cospend')) {
+                $folder = $userFolder->get('/Cospend');
+                if ($folder->getType() !== \OCP\Files\FileInfo::TYPE_FOLDER) {
+                    $response = new DataResponse(['message'=>'/Cospend is not a folder'], 400);
+                    return $response;
+                }
+                else if (!$folder->isCreatable()) {
+                    $response = new DataResponse(['message'=>'/Cospend is not writeable'], 400);
+                    return $response;
+                }
+            }
+            else {
+                $response = new DataResponse(['message'=>'Impossible to create /Cospend'], 400);
+                return $response;
+            }
+
+            // create file
+            if ($folder->nodeExists($projectid.'-stats.csv')) {
+                $folder->get($projectid.'-stats.csv')->delete();
+            }
+            $file = $folder->newFile($projectid.'-stats.csv');
+            $handler = $file->fopen('w');
+            fwrite($handler, $this->trans->t('Member name').','. $this->trans->t('Paid').','. $this->trans->t('Spent').','. $this->trans->t('Balance')."\n");
+            $statsResp = $this->getProjectStatistics($projectid);
+            if ($statsResp->getStatus() !== 200) {
+            }
+            $stats = $statsResp->getData();
+
+            foreach ($stats as $stat) {
+                fwrite($handler, '"'.$stat['member']['name'].'",'.floatval($stat['paid']).','.floatval($stat['spent']).','.floatval($stat['balance'])."\n");
+            }
+
+            fclose($handler);
+            $file->touch();
+            $response = new DataResponse(['path'=>'/Cospend/'.$projectid.'-stats.csv']);
+            return $response;
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to export this project statistics']
+                , 403
+            );
+            return $response;
+        }
     }
 
     /**

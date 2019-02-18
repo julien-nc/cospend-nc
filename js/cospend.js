@@ -693,8 +693,12 @@
         var fromStr = t('cospend', 'Who pays?');
         var toStr = t('cospend', 'To whom?');
         var howMuchStr = t('cospend', 'How much?');
+        var exportStr = '';
+        if (!cospend.pageIsPublic) {
+            exportStr = ' <button class="exportSettlement" projectid="'+projectid+'"><span class="icon-file"></span>'+t('cospend', 'Export')+'</button>';
+        }
         var settlementStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
-            '<h2 id="settlementTitle"><span class="icon-category-organization"></span>'+titleStr+'</h2>' +
+            '<h2 id="settlementTitle"><span class="icon-category-organization"></span>'+titleStr+exportStr+'</h2>' +
             '<table id="settlementTable"><thead>' +
             '<th>'+fromStr+'</th>' +
             '<th>'+toStr+'</th>' +
@@ -728,8 +732,12 @@
         var paidStr = t('cospend', 'Paid');
         var spentStr = t('cospend', 'Spent');
         var balanceStr = t('cospend', 'Balance');
+        var exportStr = '';
+        if (!cospend.pageIsPublic) {
+            exportStr = ' <button class="exportStats" projectid="'+projectid+'"><span class="icon-file"></span>'+t('cospend', 'Export')+'</button>';
+        }
         var statsStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
-            '<h2 id="statsTitle"><span class="icon-category-monitoring"></span>'+titleStr+'</h2>' +
+            '<h2 id="statsTitle"><span class="icon-category-monitoring"></span>'+titleStr+exportStr+'</h2>' +
             '<table id="statsTable"><thead>' +
             '<th>'+nameStr+'</th>' +
             '<th>'+paidStr+'</th>' +
@@ -1573,6 +1581,46 @@
         });
     }
 
+    function exportStatistics(projectid) {
+        $('.exportStats[projectid='+projectid+'] span').addClass('icon-loading-small');
+        var req = {
+            projectid: projectid
+        };
+        var url = OC.generateUrl('/apps/cospend/exportCsvStatistics');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            OC.Notification.showTemporary(t('cospend', 'Project statistics exported in {path}', {path: response.path}));
+        }).always(function() {
+            $('.exportStats[projectid='+projectid+'] span').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to export project statistics') + ' ' + response.responseText);
+        });
+    }
+
+    function exportSettlement(projectid) {
+        $('.exportSettlement[projectid='+projectid+'] span').addClass('icon-loading-small');
+        var req = {
+            projectid: projectid
+        };
+        var url = OC.generateUrl('/apps/cospend/exportCsvSettlement');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            OC.Notification.showTemporary(t('cospend', 'Project settlement exported in {path}', {path: response.path}));
+        }).always(function() {
+            $('.exportSettlement[projectid='+projectid+'] span').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to export project settlement') + ' ' + response.responseText);
+        });
+    }
+
     function importProject(targetPath) {
         if (!endsWith(targetPath, '.csv')) {
             OC.Notification.showTemporary(t('cospend', 'Only CSV files can be imported'));
@@ -2076,6 +2124,16 @@
         $('body').on('click', '.exportProject', function() {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
             exportProject(projectid);
+        });
+
+        $('body').on('click', '.exportStats', function() {
+            var projectid = $(this).attr('projectid');
+            exportStatistics(projectid);
+        });
+
+        $('body').on('click', '.exportSettlement', function() {
+            var projectid = $(this).attr('projectid');
+            exportSettlement(projectid);
         });
 
         // last thing to do : get the projects

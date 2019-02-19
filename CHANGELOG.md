@@ -6,6 +6,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.0.4 – 2019-02-??
+### Added
+- ability to add public link to NC files in bill name
+[#4](https://gitlab.com/eneiluj/cospend-nc/issues/4) @poVoq
+- import/export project as csv
+[#6](https://gitlab.com/eneiluj/cospend-nc/issues/6) @eneiluj
+- export project stats and settlement plan as csv
+[#6](https://gitlab.com/eneiluj/cospend-nc/issues/6) @poVoq
+- button to apply settlement by automatically adding corresponding bills
+[#2](https://gitlab.com/eneiluj/cospend-nc/issues/2) @eneiluj
+
+### Changed
+- make app description translatable
+
+### Fixed
+- slash is now forbidden in project ID
+- add missing loading icons
+- balance number display when close to 0
+
 ## 0.0.3 – 2019-02-14
 ### Added
 - loading icon everywhere

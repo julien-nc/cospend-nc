@@ -298,14 +298,15 @@
         });
     }
 
-    function createBill(projectid, what, amount, payer_id, date, owerIds) {
+    function createBill(projectid, what, amount, payer_id, date, owerIds, repeat) {
         $('.loading-bill').addClass('icon-loading-small');
         var req = {
             what: what,
             date: date,
             payer: payer_id,
             payed_for: owerIds.join(','),
-            amount: amount
+            amount: amount,
+            repeat: repeat
         };
         var url, type;
         if (!cospend.pageIsPublic) {
@@ -328,7 +329,8 @@
                 what: what,
                 date: date,
                 amount: amount,
-                payer_id: payer_id
+                payer_id: payer_id,
+                repeat: repeat
             };
             var billOwers = [];
             for (var i=0; i < owerIds.length; i++) {
@@ -339,7 +341,7 @@
             // update ui
             var bill = cospend.bills[projectid][billid];
             updateBillItem(projectid, 0, bill);
-            updateDisplayedBill(projectid, billid, what, payer_id);
+            updateDisplayedBill(projectid, billid, what, payer_id, repeat);
 
             updateProjectBalances(projectid);
 
@@ -351,14 +353,15 @@
         });
     }
 
-    function saveBill(projectid, billid, what, amount, payer_id, date, owerIds) {
+    function saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat) {
         $('.loading-bill').addClass('icon-loading-small');
         var req = {
             what: what,
             date: date,
             payer: payer_id,
             payed_for: owerIds.join(','),
-            amount: amount
+            amount: amount,
+            repeat: repeat
         };
         var url, type;
         if (!cospend.pageIsPublic) {
@@ -382,6 +385,7 @@
             cospend.bills[projectid][billid].date = date;
             cospend.bills[projectid][billid].amount = amount;
             cospend.bills[projectid][billid].payer_id = payer_id;
+            cospend.bills[projectid][billid].repeat = repeat;
             var billOwers = [];
             for (var i=0; i < owerIds.length; i++) {
                 billOwers.push({id: owerIds[i]});
@@ -391,7 +395,7 @@
             // update ui
             var bill = cospend.bills[projectid][billid];
             updateBillItem(projectid, billid, bill);
-            updateDisplayedBill(projectid, billid, what, payer_id);
+            updateDisplayedBill(projectid, billid, what, payer_id, repeat);
 
             updateProjectBalances(projectid);
 
@@ -424,7 +428,11 @@
         for (var i=0; i < links.length; i++) {
             formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">['+t('cospend', 'link')+']</a> ';
         }
-        var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '');
+        var repeatChar = '';
+        if (bill.repeat !== 'n') {
+            repeatChar = ' ⏩';
+        }
+        var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
 
         var title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
             bill.date + '\n' + memberName + ' -> ' + owerNames;
@@ -813,7 +821,7 @@
         return cospend.projects[projectid].name;
     }
 
-    function updateDisplayedBill(projectid, billid, what, payer_id) {
+    function updateDisplayedBill(projectid, billid, what, payer_id, repeat) {
         var projectName = getProjectName(projectid);
         $('.bill-title').attr('billid', billid);
         var c = {h: 0, s: 0, l: 50};
@@ -827,7 +835,11 @@
         for (var i=0; i < links.length; i++) {
             formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">['+t('cospend', 'link')+']</a> ';
         }
-        var whatFormatted = what.replace(/https?:\/\/[^\s]+/gi, '');
+        var repeatChar = '';
+        if (repeat !== 'n') {
+            repeatChar = ' ⏩';
+        }
+        var whatFormatted = what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
         $('.bill-title').html(
             '<span class="icon-edit-white"></span>' +
             t('cospend', 'Bill : {what}', {what: whatFormatted}) +
@@ -907,7 +919,11 @@
         for (var i=0; i < links.length; i++) {
             formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">['+t('cospend', 'link')+']</a> ';
         }
-        var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '');
+        var repeatChar = '';
+        if (bill.repeat !== 'n') {
+            repeatChar = ' ⏩';
+        }
+        var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
         var titleStr = t('cospend', 'Bill : {what}', {what: whatFormatted});
 
         var allStr = t('cospend', 'All');
@@ -956,6 +972,17 @@
             '                '+dateStr+
             '            </label>' +
             '            <input type="date" id="date" class="input-bill-date" value="'+bill.date+'"/>' +
+            '            <label for="repeatbill">' +
+            '                <a class="icon icon-play-next"></a>' +
+            '                '+t('cospend', 'Repeat this bill every')+
+            '            </label>' +
+            '            <select id="repeatbill">' +
+            '               <option value="n">'+t('cospend', 'do not repeat')+'</option>' +
+            '               <option value="d">'+t('cospend', 'day')+'</option>' +
+            '               <option value="w">'+t('cospend', 'week')+'</option>' +
+            '               <option value="m">'+t('cospend', 'month')+'</option>' +
+            '               <option value="y">'+t('cospend', 'year')+'</option>' +
+            '            </select>' +
             '        </div>' +
             '    </div>' +
             '    <div class="bill-right">' +
@@ -972,6 +999,7 @@
 
         $(detail).appendTo('#billdetail');
         $('#billdetail .input-bill-what').focus().select();
+        $('#repeatbill').val(bill.repeat);
     }
 
     function getMemberName(projectid, memberid) {
@@ -1021,7 +1049,11 @@
         for (var i=0; i < links.length; i++) {
             formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">['+t('cospend', 'link')+']</a> ';
         }
-        var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '');
+        var repeatChar = '';
+        if (bill.repeat !== 'n') {
+            repeatChar = ' ⏩';
+        }
+        var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
 
         if (bill.id !== 0) {
             if (!cospend.members[projectid].hasOwnProperty(bill.payer_id)) {
@@ -1344,6 +1376,7 @@
         var date = $('.input-bill-date').val();
         var amount = parseFloat($('.input-bill-amount').val());
         var payer_id = parseInt($('.input-bill-payer').val());
+        var repeat = $('#repeatbill').val();
         var owerIds = [];
         var owerId;
         $('.owerEntry input').each(function() {
@@ -1374,10 +1407,10 @@
         // if valid, save the bill or create it if needed
         if (valid) {
             if (billid === '0') {
-                createBill(projectid, what, amount, payer_id, date, owerIds);
+                createBill(projectid, what, amount, payer_id, date, owerIds, repeat);
             }
             else {
-                saveBill(projectid, billid, what, amount, payer_id, date, owerIds);
+                saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat);
             }
         }
         else {

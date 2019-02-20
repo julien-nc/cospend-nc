@@ -380,9 +380,9 @@ class PageController extends Controller {
      * @NoAdminRequired
      *
      */
-    public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount) {
+    public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
-            return $this->editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount);
+            return $this->editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat);
         }
         else {
             $response = new DataResponse(
@@ -414,9 +414,9 @@ class PageController extends Controller {
      * @NoAdminRequired
      *
      */
-    public function webAddBill($projectid, $date, $what, $payer, $payed_for, $amount) {
+    public function webAddBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
-            return $this->addBill($projectid, $date, $what, $payer, $payed_for, $amount);
+            return $this->addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat);
         }
         else {
             $response = new DataResponse(
@@ -729,9 +729,9 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      */
-    public function apiAddBill($projectid, $password, $date, $what, $payer, $payed_for, $amount) {
+    public function apiAddBill($projectid, $password, $date, $what, $payer, $payed_for, $amount, $repeat='n') {
         if ($this->checkLogin($projectid, $password)) {
-            return $this->addBill($projectid, $date, $what, $payer, $payed_for, $amount);
+            return $this->addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat);
         }
         else {
             $response = new DataResponse(
@@ -747,9 +747,9 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      */
-    public function apiEditBill($projectid, $password, $billid, $date, $what, $payer, $payed_for, $amount) {
+    public function apiEditBill($projectid, $password, $billid, $date, $what, $payer, $payed_for, $amount, $repeat='n') {
         if ($this->checkLogin($projectid, $password)) {
-            return $this->editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount);
+            return $this->editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat);
         }
         else {
             $response = new DataResponse(
@@ -1066,7 +1066,7 @@ class PageController extends Controller {
 
         // get the bill
         $sql = '
-            SELECT id, what, date, amount, payerid
+            SELECT id, what, date, amount, payerid, repeat
             FROM *PREFIX*cospend_bills
             WHERE projectid='.$this->db_quote_escape_string($projectId).' ;';
         $req = $this->dbconnection->prepare($sql);
@@ -1076,6 +1076,7 @@ class PageController extends Controller {
             $dbAmount = floatval($row['amount']);
             $dbWhat = $row['what'];
             $dbDate = $row['date'];
+            $dbRepeat = $row['repeat'];
             $dbPayerId= intval($row['payerid']);
             $bill = [
                 'id' => $dbBillId,
@@ -1083,7 +1084,8 @@ class PageController extends Controller {
                 'what' => $dbWhat,
                 'date' => $dbDate,
                 'payer_id' => $dbPayerId,
-                'owers' => $billOwers
+                'owers' => $billOwers,
+                'repeat' => $dbRepeat
             ];
         }
         $req->closeCursor();
@@ -1142,7 +1144,7 @@ class PageController extends Controller {
         }
 
         $sql = '
-            SELECT id, what, date, amount, payerid
+            SELECT id, what, date, amount, payerid, repeat
             FROM *PREFIX*cospend_bills
             WHERE projectid='.$this->db_quote_escape_string($projectId).' ORDER BY date ASC;';
         $req = $this->dbconnection->prepare($sql);
@@ -1152,6 +1154,7 @@ class PageController extends Controller {
             $dbAmount = floatval($row['amount']);
             $dbWhat = $row['what'];
             $dbDate = $row['date'];
+            $dbRepeat = $row['repeat'];
             $dbPayerId= intval($row['payerid']);
             array_push(
                 $bills,
@@ -1161,7 +1164,8 @@ class PageController extends Controller {
                     'what' => $dbWhat,
                     'date' => $dbDate,
                     'payer_id' => $dbPayerId,
-                    'owers' => $billOwersByBill[$row['id']]
+                    'owers' => $billOwersByBill[$row['id']],
+                    'repeat' => $dbRepeat
                 ]
             );
         }
@@ -1316,7 +1320,7 @@ class PageController extends Controller {
         return $project;
     }
 
-    private function editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount) {
+    private function editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat) {
         // first check the bill exists
         if ($this->getBill($projectid, $billid) === null) {
             $response = new DataResponse(
@@ -1334,6 +1338,15 @@ class PageController extends Controller {
             return $response;
         }
         $whatSql = 'what='.$this->db_quote_escape_string($what);
+
+        if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
+            $response = new DataResponse(
+                ["repeat"=> ["Invalid value."]]
+                , 400
+            );
+            return $response;
+        }
+        $repeatSql = 'repeat='.$this->db_quote_escape_string($repeat).',';
 
         $dateSql = '';
         if ($date !== null && $date !== '') {
@@ -1394,6 +1407,7 @@ class PageController extends Controller {
                 SET
                      '.$dateSql.'
                      '.$amountSql.'
+                     '.$repeatSql.'
                      '.$payerSql.'
                      '.$whatSql.'
                 WHERE id='.$this->db_quote_escape_string($billid).'
@@ -1425,7 +1439,14 @@ class PageController extends Controller {
         return $response;
     }
 
-    private function addBill($projectid, $date, $what, $payer, $payed_for, $amount) {
+    private function addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat) {
+        if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
+            $response = new DataResponse(
+                ["repeat"=> ["Invalid value."]]
+                , 400
+            );
+            return $response;
+        }
         if ($date === null || $date === '') {
             $response = new DataResponse(
                 ["date"=> ["This field is required."]]
@@ -1490,13 +1511,14 @@ class PageController extends Controller {
         // do it already !
         $sql = '
             INSERT INTO *PREFIX*cospend_bills
-            (projectid, what, date, amount, payerid)
+            (projectid, what, date, amount, payerid, repeat)
             VALUES ('.
                 $this->db_quote_escape_string($projectid).','.
                 $this->db_quote_escape_string($what).','.
                 $this->db_quote_escape_string($date).','.
                 $this->db_quote_escape_string($amount).','.
-                $this->db_quote_escape_string($payer).
+                $this->db_quote_escape_string($payer).','.
+                $this->db_quote_escape_string($repeat).
             ') ;';
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
@@ -2425,7 +2447,7 @@ class PageController extends Controller {
                             array_push($owerIds, $memberNameToId[$owerName]);
                         }
                         $owerIdsStr = implode(',', $owerIds);
-                        $addBillResult = $this->addBill($projectid, $bill['date'], $bill['what'], $payerId, $owerIdsStr, $bill['amount']);
+                        $addBillResult = $this->addBill($projectid, $bill['date'], $bill['what'], $payerId, $owerIdsStr, $bill['amount'], 'n');
                         if ($addBillResult->getStatus() !== 200) {
                             $this->deleteProject($projectid);
                             $response = new DataResponse(['message'=>'Error when adding bill '.$bill['what']], 400);
@@ -2471,7 +2493,7 @@ class PageController extends Controller {
             $toId = $transaction['to'];
             $amount = floatval($transaction['amount']);
             $billTitle = $memberIdToName[$fromId].' → '.$memberIdToName[$toId];
-            $addBillResult = $this->addBill($projectid, $date, $billTitle, $fromId, $toId, $amount);
+            $addBillResult = $this->addBill($projectid, $date, $billTitle, $fromId, $toId, $amount, 'n');
             if ($addBillResult->getStatus() !== 200) {
                 $response = new DataResponse(['message'=>'Error when addind a bill'], 400);
                 return $response;

@@ -141,6 +141,13 @@
       <notnull>true</notnull>
       <length>4</length>
     </field>
+    <field>
+      <name>repeat</name>
+      <type>text</type>
+      <notnull>true</notnull>
+      <default>n</default>
+      <length>1</length>
+    </field>
   </declaration>
 </table>
  <table>

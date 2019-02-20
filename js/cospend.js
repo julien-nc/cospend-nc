@@ -999,7 +999,9 @@
 
         $(detail).appendTo('#billdetail');
         $('#billdetail .input-bill-what').focus().select();
-        $('#repeatbill').val(bill.repeat);
+        if (billid !== 0) {
+            $('#repeatbill').val(bill.repeat);
+        }
     }
 
     function getMemberName(projectid, memberid) {
@@ -1050,7 +1052,7 @@
             formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">['+t('cospend', 'link')+']</a> ';
         }
         var repeatChar = '';
-        if (bill.repeat !== 'n') {
+        if (bill.id !== 0 && bill.repeat !== 'n') {
             repeatChar = ' ⏩';
         }
         var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;

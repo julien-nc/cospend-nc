@@ -2503,4 +2503,89 @@ class PageController extends Controller {
         return $response;
     }
 
+    /**
+     * daily check of repeated bills
+     */
+    public function cronRepeatBills() {
+        $now = new \DateTime();
+        $y = intval($now->format('Y'));
+        $m = intval($now->format('m'));
+        $d = intval($now->format('d'));
+        // get bills whith repetition flag
+        $sql = '
+            SELECT id, projectid, what, repeat, date
+            FROM *PREFIX*cospend_bills
+            WHERE repeat<>'.$this->db_quote_escape_string('n').' ;';
+        $req = $this->dbconnection->prepare($sql);
+        $req->execute();
+        $bills = [];
+        while ($row = $req->fetch()){
+            $id = $row['id'];
+            $what = $row['what'];
+            $repeat = $row['repeat'];
+            $date = $row['date'];
+            $projectid = $row['projectid'];
+            array_push($bills, [
+                'id' => $id,
+                'what' => $what,
+                'repeat' => $repeat,
+                'date' => $date,
+                'projectid' => $projectid
+            ]);
+        }
+        $req->closeCursor();
+
+        foreach ($bills as $bill) {
+            $billDate = new \Datetime($bill['date']);
+            // does the bill need to be repeated now ?
+
+            // daily repeat : at least one day of difference
+            if ($bill['repeat'] === 'd' &&
+                $now->diff($billDate)->days >= 1
+            ) {
+                $this->repeatBill($bill['projectid'], $bill['id'], $now);
+            }
+            // weekly repeat : exactly 7 days of difference
+            else if ($bill['repeat'] === 'w' &&
+                $now->diff($billDate)->days === 7
+            ) {
+                $this->repeatBill($bill['projectid'], $bill['id'], $now);
+            }
+            // monthly repeat : more then 27 days of difference, same day of month
+            else if ($bill['repeat'] === 'm' &&
+                $now->diff($billDate)->days > 27 &&
+                $now->format('d') === $billDate->format('d')
+            ) {
+                $this->repeatBill($bill['projectid'], $bill['id'], $now);
+            }
+            // yearly repeat : more than 350 days of difference, same month, same day of month
+            else if ($bill['repeat'] === 'y' &&
+                $now->diff($billDate)->days > 350 &&
+                $now->format('d') === $billDate->format('d') &&
+                $now->format('m') === $billDate->format('m')
+            ) {
+                $this->repeatBill($bill['projectid'], $bill['id'], $now);
+            }
+        }
+    }
+
+    /**
+     * duplicate the bill today and give it the repeat flag
+     * remove the repeat flag on original bill
+     */
+    private function repeatBill($projectid, $billid, $datetime) {
+        $bill = $this->getBill($projectid, $billid);
+
+        $owerIds = [];
+        foreach ($bill['owers'] as $ower) {
+            array_push($owerIds, $ower['id']);
+        }
+        $owerIdsStr = implode(',', $owerIds);
+
+        $this->addBill($projectid, $datetime->format('Y-m-d'), $bill['what'], $bill['payer_id'], $owerIdsStr, $bill['amount'], $bill['repeat']);
+
+        // now we can remove repeat flag on original bill
+        $this->editBill($projectid, $billid, $bill['date'], $bill['what'], $bill['payer_id'], null, $bill['amount'], 'n');
+    }
+
 }

@@ -25,6 +25,9 @@
         <database min-version="5.5">mysql</database>
         <nextcloud min-version="15.0" max-version="15.9"/>
     </dependencies>
+    <background-jobs>
+        <job>OCA\Cospend\Cron\RepeatBills</job>
+    </background-jobs>
     <settings>
         <admin>OCA\Cospend\Settings\Admin</admin>
     </settings>

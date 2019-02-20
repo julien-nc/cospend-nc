@@ -45,6 +45,8 @@ appstore: clean
 	--exclude=ci \
 	--exclude=vendor/bin \
 	$(project_dir) $(sign_dir)
+	# generate info.xml with translations
+	cd $(sign_dir)/$(app_name)/l10n/descriptions && ./gen_info.xml.sh && mv info.xml ../../appinfo/
 	# give the webserver user the right to create signature file
 	sudo chown $(webserveruser) $(sign_dir)/$(app_name)/appinfo
 	sudo -u $(webserveruser) php $(occ_dir)/occ integrity:sign-app --privateKey=$(cert_dir)/$(app_name).key --certificate=$(cert_dir)/$(app_name).crt --path=$(sign_dir)/$(app_name)/

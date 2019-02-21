@@ -1068,7 +1068,8 @@ class PageController extends Controller {
         $sql = '
             SELECT id, what, date, amount, payerid, repeat
             FROM *PREFIX*cospend_bills
-            WHERE projectid='.$this->db_quote_escape_string($projectId).' ;';
+            WHERE projectid='.$this->db_quote_escape_string($projectId).'
+                AND id='.$this->db_quote_escape_string($billId).' ;';
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
         while ($row = $req->fetch()){

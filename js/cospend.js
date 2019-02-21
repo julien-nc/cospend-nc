@@ -440,7 +440,7 @@
         var item = '<a href="#" class="app-content-list-item billitem" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
             '<div class="app-content-list-item-icon" style="background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);">'+memberFirstLetter+'</div>' +
             '<div class="app-content-list-item-line-one">'+whatFormatted+'</div>' +
-            '<div class="app-content-list-item-line-two">'+bill.amount.toFixed(2)+' ('+memberName+' -> '+owerNames+')</div>' +
+            '<div class="app-content-list-item-line-two">'+bill.amount.toFixed(2)+' ('+memberName+' → '+owerNames+')</div>' +
             '<span class="app-content-list-item-details">'+bill.date+'</span>' +
             '<div class="icon-delete deleteBillIcon"></div>' +
             '<div class="icon-history undoDeleteBill" style="'+undoDeleteBillStyle+'" title="Undo"></div>' +

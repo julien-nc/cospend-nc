@@ -977,7 +977,7 @@
             '                '+t('cospend', 'Repeat this bill every')+
             '            </label>' +
             '            <select id="repeatbill">' +
-            '               <option value="n">'+t('cospend', 'do not repeat')+'</option>' +
+            '               <option value="n" selected>'+t('cospend', 'do not repeat')+'</option>' +
             '               <option value="d">'+t('cospend', 'day')+'</option>' +
             '               <option value="w">'+t('cospend', 'week')+'</option>' +
             '               <option value="m">'+t('cospend', 'month')+'</option>' +

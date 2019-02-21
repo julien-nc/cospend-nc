@@ -2508,14 +2508,11 @@ class PageController extends Controller {
      */
     public function cronRepeatBills() {
         $now = new \DateTime();
-        $y = intval($now->format('Y'));
-        $m = intval($now->format('m'));
-        $d = intval($now->format('d'));
         // get bills whith repetition flag
         $sql = '
             SELECT id, projectid, what, repeat, date
             FROM *PREFIX*cospend_bills
-            WHERE repeat<>'.$this->db_quote_escape_string('n').' ;';
+            WHERE repeat != '.$this->db_quote_escape_string('n').' ;';
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
         $bills = [];

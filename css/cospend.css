@@ -82,12 +82,16 @@ b.memberName, b.memberWeight {
     cursor: pointer;
     /*height: 16px;
     min-height: 16px;*/
-    -ms-transform: scale(1.8); /* IE */
-    -moz-transform: scale(1.8); /* FF */
-    -webkit-transform: scale(1.8); /* Safari and Chrome */
-    -o-transform: scale(1.8); /* Opera */
     padding: 5px;
     min-height: 0px;
+}
+.bill-owers input[type=number] {
+    display: none;
+}
+.bill-owers #owerCustomAmount,
+.bill-owers .numberlabel,
+.bill-owers #owerCustomAmountValidate {
+    display: none;
 }
 .owerAllNoneDiv,
 .owerEntry {

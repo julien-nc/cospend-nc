@@ -298,7 +298,7 @@
         });
     }
 
-    function createBill(projectid, what, amount, payer_id, date, owerIds, repeat) {
+    function createBill(projectid, what, amount, payer_id, date, owerIds, repeat, custom=false) {
         $('.loading-bill').addClass('icon-loading-small');
         var req = {
             what: what,
@@ -340,8 +340,13 @@
 
             // update ui
             var bill = cospend.bills[projectid][billid];
-            updateBillItem(projectid, 0, bill);
-            updateDisplayedBill(projectid, billid, what, payer_id, repeat);
+            if (!custom) {
+                updateBillItem(projectid, 0, bill);
+                updateDisplayedBill(projectid, billid, what, payer_id, repeat);
+            }
+            else {
+                addBill(projectid, bill);
+            }
 
             updateProjectBalances(projectid);
 
@@ -437,7 +442,7 @@
         var title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
             bill.date + '\n' + memberName + ' -> ' + owerNames;
         var c = getMemberColor(memberName);
-        var item = '<a href="#" class="app-content-list-item billitem" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
+        var item = '<a href="#" class="app-content-list-item billitem selectedbill" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
             '<div class="app-content-list-item-icon" style="background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);">'+memberFirstLetter+'</div>' +
             '<div class="app-content-list-item-line-one">'+whatFormatted+'</div>' +
             '<div class="app-content-list-item-line-two">'+bill.amount.toFixed(2)+' ('+memberName+' → '+owerNames+')</div>' +
@@ -826,6 +831,7 @@
         $('.bill-title').attr('billid', billid);
         var c = {h: 0, s: 0, l: 50};
         if (billid !== 0) {
+            $('#owerCustomAmount').hide();
             var payerName = getMemberName(projectid, payer_id);
             c = getMemberColor(payerName);
         }
@@ -892,8 +898,10 @@
             if (member.activated || owerIds.indexOf(member.id) !== -1) {
                 owerCheckboxes = owerCheckboxes +
                     '<div class="owerEntry">' +
+                    '<input id="amount'+projectid+member.id+'" owerid="'+member.id+'" class="customamountinput" type="number" value="" step="0.01" min="0"/>' +
+                    '<label for="amount'+projectid+member.id+'" class="numberlabel">'+member.name+'</label>' +
                     '<input id="'+projectid+member.id+'" owerid="'+member.id+'" class="checkbox" type="checkbox"'+checked+readonly+'/>' +
-                    '<label for="'+projectid+member.id+'">'+member.name+'</label>' +
+                    '<label for="'+projectid+member.id+'" class="checkboxlabel">'+member.name+'</label>' +
                     '</div>';
             }
         }
@@ -928,6 +936,8 @@
 
         var allStr = t('cospend', 'All');
         var noneStr = t('cospend', 'None');
+        var customAmountStr = t('cospend', 'Custom amount per member');
+        var customAmountValidateStr = t('cospend', 'Create bills');
         var addFileLinkText = t('cospend', 'Attach public link to personal file');
 
         var addFileHtml = '';
@@ -989,6 +999,8 @@
             '        <div class="bill-owers">' +
             '            <a class="icon icon-group"></a><span>'+owersStr+'</span>' +
             '            <div class="owerAllNoneDiv">' +
+            '            <button id="owerCustomAmount"><span class="icon-settings-dark"></span> '+customAmountStr+'</button>' +
+            '            <button id="owerCustomAmountValidate"><span class="icon-confirm"></span> '+customAmountValidateStr+'</button>' +
             '            <button id="owerAll">'+allStr+'</button>' +
             '            <button id="owerNone">'+noneStr+'</button>' +
             '            </div>' +
@@ -1001,6 +1013,9 @@
         $('#billdetail .input-bill-what').focus().select();
         if (billid !== 0) {
             $('#repeatbill').val(bill.repeat);
+        }
+        else {
+            $('#owerCustomAmount').show();
         }
     }
 
@@ -1374,6 +1389,11 @@
         // check fields validity
         var valid = true;
 
+        // if this is a new bill and custm amount is enabled : get out
+        if (billid === '0' && $('#owerCustomAmount span').hasClass('icon-user-admin')) {
+            return;
+        }
+
         var what = $('.input-bill-what').val();
         var date = $('.input-bill-date').val();
         var amount = parseFloat($('.input-bill-amount').val());
@@ -1731,6 +1751,69 @@
             $('#addFileLinkButton').removeClass('icon-loading-small');
             OC.Notification.showTemporary(t('cospend', 'Failed to import project file') + ' ' + response.responseText);
         });
+    }
+
+    function updateCustomAmount() {
+        var tot = 0;
+        $('.customamountinput').each(function() {
+            var val = parseFloat($(this).val());
+            if (!isNaN(val) && val > 0.0) {
+                tot = tot + val;
+            }
+        });
+        $('#amount').val(tot);
+    }
+
+    function createCustomAmountBill() {
+        var projectid = $('.bill-title').attr('projectid');
+
+        var what = $('.input-bill-what').val();
+        var date = $('.input-bill-date').val();
+        var amount = parseFloat($('.input-bill-amount').val());
+        var payer_id = parseInt($('.input-bill-payer').val());
+        var repeat = 'n';
+
+        var valid = true;
+
+        if (what === null || what === '') {
+            valid = false;
+        }
+        if (date === null || date === '' || date.match(/^\d\d\d\d-\d\d-\d\d$/g) === null) {
+            valid = false;
+        }
+        if (isNaN(amount) || isNaN(payer_id)) {
+            valid = false;
+        }
+
+        if (valid) {
+            var total = 0;
+            $('.customamountinput').each(function() {
+                var owerId = parseInt($(this).attr('owerid'));
+                var amountVal = parseFloat($(this).val());
+                if (!isNaN(amountVal) && amountVal > 0.0) {
+                    createBill(projectid, what, amountVal, payer_id, date, [owerId], repeat, true);
+                    total = total + amountVal;
+                }
+            });
+            // if something was actually created, clean up
+            if (total > 0) {
+                // empty bill detail
+                $('#billdetail').html('');
+                // remove new bill line
+                $('.billitem[billid=0]').fadeOut('slow', function() {
+                    $(this).remove();
+                    if ($('.billitem').length === 0) {
+                        $('#bill-list').html('<h2 class="nobill">'+t('cospend', 'No bill yet')+'</h2>');
+                    }
+                });
+            }
+            else {
+                OC.Notification.showTemporary(t('cospend', 'There is no custom amount'));
+            }
+        }
+        else {
+            OC.Notification.showTemporary(t('cospend', 'Invalid values'));
+        }
     }
 
     $(document).ready(function() {
@@ -2124,11 +2207,12 @@
                         date: moment().format('YYYY-MM-DD'),
                         amount: 0.0,
                         payer_id: 0,
+                        repeat: 'n',
                         owers: []
                     };
                     addBill(projectid, bill)
-                    displayBill(projectid, bill.id);
                 }
+                displayBill(projectid, 0);
             }
             else {
                 OC.Notification.showTemporary(t('cospend', '2 active members are required to create a bill'));
@@ -2226,6 +2310,36 @@
         $('body').on('click', '.autoSettlement', function() {
             var projectid = $(this).attr('projectid');
             autoSettlement(projectid);
+        });
+
+        $('body').on('click', '#owerCustomAmount', function() {
+            $('#owerCustomAmountValidate').toggle();
+            $('#owerNone').toggle();
+            $('#owerAll').toggle();
+            $('.bill-owers .checkbox').toggle();
+            $('.bill-owers .checkboxlabel').toggle();
+            $('.bill-owers .numberlabel').toggle();
+            $('.bill-owers input[type=number]').toggle();
+            $('#owerCustomAmount span').toggleClass('icon-settings-dark').toggleClass('icon-user-admin');
+            $('#amount').prop('disabled', function(i, v) {
+                if (!v) {
+                    updateCustomAmount();
+                }
+                else {
+                    $('#amount').val('0');
+                }
+                return !v;
+            });
+            $('#repeatbill').val('n').prop('disabled', function(i, v) { return !v; });
+        });
+
+        $('body').on('keyup paste change', '.customamountinput', function(e) {
+            updateCustomAmount();
+        });
+
+        $('body').on('click', '#owerCustomAmountValidate', function() {
+            updateCustomAmount();
+            createCustomAmountBill();
         });
 
         // last thing to do : get the projects

@@ -188,7 +188,8 @@ input[type=number] {
     padding-right: 15px;
 }
 .loading-bill {
-    margin-left: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 .nobill {
     text-align: center;

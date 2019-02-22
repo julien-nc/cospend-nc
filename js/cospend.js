@@ -430,14 +430,16 @@
 
         var links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
         var formattedLinks = '';
+        var linkChars = '';
         for (var i=0; i < links.length; i++) {
             formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">['+t('cospend', 'link')+']</a> ';
+            linkChars = linkChars + '  🔗';
         }
         var repeatChar = '';
         if (bill.repeat !== 'n') {
             repeatChar = ' ⏩';
         }
-        var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
+        var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
 
         var title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
             bill.date + '\n' + memberName + ' -> ' + owerNames;
@@ -839,7 +841,7 @@
         var links = what.match(/https?:\/\/[^\s]+/gi) || [];
         var formattedLinks = '';
         for (var i=0; i < links.length; i++) {
-            formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">['+t('cospend', 'link')+']</a> ';
+            formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">[🔗 '+t('cospend', 'link')+']</a> ';
         }
         var repeatChar = '';
         if (repeat !== 'n') {
@@ -847,10 +849,10 @@
         }
         var whatFormatted = what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
         $('.bill-title').html(
+            '<span class="loading-bill"></span>' +
             '<span class="icon-edit-white"></span>' +
             t('cospend', 'Bill : {what}', {what: whatFormatted}) +
-            ' ' + formattedLinks +
-            '<span class="loading-bill"></span>'
+            ' ' + formattedLinks
         );
         $('.bill-title').attr('style', 'background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);');
     }
@@ -925,7 +927,7 @@
         var links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
         var formattedLinks = '';
         for (var i=0; i < links.length; i++) {
-            formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">['+t('cospend', 'link')+']</a> ';
+            formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">[🔗 '+t('cospend', 'link')+']</a> ';
         }
         var repeatChar = '';
         if (bill.repeat !== 'n') {
@@ -948,8 +950,8 @@
         var detail =
             '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 class="bill-title" projectid="'+projectid+'" billid="'+bill.id+'" style="background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);">' +
-            '    <span class="icon-edit-white"></span>'+titleStr+' '+formattedLinks +
             '    <span class="loading-bill"></span>' +
+            '    <span class="icon-edit-white"></span>'+titleStr+' '+formattedLinks +
             '</h2>' +
             '<div class="bill-form">' +
             '    <div class="bill-left">' +
@@ -1063,14 +1065,16 @@
 
         var links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
         var formattedLinks = '';
+        var linkChars = '';
         for (var i=0; i < links.length; i++) {
             formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">['+t('cospend', 'link')+']</a> ';
+            linkChars = linkChars + '  🔗';
         }
         var repeatChar = '';
         if (bill.id !== 0 && bill.repeat !== 'n') {
             repeatChar = ' ⏩';
         }
-        var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
+        var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
 
         if (bill.id !== 0) {
             if (!cospend.members[projectid].hasOwnProperty(bill.payer_id)) {

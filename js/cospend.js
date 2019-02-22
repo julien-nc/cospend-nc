@@ -87,8 +87,8 @@
         return hexStringR+hexStringG+hexStringB;
     }
 
-    function Timer(callback, delay) {
-        var timerId, start, remaining = delay;
+    function Timer(callback, mydelay) {
+        var timerId, start, remaining = mydelay;
 
         this.pause = function() {
             window.clearTimeout(timerId);
@@ -104,12 +104,12 @@
         this.resume();
     }
 
-    var timer = 0;
+    var mytimer = 0;
     function delay(callback, ms) {
         return function() {
             var context = this, args = arguments;
-            clearTimeout(timer);
-            timer = setTimeout(function () {
+            clearTimeout(mytimer);
+            mytimer = setTimeout(function () {
                 callback.apply(context, args);
             }, ms || 0);
         };
@@ -1412,7 +1412,28 @@
                 createBill(projectid, what, amount, payer_id, date, owerIds, repeat);
             }
             else {
-                saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat);
+                // if values have changed, save the bill
+                var oldBill = cospend.bills[projectid][billid];
+                // if ower lists don't have the same length, it has changed
+                var owersChanged = (oldBill.owers.length !== owerIds.length);
+                // same length : check content
+                if (!owersChanged) {
+                    for (var i=0; i < oldBill.owers.length; i++) {
+                        if (owerIds.indexOf(oldBill.owers[i].id) === -1) {
+                            owersChanged = true;
+                            break;
+                        }
+                    }
+                }
+                if (oldBill.what !== what ||
+                    oldBill.amount !== amount ||
+                    oldBill.date !== date ||
+                    oldBill.repeat !== repeat ||
+                    oldBill.payer_id !== payer_id ||
+                    owersChanged
+                ) {
+                    saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat);
+                }
             }
         }
         else {

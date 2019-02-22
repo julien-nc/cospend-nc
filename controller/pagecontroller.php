@@ -1066,7 +1066,7 @@ class PageController extends Controller {
 
         // get the bill
         $sql = '
-            SELECT id, what, date, amount, payerid, repeat
+            SELECT id, what, date, amount, payerid, `repeat`
             FROM *PREFIX*cospend_bills
             WHERE projectid='.$this->db_quote_escape_string($projectId).'
                 AND id='.$this->db_quote_escape_string($billId).' ;';
@@ -1145,7 +1145,7 @@ class PageController extends Controller {
         }
 
         $sql = '
-            SELECT id, what, date, amount, payerid, repeat
+            SELECT id, what, date, amount, payerid, `repeat`
             FROM *PREFIX*cospend_bills
             WHERE projectid='.$this->db_quote_escape_string($projectId).' ORDER BY date ASC;';
         $req = $this->dbconnection->prepare($sql);
@@ -1512,7 +1512,7 @@ class PageController extends Controller {
         // do it already !
         $sql = '
             INSERT INTO *PREFIX*cospend_bills
-            (projectid, what, date, amount, payerid, repeat)
+            (projectid, what, date, amount, payerid, `repeat`)
             VALUES ('.
                 $this->db_quote_escape_string($projectid).','.
                 $this->db_quote_escape_string($what).','.
@@ -2511,9 +2511,9 @@ class PageController extends Controller {
         $now = new \DateTime();
         // get bills whith repetition flag
         $sql = '
-            SELECT id, projectid, what, repeat, date
+            SELECT id, projectid, what, `repeat`, date
             FROM *PREFIX*cospend_bills
-            WHERE repeat != '.$this->db_quote_escape_string('n').' ;';
+            WHERE `repeat` != '.$this->db_quote_escape_string('n').' ;';
         $req = $this->dbconnection->prepare($sql);
         $req->execute();
         $bills = [];

@@ -1810,6 +1810,7 @@
                         $('#bill-list').html('<h2 class="nobill">'+t('cospend', 'No bill yet')+'</h2>');
                     }
                 });
+                $('.app-content-list').removeClass('showdetails');
             }
             else {
                 OC.Notification.showTemporary(t('cospend', 'There is no custom amount'));

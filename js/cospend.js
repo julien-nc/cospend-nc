@@ -2338,8 +2338,15 @@
             $('#repeatbill').val('n').prop('disabled', function(i, v) { return !v; });
         });
 
-        $('body').on('keyup paste change', '.customamountinput', function(e) {
+        $('body').on('paste change', '.customamountinput', function(e) {
             updateCustomAmount();
+        });
+
+        $('body').on('keyup','.customamountinput', function(e) {
+            updateCustomAmount();
+            if (e.key === 'Enter') {
+                createCustomAmountBill();
+            }
         });
 
         $('body').on('click', '#owerCustomAmountValidate', function() {

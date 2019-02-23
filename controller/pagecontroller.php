@@ -2004,19 +2004,19 @@ class PageController extends Controller {
                         $manager->notify($notification);
                     }
                     else {
-                        $response = new DataResponse(['message'=>'Already shared with this user'], 403);
+                        $response = new DataResponse(['message'=>'Already shared with this user'], 400);
                     }
                 }
                 else {
-                    $response = new DataResponse(['message'=>'Impossible to share the project with its owner'], 403);
+                    $response = new DataResponse(['message'=>'Impossible to share the project with its owner'], 400);
                 }
             }
             else {
-                $response = new DataResponse(['message'=>'Access denied'], 403);
+                $response = new DataResponse(['message'=>'Access denied'], 400);
             }
         }
         else {
-            $response = new DataResponse(['message'=>'No such user'], 401);
+            $response = new DataResponse(['message'=>'No such user'], 400);
         }
 
         return $response;

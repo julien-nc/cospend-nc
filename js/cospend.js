@@ -1566,7 +1566,7 @@
 
     function addUserShare(projectid, userid, username) {
         var li = '<li userid="'+escapeHTML(userid)+'" username="' + escapeHTML(username) + '">' +
-            '<div class="shareLabel">' + t('phonetrack', 'Shared with {u}', {'u': username}) + '</div>' +
+            '<div class="shareLabel">' + t('cospend', 'Shared with {u}', {'u': username}) + '</div>' +
             '<div class="icon-delete deleteUserShareButton"></div></li>';
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share').append(li);
         $('.projectitem[projectid="' + projectid + '"] .shareinput').val('');

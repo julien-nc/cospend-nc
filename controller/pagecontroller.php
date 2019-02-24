@@ -71,7 +71,7 @@ class PageController extends Controller {
             $this->dbdblquotes = '"';
         }
         else{
-            $this->dbdblquotes = '';
+            $this->dbdblquotes = '`';
         }
         $this->dbconnection = \OC::$server->getDatabaseConnection();
         if ($UserId !== '' and $userfolder !== null){

@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 0.0.4 – 2019-02-??
+## 0.0.5 – 2019-02-28
 ### Added
 - ability to add public link to NC files in bill name
 [#4](https://gitlab.com/eneiluj/cospend-nc/issues/4) @poVoq
@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [#6](https://gitlab.com/eneiluj/cospend-nc/issues/6) @poVoq
 - button to apply settlement by automatically adding corresponding bills
 [#2](https://gitlab.com/eneiluj/cospend-nc/issues/2) @eneiluj
+- option to periodically repeat a bill (day/week/month/year)
+[#3](https://gitlab.com/eneiluj/cospend-nc/issues/3) @poVoq
+- let user give custom amount per member for new bills => creates several bills
+[#7](https://gitlab.com/eneiluj/cospend-nc/issues/7) @poVoq
 
 ### Changed
 - make app description translatable
@@ -24,6 +28,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - slash is now forbidden in project ID
 - add missing loading icons
 - balance number display when close to 0
+- avoid saving bill if values haven't changed
+- SQL queries compat with PostgreSQL
 
 ## 0.0.3 – 2019-02-14
 ### Added

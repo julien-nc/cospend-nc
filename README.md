@@ -7,7 +7,7 @@
 Nextcloud Cospend is a group/shared budget manager.
 It was inspired by the great [IHateMoney](https://github.com/spiral-project/ihatemoney/).
 
-You can use it when you share a house, when you go in vacation with friends, whenever you share money with others.
+You can use it when you share a house, when you go on vacation with friends, whenever you share money with others.
 
 It lets you create projects with members and bills. Each member has a balance computed from the project bills.
 This way you can see who owes the group and who the group owes. Ultimately you can ask for a settlement plan
@@ -26,8 +26,13 @@ people without a Nextcloud account. Each project has an ID and a password for gu
 * check member balances
 * display project's statistics
 * display settlement plan
+* automatically create reimbursement bills from settlement plan
+* create recurring bills (day/week/month/year)
+* optionally provide custom amount for each member in new bills
+* insert public link to a personal file in bill description (picture of physical bill for example)
 * guest access for people outside Nextcloud
 * share a project with Nextcloud users
+* import/export projects as csv (compatible with csv files from IHateMoney)
 
 This app is tested on Nextcloud 15 with Firefox 57+ and Chromium.
 

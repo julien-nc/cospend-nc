@@ -1,4 +1,4 @@
-# Nextcloud Cospend
+# Nextcloud Cospend 💰
 
 Nextcloud Cospend est un gestionnaire de dépenses partagées (de groupe). Il a été inspiré par le génial [IHateMoney](https://github.com/spiral-project/ihatemoney/).
 
@@ -8,21 +8,23 @@ Cospend vous permet de créer des projets avec des membres et des factures. Chaq
 
 Les membres du projets sont indépendants des utilisateurs Nextcloud. Une fois que vous avez accès à un projet (en tant qu'invité ou en tant qu'utilisateur Nextcloud), il n'y a aucune restriction sur ce que vous pouvez ajouter/éditer/supprimer. Les projets peuvent être consultés et modifiés par des personnes sans compte Nextcloud. Chaque projet a un identifiant et un mot de passe pour l'accès invité.
 
-Le client Android [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) est disponible (bientôt sur F-Droid).
+Le client Android [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) est [disponible dans F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/).
 
 ## Fonctionnalités
 
-* créer/éditer/supprimer un projet, membre, facture
-* vérifier les soldes des membres
-* afficher les statistiques du projet
-* afficher le plan de remboursement
-* créer automatiquement les factures correspondant au plan de remboursement
-* créer des factures récurrentes (jour/semaine/mois/année)
-* entrer un montant personnalisé pour chaque membre dans une nouvelles facture
-* insérer un lien public vers un fichier personnel dans la description de la facture (photo de la facture physique par exemple)
-* accès invité pour les personnes en dehors de Nextcloud
-* partager un projet avec les utilisateurs de Nextcloud
-* importer/exporter des projets en csv (compatible avec les fichiers csv d'IHateMoney)
+* ✎ créer/éditer/supprimer des projets, membres, factures
+* ⚖ voir les soldes des membres
+* 🗠 afficher les statistiques des projets
+* ♻ afficher un plan de remboursement
+* 🎇 créer automatiquement les factures correspondant au plan de remboursement
+* 🗓 créer des factures récurrentes (jour/semaine/mois/année)
+* 📊 entrer un montant personnalisé pour chaque membre dans les nouvelles factures
+* 🔗 insérer un lien public vers un fichier personnel dans la description de la facture (photo de la facture physique par exemple)
+* 👩 accès invité pour les personnes en dehors du Nextcloud
+* 👫 partager un projet avec des utilisateurs Nextcloud
+* 🖫 importer/exporter des projets en csv (compatible avec les fichiers csv d'IHateMoney)
+* 🖧 ajouter des projets externes (hébergés par une autre instance Nextcloud)
+* 🔗 générez des liens/QRCode pour facilement importer des projets dans MoneyBuster
 
 Cette application est testée sur Nextcloud 15 avec Firefox 57+ et Chromium.
 
@@ -32,11 +34,9 @@ Cette appli est en développement.
 
 ⚒ Découvrez d'autres façons d'aider dans les [indications de contribution](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
-Lien vers le site des applications Nextcloud : https://apps.nextcloud.com/apps/cospend
-
 ## Installer
 
-Voir l' [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc) pour les détails de l'installation.
+Voir l'[AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc) pour les détails de l'installation.
 
 Faites un tour vers le fichier [CHANGELOG](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) pour voir ce qui est nouveau et ce qui arrive dans la prochaine version.
 
@@ -44,6 +44,6 @@ Lisez le fichier [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUT
 
 ## Problèmes connus
 
-* ...
+* ça ne vous rend pas riche
 
 Tout retour sera apprécié.

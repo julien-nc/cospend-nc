@@ -19,7 +19,7 @@ namespace OCA\Cospend\Controller;
 
 use \OCA\Cospend\AppInfo\Application;
 
-class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
+class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 
     private $appName;
     private $request;
@@ -67,6 +67,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getShareManager(),
             $c->getServer()->getAppManager(),
             $c->getServer()->getUserManager(),
+            $c->query('ServerContainer')->getL10N($c->query('AppName')),
             $c->query('ServerContainer')->getLogger()
         );
 
@@ -79,6 +80,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getShareManager(),
             $c->getServer()->getAppManager(),
             $c->getServer()->getUserManager(),
+            $c->query('ServerContainer')->getL10N($c->query('AppName')),
             $c->query('ServerContainer')->getLogger()
         );
 
@@ -133,6 +135,22 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 1);
+
+        $resp = $this->pageController->webCreateProject('superproj', 'SuperProj', 'toto');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $this->assertEquals('superproj', $data);
+
+        $resp = $this->pageController->webDeleteProject('superproj');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $this->assertEquals('DELETED', $data);
+
+        $resp = $this->pageController->webDeleteProject('superprojdontexist');
+        $status = $resp->getStatus();
+        $this->assertEquals(403, $status);
     }
 
 }

@@ -1,7 +1,7 @@
 # Nextcloud Cospend app
 
 [![pipeline status](https://gitlab.com/eneiluj/cospend-nc/badges/master/pipeline.svg)](https://gitlab.com/eneiluj/cospend-nc/commits/master)
-[![coverage report](https://gitlab.com/eneiluj/cospend-nc/badges/master/coverage.svg)](https://gitlab.com/eneiluj/cospend-nc/commits/master)
+[![coverage report](https://gitlab.com/eneiluj/cospend-nc/badges/master/coverage.svg)](https://eneiluj.gitlab.io/cospend-nc/coverage/)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/moneybuster/localized.svg)](https://crowdin.com/project/moneybuster)
 
 Nextcloud Cospend is a group/shared budget manager.

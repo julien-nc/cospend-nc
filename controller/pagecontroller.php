@@ -1689,6 +1689,13 @@ class PageController extends Controller {
             $req = $this->dbconnection->prepare($sqldel);
             $req->execute();
             $req->closeCursor();
+            // delete shares
+            $sqldel = '
+                    DELETE FROM *PREFIX*cospend_shares
+                    WHERE projectid='.$this->db_quote_escape_string($projectid).' ;';
+            $req = $this->dbconnection->prepare($sqldel);
+            $req->execute();
+            $req->closeCursor();
             // delete project
             $sqldel = '
                     DELETE FROM *PREFIX*cospend_projects

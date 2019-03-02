@@ -108,6 +108,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
     public function tearDown() {
         // in case there was a failure and something was not deleted
         $resp = $this->pageController->webDeleteProject('superproj');
+        $resp = $this->pageController->webDeleteProject('projtodel');
     }
 
     public function testUtils() {
@@ -170,6 +171,29 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(1, count($data));
         $this->assertEquals(2, count($data[0]['members']));
 
+        // edit member
+        $resp = $this->pageController->webeditMember('superproj', $idMember1, 'roberto', 1, true);
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+
+        // create bills
+        $resp = $this->pageController->webAddBill('superproj', '2019-01-22', 'boomerang', $idMember1, $idMember1.','.$idMember2, 22.5, 'n');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $idBill1 = intval($data);
+
+        $resp = $this->pageController->webAddBill('superproj', '2019-01-25', 'agua', $idMember2, $idMember1, 12.3, 'n');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $idBill2 = intval($data);
+
+        // edit bill
+        $resp = $this->pageController->webeditBill('superproj', $idBill1, '2019-01-20', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, 'n');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+
         // DELETE PROJECT
         $resp = $this->pageController->webDeleteProject('superproj');
         $status = $resp->getStatus();
@@ -181,6 +205,30 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $this->pageController->webDeleteProject('superprojdontexist');
         $status = $resp->getStatus();
         $this->assertEquals(403, $status);
+
+        // CREATE PROJECT to delete
+        $resp = $this->pageController->webCreateProject('projtodel', 'ProjToDel', 'weakpasswd');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $this->assertEquals('projtodel', $data);
+
+        // attempt to delete : wrong user
+        $resp = $this->pageController2->webDeleteProject('projtodel');
+        $status = $resp->getStatus();
+        $this->assertEquals(403, $status);
+
+        // share the project with second user
+        $resp = $this->pageController->addUserShare('projtodel', 'test2');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+
+        // then it should be ok to delete
+        $resp = $this->pageController2->webDeleteProject('projtodel');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $this->assertEquals('DELETED', $data);
     }
 
 }

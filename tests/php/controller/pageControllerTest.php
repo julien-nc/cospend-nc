@@ -107,6 +107,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 
     public function tearDown() {
         // in case there was a failure and something was not deleted
+        $resp = $this->pageController->webDeleteProject('superproj');
     }
 
     public function testUtils() {
@@ -136,18 +137,47 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $done = $data['done'];
         $this->assertEquals($done, 1);
 
+        // CREATE PROJECT
         $resp = $this->pageController->webCreateProject('superproj', 'SuperProj', 'toto');
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
         $data = $resp->getData();
         $this->assertEquals('superproj', $data);
 
+        // create members
+        $resp = $this->pageController->webAddMember('superproj', 'robert');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $idMember1 = intval($data);
+
+        $resp = $this->pageController->webAddMember('superproj', 'bobby');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $idMember2 = intval($data);
+
+        // create member with unauthorized user
+        $resp = $this->pageController2->webAddMember('superproj', 'bobby');
+        $status = $resp->getStatus();
+        $this->assertEquals(403, $status);
+
+        // get members
+        $resp = $this->pageController->webGetProjects();
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $this->assertEquals(1, count($data));
+        $this->assertEquals(2, count($data[0]['members']));
+
+        // DELETE PROJECT
         $resp = $this->pageController->webDeleteProject('superproj');
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
         $data = $resp->getData();
         $this->assertEquals('DELETED', $data);
 
+        // DELETE PROJECT which does not exist
         $resp = $this->pageController->webDeleteProject('superprojdontexist');
         $status = $resp->getStatus();
         $this->assertEquals(403, $status);

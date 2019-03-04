@@ -171,10 +171,37 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(1, count($data));
         $this->assertEquals(2, count($data[0]['members']));
 
-        // edit member
-        $resp = $this->pageController->webeditMember('superproj', $idMember1, 'roberto', 1, true);
+        // get project info
+        $resp = $this->pageController->webGetProjectInfo('superproj');
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $this->assertEquals('superproj', $data['id']);
+        $this->assertEquals('SuperProj', $data['name']);
+        $this->assertEquals('test', $data['userid']);
+        foreach ($data['balance'] as $mid => $balance) {
+            $this->assertEquals(0, $balance);
+        }
+        foreach ($data['members'] as $mid => $memberInfo) {
+            $this->assertEquals(true, in_array($memberInfo['name'], ['robert', 'bobby']));
+        }
+
+        $resp = $this->pageController->webGetProjectInfo('superprojdoesnotexist');
+        $status = $resp->getStatus();
+        $this->assertEquals(403, $status);
+
+        // edit member
+        $resp = $this->pageController->webEditMember('superproj', $idMember1, 'roberto', 1, true);
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+
+        $resp = $this->pageController->webEditMember('superprojdoesnotexist', $idMember1, 'roberto', 1, true);
+        $status = $resp->getStatus();
+        $this->assertEquals(403, $status);
+
+        $resp = $this->pageController->webEditMember('superproj', -1, 'roberto', 1, true);
+        $status = $resp->getStatus();
+        $this->assertEquals(404, $status);
 
         // create bills
         $resp = $this->pageController->webAddBill('superproj', '2019-01-22', 'boomerang', $idMember1, $idMember1.','.$idMember2, 22.5, 'n');
@@ -189,10 +216,119 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $idBill2 = intval($data);
 
+        $resp = $this->pageController->webAddBill('superprojdoesnotexist', '2019-01-20', 'lala', $idMember2, $idMember1, 12.3, 'n');
+        $status = $resp->getStatus();
+        $this->assertEquals(403, $status);
+
+        $resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', -1, $idMember1, 12.3, 'n');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
+        $resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', $idMember2, -1, 12.3, 'n');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
+        $resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', $idMember2, '', 12.3, 'n');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
         // edit bill
-        $resp = $this->pageController->webeditBill('superproj', $idBill1, '2019-01-20', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, 'n');
+        $resp = $this->pageController->webEditBill('superproj', $idBill1, '2019-01-20', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, 'n');
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
+
+        $resp = $this->pageController->webEditBill('superprojdoesnotexist', $idBill1, '2019-01-20', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, 'n');
+        $status = $resp->getStatus();
+        $this->assertEquals(403, $status);
+
+        $resp = $this->pageController->webEditBill('superproj', -1, '2019-01-20', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, 'n');
+        $status = $resp->getStatus();
+        $this->assertEquals(404, $status);
+
+        // get project stats
+
+        $resp = $this->pageController->webGetProjectStatistics('superprojdoesnotexist');
+        $status = $resp->getStatus();
+        $this->assertEquals(403, $status);
+
+        $resp = $this->pageController->webGetProjectStatistics('superproj');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        // check member stats
+        $id1Found = false;
+        $id2Found = false;
+        foreach ($data as $stat) {
+            if ($stat['member']['id'] === $idMember1) {
+                $this->assertEquals((99/2 - 12.3), $stat['balance']);
+                $this->assertEquals(99, $stat['paid']);
+                $this->assertEquals((99/2 + 12.3), $stat['spent']);
+                $id1Found = true;
+            }
+            else if ($stat['member']['id'] === $idMember2) {
+                $this->assertEquals((12.3 - 99/2), $stat['balance']);
+                $this->assertEquals(12.3, $stat['paid']);
+                $this->assertEquals(99/2, $stat['spent']);
+                $id2Found = true;
+            }
+        }
+        $this->assertEquals(true, $id1Found);
+        $this->assertEquals(true, $id2Found);
+
+        // get project settlement plan
+
+        $resp = $this->pageController->webGetProjectSettlement('superprojdoesnotexist');
+        $status = $resp->getStatus();
+        $this->assertEquals(403, $status);
+
+        $resp = $this->pageController->webGetProjectSettlement('superproj');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $id1Found = false;
+        foreach ($data as $transaction) {
+            if ($transaction['from'] === $idMember2 && $transaction['to'] === $idMember1) {
+                $this->assertEquals((99/2 - 12.3), $transaction['amount']);
+                $id1Found = true;
+            }
+        }
+        $this->assertEquals(true, $id1Found);
+
+        // auto settlement
+        $resp = $this->pageController->webAutoSettlement('superprojdoesnotexist');
+        $status = $resp->getStatus();
+        $this->assertEquals(403, $status);
+
+        $resp = $this->pageController->webAutoSettlement('superproj');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $this->assertEquals('OK', $data);
+
+        // check balances are back to zero
+        $resp = $this->pageController->webGetProjectStatistics('superproj');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        // check member stats
+        $id1Found = false;
+        $id2Found = false;
+        foreach ($data as $stat) {
+            if ($stat['member']['id'] === $idMember1) {
+                $this->assertEquals(0, $stat['balance']);
+                $this->assertEquals(99, $stat['paid']);
+                $this->assertEquals((99/2 + 12.3) + (99/2 - 12.3), $stat['spent']);
+                $id1Found = true;
+            }
+            else if ($stat['member']['id'] === $idMember2) {
+                $this->assertEquals(0, $stat['balance']);
+                $this->assertEquals(12.3 + (99/2 - 12.3), $stat['paid']);
+                $this->assertEquals(99/2, $stat['spent']);
+                $id2Found = true;
+            }
+        }
+        $this->assertEquals(true, $id1Found);
+        $this->assertEquals(true, $id2Found);
 
         // DELETE PROJECT
         $resp = $this->pageController->webDeleteProject('superproj');
@@ -222,6 +358,14 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $this->pageController->addUserShare('projtodel', 'test2');
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
+
+        // get projects of second user
+        $resp = $this->pageController2->webGetProjects();
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $this->assertEquals(1, count($data));
+        $this->assertEquals('projtodel', $data[0]['id']);
 
         // then it should be ok to delete
         $resp = $this->pageController2->webDeleteProject('projtodel');

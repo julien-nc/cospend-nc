@@ -117,6 +117,7 @@ input[type=number] {
 #statsTable th {
     font-weight: bold;
 }
+#mbTitle,
 #settlementTitle,
 #statsTitle {
     text-align: center;
@@ -201,4 +202,18 @@ input[type=number] {
 }
 #addFileLinkButton {
     margin-top: 20px;
+}
+
+#dummylogo {
+    display: none;
+    content: url("images/cospend.png");
+}
+#mbUrlHintLabel,
+#mbUrlLabel {
+    display: block;
+    text-align: center;
+}
+#qrcodediv {
+    width: 210px;
+    margin: 0 auto;
 }

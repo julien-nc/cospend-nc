@@ -35,6 +35,39 @@
 
     //////////////// UTILS /////////////////////
 
+    function hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+
+    function componentToHex(c) {
+        var hex = c.toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+    }
+
+    function rgbToHex(r, g, b) {
+        return "#" + componentToHex(parseInt(r)) + componentToHex(parseInt(g)) + componentToHex(parseInt(b));
+    }
+
+    function hexToDarkerHex(hex) {
+        var rgb = hexToRgb(hex);
+        while (getColorBrightness(rgb) > 100) {
+            if (rgb.r > 0) rgb.r--;
+            if (rgb.g > 0) rgb.g--;
+            if (rgb.b > 0) rgb.b--;
+        }
+        return rgbToHex(rgb.r, rgb.g, rgb.b);
+    }
+
+    // this formula was found here : https://stackoverflow.com/a/596243/7692836
+    function getColorBrightness(rgb) {
+        return 0.2126*rgb.r + 0.7152*rgb.g + 0.0722*rgb.b;
+    }
+
     function getLetterColor(letter1, letter2) {
         var letter1Index = letter1.toLowerCase().charCodeAt(0);
         var letter2Index = letter2.toLowerCase().charCodeAt(0);
@@ -736,6 +769,76 @@
         $('#billdetail').html(settlementStr);
     }
 
+    function getProjectMoneyBusterLink(projectid) {
+        // unselect bill
+        $('.billitem').removeClass('selectedbill');
+
+        var url = 'https://net.eneiluj.moneybuster.cospend/' + window.location.hostname + OC.generateUrl('').replace('/index.php', '') + projectid + '/';
+
+        var projectName = getProjectName(projectid);
+        $('#billdetail').html('');
+        $('.app-content-list').addClass('showdetails');
+        var titleStr = t('cospend', 'MoneyBuster link/QRCode for project {name}', {name: projectName});
+        var mbStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
+            '<h2 id="mbTitle"><span class="icon-phone"></span>'+titleStr+'</h2>' +
+            '<div id="qrcodediv"></div>' +
+            '<label id="mbUrlLabel">' + url + '</label>' +
+            '<br/>' +
+            '<label id="mbUrlHintLabel">' + t('cospend', 'Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link.') + '</label>';
+        $('#billdetail').html(mbStr);
+
+        var img = new Image();
+        // wait for the image to be loaded to generate the QRcode
+        img.onload = function(){
+            var qr = kjua({
+                text: url,
+                crisp: false,
+                render: 'canvas',
+                minVersion: 6,
+                ecLevel: 'H',
+                size: 210,
+                back: "#ffffff",
+                fill: cospend.themeColorDark,
+                rounded: 100,
+                quiet: 1,
+                mode: 'image',
+                mSize: 20,
+                mPosX: 50,
+                mPosY: 50,
+                image: img,
+                label: 'no label',
+            });
+            $('#qrcodediv').append(qr);
+        };
+        img.onerror = function() {
+            var qr = kjua({
+                text: url,
+                crisp: false,
+                render: 'canvas',
+                minVersion: 6,
+                ecLevel: 'H',
+                size: 210,
+                back: "#ffffff",
+                fill: cospend.themeColorDark,
+                rounded: 100,
+                quiet: 1,
+                mode: 'label',
+                mSize: 10,
+                mPosX: 50,
+                mPosY: 50,
+                image: img,
+                label: 'Cospend',
+                fontcolor: '#000000',
+            });
+            $('#qrcodediv').append(qr);
+        };
+
+        // dirty trick to get image URL from css url()... Anyone knows better ?
+        var srcurl = $('#dummylogo').css('content').replace('url("', '').replace('")', '');
+        img.src = srcurl;
+
+    }
+
     function displayStatistics(projectid, statList) {
         // unselect bill
         $('.billitem').removeClass('selectedbill');
@@ -1171,6 +1274,7 @@
         var settleStr = t('cospend', 'Settle the project');
         var exportStr = t('cospend', 'Export to csv');
         var deleteStr = t('cospend', 'Delete');
+        var moneyBusterUrlStr = t('cospend', 'Link/QRCode for MoneyBuster');
         var deletedStr = t('cospend', 'Deleted {name}', {name: name});
         var extProjUrl = OC.generateUrl('/apps/cospend/loginproject/'+projectid);
         var shareTitle = t('cospend', 'Press enter to validate');
@@ -1219,6 +1323,12 @@
             '                <a href="#" class="copyExtProjectUrl" title="'+extProjUrl+'">' +
             '                    <span class="icon-clippy"></span>' +
             '                    <span>'+guestAccessStr+'</span>' +
+            '                </a>' +
+            '            </li>' +
+            '            <li>' +
+            '                <a href="#" class="moneyBusterProjectUrl">' +
+            '                    <span class="icon-phone"></span>' +
+            '                    <span>'+moneyBusterUrlStr+'</span>' +
             '                </a>' +
             '            </li>' +
             '            <li>' +
@@ -2240,6 +2350,11 @@
             }
         });
 
+        $('body').on('click', '.moneyBusterProjectUrl', function(e) {
+            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
+            getProjectMoneyBusterLink(projectid);
+        });
+
         $('body').on('click', '.getProjectStats', function(e) {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
             getProjectStatistics(projectid);
@@ -2353,6 +2468,12 @@
             updateCustomAmount();
             createCustomAmountBill();
         });
+
+        cospend.themeColor = '#0000FF';
+        if (OCA.Theming) {
+            cospend.themeColor = OCA.Theming.color;
+        }
+        cospend.themeColorDark = hexToDarkerHex(cospend.themeColor);
 
         // last thing to do : get the projects
         getProjects();

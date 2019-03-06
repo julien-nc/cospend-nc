@@ -270,7 +270,7 @@
             $('#newprojectbutton').removeClass('icon-triangle-s').addClass('icon-triangle-e');
             div.slideUp('normal', function() {
                 $('#newBillButton').fadeIn();
-                $('#addextProjectButton').fadeIn();
+                $('#addextprojectbutton').fadeIn();
             });
             // select created project
             selectProject($('.projectitem[projectid="'+id+'"]'));
@@ -2328,7 +2328,7 @@
                 var name = $('#projectnameinput').val();
                 var id = $('#projectidinput').val();
                 var password = $('#projectpasswordinput').val();
-                if (name && id && password) {
+                if (name && id) {
                     createProject(id, name, password);
                 }
                 else {
@@ -2341,7 +2341,7 @@
             var name = $('#projectnameinput').val();
             var id = $('#projectidinput').val();
             var password = $('#projectpasswordinput').val();
-            if (name && id && password) {
+            if (name && id) {
                 createProject(id, name, password);
             }
             else {
@@ -2354,7 +2354,7 @@
             var name = $('#projectnameinput').val();
             var id = $('#projectidinput').val();
             var password = $('#projectpasswordinput').val();
-            if (name && id && password) {
+            if (name && id) {
                 createProject(id, name, password);
             }
             else {

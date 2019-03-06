@@ -686,7 +686,12 @@ class PageController extends ApiController {
                 break;
             }
             $req->closeCursor();
-            return ($dbPassword !== null && password_verify($password, $dbPassword));
+            return (
+                $password !== null &&
+                $password !== '' &&
+                $dbPassword !== null &&
+                password_verify($password, $dbPassword)
+            );
         }
     }
 
@@ -1115,7 +1120,10 @@ class PageController extends ApiController {
                 $response = new DataResponse(['message'=>'Invalid project id'], 400);
                 return $response;
             }
-            $dbPassword = password_hash($password, PASSWORD_DEFAULT);
+            $dbPassword = '';
+            if ($password !== null && $password !== '') {
+                $dbPassword = password_hash($password, PASSWORD_DEFAULT);
+            }
             $sql = '
                 INSERT INTO *PREFIX*cospend_projects
                 (userid, id, name, password, email)
@@ -2610,7 +2618,7 @@ class PageController extends ApiController {
                     $userEmail = $user->getEMailAddress();
                     $projectid = str_replace('.csv', '', $file->getName());
                     $projectName = $projectid;
-                    $projResult = $this->createProject($projectName, $projectid, 'password', $userEmail, $this->userId);
+                    $projResult = $this->createProject($projectName, $projectid, '', $userEmail, $this->userId);
                     if ($projResult->getStatus() !== 200) {
                         $response = new DataResponse('Error in project creation '.$projResult->getData()['message'], 400);
                         return $response;

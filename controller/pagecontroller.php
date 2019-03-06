@@ -302,6 +302,28 @@ class PageController extends ApiController {
     }
 
     /**
+     * check if user owns the external project
+     */
+    private function userCanAccessExternalProject($userid, $projectid, $ncurl) {
+        $sql = '
+            SELECT projectid
+            FROM *PREFIX*cospend_ext_projects
+            WHERE userid='.$this->db_quote_escape_string($userid).'
+                AND projectid='.$this->db_quote_escape_string($projectid).'
+                AND ncurl='.$this->db_quote_escape_string($ncurl).' ;';
+        $req = $this->dbconnection->prepare($sql);
+        $req->execute();
+        $dbProjectId = null;
+        while ($row = $req->fetch()){
+            $dbProjectId = $row['projectid'];
+            break;
+        }
+        $req->closeCursor();
+
+        return ($dbProjectId !== null);
+    }
+
+    /**
      * @NoAdminRequired
      *
      */
@@ -417,6 +439,40 @@ class PageController extends ApiController {
             $response = new DataResponse(
                 ['message'=>'You are not allowed to edit this project']
                 , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     *
+     */
+    public function webEditExternalProject($projectid, $ncurl, $password) {
+        if ($this->userCanAccessExternalProject($this->userId, $projectid, $ncurl)) {
+            return $this->editExternalProject($projectid, $ncurl, $password);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to edit this external project']
+                , 400
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     *
+     */
+    public function webDeleteExternalProject($projectid, $ncurl) {
+        if ($this->userCanAccessExternalProject($this->userId, $projectid, $ncurl)) {
+            return $this->deleteExternalProject($projectid, $ncurl, $password);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to delete this external project']
+                , 400
             );
             return $response;
         }
@@ -1865,6 +1921,34 @@ class PageController extends ApiController {
             );
             return $response;
         }
+    }
+
+    private function editExternalProject($projectid, $ncurl, $password) {
+        $sqlupd = '
+                UPDATE *PREFIX*cospend_ext_projects
+                SET
+                     password='.$this->db_quote_escape_string($password).'
+                WHERE projectid='.$this->db_quote_escape_string($projectid).'
+                    AND ncurl='.$this->db_quote_escape_string($ncurl).' ;';
+        $req = $this->dbconnection->prepare($sqlupd);
+        $req->execute();
+        $req->closeCursor();
+
+        $response = new DataResponse("UPDATED");
+        return $response;
+    }
+
+    private function deleteExternalProject($projectid, $ncurl) {
+        $sqldel = '
+            DELETE FROM *PREFIX*cospend_ext_projects
+            WHERE projectid='.$this->db_quote_escape_string($projectid).'
+                  AND ncurl='.$this->db_quote_escape_string($ncurl).' ;';
+        $req = $this->dbconnection->prepare($sqldel);
+        $req->execute();
+        $req->closeCursor();
+
+        $response = new DataResponse("DELETED");
+        return $response;
     }
 
     private function editProject($projectid, $name, $contact_email, $password) {

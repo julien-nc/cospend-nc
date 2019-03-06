@@ -51,6 +51,8 @@ return [
         ['name' => 'page#webAddMember', 'url' => 'addMember', 'verb' => 'POST'],
         ['name' => 'page#webEditMember', 'url' => 'editMember', 'verb' => 'POST'],
         ['name' => 'page#webEditProject', 'url' => 'editProject', 'verb' => 'POST'],
+        ['name' => 'page#webEditExternalProject', 'url' => 'editExternalProject', 'verb' => 'POST'],
+        ['name' => 'page#webDeleteExternalProject', 'url' => 'deleteExternalProject', 'verb' => 'POST'],
         ['name' => 'page#webGetBills', 'url' => 'getBills', 'verb' => 'POST'],
         ['name' => 'page#webGetProjectInfo', 'url' => 'getProjectInfo', 'verb' => 'POST'],
         ['name' => 'page#webAddBill', 'url' => 'addBill', 'verb' => 'POST'],

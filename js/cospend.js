@@ -937,6 +937,7 @@
         // unselect bill
         $('.billitem').removeClass('selectedbill');
 
+        var project = cospend.projects[projectid];
         var projectName = getProjectName(projectid);
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
@@ -945,7 +946,7 @@
         var toStr = t('cospend', 'To whom?');
         var howMuchStr = t('cospend', 'How much?');
         var exportStr = '';
-        if (!cospend.pageIsPublic) {
+        if (!cospend.pageIsPublic && !project.external) {
             exportStr = ' <button class="exportSettlement" projectid="'+projectid+'"><span class="icon-file"></span>'+t('cospend', 'Export')+'</button>';
         }
         var autoSettleStr = ' <button class="autoSettlement" projectid="'+projectid+'"><span class="icon-play"></span>'+t('cospend', 'Add these payments to project')+'</button>';
@@ -1046,6 +1047,7 @@
         // unselect bill
         $('.billitem').removeClass('selectedbill');
 
+        var project = cospend.projects[projectid];
         var projectName = getProjectName(projectid);
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
@@ -1055,7 +1057,7 @@
         var spentStr = t('cospend', 'Spent');
         var balanceStr = t('cospend', 'Balance');
         var exportStr = '';
-        if (!cospend.pageIsPublic) {
+        if (!cospend.pageIsPublic && !project.external) {
             exportStr = ' <button class="exportStats" projectid="'+projectid+'"><span class="icon-file"></span>'+t('cospend', 'Export')+'</button>';
         }
         var statsStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +

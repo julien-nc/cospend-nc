@@ -168,6 +168,9 @@ input[type=number] {
 #billdetail > h2 {
     padding: 20px 0px 20px 0px;
 }
+.selectedproject {
+    background: var(--color-background-dark, lightgrey);
+}
 .selectedproject > a {
     font-weight: bold;
 }

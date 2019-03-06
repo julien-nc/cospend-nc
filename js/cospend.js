@@ -900,6 +900,9 @@
             data: req,
             async: true,
         }).done(function (response) {
+            if (cospend.currentProjectId !== projectid) {
+                selectProject($('.projectitem[projectid="'+projectid+'"]'));
+            }
             displayStatistics(projectid, response);
         }).always(function() {
         }).fail(function() {
@@ -937,6 +940,9 @@
             data: req,
             async: true,
         }).done(function (response) {
+            if (cospend.currentProjectId !== projectid) {
+                selectProject($('.projectitem[projectid="'+projectid+'"]'));
+            }
             displaySettlement(projectid, response);
         }).always(function() {
         }).fail(function() {
@@ -989,7 +995,22 @@
         // unselect bill
         $('.billitem').removeClass('selectedbill');
 
-        var url = 'https://net.eneiluj.moneybuster.cospend/' + window.location.hostname + OC.generateUrl('').replace('/index.php', '') + projectid + '/';
+        if (cospend.currentProjectId !== projectid) {
+            selectProject($('.projectitem[projectid="'+projectid+'"]'));
+        }
+
+        var project = cospend.projects[projectid];
+        var url;
+
+        if (project.external) {
+            var id = projectid.split('@')[0];
+            var ncurl = project.ncurl;
+            var password = project.password;
+            url = 'https://net.eneiluj.moneybuster.cospend/' + ncurl.replace(/\/$/, '').replace(/https?:\/\//gi, '') + '/' + id + '/' + password;
+        }
+        else {
+            url = 'https://net.eneiluj.moneybuster.cospend/' + window.location.hostname + OC.generateUrl('').replace('/index.php', '') + projectid + '/';
+        }
 
         var projectName = getProjectName(projectid);
         $('#billdetail').html('');
@@ -1052,7 +1073,6 @@
         // dirty trick to get image URL from css url()... Anyone knows better ?
         var srcurl = $('#dummylogo').css('content').replace('url("', '').replace('")', '');
         img.src = srcurl;
-
     }
 
     function displayStatistics(projectid, statList) {

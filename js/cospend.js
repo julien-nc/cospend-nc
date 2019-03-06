@@ -198,7 +198,7 @@
             async: true,
         }).done(function (response) {
             // get project info
-            getExternalProject(ncurl, id, password);
+            getExternalProject(ncurl, id, password, true);
         }).always(function() {
             $('#addextproject').removeClass('icon-loading-small');
         }).fail(function(response) {
@@ -207,7 +207,7 @@
         });
     }
 
-    function getExternalProject(ncurl, id, password) {
+    function getExternalProject(ncurl, id, password, select=false) {
         var req = {
         };
         var url = ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + password;
@@ -231,10 +231,13 @@
             });
 
             // select created project
-            //selectProject($('.projectitem[projectid="'+response.id+'"]'));
+            if (select) {
+                selectProject($('.projectitem[projectid="'+response.id+'"]'));
+            }
         }).always(function() {
             $('#addextproject').removeClass('icon-loading-small');
         }).fail(function(response) {
+            deleteExternalProject(id + '@' + ncurl);
             OC.Notification.showTemporary(t('cospend', 'Failed to get external project') + ' ' + response.responseText);
         });
     }
@@ -576,7 +579,7 @@
         billItem.replaceWith(item);
     }
 
-    function deleteExternalProject(projectid) {
+    function deleteExternalProject(projectid, updateList=false) {
         var id = projectid.split('@')[0];
         var ncurl = projectid.split('@')[1];
 
@@ -594,6 +597,15 @@
             data: req,
             async: true,
         }).done(function (response) {
+            if (updateList) {
+                $('.projectitem[projectid="'+projectid+'"]').fadeOut('slow', function() {
+                    $(this).remove();
+                });
+                if (cospend.currentProjectId === projectid) {
+                    $('#bill-list').html('');
+                    $('#billdetail').html('');
+                }
+            }
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(
@@ -1499,6 +1511,7 @@
         var deleteStr = t('cospend', 'Delete');
         var moneyBusterUrlStr = t('cospend', 'Link/QRCode for MoneyBuster');
         var deletedStr = t('cospend', 'Deleted {name}', {name: name});
+        var removeExtStr = t('cospend', 'Remove from list');
         var extProjUrl = OC.generateUrl('/apps/cospend/loginproject/'+projectid);
         var shareTitle = t('cospend', 'Press enter to validate');
         extProjUrl = window.location.protocol + '//' + window.location.hostname + extProjUrl;
@@ -1509,11 +1522,13 @@
             '    </a>' +
             '    <div class="app-navigation-entry-utils">' +
             '        <ul>' +
-            '            <li class="app-navigation-entry-utils-counter"><span>'+project.members.length+'</span></li>' +
-            '            <li class="app-navigation-entry-utils-menu-button shareProjectButton">' +
+            '            <li class="app-navigation-entry-utils-counter"><span>'+project.members.length+'</span></li>';
+        if (!project.external) {
+            li = li + '            <li class="app-navigation-entry-utils-menu-button shareProjectButton">' +
             '                <button class="icon-share"></button>' +
-            '            </li>' +
-            '            <li class="app-navigation-entry-utils-menu-button projectMenuButton">' +
+            '            </li>';
+        }
+        li = li + '            <li class="app-navigation-entry-utils-menu-button projectMenuButton">' +
             '                <button></button>' +
             '            </li>' +
             '        </ul>' +
@@ -1524,12 +1539,13 @@
             '            <input type="submit" value="" class="icon-close editProjectClose">' +
             '            <input type="submit" value="" class="icon-checkmark editProjectOk">' +
             '        </div>' +
-            '    </div>' +
-            '    <ul class="app-navigation-entry-share">' +
+            '    </div>';
+        if (!project.external) {
+            li = li + '    <ul class="app-navigation-entry-share">' +
             '        <li class="shareinputli" title="'+shareTitle+'"><input type="text" class="shareinput"/></li>' +
-            '    </ul>' +
-
-            '    <div class="newmemberdiv">' +
+            '    </ul>';
+        }
+        li = li + '    <div class="newmemberdiv">' +
             '        <input class="newmembername" type="text" value=""/>' +
             '        <button class="newmemberbutton icon-add"></button>' +
             '    </div>' +
@@ -1577,20 +1593,30 @@
             '                    <span class="icon-category-organization"></span>' +
             '                    <span>'+settleStr+'</span>' +
             '                </a>' +
-            '            </li>' +
-            '            <li>' +
+            '            </li>';
+        if (!project.external) {
+            li = li + '            <li>' +
             '                <a href="#" class="exportProject">' +
             '                    <span class="icon-category-office"></span>' +
             '                    <span>'+exportStr+'</span>' +
             '                </a>' +
-            '            </li>' +
-            '            <li>' +
+            '            </li>';
+        }
+        li = li + '            <li>' +
             '                <a href="#" class="deleteProject">' +
             '                    <span class="icon-delete"></span>' +
             '                    <span>'+deleteStr+'</span>' +
             '                </a>' +
-            '            </li>' +
-            '        </ul>' +
+            '            </li>';
+        if (project.external) {
+            li = li + '            <li>' +
+            '                <a href="#" class="removeExternalProject">' +
+            '                    <span class="icon-category-disabled"></span>' +
+            '                    <span>'+removeExtStr+'</span>' +
+            '                </a>' +
+            '            </li>';
+        }
+        li = li + '        </ul>' +
             '    </div>' +
             '    <div class="app-navigation-entry-deleted">' +
             '        <div class="app-navigation-entry-deleted-description">'+deletedStr+'</div>' +
@@ -1624,13 +1650,13 @@
             }
         }
 
-        // set selected project
-        if (cospend.restoredSelectedProjectId === projectid) {
-            $('.projectitem').removeClass('selectedproject');
-            $('.projectitem[projectid="'+projectid+'"]').addClass('selectedproject');
-            $('.app-navigation-entry-utils-counter').removeClass('highlighted');
-            $('.projectitem[projectid="'+projectid+'"] .app-navigation-entry-utils-counter').addClass('highlighted');
-        }
+        //// set selected project
+        //if (cospend.restoredSelectedProjectId === projectid) {
+        //    $('.projectitem').removeClass('selectedproject');
+        //    $('.projectitem[projectid="'+projectid+'"]').addClass('selectedproject');
+        //    $('.app-navigation-entry-utils-counter').removeClass('highlighted');
+        //    $('.projectitem[projectid="'+projectid+'"] .app-navigation-entry-utils-counter').addClass('highlighted');
+        //}
     }
 
     function addMember(projectid, member, balance) {
@@ -2365,6 +2391,11 @@
             else {
                 OC.Notification.showTemporary(t('cospend', 'Invalid values'));
             }
+        });
+
+        $('body').on('click', '.removeExternalProject', function(e) {
+            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
+            deleteExternalProject(projectid, true);
         });
 
         $('body').on('click', '.deleteProject', function(e) {

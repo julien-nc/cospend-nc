@@ -12,6 +12,7 @@
         max-width: 400px;
     }
 }
+#addextprojectbutton,
 #newBillButton {
     margin-top: 10px !important;
 }
@@ -37,9 +38,11 @@
     padding: 5px 10px 5px 10px;
 }
 .newmemberdiv,
+#addextprojectdiv,
 #newprojectdiv {
     display: none;
 }
+#addextprojectdiv label,
 #newprojectdiv label {
     margin: 3px 3px 3px 3px;
     line-height: 32px;
@@ -47,6 +50,7 @@
     text-align: right;
     float: left;
 }
+#addextprojectdiv input,
 #newprojectdiv input {
     width: 45%;
     float: right;

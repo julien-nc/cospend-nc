@@ -183,6 +183,62 @@
         }
     }
 
+    function addExtProject(ncurl, id, password) {
+        $('#addextproject').addClass('icon-loading-small');
+        var req = {
+            id: id,
+            url: ncurl,
+            password: password
+        };
+        var url = OC.generateUrl('/apps/cospend/addExternalProject');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true,
+        }).done(function (response) {
+            // get project info
+            getExternalProject(ncurl, id, password);
+        }).always(function() {
+            $('#addextproject').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to add external project') + ' ' + response.responseText);
+            $('#addextproject').removeClass('icon-loading-small');
+        });
+    }
+
+    function getExternalProject(ncurl, id, password) {
+        var req = {
+        };
+        var url = ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + password;
+        $.ajax({
+            type: 'GET',
+            url: url,
+            data: req,
+            async: true,
+        }).done(function (response) {
+            response.external = true;
+            response.ncurl = ncurl;
+            response.password = password;
+            response.id = id + '@' + ncurl
+            addProject(response);
+
+            var div = $('#addextprojectdiv');
+            $('#addextprojectbutton').removeClass('icon-triangle-s').addClass('icon-triangle-e');
+            div.slideUp('normal', function() {
+                $('#newBillButton').fadeIn();
+                $('#newprojectbutton').fadeIn();
+            });
+
+            // select created project
+            //selectProject($('.projectitem[projectid="'+response.id+'"]'));
+        }).always(function() {
+            $('#addextproject').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to get external project') + ' ' + response.responseText);
+        });
+    }
+
     function createProject(id, name, password) {
         $('#createproject').addClass('icon-loading-small');
         var req = {
@@ -203,16 +259,18 @@
                 contact_email: '',
                 members: [],
                 active_members: [],
-                balance: {}
+                balance: {},
+                external: false
             });
 
             var div = $('#newprojectdiv');
             $('#newprojectbutton').removeClass('icon-triangle-s').addClass('icon-triangle-e');
-            div.slideUp('slow', function() {
+            div.slideUp('normal', function() {
                 $('#newBillButton').fadeIn();
+                $('#addextProjectButton').fadeIn();
             });
             // select created project
-            selectProject($('.projectitem[projectid='+id+']'));
+            selectProject($('.projectitem[projectid="'+id+'"]'));
         }).always(function() {
             $('#createproject').removeClass('icon-loading-small');
         }).fail(function(response) {
@@ -221,14 +279,21 @@
     }
 
     function createMember(projectid, name) {
-        $('.projectitem[projectid='+projectid+']').addClass('icon-loading-small');
+        $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
         var req = {
             name: name
         };
         var url;
+        var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            req.projectid = projectid;
-            url = OC.generateUrl('/apps/cospend/addMember');
+            if (project.external) {
+                var id = projectid.split('@')[0];
+                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/members';
+            }
+            else {
+                req.projectid = projectid;
+                url = OC.generateUrl('/apps/cospend/addMember');
+            }
         }
         else {
             url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/members');
@@ -253,14 +318,14 @@
             $('#billdetail').html('');
             OC.Notification.showTemporary(t('cospend', 'Created member {name}', {name: name}));
         }).always(function() {
-            $('.projectitem[projectid='+projectid+']').removeClass('icon-loading-small');
+            $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('cospend', 'Failed to add member') + ' ' + response.responseText);
         });
     }
 
     function editMember(projectid, memberid, newName, newWeight, newActivated) {
-        $('.projectitem[projectid='+projectid+'] ul.memberlist > li[memberid='+memberid+']')
+        $('.projectitem[projectid="'+projectid+'"] ul.memberlist > li[memberid='+memberid+']')
             .addClass('icon-loading-small')
             .removeClass('editing');
         var req = {
@@ -269,11 +334,19 @@
             activated: newActivated
         };
         var url, type;
+        var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            req.projectid = projectid;
-            req.memberid = memberid;
-            url = OC.generateUrl('/apps/cospend/editMember');
-            type = 'POST';
+            if (project.external) {
+                var id = projectid.split('@')[0];
+                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/members/' + memberid;
+                type = 'PUT';
+            }
+            else {
+                req.projectid = projectid;
+                req.memberid = memberid;
+                url = OC.generateUrl('/apps/cospend/editMember');
+                type = 'POST';
+            }
         }
         else {
             url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/members/'+memberid);
@@ -285,7 +358,7 @@
             data: req,
             async: true,
         }).done(function (response) {
-            var memberLine = $('.projectitem[projectid='+projectid+'] ul.memberlist > li[memberid='+memberid+']');
+            var memberLine = $('.projectitem[projectid="'+projectid+'"] ul.memberlist > li[memberid='+memberid+']');
             // update member values
             if (newName) {
                 memberLine.find('b.memberName').text(newName);
@@ -325,7 +398,7 @@
             // reset bill edition
             $('#billdetail').html('');
         }).always(function() {
-            $('.projectitem[projectid='+projectid+'] ul.memberlist > li[memberid='+memberid+']').removeClass('icon-loading-small');
+            $('.projectitem[projectid="'+projectid+'"] ul.memberlist > li[memberid='+memberid+']').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('cospend', 'Failed to save member') + ' ' + response.responseText);
         });
@@ -402,11 +475,19 @@
             repeat: repeat
         };
         var url, type;
+        var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            req.projectid = projectid;
-            req.billid = billid;
-            type = 'POST';
-            url = OC.generateUrl('/apps/cospend/editBill');
+            if (project.external) {
+                var id = projectid.split('@')[0];
+                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/bills/' + billid;
+                type = 'PUT';
+            }
+            else {
+                req.projectid = projectid;
+                req.billid = billid;
+                type = 'POST';
+                url = OC.generateUrl('/apps/cospend/editBill');
+            }
         }
         else {
             type = 'PUT';
@@ -495,10 +576,18 @@
             password: newPassword
         };
         var url, type;
+        var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            req.projectid = projectid;
-            type = 'POST';
-            url = OC.generateUrl('/apps/cospend/editProject');
+            if (project.external) {
+                var id = projectid.split('@')[0];
+                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password;
+                type = 'PUT';
+            }
+            else {
+                req.projectid = projectid;
+                type = 'POST';
+                url = OC.generateUrl('/apps/cospend/editProject');
+            }
         }
         else {
             type = 'PUT';
@@ -510,14 +599,19 @@
             data: req,
             async: true,
         }).done(function (response) {
-            var projectLine = $('.projectitem[projectid='+projectid+']');
+            var projectLine = $('.projectitem[projectid="'+projectid+'"]');
             // update project values
             if (newName) {
                 projectLine.find('>a span').text(newName);
                 cospend.projects[projectid].name = newName;
             }
-            if (cospend.pageIsPublic && newPassword) {
-                cospend.password = newPassword;
+            if (newPassword) {
+                if (cospend.pageIsPublic) {
+                    cospend.password = newPassword;
+                }
+                else {
+                    cospend.projects[projectid].password = newPassword;
+                }
             }
             // update deleted text
             var projectName = cospend.projects[projectid].name;
@@ -539,8 +633,8 @@
     }
 
     function updateNumberOfMember(projectid) {
-        var nbMembers = $('li.projectitem[projectid='+projectid+'] ul.memberlist > li').length;
-        $('li.projectitem[projectid='+projectid+'] .app-navigation-entry-utils-counter span').text(nbMembers);
+        var nbMembers = $('li.projectitem[projectid="'+projectid+'"] ul.memberlist > li').length;
+        $('li.projectitem[projectid="'+projectid+'"] .app-navigation-entry-utils-counter span').text(nbMembers);
     }
 
     function deleteProject(id) {
@@ -562,7 +656,7 @@
             data: req,
             async: true,
         }).done(function (response) {
-            $('.projectitem[projectid='+id+']').fadeOut('slow', function() {
+            $('.projectitem[projectid="'+id+'"]').fadeOut('slow', function() {
                 $(this).remove();
             });
             if (cospend.currentProjectId === id) {
@@ -656,10 +750,18 @@
                 cospend.members = {};
                 cospend.projects = {};
                 for (var i = 0; i < response.length; i++) {
-                    addProject(response[i]);
+                    // get project info if it's external
+                    if (response[i].external) {
+                        getExternalProject(response[i].ncurl, response[i].id, response[i].password);
+                    }
+                    else {
+                        response[i].external = false;
+                        addProject(response[i]);
+                    }
                 }
             }
             else {
+                response.external = false;
                 addProject(response);
                 $('.projectitem').addClass('open');
                 cospend.currentProjectId = cospend.projectid;
@@ -893,10 +995,20 @@
         var req = {};
         var url;
         var type;
+
+        var project = cospend.projects[projectid];
+
         if (!cospend.pageIsPublic) {
-            url = OC.generateUrl('/apps/cospend/getBills');
-            type = 'POST';
-            req.projectid = projectid;
+            if (project.external) {
+                type = 'GET';
+                var id = projectid.split('@')[0];
+                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/bills';
+            }
+            else {
+                url = OC.generateUrl('/apps/cospend/getBills');
+                type = 'POST';
+                req.projectid = projectid;
+            }
         }
         else {
             url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/bills');
@@ -1125,7 +1237,7 @@
     }
 
     function getMemberName(projectid, memberid) {
-        //var memberName = $('.projectitem[projectid='+projectid+'] .memberlist > li[memberid='+memberid+'] b.memberName').text();
+        //var memberName = $('.projectitem[projectid="'+projectid+'"] .memberlist > li[memberid='+memberid+'] b.memberName').text();
         var memberName = cospend.members[projectid][memberid].name;
         return memberName;
     }
@@ -1232,7 +1344,7 @@
             var balance, balanceField, balanceClass, balanceTxt;
             for (var memberid in response.balance) {
                 balance = response.balance[memberid];
-                balanceField = $('.projectitem[projectid='+projectid+'] .memberlist > li[memberid='+memberid+'] b.balance');
+                balanceField = $('.projectitem[projectid="'+projectid+'"] .memberlist > li[memberid='+memberid+'] b.balance');
                 balanceField.removeClass('balancePositive').removeClass('balanceNegative');
                 // just in case make member visible
                 $('.memberitem[memberid='+memberid+']').removeClass('invisibleMember');
@@ -1380,12 +1492,12 @@
 
         // select project if it was the last selected (option restore on page load)
         if (cospend.restoredSelectedProjectId === projectid) {
-            selectProject($('.projectitem[projectid='+projectid+']'));
+            selectProject($('.projectitem[projectid="'+projectid+'"]'));
         }
 
         if (cospend.pageIsPublic) {
-            $('.projectitem[projectid='+projectid+'] .shareProjectButton').hide();
-            $('.projectitem[projectid='+projectid+'] .exportProject').parent().hide();
+            $('.projectitem[projectid="'+projectid+'"] .shareProjectButton').hide();
+            $('.projectitem[projectid="'+projectid+'"] .exportProject').parent().hide();
         }
 
         for (var i=0; i < project.members.length; i++) {
@@ -1404,9 +1516,9 @@
         // set selected project
         if (cospend.restoredSelectedProjectId === projectid) {
             $('.projectitem').removeClass('selectedproject');
-            $('.projectitem[projectid='+projectid+']').addClass('selectedproject');
+            $('.projectitem[projectid="'+projectid+'"]').addClass('selectedproject');
             $('.app-navigation-entry-utils-counter').removeClass('highlighted');
-            $('.projectitem[projectid='+projectid+'] .app-navigation-entry-utils-counter').addClass('highlighted');
+            $('.projectitem[projectid="'+projectid+'"] .app-navigation-entry-utils-counter').addClass('highlighted');
         }
     }
 
@@ -1493,7 +1605,7 @@
             '    </div>' +
             '</li>';
 
-        $(li).appendTo('#projectlist li.projectitem[projectid='+projectid+'] .memberlist');
+        $(li).appendTo('#projectlist li.projectitem[projectid="'+projectid+'"] .memberlist');
     }
 
     function onBillEdited() {
@@ -1652,7 +1764,7 @@
     }
 
     function addUserShareDb(projectid, userid, username) {
-        $('.projectitem[projectid='+projectid+']').addClass('icon-loading-small');
+        $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
         var req = {
             projectid: projectid,
             userid: userid
@@ -1668,7 +1780,7 @@
             var projectname = getProjectName(projectid);
             OC.Notification.showTemporary(t('cospend', 'Shared project {pname} with {uname}', {pname: projectname, uname: username}));
         }).always(function() {
-            $('.projectitem[projectid='+projectid+']').removeClass('icon-loading-small');
+            $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('cospend', 'Failed to add user share') + ' ' + response.responseText);
         });
@@ -1716,9 +1828,9 @@
             saveOptionValue({selectedProject: projectid});
             cospend.currentProjectId = projectid;
             $('.projectitem').removeClass('selectedproject');
-            $('.projectitem[projectid='+projectid+']').addClass('selectedproject');
+            $('.projectitem[projectid="'+projectid+'"]').addClass('selectedproject');
             $('.app-navigation-entry-utils-counter').removeClass('highlighted');
-            $('.projectitem[projectid='+projectid+'] .app-navigation-entry-utils-counter').addClass('highlighted');
+            $('.projectitem[projectid="'+projectid+'"] .app-navigation-entry-utils-counter').addClass('highlighted');
 
             $('#billdetail').html('');
             getBills(projectid);
@@ -1753,7 +1865,7 @@
     }
 
     function exportProject(projectid) {
-        $('.projectitem[projectid='+projectid+']').addClass('icon-loading-small');
+        $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
         var req = {
             projectid: projectid
         };
@@ -1766,14 +1878,14 @@
         }).done(function (response) {
             OC.Notification.showTemporary(t('cospend', 'Project exported in {path}', {path: response.path}));
         }).always(function() {
-            $('.projectitem[projectid='+projectid+']').removeClass('icon-loading-small');
+            $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('cospend', 'Failed to export project') + ' ' + response.responseText);
         });
     }
 
     function exportStatistics(projectid) {
-        $('.exportStats[projectid='+projectid+'] span').addClass('icon-loading-small');
+        $('.exportStats[projectid="'+projectid+'"] span').addClass('icon-loading-small');
         var req = {
             projectid: projectid
         };
@@ -1786,14 +1898,14 @@
         }).done(function (response) {
             OC.Notification.showTemporary(t('cospend', 'Project statistics exported in {path}', {path: response.path}));
         }).always(function() {
-            $('.exportStats[projectid='+projectid+'] span').removeClass('icon-loading-small');
+            $('.exportStats[projectid="'+projectid+'"] span').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('cospend', 'Failed to export project statistics') + ' ' + response.responseText);
         });
     }
 
     function exportSettlement(projectid) {
-        $('.exportSettlement[projectid='+projectid+'] span').addClass('icon-loading-small');
+        $('.exportSettlement[projectid="'+projectid+'"] span').addClass('icon-loading-small');
         var req = {
             projectid: projectid
         };
@@ -1806,14 +1918,14 @@
         }).done(function (response) {
             OC.Notification.showTemporary(t('cospend', 'Project settlement exported in {path}', {path: response.path}));
         }).always(function() {
-            $('.exportSettlement[projectid='+projectid+'] span').removeClass('icon-loading-small');
+            $('.exportSettlement[projectid="'+projectid+'"] span').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('cospend', 'Failed to export project settlement') + ' ' + response.responseText);
         });
     }
 
     function autoSettlement(projectid) {
-        $('.autoSettlement[projectid='+projectid+'] span').addClass('icon-loading-small');
+        $('.autoSettlement[projectid="'+projectid+'"] span').addClass('icon-loading-small');
         var req = {
         };
         var url, type;
@@ -1836,7 +1948,7 @@
             getBills(projectid);
             OC.Notification.showTemporary(t('cospend', 'Project settlement bills added'));
         }).always(function() {
-            $('.autoSettlement[projectid='+projectid+'] span').removeClass('icon-loading-small');
+            $('.autoSettlement[projectid="'+projectid+'"] span').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('cospend', 'Failed to add project settlement bills') + ' ' + response.responseText);
         });
@@ -1939,6 +2051,7 @@
         else {
             //restoreOptionsFromUrlParams();
             $('#newprojectbutton').hide();
+            $('#addextprojectbutton').hide();
             $('#importProjectButton').hide();
             cospend.projectid = $('#projectid').text();
             cospend.password = $('#password').text();
@@ -2023,14 +2136,16 @@
             var div = $('#newprojectdiv');
             if (div.is(':visible')) {
                 $(this).removeClass('icon-triangle-s').addClass('icon-triangle-e');
-                div.slideUp('slow', function() {
+                div.slideUp('normal', function() {
                     $('#newBillButton').fadeIn();
+                    $('#addextprojectbutton').fadeIn();
                 });
             }
             else {
                 $(this).removeClass('icon-triangle-e').addClass('icon-triangle-s');
-                div.slideDown('slow', function() {
+                div.slideDown('normal', function() {
                     $('#newBillButton').fadeOut();
+                    $('#addextprojectbutton').fadeOut();
                     $('#projectidinput').focus().select();
                 });
             }
@@ -2075,6 +2190,64 @@
             }
         });
 
+        $('#addextprojectbutton').click(function() {
+            var div = $('#addextprojectdiv');
+            if (div.is(':visible')) {
+                $(this).removeClass('icon-triangle-s').addClass('icon-triangle-e');
+                div.slideUp('normal', function() {
+                    $('#newBillButton').fadeIn();
+                    $('#newprojectbutton').fadeIn();
+                });
+            }
+            else {
+                $(this).removeClass('icon-triangle-e').addClass('icon-triangle-s');
+                div.slideDown('normal', function() {
+                    $('#newBillButton').fadeOut();
+                    $('#newprojectbutton').fadeOut();
+                    $('#ncurlinput').focus().select();
+                });
+            }
+        });
+
+        $('#ncurlinput, #extprojectidinput, #extprojectpasswordinput').on('keyup', function(e) {
+            if (e.key === 'Enter') {
+                var url = $('#ncurlinput').val();
+                var id = $('#extprojectidinput').val();
+                var password = $('#extprojectpasswordinput').val();
+                if (url && id && password) {
+                    addExtProject(url, id, password);
+                }
+                else {
+                    OC.Notification.showTemporary(t('cospend', 'Invalid values'));
+                }
+            }
+        });
+
+        $('#addextprojectform').submit(function(e) {
+            var url = $('#ncurlinput').val();
+            var id = $('#extprojectidinput').val();
+            var password = $('#extprojectpasswordinput').val();
+            if (url && id && password) {
+                addExtProject(url, id, password);
+            }
+            else {
+                OC.Notification.showTemporary(t('cospend', 'Invalid values'));
+            }
+            e.preventDefault();
+        });
+
+        $('#addextproject').click(function() {
+            var url = $('#ncurlinput').val();
+            var id = $('#extprojectidinput').val();
+            var password = $('#extprojectpasswordinput').val();
+            if (url && id && password) {
+                addExtProject(url, id, password);
+            }
+            else {
+                OC.Notification.showTemporary(t('cospend', 'Invalid values'));
+            }
+        });
+
         $('body').on('click', '.deleteProject', function(e) {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
             $(this).parent().parent().parent().parent().addClass('deleted');
@@ -2092,9 +2265,9 @@
 
         $('body').on('click', '.addMember', function(e) {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
-            var name = $('.projectitem[projectid='+projectid+'] > a > span').text();
+            var name = $('.projectitem[projectid="'+projectid+'"] > a > span').text();
 
-            var newmemberdiv = $('.projectitem[projectid='+projectid+'] .newmemberdiv');
+            var newmemberdiv = $('.projectitem[projectid="'+projectid+'"] .newmemberdiv');
             newmemberdiv.show().attr('style', 'display: inline-flex;');
             var defaultMemberName = t('cospend', 'newMemberName');
             newmemberdiv.find('.newmembername').val(defaultMemberName).focus().select();

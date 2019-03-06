@@ -12,6 +12,12 @@
 return [
     'routes' => [
         ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
+        [
+            'name'         => 'page#preflighted_cors',
+            'url'          => '/api/{path}',
+            'verb'         => 'OPTIONS',
+            'requirements' => ['path' => '.+']
+        ],
         ['name' => 'page#apiCreateProject', 'url' => '/api/projects', 'verb' => 'POST'],
         ['name' => 'page#apiGetProjectInfo', 'url' => '/api/projects/{projectid}/{password}', 'verb' => 'GET'],
         ['name' => 'page#apiSetProjectInfo', 'url' => '/api/projects/{projectid}/{passwd}', 'verb' => 'PUT'],
@@ -41,6 +47,7 @@ return [
         ['name' => 'page#webGetProjects', 'url' => 'getProjects', 'verb' => 'POST'],
         ['name' => 'page#webCreateProject', 'url' => 'createProject', 'verb' => 'POST'],
         ['name' => 'page#webDeleteProject', 'url' => 'deleteProject', 'verb' => 'POST'],
+        ['name' => 'page#webAddExternalProject', 'url' => 'addExternalProject', 'verb' => 'POST'],
         ['name' => 'page#webAddMember', 'url' => 'addMember', 'verb' => 'POST'],
         ['name' => 'page#webEditMember', 'url' => 'editMember', 'verb' => 'POST'],
         ['name' => 'page#webEditProject', 'url' => 'editProject', 'verb' => 'POST'],

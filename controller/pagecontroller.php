@@ -26,6 +26,7 @@ use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\ApiController;
 use OCP\Constants;
 use OCP\Share;
 
@@ -36,7 +37,7 @@ function endswith($string, $test) {
     return substr_compare($string, $test, $strlen - $testlen, $testlen) === 0;
 }
 
-class PageController extends Controller {
+class PageController extends ApiController {
 
     private $userId;
     private $userfolder;
@@ -56,7 +57,10 @@ class PageController extends Controller {
                                 $userfolder, $config, $shareManager,
                                 IAppManager $appManager, $userManager,
                                 IL10N $trans, $logger){
-        parent::__construct($AppName, $request);
+        parent::__construct($AppName, $request,
+                            'PUT, POST, GET, DELETE, PATCH, OPTIONS',
+                            'Authorization, Content-Type, Accept',
+                            1728000);
         $this->logger = $logger;
         $this->appName = $AppName;
         $this->appVersion = $config->getAppValue('cospend', 'installed_version');
@@ -106,7 +110,7 @@ class PageController extends Controller {
         $csp->addAllowedImageDomain('*')
             ->addAllowedMediaDomain('*')
             ->addAllowedChildSrcDomain('*')
-          //->addAllowedChildSrcDomain("'self'")
+            ->addAllowedChildSrcDomain('*')
             ->addAllowedObjectDomain('*')
             ->addAllowedScriptDomain('*')
             ->addAllowedConnectDomain('*');
@@ -218,6 +222,14 @@ class PageController extends Controller {
         $user = $this->userManager->get($this->userId);
         $userEmail = $user->getEMailAddress();
         return $this->createProject($name, $id, $password, $userEmail, $this->userId);
+    }
+
+    /**
+     * @NoAdminRequired
+     *
+     */
+    public function webAddExternalProject($id, $url, $password) {
+        return $this->addExternalProject($url, $id, $password, $this->userId);
     }
 
     /**
@@ -544,6 +556,31 @@ class PageController extends Controller {
             $projects[$i]['shares'] = $shares;
         }
 
+        // get external projects
+        $sql = '
+            SELECT projectid, password, ncurl
+            FROM *PREFIX*cospend_ext_projects
+            WHERE userid='.$this->db_quote_escape_string($this->userId).' ;';
+        $req = $this->dbconnection->prepare($sql);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbProjectId = $row['projectid'];
+            $dbPassword = $row['password'];
+            $dbNcUrl = $row['ncurl'];
+            array_push($projects, [
+                'name'=>$dbProjectId.'@'.$dbNcUrl,
+                'ncurl'=>$dbNcUrl,
+                'id'=>$dbProjectId,
+                'password'=>$dbPassword,
+                'active_members'=>null,
+                'members'=>null,
+                'balance'=>null,
+                'shares'=>[],
+                'external'=>true
+            ]);
+        }
+        $req->closeCursor();
+
         $response = new DataResponse($projects);
         return $response;
     }
@@ -604,6 +641,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     * @CORS
      */
     public function apiCreateProject($name, $id, $password, $contact_email) {
         $allow = intval($this->config->getAppValue('cospend', 'allowAnonymousCreation'));
@@ -623,6 +661,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     * @CORS
      */
     public function apiGetProjectInfo($projectid, $password) {
         if ($this->checkLogin($projectid, $password)) {
@@ -642,7 +681,7 @@ class PageController extends Controller {
         else {
             $response = new DataResponse(
                 ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
-                , 401
+                , 400
             );
             return $response;
         }
@@ -652,6 +691,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     * @CORS
      */
     public function apiSetProjectInfo($projectid, $passwd, $name, $contact_email, $password) {
         if ($this->checkLogin($projectid, $passwd)) {
@@ -670,6 +710,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     * @CORS
      */
     public function apiGetMembers($projectid, $password) {
         if ($this->checkLogin($projectid, $password)) {
@@ -690,6 +731,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     * @CORS
      */
     public function apiGetBills($projectid, $password) {
         if ($this->checkLogin($projectid, $password)) {
@@ -710,6 +752,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     * @CORS
      */
     public function apiAddMember($projectid, $password, $name, $weight) {
         if ($this->checkLogin($projectid, $password)) {
@@ -728,6 +771,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     * @CORS
      */
     public function apiAddBill($projectid, $password, $date, $what, $payer, $payed_for, $amount, $repeat='n') {
         if ($this->checkLogin($projectid, $password)) {
@@ -746,6 +790,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     * @CORS
      */
     public function apiEditBill($projectid, $password, $billid, $date, $what, $payer, $payed_for, $amount, $repeat='n') {
         if ($this->checkLogin($projectid, $password)) {
@@ -764,6 +809,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     * @CORS
      */
     public function apiDeleteBill($projectid, $password, $billid) {
         if ($this->checkLogin($projectid, $password)) {
@@ -782,6 +828,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     * @CORS
      */
     public function apiDeleteMember($projectid, $password, $memberid) {
         if ($this->checkLogin($projectid, $password)) {
@@ -800,6 +847,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     * @CORS
      */
     public function apiDeleteProject($projectid, $password) {
         if ($this->checkLogin($projectid, $password)) {
@@ -818,6 +866,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     * @CORS
      */
     public function apiEditMember($projectid, $password, $memberid, $name, $weight, $activated) {
         if ($this->checkLogin($projectid, $password)) {
@@ -836,6 +885,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     * @CORS
      */
     public function apiGetProjectStatistics($projectid, $password) {
         if ($this->checkLogin($projectid, $password)) {
@@ -854,6 +904,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     * @CORS
      */
     public function apiGetProjectSettlement($projectid, $password) {
         if ($this->checkLogin($projectid, $password)) {
@@ -872,6 +923,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     * @CORS
      */
     public function apiAutoSettlement($projectid, $password) {
         if ($this->checkLogin($projectid, $password)) {
@@ -941,6 +993,51 @@ class PageController extends Controller {
 
         $response = new DataResponse($statistics);
         return $response;
+    }
+
+    private function addExternalProject($ncurl, $id, $password, $userid) {
+        $sql = '
+            SELECT projectid
+            FROM *PREFIX*cospend_ext_projects
+            WHERE projectid='.$this->db_quote_escape_string($id).'
+                AND ncurl='.$this->db_quote_escape_string($ncurl).' ;';
+        $req = $this->dbconnection->prepare($sql);
+        $req->execute();
+        $dbprojectid = null;
+        while ($row = $req->fetch()){
+            $dbprojectid = $row['projectid'];
+            break;
+        }
+        $req->closeCursor();
+        if ($dbprojectid === null) {
+            // check if id is valid
+            if (strpos($id, '/') !== false) {
+                $response = new DataResponse(['message'=>'Invalid project id'], 400);
+                return $response;
+            }
+            $sql = '
+                INSERT INTO *PREFIX*cospend_ext_projects
+                (userid, projectid, ncurl, password)
+                VALUES ('.
+                    $this->db_quote_escape_string($userid).','.
+                    $this->db_quote_escape_string($id).','.
+                    $this->db_quote_escape_string($ncurl).','.
+                    $this->db_quote_escape_string($password).
+                ') ;';
+            $req = $this->dbconnection->prepare($sql);
+            $req->execute();
+            $req->closeCursor();
+
+            $response = new DataResponse($id);
+            return $response;
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'A project with id "'.$id.'" and url "'.$ncurl.'" already exists']
+                , 403
+            );
+            return $response;
+        }
     }
 
     private function createProject($name, $id, $password, $contact_email, $userid='') {

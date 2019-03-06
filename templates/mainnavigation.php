@@ -22,6 +22,26 @@
         </form>
 
     </div>
+    <button id="addextprojectbutton" type="button" class="icon-triangle-e">
+        <?php p($l->t('Add project from another Nextcloud')); ?>
+    </button>
+    <div id="addextprojectdiv">
+
+        <form id="addextprojectform" autocomplete="off">
+            <label for="ncurlinput"><?php p($l->t('Nextcloud address')); ?></label>
+            <input id="ncurlinput" type="text" value="<?php p($l->t('https://other.nextcloud.instance.net')); ?>"/>
+
+            <label for="extprojectidinput"><?php p($l->t('project id')); ?></label>
+            <input id="extprojectidinput" type="text" value="<?php p($l->t('myProjectId')); ?>"/>
+
+            <label for="extprojectpasswordinput"><?php p($l->t('password')); ?></label>
+            <input id="extprojectpasswordinput" type="password" value="lala"/>
+            <button id="addextproject" type="button" class="icon-add">
+                <?php p($l->t('Add external project')); ?>
+            </button>
+        </form>
+
+    </div>
     <button id="newBillButton" type="button" class="icon-add">
         <?php p($l->t('New bill')); ?>
     </button>

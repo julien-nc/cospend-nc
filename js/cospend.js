@@ -1512,9 +1512,16 @@
         var moneyBusterUrlStr = t('cospend', 'Link/QRCode for MoneyBuster');
         var deletedStr = t('cospend', 'Deleted {name}', {name: name});
         var removeExtStr = t('cospend', 'Remove from list');
-        var extProjUrl = OC.generateUrl('/apps/cospend/loginproject/'+projectid);
         var shareTitle = t('cospend', 'Press enter to validate');
-        extProjUrl = window.location.protocol + '//' + window.location.hostname + extProjUrl;
+        var guestLink;
+        if (project.external) {
+            var id = projectid.split('@')[0];
+            guestLink = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/loginproject/' + id;
+        }
+        else {
+            guestLink = OC.generateUrl('/apps/cospend/loginproject/'+projectid);
+            guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
+        }
         var li =
             '<li class="projectitem collapsible" projectid="'+projectid+'">' +
             '    <a class="icon-folder" href="#" title="'+projectid+'">' +
@@ -1559,7 +1566,7 @@
             '                </a>' +
             '            </li>' +
             '            <li>' +
-            '                <a href="#" class="copyExtProjectUrl" title="'+extProjUrl+'">' +
+            '                <a href="#" class="copyProjectGuestLink" title="'+guestLink+'">' +
             '                    <span class="icon-clippy"></span>' +
             '                    <span>'+guestAccessStr+'</span>' +
             '                </a>' +
@@ -2688,10 +2695,18 @@
             getProjectSettlement(projectid);
         });
 
-        $('body').on('click', '.copyExtProjectUrl', function() {
+        $('body').on('click', '.copyProjectGuestLink', function() {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
-            var guestLink = OC.generateUrl('/apps/cospend/loginproject/'+projectid);
-            guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
+            var project = cospend.projects[projectid];
+            var guestLink;
+            if (project.external) {
+                var id = projectid.split('@')[0];
+                guestLink = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/loginproject/' + id;
+            }
+            else {
+                guestLink = OC.generateUrl('/apps/cospend/loginproject/'+projectid);
+                guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
+            }
             var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select()
             document.execCommand('copy');
             $('#dummycopy').remove();

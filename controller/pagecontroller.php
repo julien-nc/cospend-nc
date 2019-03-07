@@ -467,7 +467,7 @@ class PageController extends ApiController {
      */
     public function webDeleteExternalProject($projectid, $ncurl) {
         if ($this->userCanAccessExternalProject($this->userId, $projectid, $ncurl)) {
-            return $this->deleteExternalProject($projectid, $ncurl, $password);
+            return $this->deleteExternalProject($projectid, $ncurl);
         }
         else {
             $response = new DataResponse(

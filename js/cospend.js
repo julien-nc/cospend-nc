@@ -238,7 +238,7 @@
             $('#addextproject').removeClass('icon-loading-small');
         }).fail(function(response) {
             deleteExternalProject(id + '@' + ncurl);
-            OC.Notification.showTemporary(t('cospend', 'Failed to get external project') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('cospend', 'Failed to get external project') + ' ' + (response.responseText || ''));
         });
     }
 
@@ -2328,7 +2328,7 @@
                 var name = $('#projectnameinput').val();
                 var id = $('#projectidinput').val();
                 var password = $('#projectpasswordinput').val();
-                if (name && id) {
+                if (name && id && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
                     createProject(id, name, password);
                 }
                 else {
@@ -2341,7 +2341,7 @@
             var name = $('#projectnameinput').val();
             var id = $('#projectidinput').val();
             var password = $('#projectpasswordinput').val();
-            if (name && id) {
+            if (name && id && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
                 createProject(id, name, password);
             }
             else {
@@ -2354,7 +2354,7 @@
             var name = $('#projectnameinput').val();
             var id = $('#projectidinput').val();
             var password = $('#projectpasswordinput').val();
-            if (name && id) {
+            if (name && id && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
                 createProject(id, name, password);
             }
             else {
@@ -2386,7 +2386,7 @@
                 var url = $('#ncurlinput').val();
                 var id = $('#extprojectidinput').val();
                 var password = $('#extprojectpasswordinput').val();
-                if (url && id && password) {
+                if (url && id && password && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
                     addExtProject(url, id, password);
                 }
                 else {
@@ -2399,7 +2399,7 @@
             var url = $('#ncurlinput').val();
             var id = $('#extprojectidinput').val();
             var password = $('#extprojectpasswordinput').val();
-            if (url && id && password) {
+            if (url && id && password && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
                 addExtProject(url, id, password);
             }
             else {
@@ -2412,7 +2412,7 @@
             var url = $('#ncurlinput').val();
             var id = $('#extprojectidinput').val();
             var password = $('#extprojectpasswordinput').val();
-            if (url && id && password) {
+            if (url && id && password && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
                 addExtProject(url, id, password);
             }
             else {

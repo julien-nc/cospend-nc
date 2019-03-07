@@ -23,7 +23,7 @@
 
     </div>
     <button id="addextprojectbutton" type="button" class="icon-triangle-e">
-        <?php p($l->t('Add project from another Nextcloud')); ?>
+        <?php p($l->t('Add external project')); ?>
     </button>
     <div id="addextprojectdiv">
 
@@ -37,7 +37,7 @@
             <label for="extprojectpasswordinput"><?php p($l->t('password')); ?></label>
             <input id="extprojectpasswordinput" type="password" value="lala"/>
             <button id="addextproject" type="button" class="icon-add">
-                <?php p($l->t('Add external project')); ?>
+                <?php p($l->t('Add')); ?>
             </button>
         </form>
 

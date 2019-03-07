@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- CI PhpUnit tests
+- QRCode and https link to import project in MoneyBuster
+- now able to add external projects (hosted in another Nextcloud instance)
+
+### Changed
+- design improvements: selected project bg color
+- make password optional for new projects
+[#13](https://gitlab.com/eneiluj/cospend-nc/issues/13) @MrCustomizer
+
+### Fixed
+- remove settle/stats button from settings
+
 ## 0.0.5 – 2019-02-28
 ### Added
 - ability to add public link to NC files in bill name

@@ -1531,7 +1531,7 @@
         var deleteStr = t('cospend', 'Delete');
         var moneyBusterUrlStr = t('cospend', 'Link/QRCode for MoneyBuster');
         var deletedStr = t('cospend', 'Deleted {name}', {name: name});
-        var removeExtStr = t('cospend', 'Remove from list');
+        var removeExtStr = t('cospend', 'Remove');
         var shareTitle = t('cospend', 'Press enter to validate');
         var guestLink;
         if (project.external) {

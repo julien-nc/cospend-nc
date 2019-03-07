@@ -1520,6 +1520,9 @@
         cospend.members[project.id] = {};
 
         var name = project.name;
+        if (project.external) {
+            name = '<span class="icon-external" style="display: inline-grid; margin-bottom: -3px;"></span> ' + name;
+        }
         var projectid = project.id;
         var addMemberStr = t('cospend', 'Add member');
         var guestAccessStr = t('cospend', 'Guest access link');
@@ -1528,7 +1531,13 @@
         var displayStatsStr = t('cospend', 'Display statistics');
         var settleStr = t('cospend', 'Settle the project');
         var exportStr = t('cospend', 'Export to csv');
-        var deleteStr = t('cospend', 'Delete');
+        var deleteStr;
+        if (project.external) {
+            deleteStr = t('cospend', 'Delete remote project');
+        }
+        else {
+            deleteStr = t('cospend', 'Delete');
+        }
         var moneyBusterUrlStr = t('cospend', 'Link/QRCode for MoneyBuster');
         var deletedStr = t('cospend', 'Deleted {name}', {name: name});
         var removeExtStr = t('cospend', 'Remove');

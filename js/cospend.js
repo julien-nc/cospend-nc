@@ -2697,18 +2697,6 @@
             $(this).select();
         });
 
-        $('#statsButton').click(function() {
-            if (cospend.currentProjectId !== null) {
-                getProjectStatistics(cospend.currentProjectId);
-            }
-        });
-
-        $('#settleButton').click(function() {
-            if (cospend.currentProjectId !== null) {
-                getProjectSettlement(cospend.currentProjectId);
-            }
-        });
-
         $('body').on('click', '.moneyBusterProjectUrl', function(e) {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
             getProjectMoneyBusterLink(projectid);

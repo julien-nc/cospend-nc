@@ -12,7 +12,6 @@
         max-width: 400px;
     }
 }
-#addextprojectbutton,
 #newBillButton {
     margin-top: 10px !important;
 }
@@ -42,7 +41,6 @@
 #newprojectdiv {
     display: none;
 }
-#addextprojectdiv label,
 #newprojectdiv label {
     margin: 3px 3px 3px 3px;
     line-height: 32px;
@@ -50,7 +48,6 @@
     text-align: right;
     float: left;
 }
-#addextprojectdiv input,
 #newprojectdiv input {
     width: 45%;
     float: right;
@@ -130,10 +127,15 @@ input[type=number] {
 .undoDeleteBill {
     display: none;
 }
+#app-settings-content input {
+    width: 100%;
+}
 #app-settings-content button {
     padding: 10px;
     padding-left: 34px;
     background-position: 10px center;
+    width: 100%;
+    text-align: left;
 }
 #bill-list > .deleted {
     /*background-color: var(--color-warning);*/

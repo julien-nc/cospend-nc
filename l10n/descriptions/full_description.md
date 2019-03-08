@@ -28,7 +28,7 @@ Projects can be accessed and modified by people without a Nextcloud account. Eac
 * 👫 share a project with Nextcloud users
 * 🖫 import/export projects as csv (compatible with csv files from IHateMoney)
 * 🖧 add external projects (hosted by another Nextcloud instance)
-* 🔗 generate link/QRCode to easyly import projects in MoneyBuster
+* 🔗 generate link/QRCode to easily import projects in MoneyBuster
 
 This app is tested on Nextcloud 15 with Firefox 57+ and Chromium.
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cospend app 8.0.0\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
-"POT-Creation-Date: 2019-03-07 03:29+0100\n"
+"POT-Creation-Date: 2019-03-08 01:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -77,11 +77,11 @@ msgstr ""
 msgid "Failed to add member"
 msgstr ""
 
-#: cospend.js:378 cospend.js:1719
+#: cospend.js:378 cospend.js:1728
 msgid "Reactivate"
 msgstr ""
 
-#: cospend.js:384 cospend.js:1713
+#: cospend.js:384 cospend.js:1722
 msgid "Deactivate"
 msgstr ""
 
@@ -121,7 +121,7 @@ msgstr ""
 msgid "Failed to save external project"
 msgstr ""
 
-#: cospend.js:697 cospend.js:1533
+#: cospend.js:697 cospend.js:1542
 msgid "Deleted {name}"
 msgstr ""
 
@@ -141,7 +141,7 @@ msgstr ""
 msgid "Failed to delete project"
 msgstr ""
 
-#: cospend.js:801 cospend.js:1168 cospend.js:2204 cospend.js:2653
+#: cospend.js:801 cospend.js:1168 cospend.js:2213 cospend.js:2662
 msgid "No bill yet"
 msgstr ""
 
@@ -267,169 +267,173 @@ msgstr ""
 msgid "Failed to update balances"
 msgstr ""
 
-#: cospend.js:1524
+#: cospend.js:1527
 msgid "Add member"
 msgstr ""
 
-#: cospend.js:1525 mainnavigation.php:70
+#: cospend.js:1528 mainnavigation.php:70
 msgid "Guest access link"
 msgstr ""
 
-#: cospend.js:1526 cospend.js:1724
+#: cospend.js:1529 cospend.js:1733
 msgid "Rename"
 msgstr ""
 
-#: cospend.js:1527
+#: cospend.js:1530
 msgid "Change password"
 msgstr ""
 
-#: cospend.js:1528
+#: cospend.js:1531
 msgid "Display statistics"
 msgstr ""
 
-#: cospend.js:1529
+#: cospend.js:1532
 msgid "Settle the project"
 msgstr ""
 
-#: cospend.js:1530
+#: cospend.js:1533
 msgid "Export to csv"
 msgstr ""
 
-#: cospend.js:1531
+#: cospend.js:1536
+msgid "Delete remote project"
+msgstr ""
+
+#: cospend.js:1539
 msgid "Delete"
 msgstr ""
 
-#: cospend.js:1532
+#: cospend.js:1541
 msgid "Link/QRCode for MoneyBuster"
 msgstr ""
 
-#: cospend.js:1534
+#: cospend.js:1543
 msgid "Remove"
 msgstr ""
 
-#: cospend.js:1535
+#: cospend.js:1544
 msgid "Press enter to validate"
 msgstr ""
 
-#: cospend.js:1725
+#: cospend.js:1734
 msgid "Change weight"
 msgstr ""
 
-#: cospend.js:1851
+#: cospend.js:1860
 msgid "Bill values are not valid"
 msgstr ""
 
-#: cospend.js:1870
+#: cospend.js:1879
 msgid "Failed to save option values"
 msgstr ""
 
-#: cospend.js:1900
+#: cospend.js:1909
 msgid "Failed to restore options values"
 msgstr ""
 
-#: cospend.js:1926
+#: cospend.js:1935
 msgid "Failed to get user list"
 msgstr ""
 
-#: cospend.js:1945
+#: cospend.js:1954
 msgid "Shared project {pname} with {uname}"
 msgstr ""
 
-#: cospend.js:1949
+#: cospend.js:1958
 msgid "Failed to add user share"
 msgstr ""
 
-#: cospend.js:1955
+#: cospend.js:1964
 msgid "Shared with {u}"
 msgstr ""
 
-#: cospend.js:1981
+#: cospend.js:1990
 msgid "Failed to delete user share"
 msgstr ""
 
-#: cospend.js:2027
+#: cospend.js:2036
 msgid "Failed to generate public link to file"
 msgstr ""
 
-#: cospend.js:2043
+#: cospend.js:2052
 msgid "Project exported in {path}"
 msgstr ""
 
-#: cospend.js:2047
+#: cospend.js:2056
 msgid "Failed to export project"
 msgstr ""
 
-#: cospend.js:2063
+#: cospend.js:2072
 msgid "Project statistics exported in {path}"
 msgstr ""
 
-#: cospend.js:2067
+#: cospend.js:2076
 msgid "Failed to export project statistics"
 msgstr ""
 
-#: cospend.js:2083
+#: cospend.js:2092
 msgid "Project settlement exported in {path}"
 msgstr ""
 
-#: cospend.js:2087
+#: cospend.js:2096
 msgid "Failed to export project settlement"
 msgstr ""
 
-#: cospend.js:2121
+#: cospend.js:2130
 msgid "Project settlement bills added"
 msgstr ""
 
-#: cospend.js:2125
+#: cospend.js:2134
 msgid "Failed to add project settlement bills"
 msgstr ""
 
-#: cospend.js:2131
+#: cospend.js:2140
 msgid "Only CSV files can be imported"
 msgstr ""
 
-#: cospend.js:2150
+#: cospend.js:2159
 msgid "Failed to import project file"
 msgstr ""
 
-#: cospend.js:2210
+#: cospend.js:2219
 msgid "There is no custom amount"
 msgstr ""
 
-#: cospend.js:2214 cospend.js:2335 cospend.js:2348 cospend.js:2361
-#: cospend.js:2393 cospend.js:2406 cospend.js:2419 cospend.js:2460
-#: cospend.js:2472
+#: cospend.js:2223 cospend.js:2344 cospend.js:2357 cospend.js:2370
+#: cospend.js:2402 cospend.js:2415 cospend.js:2428 cospend.js:2469
+#: cospend.js:2481
 msgid "Invalid values"
 msgstr ""
 
-#: cospend.js:2284
+#: cospend.js:2293
 msgid "userName"
 msgstr ""
 
-#: cospend.js:2449
+#: cospend.js:2458
 msgid "newMemberName"
 msgstr ""
 
-#: cospend.js:2671
+#: cospend.js:2680
 msgid "New Bill"
 msgstr ""
 
-#: cospend.js:2683
+#: cospend.js:2692
 msgid "2 active members are required to create a bill"
 msgstr ""
 
-#: cospend.js:2733
+#: cospend.js:2730
 msgid "Guest link for '{pid}' copied to clipboard"
 msgstr ""
 
-#: cospend.js:2746
+#: cospend.js:2743
 msgid "Guest link copied to clipboard"
 msgstr ""
 
-#: cospend.js:2755
+#: cospend.js:2752
 msgid "Choose file"
 msgstr ""
 
-#: cospend.js:2765
+#: cospend.js:2762
 msgid "Choose csv project file"
 msgstr ""
 
@@ -485,11 +489,11 @@ msgstr ""
 msgid "New project"
 msgstr ""
 
-#: mainnavigation.php:11 mainnavigation.php:34
+#: mainnavigation.php:11 mainnavigation.php:53
 msgid "project id"
 msgstr ""
 
-#: mainnavigation.php:12 mainnavigation.php:35
+#: mainnavigation.php:12 mainnavigation.php:54
 msgid "myProjectId"
 msgstr ""
 
@@ -510,41 +514,33 @@ msgid "Add project"
 msgstr ""
 
 #: mainnavigation.php:26
-msgid "Add external project"
-msgstr ""
-
-#: mainnavigation.php:31
-msgid "Nextcloud address"
-msgstr ""
-
-#: mainnavigation.php:32
-msgid "https://other.nextcloud.instance.net"
-msgstr ""
-
-#: mainnavigation.php:37
-msgid "password"
-msgstr ""
-
-#: mainnavigation.php:40
-msgid "Add"
-msgstr ""
-
-#: mainnavigation.php:46
 msgid "New bill"
 msgstr ""
 
-#: mainnavigation.php:58
+#: mainnavigation.php:38
 msgid "Settings"
 msgstr ""
 
-#: mainnavigation.php:64
-msgid "Project statistics"
+#: mainnavigation.php:44
+msgid "Add external project"
+msgstr ""
+
+#: mainnavigation.php:49
+msgid "Nextcloud address"
+msgstr ""
+
+#: mainnavigation.php:50
+msgid "https://other.nextcloud.instance.net"
+msgstr ""
+
+#: mainnavigation.php:57
+msgid "password"
+msgstr ""
+
+#: mainnavigation.php:60
+msgid "Add"
 msgstr ""
 
 #: mainnavigation.php:67
-msgid "Settle"
-msgstr ""
-
-#: mainnavigation.php:73
 msgid "Import csv project file"
 msgstr ""

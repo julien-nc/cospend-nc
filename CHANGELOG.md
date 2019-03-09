@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.0.6 – 2019-03-09
 ### Added
 - CI PhpUnit tests
 - QRCode and https link to import project in MoneyBuster

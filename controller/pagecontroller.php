@@ -29,6 +29,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\ApiController;
 use OCP\Constants;
 use OCP\Share;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 
 function endswith($string, $test) {
     $strlen = strlen($string);
@@ -539,12 +540,15 @@ class PageController extends ApiController {
         $projects = [];
         $projectids = [];
 
-        $sql = '
-            SELECT id, password, name, email
-            FROM *PREFIX*cospend_projects
-            WHERE userid='.$this->db_quote_escape_string($this->userId).' ;';
-        $req = $this->dbconnection->prepare($sql);
-        $req->execute();
+        $qb = $this->dbconnection->getQueryBuilder();
+
+        $qb->select('p.id', 'p.password', 'p.name', 'p.email')
+           ->from('cospend_projects', 'p')
+           ->where(
+               $qb->expr()->eq('userid', $qb->createNamedParameter($this->userId, IQueryBuilder::PARAM_STR))
+           );
+        $req = $qb->execute();
+
         $dbProjectId = null;
         $dbPassword = null;
         while ($row = $req->fetch()){
@@ -565,14 +569,17 @@ class PageController extends ApiController {
         }
         $req->closeCursor();
 
+        $qb = $qb->resetQueryParts();
+
         // shared with user
-        $sql = '
-            SELECT *PREFIX*cospend_projects.id AS id, password, name, email
-            FROM *PREFIX*cospend_projects
-            INNER JOIN *PREFIX*cospend_shares ON *PREFIX*cospend_shares.projectid=*PREFIX*cospend_projects.id
-            WHERE *PREFIX*cospend_shares.userid='.$this->db_quote_escape_string($this->userId).' ;';
-        $req = $this->dbconnection->prepare($sql);
-        $req->execute();
+        $qb->select('cp.id', 'cp.password', 'cp.name', 'cp.email')
+           ->from('cospend_projects', 'cp')
+           ->innerJoin('cp', 'cospend_shares', 'cs', $qb->expr()->eq('cp.id', 'cs.projectid'))
+           ->where(
+               $qb->expr()->eq('cs.userid', $this->userId)
+           );
+        $req = $qb->execute();
+
         $dbProjectId = null;
         $dbPassword = null;
         while ($row = $req->fetch()){

@@ -572,11 +572,11 @@ class PageController extends ApiController {
         $qb = $qb->resetQueryParts();
 
         // shared with user
-        $qb->select('cp.id', 'cp.password', 'cp.name', 'cp.email')
-           ->from('cospend_projects', 'cp')
-           ->innerJoin('cp', 'cospend_shares', 'cs', $qb->expr()->eq('cp.id', 'cs.projectid'))
+        $qb->select('p.id', 'p.password', 'p.name', 'p.email')
+           ->from('cospend_projects', 'p')
+           ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
            ->where(
-               $qb->expr()->eq('cs.userid', $this->userId)
+               $qb->expr()->eq('s.userid', $this->userId)
            );
         $req = $qb->execute();
 
@@ -602,6 +602,7 @@ class PageController extends ApiController {
             }
         }
         $req->closeCursor();
+        $qb = $qb->resetQueryParts();
         for ($i = 0; $i < count($projects); $i++) {
             $dbProjectId = $projects[$i]['id'];
             $members = $this->getMembers($dbProjectId);
@@ -620,12 +621,13 @@ class PageController extends ApiController {
         }
 
         // get external projects
-        $sql = '
-            SELECT projectid, password, ncurl
-            FROM *PREFIX*cospend_ext_projects
-            WHERE userid='.$this->db_quote_escape_string($this->userId).' ;';
-        $req = $this->dbconnection->prepare($sql);
-        $req->execute();
+        $qb->select('ep.projectid', 'ep.password', 'ep.ncurl')
+           ->from('cospend_ext_projects', 'ep')
+           ->where(
+               $qb->expr()->eq('userid', $qb->createNamedParameter($this->userId, IQueryBuilder::PARAM_STR))
+           );
+        $req = $qb->execute();
+
         while ($row = $req->fetch()){
             $dbProjectId = $row['projectid'];
             $dbPassword = $row['password'];
@@ -656,18 +658,20 @@ class PageController extends ApiController {
             $userIdToName[$u->getUID()] = $u->getDisplayName();
         }
 
-        $sqlchk = '
-            SELECT userid, projectid
-            FROM *PREFIX*cospend_shares
-            WHERE projectid='.$this->db_quote_escape_string($projectid).' ;';
-        $req = $this->dbconnection->prepare($sqlchk);
-        $req->execute();
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('projectid', 'userid')
+           ->from('cospend_shares', 'sh')
+           ->where(
+               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+           );
+        $req = $qb->execute();
         while ($row = $req->fetch()){
             $dbuserId = $row['userid'];
             $dbprojectId = $row['projectid'];
             array_push($shares, ['userid'=>$dbuserId, 'name'=>$userIdToName[$dbuserId]]);
         }
         $req->closeCursor();
+        $qb = $qb->resetQueryParts();
 
         return $shares;
     }
@@ -679,12 +683,13 @@ class PageController extends ApiController {
             return false;
         }
         else {
-            $sql = '
-                SELECT id, password
-                FROM *PREFIX*cospend_projects
-                WHERE id='.$this->db_quote_escape_string($projectId).' ;';
-            $req = $this->dbconnection->prepare($sql);
-            $req->execute();
+            $qb = $this->dbconnection->getQueryBuilder();
+            $qb->select('id', 'password')
+               ->from('cospend_projects', 'p')
+               ->where(
+                   $qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+               );
+            $req = $qb->execute();
             $dbid = null;
             $dbPassword = null;
             while ($row = $req->fetch()){
@@ -693,6 +698,7 @@ class PageController extends ApiController {
                 break;
             }
             $req->closeCursor();
+            $qb = $qb->resetQueryParts();
             return (
                 $password !== null &&
                 $password !== '' &&

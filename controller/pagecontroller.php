@@ -1946,12 +1946,15 @@ class PageController extends ApiController {
     private function editMember($projectid, $memberid, $name, $weight, $activated) {
         if ($name !== null && $name !== '') {
             if ($this->getMemberById($projectid, $memberid) !== null) {
-                $weightSql = '';
-                $activatedSql = '';
+                $qb = $this->dbconnection->getQueryBuilder();
+                $qb->update('cospend_members');
+                //$weightSql = '';
+                //$activatedSql = '';
                 if ($weight !== null && $weight !== '') {
                     if (is_numeric($weight)) {
                         $newWeight = floatval($weight);
-                        $weightSql = 'weight='.$this->db_quote_escape_string($newWeight).',';
+                        //$weightSql = 'weight='.$this->db_quote_escape_string($newWeight).',';
+                        $qb->set('weight', $qb->createNamedParameter($newWeight, IQueryBuilder::PARAM_LOB));
                     }
                     else {
                         $response = new DataResponse(
@@ -1962,19 +1965,19 @@ class PageController extends ApiController {
                     }
                 }
                 if ($activated !== null && $activated !== '' && ($activated === 'true' || $activated === 'false')) {
-                    $activatedSql = 'activated='.$this->db_quote_escape_string($activated === 'true' ? '1' : '0').',';
+                    //$activatedSql = 'activated='.$this->db_quote_escape_string($activated === 'true' ? '1' : '0').',';
+                    $qb->set('activated', $qb->createNamedParameter(($activated === 'true' ? 1 : 0), IQueryBuilder::PARAM_INT));
                 }
-                $sqlupd = '
-                        UPDATE *PREFIX*cospend_members
-                        SET
-                             '.$weightSql.'
-                             '.$activatedSql.'
-                             name='.$this->db_quote_escape_string($name).'
-                        WHERE id='.$this->db_quote_escape_string($memberid).'
-                              AND projectid='.$this->db_quote_escape_string($projectid).' ;';
-                $req = $this->dbconnection->prepare($sqlupd);
-                $req->execute();
-                $req->closeCursor();
+
+                $qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
+                $qb->where(
+                    $qb->expr()->eq('id', $qb->createNamedParameter($memberid, IQueryBuilder::PARAM_INT))
+                )
+                ->andWhere(
+                    $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                );
+                $req = $qb->execute();
+                $qb = $qb->resetQueryParts();
 
                 $editedMember = $this->getMemberById($projectid, $memberid);
 

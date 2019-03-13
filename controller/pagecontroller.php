@@ -1284,32 +1284,37 @@ class PageController extends ApiController {
 
         // first get all bill ids
         $billIds = [];
-        $sql = '
-            SELECT id
-            FROM *PREFIX*cospend_bills
-            WHERE projectid='.$this->db_quote_escape_string($projectId).' ;';
-        $req = $this->dbconnection->prepare($sql);
-        $req->execute();
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('id')
+           ->from('cospend_bills', 'b')
+           ->where(
+               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+           );
+        $req = $qb->execute();
+        //$sql = '
+        //    SELECT id
+        //    FROM *PREFIX*cospend_bills
+        //    WHERE projectid='.$this->db_quote_escape_string($projectId).' ;';
+        //$req = $this->dbconnection->prepare($sql);
+        //$req->execute();
         while ($row = $req->fetch()){
             array_push($billIds, $row['id']);
         }
         $req->closeCursor();
+        $qb = $qb->resetQueryParts();
 
         // get bill owers
         $billOwersByBill = [];
         foreach ($billIds as $billId) {
             $billOwers = [];
 
-            $sql = '
-                SELECT memberid,
-                    *PREFIX*cospend_members.name as name,
-                    *PREFIX*cospend_members.weight as weight,
-                    *PREFIX*cospend_members.activated as activated
-                FROM *PREFIX*cospend_bill_owers
-                INNER JOIN *PREFIX*cospend_members ON memberid=*PREFIX*cospend_members.id
-                WHERE *PREFIX*cospend_bill_owers.billid='.$this->db_quote_escape_string($billId).' ;';
-            $req = $this->dbconnection->prepare($sql);
-            $req->execute();
+            $qb->select('memberid', 'm.name', 'm.weight', 'm.activated')
+               ->from('cospend_bill_owers', 'bo')
+               ->innerJoin('bo', 'cospend_members', 'm', $qb->expr()->eq('bo.memberid', 'm.id'))
+               ->where(
+                   $qb->expr()->eq('bo.billid', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
+               );
+            $req = $qb->execute();
             while ($row = $req->fetch()){
                 $dbWeight = floatval($row['weight']);
                 $dbName = $row['name'];
@@ -1326,15 +1331,23 @@ class PageController extends ApiController {
                 );
             }
             $req->closeCursor();
+            $qb = $qb->resetQueryParts();
             $billOwersByBill[$billId] = $billOwers;
         }
 
-        $sql = '
-            SELECT id, what, date, amount, payerid, '.$this->dbdblquotes.'repeat'.$this->dbdblquotes.'
-            FROM *PREFIX*cospend_bills
-            WHERE projectid='.$this->db_quote_escape_string($projectId).' ORDER BY date ASC;';
-        $req = $this->dbconnection->prepare($sql);
-        $req->execute();
+        $qb->select('id', 'what', 'date', 'amount', 'payerid', 'repeat')
+           ->from('cospend_bills', 'b')
+           ->where(
+               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+           )
+           ->orderBy('date', 'ASC');
+        $req = $qb->execute();
+        //$sql = '
+        //    SELECT id, what, date, amount, payerid, '.$this->dbdblquotes.'repeat'.$this->dbdblquotes.'
+        //    FROM *PREFIX*cospend_bills
+        //    WHERE projectid='.$this->db_quote_escape_string($projectId).' ORDER BY date ASC;';
+        //$req = $this->dbconnection->prepare($sql);
+        //$req->execute();
         while ($row = $req->fetch()){
             $dbBillId = intval($row['id']);
             $dbAmount = floatval($row['amount']);
@@ -1356,6 +1369,7 @@ class PageController extends ApiController {
             );
         }
         $req->closeCursor();
+        $qb = $qb->resetQueryParts();
 
         return $bills;
     }

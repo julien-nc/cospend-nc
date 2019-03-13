@@ -807,6 +807,10 @@
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(t('cospend', 'Failed to delete bill') + ' ' + response.responseText);
+            var deleteBillIcon = $('.billitem[billid='+billid+'] .deleteBillIcon');
+            deleteBillIcon.parent().find('.undoDeleteBill').hide();
+            deleteBillIcon.parent().removeClass('deleted');
+            deleteBillIcon.show();
         });
     }
 

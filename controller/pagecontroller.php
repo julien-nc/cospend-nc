@@ -1828,13 +1828,16 @@ class PageController extends ApiController {
         if ($billToDelete !== null) {
             $this->deleteBillOwersOfBill($billid);
 
-            $sqldel = '
-                    DELETE FROM *PREFIX*cospend_bills
-                    WHERE id='.$this->db_quote_escape_string($billid).'
-                        AND projectid='.$this->db_quote_escape_string($projectid).' ;';
-            $req = $this->dbconnection->prepare($sqldel);
-            $req->execute();
-            $req->closeCursor();
+            $qb = $this->dbconnection->getQueryBuilder();
+            $qb->delete('cospend_bills')
+               ->where(
+                   $qb->expr()->eq('id', $qb->createNamedParameter($billid, IQueryBuilder::PARAM_INT))
+               )
+               ->andWhere(
+                   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+               );
+            $req = $qb->execute();
+            $qb = $qb->resetQueryParts();
 
             $response = new DataResponse("OK");
             return $response;

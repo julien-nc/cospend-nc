@@ -1070,37 +1070,37 @@ class PageController extends ApiController {
     }
 
     private function addExternalProject($ncurl, $id, $password, $userid) {
-        $sql = '
-            SELECT projectid
-            FROM *PREFIX*cospend_ext_projects
-            WHERE projectid='.$this->db_quote_escape_string($id).'
-                AND ncurl='.$this->db_quote_escape_string($ncurl).' ;';
-        $req = $this->dbconnection->prepare($sql);
-        $req->execute();
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('projectid')
+           ->from('cospend_ext_projects', 'ep')
+           ->where(
+               $qb->expr()->eq('projectid', $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR))
+           )
+           ->andWhere(
+               $qb->expr()->eq('ncurl', $qb->createNamedParameter($ncurl, IQueryBuilder::PARAM_STR))
+           );
+        $req = $qb->execute();
         $dbprojectid = null;
         while ($row = $req->fetch()){
             $dbprojectid = $row['projectid'];
             break;
         }
         $req->closeCursor();
+        $qb = $qb->resetQueryParts();
         if ($dbprojectid === null) {
             // check if id is valid
             if (strpos($id, '/') !== false) {
                 $response = new DataResponse(['message'=>'Invalid project id'], 400);
                 return $response;
             }
-            $sql = '
-                INSERT INTO *PREFIX*cospend_ext_projects
-                (userid, projectid, ncurl, password)
-                VALUES ('.
-                    $this->db_quote_escape_string($userid).','.
-                    $this->db_quote_escape_string($id).','.
-                    $this->db_quote_escape_string($ncurl).','.
-                    $this->db_quote_escape_string($password).
-                ') ;';
-            $req = $this->dbconnection->prepare($sql);
-            $req->execute();
-            $req->closeCursor();
+            $qb->insert('cospend_ext_projects')
+                ->values([
+                    'userid' => $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR),
+                    'projectid' => $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR),
+                    'ncurl' => $qb->createNamedParameter($ncurl, IQueryBuilder::PARAM_STR),
+                    'password' => $qb->createNamedParameter($password, IQueryBuilder::PARAM_STR)
+                ]);
+            $req = $qb->execute();
 
             $response = new DataResponse($id);
             return $response;
@@ -1115,18 +1115,22 @@ class PageController extends ApiController {
     }
 
     private function createProject($name, $id, $password, $contact_email, $userid='') {
-        $sql = '
-            SELECT id
-            FROM *PREFIX*cospend_projects
-            WHERE id='.$this->db_quote_escape_string($id).' ;';
-        $req = $this->dbconnection->prepare($sql);
-        $req->execute();
+        $qb = $this->dbconnection->getQueryBuilder();
+
+        $qb->select('id')
+           ->from('cospend_projects', 'p')
+           ->where(
+               $qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR))
+           );
+        $req = $qb->execute();
+
         $dbid = null;
         while ($row = $req->fetch()){
             $dbid = $row['id'];
             break;
         }
         $req->closeCursor();
+        $qb = $qb->resetQueryParts();
         if ($dbid === null) {
             // check if id is valid
             if (strpos($id, '/') !== false) {
@@ -1137,19 +1141,18 @@ class PageController extends ApiController {
             if ($password !== null && $password !== '') {
                 $dbPassword = password_hash($password, PASSWORD_DEFAULT);
             }
-            $sql = '
-                INSERT INTO *PREFIX*cospend_projects
-                (userid, id, name, password, email)
-                VALUES ('.
-                    $this->db_quote_escape_string($userid).','.
-                    $this->db_quote_escape_string($id).','.
-                    $this->db_quote_escape_string($name).','.
-                    $this->db_quote_escape_string($dbPassword).','.
-                    $this->db_quote_escape_string($contact_email).
-                ') ;';
-            $req = $this->dbconnection->prepare($sql);
-            $req->execute();
-            $req->closeCursor();
+            if ($contact_email === null) {
+                $contact_email = '';
+            }
+            $qb->insert('cospend_projects')
+                ->values([
+                    'userid' => $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR),
+                    'id' => $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR),
+                    'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
+                    'password' => $qb->createNamedParameter($dbPassword, IQueryBuilder::PARAM_STR),
+                    'email' => $qb->createNamedParameter($contact_email, IQueryBuilder::PARAM_STR)
+                ]);
+            $req = $qb->execute();
 
             $response = new DataResponse($id);
             return $response;

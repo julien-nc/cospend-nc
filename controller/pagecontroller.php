@@ -1291,12 +1291,7 @@ class PageController extends ApiController {
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
            );
         $req = $qb->execute();
-        //$sql = '
-        //    SELECT id
-        //    FROM *PREFIX*cospend_bills
-        //    WHERE projectid='.$this->db_quote_escape_string($projectId).' ;';
-        //$req = $this->dbconnection->prepare($sql);
-        //$req->execute();
+
         while ($row = $req->fetch()){
             array_push($billIds, $row['id']);
         }
@@ -1723,47 +1718,45 @@ class PageController extends ApiController {
         }
 
         // do it already !
-        $sql = '
-            INSERT INTO *PREFIX*cospend_bills
-            (projectid, what, date, amount, payerid, '.$this->dbdblquotes.'repeat'.$this->dbdblquotes.')
-            VALUES ('.
-                $this->db_quote_escape_string($projectid).','.
-                $this->db_quote_escape_string($what).','.
-                $this->db_quote_escape_string($date).','.
-                $this->db_quote_escape_string($amount).','.
-                $this->db_quote_escape_string($payer).','.
-                $this->db_quote_escape_string($repeat).
-            ') ;';
-        $req = $this->dbconnection->prepare($sql);
-        $req->execute();
-        $req->closeCursor();
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->insert('cospend_bills')
+            ->values([
+                'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
+                'what' => $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR),
+                'date' => $qb->createNamedParameter($date, IQueryBuilder::PARAM_STR),
+                'amount' => $qb->createNamedParameter($amount, IQueryBuilder::PARAM_LOB),
+                'payerid' => $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT),
+                'repeat' => $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR)
+            ]);
+        $req = $qb->execute();
+        $qb = $qb->resetQueryParts();
 
         // get inserted bill id
-        $sql = '
-            SELECT id
-            FROM *PREFIX*cospend_bills
-            WHERE projectid='.$this->db_quote_escape_string($projectid).'
-            ORDER BY id DESC LIMIT 1 ;';
-        $req = $this->dbconnection->prepare($sql);
-        $req->execute();
+        $qb->select('id')
+           ->from('cospend_bills', 'b')
+           ->where(
+               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+           )
+           ->orderBy('id', 'DESC')
+           ->setMaxResults(1);
+        $req = $qb->execute();
+
         while ($row = $req->fetch()){
             $insertedBillId = intval($row['id']);
             break;
         }
         $req->closeCursor();
+        $qb = $qb->resetQueryParts();
 
         // insert bill owers
         foreach ($owerIds as $owerId) {
-            $sql = '
-                INSERT INTO *PREFIX*cospend_bill_owers
-                (billid, memberid)
-                VALUES ('.
-                    $this->db_quote_escape_string($insertedBillId).','.
-                    $this->db_quote_escape_string($owerId).
-                ') ;';
-            $req = $this->dbconnection->prepare($sql);
-            $req->execute();
-            $req->closeCursor();
+            $qb->insert('cospend_bill_owers')
+                ->values([
+                    'billid' => $qb->createNamedParameter($insertedBillId, IQueryBuilder::PARAM_INT),
+                    'memberid' => $qb->createNamedParameter($owerId, IQueryBuilder::PARAM_INT)
+                ]);
+            $req = $qb->execute();
+            $qb = $qb->resetQueryParts();
         }
 
         $response = new DataResponse($insertedBillId);
@@ -1786,18 +1779,17 @@ class PageController extends ApiController {
                         return $response;
                     }
                 }
-                $sql = '
-                    INSERT INTO *PREFIX*cospend_members
-                    (projectid, name, weight, activated)
-                    VALUES ('.
-                        $this->db_quote_escape_string($projectid).','.
-                        $this->db_quote_escape_string($name).','.
-                        $this->db_quote_escape_string($weightToInsert).','.
-                        $this->db_quote_escape_string('1').
-                    ') ;';
-                $req = $this->dbconnection->prepare($sql);
-                $req->execute();
-                $req->closeCursor();
+
+                $qb = $this->dbconnection->getQueryBuilder();
+                $qb->insert('cospend_members')
+                    ->values([
+                        'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
+                        'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
+                        'weight' => $qb->createNamedParameter($weightToInsert, IQueryBuilder::PARAM_LOB),
+                        'activated' => $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)
+                    ]);
+                $req = $qb->execute();
+                $qb = $qb->resetQueryParts();
 
                 $insertedMember = $this->getMemberByName($projectid, $name);
 

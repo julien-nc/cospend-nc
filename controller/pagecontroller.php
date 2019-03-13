@@ -1892,38 +1892,45 @@ class PageController extends ApiController {
     private function deleteProject($projectid) {
         $projectToDelete = $this->getProjectById($projectid);
         if ($projectToDelete !== null) {
+            $qb = $this->dbconnection->getQueryBuilder();
+
             // delete project bills
             $bills = $this->getBills($projectid);
             foreach ($bills as $bill) {
                 $this->deleteBillOwersOfBill($bill['id']);
             }
-            $sqldel = '
-                    DELETE FROM *PREFIX*cospend_bills
-                    WHERE projectid='.$this->db_quote_escape_string($projectid).' ;';
-            $req = $this->dbconnection->prepare($sqldel);
-            $req->execute();
-            $req->closeCursor();
+
+            $qb->delete('cospend_bills')
+                ->where(
+                    $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                );
+            $req = $qb->execute();
+            $qb = $qb->resetQueryParts();
+
             // delete project members
-            $sqldel = '
-                    DELETE FROM *PREFIX*cospend_members
-                    WHERE projectid='.$this->db_quote_escape_string($projectid).' ;';
-            $req = $this->dbconnection->prepare($sqldel);
-            $req->execute();
-            $req->closeCursor();
+            $qb->delete('cospend_members')
+                ->where(
+                    $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                );
+            $req = $qb->execute();
+            $qb = $qb->resetQueryParts();
+
             // delete shares
-            $sqldel = '
-                    DELETE FROM *PREFIX*cospend_shares
-                    WHERE projectid='.$this->db_quote_escape_string($projectid).' ;';
-            $req = $this->dbconnection->prepare($sqldel);
-            $req->execute();
-            $req->closeCursor();
+            $qb->delete('cospend_shares')
+                ->where(
+                    $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                );
+            $req = $qb->execute();
+            $qb = $qb->resetQueryParts();
+
             // delete project
-            $sqldel = '
-                    DELETE FROM *PREFIX*cospend_projects
-                    WHERE id='.$this->db_quote_escape_string($projectid).' ;';
-            $req = $this->dbconnection->prepare($sqldel);
-            $req->execute();
-            $req->closeCursor();
+            $qb->delete('cospend_projects')
+                ->where(
+                    $qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                );
+            $req = $qb->execute();
+            $qb = $qb->resetQueryParts();
+
             $response = new DataResponse("DELETED");
             return $response;
         }

@@ -1342,12 +1342,6 @@ class PageController extends ApiController {
            )
            ->orderBy('date', 'ASC');
         $req = $qb->execute();
-        //$sql = '
-        //    SELECT id, what, date, amount, payerid, '.$this->dbdblquotes.'repeat'.$this->dbdblquotes.'
-        //    FROM *PREFIX*cospend_bills
-        //    WHERE projectid='.$this->db_quote_escape_string($projectId).' ORDER BY date ASC;';
-        //$req = $this->dbconnection->prepare($sql);
-        //$req->execute();
         while ($row = $req->fetch()){
             $dbBillId = intval($row['id']);
             $dbAmount = floatval($row['amount']);
@@ -1376,24 +1370,28 @@ class PageController extends ApiController {
 
     private function getMembers($projectId, $order=null) {
         $members = [];
+
         $sqlOrder = 'LOWER(name)';
         if ($order !== null) {
             $sqlOrder = $order;
         }
-        $sql = '
-            SELECT id, name, weight, activated
-            FROM *PREFIX*cospend_members
-            WHERE projectid='.$this->db_quote_escape_string($projectId).'
-            ORDER BY '.$sqlOrder.' ASC ;';
-        $req = $this->dbconnection->prepare($sql);
-        $req->execute();
+
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('id', 'name', 'weight', 'activated')
+           ->from('cospend_members', 'm')
+           ->where(
+               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+           )
+           ->orderBy($sqlOrder, 'ASC');
+        $req = $qb->execute();
+
         while ($row = $req->fetch()){
             $dbMemberId = intval($row['id']);
             $dbWeight = floatval($row['weight']);
             $dbName = $row['name'];
             $dbActivated= intval($row['activated']);
             array_push(
-                $members, 
+                $members,
                 [
                     'activated' => ($dbActivated === 1),
                     'name' => $dbName,
@@ -1403,6 +1401,7 @@ class PageController extends ApiController {
             );
         }
         $req->closeCursor();
+        $qb = $qb->resetQueryParts();
         return $members;
     }
 
@@ -1443,13 +1442,17 @@ class PageController extends ApiController {
 
     private function getMemberByName($projectId, $name) {
         $member = null;
-        $sql = '
-            SELECT id, name, weight, activated
-            FROM *PREFIX*cospend_members
-            WHERE projectid='.$this->db_quote_escape_string($projectId).'
-                AND name='.$this->db_quote_escape_string($name).' ;';
-        $req = $this->dbconnection->prepare($sql);
-        $req->execute();
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('id', 'name', 'weight', 'activated')
+           ->from('cospend_members', 'm')
+           ->where(
+               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+           )
+           ->andWhere(
+               $qb->expr()->eq('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR))
+           );
+        $req = $qb->execute();
+
         while ($row = $req->fetch()){
             $dbMemberId = intval($row['id']);
             $dbWeight = floatval($row['weight']);
@@ -1464,18 +1467,24 @@ class PageController extends ApiController {
             break;
         }
         $req->closeCursor();
+        $qb = $qb->resetQueryParts();
         return $member;
     }
 
     private function getMemberById($projectId, $memberId) {
         $member = null;
-        $sql = '
-            SELECT id, name, weight, activated
-            FROM *PREFIX*cospend_members
-            WHERE projectid='.$this->db_quote_escape_string($projectId).'
-                AND id='.$this->db_quote_escape_string($memberId).' ;';
-        $req = $this->dbconnection->prepare($sql);
-        $req->execute();
+
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('id', 'name', 'weight', 'activated')
+           ->from('cospend_members', 'm')
+           ->where(
+               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+           )
+           ->andWhere(
+               $qb->expr()->eq('id', $qb->createNamedParameter($memberId, IQueryBuilder::PARAM_INT))
+           );
+        $req = $qb->execute();
+
         while ($row = $req->fetch()){
             $dbMemberId = intval($row['id']);
             $dbWeight = floatval($row['weight']);
@@ -1490,17 +1499,21 @@ class PageController extends ApiController {
             break;
         }
         $req->closeCursor();
+        $qb = $qb->resetQueryParts();
         return $member;
     }
 
     private function getProjectById($projectId) {
         $project = null;
-        $sql = '
-            SELECT id, userid, name, email, password
-            FROM *PREFIX*cospend_projects
-            WHERE id='.$this->db_quote_escape_string($projectId).' ;';
-        $req = $this->dbconnection->prepare($sql);
-        $req->execute();
+
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('id', 'userid', 'name', 'email', 'password')
+           ->from('cospend_projects', 'p')
+           ->where(
+               $qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+           );
+        $req = $qb->execute();
+
         while ($row = $req->fetch()){
             $dbId = $row['id'];
             $dbPassword = $row['password'];
@@ -1517,10 +1530,14 @@ class PageController extends ApiController {
             break;
         }
         $req->closeCursor();
+        $qb = $qb->resetQueryParts();
         return $project;
     }
 
     private function editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat) {
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->update('cospend_bills');
+
         // first check the bill exists
         if ($this->getBill($projectid, $billid) === null) {
             $response = new DataResponse(
@@ -1537,7 +1554,8 @@ class PageController extends ApiController {
             );
             return $response;
         }
-        $whatSql = 'what='.$this->db_quote_escape_string($what);
+        //$whatSql = 'what='.$this->db_quote_escape_string($what);
+        $qb->set('what', $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR));
 
         if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
             $response = new DataResponse(
@@ -1546,15 +1564,18 @@ class PageController extends ApiController {
             );
             return $response;
         }
-        $repeatSql = $this->dbdblquotes.'repeat'.$this->dbdblquotes.'='.$this->db_quote_escape_string($repeat).',';
+        //$repeatSql = $this->dbdblquotes.'repeat'.$this->dbdblquotes.'='.$this->db_quote_escape_string($repeat).',';
+        $qb->set('repeat', $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR));
 
         $dateSql = '';
         if ($date !== null && $date !== '') {
-            $dateSql = 'date='.$this->db_quote_escape_string($date).',';
+            //$dateSql = 'date='.$this->db_quote_escape_string($date).',';
+            $qb->set('date', $qb->createNamedParameter($date, IQueryBuilder::PARAM_STR));
         }
         $amountSql = '';
         if ($amount !== null && $amount !== '' && is_numeric($amount)) {
-            $amountSql = 'amount='.$this->db_quote_escape_string($amount).',';
+            //$amountSql = 'amount='.$this->db_quote_escape_string($amount).',';
+            $qb->set('amount', $qb->createNamedParameter($amount, IQueryBuilder::PARAM_LOB));
         }
         $payerSql = '';
         if ($payer !== null && $payer !== '' && is_numeric($payer)) {
@@ -1566,7 +1587,8 @@ class PageController extends ApiController {
                 return $response;
             }
             else {
-                $payerSql = 'payerid='.$this->db_quote_escape_string($payer).',';
+                //$payerSql = 'payerid='.$this->db_quote_escape_string($payer).',';
+                $qb->set('payerid', $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT));
             }
         }
 
@@ -1602,19 +1624,14 @@ class PageController extends ApiController {
         }
 
         // do it already !
-        $sqlupd = '
-                UPDATE *PREFIX*cospend_bills
-                SET
-                     '.$dateSql.'
-                     '.$amountSql.'
-                     '.$repeatSql.'
-                     '.$payerSql.'
-                     '.$whatSql.'
-                WHERE id='.$this->db_quote_escape_string($billid).'
-                      AND projectid='.$this->db_quote_escape_string($projectid).' ;';
-        $req = $this->dbconnection->prepare($sqlupd);
-        $req->execute();
-        $req->closeCursor();
+        $qb->where(
+               $qb->expr()->eq('id', $qb->createNamedParameter($billid, IQueryBuilder::PARAM_INT))
+           )
+           ->andWhere(
+               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+           );
+        $req = $qb->execute();
+        $qb = $qb->resetQueryParts();
 
         // edit the bill owers
         if ($owerIds !== null) {
@@ -1622,16 +1639,13 @@ class PageController extends ApiController {
             $this->deleteBillOwersOfBill($billid);
             // insert bill owers
             foreach ($owerIds as $owerId) {
-                $sql = '
-                    INSERT INTO *PREFIX*cospend_bill_owers
-                    (billid, memberid)
-                    VALUES ('.
-                        $this->db_quote_escape_string($billid).','.
-                        $this->db_quote_escape_string($owerId).
-                    ') ;';
-                $req = $this->dbconnection->prepare($sql);
-                $req->execute();
-                $req->closeCursor();
+                $qb->insert('cospend_bill_owers')
+                    ->values([
+                        'billid' => $qb->createNamedParameter($billid, IQueryBuilder::PARAM_INT),
+                        'memberid' => $qb->createNamedParameter($owerId, IQueryBuilder::PARAM_INT)
+                    ]);
+                $req = $qb->execute();
+                $qb = $qb->resetQueryParts();
             }
         }
 

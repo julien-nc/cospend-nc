@@ -1366,6 +1366,7 @@ class PageController extends ApiController {
     private function getMembers($projectId, $order=null) {
         $members = [];
 
+        // LOWER does not work
         $sqlOrder = 'LOWER(name)';
         if ($order !== null) {
             $sqlOrder = $order;
@@ -1385,14 +1386,23 @@ class PageController extends ApiController {
             $dbWeight = floatval($row['weight']);
             $dbName = $row['name'];
             $dbActivated= intval($row['activated']);
-            array_push(
+
+            // find index to make sorted insert
+            $ii = 0;
+            while ($ii < count($members) && strcmp(strtolower($dbName), strtolower($members[$ii]['name'])) > 0) {
+                $ii++;
+            }
+
+            array_splice(
                 $members,
-                [
+                $ii,
+                0,
+                [[
                     'activated' => ($dbActivated === 1),
                     'name' => $dbName,
                     'id' => $dbMemberId,
                     'weight' => $dbWeight
-                ]
+                ]]
             );
         }
         $req->closeCursor();

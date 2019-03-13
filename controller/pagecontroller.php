@@ -1855,15 +1855,17 @@ class PageController extends ApiController {
         $memberToDelete = $this->getMemberById($projectid, $memberid);
         if ($memberToDelete !== null) {
             if ($memberToDelete['activated']) {
-                $sqlupd = '
-                        UPDATE *PREFIX*cospend_members
-                        SET
-                             activated='.$this->db_quote_escape_string('0').'
-                        WHERE id='.$this->db_quote_escape_string($memberid).'
-                              AND projectid='.$this->db_quote_escape_string($projectid).' ;';
-                $req = $this->dbconnection->prepare($sqlupd);
-                $req->execute();
-                $req->closeCursor();
+                $qb = $this->dbconnection->getQueryBuilder();
+                $qb->update('cospend_members');
+                $qb->set('activated', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT));
+                $qb->where(
+                    $qb->expr()->eq('id', $qb->createNamedParameter($memberid, IQueryBuilder::PARAM_INT))
+                )
+                ->andWhere(
+                    $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                );
+                $req = $qb->execute();
+                $qb = $qb->resetQueryParts();
             }
             $response = new DataResponse("OK");
             return $response;
@@ -1878,12 +1880,13 @@ class PageController extends ApiController {
     }
 
     private function deleteBillOwersOfBill($billid) {
-        $sqldel = '
-                DELETE FROM *PREFIX*cospend_bill_owers
-                WHERE billid='.$this->db_quote_escape_string($billid).' ;';
-        $req = $this->dbconnection->prepare($sqldel);
-        $req->execute();
-        $req->closeCursor();
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->delete('cospend_bill_owers')
+           ->where(
+               $qb->expr()->eq('billid', $qb->createNamedParameter($billid, IQueryBuilder::PARAM_INT))
+           );
+        $req = $qb->execute();
+        $qb = $qb->resetQueryParts();
     }
 
     private function deleteProject($projectid) {

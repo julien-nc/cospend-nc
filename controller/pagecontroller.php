@@ -1948,12 +1948,9 @@ class PageController extends ApiController {
             if ($this->getMemberById($projectid, $memberid) !== null) {
                 $qb = $this->dbconnection->getQueryBuilder();
                 $qb->update('cospend_members');
-                //$weightSql = '';
-                //$activatedSql = '';
                 if ($weight !== null && $weight !== '') {
                     if (is_numeric($weight)) {
                         $newWeight = floatval($weight);
-                        //$weightSql = 'weight='.$this->db_quote_escape_string($newWeight).',';
                         $qb->set('weight', $qb->createNamedParameter($newWeight, IQueryBuilder::PARAM_LOB));
                     }
                     else {
@@ -1965,7 +1962,6 @@ class PageController extends ApiController {
                     }
                 }
                 if ($activated !== null && $activated !== '' && ($activated === 'true' || $activated === 'false')) {
-                    //$activatedSql = 'activated='.$this->db_quote_escape_string($activated === 'true' ? '1' : '0').',';
                     $qb->set('activated', $qb->createNamedParameter(($activated === 'true' ? 1 : 0), IQueryBuilder::PARAM_INT));
                 }
 
@@ -2002,15 +1998,17 @@ class PageController extends ApiController {
     }
 
     private function editExternalProject($projectid, $ncurl, $password) {
-        $sqlupd = '
-                UPDATE *PREFIX*cospend_ext_projects
-                SET
-                     password='.$this->db_quote_escape_string($password).'
-                WHERE projectid='.$this->db_quote_escape_string($projectid).'
-                    AND ncurl='.$this->db_quote_escape_string($ncurl).' ;';
-        $req = $this->dbconnection->prepare($sqlupd);
-        $req->execute();
-        $req->closeCursor();
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->update('cospend_ext_projects');
+        $qb->set('password', $qb->createNamedParameter($password, IQueryBuilder::PARAM_STR));
+        $qb->where(
+            $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+        )
+        ->andWhere(
+            $qb->expr()->eq('ncurl', $qb->createNamedParameter($ncurl, IQueryBuilder::PARAM_STR))
+        );
+        $req = $qb->execute();
+        $qb = $qb->resetQueryParts();
 
         $response = new DataResponse("UPDATED");
         return $response;

@@ -680,7 +680,11 @@
             var projectLine = $('.projectitem[projectid="'+projectid+'"]');
             // update project values
             if (newName) {
-                projectLine.find('>a span').text(newName);
+                var displayedName = escapeHTML(newName);
+                if (project.external) {
+                    displayedName = '<span class="icon-external" style="display: inline-grid; margin-bottom: -3px;"></span> ' + displayedName;
+                }
+                projectLine.find('>a span').html(displayedName);
                 cospend.projects[projectid].name = newName;
             }
             if (newPassword) {
@@ -2549,7 +2553,7 @@
 
         $('body').on('click', '.editProjectName', function(e) {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
-            var name = $(this).parent().parent().parent().parent().find('>a > span').text();
+            var name = cospend.projects[projectid].name;
             $(this).parent().parent().parent().parent().find('.editProjectInput').val(name).attr('type', 'text').focus().select();
             $('#projectlist > li').removeClass('editing');
             $(this).parent().parent().parent().parent().removeClass('open').addClass('editing');

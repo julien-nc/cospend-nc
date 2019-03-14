@@ -67,6 +67,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getShareManager(),
             $c->getServer()->getAppManager(),
             $c->getServer()->getUserManager(),
+            $c->getServer()->getGroupManager(),
             $c->query('ServerContainer')->getL10N($c->query('AppName')),
             $c->query('ServerContainer')->getLogger()
         );
@@ -80,6 +81,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getShareManager(),
             $c->getServer()->getAppManager(),
             $c->getServer()->getUserManager(),
+            $c->getServer()->getGroupManager(),
             $c->query('ServerContainer')->getL10N($c->query('AppName')),
             $c->query('ServerContainer')->getLogger()
         );

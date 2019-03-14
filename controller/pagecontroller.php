@@ -2181,7 +2181,7 @@ class PageController extends ApiController {
     public function getUserList() {
         $userNames = [];
         foreach($this->userManager->search('') as $u) {
-            if ($u->getUID() !== $this->userId) {
+            if ($u->getUID() !== $this->userId && $u->isEnabled()) {
                 //array_push($userNames, $u->getUID());
                 $userNames[$u->getUID()] = $u->getDisplayName();
             }

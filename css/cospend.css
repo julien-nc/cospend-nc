@@ -192,6 +192,7 @@ input[type=number] {
 .shareLabel {
     float: left;
 }
+.deleteGroupShareButton,
 .deleteUserShareButton {
     float: right;
     padding-left: 15px;

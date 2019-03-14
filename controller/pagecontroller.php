@@ -46,6 +46,7 @@ class PageController extends ApiController {
     private $appVersion;
     private $shareManager;
     private $userManager;
+    private $groupManager;
     private $dbconnection;
     private $dbtype;
     private $dbdblquotes;
@@ -57,7 +58,7 @@ class PageController extends ApiController {
     public function __construct($AppName, IRequest $request, $UserId,
                                 $userfolder, $config, $shareManager,
                                 IAppManager $appManager, $userManager,
-                                IL10N $trans, $logger){
+                                $groupManager, IL10N $trans, $logger){
         parent::__construct($AppName, $request,
                             'PUT, POST, GET, DELETE, PATCH, OPTIONS',
                             'Authorization, Content-Type, Accept',
@@ -67,6 +68,7 @@ class PageController extends ApiController {
         $this->appVersion = $config->getAppValue('cospend', 'installed_version');
         $this->userId = $UserId;
         $this->userManager = $userManager;
+        $this->groupManager = $groupManager;
         $this->trans = $trans;
         $this->dbtype = $config->getSystemValue('dbtype');
         // IConfig object
@@ -279,6 +281,7 @@ class PageController extends ApiController {
                 return true;
             }
             else {
+                $qb = $this->dbconnection->getQueryBuilder();
                 // is the project shared with the user ?
                 $sql = '
                     SELECT projectid, userid
@@ -294,7 +297,33 @@ class PageController extends ApiController {
                 }
                 $req->closeCursor();
 
-                return ($dbProjectId !== null);
+                if ($dbProjectId !== null) {
+                    return true;
+                }
+                else {
+                    // if not, is the project shared with a group containing the user?
+                    $userO = $this->userManager->get($userid);
+
+                    $qb->select('userid')
+                        ->from('cospend_shares', 's')
+                        ->where(
+                            $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
+                        )
+                        ->andWhere(
+                            $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                        );
+                    $req = $qb->execute();
+                    while ($row = $req->fetch()){
+                        $groupId = $row['userid'];
+                        if ($this->groupManager->groupExists($groupId) && $this->groupManager->get($groupId)->inGroup($userO)) {
+                            return true;
+                        }
+                    }
+                    $req->closeCursor();
+                    $qb = $qb->resetQueryParts();
+
+                    return false;
+                }
             }
         }
         else {
@@ -577,6 +606,9 @@ class PageController extends ApiController {
            ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
            ->where(
                $qb->expr()->eq('s.userid', $this->userId)
+           )
+           ->andWhere(
+               $qb->expr()->eq('s.isgroupshare', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
            );
         $req = $qb->execute();
 
@@ -599,14 +631,80 @@ class PageController extends ApiController {
                     'balance'=>null,
                     'shares'=>[]
                 ]);
+                array_push($projectids, $dbProjectId);
             }
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();
+
+        // shared with one of the groups the user is member of
+        $userO = $this->userManager->get($this->userId);
+
+        // get group with which a project is shared
+        $candidateGroupIds = [];
+        $qb->select('userid')
+           ->from('cospend_shares', 's')
+           ->where(
+               $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
+           )
+           ->groupBy('userid');
+        $req = $qb->execute();
+        while ($row = $req->fetch()){
+            $groupId = $row['userid'];
+            array_push($candidateGroupIds, $groupId);
+        }
+        $req->closeCursor();
+        $qb = $qb->resetQueryParts();
+
+        // is the user member of these groups?
+        foreach ($candidateGroupIds as $candidateGroupId) {
+            $group = $this->groupManager->get($candidateGroupId);
+            if ($group->inGroup($userO)) {
+                // get projects shared with this group
+                $qb->select('p.id', 'p.password', 'p.name', 'p.email')
+                    ->from('cospend_projects', 'p')
+                    ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
+                    ->where(
+                        $qb->expr()->eq('s.userid', $candidateGroupId)
+                    )
+                    ->andWhere(
+                        $qb->expr()->eq('s.isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
+                    );
+                $req = $qb->execute();
+
+                $dbProjectId = null;
+                $dbPassword = null;
+                while ($row = $req->fetch()){
+                    $dbProjectId = $row['id'];
+                    // avoid putting twice the same project
+                    // this can happen with a share loop
+                    if (!in_array($dbProjectId, $projectids)) {
+                        $dbPassword = $row['password'];
+                        $dbName = $row['name'];
+                        $dbEmail= $row['email'];
+                        array_push($projects, [
+                            'name'=>$dbName,
+                            'contact_email'=>$dbEmail,
+                            'id'=>$dbProjectId,
+                            'active_members'=>null,
+                            'members'=>null,
+                            'balance'=>null,
+                            'shares'=>[]
+                        ]);
+                        array_push($projectids, $dbProjectId);
+                    }
+                }
+                $req->closeCursor();
+                $qb = $qb->resetQueryParts();
+            }
+        }
+
+        // get values for projects we're gonna return
         for ($i = 0; $i < count($projects); $i++) {
             $dbProjectId = $projects[$i]['id'];
             $members = $this->getMembers($dbProjectId);
             $shares = $this->getUserShares($dbProjectId);
+            $groupShares = $this->getGroupShares($dbProjectId);
             $activeMembers = [];
             foreach ($members as $member) {
                 if ($member['activated']) {
@@ -618,6 +716,7 @@ class PageController extends ApiController {
             $projects[$i]['members'] = $members;
             $projects[$i]['balance'] = $balance;
             $projects[$i]['shares'] = $shares;
+            $projects[$i]['group_shares'] = $groupShares;
         }
 
         // get external projects
@@ -663,12 +762,48 @@ class PageController extends ApiController {
            ->from('cospend_shares', 'sh')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+           )
+           ->andWhere(
+               $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
            );
         $req = $qb->execute();
         while ($row = $req->fetch()){
             $dbuserId = $row['userid'];
             $dbprojectId = $row['projectid'];
-            array_push($shares, ['userid'=>$dbuserId, 'name'=>$userIdToName[$dbuserId]]);
+            if (array_key_exists($dbuserId, $userIdToName)) {
+                array_push($shares, ['userid'=>$dbuserId, 'name'=>$userIdToName[$dbuserId]]);
+            }
+        }
+        $req->closeCursor();
+        $qb = $qb->resetQueryParts();
+
+        return $shares;
+    }
+
+    private function getGroupShares($projectid) {
+        $shares = [];
+
+        $groupIdToName = [];
+        foreach($this->groupManager->search('') as $g) {
+            $groupIdToName[$g->getGID()] = $g->getDisplayName();
+        }
+
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('projectid', 'userid')
+           ->from('cospend_shares', 'sh')
+           ->where(
+               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+           )
+           ->andWhere(
+               $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
+           );
+        $req = $qb->execute();
+        while ($row = $req->fetch()){
+            $dbGroupId = $row['userid'];
+            $dbprojectId = $row['projectid'];
+            if (array_key_exists($dbGroupId, $groupIdToName)) {
+                array_push($shares, ['groupid'=>$dbGroupId, 'name'=>$groupIdToName[$dbGroupId]]);
+            }
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();
@@ -2182,13 +2317,17 @@ class PageController extends ApiController {
         $userNames = [];
         foreach($this->userManager->search('') as $u) {
             if ($u->getUID() !== $this->userId && $u->isEnabled()) {
-                //array_push($userNames, $u->getUID());
                 $userNames[$u->getUID()] = $u->getDisplayName();
             }
         }
+        $groupNames = [];
+        foreach($this->groupManager->search('') as $g) {
+            $groupNames[$g->getGID()] = $g->getDisplayName();
+        }
         $response = new DataResponse(
             [
-                'users'=>$userNames
+                'users'=>$userNames,
+                'groups'=>$groupNames
             ]
         );
         $csp = new ContentSecurityPolicy();
@@ -2220,7 +2359,8 @@ class PageController extends ApiController {
                         SELECT userid, projectid
                         FROM *PREFIX*cospend_shares
                         WHERE projectid='.$this->db_quote_escape_string($projectid).'
-                              AND userid='.$this->db_quote_escape_string($userid).' ;';
+                              AND userid='.$this->db_quote_escape_string($userid).'
+                              AND isgroupshare='.$this->db_quote_escape_string('0').' ;';
                     $req = $this->dbconnection->prepare($sqlchk);
                     $req->execute();
                     $dbuserId = null;
@@ -2233,10 +2373,11 @@ class PageController extends ApiController {
                     if ($dbuserId === null) {
                         $sql = '
                             INSERT INTO *PREFIX*cospend_shares
-                            (projectid, userid)
+                            (projectid, userid, isgroupshare)
                             VALUES ('.
                                 $this->db_quote_escape_string($projectid).','.
-                                $this->db_quote_escape_string($userid).
+                                $this->db_quote_escape_string($userid).','.
+                                $this->db_quote_escape_string('0').
                             ') ;';
                         $req = $this->dbconnection->prepare($sql);
                         $req->execute();
@@ -2296,7 +2437,8 @@ class PageController extends ApiController {
                 SELECT userid, projectid
                 FROM *PREFIX*cospend_shares
                 WHERE projectid='.$this->db_quote_escape_string($projectid).'
-                      AND userid='.$this->db_quote_escape_string($userid).' ;';
+                      AND userid='.$this->db_quote_escape_string($userid).'
+                      AND isgroupshare='.$this->db_quote_escape_string('0').' ;';
             $req = $this->dbconnection->prepare($sqlchk);
             $req->execute();
             $dbuserId = null;
@@ -2311,7 +2453,8 @@ class PageController extends ApiController {
                 $sqldel = '
                     DELETE FROM *PREFIX*cospend_shares
                     WHERE projectid='.$this->db_quote_escape_string($projectid).'
-                          AND userid='.$this->db_quote_escape_string($userid).' ;';
+                          AND userid='.$this->db_quote_escape_string($userid).'
+                          AND isgroupshare='.$this->db_quote_escape_string('0').' ;';
                 $req = $this->dbconnection->prepare($sqldel);
                 $req->execute();
                 $req->closeCursor();
@@ -2342,6 +2485,157 @@ class PageController extends ApiController {
                     ;
 
                 $manager->notify($notification);
+            }
+            else {
+                $response = new DataResponse(['message'=>'No such share'], 401);
+            }
+        }
+        else {
+            $response = new DataResponse(['message'=>'Access denied'], 403);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function addGroupShare($projectid, $groupid) {
+        // check if groupId exists
+        $groupIds = [];
+        foreach($this->groupManager->search('') as $g) {
+            array_push($groupIds, $g->getGID());
+        }
+        if ($groupid !== '' and in_array($groupid, $groupIds)) {
+            if ($this->userCanAccessProject($this->userId, $projectid)) {
+                $projectInfo = $this->getProjectInfo($projectid);
+                // check if user share exists
+                $sqlchk = '
+                    SELECT userid, projectid
+                    FROM *PREFIX*cospend_shares
+                    WHERE projectid='.$this->db_quote_escape_string($projectid).'
+                          AND userid='.$this->db_quote_escape_string($groupid).'
+                          AND isgroupshare='.$this->db_quote_escape_string('1').' ;';
+                $req = $this->dbconnection->prepare($sqlchk);
+                $req->execute();
+                $dbGroupId = null;
+                while ($row = $req->fetch()){
+                    $dbGroupId = $row['userid'];
+                    break;
+                }
+                $req->closeCursor();
+
+                if ($dbGroupId === null) {
+                    $sql = '
+                        INSERT INTO *PREFIX*cospend_shares
+                        (projectid, userid, isgroupshare)
+                        VALUES ('.
+                            $this->db_quote_escape_string($projectid).','.
+                            $this->db_quote_escape_string($groupid).','.
+                            $this->db_quote_escape_string('1').
+                        ') ;';
+                    $req = $this->dbconnection->prepare($sql);
+                    $req->execute();
+                    $req->closeCursor();
+
+                    $response = new DataResponse('OK');
+
+                    //// SEND NOTIFICATION
+                    //$manager = \OC::$server->getNotificationManager();
+                    //$notification = $manager->createNotification();
+
+                    //$acceptAction = $notification->createAction();
+                    //$acceptAction->setLabel('accept')
+                    //    ->setLink('/apps/cospend', 'GET');
+
+                    //$declineAction = $notification->createAction();
+                    //$declineAction->setLabel('decline')
+                    //    ->setLink('/apps/cospend', 'GET');
+
+                    //$notification->setApp('cospend')
+                    //    ->setUser($userid)
+                    //    ->setDateTime(new \DateTime())
+                    //    ->setObject('addusershare', $projectid)
+                    //    ->setSubject('add_user_share', [$this->userId, $projectInfo['name']])
+                    //    ->addAction($acceptAction)
+                    //    ->addAction($declineAction)
+                    //    ;
+
+                    //$manager->notify($notification);
+                }
+                else {
+                    $response = new DataResponse(['message'=>'Already shared with this group'], 400);
+                }
+            }
+            else {
+                $response = new DataResponse(['message'=>'Access denied'], 400);
+            }
+        }
+        else {
+            $response = new DataResponse(['message'=>'No such group'], 400);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function deleteGroupShare($projectid, $groupid) {
+        if ($this->userCanAccessProject($this->userId, $projectid)) {
+            // check if group share exists
+            $sqlchk = '
+                SELECT userid, projectid
+                FROM *PREFIX*cospend_shares
+                WHERE projectid='.$this->db_quote_escape_string($projectid).'
+                      AND userid='.$this->db_quote_escape_string($groupid).'
+                      AND isgroupshare='.$this->db_quote_escape_string('1').' ;';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbGroupId = null;
+            while ($row = $req->fetch()){
+                $dbGroupId = $row['userid'];
+                break;
+            }
+            $req->closeCursor();
+
+            if ($dbGroupId !== null) {
+                // delete
+                $sqldel = '
+                    DELETE FROM *PREFIX*cospend_shares
+                    WHERE projectid='.$this->db_quote_escape_string($projectid).'
+                          AND userid='.$this->db_quote_escape_string($groupid).'
+                          AND isgroupshare='.$this->db_quote_escape_string('1').' ;';
+                $req = $this->dbconnection->prepare($sqldel);
+                $req->execute();
+                $req->closeCursor();
+
+                $response = new DataResponse('OK');
+
+                //// SEND NOTIFICATION
+                //$projectInfo = $this->getProjectInfo($projectid);
+
+                //$manager = \OC::$server->getNotificationManager();
+                //$notification = $manager->createNotification();
+
+                //$acceptAction = $notification->createAction();
+                //$acceptAction->setLabel('accept')
+                //    ->setLink('/apps/cospend', 'GET');
+
+                //$declineAction = $notification->createAction();
+                //$declineAction->setLabel('decline')
+                //    ->setLink('/apps/cospend', 'GET');
+
+                //$notification->setApp('cospend')
+                //    ->setUser($userid)
+                //    ->setDateTime(new \DateTime())
+                //    ->setObject('deleteusershare', $projectid)
+                //    ->setSubject('delete_user_share', [$this->userId, $projectInfo['name']])
+                //    ->addAction($acceptAction)
+                //    ->addAction($declineAction)
+                //    ;
+
+                //$manager->notify($notification);
             }
             else {
                 $response = new DataResponse(['message'=>'No such share'], 401);

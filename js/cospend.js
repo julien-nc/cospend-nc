@@ -1694,6 +1694,14 @@
             }
         }
 
+        if (project.group_shares) {
+            for (var i=0; i < project.group_shares.length; i++) {
+                var groupid = project.group_shares[i].groupid;
+                var groupname = project.group_shares[i].name;
+                addGroupShare(projectid, groupid, groupname);
+            }
+        }
+
         //// set selected project
         //if (cospend.restoredSelectedProjectId === projectid) {
         //    $('.projectitem').removeClass('selectedproject');
@@ -1930,10 +1938,15 @@
             async: true
         }).done(function (response) {
             cospend.userIdName = response.users;
+            cospend.groupIdName = response.groups;
             var nameList = [];
             var name;
             for (var id in response.users) {
                 name = response.users[id];
+                nameList.push(name);
+            }
+            for (var id in response.groups) {
+                name = response.groups[id];
                 nameList.push(name);
             }
             input.autocomplete({
@@ -1996,6 +2009,61 @@
             $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[userid=' + userid + '] .deleteUserShareButton').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('cospend', 'Failed to delete user share') + ' ' + response.responseText);
+        });
+    }
+
+    function addGroupShareDb(projectid, groupid, groupname) {
+        $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
+        var req = {
+            projectid: projectid,
+            groupid: groupid
+        };
+        var url = OC.generateUrl('/apps/cospend/addGroupShare');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            addGroupShare(projectid, groupid, groupname);
+            var projectname = getProjectName(projectid);
+            OC.Notification.showTemporary(t('cospend', 'Shared project {pname} with group {gname}', {pname: projectname, gname: groupname}));
+        }).always(function() {
+            $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to add group share') + ' ' + response.responseText);
+        });
+    }
+
+    function addGroupShare(projectid, groupid, groupname) {
+        var li = '<li groupid="'+escapeHTML(groupid)+'" groupname="' + escapeHTML(groupname) + '">' +
+            '<div class="shareLabel">' + t('cospend', 'Shared with group {g}', {'g': groupname}) + '</div>' +
+            '<div class="icon-delete deleteGroupShareButton"></div></li>';
+        $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share').append(li);
+        $('.projectitem[projectid="' + projectid + '"] .shareinput').val('');
+    }
+
+    function deleteGroupShareDb(projectid, groupid) {
+        $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[groupid=' + groupid + '] .deleteGroupShareButton').addClass('icon-loading-small');
+        var req = {
+            projectid: projectid,
+            groupid: groupid
+        };
+        var url = OC.generateUrl('/apps/cospend/deleteGroupShare');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            var li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[groupid=' + groupid + ']');
+            li.fadeOut('normal', function() {
+                li.remove();
+            });
+        }).always(function() {
+            $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[groupid=' + groupid + '] .deleteGroupShareButton').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to delete group share') + ' ' + response.responseText);
         });
     }
 
@@ -2273,15 +2341,29 @@
         $('body').on('keyup','.shareinput', function(e) {
             if (e.key === 'Enter') {
                 var projectid = $(this).parent().parent().parent().attr('projectid');
-                var username = $(this).val();
+                var value = $(this).val();
                 var userId = '';
                 for (var id in cospend.userIdName) {
-                    if (username === cospend.userIdName[id]) {
+                    if (value === cospend.userIdName[id]) {
                         userId = id;
                         break;
                     }
                 }
-                addUserShareDb(projectid, userId, username);
+                if (userId !== '') {
+                    addUserShareDb(projectid, userId, value);
+                }
+                else {
+                    var groupId = '';
+                    for (var id in cospend.groupIdName) {
+                        if (value === cospend.groupIdName[id]) {
+                            groupId = id;
+                            break;
+                        }
+                    }
+                    if (groupId !== '') {
+                        addGroupShareDb(projectid, groupId, value);
+                    }
+                }
             }
         });
 
@@ -2289,6 +2371,12 @@
             var projectid = $(this).parent().parent().parent().attr('projectid');
             var userid = $(this).parent().attr('userid');
             deleteUserShareDb(projectid, userid);
+        });
+
+        $('body').on('click', '.deleteGroupShareButton', function(e) {
+            var projectid = $(this).parent().parent().parent().attr('projectid');
+            var groupid = $(this).parent().attr('groupid');
+            deleteGroupShareDb(projectid, groupid);
         });
 
         $('body').on('click', '.shareProjectButton', function(e) {

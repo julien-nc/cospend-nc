@@ -95,6 +95,13 @@
       <type>text</type>
       <length>64</length>
     </field>
+    <field>
+      <name>isgroupshare</name>
+      <type>integer</type>
+      <notnull>true</notnull>
+      <default>0</default>
+      <length>1</length>
+    </field>
   </declaration>
 </table>
  <table>

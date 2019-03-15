@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- don't put disabled users in share autocomplete
+[#17](https://gitlab.com/eneiluj/cospend-nc/issues/17) @redplanet
+- ability to share a project with a group
+[#17](https://gitlab.com/eneiluj/cospend-nc/issues/17) @redplanet
+
+### Changed
+- use NC DB methods instead of plain SQL
+
+### Fixed
+- external project renaming field
+- UI fix after delete bill error
 
 ## 0.0.6 – 2019-03-09
 ### Added

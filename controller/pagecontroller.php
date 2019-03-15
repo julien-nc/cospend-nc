@@ -3103,12 +3103,12 @@ class PageController extends ApiController {
     public function cronRepeatBills() {
         $now = new \DateTime();
         // get bills whith repetition flag
-        $sql = '
-            SELECT id, projectid, what, '.$this->dbdblquotes.'repeat'.$this->dbdblquotes.', date
-            FROM *PREFIX*cospend_bills
-            WHERE '.$this->dbdblquotes.'repeat'.$this->dbdblquotes.' != '.$this->db_quote_escape_string('n').' ;';
-        $req = $this->dbconnection->prepare($sql);
-        $req->execute();
+        $qb->select('id', 'projectid', 'what', 'date', 'amount', 'payerid', 'repeat')
+           ->from('cospend_bills', 'b')
+           ->where(
+               $qb->expr()->neq('repeat', $qb->createNamedParameter('n', IQueryBuilder::PARAM_STR))
+           );
+        $req = $qb->execute();
         $bills = [];
         while ($row = $req->fetch()){
             $id = $row['id'];
@@ -3125,6 +3125,7 @@ class PageController extends ApiController {
             ]);
         }
         $req->closeCursor();
+        $qb = $qb->resetQueryParts();
 
         foreach ($bills as $bill) {
             $billDate = new \Datetime($bill['date']);

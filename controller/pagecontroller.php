@@ -2150,13 +2150,16 @@ class PageController extends ApiController {
     }
 
     private function deleteExternalProject($projectid, $ncurl) {
-        $sqldel = '
-            DELETE FROM *PREFIX*cospend_ext_projects
-            WHERE projectid='.$this->db_quote_escape_string($projectid).'
-                  AND ncurl='.$this->db_quote_escape_string($ncurl).' ;';
-        $req = $this->dbconnection->prepare($sqldel);
-        $req->execute();
-        $req->closeCursor();
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->delete('cospend_ext_projects')
+            ->where(
+                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+            )
+            ->andWhere(
+                $qb->expr()->eq('ncurl', $qb->createNamedParameter($ncurl, IQueryBuilder::PARAM_STR))
+            );
+        $req = $qb->execute();
+        $qb = $qb->resetQueryParts();
 
         $response = new DataResponse("DELETED");
         return $response;
@@ -2170,10 +2173,14 @@ class PageController extends ApiController {
             );
             return $response;
         }
+
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->update('cospend_projects');
+
         $emailSql = '';
         if ($contact_email !== null && $contact_email !== '') {
             if (filter_var($contact_email, FILTER_VALIDATE_EMAIL)) {
-                $emailSql = 'email='.$this->db_quote_escape_string($contact_email).',';
+                $qb->set('email', $qb->createNamedParameter($contact_email, IQueryBuilder::PARAM_STR));
             }
             else {
                 $response = new DataResponse(
@@ -2183,23 +2190,17 @@ class PageController extends ApiController {
                 return $response;
             }
         }
-        $passwordSql = '';
         if ($password !== null && $password !== '') {
             $dbPassword = password_hash($password, PASSWORD_DEFAULT);
-            $passwordSql = 'password='.$this->db_quote_escape_string($dbPassword).',';
+            $qb->set('password', $qb->createNamedParameter($dbPassword, IQueryBuilder::PARAM_STR));
         }
         if ($this->getProjectById($projectid) !== null) {
-            $nameSql = 'name='.$this->db_quote_escape_string($name);
-            $sqlupd = '
-                    UPDATE *PREFIX*cospend_projects
-                    SET
-                         '.$emailSql.'
-                         '.$passwordSql.'
-                         '.$nameSql.'
-                    WHERE id='.$this->db_quote_escape_string($projectid).' ;';
-            $req = $this->dbconnection->prepare($sqlupd);
-            $req->execute();
-            $req->closeCursor();
+            $qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
+            $qb->where(
+                $qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+            );
+            $req = $qb->execute();
+            $qb = $qb->resetQueryParts();
 
             $response = new DataResponse("UPDATED");
             return $response;

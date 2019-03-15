@@ -2352,37 +2352,40 @@ class PageController extends ApiController {
         }
         if ($userid !== '' and in_array($userid, $userIds)) {
             if ($this->userCanAccessProject($this->userId, $projectid)) {
+                $qb = $this->dbconnection->getQueryBuilder();
                 $projectInfo = $this->getProjectInfo($projectid);
                 // check if someone tries to share the project with its owner
                 if ($userid !== $projectInfo['userid']) {
                     // check if user share exists
-                    $sqlchk = '
-                        SELECT userid, projectid
-                        FROM *PREFIX*cospend_shares
-                        WHERE projectid='.$this->db_quote_escape_string($projectid).'
-                              AND userid='.$this->db_quote_escape_string($userid).'
-                              AND isgroupshare='.$this->db_quote_escape_string('0').' ;';
-                    $req = $this->dbconnection->prepare($sqlchk);
-                    $req->execute();
+                    $qb->select('userid', 'projectid')
+                        ->from('cospend_shares', 's')
+                        ->where(
+                            $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+                        )
+                        ->andWhere(
+                            $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                        )
+                        ->andWhere(
+                            $qb->expr()->eq('userid', $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR))
+                        );
+                    $req = $qb->execute();
                     $dbuserId = null;
                     while ($row = $req->fetch()){
                         $dbuserId = $row['userid'];
                         break;
                     }
                     $req->closeCursor();
+                    $qb = $qb->resetQueryParts();
 
                     if ($dbuserId === null) {
-                        $sql = '
-                            INSERT INTO *PREFIX*cospend_shares
-                            (projectid, userid, isgroupshare)
-                            VALUES ('.
-                                $this->db_quote_escape_string($projectid).','.
-                                $this->db_quote_escape_string($userid).','.
-                                $this->db_quote_escape_string('0').
-                            ') ;';
-                        $req = $this->dbconnection->prepare($sql);
-                        $req->execute();
-                        $req->closeCursor();
+                        $qb->insert('cospend_shares')
+                            ->values([
+                                'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
+                                'userid' => $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR),
+                                'isgroupshare' => $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)
+                            ]);
+                        $req = $qb->execute();
+                        $qb = $qb->resetQueryParts();
 
                         $response = new DataResponse('OK');
 
@@ -2434,31 +2437,41 @@ class PageController extends ApiController {
     public function deleteUserShare($projectid, $userid) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
             // check if user share exists
-            $sqlchk = '
-                SELECT userid, projectid
-                FROM *PREFIX*cospend_shares
-                WHERE projectid='.$this->db_quote_escape_string($projectid).'
-                      AND userid='.$this->db_quote_escape_string($userid).'
-                      AND isgroupshare='.$this->db_quote_escape_string('0').' ;';
-            $req = $this->dbconnection->prepare($sqlchk);
-            $req->execute();
+            $qb = $this->dbconnection->getQueryBuilder();
+            $qb->select('userid', 'projectid')
+                ->from('cospend_shares', 's')
+                ->where(
+                    $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+                )
+                ->andWhere(
+                    $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                )
+                ->andWhere(
+                    $qb->expr()->eq('userid', $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR))
+                );
+            $req = $qb->execute();
             $dbuserId = null;
             while ($row = $req->fetch()){
                 $dbuserId = $row['userid'];
                 break;
             }
             $req->closeCursor();
+            $qb = $qb->resetQueryParts();
 
             if ($dbuserId !== null) {
                 // delete
-                $sqldel = '
-                    DELETE FROM *PREFIX*cospend_shares
-                    WHERE projectid='.$this->db_quote_escape_string($projectid).'
-                          AND userid='.$this->db_quote_escape_string($userid).'
-                          AND isgroupshare='.$this->db_quote_escape_string('0').' ;';
-                $req = $this->dbconnection->prepare($sqldel);
-                $req->execute();
-                $req->closeCursor();
+                $qb->delete('cospend_shares')
+                    ->where(
+                        $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                    )
+                    ->andWhere(
+                        $qb->expr()->eq('userid', $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR))
+                    )
+                    ->andWhere(
+                        $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+                    );
+                $req = $qb->execute();
+                $qb = $qb->resetQueryParts();
 
                 $response = new DataResponse('OK');
 
@@ -2509,35 +2522,46 @@ class PageController extends ApiController {
         }
         if ($groupid !== '' and in_array($groupid, $groupIds)) {
             if ($this->userCanAccessProject($this->userId, $projectid)) {
+                $qb = $this->dbconnection->getQueryBuilder();
                 $projectInfo = $this->getProjectInfo($projectid);
                 // check if user share exists
-                $sqlchk = '
-                    SELECT userid, projectid
-                    FROM *PREFIX*cospend_shares
-                    WHERE projectid='.$this->db_quote_escape_string($projectid).'
-                          AND userid='.$this->db_quote_escape_string($groupid).'
-                          AND isgroupshare='.$this->db_quote_escape_string('1').' ;';
-                $req = $this->dbconnection->prepare($sqlchk);
-                $req->execute();
+                $qb->select('userid', 'projectid')
+                    ->from('cospend_shares', 's')
+                    ->where(
+                        $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
+                    )
+                    ->andWhere(
+                        $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                    )
+                    ->andWhere(
+                        $qb->expr()->eq('userid', $qb->createNamedParameter($groupid, IQueryBuilder::PARAM_STR))
+                    );
+                $req = $qb->execute();
+                //$sqlchk = '
+                //    SELECT userid, projectid
+                //    FROM *PREFIX*cospend_shares
+                //    WHERE projectid='.$this->db_quote_escape_string($projectid).'
+                //          AND userid='.$this->db_quote_escape_string($groupid).'
+                //          AND isgroupshare='.$this->db_quote_escape_string('1').' ;';
+                //$req = $this->dbconnection->prepare($sqlchk);
+                //$req->execute();
                 $dbGroupId = null;
                 while ($row = $req->fetch()){
                     $dbGroupId = $row['userid'];
                     break;
                 }
                 $req->closeCursor();
+                $qb = $qb->resetQueryParts();
 
                 if ($dbGroupId === null) {
-                    $sql = '
-                        INSERT INTO *PREFIX*cospend_shares
-                        (projectid, userid, isgroupshare)
-                        VALUES ('.
-                            $this->db_quote_escape_string($projectid).','.
-                            $this->db_quote_escape_string($groupid).','.
-                            $this->db_quote_escape_string('1').
-                        ') ;';
-                    $req = $this->dbconnection->prepare($sql);
-                    $req->execute();
-                    $req->closeCursor();
+                    $qb->insert('cospend_shares')
+                        ->values([
+                            'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
+                            'userid' => $qb->createNamedParameter($groupid, IQueryBuilder::PARAM_STR),
+                            'isgroupshare' => $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)
+                        ]);
+                    $req = $qb->execute();
+                    $qb = $qb->resetQueryParts();
 
                     $response = new DataResponse('OK');
 
@@ -2585,31 +2609,41 @@ class PageController extends ApiController {
     public function deleteGroupShare($projectid, $groupid) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
             // check if group share exists
-            $sqlchk = '
-                SELECT userid, projectid
-                FROM *PREFIX*cospend_shares
-                WHERE projectid='.$this->db_quote_escape_string($projectid).'
-                      AND userid='.$this->db_quote_escape_string($groupid).'
-                      AND isgroupshare='.$this->db_quote_escape_string('1').' ;';
-            $req = $this->dbconnection->prepare($sqlchk);
-            $req->execute();
+            $qb = $this->dbconnection->getQueryBuilder();
+            $qb->select('userid', 'projectid')
+                ->from('cospend_shares', 's')
+                ->where(
+                    $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
+                )
+                ->andWhere(
+                    $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                )
+                ->andWhere(
+                    $qb->expr()->eq('userid', $qb->createNamedParameter($groupid, IQueryBuilder::PARAM_STR))
+                );
+            $req = $qb->execute();
             $dbGroupId = null;
             while ($row = $req->fetch()){
                 $dbGroupId = $row['userid'];
                 break;
             }
             $req->closeCursor();
+            $qb = $qb->resetQueryParts();
 
             if ($dbGroupId !== null) {
                 // delete
-                $sqldel = '
-                    DELETE FROM *PREFIX*cospend_shares
-                    WHERE projectid='.$this->db_quote_escape_string($projectid).'
-                          AND userid='.$this->db_quote_escape_string($groupid).'
-                          AND isgroupshare='.$this->db_quote_escape_string('1').' ;';
-                $req = $this->dbconnection->prepare($sqldel);
-                $req->execute();
-                $req->closeCursor();
+                $qb->delete('cospend_shares')
+                    ->where(
+                        $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                    )
+                    ->andWhere(
+                        $qb->expr()->eq('userid', $qb->createNamedParameter($groupid, IQueryBuilder::PARAM_STR))
+                    )
+                    ->andWhere(
+                        $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
+                    );
+                $req = $qb->execute();
+                $qb = $qb->resetQueryParts();
 
                 $response = new DataResponse('OK');
 

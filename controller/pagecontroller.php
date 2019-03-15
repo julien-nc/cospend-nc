@@ -283,19 +283,25 @@ class PageController extends ApiController {
             else {
                 $qb = $this->dbconnection->getQueryBuilder();
                 // is the project shared with the user ?
-                $sql = '
-                    SELECT projectid, userid
-                    FROM *PREFIX*cospend_shares
-                    WHERE userid='.$this->db_quote_escape_string($userid).'
-                        AND projectid='.$this->db_quote_escape_string($projectid).' ;';
-                $req = $this->dbconnection->prepare($sql);
-                $req->execute();
+                $qb->select('userid', 'projectid')
+                    ->from('cospend_shares', 's')
+                    ->where(
+                        $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+                    )
+                    ->andWhere(
+                        $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                    )
+                    ->andWhere(
+                        $qb->expr()->eq('userid', $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR))
+                    );
+                $req = $qb->execute();
                 $dbProjectId = null;
                 while ($row = $req->fetch()){
                     $dbProjectId = $row['projectid'];
                     break;
                 }
                 $req->closeCursor();
+                $qb = $qb->resetQueryParts();
 
                 if ($dbProjectId !== null) {
                     return true;
@@ -335,20 +341,26 @@ class PageController extends ApiController {
      * check if user owns the external project
      */
     private function userCanAccessExternalProject($userid, $projectid, $ncurl) {
-        $sql = '
-            SELECT projectid
-            FROM *PREFIX*cospend_ext_projects
-            WHERE userid='.$this->db_quote_escape_string($userid).'
-                AND projectid='.$this->db_quote_escape_string($projectid).'
-                AND ncurl='.$this->db_quote_escape_string($ncurl).' ;';
-        $req = $this->dbconnection->prepare($sql);
-        $req->execute();
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('projectid')
+           ->from('cospend_ext_projects', 'ep')
+           ->where(
+               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+           )
+           ->andWhere(
+               $qb->expr()->eq('ncurl', $qb->createNamedParameter($ncurl, IQueryBuilder::PARAM_STR))
+           )
+           ->andWhere(
+               $qb->expr()->eq('userid', $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR))
+           );
+        $req = $qb->execute();
         $dbProjectId = null;
         while ($row = $req->fetch()){
             $dbProjectId = $row['projectid'];
             break;
         }
         $req->closeCursor();
+        $qb = $qb->resetQueryParts();
 
         return ($dbProjectId !== null);
     }
@@ -2537,14 +2549,6 @@ class PageController extends ApiController {
                         $qb->expr()->eq('userid', $qb->createNamedParameter($groupid, IQueryBuilder::PARAM_STR))
                     );
                 $req = $qb->execute();
-                //$sqlchk = '
-                //    SELECT userid, projectid
-                //    FROM *PREFIX*cospend_shares
-                //    WHERE projectid='.$this->db_quote_escape_string($projectid).'
-                //          AND userid='.$this->db_quote_escape_string($groupid).'
-                //          AND isgroupshare='.$this->db_quote_escape_string('1').' ;';
-                //$req = $this->dbconnection->prepare($sqlchk);
-                //$req->execute();
                 $dbGroupId = null;
                 while ($row = $req->fetch()){
                     $dbGroupId = $row['userid'];

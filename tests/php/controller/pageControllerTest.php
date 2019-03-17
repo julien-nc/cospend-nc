@@ -608,7 +608,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $testFound = false;
         $groupFound = false;
         foreach ($data['users'] as $userid=>$username) {
-            if ($userid === 'test') {
+            if ($userid === 'test2') {
                 $testFound = true;
             }
         }

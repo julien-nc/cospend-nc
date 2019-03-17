@@ -167,14 +167,22 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $this->assertEquals('superproj', $data);
 
+        $resp = $this->pageController->webCreateProject('superproj', 'SuperProj', 'toto');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
+        $resp = $this->pageController->webCreateProject('super/proj', 'SuperProj', 'toto');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
         // create members
-        $resp = $this->pageController->webAddMember('superproj', 'robert');
+        $resp = $this->pageController->webAddMember('superproj', 'bobby');
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
         $data = $resp->getData();
         $idMember1 = intval($data);
 
-        $resp = $this->pageController->webAddMember('superproj', 'bobby');
+        $resp = $this->pageController->webAddMember('superproj', 'robert');
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
         $data = $resp->getData();
@@ -255,6 +263,30 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $status = $resp->getStatus();
         $this->assertEquals(400, $status);
 
+        $resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', $idMember2, $idMember1, 12.3, '');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
+        $resp = $this->pageController->webAddBill('superproj', '', 'lala', $idMember2, $idMember1, 12.3, 'n');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
+        $resp = $this->pageController->webAddBill('superproj', '2019-01-20', '', $idMember2, $idMember1, 12.3, 'n');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
+        $resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', $idMember2, $idMember1, 'amount', 'n');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
+        $resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', 'memem', $idMember1, 12.3, 'n');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
+        $resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', $idMember2, $idMember1.',aa', 12.3, 'n');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
         // edit bill
         $resp = $this->pageController->webEditBill('superproj', $idBill1, '2019-01-20', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, 'n');
         $status = $resp->getStatus();
@@ -267,6 +299,26 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $this->pageController->webEditBill('superproj', -1, '2019-01-20', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, 'n');
         $status = $resp->getStatus();
         $this->assertEquals(404, $status);
+
+        $resp = $this->pageController->webEditBill('superproj', $idBill1, '2019-01-20', '', $idMember1, $idMember1.','.$idMember2, 99, 'n');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
+        $resp = $this->pageController->webEditBill('superproj', $idBill1, '2019-01-20', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, '');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
+        $resp = $this->pageController->webEditBill('superproj', $idBill1, '2019-01-20', 'boomerang', 0, $idMember1.','.$idMember2, 99, 'n');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
+        $resp = $this->pageController->webEditBill('superproj', $idBill1, '2019-01-20', 'boomerang', $idMember1, '0,'.$idMember2, 99, 'n');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
+        $resp = $this->pageController->webEditBill('superproj', $idBill1, '2019-01-20', 'boomerang', $idMember1, 'aa', 99, 'n');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
 
         // get project stats
 
@@ -400,6 +452,10 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $status = $resp->getStatus();
         $this->assertEquals(403, $status);
 
+        $resp = $this->pageController->webEditProject('superproj', '', 'new email', 'new password');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
         // DELETE PROJECT
         $resp = $this->pageController->webDeleteProject('superproj');
         $status = $resp->getStatus();
@@ -488,6 +544,14 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(200, $status);
         $data = $resp->getData();
         $idExt = $data;
+
+        $resp = $this->pageController->webAddExternalProject('idext', 'lastcloud.net', 'passodoble');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
+        $resp = $this->pageController->webAddExternalProject('id/ext', 'lastcloud.net', 'passodoble');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
 
         // EDIT EXT PROJECT
         $resp = $this->pageController->webEditExternalProject($idExt, 'lastcloud.net', 'passotriple');

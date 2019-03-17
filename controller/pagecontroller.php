@@ -1255,7 +1255,7 @@ class PageController extends ApiController {
         else {
             $response = new DataResponse(
                 ['message'=>'A project with id "'.$id.'" and url "'.$ncurl.'" already exists']
-                , 403
+                , 400
             );
             return $response;
         }
@@ -1307,7 +1307,7 @@ class PageController extends ApiController {
         else {
             $response = new DataResponse(
                 ['message'=>'A project with id "'.$id.'" already exists']
-                , 403
+                , 400
             );
             return $response;
         }

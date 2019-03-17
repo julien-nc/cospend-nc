@@ -37,11 +37,29 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $app = new Application();
         $c = $app->getContainer();
 
+        // clear test users
+        $user = $c->getServer()->getUserManager()->get('test');
+        if ($user !== null) {
+            $user->delete();
+        }
+        $user = $c->getServer()->getUserManager()->get('test2');
+        if ($user !== null) {
+            $user->delete();
+        }
+        $user = $c->getServer()->getUserManager()->get('test3');
+        if ($user !== null) {
+            $user->delete();
+        }
+
         // CREATE DUMMY USERS
         $u1 = $c->getServer()->getUserManager()->createUser('test', 'T0T0T0');
         $u1->setEMailAddress('toto@toto.net');
-        $c->getServer()->getUserManager()->createUser('test2', 'T0T0T0');
-        $c->getServer()->getUserManager()->createUser('test3', 'T0T0T0');
+        $u2 = $c->getServer()->getUserManager()->createUser('test2', 'T0T0T0');
+        $u3 = $c->getServer()->getUserManager()->createUser('test3', 'T0T0T0');
+        $c->getServer()->getGroupManager()->createGroup('group1test');
+        $c->getServer()->getGroupManager()->get('group1test')->addUser($u1);
+        $c->getServer()->getGroupManager()->createGroup('group2test');
+        $c->getServer()->getGroupManager()->get('group2test')->addUser($u2);
     }
 
     public function setUp() {
@@ -105,6 +123,8 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $user->delete();
         $user = $c->getServer()->getUserManager()->get('test3');
         $user->delete();
+        $c->getServer()->getGroupManager()->get('group1test')->delete();
+        $c->getServer()->getGroupManager()->get('group2test')->delete();
     }
 
     public function tearDown() {
@@ -170,6 +190,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
         $data = $resp->getData();
+        //var_dump($data);
         $this->assertEquals(1, count($data));
         $this->assertEquals(2, count($data[0]['members']));
 
@@ -369,8 +390,45 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(1, count($data));
         $this->assertEquals('projtodel', $data[0]['id']);
 
+        $resp = $this->pageController2->webGetProjectInfo('projtodel');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+
+        // delete the user share
+        $resp = $this->pageController->deleteUserShare('projtodel', 'test2');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+
+        $resp = $this->pageController2->webGetProjectInfo('projtodel');
+        $status = $resp->getStatus();
+        $this->assertEquals(403, $status);
+
+        // get projects of second user to check if access to project was removed
+        $resp = $this->pageController2->webGetProjects();
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $this->assertEquals(0, count($data));
+
+        // add a group share
+        $resp = $this->pageController->addGroupShare('projtodel', 'group2test');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+
+        // get projects of second user to see if access to shared project is possible
+        $resp = $this->pageController2->webGetProjects();
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $this->assertEquals(1, count($data));
+        $this->assertEquals('projtodel', $data[0]['id']);
+
+        $resp = $this->pageController2->webGetProjectInfo('projtodel');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+
         // then it should be ok to delete
-        $resp = $this->pageController2->webDeleteProject('projtodel');
+        $resp = $this->pageController->webDeleteProject('projtodel');
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
         $data = $resp->getData();

@@ -671,7 +671,7 @@ class PageController extends ApiController {
         // is the user member of these groups?
         foreach ($candidateGroupIds as $candidateGroupId) {
             $group = $this->groupManager->get($candidateGroupId);
-            if ($group->inGroup($userO)) {
+            if ($group !== null && $group->inGroup($userO)) {
                 // get projects shared with this group
                 $qb->select('p.id', 'p.password', 'p.name', 'p.email')
                     ->from('cospend_projects', 'p')

@@ -353,6 +353,53 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(true, $id1Found);
         $this->assertEquals(true, $id2Found);
 
+        // check number of bills
+        $resp = $this->pageController->webGetBills('superproj');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $nbBills = count($data);
+        $this->assertEquals(true, ($nbBills > 0));
+
+        // DELETE BILL
+        $resp = $this->pageController->webDeleteBill('superproj', $idBill1);
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $this->assertEquals('OK', $data);
+
+        // DELETE BILL of unexisting project
+        $resp = $this->pageController->webDeleteBill('superprojLALA', $idBill1);
+        $status = $resp->getStatus();
+        $this->assertEquals(403, $status);
+
+        // check number of bills again
+        $resp = $this->pageController->webGetBills('superproj');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $nbBills2 = count($data);
+        $this->assertEquals($nbBills2, ($nbBills - 1));
+
+        $resp = $this->pageController->webGetBills('superprojLALA');
+        $status = $resp->getStatus();
+        $this->assertEquals(403, $status);
+
+        // EDIT PROJECT
+        $resp = $this->pageController->webEditProject('superproj', 'newname', 'email@yep.yop', 'new password');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $this->assertEquals('UPDATED', $data);
+
+        $resp = $this->pageController->webEditProject('superproj', 'newname', 'invalid email!', 'new password');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
+        $resp = $this->pageController->webEditProject('superprojLALA', 'newname', 'new email', 'new password');
+        $status = $resp->getStatus();
+        $this->assertEquals(403, $status);
+
         // DELETE PROJECT
         $resp = $this->pageController->webDeleteProject('superproj');
         $status = $resp->getStatus();
@@ -433,6 +480,41 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(200, $status);
         $data = $resp->getData();
         $this->assertEquals('DELETED', $data);
+
+        // EXTERNAL PROJECTS
+        // ADD ONE
+        $resp = $this->pageController->webAddExternalProject('idext', 'lastcloud.net', 'passodoble');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $idExt = $data;
+
+        // EDIT EXT PROJECT
+        $resp = $this->pageController->webEditExternalProject($idExt, 'lastcloud.net', 'passotriple');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+
+        $resp = $this->pageController->webEditExternalProject($idExt, 'lastcloud.org', 'passotriple');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
+        // GET PROJECTS
+        $resp = $this->pageController->webGetProjects();
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $this->assertEquals(1, count($data));
+        $this->assertEquals('idext', $data[0]['id']);
+
+        // DELETE EXT PROJECT
+        $resp = $this->pageController->webDeleteExternalProject($idExt, 'lastcloud.net');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+
+        $resp = $this->pageController->webDeleteExternalProject($idExt, 'lastcloud.org');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
     }
 
 }

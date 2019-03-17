@@ -518,6 +518,14 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
 
+        $resp = $this->pageController->addGroupShare('projtodel', 'group2test');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
+        $resp = $this->pageController->addGroupShare('projtodel', 'group2testLALA');
+        $status = $resp->getStatus();
+        $this->assertEquals(400, $status);
+
         // get projects of second user to see if access to shared project is possible
         $resp = $this->pageController2->webGetProjects();
         $status = $resp->getStatus();
@@ -529,6 +537,19 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $this->pageController2->webGetProjectInfo('projtodel');
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
+
+        // delete the group share
+        $resp = $this->pageController->deleteGroupShare('projtodel', 'group2test');
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+
+        $resp = $this->pageController->deleteGroupShare('projtodel', 'group2testLALA');
+        $status = $resp->getStatus();
+        $this->assertEquals(401, $status);
+
+        $resp = $this->pageController->deleteGroupShare('projtodelLALA', 'group2test');
+        $status = $resp->getStatus();
+        $this->assertEquals(403, $status);
 
         // then it should be ok to delete
         $resp = $this->pageController->webDeleteProject('projtodel');
@@ -579,6 +600,25 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $status = $resp->getStatus();
         $this->assertEquals(400, $status);
 
+        // GET USER LIST
+        $resp = $this->pageController->getUserList();
+        $status = $resp->getStatus();
+        $this->assertEquals(200, $status);
+        $data = $resp->getData();
+        $testFound = false;
+        $groupFound = false;
+        foreach ($data['users'] as $userid=>$username) {
+            if ($userid === 'test') {
+                $testFound = true;
+            }
+        }
+        $this->assertEquals(true, $testFound);
+        foreach ($data['groups'] as $groupid=>$groupname) {
+            if ($groupid === 'group1test') {
+                $groupFound = true;
+            }
+        }
+        $this->assertEquals(true, $groupFound);
     }
 
 }

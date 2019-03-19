@@ -3107,6 +3107,7 @@ class PageController extends ApiController {
     public function cronRepeatBills() {
         $now = new \DateTime();
         // get bills whith repetition flag
+        $qb = $this->dbconnection->getQueryBuilder();
         $qb->select('id', 'projectid', 'what', 'date', 'amount', 'payerid', 'repeat')
            ->from('cospend_bills', 'b')
            ->where(

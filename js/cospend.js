@@ -1191,7 +1191,7 @@
         $('.bill-title').attr('billid', billid);
         var c = {h: 0, s: 0, l: 50};
         if (billid !== 0) {
-            $('#owerCustomAmount').hide();
+            $('.bill-type').hide();
             var payerName = getMemberName(projectid, payer_id);
             c = getMemberColor(payerName);
         }
@@ -1258,10 +1258,10 @@
             if (member.activated || owerIds.indexOf(member.id) !== -1) {
                 owerCheckboxes = owerCheckboxes +
                     '<div class="owerEntry">' +
-                    '<input id="amount'+projectid+member.id+'" owerid="'+member.id+'" class="customamountinput" type="number" value="" step="0.01" min="0"/>' +
-                    '<label for="amount'+projectid+member.id+'" class="numberlabel">'+member.name+'</label>' +
                     '<input id="'+projectid+member.id+'" owerid="'+member.id+'" class="checkbox" type="checkbox"'+checked+readonly+'/>' +
-                    '<label for="'+projectid+member.id+'" class="checkboxlabel">'+member.name+'</label>' +
+                    '<label for="'+projectid+member.id+'" class="checkboxlabel">'+member.name+'</label> ' +
+                    '<input id="amount'+projectid+member.id+'" owerid="'+member.id+'" class="amountinput" type="number" value="" step="0.01" min="0"/>' +
+                    '<label for="amount'+projectid+member.id+'" class="numberlabel">'+member.name+'</label>' +
                     '</div>';
             }
         }
@@ -1296,9 +1296,12 @@
 
         var allStr = t('cospend', 'All');
         var noneStr = t('cospend', 'None');
-        var customAmountStr = t('cospend', 'Custom amount per member');
-        var customAmountValidateStr = t('cospend', 'Create bills');
+        var owerValidateStr = t('cospend', 'Create bills');
         var addFileLinkText = t('cospend', 'Attach public link to personal file');
+        var normalBillOption = t('cospend', 'Classic, equitable share');
+        var customBillOption = t('cospend', 'Custom owed amount per member');
+        var personalShareBillOption = t('cospend', 'Equitable share with personal parts');
+        var billTypeStr = t('cospend', 'Bill type');
 
         var addFileHtml = '';
         if (!cospend.pageIsPublic) {
@@ -1356,13 +1359,20 @@
             '        </div>' +
             '    </div>' +
             '    <div class="bill-right">' +
+            '        <div class="bill-type">' +
+            '            <a class="icon icon-toggle-filelist"></a><span>'+billTypeStr+'</span>' +
+            '            <select id="billtype">' +
+            '               <option value="normal" selected>' + normalBillOption + '</option>' +
+            '               <option value="perso">' + personalShareBillOption + '</option>' +
+            '               <option value="custom">' + customBillOption + '</option>' +
+            '            </select>' +
+            '        </div>' +
             '        <div class="bill-owers">' +
             '            <a class="icon icon-group"></a><span>'+owersStr+'</span>' +
             '            <div class="owerAllNoneDiv">' +
-            '            <button id="owerCustomAmount"><span class="icon-settings-dark"></span> '+customAmountStr+'</button>' +
-            '            <button id="owerCustomAmountValidate"><span class="icon-confirm"></span> '+customAmountValidateStr+'</button>' +
             '            <button id="owerAll">'+allStr+'</button>' +
             '            <button id="owerNone">'+noneStr+'</button>' +
+            '            <button id="owerValidate"><span class="icon-confirm"></span> '+owerValidateStr+'</button>' +
             '            </div>' +
             '            '+owerCheckboxes +
             '        </div>' +
@@ -1375,7 +1385,7 @@
             $('#repeatbill').val(bill.repeat);
         }
         else {
-            $('#owerCustomAmount').show();
+            $('.bill-type').show();
         }
     }
 
@@ -1804,8 +1814,8 @@
         // check fields validity
         var valid = true;
 
-        // if this is a new bill and custm amount is enabled : get out
-        if (billid === '0' && $('#owerCustomAmount span').hasClass('icon-user-admin')) {
+        // if this is a new bill and custom amount or personal parts is enabled : get out
+        if (billid === '0' && $('#billtype').val() !== 'normal') {
             return;
         }
 
@@ -2238,13 +2248,97 @@
 
     function updateCustomAmount() {
         var tot = 0;
-        $('.customamountinput').each(function() {
+        $('.amountinput').each(function() {
             var val = parseFloat($(this).val());
             if (!isNaN(val) && val > 0.0) {
                 tot = tot + val;
             }
         });
         $('#amount').val(tot);
+    }
+
+    // create equitable bill with personal parts
+    function createEquiPersoBill() {
+        var projectid = $('.bill-title').attr('projectid');
+
+        var what = $('.input-bill-what').val();
+        var date = $('.input-bill-date').val();
+        var amount = parseFloat($('.input-bill-amount').val());
+        var payer_id = parseInt($('.input-bill-payer').val());
+        var repeat = 'n';
+        var owerIds = [];
+        var owerId;
+        $('.owerEntry input').each(function() {
+            if ($(this).is(':checked')) {
+                owerId = parseInt($(this).attr('owerid'));
+                if (isNaN(owerId)) {
+                    valid = false;
+                }
+                else {
+                    owerIds.push(owerId);
+                }
+            }
+        });
+
+        var valid = true;
+
+        if (what === null || what === '') {
+            valid = false;
+        }
+        if (date === null || date === '' || date.match(/^\d\d\d\d-\d\d-\d\d$/g) === null) {
+            valid = false;
+        }
+        if (isNaN(amount) || isNaN(payer_id)) {
+            valid = false;
+        }
+        else {
+            // check if amount - allPersonalParts >= 0
+            var tmpAmount = amount;
+            $('.amountinput').each(function() {
+                var owerId = parseInt($(this).attr('owerid'));
+                var amountVal = parseFloat($(this).val());
+                var owerSelected = $('.owerEntry input[owerid="'+owerId+'"]').is(':checked');
+                if (!isNaN(amountVal) && amountVal > 0.0 && owerSelected) {
+                    tmpAmount = tmpAmount - amountVal;
+                }
+            });
+            if (tmpAmount < 0.0) {
+                OC.Notification.showTemporary(t('cospend', 'Personal parts are bigger than the paid amount'));
+                return;
+            }
+        }
+        if (owerIds.length === 0) {
+            valid = false;
+        }
+
+        if (valid) {
+            // create bills related to personal parts
+            var tmpAmount = amount;
+            $('.amountinput').each(function() {
+                var owerId = parseInt($(this).attr('owerid'));
+                var amountVal = parseFloat($(this).val());
+                var owerSelected = $('.owerEntry input[owerid="'+owerId+'"]').is(':checked');
+                if (!isNaN(amountVal) && amountVal > 0.0 && owerSelected) {
+                    createBill(projectid, what, amountVal, payer_id, date, [owerId], repeat, true);
+                    tmpAmount = tmpAmount - amountVal;
+                }
+            });
+            // create equitable bill with the rest
+            createBill(projectid, what, tmpAmount, payer_id, date, owerIds, repeat, true);
+            // empty bill detail
+            $('#billdetail').html('');
+            // remove new bill line
+            $('.billitem[billid=0]').fadeOut('slow', function() {
+                $(this).remove();
+                if ($('.billitem').length === 0) {
+                    $('#bill-list').html('<h2 class="nobill">'+t('cospend', 'No bill yet')+'</h2>');
+                }
+            });
+            $('.app-content-list').removeClass('showdetails');
+        }
+        else {
+            OC.Notification.showTemporary(t('cospend', 'Invalid values'));
+        }
     }
 
     function createCustomAmountBill() {
@@ -2270,7 +2364,7 @@
 
         if (valid) {
             var total = 0;
-            $('.customamountinput').each(function() {
+            $('.amountinput').each(function() {
                 var owerId = parseInt($(this).attr('owerid'));
                 var amountVal = parseFloat($(this).val());
                 if (!isNaN(amountVal) && amountVal > 0.0) {
@@ -2702,8 +2796,23 @@
         }, 2000));
 
         // other bill fields : direct on edition
-        $('body').on('change', '#billdetail input[type=checkbox], .input-bill-date, #billdetail select', function(e) {
+        $('body').on('change', '.input-bill-date, #billdetail select', function(e) {
             onBillEdited();
+        });
+
+        $('body').on('change', '#billdetail input[type=checkbox]', function(e) {
+            var billtype = $('#billtype').val();
+            if (billtype === 'perso') {
+                if ($(this).is(':checked')) {
+                    $(this).parent().find('input[type=number]').show();
+                }
+                else {
+                    $(this).parent().find('input[type=number]').hide();
+                }
+            }
+            else {
+                onBillEdited();
+            }
         });
 
         $('body').on('click', '#owerAll', function(e) {
@@ -2883,41 +2992,81 @@
             autoSettlement(projectid);
         });
 
-        $('body').on('click', '#owerCustomAmount', function() {
-            $('#owerCustomAmountValidate').toggle();
-            $('#owerNone').toggle();
-            $('#owerAll').toggle();
-            $('.bill-owers .checkbox').toggle();
-            $('.bill-owers .checkboxlabel').toggle();
-            $('.bill-owers .numberlabel').toggle();
-            $('.bill-owers input[type=number]').toggle();
-            $('#owerCustomAmount span').toggleClass('icon-settings-dark').toggleClass('icon-user-admin');
-            $('#amount').prop('disabled', function(i, v) {
-                if (!v) {
-                    updateCustomAmount();
-                }
-                else {
-                    $('#amount').val('0');
-                }
-                return !v;
-            });
-            $('#repeatbill').val('n').prop('disabled', function(i, v) { return !v; });
-        });
-
-        $('body').on('paste change', '.customamountinput', function(e) {
-            updateCustomAmount();
-        });
-
-        $('body').on('keyup','.customamountinput', function(e) {
-            updateCustomAmount();
-            if (e.key === 'Enter') {
-                createCustomAmountBill();
+        $('body').on('change', '#billtype', function() {
+            var billtype = $(this).val();
+            if (billtype === 'normal') {
+                $('#owerValidate').hide();
+                $('#owerNone').show();
+                $('#owerAll').show();
+                $('.bill-owers .checkbox').show();
+                $('.bill-owers .checkboxlabel').show();
+                $('.bill-owers .numberlabel').hide();
+                $('.bill-owers input[type=number]').hide();
+                $('#amount').val('0');
+                $('#amount').prop('disabled', false);
+                $('#repeatbill').prop('disabled', false);
+            }
+            else if (billtype === 'custom') {
+                $('#owerValidate').show();
+                $('#owerNone').hide();
+                $('#owerAll').hide();
+                $('.bill-owers .checkbox').hide();
+                $('.bill-owers .checkboxlabel').hide();
+                $('.bill-owers .numberlabel').show();
+                $('.bill-owers input[type=number]').show();
+                updateCustomAmount();
+                $('#amount').prop('disabled', true);
+                $('#repeatbill').val('n').prop('disabled', true);
+            }
+            else if (billtype === 'perso') {
+                $('#owerValidate').show();
+                $('#owerNone').show();
+                $('#owerAll').show();
+                $('.bill-owers .checkbox').show();
+                $('.bill-owers .checkboxlabel').show();
+                $('.bill-owers .numberlabel').hide();
+                $('.bill-owers input[type=number]').hide();
+                $('.bill-owers .checkbox').each(function() {
+                    if ($(this).is(':checked')) {
+                        $(this).parent().find('input[type=number]').show();
+                    }
+                });
+                $('#amount').prop('disabled', false);
+                $('#repeatbill').val('n').prop('disabled', true);
             }
         });
 
-        $('body').on('click', '#owerCustomAmountValidate', function() {
-            updateCustomAmount();
-            createCustomAmountBill();
+        $('body').on('paste change', '.amountinput', function(e) {
+            var billtype = $('#billtype').val();
+            if (billtype === 'custom') {
+                updateCustomAmount();
+            }
+        });
+
+        $('body').on('keyup','.amountinput', function(e) {
+            var billtype = $('#billtype').val();
+            if (billtype === 'custom') {
+                updateCustomAmount();
+                if (e.key === 'Enter') {
+                    createCustomAmountBill();
+                }
+            }
+            else if (billtype === 'perso') {
+                if (e.key === 'Enter') {
+                    createEquiPersoBill();
+                }
+            }
+        });
+
+        $('body').on('click', '#owerValidate', function() {
+            var billtype = $('#billtype').val();
+            if (billtype === 'custom') {
+                updateCustomAmount();
+                createCustomAmountBill();
+            }
+            else if (billtype === 'perso') {
+                createEquiPersoBill();
+            }
         });
 
         cospend.themeColor = '#0000FF';

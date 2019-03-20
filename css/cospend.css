@@ -105,6 +105,9 @@ b.memberName, b.memberWeight {
     margin-top: 0px !important;
     margin-bottom: 0px !important;
 }
+.modehint {
+    display: none;
+}
 .bill-title {
     text-align: center;
     color: white;

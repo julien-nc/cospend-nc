@@ -1298,9 +1298,12 @@
         var noneStr = t('cospend', 'None');
         var owerValidateStr = t('cospend', 'Create bills');
         var addFileLinkText = t('cospend', 'Attach public link to personal file');
-        var normalBillOption = t('cospend', 'Classic, equitable share');
+        var normalBillOption = t('cospend', 'Classic, even split');
+        var normalBillHint = t('cospend', 'Classic mode: Choose a payer, enter a bill amount and select who is concerned, the bill is then split equitably between selected members');
         var customBillOption = t('cospend', 'Custom owed amount per member');
-        var personalShareBillOption = t('cospend', 'Equitable share with personal parts');
+        var customBillHint = t('cospend', 'Custom mode: Choose a payer, enter a custom owed amount for each member who is concerned and press "Create the bills". Multiple bills will be created.');
+        var personalShareBillOption = t('cospend', 'Even split with optional personal parts');
+        var personalShareBillHint = t('cospend', 'Classic+personal mode: This mode is similar to the classic one. Enter a bill amount and the portion related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part.');
         var billTypeStr = t('cospend', 'Bill type');
 
         var addFileHtml = '';
@@ -1366,12 +1369,16 @@
             '               <option value="perso">' + personalShareBillOption + '</option>' +
             '               <option value="custom">' + customBillOption + '</option>' +
             '            </select>' +
+            '            <button id="modehintbutton"><span class="icon-details"></span></button>' +
+            '            <div class="modehint modenormal">' + normalBillHint + '</div>' +
+            '            <div class="modehint modeperso">' + personalShareBillHint + '</div>' +
+            '            <div class="modehint modecustom">' + customBillHint + '</div>' +
             '        </div>' +
             '        <div class="bill-owers">' +
             '            <a class="icon icon-group"></a><span>'+owersStr+'</span>' +
             '            <div class="owerAllNoneDiv">' +
-            '            <button id="owerAll">'+allStr+'</button>' +
-            '            <button id="owerNone">'+noneStr+'</button>' +
+            '            <button id="owerAll"><span class="icon-group"></span> '+allStr+'</button>' +
+            '            <button id="owerNone"><span class="icon-disabled-users"></span> '+noneStr+'</button>' +
             '            <button id="owerValidate"><span class="icon-confirm"></span> '+owerValidateStr+'</button>' +
             '            </div>' +
             '            '+owerCheckboxes +
@@ -2992,7 +2999,42 @@
             autoSettlement(projectid);
         });
 
+        $('body').on('click', '#modehintbutton', function() {
+            var billtype = $('#billtype').val();
+            if (billtype === 'normal') {
+                if ($('.modenormal').is(':visible')) {
+                    $('.modenormal').slideUp();
+                }
+                else {
+                    $('.modenormal').slideDown();
+                }
+                $('.modecustom').slideUp();
+                $('.modeperso').slideUp();
+            }
+            else if (billtype === 'perso') {
+                if ($('.modeperso').is(':visible')) {
+                    $('.modeperso').slideUp();
+                }
+                else {
+                    $('.modeperso').slideDown();
+                }
+                $('.modecustom').slideUp();
+                $('.modenormal').slideUp();
+            }
+            else if (billtype === 'custom') {
+                if ($('.modecustom').is(':visible')) {
+                    $('.modecustom').slideUp();
+                }
+                else {
+                    $('.modecustom').slideDown();
+                }
+                $('.modenormal').slideUp();
+                $('.modeperso').slideUp();
+            }
+        });
+
         $('body').on('change', '#billtype', function() {
+            $('.modehint').slideUp();
             var billtype = $(this).val();
             if (billtype === 'normal') {
                 $('#owerValidate').hide();

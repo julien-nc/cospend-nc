@@ -1299,11 +1299,11 @@
         var owerValidateStr = t('cospend', 'Create bills');
         var addFileLinkText = t('cospend', 'Attach public link to personal file');
         var normalBillOption = t('cospend', 'Classic, even split');
-        var normalBillHint = t('cospend', 'Classic mode: Choose a payer, enter a bill amount and select who is concerned, the bill is then split equitably between selected members');
+        var normalBillHint = t('cospend', 'Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost.');
         var customBillOption = t('cospend', 'Custom owed amount per member');
-        var customBillHint = t('cospend', 'Custom mode: Choose a payer, enter a custom owed amount for each member who is concerned and press "Create the bills". Multiple bills will be created.');
+        var customBillHint = t('cospend', 'Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press "Create the bills". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate.');
         var personalShareBillOption = t('cospend', 'Even split with optional personal parts');
-        var personalShareBillHint = t('cospend', 'Classic+personal mode: This mode is similar to the classic one. Enter a bill amount and the portion related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part.');
+        var personalShareBillHint = t('cospend', 'Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don\'t want to collectively pay.');
         var billTypeStr = t('cospend', 'Bill type');
 
         var addFileHtml = '';

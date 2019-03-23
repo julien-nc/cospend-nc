@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [#17](https://gitlab.com/eneiluj/cospend-nc/issues/17) @redplanet
 - ability to share a project with a group
 [#17](https://gitlab.com/eneiluj/cospend-nc/issues/17) @redplanet
+- new bill type: even split with personal parts
+[#14](https://gitlab.com/eneiluj/cospend-nc/issues/14) @swestersund
+- controller tests
 
 ### Changed
 - use NC DB methods instead of plain SQL

@@ -237,7 +237,9 @@
         }).always(function() {
             $('#addextproject').removeClass('icon-loading-small');
         }).fail(function(response) {
-            deleteExternalProject(id + '@' + ncurl);
+            if (select) {
+                deleteExternalProject(id + '@' + ncurl);
+            }
             OC.Notification.showTemporary(t('cospend', 'Failed to get external project') + ' ' + (response.responseText || ''));
         });
     }

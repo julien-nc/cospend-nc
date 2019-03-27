@@ -2486,9 +2486,11 @@
             var shareDiv = $(this).parent().parent().parent().find('.app-navigation-entry-share');
             if (shareDiv.is(':visible')) {
                 shareDiv.slideUp();
+                $(this).removeClass('activeButton');
             }
             else {
                 shareDiv.slideDown();
+                $(this).addClass('activeButton');
                 var defaultShareText = t('cospend', 'userName');
                 $(this).parent().parent().parent().find('.shareinput').val(defaultShareText).focus().select();
             }

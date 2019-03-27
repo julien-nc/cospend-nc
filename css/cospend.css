@@ -234,3 +234,6 @@ input[type=number] {
     width: 210px;
     margin: 0 auto;
 }
+.activeButton {
+    background: var(--color-background-darker);
+}

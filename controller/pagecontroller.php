@@ -112,8 +112,11 @@ class PageController extends ApiController {
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedImageDomain('*')
             ->addAllowedMediaDomain('*')
-            ->addAllowedChildSrcDomain('*')
-            ->addAllowedChildSrcDomain('*')
+            //->addAllowedChildSrcDomain('*')
+            ->addAllowedFrameDomain('*')
+            ->addAllowedWorkerSrcDomain('*')
+            //->allowInlineScript(true)
+            //->allowEvalScript(true)
             ->addAllowedObjectDomain('*')
             ->addAllowedScriptDomain('*')
             ->addAllowedConnectDomain('*');
@@ -138,8 +141,9 @@ class PageController extends ApiController {
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedImageDomain('*')
             ->addAllowedMediaDomain('*')
-            ->addAllowedChildSrcDomain('*')
-          //->addAllowedChildSrcDomain("'self'")
+            //->addAllowedChildSrcDomain('*')
+            ->addAllowedFrameDomain('*')
+            ->addAllowedWorkerSrcDomain('*')
             ->addAllowedObjectDomain('*')
             ->addAllowedScriptDomain('*')
             ->addAllowedConnectDomain('*');
@@ -162,8 +166,9 @@ class PageController extends ApiController {
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedImageDomain('*')
             ->addAllowedMediaDomain('*')
-            ->addAllowedChildSrcDomain('*')
-          //->addAllowedChildSrcDomain("'self'")
+            //->addAllowedChildSrcDomain('*')
+            ->addAllowedFrameDomain('*')
+            ->addAllowedWorkerSrcDomain('*')
             ->addAllowedObjectDomain('*')
             ->addAllowedScriptDomain('*')
             ->addAllowedConnectDomain('*');
@@ -188,8 +193,9 @@ class PageController extends ApiController {
             $csp = new ContentSecurityPolicy();
             $csp->addAllowedImageDomain('*')
                 ->addAllowedMediaDomain('*')
-                ->addAllowedChildSrcDomain('*')
-              //->addAllowedChildSrcDomain("'self'")
+                //->addAllowedChildSrcDomain('*')
+                ->addAllowedFrameDomain('*')
+                ->addAllowedWorkerSrcDomain('*')
                 ->addAllowedObjectDomain('*')
                 ->addAllowedScriptDomain('*')
                 ->addAllowedConnectDomain('*');
@@ -207,8 +213,9 @@ class PageController extends ApiController {
             $csp = new ContentSecurityPolicy();
             $csp->addAllowedImageDomain('*')
                 ->addAllowedMediaDomain('*')
-                ->addAllowedChildSrcDomain('*')
-              //->addAllowedChildSrcDomain("'self'")
+                //->addAllowedChildSrcDomain('*')
+                ->addAllowedFrameDomain('*')
+                ->addAllowedWorkerSrcDomain('*')
                 ->addAllowedObjectDomain('*')
                 ->addAllowedScriptDomain('*')
                 ->addAllowedConnectDomain('*');
@@ -296,7 +303,7 @@ class PageController extends ApiController {
                     );
                 $req = $qb->execute();
                 $dbProjectId = null;
-                while ($row = $req->fetch()){
+                while ($row = $req->fetch()) {
                     $dbProjectId = $row['projectid'];
                     break;
                 }

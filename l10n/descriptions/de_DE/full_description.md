@@ -18,7 +18,7 @@ Der [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android-Client ist bei
 * ♻ Abrechnungsplan anzeigen
 * 🎇 Erstelle Ausgleichszahlungen vom Abrechnungsplan (automatisch)
 * 🗓 Erstelle wiederkehrende Ausgaben (täglich/wöchentlich/monatlich/jährlich)
-* Gib bei neuen Ausgaben einen eigenen Betrag für jedes Mitglied an (optional)
+* 📊 Gib bei neuen Ausgaben einen eigenen Betrag für jedes Mitglied an (optional)
 * 🔗 Füge der Ausgabenbeschreibung eine persönliche Date mit einen öffentlichen Link hinzu (z.B. Bild der Quittung für eine Ausgabe)
 * 👩 Gastzugang für Personen ohne Nextcloud-Konto
 * 👫 Teile ein Projekt mit Nextcloud-Nutzern
@@ -36,14 +36,14 @@ Diese App befindet sich in der Entwicklung.
 
 ## Installieren
 
-See the [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc) for installation details.
+Finde Details zur Installation in der [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc).
 
-Check [CHANGELOG](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
+Schau in das [CHANGELOG](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) um zu sehen was gerade neu und zukünftig geplant ist.
 
-Check [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+Finde eine Liste aller Autoren in der [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) Datei.
 
 ## Bekannte Probleme
 
 * es macht dich nicht reich
 
-Any feedback will be appreciated.
+Jedes Feedback ist willkommen.

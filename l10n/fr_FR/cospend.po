@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
-"POT-Creation-Date: 2019-03-08 01:00+0100\n"
-"PO-Revision-Date: 2019-03-08 01:19\n"
+"POT-Creation-Date: 2019-03-21 13:02+0100\n"
+"PO-Revision-Date: 2019-03-21 14:01\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -20,31 +20,31 @@ msgstr ""
 msgid "Cospend"
 msgstr "Cospend"
 
-#: pagecontroller.php:2366 cospend.js:963
+#: pagecontroller.php:2767 cospend.js:971
 msgid "Who pays?"
 msgstr "Qui doit payer ?"
 
-#: pagecontroller.php:2366 cospend.js:964
+#: pagecontroller.php:2767 cospend.js:972
 msgid "To whom?"
 msgstr "À qui ?"
 
-#: pagecontroller.php:2366 cospend.js:965 cospend.js:1272
+#: pagecontroller.php:2767 cospend.js:973 cospend.js:1280
 msgid "How much?"
 msgstr "Combien ?"
 
-#: pagecontroller.php:2428 cospend.js:1087
+#: pagecontroller.php:2829 cospend.js:1095
 msgid "Member name"
 msgstr "Nom du membre"
 
-#: pagecontroller.php:2428 cospend.js:1088
+#: pagecontroller.php:2829 cospend.js:1096
 msgid "Paid"
 msgstr "A payé"
 
-#: pagecontroller.php:2428 cospend.js:1089
+#: pagecontroller.php:2829 cospend.js:1097
 msgid "Spent"
 msgstr "A dépensé"
 
-#: pagecontroller.php:2428 cospend.js:1090
+#: pagecontroller.php:2829 cospend.js:1098
 msgid "Balance"
 msgstr "Solde"
 
@@ -76,11 +76,11 @@ msgstr "Membre {name} créé"
 msgid "Failed to add member"
 msgstr "Échec de l'ajout du membre"
 
-#: cospend.js:378 cospend.js:1728
+#: cospend.js:378 cospend.js:1761
 msgid "Reactivate"
 msgstr "Réactiver"
 
-#: cospend.js:384 cospend.js:1722
+#: cospend.js:384 cospend.js:1755
 msgid "Deactivate"
 msgstr "Désactiver"
 
@@ -108,7 +108,7 @@ msgstr "Facture sauvegardée"
 msgid "Failed to save bill"
 msgstr "Échec de la sauvegarde de la facture"
 
-#: cospend.js:559 cospend.js:1194 cospend.js:1280 cospend.js:1420
+#: cospend.js:559 cospend.js:1202 cospend.js:1288 cospend.js:1445
 msgid "link"
 msgstr "lien"
 
@@ -120,317 +120,362 @@ msgstr "Impossible de supprimer le projet externe"
 msgid "Failed to save external project"
 msgstr "Impossible d'enregistrer le projet externe"
 
-#: cospend.js:697 cospend.js:1542
+#: cospend.js:701 cospend.js:1567
 msgid "Deleted {name}"
 msgstr "{name} supprimé"
 
-#: cospend.js:703
+#: cospend.js:707
 msgid "Saved project"
 msgstr "Projet sauvegardé"
 
-#: cospend.js:707
+#: cospend.js:711
 msgid "Failed to save project"
 msgstr "Échec de la sauvegarde du projet"
 
-#: cospend.js:759
+#: cospend.js:763
 msgid "Deleted project {id}"
 msgstr "Projet {id} supprimé"
 
-#: cospend.js:762
+#: cospend.js:766
 msgid "Failed to delete project"
 msgstr "Échec de la suppression du projet"
 
-#: cospend.js:801 cospend.js:1168 cospend.js:2213 cospend.js:2662
+#: cospend.js:805 cospend.js:1176 cospend.js:2341 cospend.js:2390
+#: cospend.js:2874
 msgid "No bill yet"
 msgstr "Pas encore de facture"
 
-#: cospend.js:806
+#: cospend.js:810
 msgid "Deleted bill"
 msgstr "Facture supprimée"
 
-#: cospend.js:809
+#: cospend.js:813
 msgid "Failed to delete bill"
 msgstr "Échec de la suppression de la facture"
 
-#: cospend.js:870
+#: cospend.js:878
 msgid "Failed to get projects"
 msgstr "Échec de la récupération des projets"
 
-#: cospend.js:909
+#: cospend.js:917
 msgid "Failed to get statistics"
 msgstr "Échec de la récupération des statistiques"
 
-#: cospend.js:949
+#: cospend.js:957
 msgid "Failed to get settlement"
 msgstr "Échec de la récupération des remboursements"
 
-#: cospend.js:962
+#: cospend.js:970
 msgid "Settlement of project {name}"
 msgstr "Remboursements du projet {name}"
 
-#: cospend.js:968 cospend.js:1093
+#: cospend.js:976 cospend.js:1101
 msgid "Export"
 msgstr "Exporter"
 
-#: cospend.js:970
+#: cospend.js:978
 msgid "Add these payments to project"
 msgstr "Ajouter ces paiements au projet"
 
-#: cospend.js:1018
+#: cospend.js:1026
 msgid "MoneyBuster link/QRCode for project {name}"
 msgstr "Lien/QRCode MoneyBuster pour le projet {name}"
 
-#: cospend.js:1024
+#: cospend.js:1032
 msgid "Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link."
 msgstr "Scannez ce QRCode avec un téléphone Android avec MoneyBuster installé et ouvrez le lien ou envoyez simplement le lien."
 
-#: cospend.js:1086
+#: cospend.js:1094
 msgid "Statistics of project {name}"
 msgstr "Statistiques du projet {name}"
 
-#: cospend.js:1172
+#: cospend.js:1180
 msgid "Failed to get bills"
 msgstr "Échec de la récupération des factures"
 
-#: cospend.js:1204 cospend.js:1287
+#: cospend.js:1212 cospend.js:1295
 msgid "Bill : {what}"
 msgstr "Facture : {what}"
 
-#: cospend.js:1271
+#: cospend.js:1279
 msgid "What?"
 msgstr "Quoi ?"
 
-#: cospend.js:1273
+#: cospend.js:1281
 msgid "Who payed?"
 msgstr "Qui a payé ?"
 
-#: cospend.js:1274
+#: cospend.js:1282
 msgid "When?"
 msgstr "Quand ?"
 
-#: cospend.js:1275
+#: cospend.js:1283
 msgid "For whom?"
 msgstr "Pour qui ?"
 
-#: cospend.js:1289
+#: cospend.js:1297
 msgid "All"
 msgstr "Tous"
 
-#: cospend.js:1290
+#: cospend.js:1298
 msgid "None"
 msgstr "Aucun"
 
-#: cospend.js:1291
-msgid "Custom amount per member"
-msgstr "Montants personnalisés par membre"
-
-#: cospend.js:1292
+#: cospend.js:1299
 msgid "Create bills"
 msgstr "Créer les factures"
 
-#: cospend.js:1293
+#: cospend.js:1300
 msgid "Attach public link to personal file"
 msgstr "Joindre un lien public vers un fichier personnel"
 
-#: cospend.js:1339
+#: cospend.js:1301
+msgid "Classic, even split"
+msgstr "Classique, partage équitable"
+
+#: cospend.js:1302
+msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
+msgstr "Mode classique : Choisissez un payeur, entrez un montant de facture et sélectionnez les membres concernés par la dépense toute entière. La facture est ensuite partagée équitablement entre les membres sélectionnés. Exemple dans la vie réelle : Une personne paye toute l'addition au restaurant et tout le monde est d'accord pour partager équitablement la dépense."
+
+#: cospend.js:1303
+msgid "Custom owed amount per member"
+msgstr "Montants personnalisés par membre"
+
+#: cospend.js:1304
+msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
+msgstr "Mode personnalisé, partage non-équitable : Choisissez un payeur, ignorez le montant global de la facture (qui est grisé) et entrez le montant personnalisé dû par chaque membre concerné par la facture. Ensuite appuyez sur \"Créer les factures\". Plusieurs factures vont être créées. Exemple dans la vie réelle : Une personne paye l'addition au restaurant mais il y a de grosses différences de prix entre ce que chaque personne a consommé."
+
+#: cospend.js:1305
+msgid "Even split with optional personal parts"
+msgstr "Partage équitable avec d'éventuelles parties personnelles"
+
+#: cospend.js:1306
+msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
+msgstr "Mode classique+personnel : Ce mode est similaire au mode classique. Choisissez un payeur et entrez le montant effectivement payé par ce payeur. Ensuite sélectionnez les membres concernés par cette facture et entrez éventuellement le montant dépensé concernant ce membre uniquement. Plusieurs factures vont être créées : une pour la dépense partagée et une pour chaque part personnelle. Exemple dans la vie réelle : Nous allons faire des courses. Une partie de ce qui a été acheté concerne le groupe mais quelqu'un a aussi ajouté un article personnel (comme un vêtement) que les autres ne veulent pas payer collectivement."
+
+#: cospend.js:1307
+msgid "Bill type"
+msgstr "Type de facture"
+
+#: cospend.js:1353
 msgid "Repeat this bill every"
 msgstr "Répéter cette facture tous les"
 
-#: cospend.js:1342
+#: cospend.js:1356
 msgid "do not repeat"
 msgstr "ne pas répéter"
 
-#: cospend.js:1343
+#: cospend.js:1357
 msgid "day"
 msgstr "jours"
 
-#: cospend.js:1344
+#: cospend.js:1358
 msgid "week"
 msgstr "semaines"
 
-#: cospend.js:1345
+#: cospend.js:1359
 msgid "month"
 msgstr "mois"
 
-#: cospend.js:1346
+#: cospend.js:1360
 msgid "year"
 msgstr "ans"
 
-#: cospend.js:1405 cospend.js:1431
+#: cospend.js:1430 cospend.js:1456
 msgid "Member list is not up to date. Reloading in 5 sec."
 msgstr "La liste des membres n’est pas à jour. Rechargement dans 5 sec."
 
-#: cospend.js:1514
+#: cospend.js:1539
 msgid "Failed to update balances"
 msgstr "Échec de la mise à jour des balances"
 
-#: cospend.js:1527
+#: cospend.js:1552
 msgid "Add member"
 msgstr "Ajouter un membre"
 
-#: cospend.js:1528 mainnavigation.php:70
+#: cospend.js:1553 mainnavigation.php:70
 msgid "Guest access link"
 msgstr "Lien d'accès invité"
 
-#: cospend.js:1529 cospend.js:1733
+#: cospend.js:1554 cospend.js:1766
 msgid "Rename"
 msgstr "Renommer"
 
-#: cospend.js:1530
+#: cospend.js:1555
 msgid "Change password"
 msgstr "Changer le mot de passe"
 
-#: cospend.js:1531
+#: cospend.js:1556
 msgid "Display statistics"
 msgstr "Afficher les statistiques"
 
-#: cospend.js:1532
+#: cospend.js:1557
 msgid "Settle the project"
 msgstr "Remboursements du projet"
 
-#: cospend.js:1533
+#: cospend.js:1558
 msgid "Export to csv"
 msgstr "Exporter en csv"
 
-#: cospend.js:1536
+#: cospend.js:1561
 msgid "Delete remote project"
 msgstr "Supprimer le projet distant"
 
-#: cospend.js:1539
+#: cospend.js:1564
 msgid "Delete"
 msgstr "Supprimer"
 
-#: cospend.js:1541
+#: cospend.js:1566
 msgid "Link/QRCode for MoneyBuster"
 msgstr "Lien/QRCode pour MoneyBuster"
 
-#: cospend.js:1543
+#: cospend.js:1568
 msgid "Remove"
 msgstr "Enlever"
 
-#: cospend.js:1544
+#: cospend.js:1569
 msgid "Press enter to validate"
 msgstr "Appuyez sur entrée pour valider"
 
-#: cospend.js:1734
+#: cospend.js:1767
 msgid "Change weight"
 msgstr "Changer le poids"
 
-#: cospend.js:1860
+#: cospend.js:1893
 msgid "Bill values are not valid"
 msgstr "Les valeurs de la facture sont invalides"
 
-#: cospend.js:1879
+#: cospend.js:1912
 msgid "Failed to save option values"
 msgstr "Échec de la sauvegarde des options"
 
-#: cospend.js:1909
+#: cospend.js:1942
 msgid "Failed to restore options values"
 msgstr "Échec de la restauration des options"
 
-#: cospend.js:1935
+#: cospend.js:1973
 msgid "Failed to get user list"
 msgstr "Impossible d'obtenir la liste des utilisateurs"
 
-#: cospend.js:1954
+#: cospend.js:1992
 msgid "Shared project {pname} with {uname}"
 msgstr "Projet {pname} partagé avec {uname}"
 
-#: cospend.js:1958
+#: cospend.js:1996
 msgid "Failed to add user share"
 msgstr "Échec de l'ajout du partage"
 
-#: cospend.js:1964
+#: cospend.js:2002
 msgid "Shared with {u}"
 msgstr "Partagé avec {u}"
 
-#: cospend.js:1990
+#: cospend.js:2028
 msgid "Failed to delete user share"
 msgstr "Échec de la suppression du partage"
 
-#: cospend.js:2036
+#: cospend.js:2047
+msgid "Shared project {pname} with group {gname}"
+msgstr "Project {pname} partagé avec le groupe {gname}"
+
+#: cospend.js:2051
+msgid "Failed to add group share"
+msgstr "Impossible d'ajouter le partage au groupe"
+
+#: cospend.js:2057
+msgid "Shared with group {g}"
+msgstr "Partagé avec le groupe {g}"
+
+#: cospend.js:2083
+msgid "Failed to delete group share"
+msgstr "Impossible d'effacer le partage au groupe"
+
+#: cospend.js:2129
 msgid "Failed to generate public link to file"
 msgstr "Impossible de générer le lien public vers le fichier"
 
-#: cospend.js:2052
+#: cospend.js:2145
 msgid "Project exported in {path}"
 msgstr "Projet exporté dans {path}"
 
-#: cospend.js:2056
+#: cospend.js:2149
 msgid "Failed to export project"
 msgstr "Impossible d'exporter le projet"
 
-#: cospend.js:2072
+#: cospend.js:2165
 msgid "Project statistics exported in {path}"
 msgstr "Statistiques du projet exportées dans {path}"
 
-#: cospend.js:2076
+#: cospend.js:2169
 msgid "Failed to export project statistics"
 msgstr "Impossible d'exporter les statistiques du projet"
 
-#: cospend.js:2092
+#: cospend.js:2185
 msgid "Project settlement exported in {path}"
 msgstr "Remboursements du projet exportées dans {path}"
 
-#: cospend.js:2096
+#: cospend.js:2189
 msgid "Failed to export project settlement"
 msgstr "Impossible d'exporter les remboursements du projet"
 
-#: cospend.js:2130
+#: cospend.js:2223
 msgid "Project settlement bills added"
 msgstr "Factures de remboursement ajoutées au projet"
 
-#: cospend.js:2134
+#: cospend.js:2227
 msgid "Failed to add project settlement bills"
 msgstr "Impossible d'ajouter les factures de remboursement du projet"
 
-#: cospend.js:2140
+#: cospend.js:2233
 msgid "Only CSV files can be imported"
 msgstr "Seuls les fichiers CSV peuvent être importés"
 
-#: cospend.js:2159
+#: cospend.js:2252
 msgid "Failed to import project file"
 msgstr "Impossible d'importer le fichier de projet"
 
-#: cospend.js:2219
-msgid "There is no custom amount"
-msgstr "Il n'y a pas de montant personnalisé"
+#: cospend.js:2313
+msgid "Personal parts are bigger than the paid amount"
+msgstr "Les parts personnelles sont plus grosses que le montant payé"
 
-#: cospend.js:2223 cospend.js:2344 cospend.js:2357 cospend.js:2370
-#: cospend.js:2402 cospend.js:2415 cospend.js:2428 cospend.js:2469
-#: cospend.js:2481
+#: cospend.js:2347 cospend.js:2400 cospend.js:2541 cospend.js:2554
+#: cospend.js:2567 cospend.js:2599 cospend.js:2612 cospend.js:2625
+#: cospend.js:2666 cospend.js:2678
 msgid "Invalid values"
 msgstr "Valeurs invalides"
 
-#: cospend.js:2293
+#: cospend.js:2396
+msgid "There is no custom amount"
+msgstr "Il n'y a pas de montant personnalisé"
+
+#: cospend.js:2490
 msgid "userName"
 msgstr "nomDUtilisateur"
 
-#: cospend.js:2458
+#: cospend.js:2655
 msgid "newMemberName"
 msgstr "nomNouveauMembre"
 
-#: cospend.js:2680
+#: cospend.js:2892
 msgid "New Bill"
 msgstr "Nouvelle facture"
 
-#: cospend.js:2692
+#: cospend.js:2904
 msgid "2 active members are required to create a bill"
 msgstr "2 membres actifs sont nécessaires pour créer une facture"
 
-#: cospend.js:2730
+#: cospend.js:2942
 msgid "Guest link for '{pid}' copied to clipboard"
 msgstr "Lien invité pour '{pid}' copié dans le presse-papier"
 
-#: cospend.js:2743
+#: cospend.js:2955
 msgid "Guest link copied to clipboard"
 msgstr "Lien invité copié dans le presse-papier"
 
-#: cospend.js:2752
+#: cospend.js:2964
 msgid "Choose file"
 msgstr "Choisissez un fichier"
 
-#: cospend.js:2762
+#: cospend.js:2974
 msgid "Choose csv project file"
 msgstr "Choisissez un fichier de projet csv"
 

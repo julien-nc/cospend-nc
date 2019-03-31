@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.0.8 – 2019-03-31
+### Fixed
+- stupid bug in some SQL queries (was invisible in SQLite...)
+[#22](https://gitlab.com/eneiluj/cospend-nc/issues/22) @Questlog
+
 ## 0.0.7 – 2019-03-30
 ### Added
 - don't put disabled users in share autocomplete

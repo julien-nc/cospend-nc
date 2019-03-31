@@ -624,7 +624,7 @@ class PageController extends ApiController {
            ->from('cospend_projects', 'p')
            ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
            ->where(
-               $qb->expr()->eq('s.userid', $this->userId)
+               $qb->expr()->eq('s.userid', $qb->createNamedParameter($this->userId, IQueryBuilder::PARAM_STR))
            )
            ->andWhere(
                $qb->expr()->eq('s.isgroupshare', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
@@ -684,7 +684,7 @@ class PageController extends ApiController {
                     ->from('cospend_projects', 'p')
                     ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
                     ->where(
-                        $qb->expr()->eq('s.userid', $candidateGroupId)
+                        $qb->expr()->eq('s.userid', $qb->createNamedParameter($candidateGroupId, IQueryBuilder::PARAM_STR))
                     )
                     ->andWhere(
                         $qb->expr()->eq('s.isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
@@ -1521,7 +1521,7 @@ class PageController extends ApiController {
         $members = [];
 
         // LOWER does not work
-        $sqlOrder = 'LOWER(name)';
+        $sqlOrder = 'name';
         if ($order !== null) {
             $sqlOrder = $order;
         }

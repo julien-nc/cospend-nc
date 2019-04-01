@@ -2827,22 +2827,30 @@
         });
 
         $('body').on('click', '#owerAll', function(e) {
+            var billtype = $('#billtype').val();
             var projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
             for (var memberid in cospend.members[projectid]) {
                 if (cospend.members[projectid][memberid].activated) {
                     $('.bill-owers input[owerid='+memberid+']').prop('checked', true);
                 }
             }
+            if (billtype === 'perso') {
+                $('.bill-owers .amountinput').show();
+            }
             //$('.owerEntry input').prop('checked', true);
             onBillEdited();
         });
 
         $('body').on('click', '#owerNone', function(e) {
+            var billtype = $('#billtype').val();
             var projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
             for (var memberid in cospend.members[projectid]) {
                 if (cospend.members[projectid][memberid].activated) {
                     $('.bill-owers input[owerid='+memberid+']').prop('checked', false);
                 }
+            }
+            if (billtype === 'perso') {
+                $('.bill-owers .amountinput').hide();
             }
             //$('.owerEntry input').prop('checked', false);
             onBillEdited();

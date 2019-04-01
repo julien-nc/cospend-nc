@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
 "POT-Creation-Date: 2019-03-21 13:02+0100\n"
-"PO-Revision-Date: 2019-03-21 12:04\n"
+"PO-Revision-Date: 2019-04-02 00:36\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -18,566 +18,566 @@ msgstr ""
 
 #: app.php:27 app.php:48 admin.php:7
 msgid "Cospend"
-msgstr ""
+msgstr "Cospend"
 
 #: pagecontroller.php:2767 cospend.js:971
 msgid "Who pays?"
-msgstr ""
+msgstr "Quem paga?"
 
 #: pagecontroller.php:2767 cospend.js:972
 msgid "To whom?"
-msgstr ""
+msgstr "A quem?"
 
 #: pagecontroller.php:2767 cospend.js:973 cospend.js:1280
 msgid "How much?"
-msgstr ""
+msgstr "Quanto?"
 
 #: pagecontroller.php:2829 cospend.js:1095
 msgid "Member name"
-msgstr ""
+msgstr "Nome do membro"
 
 #: pagecontroller.php:2829 cospend.js:1096
 msgid "Paid"
-msgstr ""
+msgstr "Pago"
 
 #: pagecontroller.php:2829 cospend.js:1097
 msgid "Spent"
-msgstr ""
+msgstr "Gasto"
 
 #: pagecontroller.php:2829 cospend.js:1098
 msgid "Balance"
-msgstr ""
+msgstr "Saldo"
 
 #: admin.js:19
 msgid "Saved Cospend setting"
-msgstr ""
+msgstr "Configuração do Cospend guardada"
 
 #: admin.js:23
 msgid "Failed to save Cospend setting"
-msgstr ""
+msgstr "Falha ao guardar a configuração do Cospend"
 
 #: cospend.js:205
 msgid "Failed to add external project"
-msgstr ""
+msgstr "Falha ao adicionar projecto externo"
 
 #: cospend.js:241
 msgid "Failed to get external project"
-msgstr ""
+msgstr "Falha ao obter projecto externo"
 
 #: cospend.js:280
 msgid "Failed to create project"
-msgstr ""
+msgstr "Falha ao criar o projecto"
 
 #: cospend.js:322
 msgid "Created member {name}"
-msgstr ""
+msgstr "Membro {name} criado"
 
 #: cospend.js:326
 msgid "Failed to add member"
-msgstr ""
+msgstr "Falha ao adicionar membro"
 
 #: cospend.js:378 cospend.js:1761
 msgid "Reactivate"
-msgstr ""
+msgstr "Reactivar"
 
 #: cospend.js:384 cospend.js:1755
 msgid "Deactivate"
-msgstr ""
+msgstr "Desactivar"
 
 #: cospend.js:398
 msgid "Saved member"
-msgstr ""
+msgstr "Membro guardado"
 
 #: cospend.js:406
 msgid "Failed to save member"
-msgstr ""
+msgstr "Falha ao guardar membro"
 
 #: cospend.js:469
 msgid "Bill created"
-msgstr ""
+msgstr "Factura criada"
 
 #: cospend.js:473
 msgid "Failed to create bill"
-msgstr ""
+msgstr "Falha ao criar factura"
 
 #: cospend.js:531
 msgid "Saved bill"
-msgstr ""
+msgstr "Factura guardada"
 
 #: cospend.js:536
 msgid "Failed to save bill"
-msgstr ""
+msgstr "Falha ao guardar factura"
 
 #: cospend.js:559 cospend.js:1202 cospend.js:1288 cospend.js:1445
 msgid "link"
-msgstr ""
+msgstr "ligação"
 
 #: cospend.js:612
 msgid "Failed to delete external project"
-msgstr ""
+msgstr "Falha ao eliminar projecto externo"
 
 #: cospend.js:640
 msgid "Failed to save external project"
-msgstr ""
+msgstr "Falho ao guardar projecto externo"
 
 #: cospend.js:701 cospend.js:1567
 msgid "Deleted {name}"
-msgstr ""
+msgstr "Eliminado {name}"
 
 #: cospend.js:707
 msgid "Saved project"
-msgstr ""
+msgstr "Projecto guardado"
 
 #: cospend.js:711
 msgid "Failed to save project"
-msgstr ""
+msgstr "Falha ao guardar projecto"
 
 #: cospend.js:763
 msgid "Deleted project {id}"
-msgstr ""
+msgstr "Projecto {id} eliminado"
 
 #: cospend.js:766
 msgid "Failed to delete project"
-msgstr ""
+msgstr "Falhou a eliminação do projecto"
 
 #: cospend.js:805 cospend.js:1176 cospend.js:2341 cospend.js:2390
 #: cospend.js:2874
 msgid "No bill yet"
-msgstr ""
+msgstr "Ainda não há facturas"
 
 #: cospend.js:810
 msgid "Deleted bill"
-msgstr ""
+msgstr "Factura eliminada"
 
 #: cospend.js:813
 msgid "Failed to delete bill"
-msgstr ""
+msgstr "Falha ao eliminar a factura"
 
 #: cospend.js:878
 msgid "Failed to get projects"
-msgstr ""
+msgstr "Falha ao obter projectos"
 
 #: cospend.js:917
 msgid "Failed to get statistics"
-msgstr ""
+msgstr "Falha ao obter estatísticas"
 
 #: cospend.js:957
 msgid "Failed to get settlement"
-msgstr ""
+msgstr "Falha ao obter liquidação"
 
 #: cospend.js:970
 msgid "Settlement of project {name}"
-msgstr ""
+msgstr "Liquidação do projecto {name}"
 
 #: cospend.js:976 cospend.js:1101
 msgid "Export"
-msgstr ""
+msgstr "Exportar"
 
 #: cospend.js:978
 msgid "Add these payments to project"
-msgstr ""
+msgstr "Adicionar estes pagamentos ao projecto"
 
 #: cospend.js:1026
 msgid "MoneyBuster link/QRCode for project {name}"
-msgstr ""
+msgstr "Ligação ou código-QR para o projecto MoneyBuster {name}"
 
 #: cospend.js:1032
 msgid "Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link."
-msgstr ""
+msgstr "Leia este código-QR com um telemóvel Android com o MoneyBuster instalado e abra a ligação ou simplesmente envie a ligação."
 
 #: cospend.js:1094
 msgid "Statistics of project {name}"
-msgstr ""
+msgstr "Estatísticas do projecto {name}"
 
 #: cospend.js:1180
 msgid "Failed to get bills"
-msgstr ""
+msgstr "Falha ao obter facturas"
 
 #: cospend.js:1212 cospend.js:1295
 msgid "Bill : {what}"
-msgstr ""
+msgstr "Factura: {what}"
 
 #: cospend.js:1279
 msgid "What?"
-msgstr ""
+msgstr "O quê?"
 
 #: cospend.js:1281
 msgid "Who payed?"
-msgstr ""
+msgstr "Quem pagou?"
 
 #: cospend.js:1282
 msgid "When?"
-msgstr ""
+msgstr "Quando?"
 
 #: cospend.js:1283
 msgid "For whom?"
-msgstr ""
+msgstr "Para quem?"
 
 #: cospend.js:1297
 msgid "All"
-msgstr ""
+msgstr "Todos"
 
 #: cospend.js:1298
 msgid "None"
-msgstr ""
+msgstr "Ninguém"
 
 #: cospend.js:1299
 msgid "Create bills"
-msgstr ""
+msgstr "Criar facturas"
 
 #: cospend.js:1300
 msgid "Attach public link to personal file"
-msgstr ""
+msgstr "Anexar ligação pública a um ficheiro pessoal"
 
 #: cospend.js:1301
 msgid "Classic, even split"
-msgstr ""
+msgstr "Clássico, dividir por igual"
 
 #: cospend.js:1302
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
-msgstr ""
+msgstr "Modo clássico: Escolha um pagador, digite um valor da factura e seccione quem está incluído na despesa inteira. A factura é então dividida equitativamente entre os membros seleccionados. Exemplo da vida real: Uma pessoa paga a factura do restaurante por inteiro e todos concordam em dividir o custo."
 
 #: cospend.js:1303
 msgid "Custom owed amount per member"
-msgstr ""
+msgstr "Valor da dívida personalizado para cada membro"
 
 #: cospend.js:1304
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
-msgstr ""
+msgstr "Modo personalizado, divisão desigual: Escolha um pagador, ignore o valor da factura (que está desactivado) e insira um valor personalizado da dívida de cada membro envolvido. Em seguida, clique em \"Criar as facturas\". Irão ser criadas várias facturas. Exemplo da vida real: Uma pessoa paga a factura do restaurante por inteiro, mas existem grandes diferenças de preço entre o que cada pessoa comeu."
 
 #: cospend.js:1305
 msgid "Even split with optional personal parts"
-msgstr ""
+msgstr "Divisão por igual com partes pessoais opcionais"
 
 #: cospend.js:1306
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
-msgstr ""
+msgstr "Modo clássico+pessoal: Este modo é semelhante ao clássico. Escolha um pagador e digite um valor de factura correspondente ao que foi realmente pago. Em seguida, seleccione quem está implicado na factura e, opcionalmente, defina um valor relativo a partes pessoais para alguns membros. Irão ser criadas várias facturas: uma para a despesa partilhada e outra para cada parte pessoal. Exemplo da vida real: Vamos às compras, parte do que foi comprado diz respeito ao grupo mas alguém adicionou também algo pessoal (tal como uma camisa) que os outros não querem pagar colectivamente."
 
 #: cospend.js:1307
 msgid "Bill type"
-msgstr ""
+msgstr "Tipo de factura"
 
 #: cospend.js:1353
 msgid "Repeat this bill every"
-msgstr ""
+msgstr "Repetir esta factura a cada"
 
 #: cospend.js:1356
 msgid "do not repeat"
-msgstr ""
+msgstr "não repetir"
 
 #: cospend.js:1357
 msgid "day"
-msgstr ""
+msgstr "dia"
 
 #: cospend.js:1358
 msgid "week"
-msgstr ""
+msgstr "semana"
 
 #: cospend.js:1359
 msgid "month"
-msgstr ""
+msgstr "mês"
 
 #: cospend.js:1360
 msgid "year"
-msgstr ""
+msgstr "ano"
 
 #: cospend.js:1430 cospend.js:1456
 msgid "Member list is not up to date. Reloading in 5 sec."
-msgstr ""
+msgstr "A lista de membros não está actualizada. Recarregando em 5 seg."
 
 #: cospend.js:1539
 msgid "Failed to update balances"
-msgstr ""
+msgstr "Falha ao actualizar saldos"
 
 #: cospend.js:1552
 msgid "Add member"
-msgstr ""
+msgstr "Adicionar membro"
 
 #: cospend.js:1553 mainnavigation.php:70
 msgid "Guest access link"
-msgstr ""
+msgstr "Ligação de acesso de convidado"
 
 #: cospend.js:1554 cospend.js:1766
 msgid "Rename"
-msgstr ""
+msgstr "Renomear"
 
 #: cospend.js:1555
 msgid "Change password"
-msgstr ""
+msgstr "Alterar senha"
 
 #: cospend.js:1556
 msgid "Display statistics"
-msgstr ""
+msgstr "Exibir estatísticas"
 
 #: cospend.js:1557
 msgid "Settle the project"
-msgstr ""
+msgstr "Liquidar o projecto"
 
 #: cospend.js:1558
 msgid "Export to csv"
-msgstr ""
+msgstr "Exportar para CSV"
 
 #: cospend.js:1561
 msgid "Delete remote project"
-msgstr ""
+msgstr "Eliminar projecto remoto"
 
 #: cospend.js:1564
 msgid "Delete"
-msgstr ""
+msgstr "Eliminar"
 
 #: cospend.js:1566
 msgid "Link/QRCode for MoneyBuster"
-msgstr ""
+msgstr "Ligação/código-QR para MoneyBuster"
 
 #: cospend.js:1568
 msgid "Remove"
-msgstr ""
+msgstr "Remover"
 
 #: cospend.js:1569
 msgid "Press enter to validate"
-msgstr ""
+msgstr "Prima Enter para validar"
 
 #: cospend.js:1767
 msgid "Change weight"
-msgstr ""
+msgstr "Alterar peso"
 
 #: cospend.js:1893
 msgid "Bill values are not valid"
-msgstr ""
+msgstr "Valores da factura não são válidos"
 
 #: cospend.js:1912
 msgid "Failed to save option values"
-msgstr ""
+msgstr "Falha ao guardar valores das opções"
 
 #: cospend.js:1942
 msgid "Failed to restore options values"
-msgstr ""
+msgstr "Falha ao restaurar valores das opções"
 
 #: cospend.js:1973
 msgid "Failed to get user list"
-msgstr ""
+msgstr "Falha ao obter lista de utilizadores"
 
 #: cospend.js:1992
 msgid "Shared project {pname} with {uname}"
-msgstr ""
+msgstr "Projecto partilhado {pname} com {uname}"
 
 #: cospend.js:1996
 msgid "Failed to add user share"
-msgstr ""
+msgstr "Falha ao adicionar partilha de utilizador"
 
 #: cospend.js:2002
 msgid "Shared with {u}"
-msgstr ""
+msgstr "Partilhado com {u}"
 
 #: cospend.js:2028
 msgid "Failed to delete user share"
-msgstr ""
+msgstr "Falha ao eliminar partilha de utilizador"
 
 #: cospend.js:2047
 msgid "Shared project {pname} with group {gname}"
-msgstr ""
+msgstr "Projecto partilhado {pname} com {gname}"
 
 #: cospend.js:2051
 msgid "Failed to add group share"
-msgstr ""
+msgstr "Falha ao adicionar partilha de grupo"
 
 #: cospend.js:2057
 msgid "Shared with group {g}"
-msgstr ""
+msgstr "Partilhado com o grupo {g}"
 
 #: cospend.js:2083
 msgid "Failed to delete group share"
-msgstr ""
+msgstr "Falha ao eliminar partilha de grupo"
 
 #: cospend.js:2129
 msgid "Failed to generate public link to file"
-msgstr ""
+msgstr "Falha ao gerar ligação pública para o ficheiro"
 
 #: cospend.js:2145
 msgid "Project exported in {path}"
-msgstr ""
+msgstr "Projecto exportado em {path}"
 
 #: cospend.js:2149
 msgid "Failed to export project"
-msgstr ""
+msgstr "Falha ao exportar projecto"
 
 #: cospend.js:2165
 msgid "Project statistics exported in {path}"
-msgstr ""
+msgstr "Estatísticas do projecto exportadas em {path}"
 
 #: cospend.js:2169
 msgid "Failed to export project statistics"
-msgstr ""
+msgstr "Falha ao exportar estatísticas do projecto"
 
 #: cospend.js:2185
 msgid "Project settlement exported in {path}"
-msgstr ""
+msgstr "Liquidação do projecto exportada em {path}"
 
 #: cospend.js:2189
 msgid "Failed to export project settlement"
-msgstr ""
+msgstr "Falha ao exportar a liquidação do projecto"
 
 #: cospend.js:2223
 msgid "Project settlement bills added"
-msgstr ""
+msgstr "Facturas de liquidação do projecto adicionadas"
 
 #: cospend.js:2227
 msgid "Failed to add project settlement bills"
-msgstr ""
+msgstr "Falha ao adicionar facturas de liquidação do projecto"
 
 #: cospend.js:2233
 msgid "Only CSV files can be imported"
-msgstr ""
+msgstr "Somente ficheiros CSV podem ser importados"
 
 #: cospend.js:2252
 msgid "Failed to import project file"
-msgstr ""
+msgstr "Falha ao importar ficheiro de projecto"
 
 #: cospend.js:2313
 msgid "Personal parts are bigger than the paid amount"
-msgstr ""
+msgstr "Partes pessoais são maiores do que o valor pago"
 
 #: cospend.js:2347 cospend.js:2400 cospend.js:2541 cospend.js:2554
 #: cospend.js:2567 cospend.js:2599 cospend.js:2612 cospend.js:2625
 #: cospend.js:2666 cospend.js:2678
 msgid "Invalid values"
-msgstr ""
+msgstr "Valores inválidos"
 
 #: cospend.js:2396
 msgid "There is no custom amount"
-msgstr ""
+msgstr "Não há qualquer valor personalizado"
 
 #: cospend.js:2490
 msgid "userName"
-msgstr ""
+msgstr "nome do utilizador"
 
 #: cospend.js:2655
 msgid "newMemberName"
-msgstr ""
+msgstr "novo membro"
 
 #: cospend.js:2892
 msgid "New Bill"
-msgstr ""
+msgstr "Nova factura"
 
 #: cospend.js:2904
 msgid "2 active members are required to create a bill"
-msgstr ""
+msgstr "São necessários pelo menos dois membros activos para criar uma factura"
 
 #: cospend.js:2942
 msgid "Guest link for '{pid}' copied to clipboard"
-msgstr ""
+msgstr "Ligação de convidado para '{pid}' copiado para a área de transferência"
 
 #: cospend.js:2955
 msgid "Guest link copied to clipboard"
-msgstr ""
+msgstr "Ligação de convidado copiado para a área de transferência"
 
 #: cospend.js:2964
 msgid "Choose file"
-msgstr ""
+msgstr "Escolher ficheiro"
 
 #: cospend.js:2974
 msgid "Choose csv project file"
-msgstr ""
+msgstr "Escolha o ficheiro de projecto CSV"
 
 #: Notification/Notifier.php:67
 #, php-format
 msgid "User \"%s\" shared Cospend project \"%s\" with you."
-msgstr ""
+msgstr "O utilizador \"%s\" partilhou o projecto Cospend \"%s\" consigo."
 
 #: Notification/Notifier.php:75
 #, php-format
 msgid "User \"%s\" stopped sharing Cospend project \"%s\" with you."
-msgstr ""
+msgstr "O utilizador \"%s\" deixou de partilhar o projecto Cospend \"%s\" consigo."
 
 #: admin.php:8 admin.php:17
 msgid "Allow guests to create projects"
-msgstr ""
+msgstr "Permitir que os convidados criem projectos"
 
 #: admin.php:9
 msgid "Enabling this option will allow any visitor to create a project without having to log in."
-msgstr ""
+msgstr "Activar esta opção permitirá que qualquer visitante crie um projecto sem ter de iniciar uma sessão."
 
 #: admin.php:10
 msgid "This can be useful if you are in a local network and want to let anybody create a project."
-msgstr ""
+msgstr "Isso pode ser útil se estiver numa rede local e quiser deixar qualquer pessoa criar um projecto."
 
 #: admin.php:11
 msgid "Or maybe you are very generous and want to allow the entire world to use Cospend without having an account on your Nextcloud instance."
-msgstr ""
+msgstr "Ou talvez por generosidade queira permitir que toda a gente use o Cospend sem ter uma conta na sua instância Nextcloud."
 
 #: logincontent.php:2
 msgid "Authentication"
-msgstr ""
+msgstr "Autenticação"
 
 #: logincontent.php:7
 msgid "Wrong project Id or password"
-msgstr ""
+msgstr "ID ou senha do projecto incorrectos"
 
 #: logincontent.php:12
 msgid "Project ID"
-msgstr ""
+msgstr "ID do projecto"
 
 #: logincontent.php:21
 msgid "Project password (aka Access code)"
-msgstr ""
+msgstr "Senha do projecto (também conhecido como Código de Acesso)"
 
 #: mainnavigation.php:6
 msgid "New project"
-msgstr ""
+msgstr "Novo projecto"
 
 #: mainnavigation.php:11 mainnavigation.php:53
 msgid "project id"
-msgstr ""
+msgstr "ID do projecto"
 
 #: mainnavigation.php:12 mainnavigation.php:54
 msgid "myProjectId"
-msgstr ""
+msgstr "myProjectId"
 
 #: mainnavigation.php:14
 msgid "name"
-msgstr ""
+msgstr "nome"
 
 #: mainnavigation.php:15
 msgid "My project name"
-msgstr ""
+msgstr "Nome do meu projecto"
 
 #: mainnavigation.php:17
 msgid "password (optional)"
-msgstr ""
+msgstr "senha (opcional)"
 
 #: mainnavigation.php:20
 msgid "Add project"
-msgstr ""
+msgstr "Adicionar projecto"
 
 #: mainnavigation.php:26
 msgid "New bill"
-msgstr ""
+msgstr "Nova factura"
 
 #: mainnavigation.php:38
 msgid "Settings"
-msgstr ""
+msgstr "Configurações"
 
 #: mainnavigation.php:44
 msgid "Add external project"
-msgstr ""
+msgstr "Adicionar projecto externo"
 
 #: mainnavigation.php:49
 msgid "Nextcloud address"
-msgstr ""
+msgstr "Endereço Nextcloud"
 
 #: mainnavigation.php:50
 msgid "https://other.nextcloud.instance.net"
-msgstr ""
+msgstr "https://outra.instancia.nextcloud.na.net"
 
 #: mainnavigation.php:57
 msgid "password"
-msgstr ""
+msgstr "senha"
 
 #: mainnavigation.php:60
 msgid "Add"
-msgstr ""
+msgstr "Adicionar"
 
 #: mainnavigation.php:67
 msgid "Import csv project file"
-msgstr ""
+msgstr "Importar ficheiro de projecto CSV"
 

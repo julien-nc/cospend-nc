@@ -1194,6 +1194,7 @@
         var c = {h: 0, s: 0, l: 50};
         if (billid !== 0) {
             $('.bill-type').hide();
+            $('#owerValidate').hide();
             var payerName = getMemberName(projectid, payer_id);
             c = getMemberColor(payerName);
         }
@@ -1395,6 +1396,7 @@
         }
         else {
             $('.bill-type').show();
+            $('#owerValidate').show();
         }
     }
 
@@ -1816,6 +1818,54 @@
         $(li).appendTo('#projectlist li.projectitem[projectid="'+projectid+'"] .memberlist');
     }
 
+    function createNormalBill() {
+        // get bill info
+        var billid = $('.bill-title').attr('billid');
+        var projectid = $('.bill-title').attr('projectid');
+        // check fields validity
+        var valid = true;
+
+        var what = $('.input-bill-what').val();
+        var date = $('.input-bill-date').val();
+        var amount = parseFloat($('.input-bill-amount').val());
+        var payer_id = parseInt($('.input-bill-payer').val());
+        var repeat = $('#repeatbill').val();
+        var owerIds = [];
+        var owerId;
+        $('.owerEntry input').each(function() {
+            if ($(this).is(':checked')) {
+                owerId = parseInt($(this).attr('owerid'));
+                if (isNaN(owerId)) {
+                    valid = false;
+                }
+                else {
+                    owerIds.push(owerId);
+                }
+            }
+        });
+
+        if (what === null || what === '') {
+            valid = false;
+        }
+        if (date === null || date === '' || date.match(/^\d\d\d\d-\d\d-\d\d$/g) === null) {
+            valid = false;
+        }
+        if (isNaN(amount) || isNaN(payer_id)) {
+            valid = false;
+        }
+        if (owerIds.length === 0) {
+            valid = false;
+        }
+
+        // if valid, save the bill or create it if needed
+        if (valid) {
+            createBill(projectid, what, amount, payer_id, date, owerIds, repeat);
+        }
+        else {
+            OC.Notification.showTemporary(t('cospend', 'Bill values are not valid'));
+        }
+    }
+
     function onBillEdited() {
         // get bill info
         var billid = $('.bill-title').attr('billid');
@@ -1824,7 +1874,7 @@
         var valid = true;
 
         // if this is a new bill and custom amount or personal parts is enabled : get out
-        if (billid === '0' && $('#billtype').val() !== 'normal') {
+        if (billid === '0') {
             return;
         }
 
@@ -3049,7 +3099,6 @@
             $('.modehint').slideUp();
             var billtype = $(this).val();
             if (billtype === 'normal') {
-                $('#owerValidate').hide();
                 $('#owerNone').show();
                 $('#owerAll').show();
                 $('.bill-owers .checkbox').show();
@@ -3061,7 +3110,6 @@
                 $('#repeatbill').prop('disabled', false);
             }
             else if (billtype === 'custom') {
-                $('#owerValidate').show();
                 $('#owerNone').hide();
                 $('#owerAll').hide();
                 $('.bill-owers .checkbox').hide();
@@ -3073,7 +3121,6 @@
                 $('#repeatbill').val('n').prop('disabled', true);
             }
             else if (billtype === 'perso') {
-                $('#owerValidate').show();
                 $('#owerNone').show();
                 $('#owerAll').show();
                 $('.bill-owers .checkbox').show();
@@ -3120,6 +3167,9 @@
             }
             else if (billtype === 'perso') {
                 createEquiPersoBill();
+            }
+            else if (billtype === 'normal') {
+                createNormalBill();
             }
         });
 

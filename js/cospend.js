@@ -2137,21 +2137,24 @@
     }
 
     function selectProject(projectitem) {
+        var projectid = projectitem.attr('projectid');
         var wasOpen = projectitem.hasClass('open');
+        var wasSelected = (cospend.currentProjectId === projectid);
         $('.projectitem.open').removeClass('open');
         if (!wasOpen) {
             projectitem.addClass('open');
-            var projectid = projectitem.attr('projectid');
 
-            saveOptionValue({selectedProject: projectid});
-            cospend.currentProjectId = projectid;
-            $('.projectitem').removeClass('selectedproject');
-            $('.projectitem[projectid="'+projectid+'"]').addClass('selectedproject');
-            $('.app-navigation-entry-utils-counter').removeClass('highlighted');
-            $('.projectitem[projectid="'+projectid+'"] .app-navigation-entry-utils-counter').addClass('highlighted');
+            if (!wasSelected) {
+                saveOptionValue({selectedProject: projectid});
+                cospend.currentProjectId = projectid;
+                $('.projectitem').removeClass('selectedproject');
+                $('.projectitem[projectid="'+projectid+'"]').addClass('selectedproject');
+                $('.app-navigation-entry-utils-counter').removeClass('highlighted');
+                $('.projectitem[projectid="'+projectid+'"] .app-navigation-entry-utils-counter').addClass('highlighted');
 
-            $('#billdetail').html('');
-            getBills(projectid);
+                $('#billdetail').html('');
+                getBills(projectid);
+            }
         }
     }
 

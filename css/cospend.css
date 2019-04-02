@@ -237,3 +237,6 @@ input[type=number] {
 .activeButton {
     background: var(--color-background-darker);
 }
+.memberitem > a {
+    opacity: 1 !important;
+}

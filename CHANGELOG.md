@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.0.9 – 2019-04-04
+### Changed
+- make tests compatible with phpunit 8 (and use it in CI script)
+- test with sqlite, mysql and postgresql
+- keep validation button for new bill in normal mode
+[#14](https://gitlab.com/eneiluj/cospend-nc/issues/14) @swestersund
+- change opacity of member name/icon
+
+### Fixed
+- fix all/none buttons behaviour for 'personal part' bill
+[#14](https://gitlab.com/eneiluj/cospend-nc/issues/14) @swestersund
+- fix project selection behaviour (in menu), toggle != select
+- fix float-related DB stuff (crashing with PostgreSQL)
+- jshint warnings
+
 ## 0.0.8 – 2019-03-31
 ### Fixed
 - stupid bug in some SQL queries (was invisible in SQLite...)

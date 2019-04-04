@@ -1734,7 +1734,7 @@ class PageController extends ApiController {
         $amountSql = '';
         if ($amount !== null && $amount !== '' && is_numeric($amount)) {
             //$amountSql = 'amount='.$this->db_quote_escape_string($amount).',';
-            $qb->set('amount', $qb->createNamedParameter($amount, IQueryBuilder::PARAM_INT));
+            $qb->set('amount', $qb->createNamedParameter($amount, IQueryBuilder::PARAM_STR));
         }
         $payerSql = '';
         if ($payer !== null && $payer !== '' && is_numeric($payer)) {
@@ -1888,7 +1888,7 @@ class PageController extends ApiController {
                 'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
                 'what' => $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR),
                 'date' => $qb->createNamedParameter($date, IQueryBuilder::PARAM_STR),
-                'amount' => $qb->createNamedParameter($amount, IQueryBuilder::PARAM_INT),
+                'amount' => $qb->createNamedParameter($amount, IQueryBuilder::PARAM_STR),
                 'payerid' => $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT),
                 'repeat' => $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR)
             ]);
@@ -1949,7 +1949,7 @@ class PageController extends ApiController {
                     ->values([
                         'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
                         'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
-                        'weight' => $qb->createNamedParameter($weightToInsert, IQueryBuilder::PARAM_INT),
+                        'weight' => $qb->createNamedParameter($weightToInsert, IQueryBuilder::PARAM_STR),
                         'activated' => $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)
                     ]);
                 $req = $qb->execute();
@@ -2105,7 +2105,7 @@ class PageController extends ApiController {
                 if ($weight !== null && $weight !== '') {
                     if (is_numeric($weight)) {
                         $newWeight = floatval($weight);
-                        $qb->set('weight', $qb->createNamedParameter($newWeight, IQueryBuilder::PARAM_INT));
+                        $qb->set('weight', $qb->createNamedParameter($newWeight, IQueryBuilder::PARAM_STR));
                     }
                     else {
                         $response = new DataResponse(

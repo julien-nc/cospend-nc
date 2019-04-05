@@ -600,7 +600,7 @@
             async: true,
         }).done(function (response) {
             if (updateList) {
-                $('.projectitem[projectid="'+projectid+'"]').fadeOut('slow', function() {
+                $('.projectitem[projectid="'+projectid+'"]').fadeOut('normal', function() {
                     $(this).remove();
                 });
                 if (cospend.currentProjectId === projectid) {
@@ -751,7 +751,7 @@
             if (project.external) {
                 deleteExternalProject(projectid);
             }
-            $('.projectitem[projectid="'+projectid+'"]').fadeOut('slow', function() {
+            $('.projectitem[projectid="'+projectid+'"]').fadeOut('normal', function() {
                 $(this).remove();
             });
             if (cospend.currentProjectId === projectid) {
@@ -801,7 +801,7 @@
             if ($('#billdetail .bill-title').length > 0 && $('#billdetail .bill-title').attr('billid') === billid) {
                 $('#billdetail').html('');
             }
-            $('.billitem[billid='+billid+']').fadeOut('slow', function() {
+            $('.billitem[billid='+billid+']').fadeOut('normal', function() {
                 $(this).remove();
                 if ($('.billitem').length === 0) {
                     $('#bill-list').html('<h2 class="nobill">'+t('cospend', 'No bill yet')+'</h2>');
@@ -2065,8 +2065,8 @@
                 if (item.group) {
                     iconClass = 'icon-group';
                 }
-                var listItem = $("<li></li>")
-                    .data("item.autocomplete", item)
+                var listItem = $('<li></li>')
+                    .data('item.autocomplete', item)
                     .append('<a><button class="shareCompleteIcon '+iconClass+'"></button> ' + item.label + '</a>')
                     .appendTo(ul);
                 return listItem;
@@ -2105,7 +2105,7 @@
             displayString = username + ' (' + userid + ')';
         }
         var li = '<li userid="'+escapeHTML(userid)+'" username="' + escapeHTML(username) + '">' +
-            '<div class="shareLabel">' + t('cospend', 'Shared with {u}', {'u': displayString}) + '</div>' +
+            '<div class="shareLabel"><div class="shareLabelIcon icon-user"></div><span>' + displayString + '</span></div>' +
             '<div class="icon-delete deleteUserShareButton"></div></li>';
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share').append(li);
         $('.projectitem[projectid="' + projectid + '"] .shareinput').val('');
@@ -2125,7 +2125,7 @@
             async: true
         }).done(function (response) {
             var li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[userid=' + userid + ']');
-            li.fadeOut('slow', function() {
+            li.fadeOut('normal', function() {
                 li.remove();
             });
         }).always(function() {
@@ -2163,8 +2163,9 @@
         if (groupid !== groupname) {
             displayString = groupname + ' (' + groupid + ')';
         }
+        var g = t('cospend', 'group');
         var li = '<li groupid="'+escapeHTML(groupid)+'" groupname="' + escapeHTML(groupname) + '">' +
-            '<div class="shareLabel">' + t('cospend', 'Shared with group {g}', {'g': displayString}) + '</div>' +
+            '<div class="shareLabel"><div class="shareLabelIcon icon-group"></div>' + displayString + '</div>' +
             '<div class="icon-delete deleteGroupShareButton"></div></li>';
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share').append(li);
         $('.projectitem[projectid="' + projectid + '"] .shareinput').val('');
@@ -2450,7 +2451,7 @@
             // empty bill detail
             $('#billdetail').html('');
             // remove new bill line
-            $('.billitem[billid=0]').fadeOut('slow', function() {
+            $('.billitem[billid=0]').fadeOut('normal', function() {
                 $(this).remove();
                 if ($('.billitem').length === 0) {
                     $('#bill-list').html('<h2 class="nobill">'+t('cospend', 'No bill yet')+'</h2>');
@@ -2499,7 +2500,7 @@
                 // empty bill detail
                 $('#billdetail').html('');
                 // remove new bill line
-                $('.billitem[billid=0]').fadeOut('slow', function() {
+                $('.billitem[billid=0]').fadeOut('normal', function() {
                     $(this).remove();
                     if ($('.billitem').length === 0) {
                         $('#bill-list').html('<h2 class="nobill">'+t('cospend', 'No bill yet')+'</h2>');
@@ -2576,7 +2577,7 @@
             else {
                 shareDiv.slideDown();
                 $(this).addClass('activeButton');
-                var defaultShareText = t('cospend', 'userName');
+                var defaultShareText = t('cospend', 'user or group name');
                 $(this).parent().parent().parent().find('.shareinput').val(defaultShareText).focus().select();
             }
         });
@@ -2969,7 +2970,7 @@
                 if ($('.bill-title').length > 0 && $('.bill-title').attr('billid') === billid) {
                     $('#billdetail').html('');
                 }
-                $(this).parent().fadeOut('slow', function() {
+                $(this).parent().fadeOut('normal', function() {
                     $(this).remove();
                     if ($('.billitem').length === 0) {
                         $('#bill-list').html('<h2 class="nobill">'+t('cospend', 'No bill yet')+'</h2>');

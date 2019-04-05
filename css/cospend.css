@@ -240,8 +240,17 @@ input[type=number] {
 .memberitem > a {
     opacity: 1 !important;
 }
+.shareLabel * {
+    float: left;
+}
+.shareLabelIcon {
+    margin-left: 10px;
+    margin-right: 10px;
+}
 .shareCompleteIcon {
-    min-height: 20px;
     background-color: inherit;
     border: 0px;
+}
+.app-navigation-entry-share {
+    background-color: var(--color-background-darker);
 }

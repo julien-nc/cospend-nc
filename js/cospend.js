@@ -31,8 +31,6 @@
         members: {},
         projects: {},
         currentProjectId: null,
-        shareInputToUserId: {},
-        shareInputToGroupId: {}
     };
 
     //////////////// UTILS /////////////////////
@@ -2000,7 +1998,7 @@
         });
     }
 
-    function addUserAutocompletion(input) {
+    function addUserAutocompletion(input, projectid) {
         var req = {
         };
         var url = OC.generateUrl('/apps/cospend/getUserList');
@@ -2012,37 +2010,67 @@
         }).done(function (response) {
             cospend.userIdName = response.users;
             cospend.groupIdName = response.groups;
-            cospend.shareInputToUserId = {};
-            cospend.shareInputToGroupId = {};
-            var stringList = [];
-            var name, id, complString;
+            var data = [];
+            var d, name, id;
             for (id in response.users) {
                 name = response.users[id];
+                d = {
+                    id: id,
+                    name: name,
+                    group: false,
+                    projectid: projectid
+                };
                 if (id !== name) {
-                    complString = name + ' (' + id + ')';
-                    stringList.push(complString);
-                    cospend.shareInputToUserId[complString] = id;
+                    d.label = name + ' (' + id + ')';
+                    d.value = name + ' (' + id + ')';
                 }
                 else {
-                    stringList.push(name);
-                    cospend.shareInputToUserId[name] = id;
+                    d.label = name;
+                    d.value = name;
                 }
+                data.push(d);
             }
             for (id in response.groups) {
                 name = response.groups[id];
+                d = {
+                    id: id,
+                    name: name,
+                    group: true,
+                    projectid: projectid
+                };
                 if (id !== name) {
-                    complString = name + ' (' + id + ')';
-                    stringList.push(complString);
-                    cospend.shareInputToGroupId[complString] = id;
+                    d.label = name + ' (' + id + ')';
+                    d.value = name + ' (' + id + ')';
                 }
                 else {
-                    stringList.push(name);
-                    cospend.shareInputToGroupId[name] = id;
+                    d.label = name;
+                    d.value = name;
                 }
+                data.push(d);
             }
-            input.autocomplete({
-                source: stringList
-            });
+            var ii = input.autocomplete({
+                source: data,
+                select: function (e, ui) {
+                    console.log(ui);
+                    var it = ui.item;
+                    if (it.group) {
+                        addGroupShareDb(it.projectid, it.id, it.name);
+                    }
+                    else {
+                        addUserShareDb(it.projectid, it.id, it.name);
+                    }
+                }
+            }).data('ui-autocomplete')._renderItem = function(ul, item) {
+                var iconClass = 'icon-user';
+                if (item.group) {
+                    iconClass = 'icon-group';
+                }
+                var listItem = $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append('<a><button class="shareCompleteIcon '+iconClass+'"></button> ' + item.label + '</a>')
+                    .appendTo(ul);
+                return listItem;
+            };
         }).fail(function() {
             OC.Notification.showTemporary(t('cospend', 'Failed to get user list'));
         });
@@ -2523,27 +2551,8 @@
 
         $('body').on('focus','.shareinput', function(e) {
             $(this).select();
-            addUserAutocompletion($(this));
-        });
-
-        $('body').on('keyup','.shareinput', function(e) {
-            if (e.key === 'Enter') {
-                var projectid = $(this).parent().parent().parent().attr('projectid');
-                var val = $(this).val();
-                var userId, userName;
-                var groupId, groupName;
-                var id;
-                if (cospend.shareInputToUserId.hasOwnProperty(val)) {
-                    userId = cospend.shareInputToUserId[val];
-                    userName = cospend.userIdName[userId];
-                    addUserShareDb(projectid, userId, userName);
-                }
-                else if (cospend.shareInputToGroupId.hasOwnProperty(val)) {
-                    groupId = cospend.shareInputToGroupId[val];
-                    groupName = cospend.groupIdName[groupId];
-                    addGroupShareDb(projectid, groupId, groupName);
-                }
-            }
+            var projectid = $(this).parent().parent().parent().attr('projectid');
+            addUserAutocompletion($(this), projectid);
         });
 
         $('body').on('click', '.deleteUserShareButton', function(e) {

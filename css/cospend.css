@@ -240,3 +240,8 @@ input[type=number] {
 .memberitem > a {
     opacity: 1 !important;
 }
+.shareCompleteIcon {
+    min-height: 20px;
+    background-color: inherit;
+    border: 0px;
+}

@@ -30,7 +30,9 @@
         // indexed by projectid, then by memberid
         members: {},
         projects: {},
-        currentProjectId: null
+        currentProjectId: null,
+        shareInputToUserId: {},
+        shareInputToGroupId: {}
     };
 
     //////////////// UTILS /////////////////////
@@ -2010,18 +2012,36 @@
         }).done(function (response) {
             cospend.userIdName = response.users;
             cospend.groupIdName = response.groups;
-            var nameList = [];
-            var name, id;
+            cospend.shareInputToUserId = {};
+            cospend.shareInputToGroupId = {};
+            var stringList = [];
+            var name, id, complString;
             for (id in response.users) {
                 name = response.users[id];
-                nameList.push(name);
+                if (id !== name) {
+                    complString = name + ' (' + id + ')';
+                    stringList.push(complString);
+                    cospend.shareInputToUserId[complString] = id;
+                }
+                else {
+                    stringList.push(name);
+                    cospend.shareInputToUserId[name] = id;
+                }
             }
             for (id in response.groups) {
                 name = response.groups[id];
-                nameList.push(name);
+                if (id !== name) {
+                    complString = name + ' (' + id + ')';
+                    stringList.push(complString);
+                    cospend.shareInputToGroupId[complString] = id;
+                }
+                else {
+                    stringList.push(name);
+                    cospend.shareInputToGroupId[name] = id;
+                }
             }
             input.autocomplete({
-                source: nameList
+                source: stringList
             });
         }).fail(function() {
             OC.Notification.showTemporary(t('cospend', 'Failed to get user list'));
@@ -2052,8 +2072,12 @@
     }
 
     function addUserShare(projectid, userid, username) {
+        var displayString = userid;
+        if (userid !== username) {
+            displayString = username + ' (' + userid + ')';
+        }
         var li = '<li userid="'+escapeHTML(userid)+'" username="' + escapeHTML(username) + '">' +
-            '<div class="shareLabel">' + t('cospend', 'Shared with {u}', {'u': username}) + '</div>' +
+            '<div class="shareLabel">' + t('cospend', 'Shared with {u}', {'u': displayString}) + '</div>' +
             '<div class="icon-delete deleteUserShareButton"></div></li>';
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share').append(li);
         $('.projectitem[projectid="' + projectid + '"] .shareinput').val('');
@@ -2107,8 +2131,12 @@
     }
 
     function addGroupShare(projectid, groupid, groupname) {
+        var displayString = groupid;
+        if (groupid !== groupname) {
+            displayString = groupname + ' (' + groupid + ')';
+        }
         var li = '<li groupid="'+escapeHTML(groupid)+'" groupname="' + escapeHTML(groupname) + '">' +
-            '<div class="shareLabel">' + t('cospend', 'Shared with group {g}', {'g': groupname}) + '</div>' +
+            '<div class="shareLabel">' + t('cospend', 'Shared with group {g}', {'g': displayString}) + '</div>' +
             '<div class="icon-delete deleteGroupShareButton"></div></li>';
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share').append(li);
         $('.projectitem[projectid="' + projectid + '"] .shareinput').val('');
@@ -2501,29 +2529,19 @@
         $('body').on('keyup','.shareinput', function(e) {
             if (e.key === 'Enter') {
                 var projectid = $(this).parent().parent().parent().attr('projectid');
-                var value = $(this).val();
-                var userId = '';
+                var val = $(this).val();
+                var userId, userName;
+                var groupId, groupName;
                 var id;
-                for (id in cospend.userIdName) {
-                    if (value === cospend.userIdName[id]) {
-                        userId = id;
-                        break;
-                    }
+                if (cospend.shareInputToUserId.hasOwnProperty(val)) {
+                    userId = cospend.shareInputToUserId[val];
+                    userName = cospend.userIdName[userId];
+                    addUserShareDb(projectid, userId, userName);
                 }
-                if (userId !== '') {
-                    addUserShareDb(projectid, userId, value);
-                }
-                else {
-                    var groupId = '';
-                    for (id in cospend.groupIdName) {
-                        if (value === cospend.groupIdName[id]) {
-                            groupId = id;
-                            break;
-                        }
-                    }
-                    if (groupId !== '') {
-                        addGroupShareDb(projectid, groupId, value);
-                    }
+                else if (cospend.shareInputToGroupId.hasOwnProperty(val)) {
+                    groupId = cospend.shareInputToGroupId[val];
+                    groupName = cospend.groupIdName[groupId];
+                    addGroupShareDb(projectid, groupId, groupName);
                 }
             }
         });

@@ -100,7 +100,7 @@ test_nc15_mysql:
       - test
   script:
     # DB
-    - DEBIAN_FRONTEND=noninteractive apt-get install mariadb-server php7.2-mysql -yqq
+    - DEBIAN_FRONTEND=noninteractive apt-get install mariadb-server php7.2-mysql -yqq > /dev/null 2>&1
     - service mysql start
     - mysql -u root -e 'create database oc_autotest;'
     - mysql -u root -e "CREATE USER 'oc_autotest'@'localhost' IDENTIFIED BY '';"

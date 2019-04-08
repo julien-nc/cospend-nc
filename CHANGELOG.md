@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.0.10 – 2019-04-08
+### Changed
+- improved user/group sharing design
+
+### Fixed
+- avoid 0 weight
+[#26](https://gitlab.com/eneiluj/cospend-nc/issues/26) @MoathZ
+
 ## 0.0.9 – 2019-04-04
 ### Changed
 - make tests compatible with phpunit 8 (and use it in CI script)

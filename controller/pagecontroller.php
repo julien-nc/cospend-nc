@@ -1196,10 +1196,17 @@ class PageController extends ApiController {
 
             $nbOwerShares = 0.0;
             foreach ($owers as $ower) {
-                $nbOwerShares += $ower['weight'];
+                $owerWeight = $ower['weight'];
+                if ($owerWeight === 0.0) {
+                    $owerWeight = 1.0;
+                }
+                $nbOwerShares += $owerWeight;
             }
             foreach ($owers as $ower) {
                 $owerWeight = $ower['weight'];
+                if ($owerWeight === 0.0) {
+                    $owerWeight = 1.0;
+                }
                 $owerId = $ower['id'];
                 $spent = $amount / $nbOwerShares * $owerWeight;
                 $membersBalance[$owerId] -= $spent;
@@ -1586,10 +1593,17 @@ class PageController extends ApiController {
 
             $nbOwerShares = 0.0;
             foreach ($owers as $ower) {
-                $nbOwerShares += $ower['weight'];
+                $owerWeight = $ower['weight'];
+                if ($owerWeight === 0.0) {
+                    $owerWeight = 1.0;
+                }
+                $nbOwerShares += $owerWeight;
             }
             foreach ($owers as $ower) {
                 $owerWeight = $ower['weight'];
+                if ($owerWeight === 0.0) {
+                    $owerWeight = 1.0;
+                }
                 $owerId = $ower['id'];
                 $spent = $amount / $nbOwerShares * $owerWeight;
                 $membersBalance[$owerId] -= $spent;
@@ -1932,7 +1946,7 @@ class PageController extends ApiController {
             if ($this->getMemberByName($projectid, $name) === null) {
                 $weightToInsert = 1;
                 if ($weight !== null && $weight !== '') {
-                    if (is_numeric($weight)) {
+                    if (is_numeric($weight) and floatval($weight) > 0.0) {
                         $weightToInsert = floatval($weight);
                     }
                     else {
@@ -2103,7 +2117,7 @@ class PageController extends ApiController {
                 $qb = $this->dbconnection->getQueryBuilder();
                 $qb->update('cospend_members');
                 if ($weight !== null && $weight !== '') {
-                    if (is_numeric($weight)) {
+                    if (is_numeric($weight) and floatval($weight) > 0.0) {
                         $newWeight = floatval($weight);
                         $qb->set('weight', $qb->createNamedParameter($newWeight, IQueryBuilder::PARAM_STR));
                     }

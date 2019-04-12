@@ -1,6 +1,6 @@
 files:
-  - source: /l10n/templates/cospend.pot
-    translation: /l10n/%locale_with_underscore%/cospend.po
+  - source: /translationfiles/templates/cospend.pot
+    translation: /translationfiles/%locale_with_underscore%/cospend.po
   - source: /l10n/descriptions/full_description.md
     translation: /l10n/descriptions/%locale_with_underscore%/full_description.md
   - source: /l10n/descriptions/short_description.txt

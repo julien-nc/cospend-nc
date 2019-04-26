@@ -250,6 +250,14 @@ input[type=number] {
 .shareCompleteIcon {
     background-color: inherit;
     border: 0px;
+    height: 35px;
+    padding-top: 13px;
+}
+.shareCompleteLink {
+    line-height: 35px;
+}
+.ui-autocomplete {
+    z-index: 9999 !important;
 }
 .app-navigation-entry-share {
     background-color: var(--color-background-darker);

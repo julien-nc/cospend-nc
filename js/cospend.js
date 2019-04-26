@@ -2067,7 +2067,7 @@
                 }
                 var listItem = $('<li></li>')
                     .data('item.autocomplete', item)
-                    .append('<a><button class="shareCompleteIcon '+iconClass+'"></button> ' + item.label + '</a>')
+                    .append('<a class="shareCompleteLink"><button class="shareCompleteIcon '+iconClass+'"></button> ' + item.label + '</a>')
                     .appendTo(ul);
                 return listItem;
             };

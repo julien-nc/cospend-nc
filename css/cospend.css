@@ -237,3 +237,28 @@ input[type=number] {
 .activeButton {
     background: var(--color-background-darker);
 }
+.memberitem > a {
+    opacity: 1 !important;
+}
+.shareLabel * {
+    float: left;
+}
+.shareLabelIcon {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.shareCompleteIcon {
+    background-color: inherit;
+    border: 0px;
+    height: 35px;
+    padding-top: 13px;
+}
+.shareCompleteLink {
+    line-height: 35px;
+}
+.ui-autocomplete {
+    z-index: 9999 !important;
+}
+.app-navigation-entry-share {
+    background-color: var(--color-background-darker);
+}

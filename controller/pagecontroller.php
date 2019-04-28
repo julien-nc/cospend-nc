@@ -624,7 +624,7 @@ class PageController extends ApiController {
            ->from('cospend_projects', 'p')
            ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
            ->where(
-               $qb->expr()->eq('s.userid', $this->userId)
+               $qb->expr()->eq('s.userid', $qb->createNamedParameter($this->userId, IQueryBuilder::PARAM_STR))
            )
            ->andWhere(
                $qb->expr()->eq('s.isgroupshare', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
@@ -684,7 +684,7 @@ class PageController extends ApiController {
                     ->from('cospend_projects', 'p')
                     ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
                     ->where(
-                        $qb->expr()->eq('s.userid', $candidateGroupId)
+                        $qb->expr()->eq('s.userid', $qb->createNamedParameter($candidateGroupId, IQueryBuilder::PARAM_STR))
                     )
                     ->andWhere(
                         $qb->expr()->eq('s.isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
@@ -1196,10 +1196,17 @@ class PageController extends ApiController {
 
             $nbOwerShares = 0.0;
             foreach ($owers as $ower) {
-                $nbOwerShares += $ower['weight'];
+                $owerWeight = $ower['weight'];
+                if ($owerWeight === 0.0) {
+                    $owerWeight = 1.0;
+                }
+                $nbOwerShares += $owerWeight;
             }
             foreach ($owers as $ower) {
                 $owerWeight = $ower['weight'];
+                if ($owerWeight === 0.0) {
+                    $owerWeight = 1.0;
+                }
                 $owerId = $ower['id'];
                 $spent = $amount / $nbOwerShares * $owerWeight;
                 $membersBalance[$owerId] -= $spent;
@@ -1521,7 +1528,7 @@ class PageController extends ApiController {
         $members = [];
 
         // LOWER does not work
-        $sqlOrder = 'LOWER(name)';
+        $sqlOrder = 'name';
         if ($order !== null) {
             $sqlOrder = $order;
         }
@@ -1586,10 +1593,17 @@ class PageController extends ApiController {
 
             $nbOwerShares = 0.0;
             foreach ($owers as $ower) {
-                $nbOwerShares += $ower['weight'];
+                $owerWeight = $ower['weight'];
+                if ($owerWeight === 0.0) {
+                    $owerWeight = 1.0;
+                }
+                $nbOwerShares += $owerWeight;
             }
             foreach ($owers as $ower) {
                 $owerWeight = $ower['weight'];
+                if ($owerWeight === 0.0) {
+                    $owerWeight = 1.0;
+                }
                 $owerId = $ower['id'];
                 $spent = $amount / $nbOwerShares * $owerWeight;
                 $membersBalance[$owerId] -= $spent;
@@ -1734,7 +1748,7 @@ class PageController extends ApiController {
         $amountSql = '';
         if ($amount !== null && $amount !== '' && is_numeric($amount)) {
             //$amountSql = 'amount='.$this->db_quote_escape_string($amount).',';
-            $qb->set('amount', $qb->createNamedParameter($amount, IQueryBuilder::PARAM_LOB));
+            $qb->set('amount', $qb->createNamedParameter($amount, IQueryBuilder::PARAM_STR));
         }
         $payerSql = '';
         if ($payer !== null && $payer !== '' && is_numeric($payer)) {
@@ -1888,7 +1902,7 @@ class PageController extends ApiController {
                 'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
                 'what' => $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR),
                 'date' => $qb->createNamedParameter($date, IQueryBuilder::PARAM_STR),
-                'amount' => $qb->createNamedParameter($amount, IQueryBuilder::PARAM_LOB),
+                'amount' => $qb->createNamedParameter($amount, IQueryBuilder::PARAM_STR),
                 'payerid' => $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT),
                 'repeat' => $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR)
             ]);
@@ -1932,7 +1946,7 @@ class PageController extends ApiController {
             if ($this->getMemberByName($projectid, $name) === null) {
                 $weightToInsert = 1;
                 if ($weight !== null && $weight !== '') {
-                    if (is_numeric($weight)) {
+                    if (is_numeric($weight) and floatval($weight) > 0.0) {
                         $weightToInsert = floatval($weight);
                     }
                     else {
@@ -1949,7 +1963,7 @@ class PageController extends ApiController {
                     ->values([
                         'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
                         'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
-                        'weight' => $qb->createNamedParameter($weightToInsert, IQueryBuilder::PARAM_LOB),
+                        'weight' => $qb->createNamedParameter($weightToInsert, IQueryBuilder::PARAM_STR),
                         'activated' => $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)
                     ]);
                 $req = $qb->execute();
@@ -2103,9 +2117,9 @@ class PageController extends ApiController {
                 $qb = $this->dbconnection->getQueryBuilder();
                 $qb->update('cospend_members');
                 if ($weight !== null && $weight !== '') {
-                    if (is_numeric($weight)) {
+                    if (is_numeric($weight) and floatval($weight) > 0.0) {
                         $newWeight = floatval($weight);
-                        $qb->set('weight', $qb->createNamedParameter($newWeight, IQueryBuilder::PARAM_LOB));
+                        $qb->set('weight', $qb->createNamedParameter($newWeight, IQueryBuilder::PARAM_STR));
                     }
                     else {
                         $response = new DataResponse(

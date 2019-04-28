@@ -30,4 +30,4 @@ OC.L10N.register(
     "Add project" : "Adicionar projeto",
     "Settings" : "Configurações"
 },
-"nplurals=2; plural=(n != 1);\nX-Generator: crowdin.com\nX-Crowdin-Project: moneybuster\nX-Crowdin-Language: pt-BR");
+"nplurals=2; plural=(n != 1);");

@@ -5,6 +5,35 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.0.10 – 2019-04-08
+### Changed
+- improved user/group sharing design
+
+### Fixed
+- avoid 0 weight
+[#26](https://gitlab.com/eneiluj/cospend-nc/issues/26) @MoathZ
+
+## 0.0.9 – 2019-04-04
+### Changed
+- make tests compatible with phpunit 8 (and use it in CI script)
+- test with sqlite, mysql and postgresql
+- keep validation button for new bill in normal mode
+[#14](https://gitlab.com/eneiluj/cospend-nc/issues/14) @swestersund
+- change opacity of member name/icon
+
+### Fixed
+- fix all/none buttons behaviour for 'personal part' bill
+[#14](https://gitlab.com/eneiluj/cospend-nc/issues/14) @swestersund
+- fix project selection behaviour (in menu), toggle != select
+- fix float-related DB stuff (crashing with PostgreSQL)
+- jshint warnings
+
+## 0.0.8 – 2019-03-31
+### Fixed
+- stupid bug in some SQL queries (was invisible in SQLite...)
+[#22](https://gitlab.com/eneiluj/cospend-nc/issues/22) @Questlog
+
+## 0.0.7 – 2019-03-30
 ### Added
 - don't put disabled users in share autocomplete
 [#17](https://gitlab.com/eneiluj/cospend-nc/issues/17) @redplanet
@@ -16,10 +45,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - use NC DB methods instead of plain SQL
+- change share button color when share input is displayed
+- test with NC16beta2
 
 ### Fixed
 - external project renaming field
 - UI fix after delete bill error
+- replace deprecated addAllowedChildSrcDomain
 
 ## 0.0.6 – 2019-03-09
 ### Added

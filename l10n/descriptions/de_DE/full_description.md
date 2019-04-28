@@ -1,10 +1,10 @@
 # Nextcloud Cospend 💰
 
-Nextcloud Cospend is ein gemeinsamer Budget-Manager für Gruppen. [IHateMoney](https://github.com/spiral-project/ihatemoney/) diente hierbei als Vorbild.
+Nextcloud Cospend ist ein Gruppen/geteilter Budget Manager. [IHateMoney](https://github.com/spiral-project/ihatemoney/) diente hierbei als Vorbild.
 
 Immer wenn du Geld mit anderen teilst, z. B. in einer WG oder im Urlaub mit Freunden, kannst du diese App verwenden.
 
-Du kannst Projekte erstellen sowie Mitglieder und Ausgaben hinzufügen. Anhand der Ausgaben im Projekt wird für jedes Mitglied eine Bilanz erstellt. Somit ist ersichtlich, wer wem etwas schuldet. Ultimately you can ask for a settlement plan telling you which payments to make to reset members balances.
+Es lässt dich Projekte mit Mitgliedern und Ausgaben erstellen. Anhand der Ausgaben im Projekt wird für jedes Mitglied eine Bilanz erstellt. Somit ist ersichtlich, wer wem etwas schuldet. Letzendlich kannst du dir dann in der Abrechnung anzeigen lassen, welche Zahlungen zu leisten sind, um die Bilanzen der Mitglieder auszugleichen.
 
 Projektmitglieder sind unabhängig von Nextcloud Benutzern. Sobald du Zugang zu einem Projekt hast (als Gast oder Nextcoud-Nutzer), kannst du ohne Einschränkungen hinzufügen/editieren/löschen. Projekte können von Personen ohne Nextcloud-Konto aufgerufen und geändert werden. Jedes Projekt hat eine ID und ein Passwort für den Gast-Zugriff.
 
@@ -12,21 +12,21 @@ Der [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android-Client ist bei
 
 ## Funktionen
 
-* ✎ create/edit/delete projects, members, bills
-* ⚖ check member balances
-* 🗠 display project statistics
-* ♻ display settlement plan
-* 🎇 automatically create reimbursement bills from settlement plan
-* 🗓 create recurring bills (day/week/month/year)
-* 📊 optionally provide custom amount for each member in new bills
-* 🔗 insert public link to a personal file in bill description (picture of physical bill for example)
-* 👩 guest access for people outside Nextcloud
-* 👫 share a project with Nextcloud users
-* 🖫 import/export projects as csv (compatible with csv files from IHateMoney)
-* 🖧 add external projects (hosted by another Nextcloud instance)
-* 🔗 generate link/QRCode to easily import projects in MoneyBuster
+* ✎ erstelle/bearbeite/lösche Projekte, Mitglieder, Ausgaben
+* ⚖ Mitglieder Bilanzen überprüfen
+* 🗠 Projektstatistik anzeigen
+* ♻ Abrechnungsplan anzeigen
+* 🎇 Erstelle Ausgleichszahlungen vom Abrechnungsplan (automatisch)
+* 🗓 Erstelle wiederkehrende Ausgaben (täglich/wöchentlich/monatlich/jährlich)
+* 📊 Gib bei neuen Ausgaben einen eigenen Betrag für jedes Mitglied an (optional)
+* 🔗 Füge der Ausgabenbeschreibung eine persönliche Datei mit einen öffentlichen Link hinzu (z.B. Bild der Quittung für eine Ausgabe)
+* 👩 Gastzugang für Personen ohne Nextcloud-Konto
+* 👫 Teile ein Projekt mit Nextcloud Benutzern
+* 🖫 Importiere/Exportieren ein Projekt als CSV (kompatibel mit CSV-Dateien von IHateMoney)
+* 🖧 externes Projekt hinzufügen (von einer anderen Nextcloud Instanz gehostet)
+* 🔗 Link/QRCode generieren um Projekte einfach in MoneyBuster zu importieren
 
-Diese App wurde mit Nextcloud 15 sowie Firefox 57+ und Chromium getestet.
+Diese App wurde mit Nextcloud 15 in Kombination mit Firefox 57+ und Chromium getestet.
 
 Diese App befindet sich in der Entwicklung.
 
@@ -36,14 +36,14 @@ Diese App befindet sich in der Entwicklung.
 
 ## Installieren
 
-See the [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc) for installation details.
+Finde Details zur Installation in der [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc).
 
-Check [CHANGELOG](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
+Schau in das [CHANGELOG](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) um zu sehen was gerade neu und zukünftig geplant ist.
 
-Check [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+Finde eine Liste aller Autoren in der [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) Datei.
 
 ## Bekannte Probleme
 
-* it does not make you rich
+* Es macht dich nicht reich
 
-Any feedback will be appreciated.
+Jedes Feedback ist willkommen.

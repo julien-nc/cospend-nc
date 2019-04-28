@@ -2,7 +2,7 @@
 
 Nextcloud Cospend est un gestionnaire de dépenses partagées (de groupe). Il a été inspiré par le génial [IHateMoney](https://github.com/spiral-project/ihatemoney/).
 
-Vous pouvez l'utiliser lorsque vous partagez une maison, quand vous partez en vacances avec des amis, chaque fois que vous partagez des dépenses avec d'autres.
+Vous pouvez l'utiliser lorsque vous partagez une maison, quand vous partez en vacances avec des amis, chaque fois que vous partagez des dépenses avec autrui.
 
 Cospend vous permet de créer des projets avec des membres et des factures. Chaque membre a un solde calculé à partir des factures du projet. Comme ça vous pouvez voir qui doit de l'argent au groupe et à qui le groupe doit de l'argent. À la fin, vous pouvez demander un plan de remboursement qui vous indique les paiements à effectuer pour remettre les soldes des membres à zéro.
 

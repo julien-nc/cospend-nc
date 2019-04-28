@@ -52,7 +52,6 @@ OC.L10N.register(
     "For whom?" : "Aan wie?",
     "All" : "Alles",
     "None" : "Geen",
-    "Custom amount per member" : "Aangepast bedrag per deelnemer",
     "Create bills" : "Rekeningen creëren",
     "Attach public link to personal file" : "Openbare link toevoegen aan persoonlijk bestand",
     "Repeat this bill every" : "Herhaal deze rekening elke",
@@ -82,7 +81,6 @@ OC.L10N.register(
     "Failed to get user list" : "Kan deelnemerslijst niet ophalen",
     "Shared project {pname} with {uname}" : "Project '{pname}' is gedeeld met '{uname}'",
     "Failed to add user share" : "Kan niet delen met gebruiker",
-    "Shared with {u}" : "Gedeeld met {u}",
     "Failed to delete user share" : "Kan deling niet verwijderen",
     "Failed to generate public link to file" : "Kan geen openbare link genereren naar bestand",
     "Project exported in {path}" : "Project is geëxporteerd naar {path}",
@@ -95,9 +93,8 @@ OC.L10N.register(
     "Failed to add project settlement bills" : "Kan geen rekeningen toevoegen",
     "Only CSV files can be imported" : "Je kunt alleen CSV-bestanden importeren",
     "Failed to import project file" : "Kan projectbestand niet importeren",
-    "There is no custom amount" : "Er is geen aangepast bedrag",
     "Invalid values" : "Ongeldige waarden",
-    "userName" : "Gebruikersnaam",
+    "There is no custom amount" : "Er is geen aangepast bedrag",
     "newMemberName" : "NieuweGebruikersnaam",
     "New Bill" : "Nieuwe rekening",
     "2 active members are required to create a bill" : "Er zijn 2 actieve deelnemers benodigd om een rekening te creëren",
@@ -131,4 +128,4 @@ OC.L10N.register(
     "Add" : "Toevoegen",
     "Import csv project file" : "CSV-projectbestand importeren"
 },
-"nplurals=2; plural=(n != 1);\nX-Generator: crowdin.com\nX-Crowdin-Project: moneybuster\nX-Crowdin-Language: nl");
+"nplurals=2; plural=(n != 1);");

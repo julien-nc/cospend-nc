@@ -1,5 +1,7 @@
 rm *.js*
-perl l10n.pl write cospend
+cd ..
+translationtool.phar convert-po-files
+cd -
 rename 's/fr_FR/fr/g' *.js*
 rename 's/es_ES/es/g' *.js*
 rename 's/de_DE/de/g' *.js*

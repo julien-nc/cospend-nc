@@ -1,0 +1,619 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: moneybuster\n"
+"Report-Msgid-Bugs-To: translations\\@example.com\n"
+"POT-Creation-Date: 2019-04-12 11:17+0200\n"
+"PO-Revision-Date: 2019-04-12 09:20\n"
+"Last-Translator: eneiluj <eneiluj@posteo.net>\n"
+"Language-Team: Dutch\n"
+"Language: nl_NL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: crowdin.com\n"
+"X-Crowdin-Project: moneybuster\n"
+"X-Crowdin-Language: nl\n"
+"X-Crowdin-File: /master/translationfiles/templates/cospend.pot\n"
+
+#: /var/www/html/n15/apps/cospend/appinfo/app.php:27
+#: /var/www/html/n15/apps/cospend/appinfo/app.php:48
+#: /var/www/html/n15/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:2
+#: /var/www/html/n15/apps/cospend/templates/admin.php:7
+msgid "Cospend"
+msgstr "Samen betalen"
+
+#: /var/www/html/n15/apps/cospend/controller/pagecontroller.php:2788
+#: /var/www/html/n15/apps/cospend/js/cospend.js:973
+msgid "Who pays?"
+msgstr "Wie betaalt er?"
+
+#: /var/www/html/n15/apps/cospend/controller/pagecontroller.php:2788
+#: /var/www/html/n15/apps/cospend/js/cospend.js:974
+msgid "To whom?"
+msgstr "Aan wie?"
+
+#: /var/www/html/n15/apps/cospend/controller/pagecontroller.php:2788
+#: /var/www/html/n15/apps/cospend/js/cospend.js:975
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1284
+msgid "How much?"
+msgstr "Hoeveel?"
+
+#: /var/www/html/n15/apps/cospend/controller/pagecontroller.php:2850
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1097
+msgid "Member name"
+msgstr "Naam van deelnemer"
+
+#: /var/www/html/n15/apps/cospend/controller/pagecontroller.php:2850
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1098
+msgid "Paid"
+msgstr "Betaald"
+
+#: /var/www/html/n15/apps/cospend/controller/pagecontroller.php:2850
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1099
+msgid "Spent"
+msgstr "Uitgegeven"
+
+#: /var/www/html/n15/apps/cospend/controller/pagecontroller.php:2850
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1100
+msgid "Balance"
+msgstr "Saldo"
+
+#: /var/www/html/n15/apps/cospend/js/admin.js:19
+msgid "Saved Cospend setting"
+msgstr "Instelling voor samen betalen opgeslagen"
+
+#: /var/www/html/n15/apps/cospend/js/admin.js:23
+msgid "Failed to save Cospend setting"
+msgstr "Kan instelling niet opslaan"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:205
+msgid "Failed to add external project"
+msgstr "Kan niet toevoegen aan extern project"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:243
+msgid "Failed to get external project"
+msgstr "Kan extern project niet ophalen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:282
+msgid "Failed to create project"
+msgstr "Kan project niet creëren"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:324
+msgid "Created member {name}"
+msgstr "Deelnemer '{name}' gecreëerd"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:328
+msgid "Failed to add member"
+msgstr "Kan deelnemer niet toevoegen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:380
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1767
+msgid "Reactivate"
+msgstr "Heractiveren"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:386
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1761
+msgid "Deactivate"
+msgstr "Deactiveren"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:400
+msgid "Saved member"
+msgstr "Opgeslagen deelnemer"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:408
+msgid "Failed to save member"
+msgstr "Kan deelnemer niet opslaan"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:471
+msgid "Bill created"
+msgstr "Rekening gecreëerd"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:475
+msgid "Failed to create bill"
+msgstr "Kan rekening niet creëren"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:533
+msgid "Saved bill"
+msgstr "Opgeslagen rekening"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:538
+msgid "Failed to save bill"
+msgstr "Kan rekening niet opslaan"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:561
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1205
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1292
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1450
+msgid "link"
+msgstr "link"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:614
+msgid "Failed to delete external project"
+msgstr "Kan extern project niet verwijderen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:642
+msgid "Failed to save external project"
+msgstr "Kan extern project niet opslaan"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:703
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1572
+msgid "Deleted {name}"
+msgstr "'{name}' is verwijderd"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:709
+msgid "Saved project"
+msgstr "Project opgeslagen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:713
+msgid "Failed to save project"
+msgstr "Kan project niet opslaan"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:765
+msgid "Deleted project {id}"
+msgstr "Project '{id}' verwijderd"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:768
+msgid "Failed to delete project"
+msgstr "Kan project niet verwijderen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:807
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1178
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2457
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2506
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2976
+msgid "No bill yet"
+msgstr "Nog geen rekening"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:812
+msgid "Deleted bill"
+msgstr "Rekening verwijderd"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:815
+msgid "Failed to delete bill"
+msgstr "Kan rekening niet verwijderen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:880
+msgid "Failed to get projects"
+msgstr "Kan projecten niet ophalen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:919
+msgid "Failed to get statistics"
+msgstr "Kan statistieken niet ophalen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:959
+msgid "Failed to get settlement"
+msgstr "Kan schikking niet ophalen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:972
+msgid "Settlement of project {name}"
+msgstr "Schikking van project '{name}'"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:978
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1103
+msgid "Export"
+msgstr "Exporteren"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:980
+msgid "Add these payments to project"
+msgstr "Voeg deze betalingen toe aan het project"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1028
+msgid "MoneyBuster link/QRCode for project {name}"
+msgstr "MoneyBuster-link/QR-code van project '{name}'"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1034
+msgid "Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link."
+msgstr "Scan deze QR-code met een Android-toestel waarop MoneyBuster geïnstalleerd is en open de link, of verstuur de link."
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1096
+msgid "Statistics of project {name}"
+msgstr "Statistieken van project '{name}'"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1182
+msgid "Failed to get bills"
+msgstr "Kan rekeningen niet ophalen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1215
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1299
+msgid "Bill : {what}"
+msgstr "Rekening: {what}"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1283
+msgid "What?"
+msgstr "Wat?"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1285
+msgid "Who payed?"
+msgstr "Wie heeft er betaald?"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1286
+msgid "When?"
+msgstr "Wanneer?"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1287
+msgid "For whom?"
+msgstr "Aan wie?"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1301
+msgid "All"
+msgstr "Alles"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1302
+msgid "None"
+msgstr "Geen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1303
+msgid "Create bills"
+msgstr "Rekeningen creëren"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1304
+msgid "Attach public link to personal file"
+msgstr "Openbare link toevoegen aan persoonlijk bestand"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1305
+msgid "Classic, even split"
+msgstr ""
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1306
+msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
+msgstr ""
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1307
+msgid "Custom owed amount per member"
+msgstr ""
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1308
+msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
+msgstr ""
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1309
+msgid "Even split with optional personal parts"
+msgstr ""
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1310
+msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
+msgstr ""
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1311
+msgid "Bill type"
+msgstr ""
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1357
+msgid "Repeat this bill every"
+msgstr "Herhaal deze rekening elke"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1360
+msgid "do not repeat"
+msgstr "niet herhalen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1361
+msgid "day"
+msgstr "dag"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1362
+msgid "week"
+msgstr "week"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1363
+msgid "month"
+msgstr "maand"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1364
+msgid "year"
+msgstr "jaar"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1435
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1461
+msgid "Member list is not up to date. Reloading in 5 sec."
+msgstr "De deelnemerslijst is niet bijgewerkt. Deze wordt herladen over 5 seconden."
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1544
+msgid "Failed to update balances"
+msgstr "Kan saldi niet bijwerken"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1557
+msgid "Add member"
+msgstr "Deelnemer toevoegen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1558
+#: /var/www/html/n15/apps/cospend/templates/mainnavigation.php:70
+msgid "Guest access link"
+msgstr "Link voor gasttoegang"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1559
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1772
+msgid "Rename"
+msgstr "Naam wijzigen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1560
+msgid "Change password"
+msgstr "Wachtwoord wijzigen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1561
+msgid "Display statistics"
+msgstr "Statistieken tonen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1562
+msgid "Settle the project"
+msgstr "Project schikken"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1563
+msgid "Export to csv"
+msgstr "Exporteren naar CSV"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1566
+msgid "Delete remote project"
+msgstr "Extern project verwijderen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1569
+msgid "Delete"
+msgstr "Verwijderen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1571
+msgid "Link/QRCode for MoneyBuster"
+msgstr "Link/QR-code voor MoneyBuster"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1573
+msgid "Remove"
+msgstr "Verwijderen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1574
+msgid "Press enter to validate"
+msgstr "Druk op enter te valideren"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1773
+msgid "Change weight"
+msgstr "Gewicht aanpassen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1867
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1947
+msgid "Bill values are not valid"
+msgstr "Ongeldige rekeningwaarden"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1966
+msgid "Failed to save option values"
+msgstr "Kan sommige opties niet opslaan"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:1996
+msgid "Failed to restore options values"
+msgstr "Kan sommige opties niet herstellen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2075
+msgid "Failed to get user list"
+msgstr "Kan deelnemerslijst niet ophalen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2094
+msgid "Shared project {pname} with {uname}"
+msgstr "Project '{pname}' is gedeeld met '{uname}'"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2098
+msgid "Failed to add user share"
+msgstr "Kan niet delen met gebruiker"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2134
+msgid "Failed to delete user share"
+msgstr "Kan deling niet verwijderen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2153
+msgid "Shared project {pname} with group {gname}"
+msgstr ""
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2157
+msgid "Failed to add group share"
+msgstr ""
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2166
+msgid "group"
+msgstr ""
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2194
+msgid "Failed to delete group share"
+msgstr ""
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2243
+msgid "Failed to generate public link to file"
+msgstr "Kan geen openbare link genereren naar bestand"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2259
+msgid "Project exported in {path}"
+msgstr "Project is geëxporteerd naar {path}"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2263
+msgid "Failed to export project"
+msgstr "Kan project niet exporteren"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2279
+msgid "Project statistics exported in {path}"
+msgstr "Projectstatistieken zijn geëxporteerd naar {path}"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2283
+msgid "Failed to export project statistics"
+msgstr "Kan projectstatistieken niet exporteren"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2299
+msgid "Project settlement exported in {path}"
+msgstr "Projectschikking is geëxporteerd naar {path}"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2303
+msgid "Failed to export project settlement"
+msgstr "Kan projectschikking niet exporteren"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2337
+msgid "Project settlement bills added"
+msgstr "Projectschikking - rekeningen toegevoegd"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2341
+msgid "Failed to add project settlement bills"
+msgstr "Kan geen rekeningen toevoegen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2347
+msgid "Only CSV files can be imported"
+msgstr "Je kunt alleen CSV-bestanden importeren"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2366
+msgid "Failed to import project file"
+msgstr "Kan projectbestand niet importeren"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2429
+msgid "Personal parts are bigger than the paid amount"
+msgstr ""
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2463
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2516
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2631
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2644
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2657
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2689
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2702
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2715
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2756
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2768
+msgid "Invalid values"
+msgstr "Ongeldige waarden"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2512
+msgid "There is no custom amount"
+msgstr "Er is geen aangepast bedrag"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2580
+msgid "user or group name"
+msgstr ""
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2745
+msgid "newMemberName"
+msgstr "NieuweGebruikersnaam"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:2994
+msgid "New Bill"
+msgstr "Nieuwe rekening"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:3006
+msgid "2 active members are required to create a bill"
+msgstr "Er zijn 2 actieve deelnemers benodigd om een rekening te creëren"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:3044
+msgid "Guest link for '{pid}' copied to clipboard"
+msgstr "Gastlink voor '{pid}' is gekopieerd naar het klembord"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:3057
+msgid "Guest link copied to clipboard"
+msgstr "Gastlink is gekopieerd naar het klembord"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:3066
+msgid "Choose file"
+msgstr "Bestand kiezen"
+
+#: /var/www/html/n15/apps/cospend/js/cospend.js:3076
+msgid "Choose csv project file"
+msgstr "Kies een CSV-projectbestand"
+
+#: /var/www/html/n15/apps/cospend/lib/Notification/Notifier.php:67
+#, php-format
+msgid "User \"%s\" shared Cospend project \"%s\" with you."
+msgstr "De gebruiker '%s' heeft het Cospend-project '%s' met je gedeeld."
+
+#: /var/www/html/n15/apps/cospend/lib/Notification/Notifier.php:75
+#, php-format
+msgid "User \"%s\" stopped sharing Cospend project \"%s\" with you."
+msgstr "De gebruiker '%s' heeft het delen van het Cospend-project '%s' stopgezet."
+
+#: /var/www/html/n15/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:3
+msgid " "
+msgstr ""
+
+#: /var/www/html/n15/apps/cospend/templates/admin.php:8
+#: /var/www/html/n15/apps/cospend/templates/admin.php:17
+msgid "Allow guests to create projects"
+msgstr "Gasten toestaan om projecten te creëren"
+
+#: /var/www/html/n15/apps/cospend/templates/admin.php:9
+msgid "Enabling this option will allow any visitor to create a project without having to log in."
+msgstr "Als je dit inschakelt, dan kan elke bezoeker een project creëren zonder in te loggen."
+
+#: /var/www/html/n15/apps/cospend/templates/admin.php:10
+msgid "This can be useful if you are in a local network and want to let anybody create a project."
+msgstr "Dit kan nuttig zijn als je je op een lokaal netwerk bevindt en iedereen projecten wilt laten creëren."
+
+#: /var/www/html/n15/apps/cospend/templates/admin.php:11
+msgid "Or maybe you are very generous and want to allow the entire world to use Cospend without having an account on your Nextcloud instance."
+msgstr "Of als je erg genereus bent en de gehele wereld Cospend wilt laten gebruiken zonder een account te creëren op je Nextcloud-instantie."
+
+#: /var/www/html/n15/apps/cospend/templates/logincontent.php:2
+msgid "Authentication"
+msgstr "Authenticatie"
+
+#: /var/www/html/n15/apps/cospend/templates/logincontent.php:7
+msgid "Wrong project Id or password"
+msgstr "Project-ID of wachtwoord onjuist"
+
+#: /var/www/html/n15/apps/cospend/templates/logincontent.php:12
+msgid "Project ID"
+msgstr "Project-ID"
+
+#: /var/www/html/n15/apps/cospend/templates/logincontent.php:21
+msgid "Project password (aka Access code)"
+msgstr "Project-wachtwoord (ook wel: toegangscode)"
+
+#: /var/www/html/n15/apps/cospend/templates/mainnavigation.php:6
+msgid "New project"
+msgstr "Nieuw project"
+
+#: /var/www/html/n15/apps/cospend/templates/mainnavigation.php:11
+#: /var/www/html/n15/apps/cospend/templates/mainnavigation.php:53
+msgid "project id"
+msgstr "project-ID"
+
+#: /var/www/html/n15/apps/cospend/templates/mainnavigation.php:12
+#: /var/www/html/n15/apps/cospend/templates/mainnavigation.php:54
+msgid "myProjectId"
+msgstr "MijnProject-ID"
+
+#: /var/www/html/n15/apps/cospend/templates/mainnavigation.php:14
+msgid "name"
+msgstr "naam"
+
+#: /var/www/html/n15/apps/cospend/templates/mainnavigation.php:15
+msgid "My project name"
+msgstr "Mijn projectnaam"
+
+#: /var/www/html/n15/apps/cospend/templates/mainnavigation.php:17
+msgid "password (optional)"
+msgstr "wachtwoord (optioneel)"
+
+#: /var/www/html/n15/apps/cospend/templates/mainnavigation.php:20
+msgid "Add project"
+msgstr "Project toevoegen"
+
+#: /var/www/html/n15/apps/cospend/templates/mainnavigation.php:26
+msgid "New bill"
+msgstr "Nieuwe rekening"
+
+#: /var/www/html/n15/apps/cospend/templates/mainnavigation.php:38
+msgid "Settings"
+msgstr "Instellingen"
+
+#: /var/www/html/n15/apps/cospend/templates/mainnavigation.php:44
+msgid "Add external project"
+msgstr "Extern project toevoegen"
+
+#: /var/www/html/n15/apps/cospend/templates/mainnavigation.php:49
+msgid "Nextcloud address"
+msgstr "Nextcloud-adres"
+
+#: /var/www/html/n15/apps/cospend/templates/mainnavigation.php:50
+msgid "https://other.nextcloud.instance.net"
+msgstr "https://andere.nextcloud.instantie.net"
+
+#: /var/www/html/n15/apps/cospend/templates/mainnavigation.php:57
+msgid "password"
+msgstr "wachtwoord"
+
+#: /var/www/html/n15/apps/cospend/templates/mainnavigation.php:60
+msgid "Add"
+msgstr "Toevoegen"
+
+#: /var/www/html/n15/apps/cospend/templates/mainnavigation.php:67
+msgid "Import csv project file"
+msgstr "CSV-projectbestand importeren"
+

@@ -30,7 +30,7 @@
         // indexed by projectid, then by memberid
         members: {},
         projects: {},
-        currentProjectId: null
+        currentProjectId: null,
     };
 
     //////////////// UTILS /////////////////////
@@ -91,7 +91,7 @@
                 if(t < 1/2) return q;
                 if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
                 return p;
-            }
+            };
 
             var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
             var p = 2 * l - q;
@@ -220,7 +220,7 @@
             response.external = true;
             response.ncurl = ncurl;
             response.password = password;
-            response.id = id + '@' + ncurl
+            response.id = id + '@' + ncurl;
             addProject(response);
 
             var div = $('#addextprojectdiv');
@@ -545,8 +545,8 @@
         var billItem = $('.billitem[billid='+billid+']');
 
         var owerNames = '';
-        var ower;
-        for (var i=0; i < bill.owers.length; i++) {
+        var ower, i;
+        for (i=0; i < bill.owers.length; i++) {
             ower = bill.owers[i];
             owerNames = owerNames + getMemberName(projectid, ower.id) + ', ';
         }
@@ -557,7 +557,7 @@
         var links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
         var formattedLinks = '';
         var linkChars = '';
-        for (var i=0; i < links.length; i++) {
+        for (i=0; i < links.length; i++) {
             formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">['+t('cospend', 'link')+']</a> ';
             linkChars = linkChars + '  🔗';
         }
@@ -600,7 +600,7 @@
             async: true,
         }).done(function (response) {
             if (updateList) {
-                $('.projectitem[projectid="'+projectid+'"]').fadeOut('slow', function() {
+                $('.projectitem[projectid="'+projectid+'"]').fadeOut('normal', function() {
                     $(this).remove();
                 });
                 if (cospend.currentProjectId === projectid) {
@@ -733,7 +733,7 @@
                 type = 'DELETE';
             }
             else {
-                req.projectid = projectid
+                req.projectid = projectid;
                 url = OC.generateUrl('/apps/cospend/deleteProject');
                 type = 'POST';
             }
@@ -751,7 +751,7 @@
             if (project.external) {
                 deleteExternalProject(projectid);
             }
-            $('.projectitem[projectid="'+projectid+'"]').fadeOut('slow', function() {
+            $('.projectitem[projectid="'+projectid+'"]').fadeOut('normal', function() {
                 $(this).remove();
             });
             if (cospend.currentProjectId === projectid) {
@@ -801,7 +801,7 @@
             if ($('#billdetail .bill-title').length > 0 && $('#billdetail .bill-title').attr('billid') === billid) {
                 $('#billdetail').html('');
             }
-            $('.billitem[billid='+billid+']').fadeOut('slow', function() {
+            $('.billitem[billid='+billid+']').fadeOut('normal', function() {
                 $(this).remove();
                 if ($('.billitem').length === 0) {
                     $('#bill-list').html('<h2 class="nobill">'+t('cospend', 'No bill yet')+'</h2>');
@@ -1194,6 +1194,7 @@
         var c = {h: 0, s: 0, l: 50};
         if (billid !== 0) {
             $('.bill-type').hide();
+            $('#owerValidate').hide();
             var payerName = getMemberName(projectid, payer_id);
             c = getMemberColor(payerName);
         }
@@ -1227,7 +1228,8 @@
 
         var owers = bill.owers;
         var owerIds = [];
-        for (var i=0; i < owers.length; i++) {
+        var i;
+        for (i=0; i < owers.length; i++) {
             owerIds.push(owers[i].id);
         }
 
@@ -1286,7 +1288,7 @@
 
         var links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
         var formattedLinks = '';
-        for (var i=0; i < links.length; i++) {
+        for (i=0; i < links.length; i++) {
             formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">[🔗 '+t('cospend', 'link')+']</a> ';
         }
         var repeatChar = '';
@@ -1395,6 +1397,7 @@
         }
         else {
             $('.bill-type').show();
+            $('#owerValidate').show();
         }
     }
 
@@ -1425,8 +1428,8 @@
         cospend.bills[projectid][bill.id] = bill;
 
         var owerNames = '';
-        var ower;
-        for (var i=0; i < bill.owers.length; i++) {
+        var ower, i;
+        for (i=0; i < bill.owers.length; i++) {
             ower = bill.owers[i];
             if (!cospend.members[projectid].hasOwnProperty(ower.id)) {
                 reload(t('cospend', 'Member list is not up to date. Reloading in 5 sec.'));
@@ -1443,7 +1446,7 @@
         var links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
         var formattedLinks = '';
         var linkChars = '';
-        for (var i=0; i < links.length; i++) {
+        for (i=0; i < links.length; i++) {
             formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">['+t('cospend', 'link')+']</a> ';
             linkChars = linkChars + '  🔗';
         }
@@ -1700,13 +1703,14 @@
             $('.projectitem[projectid="'+projectid+'"] .exportProject').parent().hide();
         }
 
-        for (var i=0; i < project.members.length; i++) {
+        var i;
+        for (i=0; i < project.members.length; i++) {
             var memberId = project.members[i].id;
             addMember(projectid, project.members[i], project.balance[memberId]);
         }
 
         if (project.shares) {
-            for (var i=0; i < project.shares.length; i++) {
+            for (i=0; i < project.shares.length; i++) {
                 var userid = project.shares[i].userid;
                 var username = project.shares[i].name;
                 addUserShare(projectid, userid, username);
@@ -1714,7 +1718,7 @@
         }
 
         if (project.group_shares) {
-            for (var i=0; i < project.group_shares.length; i++) {
+            for (i=0; i < project.group_shares.length; i++) {
                 var groupid = project.group_shares[i].groupid;
                 var groupname = project.group_shares[i].name;
                 addGroupShare(projectid, groupid, groupname);
@@ -1816,6 +1820,54 @@
         $(li).appendTo('#projectlist li.projectitem[projectid="'+projectid+'"] .memberlist');
     }
 
+    function createNormalBill() {
+        // get bill info
+        var billid = $('.bill-title').attr('billid');
+        var projectid = $('.bill-title').attr('projectid');
+        // check fields validity
+        var valid = true;
+
+        var what = $('.input-bill-what').val();
+        var date = $('.input-bill-date').val();
+        var amount = parseFloat($('.input-bill-amount').val());
+        var payer_id = parseInt($('.input-bill-payer').val());
+        var repeat = $('#repeatbill').val();
+        var owerIds = [];
+        var owerId;
+        $('.owerEntry input').each(function() {
+            if ($(this).is(':checked')) {
+                owerId = parseInt($(this).attr('owerid'));
+                if (isNaN(owerId)) {
+                    valid = false;
+                }
+                else {
+                    owerIds.push(owerId);
+                }
+            }
+        });
+
+        if (what === null || what === '') {
+            valid = false;
+        }
+        if (date === null || date === '' || date.match(/^\d\d\d\d-\d\d-\d\d$/g) === null) {
+            valid = false;
+        }
+        if (isNaN(amount) || isNaN(payer_id)) {
+            valid = false;
+        }
+        if (owerIds.length === 0) {
+            valid = false;
+        }
+
+        // if valid, save the bill or create it if needed
+        if (valid) {
+            createBill(projectid, what, amount, payer_id, date, owerIds, repeat);
+        }
+        else {
+            OC.Notification.showTemporary(t('cospend', 'Bill values are not valid'));
+        }
+    }
+
     function onBillEdited() {
         // get bill info
         var billid = $('.bill-title').attr('billid');
@@ -1824,7 +1876,7 @@
         var valid = true;
 
         // if this is a new bill and custom amount or personal parts is enabled : get out
-        if (billid === '0' && $('#billtype').val() !== 'normal') {
+        if (billid === '0') {
             return;
         }
 
@@ -1946,7 +1998,7 @@
         });
     }
 
-    function addUserAutocompletion(input) {
+    function addUserAutocompletion(input, projectid) {
         var req = {
         };
         var url = OC.generateUrl('/apps/cospend/getUserList');
@@ -1958,19 +2010,67 @@
         }).done(function (response) {
             cospend.userIdName = response.users;
             cospend.groupIdName = response.groups;
-            var nameList = [];
-            var name;
-            for (var id in response.users) {
+            var data = [];
+            var d, name, id;
+            for (id in response.users) {
                 name = response.users[id];
-                nameList.push(name);
+                d = {
+                    id: id,
+                    name: name,
+                    group: false,
+                    projectid: projectid
+                };
+                if (id !== name) {
+                    d.label = name + ' (' + id + ')';
+                    d.value = name + ' (' + id + ')';
+                }
+                else {
+                    d.label = name;
+                    d.value = name;
+                }
+                data.push(d);
             }
-            for (var id in response.groups) {
+            for (id in response.groups) {
                 name = response.groups[id];
-                nameList.push(name);
+                d = {
+                    id: id,
+                    name: name,
+                    group: true,
+                    projectid: projectid
+                };
+                if (id !== name) {
+                    d.label = name + ' (' + id + ')';
+                    d.value = name + ' (' + id + ')';
+                }
+                else {
+                    d.label = name;
+                    d.value = name;
+                }
+                data.push(d);
             }
-            input.autocomplete({
-                source: nameList
-            });
+            var ii = input.autocomplete({
+                source: data,
+                select: function (e, ui) {
+                    console.log(ui);
+                    var it = ui.item;
+                    if (it.group) {
+                        addGroupShareDb(it.projectid, it.id, it.name);
+                    }
+                    else {
+                        addUserShareDb(it.projectid, it.id, it.name);
+                    }
+                }
+            }).data('ui-autocomplete')._renderItem = function(ul, item) {
+                var iconClass = 'icon-user';
+                if (item.group) {
+                    iconClass = 'icon-group';
+                }
+                var listItem = $('<li></li>')
+                    .data('item.autocomplete', item)
+                    .append('<a class="shareCompleteLink"><button class="shareCompleteIcon '+iconClass+'"></button> ' + item.label + '</a>')
+                    .appendTo(ul);
+                return listItem;
+            };
         }).fail(function() {
             OC.Notification.showTemporary(t('cospend', 'Failed to get user list'));
         });
@@ -2000,8 +2100,12 @@
     }
 
     function addUserShare(projectid, userid, username) {
+        var displayString = userid;
+        if (userid !== username) {
+            displayString = username + ' (' + userid + ')';
+        }
         var li = '<li userid="'+escapeHTML(userid)+'" username="' + escapeHTML(username) + '">' +
-            '<div class="shareLabel">' + t('cospend', 'Shared with {u}', {'u': username}) + '</div>' +
+            '<div class="shareLabel"><div class="shareLabelIcon icon-user"></div><span>' + displayString + '</span></div>' +
             '<div class="icon-delete deleteUserShareButton"></div></li>';
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share').append(li);
         $('.projectitem[projectid="' + projectid + '"] .shareinput').val('');
@@ -2021,7 +2125,7 @@
             async: true
         }).done(function (response) {
             var li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[userid=' + userid + ']');
-            li.fadeOut('slow', function() {
+            li.fadeOut('normal', function() {
                 li.remove();
             });
         }).always(function() {
@@ -2055,8 +2159,13 @@
     }
 
     function addGroupShare(projectid, groupid, groupname) {
+        var displayString = groupid;
+        if (groupid !== groupname) {
+            displayString = groupname + ' (' + groupid + ')';
+        }
+        var g = t('cospend', 'group');
         var li = '<li groupid="'+escapeHTML(groupid)+'" groupname="' + escapeHTML(groupname) + '">' +
-            '<div class="shareLabel">' + t('cospend', 'Shared with group {g}', {'g': groupname}) + '</div>' +
+            '<div class="shareLabel"><div class="shareLabelIcon icon-group"></div>' + displayString + '</div>' +
             '<div class="icon-delete deleteGroupShareButton"></div></li>';
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share').append(li);
         $('.projectitem[projectid="' + projectid + '"] .shareinput').val('');
@@ -2087,21 +2196,24 @@
     }
 
     function selectProject(projectitem) {
+        var projectid = projectitem.attr('projectid');
         var wasOpen = projectitem.hasClass('open');
+        var wasSelected = (cospend.currentProjectId === projectid);
         $('.projectitem.open').removeClass('open');
         if (!wasOpen) {
             projectitem.addClass('open');
-            var projectid = projectitem.attr('projectid');
 
-            saveOptionValue({selectedProject: projectid});
-            cospend.currentProjectId = projectid;
-            $('.projectitem').removeClass('selectedproject');
-            $('.projectitem[projectid="'+projectid+'"]').addClass('selectedproject');
-            $('.app-navigation-entry-utils-counter').removeClass('highlighted');
-            $('.projectitem[projectid="'+projectid+'"] .app-navigation-entry-utils-counter').addClass('highlighted');
+            if (!wasSelected) {
+                saveOptionValue({selectedProject: projectid});
+                cospend.currentProjectId = projectid;
+                $('.projectitem').removeClass('selectedproject');
+                $('.projectitem[projectid="'+projectid+'"]').addClass('selectedproject');
+                $('.app-navigation-entry-utils-counter').removeClass('highlighted');
+                $('.projectitem[projectid="'+projectid+'"] .app-navigation-entry-utils-counter').addClass('highlighted');
 
-            $('#billdetail').html('');
-            getBills(projectid);
+                $('#billdetail').html('');
+                getBills(projectid);
+            }
         }
     }
 
@@ -2291,6 +2403,8 @@
 
         var valid = true;
 
+        var tmpAmount;
+
         if (what === null || what === '') {
             valid = false;
         }
@@ -2302,7 +2416,7 @@
         }
         else {
             // check if amount - allPersonalParts >= 0
-            var tmpAmount = amount;
+            tmpAmount = amount;
             $('.amountinput').each(function() {
                 var owerId = parseInt($(this).attr('owerid'));
                 var amountVal = parseFloat($(this).val());
@@ -2322,7 +2436,7 @@
 
         if (valid) {
             // create bills related to personal parts
-            var tmpAmount = amount;
+            tmpAmount = amount;
             $('.amountinput').each(function() {
                 var owerId = parseInt($(this).attr('owerid'));
                 var amountVal = parseFloat($(this).val());
@@ -2337,7 +2451,7 @@
             // empty bill detail
             $('#billdetail').html('');
             // remove new bill line
-            $('.billitem[billid=0]').fadeOut('slow', function() {
+            $('.billitem[billid=0]').fadeOut('normal', function() {
                 $(this).remove();
                 if ($('.billitem').length === 0) {
                     $('#bill-list').html('<h2 class="nobill">'+t('cospend', 'No bill yet')+'</h2>');
@@ -2386,7 +2500,7 @@
                 // empty bill detail
                 $('#billdetail').html('');
                 // remove new bill line
-                $('.billitem[billid=0]').fadeOut('slow', function() {
+                $('.billitem[billid=0]').fadeOut('normal', function() {
                     $(this).remove();
                     if ($('.billitem').length === 0) {
                         $('#bill-list').html('<h2 class="nobill">'+t('cospend', 'No bill yet')+'</h2>');
@@ -2434,40 +2548,12 @@
                 $('.newmemberdiv').slideUp();
             }
             //console.log(event.target);
-        }
+        };
 
         $('body').on('focus','.shareinput', function(e) {
             $(this).select();
-            addUserAutocompletion($(this));
-        });
-
-        $('body').on('keyup','.shareinput', function(e) {
-            if (e.key === 'Enter') {
-                var projectid = $(this).parent().parent().parent().attr('projectid');
-                var value = $(this).val();
-                var userId = '';
-                for (var id in cospend.userIdName) {
-                    if (value === cospend.userIdName[id]) {
-                        userId = id;
-                        break;
-                    }
-                }
-                if (userId !== '') {
-                    addUserShareDb(projectid, userId, value);
-                }
-                else {
-                    var groupId = '';
-                    for (var id in cospend.groupIdName) {
-                        if (value === cospend.groupIdName[id]) {
-                            groupId = id;
-                            break;
-                        }
-                    }
-                    if (groupId !== '') {
-                        addGroupShareDb(projectid, groupId, value);
-                    }
-                }
-            }
+            var projectid = $(this).parent().parent().parent().attr('projectid');
+            addUserAutocompletion($(this), projectid);
         });
 
         $('body').on('click', '.deleteUserShareButton', function(e) {
@@ -2491,7 +2577,7 @@
             else {
                 shareDiv.slideDown();
                 $(this).addClass('activeButton');
-                var defaultShareText = t('cospend', 'userName');
+                var defaultShareText = t('cospend', 'user or group name');
                 $(this).parent().parent().parent().find('.shareinput').val(defaultShareText).focus().select();
             }
         });
@@ -2710,13 +2796,14 @@
             if (e.key === 'Enter') {
                 var memberid = $(this).parent().parent().parent().attr('memberid');
                 var projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
+                var newName;
                 if (cospend.memberEditionMode === MEMBER_NAME_EDITION) {
-                    var newName = $(this).val();
+                    newName = $(this).val();
                     editMember(projectid, memberid, newName, null, null);
                 }
                 else if (cospend.memberEditionMode === MEMBER_WEIGHT_EDITION) {
                     var newWeight = $(this).val();
-                    var newName = $(this).parent().parent().parent().find('b.memberName').text();
+                    newName = $(this).parent().parent().parent().find('b.memberName').text();
                     editMember(projectid, memberid, newName, newWeight, null);
                 }
             }
@@ -2725,13 +2812,14 @@
         $('body').on('click', '.editMemberOk', function(e) {
             var memberid = $(this).parent().parent().parent().attr('memberid');
             var projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
+            var newName;
             if (cospend.memberEditionMode === MEMBER_NAME_EDITION) {
-                var newName = $(this).parent().find('.editMemberInput').val();
+                newName = $(this).parent().find('.editMemberInput').val();
                 editMember(projectid, memberid, newName, null, null);
             }
             else if (cospend.memberEditionMode === MEMBER_WEIGHT_EDITION) {
                 var newWeight = $(this).parent().find('.editMemberInput').val();
-                var newName = $(this).parent().parent().parent().find('b.memberName').text();
+                newName = $(this).parent().parent().parent().find('b.memberName').text();
                 editMember(projectid, memberid, newName, newWeight, null);
             }
         });
@@ -2767,14 +2855,15 @@
 
         $('body').on('keyup', '.editProjectInput', function(e) {
             if (e.key === 'Enter') {
+                var newName;
                 var projectid = $(this).parent().parent().parent().attr('projectid');
                 if (cospend.projectEditionMode === PROJECT_NAME_EDITION) {
-                    var newName = $(this).val();
+                    newName = $(this).val();
                     editProject(projectid, newName, null, null);
                 }
                 else if (cospend.projectEditionMode === PROJECT_PASSWORD_EDITION) {
                     var newPassword = $(this).val();
-                    var newName = $(this).parent().parent().parent().find('>a span').text();
+                    newName = $(this).parent().parent().parent().find('>a span').text();
                     editProject(projectid, newName, null, newPassword);
                 }
             }
@@ -2782,13 +2871,14 @@
 
         $('body').on('click', '.editProjectOk', function(e) {
             var projectid = $(this).parent().parent().parent().attr('projectid');
+            var newName;
             if (cospend.projectEditionMode === PROJECT_NAME_EDITION) {
-                var newName = $(this).parent().find('.editProjectInput').val();
+                newName = $(this).parent().find('.editProjectInput').val();
                 editProject(projectid, newName, null, null);
             }
             else if (cospend.projectEditionMode === PROJECT_PASSWORD_EDITION) {
                 var newPassword = $(this).parent().find('.editProjectInput').val();
-                var newName = $(this).parent().parent().parent().find('>a span').text();
+                newName = $(this).parent().parent().parent().find('>a span').text();
                 editProject(projectid, newName, null, newPassword);
             }
         });
@@ -2827,22 +2917,30 @@
         });
 
         $('body').on('click', '#owerAll', function(e) {
+            var billtype = $('#billtype').val();
             var projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
             for (var memberid in cospend.members[projectid]) {
                 if (cospend.members[projectid][memberid].activated) {
                     $('.bill-owers input[owerid='+memberid+']').prop('checked', true);
                 }
             }
+            if (billtype === 'perso') {
+                $('.bill-owers .amountinput').show();
+            }
             //$('.owerEntry input').prop('checked', true);
             onBillEdited();
         });
 
         $('body').on('click', '#owerNone', function(e) {
+            var billtype = $('#billtype').val();
             var projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
             for (var memberid in cospend.members[projectid]) {
                 if (cospend.members[projectid][memberid].activated) {
                     $('.bill-owers input[owerid='+memberid+']').prop('checked', false);
                 }
+            }
+            if (billtype === 'perso') {
+                $('.bill-owers .amountinput').hide();
             }
             //$('.owerEntry input').prop('checked', false);
             onBillEdited();
@@ -2872,7 +2970,7 @@
                 if ($('.bill-title').length > 0 && $('.bill-title').attr('billid') === billid) {
                     $('#billdetail').html('');
                 }
-                $(this).parent().fadeOut('slow', function() {
+                $(this).parent().fadeOut('normal', function() {
                     $(this).remove();
                     if ($('.billitem').length === 0) {
                         $('#bill-list').html('<h2 class="nobill">'+t('cospend', 'No bill yet')+'</h2>');
@@ -2900,7 +2998,7 @@
                         repeat: 'n',
                         owers: []
                     };
-                    addBill(projectid, bill)
+                    addBill(projectid, bill);
                 }
                 displayBill(projectid, 0);
             }
@@ -2940,7 +3038,7 @@
                 guestLink = OC.generateUrl('/apps/cospend/loginproject/'+projectid);
                 guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
             }
-            var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select()
+            var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select();
             document.execCommand('copy');
             $('#dummycopy').remove();
             OC.Notification.showTemporary(t('cospend', 'Guest link for \'{pid}\' copied to clipboard', {pid: projectid}));
@@ -2953,7 +3051,7 @@
         $('body').on('click', '#generalGuestLinkButton', function() {
             var guestLink = OC.generateUrl('/apps/cospend/login');
             guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
-            var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select()
+            var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select();
             document.execCommand('copy');
             $('#dummycopy').remove();
             OC.Notification.showTemporary(t('cospend', 'Guest link copied to clipboard'));
@@ -3041,7 +3139,6 @@
             $('.modehint').slideUp();
             var billtype = $(this).val();
             if (billtype === 'normal') {
-                $('#owerValidate').hide();
                 $('#owerNone').show();
                 $('#owerAll').show();
                 $('.bill-owers .checkbox').show();
@@ -3053,7 +3150,6 @@
                 $('#repeatbill').prop('disabled', false);
             }
             else if (billtype === 'custom') {
-                $('#owerValidate').show();
                 $('#owerNone').hide();
                 $('#owerAll').hide();
                 $('.bill-owers .checkbox').hide();
@@ -3065,7 +3161,6 @@
                 $('#repeatbill').val('n').prop('disabled', true);
             }
             else if (billtype === 'perso') {
-                $('#owerValidate').show();
                 $('#owerNone').show();
                 $('#owerAll').show();
                 $('.bill-owers .checkbox').show();
@@ -3112,6 +3207,9 @@
             }
             else if (billtype === 'perso') {
                 createEquiPersoBill();
+            }
+            else if (billtype === 'normal') {
+                createNormalBill();
             }
         });
 

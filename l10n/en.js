@@ -3,4 +3,4 @@ OC.L10N.register(
     {
     "Cospend" : "Cospend"
 },
-"nplurals=2; plural=(n != 1);\nX-Generator: crowdin.com\nX-Crowdin-Project: moneybuster\nX-Crowdin-Language: en-US");
+"nplurals=2; plural=(n != 1);");

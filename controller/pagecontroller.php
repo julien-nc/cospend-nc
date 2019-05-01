@@ -1909,22 +1909,7 @@ class PageController extends ApiController {
         $req = $qb->execute();
         $qb = $qb->resetQueryParts();
 
-        // get inserted bill id
-        $qb->select('id')
-           ->from('cospend_bills', 'b')
-           ->where(
-               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
-           )
-           ->orderBy('id', 'DESC')
-           ->setMaxResults(1);
-        $req = $qb->execute();
-
-        while ($row = $req->fetch()){
-            $insertedBillId = intval($row['id']);
-            break;
-        }
-        $req->closeCursor();
-        $qb = $qb->resetQueryParts();
+        $insertedBillId = $qb->getLastInsertId();
 
         // insert bill owers
         foreach ($owerIds as $owerId) {

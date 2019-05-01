@@ -1875,7 +1875,7 @@
         // check fields validity
         var valid = true;
 
-        // if this is a new bill and custom amount or personal parts is enabled : get out
+        // if this is a new bill : get out
         if (billid === '0') {
             return;
         }
@@ -1912,40 +1912,33 @@
             valid = false;
         }
 
-        // if valid, save the bill or create it if needed
+        // if valid, save the bill
         if (valid) {
-            if (billid === '0') {
-                createBill(projectid, what, amount, payer_id, date, owerIds, repeat);
-            }
-            else {
-                // if values have changed, save the bill
-                var oldBill = cospend.bills[projectid][billid];
-                // if ower lists don't have the same length, it has changed
-                var owersChanged = (oldBill.owers.length !== owerIds.length);
-                // same length : check content
-                if (!owersChanged) {
-                    for (var i=0; i < oldBill.owers.length; i++) {
-                        if (owerIds.indexOf(oldBill.owers[i].id) === -1) {
-                            owersChanged = true;
-                            break;
-                        }
+            // if values have changed, save the bill
+            var oldBill = cospend.bills[projectid][billid];
+            // if ower lists don't have the same length, it has changed
+            var owersChanged = (oldBill.owers.length !== owerIds.length);
+            // same length : check content
+            if (!owersChanged) {
+                for (var i=0; i < oldBill.owers.length; i++) {
+                    if (owerIds.indexOf(oldBill.owers[i].id) === -1) {
+                        owersChanged = true;
+                        break;
                     }
                 }
-                if (oldBill.what !== what ||
-                    oldBill.amount !== amount ||
-                    oldBill.date !== date ||
-                    oldBill.repeat !== repeat ||
-                    oldBill.payer_id !== payer_id ||
-                    owersChanged
-                ) {
-                    saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat);
-                }
+            }
+            if (oldBill.what !== what ||
+                oldBill.amount !== amount ||
+                oldBill.date !== date ||
+                oldBill.repeat !== repeat ||
+                oldBill.payer_id !== payer_id ||
+                owersChanged
+            ) {
+                saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat);
             }
         }
         else {
-            if (billid !== '0') {
-                OC.Notification.showTemporary(t('cospend', 'Bill values are not valid'));
-            }
+            OC.Notification.showTemporary(t('cospend', 'Bill values are not valid'));
         }
     }
 

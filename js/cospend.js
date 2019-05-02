@@ -1019,7 +1019,7 @@
             url = 'https://net.eneiluj.moneybuster.cospend/' + ncurl.replace(/\/$/, '').replace(/https?:\/\//gi, '') + '/' + id + '/' + password;
         }
         else {
-            url = 'https://net.eneiluj.moneybuster.cospend/' + window.location.hostname + OC.generateUrl('').replace('/index.php', '') + projectid + '/';
+            url = 'https://net.eneiluj.moneybuster.cospend/' + window.location.host + OC.generateUrl('').replace('/index.php', '') + projectid + '/';
         }
 
         var projectName = getProjectName(projectid);
@@ -3029,7 +3029,7 @@
             }
             else {
                 guestLink = OC.generateUrl('/apps/cospend/loginproject/'+projectid);
-                guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
+                guestLink = window.location.protocol + '//' + window.location.host + guestLink;
             }
             var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select();
             document.execCommand('copy');
@@ -3038,12 +3038,12 @@
         });
 
         var guestLink = OC.generateUrl('/apps/cospend/login');
-        guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
+        guestLink = window.location.protocol + '//' + window.location.host + guestLink;
         $('#generalGuestLinkButton').attr('title', guestLink);
 
         $('body').on('click', '#generalGuestLinkButton', function() {
             var guestLink = OC.generateUrl('/apps/cospend/login');
-            guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
+            guestLink = window.location.protocol + '//' + window.location.host + guestLink;
             var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select();
             document.execCommand('copy');
             $('#dummycopy').remove();

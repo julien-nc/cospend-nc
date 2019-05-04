@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2019-04-12 11:17+0200\n"
-"PO-Revision-Date: 2019-04-12 09:20\n"
-"Last-Translator: eneiluj <eneiluj@posteo.net>\n"
+"PO-Revision-Date: 2019-04-29 23:16\n"
+"Last-Translator: Julien Veyssier (eneiluj)\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -99,7 +99,7 @@ msgstr "Desativar"
 
 #: /var/www/html/n15/apps/cospend/js/cospend.js:400
 msgid "Saved member"
-msgstr ""
+msgstr "Membro salvo"
 
 #: /var/www/html/n15/apps/cospend/js/cospend.js:408
 msgid "Failed to save member"
@@ -126,7 +126,7 @@ msgstr "Falha ao salvar conta"
 #: /var/www/html/n15/apps/cospend/js/cospend.js:1292
 #: /var/www/html/n15/apps/cospend/js/cospend.js:1450
 msgid "link"
-msgstr ""
+msgstr "link"
 
 #: /var/www/html/n15/apps/cospend/js/cospend.js:614
 msgid "Failed to delete external project"
@@ -143,7 +143,7 @@ msgstr "Deletado {name}"
 
 #: /var/www/html/n15/apps/cospend/js/cospend.js:709
 msgid "Saved project"
-msgstr ""
+msgstr "Projecto guardado"
 
 #: /var/www/html/n15/apps/cospend/js/cospend.js:713
 msgid "Failed to save project"
@@ -289,19 +289,19 @@ msgstr ""
 
 #: /var/www/html/n15/apps/cospend/js/cospend.js:1361
 msgid "day"
-msgstr ""
+msgstr "dia"
 
 #: /var/www/html/n15/apps/cospend/js/cospend.js:1362
 msgid "week"
-msgstr ""
+msgstr "semana"
 
 #: /var/www/html/n15/apps/cospend/js/cospend.js:1363
 msgid "month"
-msgstr ""
+msgstr "mês"
 
 #: /var/www/html/n15/apps/cospend/js/cospend.js:1364
 msgid "year"
-msgstr ""
+msgstr "ano"
 
 #: /var/www/html/n15/apps/cospend/js/cospend.js:1435
 #: /var/www/html/n15/apps/cospend/js/cospend.js:1461
@@ -314,25 +314,25 @@ msgstr ""
 
 #: /var/www/html/n15/apps/cospend/js/cospend.js:1557
 msgid "Add member"
-msgstr ""
+msgstr "Adicionar membro"
 
 #: /var/www/html/n15/apps/cospend/js/cospend.js:1558
 #: /var/www/html/n15/apps/cospend/templates/mainnavigation.php:70
 msgid "Guest access link"
-msgstr ""
+msgstr "Acesso de convidado"
 
 #: /var/www/html/n15/apps/cospend/js/cospend.js:1559
 #: /var/www/html/n15/apps/cospend/js/cospend.js:1772
 msgid "Rename"
-msgstr ""
+msgstr "Renomear"
 
 #: /var/www/html/n15/apps/cospend/js/cospend.js:1560
 msgid "Change password"
-msgstr ""
+msgstr "Alterar senha"
 
 #: /var/www/html/n15/apps/cospend/js/cospend.js:1561
 msgid "Display statistics"
-msgstr ""
+msgstr "Exibir estatísticas"
 
 #: /var/www/html/n15/apps/cospend/js/cospend.js:1562
 msgid "Settle the project"

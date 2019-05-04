@@ -3,7 +3,7 @@
     <id>cospend</id>
     <name>Cospend</name>
     <summary> </summary><description> </description>
-    <version>0.0.10</version>
+    <version>0.1.0</version>
     <licence>agpl</licence>
     <author mail="eneiluj@posteo.net">Julien Veyssier</author>
     <namespace>Cospend</namespace>

@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.1.0 – 2019-05-04
+### Added
+
+### Changed
+- use Migration DB system
+[!81](https://gitlab.com/eneiluj/cospend-nc/merge_requests/81) @werner.schiller
+- handle custom server port in links/QRCodes
+[#32](https://gitlab.com/eneiluj/cospend-nc/issues/32) @derpeter1
+
+### Fixed
+- share autocomplete design
+- concurrency problem when creating multiple bills simultaneously
+[!111](https://gitlab.com/eneiluj/cospend-nc/merge_requests/111) @klonfish
+
 ## 0.0.10 – 2019-04-08
 ### Changed
 - improved user/group sharing design

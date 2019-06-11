@@ -1542,29 +1542,49 @@ class PageController extends ApiController {
            ->orderBy($sqlOrder, 'ASC');
         $req = $qb->execute();
 
-        while ($row = $req->fetch()){
-            $dbMemberId = intval($row['id']);
-            $dbWeight = floatval($row['weight']);
-            $dbName = $row['name'];
-            $dbActivated= intval($row['activated']);
+        if ($sqlOrder === 'name') {
+            while ($row = $req->fetch()){
+                $dbMemberId = intval($row['id']);
+                $dbWeight = floatval($row['weight']);
+                $dbName = $row['name'];
+                $dbActivated= intval($row['activated']);
 
-            // find index to make sorted insert
-            $ii = 0;
-            while ($ii < count($members) && strcmp(strtolower($dbName), strtolower($members[$ii]['name'])) > 0) {
-                $ii++;
+                // find index to make sorted insert
+                $ii = 0;
+                while ($ii < count($members) && strcmp(strtolower($dbName), strtolower($members[$ii]['name'])) > 0) {
+                    $ii++;
+                }
+
+                array_splice(
+                    $members,
+                    $ii,
+                    0,
+                    [[
+                        'activated' => ($dbActivated === 1),
+                        'name' => $dbName,
+                        'id' => $dbMemberId,
+                        'weight' => $dbWeight
+                    ]]
+                );
             }
+        }
+        else {
+            while ($row = $req->fetch()){
+                $dbMemberId = intval($row['id']);
+                $dbWeight = floatval($row['weight']);
+                $dbName = $row['name'];
+                $dbActivated= intval($row['activated']);
 
-            array_splice(
-                $members,
-                $ii,
-                0,
-                [[
-                    'activated' => ($dbActivated === 1),
-                    'name' => $dbName,
-                    'id' => $dbMemberId,
-                    'weight' => $dbWeight
-                ]]
-            );
+                array_push(
+                    $members,
+                    [
+                        'activated' => ($dbActivated === 1),
+                        'name' => $dbName,
+                        'id' => $dbMemberId,
+                        'weight' => $dbWeight
+                    ]
+                );
+            }
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();
@@ -2234,7 +2254,7 @@ class PageController extends ApiController {
 
     private function getProjectSettlement($projectId) {
 
-        $statResp = $this->getProjectStatistics($projectId);
+        $statResp = $this->getProjectStatistics($projectId, 'id');
         $stats = $statResp->getData();
 
         $credits = [];

@@ -1527,10 +1527,14 @@ class PageController extends ApiController {
     private function getMembers($projectId, $order=null) {
         $members = [];
 
-        // LOWER does not work
         $sqlOrder = 'name';
         if ($order !== null) {
-            $sqlOrder = $order;
+            if ($order === 'lowername') {
+                $sqlOrder = 'name';
+            }
+            else {
+                $sqlOrder = $order;
+            }
         }
 
         $qb = $this->dbconnection->getQueryBuilder();
@@ -1542,7 +1546,7 @@ class PageController extends ApiController {
            ->orderBy($sqlOrder, 'ASC');
         $req = $qb->execute();
 
-        if ($sqlOrder === 'name') {
+        if ($order === 'lowername') {
             while ($row = $req->fetch()){
                 $dbMemberId = intval($row['id']);
                 $dbWeight = floatval($row['weight']);
@@ -2254,7 +2258,7 @@ class PageController extends ApiController {
 
     private function getProjectSettlement($projectId) {
 
-        $statResp = $this->getProjectStatistics($projectId, 'id');
+        $statResp = $this->getProjectStatistics($projectId);
         $stats = $statResp->getData();
 
         $credits = [];

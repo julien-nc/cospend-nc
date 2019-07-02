@@ -108,7 +108,7 @@ test_nc16_mysql:
     # copy local copy that has been cloned already
     - cp -r . /tmp/cospend
     - mkdir -p /var/www/html ; pushd /var/www/html
-    - wget -q https://download.nextcloud.com/server/releases/nextcloud-16.0.2.zip ; unzip -q nextcloud-16.0.2.zip ; rm nextcloud-16.0.2.zip
+    - wget -q https://download.nextcloud.com/server/releases/nextcloud-16.0.1.zip ; unzip -q nextcloud-16.0.1.zip ; rm nextcloud-16.0.1.zip
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/cospend ./

@@ -7,33 +7,33 @@ stages:
 before_script:
 - bash ci/docker_install.sh
 
-# test with NC16
-test_nc16_sqlite:
-  stage: test
-  only:
-    refs:
-      - master
-      - test
-  script:
-    # copy local copy that has been cloned already
-    - cp -r . /tmp/cospend
-    - mkdir -p /var/www/html ; pushd /var/www/html
-    - wget -q https://download.nextcloud.com/server/prereleases/nextcloud-16.0.0beta2.zip ; unzip -q nextcloud-16.0.0beta2.zip ; rm nextcloud-16.0.0beta2.zip
-    # temporary fix of autoloader.php
-    - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
-    - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/cospend ./
-    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
-    - sudo -u www-data php /var/www/html/nextcloud/occ app:enable cospend
-    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
-    # check code with occ
-    - sudo -u www-data php /var/www/html/nextcloud/occ app:check-code cospend
-    # check JS code
-    - jshint --verbose cospend/js/cospend.js && echo "jshint OK" || echo "jshint has complaints"
-    - popd ; popd
-    - phpunit --configuration /var/www/html/nextcloud/apps/cospend/phpunit.xml
+  #  ## test with NC15
+  #test_nc15_sqlite:
+  #  stage: test
+  #  only:
+  #    refs:
+  #      - master
+  #      - test
+  #  script:
+  #    # copy local copy that has been cloned already
+  #    - cp -r . /tmp/cospend
+  #    - mkdir -p /var/www/html ; pushd /var/www/html
+  #    - wget -q https://download.nextcloud.com/server/prereleases/nextcloud-16.0.0beta2.zip ; unzip -q nextcloud-16.0.0beta2.zip ; rm nextcloud-16.0.0beta2.zip
+  #    # temporary fix of autoloader.php
+  #    - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
+  #    - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/cospend ./
+  #    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
+  #    - sudo -u www-data php /var/www/html/nextcloud/occ app:enable cospend
+  #    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
+  #    # check code with occ
+  #    - sudo -u www-data php /var/www/html/nextcloud/occ app:check-code cospend
+  #    # check JS code
+  #    - jshint --verbose cospend/js/cospend.js && echo "jshint OK" || echo "jshint has complaints"
+  #    - popd ; popd
+  #    - phpunit --configuration /var/www/html/nextcloud/apps/cospend/phpunit.xml
 
-# test with NC15 and produce coverage report
-test_nc15_sqlite:
+# test with NC16 and produce coverage report
+test_nc16_sqlite:
   stage: test
   only:
     refs:
@@ -47,7 +47,7 @@ test_nc15_sqlite:
     # copy local copy that has been cloned already
     - cp -r . /tmp/cospend
     - mkdir -p /var/www/html ; pushd /var/www/html
-    - wget -q https://download.nextcloud.com/server/releases/nextcloud-15.0.2.zip ; unzip -q nextcloud-15.0.2.zip ; rm nextcloud-15.0.2.zip
+    - wget -q https://download.nextcloud.com/server/releases/nextcloud-16.0.1.zip ; unzip -q nextcloud-16.0.1.zip ; rm nextcloud-16.0.1.zip
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/cospend ./
@@ -61,7 +61,7 @@ test_nc15_sqlite:
     - popd ; popd ; mkdir coverage
     - phpunit --configuration /var/www/html/nextcloud/apps/cospend/phpunit.xml --coverage-text --color=never --coverage-html coverage
 
-test_nc15_pgsql:
+test_nc16_pgsql:
   stage: test
   only:
     refs:
@@ -78,7 +78,7 @@ test_nc15_pgsql:
     # copy local copy that has been cloned already
     - cp -r . /tmp/cospend
     - mkdir -p /var/www/html ; pushd /var/www/html
-    - wget -q https://download.nextcloud.com/server/releases/nextcloud-15.0.2.zip ; unzip -q nextcloud-15.0.2.zip ; rm nextcloud-15.0.2.zip
+    - wget -q https://download.nextcloud.com/server/releases/nextcloud-16.0.1.zip ; unzip -q nextcloud-16.0.1.zip ; rm nextcloud-16.0.1.zip
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/cospend ./
@@ -92,7 +92,7 @@ test_nc15_pgsql:
     - popd ; popd ; mkdir coverage
     - phpunit --configuration /var/www/html/nextcloud/apps/cospend/phpunit.xml
 
-test_nc15_mysql:
+test_nc16_mysql:
   stage: test
   only:
     refs:
@@ -108,7 +108,7 @@ test_nc15_mysql:
     # copy local copy that has been cloned already
     - cp -r . /tmp/cospend
     - mkdir -p /var/www/html ; pushd /var/www/html
-    - wget -q https://download.nextcloud.com/server/releases/nextcloud-15.0.2.zip ; unzip -q nextcloud-15.0.2.zip ; rm nextcloud-15.0.2.zip
+    - wget -q https://download.nextcloud.com/server/releases/nextcloud-16.0.2.zip ; unzip -q nextcloud-16.0.2.zip ; rm nextcloud-16.0.2.zip
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/cospend ./
@@ -126,7 +126,7 @@ test_nc15_mysql:
 pages:
   stage: deploy
   dependencies:
-    - test_nc15_sqlite
+    - test_nc16_sqlite
   before_script:
     - echo 'nothing to install for pages jobs'
   only:

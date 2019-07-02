@@ -40,7 +40,6 @@
     "Export" : "Exportar",
     "Add these payments to project" : "Adicionar estes pagamentos ao projecto",
     "MoneyBuster link/QRCode for project {name}" : "Ligação ou código-QR para o projecto MoneyBuster {name}",
-    "Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link." : "Leia este código-QR com um telemóvel Android com o MoneyBuster instalado e abra a ligação ou simplesmente envie a ligação.",
     "Statistics of project {name}" : "Estatísticas do projecto {name}",
     "Failed to get bills" : "Falha ao obter facturas",
     "Bill : {what}" : "Factura: {what}",

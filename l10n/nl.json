@@ -40,7 +40,6 @@
     "Export" : "Exporteren",
     "Add these payments to project" : "Voeg deze betalingen toe aan het project",
     "MoneyBuster link/QRCode for project {name}" : "MoneyBuster-link/QR-code van project '{name}'",
-    "Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link." : "Scan deze QR-code met een Android-toestel waarop MoneyBuster geïnstalleerd is en open de link, of verstuur de link.",
     "Statistics of project {name}" : "Statistieken van project '{name}'",
     "Failed to get bills" : "Kan rekeningen niet ophalen",
     "Bill : {what}" : "Rekening: {what}",

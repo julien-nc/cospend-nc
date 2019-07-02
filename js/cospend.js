@@ -1031,7 +1031,9 @@
             '<div id="qrcodediv"></div>' +
             '<label id="mbUrlLabel">' + url + '</label>' +
             '<br/>' +
-            '<label id="mbUrlHintLabel">' + t('cospend', 'Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone.') + '</label>';
+            '<label id="mbUrlHintLabel">' +
+            t('cospend', 'Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone.') +
+            '</label>';
         $('#billdetail').html(mbStr);
 
         var img = new Image();

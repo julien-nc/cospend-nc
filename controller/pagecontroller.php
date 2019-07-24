@@ -2266,7 +2266,7 @@ class PageController extends ApiController {
         $debitersCrediters = $this->orderBalance($balances);
         $debiters = $debitersCrediters[0];
         $crediters = $debitersCrediters[1];
-        return $this->reduceBalance($debiters, $crediters);
+        return $this->reduceBalance($crediters, $debiters);
     }
 
     private function orderBalance($balances) {
@@ -2296,11 +2296,11 @@ class PageController extends ApiController {
         $crediters = $this->sortCreditersDebiters($crediters);
         $debiters = $this->sortCreditersDebiters($debiters, true);
 
-        $deb = array_pop($crediters);
+        $deb = array_pop($debiters);
         $debiter = $deb[0];
         $debiterBalance = $deb[1];
 
-        $cred = array_pop($debiters);
+        $cred = array_pop($crediters);
         $crediter = $cred[0];
         $crediterBalance = $cred[1];
 
@@ -2316,14 +2316,14 @@ class PageController extends ApiController {
 
         $newDebiterBalance = $debiterBalance + $amount;
         if ($newDebiterBalance < 0.0) {
-            array_push($crediters, [$debiter, $newDebiterBalance]);
-            $crediters = $this->sortCreditersDebiters($crediters);
+            array_push($debiters, [$debiter, $newDebiterBalance]);
+            $debiters = $this->sortCreditersDebiters($debiters, true);
         }
 
         $newCrediterBalance = $crediterBalance - $amount;
         if ($newCrediterBalance > 0.0) {
-            array_push($debiters, [$crediter, $newCrediterBalance]);
-            $debiters = $this->sortCreditersDebiters($debiters, true);
+            array_push($crediters, [$crediter, $newCrediterBalance]);
+            $crediters = $this->sortCreditersDebiters($crediters);
         }
 
         return $this->reduceBalance($crediters, $debiters, $newResults);
@@ -2343,7 +2343,7 @@ class PageController extends ApiController {
         else {
             foreach ($arr as $elem) {
                 $i = 0;
-                while ($i < count($res) and $elem[1] > $res[$i][1]) {
+                while ($i < count($res) and $elem[1] >= $res[$i][1]) {
                     $i++;
                 }
                 array_splice($res, $i, 0, [$elem]);

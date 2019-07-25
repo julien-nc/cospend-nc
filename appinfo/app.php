@@ -18,15 +18,7 @@ $app = new Application();
 $container = $app->getContainer();
 
 $manager = \OC::$server->getNotificationManager();
-$manager->registerNotifier(function() {
-        return \OC::$server->query(Notifier::class);
-}, function() {
-        $l = \OC::$server->getL10N('cospend');
-        return [
-                'id' => 'spned',
-                'name' => $l->t('Cospend'),
-        ];
-});
+$manager->registerNotifierService(Notifier::class);
 
 $container->query('OCP\INavigationManager')->add(function () use ($container) {
     $urlGenerator = $container->query('OCP\IURLGenerator');

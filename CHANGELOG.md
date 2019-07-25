@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.1.1 – 2019-07-25
+### Added
+
+### Changed
+- improve settlement process (use https://framagit.org/almet/debts)
+- adjust Notifications to NC 17
+- compatible with NC >= 17
+
+### Fixed
+- make QRCode label more explicit
+
 ## 0.1.0 – 2019-05-04
 ### Added
 

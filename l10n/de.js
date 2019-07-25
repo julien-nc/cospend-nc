@@ -42,6 +42,7 @@ OC.L10N.register(
     "Export" : "Exportieren",
     "Add these payments to project" : "Diese Zahlungen zum Projekt hinzufügen",
     "MoneyBuster link/QRCode for project {name}" : "MoneyBuster Link/QRCode für Projekt {name}",
+    "Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone." : "Scannen Sie diesen QRCode mit MoneyBuster auf einem Android-Telefon und öffnen Sie den Link oder senden Sie den Link einfach an ein anderes Android-Telefon.",
     "Statistics of project {name}" : "Statistik für Projekt {name}",
     "Failed to get bills" : "Laden der Ausgaben nicht möglich",
     "Bill : {what}" : "Ausgabe : {what}",

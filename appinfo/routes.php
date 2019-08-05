@@ -41,6 +41,7 @@ return [
         ['name' => 'page#addGroupShare', 'url' => '/addGroupShare', 'verb' => 'POST'],
         ['name' => 'page#getPublicFileShare', 'url' => '/getPublicFileShare', 'verb' => 'POST'],
         ['name' => 'page#importCsvProject', 'url' => '/importCsvProject', 'verb' => 'POST'],
+        ['name' => 'page#importSWProject', 'url' => '/importSWProject', 'verb' => 'POST'],
         ['name' => 'page#exportCsvProject', 'url' => '/exportCsvProject', 'verb' => 'POST'],
         ['name' => 'page#exportCsvStatistics', 'url' => '/exportCsvStatistics', 'verb' => 'POST'],
         ['name' => 'page#exportCsvSettlement', 'url' => '/exportCsvSettlement', 'verb' => 'POST'],

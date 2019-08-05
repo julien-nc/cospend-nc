@@ -1527,14 +1527,10 @@ class PageController extends ApiController {
     private function getMembers($projectId, $order=null) {
         $members = [];
 
+        // LOWER does not work
         $sqlOrder = 'name';
         if ($order !== null) {
-            if ($order === 'lowername') {
-                $sqlOrder = 'name';
-            }
-            else {
-                $sqlOrder = $order;
-            }
+            $sqlOrder = $order;
         }
 
         $qb = $this->dbconnection->getQueryBuilder();
@@ -1546,49 +1542,29 @@ class PageController extends ApiController {
            ->orderBy($sqlOrder, 'ASC');
         $req = $qb->execute();
 
-        if ($order === 'lowername') {
-            while ($row = $req->fetch()){
-                $dbMemberId = intval($row['id']);
-                $dbWeight = floatval($row['weight']);
-                $dbName = $row['name'];
-                $dbActivated= intval($row['activated']);
+        while ($row = $req->fetch()){
+            $dbMemberId = intval($row['id']);
+            $dbWeight = floatval($row['weight']);
+            $dbName = $row['name'];
+            $dbActivated= intval($row['activated']);
 
-                // find index to make sorted insert
-                $ii = 0;
-                while ($ii < count($members) && strcmp(strtolower($dbName), strtolower($members[$ii]['name'])) > 0) {
-                    $ii++;
-                }
-
-                array_splice(
-                    $members,
-                    $ii,
-                    0,
-                    [[
-                        'activated' => ($dbActivated === 1),
-                        'name' => $dbName,
-                        'id' => $dbMemberId,
-                        'weight' => $dbWeight
-                    ]]
-                );
+            // find index to make sorted insert
+            $ii = 0;
+            while ($ii < count($members) && strcmp(strtolower($dbName), strtolower($members[$ii]['name'])) > 0) {
+                $ii++;
             }
-        }
-        else {
-            while ($row = $req->fetch()){
-                $dbMemberId = intval($row['id']);
-                $dbWeight = floatval($row['weight']);
-                $dbName = $row['name'];
-                $dbActivated= intval($row['activated']);
 
-                array_push(
-                    $members,
-                    [
-                        'activated' => ($dbActivated === 1),
-                        'name' => $dbName,
-                        'id' => $dbMemberId,
-                        'weight' => $dbWeight
-                    ]
-                );
-            }
+            array_splice(
+                $members,
+                $ii,
+                0,
+                [[
+                    'activated' => ($dbActivated === 1),
+                    'name' => $dbName,
+                    'id' => $dbMemberId,
+                    'weight' => $dbWeight
+                ]]
+            );
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();
@@ -2257,99 +2233,100 @@ class PageController extends ApiController {
     }
 
     private function getProjectSettlement($projectId) {
-        $balances = $this->getBalance($projectId);
-        $transactions = $this->settle($balances);
-        return new DataResponse($transactions);
-    }
 
-    private function settle($balances) {
-        $debitersCrediters = $this->orderBalance($balances);
-        $debiters = $debitersCrediters[0];
-        $crediters = $debitersCrediters[1];
-        return $this->reduceBalance($crediters, $debiters);
-    }
+        $statResp = $this->getProjectStatistics($projectId);
+        $stats = $statResp->getData();
 
-    private function orderBalance($balances) {
-        $crediters = [];
-        $debiters = [];
-        foreach ($balances as $id => $balance) {
-            if ($balance > 0.0) {
-                array_push($crediters, [$id, $balance]);
+        $credits = [];
+        $debts = [];
+        $transactions = [];
+
+        // Create lists of credits and debts
+        $k = 0;
+        foreach ($stats as $stat) {
+            $memberid = $stat['member']['id'];
+            $rBalance = round($stat['balance'] * 100.0) / 100.0;
+            if ($rBalance > 0.0) {
+                $credits[$k] = ['key'=>$k, 'memberid'=>$memberid, 'amount'=>$stat['balance']];
             }
-            else if ($balance < 0.0) {
-                array_push($debiters, [$id, $balance]);
+            else if ($rBalance < 0.0) {
+                $debts[$k] = ['key'=>$k, 'memberid'=>$memberid, 'amount'=>(-$stat['balance'])];
+            }
+            $k++;
+        }
+
+        // Try and find exact matches
+        foreach ($credits as $credKey=>$credit) {
+            $match = $this->exactMatch($credit['amount'], $debts);
+            if ($match !== null && count($match) > 0) {
+                foreach ($match as $m) {
+                    array_push($transactions, ['from'=>$m['memberid'], 'to'=>$credit['memberid'], 'amount'=>$m['amount']]);
+                    $debtKey = $m['key'];
+                    unset($debts[$debtKey]);
+                }
+                unset($credits[$credKey]);
             }
         }
 
-        return [$debiters, $crediters];
+        // Split any remaining debts & credits
+        while (count($credits) > 0 && count($debts) > 0) {
+            $credKey = array_keys($credits)[0];
+            $credit = array_values($credits)[0];
+            $debtKey = array_keys($debts)[0];
+            $debt = array_values($debts)[0];
+            if ($credit['amount'] > $debt['amount']) {
+                array_push($transactions,
+                    [
+                        'from'=>$debt['memberid'],
+                        'to'=>$credit['memberid'],
+                        'amount'=>$debt['amount']
+                    ]
+                );
+                $credit['amount'] = $credit['amount'] - $debt['amount'];
+                $credits[$credKey] = $credit;
+                unset($debts[$debtKey]);
+            }
+            else {
+                array_push($transactions,
+                    [
+                        'from'=>$debt['memberid'],
+                        'to'=>$credit['memberid'],
+                        'amount'=>$credit['amount']
+                    ]
+                );
+                $debt['amount'] = $debt['amount'] - $credit['amount'];
+                $debts[$debtKey] = $debt;
+                unset($credits[$credKey]);
+            }
+        }
+
+        $response = new DataResponse($transactions);
+        return $response;
     }
 
-    private function reduceBalance($crediters, $debiters, $results=null) {
-        if (count($crediters) === 0 or count($debiters) === 0) {
-            return $results;
+    private function exactMatch($creditAmount, $debts) {
+        if (count($debts) === 0) {
+            return null;
         }
-
-        if ($results === null) {
-            $results = [];
+        $debtKey = array_keys($debts)[0];
+        $debt = array_values($debts)[0];
+        if ($debt['amount'] > $creditAmount) {
+            return $this->exactMatch($creditAmount, array_slice($debts, 1));
         }
-
-        $crediters = $this->sortCreditersDebiters($crediters);
-        $debiters = $this->sortCreditersDebiters($debiters, true);
-
-        $deb = array_pop($debiters);
-        $debiter = $deb[0];
-        $debiterBalance = $deb[1];
-
-        $cred = array_pop($crediters);
-        $crediter = $cred[0];
-        $crediterBalance = $cred[1];
-
-        if (abs($debiterBalance) > abs($crediterBalance)) {
-            $amount = abs($crediterBalance);
+        else if ($debt['amount'] === $creditAmount) {
+            $res = [$debt];
+            return $res;
         }
         else {
-            $amount = abs($debiterBalance);
-        }
-
-        $newResults = $results;
-        array_push($newResults, ['to'=>$crediter, 'amount'=>$amount, 'from'=>$debiter]);
-
-        $newDebiterBalance = $debiterBalance + $amount;
-        if ($newDebiterBalance < 0.0) {
-            array_push($debiters, [$debiter, $newDebiterBalance]);
-            $debiters = $this->sortCreditersDebiters($debiters, true);
-        }
-
-        $newCrediterBalance = $crediterBalance - $amount;
-        if ($newCrediterBalance > 0.0) {
-            array_push($crediters, [$crediter, $newCrediterBalance]);
-            $crediters = $this->sortCreditersDebiters($crediters);
-        }
-
-        return $this->reduceBalance($crediters, $debiters, $newResults);
-    }
-
-    private function sortCreditersDebiters($arr, $reverse=false) {
-        $res = [];
-        if ($reverse) {
-            foreach ($arr as $elem) {
-                $i = 0;
-                while ($i < count($res) and $elem[1] < $res[$i][1]) {
-                    $i++;
-                }
-                array_splice($res, $i, 0, [$elem]);
+            $match = $this->exactMatch($creditAmount - $debt['amount'], array_slice($debts, 1));
+            if ($match !== null && count($match) > 0) {
+                array_push($match, $debt);
             }
-        }
-        else {
-            foreach ($arr as $elem) {
-                $i = 0;
-                while ($i < count($res) and $elem[1] >= $res[$i][1]) {
-                    $i++;
-                }
-                array_splice($res, $i, 0, [$elem]);
+            else {
+                $match = $this->exactMatch($creditAmount, array_slice($debts, 1));
             }
+            return $match;
         }
-        return $res;
     }
 
     /**
@@ -2996,6 +2973,151 @@ class PageController extends ApiController {
                             $payer_name = $data[$columns['payer_name']];
                             $payer_weight = $data[$columns['payer_weight']];
                             $owers = $data[$columns['owers']];
+
+                            // manage members
+                            if (is_numeric($payer_weight)) {
+                                $membersWeight[$payer_name] = floatval($payer_weight);
+                            }
+                            else {
+                                fclose($handle);
+                                $response = new DataResponse(['message'=>'Malformed CSV, bad payer weight on line '.$row], 400);
+                                return $response;
+                            }
+                            if (strlen($owers) === 0) {
+                                fclose($handle);
+                                $response = new DataResponse(['message'=>'Malformed CSV, bad owers on line '.$row], 400);
+                                return $response;
+                            }
+                            $owersArray = explode(', ', $owers);
+                            foreach ($owersArray as $ower) {
+                                if (strlen($ower) === 0) {
+                                    fclose($handle);
+                                    $response = new DataResponse(['message'=>'Malformed CSV, bad owers on line '.$row], 400);
+                                    return $response;
+                                }
+                                if (!array_key_exists($ower, $membersWeight)) {
+                                    $membersWeight[$ower] = 1.0;
+                                }
+                            }
+                            if (!is_numeric($amount)) {
+                                fclose($handle);
+                                $response = new DataResponse(['message'=>'Malformed CSV, bad amount on line '.$row], 400);
+                                return $response;
+                            }
+                            array_push($bills,
+                                [
+                                    'what'=>$what,
+                                    'date'=>$date,
+                                    'amount'=>$amount,
+                                    'payer_name'=>$payer_name,
+                                    'owers'=>$owersArray,
+                                ]
+                            );
+                        }
+                        $row++;
+                    }
+                    fclose($handle);
+
+                    $memberNameToId = [];
+
+                    // add project
+                    $user = $this->userManager->get($this->userId);
+                    $userEmail = $user->getEMailAddress();
+                    $projectid = str_replace('.csv', '', $file->getName());
+                    $projectName = $projectid;
+                    $projResult = $this->createProject($projectName, $projectid, '', $userEmail, $this->userId);
+                    if ($projResult->getStatus() !== 200) {
+                        $response = new DataResponse('Error in project creation '.$projResult->getData()['message'], 400);
+                        return $response;
+                    }
+                    // add members
+                    foreach ($membersWeight as $memberName => $weight) {
+                        $addMemberResult =  $this->addMember($projectid, $memberName, $weight);
+                        if ($addMemberResult->getStatus() !== 200) {
+                            $this->deleteProject($projectid);
+                            $response = new DataResponse(['message'=>'Error when adding member '.$memberName], 400);
+                            return $response;
+                        }
+                        $data = $addMemberResult->getData();
+                        $memberId = $data;
+
+                        $memberNameToId[$memberName] = $memberId;
+                    }
+                    // add bills
+                    foreach ($bills as $bill) {
+                        $payerId = $memberNameToId[$bill['payer_name']];
+                        $owerIds = [];
+                        foreach ($bill['owers'] as $owerName) {
+                            array_push($owerIds, $memberNameToId[$owerName]);
+                        }
+                        $owerIdsStr = implode(',', $owerIds);
+                        $addBillResult = $this->addBill($projectid, $bill['date'], $bill['what'], $payerId, $owerIdsStr, $bill['amount'], 'n');
+                        if ($addBillResult->getStatus() !== 200) {
+                            $this->deleteProject($projectid);
+                            $response = new DataResponse(['message'=>'Error when adding bill '.$bill['what']], 400);
+                            return $response;
+                        }
+                    }
+                    $response = new DataResponse($projectid);
+                }
+                else {
+                    $response = new DataResponse(['message'=>'Access denied'], 403);
+                }
+            }
+            else {
+                $response = new DataResponse(['message'=>'Access denied'], 403);
+            }
+        }
+        else {
+            $response = new DataResponse(['message'=>'Access denied'], 403);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function importSWProject($path) {
+        $cleanPath = str_replace(array('../', '..\\'), '',  $path);
+        $userFolder = \OC::$server->getUserFolder();
+        if ($userFolder->nodeExists($cleanPath)) {
+            $file = $userFolder->get($cleanPath);
+            if ($file->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
+                if (($handle = $file->fopen('r')) !== false) {
+                    $columns = [];
+                    $membersWeight = [];
+                    $bills = [];
+                    $row = 0;
+                    while (($data = fgetcsv($handle, 1000, ',')) !== false) {
+                        // first line : get column order
+                        if ($row === 0) {
+                            $nbCol = count($data);
+                            // SplitWise number of columns is determinated by the number of users
+                            for ($c=0; $c < $nbCol; $c++) {
+                                $columns[$data[$c]] = $c;
+                            }
+                            if (!array_key_exists('Date', $columns) or
+                                !array_key_exists('Description', $columns) or
+                                !array_key_exists('Category', $columns) or
+                                !array_key_exists('Cost', $columns) or
+                                !array_key_exists('Currency', $columns)
+                            ) {
+                                fclose($handle);
+                                $response = new DataResponse(['message'=>'Malformed CSV, bad column names'], 400);
+                                return $response;
+                            }
+                        }
+                        // normal line : bill
+                        else {
+                            $what = $data[$columns['Description']];
+                            $amount = $data[$columns['Cost']];
+                            $date = $data[$columns['Date']];
+                            // TODO. determine payer_name based on Cost and Payers name
+                            //$payer_name = $data[$columns['payer_name']];
+                            $payer_weight = '1';
+                            throw new \Exception( "\$user = $columns" );
+                            //$owers = $data[$columns['owers']];
 
                             // manage members
                             if (is_numeric($payer_weight)) {

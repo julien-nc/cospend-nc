@@ -66,6 +66,9 @@
         <button id="importProjectButton" class="icon-download" >
             <?php p($l->t('Import csv project file')); ?>
         </button>
+        <button id="importSWProjectButton" class="icon-download" >
+            <?php p($l->t('Import SplitWise project file')); ?>
+        </button>
         <button id="generalGuestLinkButton" class="icon-clippy" >
             <?php p($l->t('Guest access link')); ?>
         </button>

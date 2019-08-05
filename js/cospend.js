@@ -1031,9 +1031,7 @@
             '<div id="qrcodediv"></div>' +
             '<label id="mbUrlLabel">' + url + '</label>' +
             '<br/>' +
-            '<label id="mbUrlHintLabel">' +
-            t('cospend', 'Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone.') +
-            '</label>';
+            '<label id="mbUrlHintLabel">' + t('cospend', 'Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link.') + '</label>';
         $('#billdetail').html(mbStr);
 
         var img = new Image();
@@ -2362,6 +2360,31 @@
         });
     }
 
+    function importSWProject(targetPath) {
+        if (!endsWith(targetPath, '.csv')) {
+            OC.Notification.showTemporary(t('cospend', 'Only CSV files can be imported'));
+            return;
+        }
+        $('#addFileLinkButton').addClass('icon-loading-small');
+        var req = {
+            path: targetPath
+        };
+        var url = OC.generateUrl('/apps/cospend/importSWProject');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            $('#addFileLinkButton').removeClass('icon-loading-small');
+            getProjects();
+        }).always(function() {
+        }).fail(function(response) {
+            $('#addFileLinkButton').removeClass('icon-loading-small');
+            OC.Notification.showTemporary(t('cospend', 'Failed to import project file') + ' ' + response.responseText);
+        });
+    }
+
     function updateCustomAmount() {
         var tot = 0;
         $('.amountinput').each(function() {
@@ -2522,6 +2545,7 @@
             $('#newprojectbutton').hide();
             $('#addextprojectbutton').hide();
             $('#importProjectButton').hide();
+            $('#importSWProjectButton').hide();
             cospend.projectid = $('#projectid').text();
             cospend.password = $('#password').text();
             cospend.restoredSelectedProjectId = cospend.projectid;
@@ -3071,6 +3095,16 @@
                   t('cospend', 'Choose csv project file'),
                   function(targetPath) {
                       importProject(targetPath);
+                  },
+                  false, null, true
+              );
+        });
+
+        $('body').on('click', '#importSWProjectButton', function() {
+            OC.dialogs.filepicker(
+                  t('cospend', 'Choose SplitWise project file'),
+                  function(targetPath) {
+                      importSWProject(targetPath);
                   },
                   false, null, true
               );

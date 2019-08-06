@@ -1527,10 +1527,14 @@ class PageController extends ApiController {
     private function getMembers($projectId, $order=null) {
         $members = [];
 
-        // LOWER does not work
         $sqlOrder = 'name';
         if ($order !== null) {
-            $sqlOrder = $order;
+            if ($order === 'lowername') {
+                $sqlOrder = 'name';
+            }
+            else {
+                $sqlOrder = $order;
+            }
         }
 
         $qb = $this->dbconnection->getQueryBuilder();
@@ -1542,29 +1546,49 @@ class PageController extends ApiController {
            ->orderBy($sqlOrder, 'ASC');
         $req = $qb->execute();
 
-        while ($row = $req->fetch()){
-            $dbMemberId = intval($row['id']);
-            $dbWeight = floatval($row['weight']);
-            $dbName = $row['name'];
-            $dbActivated= intval($row['activated']);
+        if ($order === 'lowername') {
+            while ($row = $req->fetch()){
+                $dbMemberId = intval($row['id']);
+                $dbWeight = floatval($row['weight']);
+                $dbName = $row['name'];
+                $dbActivated= intval($row['activated']);
 
-            // find index to make sorted insert
-            $ii = 0;
-            while ($ii < count($members) && strcmp(strtolower($dbName), strtolower($members[$ii]['name'])) > 0) {
-                $ii++;
+                // find index to make sorted insert
+                $ii = 0;
+                while ($ii < count($members) && strcmp(strtolower($dbName), strtolower($members[$ii]['name'])) > 0) {
+                    $ii++;
+                }
+
+                array_splice(
+                    $members,
+                    $ii,
+                    0,
+                    [[
+                        'activated' => ($dbActivated === 1),
+                        'name' => $dbName,
+                        'id' => $dbMemberId,
+                        'weight' => $dbWeight
+                    ]]
+                );
             }
+        }
+        else {
+            while ($row = $req->fetch()){
+                $dbMemberId = intval($row['id']);
+                $dbWeight = floatval($row['weight']);
+                $dbName = $row['name'];
+                $dbActivated= intval($row['activated']);
 
-            array_splice(
-                $members,
-                $ii,
-                0,
-                [[
-                    'activated' => ($dbActivated === 1),
-                    'name' => $dbName,
-                    'id' => $dbMemberId,
-                    'weight' => $dbWeight
-                ]]
-            );
+                array_push(
+                    $members,
+                    [
+                        'activated' => ($dbActivated === 1),
+                        'name' => $dbName,
+                        'id' => $dbMemberId,
+                        'weight' => $dbWeight
+                    ]
+                );
+            }
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();
@@ -2233,100 +2257,99 @@ class PageController extends ApiController {
     }
 
     private function getProjectSettlement($projectId) {
-
-        $statResp = $this->getProjectStatistics($projectId);
-        $stats = $statResp->getData();
-
-        $credits = [];
-        $debts = [];
-        $transactions = [];
-
-        // Create lists of credits and debts
-        $k = 0;
-        foreach ($stats as $stat) {
-            $memberid = $stat['member']['id'];
-            $rBalance = round($stat['balance'] * 100.0) / 100.0;
-            if ($rBalance > 0.0) {
-                $credits[$k] = ['key'=>$k, 'memberid'=>$memberid, 'amount'=>$stat['balance']];
-            }
-            else if ($rBalance < 0.0) {
-                $debts[$k] = ['key'=>$k, 'memberid'=>$memberid, 'amount'=>(-$stat['balance'])];
-            }
-            $k++;
-        }
-
-        // Try and find exact matches
-        foreach ($credits as $credKey=>$credit) {
-            $match = $this->exactMatch($credit['amount'], $debts);
-            if ($match !== null && count($match) > 0) {
-                foreach ($match as $m) {
-                    array_push($transactions, ['from'=>$m['memberid'], 'to'=>$credit['memberid'], 'amount'=>$m['amount']]);
-                    $debtKey = $m['key'];
-                    unset($debts[$debtKey]);
-                }
-                unset($credits[$credKey]);
-            }
-        }
-
-        // Split any remaining debts & credits
-        while (count($credits) > 0 && count($debts) > 0) {
-            $credKey = array_keys($credits)[0];
-            $credit = array_values($credits)[0];
-            $debtKey = array_keys($debts)[0];
-            $debt = array_values($debts)[0];
-            if ($credit['amount'] > $debt['amount']) {
-                array_push($transactions,
-                    [
-                        'from'=>$debt['memberid'],
-                        'to'=>$credit['memberid'],
-                        'amount'=>$debt['amount']
-                    ]
-                );
-                $credit['amount'] = $credit['amount'] - $debt['amount'];
-                $credits[$credKey] = $credit;
-                unset($debts[$debtKey]);
-            }
-            else {
-                array_push($transactions,
-                    [
-                        'from'=>$debt['memberid'],
-                        'to'=>$credit['memberid'],
-                        'amount'=>$credit['amount']
-                    ]
-                );
-                $debt['amount'] = $debt['amount'] - $credit['amount'];
-                $debts[$debtKey] = $debt;
-                unset($credits[$credKey]);
-            }
-        }
-
-        $response = new DataResponse($transactions);
-        return $response;
+        $balances = $this->getBalance($projectId);
+        $transactions = $this->settle($balances);
+        return new DataResponse($transactions);
     }
 
-    private function exactMatch($creditAmount, $debts) {
-        if (count($debts) === 0) {
-            return null;
+    private function settle($balances) {
+        $debitersCrediters = $this->orderBalance($balances);
+        $debiters = $debitersCrediters[0];
+        $crediters = $debitersCrediters[1];
+        return $this->reduceBalance($crediters, $debiters);
+    }
+
+    private function orderBalance($balances) {
+        $crediters = [];
+        $debiters = [];
+        foreach ($balances as $id => $balance) {
+            if ($balance > 0.0) {
+                array_push($crediters, [$id, $balance]);
+            }
+            else if ($balance < 0.0) {
+                array_push($debiters, [$id, $balance]);
+            }
         }
-        $debtKey = array_keys($debts)[0];
-        $debt = array_values($debts)[0];
-        if ($debt['amount'] > $creditAmount) {
-            return $this->exactMatch($creditAmount, array_slice($debts, 1));
+
+        return [$debiters, $crediters];
+    }
+
+    private function reduceBalance($crediters, $debiters, $results=null) {
+        if (count($crediters) === 0 or count($debiters) === 0) {
+            return $results;
         }
-        else if ($debt['amount'] === $creditAmount) {
-            $res = [$debt];
-            return $res;
+
+        if ($results === null) {
+            $results = [];
+        }
+
+        $crediters = $this->sortCreditersDebiters($crediters);
+        $debiters = $this->sortCreditersDebiters($debiters, true);
+
+        $deb = array_pop($debiters);
+        $debiter = $deb[0];
+        $debiterBalance = $deb[1];
+
+        $cred = array_pop($crediters);
+        $crediter = $cred[0];
+        $crediterBalance = $cred[1];
+
+        if (abs($debiterBalance) > abs($crediterBalance)) {
+            $amount = abs($crediterBalance);
         }
         else {
-            $match = $this->exactMatch($creditAmount - $debt['amount'], array_slice($debts, 1));
-            if ($match !== null && count($match) > 0) {
-                array_push($match, $debt);
-            }
-            else {
-                $match = $this->exactMatch($creditAmount, array_slice($debts, 1));
-            }
-            return $match;
+            $amount = abs($debiterBalance);
         }
+
+        $newResults = $results;
+        array_push($newResults, ['to'=>$crediter, 'amount'=>$amount, 'from'=>$debiter]);
+
+        $newDebiterBalance = $debiterBalance + $amount;
+        if ($newDebiterBalance < 0.0) {
+            array_push($debiters, [$debiter, $newDebiterBalance]);
+            $debiters = $this->sortCreditersDebiters($debiters, true);
+        }
+
+        $newCrediterBalance = $crediterBalance - $amount;
+        if ($newCrediterBalance > 0.0) {
+            array_push($crediters, [$crediter, $newCrediterBalance]);
+            $crediters = $this->sortCreditersDebiters($crediters);
+        }
+
+        return $this->reduceBalance($crediters, $debiters, $newResults);
+    }
+
+    private function sortCreditersDebiters($arr, $reverse=false) {
+        $res = [];
+        if ($reverse) {
+            foreach ($arr as $elem) {
+                $i = 0;
+                while ($i < count($res) and $elem[1] < $res[$i][1]) {
+                    $i++;
+                }
+                array_splice($res, $i, 0, [$elem]);
+            }
+        }
+        else {
+            foreach ($arr as $elem) {
+                $i = 0;
+                while ($i < count($res) and $elem[1] >= $res[$i][1]) {
+                    $i++;
+                }
+                array_splice($res, $i, 0, [$elem]);
+            }
+        }
+        return $res;
     }
 
     /**
@@ -3075,7 +3098,7 @@ class PageController extends ApiController {
         return $response;
     }
 
-    /**
+       /**
      * @NoAdminRequired
      */
     public function importSWProject($path) {
@@ -3219,7 +3242,7 @@ class PageController extends ApiController {
 
         return $response;
     }
-
+    
     private function autoSettlement($projectid) {
         $settleResp = $this->getProjectSettlement($projectid);
         if ($settleResp->getStatus() !== 200) {

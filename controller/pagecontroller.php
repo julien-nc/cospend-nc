@@ -3096,6 +3096,7 @@ class PageController extends ApiController {
         }
 
         return $response;
+
     }
 
        /**
@@ -3116,7 +3117,6 @@ class PageController extends ApiController {
                         // first line : get column order
                         if ($row === 0) {
                             $nbCol = count($data);
-                            // SplitWise number of columns is determinated by the number of users
                             for ($c=0; $c < $nbCol; $c++) {
                                 $columns[$data[$c]] = $c;
                             }
@@ -3130,33 +3130,27 @@ class PageController extends ApiController {
                                 $response = new DataResponse(['message'=>'Malformed CSV, bad column names'], 400);
                                 return $response;
                             }
+                            // manage members
+                            for ($c=4; $c < $nbCol; $c++){
+                                for ($m=0; $m < $nbCol - 4; $m++){
+                                    $owersArray[$m] = $data[$c];
+                                    echo ($data[$c]);
+                                }
+                            }
+                        } elseif (!isset($data[$columns['Date']]) || empty($data[$columns['Date']])) {
+                            // skip empty lines
+                        } elseif (isset($data[$columns['Description']]) && $data[$columns['Description']] === 'Total balance') {
+                            // TODO
                         }
                         // normal line : bill
                         else {
                             $what = $data[$columns['Description']];
                             $amount = $data[$columns['Cost']];
                             $date = $data[$columns['Date']];
-                            // TODO. determine payer_name based on Cost and Payers name
-                            //$payer_name = $data[$columns['payer_name']];
-                            $payer_weight = '1';
-                            throw new \Exception( "\$user = $columns" );
-                            //$owers = $data[$columns['owers']];
+                            // TODO
+                            $payer_name = $owersArray[0];
+                            $payer_weight = 1;
 
-                            // manage members
-                            if (is_numeric($payer_weight)) {
-                                $membersWeight[$payer_name] = floatval($payer_weight);
-                            }
-                            else {
-                                fclose($handle);
-                                $response = new DataResponse(['message'=>'Malformed CSV, bad payer weight on line '.$row], 400);
-                                return $response;
-                            }
-                            if (strlen($owers) === 0) {
-                                fclose($handle);
-                                $response = new DataResponse(['message'=>'Malformed CSV, bad owers on line '.$row], 400);
-                                return $response;
-                            }
-                            $owersArray = explode(', ', $owers);
                             foreach ($owersArray as $ower) {
                                 if (strlen($ower) === 0) {
                                     fclose($handle);
@@ -3241,8 +3235,9 @@ class PageController extends ApiController {
         }
 
         return $response;
+
     }
-    
+
     private function autoSettlement($projectid) {
         $settleResp = $this->getProjectSettlement($projectid);
         if ($settleResp->getStatus() !== 200) {
@@ -3358,5 +3353,4 @@ class PageController extends ApiController {
         // now we can remove repeat flag on original bill
         $this->editBill($projectid, $billid, $bill['date'], $bill['what'], $bill['payer_id'], null, $bill['amount'], 'n');
     }
-
 }

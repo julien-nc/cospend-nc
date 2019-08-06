@@ -3114,6 +3114,9 @@ class PageController extends ApiController {
                     $bills = [];
                     $row = 0;
                     while (($data = fgetcsv($handle, 1000, ',')) !== false) {
+                        $owersList = [];
+                        $owersArray = [];
+                        $payer_name = '';
                         // first line : get column order
                         if ($row === 0) {
                             $nbCol = count($data);
@@ -3131,10 +3134,19 @@ class PageController extends ApiController {
                                 return $response;
                             }
                             // manage members
-                            for ($c=4; $c < $nbCol; $c++){
-                                for ($m=0; $m < $nbCol - 4; $m++){
-                                    $owersArray[$m] = $data[$c];
-                                    echo ($data[$c]);
+                            $m=0;
+                            for ($c=5; $c < $nbCol; $c++){
+                                $owersArray[$m] = $data[$c];
+                                $m++;
+                            }
+                            foreach ($owersArray as $ower) {
+                                if (strlen($ower) === 0) {
+                                    fclose($handle);
+                                    $response = new DataResponse(['message'=>'Malformed CSV, cannot have an empty ower'], 400);
+                                    return $response;
+                                }
+                                if (!array_key_exists($ower, $membersWeight)) {
+                                    $membersWeight[$ower] = 1.0;
                                 }
                             }
                         } elseif (!isset($data[$columns['Date']]) || empty($data[$columns['Date']])) {
@@ -3148,19 +3160,28 @@ class PageController extends ApiController {
                             $amount = $data[$columns['Cost']];
                             $date = $data[$columns['Date']];
                             // TODO
-                            $payer_name = $owersArray[0];
+                            $l = 0;
+                            for ($c=5; $c < $nbCol; $c++){
+                                return new DataResponse(['message'=>'Quanto e datac: '.floatval($data[$c]) . ' e c: ' . $c . ' e amount: ' . $amount], 400);
+                                if (max($data[$c], 0) ==! 0){
+                                    $payer_name = $owersArray[$c-5];
+                                }
+                                if ($data[$c] === $amount){
+                                    continue;
+                                } elseif ($data[$c] === -$amount){
+                                    $owersList = [];
+                                    $owersList[$l++] = $owersArray[$c-5];
+                                    break;
+                                } else {
+                                    $owersList[$l++] = $owersArray[$c-5];
+                                };
+                            }
+                            if (!isset($payer_name) || empty($payer_name)) {
+                                $response = new DataResponse(['message'=>'Malformed CSV, no payer in row: '.$row], 400);
+                                return $response;
+                            }
                             $payer_weight = 1;
 
-                            foreach ($owersArray as $ower) {
-                                if (strlen($ower) === 0) {
-                                    fclose($handle);
-                                    $response = new DataResponse(['message'=>'Malformed CSV, bad owers on line '.$row], 400);
-                                    return $response;
-                                }
-                                if (!array_key_exists($ower, $membersWeight)) {
-                                    $membersWeight[$ower] = 1.0;
-                                }
-                            }
                             if (!is_numeric($amount)) {
                                 fclose($handle);
                                 $response = new DataResponse(['message'=>'Malformed CSV, bad amount on line '.$row], 400);
@@ -3172,7 +3193,7 @@ class PageController extends ApiController {
                                     'date'=>$date,
                                     'amount'=>$amount,
                                     'payer_name'=>$payer_name,
-                                    'owers'=>$owersArray,
+                                    'owers'=>$owersList,
                                 ]
                             );
                         }

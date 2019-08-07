@@ -3161,7 +3161,7 @@ class PageController extends ApiController {
                             $date = $data[$columns['Date']];
                             $l = 0;
                             for ($c=5; $c < $nbCol; $c++){
-                                if (max($data[$c], 0) ==! 0){
+                                if (max($data[$c], 0) !== 0){
                                     $payer_name = $owersArray[$c-5];
                                 }
                                 if ($data[$c] === $amount){

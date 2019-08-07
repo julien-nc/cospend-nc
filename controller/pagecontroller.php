@@ -3112,10 +3112,10 @@ class PageController extends ApiController {
                     $columns = [];
                     $membersWeight = [];
                     $bills = [];
+                    $owersArray = [];
                     $row = 0;
                     while (($data = fgetcsv($handle, 1000, ',')) !== false) {
                         $owersList = [];
-                        $owersArray = [];
                         $payer_name = '';
                         // first line : get column order
                         if ($row === 0) {
@@ -3152,17 +3152,15 @@ class PageController extends ApiController {
                         } elseif (!isset($data[$columns['Date']]) || empty($data[$columns['Date']])) {
                             // skip empty lines
                         } elseif (isset($data[$columns['Description']]) && $data[$columns['Description']] === 'Total balance') {
-                            // TODO
+                            // skip the total lines
                         }
                         // normal line : bill
                         else {
                             $what = $data[$columns['Description']];
                             $amount = $data[$columns['Cost']];
                             $date = $data[$columns['Date']];
-                            // TODO
                             $l = 0;
                             for ($c=5; $c < $nbCol; $c++){
-                                return new DataResponse(['message'=>'Quanto e datac: '.floatval($data[$c]) . ' e c: ' . $c . ' e amount: ' . $amount], 400);
                                 if (max($data[$c], 0) ==! 0){
                                     $payer_name = $owersArray[$c-5];
                                 }

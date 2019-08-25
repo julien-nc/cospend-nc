@@ -262,3 +262,6 @@ input[type=number] {
 .app-navigation-entry-share {
     background-color: var(--color-background-darker);
 }
+.totalPayedText {
+    margin: 0px 20px 0px 20px;
+}

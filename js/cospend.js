@@ -1101,11 +1101,20 @@
         var spentStr = t('cospend', 'Spent');
         var balanceStr = t('cospend', 'Balance');
         var exportStr = '';
+
+        var totalPayed = 0.0;
+        for (var i=0; i < statList.length; i++) {
+            totalPayed += statList[i].paid;
+        }
+
         if (!cospend.pageIsPublic && !project.external) {
             exportStr = ' <button class="exportStats" projectid="'+projectid+'"><span class="icon-file"></span>'+t('cospend', 'Export')+'</button>';
         }
+        var totalPayedText = '<p class="totalPayedText">' +
+                             t('cospend', 'Total payed by all the members: {t}', {t: totalPayed}) + '</p>';
         var statsStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 id="statsTitle"><span class="icon-category-monitoring"></span>'+titleStr+exportStr+'</h2>' +
+            totalPayedText +
             '<table id="statsTable"><thead>' +
             '<th>'+nameStr+'</th>' +
             '<th>'+paidStr+'</th>' +

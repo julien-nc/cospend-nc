@@ -18,6 +18,7 @@ return [
             'verb'         => 'OPTIONS',
             'requirements' => ['path' => '.+']
         ],
+        ['name' => 'page#apiPing', 'url' => '/api/ping', 'verb' => 'GET'],
         ['name' => 'page#apiCreateProject', 'url' => '/api/projects', 'verb' => 'POST'],
         ['name' => 'page#apiGetProjectInfo', 'url' => '/api/projects/{projectid}/{password}', 'verb' => 'GET'],
         ['name' => 'page#apiSetProjectInfo', 'url' => '/api/projects/{projectid}/{passwd}', 'verb' => 'PUT'],

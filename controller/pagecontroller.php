@@ -3214,4 +3214,21 @@ class PageController extends ApiController {
         $this->editBill($projectid, $billid, $bill['date'], $bill['what'], $bill['payer_id'], null, $bill['amount'], 'n');
     }
 
+    /**
+     * Used by MoneyBuster to check if weblogin is valid
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     */
+    public function apiPing() {
+        $response = new DataResponse(
+            [$this->userId]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
 }

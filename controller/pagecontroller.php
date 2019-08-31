@@ -582,6 +582,7 @@ class PageController extends ApiController {
 
     /**
      * @NoAdminRequired
+     * @NoCSRFRequired
      *
      */
     public function webGetProjects() {

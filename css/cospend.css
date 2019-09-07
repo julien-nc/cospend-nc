@@ -265,3 +265,11 @@ input[type=number] {
 .totalPayedText {
     margin: 0px 20px 0px 20px;
 }
+.autoexportSelect {
+    width: 50%;
+}
+.autoexportLabel {
+    width: 50%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

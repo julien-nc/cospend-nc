@@ -1683,7 +1683,7 @@
             li = li + '            <li>' +
             '                <a href="#" class="autoexportProject">' +
             '                    <span class="icon-category-office"></span>' +
-            '                    <span>'+autoexportStr+'</span>' +
+            '                    <span class="autoexportLabel">'+autoexportStr+'</span>' +
             '                    <select class="autoexportSelect">' +
             '                       <option value="n">'+t('cospend', 'No')+'</option>' +
             '                       <option value="d">'+t('cospend', 'Daily')+'</option>' +

@@ -463,9 +463,9 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat) {
+    public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode=null, $categoryid=null) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
-            return $this->editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat);
+            return $this->editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode, $categoryid);
         }
         else {
             $response = new DataResponse(
@@ -531,9 +531,9 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webAddBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat) {
+    public function webAddBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode=null, $categoryid=null) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
-            return $this->addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat);
+            return $this->addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode, $categoryid);
         }
         else {
             $response = new DataResponse(
@@ -1008,9 +1008,9 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiAddBill($projectid, $password, $date, $what, $payer, $payed_for, $amount, $repeat='n') {
+    public function apiAddBill($projectid, $password, $date, $what, $payer, $payed_for, $amount, $repeat='n', $paymentmode=null, $categoryid=null) {
         if ($this->checkLogin($projectid, $password)) {
-            return $this->addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat);
+            return $this->addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode, $categoryid);
         }
         else {
             $response = new DataResponse(
@@ -1027,9 +1027,9 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiEditBill($projectid, $password, $billid, $date, $what, $payer, $payed_for, $amount, $repeat='n') {
+    public function apiEditBill($projectid, $password, $billid, $date, $what, $payer, $payed_for, $amount, $repeat='n', $paymentmode=null, $categoryid=null) {
         if ($this->checkLogin($projectid, $password)) {
-            return $this->editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat);
+            return $this->editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode, $categoryid);
         }
         else {
             $response = new DataResponse(
@@ -1415,7 +1415,7 @@ class PageController extends ApiController {
         $qb = $qb->resetQueryParts();
 
         // get the bill
-        $qb->select('id', 'what', 'date', 'amount', 'payerid', 'repeat')
+        $qb->select('id', 'what', 'date', 'amount', 'payerid', 'repeat', 'paymentmode', 'categoryid')
            ->from('cospend_bills', 'b')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -1430,7 +1430,9 @@ class PageController extends ApiController {
             $dbWhat = $row['what'];
             $dbDate = $row['date'];
             $dbRepeat = $row['repeat'];
-            $dbPayerId= intval($row['payerid']);
+            $dbPayerId = intval($row['payerid']);
+            $dbPaymentMode = $row['paymentmode'];
+            $dbCategoryId = intval($row['categoryid']);
             $bill = [
                 'id' => $dbBillId,
                 'amount' => $dbAmount,
@@ -1438,7 +1440,9 @@ class PageController extends ApiController {
                 'date' => $dbDate,
                 'payer_id' => $dbPayerId,
                 'owers' => $billOwers,
-                'repeat' => $dbRepeat
+                'repeat' => $dbRepeat,
+                'paymentmode' => $dbPaymentMode,
+                'categoryid' => $dbCategoryId
             ];
         }
         $req->closeCursor();
@@ -1498,7 +1502,7 @@ class PageController extends ApiController {
             $billOwersByBill[$billId] = $billOwers;
         }
 
-        $qb->select('id', 'what', 'date', 'amount', 'payerid', 'repeat')
+        $qb->select('id', 'what', 'date', 'amount', 'payerid', 'repeat', 'paymentmode', 'categoryid')
            ->from('cospend_bills', 'b')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -1512,6 +1516,8 @@ class PageController extends ApiController {
             $dbDate = $row['date'];
             $dbRepeat = $row['repeat'];
             $dbPayerId= intval($row['payerid']);
+            $dbPaymentMode = $row['paymentmode'];
+            $dbCategoryId = intval($row['categoryid']);
             array_push(
                 $bills,
                 [
@@ -1521,7 +1527,9 @@ class PageController extends ApiController {
                     'date' => $dbDate,
                     'payer_id' => $dbPayerId,
                     'owers' => $billOwersByBill[$row['id']],
-                    'repeat' => $dbRepeat
+                    'repeat' => $dbRepeat,
+                    'paymentmode' => $dbPaymentMode,
+                    'categoryid' => $dbCategoryId
                 ]
             );
         }
@@ -1738,7 +1746,7 @@ class PageController extends ApiController {
         return $project;
     }
 
-    private function editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat) {
+    private function editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode=null, $categoryid=null) {
         $qb = $this->dbconnection->getQueryBuilder();
         $qb->update('cospend_bills');
 
@@ -1758,7 +1766,6 @@ class PageController extends ApiController {
             );
             return $response;
         }
-        //$whatSql = 'what='.$this->db_quote_escape_string($what);
         $qb->set('what', $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR));
 
         if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
@@ -1768,20 +1775,20 @@ class PageController extends ApiController {
             );
             return $response;
         }
-        //$repeatSql = $this->dbdblquotes.'repeat'.$this->dbdblquotes.'='.$this->db_quote_escape_string($repeat).',';
         $qb->set('repeat', $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR));
 
-        $dateSql = '';
+        if ($paymentmode !== null && is_string($paymentmode)) {
+            $qb->set('paymentmode', $qb->createNamedParameter($paymentmode, IQueryBuilder::PARAM_STR));
+        }
+        if ($categoryid !== null && is_numeric($categoryid)) {
+            $qb->set('categoryid', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT));
+        }
         if ($date !== null && $date !== '') {
-            //$dateSql = 'date='.$this->db_quote_escape_string($date).',';
             $qb->set('date', $qb->createNamedParameter($date, IQueryBuilder::PARAM_STR));
         }
-        $amountSql = '';
         if ($amount !== null && $amount !== '' && is_numeric($amount)) {
-            //$amountSql = 'amount='.$this->db_quote_escape_string($amount).',';
             $qb->set('amount', $qb->createNamedParameter($amount, IQueryBuilder::PARAM_STR));
         }
-        $payerSql = '';
         if ($payer !== null && $payer !== '' && is_numeric($payer)) {
             if ($this->getMemberById($projectid, $payer) === null) {
                 $response = new DataResponse(
@@ -1791,7 +1798,6 @@ class PageController extends ApiController {
                 return $response;
             }
             else {
-                //$payerSql = 'payerid='.$this->db_quote_escape_string($payer).',';
                 $qb->set('payerid', $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT));
             }
         }
@@ -1857,7 +1863,7 @@ class PageController extends ApiController {
         return $response;
     }
 
-    private function addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat) {
+    private function addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode=null, $categoryid=null) {
         if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
             $response = new DataResponse(
                 ["repeat"=> ["Invalid value."]]
@@ -1935,7 +1941,9 @@ class PageController extends ApiController {
                 'date' => $qb->createNamedParameter($date, IQueryBuilder::PARAM_STR),
                 'amount' => $qb->createNamedParameter($amount, IQueryBuilder::PARAM_STR),
                 'payerid' => $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT),
-                'repeat' => $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR)
+                'repeat' => $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR),
+                'categoryid' => $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT),
+                'paymentmode' => $qb->createNamedParameter($paymentmode, IQueryBuilder::PARAM_STR)
             ]);
         $req = $qb->execute();
         $qb = $qb->resetQueryParts();
@@ -3015,6 +3023,14 @@ class PageController extends ApiController {
                             $payer_name = $data[$columns['payer_name']];
                             $payer_weight = $data[$columns['payer_weight']];
                             $owers = $data[$columns['owers']];
+                            $paymentmode = null;
+                            if (array_key_exists('paymentmode', $columns)) {
+                                $paymentmode = $data[$columns['paymentmode']];
+                            }
+                            $categoryid = null;
+                            if (array_key_exists('categoryid', $columns)) {
+                                $categoryid = $data[$columns['categoryid']];
+                            }
 
                             // manage members
                             if (is_numeric($payer_weight)) {
@@ -3053,6 +3069,8 @@ class PageController extends ApiController {
                                     'amount'=>$amount,
                                     'payer_name'=>$payer_name,
                                     'owers'=>$owersArray,
+                                    'paymentmode'=>$paymentmode,
+                                    'categoryid'=>$categoryid
                                 ]
                             );
                         }
@@ -3093,7 +3111,7 @@ class PageController extends ApiController {
                             array_push($owerIds, $memberNameToId[$owerName]);
                         }
                         $owerIdsStr = implode(',', $owerIds);
-                        $addBillResult = $this->addBill($projectid, $bill['date'], $bill['what'], $payerId, $owerIdsStr, $bill['amount'], 'n');
+                        $addBillResult = $this->addBill($projectid, $bill['date'], $bill['what'], $payerId, $owerIdsStr, $bill['amount'], 'n', $bill['paymentmode'], $bill['categoryid']);
                         if ($addBillResult->getStatus() !== 200) {
                             $this->deleteProject($projectid);
                             $response = new DataResponse(['message'=>'Error when adding bill '.$bill['what']], 400);
@@ -3227,7 +3245,7 @@ class PageController extends ApiController {
         }
         $owerIdsStr = implode(',', $owerIds);
 
-        $this->addBill($projectid, $datetime->format('Y-m-d'), $bill['what'], $bill['payer_id'], $owerIdsStr, $bill['amount'], $bill['repeat']);
+        $this->addBill($projectid, $datetime->format('Y-m-d'), $bill['what'], $bill['payer_id'], $owerIdsStr, $bill['amount'], $bill['repeat'], $bill['paymentmode'], $bill['categoryid']);
 
         // now we can remove repeat flag on original bill
         $this->editBill($projectid, $billid, $bill['date'], $bill['what'], $bill['payer_id'], null, $bill['amount'], 'n');

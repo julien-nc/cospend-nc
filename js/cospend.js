@@ -397,7 +397,7 @@
                 imgurl = OC.generateUrl('/svg/core/actions/disabled-user?color='+rgbC);
             }
             memberLine.find('>a').attr('style', 'background-image: url('+imgurl+')');
-            OC.Notification.showTemporary(t('cospend', 'Saved member'));
+            OC.Notification.showTemporary(t('cospend', 'Member saved'));
             // get bills again to refresh names
             getBills(projectid);
             // reset bill edition
@@ -530,7 +530,7 @@
 
             updateProjectBalances(projectid);
 
-            OC.Notification.showTemporary(t('cospend', 'Saved bill'));
+            OC.Notification.showTemporary(t('cospend', 'Bill saved'));
         }).always(function() {
             $('.loading-bill').removeClass('icon-loading-small');
         }).fail(function(response) {
@@ -707,7 +707,7 @@
             projectLine.removeClass('editing');
             // reset bill edition
             $('#billdetail').html('');
-            OC.Notification.showTemporary(t('cospend', 'Saved project'));
+            OC.Notification.showTemporary(t('cospend', 'Project saved'));
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(
@@ -2268,8 +2268,12 @@
 
     function exportProject(projectid) {
         $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
+        var timeStamp = Math.floor(Date.now());
+        var dateStr = OC.Util.formatDate(timeStamp);
+        var filename = projectid + '_' + dateStr + '.csv';
         var req = {
-            projectid: projectid
+            projectid: projectid,
+            name: filename
         };
         var url = OC.generateUrl('/apps/cospend/exportCsvProject');
         $.ajax({

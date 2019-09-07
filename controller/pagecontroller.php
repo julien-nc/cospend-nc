@@ -2892,10 +2892,15 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function exportCsvProject($projectid) {
-        if ($this->userCanAccessProject($this->userId, $projectid)) {
+    public function exportCsvProject($projectid, $name=null, $uid=null) {
+        $userId = $uid;
+        if ($this->userId) {
+            $userId = $this->userId;
+        }
+
+        if ($this->userCanAccessProject($userId, $projectid)) {
             // create Cospend directory if needed
-            $userFolder = \OC::$server->getUserFolder();
+            $userFolder = \OC::$server->getUserFolder($userId);
             if (!$userFolder->nodeExists('/Cospend')) {
                 $userFolder->newFolder('Cospend');
             }
@@ -2916,10 +2921,14 @@ class PageController extends ApiController {
             }
 
             // create file
-            if ($folder->nodeExists($projectid.'.csv')) {
-                $folder->get($projectid.'.csv')->delete();
+            $filename = $projectid.'.csv';
+            if ($name !== null) {
+                $filename = $name;
             }
-            $file = $folder->newFile($projectid.'.csv');
+            if ($folder->nodeExists($filename)) {
+                $folder->get($filename)->delete();
+            }
+            $file = $folder->newFile($filename);
             $handler = $file->fopen('w');
             fwrite($handler, "what,amount,date,payer_name,payer_weight,owers\n");
             $members = $this->getMembers($projectid);
@@ -2946,7 +2955,7 @@ class PageController extends ApiController {
 
             fclose($handler);
             $file->touch();
-            $response = new DataResponse(['path'=>'/Cospend/'.$projectid.'.csv']);
+            $response = new DataResponse(['path'=>'/Cospend/'.$filename]);
             return $response;
         }
         else {
@@ -3239,6 +3248,120 @@ class PageController extends ApiController {
             ->addAllowedConnectDomain('*');
         $response->setContentSecurityPolicy($csp);
         return $response;
+    }
+
+    /**
+     * auto export
+     * triggered by NC cron job
+     *
+     * export projects
+     */
+    public function cronAutoExport() {
+        date_default_timezone_set('UTC');
+        $userNames = [];
+
+        // last day
+        $now = new \DateTime();
+        $y = $now->format('Y');
+        $m = $now->format('m');
+        $d = $now->format('d');
+        $timestamp = $now->getTimestamp();
+
+        // get begining of today
+        $dateMaxDay = new \DateTime($y.'-'.$m.'-'.$d);
+        $maxDayTimestamp = $dateMaxDay->getTimestamp();
+        $minDayTimestamp = $maxDayTimestamp - 24*60*60;
+
+        $dateMaxDay->modify('-1 day');
+        $dailySuffix = '_'.$this->trans->t('daily').'_'.$dateMaxDay->format('Y-m-d');
+
+        // last week
+        $now = new \DateTime();
+        while (intval($now->format('N')) !== 1) {
+            $now->modify('-1 day');
+        }
+        $y = $now->format('Y');
+        $m = $now->format('m');
+        $d = $now->format('d');
+        $dateWeekMax = new \DateTime($y.'-'.$m.'-'.$d);
+        $maxWeekTimestamp = $dateWeekMax->getTimestamp();
+        $minWeekTimestamp = $maxWeekTimestamp - 7*24*60*60;
+        $dateWeekMin = new \DateTime($y.'-'.$m.'-'.$d);
+        $dateWeekMin->modify('-7 day');
+        $weeklySuffix = '_'.$this->trans->t('weekly').'_'.$dateWeekMin->format('Y-m-d');
+
+        // last month
+        $now = new \DateTime();
+        while (intval($now->format('d')) !== 1) {
+            $now->modify('-1 day');
+        }
+        $y = $now->format('Y');
+        $m = $now->format('m');
+        $d = $now->format('d');
+        $dateMonthMax = new \DateTime($y.'-'.$m.'-'.$d);
+        $maxMonthTimestamp = $dateMonthMax->getTimestamp();
+        $now->modify('-1 day');
+        while (intval($now->format('d')) !== 1) {
+            $now->modify('-1 day');
+        }
+        $y = intval($now->format('Y'));
+        $m = intval($now->format('m'));
+        $d = intval($now->format('d'));
+        $dateMonthMin = new \DateTime($y.'-'.$m.'-'.$d);
+        $minMonthTimestamp = $dateMonthMin->getTimestamp();
+        $monthlySuffix = '_'.$this->trans->t('monthly').'_'.$dateMonthMin->format('Y-m');
+
+        $weekFilterArray = array();
+        $weekFilterArray['tsmin'] = $minWeekTimestamp;
+        $weekFilterArray['tsmax'] = $maxWeekTimestamp;
+        $dayFilterArray = array();
+        $dayFilterArray['tsmin'] = $minDayTimestamp;
+        $dayFilterArray['tsmax'] = $maxDayTimestamp;
+        $monthFilterArray = array();
+        $monthFilterArray['tsmin'] = $minMonthTimestamp;
+        $monthFilterArray['tsmax'] = $maxMonthTimestamp;
+
+        $qb = $this->dbconnection->getQueryBuilder();
+
+        foreach ($this->userManager->search('') as $u) {
+            $uid = $u->getUID();
+
+            $qb->select('p.id', 'p.name', 'p.autoexport')
+            ->from('cospend_projects', 'p')
+            ->where(
+                $qb->expr()->eq('userid', $qb->createNamedParameter($uid, IQueryBuilder::PARAM_STR))
+            )
+            ->andWhere(
+                $qb->expr()->neq('p.autoexport', $qb->createNamedParameter('n', IQueryBuilder::PARAM_STR))
+            );
+            $req = $qb->execute();
+
+            $dbProjectId = null;
+            $dbPassword = null;
+            while ($row = $req->fetch()) {
+                $dbProjectId = $row['id'];
+                $dbName  = $row['name'];
+                $autoexport = $row['autoexport'];
+
+                $suffix = $dailySuffix;
+                if ($autoexport === 'w') {
+                    $suffix = $weeklySuffix;
+                }
+                else if ($autoexport === 'm') {
+                    $suffix = $monthlySuffix;
+                }
+                // check if file already exists
+                $exportName = $dbProjectId.$suffix.'.csv';
+
+                $userFolder = \OC::$server->getUserFolder($uid);
+                if (! $userFolder->nodeExists('/Cospend/'.$exportName)) {
+                    error_log('export '.$exportName.' for user '.$uid);
+                    $this->exportCsvProject($dbProjectId, $exportName, $uid);
+                }
+            }
+            $req->closeCursor();
+            $qb = $qb->resetQueryParts();
+        }
     }
 
 }

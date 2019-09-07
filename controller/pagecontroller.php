@@ -480,9 +480,9 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webEditProject($projectid, $name, $contact_email, $password) {
+    public function webEditProject($projectid, $name, $contact_email, $password, $autoexport=null) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
-            return $this->editProject($projectid, $name, $contact_email, $password);
+            return $this->editProject($projectid, $name, $contact_email, $password, $autoexport);
         }
         else {
             $response = new DataResponse(
@@ -591,7 +591,7 @@ class PageController extends ApiController {
 
         $qb = $this->dbconnection->getQueryBuilder();
 
-        $qb->select('p.id', 'p.password', 'p.name', 'p.email')
+        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport')
            ->from('cospend_projects', 'p')
            ->where(
                $qb->expr()->eq('userid', $qb->createNamedParameter($this->userId, IQueryBuilder::PARAM_STR))
@@ -604,12 +604,14 @@ class PageController extends ApiController {
             $dbProjectId = $row['id'];
             array_push($projectids, $dbProjectId);
             $dbPassword = $row['password'];
-            $dbName = $row['name'];
-            $dbEmail= $row['email'];
+            $dbName  = $row['name'];
+            $dbEmail = $row['email'];
+            $autoexport = $row['autoexport'];
             array_push($projects, [
                 'name'=>$dbName,
                 'contact_email'=>$dbEmail,
                 'id'=>$dbProjectId,
+                'autoexport'=>$autoexport,
                 'active_members'=>null,
                 'members'=>null,
                 'balance'=>null,
@@ -621,7 +623,7 @@ class PageController extends ApiController {
         $qb = $qb->resetQueryParts();
 
         // shared with user
-        $qb->select('p.id', 'p.password', 'p.name', 'p.email')
+        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport')
            ->from('cospend_projects', 'p')
            ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
            ->where(
@@ -642,10 +644,12 @@ class PageController extends ApiController {
                 $dbPassword = $row['password'];
                 $dbName = $row['name'];
                 $dbEmail= $row['email'];
+                $autoexport = $row['autoexport'];
                 array_push($projects, [
                     'name'=>$dbName,
                     'contact_email'=>$dbEmail,
                     'id'=>$dbProjectId,
+                    'autoexport'=>$autoexport,
                     'active_members'=>null,
                     'members'=>null,
                     'balance'=>null,
@@ -681,7 +685,7 @@ class PageController extends ApiController {
             $group = $this->groupManager->get($candidateGroupId);
             if ($group !== null && $group->inGroup($userO)) {
                 // get projects shared with this group
-                $qb->select('p.id', 'p.password', 'p.name', 'p.email')
+                $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport')
                     ->from('cospend_projects', 'p')
                     ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
                     ->where(
@@ -702,10 +706,12 @@ class PageController extends ApiController {
                         $dbPassword = $row['password'];
                         $dbName = $row['name'];
                         $dbEmail= $row['email'];
+                        $autoexport = $row['autoexport'];
                         array_push($projects, [
                             'name'=>$dbName,
                             'contact_email'=>$dbEmail,
                             'id'=>$dbProjectId,
+                            'autoexport'=>$autoexport,
                             'active_members'=>null,
                             'members'=>null,
                             'balance'=>null,
@@ -922,9 +928,9 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiSetProjectInfo($projectid, $passwd, $name, $contact_email, $password) {
+    public function apiSetProjectInfo($projectid, $passwd, $name, $contact_email, $password, $autoexport=null) {
         if ($this->checkLogin($projectid, $passwd)) {
-            return $this->editProject($projectid, $name, $contact_email, $password);
+            return $this->editProject($projectid, $name, $contact_email, $password, $autoexport);
         }
         else {
             $response = new DataResponse(
@@ -2208,7 +2214,7 @@ class PageController extends ApiController {
         return $response;
     }
 
-    private function editProject($projectid, $name, $contact_email, $password) {
+    private function editProject($projectid, $name, $contact_email, $password, $autoexport=null) {
         if ($name === null || $name === '') {
             $response = new DataResponse(
                 ["name"=> ["This field is required."]]
@@ -2236,6 +2242,9 @@ class PageController extends ApiController {
         if ($password !== null && $password !== '') {
             $dbPassword = password_hash($password, PASSWORD_DEFAULT);
             $qb->set('password', $qb->createNamedParameter($dbPassword, IQueryBuilder::PARAM_STR));
+        }
+        if ($autoexport !== null && $autoexport !== '') {
+            $qb->set('autoexport', $qb->createNamedParameter($autoexport, IQueryBuilder::PARAM_STR));
         }
         if ($this->getProjectById($projectid) !== null) {
             $qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));

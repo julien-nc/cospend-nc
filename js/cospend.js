@@ -645,11 +645,12 @@
         });
     }
 
-    function editProject(projectid, newName, newEmail, newPassword) {
+    function editProject(projectid, newName, newEmail, newPassword, newAutoexport=null) {
         var req = {
             name: newName,
             contact_email: newEmail,
-            password: newPassword
+            password: newPassword,
+            autoexport: newAutoexport
         };
         var url, type;
         var project = cospend.projects[projectid];
@@ -1572,6 +1573,7 @@
         var displayStatsStr = t('cospend', 'Display statistics');
         var settleStr = t('cospend', 'Settle the project');
         var exportStr = t('cospend', 'Export to csv');
+        var autoexportStr = t('cospend', 'Auto export');
         var deleteStr;
         if (project.external) {
             deleteStr = t('cospend', 'Delete remote project');
@@ -1678,6 +1680,18 @@
             '                    <span>'+exportStr+'</span>' +
             '                </a>' +
             '            </li>';
+            li = li + '            <li>' +
+            '                <a href="#" class="autoexportProject">' +
+            '                    <span class="icon-category-office"></span>' +
+            '                    <span>'+autoexportStr+'</span>' +
+            '                    <select class="autoexportSelect">' +
+            '                       <option value="n">'+t('cospend', 'No')+'</option>' +
+            '                       <option value="d">'+t('cospend', 'Daily')+'</option>' +
+            '                       <option value="w">'+t('cospend', 'Weekly')+'</option>' +
+            '                       <option value="m">'+t('cospend', 'Monthly')+'</option>' +
+            '                    </select>' +
+            '                </a>' +
+            '            </li>';
         }
         li = li + '            <li>' +
             '                <a href="#" class="deleteProject">' +
@@ -1707,6 +1721,10 @@
         // select project if it was the last selected (option restore on page load)
         if (cospend.restoredSelectedProjectId === projectid) {
             selectProject($('.projectitem[projectid="'+projectid+'"]'));
+        }
+
+        if (!project.external) {
+            $('.projectitem[projectid="'+projectid+'"] .autoexportSelect').val(project.autoexport);
         }
 
         if (cospend.pageIsPublic) {
@@ -3088,6 +3106,18 @@
         $('body').on('click', '.exportProject', function() {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
             exportProject(projectid);
+        });
+
+        $('body').on('click', '.autoexportSelect', function(e) {
+            e.stopPropagation();
+        });
+
+        $('body').on('change', '.autoexportSelect', function(e) {
+            var newval = $(this).val();
+            var projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
+            var projectName = getProjectName(projectid);
+            editProject(projectid, projectName, null, null, newval);
+            $(this).parent().click();
         });
 
         $('body').on('click', '.exportStats', function() {

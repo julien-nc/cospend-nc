@@ -595,8 +595,8 @@
         else if (parseInt(bill.categoryid) === -3) {
             categoryChar = ' 🏠';
         }
-        else if (parseInt(bill.categoryid) === -3) {
-            categoryChar = ' 📋';
+        else if (parseInt(bill.categoryid) === -4) {
+            categoryChar = ' 🖹';
         }
         var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar + paymentmodeChar + categoryChar;
 
@@ -1275,8 +1275,8 @@
         else if (parseInt(categoryid) === -3) {
             categoryChar = ' 🏠';
         }
-        else if (parseInt(categoryid) === -3) {
-            categoryChar = ' 📋';
+        else if (parseInt(categoryid) === -4) {
+            categoryChar = ' 🖹';
         }
         var whatFormatted = what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar + paymentmodeChar + categoryChar;
         $('.bill-title').html(
@@ -1387,8 +1387,8 @@
         else if (parseInt(bill.categoryid) === -3) {
             categoryChar = ' 🏠';
         }
-        else if (parseInt(bill.categoryid) === -3) {
-            categoryChar = ' 📋';
+        else if (parseInt(bill.categoryid) === -4) {
+            categoryChar = ' 🖹';
         }
         var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar + paymentmodeChar + categoryChar;
         var titleStr = t('cospend', 'Bill : {what}', {what: whatFormatted});
@@ -1468,9 +1468,9 @@
             '            </label>' +
             '            <select id="payment-mode">' +
             '               <option value="n" selected>'+t('cospend', 'None')+'</option>' +
-            '               <option value="c">'+t('cospend', 'Credit card')+'</option>' +
-            '               <option value="b">'+t('cospend', 'Cash')+'</option>' +
-            '               <option value="f">'+t('cospend', 'Check')+'</option>' +
+            '               <option value="c">💳 '+t('cospend', 'Credit card')+'</option>' +
+            '               <option value="b">💵 '+t('cospend', 'Cash')+'</option>' +
+            '               <option value="f">🎫 '+t('cospend', 'Check')+'</option>' +
             '            </select>' +
             '        </div>' +
             '        <div class="bill-category">' +
@@ -1480,10 +1480,10 @@
             '            </label>' +
             '            <select id="category">' +
             '               <option value="0" selected>'+t('cospend', 'None')+'</option>' +
-            '               <option value="-1">'+t('cospend', 'Food')+'</option>' +
-            '               <option value="-2">'+t('cospend', 'Furniture')+'</option>' +
-            '               <option value="-3">'+t('cospend', 'Rent')+'</option>' +
-            '               <option value="-4">'+t('cospend', 'Bills')+'</option>' +
+            '               <option value="-1">🍐 '+t('cospend', 'Food')+'</option>' +
+            '               <option value="-2">🧰 '+t('cospend', 'Furniture')+'</option>' +
+            '               <option value="-3">🏠 '+t('cospend', 'Rent')+'</option>' +
+            '               <option value="-4">🖹 '+t('cospend', 'Bills')+'</option>' +
             '            </select>' +
             '        </div>' +
             '    </div>' +
@@ -1600,8 +1600,8 @@
         else if (parseInt(bill.categoryid) === -3) {
             categoryChar = ' 🏠';
         }
-        else if (parseInt(bill.categoryid) === -3) {
-            categoryChar = ' 📋';
+        else if (parseInt(bill.categoryid) === -4) {
+            categoryChar = ' 🖹';
         }
         var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar + paymentmodeChar + categoryChar;
 

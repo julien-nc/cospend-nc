@@ -2924,7 +2924,8 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function exportCsvStatistics($projectid) {
+    public function exportCsvStatistics($projectid, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null,
+                                        $amountMin=null, $amountMax=null) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
             // create Cospend directory if needed
             $userFolder = \OC::$server->getUserFolder();
@@ -2954,7 +2955,8 @@ class PageController extends ApiController {
             $file = $folder->newFile($projectid.'-stats.csv');
             $handler = $file->fopen('w');
             fwrite($handler, $this->trans->t('Member name').','. $this->trans->t('Paid').','. $this->trans->t('Spent').','. $this->trans->t('Balance')."\n");
-            $statsResp = $this->getProjectStatistics($projectid);
+            $statsResp = $this->getProjectStatistics($projectid, 'lowername', $dateMin, $dateMax, $paymentMode,
+                                                     $category, $amountMin, $amountMax);
             if ($statsResp->getStatus() !== 200) {
             }
             $stats = $statsResp->getData();

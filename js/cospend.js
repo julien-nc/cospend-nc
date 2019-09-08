@@ -2430,10 +2430,17 @@
         });
     }
 
-    function exportStatistics(projectid) {
+    function exportStatistics(projectid, dateMin=null, dateMax=null, paymentMode=null, category=null,
+                              amountMin=null, amountMax=null) {
         $('.exportStats[projectid="'+projectid+'"] span').addClass('icon-loading-small');
         var req = {
-            projectid: projectid
+            projectid: projectid,
+            dateMin: dateMin,
+            dateMax: dateMax,
+            paymentMode: paymentMode,
+            category: category,
+            amountMin: amountMin,
+            amountMax: amountMax
         };
         var url = OC.generateUrl('/apps/cospend/exportCsvStatistics');
         $.ajax({
@@ -3283,7 +3290,15 @@
 
         $('body').on('click', '.exportStats', function() {
             var projectid = $(this).attr('projectid');
-            exportStatistics(projectid);
+
+            var dateMin = $('#date-min-stats').val();
+            var dateMax = $('#date-max-stats').val();
+            var paymentMode = $('#payment-mode-stats').val();
+            var category = $('#category-stats').val();
+            var amountMin = $('#amount-min-stats').val();
+            var amountMax = $('#amount-max-stats').val();
+
+            exportStatistics(projectid, dateMin, dateMax, paymentMode, category, amountMin, amountMax);
         });
 
         $('body').on('click', '.exportSettlement', function() {

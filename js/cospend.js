@@ -859,13 +859,16 @@
         });
     }
 
-    function getProjectStatistics(projectid, dateMin=null, dateMax=null, paymentMode=null, category=null) {
+    function getProjectStatistics(projectid, dateMin=null, dateMax=null, paymentMode=null, category=null,
+                                  amountMin=null, amountMax=null) {
         $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
         var req = {
             dateMin: dateMin,
             dateMax: dateMax,
             paymentMode: paymentMode,
-            category: category
+            category: category,
+            amountMin: amountMin,
+            amountMax: amountMax
         };
         var url;
         var type;
@@ -895,7 +898,7 @@
             if (cospend.currentProjectId !== projectid) {
                 selectProject($('.projectitem[projectid="'+projectid+'"]'));
             }
-            displayStatistics(projectid, response, dateMin, dateMax, paymentMode, category);
+            displayStatistics(projectid, response, dateMin, dateMax, paymentMode, category, amountMin, amountMax);
         }).always(function() {
         }).fail(function() {
             OC.Notification.showTemporary(t('cospend', 'Failed to get statistics'));
@@ -1069,7 +1072,8 @@
         img.src = srcurl;
     }
 
-    function displayStatistics(projectid, statList, dateMin=null, dateMax=null, paymentMode=null, category=null) {
+    function displayStatistics(projectid, statList, dateMin=null, dateMax=null, paymentMode=null, category=null,
+                               amountMin=null, amountMax=null) {
         // deselect bill
         $('.billitem').removeClass('selectedbill');
 
@@ -1098,9 +1102,9 @@
             '<h2 id="statsTitle"><span class="icon-category-monitoring"></span>'+titleStr+exportStr+'</h2>' +
             '<div id="stats-filters">' +
             '<div>' +
-            '<label for="date-min-stats">'+t('cospend', 'Date min')+': </label><input type="date" id="date-min-stats"/>' +
+            '<label for="date-min-stats">'+t('cospend', 'Minimum date')+': </label><input type="date" id="date-min-stats"/>' +
             '</div><div>' +
-            '<label for="date-max-stats">'+t('cospend', 'Date max')+': </label><input type="date" id="date-max-stats"/>' +
+            '<label for="date-max-stats">'+t('cospend', 'Maximum date')+': </label><input type="date" id="date-max-stats"/>' +
             '</div><div>' +
             '    <label for="payment-mode-stats">' +
             '        <a class="icon icon-tag"></a>' +
@@ -1125,6 +1129,11 @@
             '       <option value="-3">🏠 '+t('cospend', 'Rent')+'</option>' +
             '       <option value="-4">🖹 '+t('cospend', 'Bills')+'</option>' +
             '    </select>' +
+            '</div>' +
+            '<div>' +
+            '<label for="amount-min-stats">'+t('cospend', 'Minimum amount')+': </label><input type="number" id="amount-min-stats"/>' +
+            '</div><div>' +
+            '<label for="amount-max-stats">'+t('cospend', 'Maximum amount')+': </label><input type="number" id="amount-max-stats"/>' +
             '</div>' +
             '</div>' +
             '<br/>' +
@@ -1170,6 +1179,12 @@
         }
         if (category) {
             $('#category-stats').val(category);
+        }
+        if (amountMin) {
+            $('#amount-min-stats').val(amountMin);
+        }
+        if (amountMax) {
+            $('#amount-max-stats').val(amountMax);
         }
     }
 
@@ -3177,13 +3192,16 @@
             getProjectStatistics(projectid);
         });
 
-        $('body').on('change', '#date-min-stats, #date-max-stats, #payment-mode-stats, #category-stats', function(e) {
+        $('body').on('change', '#date-min-stats, #date-max-stats, #payment-mode-stats, ' +
+                               '#category-stats, #amount-min-stats, #amount-max-stats', function(e) {
             var projectid = cospend.currentProjectId;
             var dateMin = $('#date-min-stats').val();
             var dateMax = $('#date-max-stats').val();
             var paymentMode = $('#payment-mode-stats').val();
             var category = $('#category-stats').val();
-            getProjectStatistics(projectid, dateMin, dateMax, paymentMode, category);
+            var amountMin = $('#amount-min-stats').val();
+            var amountMax = $('#amount-max-stats').val();
+            getProjectStatistics(projectid, dateMin, dateMax, paymentMode, category, amountMin, amountMax);
         });
 
         $('body').on('click', '.getProjectSettlement', function(e) {

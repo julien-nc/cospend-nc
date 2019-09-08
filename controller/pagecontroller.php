@@ -398,9 +398,10 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webGetProjectStatistics($projectid, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null) {
+    public function webGetProjectStatistics($projectid, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null,
+                                            $amountMin=null, $amountMax=null) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
-            return $this->getProjectStatistics($projectid, 'lowername', $dateMin, $dateMax, $paymentMode, $category);
+            return $this->getProjectStatistics($projectid, 'lowername', $dateMin, $dateMax, $paymentMode, $category, $amountMin, $amountMax);
         }
         else {
             $response = new DataResponse(
@@ -1176,7 +1177,8 @@ class PageController extends ApiController {
         }
     }
 
-    private function getProjectStatistics($projectId, $memberOrder=null, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null) {
+    private function getProjectStatistics($projectId, $memberOrder=null, $dateMin=null, $dateMax=null,
+                                          $paymentMode=null, $category=null, $amountMin=null, $amountMax=null) {
         $membersWeight = [];
         $membersNbBills = [];
         $membersBalance = [];
@@ -1194,7 +1196,7 @@ class PageController extends ApiController {
             $membersSpent[$memberId] = 0.0;
         }
 
-        $bills = $this->getBills($projectId, $dateMin, $dateMax, $paymentMode, $category);
+        $bills = $this->getBills($projectId, $dateMin, $dateMax, $paymentMode, $category, $amountMin, $amountMax);
         foreach ($bills as $bill) {
             $payerId = $bill['payer_id'];
             $amount = $bill['amount'];
@@ -1454,7 +1456,8 @@ class PageController extends ApiController {
         return $bill;
     }
 
-    private function getBills($projectId, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null) {
+    private function getBills($projectId, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null,
+                              $amountMin=null, $amountMax=null) {
         $bills = [];
 
         // first get all bill ids
@@ -1467,12 +1470,12 @@ class PageController extends ApiController {
            );
         if ($dateMin !== null and $dateMin !== '') {
            $qb->andWhere(
-               $qb->expr()->gt('date', $qb->createNamedParameter($dateMin, IQueryBuilder::PARAM_STR))
+               $qb->expr()->gte('date', $qb->createNamedParameter($dateMin, IQueryBuilder::PARAM_STR))
            );
         }
         if ($dateMax !== null and $dateMax !== '') {
            $qb->andWhere(
-               $qb->expr()->lt('date', $qb->createNamedParameter($dateMax, IQueryBuilder::PARAM_STR))
+               $qb->expr()->lte('date', $qb->createNamedParameter($dateMax, IQueryBuilder::PARAM_STR))
            );
         }
         if ($paymentMode !== null and $paymentMode !== '' and $paymentMode !== 'n') {
@@ -1483,6 +1486,16 @@ class PageController extends ApiController {
         if ($category !== null and $category !== '' and intval($category) !== 0) {
            $qb->andWhere(
                $qb->expr()->eq('categoryid', $qb->createNamedParameter(intval($category), IQueryBuilder::PARAM_INT))
+           );
+        }
+        if ($amountMin !== null and is_numeric($amountMin)) {
+           $qb->andWhere(
+               $qb->expr()->gte('amount', $qb->createNamedParameter(floatval($amountMin), IQueryBuilder::PARAM_STR))
+           );
+        }
+        if ($amountMax !== null and is_numeric($amountMax)) {
+           $qb->andWhere(
+               $qb->expr()->lte('amount', $qb->createNamedParameter(floatval($amountMax), IQueryBuilder::PARAM_STR))
            );
         }
         $req = $qb->execute();
@@ -1532,12 +1545,12 @@ class PageController extends ApiController {
            );
         if ($dateMin !== null and $dateMin !== '') {
            $qb->andWhere(
-               $qb->expr()->gt('date', $qb->createNamedParameter($dateMin, IQueryBuilder::PARAM_STR))
+               $qb->expr()->gte('date', $qb->createNamedParameter($dateMin, IQueryBuilder::PARAM_STR))
            );
         }
         if ($dateMax !== null and $dateMax !== '') {
            $qb->andWhere(
-               $qb->expr()->lt('date', $qb->createNamedParameter($dateMax, IQueryBuilder::PARAM_STR))
+               $qb->expr()->lte('date', $qb->createNamedParameter($dateMax, IQueryBuilder::PARAM_STR))
            );
         }
         if ($paymentMode !== null and $paymentMode !== '' and $paymentMode !== 'n') {
@@ -1548,6 +1561,16 @@ class PageController extends ApiController {
         if ($category !== null and $category !== '' and intval($category) !== 0) {
            $qb->andWhere(
                $qb->expr()->eq('categoryid', $qb->createNamedParameter(intval($category), IQueryBuilder::PARAM_INT))
+           );
+        }
+        if ($amountMin !== null and is_numeric($amountMin)) {
+           $qb->andWhere(
+               $qb->expr()->gte('amount', $qb->createNamedParameter(floatval($amountMin), IQueryBuilder::PARAM_STR))
+           );
+        }
+        if ($amountMax !== null and is_numeric($amountMax)) {
+           $qb->andWhere(
+               $qb->expr()->lte('amount', $qb->createNamedParameter(floatval($amountMax), IQueryBuilder::PARAM_STR))
            );
         }
         $qb->orderBy('date', 'ASC');

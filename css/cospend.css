@@ -285,5 +285,5 @@ a.billitem .app-content-list-item-icon {
 #stats-filters {
     margin-left: 20px;
     display: grid;
-    grid-template: 1fr 1fr / 1fr 1fr;
+    grid-template: 1fr / 1fr 1fr;
 }

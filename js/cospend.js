@@ -1101,11 +1101,8 @@
         var statsStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 id="statsTitle"><span class="icon-category-monitoring"></span>'+titleStr+exportStr+'</h2>' +
             '<div id="stats-filters">' +
-            '<div>' +
-            '<label for="date-min-stats">'+t('cospend', 'Minimum date')+': </label><input type="date" id="date-min-stats"/>' +
-            '</div><div>' +
-            '<label for="date-max-stats">'+t('cospend', 'Maximum date')+': </label><input type="date" id="date-max-stats"/>' +
-            '</div><div>' +
+            '    <label for="date-min-stats">'+t('cospend', 'Minimum date')+': </label><input type="date" id="date-min-stats"/>' +
+            '    <label for="date-max-stats">'+t('cospend', 'Maximum date')+': </label><input type="date" id="date-max-stats"/>' +
             '    <label for="payment-mode-stats">' +
             '        <a class="icon icon-tag"></a>' +
             '        '+t('cospend', 'Payment mode')+
@@ -1116,8 +1113,6 @@
             '       <option value="b">💵 '+t('cospend', 'Cash')+'</option>' +
             '       <option value="f">🎫 '+t('cospend', 'Check')+'</option>' +
             '    </select>' +
-            '</div>' +
-            '<div>' +
             '    <label for="category-stats">' +
             '        <a class="icon icon-category-app-bundles"></a>' +
             '        '+t('cospend', 'Category')+
@@ -1129,12 +1124,8 @@
             '       <option value="-3">🏠 '+t('cospend', 'Rent')+'</option>' +
             '       <option value="-4">🖹 '+t('cospend', 'Bills')+'</option>' +
             '    </select>' +
-            '</div>' +
-            '<div>' +
-            '<label for="amount-min-stats">'+t('cospend', 'Minimum amount')+': </label><input type="number" id="amount-min-stats"/>' +
-            '</div><div>' +
-            '<label for="amount-max-stats">'+t('cospend', 'Maximum amount')+': </label><input type="number" id="amount-max-stats"/>' +
-            '</div>' +
+            '    <label for="amount-min-stats">'+t('cospend', 'Minimum amount')+': </label><input type="number" id="amount-min-stats"/>' +
+            '    <label for="amount-max-stats">'+t('cospend', 'Maximum amount')+': </label><input type="number" id="amount-max-stats"/>' +
             '</div>' +
             '<br/>' +
             totalPayedText +

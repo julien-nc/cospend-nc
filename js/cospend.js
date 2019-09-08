@@ -859,9 +859,13 @@
         });
     }
 
-    function getProjectStatistics(projectid) {
+    function getProjectStatistics(projectid, dateMin=null, dateMax=null, paymentMode=null, category=null) {
         $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
         var req = {
+            dateMin: dateMin,
+            dateMax: dateMax,
+            paymentMode: paymentMode,
+            category: category
         };
         var url;
         var type;
@@ -891,7 +895,7 @@
             if (cospend.currentProjectId !== projectid) {
                 selectProject($('.projectitem[projectid="'+projectid+'"]'));
             }
-            displayStatistics(projectid, response);
+            displayStatistics(projectid, response, dateMin, dateMax, paymentMode, category);
         }).always(function() {
         }).fail(function() {
             OC.Notification.showTemporary(t('cospend', 'Failed to get statistics'));
@@ -1065,8 +1069,8 @@
         img.src = srcurl;
     }
 
-    function displayStatistics(projectid, statList) {
-        // unselect bill
+    function displayStatistics(projectid, statList, dateMin=null, dateMax=null, paymentMode=null, category=null) {
+        // deselect bill
         $('.billitem').removeClass('selectedbill');
 
         var project = cospend.projects[projectid];
@@ -1092,6 +1096,38 @@
                              t('cospend', 'Total payed by all the members: {t}', {t: totalPayed}) + '</p>';
         var statsStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 id="statsTitle"><span class="icon-category-monitoring"></span>'+titleStr+exportStr+'</h2>' +
+            '<div id="stats-filters">' +
+            '<div>' +
+            '<label for="date-min-stats">'+t('cospend', 'Date min')+': </label><input type="date" id="date-min-stats"/>' +
+            '</div><div>' +
+            '<label for="date-max-stats">'+t('cospend', 'Date max')+': </label><input type="date" id="date-max-stats"/>' +
+            '</div><div>' +
+            '    <label for="payment-mode-stats">' +
+            '        <a class="icon icon-tag"></a>' +
+            '        '+t('cospend', 'Payment mode')+
+            ':   </label>' +
+            '    <select id="payment-mode-stats">' +
+            '       <option value="n" selected>'+t('cospend', 'All')+'</option>' +
+            '       <option value="c">💳 '+t('cospend', 'Credit card')+'</option>' +
+            '       <option value="b">💵 '+t('cospend', 'Cash')+'</option>' +
+            '       <option value="f">🎫 '+t('cospend', 'Check')+'</option>' +
+            '    </select>' +
+            '</div>' +
+            '<div>' +
+            '    <label for="category-stats">' +
+            '        <a class="icon icon-category-app-bundles"></a>' +
+            '        '+t('cospend', 'Category')+
+            ':   </label>' +
+            '    <select id="category-stats">' +
+            '       <option value="0" selected>'+t('cospend', 'All')+'</option>' +
+            '       <option value="-1">🍐 '+t('cospend', 'Food')+'</option>' +
+            '       <option value="-2">🧰 '+t('cospend', 'Furniture')+'</option>' +
+            '       <option value="-3">🏠 '+t('cospend', 'Rent')+'</option>' +
+            '       <option value="-4">🖹 '+t('cospend', 'Bills')+'</option>' +
+            '    </select>' +
+            '</div>' +
+            '</div>' +
+            '<br/>' +
             totalPayedText +
             '<table id="statsTable"><thead>' +
             '<th>'+nameStr+'</th>' +
@@ -1122,6 +1158,19 @@
         }
         statsStr = statsStr + '</table>';
         $('#billdetail').html(statsStr);
+
+        if (dateMin) {
+            $('#date-min-stats').val(dateMin);
+        }
+        if (dateMax) {
+            $('#date-max-stats').val(dateMax);
+        }
+        if (paymentMode) {
+            $('#payment-mode-stats').val(paymentMode);
+        }
+        if (category) {
+            $('#category-stats').val(category);
+        }
     }
 
     function getBills(projectid) {
@@ -3004,11 +3053,11 @@
         }, 2000));
 
         // other bill fields : direct on edition
-        $('body').on('change', '.input-bill-date, #billdetail select', function(e) {
+        $('body').on('change', '.input-bill-date, #billdetail .bill-form select', function(e) {
             onBillEdited();
         });
 
-        $('body').on('change', '#billdetail input[type=checkbox]', function(e) {
+        $('body').on('change', '#billdetail .bill-form input[type=checkbox]', function(e) {
             var billtype = $('#billtype').val();
             if (billtype === 'perso') {
                 if ($(this).is(':checked')) {
@@ -3126,6 +3175,15 @@
         $('body').on('click', '.getProjectStats', function(e) {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
             getProjectStatistics(projectid);
+        });
+
+        $('body').on('change', '#date-min-stats, #date-max-stats, #payment-mode-stats, #category-stats', function(e) {
+            var projectid = cospend.currentProjectId;
+            var dateMin = $('#date-min-stats').val();
+            var dateMax = $('#date-max-stats').val();
+            var paymentMode = $('#payment-mode-stats').val();
+            var category = $('#category-stats').val();
+            getProjectStatistics(projectid, dateMin, dateMax, paymentMode, category);
         });
 
         $('body').on('click', '.getProjectSettlement', function(e) {

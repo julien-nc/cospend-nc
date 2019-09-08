@@ -398,9 +398,9 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webGetProjectStatistics($projectid) {
+    public function webGetProjectStatistics($projectid, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
-            return $this->getProjectStatistics($projectid);
+            return $this->getProjectStatistics($projectid, 'lowername', $dateMin, $dateMax, $paymentMode, $category);
         }
         else {
             $response = new DataResponse(
@@ -1176,7 +1176,7 @@ class PageController extends ApiController {
         }
     }
 
-    private function getProjectStatistics($projectId, $memberOrder=null) {
+    private function getProjectStatistics($projectId, $memberOrder=null, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null) {
         $membersWeight = [];
         $membersNbBills = [];
         $membersBalance = [];
@@ -1194,7 +1194,7 @@ class PageController extends ApiController {
             $membersSpent[$memberId] = 0.0;
         }
 
-        $bills = $this->getBills($projectId);
+        $bills = $this->getBills($projectId, $dateMin, $dateMax, $paymentMode, $category);
         foreach ($bills as $bill) {
             $payerId = $bill['payer_id'];
             $amount = $bill['amount'];
@@ -1454,7 +1454,7 @@ class PageController extends ApiController {
         return $bill;
     }
 
-    private function getBills($projectId) {
+    private function getBills($projectId, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null) {
         $bills = [];
 
         // first get all bill ids
@@ -1465,6 +1465,26 @@ class PageController extends ApiController {
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
            );
+        if ($dateMin !== null and $dateMin !== '') {
+           $qb->andWhere(
+               $qb->expr()->gt('date', $qb->createNamedParameter($dateMin, IQueryBuilder::PARAM_STR))
+           );
+        }
+        if ($dateMax !== null and $dateMax !== '') {
+           $qb->andWhere(
+               $qb->expr()->lt('date', $qb->createNamedParameter($dateMax, IQueryBuilder::PARAM_STR))
+           );
+        }
+        if ($paymentMode !== null and $paymentMode !== '' and $paymentMode !== 'n') {
+           $qb->andWhere(
+               $qb->expr()->eq('paymentmode', $qb->createNamedParameter($paymentMode, IQueryBuilder::PARAM_STR))
+           );
+        }
+        if ($category !== null and $category !== '' and intval($category) !== 0) {
+           $qb->andWhere(
+               $qb->expr()->eq('categoryid', $qb->createNamedParameter(intval($category), IQueryBuilder::PARAM_INT))
+           );
+        }
         $req = $qb->execute();
 
         while ($row = $req->fetch()){
@@ -1509,8 +1529,28 @@ class PageController extends ApiController {
            ->from('cospend_bills', 'b')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-           )
-           ->orderBy('date', 'ASC');
+           );
+        if ($dateMin !== null and $dateMin !== '') {
+           $qb->andWhere(
+               $qb->expr()->gt('date', $qb->createNamedParameter($dateMin, IQueryBuilder::PARAM_STR))
+           );
+        }
+        if ($dateMax !== null and $dateMax !== '') {
+           $qb->andWhere(
+               $qb->expr()->lt('date', $qb->createNamedParameter($dateMax, IQueryBuilder::PARAM_STR))
+           );
+        }
+        if ($paymentMode !== null and $paymentMode !== '' and $paymentMode !== 'n') {
+           $qb->andWhere(
+               $qb->expr()->eq('paymentmode', $qb->createNamedParameter($paymentMode, IQueryBuilder::PARAM_STR))
+           );
+        }
+        if ($category !== null and $category !== '' and intval($category) !== 0) {
+           $qb->andWhere(
+               $qb->expr()->eq('categoryid', $qb->createNamedParameter(intval($category), IQueryBuilder::PARAM_INT))
+           );
+        }
+        $qb->orderBy('date', 'ASC');
         $req = $qb->execute();
         while ($row = $req->fetch()){
             $dbBillId = intval($row['id']);
@@ -1521,6 +1561,9 @@ class PageController extends ApiController {
             $dbPayerId= intval($row['payerid']);
             $dbPaymentMode = $row['paymentmode'];
             $dbCategoryId = intval($row['categoryid']);
+            if ($category) {
+                error_log('BBBIIIIIIIIIL '.$dbWhat.' BB');
+            }
             array_push(
                 $bills,
                 [

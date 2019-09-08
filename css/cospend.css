@@ -282,3 +282,8 @@ a.billitem .app-content-list-item-icon {
     background-repeat: no-repeat;
     background-size: cover;
 }
+#stats-filters {
+    margin-left: 20px;
+    display: grid;
+    grid-template: 1fr 1fr / 1fr 1fr;
+}

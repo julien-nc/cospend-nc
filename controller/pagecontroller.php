@@ -1126,9 +1126,11 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiGetProjectStatistics($projectid, $password) {
+    public function apiGetProjectStatistics($projectid, $password, $dateMin=null, $dateMax=null, $paymentMode=null,
+                                            $category=null, $amountMin=null, $amountMax=null) {
         if ($this->checkLogin($projectid, $password)) {
-            return $this->getProjectStatistics($projectid);
+            return $this->getProjectStatistics($projectid, 'lowername', $dateMin, $dateMax, $paymentMode,
+                                               $category, $amountMin, $amountMax);
         }
         else {
             $response = new DataResponse(

@@ -152,6 +152,7 @@ class UtilsController extends Controller {
      *
      * @NoAdminRequired
      * @NoCSRFRequired
+     * @PublicPage
      */
     public function getAvatar($name) {
         $av = $this->avatarManager->getGuestAvatar($name);

@@ -731,7 +731,7 @@ class PageController extends ApiController {
         // get values for projects we're gonna return
         for ($i = 0; $i < count($projects); $i++) {
             $dbProjectId = $projects[$i]['id'];
-            $members = $this->getMembers($dbProjectId);
+            $members = $this->getMembers($dbProjectId, 'lowername');
             $shares = $this->getUserShares($dbProjectId);
             $groupShares = $this->getGroupShares($dbProjectId);
             $activeMembers = [];

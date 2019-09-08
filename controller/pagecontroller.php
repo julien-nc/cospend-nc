@@ -16,6 +16,7 @@ use OCP\App\IAppManager;
 use OCP\IURLGenerator;
 use OCP\IConfig;
 use \OCP\IL10N;
+use OCP\IAvatarManager;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -58,13 +59,15 @@ class PageController extends ApiController {
     public function __construct($AppName, IRequest $request, $UserId,
                                 $userfolder, $config, $shareManager,
                                 IAppManager $appManager, $userManager,
-                                $groupManager, IL10N $trans, $logger){
+                                $groupManager, IL10N $trans, $logger,
+                                IAvatarManager $avatarManager){
         parent::__construct($AppName, $request,
                             'PUT, POST, GET, DELETE, PATCH, OPTIONS',
                             'Authorization, Content-Type, Accept',
                             1728000);
         $this->logger = $logger;
         $this->appName = $AppName;
+        $this->avatarManager = $avatarManager;
         $this->appVersion = $config->getAppValue('cospend', 'installed_version');
         $this->userId = $UserId;
         $this->userManager = $userManager;
@@ -1567,6 +1570,8 @@ class PageController extends ApiController {
                 $dbWeight = floatval($row['weight']);
                 $dbName = $row['name'];
                 $dbActivated= intval($row['activated']);
+                $av = $this->avatarManager->getGuestAvatar($dbName);
+                $color = $av->avatarBackgroundColor($dbName);
 
                 // find index to make sorted insert
                 $ii = 0;
@@ -1582,7 +1587,8 @@ class PageController extends ApiController {
                         'activated' => ($dbActivated === 1),
                         'name' => $dbName,
                         'id' => $dbMemberId,
-                        'weight' => $dbWeight
+                        'weight' => $dbWeight,
+                        'color'=>$color
                     ]]
                 );
             }
@@ -1593,6 +1599,8 @@ class PageController extends ApiController {
                 $dbWeight = floatval($row['weight']);
                 $dbName = $row['name'];
                 $dbActivated= intval($row['activated']);
+                $av = $this->avatarManager->getGuestAvatar($dbName);
+                $color = $av->avatarBackgroundColor($dbName);
 
                 array_push(
                     $members,
@@ -1600,7 +1608,8 @@ class PageController extends ApiController {
                         'activated' => ($dbActivated === 1),
                         'name' => $dbName,
                         'id' => $dbMemberId,
-                        'weight' => $dbWeight
+                        'weight' => $dbWeight,
+                        'color'=>$color
                     ]
                 );
             }
@@ -1790,7 +1799,8 @@ class PageController extends ApiController {
             $qb->set('amount', $qb->createNamedParameter($amount, IQueryBuilder::PARAM_STR));
         }
         if ($payer !== null && $payer !== '' && is_numeric($payer)) {
-            if ($this->getMemberById($projectid, $payer) === null) {
+            $member = $this->getMemberById($projectid, $payer);
+            if ($member === null) {
                 $response = new DataResponse(
                     ['payer'=>["Not a valid choice"]]
                     , 400
@@ -2168,6 +2178,10 @@ class PageController extends ApiController {
                 $qb = $qb->resetQueryParts();
 
                 $editedMember = $this->getMemberById($projectid, $memberid);
+
+                $av = $this->avatarManager->getGuestAvatar($editedMember['name']);
+                $color = $av->avatarBackgroundColor($editedMember['name']);
+                $editedMember['color'] = $color;
 
                 $response = new DataResponse($editedMember);
                 return $response;

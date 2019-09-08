@@ -365,6 +365,7 @@
         }).done(function (response) {
             var memberLine = $('.projectitem[projectid="'+projectid+'"] ul.memberlist > li[memberid='+memberid+']');
             // update member values
+            cospend.members[projectid][memberid].color = response.color;
             if (newName) {
                 memberLine.find('b.memberName').text(newName);
                 cospend.members[projectid][memberid].name = newName;
@@ -375,28 +376,24 @@
                 updateProjectBalances(projectid);
             }
             if (newActivated !== null && newActivated === false) {
-                memberLine.find('>a').removeClass('icon-user').addClass('icon-disabled-user');
+                var lockSpan = '<div class="member-list-disabled-icon icon-disabled-user"> </div>';
+                memberLine.find('.member-list-icon').prepend(lockSpan);
+
                 memberLine.find('.toggleMember span').first().removeClass('icon-delete').addClass('icon-history');
                 memberLine.find('.toggleMember span').eq(1).text(t('cospend', 'Reactivate'));
                 cospend.members[projectid][memberid].activated = newActivated;
             }
             else if (newActivated !== null && newActivated === true) {
-                memberLine.find('>a').removeClass('icon-disabled-user').addClass('icon-user');
+                memberLine.find('.member-list-disabled-icon').remove();
+
                 memberLine.find('.toggleMember span').first().removeClass('icon-history').addClass('icon-delete');
                 memberLine.find('.toggleMember span').eq(1).text(t('cospend', 'Deactivate'));
                 cospend.members[projectid][memberid].activated = newActivated;
             }
-            // anyway : update icon
-            var c = getMemberColor(cospend.members[projectid][memberid].name);
-            var rgbC = hslToRgb(c.h/360, c.s/100, c.l/100);
-            var imgurl;
-            if (cospend.members[projectid][memberid].activated) {
-                imgurl = OC.generateUrl('/svg/core/actions/user?color='+rgbC);
-            }
-            else {
-                imgurl = OC.generateUrl('/svg/core/actions/disabled-user?color='+rgbC);
-            }
-            memberLine.find('>a').attr('style', 'background-image: url('+imgurl+')');
+            // update icon
+            var imgurl = OC.generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(response.name));
+            memberLine.find('.member-list-icon').attr('style', 'background-image: url('+imgurl+')');
+
             OC.Notification.showTemporary(t('cospend', 'Member saved'));
             // get bills again to refresh names
             getBills(projectid);
@@ -560,7 +557,6 @@
         }
         owerNames = owerNames.replace(/, $/, '');
         var memberName = getMemberName(projectid, bill.payer_id);
-        var memberFirstLetter = memberName[0];
 
         var links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
         var formattedLinks = '';
@@ -602,9 +598,9 @@
 
         var title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
             bill.date + '\n' + memberName + ' -> ' + owerNames;
-        var c = getMemberColor(memberName);
+        var imgurl = OC.generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(memberName));
         var item = '<a href="#" class="app-content-list-item billitem selectedbill" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
-            '<div class="app-content-list-item-icon" style="background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);">'+memberFirstLetter+'</div>' +
+            '<div class="app-content-list-item-icon" style="background-image: url('+imgurl+');"> </div>' +
             '<div class="app-content-list-item-line-one">'+whatFormatted+'</div>' +
             '<div class="app-content-list-item-line-two">'+bill.amount.toFixed(2)+' ('+memberName+' → '+owerNames+')</div>' +
             '<span class="app-content-list-item-details">'+bill.date+'</span>' +
@@ -1236,12 +1232,12 @@
     function updateDisplayedBill(projectid, billid, what, payer_id, repeat, paymentmode=null, categoryid=null) {
         var projectName = getProjectName(projectid);
         $('.bill-title').attr('billid', billid);
-        var c = {h: 0, s: 0, l: 50};
+        var c = {r: 128, g: 128, b: 128};
         if (billid !== 0) {
             $('.bill-type').hide();
             $('#owerValidate').hide();
-            var payerName = getMemberName(projectid, payer_id);
-            c = getMemberColor(payerName);
+            var memberPayer = cospend.members[projectid][payer_id];
+            c = memberPayer.color;
         }
 
         var links = what.match(/https?:\/\/[^\s]+/gi) || [];
@@ -1285,7 +1281,7 @@
             t('cospend', 'Bill : {what}', {what: whatFormatted}) +
             ' ' + formattedLinks
         );
-        $('.bill-title').attr('style', 'background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);');
+        $('.bill-title').attr('style', 'background-color: rgb('+c.r+', '+c.g+', '+c.b+');');
     }
 
     function displayBill(projectid, billid) {
@@ -1303,7 +1299,7 @@
             owerIds.push(owers[i].id);
         }
 
-        var c = {h: 0, s: 0, l: 50};
+        var c = {r: 128, g: 128, b:128};
         var owerCheckboxes = '';
         var payerOptions = '';
         var member;
@@ -1345,8 +1341,8 @@
             if (!cospend.members[projectid][bill.payer_id].activated) {
                 payerDisabled = ' disabled';
             }
-            var payerName = getMemberName(projectid, bill.payer_id);
-            c = getMemberColor(payerName);
+            var memberPayer = cospend.members[projectid][bill.payer_id];
+            c = memberPayer.color;
         }
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
@@ -1414,7 +1410,7 @@
 
         var detail =
             '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
-            '<h2 class="bill-title" projectid="'+projectid+'" billid="'+bill.id+'" style="background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);">' +
+            '<h2 class="bill-title" projectid="'+projectid+'" billid="'+bill.id+'" style="background-color: rgb('+c.r+', '+c.g+', '+c.b+');">' +
             '    <span class="loading-bill"></span>' +
             '    <span class="icon-edit-white"></span>'+titleStr+' '+formattedLinks +
             '</h2>' +
@@ -1605,25 +1601,24 @@
         }
         var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar + paymentmodeChar + categoryChar;
 
+        var imgurl;
         if (bill.id !== 0) {
             if (!cospend.members[projectid].hasOwnProperty(bill.payer_id)) {
                 reload(t('cospend', 'Member list is not up to date. Reloading in 5 sec.'));
                 return;
             }
             memberName = getMemberName(projectid, bill.payer_id);
-            memberFirstLetter = memberName[0];
 
             title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
                 bill.date + '\n' + memberName + ' → ' + owerNames;
-            c = getMemberColor(memberName);
+
+            imgurl = OC.generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(memberName));
         }
         else {
-            c = {h: 0, s: 0, l: 50};
-            memberFirstLetter = '-';
+            imgurl = OC.generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(' '));
         }
         var item = '<a href="#" class="app-content-list-item billitem" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
-            '<div class="app-content-list-item-icon" style="background-color: ' +
-            'hsl('+c.h+', '+c.s+'%, '+c.l+'%);">'+memberFirstLetter+'</div>'+
+            '<div class="app-content-list-item-icon" style="background-image: url('+imgurl+');"> </div>'+
             '<div class="app-content-list-item-line-one">'+whatFormatted+'</div>' +
             '<div class="app-content-list-item-line-two">'+bill.amount.toFixed(2)+' ('+memberName+' → '+owerNames+')</div>' +
             '<span class="app-content-list-item-details">'+bill.date+'</span>' +
@@ -1918,29 +1913,27 @@
                 invisibleClass = ' invisibleMember';
             }
         }
-        var iconStr, iconToggleStr, toggleStr, imgurl;
-        var c = getMemberColor(member.name);
-        var rgbC = hslToRgb(c.h/360, c.s/100, c.l/100);
+        var iconToggleStr, toggleStr, imgurl;
+        var lockSpan = '';
         if (member.activated) {
-            iconStr = 'icon-user';
             iconToggleStr = 'icon-delete';
             toggleStr = t('cospend', 'Deactivate');
-            imgurl = OC.generateUrl('/svg/core/actions/user?color='+rgbC);
         }
         else {
-            iconStr = 'icon-disabled-user';
+            lockSpan = '<div class="member-list-disabled-icon icon-disabled-user"> </div>';
             iconToggleStr = 'icon-history';
             toggleStr = t('cospend', 'Reactivate');
-            imgurl = OC.generateUrl('/svg/core/actions/disabled-user?color='+rgbC);
         }
+        imgurl = OC.generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(member.name));
 
 
         var renameStr = t('cospend', 'Rename');
         var changeWeightStr = t('cospend', 'Change weight');
         var li =
             '<li memberid="'+member.id+'" class="memberitem'+invisibleClass+'">' +
-            '    <a class="'+iconStr+'" style="background-image: url('+imgurl+')" href="#">' +
+            '    <a class="member-list-icon" style="background-image: url('+imgurl+')" href="#">' +
             '        <span>' +
+            '            ' + lockSpan +
             '            <b class="memberName">'+member.name+'</b> (x<b class="memberWeight">'+member.weight+'</b>) '+balanceStr+'' +
             '        </span>' +
             '    </a>' +

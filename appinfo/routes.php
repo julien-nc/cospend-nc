@@ -67,5 +67,7 @@ return [
         ['name' => 'page#pubLoginProject', 'url' => 'loginproject/{projectid}', 'verb' => 'GET'],
         ['name' => 'page#pubLogin', 'url' => 'login', 'verb' => 'GET'],
         ['name' => 'page#pubProject', 'url' => 'project', 'verb' => 'POST'],
+
+        ['name' => 'utils#getAvatar', 'url' => 'getAvatar', 'verb' => 'GET'],
     ]
 ];

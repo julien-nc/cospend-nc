@@ -52,7 +52,8 @@ class Application extends App {
                     $c->getServer()->getUserManager(),
                     $c->getServer()->getGroupManager(),
                     $c->query('ServerContainer')->getL10N($c->query('AppName')),
-                    $c->query('ServerContainer')->getLogger()
+                    $c->query('ServerContainer')->getLogger(),
+                    $c->query('ServerContainer')->getAvatarManager()
                 );
             }
         );
@@ -67,7 +68,8 @@ class Application extends App {
                     //$c->query('OCP\IConfig'),
                     $c->query('ServerContainer')->getUserFolder($c->query('UserId')),
                     $c->query('ServerContainer')->getConfig(),
-                    $c->getServer()->getAppManager()
+                    $c->getServer()->getAppManager(),
+                    $c->query('ServerContainer')->getAvatarManager()
                 );
             }
         );

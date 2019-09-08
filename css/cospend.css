@@ -273,3 +273,12 @@ input[type=number] {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.member-list-disabled-icon {
+    display: inline-block;
+    margin-bottom: -3px;
+}
+a.billitem .app-content-list-item-icon {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

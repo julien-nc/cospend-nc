@@ -520,29 +520,29 @@
         var paymentmodeChar = '';
         // c b f card, cash, check
         if (bill.paymentmode === 'c') {
-            paymentmodeChar = ' 💳';
+            paymentmodeChar = '💳 ';
         }
         else if (bill.paymentmode === 'b') {
-            paymentmodeChar = ' 💵';
+            paymentmodeChar = '💵 ';
         }
         else if (bill.paymentmode === 'f') {
-            paymentmodeChar = ' 🎫';
+            paymentmodeChar = '🎫 ';
         }
         var categoryChar = '';
-        // food, furniture, rent, bills
+        // groceries, leisure, rent, bills
         if (parseInt(bill.categoryid) === -1) {
-            categoryChar = ' 🍐';
+            categoryChar = '🛒 ';
         }
         else if (parseInt(bill.categoryid) === -2) {
-            categoryChar = ' 🧰';
+            categoryChar = '🎉 ';
         }
         else if (parseInt(bill.categoryid) === -3) {
-            categoryChar = ' 🏠';
+            categoryChar = '🏠 ';
         }
         else if (parseInt(bill.categoryid) === -4) {
-            categoryChar = ' 🖹';
+            categoryChar = '🖹 ';
         }
-        var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar + paymentmodeChar + categoryChar;
+        var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
 
         var title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
             bill.date + '\n' + memberName + ' -> ' + owerNames;
@@ -1119,8 +1119,8 @@
             ':   </label>' +
             '    <select id="category-stats">' +
             '       <option value="0" selected>'+t('cospend', 'All')+'</option>' +
-            '       <option value="-1">🍐 '+t('cospend', 'Food')+'</option>' +
-            '       <option value="-2">🧰 '+t('cospend', 'Furniture')+'</option>' +
+            '       <option value="-1">🛒 '+t('cospend', 'Groceries')+'</option>' +
+            '       <option value="-2">🎉 '+t('cospend', 'Leisure')+'</option>' +
             '       <option value="-3">🏠 '+t('cospend', 'Rent')+'</option>' +
             '       <option value="-4">🖹 '+t('cospend', 'Bills')+'</option>' +
             '    </select>' +
@@ -1255,29 +1255,29 @@
         var paymentmodeChar = '';
         // c b f card, cash, check
         if (paymentmode === 'c') {
-            paymentmodeChar = ' 💳';
+            paymentmodeChar = '💳 ';
         }
         else if (paymentmode === 'b') {
-            paymentmodeChar = ' 💵';
+            paymentmodeChar = '💵 ';
         }
         else if (paymentmode === 'f') {
-            paymentmodeChar = ' 🎫';
+            paymentmodeChar = '🎫 ';
         }
         var categoryChar = '';
-        // food, furniture, rent, bills
+        // groceries leisure, rent, bills
         if (parseInt(categoryid) === -1) {
-            categoryChar = ' 🍐';
+            categoryChar = '🛒 ';
         }
         else if (parseInt(categoryid) === -2) {
-            categoryChar = ' 🧰';
+            categoryChar = '🎉 ';
         }
         else if (parseInt(categoryid) === -3) {
-            categoryChar = ' 🏠';
+            categoryChar = '🏠 ';
         }
         else if (parseInt(categoryid) === -4) {
-            categoryChar = ' 🖹';
+            categoryChar = '🖹 ';
         }
-        var whatFormatted = what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar + paymentmodeChar + categoryChar;
+        var whatFormatted = paymentmodeChar + categoryChar + what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
         $('.bill-title').html(
             '<span class="loading-bill"></span>' +
             '<span class="icon-edit-white"></span>' +
@@ -1367,29 +1367,29 @@
         var paymentmodeChar = '';
         // c b f card, cash, check
         if (bill.paymentmode === 'c') {
-            paymentmodeChar = ' 💳';
+            paymentmodeChar = '💳 ';
         }
         else if (bill.paymentmode === 'b') {
-            paymentmodeChar = ' 💵';
+            paymentmodeChar = '💵 ';
         }
         else if (bill.paymentmode === 'f') {
-            paymentmodeChar = ' 🎫';
+            paymentmodeChar = '🎫 ';
         }
         var categoryChar = '';
-        // food, furniture, rent, bills
+        // groceries, leisure, rent, bills
         if (parseInt(bill.categoryid) === -1) {
-            categoryChar = ' 🍐';
+            categoryChar = '🛒 ';
         }
         else if (parseInt(bill.categoryid) === -2) {
-            categoryChar = ' 🧰';
+            categoryChar = '🎉 ';
         }
         else if (parseInt(bill.categoryid) === -3) {
-            categoryChar = ' 🏠';
+            categoryChar = '🏠 ';
         }
         else if (parseInt(bill.categoryid) === -4) {
-            categoryChar = ' 🖹';
+            categoryChar = '🖹 ';
         }
-        var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar + paymentmodeChar + categoryChar;
+        var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
         var titleStr = t('cospend', 'Bill : {what}', {what: whatFormatted});
 
         var allStr = t('cospend', 'All');
@@ -1479,8 +1479,8 @@
             '            </label>' +
             '            <select id="category">' +
             '               <option value="0" selected>'+t('cospend', 'None')+'</option>' +
-            '               <option value="-1">🍐 '+t('cospend', 'Food')+'</option>' +
-            '               <option value="-2">🧰 '+t('cospend', 'Furniture')+'</option>' +
+            '               <option value="-1">🛒 '+t('cospend', 'Groceries')+'</option>' +
+            '               <option value="-2">🎉 '+t('cospend', 'Leisure')+'</option>' +
             '               <option value="-3">🏠 '+t('cospend', 'Rent')+'</option>' +
             '               <option value="-4">🖹 '+t('cospend', 'Bills')+'</option>' +
             '            </select>' +
@@ -1570,29 +1570,29 @@
         var paymentmodeChar = '';
         // c b f card, cash, check
         if (bill.paymentmode === 'c') {
-            paymentmodeChar = ' 💳';
+            paymentmodeChar = '💳 ';
         }
         else if (bill.paymentmode === 'b') {
-            paymentmodeChar = ' 💵';
+            paymentmodeChar = '💵 ';
         }
         else if (bill.paymentmode === 'f') {
-            paymentmodeChar = ' 🎫';
+            paymentmodeChar = '🎫 ';
         }
         var categoryChar = '';
-        // food, furniture, rent, bills
+        // groceries, leisure, rent, bills
         if (parseInt(bill.categoryid) === -1) {
-            categoryChar = ' 🍐';
+            categoryChar = '🛒 ';
         }
         else if (parseInt(bill.categoryid) === -2) {
-            categoryChar = ' 🧰';
+            categoryChar = '🎉 ';
         }
         else if (parseInt(bill.categoryid) === -3) {
-            categoryChar = ' 🏠';
+            categoryChar = '🏠 ';
         }
         else if (parseInt(bill.categoryid) === -4) {
-            categoryChar = ' 🖹';
+            categoryChar = '🖹 ';
         }
-        var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar + paymentmodeChar + categoryChar;
+        var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
 
         var imgurl;
         if (bill.id !== 0) {

@@ -33,6 +33,29 @@
         currentProjectId: null,
     };
 
+    cospend.categories = {
+        '-1': {
+            name: t('cospend', 'Groceries'),
+            icon: '🛒'
+        },
+        '-2': {
+            name: t('cospend', 'Leisure'),
+            icon: '🎉'
+        },
+        '-3': {
+            name: t('cospend', 'Rent'),
+            icon: '🏠'
+        },
+        '-4': {
+            name: t('cospend', 'Bills'),
+            icon: '🌩'
+        },
+        '-5': {
+            name: t('cospend', 'Culture'),
+            icon: '🗽'
+        },
+    };
+
     //////////////// UTILS /////////////////////
 
     function hexToRgb(hex) {
@@ -530,17 +553,8 @@
         }
         var categoryChar = '';
         // groceries, leisure, rent, bills
-        if (parseInt(bill.categoryid) === -1) {
-            categoryChar = '🛒 ';
-        }
-        else if (parseInt(bill.categoryid) === -2) {
-            categoryChar = '🎉 ';
-        }
-        else if (parseInt(bill.categoryid) === -3) {
-            categoryChar = '🏠 ';
-        }
-        else if (parseInt(bill.categoryid) === -4) {
-            categoryChar = '🖹 ';
+        if (cospend.categories.hasOwnProperty(bill.categoryid)) {
+            categoryChar = cospend.categories[bill.categoryid].icon + ' ';
         }
         var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
 
@@ -1118,11 +1132,13 @@
             '        '+t('cospend', 'Category')+
             ':   </label>' +
             '    <select id="category-stats">' +
-            '       <option value="0" selected>'+t('cospend', 'All')+'</option>' +
-            '       <option value="-1">🛒 '+t('cospend', 'Groceries')+'</option>' +
-            '       <option value="-2">🎉 '+t('cospend', 'Leisure')+'</option>' +
-            '       <option value="-3">🏠 '+t('cospend', 'Rent')+'</option>' +
-            '       <option value="-4">🖹 '+t('cospend', 'Bills')+'</option>' +
+            '       <option value="0" selected>'+t('cospend', 'All')+'</option>';
+        var cat;
+        for (var catId in cospend.categories) {
+            cat = cospend.categories[catId];
+            statsStr += '       <option value="'+catId+'">'+cat.icon+' '+cat.name+'</option>';
+        }
+        statsStr +=
             '    </select>' +
             '    <label for="amount-min-stats">'+t('cospend', 'Minimum amount')+': </label><input type="number" id="amount-min-stats"/>' +
             '    <label for="amount-max-stats">'+t('cospend', 'Maximum amount')+': </label><input type="number" id="amount-max-stats"/>' +
@@ -1265,17 +1281,8 @@
         }
         var categoryChar = '';
         // groceries leisure, rent, bills
-        if (parseInt(categoryid) === -1) {
-            categoryChar = '🛒 ';
-        }
-        else if (parseInt(categoryid) === -2) {
-            categoryChar = '🎉 ';
-        }
-        else if (parseInt(categoryid) === -3) {
-            categoryChar = '🏠 ';
-        }
-        else if (parseInt(categoryid) === -4) {
-            categoryChar = '🖹 ';
+        if (cospend.categories.hasOwnProperty(categoryid)) {
+            categoryChar = cospend.categories[categoryid].icon + ' ';
         }
         var whatFormatted = paymentmodeChar + categoryChar + what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
         $('.bill-title').html(
@@ -1377,17 +1384,8 @@
         }
         var categoryChar = '';
         // groceries, leisure, rent, bills
-        if (parseInt(bill.categoryid) === -1) {
-            categoryChar = '🛒 ';
-        }
-        else if (parseInt(bill.categoryid) === -2) {
-            categoryChar = '🎉 ';
-        }
-        else if (parseInt(bill.categoryid) === -3) {
-            categoryChar = '🏠 ';
-        }
-        else if (parseInt(bill.categoryid) === -4) {
-            categoryChar = '🖹 ';
+        if (cospend.categories.hasOwnProperty(bill.categoryid)) {
+            categoryChar = cospend.categories[bill.categoryid].icon + ' ';
         }
         var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
         var titleStr = t('cospend', 'Bill : {what}', {what: whatFormatted});
@@ -1478,11 +1476,13 @@
             '                '+categoryStr+
             '            </label>' +
             '            <select id="category">' +
-            '               <option value="0" selected>'+t('cospend', 'None')+'</option>' +
-            '               <option value="-1">🛒 '+t('cospend', 'Groceries')+'</option>' +
-            '               <option value="-2">🎉 '+t('cospend', 'Leisure')+'</option>' +
-            '               <option value="-3">🏠 '+t('cospend', 'Rent')+'</option>' +
-            '               <option value="-4">🖹 '+t('cospend', 'Bills')+'</option>' +
+            '               <option value="0" selected>'+t('cospend', 'None')+'</option>';
+        var cat;
+        for (var catId in cospend.categories) {
+            cat = cospend.categories[catId];
+            detail += '       <option value="'+catId+'">'+cat.icon+' '+cat.name+'</option>';
+        }
+        detail +=
             '            </select>' +
             '        </div>' +
             '    </div>' +
@@ -1580,17 +1580,8 @@
         }
         var categoryChar = '';
         // groceries, leisure, rent, bills
-        if (parseInt(bill.categoryid) === -1) {
-            categoryChar = '🛒 ';
-        }
-        else if (parseInt(bill.categoryid) === -2) {
-            categoryChar = '🎉 ';
-        }
-        else if (parseInt(bill.categoryid) === -3) {
-            categoryChar = '🏠 ';
-        }
-        else if (parseInt(bill.categoryid) === -4) {
-            categoryChar = '🖹 ';
+        if (cospend.categories.hasOwnProperty(bill.categoryid)) {
+            categoryChar = cospend.categories[bill.categoryid].icon + ' ';
         }
         var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
 

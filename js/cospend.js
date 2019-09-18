@@ -56,6 +56,21 @@
         },
     };
 
+    cospend.paymentModes = {
+        c: {
+            name: t('cospend', 'Credit card'),
+            icon: '💳'
+        },
+        b: {
+            name: t('cospend', 'Cash'),
+            icon: '💵'
+        },
+        f: {
+            name: t('cospend', 'Check'),
+            icon: '🎫'
+        },
+    };
+
     //////////////// UTILS /////////////////////
 
     function hexToRgb(hex) {
@@ -542,14 +557,8 @@
         }
         var paymentmodeChar = '';
         // c b f card, cash, check
-        if (bill.paymentmode === 'c') {
-            paymentmodeChar = '💳 ';
-        }
-        else if (bill.paymentmode === 'b') {
-            paymentmodeChar = '💵 ';
-        }
-        else if (bill.paymentmode === 'f') {
-            paymentmodeChar = '🎫 ';
+        if (cospend.paymentModes.hasOwnProperty(bill.paymentmode)) {
+            paymentmodeChar = cospend.paymentModes[bill.paymentmode].icon + ' ';
         }
         var categoryChar = '';
         // groceries, leisure, rent, bills
@@ -1122,10 +1131,13 @@
             '        '+t('cospend', 'Payment mode')+
             ':   </label>' +
             '    <select id="payment-mode-stats">' +
-            '       <option value="n" selected>'+t('cospend', 'All')+'</option>' +
-            '       <option value="c">💳 '+t('cospend', 'Credit card')+'</option>' +
-            '       <option value="b">💵 '+t('cospend', 'Cash')+'</option>' +
-            '       <option value="f">🎫 '+t('cospend', 'Check')+'</option>' +
+            '       <option value="n" selected>'+t('cospend', 'All')+'</option>';
+        var pm;
+        for (var pmId in cospend.paymentModes) {
+            pm = cospend.paymentModes[pmId];
+            statsStr += '       <option value="'+pmId+'">'+pm.icon+' '+pm.name+'</option>';
+        }
+        statsStr +=
             '    </select>' +
             '    <label for="category-stats">' +
             '        <a class="icon icon-category-app-bundles"></a>' +
@@ -1270,14 +1282,8 @@
         }
         var paymentmodeChar = '';
         // c b f card, cash, check
-        if (paymentmode === 'c') {
-            paymentmodeChar = '💳 ';
-        }
-        else if (paymentmode === 'b') {
-            paymentmodeChar = '💵 ';
-        }
-        else if (paymentmode === 'f') {
-            paymentmodeChar = '🎫 ';
+        if (cospend.paymentModes.hasOwnProperty(paymentmode)) {
+            paymentmodeChar = cospend.paymentModes[paymentmode].icon + ' ';
         }
         var categoryChar = '';
         // groceries leisure, rent, bills
@@ -1373,14 +1379,8 @@
         }
         var paymentmodeChar = '';
         // c b f card, cash, check
-        if (bill.paymentmode === 'c') {
-            paymentmodeChar = '💳 ';
-        }
-        else if (bill.paymentmode === 'b') {
-            paymentmodeChar = '💵 ';
-        }
-        else if (bill.paymentmode === 'f') {
-            paymentmodeChar = '🎫 ';
+        if (cospend.paymentModes.hasOwnProperty(bill.paymentmode)) {
+            paymentmodeChar = cospend.paymentModes[bill.paymentmode].icon + ' ';
         }
         var categoryChar = '';
         // groceries, leisure, rent, bills
@@ -1464,10 +1464,13 @@
             '                '+paymentModeStr+
             '            </label>' +
             '            <select id="payment-mode">' +
-            '               <option value="n" selected>'+t('cospend', 'None')+'</option>' +
-            '               <option value="c">💳 '+t('cospend', 'Credit card')+'</option>' +
-            '               <option value="b">💵 '+t('cospend', 'Cash')+'</option>' +
-            '               <option value="f">🎫 '+t('cospend', 'Check')+'</option>' +
+            '               <option value="n" selected>'+t('cospend', 'None')+'</option>';
+        var pm;
+        for (var pmId in cospend.paymentModes) {
+            pm = cospend.paymentModes[pmId];
+            detail += '       <option value="'+pmId+'">'+pm.icon+' '+pm.name+'</option>';
+        }
+        detail +=
             '            </select>' +
             '        </div>' +
             '        <div class="bill-category">' +
@@ -1569,14 +1572,8 @@
         }
         var paymentmodeChar = '';
         // c b f card, cash, check
-        if (bill.paymentmode === 'c') {
-            paymentmodeChar = '💳 ';
-        }
-        else if (bill.paymentmode === 'b') {
-            paymentmodeChar = '💵 ';
-        }
-        else if (bill.paymentmode === 'f') {
-            paymentmodeChar = '🎫 ';
+        if (cospend.paymentModes.hasOwnProperty(bill.paymentmode)) {
+            paymentmodeChar = cospend.paymentModes[bill.paymentmode].icon + ' ';
         }
         var categoryChar = '';
         // groceries, leisure, rent, bills

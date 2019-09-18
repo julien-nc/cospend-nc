@@ -54,6 +54,22 @@
             name: t('cospend', 'Culture'),
             icon: '🗽'
         },
+        '-6': {
+            name: t('cospend', 'Health'),
+            icon: '💚'
+        },
+        '-7': {
+            name: t('cospend', 'Tools'),
+            icon: '🔨'
+        },
+        '-8': {
+            name: t('cospend', 'Multimedia'),
+            icon: '💻'
+        },
+        '-9': {
+            name: t('cospend', 'Clothes'),
+            icon: '👚'
+        },
     };
 
     cospend.paymentModes = {

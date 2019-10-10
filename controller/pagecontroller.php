@@ -16,6 +16,7 @@ use OCP\App\IAppManager;
 use OCP\IURLGenerator;
 use OCP\IConfig;
 use \OCP\IL10N;
+use OCP\IAvatarManager;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -58,13 +59,15 @@ class PageController extends ApiController {
     public function __construct($AppName, IRequest $request, $UserId,
                                 $userfolder, $config, $shareManager,
                                 IAppManager $appManager, $userManager,
-                                $groupManager, IL10N $trans, $logger){
+                                $groupManager, IL10N $trans, $logger,
+                                IAvatarManager $avatarManager){
         parent::__construct($AppName, $request,
                             'PUT, POST, GET, DELETE, PATCH, OPTIONS',
                             'Authorization, Content-Type, Accept',
                             1728000);
         $this->logger = $logger;
         $this->appName = $AppName;
+        $this->avatarManager = $avatarManager;
         $this->appVersion = $config->getAppValue('cospend', 'installed_version');
         $this->userId = $UserId;
         $this->userManager = $userManager;
@@ -395,9 +398,10 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webGetProjectStatistics($projectid) {
+    public function webGetProjectStatistics($projectid, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null,
+                                            $amountMin=null, $amountMax=null) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
-            return $this->getProjectStatistics($projectid);
+            return $this->getProjectStatistics($projectid, 'lowername', $dateMin, $dateMax, $paymentMode, $category, $amountMin, $amountMax);
         }
         else {
             $response = new DataResponse(
@@ -463,9 +467,9 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat) {
+    public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode=null, $categoryid=null) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
-            return $this->editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat);
+            return $this->editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode, $categoryid);
         }
         else {
             $response = new DataResponse(
@@ -480,9 +484,9 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webEditProject($projectid, $name, $contact_email, $password) {
+    public function webEditProject($projectid, $name, $contact_email, $password, $autoexport=null) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
-            return $this->editProject($projectid, $name, $contact_email, $password);
+            return $this->editProject($projectid, $name, $contact_email, $password, $autoexport);
         }
         else {
             $response = new DataResponse(
@@ -531,9 +535,9 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webAddBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat) {
+    public function webAddBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode=null, $categoryid=null) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
-            return $this->addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat);
+            return $this->addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode, $categoryid);
         }
         else {
             $response = new DataResponse(
@@ -582,6 +586,7 @@ class PageController extends ApiController {
 
     /**
      * @NoAdminRequired
+     * @NoCSRFRequired
      *
      */
     public function webGetProjects() {
@@ -590,7 +595,7 @@ class PageController extends ApiController {
 
         $qb = $this->dbconnection->getQueryBuilder();
 
-        $qb->select('p.id', 'p.password', 'p.name', 'p.email')
+        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport')
            ->from('cospend_projects', 'p')
            ->where(
                $qb->expr()->eq('userid', $qb->createNamedParameter($this->userId, IQueryBuilder::PARAM_STR))
@@ -603,12 +608,14 @@ class PageController extends ApiController {
             $dbProjectId = $row['id'];
             array_push($projectids, $dbProjectId);
             $dbPassword = $row['password'];
-            $dbName = $row['name'];
-            $dbEmail= $row['email'];
+            $dbName  = $row['name'];
+            $dbEmail = $row['email'];
+            $autoexport = $row['autoexport'];
             array_push($projects, [
                 'name'=>$dbName,
                 'contact_email'=>$dbEmail,
                 'id'=>$dbProjectId,
+                'autoexport'=>$autoexport,
                 'active_members'=>null,
                 'members'=>null,
                 'balance'=>null,
@@ -620,7 +627,7 @@ class PageController extends ApiController {
         $qb = $qb->resetQueryParts();
 
         // shared with user
-        $qb->select('p.id', 'p.password', 'p.name', 'p.email')
+        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport')
            ->from('cospend_projects', 'p')
            ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
            ->where(
@@ -641,10 +648,12 @@ class PageController extends ApiController {
                 $dbPassword = $row['password'];
                 $dbName = $row['name'];
                 $dbEmail= $row['email'];
+                $autoexport = $row['autoexport'];
                 array_push($projects, [
                     'name'=>$dbName,
                     'contact_email'=>$dbEmail,
                     'id'=>$dbProjectId,
+                    'autoexport'=>$autoexport,
                     'active_members'=>null,
                     'members'=>null,
                     'balance'=>null,
@@ -680,7 +689,7 @@ class PageController extends ApiController {
             $group = $this->groupManager->get($candidateGroupId);
             if ($group !== null && $group->inGroup($userO)) {
                 // get projects shared with this group
-                $qb->select('p.id', 'p.password', 'p.name', 'p.email')
+                $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport')
                     ->from('cospend_projects', 'p')
                     ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
                     ->where(
@@ -701,10 +710,12 @@ class PageController extends ApiController {
                         $dbPassword = $row['password'];
                         $dbName = $row['name'];
                         $dbEmail= $row['email'];
+                        $autoexport = $row['autoexport'];
                         array_push($projects, [
                             'name'=>$dbName,
                             'contact_email'=>$dbEmail,
                             'id'=>$dbProjectId,
+                            'autoexport'=>$autoexport,
                             'active_members'=>null,
                             'members'=>null,
                             'balance'=>null,
@@ -721,7 +732,7 @@ class PageController extends ApiController {
         // get values for projects we're gonna return
         for ($i = 0; $i < count($projects); $i++) {
             $dbProjectId = $projects[$i]['id'];
-            $members = $this->getMembers($dbProjectId);
+            $members = $this->getMembers($dbProjectId, 'lowername');
             $shares = $this->getUserShares($dbProjectId);
             $groupShares = $this->getGroupShares($dbProjectId);
             $activeMembers = [];
@@ -921,9 +932,9 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiSetProjectInfo($projectid, $passwd, $name, $contact_email, $password) {
+    public function apiSetProjectInfo($projectid, $passwd, $name, $contact_email, $password, $autoexport=null) {
         if ($this->checkLogin($projectid, $passwd)) {
-            return $this->editProject($projectid, $name, $contact_email, $password);
+            return $this->editProject($projectid, $name, $contact_email, $password, $autoexport);
         }
         else {
             $response = new DataResponse(
@@ -1001,9 +1012,9 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiAddBill($projectid, $password, $date, $what, $payer, $payed_for, $amount, $repeat='n') {
+    public function apiAddBill($projectid, $password, $date, $what, $payer, $payed_for, $amount, $repeat='n', $paymentmode=null, $categoryid=null) {
         if ($this->checkLogin($projectid, $password)) {
-            return $this->addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat);
+            return $this->addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode, $categoryid);
         }
         else {
             $response = new DataResponse(
@@ -1020,9 +1031,9 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiEditBill($projectid, $password, $billid, $date, $what, $payer, $payed_for, $amount, $repeat='n') {
+    public function apiEditBill($projectid, $password, $billid, $date, $what, $payer, $payed_for, $amount, $repeat='n', $paymentmode=null, $categoryid=null) {
         if ($this->checkLogin($projectid, $password)) {
-            return $this->editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat);
+            return $this->editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode, $categoryid);
         }
         else {
             $response = new DataResponse(
@@ -1115,9 +1126,11 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiGetProjectStatistics($projectid, $password) {
+    public function apiGetProjectStatistics($projectid, $password, $dateMin=null, $dateMax=null, $paymentMode=null,
+                                            $category=null, $amountMin=null, $amountMax=null) {
         if ($this->checkLogin($projectid, $password)) {
-            return $this->getProjectStatistics($projectid);
+            return $this->getProjectStatistics($projectid, 'lowername', $dateMin, $dateMax, $paymentMode,
+                                               $category, $amountMin, $amountMax);
         }
         else {
             $response = new DataResponse(
@@ -1166,7 +1179,8 @@ class PageController extends ApiController {
         }
     }
 
-    private function getProjectStatistics($projectId, $memberOrder=null) {
+    private function getProjectStatistics($projectId, $memberOrder=null, $dateMin=null, $dateMax=null,
+                                          $paymentMode=null, $category=null, $amountMin=null, $amountMax=null) {
         $membersWeight = [];
         $membersNbBills = [];
         $membersBalance = [];
@@ -1184,7 +1198,7 @@ class PageController extends ApiController {
             $membersSpent[$memberId] = 0.0;
         }
 
-        $bills = $this->getBills($projectId);
+        $bills = $this->getBills($projectId, $dateMin, $dateMax, $paymentMode, $category, $amountMin, $amountMax);
         foreach ($bills as $bill) {
             $payerId = $bill['payer_id'];
             $amount = $bill['amount'];
@@ -1408,7 +1422,7 @@ class PageController extends ApiController {
         $qb = $qb->resetQueryParts();
 
         // get the bill
-        $qb->select('id', 'what', 'date', 'amount', 'payerid', 'repeat')
+        $qb->select('id', 'what', 'date', 'amount', 'payerid', 'repeat', 'paymentmode', 'categoryid')
            ->from('cospend_bills', 'b')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -1423,7 +1437,9 @@ class PageController extends ApiController {
             $dbWhat = $row['what'];
             $dbDate = $row['date'];
             $dbRepeat = $row['repeat'];
-            $dbPayerId= intval($row['payerid']);
+            $dbPayerId = intval($row['payerid']);
+            $dbPaymentMode = $row['paymentmode'];
+            $dbCategoryId = intval($row['categoryid']);
             $bill = [
                 'id' => $dbBillId,
                 'amount' => $dbAmount,
@@ -1431,7 +1447,9 @@ class PageController extends ApiController {
                 'date' => $dbDate,
                 'payer_id' => $dbPayerId,
                 'owers' => $billOwers,
-                'repeat' => $dbRepeat
+                'repeat' => $dbRepeat,
+                'paymentmode' => $dbPaymentMode,
+                'categoryid' => $dbCategoryId
             ];
         }
         $req->closeCursor();
@@ -1440,7 +1458,8 @@ class PageController extends ApiController {
         return $bill;
     }
 
-    private function getBills($projectId) {
+    private function getBills($projectId, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null,
+                              $amountMin=null, $amountMax=null) {
         $bills = [];
 
         // first get all bill ids
@@ -1451,6 +1470,36 @@ class PageController extends ApiController {
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
            );
+        if ($dateMin !== null and $dateMin !== '') {
+           $qb->andWhere(
+               $qb->expr()->gte('date', $qb->createNamedParameter($dateMin, IQueryBuilder::PARAM_STR))
+           );
+        }
+        if ($dateMax !== null and $dateMax !== '') {
+           $qb->andWhere(
+               $qb->expr()->lte('date', $qb->createNamedParameter($dateMax, IQueryBuilder::PARAM_STR))
+           );
+        }
+        if ($paymentMode !== null and $paymentMode !== '' and $paymentMode !== 'n') {
+           $qb->andWhere(
+               $qb->expr()->eq('paymentmode', $qb->createNamedParameter($paymentMode, IQueryBuilder::PARAM_STR))
+           );
+        }
+        if ($category !== null and $category !== '' and intval($category) !== 0) {
+           $qb->andWhere(
+               $qb->expr()->eq('categoryid', $qb->createNamedParameter(intval($category), IQueryBuilder::PARAM_INT))
+           );
+        }
+        if ($amountMin !== null and is_numeric($amountMin)) {
+           $qb->andWhere(
+               $qb->expr()->gte('amount', $qb->createNamedParameter(floatval($amountMin), IQueryBuilder::PARAM_STR))
+           );
+        }
+        if ($amountMax !== null and is_numeric($amountMax)) {
+           $qb->andWhere(
+               $qb->expr()->lte('amount', $qb->createNamedParameter(floatval($amountMax), IQueryBuilder::PARAM_STR))
+           );
+        }
         $req = $qb->execute();
 
         while ($row = $req->fetch()){
@@ -1491,12 +1540,42 @@ class PageController extends ApiController {
             $billOwersByBill[$billId] = $billOwers;
         }
 
-        $qb->select('id', 'what', 'date', 'amount', 'payerid', 'repeat')
+        $qb->select('id', 'what', 'date', 'amount', 'payerid', 'repeat', 'paymentmode', 'categoryid')
            ->from('cospend_bills', 'b')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-           )
-           ->orderBy('date', 'ASC');
+           );
+        if ($dateMin !== null and $dateMin !== '') {
+           $qb->andWhere(
+               $qb->expr()->gte('date', $qb->createNamedParameter($dateMin, IQueryBuilder::PARAM_STR))
+           );
+        }
+        if ($dateMax !== null and $dateMax !== '') {
+           $qb->andWhere(
+               $qb->expr()->lte('date', $qb->createNamedParameter($dateMax, IQueryBuilder::PARAM_STR))
+           );
+        }
+        if ($paymentMode !== null and $paymentMode !== '' and $paymentMode !== 'n') {
+           $qb->andWhere(
+               $qb->expr()->eq('paymentmode', $qb->createNamedParameter($paymentMode, IQueryBuilder::PARAM_STR))
+           );
+        }
+        if ($category !== null and $category !== '' and intval($category) !== 0) {
+           $qb->andWhere(
+               $qb->expr()->eq('categoryid', $qb->createNamedParameter(intval($category), IQueryBuilder::PARAM_INT))
+           );
+        }
+        if ($amountMin !== null and is_numeric($amountMin)) {
+           $qb->andWhere(
+               $qb->expr()->gte('amount', $qb->createNamedParameter(floatval($amountMin), IQueryBuilder::PARAM_STR))
+           );
+        }
+        if ($amountMax !== null and is_numeric($amountMax)) {
+           $qb->andWhere(
+               $qb->expr()->lte('amount', $qb->createNamedParameter(floatval($amountMax), IQueryBuilder::PARAM_STR))
+           );
+        }
+        $qb->orderBy('date', 'ASC');
         $req = $qb->execute();
         while ($row = $req->fetch()){
             $dbBillId = intval($row['id']);
@@ -1505,6 +1584,11 @@ class PageController extends ApiController {
             $dbDate = $row['date'];
             $dbRepeat = $row['repeat'];
             $dbPayerId= intval($row['payerid']);
+            $dbPaymentMode = $row['paymentmode'];
+            $dbCategoryId = intval($row['categoryid']);
+            if ($category) {
+                error_log('BBBIIIIIIIIIL '.$dbWhat.' BB');
+            }
             array_push(
                 $bills,
                 [
@@ -1514,7 +1598,9 @@ class PageController extends ApiController {
                     'date' => $dbDate,
                     'payer_id' => $dbPayerId,
                     'owers' => $billOwersByBill[$row['id']],
-                    'repeat' => $dbRepeat
+                    'repeat' => $dbRepeat,
+                    'paymentmode' => $dbPaymentMode,
+                    'categoryid' => $dbCategoryId
                 ]
             );
         }
@@ -1552,6 +1638,8 @@ class PageController extends ApiController {
                 $dbWeight = floatval($row['weight']);
                 $dbName = $row['name'];
                 $dbActivated= intval($row['activated']);
+                $av = $this->avatarManager->getGuestAvatar($dbName);
+                $color = $av->avatarBackgroundColor($dbName);
 
                 // find index to make sorted insert
                 $ii = 0;
@@ -1567,7 +1655,8 @@ class PageController extends ApiController {
                         'activated' => ($dbActivated === 1),
                         'name' => $dbName,
                         'id' => $dbMemberId,
-                        'weight' => $dbWeight
+                        'weight' => $dbWeight,
+                        'color'=>$color
                     ]]
                 );
             }
@@ -1578,6 +1667,8 @@ class PageController extends ApiController {
                 $dbWeight = floatval($row['weight']);
                 $dbName = $row['name'];
                 $dbActivated= intval($row['activated']);
+                $av = $this->avatarManager->getGuestAvatar($dbName);
+                $color = $av->avatarBackgroundColor($dbName);
 
                 array_push(
                     $members,
@@ -1585,7 +1676,8 @@ class PageController extends ApiController {
                         'activated' => ($dbActivated === 1),
                         'name' => $dbName,
                         'id' => $dbMemberId,
-                        'weight' => $dbWeight
+                        'weight' => $dbWeight,
+                        'color'=>$color
                     ]
                 );
             }
@@ -1731,7 +1823,7 @@ class PageController extends ApiController {
         return $project;
     }
 
-    private function editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat) {
+    private function editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode=null, $categoryid=null) {
         $qb = $this->dbconnection->getQueryBuilder();
         $qb->update('cospend_bills');
 
@@ -1751,7 +1843,6 @@ class PageController extends ApiController {
             );
             return $response;
         }
-        //$whatSql = 'what='.$this->db_quote_escape_string($what);
         $qb->set('what', $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR));
 
         if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
@@ -1761,22 +1852,23 @@ class PageController extends ApiController {
             );
             return $response;
         }
-        //$repeatSql = $this->dbdblquotes.'repeat'.$this->dbdblquotes.'='.$this->db_quote_escape_string($repeat).',';
         $qb->set('repeat', $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR));
 
-        $dateSql = '';
+        if ($paymentmode !== null && is_string($paymentmode)) {
+            $qb->set('paymentmode', $qb->createNamedParameter($paymentmode, IQueryBuilder::PARAM_STR));
+        }
+        if ($categoryid !== null && is_numeric($categoryid)) {
+            $qb->set('categoryid', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT));
+        }
         if ($date !== null && $date !== '') {
-            //$dateSql = 'date='.$this->db_quote_escape_string($date).',';
             $qb->set('date', $qb->createNamedParameter($date, IQueryBuilder::PARAM_STR));
         }
-        $amountSql = '';
         if ($amount !== null && $amount !== '' && is_numeric($amount)) {
-            //$amountSql = 'amount='.$this->db_quote_escape_string($amount).',';
             $qb->set('amount', $qb->createNamedParameter($amount, IQueryBuilder::PARAM_STR));
         }
-        $payerSql = '';
         if ($payer !== null && $payer !== '' && is_numeric($payer)) {
-            if ($this->getMemberById($projectid, $payer) === null) {
+            $member = $this->getMemberById($projectid, $payer);
+            if ($member === null) {
                 $response = new DataResponse(
                     ['payer'=>["Not a valid choice"]]
                     , 400
@@ -1784,7 +1876,6 @@ class PageController extends ApiController {
                 return $response;
             }
             else {
-                //$payerSql = 'payerid='.$this->db_quote_escape_string($payer).',';
                 $qb->set('payerid', $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT));
             }
         }
@@ -1850,7 +1941,7 @@ class PageController extends ApiController {
         return $response;
     }
 
-    private function addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat) {
+    private function addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode=null, $categoryid=null) {
         if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
             $response = new DataResponse(
                 ["repeat"=> ["Invalid value."]]
@@ -1928,7 +2019,9 @@ class PageController extends ApiController {
                 'date' => $qb->createNamedParameter($date, IQueryBuilder::PARAM_STR),
                 'amount' => $qb->createNamedParameter($amount, IQueryBuilder::PARAM_STR),
                 'payerid' => $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT),
-                'repeat' => $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR)
+                'repeat' => $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR),
+                'categoryid' => $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT),
+                'paymentmode' => $qb->createNamedParameter($paymentmode, IQueryBuilder::PARAM_STR)
             ]);
         $req = $qb->execute();
         $qb = $qb->resetQueryParts();
@@ -2154,6 +2247,10 @@ class PageController extends ApiController {
 
                 $editedMember = $this->getMemberById($projectid, $memberid);
 
+                $av = $this->avatarManager->getGuestAvatar($editedMember['name']);
+                $color = $av->avatarBackgroundColor($editedMember['name']);
+                $editedMember['color'] = $color;
+
                 $response = new DataResponse($editedMember);
                 return $response;
             }
@@ -2207,7 +2304,7 @@ class PageController extends ApiController {
         return $response;
     }
 
-    private function editProject($projectid, $name, $contact_email, $password) {
+    private function editProject($projectid, $name, $contact_email, $password, $autoexport=null) {
         if ($name === null || $name === '') {
             $response = new DataResponse(
                 ["name"=> ["This field is required."]]
@@ -2235,6 +2332,9 @@ class PageController extends ApiController {
         if ($password !== null && $password !== '') {
             $dbPassword = password_hash($password, PASSWORD_DEFAULT);
             $qb->set('password', $qb->createNamedParameter($dbPassword, IQueryBuilder::PARAM_STR));
+        }
+        if ($autoexport !== null && $autoexport !== '') {
+            $qb->set('autoexport', $qb->createNamedParameter($autoexport, IQueryBuilder::PARAM_STR));
         }
         if ($this->getProjectById($projectid) !== null) {
             $qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
@@ -2826,7 +2926,8 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function exportCsvStatistics($projectid) {
+    public function exportCsvStatistics($projectid, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null,
+                                        $amountMin=null, $amountMax=null) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
             // create Cospend directory if needed
             $userFolder = \OC::$server->getUserFolder();
@@ -2856,7 +2957,8 @@ class PageController extends ApiController {
             $file = $folder->newFile($projectid.'-stats.csv');
             $handler = $file->fopen('w');
             fwrite($handler, $this->trans->t('Member name').','. $this->trans->t('Paid').','. $this->trans->t('Spent').','. $this->trans->t('Balance')."\n");
-            $statsResp = $this->getProjectStatistics($projectid);
+            $statsResp = $this->getProjectStatistics($projectid, 'lowername', $dateMin, $dateMax, $paymentMode,
+                                                     $category, $amountMin, $amountMax);
             if ($statsResp->getStatus() !== 200) {
             }
             $stats = $statsResp->getData();
@@ -2882,10 +2984,15 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function exportCsvProject($projectid) {
-        if ($this->userCanAccessProject($this->userId, $projectid)) {
+    public function exportCsvProject($projectid, $name=null, $uid=null) {
+        $userId = $uid;
+        if ($this->userId) {
+            $userId = $this->userId;
+        }
+
+        if ($this->userCanAccessProject($userId, $projectid)) {
             // create Cospend directory if needed
-            $userFolder = \OC::$server->getUserFolder();
+            $userFolder = \OC::$server->getUserFolder($userId);
             if (!$userFolder->nodeExists('/Cospend')) {
                 $userFolder->newFolder('Cospend');
             }
@@ -2906,10 +3013,14 @@ class PageController extends ApiController {
             }
 
             // create file
-            if ($folder->nodeExists($projectid.'.csv')) {
-                $folder->get($projectid.'.csv')->delete();
+            $filename = $projectid.'.csv';
+            if ($name !== null) {
+                $filename = $name;
             }
-            $file = $folder->newFile($projectid.'.csv');
+            if ($folder->nodeExists($filename)) {
+                $folder->get($filename)->delete();
+            }
+            $file = $folder->newFile($filename);
             $handler = $file->fopen('w');
             fwrite($handler, "what,amount,date,payer_name,payer_weight,owers\n");
             $members = $this->getMembers($projectid);
@@ -2936,7 +3047,7 @@ class PageController extends ApiController {
 
             fclose($handler);
             $file->touch();
-            $response = new DataResponse(['path'=>'/Cospend/'.$projectid.'.csv']);
+            $response = new DataResponse(['path'=>'/Cospend/'.$filename]);
             return $response;
         }
         else {
@@ -2996,6 +3107,14 @@ class PageController extends ApiController {
                             $payer_name = $data[$columns['payer_name']];
                             $payer_weight = $data[$columns['payer_weight']];
                             $owers = $data[$columns['owers']];
+                            $paymentmode = null;
+                            if (array_key_exists('paymentmode', $columns)) {
+                                $paymentmode = $data[$columns['paymentmode']];
+                            }
+                            $categoryid = null;
+                            if (array_key_exists('categoryid', $columns)) {
+                                $categoryid = $data[$columns['categoryid']];
+                            }
 
                             // manage members
                             if (is_numeric($payer_weight)) {
@@ -3034,6 +3153,8 @@ class PageController extends ApiController {
                                     'amount'=>$amount,
                                     'payer_name'=>$payer_name,
                                     'owers'=>$owersArray,
+                                    'paymentmode'=>$paymentmode,
+                                    'categoryid'=>$categoryid
                                 ]
                             );
                         }
@@ -3074,7 +3195,7 @@ class PageController extends ApiController {
                             array_push($owerIds, $memberNameToId[$owerName]);
                         }
                         $owerIdsStr = implode(',', $owerIds);
-                        $addBillResult = $this->addBill($projectid, $bill['date'], $bill['what'], $payerId, $owerIdsStr, $bill['amount'], 'n');
+                        $addBillResult = $this->addBill($projectid, $bill['date'], $bill['what'], $payerId, $owerIdsStr, $bill['amount'], 'n', $bill['paymentmode'], $bill['categoryid']);
                         if ($addBillResult->getStatus() !== 200) {
                             $this->deleteProject($projectid);
                             $response = new DataResponse(['message'=>'Error when adding bill '.$bill['what']], 400);
@@ -3367,7 +3488,7 @@ class PageController extends ApiController {
         }
         $owerIdsStr = implode(',', $owerIds);
 
-        $this->addBill($projectid, $datetime->format('Y-m-d'), $bill['what'], $bill['payer_id'], $owerIdsStr, $bill['amount'], $bill['repeat']);
+        $this->addBill($projectid, $datetime->format('Y-m-d'), $bill['what'], $bill['payer_id'], $owerIdsStr, $bill['amount'], $bill['repeat'], $bill['paymentmode'], $bill['categoryid']);
 
         // now we can remove repeat flag on original bill
         $this->editBill($projectid, $billid, $bill['date'], $bill['what'], $bill['payer_id'], null, $bill['amount'], 'n');

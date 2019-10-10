@@ -5,6 +5,26 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.1.4 – 2019-09-14
+### Added
+- show total payed in statistics
+[#43](https://gitlab.com/eneiluj/cospend-nc/issues/43) @nerdoc
+- project auto export
+- payment modes
+[#12](https://gitlab.com/eneiluj/cospend-nc/issues/12) @llucax
+[#44](https://gitlab.com/eneiluj/cospend-nc/issues/44) @nerdoc
+- bill categories
+- statistics filters
+[#12](https://gitlab.com/eneiluj/cospend-nc/issues/12) @llucax
+[#44](https://gitlab.com/eneiluj/cospend-nc/issues/44) @nerdoc
+
+### Changed
+- color management now done by the server avatar service
+- sort member list by lowercase name
+
+### Fixed
+- fix notification system for NC17
+
 ## 0.1.1 – 2019-07-25
 ### Added
 

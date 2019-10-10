@@ -16,7 +16,7 @@ function setAllowAnonymousCreation(val) {
         async: true
     }).done(function (response) {
         OC.Notification.showTemporary(
-            t('cospend', 'Saved Cospend setting')
+            t('cospend', 'Cospend setting saved')
         );
     }).fail(function() {
         OC.Notification.showTemporary(

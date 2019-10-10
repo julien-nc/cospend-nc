@@ -3,7 +3,7 @@
     <id>cospend</id>
     <name>Cospend</name>
     <summary> </summary><description> </description>
-    <version>0.1.1</version>
+    <version>0.1.4</version>
     <licence>agpl</licence>
     <author mail="eneiluj@posteo.net">Julien Veyssier</author>
     <namespace>Cospend</namespace>
@@ -27,6 +27,7 @@
     </dependencies>
     <background-jobs>
         <job>OCA\Cospend\Cron\RepeatBills</job>
+        <job>OCA\Cospend\Cron\AutoExport</job>
     </background-jobs>
     <settings>
         <admin>OCA\Cospend\Settings\Admin</admin>

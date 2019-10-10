@@ -33,6 +33,60 @@
         currentProjectId: null,
     };
 
+    cospend.categories = {
+        '-1': {
+            name: t('cospend', 'Groceries'),
+            icon: '🛒'
+        },
+        '-2': {
+            name: t('cospend', 'Leisure'),
+            icon: '🎉'
+        },
+        '-3': {
+            name: t('cospend', 'Rent'),
+            icon: '🏠'
+        },
+        '-4': {
+            name: t('cospend', 'Bills'),
+            icon: '🌩'
+        },
+        '-5': {
+            name: t('cospend', 'Culture'),
+            icon: '🗽'
+        },
+        '-6': {
+            name: t('cospend', 'Health'),
+            icon: '💚'
+        },
+        '-7': {
+            name: t('cospend', 'Tools'),
+            icon: '🔨'
+        },
+        '-8': {
+            name: t('cospend', 'Multimedia'),
+            icon: '💻'
+        },
+        '-9': {
+            name: t('cospend', 'Clothes'),
+            icon: '👚'
+        },
+    };
+
+    cospend.paymentModes = {
+        c: {
+            name: t('cospend', 'Credit card'),
+            icon: '💳'
+        },
+        b: {
+            name: t('cospend', 'Cash'),
+            icon: '💵'
+        },
+        f: {
+            name: t('cospend', 'Check'),
+            icon: '🎫'
+        },
+    };
+
     //////////////// UTILS /////////////////////
 
     function hexToRgb(hex) {
@@ -66,58 +120,6 @@
     // this formula was found here : https://stackoverflow.com/a/596243/7692836
     function getColorBrightness(rgb) {
         return 0.2126*rgb.r + 0.7152*rgb.g + 0.0722*rgb.b;
-    }
-
-    function getLetterColor(letter1, letter2) {
-        var letter1Index = letter1.toLowerCase().charCodeAt(0);
-        var letter2Index = letter2.toLowerCase().charCodeAt(0);
-        var letterCoef = (letter1Index * letter2Index) % 100 / 100;
-        var h = letterCoef * 360;
-        var s = 45 + letterCoef * 10;
-        var l = 50 + letterCoef * 10;
-        return {h: Math.round(h), s: Math.round(s), l: Math.round(l)};
-    }
-
-    function hslToRgb(h, s, l) {
-        var r, g, b;
-
-        if(s == 0){
-            r = g = b = l; // achromatic
-        }else{
-            var hue2rgb = function hue2rgb(p, q, t){
-                if(t < 0) t += 1;
-                if(t > 1) t -= 1;
-                if(t < 1/6) return p + (q - p) * 6 * t;
-                if(t < 1/2) return q;
-                if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-                return p;
-            };
-
-            var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-            var p = 2 * l - q;
-            r = hue2rgb(p, q, h + 1/3);
-            g = hue2rgb(p, q, h);
-            b = hue2rgb(p, q, h - 1/3);
-        }
-
-        //return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
-        //return {r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255)};
-        var rgb = {r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255)};
-        var hexStringR = rgb.r.toString(16);
-        if (hexStringR.length % 2) {
-            hexStringR = '0' + hexStringR;
-        }
-        var hexStringG = rgb.g.toString(16);
-        if (hexStringG.length % 2) {
-            hexStringG = '0' + hexStringG;
-        }
-        var hexStringB = rgb.b.toString(16);
-        if (hexStringB.length % 2) {
-            hexStringB = '0' + hexStringB;
-        }
-        //console.log('r:'+hexStringR+' g:'+hexStringG+' b:'+hexStringB);
-        //console.log('rr:'+rgb.r+' gg:'+rgb.g+' bb:'+rgb.b);
-        return hexStringR+hexStringG+hexStringB;
     }
 
     function Timer(callback, mydelay) {
@@ -365,6 +367,7 @@
         }).done(function (response) {
             var memberLine = $('.projectitem[projectid="'+projectid+'"] ul.memberlist > li[memberid='+memberid+']');
             // update member values
+            cospend.members[projectid][memberid].color = response.color;
             if (newName) {
                 memberLine.find('b.memberName').text(newName);
                 cospend.members[projectid][memberid].name = newName;
@@ -375,29 +378,25 @@
                 updateProjectBalances(projectid);
             }
             if (newActivated !== null && newActivated === false) {
-                memberLine.find('>a').removeClass('icon-user').addClass('icon-disabled-user');
+                var lockSpan = '<div class="member-list-disabled-icon icon-disabled-user"> </div>';
+                memberLine.find('.member-list-icon').prepend(lockSpan);
+
                 memberLine.find('.toggleMember span').first().removeClass('icon-delete').addClass('icon-history');
                 memberLine.find('.toggleMember span').eq(1).text(t('cospend', 'Reactivate'));
                 cospend.members[projectid][memberid].activated = newActivated;
             }
             else if (newActivated !== null && newActivated === true) {
-                memberLine.find('>a').removeClass('icon-disabled-user').addClass('icon-user');
+                memberLine.find('.member-list-disabled-icon').remove();
+
                 memberLine.find('.toggleMember span').first().removeClass('icon-history').addClass('icon-delete');
                 memberLine.find('.toggleMember span').eq(1).text(t('cospend', 'Deactivate'));
                 cospend.members[projectid][memberid].activated = newActivated;
             }
-            // anyway : update icon
-            var c = getMemberColor(cospend.members[projectid][memberid].name);
-            var rgbC = hslToRgb(c.h/360, c.s/100, c.l/100);
-            var imgurl;
-            if (cospend.members[projectid][memberid].activated) {
-                imgurl = OC.generateUrl('/svg/core/actions/user?color='+rgbC);
-            }
-            else {
-                imgurl = OC.generateUrl('/svg/core/actions/disabled-user?color='+rgbC);
-            }
-            memberLine.find('>a').attr('style', 'background-image: url('+imgurl+')');
-            OC.Notification.showTemporary(t('cospend', 'Saved member'));
+            // update icon
+            var imgurl = OC.generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(response.name));
+            memberLine.find('.member-list-icon').attr('style', 'background-image: url('+imgurl+')');
+
+            OC.Notification.showTemporary(t('cospend', 'Member saved'));
             // get bills again to refresh names
             getBills(projectid);
             // reset bill edition
@@ -409,7 +408,7 @@
         });
     }
 
-    function createBill(projectid, what, amount, payer_id, date, owerIds, repeat, custom=false) {
+    function createBill(projectid, what, amount, payer_id, date, owerIds, repeat, custom=false, paymentmode=null, categoryid=null) {
         $('.loading-bill').addClass('icon-loading-small');
         var req = {
             what: what,
@@ -417,7 +416,9 @@
             payer: payer_id,
             payed_for: owerIds.join(','),
             amount: amount,
-            repeat: repeat
+            repeat: repeat,
+            paymentmode: paymentmode,
+            categoryid: categoryid
         };
         var url, type;
         var project = cospend.projects[projectid];
@@ -448,7 +449,9 @@
                 date: date,
                 amount: amount,
                 payer_id: payer_id,
-                repeat: repeat
+                repeat: repeat,
+                paymentmode: paymentmode,
+                categoryid: categoryid
             };
             var billOwers = [];
             for (var i=0; i < owerIds.length; i++) {
@@ -460,7 +463,7 @@
             var bill = cospend.bills[projectid][billid];
             if (!custom) {
                 updateBillItem(projectid, 0, bill);
-                updateDisplayedBill(projectid, billid, what, payer_id, repeat);
+                updateDisplayedBill(projectid, billid, what, payer_id, repeat, paymentmode, categoryid);
             }
             else {
                 addBill(projectid, bill);
@@ -476,7 +479,7 @@
         });
     }
 
-    function saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat) {
+    function saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat, paymentmode=null, categoryid=null) {
         $('.loading-bill').addClass('icon-loading-small');
         var req = {
             what: what,
@@ -484,7 +487,9 @@
             payer: payer_id,
             payed_for: owerIds.join(','),
             amount: amount,
-            repeat: repeat
+            repeat: repeat,
+            paymentmode: paymentmode,
+            categoryid: categoryid
         };
         var url, type;
         var project = cospend.projects[projectid];
@@ -517,6 +522,8 @@
             cospend.bills[projectid][billid].amount = amount;
             cospend.bills[projectid][billid].payer_id = payer_id;
             cospend.bills[projectid][billid].repeat = repeat;
+            cospend.bills[projectid][billid].paymentmode = paymentmode;
+            cospend.bills[projectid][billid].categoryid = categoryid;
             var billOwers = [];
             for (var i=0; i < owerIds.length; i++) {
                 billOwers.push({id: owerIds[i]});
@@ -526,11 +533,11 @@
             // update ui
             var bill = cospend.bills[projectid][billid];
             updateBillItem(projectid, billid, bill);
-            updateDisplayedBill(projectid, billid, what, payer_id, repeat);
+            updateDisplayedBill(projectid, billid, what, payer_id, repeat, paymentmode, categoryid);
 
             updateProjectBalances(projectid);
 
-            OC.Notification.showTemporary(t('cospend', 'Saved bill'));
+            OC.Notification.showTemporary(t('cospend', 'Bill saved'));
         }).always(function() {
             $('.loading-bill').removeClass('icon-loading-small');
         }).fail(function(response) {
@@ -552,7 +559,6 @@
         }
         owerNames = owerNames.replace(/, $/, '');
         var memberName = getMemberName(projectid, bill.payer_id);
-        var memberFirstLetter = memberName[0];
 
         var links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
         var formattedLinks = '';
@@ -565,13 +571,23 @@
         if (bill.repeat !== 'n') {
             repeatChar = ' ⏩';
         }
-        var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
+        var paymentmodeChar = '';
+        // c b f card, cash, check
+        if (cospend.paymentModes.hasOwnProperty(bill.paymentmode)) {
+            paymentmodeChar = cospend.paymentModes[bill.paymentmode].icon + ' ';
+        }
+        var categoryChar = '';
+        // groceries, leisure, rent, bills
+        if (cospend.categories.hasOwnProperty(bill.categoryid)) {
+            categoryChar = cospend.categories[bill.categoryid].icon + ' ';
+        }
+        var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
 
         var title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
             bill.date + '\n' + memberName + ' -> ' + owerNames;
-        var c = getMemberColor(memberName);
+        var imgurl = OC.generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(memberName));
         var item = '<a href="#" class="app-content-list-item billitem selectedbill" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
-            '<div class="app-content-list-item-icon" style="background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);">'+memberFirstLetter+'</div>' +
+            '<div class="app-content-list-item-icon" style="background-image: url('+imgurl+');"> </div>' +
             '<div class="app-content-list-item-line-one">'+whatFormatted+'</div>' +
             '<div class="app-content-list-item-line-two">'+bill.amount.toFixed(2)+' ('+memberName+' → '+owerNames+')</div>' +
             '<span class="app-content-list-item-details">'+bill.date+'</span>' +
@@ -645,11 +661,12 @@
         });
     }
 
-    function editProject(projectid, newName, newEmail, newPassword) {
+    function editProject(projectid, newName, newEmail, newPassword, newAutoexport=null) {
         var req = {
             name: newName,
             contact_email: newEmail,
-            password: newPassword
+            password: newPassword,
+            autoexport: newAutoexport
         };
         var url, type;
         var project = cospend.projects[projectid];
@@ -706,7 +723,7 @@
             projectLine.removeClass('editing');
             // reset bill edition
             $('#billdetail').html('');
-            OC.Notification.showTemporary(t('cospend', 'Saved project'));
+            OC.Notification.showTemporary(t('cospend', 'Project saved'));
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(
@@ -881,9 +898,16 @@
         });
     }
 
-    function getProjectStatistics(projectid) {
+    function getProjectStatistics(projectid, dateMin=null, dateMax=null, paymentMode=null, category=null,
+                                  amountMin=null, amountMax=null) {
         $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
         var req = {
+            dateMin: dateMin,
+            dateMax: dateMax,
+            paymentMode: paymentMode,
+            category: category,
+            amountMin: amountMin,
+            amountMax: amountMax
         };
         var url;
         var type;
@@ -913,7 +937,7 @@
             if (cospend.currentProjectId !== projectid) {
                 selectProject($('.projectitem[projectid="'+projectid+'"]'));
             }
-            displayStatistics(projectid, response);
+            displayStatistics(projectid, response, dateMin, dateMax, paymentMode, category, amountMin, amountMax);
         }).always(function() {
         }).fail(function() {
             OC.Notification.showTemporary(t('cospend', 'Failed to get statistics'));
@@ -1087,8 +1111,9 @@
         img.src = srcurl;
     }
 
-    function displayStatistics(projectid, statList) {
-        // unselect bill
+    function displayStatistics(projectid, statList, dateMin=null, dateMax=null, paymentMode=null, category=null,
+                               amountMin=null, amountMax=null) {
+        // deselect bill
         $('.billitem').removeClass('selectedbill');
 
         var project = cospend.projects[projectid];
@@ -1101,11 +1126,53 @@
         var spentStr = t('cospend', 'Spent');
         var balanceStr = t('cospend', 'Balance');
         var exportStr = '';
+
+        var totalPayed = 0.0;
+        for (var i=0; i < statList.length; i++) {
+            totalPayed += statList[i].paid;
+        }
+
         if (!cospend.pageIsPublic && !project.external) {
             exportStr = ' <button class="exportStats" projectid="'+projectid+'"><span class="icon-file"></span>'+t('cospend', 'Export')+'</button>';
         }
+        var totalPayedText = '<p class="totalPayedText">' +
+                             t('cospend', 'Total payed by all the members: {t}', {t: totalPayed}) + '</p>';
         var statsStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 id="statsTitle"><span class="icon-category-monitoring"></span>'+titleStr+exportStr+'</h2>' +
+            '<div id="stats-filters">' +
+            '    <label for="date-min-stats">'+t('cospend', 'Minimum date')+': </label><input type="date" id="date-min-stats"/>' +
+            '    <label for="date-max-stats">'+t('cospend', 'Maximum date')+': </label><input type="date" id="date-max-stats"/>' +
+            '    <label for="payment-mode-stats">' +
+            '        <a class="icon icon-tag"></a>' +
+            '        '+t('cospend', 'Payment mode')+
+            ':   </label>' +
+            '    <select id="payment-mode-stats">' +
+            '       <option value="n" selected>'+t('cospend', 'All')+'</option>';
+        var pm;
+        for (var pmId in cospend.paymentModes) {
+            pm = cospend.paymentModes[pmId];
+            statsStr += '       <option value="'+pmId+'">'+pm.icon+' '+pm.name+'</option>';
+        }
+        statsStr +=
+            '    </select>' +
+            '    <label for="category-stats">' +
+            '        <a class="icon icon-category-app-bundles"></a>' +
+            '        '+t('cospend', 'Category')+
+            ':   </label>' +
+            '    <select id="category-stats">' +
+            '       <option value="0" selected>'+t('cospend', 'All')+'</option>';
+        var cat;
+        for (var catId in cospend.categories) {
+            cat = cospend.categories[catId];
+            statsStr += '       <option value="'+catId+'">'+cat.icon+' '+cat.name+'</option>';
+        }
+        statsStr +=
+            '    </select>' +
+            '    <label for="amount-min-stats">'+t('cospend', 'Minimum amount')+': </label><input type="number" id="amount-min-stats"/>' +
+            '    <label for="amount-max-stats">'+t('cospend', 'Maximum amount')+': </label><input type="number" id="amount-max-stats"/>' +
+            '</div>' +
+            '<br/>' +
+            totalPayedText +
             '<table id="statsTable"><thead>' +
             '<th>'+nameStr+'</th>' +
             '<th>'+paidStr+'</th>' +
@@ -1135,6 +1202,25 @@
         }
         statsStr = statsStr + '</table>';
         $('#billdetail').html(statsStr);
+
+        if (dateMin) {
+            $('#date-min-stats').val(dateMin);
+        }
+        if (dateMax) {
+            $('#date-max-stats').val(dateMax);
+        }
+        if (paymentMode) {
+            $('#payment-mode-stats').val(paymentMode);
+        }
+        if (category) {
+            $('#category-stats').val(category);
+        }
+        if (amountMin) {
+            $('#amount-min-stats').val(amountMin);
+        }
+        if (amountMax) {
+            $('#amount-max-stats').val(amountMax);
+        }
     }
 
     function getBills(projectid) {
@@ -1190,15 +1276,15 @@
         return cospend.projects[projectid].name;
     }
 
-    function updateDisplayedBill(projectid, billid, what, payer_id, repeat) {
+    function updateDisplayedBill(projectid, billid, what, payer_id, repeat, paymentmode=null, categoryid=null) {
         var projectName = getProjectName(projectid);
         $('.bill-title').attr('billid', billid);
-        var c = {h: 0, s: 0, l: 50};
+        var c = {r: 128, g: 128, b: 128};
         if (billid !== 0) {
             $('.bill-type').hide();
             $('#owerValidate').hide();
-            var payerName = getMemberName(projectid, payer_id);
-            c = getMemberColor(payerName);
+            var memberPayer = cospend.members[projectid][payer_id];
+            c = memberPayer.color;
         }
 
         var links = what.match(/https?:\/\/[^\s]+/gi) || [];
@@ -1210,14 +1296,24 @@
         if (repeat !== 'n') {
             repeatChar = ' ⏩';
         }
-        var whatFormatted = what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
+        var paymentmodeChar = '';
+        // c b f card, cash, check
+        if (cospend.paymentModes.hasOwnProperty(paymentmode)) {
+            paymentmodeChar = cospend.paymentModes[paymentmode].icon + ' ';
+        }
+        var categoryChar = '';
+        // groceries leisure, rent, bills
+        if (cospend.categories.hasOwnProperty(categoryid)) {
+            categoryChar = cospend.categories[categoryid].icon + ' ';
+        }
+        var whatFormatted = paymentmodeChar + categoryChar + what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
         $('.bill-title').html(
             '<span class="loading-bill"></span>' +
             '<span class="icon-edit-white"></span>' +
             t('cospend', 'Bill : {what}', {what: whatFormatted}) +
             ' ' + formattedLinks
         );
-        $('.bill-title').attr('style', 'background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);');
+        $('.bill-title').attr('style', 'background-color: rgb('+c.r+', '+c.g+', '+c.b+');');
     }
 
     function displayBill(projectid, billid) {
@@ -1235,7 +1331,7 @@
             owerIds.push(owers[i].id);
         }
 
-        var c = {h: 0, s: 0, l: 50};
+        var c = {r: 128, g: 128, b:128};
         var owerCheckboxes = '';
         var payerOptions = '';
         var member;
@@ -1277,8 +1373,8 @@
             if (!cospend.members[projectid][bill.payer_id].activated) {
                 payerDisabled = ' disabled';
             }
-            var payerName = getMemberName(projectid, bill.payer_id);
-            c = getMemberColor(payerName);
+            var memberPayer = cospend.members[projectid][bill.payer_id];
+            c = memberPayer.color;
         }
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
@@ -1297,7 +1393,17 @@
         if (bill.repeat !== 'n') {
             repeatChar = ' ⏩';
         }
-        var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
+        var paymentmodeChar = '';
+        // c b f card, cash, check
+        if (cospend.paymentModes.hasOwnProperty(bill.paymentmode)) {
+            paymentmodeChar = cospend.paymentModes[bill.paymentmode].icon + ' ';
+        }
+        var categoryChar = '';
+        // groceries, leisure, rent, bills
+        if (cospend.categories.hasOwnProperty(bill.categoryid)) {
+            categoryChar = cospend.categories[bill.categoryid].icon + ' ';
+        }
+        var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
         var titleStr = t('cospend', 'Bill : {what}', {what: whatFormatted});
 
         var allStr = t('cospend', 'All');
@@ -1311,6 +1417,8 @@
         var personalShareBillOption = t('cospend', 'Even split with optional personal parts');
         var personalShareBillHint = t('cospend', 'Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don\'t want to collectively pay.');
         var billTypeStr = t('cospend', 'Bill type');
+        var paymentModeStr = t('cospend', 'Payment mode');
+        var categoryStr = t('cospend', 'Category');
 
         var addFileHtml = '';
         if (!cospend.pageIsPublic) {
@@ -1319,7 +1427,7 @@
 
         var detail =
             '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
-            '<h2 class="bill-title" projectid="'+projectid+'" billid="'+bill.id+'" style="background-color: hsl('+c.h+', '+c.s+'%, '+c.l+'%);">' +
+            '<h2 class="bill-title" projectid="'+projectid+'" billid="'+bill.id+'" style="background-color: rgb('+c.r+', '+c.g+', '+c.b+');">' +
             '    <span class="loading-bill"></span>' +
             '    <span class="icon-edit-white"></span>'+titleStr+' '+formattedLinks +
             '</h2>' +
@@ -1366,6 +1474,36 @@
             '               <option value="y">'+t('cospend', 'year')+'</option>' +
             '            </select>' +
             '        </div>' +
+            '        <div class="bill-payment-mode">' +
+            '            <label for="payment-mode">' +
+            '                <a class="icon icon-tag"></a>' +
+            '                '+paymentModeStr+
+            '            </label>' +
+            '            <select id="payment-mode">' +
+            '               <option value="n" selected>'+t('cospend', 'None')+'</option>';
+        var pm;
+        for (var pmId in cospend.paymentModes) {
+            pm = cospend.paymentModes[pmId];
+            detail += '       <option value="'+pmId+'">'+pm.icon+' '+pm.name+'</option>';
+        }
+        detail +=
+            '            </select>' +
+            '        </div>' +
+            '        <div class="bill-category">' +
+            '            <label for="category">' +
+            '                <a class="icon icon-category-app-bundles"></a>' +
+            '                '+categoryStr+
+            '            </label>' +
+            '            <select id="category">' +
+            '               <option value="0" selected>'+t('cospend', 'None')+'</option>';
+        var cat;
+        for (var catId in cospend.categories) {
+            cat = cospend.categories[catId];
+            detail += '       <option value="'+catId+'">'+cat.icon+' '+cat.name+'</option>';
+        }
+        detail +=
+            '            </select>' +
+            '        </div>' +
             '    </div>' +
             '    <div class="bill-right">' +
             '        <div class="bill-type">' +
@@ -1396,6 +1534,8 @@
         $('#billdetail .input-bill-what').focus().select();
         if (billid !== 0) {
             $('#repeatbill').val(bill.repeat);
+            $('#payment-mode').val(bill.paymentmode || 'n');
+            $('#category').val(bill.categoryid || '0');
         }
         else {
             $('.bill-type').show();
@@ -1407,16 +1547,6 @@
         //var memberName = $('.projectitem[projectid="'+projectid+'"] .memberlist > li[memberid='+memberid+'] b.memberName').text();
         var memberName = cospend.members[projectid][memberid].name;
         return memberName;
-    }
-
-    function getMemberColor(memberName) {
-        var memberFirstLetter = memberName[0];
-        var memberSecondLetter = 'a';
-        if (memberName.length > 1) {
-            memberSecondLetter = memberName[1];
-        }
-        var c = getLetterColor(memberFirstLetter, memberSecondLetter);
-        return c;
     }
 
     function reload(msg) {
@@ -1456,27 +1586,36 @@
         if (bill.id !== 0 && bill.repeat !== 'n') {
             repeatChar = ' ⏩';
         }
-        var whatFormatted = bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
+        var paymentmodeChar = '';
+        // c b f card, cash, check
+        if (cospend.paymentModes.hasOwnProperty(bill.paymentmode)) {
+            paymentmodeChar = cospend.paymentModes[bill.paymentmode].icon + ' ';
+        }
+        var categoryChar = '';
+        // groceries, leisure, rent, bills
+        if (cospend.categories.hasOwnProperty(bill.categoryid)) {
+            categoryChar = cospend.categories[bill.categoryid].icon + ' ';
+        }
+        var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
 
+        var imgurl;
         if (bill.id !== 0) {
             if (!cospend.members[projectid].hasOwnProperty(bill.payer_id)) {
                 reload(t('cospend', 'Member list is not up to date. Reloading in 5 sec.'));
                 return;
             }
             memberName = getMemberName(projectid, bill.payer_id);
-            memberFirstLetter = memberName[0];
 
             title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
                 bill.date + '\n' + memberName + ' → ' + owerNames;
-            c = getMemberColor(memberName);
+
+            imgurl = OC.generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(memberName));
         }
         else {
-            c = {h: 0, s: 0, l: 50};
-            memberFirstLetter = '-';
+            imgurl = OC.generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(' '));
         }
         var item = '<a href="#" class="app-content-list-item billitem" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
-            '<div class="app-content-list-item-icon" style="background-color: ' +
-            'hsl('+c.h+', '+c.s+'%, '+c.l+'%);">'+memberFirstLetter+'</div>'+
+            '<div class="app-content-list-item-icon" style="background-image: url('+imgurl+');"> </div>'+
             '<div class="app-content-list-item-line-one">'+whatFormatted+'</div>' +
             '<div class="app-content-list-item-line-two">'+bill.amount.toFixed(2)+' ('+memberName+' → '+owerNames+')</div>' +
             '<span class="app-content-list-item-details">'+bill.date+'</span>' +
@@ -1563,6 +1702,7 @@
         var displayStatsStr = t('cospend', 'Display statistics');
         var settleStr = t('cospend', 'Settle the project');
         var exportStr = t('cospend', 'Export to csv');
+        var autoexportStr = t('cospend', 'Auto export');
         var deleteStr;
         if (project.external) {
             deleteStr = t('cospend', 'Delete remote project');
@@ -1669,6 +1809,18 @@
             '                    <span>'+exportStr+'</span>' +
             '                </a>' +
             '            </li>';
+            li = li + '            <li>' +
+            '                <a href="#" class="autoexportProject">' +
+            '                    <span class="icon-category-office"></span>' +
+            '                    <span class="autoexportLabel">'+autoexportStr+'</span>' +
+            '                    <select class="autoexportSelect">' +
+            '                       <option value="n">'+t('cospend', 'No')+'</option>' +
+            '                       <option value="d">'+t('cospend', 'Daily')+'</option>' +
+            '                       <option value="w">'+t('cospend', 'Weekly')+'</option>' +
+            '                       <option value="m">'+t('cospend', 'Monthly')+'</option>' +
+            '                    </select>' +
+            '                </a>' +
+            '            </li>';
         }
         li = li + '            <li>' +
             '                <a href="#" class="deleteProject">' +
@@ -1698,6 +1850,10 @@
         // select project if it was the last selected (option restore on page load)
         if (cospend.restoredSelectedProjectId === projectid) {
             selectProject($('.projectitem[projectid="'+projectid+'"]'));
+        }
+
+        if (!project.external) {
+            $('.projectitem[projectid="'+projectid+'"] .autoexportSelect').val(project.autoexport);
         }
 
         if (cospend.pageIsPublic) {
@@ -1754,29 +1910,27 @@
                 invisibleClass = ' invisibleMember';
             }
         }
-        var iconStr, iconToggleStr, toggleStr, imgurl;
-        var c = getMemberColor(member.name);
-        var rgbC = hslToRgb(c.h/360, c.s/100, c.l/100);
+        var iconToggleStr, toggleStr, imgurl;
+        var lockSpan = '';
         if (member.activated) {
-            iconStr = 'icon-user';
             iconToggleStr = 'icon-delete';
             toggleStr = t('cospend', 'Deactivate');
-            imgurl = OC.generateUrl('/svg/core/actions/user?color='+rgbC);
         }
         else {
-            iconStr = 'icon-disabled-user';
+            lockSpan = '<div class="member-list-disabled-icon icon-disabled-user"> </div>';
             iconToggleStr = 'icon-history';
             toggleStr = t('cospend', 'Reactivate');
-            imgurl = OC.generateUrl('/svg/core/actions/disabled-user?color='+rgbC);
         }
+        imgurl = OC.generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(member.name));
 
 
         var renameStr = t('cospend', 'Rename');
         var changeWeightStr = t('cospend', 'Change weight');
         var li =
             '<li memberid="'+member.id+'" class="memberitem'+invisibleClass+'">' +
-            '    <a class="'+iconStr+'" style="background-image: url('+imgurl+')" href="#">' +
+            '    <a class="member-list-icon" style="background-image: url('+imgurl+')" href="#">' +
             '        <span>' +
+            '            ' + lockSpan +
             '            <b class="memberName">'+member.name+'</b> (x<b class="memberWeight">'+member.weight+'</b>) '+balanceStr+'' +
             '        </span>' +
             '    </a>' +
@@ -1834,6 +1988,9 @@
         var amount = parseFloat($('.input-bill-amount').val());
         var payer_id = parseInt($('.input-bill-payer').val());
         var repeat = $('#repeatbill').val();
+        var paymentmode = $('#payment-mode').val();
+        var categoryid = $('#category').val();
+
         var owerIds = [];
         var owerId;
         $('.owerEntry input').each(function() {
@@ -1863,7 +2020,7 @@
 
         // if valid, save the bill or create it if needed
         if (valid) {
-            createBill(projectid, what, amount, payer_id, date, owerIds, repeat);
+            createBill(projectid, what, amount, payer_id, date, owerIds, repeat, false, paymentmode, categoryid);
         }
         else {
             OC.Notification.showTemporary(t('cospend', 'Bill values are not valid'));
@@ -1887,6 +2044,9 @@
         var amount = parseFloat($('.input-bill-amount').val());
         var payer_id = parseInt($('.input-bill-payer').val());
         var repeat = $('#repeatbill').val();
+        var paymentmode = $('#payment-mode').val();
+        var categoryid = $('#category').val();
+
         var owerIds = [];
         var owerId;
         $('.owerEntry input').each(function() {
@@ -1934,9 +2094,11 @@
                 oldBill.date !== date ||
                 oldBill.repeat !== repeat ||
                 oldBill.payer_id !== payer_id ||
+                oldBill.categoryid !== categoryid ||
+                oldBill.paymentmode !== paymentmode ||
                 owersChanged
             ) {
-                saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat);
+                saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat, paymentmode, categoryid);
             }
         }
         else {
@@ -2241,8 +2403,12 @@
 
     function exportProject(projectid) {
         $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
+        var timeStamp = Math.floor(Date.now());
+        var dateStr = OC.Util.formatDate(timeStamp);
+        var filename = projectid + '_' + dateStr + '.csv';
         var req = {
-            projectid: projectid
+            projectid: projectid,
+            name: filename
         };
         var url = OC.generateUrl('/apps/cospend/exportCsvProject');
         $.ajax({
@@ -2259,10 +2425,17 @@
         });
     }
 
-    function exportStatistics(projectid) {
+    function exportStatistics(projectid, dateMin=null, dateMax=null, paymentMode=null, category=null,
+                              amountMin=null, amountMax=null) {
         $('.exportStats[projectid="'+projectid+'"] span').addClass('icon-loading-small');
         var req = {
-            projectid: projectid
+            projectid: projectid,
+            dateMin: dateMin,
+            dateMax: dateMax,
+            paymentMode: paymentMode,
+            category: category,
+            amountMin: amountMin,
+            amountMax: amountMax
         };
         var url = OC.generateUrl('/apps/cospend/exportCsvStatistics');
         $.ajax({
@@ -2407,6 +2580,9 @@
         var amount = parseFloat($('.input-bill-amount').val());
         var payer_id = parseInt($('.input-bill-payer').val());
         var repeat = 'n';
+        var paymentmode = $('#payment-mode').val();
+        var categoryid = $('#category').val();
+
         var owerIds = [];
         var owerId;
         $('.owerEntry input').each(function() {
@@ -2462,12 +2638,12 @@
                 var amountVal = parseFloat($(this).val());
                 var owerSelected = $('.owerEntry input[owerid="'+owerId+'"]').is(':checked');
                 if (!isNaN(amountVal) && amountVal > 0.0 && owerSelected) {
-                    createBill(projectid, what, amountVal, payer_id, date, [owerId], repeat, true);
+                    createBill(projectid, what, amountVal, payer_id, date, [owerId], repeat, true, paymentmode, categoryid);
                     tmpAmount = tmpAmount - amountVal;
                 }
             });
             // create equitable bill with the rest
-            createBill(projectid, what, tmpAmount, payer_id, date, owerIds, repeat, true);
+            createBill(projectid, what, tmpAmount, payer_id, date, owerIds, repeat, true, paymentmode, categoryid);
             // empty bill detail
             $('#billdetail').html('');
             // remove new bill line
@@ -2492,6 +2668,8 @@
         var amount = parseFloat($('.input-bill-amount').val());
         var payer_id = parseInt($('.input-bill-payer').val());
         var repeat = 'n';
+        var paymentmode = $('#payment-mode').val();
+        var categoryid = $('#category').val();
 
         var valid = true;
 
@@ -2511,7 +2689,7 @@
                 var owerId = parseInt($(this).attr('owerid'));
                 var amountVal = parseFloat($(this).val());
                 if (!isNaN(amountVal) && amountVal > 0.0) {
-                    createBill(projectid, what, amountVal, payer_id, date, [owerId], repeat, true);
+                    createBill(projectid, what, amountVal, payer_id, date, [owerId], repeat, true, paymentmode, categoryid);
                     total = total + amountVal;
                 }
             });
@@ -2918,11 +3096,11 @@
         }, 2000));
 
         // other bill fields : direct on edition
-        $('body').on('change', '.input-bill-date, #billdetail select', function(e) {
+        $('body').on('change', '.input-bill-date, #billdetail .bill-form select', function(e) {
             onBillEdited();
         });
 
-        $('body').on('change', '#billdetail input[type=checkbox]', function(e) {
+        $('body').on('change', '#billdetail .bill-form input[type=checkbox]', function(e) {
             var billtype = $('#billtype').val();
             if (billtype === 'perso') {
                 if ($(this).is(':checked')) {
@@ -3042,6 +3220,18 @@
             getProjectStatistics(projectid);
         });
 
+        $('body').on('change', '#date-min-stats, #date-max-stats, #payment-mode-stats, ' +
+                               '#category-stats, #amount-min-stats, #amount-max-stats', function(e) {
+            var projectid = cospend.currentProjectId;
+            var dateMin = $('#date-min-stats').val();
+            var dateMax = $('#date-max-stats').val();
+            var paymentMode = $('#payment-mode-stats').val();
+            var category = $('#category-stats').val();
+            var amountMin = $('#amount-min-stats').val();
+            var amountMax = $('#amount-max-stats').val();
+            getProjectStatistics(projectid, dateMin, dateMax, paymentMode, category, amountMin, amountMax);
+        });
+
         $('body').on('click', '.getProjectSettlement', function(e) {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
             getProjectSettlement(projectid);
@@ -3117,9 +3307,29 @@
             exportProject(projectid);
         });
 
+        $('body').on('click', '.autoexportSelect', function(e) {
+            e.stopPropagation();
+        });
+
+        $('body').on('change', '.autoexportSelect', function(e) {
+            var newval = $(this).val();
+            var projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
+            var projectName = getProjectName(projectid);
+            editProject(projectid, projectName, null, null, newval);
+            $(this).parent().click();
+        });
+
         $('body').on('click', '.exportStats', function() {
             var projectid = $(this).attr('projectid');
-            exportStatistics(projectid);
+
+            var dateMin = $('#date-min-stats').val();
+            var dateMax = $('#date-max-stats').val();
+            var paymentMode = $('#payment-mode-stats').val();
+            var category = $('#category-stats').val();
+            var amountMin = $('#amount-min-stats').val();
+            var amountMax = $('#amount-max-stats').val();
+
+            exportStatistics(projectid, dateMin, dateMax, paymentMode, category, amountMin, amountMax);
         });
 
         $('body').on('click', '.exportSettlement', function() {

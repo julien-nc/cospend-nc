@@ -87,7 +87,8 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getUserManager(),
             $c->getServer()->getGroupManager(),
             $c->query('ServerContainer')->getL10N($c->query('AppName')),
-            $c->query('ServerContainer')->getLogger()
+            $c->query('ServerContainer')->getLogger(),
+            $c->query('ServerContainer')->getAvatarManager()
         );
 
         $this->pageController2 = new PageController(
@@ -101,7 +102,8 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getUserManager(),
             $c->getServer()->getGroupManager(),
             $c->query('ServerContainer')->getL10N($c->query('AppName')),
-            $c->query('ServerContainer')->getLogger()
+            $c->query('ServerContainer')->getLogger(),
+            $c->query('ServerContainer')->getAvatarManager()
         );
 
         $this->utilsController = new UtilsController(
@@ -110,7 +112,8 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             'test',
             $c->query('ServerContainer')->getUserFolder('test'),
             $c->query('ServerContainer')->getConfig(),
-            $c->getServer()->getAppManager()
+            $c->getServer()->getAppManager(),
+            $c->query('ServerContainer')->getAvatarManager()
         );
     }
 

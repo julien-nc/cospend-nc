@@ -12,6 +12,8 @@
 namespace OCA\Cospend\Controller;
 
 use OCP\App\IAppManager;
+use OCP\IAvatarManager;
+use OCP\AppFramework\Http\DataDisplayResponse;
 
 use OCP\IURLGenerator;
 use OCP\IConfig;
@@ -34,9 +36,11 @@ class UtilsController extends Controller {
     private $dbtype;
 
     public function __construct($AppName, IRequest $request, $UserId,
-        $userfolder, $config, IAppManager $appManager){
+                                $userfolder, $config, IAppManager $appManager,
+                                IAvatarManager $avatarManager) {
         parent::__construct($AppName, $request);
         $this->userId = $UserId;
+        $this->avatarManager = $avatarManager;
         $this->dbtype = $config->getSystemValue('dbtype');
         if ($this->dbtype === 'pgsql'){
             $this->dbdblquotes = '"';
@@ -142,6 +146,18 @@ class UtilsController extends Controller {
             ->addAllowedConnectDomain('*');
         $response->setContentSecurityPolicy($csp);
         return $response;
+    }
+
+    /**
+     *
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     */
+    public function getAvatar($name) {
+        $av = $this->avatarManager->getGuestAvatar($name);
+        $avatarContent = $av->getFile(64)->getContent();
+        return new DataDisplayResponse($avatarContent);
     }
 
 }

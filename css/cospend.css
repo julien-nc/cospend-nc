@@ -262,3 +262,34 @@ input[type=number] {
 .app-navigation-entry-share {
     background-color: var(--color-background-darker);
 }
+.totalPayedText {
+    margin: 0px 20px 0px 20px;
+}
+.autoexportSelect {
+    width: 50%;
+}
+.autoexportLabel {
+    width: 50%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.member-list-disabled-icon {
+    display: inline-block;
+    margin-bottom: -3px;
+}
+a.billitem .app-content-list-item-icon {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#stats-filters {
+    margin-left: 20px;
+    display: grid;
+    grid-template: 1fr / 1fr 1fr 1fr 1fr;
+}
+#stats-filters select {
+    width: 130px;
+}
+#stats-filters label {
+    line-height: 40px;
+}

@@ -72,7 +72,7 @@ class Notifier implements INotifier {
      * @throws \InvalidArgumentException When the notification was not prepared by a notifier
      * @since 9.0.0
      */
-    public function prepare(INotification $notification, string $languageCode) {
+    public function prepare(INotification $notification, string $languageCode): INotification {
         if ($notification->getApp() !== 'cospend') {
             // Not my app => throw
             throw new \InvalidArgumentException();

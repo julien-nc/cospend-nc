@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.1.5 – 2019-10-13
+### Added
+- some categories
+
 ## 0.1.4 – 2019-09-14
 ### Added
 - show total payed in statistics

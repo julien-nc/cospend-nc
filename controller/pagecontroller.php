@@ -467,9 +467,13 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode=null, $categoryid=null) {
+    public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for,
+                                $amount, $repeat, $paymentmode=null, $categoryid=null) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
-            return $this->editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode, $categoryid);
+            return $this->editBill(
+                $projectid, $billid, $date, $what, $payer, $payed_for,
+                $amount, $repeat, $paymentmode, $categoryid
+            );
         }
         else {
             $response = new DataResponse(
@@ -535,9 +539,13 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webAddBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode=null, $categoryid=null) {
+    public function webAddBill($projectid, $date, $what, $payer, $payed_for, $amount,
+                               $repeat, $paymentmode=null, $categoryid=null) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
-            return $this->addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode, $categoryid);
+            return $this->addBill(
+                $projectid, $date, $what, $payer, $payed_for, $amount,
+                $repeat, $paymentmode, $categoryid
+            );
         }
         else {
             $response = new DataResponse(
@@ -569,9 +577,9 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webGetBills($projectid) {
+    public function webGetBills($projectid, $lastchanged=null) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
-            $bills = $this->getBills($projectid);
+            $bills = $this->getBills($projectid, null, null, null, null, null, null, $lastchanged);
             $response = new DataResponse($bills);
             return $response;
         }
@@ -951,9 +959,9 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiGetMembers($projectid, $password) {
+    public function apiGetMembers($projectid, $password, $lastchanged=null) {
         if ($this->checkLogin($projectid, $password)) {
-            $members = $this->getMembers($projectid);
+            $members = $this->getMembers($projectid, null, $lastchanged);
             $response = new DataResponse($members);
             return $response;
         }
@@ -972,9 +980,9 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiGetBills($projectid, $password) {
+    public function apiGetBills($projectid, $password, $lastchanged=null) {
         if ($this->checkLogin($projectid, $password)) {
-            $bills = $this->getBills($projectid);
+            $bills = $this->getBills($projectid, null, null, null, null, null, null, $lastchanged);
             $response = new DataResponse($bills);
             return $response;
         }
@@ -1319,13 +1327,15 @@ class PageController extends ApiController {
             if ($contact_email === null) {
                 $contact_email = '';
             }
+            $ts = (new \DateTime())->getTimestamp();
             $qb->insert('cospend_projects')
                 ->values([
                     'userid' => $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR),
                     'id' => $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR),
                     'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
                     'password' => $qb->createNamedParameter($dbPassword, IQueryBuilder::PARAM_STR),
-                    'email' => $qb->createNamedParameter($contact_email, IQueryBuilder::PARAM_STR)
+                    'email' => $qb->createNamedParameter($contact_email, IQueryBuilder::PARAM_STR),
+                    'lastchanged' => $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT)
                 ]);
             $req = $qb->execute();
 
@@ -1346,7 +1356,7 @@ class PageController extends ApiController {
 
         $qb = $this->dbconnection->getQueryBuilder();
 
-        $qb->select('id', 'password', 'name', 'email', 'userid')
+        $qb->select('id', 'password', 'name', 'email', 'userid', 'lastchanged')
            ->from('cospend_projects', 'p')
            ->where(
                $qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -1361,6 +1371,7 @@ class PageController extends ApiController {
             $dbName = $row['name'];
             $dbEmail= $row['email'];
             $dbUserId = $row['userid'];
+            $dbLastchanged = intval($row['lastchanged']);
             break;
         }
         $req->closeCursor();
@@ -1381,7 +1392,8 @@ class PageController extends ApiController {
                 'id'=>$dbProjectId,
                 'active_members'=>$activeMembers,
                 'members'=>$members,
-                'balance'=>$balance
+                'balance'=>$balance,
+                'lastchanged'=>$dbLastchanged
             ];
         }
 
@@ -1459,7 +1471,7 @@ class PageController extends ApiController {
     }
 
     private function getBills($projectId, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null,
-                              $amountMin=null, $amountMax=null) {
+                              $amountMin=null, $amountMax=null, $lastchanged=null) {
         $bills = [];
 
         // first get all bill ids
@@ -1470,6 +1482,12 @@ class PageController extends ApiController {
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
            );
+        // take bills that have changed after $lastchanged
+        if ($lastchanged !== null and is_numeric($lastchanged)) {
+           $qb->andWhere(
+               $qb->expr()->gt('lastchanged', $qb->createNamedParameter(intval($lastchanged), IQueryBuilder::PARAM_INT))
+           );
+        }
         if ($dateMin !== null and $dateMin !== '') {
            $qb->andWhere(
                $qb->expr()->gte('date', $qb->createNamedParameter($dateMin, IQueryBuilder::PARAM_STR))
@@ -1540,11 +1558,17 @@ class PageController extends ApiController {
             $billOwersByBill[$billId] = $billOwers;
         }
 
-        $qb->select('id', 'what', 'date', 'amount', 'payerid', 'repeat', 'paymentmode', 'categoryid')
+        $qb->select('id', 'what', 'date', 'amount', 'payerid', 'repeat', 'paymentmode', 'categoryid', 'lastchanged')
            ->from('cospend_bills', 'b')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
            );
+        // take bills that have changed after $lastchanged
+        if ($lastchanged !== null and is_numeric($lastchanged)) {
+           $qb->andWhere(
+               $qb->expr()->gt('lastchanged', $qb->createNamedParameter(intval($lastchanged), IQueryBuilder::PARAM_INT))
+           );
+        }
         if ($dateMin !== null and $dateMin !== '') {
            $qb->andWhere(
                $qb->expr()->gte('date', $qb->createNamedParameter($dateMin, IQueryBuilder::PARAM_STR))
@@ -1583,12 +1607,13 @@ class PageController extends ApiController {
             $dbWhat = $row['what'];
             $dbDate = $row['date'];
             $dbRepeat = $row['repeat'];
-            $dbPayerId= intval($row['payerid']);
+            $dbPayerId = intval($row['payerid']);
             $dbPaymentMode = $row['paymentmode'];
             $dbCategoryId = intval($row['categoryid']);
             if ($category) {
                 error_log('BBBIIIIIIIIIL '.$dbWhat.' BB');
             }
+            $dbLastchanged = intval($row['lastchanged']);
             array_push(
                 $bills,
                 [
@@ -1600,7 +1625,8 @@ class PageController extends ApiController {
                     'owers' => $billOwersByBill[$row['id']],
                     'repeat' => $dbRepeat,
                     'paymentmode' => $dbPaymentMode,
-                    'categoryid' => $dbCategoryId
+                    'categoryid' => $dbCategoryId,
+                    'lastchanged' => $dbLastchanged
                 ]
             );
         }
@@ -1610,7 +1636,7 @@ class PageController extends ApiController {
         return $bills;
     }
 
-    private function getMembers($projectId, $order=null) {
+    private function getMembers($projectId, $order=null, $lastchanged=null) {
         $members = [];
 
         $sqlOrder = 'name';
@@ -1624,12 +1650,17 @@ class PageController extends ApiController {
         }
 
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('id', 'name', 'weight', 'activated')
+        $qb->select('id', 'name', 'weight', 'activated', 'lastchanged')
            ->from('cospend_members', 'm')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-           )
-           ->orderBy($sqlOrder, 'ASC');
+           );
+        if ($lastchanged !== null and is_numeric($lastchanged)) {
+           $qb->andWhere(
+               $qb->expr()->gt('lastchanged', $qb->createNamedParameter($lastchanged, IQueryBuilder::PARAM_INT))
+           );
+        }
+        $qb->orderBy($sqlOrder, 'ASC');
         $req = $qb->execute();
 
         if ($order === 'lowername') {
@@ -1637,7 +1668,8 @@ class PageController extends ApiController {
                 $dbMemberId = intval($row['id']);
                 $dbWeight = floatval($row['weight']);
                 $dbName = $row['name'];
-                $dbActivated= intval($row['activated']);
+                $dbActivated = intval($row['activated']);
+                $dbLastchanged = intval($row['lastchanged']);
                 $av = $this->avatarManager->getGuestAvatar($dbName);
                 $color = $av->avatarBackgroundColor($dbName);
 
@@ -1656,7 +1688,8 @@ class PageController extends ApiController {
                         'name' => $dbName,
                         'id' => $dbMemberId,
                         'weight' => $dbWeight,
-                        'color'=>$color
+                        'color'=>$color,
+                        'lastchanged'=>$dbLastchanged
                     ]]
                 );
             }
@@ -1666,7 +1699,8 @@ class PageController extends ApiController {
                 $dbMemberId = intval($row['id']);
                 $dbWeight = floatval($row['weight']);
                 $dbName = $row['name'];
-                $dbActivated= intval($row['activated']);
+                $dbActivated = intval($row['activated']);
+                $dbLastchanged = intval($row['lastchanged']);
                 $av = $this->avatarManager->getGuestAvatar($dbName);
                 $color = $av->avatarBackgroundColor($dbName);
 
@@ -1677,7 +1711,8 @@ class PageController extends ApiController {
                         'name' => $dbName,
                         'id' => $dbMemberId,
                         'weight' => $dbWeight,
-                        'color'=>$color
+                        'color'=>$color,
+                        'lastchanged'=>$dbLastchanged
                     ]
                 );
             }
@@ -1823,9 +1858,14 @@ class PageController extends ApiController {
         return $project;
     }
 
-    private function editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode=null, $categoryid=null) {
+    private function editBill($projectid, $billid, $date, $what, $payer, $payed_for,
+                              $amount, $repeat, $paymentmode=null, $categoryid=null) {
         $qb = $this->dbconnection->getQueryBuilder();
         $qb->update('cospend_bills');
+
+        // set last modification timestamp
+        $ts = (new \DateTime())->getTimestamp();
+        $qb->set('lastchanged', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT));
 
         // first check the bill exists
         if ($this->getBill($projectid, $billid) === null) {
@@ -2010,6 +2050,9 @@ class PageController extends ApiController {
             }
         }
 
+        // last modification timestamp is now
+        $ts = (new \DateTime())->getTimestamp();
+
         // do it already !
         $qb = $this->dbconnection->getQueryBuilder();
         $qb->insert('cospend_bills')
@@ -2021,7 +2064,8 @@ class PageController extends ApiController {
                 'payerid' => $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT),
                 'repeat' => $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR),
                 'categoryid' => $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT),
-                'paymentmode' => $qb->createNamedParameter($paymentmode, IQueryBuilder::PARAM_STR)
+                'paymentmode' => $qb->createNamedParameter($paymentmode, IQueryBuilder::PARAM_STR),
+                'lastchanged' => $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT)
             ]);
         $req = $qb->execute();
         $qb = $qb->resetQueryParts();
@@ -2060,13 +2104,16 @@ class PageController extends ApiController {
                     }
                 }
 
+                $ts = (new \DateTime())->getTimestamp();
+
                 $qb = $this->dbconnection->getQueryBuilder();
                 $qb->insert('cospend_members')
                     ->values([
                         'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
                         'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
                         'weight' => $qb->createNamedParameter($weightToInsert, IQueryBuilder::PARAM_STR),
-                        'activated' => $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)
+                        'activated' => $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT),
+                        'lastchanged' => $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT)
                     ]);
                 $req = $qb->execute();
                 $qb = $qb->resetQueryParts();
@@ -2235,6 +2282,9 @@ class PageController extends ApiController {
                     $qb->set('activated', $qb->createNamedParameter(($activated === 'true' ? 1 : 0), IQueryBuilder::PARAM_INT));
                 }
 
+                $ts = (new \DateTime())->getTimestamp();
+                $qb->set('lastchanged', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT));
+
                 $qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
                 $qb->where(
                     $qb->expr()->eq('id', $qb->createNamedParameter($memberid, IQueryBuilder::PARAM_INT))
@@ -2337,6 +2387,8 @@ class PageController extends ApiController {
             $qb->set('autoexport', $qb->createNamedParameter($autoexport, IQueryBuilder::PARAM_STR));
         }
         if ($this->getProjectById($projectid) !== null) {
+            $ts = (new \DateTime())->getTimestamp();
+            $qb->set('lastchanged', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT));
             $qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
             $qb->where(
                 $qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))

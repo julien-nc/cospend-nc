@@ -3336,44 +3336,57 @@ class PageController extends ApiController {
 
         foreach ($bills as $bill) {
             $billDate = new \Datetime($bill['date']);
-            // does the bill need to be repeated now ?
 
-            // daily repeat : at least one day of difference
-            if ($bill['repeat'] === 'd' &&
-                $now->diff($billDate)->days >= 1
-            ) {
-                $this->repeatBill($bill['projectid'], $bill['id'], $now);
+            $nextDate = null;
+            switch($bill['repeat']) {
+            case 'd':
+                $nextDate = $billDate->add(new DateInterval('P1D'));
+                break;
+
+            case 'w';
+                $nextDate = $billDate->add(new DateInterval('P7D'));
+                break;
+
+            case 'm':
+                if($billDate->format('m') == 12) {
+                    $nextYear = $billDate->format('Y')+1;
+                    $nextMonth = 1;
+                } else {
+                    $nextYear = $billDate->format('Y');
+                    $nextMonth = $billDate->format('m')+1;
+                }
+
+                // same day of month if possible, otherwise at end of month
+                $nextDate = new DateTime();
+                $nextDate->setDate($nextYear, $nextMonth, 1);
+                if($billDate->format('d') > $nextDate->format('t'))
+                    $nextDate->setDate($nextYear, $nextMonth, $nextDate->format('t'));
+                else
+                    $nextDate->setDate($nextYear, $nextMonth, $billDate->format('d'));
+                break;
+
+            case 'y':
+                $nextYear = $billDate->format('Y')+1;
+                $nextMonth = $billDate->format('m');
+
+                // same day of month if possible, otherwise at end of month + same month
+                $nextDate = new DateTime();
+                $nextDate->setDate($billDate->format('Y')+1, $billDate->format('m'), 1);
+                if($billDate->format('d') > $nextDate->format('t'))
+                    $nextDate->setDate($nextYear, $nextMonth, $nextDate->format('t'));
+                else
+                    $nextDate->setDate($nextYear, $nextMonth, $billDate->format('d'));
+                break;
             }
-            // weekly repeat : exactly 7 days of difference
-            else if ($bill['repeat'] === 'w' &&
-                $now->diff($billDate)->days === 7
-            ) {
-                $this->repeatBill($bill['projectid'], $bill['id'], $now);
-            }
-            // monthly repeat : more than 27 days of difference, same day of month if possible,
-            // otherwise at end of month
-            else if ($bill['repeat'] === 'm' &&
-                $now->diff($billDate)->days > 27 &&
-                (
-                    // if bill day exists in current month: repeat at same day 
-                    $now->format('d') === $billDate->format('d') ||
-                    (
-                        // if bill day doesn't exist in current month: repeat at end of month
-                        $now->format('t') < $billDate->format('d') &&
-                        $now->format('t') === $now->format('d')
-                    )
-                )
-            ) {
-                $this->repeatBill($bill['projectid'], $bill['id'], $now);
-            }
-            // yearly repeat : more than 350 days of difference, same month, same day of month
-            else if ($bill['repeat'] === 'y' &&
-                $now->diff($billDate)->days > 350 &&
-                $now->format('d') === $billDate->format('d') &&
-                $now->format('m') === $billDate->format('m')
-            ) {
-                $this->repeatBill($bill['projectid'], $bill['id'], $now);
-            }
+
+            // Unknown repeat interval
+            if(null === $nextDate)
+                continue;
+
+            // Repeat if $nextDate is in the past (or today)
+            $diff = $now->diff($nextDate);
+            if(0 === $diff->days || $diff->invert)
+                $this->repeatBill($bill['projectid'], $bill['id'], $nextDate);
         }
     }
 

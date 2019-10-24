@@ -3350,10 +3350,19 @@ class PageController extends ApiController {
             ) {
                 $this->repeatBill($bill['projectid'], $bill['id'], $now);
             }
-            // monthly repeat : more then 27 days of difference, same day of month
+            // monthly repeat : more than 27 days of difference, same day of month if possible,
+            // otherwise at end of month
             else if ($bill['repeat'] === 'm' &&
                 $now->diff($billDate)->days > 27 &&
-                $now->format('d') === $billDate->format('d')
+                (
+                    // if bill day exists in current month: repeat at same day 
+                    $now->format('d') === $billDate->format('d') ||
+                    (
+                        // if bill day doesn't exist in current month: repeat at end of month
+                        $now->format('t') < $billDate->format('d') &&
+                        $now->format('t') === $now->format('d')
+                    )
+                )
             ) {
                 $this->repeatBill($bill['projectid'], $bill['id'], $now);
             }

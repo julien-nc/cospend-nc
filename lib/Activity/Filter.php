@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2019 Julien Veyssier <eneiluj@posteo.net>
  *
- * @author Julius Härtl <jus@bitgrid.net>
+ * @author Julien Veyssier <eneiluj@posteo.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\Deck\Activity;
+namespace OCA\Cospend\Activity;
 
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -44,7 +44,7 @@ class Filter implements \OCP\Activity\IFilter {
 	 * @since 11.0.0
 	 */
 	public function getIdentifier() {
-		return 'deck';
+		return 'cospend';
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Filter implements \OCP\Activity\IFilter {
 	 * @since 11.0.0
 	 */
 	public function getName() {
-		return $this->l10n->t('Deck');
+		return $this->l10n->t('Cospend');
 	}
 
 	/**
@@ -62,7 +62,7 @@ class Filter implements \OCP\Activity\IFilter {
 	 * @since 11.0.0
 	 */
 	public function getPriority() {
-		return 90;
+		return 95;
 	}
 
 	/**
@@ -70,7 +70,7 @@ class Filter implements \OCP\Activity\IFilter {
 	 * @since 11.0.0
 	 */
 	public function getIcon() {
-		return $this->urlGenerator->imagePath('deck', 'deck-dark.svg');
+        return $this->urlGenerator->imagePath('cospend', 'app_black.svg');
 	}
 
 	/**
@@ -79,7 +79,7 @@ class Filter implements \OCP\Activity\IFilter {
 	 * @since 11.0.0
 	 */
 	public function filterTypes(array $types) {
-		return array_merge($types, ['deck_comment']);
+		return $types;
 	}
 
 	/**
@@ -87,6 +87,6 @@ class Filter implements \OCP\Activity\IFilter {
 	 * @since 11.0.0
 	 */
 	public function allowedApps() {
-		return ['deck'];
+		return ['cospend'];
 	}
 }

@@ -35,8 +35,6 @@
     <activity>
         <settings>
             <setting>OCA\Cospend\Activity\Setting</setting>
-            <setting>OCA\Cospend\Activity\SettingComment</setting>
-            <setting>OCA\Cospend\Activity\DescriptionSetting</setting>
         </settings>
         <filters>
             <filter>OCA\Cospend\Activity\Filter</filter>

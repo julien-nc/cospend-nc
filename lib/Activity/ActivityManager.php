@@ -21,13 +21,16 @@
  *
  */
 
-namespace OCA\Deck\Activity;
+namespace OCA\Cospend\Activity;
 
 use InvalidArgumentException;
-use OCA\Cospend\Service\BillService;
+use OCA\Cospend\Service\ProjectService;
+use OCA\Cospend\Service\BillMapper;
+use OCA\Cospend\Service\ProjectMapper;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\IL10N;
 use OCP\IUser;
 
@@ -35,34 +38,34 @@ class ActivityManager {
 
 	private $manager;
 	private $userId;
-	private $billService;
+	private $projectService;
+	private $projectMapper;
+	private $billMapper;
 	private $l10n;
+
+	const COSPEND_OBJECT_BILL = 'cospend_bill';
+	const COSPEND_OBJECT_PROJECT = 'cospend_project';
 
 	const SUBJECT_BILL_CREATE = 'bill_create';
 	const SUBJECT_BILL_UPDATE = 'bill_update';
 	const SUBJECT_BILL_DELETE = 'bill_delete';
 
-	const SUBJECT_PROJECT_SHARE = 'board_share';
-	const SUBJECT_PROJECT_UNSHARE = 'board_unshare';
+	const SUBJECT_PROJECT_SHARE = 'project_share';
+	const SUBJECT_PROJECT_UNSHARE = 'project_unshare';
 
 	public function __construct(
 		IManager $manager,
-		PermissionService $permissionsService,
-		BoardMapper $boardMapper,
-		CardMapper $cardMapper,
-		StackMapper $stackMapper,
-		AttachmentMapper $attachmentMapper,
-		AclMapper $aclMapper,
+		ProjectService $projectService,
+		ProjectMapper $projectMapper,
+		BillMapper $billMapper,
 		IL10N $l10n,
 		$userId
 	) {
 		$this->manager = $manager;
-		$this->permissionService = $permissionsService;
-		$this->boardMapper = $boardMapper;
-		$this->cardMapper = $cardMapper;
-		$this->stackMapper = $stackMapper;
-		$this->attachmentMapper = $attachmentMapper;
-		$this->aclMapper = $aclMapper;
+		$this->projectService = $projectService;
+		$this->projectMapper = $projectMapper;
+		$this->billMapper = $billMapper;
+		$this->billService = $billService;
 		$this->l10n = $l10n;
 		$this->userId = $userId;
 	}
@@ -109,48 +112,6 @@ class ActivityManager {
 	}
 
 	/**
-	 *
-	 * @param $objectType
-	 * @param ChangeSet $changeSet
-	 * @param $subject
-	 * @throws \Exception
-	 */
-	public function triggerUpdateEvents($objectType, ChangeSet $changeSet, $subject) {
-		$previousEntity = $changeSet->getBefore();
-		$entity = $changeSet->getAfter();
-		$events = [];
-		if ($previousEntity !== null) {
-			foreach ($entity->getUpdatedFields() as $field => $value) {
-				$getter = 'get' . ucfirst($field);
-				$subjectComplete = $subject . '_' . $field;
-				$changes = [
-					'before' => $previousEntity->$getter(),
-					'after' => $entity->$getter()
-				];
-				if ($changes['before'] !== $changes['after']) {
-					try {
-						$event = $this->createEvent($objectType, $entity, $subjectComplete, $changes);
-						if ($event !== null) {
-							$events[] = $event;
-						}
-					} catch (\Exception $e) {
-						// Ignore exception for undefined activities on update events
-					}
-				}
-			}
-		} else {
-			try {
-				$events = [$this->createEvent($objectType, $entity, $subject)];
-			} catch (\Exception $e) {
-				// Ignore exception for undefined activities on update events
-			}
-		}
-		foreach ($events as $event) {
-			$this->sendToUsers($event);
-		}
-	}
-
-	/**
 	 * @param $objectType
 	 * @param $entity
 	 * @param $subject
@@ -173,83 +134,29 @@ class ActivityManager {
 		 * Automatically fetch related details for subject parameters
 		 * depending on the subject
 		 */
-		$eventType = 'deck';
+		$eventType = 'cospend';
 		$subjectParams = [];
 		$message = null;
 		switch ($subject) {
 			// No need to enhance parameters since entity already contains the required data
-			case self::SUBJECT_BOARD_CREATE:
-			case self::SUBJECT_BOARD_UPDATE_TITLE:
-			case self::SUBJECT_BOARD_UPDATE_ARCHIVED:
-			case self::SUBJECT_BOARD_DELETE:
-			case self::SUBJECT_BOARD_RESTORE:
-			// Not defined as there is no activity for
-			// case self::SUBJECT_BOARD_UPDATE_COLOR
+			case self::SUBJECT_BILL_CREATE:
+			case self::SUBJECT_BILL_UPDATE:
+			case self::SUBJECT_BILL_DELETE:
+				$subjectParams = $this->findDetailsForBill($entity->getId());
 				break;
-			case self::SUBJECT_CARD_COMMENT_CREATE:
-				$eventType = 'deck_comment';
-				$subjectParams = $this->findDetailsForCard($entity->getId());
-				if (array_key_exists('comment', $additionalParams)) {
-					/** @var IComment $entity */
-					$comment = $additionalParams['comment'];
-					$subjectParams['comment'] = $comment->getId();
-					unset($additionalParams['comment']);
-				}
-				break;
-			case self::SUBJECT_STACK_CREATE:
-			case self::SUBJECT_STACK_UPDATE:
-			case self::SUBJECT_STACK_UPDATE_TITLE:
-			case self::SUBJECT_STACK_UPDATE_ORDER:
-			case self::SUBJECT_STACK_DELETE:
-				$subjectParams = $this->findDetailsForStack($entity->getId());
-				break;
-
-			case self::SUBJECT_CARD_CREATE:
-			case self::SUBJECT_CARD_DELETE:
-			case self::SUBJECT_CARD_UPDATE_ARCHIVE:
-			case self::SUBJECT_CARD_UPDATE_UNARCHIVE:
-			case self::SUBJECT_CARD_UPDATE_TITLE:
-			case self::SUBJECT_CARD_UPDATE_DESCRIPTION:
-			case self::SUBJECT_CARD_UPDATE_DUEDATE:
-			case self::SUBJECT_CARD_UPDATE_STACKID:
-			case self::SUBJECT_LABEL_ASSIGN:
-			case self::SUBJECT_LABEL_UNASSING:
-			case self::SUBJECT_CARD_USER_ASSIGN:
-			case self::SUBJECT_CARD_USER_UNASSIGN:
-				$subjectParams = $this->findDetailsForCard($entity->getId(), $subject);
-				break;
-			case self::SUBJECT_ATTACHMENT_CREATE:
-			case self::SUBJECT_ATTACHMENT_UPDATE:
-			case self::SUBJECT_ATTACHMENT_DELETE:
-			case self::SUBJECT_ATTACHMENT_RESTORE:
-				$subjectParams = $this->findDetailsForAttachment($entity->getId());
-				break;
-			case self::SUBJECT_BOARD_SHARE:
-			case self::SUBJECT_BOARD_UNSHARE:
-				$subjectParams = $this->findDetailsForAcl($entity->getId());
+			case self::SUBJECT_PROJECT_SHARE:
+			case self::SUBJECT_PROJECT_UNSHARE:
+				$subjectParams = $this->findDetailsForProject($entity->getId());
 				break;
 			default:
 				throw new \Exception('Unknown subject for activity.');
 				break;
 		}
-
-		if ($subject === self::SUBJECT_CARD_UPDATE_DESCRIPTION){
-			$card = $subjectParams['card'];
-			if ($card->getLastEditor() === $this->userId) {
-				return null;
-			}
-			$subjectParams['diff'] = true;
-			$eventType = 'deck_card_description';
-		}
-		if ($subject === self::SUBJECT_CARD_UPDATE_STACKID) {
-			$subjectParams['stackBefore'] = $this->stackMapper->find($additionalParams['before']);
-		}
-
 		$subjectParams['author'] = $this->userId;
 
 
 		$event = $this->manager->generateEvent();
-		$event->setApp('deck')
+		$event->setApp('cospend')
 			->setType($eventType)
 			->setAuthor($author === null ? $this->userId : $author)
 			->setObject($objectType, (int)$object->getId(), $object->getTitle())
@@ -263,22 +170,23 @@ class ActivityManager {
 	}
 
 	/**
-	 * Publish activity to all users that are part of the board of a given object
+	 * Publish activity to all users that are part of the project of a given object
 	 *
 	 * @param IEvent $event
 	 */
 	private function sendToUsers(IEvent $event) {
 		switch ($event->getObjectType()) {
-			case self::DECK_OBJECT_BOARD:
-				$mapper = $this->boardMapper;
+			case self::COSPEND_OBJECT_BILL:
+				$mapper = $this->billMapper;
+				$projectId = $mapper->findProjectId($event->getObjectId());
 				break;
-			case self::DECK_OBJECT_CARD:
-				$mapper = $this->cardMapper;
+			case self::COSPEND_OBJECT_PROJECT:
+				$mapper = $this->projectMapper;
+				$projectId = $event->getObjectId();
 				break;
 		}
-		$boardId = $mapper->findBoardId($event->getObjectId());
 		/** @var IUser $user */
-		foreach ($this->permissionService->findUsers($boardId) as $user) {
+		foreach ($this->projectService->findUsers($projectId) as $user) {
 			$event->setAffectedUser($user->getUID());
 			/** @noinspection DisconnectedForeachInstructionInspection */
 			$this->manager->publish($event);
@@ -288,91 +196,49 @@ class ActivityManager {
 	/**
 	 * @param $objectType
 	 * @param $entity
-	 * @return null|\OCA\Deck\Db\RelationalEntity|\OCP\AppFramework\Db\Entity
+	 * @return null|\OCA\Cospend\Db\RelationalEntity|\OCP\AppFramework\Db\Entity
 	 * @throws \OCP\AppFramework\Db\DoesNotExistException
 	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException
 	 */
 	private function findObjectForEntity($objectType, $entity) {
 		$className = \get_class($entity);
-		if ($entity instanceof IComment) {
-			$className = IComment::class;
-		}
 		$objectId = null;
-		if ($objectType === self::DECK_OBJECT_CARD) {
+		if ($objectType === self::COSPEND_OBJECT_BILL) {
 			switch ($className) {
-				case Card::class:
+				case Bill::class:
 					$objectId = $entity->getId();
-					break;
-				case Attachment::class:
-				case Label::class:
-				case AssignedUsers::class:
-					$objectId = $entity->getCardId();
-					break;
-				case IComment::class:
-					$objectId = $entity->getObjectId();
 					break;
 				default:
 					throw new InvalidArgumentException('No entity relation present for '. $className . ' to ' . $objectType);
 			}
-			return $this->cardMapper->find($objectId);
+			return $this->billMapper->find($objectId);
 		}
-		if ($objectType === self::DECK_OBJECT_BOARD) {
+		if ($objectType === self::COSPEND_OBJECT_PROJECT) {
 			switch ($className) {
-				case Board::class:
+				case Project::class:
 					$objectId = $entity->getId();
-					break;
-				case Label::class:
-				case Stack::class:
-				case Acl::class:
-					$objectId = $entity->getBoardId();
 					break;
 				default:
 					throw new InvalidArgumentException('No entity relation present for '. $className . ' to ' . $objectType);
 			}
-			return $this->boardMapper->find($objectId);
+			return $this->projectMapper->find($objectId);
 		}
 		throw new InvalidArgumentException('No entity relation present for '. $className . ' to ' . $objectType);
 	}
 
-	private function findDetailsForStack($stackId) {
-		$stack = $this->stackMapper->find($stackId);
-		$board = $this->boardMapper->find($stack->getBoardId());
+	private function findDetailsForBill($billId) {
+		$bill = $this->billMapper->find($billId);
+		$project = $this->projectMapper->find($bill->getProjectId());
 		return [
-			'stack' => $stack,
-			'board' => $board
+			'bill' => $bill,
+			'project' => $project
 		];
 	}
 
-	private function findDetailsForCard($cardId, $subject = null) {
-		$card = $this->cardMapper->find($cardId);
-		$stack = $this->stackMapper->find($card->getStackId());
-		$board = $this->boardMapper->find($stack->getBoardId());
-		if ($subject !== self::SUBJECT_CARD_UPDATE_DESCRIPTION) {
-			$card = [
-				'id' => $card->getId(),
-				'title' => $card->getTitle(),
-				'archived' => $card->getArchived()
-			];
-		}
+	private function findDetailsForProject($cardId, $subject = null) {
+		$project = $this->projectMapper->find($projectId);
 		return [
-			'card' => $card,
-			'stack' => $stack,
-			'board' => $board
-		];
-	}
-
-	private function findDetailsForAttachment($attachmentId) {
-		$attachment = $this->attachmentMapper->find($attachmentId);
-		$data = $this->findDetailsForCard($attachment->getCardId());
-		return array_merge($data, ['attachment' => $attachment]);
-	}
-
-	private function findDetailsForAcl($aclId) {
-		$acl = $this->aclMapper->find($aclId);
-		$board = $this->boardMapper->find($acl->getBoardId());
-		return [
-			'acl' => $acl,
-			'board' => $board
+			'project' => $project
 		];
 	}
 

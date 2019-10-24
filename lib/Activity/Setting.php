@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2019 Julien Veyssier <eneiluj@posteo.net>
  *
- * @author Julius Härtl <jus@bitgrid.net>
+ * @author Julien Veyssier <eneiluj@posteo.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\Deck\Activity;
+namespace OCA\Cospend\Activity;
 
 
 use OCP\IL10N;
@@ -43,7 +43,7 @@ class Setting implements \OCP\Activity\ISetting {
 	 * @since 11.0.0
 	 */
 	public function getIdentifier() {
-		return 'deck';
+		return 'cospend';
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Setting implements \OCP\Activity\ISetting {
 	 * @since 11.0.0
 	 */
 	public function getName() {
-		return $this->l->t('Changes in the <strong>Deck app</strong>');
+		return $this->l->t('Changes in the <strong>Cospend app</strong>');
 	}
 
 	/**
@@ -61,7 +61,7 @@ class Setting implements \OCP\Activity\ISetting {
 	 * @since 11.0.0
 	 */
 	public function getPriority() {
-		return 90;
+		return 95;
 	}
 
 	/**

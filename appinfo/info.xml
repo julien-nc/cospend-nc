@@ -32,4 +32,17 @@
     <settings>
         <admin>OCA\Cospend\Settings\Admin</admin>
     </settings>
+    <activity>
+        <settings>
+            <setting>OCA\Cospend\Activity\Setting</setting>
+            <setting>OCA\Cospend\Activity\SettingComment</setting>
+            <setting>OCA\Cospend\Activity\DescriptionSetting</setting>
+        </settings>
+        <filters>
+            <filter>OCA\Cospend\Activity\Filter</filter>
+        </filters>
+        <providers>
+            <provider>OCA\Cospend\Activity\CospendProvider</provider>
+        </providers>
+    </activity>
 </info>

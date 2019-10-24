@@ -27,14 +27,4 @@ class ProjectMapper extends Mapper {
         return $this->findEntity($sql, [$id]);
     }
 
-    public function findUsers($id) {
-        $userIds = [];
-        // get owner
-
-        // get user shares
-
-        // get group shares
-        return $userIds;
-    }
-
 }

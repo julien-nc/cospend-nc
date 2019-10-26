@@ -1408,7 +1408,7 @@
 
         var allStr = t('cospend', 'All');
         var noneStr = t('cospend', 'None');
-        var owerValidateStr = t('cospend', 'Create bills');
+        var owerValidateStr = t('cospend', 'Create the bill');
         var addFileLinkText = t('cospend', 'Attach public link to personal file');
         var normalBillOption = t('cospend', 'Classic, even split');
         var normalBillHint = t('cospend', 'Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost.');
@@ -3360,8 +3360,10 @@
 
         $('body').on('change', '#billtype', function() {
             $('.modehint').slideUp();
+            var owerValidateStr = t('cospend', 'Create the bills');
             var billtype = $(this).val();
             if (billtype === 'normal') {
+                owerValidateStr = t('cospend', 'Create the bill');
                 $('#owerNone').show();
                 $('#owerAll').show();
                 $('.bill-owers .checkbox').show();
@@ -3398,6 +3400,7 @@
                 $('#amount').prop('disabled', false);
                 $('#repeatbill').val('n').prop('disabled', true);
             }
+            $('#owerValidate').text(owerValidateStr);
         });
 
         $('body').on('paste change', '.amountinput', function(e) {

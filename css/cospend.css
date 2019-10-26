@@ -293,3 +293,6 @@ a.billitem .app-content-list-item-icon {
 #stats-filters label {
     line-height: 40px;
 }
+#billtype {
+    max-width: 95%;
+}

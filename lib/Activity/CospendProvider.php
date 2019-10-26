@@ -225,9 +225,9 @@ class CospendProvider implements IProvider {
 			else {
 				$group = $this->groupManager->get($subjectParams['who']);
 				$params['who'] = [
-					'type' => 'user',
+					'type' => 'highlight',
 					'id' => $subjectParams['who'],
-					'name' => $this->l10n->t('group') . ' ' . ($group !== null ? $group->getDisplayName() : $subjectParams['who'])
+					'name' => $group !== null ? $group->getDisplayName() : $subjectParams['who']
 				];
 			}
 		}

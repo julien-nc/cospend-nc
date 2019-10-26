@@ -31,6 +31,7 @@ use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Db\Project;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
+use OCP\IUserManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\IL10N;
@@ -61,6 +62,7 @@ class ActivityManager {
 		ProjectMapper $projectMapper,
 		BillMapper $billMapper,
 		IL10N $l10n,
+		IUserManager $userManager,
 		$userId
 	) {
 		$this->manager = $manager;
@@ -69,6 +71,7 @@ class ActivityManager {
 		$this->billMapper = $billMapper;
 		$this->l10n = $l10n;
 		$this->userId = $userId;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -237,9 +240,16 @@ class ActivityManager {
 			'id' => $project->getId(),
 			'name' => $project->getName()
 		];
+		$userName = $this->l10n->t('A Cospend client');
+		if ($this->userId) {
+			$user = $this->userManager->get($this->userId);
+			if ($user !== null) {
+				$userName = $user->getDisplayName();
+			}
+		}
 		$user = [
-			'id' => $this->userId ?? 111,
-			'name' => $this->userId ?? 'Client'
+			'id' => $this->userId ?? 0,
+			'name' => $userName
 		];
 		return [
 			'bill' => $bill,

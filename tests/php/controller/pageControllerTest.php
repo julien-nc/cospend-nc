@@ -76,6 +76,48 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $c = $this->container;
         $this->config = $c->query('ServerContainer')->getConfig();
 
+        $this->activityManager = new OCA\Cospend\Activity\ActivityManager(
+            $c->query('ServerContainer')->getActivityManager(),
+            new OCA\Cospend\Service\ProjectService(
+                $c->query('ServerContainer')->getLogger(),
+                $c->query('ServerContainer')->getL10N($c->query('AppName')),
+                new OCA\Cospend\Db\ProjectMapper(
+                    $c->query('ServerContainer')->getDatabaseConnection()
+                ),
+                $c->getServer()->getGroupManager()
+            ),
+            new OCA\Cospend\Db\ProjectMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            new OCA\Cospend\Db\BillMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            $c->query('ServerContainer')->getL10N($c->query('AppName')),
+            $c->getServer()->getUserManager(),
+            'test'
+        );
+
+        $this->activityManager2 = new OCA\Cospend\Activity\ActivityManager(
+            $c->query('ServerContainer')->getActivityManager(),
+            new OCA\Cospend\Service\ProjectService(
+                $c->query('ServerContainer')->getLogger(),
+                $c->query('ServerContainer')->getL10N($c->query('AppName')),
+                new OCA\Cospend\Db\ProjectMapper(
+                    $c->query('ServerContainer')->getDatabaseConnection()
+                ),
+                $c->getServer()->getGroupManager()
+            ),
+            new OCA\Cospend\Db\ProjectMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            new OCA\Cospend\Db\BillMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            $c->query('ServerContainer')->getL10N($c->query('AppName')),
+            $c->getServer()->getUserManager(),
+            'test2'
+        );
+
         $this->pageController = new PageController(
             $this->appName,
             $this->request,
@@ -88,9 +130,13 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->query('ServerContainer')->getL10N($c->query('AppName')),
             $c->query('ServerContainer')->getLogger(),
             $c->query('ServerContainer')->getAvatarManager(),
-            $this->createMock(OCA\Cospend\Activity\ActivityManager::class),
-            $this->createMock(OCA\Cospend\Db\BillMapper::class),
-            $this->createMock(OCA\Cospend\Db\ProjectMapper::class),
+            $this->activityManager,
+            new OCA\Cospend\Db\BillMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            new OCA\Cospend\Db\ProjectMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
             'test'
         );
 
@@ -106,9 +152,13 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->query('ServerContainer')->getL10N($c->query('AppName')),
             $c->query('ServerContainer')->getLogger(),
             $c->query('ServerContainer')->getAvatarManager(),
-            $this->createMock(OCA\Cospend\Activity\ActivityManager::class),
-            $this->createMock(OCA\Cospend\Db\BillMapper::class),
-            $this->createMock(OCA\Cospend\Db\ProjectMapper::class),
+            $this->activityManager2,
+            new OCA\Cospend\Db\BillMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            new OCA\Cospend\Db\ProjectMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
             'test2'
         );
 

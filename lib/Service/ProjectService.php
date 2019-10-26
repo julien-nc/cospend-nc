@@ -58,7 +58,9 @@ class ProjectService {
             );
         $req = $qb->execute();
         while ($row = $req->fetch()) {
-            array_push($userIds, $row['userid']);
+            if (!in_array($row['userid'], $userIds)) {
+                array_push($userIds, $row['userid']);
+            }
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();

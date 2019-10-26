@@ -79,8 +79,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $this->pageController = new PageController(
             $this->appName,
             $this->request,
-            'test',
-            $c->query('ServerContainer')->getUserFolder('test'),
+            $c->query('ServerContainer'),
             $c->query('ServerContainer')->getConfig(),
             $c->getServer()->getShareManager(),
             $c->getServer()->getAppManager(),
@@ -88,14 +87,17 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getGroupManager(),
             $c->query('ServerContainer')->getL10N($c->query('AppName')),
             $c->query('ServerContainer')->getLogger(),
-            $c->query('ServerContainer')->getAvatarManager()
+            $c->query('ServerContainer')->getAvatarManager(),
+            $c->query('ServerContainer')->getActivityManager(),
+            $this->getMockBuilder('OCA\Cospend\Db\BillMapper'),
+            $this->getMockBuilder('OCA\Cospend\Db\ProjectMapper'),
+            'test'
         );
 
         $this->pageController2 = new PageController(
             $this->appName,
             $this->request,
-            'test2',
-            $c->query('ServerContainer')->getUserFolder('test2'),
+            $c->query('ServerContainer'),
             $c->query('ServerContainer')->getConfig(),
             $c->getServer()->getShareManager(),
             $c->getServer()->getAppManager(),
@@ -103,17 +105,21 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getGroupManager(),
             $c->query('ServerContainer')->getL10N($c->query('AppName')),
             $c->query('ServerContainer')->getLogger(),
-            $c->query('ServerContainer')->getAvatarManager()
+            $c->query('ServerContainer')->getAvatarManager(),
+            $c->query('ServerContainer')->getActivityManager(),
+            $this->getMockBuilder('OCA\Cospend\Db\BillMapper'),
+            $this->getMockBuilder('OCA\Cospend\Db\ProjectMapper'),
+            'test2',
         );
 
         $this->utilsController = new UtilsController(
             $this->appName,
             $this->request,
-            'test',
-            $c->query('ServerContainer')->getUserFolder('test'),
+            $c->query('ServerContainer'),
             $c->query('ServerContainer')->getConfig(),
             $c->getServer()->getAppManager(),
-            $c->query('ServerContainer')->getAvatarManager()
+            $c->query('ServerContainer')->getAvatarManager(),
+            'test',
         );
     }
 

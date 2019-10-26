@@ -17,6 +17,7 @@ use OCP\AppFramework\Http\DataDisplayResponse;
 
 use OCP\IURLGenerator;
 use OCP\IConfig;
+use OCP\IServerContainer;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -35,9 +36,13 @@ class UtilsController extends Controller {
     private $dbconnection;
     private $dbtype;
 
-    public function __construct($AppName, IRequest $request, $UserId,
-                                $userfolder, $config, IAppManager $appManager,
-                                IAvatarManager $avatarManager) {
+    public function __construct($AppName,
+                                IRequest $request,
+                                IServerContainer $serverContainer,
+                                IConfig $config,
+                                IAppManager $appManager,
+                                IAvatarManager $avatarManager,
+                                $UserId) {
         parent::__construct($AppName, $request);
         $this->userId = $UserId;
         $this->avatarManager = $avatarManager;

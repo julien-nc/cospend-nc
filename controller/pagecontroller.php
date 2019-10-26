@@ -31,6 +31,13 @@ use OCP\AppFramework\ApiController;
 use OCP\Constants;
 use OCP\Share;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IUserManager;
+use OCP\Share\IManager;
+use OCP\IServerContainer;
+use OCP\IGroupManager;
+use OCP\ILogger;
+
+use OCA\Cospend\Activity\ActivityManager;
 
 function endswith($string, $test) {
     $strlen = strlen($string);
@@ -56,11 +63,19 @@ class PageController extends ApiController {
     private $logger;
     protected $appName;
 
-    public function __construct($AppName, IRequest $request, $UserId,
-                                $userfolder, $config, $shareManager,
-                                IAppManager $appManager, $userManager,
-                                $groupManager, IL10N $trans, $logger,
-                                IAvatarManager $avatarManager){
+    public function __construct($AppName,
+                                IRequest $request,
+                                IServerContainer $serverContainer,
+                                IConfig $config,
+                                IManager $shareManager,
+                                IAppManager $appManager,
+                                IUserManager $userManager,
+                                IGroupManager $groupManager,
+                                IL10N $trans,
+                                ILogger $logger,
+                                IAvatarManager $avatarManager,
+                                ActivityManager $activityManager,
+                                $UserId){
         parent::__construct($AppName, $request,
                             'PUT, POST, GET, DELETE, PATCH, OPTIONS',
                             'Authorization, Content-Type, Accept',
@@ -84,9 +99,9 @@ class PageController extends ApiController {
             $this->dbdblquotes = '`';
         }
         $this->dbconnection = \OC::$server->getDatabaseConnection();
-        if ($UserId !== '' and $userfolder !== null){
+        if ($UserId !== '' and $serverContainer !== null){
             // path of user files folder relative to DATA folder
-            $this->userfolder = $userfolder;
+            $this->userfolder = $serverContainer->getUserFolder($UserId);
         }
         $this->shareManager = $shareManager;
     }

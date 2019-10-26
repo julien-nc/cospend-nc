@@ -25,8 +25,8 @@ namespace OCA\Cospend\Activity;
 
 use InvalidArgumentException;
 use OCA\Cospend\Service\ProjectService;
-use OCA\Cospend\Service\BillMapper;
-use OCA\Cospend\Service\ProjectMapper;
+use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\Db\ProjectMapper;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Db\DoesNotExistException;

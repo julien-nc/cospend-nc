@@ -23,6 +23,7 @@
 
 namespace OCA\Cospend\Activity;
 
+use OCA\Cospend\Activity\ActivityManager;
 
 use cogpowered\FineDiff\Diff;
 use OCP\Activity\IEvent;
@@ -48,7 +49,8 @@ class CospendProvider implements IProvider {
 	/** @var IConfig */
 	private $config;
 
-	public function __construct(IURLGenerator $urlGenerator, ActivityManager $activityManager,
+	public function __construct(IURLGenerator $urlGenerator,
+								ActivityManager $activityManager,
 								IUserManager $userManager, IFactory $l10n, IConfig $config, $userId) {
 		$this->userId = $userId;
 		$this->urlGenerator = $urlGenerator;

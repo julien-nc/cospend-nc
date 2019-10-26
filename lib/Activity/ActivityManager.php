@@ -235,6 +235,7 @@ class ActivityManager {
 		$bill = [
 			'id' => $bill->getId(),
 			'name' => $bill->getWhat(),
+			'amount' => $bill->getAmount()
 		];
 		$project = [
 			'id' => $project->getId(),

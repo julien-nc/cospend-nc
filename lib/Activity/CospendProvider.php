@@ -202,7 +202,8 @@ class CospendProvider implements IProvider {
 			$params[$paramName] = [
 				'type' => 'highlight',
 				'id' => $subjectParams[$paramName]['id'],
-				'name' => $subjectParams[$paramName]['name'],
+				'name' => $subjectParams[$paramName]['name'].' ('.$subjectParams[$paramName]['amount'].')',
+				'link' => $this->cospendUrl('?select=' . $subjectParams[$paramName]['id']) . '&bill='.$subjectParams[$paramName]['id'],
 			];
 		}
 		return $params;

@@ -88,9 +88,9 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->query('ServerContainer')->getL10N($c->query('AppName')),
             $c->query('ServerContainer')->getLogger(),
             $c->query('ServerContainer')->getAvatarManager(),
-            $this->getMockBuilder('OCA\Cospend\Activity\ActivityManager')->getMock(),
-            $this->getMockBuilder('OCA\Cospend\Db\BillMapper')->getMock(),
-            $this->getMockBuilder('OCA\Cospend\Db\ProjectMapper')->getMock(),
+            $this->createMock(OCA\Cospend\Activity\ActivityManager::class),
+            $this->createMock(OCA\Cospend\Db\BillMapper::class),
+            $this->createMock(OCA\Cospend\Db\ProjectMapper::class),
             'test'
         );
 
@@ -106,9 +106,9 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->query('ServerContainer')->getL10N($c->query('AppName')),
             $c->query('ServerContainer')->getLogger(),
             $c->query('ServerContainer')->getAvatarManager(),
-            $this->getMockBuilder('OCA\Cospend\Activity\ActivityManager')->getMock(),
-            $this->getMockBuilder('OCA\Cospend\Db\BillMapper')->getMock(),
-            $this->getMockBuilder('OCA\Cospend\Db\ProjectMapper')->getMock(),
+            $this->createMock(OCA\Cospend\Activity\ActivityManager::class),
+            $this->createMock(OCA\Cospend\Db\BillMapper::class),
+            $this->createMock(OCA\Cospend\Db\ProjectMapper::class),
             'test2'
         );
 

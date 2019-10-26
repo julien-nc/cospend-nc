@@ -3352,7 +3352,7 @@ class PageController extends ApiController {
                 break;
 
             case 'm':
-                if ($billDate->format('m') == 12) {
+                if (intval($billDate->format('m')) === 12) {
                     $nextYear = $billDate->format('Y') + 1;
                     $nextMonth = 1;
                 }

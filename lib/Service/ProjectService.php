@@ -17,6 +17,7 @@ use OCP\ILogger;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 use OC\Archive\ZIP;
+use OCA\Cospend\Db\ProjectMapper;
 
 class ProjectService {
 
@@ -25,11 +26,12 @@ class ProjectService {
     private $qb;
     private $dbconnection;
 
-    public function __construct (ILogger $logger, IL10N $l10n) {
+    public function __construct (ILogger $logger, IL10N $l10n, ProjectMapper $projectMapper) {
         $this->l10n = $l10n;
         $this->logger = $logger;
         $this->qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
         $this->dbconnection = \OC::$server->getDatabaseConnection();
+        $this->projectMapper = $projectMapper;
     }
 
     private function db_quote_escape_string($str){
@@ -39,6 +41,8 @@ class ProjectService {
     public function findUsers($id) {
         $userIds = [];
         // get owner with mapper
+        $proj = $this->projectMapper->find($id);
+        array_push($userIds, $proj->getUserid());
 
         // get user shares from project id
 

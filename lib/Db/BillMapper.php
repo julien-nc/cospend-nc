@@ -27,4 +27,10 @@ class BillMapper extends Mapper {
         return $this->findEntity($sql, [$id]);
     }
 
+    public function findProjectId($id) {
+        $sql = 'SELECT projectid FROM `*PREFIX*cospend_bills` ' .
+            'WHERE `id` = ?';
+        return $this->findEntity($sql, [$id])->getProjectid();
+    }
+
 }

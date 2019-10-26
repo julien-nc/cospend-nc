@@ -26,7 +26,9 @@ namespace OCA\Cospend\Activity;
 use InvalidArgumentException;
 use OCA\Cospend\Service\ProjectService;
 use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\Db\Bill;
 use OCA\Cospend\Db\ProjectMapper;
+use OCA\Cospend\Db\Project;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -65,7 +67,6 @@ class ActivityManager {
 		$this->projectService = $projectService;
 		$this->projectMapper = $projectMapper;
 		$this->billMapper = $billMapper;
-		$this->billService = $billService;
 		$this->l10n = $l10n;
 		$this->userId = $userId;
 	}
@@ -154,12 +155,11 @@ class ActivityManager {
 		}
 		$subjectParams['author'] = $this->userId;
 
-
 		$event = $this->manager->generateEvent();
 		$event->setApp('cospend')
 			->setType($eventType)
-			->setAuthor($author === null ? $this->userId : $author)
-			->setObject($objectType, (int)$object->getId(), $object->getTitle())
+			->setAuthor($author === null ? $this->userId ?? '' : $author)
+			->setObject($objectType, (int)$object->getId(), $object->getWhat())
 			->setSubject($subject, array_merge($subjectParams, $additionalParams))
 			->setTimestamp(time());
 
@@ -187,7 +187,7 @@ class ActivityManager {
 		}
 		/** @var IUser $user */
 		foreach ($this->projectService->findUsers($projectId) as $user) {
-			$event->setAffectedUser($user->getUID());
+			$event->setAffectedUser($user);
 			/** @noinspection DisconnectedForeachInstructionInspection */
 			$this->manager->publish($event);
 		}
@@ -228,14 +228,27 @@ class ActivityManager {
 
 	private function findDetailsForBill($billId) {
 		$bill = $this->billMapper->find($billId);
-		$project = $this->projectMapper->find($bill->getProjectId());
+		$project = $this->projectMapper->find($bill->getProjectid());
+		$bill = [
+			'id' => $bill->getId(),
+			'name' => $bill->getWhat(),
+		];
+		$project = [
+			'id' => $project->getId(),
+			'name' => $project->getName()
+		];
+		$user = [
+			'id' => $this->userId ?? 111,
+			'name' => $this->userId ?? 'Client'
+		];
 		return [
 			'bill' => $bill,
-			'project' => $project
+			'project' => $project,
+			'user' => $user
 		];
 	}
 
-	private function findDetailsForProject($cardId, $subject = null) {
+	private function findDetailsForProject($projectId, $subject = null) {
 		$project = $this->projectMapper->find($projectId);
 		return [
 			'project' => $project

@@ -16,17 +16,26 @@ use OCP\AppFramework\Db\Entity;
 
 class Bill extends Entity {
 
-    protected $id;
     protected $what;
-    protected $payerId;
+    protected $payerid;
     protected $date;
     protected $repeat;
+    protected $projectid;
+    protected $amount;
+    protected $categoryid;
+    protected $paymentmode;
+    protected $lastchanged;
 
     public function __construct() {
         $this->addType('id', 'integer');
         $this->addType('what', 'string');
-        $this->addType('payerId', 'integer');
+        $this->addType('payerid', 'integer');
         $this->addType('date', 'string');
+        $this->addType('amount', 'float');
         $this->addType('repeat', 'string');
+        $this->addType('projectid', 'string');
+        $this->addType('categoryid', 'integer');
+        $this->addType('paymentmode', 'string');
+        $this->addType('lastchanged', 'integer');
     }
 }

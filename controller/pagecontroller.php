@@ -36,6 +36,7 @@ use OCP\Share\IManager;
 use OCP\IServerContainer;
 use OCP\IGroupManager;
 use OCP\ILogger;
+use OCA\Cospend\Db\BillMapper;
 
 use OCA\Cospend\Activity\ActivityManager;
 
@@ -75,6 +76,7 @@ class PageController extends ApiController {
                                 ILogger $logger,
                                 IAvatarManager $avatarManager,
                                 ActivityManager $activityManager,
+                                Billmapper $billMapper,
                                 $UserId){
         parent::__construct($AppName, $request,
                             'PUT, POST, GET, DELETE, PATCH, OPTIONS',
@@ -82,10 +84,12 @@ class PageController extends ApiController {
                             1728000);
         $this->logger = $logger;
         $this->appName = $AppName;
+        $this->billMapper = $billMapper;
         $this->avatarManager = $avatarManager;
         $this->appVersion = $config->getAppValue('cospend', 'installed_version');
         $this->userId = $UserId;
         $this->userManager = $userManager;
+        $this->activityManager = $activityManager;
         $this->groupManager = $groupManager;
         $this->trans = $trans;
         $this->dbtype = $config->getSystemValue('dbtype');
@@ -1625,9 +1629,6 @@ class PageController extends ApiController {
             $dbPayerId = intval($row['payerid']);
             $dbPaymentMode = $row['paymentmode'];
             $dbCategoryId = intval($row['categoryid']);
-            if ($category) {
-                error_log('BBBIIIIIIIIIL '.$dbWhat.' BB');
-            }
             $dbLastchanged = intval($row['lastchanged']);
             array_push(
                 $bills,
@@ -2097,6 +2098,13 @@ class PageController extends ApiController {
             $req = $qb->execute();
             $qb = $qb->resetQueryParts();
         }
+
+        $billObj = $this->billMapper->find($insertedBillId);
+        $this->activityManager->triggerEvent(
+            ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+            ActivityManager::SUBJECT_BILL_CREATE,
+            []
+        );
 
         $response = new DataResponse($insertedBillId);
         return $response;
@@ -3524,7 +3532,6 @@ class PageController extends ApiController {
 
                 $userFolder = \OC::$server->getUserFolder($uid);
                 if (! $userFolder->nodeExists('/Cospend/'.$exportName)) {
-                    error_log('export '.$exportName.' for user '.$uid);
                     $this->exportCsvProject($dbProjectId, $exportName, $uid);
                 }
             }

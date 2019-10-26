@@ -3307,6 +3307,8 @@ class PageController extends ApiController {
      * daily check of repeated bills
      */
     public function cronRepeatBills() {
+        $result = [];
+        $projects = [];
         $now = new \DateTime();
         // get bills whith repetition flag
         $qb = $this->dbconnection->getQueryBuilder();
@@ -3335,16 +3337,18 @@ class PageController extends ApiController {
         $qb = $qb->resetQueryParts();
 
         foreach ($bills as $bill) {
-            $billDate = new \Datetime($bill['date']);
+            // Use DateTimeImmutable instead of DateTime so that $billDate->add() returns a
+            // new instance instead of modifying $billDate
+            $billDate = new \DateTimeImmutable($bill['date']);
 
             $nextDate = null;
             switch($bill['repeat']) {
             case 'd':
-                $nextDate = $billDate->add(new DateInterval('P1D'));
+                $nextDate = $billDate->add(new \DateInterval('P1D'));
                 break;
 
             case 'w';
-                $nextDate = $billDate->add(new DateInterval('P7D'));
+                $nextDate = $billDate->add(new \DateInterval('P7D'));
                 break;
 
             case 'm':
@@ -3373,7 +3377,7 @@ class PageController extends ApiController {
                 $nextMonth = $billDate->format('m');
 
                 // same day of month if possible, otherwise at end of month + same month
-                $nextDate = new DateTime();
+                $nextDate = new \DateTime();
                 $nextDate->setDate($billDate->format('Y') + 1, $billDate->format('m'), 1);
                 if ($billDate->format('d') > $nextDate->format('t')) {
                     $nextDate->setDate($nextYear, $nextMonth, $nextDate->format('t'));
@@ -3391,10 +3395,20 @@ class PageController extends ApiController {
 
             // Repeat if $nextDate is in the past (or today)
             $diff = $now->diff($nextDate);
-            if($diff->days === 0 || $diff->invert) {
+            if ($diff->days === 0 || $diff->invert) {
                 $this->repeatBill($bill['projectid'], $bill['id'], $nextDate);
+                if (!array_key_exists($bill['projectid'], $projects)) {
+                    $projects[$bill['projectid']] = $this->getProjectInfo($bill['projectid']);
+                }
+                array_push($result, [
+                    'date_orig' => $bill['date'],
+                    'date_repeat' => $nextDate->format('Y-m-d'),
+                    'what' => $bill['what'],
+                    'project_name' => $projects[$bill['projectid']]['name']
+                ]);
             }
         }
+        return $result;
     }
 
     /**

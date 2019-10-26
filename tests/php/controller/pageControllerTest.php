@@ -109,7 +109,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->query('ServerContainer')->getActivityManager(),
             $this->getMockBuilder('OCA\Cospend\Db\BillMapper'),
             $this->getMockBuilder('OCA\Cospend\Db\ProjectMapper'),
-            'test2',
+            'test2'
         );
 
         $this->utilsController = new UtilsController(
@@ -119,7 +119,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->query('ServerContainer')->getConfig(),
             $c->getServer()->getAppManager(),
             $c->query('ServerContainer')->getAvatarManager(),
-            'test',
+            'test'
         );
     }
 

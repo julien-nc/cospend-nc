@@ -89,6 +89,13 @@ class CospendProvider implements IProvider {
 		// get author if
 		if ($author === '' && array_key_exists('author', $subjectParams)) {
 			$author = $subjectParams['author'];
+			$params = [
+				'user' => [
+					'type' => 'user',
+					'id' => 0,
+					'name' => $subjectParams['author']
+				],
+			];
 			unset($subjectParams['author']);
 		}
 		$user = $this->userManager->get($author);
@@ -97,7 +104,7 @@ class CospendProvider implements IProvider {
 				'user' => [
 					'type' => 'user',
 					'id' => $author,
-					'name' => $user !== null ? $user->getDisplayName() : $author
+					'name' => $user->getDisplayName()
 				],
 			];
 			$event->setAuthor($author);
@@ -133,7 +140,6 @@ class CospendProvider implements IProvider {
 
 		$params = $this->parseParamForProject('project', $subjectParams, $params);
 		$params = $this->parseParamForBill('bill', $subjectParams, $params);
-		$params = $this->parseParamForBill('user', $subjectParams, $params);
 		$params = $this->parseParamForWho($subjectParams, $params);
 
 		try {

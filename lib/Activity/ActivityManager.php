@@ -156,7 +156,7 @@ class ActivityManager {
 				throw new \Exception('Unknown subject for activity.');
 				break;
 		}
-		$subjectParams['author'] = $this->userId;
+		$subjectParams['author'] = $this->l10n->t('A Cospend client');
 
 		$event = $this->manager->generateEvent();
 		$event->setApp('cospend')
@@ -240,21 +240,9 @@ class ActivityManager {
 			'id' => $project->getId(),
 			'name' => $project->getName()
 		];
-		$userName = $this->l10n->t('A Cospend client');
-		if ($this->userId) {
-			$user = $this->userManager->get($this->userId);
-			if ($user !== null) {
-				$userName = $user->getDisplayName();
-			}
-		}
-		$user = [
-			'id' => $this->userId ?? 0,
-			'name' => $userName
-		];
 		return [
 			'bill' => $bill,
-			'project' => $project,
-			'user' => $user
+			'project' => $project
 		];
 	}
 

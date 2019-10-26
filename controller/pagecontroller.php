@@ -3348,45 +3348,52 @@ class PageController extends ApiController {
                 break;
 
             case 'm':
-                if($billDate->format('m') == 12) {
-                    $nextYear = $billDate->format('Y')+1;
+                if ($billDate->format('m') == 12) {
+                    $nextYear = $billDate->format('Y') + 1;
                     $nextMonth = 1;
-                } else {
+                }
+                else {
                     $nextYear = $billDate->format('Y');
-                    $nextMonth = $billDate->format('m')+1;
+                    $nextMonth = $billDate->format('m') + 1;
                 }
 
                 // same day of month if possible, otherwise at end of month
                 $nextDate = new DateTime();
                 $nextDate->setDate($nextYear, $nextMonth, 1);
-                if($billDate->format('d') > $nextDate->format('t'))
+                if ($billDate->format('d') > $nextDate->format('t')) {
                     $nextDate->setDate($nextYear, $nextMonth, $nextDate->format('t'));
-                else
+                }
+                else {
                     $nextDate->setDate($nextYear, $nextMonth, $billDate->format('d'));
+                }
                 break;
 
             case 'y':
-                $nextYear = $billDate->format('Y')+1;
+                $nextYear = $billDate->format('Y') + 1;
                 $nextMonth = $billDate->format('m');
 
                 // same day of month if possible, otherwise at end of month + same month
                 $nextDate = new DateTime();
-                $nextDate->setDate($billDate->format('Y')+1, $billDate->format('m'), 1);
-                if($billDate->format('d') > $nextDate->format('t'))
+                $nextDate->setDate($billDate->format('Y') + 1, $billDate->format('m'), 1);
+                if ($billDate->format('d') > $nextDate->format('t')) {
                     $nextDate->setDate($nextYear, $nextMonth, $nextDate->format('t'));
-                else
+                }
+                else {
                     $nextDate->setDate($nextYear, $nextMonth, $billDate->format('d'));
+                }
                 break;
             }
 
             // Unknown repeat interval
-            if(null === $nextDate)
+            if ($nextDate === null) {
                 continue;
+            }
 
             // Repeat if $nextDate is in the past (or today)
             $diff = $now->diff($nextDate);
-            if(0 === $diff->days || $diff->invert)
+            if($diff->days === 0 || $diff->invert) {
                 $this->repeatBill($bill['projectid'], $bill['id'], $nextDate);
+            }
         }
     }
 

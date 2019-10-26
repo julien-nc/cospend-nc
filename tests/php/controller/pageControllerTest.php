@@ -88,7 +88,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->query('ServerContainer')->getL10N($c->query('AppName')),
             $c->query('ServerContainer')->getLogger(),
             $c->query('ServerContainer')->getAvatarManager(),
-            $c->query('ServerContainer')->getActivityManager(),
+            $this->getMockBuilder('OCA\Cospend\Activity\ActivityManager'),
             $this->getMockBuilder('OCA\Cospend\Db\BillMapper'),
             $this->getMockBuilder('OCA\Cospend\Db\ProjectMapper'),
             'test'
@@ -106,7 +106,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->query('ServerContainer')->getL10N($c->query('AppName')),
             $c->query('ServerContainer')->getLogger(),
             $c->query('ServerContainer')->getAvatarManager(),
-            $c->query('ServerContainer')->getActivityManager(),
+            $this->getMockBuilder('OCA\Cospend\Activity\ActivityManager'),
             $this->getMockBuilder('OCA\Cospend\Db\BillMapper'),
             $this->getMockBuilder('OCA\Cospend\Db\ProjectMapper'),
             'test2'

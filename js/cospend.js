@@ -1625,6 +1625,10 @@
         $(item).prependTo('.app-content-list');
 
         $('#bill-list .nobill').remove();
+
+        if (parseInt(getUrlParameter('bill')) === bill.id && getUrlParameter('project') === projectid) {
+            displayBill(projectid, bill.id);
+        }
     }
 
     function updateProjectBalances(projectid) {
@@ -1848,7 +1852,10 @@
         $(li).appendTo('#projectlist');
 
         // select project if it was the last selected (option restore on page load)
-        if (cospend.restoredSelectedProjectId === projectid) {
+        if (!getUrlParameter('project') && cospend.restoredSelectedProjectId === projectid) {
+            selectProject($('.projectitem[projectid="'+projectid+'"]'));
+        }
+        else if (getUrlParameter('project') === projectid) {
             selectProject($('.projectitem[projectid="'+projectid+'"]'));
         }
 
@@ -2687,6 +2694,17 @@
         }
         else {
             OC.Notification.showTemporary(t('cospend', 'Invalid values'));
+        }
+    }
+
+    function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++) {
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] === sParam) {
+                return decodeURIComponent(sParameterName[1]);
+            }
         }
     }
 

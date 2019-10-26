@@ -195,7 +195,7 @@ class CospendProvider implements IProvider {
 				'type' => 'highlight',
 				'id' => $subjectParams[$paramName]['id'],
 				'name' => $subjectParams[$paramName]['name'].' ('.$subjectParams[$paramName]['id'].')',
-				'link' => $this->cospendUrl('?select=' . $subjectParams[$paramName]['id']),
+				'link' => $this->cospendUrl('?project=' . $subjectParams[$paramName]['id']),
 			];
 		}
 		return $params;
@@ -206,7 +206,7 @@ class CospendProvider implements IProvider {
 				'type' => 'highlight',
 				'id' => $subjectParams[$paramName]['id'],
 				'name' => $subjectParams[$paramName]['name'].' ('.$subjectParams[$paramName]['amount'].')',
-				'link' => $this->cospendUrl('?select=' . $subjectParams[$paramName]['id']) . '&bill='.$subjectParams[$paramName]['id'],
+				'link' => $this->cospendUrl('?project=' . $subjectParams['project']['id']) . '&bill='.$subjectParams[$paramName]['id'],
 			];
 		}
 		return $params;

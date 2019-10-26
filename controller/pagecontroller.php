@@ -3310,102 +3310,109 @@ class PageController extends ApiController {
         $result = [];
         $projects = [];
         $now = new \DateTime();
-        // get bills whith repetition flag
-        $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('id', 'projectid', 'what', 'date', 'amount', 'payerid', 'repeat')
-           ->from('cospend_bills', 'b')
-           ->where(
-               $qb->expr()->neq('repeat', $qb->createNamedParameter('n', IQueryBuilder::PARAM_STR))
-           );
-        $req = $qb->execute();
-        $bills = [];
-        while ($row = $req->fetch()){
-            $id = $row['id'];
-            $what = $row['what'];
-            $repeat = $row['repeat'];
-            $date = $row['date'];
-            $projectid = $row['projectid'];
-            array_push($bills, [
-                'id' => $id,
-                'what' => $what,
-                'repeat' => $repeat,
-                'date' => $date,
-                'projectid' => $projectid
-            ]);
-        }
-        $req->closeCursor();
-        $qb = $qb->resetQueryParts();
-
-        foreach ($bills as $bill) {
-            // Use DateTimeImmutable instead of DateTime so that $billDate->add() returns a
-            // new instance instead of modifying $billDate
-            $billDate = new \DateTimeImmutable($bill['date']);
-
-            $nextDate = null;
-            switch($bill['repeat']) {
-            case 'd':
-                $nextDate = $billDate->add(new \DateInterval('P1D'));
-                break;
-
-            case 'w';
-                $nextDate = $billDate->add(new \DateInterval('P7D'));
-                break;
-
-            case 'm':
-                if (intval($billDate->format('m')) === 12) {
-                    $nextYear = $billDate->format('Y') + 1;
-                    $nextMonth = 1;
-                }
-                else {
-                    $nextYear = $billDate->format('Y');
-                    $nextMonth = $billDate->format('m') + 1;
-                }
-
-                // same day of month if possible, otherwise at end of month
-                $nextDate = new DateTime();
-                $nextDate->setDate($nextYear, $nextMonth, 1);
-                if ($billDate->format('d') > $nextDate->format('t')) {
-                    $nextDate->setDate($nextYear, $nextMonth, $nextDate->format('t'));
-                }
-                else {
-                    $nextDate->setDate($nextYear, $nextMonth, $billDate->format('d'));
-                }
-                break;
-
-            case 'y':
-                $nextYear = $billDate->format('Y') + 1;
-                $nextMonth = $billDate->format('m');
-
-                // same day of month if possible, otherwise at end of month + same month
-                $nextDate = new \DateTime();
-                $nextDate->setDate($billDate->format('Y') + 1, $billDate->format('m'), 1);
-                if ($billDate->format('d') > $nextDate->format('t')) {
-                    $nextDate->setDate($nextYear, $nextMonth, $nextDate->format('t'));
-                }
-                else {
-                    $nextDate->setDate($nextYear, $nextMonth, $billDate->format('d'));
-                }
-                break;
-            }
-
-            // Unknown repeat interval
-            if ($nextDate === null) {
-                continue;
-            }
-
-            // Repeat if $nextDate is in the past (or today)
-            $diff = $now->diff($nextDate);
-            if ($diff->days === 0 || $diff->invert) {
-                $this->repeatBill($bill['projectid'], $bill['id'], $nextDate);
-                if (!array_key_exists($bill['projectid'], $projects)) {
-                    $projects[$bill['projectid']] = $this->getProjectInfo($bill['projectid']);
-                }
-                array_push($result, [
-                    'date_orig' => $bill['date'],
-                    'date_repeat' => $nextDate->format('Y-m-d'),
-                    'what' => $bill['what'],
-                    'project_name' => $projects[$bill['projectid']]['name']
+        // in case cron job wasn't executed during several days,
+        // continue trying to repeat bills as long as there was at least one repeated
+        $continue = true;
+        while ($continue) {
+            $continue = false;
+            // get bills whith repetition flag
+            $qb = $this->dbconnection->getQueryBuilder();
+            $qb->select('id', 'projectid', 'what', 'date', 'amount', 'payerid', 'repeat')
+            ->from('cospend_bills', 'b')
+            ->where(
+                $qb->expr()->neq('repeat', $qb->createNamedParameter('n', IQueryBuilder::PARAM_STR))
+            );
+            $req = $qb->execute();
+            $bills = [];
+            while ($row = $req->fetch()){
+                $id = $row['id'];
+                $what = $row['what'];
+                $repeat = $row['repeat'];
+                $date = $row['date'];
+                $projectid = $row['projectid'];
+                array_push($bills, [
+                    'id' => $id,
+                    'what' => $what,
+                    'repeat' => $repeat,
+                    'date' => $date,
+                    'projectid' => $projectid
                 ]);
+            }
+            $req->closeCursor();
+            $qb = $qb->resetQueryParts();
+
+            foreach ($bills as $bill) {
+                // Use DateTimeImmutable instead of DateTime so that $billDate->add() returns a
+                // new instance instead of modifying $billDate
+                $billDate = new \DateTimeImmutable($bill['date']);
+
+                $nextDate = null;
+                switch($bill['repeat']) {
+                case 'd':
+                    $nextDate = $billDate->add(new \DateInterval('P1D'));
+                    break;
+
+                case 'w';
+                    $nextDate = $billDate->add(new \DateInterval('P7D'));
+                    break;
+
+                case 'm':
+                    if (intval($billDate->format('m')) === 12) {
+                        $nextYear = $billDate->format('Y') + 1;
+                        $nextMonth = 1;
+                    }
+                    else {
+                        $nextYear = $billDate->format('Y');
+                        $nextMonth = $billDate->format('m') + 1;
+                    }
+
+                    // same day of month if possible, otherwise at end of month
+                    $nextDate = new DateTime();
+                    $nextDate->setDate($nextYear, $nextMonth, 1);
+                    if ($billDate->format('d') > $nextDate->format('t')) {
+                        $nextDate->setDate($nextYear, $nextMonth, $nextDate->format('t'));
+                    }
+                    else {
+                        $nextDate->setDate($nextYear, $nextMonth, $billDate->format('d'));
+                    }
+                    break;
+
+                case 'y':
+                    $nextYear = $billDate->format('Y') + 1;
+                    $nextMonth = $billDate->format('m');
+
+                    // same day of month if possible, otherwise at end of month + same month
+                    $nextDate = new \DateTime();
+                    $nextDate->setDate($billDate->format('Y') + 1, $billDate->format('m'), 1);
+                    if ($billDate->format('d') > $nextDate->format('t')) {
+                        $nextDate->setDate($nextYear, $nextMonth, $nextDate->format('t'));
+                    }
+                    else {
+                        $nextDate->setDate($nextYear, $nextMonth, $billDate->format('d'));
+                    }
+                    break;
+                }
+
+                // Unknown repeat interval
+                if ($nextDate === null) {
+                    continue;
+                }
+
+                // Repeat if $nextDate is in the past (or today)
+                $diff = $now->diff($nextDate);
+                if ($diff->days === 0 || $diff->invert) {
+                    $this->repeatBill($bill['projectid'], $bill['id'], $nextDate);
+                    if (!array_key_exists($bill['projectid'], $projects)) {
+                        $projects[$bill['projectid']] = $this->getProjectInfo($bill['projectid']);
+                    }
+                    array_push($result, [
+                        'date_orig' => $bill['date'],
+                        'date_repeat' => $nextDate->format('Y-m-d'),
+                        'what' => $bill['what'],
+                        'project_name' => $projects[$bill['projectid']]['name']
+                    ]);
+                    $continue = true;
+                }
             }
         }
         return $result;

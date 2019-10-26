@@ -37,6 +37,7 @@ use OCP\IServerContainer;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\Db\ProjectMapper;
 
 use OCA\Cospend\Activity\ActivityManager;
 
@@ -77,6 +78,7 @@ class PageController extends ApiController {
                                 IAvatarManager $avatarManager,
                                 ActivityManager $activityManager,
                                 Billmapper $billMapper,
+                                Projectmapper $projectMapper,
                                 $UserId){
         parent::__construct($AppName, $request,
                             'PUT, POST, GET, DELETE, PATCH, OPTIONS',
@@ -85,6 +87,7 @@ class PageController extends ApiController {
         $this->logger = $logger;
         $this->appName = $AppName;
         $this->billMapper = $billMapper;
+        $this->projectMapper = $projectMapper;
         $this->avatarManager = $avatarManager;
         $this->appVersion = $config->getAppValue('cospend', 'installed_version');
         $this->userId = $UserId;
@@ -2619,6 +2622,14 @@ class PageController extends ApiController {
 
                         $response = new DataResponse('OK');
 
+                        // activity
+                        $projectObj = $this->projectMapper->find($projectid);
+                        $this->activityManager->triggerEvent(
+                            ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
+                            ActivityManager::SUBJECT_PROJECT_SHARE,
+                            ['who'=>$userid, 'type'=>'u']
+                        );
+
                         // SEND NOTIFICATION
                         $manager = \OC::$server->getNotificationManager();
                         $notification = $manager->createNotification();
@@ -2705,6 +2716,14 @@ class PageController extends ApiController {
 
                 $response = new DataResponse('OK');
 
+                // activity
+                $projectObj = $this->projectMapper->find($projectid);
+                $this->activityManager->triggerEvent(
+                    ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
+                    ActivityManager::SUBJECT_PROJECT_UNSHARE,
+                    ['who'=>$userid, 'type'=>'u']
+                );
+
                 // SEND NOTIFICATION
                 $projectInfo = $this->getProjectInfo($projectid);
 
@@ -2787,6 +2806,14 @@ class PageController extends ApiController {
 
                     $response = new DataResponse('OK');
 
+                    // activity
+                    $projectObj = $this->projectMapper->find($projectid);
+                    $this->activityManager->triggerEvent(
+                        ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
+                        ActivityManager::SUBJECT_PROJECT_SHARE,
+                        ['who'=>$groupid, 'type'=>'g']
+                    );
+
                     //// SEND NOTIFICATION
                     //$manager = \OC::$server->getNotificationManager();
                     //$notification = $manager->createNotification();
@@ -2868,6 +2895,14 @@ class PageController extends ApiController {
                 $qb = $qb->resetQueryParts();
 
                 $response = new DataResponse('OK');
+
+                // activity
+                $projectObj = $this->projectMapper->find($projectid);
+                $this->activityManager->triggerEvent(
+                    ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
+                    ActivityManager::SUBJECT_PROJECT_UNSHARE,
+                    ['who'=>$groupid, 'type'=>'g']
+                );
 
                 //// SEND NOTIFICATION
                 //$projectInfo = $this->getProjectInfo($projectid);

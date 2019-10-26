@@ -141,16 +141,19 @@ class ActivityManager {
 		$eventType = 'cospend';
 		$subjectParams = [];
 		$message = null;
+		$objectName = null;
 		switch ($subject) {
 			// No need to enhance parameters since entity already contains the required data
 			case self::SUBJECT_BILL_CREATE:
 			case self::SUBJECT_BILL_UPDATE:
 			case self::SUBJECT_BILL_DELETE:
 				$subjectParams = $this->findDetailsForBill($entity->getId());
+				$objectName = $object->getWhat();
 				break;
 			case self::SUBJECT_PROJECT_SHARE:
 			case self::SUBJECT_PROJECT_UNSHARE:
 				$subjectParams = $this->findDetailsForProject($entity->getId());
+				$objectName = $object->getId();
 				break;
 			default:
 				throw new \Exception('Unknown subject for activity.');
@@ -162,7 +165,7 @@ class ActivityManager {
 		$event->setApp('cospend')
 			->setType($eventType)
 			->setAuthor($author === null ? $this->userId ?? '' : $author)
-			->setObject($objectType, (int)$object->getId(), $object->getWhat())
+			->setObject($objectType, (int)$object->getId(), $objectName)
 			->setSubject($subject, array_merge($subjectParams, $additionalParams))
 			->setTimestamp(time());
 
@@ -185,7 +188,7 @@ class ActivityManager {
 				break;
 			case self::COSPEND_OBJECT_PROJECT:
 				$mapper = $this->projectMapper;
-				$projectId = $event->getObjectId();
+				$projectId = $event->getObjectName();
 				break;
 		}
 		/** @var IUser $user */
@@ -249,6 +252,10 @@ class ActivityManager {
 
 	private function findDetailsForProject($projectId, $subject = null) {
 		$project = $this->projectMapper->find($projectId);
+		$project = [
+			'id' => $project->getId(),
+			'name' => $project->getName()
+		];
 		return [
 			'project' => $project
 		];

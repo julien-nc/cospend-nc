@@ -32,7 +32,8 @@ use OCP\Comments\NotFoundException;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
-use OCP\L10N\IFactory;
+use OCP\IGroupManager;
+use OCP\IL10N;
 
 class CospendProvider implements IProvider {
 
@@ -44,19 +45,21 @@ class CospendProvider implements IProvider {
 	private $activityManager;
 	/** @var IUserManager */
 	private $userManager;
-	/** @var IFactory */
-	private $l10nFactory;
+	/** @var IL10N */
+	private $l10n;
 	/** @var IConfig */
 	private $config;
 
 	public function __construct(IURLGenerator $urlGenerator,
 								ActivityManager $activityManager,
-								IUserManager $userManager, IFactory $l10n, IConfig $config, $userId) {
+								IUserManager $userManager, IGroupManager $groupManager,
+								IL10N $l10n, IConfig $config, $userId) {
 		$this->userId = $userId;
 		$this->urlGenerator = $urlGenerator;
 		$this->activityManager = $activityManager;
 		$this->userManager = $userManager;
-		$this->l10nFactory = $l10n;
+		$this->groupManager = $groupManager;
+		$this->l10n = $l10n;
 		$this->config = $config;
 	}
 
@@ -211,12 +214,22 @@ class CospendProvider implements IProvider {
 
 	private function parseParamForWho($subjectParams, $params) {
 		if (array_key_exists('who', $subjectParams)) {
-			$user = $this->userManager->get($subjectParams['who']);
-			$params['who'] = [
-				'type' => 'user',
-				'id' => $subjectParams['who'],
-				'name' => $user !== null ? $user->getDisplayName() : $subjectParams['who']
-			];
+			if ($subjectParams['type'] === 'u') {
+				$user = $this->userManager->get($subjectParams['who']);
+				$params['who'] = [
+					'type' => 'user',
+					'id' => $subjectParams['who'],
+					'name' => $user !== null ? $user->getDisplayName() : $subjectParams['who']
+				];
+			}
+			else {
+				$group = $this->groupManager->get($subjectParams['who']);
+				$params['who'] = [
+					'type' => 'user',
+					'id' => $subjectParams['who'],
+					'name' => $this->l10n->t('group') . ' ' . ($group !== null ? $group->getDisplayName() : $subjectParams['who'])
+				];
+			}
 		}
 		return $params;
 	}

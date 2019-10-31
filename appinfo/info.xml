@@ -38,6 +38,7 @@
     <activity>
         <settings>
             <setting>OCA\Cospend\Activity\Setting</setting>
+            <setting>OCA\Cospend\Activity\BillSetting</setting>
         </settings>
         <filters>
             <filter>OCA\Cospend\Activity\Filter</filter>

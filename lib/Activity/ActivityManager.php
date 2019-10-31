@@ -149,6 +149,7 @@ class ActivityManager {
 			case self::SUBJECT_BILL_DELETE:
 				$subjectParams = $this->findDetailsForBill($entity->getId());
 				$objectName = $object->getWhat();
+				$eventType = 'cospend_bill_event';
 				break;
 			case self::SUBJECT_PROJECT_SHARE:
 			case self::SUBJECT_PROJECT_UNSHARE:

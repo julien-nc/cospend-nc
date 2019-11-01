@@ -1136,7 +1136,7 @@
             exportStr = ' <button class="exportStats" projectid="'+projectid+'"><span class="icon-file"></span>'+t('cospend', 'Export')+'</button>';
         }
         var totalPayedText = '<p class="totalPayedText">' +
-                             t('cospend', 'Total payed by all the members: {t}', {t: totalPayed}) + '</p>';
+                             t('cospend', 'Total payed by all the members: {t}', {t: totalPayed.toFixed(2)}) + '</p>';
         var statsStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 id="statsTitle"><span class="icon-category-monitoring"></span>'+titleStr+exportStr+'</h2>' +
             '<div id="stats-filters">' +

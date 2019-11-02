@@ -137,6 +137,14 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             new \OCA\Cospend\Db\ProjectMapper(
                 $c->query('ServerContainer')->getDatabaseConnection()
             ),
+            new \OCA\Cospend\Service\ProjectService(
+                $c->query('ServerContainer')->getLogger(),
+                $c->query('ServerContainer')->getL10N($c->query('AppName')),
+                new \OCA\Cospend\Db\ProjectMapper(
+                    $c->query('ServerContainer')->getDatabaseConnection()
+                ),
+                $c->getServer()->getGroupManager()
+            ),
             'test'
         );
 
@@ -158,6 +166,14 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             ),
             new \OCA\Cospend\Db\ProjectMapper(
                 $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            new \OCA\Cospend\Service\ProjectService(
+                $c->query('ServerContainer')->getLogger(),
+                $c->query('ServerContainer')->getL10N($c->query('AppName')),
+                new \OCA\Cospend\Db\ProjectMapper(
+                    $c->query('ServerContainer')->getDatabaseConnection()
+                ),
+                $c->getServer()->getGroupManager()
             ),
             'test2'
         );

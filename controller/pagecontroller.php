@@ -77,8 +77,8 @@ class PageController extends ApiController {
                                 ILogger $logger,
                                 IAvatarManager $avatarManager,
                                 ActivityManager $activityManager,
-                                Billmapper $billMapper,
-                                Projectmapper $projectMapper,
+                                BillMapper $billMapper,
+                                ProjectMapper $projectMapper,
                                 $UserId){
         parent::__construct($AppName, $request,
                             'PUT, POST, GET, DELETE, PATCH, OPTIONS',

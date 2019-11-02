@@ -2,8 +2,7 @@
 <phpunit bootstrap="tests/bootstrap.php">
 	<filter>
 		<whitelist>
-			<directory suffix=".php">controller</directory>
-			<!--directory suffix=".php">http</directory-->
+			<directory suffix=".php">lib</directory>
 			<exclude>
 				<directory suffix=".php">appinfo</directory>
 				<directory suffix=".php">templates</directory>

@@ -18,6 +18,12 @@ return [
             'verb'         => 'OPTIONS',
             'requirements' => ['path' => '.+']
         ],
+        [
+            'name'         => 'page#preflighted_cors',
+            'url'          => '/apiv2/{path}',
+            'verb'         => 'OPTIONS',
+            'requirements' => ['path' => '.+']
+        ],
         ['name' => 'page#apiPing', 'url' => '/api/ping', 'verb' => 'GET'],
         ['name' => 'page#apiCreateProject', 'url' => '/api/projects', 'verb' => 'POST'],
         ['name' => 'page#apiGetProjectInfo', 'url' => '/api/projects/{projectid}/{password}', 'verb' => 'GET'],
@@ -31,6 +37,7 @@ return [
         ['name' => 'page#apiAddBill', 'url' => '/api/projects/{projectid}/{password}/bills', 'verb' => 'POST'],
         ['name' => 'page#apiEditBill', 'url' => '/api/projects/{projectid}/{password}/bills/{billid}', 'verb' => 'PUT'],
         ['name' => 'page#apiDeleteBill', 'url' => '/api/projects/{projectid}/{password}/bills/{billid}', 'verb' => 'DELETE'],
+        ['name' => 'page#apiv2GetBills', 'url' => '/apiv2/projects/{projectid}/{password}/bills', 'verb' => 'GET'],
         ['name' => 'page#apiGetProjectStatistics', 'url' => '/api/projects/{projectid}/{password}/statistics', 'verb' => 'GET'],
         ['name' => 'page#apiGetProjectSettlement', 'url' => '/api/projects/{projectid}/{password}/settle', 'verb' => 'GET'],
         ['name' => 'page#apiAutoSettlement', 'url' => '/api/projects/{projectid}/{password}/autosettlement', 'verb' => 'GET'],

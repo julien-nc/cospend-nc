@@ -492,10 +492,17 @@ class PageController extends ApiController {
     public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for,
                                 $amount, $repeat, $paymentmode=null, $categoryid=null) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
-            return $this->editBill(
+            $result =  $this->editBill(
                 $projectid, $billid, $date, $what, $payer, $payed_for,
                 $amount, $repeat, $paymentmode, $categoryid
             );
+            if (is_numeric($result)) {
+                // edited bill id
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
         }
         else {
             $response = new DataResponse(
@@ -564,10 +571,17 @@ class PageController extends ApiController {
     public function webAddBill($projectid, $date, $what, $payer, $payed_for, $amount,
                                $repeat, $paymentmode=null, $categoryid=null) {
         if ($this->userCanAccessProject($this->userId, $projectid)) {
-            return $this->addBill(
+            $result = $this->addBill(
                 $projectid, $date, $what, $payer, $payed_for, $amount,
                 $repeat, $paymentmode, $categoryid
             );
+            if (is_numeric($result)) {
+                // inserted bill id
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
         }
         else {
             $response = new DataResponse(
@@ -1023,6 +1037,33 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
+    public function apiv2GetBills($projectid, $password, $lastchanged=null) {
+        if ($this->checkLogin($projectid, $password)) {
+            $bills = $this->getBills($projectid, null, null, null, null, null, null, $lastchanged);
+            $billIds = $this->getAllBillIds($projectid);
+            $ts = (new \DateTime())->getTimestamp();
+            $response = new DataResponse([
+                'bills'=>$bills,
+                'allBillIds'=>$billIds,
+                'timestamp'=>$ts
+            ]);
+            return $response;
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     * @CORS
+     */
     public function apiAddMember($projectid, $password, $name, $weight) {
         if ($this->checkLogin($projectid, $password)) {
             return $this->addMember($projectid, $name, $weight);
@@ -1044,7 +1085,14 @@ class PageController extends ApiController {
      */
     public function apiAddBill($projectid, $password, $date, $what, $payer, $payed_for, $amount, $repeat='n', $paymentmode=null, $categoryid=null) {
         if ($this->checkLogin($projectid, $password)) {
-            return $this->addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode, $categoryid);
+            $result = $this->addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode, $categoryid);
+            if (is_numeric($result)) {
+                // inserted bill id
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
         }
         else {
             $response = new DataResponse(
@@ -1063,7 +1111,14 @@ class PageController extends ApiController {
      */
     public function apiEditBill($projectid, $password, $billid, $date, $what, $payer, $payed_for, $amount, $repeat='n', $paymentmode=null, $categoryid=null) {
         if ($this->checkLogin($projectid, $password)) {
-            return $this->editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode, $categoryid);
+            $result = $this->editBill($projectid, $billid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode, $categoryid);
+            if (is_numeric($result)) {
+                // edited bill id
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
         }
         else {
             $response = new DataResponse(
@@ -1655,6 +1710,25 @@ class PageController extends ApiController {
         return $bills;
     }
 
+    private function getAllBillIds($projectId) {
+        $billIds = [];
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('id')
+           ->from('cospend_bills', 'b')
+           ->where(
+               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+           );
+        $req = $qb->execute();
+
+        while ($row = $req->fetch()){
+            array_push($billIds, $row['id']);
+        }
+        $req->closeCursor();
+        $qb = $qb->resetQueryParts();
+
+        return $billIds;
+    }
+
     private function getMembers($projectId, $order=null, $lastchanged=null) {
         $members = [];
 
@@ -1888,28 +1962,16 @@ class PageController extends ApiController {
 
         // first check the bill exists
         if ($this->getBill($projectid, $billid) === null) {
-            $response = new DataResponse(
-                ["message"=> ["There is no such bill"]]
-                , 404
-            );
-            return $response;
+            return ['message'=> ['There is no such bill']];
         }
         // then edit the hell of it
         if ($what === null || $what === '') {
-            $response = new DataResponse(
-                ["what"=> ["This field is required."]]
-                , 400
-            );
-            return $response;
+            return ['what'=> ['This field is required.']];
         }
         $qb->set('what', $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR));
 
         if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
-            $response = new DataResponse(
-                ["repeat"=> ["Invalid value."]]
-                , 400
-            );
-            return $response;
+            return ['repeat'=> ['Invalid value.']];
         }
         $qb->set('repeat', $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR));
 
@@ -1929,7 +1991,7 @@ class PageController extends ApiController {
             $member = $this->getMemberById($projectid, $payer);
             if ($member === null) {
                 $response = new DataResponse(
-                    ['payer'=>["Not a valid choice"]]
+                    ['payer'=>['Not a valid choice']]
                     , 400
                 );
                 return $response;
@@ -1944,27 +2006,15 @@ class PageController extends ApiController {
         if ($payed_for !== null && $payed_for !== '') {
             $owerIds = explode(',', $payed_for);
             if (count($owerIds) === 0) {
-                $response = new DataResponse(
-                    ['payed_for'=>["Invalid value"]]
-                    , 400
-                );
-                return $response;
+                return ['payed_for'=>['Invalid value']];
             }
             else {
                 foreach ($owerIds as $owerId) {
                     if (!is_numeric($owerId)) {
-                        $response = new DataResponse(
-                            ['payed_for'=>["Invalid value"]]
-                            , 400
-                        );
-                        return $response;
+                        return ['payed_for'=>['Invalid value']];
                     }
                     if ($this->getMemberById($projectid, $owerId) === null) {
-                        $response = new DataResponse(
-                            ['payed_for'=>["Not a valid choice"]]
-                            , 400
-                        );
-                        return $response;
+                        return ['payed_for'=>['Not a valid choice']];
                     }
                 }
             }
@@ -2003,76 +2053,39 @@ class PageController extends ApiController {
             }
         }
 
-        $response = new DataResponse(intval($billid));
-        return $response;
+        return intval($billid);
     }
 
     private function addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode=null, $categoryid=null) {
         if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
-            $response = new DataResponse(
-                ["repeat"=> ["Invalid value."]]
-                , 400
-            );
-            return $response;
+            return ['repeat'=> ['Invalid value.']];
         }
         if ($date === null || $date === '') {
-            $response = new DataResponse(
-                ["date"=> ["This field is required."]]
-                , 400
-            );
-            return $response;
+            return ['date'=> ['This field is required.']];
         }
         if ($what === null || $what === '') {
-            $response = new DataResponse(
-                ["what"=> ["This field is required."]]
-                , 400
-            );
-            return $response;
+            return ['what'=> ['This field is required.']];
         }
         if ($amount === null || $amount === '' || !is_numeric($amount)) {
-            $response = new DataResponse(
-                ["amount"=> ["This field is required."]]
-                , 400
-            );
-            return $response;
+            return ['amount'=> ['This field is required.']];
         }
         if ($payer === null || $payer === '' || !is_numeric($payer)) {
-            $response = new DataResponse(
-                ["payer"=> ["This field is required."]]
-                , 400
-            );
-            return $response;
+            return ['payer'=> ['This field is required.']];
         }
         if ($this->getMemberById($projectid, $payer) === null) {
-            $response = new DataResponse(
-                ['payer'=>["Not a valid choice"]]
-                , 400
-            );
-            return $response;
+            return ['payer'=>['Not a valid choice']];
         }
         // check owers
         $owerIds = explode(',', $payed_for);
         if ($payed_for === null || $payed_for === '' || count($owerIds) === 0) {
-            $response = new DataResponse(
-                ['payed_for'=>["Invalid value"]]
-                , 400
-            );
-            return $response;
+            return ['payed_for'=>['Invalid value']];
         }
         foreach ($owerIds as $owerId) {
             if (!is_numeric($owerId)) {
-                $response = new DataResponse(
-                    ['payed_for'=>["Invalid value"]]
-                    , 400
-                );
-                return $response;
+                return ['payed_for'=>['Invalid value']];
             }
             if ($this->getMemberById($projectid, $owerId) === null) {
-                $response = new DataResponse(
-                    ['payed_for'=>["Not a valid choice"]]
-                    , 400
-                );
-                return $response;
+                return ['payed_for'=>['Not a valid choice']];
             }
         }
 
@@ -2116,8 +2129,7 @@ class PageController extends ApiController {
             []
         );
 
-        $response = new DataResponse($insertedBillId);
-        return $response;
+        return $insertedBillId;
     }
 
     private function addMember($projectid, $name, $weight) {
@@ -3320,7 +3332,7 @@ class PageController extends ApiController {
                         }
                         $owerIdsStr = implode(',', $owerIds);
                         $addBillResult = $this->addBill($projectid, $bill['date'], $bill['what'], $payerId, $owerIdsStr, $bill['amount'], 'n', $bill['paymentmode'], $bill['categoryid']);
-                        if ($addBillResult->getStatus() !== 200) {
+                        if (!is_numeric($addBillResult)) {
                             $this->deleteProject($projectid);
                             $response = new DataResponse(['message'=>'Error when adding bill '.$bill['what']], 400);
                             return $response;
@@ -3366,7 +3378,7 @@ class PageController extends ApiController {
             $amount = floatval($transaction['amount']);
             $billTitle = $memberIdToName[$fromId].' → '.$memberIdToName[$toId];
             $addBillResult = $this->addBill($projectid, $date, $billTitle, $fromId, $toId, $amount, 'n');
-            if ($addBillResult->getStatus() !== 200) {
+            if (!is_numeric($addBillResult)) {
                 $response = new DataResponse(['message'=>'Error when addind a bill'], 400);
                 return $response;
             }
@@ -3503,7 +3515,8 @@ class PageController extends ApiController {
         }
         $owerIdsStr = implode(',', $owerIds);
 
-        $this->addBill($projectid, $datetime->format('Y-m-d'), $bill['what'], $bill['payer_id'], $owerIdsStr, $bill['amount'], $bill['repeat'], $bill['paymentmode'], $bill['categoryid']);
+        $this->addBill($projectid, $datetime->format('Y-m-d'), $bill['what'], $bill['payer_id'],
+                       $owerIdsStr, $bill['amount'], $bill['repeat'], $bill['paymentmode'], $bill['categoryid']);
 
         // now we can remove repeat flag on original bill
         $this->editBill($projectid, $billid, $bill['date'], $bill['what'], $bill['payer_id'], null, $bill['amount'], 'n');

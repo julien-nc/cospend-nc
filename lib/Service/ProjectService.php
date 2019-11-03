@@ -2251,14 +2251,15 @@ class ProjectService {
         }
         $file = $folder->newFile($filename);
         $handler = $file->fopen('w');
-        fwrite($handler, "what,amount,date,payer_name,payer_weight,owers\n");
+        fwrite($handler, "what,amount,date,payer_name,payer_weight,owers,repeat,categoryid,paymentmode\n");
         $members = $this->getMembers($projectid);
         $memberIdToName = [];
         $memberIdToWeight = [];
         foreach ($members as $member) {
             $memberIdToName[$member['id']] = $member['name'];
             $memberIdToWeight[$member['id']] = $member['weight'];
-            fwrite($handler, 'deleteMeIfYouWant,1,1970-01-01,"'.$member['name'].'",'.floatval($member['weight']).',"'.$member['name'].'"'."\n");;
+            fwrite($handler, 'deleteMeIfYouWant,1,1970-01-01,"'.$member['name'].'",'.floatval($member['weight']).',"'.
+                             $member['name'].'",n,,'."\n");;
         }
         $bills = $this->getBills($projectid);
         foreach ($bills as $bill) {
@@ -2271,7 +2272,9 @@ class ProjectService {
             $payer_id = $bill['payer_id'];
             $payer_name = $memberIdToName[$payer_id];
             $payer_weight = $memberIdToWeight[$payer_id];
-            fwrite($handler, '"'.$bill['what'].'",'.floatval($bill['amount']).','.$bill['date'].',"'.$payer_name.'",'.floatval($payer_weight).',"'.$owersTxt.'"'."\n");
+            fwrite($handler, '"'.$bill['what'].'",'.floatval($bill['amount']).','.$bill['date'].',"'.$payer_name.'",'.
+                             floatval($payer_weight).',"'.$owersTxt.'",'.$bill['repeat'].','.
+                             $bill['categoryid'].','.$bill['paymentmode']."\n");
         }
 
         fclose($handler);
@@ -2295,7 +2298,7 @@ class ProjectService {
                         // first line : get column order
                         if ($row === 0) {
                             $nbCol = count($data);
-                            if ($nbCol !== 6) {
+                            if ($nbCol < 6) {
                                 fclose($handle);
                                 $response = ['message'=>'Malformed CSV, bad column number'];
                                 return $response;
@@ -2325,14 +2328,9 @@ class ProjectService {
                             $payer_name = $data[$columns['payer_name']];
                             $payer_weight = $data[$columns['payer_weight']];
                             $owers = $data[$columns['owers']];
-                            $paymentmode = null;
-                            if (array_key_exists('paymentmode', $columns)) {
-                                $paymentmode = $data[$columns['paymentmode']];
-                            }
-                            $categoryid = null;
-                            if (array_key_exists('categoryid', $columns)) {
-                                $categoryid = $data[$columns['categoryid']];
-                            }
+                            $repeat = array_key_exists('repeat', $columns) ? $data[$columns['repeat']] : 'n';
+                            $categoryid = array_key_exists('categoryid', $columns) ? intval($data[$columns['categoryid']]) : null;
+                            $paymentmode = array_key_exists('paymentmode', $columns) ? $data[$columns['paymentmode']] : null;
 
                             // manage members
                             if (is_numeric($payer_weight)) {

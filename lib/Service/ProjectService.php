@@ -1763,8 +1763,15 @@ class ProjectService {
         }
         $owerIdsStr = implode(',', $owerIds);
 
-        $this->addBill($projectid, $datetime->format('Y-m-d'), $bill['what'], $bill['payer_id'],
+        $newBillId = $this->addBill($projectid, $datetime->format('Y-m-d'), $bill['what'], $bill['payer_id'],
                        $owerIdsStr, $bill['amount'], $bill['repeat'], $bill['paymentmode'], $bill['categoryid']);
+
+        $billObj = $this->billMapper->find($newBillId);
+        $this->activityManager->triggerEvent(
+            ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+            ActivityManager::SUBJECT_BILL_CREATE,
+            []
+        );
 
         // now we can remove repeat flag on original bill
         $this->editBill($projectid, $billid, $bill['date'], $bill['what'], $bill['payer_id'], null, $bill['amount'], 'n');

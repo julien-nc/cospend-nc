@@ -640,7 +640,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 
         $resp = $this->pageController->deleteGroupShare('projtodel', 'group2testLALA');
         $status = $resp->getStatus();
-        $this->assertEquals(401, $status);
+        $this->assertEquals(400, $status);
 
         $resp = $this->pageController->deleteGroupShare('projtodelLALA', 'group2test');
         $status = $resp->getStatus();

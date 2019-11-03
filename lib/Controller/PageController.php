@@ -1277,7 +1277,7 @@ class PageController extends ApiController {
      */
     public function importCsvProject($path) {
         $result = $this->projectService->importCsvProject($path, $this->userId);
-        if (is_numeric($result)) {
+        if (!is_array($result) and is_string($result)) {
             return new DataResponse($result);
         }
         else {

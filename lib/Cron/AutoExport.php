@@ -22,7 +22,6 @@ class AutoExport extends \OC\BackgroundJob\TimedJob {
 
     protected function run($argument) {
         $d = new \DateTime();
-        //(new Application())->getContainer()->query('PageController')->cronAutoExport();
         $this->projectService->cronAutoExport();
     }
 

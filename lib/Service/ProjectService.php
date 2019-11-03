@@ -2388,7 +2388,7 @@ class ProjectService {
                     $projectid = str_replace('.csv', '', $file->getName());
                     $projectName = $projectid;
                     $projResult = $this->createProject($projectName, $projectid, '', $userEmail, $userId);
-                    if (!is_numeric($projResult)) {
+                    if (!is_string($projResult)) {
                         $response = ['message'=>'Error in project creation '.$projResult['message']];
                         return $response;
                     }

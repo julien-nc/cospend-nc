@@ -3280,7 +3280,9 @@
                   function(targetPath) {
                       importProject(targetPath);
                   },
-                  false, null, true
+                  false,
+                  ['text/csv'],
+                  true
               );
         });
 

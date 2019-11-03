@@ -1555,7 +1555,7 @@ class ProjectService {
         return $member;
     }
 
-    private function editBill($projectid, $billid, $date, $what, $payer, $payed_for,
+    public function editBill($projectid, $billid, $date, $what, $payer, $payed_for,
                               $amount, $repeat, $paymentmode=null, $categoryid=null) {
         $qb = $this->dbconnection->getQueryBuilder();
         $qb->update('cospend_bills');
@@ -1594,11 +1594,7 @@ class ProjectService {
         if ($payer !== null && $payer !== '' && is_numeric($payer)) {
             $member = $this->getMemberById($projectid, $payer);
             if ($member === null) {
-                $response = new DataResponse(
-                    ['payer'=>['Not a valid choice']]
-                    , 400
-                );
-                return $response;
+                return ['payer'=>['Not a valid choice']];
             }
             else {
                 $qb->set('payerid', $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT));
@@ -1925,7 +1921,7 @@ class ProjectService {
             $req = $qb->execute();
             $qb = $qb->resetQueryParts();
 
-            $response = new DataResponse('OK');
+            $response = 'OK';
 
             // activity
             $projectObj = $this->projectMapper->find($projectid);
@@ -2007,7 +2003,7 @@ class ProjectService {
                 $req = $qb->execute();
                 $qb = $qb->resetQueryParts();
 
-                $response = new DataResponse('OK');
+                $response = 'OK';
 
                 // activity
                 $projectObj = $this->projectMapper->find($projectid);
@@ -2089,7 +2085,7 @@ class ProjectService {
             $req = $qb->execute();
             $qb = $qb->resetQueryParts();
 
-            $response = new DataResponse('OK');
+            $response = 'OK';
 
             // activity
             $projectObj = $this->projectMapper->find($projectid);

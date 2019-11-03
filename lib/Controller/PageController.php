@@ -464,7 +464,7 @@ class PageController extends ApiController {
     public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for,
                                 $amount, $repeat, $paymentmode=null, $categoryid=null) {
         if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-            $result =  $this->editBill(
+            $result =  $this->projectService->editBill(
                 $projectid, $billid, $date, $what, $payer, $payed_for,
                 $amount, $repeat, $paymentmode, $categoryid
             );

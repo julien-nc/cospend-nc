@@ -31,12 +31,14 @@ class UserService {
     private $qb;
     private $dbconnection;
 
-    public function __construct (ILogger $logger, IL10N $l10n,
-                                ProjectMapper $projectMapper,
-                                BillMapper $billMapper,
-                                IManager $shareManager,
-                                IUserManager $userManager,
-                                IGroupManager $groupManager) {
+    public function __construct (
+        ILogger $logger, IL10N $l10n,
+        ProjectMapper $projectMapper,
+        BillMapper $billMapper,
+        IManager $shareManager,
+        IUserManager $userManager,
+        IGroupManager $groupManager
+    ) {
         $this->trans = $l10n;
         $this->logger = $logger;
         $this->qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();

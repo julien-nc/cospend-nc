@@ -285,7 +285,7 @@ class PageController extends ApiController {
         $user = $this->userManager->get($this->userId);
         $userEmail = $user->getEMailAddress();
         $result = $this->projectService->createProject($name, $id, $password, $userEmail, $this->userId);
-        if (is_numeric($result)) {
+        if (is_string($result) and !is_array($result)) {
             // project id
             return new DataResponse($result);
         }
@@ -650,7 +650,7 @@ class PageController extends ApiController {
         $allow = intval($this->config->getAppValue('cospend', 'allowAnonymousCreation'));
         if ($allow) {
             $result = $this->projectService->createProject($name, $id, $password, $contact_email);
-            if (is_numeric($result)) {
+            if (is_string($result) and !is_array($result)) {
                 // project id
                 return new DataResponse($result);
             }

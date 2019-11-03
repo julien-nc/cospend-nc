@@ -35,7 +35,8 @@ class ProjectService {
     private $qb;
     private $dbconnection;
 
-    public function __construct (ILogger $logger, IL10N $l10n,
+    public function __construct (ILogger $logger,
+                                IL10N $l10n,
                                 ProjectMapper $projectMapper,
                                 BillMapper $billMapper,
                                 ActivityManager $activityManager,

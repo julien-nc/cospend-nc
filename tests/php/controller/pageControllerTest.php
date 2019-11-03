@@ -78,12 +78,17 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 
         $this->activityManager = new \OCA\Cospend\Activity\ActivityManager(
             $c->query('ServerContainer')->getActivityManager(),
-            new \OCA\Cospend\Service\ProjectService(
+            new \OCA\Cospend\Service\UserService(
                 $c->query('ServerContainer')->getLogger(),
                 $c->query('ServerContainer')->getL10N($c->query('AppName')),
                 new \OCA\Cospend\Db\ProjectMapper(
                     $c->query('ServerContainer')->getDatabaseConnection()
                 ),
+                new \OCA\Cospend\Db\BillMapper(
+                    $c->query('ServerContainer')->getDatabaseConnection()
+                ),
+                $c->getServer()->getShareManager(),
+                $c->getServer()->getUserManager(),
                 $c->getServer()->getGroupManager()
             ),
             new \OCA\Cospend\Db\ProjectMapper(
@@ -99,12 +104,17 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 
         $this->activityManager2 = new \OCA\Cospend\Activity\ActivityManager(
             $c->query('ServerContainer')->getActivityManager(),
-            new \OCA\Cospend\Service\ProjectService(
+            new \OCA\Cospend\Service\UserService(
                 $c->query('ServerContainer')->getLogger(),
                 $c->query('ServerContainer')->getL10N($c->query('AppName')),
                 new \OCA\Cospend\Db\ProjectMapper(
                     $c->query('ServerContainer')->getDatabaseConnection()
                 ),
+                new \OCA\Cospend\Db\BillMapper(
+                    $c->query('ServerContainer')->getDatabaseConnection()
+                ),
+                $c->getServer()->getShareManager(),
+                $c->getServer()->getUserManager(),
                 $c->getServer()->getGroupManager()
             ),
             new \OCA\Cospend\Db\ProjectMapper(
@@ -129,8 +139,6 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getGroupManager(),
             $c->query('ServerContainer')->getL10N($c->query('AppName')),
             $c->query('ServerContainer')->getLogger(),
-            $c->query('ServerContainer')->getAvatarManager(),
-            $this->activityManager,
             new \OCA\Cospend\Db\BillMapper(
                 $c->query('ServerContainer')->getDatabaseConnection()
             ),
@@ -143,6 +151,13 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
                 new \OCA\Cospend\Db\ProjectMapper(
                     $c->query('ServerContainer')->getDatabaseConnection()
                 ),
+                new \OCA\Cospend\Db\BillMapper(
+                    $c->query('ServerContainer')->getDatabaseConnection()
+                ),
+                $this->activityManager,
+                $c->query('ServerContainer')->getAvatarManager(),
+                $c->getServer()->getShareManager(),
+                $c->getServer()->getUserManager(),
                 $c->getServer()->getGroupManager()
             ),
             'test'
@@ -159,8 +174,6 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getGroupManager(),
             $c->query('ServerContainer')->getL10N($c->query('AppName')),
             $c->query('ServerContainer')->getLogger(),
-            $c->query('ServerContainer')->getAvatarManager(),
-            $this->activityManager2,
             new \OCA\Cospend\Db\BillMapper(
                 $c->query('ServerContainer')->getDatabaseConnection()
             ),
@@ -173,6 +186,13 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
                 new \OCA\Cospend\Db\ProjectMapper(
                     $c->query('ServerContainer')->getDatabaseConnection()
                 ),
+                new \OCA\Cospend\Db\BillMapper(
+                    $c->query('ServerContainer')->getDatabaseConnection()
+                ),
+                $this->activityManager2,
+                $c->query('ServerContainer')->getAvatarManager(),
+                $c->getServer()->getShareManager(),
+                $c->getServer()->getUserManager(),
                 $c->getServer()->getGroupManager()
             ),
             'test2'

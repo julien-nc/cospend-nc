@@ -300,7 +300,7 @@ class PageController extends ApiController {
      */
     public function webAddExternalProject($id, $url, $password) {
         $result = $this->projectService->addExternalProject($url, $id, $password, $this->userId);
-        if (is_numeric($result)) {
+        if (!is_array($result) and is_string($result)) {
             // project id
             return new DataResponse($result);
         }

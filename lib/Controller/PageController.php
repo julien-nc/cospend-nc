@@ -513,7 +513,7 @@ class PageController extends ApiController {
      *
      */
     public function webEditExternalProject($projectid, $ncurl, $password) {
-        if ($this->userCanAccessExternalProject($this->userId, $projectid, $ncurl)) {
+        if ($this->projectService->userCanAccessExternalProject($this->userId, $projectid, $ncurl)) {
             $result = $this->projectService->editExternalProject($projectid, $ncurl, $password);
             if ($result === 'UPDATED') {
                 return new DataResponse($result);
@@ -536,7 +536,7 @@ class PageController extends ApiController {
      *
      */
     public function webDeleteExternalProject($projectid, $ncurl) {
-        if ($this->userCanAccessExternalProject($this->userId, $projectid, $ncurl)) {
+        if ($this->projectService->userCanAccessExternalProject($this->userId, $projectid, $ncurl)) {
             $result = $this->projectService->deleteExternalProject($projectid, $ncurl);
             if ($result === 'DELETED') {
                 return new DataResponse($result);

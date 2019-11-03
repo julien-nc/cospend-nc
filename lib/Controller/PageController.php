@@ -38,6 +38,7 @@ use OCP\ILogger;
 use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Service\ProjectService;
+use OCA\Cospend\Activity\ActivityManager;
 
 function endswith($string, $test) {
     $strlen = strlen($string);
@@ -76,6 +77,7 @@ class PageController extends ApiController {
                                 BillMapper $billMapper,
                                 ProjectMapper $projectMapper,
                                 ProjectService $projectService,
+                                ActivityManager $activityManager,
                                 $UserId){
         parent::__construct($AppName, $request,
                             'PUT, POST, GET, DELETE, PATCH, OPTIONS',
@@ -90,6 +92,7 @@ class PageController extends ApiController {
         $this->userId = $UserId;
         $this->userManager = $userManager;
         $this->groupManager = $groupManager;
+        $this->activityManager = $activityManager;
         $this->trans = $trans;
         $this->dbtype = $config->getSystemValue('dbtype');
         // IConfig object
@@ -338,6 +341,15 @@ class PageController extends ApiController {
      */
     public function webDeleteBill($projectid, $billid) {
         if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+            if ($this->projectService->getBill($projectid, $billid) !== null) {
+                $billObj = $this->billMapper->find($billid);
+                $this->activityManager->triggerEvent(
+                    ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                    ActivityManager::SUBJECT_BILL_DELETE,
+                    []
+                );
+            }
+
             $result = $this->projectService->deleteBill($projectid, $billid);
             if ($result === 'OK') {
                 return new DataResponse($result);
@@ -469,7 +481,13 @@ class PageController extends ApiController {
                 $amount, $repeat, $paymentmode, $categoryid
             );
             if (is_numeric($result)) {
-                // edited bill id
+                $billObj = $this->billMapper->find($billid);
+                $this->activityManager->triggerEvent(
+                    ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                    ActivityManager::SUBJECT_BILL_UPDATE,
+                    []
+                );
+
                 return new DataResponse($result);
             }
             else {
@@ -566,7 +584,13 @@ class PageController extends ApiController {
                 $repeat, $paymentmode, $categoryid
             );
             if (is_numeric($result)) {
-                // inserted bill id
+                $billObj = $this->billMapper->find($result);
+                $this->activityManager->triggerEvent(
+                    ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                    ActivityManager::SUBJECT_BILL_CREATE,
+                    []
+                );
+
                 return new DataResponse($result);
             }
             else {
@@ -827,7 +851,12 @@ class PageController extends ApiController {
         if ($this->checkLogin($projectid, $password)) {
             $result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode, $categoryid);
             if (is_numeric($result)) {
-                // inserted bill id
+                $billObj = $this->billMapper->find($result);
+                $this->activityManager->triggerEvent(
+                    ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                    ActivityManager::SUBJECT_BILL_CREATE,
+                    []
+                );
                 return new DataResponse($result);
             }
             else {
@@ -855,7 +884,13 @@ class PageController extends ApiController {
             $result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
                                                       $amount, $repeat, $paymentmode, $categoryid);
             if (is_numeric($result)) {
-                // edited bill id
+                $billObj = $this->billMapper->find($billid);
+                $this->activityManager->triggerEvent(
+                    ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                    ActivityManager::SUBJECT_BILL_UPDATE,
+                    []
+                );
+
                 return new DataResponse($result);
             }
             else {
@@ -879,6 +914,15 @@ class PageController extends ApiController {
      */
     public function apiDeleteBill($projectid, $password, $billid) {
         if ($this->checkLogin($projectid, $password)) {
+            if ($this->projectService->getBill($projectid, $billid) !== null) {
+                $billObj = $this->billMapper->find($billid);
+                $this->activityManager->triggerEvent(
+                    ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                    ActivityManager::SUBJECT_BILL_DELETE,
+                    []
+                );
+            }
+
             $result = $this->projectService->deleteBill($projectid, $billid);
             if ($result === 'OK') {
                 return new DataResponse($result);

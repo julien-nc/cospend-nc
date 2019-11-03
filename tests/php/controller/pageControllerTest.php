@@ -160,6 +160,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
                 $c->getServer()->getUserManager(),
                 $c->getServer()->getGroupManager()
             ),
+            $this->activityManager,
             'test'
         );
 
@@ -195,6 +196,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
                 $c->getServer()->getUserManager(),
                 $c->getServer()->getGroupManager()
             ),
+            $this->activityManager2,
             'test2'
         );
 

@@ -473,26 +473,12 @@ class ProjectService {
             $qb = $qb->resetQueryParts();
         }
 
-        $billObj = $this->billMapper->find($insertedBillId);
-        $this->activityManager->triggerEvent(
-            ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-            ActivityManager::SUBJECT_BILL_CREATE,
-            []
-        );
-
         return $insertedBillId;
     }
 
     public function deleteBill($projectid, $billid) {
         $billToDelete = $this->getBill($projectid, $billid);
         if ($billToDelete !== null) {
-            $billObj = $this->billMapper->find($billid);
-            $this->activityManager->triggerEvent(
-                ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-                ActivityManager::SUBJECT_BILL_DELETE,
-                []
-            );
-
             $this->deleteBillOwersOfBill($billid);
 
             $qb = $this->dbconnection->getQueryBuilder();
@@ -576,7 +562,7 @@ class ProjectService {
         return $project;
     }
 
-    private function getBill($projectId, $billId) {
+    public function getBill($projectId, $billId) {
         $bill = null;
         // get bill owers
         $billOwers = [];
@@ -1629,13 +1615,6 @@ class ProjectService {
            );
         $req = $qb->execute();
         $qb = $qb->resetQueryParts();
-
-        $billObj = $this->billMapper->find($billid);
-        $this->activityManager->triggerEvent(
-            ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-            ActivityManager::SUBJECT_BILL_UPDATE,
-            []
-        );
 
         // edit the bill owers
         if ($owerIds !== null) {

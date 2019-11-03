@@ -727,7 +727,7 @@
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(
-                t('cospend', 'Failed to save project') +
+                t('cospend', 'Failed to edit project') +
                 ' ' + response.responseText
             );
         });

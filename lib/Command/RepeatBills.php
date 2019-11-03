@@ -22,7 +22,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use OCP\IConfig;
 
-use OCA\Cospend\Controller\PageController;
+use OCA\Cospend\Service\ProjectService;
 use \OCA\Cospend\AppInfo\Application;
 
 class RepeatBills extends Command {
@@ -33,15 +33,15 @@ class RepeatBills extends Command {
 
     protected $encryptionManager;
 
-    private $pageController;
-
     public function __construct(IUserManager $userManager,
                                 IManager $encryptionManager,
+                                ProjectService $projectService,
                                 IConfig $config) {
         parent::__construct();
         $this->userManager = $userManager;
         $this->encryptionManager = $encryptionManager;
         $this->config = $config;
+        $this->projectService = $projectService;
     }
 
     protected function configure() {
@@ -50,7 +50,7 @@ class RepeatBills extends Command {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $repeated = (new Application())->getContainer()->query('PageController')->cronRepeatBills();
+        $repeated = $this->projectService->cronRepeatBills();
         foreach ($repeated as $r) {
             $output->writeln(
                 '[Project "'.$r['project_name'].'"] Bill "'.$r['what'].

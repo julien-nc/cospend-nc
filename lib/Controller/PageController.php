@@ -634,6 +634,7 @@ class PageController extends ApiController {
         $response = new DataResponse(
             $this->projectService->getProjects($this->userId)
         );
+        return $response;
     }
 
     /**

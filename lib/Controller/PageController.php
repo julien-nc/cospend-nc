@@ -441,7 +441,7 @@ class PageController extends ApiController {
     public function webEditMember($projectid, $memberid, $name, $weight, $activated) {
         if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
             $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated);
-            if (is_array($result) and array_key_exists('projectid', $result)) {
+            if (is_array($result) and array_key_exists('activated', $result)) {
                 return new DataResponse($result);
             }
             else {
@@ -955,7 +955,7 @@ class PageController extends ApiController {
     public function apiEditMember($projectid, $password, $memberid, $name, $weight, $activated) {
         if ($this->checkLogin($projectid, $password)) {
             $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated);
-            if (is_array($result) and array_key_exists('projectid', $result)) {
+            if (is_array($result) and array_key_exists('activated', $result)) {
                 return new DataResponse($result);
             }
             else {

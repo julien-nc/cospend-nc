@@ -24,7 +24,7 @@
 namespace OCA\Cospend\Activity;
 
 use InvalidArgumentException;
-use OCA\Cospend\Service\ProjectService;
+use OCA\Cospend\Service\UserService;
 use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\Bill;
 use OCA\Cospend\Db\ProjectMapper;
@@ -58,7 +58,7 @@ class ActivityManager {
 
 	public function __construct(
 		IManager $manager,
-		ProjectService $projectService,
+		UserService $userService,
 		ProjectMapper $projectMapper,
 		BillMapper $billMapper,
 		IL10N $l10n,
@@ -66,7 +66,7 @@ class ActivityManager {
 		$userId
 	) {
 		$this->manager = $manager;
-		$this->projectService = $projectService;
+		$this->userService = $userService;
 		$this->projectMapper = $projectMapper;
 		$this->billMapper = $billMapper;
 		$this->l10n = $l10n;
@@ -193,7 +193,7 @@ class ActivityManager {
 				break;
 		}
 		/** @var IUser $user */
-		foreach ($this->projectService->findUsers($projectId) as $user) {
+		foreach ($this->userService->findUsers($projectId) as $user) {
 			$event->setAffectedUser($user);
 			/** @noinspection DisconnectedForeachInstructionInspection */
 			$this->manager->publish($event);

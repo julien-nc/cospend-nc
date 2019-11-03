@@ -39,8 +39,6 @@ use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Service\ProjectService;
 
-use OCA\Cospend\Activity\ActivityManager;
-
 function endswith($string, $test) {
     $strlen = strlen($string);
     $testlen = strlen($test);
@@ -75,7 +73,6 @@ class PageController extends ApiController {
                                 IGroupManager $groupManager,
                                 IL10N $trans,
                                 ILogger $logger,
-                                ActivityManager $activityManager,
                                 BillMapper $billMapper,
                                 ProjectMapper $projectMapper,
                                 ProjectService $projectService,
@@ -92,7 +89,6 @@ class PageController extends ApiController {
         $this->appVersion = $config->getAppValue('cospend', 'installed_version');
         $this->userId = $UserId;
         $this->userManager = $userManager;
-        $this->activityManager = $activityManager;
         $this->groupManager = $groupManager;
         $this->trans = $trans;
         $this->dbtype = $config->getSystemValue('dbtype');

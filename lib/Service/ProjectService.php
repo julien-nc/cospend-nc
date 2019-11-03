@@ -17,15 +17,16 @@ use OCP\ILogger;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 use OC\Archive\ZIP;
-use OCA\Cospend\Db\ProjectMapper;
-use OCA\Cospend\Db\BillMapper;
-use OCA\Cospend\Activity\ActivityManager;
 use OCP\IGroupManager;
 use OCP\IAvatarManager;
 
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\IServerContainer;
+
+use OCA\Cospend\Activity\ActivityManager;
+use OCA\Cospend\Db\ProjectMapper;
+use OCA\Cospend\Db\BillMapper;
 
 class ProjectService {
 
@@ -35,11 +36,11 @@ class ProjectService {
     private $dbconnection;
 
     public function __construct (ILogger $logger, IL10N $l10n,
-                                ProjectMapper $projectMapper, BillMapper $billMapper,
+                                ProjectMapper $projectMapper,
+                                BillMapper $billMapper,
                                 ActivityManager $activityManager,
                                 IAvatarManager $avatarManager,
                                 IManager $shareManager,
-                                IAppManager $appManager,
                                 IUserManager $userManager,
                                 IGroupManager $groupManager) {
         $this->trans = $l10n;
@@ -51,71 +52,12 @@ class ProjectService {
         $this->activityManager = $activityManager;
         $this->avatarManager = $avatarManager;
         $this->groupManager = $groupManager;
-        $this->appManager = $appManager;
         $this->userManager = $userManager;
         $this->shareManager = $shareManager;
     }
 
     private function db_quote_escape_string($str){
         return $this->dbconnection->quote($str);
-    }
-
-    public function findUsers($id) {
-        $userIds = [];
-        // get owner with mapper
-        $proj = $this->projectMapper->find($id);
-        array_push($userIds, $proj->getUserid());
-
-        // get user shares from project id
-        $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('userid')
-            ->from('cospend_shares', 's')
-            ->where(
-                $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
-            )
-            ->andWhere(
-                $qb->expr()->eq('projectid', $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR))
-            );
-        $req = $qb->execute();
-        while ($row = $req->fetch()) {
-            if (!in_array($row['userid'], $userIds)) {
-                array_push($userIds, $row['userid']);
-            }
-        }
-        $req->closeCursor();
-        $qb = $qb->resetQueryParts();
-
-        // get group shares from project id
-        $qb->select('userid')
-            ->from('cospend_shares', 's')
-            ->where(
-                $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
-            )
-            ->andWhere(
-                $qb->expr()->eq('projectid', $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR))
-            );
-        $req = $qb->execute();
-        $groupIds = [];
-        while ($row = $req->fetch()) {
-            array_push($groupIds, $row['userid']);
-        }
-        $req->closeCursor();
-        $qb = $qb->resetQueryParts();
-        // get users of groups
-        foreach ($groupIds as $gid) {
-            $group = $this->groupManager->get($gid);
-            if ($group !== null) {
-                $groupUsers = $group->getUsers();
-                foreach ($groupUsers as $user) {
-                    $uid = $user->getUID();
-                    if (!in_array($uid, $userIds)) {
-                        array_push($userIds, $uid);
-                    }
-                }
-            }
-        }
-
-        return $userIds;
     }
 
     /**

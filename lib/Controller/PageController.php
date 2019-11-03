@@ -445,7 +445,7 @@ class PageController extends ApiController {
                 return new DataResponse($result);
             }
             else {
-                return new DataResponse($result, 403);
+                return new DataResponse($result, 400);
             }
         }
         else {

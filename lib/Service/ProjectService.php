@@ -820,11 +820,11 @@ class ProjectService {
                 return $editedMember;
             }
             else {
-                return ['name'=>["This project have no such member"]];
+                return ['name'=>['This project have no such member']];
             }
         }
         else {
-            return ["name"=> ["This field is required."]];
+            return ['name'=> ['This field is required.']];
         }
     }
 

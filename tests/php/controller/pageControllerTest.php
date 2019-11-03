@@ -327,7 +327,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 
         $resp = $this->pageController->webEditMember('superproj', -1, 'roberto', 1, true);
         $status = $resp->getStatus();
-        $this->assertEquals(404, $status);
+        $this->assertEquals(400, $status);
 
         // create bills
         $resp = $this->pageController->webAddBill('superproj', '2019-01-22', 'boomerang', $idMember1, $idMember1.','.$idMember2, 22.5, 'n');

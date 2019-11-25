@@ -76,11 +76,62 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $c = $this->container;
         $this->config = $c->query('ServerContainer')->getConfig();
 
+        $this->activityManager = new \OCA\Cospend\Activity\ActivityManager(
+            $c->query('ServerContainer')->getActivityManager(),
+            new \OCA\Cospend\Service\UserService(
+                $c->query('ServerContainer')->getLogger(),
+                $c->query('ServerContainer')->getL10N($c->query('AppName')),
+                new \OCA\Cospend\Db\ProjectMapper(
+                    $c->query('ServerContainer')->getDatabaseConnection()
+                ),
+                new \OCA\Cospend\Db\BillMapper(
+                    $c->query('ServerContainer')->getDatabaseConnection()
+                ),
+                $c->getServer()->getShareManager(),
+                $c->getServer()->getUserManager(),
+                $c->getServer()->getGroupManager()
+            ),
+            new \OCA\Cospend\Db\ProjectMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            new \OCA\Cospend\Db\BillMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            $c->query('ServerContainer')->getL10N($c->query('AppName')),
+            $c->getServer()->getUserManager(),
+            'test'
+        );
+
+        $this->activityManager2 = new \OCA\Cospend\Activity\ActivityManager(
+            $c->query('ServerContainer')->getActivityManager(),
+            new \OCA\Cospend\Service\UserService(
+                $c->query('ServerContainer')->getLogger(),
+                $c->query('ServerContainer')->getL10N($c->query('AppName')),
+                new \OCA\Cospend\Db\ProjectMapper(
+                    $c->query('ServerContainer')->getDatabaseConnection()
+                ),
+                new \OCA\Cospend\Db\BillMapper(
+                    $c->query('ServerContainer')->getDatabaseConnection()
+                ),
+                $c->getServer()->getShareManager(),
+                $c->getServer()->getUserManager(),
+                $c->getServer()->getGroupManager()
+            ),
+            new \OCA\Cospend\Db\ProjectMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            new \OCA\Cospend\Db\BillMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            $c->query('ServerContainer')->getL10N($c->query('AppName')),
+            $c->getServer()->getUserManager(),
+            'test2'
+        );
+
         $this->pageController = new PageController(
             $this->appName,
             $this->request,
-            'test',
-            $c->query('ServerContainer')->getUserFolder('test'),
+            $c->query('ServerContainer'),
             $c->query('ServerContainer')->getConfig(),
             $c->getServer()->getShareManager(),
             $c->getServer()->getAppManager(),
@@ -88,14 +139,35 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getGroupManager(),
             $c->query('ServerContainer')->getL10N($c->query('AppName')),
             $c->query('ServerContainer')->getLogger(),
-            $c->query('ServerContainer')->getAvatarManager()
+            new \OCA\Cospend\Db\BillMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            new \OCA\Cospend\Db\ProjectMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            new \OCA\Cospend\Service\ProjectService(
+                $c->query('ServerContainer')->getLogger(),
+                $c->query('ServerContainer')->getL10N($c->query('AppName')),
+                new \OCA\Cospend\Db\ProjectMapper(
+                    $c->query('ServerContainer')->getDatabaseConnection()
+                ),
+                new \OCA\Cospend\Db\BillMapper(
+                    $c->query('ServerContainer')->getDatabaseConnection()
+                ),
+                $this->activityManager,
+                $c->query('ServerContainer')->getAvatarManager(),
+                $c->getServer()->getShareManager(),
+                $c->getServer()->getUserManager(),
+                $c->getServer()->getGroupManager()
+            ),
+            $this->activityManager,
+            'test'
         );
 
         $this->pageController2 = new PageController(
             $this->appName,
             $this->request,
-            'test2',
-            $c->query('ServerContainer')->getUserFolder('test2'),
+            $c->query('ServerContainer'),
             $c->query('ServerContainer')->getConfig(),
             $c->getServer()->getShareManager(),
             $c->getServer()->getAppManager(),
@@ -103,17 +175,39 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getGroupManager(),
             $c->query('ServerContainer')->getL10N($c->query('AppName')),
             $c->query('ServerContainer')->getLogger(),
-            $c->query('ServerContainer')->getAvatarManager()
+            new \OCA\Cospend\Db\BillMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            new \OCA\Cospend\Db\ProjectMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            new \OCA\Cospend\Service\ProjectService(
+                $c->query('ServerContainer')->getLogger(),
+                $c->query('ServerContainer')->getL10N($c->query('AppName')),
+                new \OCA\Cospend\Db\ProjectMapper(
+                    $c->query('ServerContainer')->getDatabaseConnection()
+                ),
+                new \OCA\Cospend\Db\BillMapper(
+                    $c->query('ServerContainer')->getDatabaseConnection()
+                ),
+                $this->activityManager2,
+                $c->query('ServerContainer')->getAvatarManager(),
+                $c->getServer()->getShareManager(),
+                $c->getServer()->getUserManager(),
+                $c->getServer()->getGroupManager()
+            ),
+            $this->activityManager2,
+            'test2'
         );
 
         $this->utilsController = new UtilsController(
             $this->appName,
             $this->request,
-            'test',
-            $c->query('ServerContainer')->getUserFolder('test'),
+            $c->query('ServerContainer'),
             $c->query('ServerContainer')->getConfig(),
             $c->getServer()->getAppManager(),
-            $c->query('ServerContainer')->getAvatarManager()
+            $c->query('ServerContainer')->getAvatarManager(),
+            'test'
         );
     }
 
@@ -235,7 +329,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 
         $resp = $this->pageController->webEditMember('superproj', -1, 'roberto', 1, true);
         $status = $resp->getStatus();
-        $this->assertEquals(404, $status);
+        $this->assertEquals(400, $status);
 
         // create bills
         $resp = $this->pageController->webAddBill('superproj', '2019-01-22', 'boomerang', $idMember1, $idMember1.','.$idMember2, 22.5, 'n');
@@ -301,7 +395,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 
         $resp = $this->pageController->webEditBill('superproj', -1, '2019-01-20', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, 'n');
         $status = $resp->getStatus();
-        $this->assertEquals(404, $status);
+        $this->assertEquals(400, $status);
 
         $resp = $this->pageController->webEditBill('superproj', $idBill1, '2019-01-20', '', $idMember1, $idMember1.','.$idMember2, 99, 'n');
         $status = $resp->getStatus();
@@ -548,7 +642,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 
         $resp = $this->pageController->deleteGroupShare('projtodel', 'group2testLALA');
         $status = $resp->getStatus();
-        $this->assertEquals(401, $status);
+        $this->assertEquals(400, $status);
 
         $resp = $this->pageController->deleteGroupShare('projtodelLALA', 'group2test');
         $status = $resp->getStatus();

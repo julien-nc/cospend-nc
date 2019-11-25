@@ -14,7 +14,7 @@
             <label for="projectnameinput"><?php p($l->t('name')); ?></label>
             <input id="projectnameinput" type="text" value="<?php p($l->t('My project name')); ?>"/>
 
-            <label for="projectpasswordinput"><?php p($l->t('password (optional)')); ?></label>
+            <label for="projectpasswordinput"><?php p($l->t('password (optional, required to connect with MoneyBuster)')); ?></label>
             <input id="projectpasswordinput" type="password" value=""/>
             <button id="createproject" type="button" class="icon-add">
                 <?php p($l->t('Add project')); ?>

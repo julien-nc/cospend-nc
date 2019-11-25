@@ -16,7 +16,7 @@ Project members are independent from Nextcloud users.
 Once you've got access to a project (as a guest or as a Nextcloud user), there is no restriction on what you can add/edit/delete.
 Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
 
-[MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/).
+[MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) and on the [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
 ## Features
 
@@ -29,12 +29,13 @@ Projects can be accessed and modified by people without a Nextcloud account. Eac
 * 📊 optionally provide custom amount for each member in new bills
 * 🔗 insert public link to a personal file in bill description (picture of physical bill for example)
 * 👩 guest access for people outside Nextcloud
-* 👫 share a project with Nextcloud users
+* 👫 share projects with Nextcloud users/groups
 * 🖫 import/export projects as csv (compatible with csv files from IHateMoney)
 * 🖧 add external projects (hosted by another Nextcloud instance)
 * 🔗 generate link/QRCode to easily import projects in MoneyBuster
+* 🗲 implement Nextcloud notifications and activity stream
 
-This app is tested on Nextcloud 15 with Firefox 57+ and Chromium.
+This app is tested on Nextcloud 17 with Firefox 57+ and Chromium.
 
 This app is under development.
 

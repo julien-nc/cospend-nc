@@ -727,7 +727,7 @@
         }).always(function() {
         }).fail(function(response) {
             OC.Notification.showTemporary(
-                t('cospend', 'Failed to save project') +
+                t('cospend', 'Failed to edit project') +
                 ' ' + response.responseText
             );
         });
@@ -1136,7 +1136,7 @@
             exportStr = ' <button class="exportStats" projectid="'+projectid+'"><span class="icon-file"></span>'+t('cospend', 'Export')+'</button>';
         }
         var totalPayedText = '<p class="totalPayedText">' +
-                             t('cospend', 'Total payed by all the members: {t}', {t: totalPayed}) + '</p>';
+                             t('cospend', 'Total payed by all the members: {t}', {t: totalPayed.toFixed(2)}) + '</p>';
         var statsStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 id="statsTitle"><span class="icon-category-monitoring"></span>'+titleStr+exportStr+'</h2>' +
             '<div id="stats-filters">' +
@@ -1408,7 +1408,7 @@
 
         var allStr = t('cospend', 'All');
         var noneStr = t('cospend', 'None');
-        var owerValidateStr = t('cospend', 'Create bills');
+        var owerValidateStr = t('cospend', 'Create the bill');
         var addFileLinkText = t('cospend', 'Attach public link to personal file');
         var normalBillOption = t('cospend', 'Classic, even split');
         var normalBillHint = t('cospend', 'Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost.');
@@ -1625,6 +1625,10 @@
         $(item).prependTo('.app-content-list');
 
         $('#bill-list .nobill').remove();
+
+        if (parseInt(getUrlParameter('bill')) === bill.id && getUrlParameter('project') === projectid) {
+            displayBill(projectid, bill.id);
+        }
     }
 
     function updateProjectBalances(projectid) {
@@ -1848,7 +1852,10 @@
         $(li).appendTo('#projectlist');
 
         // select project if it was the last selected (option restore on page load)
-        if (cospend.restoredSelectedProjectId === projectid) {
+        if (!getUrlParameter('project') && cospend.restoredSelectedProjectId === projectid) {
+            selectProject($('.projectitem[projectid="'+projectid+'"]'));
+        }
+        else if (getUrlParameter('project') === projectid) {
             selectProject($('.projectitem[projectid="'+projectid+'"]'));
         }
 
@@ -2715,6 +2722,17 @@
         }
     }
 
+    function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++) {
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] === sParam) {
+                return decodeURIComponent(sParameterName[1]);
+            }
+        }
+    }
+
     $(document).ready(function() {
         cospend.pageIsPublic = (document.URL.indexOf('/cospend/project') !== -1);
         if ( !cospend.pageIsPublic ) {
@@ -3288,7 +3306,9 @@
                   function(targetPath) {
                       importProject(targetPath);
                   },
-                  false, null, true
+                  false,
+                  ['text/csv'],
+                  true
               );
         });
 
@@ -3378,8 +3398,10 @@
 
         $('body').on('change', '#billtype', function() {
             $('.modehint').slideUp();
+            var owerValidateStr = t('cospend', 'Create the bills');
             var billtype = $(this).val();
             if (billtype === 'normal') {
+                owerValidateStr = t('cospend', 'Create the bill');
                 $('#owerNone').show();
                 $('#owerAll').show();
                 $('.bill-owers .checkbox').show();
@@ -3416,6 +3438,7 @@
                 $('#amount').prop('disabled', false);
                 $('#repeatbill').val('n').prop('disabled', true);
             }
+            $('#owerValidate').text(owerValidateStr);
         });
 
         $('body').on('paste change', '.amountinput', function(e) {
@@ -3454,9 +3477,23 @@
             }
         });
 
-        cospend.themeColor = '#0000FF';
         if (OCA.Theming) {
-            cospend.themeColor = OCA.Theming.color;
+            var c = OCA.Theming.color;
+            // invalid color
+            if (!c || (c.length !== 4 && c.length !== 7)) {
+                cospend.themeColor = '#0082C9';
+            }
+            // compact
+            else if (c.length === 4) {
+                cospend.themeColor = '#'+c[1]+c[1]+c[2]+c[2]+c[3]+c[3];
+            }
+            // normal
+            else if (c.length === 7) {
+                cospend.themeColor = c;
+            }
+        }
+        else {
+            cospend.themeColor = '#0082C9';
         }
         cospend.themeColorDark = hexToDarkerHex(cospend.themeColor);
 

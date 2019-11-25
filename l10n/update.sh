@@ -2,7 +2,7 @@
 
 git checkout l10n_master
 git reset --hard HEAD~200
-git pull http l10n_master
+git pull origin l10n_master
 rm -rf /tmp/translationfiles ; cp -r ../translationfiles /tmp
 git checkout master
 cp -r /tmp/translationfiles ../

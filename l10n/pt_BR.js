@@ -25,7 +25,6 @@ OC.L10N.register(
     "Who payed?" : "Quem pagou?",
     "When?" : "Quando?",
     "For whom?" : "Para quem?",
-    "Create bills" : "Criar contas",
     "Attach public link to personal file" : "Anexar link público ao arquivo pessoal",
     "day" : "dia",
     "week" : "semana",

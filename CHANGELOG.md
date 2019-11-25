@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.2.0 – 2019-10-27
+### Added
+- support activity stream for add/del/edit bill and share/unshare project
+- occ cospend:repeat-bills to manually trigger repeat system
+
+### Fixed
+- fix repeat system for 31th
+[#49](https://gitlab.com/eneiluj/cospend-nc/issues/49) @PL5bTStMZLduri
+[!158](https://gitlab.com/eneiluj/cospend-nc/merge_requests/158) @PL5bTStMZLduri
+- fix repeat system if it wasn't triggered during several days
+[#49](https://gitlab.com/eneiluj/cospend-nc/issues/49) @eneiluj
+- fix some strings and design mistakes
+
+## 0.1.5 – 2019-10-13
+### Added
+- some categories
+
 ## 0.1.4 – 2019-09-14
 ### Added
 - show total payed in statistics

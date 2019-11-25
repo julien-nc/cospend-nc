@@ -3,7 +3,7 @@
     <id>cospend</id>
     <name>Cospend</name>
     <summary> </summary><description> </description>
-    <version>0.1.4</version>
+    <version>0.1.7</version>
     <licence>agpl</licence>
     <author mail="eneiluj@posteo.net">Julien Veyssier</author>
     <namespace>Cospend</namespace>
@@ -23,13 +23,28 @@
         <database min-version="9.4">pgsql</database>
         <database>sqlite</database>
         <database min-version="5.5">mysql</database>
-        <nextcloud min-version="17" max-version="17"/>
+        <nextcloud min-version="17" max-version="18"/>
     </dependencies>
     <background-jobs>
         <job>OCA\Cospend\Cron\RepeatBills</job>
         <job>OCA\Cospend\Cron\AutoExport</job>
     </background-jobs>
+    <commands>
+        <command>OCA\Cospend\Command\RepeatBills</command>
+    </commands>
     <settings>
         <admin>OCA\Cospend\Settings\Admin</admin>
     </settings>
+    <activity>
+        <settings>
+            <setting>OCA\Cospend\Activity\Setting</setting>
+            <setting>OCA\Cospend\Activity\BillSetting</setting>
+        </settings>
+        <filters>
+            <filter>OCA\Cospend\Activity\Filter</filter>
+        </filters>
+        <providers>
+            <provider>OCA\Cospend\Activity\CospendProvider</provider>
+        </providers>
+    </activity>
 </info>

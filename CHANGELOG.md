@@ -5,10 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-## 0.2.0 – 2019-10-27
+## 0.2.0 – 2019-12-16
 ### Added
-- support activity stream for add/del/edit bill and share/unshare project
-- occ cospend:repeat-bills to manually trigger repeat system
+- support activity stream for add/del/edit/repeat bill and share/unshare project
+- new occ command: cospend:repeat-bills to manually trigger repeat system
+- new api route for getBills with more information (to help client to perform partial sync)
+
+### Changed
+- refactor controllers code
+- use repeat/category/payment mode when exporting/importing
 
 ### Fixed
 - fix repeat system for 31th
@@ -17,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix repeat system if it wasn't triggered during several days
 [#49](https://gitlab.com/eneiluj/cospend-nc/issues/49) @eneiluj
 - fix some strings and design mistakes
+- bug when NC color code is compact
 
 ## 0.1.5 – 2019-10-13
 ### Added

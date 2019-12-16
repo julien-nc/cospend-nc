@@ -2,16 +2,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2019-10-27 01:49+0200\n"
-"PO-Revision-Date: 2019-10-26 23:50\n"
-"Last-Translator: Julien Veyssier (eneiluj)\n"
+"POT-Creation-Date: 2019-11-03 17:19+0100\n"
+"PO-Revision-Date: 2019-12-13 18:40\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: crowdin.com\n"
 "X-Crowdin-Project: moneybuster\n"
 "X-Crowdin-Language: de\n"
 "X-Crowdin-File: /master/translationfiles/templates/cospend.pot\n"
@@ -23,54 +22,6 @@ msgstr ""
 #: /var/www/html/n17/apps/cospend/templates/admin.php:7
 msgid "Cospend"
 msgstr "Cospend"
-
-#: /var/www/html/n17/apps/cospend/controller/pagecontroller.php:3020
-#: /var/www/html/n17/apps/cospend/js/cospend.js:997
-msgid "Who pays?"
-msgstr "Wer zahlt?"
-
-#: /var/www/html/n17/apps/cospend/controller/pagecontroller.php:3020
-#: /var/www/html/n17/apps/cospend/js/cospend.js:998
-msgid "To whom?"
-msgstr "An wen?"
-
-#: /var/www/html/n17/apps/cospend/controller/pagecontroller.php:3020
-#: /var/www/html/n17/apps/cospend/js/cospend.js:999
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1382
-msgid "How much?"
-msgstr "Wieviel?"
-
-#: /var/www/html/n17/apps/cospend/controller/pagecontroller.php:3083
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1124
-msgid "Member name"
-msgstr "Mitgliedsname"
-
-#: /var/www/html/n17/apps/cospend/controller/pagecontroller.php:3083
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1125
-msgid "Paid"
-msgstr "Gezahlt"
-
-#: /var/www/html/n17/apps/cospend/controller/pagecontroller.php:3083
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1126
-msgid "Spent"
-msgstr "Ausgegeben"
-
-#: /var/www/html/n17/apps/cospend/controller/pagecontroller.php:3083
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1127
-msgid "Balance"
-msgstr "Balance"
-
-#: /var/www/html/n17/apps/cospend/controller/pagecontroller.php:3552
-msgid "daily"
-msgstr "täglich"
-
-#: /var/www/html/n17/apps/cospend/controller/pagecontroller.php:3567
-msgid "weekly"
-msgstr "wöchentlich"
-
-#: /var/www/html/n17/apps/cospend/controller/pagecontroller.php:3588
-msgid "monthly"
-msgstr "monatlich"
 
 #: /var/www/html/n17/apps/cospend/js/admin.js:19
 msgid "Cospend setting saved"
@@ -207,8 +158,8 @@ msgid "Project saved"
 msgstr "Projekt gespeichert"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:730
-msgid "Failed to save project"
-msgstr "Erstellen des Projekts nicht möglich"
+msgid "Failed to edit project"
+msgstr ""
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:782
 msgid "Deleted project {id}"
@@ -250,6 +201,22 @@ msgstr "Laden der Abrechnungen nicht möglich"
 msgid "Settlement of project {name}"
 msgstr "Abrechnung zu Projekt {name}"
 
+#: /var/www/html/n17/apps/cospend/js/cospend.js:997
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2144
+msgid "Who pays?"
+msgstr "Wer zahlt?"
+
+#: /var/www/html/n17/apps/cospend/js/cospend.js:998
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2144
+msgid "To whom?"
+msgstr "An wen?"
+
+#: /var/www/html/n17/apps/cospend/js/cospend.js:999
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1382
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2144
+msgid "How much?"
+msgstr "Wieviel?"
+
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1002
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1136
 msgid "Export"
@@ -270,6 +237,26 @@ msgstr "Scannen Sie diesen QRCode mit MoneyBuster auf einem Android-Telefon und 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1123
 msgid "Statistics of project {name}"
 msgstr "Statistik für Projekt {name}"
+
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1124
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2192
+msgid "Member name"
+msgstr "Mitgliedsname"
+
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1125
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2192
+msgid "Paid"
+msgstr "Gezahlt"
+
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1126
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2192
+msgid "Spent"
+msgstr "Ausgegeben"
+
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1127
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2192
+msgid "Balance"
+msgstr "Balance"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1139
 msgid "Total payed by all the members: {t}"
@@ -339,9 +326,9 @@ msgid "None"
 msgstr "Keine"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1411
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3366
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3368
 msgid "Create the bill"
-msgstr ""
+msgstr "Abrechnung erstellen"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1412
 msgid "Attach public link to personal file"
@@ -624,57 +611,61 @@ msgstr "Datei auswählen"
 msgid "Choose csv project file"
 msgstr "Csv Projektdatei auswählen"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3363
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3365
 msgid "Create the bills"
-msgstr ""
+msgstr "Abrechnungen erstellen"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:87
 msgid "You have created a new bill {bill} in project {project}"
-msgstr ""
+msgstr "Du hast eine neue Abrechnung {bill} im Projekt {project} erstellt"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:87
 msgid "{user} has created a new bill {bill} in project {project}"
-msgstr ""
+msgstr "{user} hat eine neue Abrechnung {bill} im Projekt {project} erstellt"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:90
 msgid "You have deleted the bill {bill} of project {project}"
-msgstr ""
+msgstr "Du hast eine neue Abrechnung {bill} im Projekt {project} erstellt"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:90
 msgid "{user} has deleted the bill {bill} of project {project}"
-msgstr ""
+msgstr "{user} hat die Abrechnung {bill} im Projekt {project} gelöscht"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:93
 msgid "You have shared the project {project} with {who}"
-msgstr ""
+msgstr "Du hast das Projekt {project} mit {who} geteilt"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:93
 msgid "{user} has shared the project {project} with {who}"
-msgstr ""
+msgstr "{user} hat das Projekt {project} mit {who} geteilt"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:96
 msgid "You have removed {who} from the project {project}"
-msgstr ""
+msgstr "Du hast {who} aus dem Projekt {project} entfernt"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:96
 msgid "{user} has removed {who} from the project {project}"
-msgstr ""
+msgstr "{user} hat {who} aus dem Projekt {project} entfernt"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:99
 msgid "You have updated the bill {bill} of project {project}"
-msgstr ""
+msgstr "Du hast die Abrechnung {bill} im Projekt {project} aktualisiert"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:99
 msgid "{user} has updated the bill {bill} of project {project}"
-msgstr ""
+msgstr "{user} hat die Abrechnung {bill} im Projekt {project} aktualisiert"
 
-#: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:162
+#: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:163
 msgid "A Cospend client"
 msgstr ""
 
+#: /var/www/html/n17/apps/cospend/lib/Activity/BillSetting.php:42
+msgid "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted"
+msgstr "Eine <strong>Abrechnung</strong> innerhalb der Cospend App wurde aktualisiert/erstellt/gelöscht"
+
 #: /var/www/html/n17/apps/cospend/lib/Activity/Setting.php:54
 msgid "Changes in the <strong>Cospend app</strong>"
-msgstr ""
+msgstr "Änderungen in der <strong>Cospend App</strong>"
 
 #: /var/www/html/n17/apps/cospend/lib/Notification/Notifier.php:86
 #, php-format
@@ -685,6 +676,18 @@ msgstr "Nutzer \"%s\" hat Cospend-Projekt \"%s\" mit dir geteilt."
 #, php-format
 msgid "User \"%s\" stopped sharing Cospend project \"%s\" with you."
 msgstr "Nutzer \"%s\" teilt das Cospend-Projekt \"%s\" nicht mehr mit dir."
+
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2442
+msgid "daily"
+msgstr "täglich"
+
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2457
+msgid "weekly"
+msgstr "wöchentlich"
+
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2478
+msgid "monthly"
+msgstr "monatlich"
 
 #: /var/www/html/n17/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:3
 msgid " "
@@ -747,7 +750,7 @@ msgstr "Projektname"
 
 #: /var/www/html/n17/apps/cospend/templates/mainnavigation.php:17
 msgid "password (optional, required to connect with MoneyBuster)"
-msgstr ""
+msgstr "Passwort (optional, erforderlich für eine Verbindung mit MoneyBuster)"
 
 #: /var/www/html/n17/apps/cospend/templates/mainnavigation.php:20
 msgid "Add project"

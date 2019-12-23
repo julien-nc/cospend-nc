@@ -1878,7 +1878,9 @@
             for (i=0; i < project.shares.length; i++) {
                 var userid = project.shares[i].userid;
                 var username = project.shares[i].name;
-                addUserShare(projectid, userid, username);
+                var shid = project.shares[i].id;
+                var permissions = project.shares[i].permissions;
+                addShare(projectid, userid, username, shid, false, permissions);
             }
         }
 
@@ -1886,7 +1888,9 @@
             for (i=0; i < project.group_shares.length; i++) {
                 var groupid = project.group_shares[i].groupid;
                 var groupname = project.group_shares[i].name;
-                addGroupShare(projectid, groupid, groupname);
+                var shid = project.group_shares[i].id;
+                var permissions = project.group_shares[i].permissions;
+                addShare(projectid, groupid, groupname, shid, true, permissions);
             }
         }
 
@@ -2256,7 +2260,7 @@
             data: req,
             async: true
         }).done(function (response) {
-            addUserShare(projectid, userid, username);
+            addShare(projectid, userid, username, response, false, 'edc');
             var projectname = getProjectName(projectid);
             OC.Notification.showTemporary(t('cospend', 'Shared project {pname} with {uname}', {pname: projectname, uname: username}));
         }).always(function() {
@@ -2266,23 +2270,11 @@
         });
     }
 
-    function addUserShare(projectid, userid, username) {
-        var displayString = userid;
-        if (userid !== username) {
-            displayString = username + ' (' + userid + ')';
-        }
-        var li = '<li userid="'+escapeHTML(userid)+'" username="' + escapeHTML(username) + '">' +
-            '<div class="shareLabel"><div class="shareLabelIcon icon-user"></div><span>' + displayString + '</span></div>' +
-            '<div class="icon-delete deleteUserShareButton"></div></li>';
-        $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share').append(li);
-        $('.projectitem[projectid="' + projectid + '"] .shareinput').val('');
-    }
-
-    function deleteUserShareDb(projectid, userid) {
-        $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[userid=' + userid + '] .deleteUserShareButton').addClass('icon-loading-small');
+    function deleteUserShareDb(projectid, shid) {
+        $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteUserShareButton').addClass('icon-loading-small');
         var req = {
             projectid: projectid,
-            userid: userid
+            shid: shid
         };
         var url = OC.generateUrl('/apps/cospend/deleteUserShare');
         $.ajax({
@@ -2291,12 +2283,12 @@
             data: req,
             async: true
         }).done(function (response) {
-            var li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[userid=' + userid + ']');
+            var li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + ']');
             li.fadeOut('normal', function() {
                 li.remove();
             });
         }).always(function() {
-            $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[userid=' + userid + '] .deleteUserShareButton').removeClass('icon-loading-small');
+            $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteUserShareButton').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('cospend', 'Failed to delete user share') + ' ' + response.responseText);
         });
@@ -2315,7 +2307,7 @@
             data: req,
             async: true
         }).done(function (response) {
-            addGroupShare(projectid, groupid, groupname);
+            addShare(projectid, groupid, groupname, response, true, 'edc');
             var projectname = getProjectName(projectid);
             OC.Notification.showTemporary(t('cospend', 'Shared project {pname} with group {gname}', {pname: projectname, gname: groupname}));
         }).always(function() {
@@ -2325,24 +2317,43 @@
         });
     }
 
-    function addGroupShare(projectid, groupid, groupname) {
-        var displayString = groupid;
-        if (groupid !== groupname) {
-            displayString = groupname + ' (' + groupid + ')';
+    function addShare(projectid, elemId, elemName, id, isGroup, permissions) {
+        var displayString = elemId;
+        if (elemId !== elemName) {
+            displayString = elemName + ' (' + elemId + ')';
         }
-        var g = t('cospend', 'group');
-        var li = '<li groupid="'+escapeHTML(groupid)+'" groupname="' + escapeHTML(groupname) + '">' +
-            '<div class="shareLabel"><div class="shareLabelIcon icon-group"></div>' + displayString + '</div>' +
-            '<div class="icon-delete deleteGroupShareButton"></div></li>';
+        var iconClass, deleteButtonClass;
+        if (isGroup) {
+            iconClass = 'icon-group';
+            deleteButtonClass = 'deleteGroupShareButton';
+        }
+        else {
+            iconClass = 'icon-user';
+            deleteButtonClass = 'deleteUserShareButton';
+        }
+        var editPerm = (permissions.indexOf('e') !== -1);
+        var delPerm = (permissions.indexOf('d') !== -1);
+        var creaPerm = (permissions.indexOf('c') !== -1);
+        var li = '<li shid="'+id+'" elemid="'+escapeHTML(elemId)+'" elemname="' + escapeHTML(elemName) + '">' +
+            '<div class="shareLabel"><div class="shareLabelIcon '+iconClass+'">'+
+            '</div><span>' + displayString + '</span></div>' +
+            '<div class="icon-delete '+deleteButtonClass+'"></div>'+
+            '<div class="icon-category-disabled perm permDelete '+(delPerm ? 'permActive' : '')+'" ' +
+            'title="'+t('cospend', 'Permission to delete bills')+'"></div>'+
+            '<div class="icon-rename perm permEdit '+(editPerm ? 'permActive' : '')+'" ' +
+            'title="'+t('cospend', 'Permission to edit bills and project')+'"></div>'+
+            '<div class="icon-add perm permCreate '+(creaPerm ? 'permActive' : '')+'" ' +
+            'title="'+t('cospend', 'Permission to create bills')+'"></div>'+
+            '</li>';
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share').append(li);
         $('.projectitem[projectid="' + projectid + '"] .shareinput').val('');
     }
 
-    function deleteGroupShareDb(projectid, groupid) {
-        $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[groupid=' + groupid + '] .deleteGroupShareButton').addClass('icon-loading-small');
+    function deleteGroupShareDb(projectid, shid) {
+        $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteGroupShareButton').addClass('icon-loading-small');
         var req = {
             projectid: projectid,
-            groupid: groupid
+            shid: shid
         };
         var url = OC.generateUrl('/apps/cospend/deleteGroupShare');
         $.ajax({
@@ -2351,15 +2362,61 @@
             data: req,
             async: true
         }).done(function (response) {
-            var li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[groupid=' + groupid + ']');
+            var li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + ']');
             li.fadeOut('normal', function() {
                 li.remove();
             });
         }).always(function() {
-            $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[groupid=' + groupid + '] .deleteGroupShareButton').removeClass('icon-loading-small');
+            $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteGroupShareButton').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('cospend', 'Failed to delete group share') + ' ' + response.responseText);
         });
+    }
+
+    function editSharePermissionsDb(projectid, shid, e, d, c) {
+        $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
+        $('.li[shid="'+shid+'"] perm').addClass('icon-loading-small');
+        var req = {
+            projectid: projectid,
+            shid: shid,
+            permissions: (e ? 'e': '') + (c ? 'c': '') + (d ? 'd': '')
+        };
+        var url = OC.generateUrl('/apps/cospend/editSharePermissions');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            applySharePermissions(projectid, shid, e, d, c);
+        }).always(function() {
+            $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
+            $('.li[shid="'+shid+'"] perm').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to edit share permissions') + ' ' + response.responseText);
+        });
+    }
+
+    function applySharePermissions(projectid, shid, e, d, c) {
+        var shLine = $('li[shid="'+shid+'"]');
+        if (e) {
+            shLine.find('.permEdit').addClass('permActive');
+        }
+        else {
+            shLine.find('.permEdit').removeClass('permActive');
+        }
+        if (d) {
+            shLine.find('.permDelete').addClass('permActive');
+        }
+        else {
+            shLine.find('.permDelete').removeClass('permActive');
+        }
+        if (c) {
+            shLine.find('.permCreate').addClass('permActive');
+        }
+        else {
+            shLine.find('.permCreate').removeClass('permActive');
+        }
     }
 
     function selectProject(projectitem) {
@@ -2753,14 +2810,31 @@
 
         $('body').on('click', '.deleteUserShareButton', function(e) {
             var projectid = $(this).parent().parent().parent().attr('projectid');
-            var userid = $(this).parent().attr('userid');
-            deleteUserShareDb(projectid, userid);
+            var shid = $(this).parent().attr('shid');
+            deleteUserShareDb(projectid, shid);
         });
 
         $('body').on('click', '.deleteGroupShareButton', function(e) {
             var projectid = $(this).parent().parent().parent().attr('projectid');
-            var groupid = $(this).parent().attr('groupid');
-            deleteGroupShareDb(projectid, groupid);
+            var shid = $(this).parent().attr('shid');
+            deleteGroupShareDb(projectid, shid);
+        });
+
+        $('body').on('click', '.perm', function(e) {
+            var projectid = $(this).parent().parent().parent().attr('projectid');
+            var shid = $(this).parent().attr('shid');
+            var e = $(this).parent().find('.permEdit').hasClass('permActive');
+            var d = $(this).parent().find('.permDelete').hasClass('permActive');
+            var c = $(this).parent().find('.permCreate').hasClass('permActive');
+            if ($(this).hasClass('permDelete')) {
+                editSharePermissionsDb(projectid, shid, e, !d, c);
+            }
+            else if ($(this).hasClass('permEdit')) {
+                editSharePermissionsDb(projectid, shid, !e, d, c);
+            }
+            else if ($(this).hasClass('permCreate')) {
+                editSharePermissionsDb(projectid, shid, e, d, !c);
+            }
         });
 
         $('body').on('click', '.shareProjectButton', function(e) {

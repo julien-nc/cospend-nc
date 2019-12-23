@@ -199,6 +199,26 @@ input[type=number] {
 .shareLabel {
     float: left;
 }
+.shareLabel span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100px;
+}
+.permActive {
+    background-color: var(--color-success);
+}
+.permCreate,
+.permDelete,
+.permEdit {
+    margin-left: 1px;
+    margin-right: 1px;
+    border-radius: 20%;
+    cursor: pointer;
+}
+.permCreate,
+.permDelete,
+.permEdit,
 .deleteGroupShareButton,
 .deleteUserShareButton {
     float: right;

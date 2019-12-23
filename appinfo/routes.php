@@ -47,6 +47,7 @@ return [
         ['name' => 'page#getUserList', 'url' => '/getUserList', 'verb' => 'POST'],
         ['name' => 'page#addUserShare', 'url' => '/addUserShare', 'verb' => 'POST'],
         ['name' => 'page#addGroupShare', 'url' => '/addGroupShare', 'verb' => 'POST'],
+        ['name' => 'page#editSharePermissions', 'url' => '/editSharePermissions', 'verb' => 'POST'],
         ['name' => 'page#getPublicFileShare', 'url' => '/getPublicFileShare', 'verb' => 'POST'],
         ['name' => 'page#importCsvProject', 'url' => '/importCsvProject', 'verb' => 'POST'],
         ['name' => 'page#exportCsvProject', 'url' => '/exportCsvProject', 'verb' => 'POST'],

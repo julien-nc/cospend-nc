@@ -582,6 +582,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         // share the project with second user
         $resp = $this->pageController->addUserShare('projtodel', 'test2');
         $status = $resp->getStatus();
+        $shareId2 = $resp->getData();
         $this->assertEquals(200, $status);
 
         // get projects of second user
@@ -597,7 +598,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(200, $status);
 
         // delete the user share
-        $resp = $this->pageController->deleteUserShare('projtodel', 'test2');
+        $resp = $this->pageController->deleteUserShare('projtodel', $shareId2);
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
 
@@ -615,6 +616,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         // add a group share
         $resp = $this->pageController->addGroupShare('projtodel', 'group2test');
         $status = $resp->getStatus();
+        $groupShareId = $resp->getData();
         $this->assertEquals(200, $status);
 
         $resp = $this->pageController->addGroupShare('projtodel', 'group2test');
@@ -638,7 +640,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(200, $status);
 
         // delete the group share
-        $resp = $this->pageController->deleteGroupShare('projtodel', 'group2test');
+        $resp = $this->pageController->deleteGroupShare('projtodel', $groupShareId);
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
 

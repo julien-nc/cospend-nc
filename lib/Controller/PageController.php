@@ -317,7 +317,7 @@ class PageController extends ApiController {
      *
      */
     public function webDeleteProject($projectid) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'd')) {
             $result = $this->projectService->deleteProject($projectid);
             if ($result === 'DELETED') {
                 return new DataResponse($result);
@@ -340,7 +340,7 @@ class PageController extends ApiController {
      *
      */
     public function webDeleteBill($projectid, $billid) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'd')) {
             if ($this->projectService->getBill($projectid, $billid) !== null) {
                 $billObj = $this->billMapper->find($billid);
                 $this->activityManager->triggerEvent(
@@ -451,7 +451,7 @@ class PageController extends ApiController {
      *
      */
     public function webEditMember($projectid, $memberid, $name, $weight, $activated) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
             $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated);
             if (is_array($result) and array_key_exists('activated', $result)) {
                 return new DataResponse($result);
@@ -475,7 +475,7 @@ class PageController extends ApiController {
      */
     public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for,
                                 $amount, $repeat, $paymentmode=null, $categoryid=null) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
             $result =  $this->projectService->editBill(
                 $projectid, $billid, $date, $what, $payer, $payed_for,
                 $amount, $repeat, $paymentmode, $categoryid
@@ -508,7 +508,7 @@ class PageController extends ApiController {
      *
      */
     public function webEditProject($projectid, $name, $contact_email, $password, $autoexport=null) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
             $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport);
             if ($result === 'UPDATED') {
                 return new DataResponse($result);
@@ -578,7 +578,7 @@ class PageController extends ApiController {
      */
     public function webAddBill($projectid, $date, $what, $payer, $payed_for, $amount,
                                $repeat, $paymentmode=null, $categoryid=null) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
             $result = $this->projectService->addBill(
                 $projectid, $date, $what, $payer, $payed_for, $amount,
                 $repeat, $paymentmode, $categoryid
@@ -611,7 +611,7 @@ class PageController extends ApiController {
      *
      */
     public function webAddMember($projectid, $name) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
             $result = $this->projectService->addMember($projectid, $name, 1);
             if (is_numeric($result)) {
                 // inserted bill id
@@ -1113,9 +1113,9 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function addUserShare($projectid, $userid) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-            $result = $this->projectService->addUserShare($projectid, $userid, $this->userId);
+    public function editSharePermissions($projectid, $shid, $permissions) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->editSharePermissions($projectid, $shid, $permissions);
             if ($result === 'OK') {
                 return new DataResponse($result);
             }
@@ -1135,9 +1135,31 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function deleteUserShare($projectid, $userid) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-            $result = $this->projectService->deleteUserShare($projectid, $userid, $this->userId);
+    public function addUserShare($projectid, $userid) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->addUserShare($projectid, $userid, $this->userId);
+            if (is_numeric($result)) {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to edit this project']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function deleteUserShare($projectid, $shid) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->deleteUserShare($projectid, $shid, $this->userId);
             if ($result === 'OK') {
                 return new DataResponse($result);
             }
@@ -1158,9 +1180,9 @@ class PageController extends ApiController {
      * @NoAdminRequired
      */
     public function addGroupShare($projectid, $groupid) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
             $result = $this->projectService->addGroupShare($projectid, $groupid, $this->userId);
-            if ($result === 'OK') {
+            if (is_numeric($result)) {
                 return new DataResponse($result);
             }
             else {
@@ -1179,9 +1201,9 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function deleteGroupShare($projectid, $groupid) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-            $result = $this->projectService->deleteGroupShare($projectid, $groupid, $this->userId);
+    public function deleteGroupShare($projectid, $shid) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->deleteGroupShare($projectid, $shid, $this->userId);
             if ($result === 'OK') {
                 return new DataResponse($result);
             }

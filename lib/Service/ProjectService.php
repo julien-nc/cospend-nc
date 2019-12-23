@@ -134,6 +134,80 @@ class ProjectService {
     }
 
     /**
+     * check if user owns the project
+     * or if the project is shared with the user with corresponding permission
+     */
+    public function userHasPermission($userid, $projectid, $permission) {
+        $projectInfo = $this->getProjectInfo($projectid);
+        if ($projectInfo !== null) {
+            // does the user own the project ?
+            if ($projectInfo['userid'] === $userid) {
+                return true;
+            }
+            else {
+                $qb = $this->dbconnection->getQueryBuilder();
+                // is the project shared with the user ?
+                $qb->select('userid', 'projectid', 'permissions')
+                    ->from('cospend_shares', 's')
+                    ->where(
+                        $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+                    )
+                    ->andWhere(
+                        $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                    )
+                    ->andWhere(
+                        $qb->expr()->eq('userid', $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR))
+                    );
+                $req = $qb->execute();
+                $dbProjectId = null;
+                $dbPermissions = null;
+                while ($row = $req->fetch()) {
+                    $dbProjectId = $row['projectid'];
+                    $dbPermissions = $row['permissions'];
+                    break;
+                }
+                $req->closeCursor();
+                $qb = $qb->resetQueryParts();
+
+                if ($dbProjectId !== null and strrpos($dbPermissions, $permission) !== false) {
+                    return true;
+                }
+                else {
+                    // if not, is the project shared with a group containing the user?
+                    $userO = $this->userManager->get($userid);
+
+                    $qb->select('userid', 'permissions')
+                        ->from('cospend_shares', 's')
+                        ->where(
+                            $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
+                        )
+                        ->andWhere(
+                            $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                        );
+                    $req = $qb->execute();
+                    while ($row = $req->fetch()){
+                        $groupId = $row['userid'];
+                        $dbPermissions = $row['permissions'];
+                        if ($this->groupManager->groupExists($groupId)
+                            and $this->groupManager->get($groupId)->inGroup($userO)
+                            and strrpos($dbPermissions, $permission) !== false
+                        ) {
+                            return true;
+                        }
+                    }
+                    $req->closeCursor();
+                    $qb = $qb->resetQueryParts();
+
+                    return false;
+                }
+            }
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
      * check if user owns the external project
      */
     public function userCanAccessExternalProject($userid, $projectid, $ncurl) {
@@ -1438,7 +1512,7 @@ class ProjectService {
         }
 
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('projectid', 'userid')
+        $qb->select('projectid', 'userid', 'id', 'permissions')
            ->from('cospend_shares', 'sh')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -1450,8 +1524,15 @@ class ProjectService {
         while ($row = $req->fetch()){
             $dbuserId = $row['userid'];
             $dbprojectId = $row['projectid'];
+            $dbId = $row['id'];
+            $dbPermissions = $row['permissions'];
             if (array_key_exists($dbuserId, $userIdToName)) {
-                array_push($shares, ['userid'=>$dbuserId, 'name'=>$userIdToName[$dbuserId]]);
+                array_push($shares, [
+                    'userid'=>$dbuserId,
+                    'name'=>$userIdToName[$dbuserId],
+                    'id'=>$dbId,
+                    'permissions'=>$dbPermissions
+                ]);
             }
         }
         $req->closeCursor();
@@ -1469,7 +1550,7 @@ class ProjectService {
         }
 
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('projectid', 'userid')
+        $qb->select('projectid', 'userid', 'id', 'permissions')
            ->from('cospend_shares', 'sh')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -1481,8 +1562,15 @@ class ProjectService {
         while ($row = $req->fetch()){
             $dbGroupId = $row['userid'];
             $dbprojectId = $row['projectid'];
+            $dbId = $row['id'];
+            $dbPermissions = $row['permissions'];
             if (array_key_exists($dbGroupId, $groupIdToName)) {
-                array_push($shares, ['groupid'=>$dbGroupId, 'name'=>$groupIdToName[$dbGroupId]]);
+                array_push($shares, [
+                    'groupid'=>$dbGroupId,
+                    'name'=>$groupIdToName[$dbGroupId],
+                    'id'=>$dbId,
+                    'permissions'=>$dbPermissions
+                ]);
             }
         }
         $req->closeCursor();
@@ -1827,7 +1915,8 @@ class ProjectService {
                     $req = $qb->execute();
                     $qb = $qb->resetQueryParts();
 
-                    $response = 'OK';
+                    $insertedShareId = intval($qb->getLastInsertId());
+                    $response = $insertedShareId;
 
                     // activity
                     $projectObj = $this->projectMapper->find($projectid);
@@ -1875,10 +1964,52 @@ class ProjectService {
         return $response;
     }
 
-    public function deleteUserShare($projectid, $userid, $fromUserId) {
+    public function editSharePermissions($projectid, $shid, $permissions) {
         // check if user share exists
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('userid', 'projectid')
+        $qb->select('id', 'projectid')
+            ->from('cospend_shares', 's')
+            ->where(
+                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+            )
+            ->andWhere(
+                $qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
+            );
+        $req = $qb->execute();
+        $dbId = null;
+        while ($row = $req->fetch()){
+            $dbId = $row['id'];
+            break;
+        }
+        $req->closeCursor();
+        $qb = $qb->resetQueryParts();
+
+        if ($dbId !== null) {
+            // set the permissions
+            $qb->update('cospend_shares')
+                ->set('permissions', $qb->createNamedParameter($permissions, IQueryBuilder::PARAM_STR))
+                ->where(
+                    $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                )
+                ->andWhere(
+                    $qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
+                );
+            $req = $qb->execute();
+            $qb = $qb->resetQueryParts();
+
+            $response = 'OK';
+        }
+        else {
+            $response = ['message'=>'No such share'];
+        }
+
+        return $response;
+    }
+
+    public function deleteUserShare($projectid, $shid, $fromUserId) {
+        // check if user share exists
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('id', 'userid', 'projectid')
             ->from('cospend_shares', 's')
             ->where(
                 $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
@@ -1887,25 +2018,27 @@ class ProjectService {
                 $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
             )
             ->andWhere(
-                $qb->expr()->eq('userid', $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR))
+                $qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
             );
         $req = $qb->execute();
+        $dbId = null;
         $dbuserId = null;
         while ($row = $req->fetch()){
+            $dbId = $row['id'];
             $dbuserId = $row['userid'];
             break;
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();
 
-        if ($dbuserId !== null) {
+        if ($dbId !== null) {
             // delete
             $qb->delete('cospend_shares')
                 ->where(
                     $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
                 )
                 ->andWhere(
-                    $qb->expr()->eq('userid', $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR))
+                    $qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
                 )
                 ->andWhere(
                     $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
@@ -1920,7 +2053,7 @@ class ProjectService {
             $this->activityManager->triggerEvent(
                 ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
                 ActivityManager::SUBJECT_PROJECT_UNSHARE,
-                ['who'=>$userid, 'type'=>'u']
+                ['who'=>$dbuserId, 'type'=>'u']
             );
 
             // SEND NOTIFICATION
@@ -1938,7 +2071,7 @@ class ProjectService {
                 ->setLink('/apps/cospend', 'GET');
 
             $notification->setApp('cospend')
-                ->setUser($userid)
+                ->setUser($dbuserId)
                 ->setDateTime(new \DateTime())
                 ->setObject('deleteusershare', $projectid)
                 ->setSubject('delete_user_share', [$fromUserId, $projectInfo['name']])
@@ -1995,7 +2128,8 @@ class ProjectService {
                 $req = $qb->execute();
                 $qb = $qb->resetQueryParts();
 
-                $response = 'OK';
+                $insertedShareId = intval($qb->getLastInsertId());
+                $response = $insertedShareId;
 
                 // activity
                 $projectObj = $this->projectMapper->find($projectid);
@@ -2004,29 +2138,6 @@ class ProjectService {
                     ActivityManager::SUBJECT_PROJECT_SHARE,
                     ['who'=>$groupid, 'type'=>'g']
                 );
-
-                //// SEND NOTIFICATION
-                //$manager = \OC::$server->getNotificationManager();
-                //$notification = $manager->createNotification();
-
-                //$acceptAction = $notification->createAction();
-                //$acceptAction->setLabel('accept')
-                //    ->setLink('/apps/cospend', 'GET');
-
-                //$declineAction = $notification->createAction();
-                //$declineAction->setLabel('decline')
-                //    ->setLink('/apps/cospend', 'GET');
-
-                //$notification->setApp('cospend')
-                //    ->setUser($userid)
-                //    ->setDateTime(new \DateTime())
-                //    ->setObject('addusershare', $projectid)
-                //    ->setSubject('add_user_share', [$fromUserId, $projectInfo['name']])
-                //    ->addAction($acceptAction)
-                //    ->addAction($declineAction)
-                //    ;
-
-                //$manager->notify($notification);
             }
             else {
                 $response = ['message'=>'Already shared with this group'];
@@ -2039,10 +2150,10 @@ class ProjectService {
         return $response;
     }
 
-    public function deleteGroupShare($projectid, $groupid, $fromUserId) {
+    public function deleteGroupShare($projectid, $shid, $fromUserId) {
         // check if group share exists
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('userid', 'projectid')
+        $qb->select('userid', 'projectid', 'id')
             ->from('cospend_shares', 's')
             ->where(
                 $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
@@ -2051,12 +2162,14 @@ class ProjectService {
                 $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
             )
             ->andWhere(
-                $qb->expr()->eq('userid', $qb->createNamedParameter($groupid, IQueryBuilder::PARAM_STR))
+                $qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
             );
         $req = $qb->execute();
         $dbGroupId = null;
+        $dbId = null;
         while ($row = $req->fetch()){
             $dbGroupId = $row['userid'];
+            $dbId = $row['id'];
             break;
         }
         $req->closeCursor();
@@ -2069,7 +2182,7 @@ class ProjectService {
                     $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
                 )
                 ->andWhere(
-                    $qb->expr()->eq('userid', $qb->createNamedParameter($groupid, IQueryBuilder::PARAM_STR))
+                    $qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
                 )
                 ->andWhere(
                     $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
@@ -2084,33 +2197,8 @@ class ProjectService {
             $this->activityManager->triggerEvent(
                 ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
                 ActivityManager::SUBJECT_PROJECT_UNSHARE,
-                ['who'=>$groupid, 'type'=>'g']
+                ['who'=>$dbGroupId, 'type'=>'g']
             );
-
-            //// SEND NOTIFICATION
-            //$projectInfo = $this->getProjectInfo($projectid);
-
-            //$manager = \OC::$server->getNotificationManager();
-            //$notification = $manager->createNotification();
-
-            //$acceptAction = $notification->createAction();
-            //$acceptAction->setLabel('accept')
-            //    ->setLink('/apps/cospend', 'GET');
-
-            //$declineAction = $notification->createAction();
-            //$declineAction->setLabel('decline')
-            //    ->setLink('/apps/cospend', 'GET');
-
-            //$notification->setApp('cospend')
-            //    ->setUser($userid)
-            //    ->setDateTime(new \DateTime())
-            //    ->setObject('deleteusershare', $projectid)
-            //    ->setSubject('delete_user_share', [$this->userId, $projectInfo['name']])
-            //    ->addAction($acceptAction)
-            //    ->addAction($declineAction)
-            //    ;
-
-            //$manager->notify($notification);
         }
         else {
             $response = ['message'=>'No such share'];

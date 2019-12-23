@@ -1763,7 +1763,9 @@ class ProjectService {
 
         $owerIds = [];
         foreach ($bill['owers'] as $ower) {
-            array_push($owerIds, $ower['id']);
+            if ($ower['activated']) {
+                array_push($owerIds, $ower['id']);
+            }
         }
         $owerIdsStr = implode(',', $owerIds);
 

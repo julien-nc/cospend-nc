@@ -273,6 +273,10 @@ input[type=number] {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.autoexportProject {
+    display: flex !important;
+    align-items: center !important;
+}
 .member-list-disabled-icon {
     display: inline-block;
     margin-bottom: -3px;

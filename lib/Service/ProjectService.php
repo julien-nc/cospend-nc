@@ -13,6 +13,7 @@
 namespace OCA\Cospend\Service;
 
 use OCP\IL10N;
+use OCP\IConfig;
 use OCP\ILogger;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
@@ -32,11 +33,13 @@ class ProjectService {
 
     private $l10n;
     private $logger;
+    private $config;
     private $qb;
     private $dbconnection;
 
     public function __construct (ILogger $logger,
                                 IL10N $l10n,
+                                IConfig $config,
                                 ProjectMapper $projectMapper,
                                 BillMapper $billMapper,
                                 ActivityManager $activityManager,
@@ -45,6 +48,7 @@ class ProjectService {
                                 IUserManager $userManager,
                                 IGroupManager $groupManager) {
         $this->trans = $l10n;
+        $this->config = $config;
         $this->logger = $logger;
         $this->qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
         $this->dbconnection = \OC::$server->getDatabaseConnection();
@@ -2114,26 +2118,15 @@ class ProjectService {
     }
 
     public function exportCsvSettlement($projectid, $userId) {
-        // create Cospend directory if needed
+        // create export directory if needed
+        $outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
         $userFolder = \OC::$server->getUserFolder($userId);
-        if (!$userFolder->nodeExists('/Cospend')) {
-            $userFolder->newFolder('Cospend');
-        }
-        if ($userFolder->nodeExists('/Cospend')) {
-            $folder = $userFolder->get('/Cospend');
-            if ($folder->getType() !== \OCP\Files\FileInfo::TYPE_FOLDER) {
-                $response = ['message'=>'/Cospend is not a folder'];
-                return $response;
-            }
-            else if (!$folder->isCreatable()) {
-                $response = ['message'=>'/Cospend is not writeable'];
-                return $response;
-            }
-        }
-        else {
-            $response = ['message'=>'Impossible to create /Cospend'];
+        $msg = $this->createAndCheckExportDirectory($userFolder, $outPath);
+        if ($msg !== '') {
+            $response = ['message'=>$msg];
             return $response;
         }
+        $folder = $userFolder->get($outPath);
 
         // create file
         if ($folder->nodeExists($projectid.'-settlement.csv')) {
@@ -2156,32 +2149,42 @@ class ProjectService {
 
         fclose($handler);
         $file->touch();
-        $response = ['path'=>'/Cospend/'.$projectid.'-settlement.csv'];
+        $response = ['path'=>$outPath.'/'.$projectid.'-settlement.csv'];
         return $response;
+    }
+
+    private function createAndCheckExportDirectory($userFolder, $outPath) {
+        if (!$userFolder->nodeExists($outPath)) {
+            $userFolder->newFolder($outPath);
+        }
+        if ($userFolder->nodeExists($outPath)) {
+            $folder = $userFolder->get($outPath);
+            if ($folder->getType() !== \OCP\Files\FileInfo::TYPE_FOLDER) {
+                return $outPath.' is not a folder';
+            }
+            else if (!$folder->isCreatable()) {
+                return $outPath.' is not writeable';
+            }
+            else {
+                return '';
+            }
+        }
+        else {
+            return 'Impossible to create '.$outPath;
+        }
     }
 
     public function exportCsvStatistics($projectid, $userId, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null,
                                         $amountMin=null, $amountMax=null) {
-        // create Cospend directory if needed
+        // create export directory if needed
+        $outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
         $userFolder = \OC::$server->getUserFolder($userId);
-        if (!$userFolder->nodeExists('/Cospend')) {
-            $userFolder->newFolder('Cospend');
-        }
-        if ($userFolder->nodeExists('/Cospend')) {
-            $folder = $userFolder->get('/Cospend');
-            if ($folder->getType() !== \OCP\Files\FileInfo::TYPE_FOLDER) {
-                $response = ['message'=>'/Cospend is not a folder'];
-                return $response;
-            }
-            else if (!$folder->isCreatable()) {
-                $response = ['message'=>'/Cospend is not writeable'];
-                return $response;
-            }
-        }
-        else {
-            $response = ['message'=>'Impossible to create /Cospend'];
+        $msg = $this->createAndCheckExportDirectory($userFolder, $outPath);
+        if ($msg !== '') {
+            $response = ['message'=>$msg];
             return $response;
         }
+        $folder = $userFolder->get($outPath);
 
         // create file
         if ($folder->nodeExists($projectid.'-stats.csv')) {
@@ -2201,31 +2204,20 @@ class ProjectService {
 
         fclose($handler);
         $file->touch();
-        $response = ['path'=>'/Cospend/'.$projectid.'-stats.csv'];
+        $response = ['path'=>$outPath.'/'.$projectid.'-stats.csv'];
         return $response;
     }
 
     public function exportCsvProject($projectid, $name, $userId) {
-        // create Cospend directory if needed
+        // create export directory if needed
+        $outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
         $userFolder = \OC::$server->getUserFolder($userId);
-        if (!$userFolder->nodeExists('/Cospend')) {
-            $userFolder->newFolder('Cospend');
-        }
-        if ($userFolder->nodeExists('/Cospend')) {
-            $folder = $userFolder->get('/Cospend');
-            if ($folder->getType() !== \OCP\Files\FileInfo::TYPE_FOLDER) {
-                $response = ['message'=>'/Cospend is not a folder'];
-                return $response;
-            }
-            else if (!$folder->isCreatable()) {
-                $response = ['message'=>'/Cospend is not writeable'];
-                return $response;
-            }
-        }
-        else {
-            $response = ['message'=>'Impossible to create /Cospend'];
+        $msg = $this->createAndCheckExportDirectory($userFolder, $outPath);
+        if ($msg !== '') {
+            $response = ['message'=>$msg];
             return $response;
         }
+        $folder = $userFolder->get($outPath);
 
         // create file
         $filename = $projectid.'.csv';
@@ -2265,7 +2257,7 @@ class ProjectService {
 
         fclose($handler);
         $file->touch();
-        $response = ['path'=>'/Cospend/'.$filename];
+        $response = ['path'=>$outPath.'/'.$filename];
         return $response;
     }
 
@@ -2491,6 +2483,7 @@ class ProjectService {
 
         foreach ($this->userManager->search('') as $u) {
             $uid = $u->getUID();
+            $outPath = $this->config->getUserValue($uid, 'cospend', 'outputDirectory', '/Cospend');
 
             $qb->select('p.id', 'p.name', 'p.autoexport')
             ->from('cospend_projects', 'p')
@@ -2520,7 +2513,7 @@ class ProjectService {
                 $exportName = $dbProjectId.$suffix.'.csv';
 
                 $userFolder = \OC::$server->getUserFolder($uid);
-                if (! $userFolder->nodeExists('/Cospend/'.$exportName)) {
+                if (! $userFolder->nodeExists($outPath.'/'.$exportName)) {
                     $this->exportCsvProject($dbProjectId, $exportName, $uid);
                 }
             }

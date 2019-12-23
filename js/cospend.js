@@ -2151,6 +2151,9 @@
                     if (k === 'selectedProject') {
                         cospend.restoredSelectedProjectId = optionsValues[k];
                     }
+                    else if (k === 'outputDirectory') {
+                        $('#outputDirectory').text(optionsValues[k])
+                    }
                 }
             }
             // quite important ;-)
@@ -2716,6 +2719,7 @@
         else {
             //restoreOptionsFromUrlParams();
             $('#newprojectbutton').hide();
+            $('#set-output-div').hide();
             $('#addextprojectbutton').hide();
             $('#importProjectButton').hide();
             cospend.projectid = $('#projectid').text();
@@ -3439,6 +3443,22 @@
             else if (billtype === 'normal') {
                 createNormalBill();
             }
+        });
+
+        $('body').on('click', '#changeOutputButton', function() {
+            OC.dialogs.filepicker(
+                t('maps', 'Choose where to write output files (stats, settlement, export)'),
+                function(targetPath) {
+                    if (targetPath === '') {
+                        targetPath = '/';
+                    }
+                    saveOptionValue({outputDirectory: targetPath});
+                    $('#outputDirectory').text(targetPath)
+                },
+                false,
+                'httpd/unix-directory',
+                true
+            );
         });
 
         if (OCA.Theming) {

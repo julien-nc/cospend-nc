@@ -296,3 +296,16 @@ a.billitem .app-content-list-item-icon {
 #billtype {
     max-width: 95%;
 }
+#set-output-div {
+    display: flex;
+    align-items: center;
+    /*height: 50px;*/
+}
+#set-output-div label {
+    word-wrap: anywhere;
+    text-align: center;
+    width: 40%;
+}
+#set-output-div button {
+    width: 60%;
+}

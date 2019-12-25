@@ -12,6 +12,8 @@
 return [
     'routes' => [
         ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
+
+        // api for client using guest access (password)
         [
             'name'         => 'page#preflighted_cors',
             'url'          => '/api/{path}',
@@ -41,6 +43,29 @@ return [
         ['name' => 'page#apiGetProjectStatistics', 'url' => '/api/projects/{projectid}/{password}/statistics', 'verb' => 'GET'],
         ['name' => 'page#apiGetProjectSettlement', 'url' => '/api/projects/{projectid}/{password}/settle', 'verb' => 'GET'],
         ['name' => 'page#apiAutoSettlement', 'url' => '/api/projects/{projectid}/{password}/autosettlement', 'verb' => 'GET'],
+
+        // api for logged in clients
+        [
+            'name'         => 'page#preflighted_cors',
+            'url'          => '/api-priv/{path}',
+            'verb'         => 'OPTIONS',
+            'requirements' => ['path' => '.+']
+        ],
+        ['name' => 'page#apiPrivGetProjectInfo', 'url' => '/api-priv/projects/{projectid}/', 'verb' => 'GET'],
+        ['name' => 'page#apiPrivSetProjectInfo', 'url' => '/api-priv/projects/{projectid}/', 'verb' => 'PUT'],
+        ['name' => 'page#apiPrivDeleteProject', 'url' => '/api-priv/projects/{projectid}/', 'verb' => 'DELETE'],
+        ['name' => 'page#apiPrivGetMembers', 'url' => '/api-priv/projects/{projectid}/members', 'verb' => 'GET'],
+        ['name' => 'page#apiPrivAddMember', 'url' => '/api-priv/projects/{projectid}/members', 'verb' => 'POST'],
+        ['name' => 'page#apiPrivEditMember', 'url' => '/api-priv/projects/{projectid}/members/{memberid}', 'verb' => 'PUT'],
+        ['name' => 'page#apiPrivDeleteMember', 'url' => '/api-priv/projects/{projectid}/members/{memberid}', 'verb' => 'DELETE'],
+        ['name' => 'page#apiPrivGetBills', 'url' => '/api-priv/projects/{projectid}/bills', 'verb' => 'GET'],
+        ['name' => 'page#apiPrivAddBill', 'url' => '/api-priv/projects/{projectid}/bills', 'verb' => 'POST'],
+        ['name' => 'page#apiPrivEditBill', 'url' => '/api-priv/projects/{projectid}/bills/{billid}', 'verb' => 'PUT'],
+        ['name' => 'page#apiPrivDeleteBill', 'url' => '/api-priv/projects/{projectid}/bills/{billid}', 'verb' => 'DELETE'],
+        ['name' => 'page#apiPrivGetProjectStatistics', 'url' => '/api-priv/projects/{projectid}/statistics', 'verb' => 'GET'],
+        ['name' => 'page#apiPrivGetProjectSettlement', 'url' => '/api-priv/projects/{projectid}/settle', 'verb' => 'GET'],
+        ['name' => 'page#apiPrivAutoSettlement', 'url' => '/api-priv/projects/{projectid}/autosettlement', 'verb' => 'GET'],
+
         ['name' => 'utils#getOptionsValues', 'url' => '/getOptionsValues', 'verb' => 'POST'],
         ['name' => 'utils#saveOptionValue', 'url' => '/saveOptionValue', 'verb' => 'POST'],
         ['name' => 'utils#setAllowAnonymousCreation', 'url' => '/setAllowAnonymousCreation', 'verb' => 'POST'],

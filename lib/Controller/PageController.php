@@ -724,6 +724,35 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivGetProjectInfo($projectid) {
+        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+            $projectInfo = $this->projectService->getProjectInfo($projectid);
+            if ($projectInfo !== null) {
+                unset($projectInfo['userid']);
+                return new DataResponse($projectInfo);
+            }
+            else {
+                $response = new DataResponse(
+                    ['message'=>'Project not found in the database']
+                    , 404
+                );
+                return $response;
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action.']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
      * @PublicPage
      * @CORS
      */
@@ -740,6 +769,30 @@ class PageController extends ApiController {
         else {
             $response = new DataResponse(
                 ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivSetProjectInfo($projectid, $name, $contact_email, $password, $autoexport=null) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport);
+            if ($result === 'UPDATED') {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action.']
                 , 401
             );
             return $response;
@@ -770,6 +823,26 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivGetMembers($projectid, $lastchanged=null) {
+        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+            $members = $this->projectService->getMembers($projectid, null, $lastchanged);
+            $response = new DataResponse($members);
+            return $response;
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
      * @PublicPage
      * @CORS
      */
@@ -783,6 +856,32 @@ class PageController extends ApiController {
             $response = new DataResponse(
                 ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
                 , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivGetBills($projectid, $lastchanged=null) {
+        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+            $bills = $this->projectService->getBills($projectid, null, null, null, null, null, null, $lastchanged);
+            $billIds = $this->projectService->getAllBillIds($projectid);
+            $ts = (new \DateTime())->getTimestamp();
+            $response = new DataResponse([
+                'bills'=>$bills,
+                'allBillIds'=>$billIds,
+                'timestamp'=>$ts
+            ]);
+            return $response;
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
             );
             return $response;
         }
@@ -844,6 +943,31 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivAddMember($projectid, $name, $weight) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
+            $result = $this->projectService->addMember($projectid, $name, $weight);
+            if (is_numeric($result)) {
+                // inserted bill id
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
      * @PublicPage
      * @CORS
      */
@@ -869,6 +993,38 @@ class PageController extends ApiController {
             $response = new DataResponse(
                 ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
                 , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivAddBill($projectid, $date, $what, $payer, $payed_for,
+                               $amount, $repeat='n', $paymentmode=null, $categoryid=null, $repeatallactive=0) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
+            $result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
+                                                     $repeat, $paymentmode, $categoryid, $repeatallactive);
+            if (is_numeric($result)) {
+                $billObj = $this->billMapper->find($result);
+                $this->activityManager->triggerEvent(
+                    ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                    ActivityManager::SUBJECT_BILL_CREATE,
+                    []
+                );
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
             );
             return $response;
         }
@@ -911,6 +1067,39 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivEditBill($projectid, $billid, $date, $what, $payer, $payed_for,
+                                $amount, $repeat='n', $paymentmode=null, $categoryid=null, $repeatallactive=null) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
+                                                      $amount, $repeat, $paymentmode, $categoryid, $repeatallactive);
+            if (is_numeric($result)) {
+                $billObj = $this->billMapper->find($billid);
+                $this->activityManager->triggerEvent(
+                    ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                    ActivityManager::SUBJECT_BILL_UPDATE,
+                    []
+                );
+
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
      * @PublicPage
      * @CORS
      */
@@ -945,6 +1134,39 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivDeleteBill($projectid, $billid) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'd')) {
+            if ($this->projectService->getBill($projectid, $billid) !== null) {
+                $billObj = $this->billMapper->find($billid);
+                $this->activityManager->triggerEvent(
+                    ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                    ActivityManager::SUBJECT_BILL_DELETE,
+                    []
+                );
+            }
+
+            $result = $this->projectService->deleteBill($projectid, $billid);
+            if ($result === 'OK') {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 404);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
      * @PublicPage
      * @CORS
      */
@@ -962,6 +1184,30 @@ class PageController extends ApiController {
             $response = new DataResponse(
                 ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
                 , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivDeleteMember($projectid, $memberid) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'd')) {
+            $result = $this->projectService->deleteMember($projectid, $memberid);
+            if ($result === 'OK') {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 404);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
             );
             return $response;
         }
@@ -995,6 +1241,30 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivDeleteProject($projectid) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'd')) {
+            $result = $this->projectService->deleteProject($projectid);
+            if ($result === 'DELETED') {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 404);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
      * @PublicPage
      * @CORS
      */
@@ -1012,6 +1282,30 @@ class PageController extends ApiController {
             $response = new DataResponse(
                 ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
                 , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivEditMember($projectid, $memberid, $name, $weight, $activated) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated);
+            if (is_array($result) and array_key_exists('activated', $result)) {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 403);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
             );
             return $response;
         }
@@ -1042,6 +1336,27 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivGetProjectStatistics($projectid, $dateMin=null, $dateMax=null, $paymentMode=null,
+                                            $category=null, $amountMin=null, $amountMax=null) {
+        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+            $result = $this->projectService->getProjectStatistics($projectid, 'lowername', $dateMin, $dateMax, $paymentMode,
+                                               $category, $amountMin, $amountMax);
+            $response = new DataResponse($result);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
      * @PublicPage
      * @CORS
      */
@@ -1054,6 +1369,25 @@ class PageController extends ApiController {
             $response = new DataResponse(
                 ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
                 , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivGetProjectSettlement($projectid) {
+        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+            $result = $this->projectService->getProjectSettlement($projectid);
+            $response = new DataResponse($result);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
             );
             return $response;
         }
@@ -1079,6 +1413,30 @@ class PageController extends ApiController {
             $response = new DataResponse(
                 ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
                 , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivAutoSettlement($projectid) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
+            $result = $this->projectService->autoSettlement($projectid);
+            if ($result === 'OK') {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 403);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
             );
             return $response;
         }

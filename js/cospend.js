@@ -408,7 +408,8 @@
         });
     }
 
-    function createBill(projectid, what, amount, payer_id, date, owerIds, repeat, custom=false, paymentmode=null, categoryid=null) {
+    function createBill(projectid, what, amount, payer_id, date, owerIds, repeat,
+                        custom=false, paymentmode=null, categoryid=null, repeatallactive=0) {
         $('.loading-bill').addClass('icon-loading-small');
         var req = {
             what: what,
@@ -417,6 +418,7 @@
             payed_for: owerIds.join(','),
             amount: amount,
             repeat: repeat,
+            repeatallactive: repeatallactive,
             paymentmode: paymentmode,
             categoryid: categoryid
         };
@@ -450,6 +452,7 @@
                 amount: amount,
                 payer_id: payer_id,
                 repeat: repeat,
+                repeatallactive: repeatallactive,
                 paymentmode: paymentmode,
                 categoryid: categoryid
             };
@@ -463,7 +466,7 @@
             var bill = cospend.bills[projectid][billid];
             if (!custom) {
                 updateBillItem(projectid, 0, bill);
-                updateDisplayedBill(projectid, billid, what, payer_id, repeat, paymentmode, categoryid);
+                updateDisplayedBill(projectid, billid, what, payer_id, repeat, paymentmode, categoryid, repeatallactive);
             }
             else {
                 addBill(projectid, bill);
@@ -479,7 +482,8 @@
         });
     }
 
-    function saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat, paymentmode=null, categoryid=null) {
+    function saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat,
+                      paymentmode=null, categoryid=null, repeatallactive=null) {
         $('.loading-bill').addClass('icon-loading-small');
         var req = {
             what: what,
@@ -488,6 +492,7 @@
             payed_for: owerIds.join(','),
             amount: amount,
             repeat: repeat,
+            repeatallactive: repeatallactive,
             paymentmode: paymentmode,
             categoryid: categoryid
         };
@@ -522,6 +527,7 @@
             cospend.bills[projectid][billid].amount = amount;
             cospend.bills[projectid][billid].payer_id = payer_id;
             cospend.bills[projectid][billid].repeat = repeat;
+            cospend.bills[projectid][billid].repeatallactive = repeatallactive;
             cospend.bills[projectid][billid].paymentmode = paymentmode;
             cospend.bills[projectid][billid].categoryid = categoryid;
             var billOwers = [];
@@ -533,7 +539,7 @@
             // update ui
             var bill = cospend.bills[projectid][billid];
             updateBillItem(projectid, billid, bill);
-            updateDisplayedBill(projectid, billid, what, payer_id, repeat, paymentmode, categoryid);
+            updateDisplayedBill(projectid, billid, what, payer_id, repeat, paymentmode, categoryid, repeatallactive);
 
             updateProjectBalances(projectid);
 
@@ -1276,7 +1282,7 @@
         return cospend.projects[projectid].name;
     }
 
-    function updateDisplayedBill(projectid, billid, what, payer_id, repeat, paymentmode=null, categoryid=null) {
+    function updateDisplayedBill(projectid, billid, what, payer_id, repeat, paymentmode=null, categoryid=null, repeatallactive=0) {
         var projectName = getProjectName(projectid);
         $('.bill-title').attr('billid', billid);
         var c = {r: 128, g: 128, b: 128};
@@ -1473,6 +1479,10 @@
             '               <option value="m">'+t('cospend', 'month')+'</option>' +
             '               <option value="y">'+t('cospend', 'year')+'</option>' +
             '            </select>' +
+            '           <input id="repeatallactive" class="checkbox" type="checkbox"/>' +
+            '           <label for="repeatallactive" class="checkboxlabel">' +
+            '               ' + t('cospend', 'Include all active member on repeat') +
+            '           </label> ' +
             '        </div>' +
             '        <div class="bill-payment-mode">' +
             '            <label for="payment-mode">' +
@@ -1536,10 +1546,17 @@
             $('#repeatbill').val(bill.repeat);
             $('#payment-mode').val(bill.paymentmode || 'n');
             $('#category').val(bill.categoryid || '0');
+            $('#repeatallactive').prop('checked', bill.repeatallactive || false);
+            if (bill.repeat === 'n') {
+                $('#repeatallactive').hide();
+                $('label[for=repeatallactive]').hide();
+            }
         }
         else {
             $('.bill-type').show();
             $('#owerValidate').show();
+            $('#repeatallactive').hide();
+            $('label[for=repeatallactive]').hide();
         }
     }
 
@@ -1999,6 +2016,7 @@
         var amount = parseFloat($('.input-bill-amount').val());
         var payer_id = parseInt($('.input-bill-payer').val());
         var repeat = $('#repeatbill').val();
+        var repeatallactive = $('#repeatallactive').is(':checked') ? 1 : 0;
         var paymentmode = $('#payment-mode').val();
         var categoryid = $('#category').val();
 
@@ -2031,7 +2049,7 @@
 
         // if valid, save the bill or create it if needed
         if (valid) {
-            createBill(projectid, what, amount, payer_id, date, owerIds, repeat, false, paymentmode, categoryid);
+            createBill(projectid, what, amount, payer_id, date, owerIds, repeat, false, paymentmode, categoryid, repeatallactive);
         }
         else {
             OC.Notification.showTemporary(t('cospend', 'Bill values are not valid'));
@@ -2055,6 +2073,7 @@
         var amount = parseFloat($('.input-bill-amount').val());
         var payer_id = parseInt($('.input-bill-payer').val());
         var repeat = $('#repeatbill').val();
+        var repeatallactive = $('#repeatallactive').is(':checked') ? 1 : 0;
         var paymentmode = $('#payment-mode').val();
         var categoryid = $('#category').val();
 
@@ -2104,12 +2123,13 @@
                 oldBill.amount !== amount ||
                 oldBill.date !== date ||
                 oldBill.repeat !== repeat ||
+                oldBill.repeatallactive !== repeatallactive ||
                 oldBill.payer_id !== payer_id ||
                 oldBill.categoryid !== categoryid ||
                 oldBill.paymentmode !== paymentmode ||
                 owersChanged
             ) {
-                saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat, paymentmode, categoryid);
+                saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat, paymentmode, categoryid, repeatallactive);
             }
         }
         else {
@@ -2622,6 +2642,7 @@
         var amount = parseFloat($('.input-bill-amount').val());
         var payer_id = parseInt($('.input-bill-payer').val());
         var repeat = 'n';
+        var repeatallactive = 0;
         var paymentmode = $('#payment-mode').val();
         var categoryid = $('#category').val();
 
@@ -2680,12 +2701,12 @@
                 var amountVal = parseFloat($(this).val());
                 var owerSelected = $('.owerEntry input[owerid="'+owerId+'"]').is(':checked');
                 if (!isNaN(amountVal) && amountVal > 0.0 && owerSelected) {
-                    createBill(projectid, what, amountVal, payer_id, date, [owerId], repeat, true, paymentmode, categoryid);
+                    createBill(projectid, what, amountVal, payer_id, date, [owerId], repeat, true, paymentmode, categoryid, repeatallactive);
                     tmpAmount = tmpAmount - amountVal;
                 }
             });
             // create equitable bill with the rest
-            createBill(projectid, what, tmpAmount, payer_id, date, owerIds, repeat, true, paymentmode, categoryid);
+            createBill(projectid, what, tmpAmount, payer_id, date, owerIds, repeat, true, paymentmode, categoryid, repeatallactive);
             // empty bill detail
             $('#billdetail').html('');
             // remove new bill line
@@ -2710,6 +2731,7 @@
         var amount = parseFloat($('.input-bill-amount').val());
         var payer_id = parseInt($('.input-bill-payer').val());
         var repeat = 'n';
+        var repeatallactive = 0;
         var paymentmode = $('#payment-mode').val();
         var categoryid = $('#category').val();
 
@@ -2731,7 +2753,7 @@
                 var owerId = parseInt($(this).attr('owerid'));
                 var amountVal = parseFloat($(this).val());
                 if (!isNaN(amountVal) && amountVal > 0.0) {
-                    createBill(projectid, what, amountVal, payer_id, date, [owerId], repeat, true, paymentmode, categoryid);
+                    createBill(projectid, what, amountVal, payer_id, date, [owerId], repeat, true, paymentmode, categoryid, repeatallactive);
                     total = total + amountVal;
                 }
             });
@@ -3169,8 +3191,23 @@
         $('body').on('change', '.input-bill-date, #billdetail .bill-form select', function(e) {
             onBillEdited();
         });
+        $('body').on('click', '#repeatallactive', function(e) {
+            onBillEdited();
+        });
 
-        $('body').on('change', '#billdetail .bill-form input[type=checkbox]', function(e) {
+        // show/hide repeatallactive
+        $('body').on('change', '#repeatbill', function(e) {
+            if ($(this).val() === 'n') {
+                $('#repeatallactive').hide();
+                $('label[for=repeatallactive]').hide();
+            }
+            else {
+                $('#repeatallactive').show();
+                $('label[for=repeatallactive]').show();
+            }
+        });
+
+        $('body').on('change', '#billdetail .bill-form .bill-owers input[type=checkbox]', function(e) {
             var billtype = $('#billtype').val();
             if (billtype === 'perso') {
                 if ($(this).is(':checked')) {
@@ -3453,6 +3490,10 @@
                 $('#amount').val('0');
                 $('#amount').prop('disabled', false);
                 $('#repeatbill').prop('disabled', false);
+                if ($('#repeatbill').val() !== 'n') {
+                    $('#repeatallactive').show();
+                    $('label[for=repeatallactive]').show();
+                }
             }
             else if (billtype === 'custom') {
                 $('#owerNone').hide();
@@ -3464,6 +3505,8 @@
                 updateCustomAmount();
                 $('#amount').prop('disabled', true);
                 $('#repeatbill').val('n').prop('disabled', true);
+                $('#repeatallactive').hide();
+                $('label[for=repeatallactive]').hide();
             }
             else if (billtype === 'perso') {
                 $('#owerNone').show();
@@ -3479,6 +3522,8 @@
                 });
                 $('#amount').prop('disabled', false);
                 $('#repeatbill').val('n').prop('disabled', true);
+                $('#repeatallactive').hide();
+                $('label[for=repeatallactive]').hide();
             }
             $('#owerValidate').text(owerValidateStr);
         });

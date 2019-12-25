@@ -474,11 +474,11 @@ class PageController extends ApiController {
      *
      */
     public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for,
-                                $amount, $repeat, $paymentmode=null, $categoryid=null) {
+                                $amount, $repeat, $paymentmode=null, $categoryid=null, $repeatallactive=null) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
             $result =  $this->projectService->editBill(
                 $projectid, $billid, $date, $what, $payer, $payed_for,
-                $amount, $repeat, $paymentmode, $categoryid
+                $amount, $repeat, $paymentmode, $categoryid, $repeatallactive
             );
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($billid);
@@ -577,11 +577,11 @@ class PageController extends ApiController {
      *
      */
     public function webAddBill($projectid, $date, $what, $payer, $payed_for, $amount,
-                               $repeat, $paymentmode=null, $categoryid=null) {
+                               $repeat, $paymentmode=null, $categoryid=null, $repeatallactive=0) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
             $result = $this->projectService->addBill(
                 $projectid, $date, $what, $payer, $payed_for, $amount,
-                $repeat, $paymentmode, $categoryid
+                $repeat, $paymentmode, $categoryid, $repeatallactive
             );
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($result);
@@ -847,9 +847,11 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiAddBill($projectid, $password, $date, $what, $payer, $payed_for, $amount, $repeat='n', $paymentmode=null, $categoryid=null) {
+    public function apiAddBill($projectid, $password, $date, $what, $payer, $payed_for,
+                               $amount, $repeat='n', $paymentmode=null, $categoryid=null, $repeatallactive=0) {
         if ($this->checkLogin($projectid, $password)) {
-            $result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode, $categoryid);
+            $result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
+                                                     $repeat, $paymentmode, $categoryid, $repeatallactive);
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($result);
                 $this->activityManager->triggerEvent(
@@ -879,10 +881,10 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiEditBill($projectid, $password, $billid, $date, $what, $payer, $payed_for,
-                                $amount, $repeat='n', $paymentmode=null, $categoryid=null) {
+                                $amount, $repeat='n', $paymentmode=null, $categoryid=null, $repeatallactive=null) {
         if ($this->checkLogin($projectid, $password)) {
             $result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
-                                                      $amount, $repeat, $paymentmode, $categoryid);
+                                                      $amount, $repeat, $paymentmode, $categoryid, $repeatallactive);
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($billid);
                 $this->activityManager->triggerEvent(

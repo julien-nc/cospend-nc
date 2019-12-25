@@ -644,13 +644,9 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
 
-        $resp = $this->pageController->deleteGroupShare('projtodel', 'group2testLALA');
+        $resp = $this->pageController->deleteGroupShare('projtodel', -7777);
         $status = $resp->getStatus();
         $this->assertEquals(400, $status);
-
-        $resp = $this->pageController->deleteGroupShare('projtodelLALA', 'group2test');
-        $status = $resp->getStatus();
-        $this->assertEquals(403, $status);
 
         // then it should be ok to delete
         $resp = $this->pageController->webDeleteProject('projtodel');

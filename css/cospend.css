@@ -225,6 +225,10 @@ input[type=number] {
     padding-left: 15px;
     padding-right: 15px;
 }
+.guestpermissions {
+    margin-top: auto;
+    margin-bottom: auto;
+}
 .loading-bill {
     margin-left: 10px;
     margin-right: 10px;

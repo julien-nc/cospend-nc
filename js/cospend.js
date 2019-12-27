@@ -267,7 +267,8 @@
                 members: [],
                 active_members: [],
                 balance: {},
-                external: false
+                external: false,
+                guestpermissions: 'edc'
             });
 
             var div = $('#newprojectdiv');
@@ -1744,6 +1745,9 @@
             guestLink = OC.generateUrl('/apps/cospend/loginproject/'+projectid);
             guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
         }
+        var editPerm = (project.guestpermissions.indexOf('e') !== -1);
+        var delPerm = (project.guestpermissions.indexOf('d') !== -1);
+        var creaPerm = (project.guestpermissions.indexOf('c') !== -1);
         var li =
             '<li class="projectitem collapsible" projectid="'+projectid+'">' +
             '    <a class="icon-folder" href="#" title="'+projectid+'">' +
@@ -1791,6 +1795,19 @@
             '                <a href="#" class="copyProjectGuestLink" title="'+guestLink+'">' +
             '                    <span class="icon-clippy"></span>' +
             '                    <span>'+guestAccessStr+'</span>' +
+            '                </a>' +
+            '            </li>' +
+            '            <li>' +
+            '                <a href="#" class="guestpermissionsLink" title="'+guestLink+'">' +
+            '                    <span class="icon-category-security"></span>' +
+            '                    <div class="guestpermissions">' +
+            '                       <div class="icon-category-disabled permguest permDelete '+(delPerm ? 'permActive' : '')+'" ' +
+            '                       title="'+t('cospend', 'Permission to delete bills')+'"></div>'+
+            '                       <div class="icon-rename permguest permEdit '+(editPerm ? 'permActive' : '')+'" ' +
+            '                       title="'+t('cospend', 'Permission to edit bills and project')+'"></div>'+
+            '                       <div class="icon-add permguest permCreate '+(creaPerm ? 'permActive' : '')+'" ' +
+            '                       title="'+t('cospend', 'Permission to create bills')+'"></div>'+
+            '                    </div>' +
             '                </a>' +
             '            </li>' +
             '            <li>' +
@@ -2439,6 +2456,49 @@
         }
     }
 
+    function editGuestPermissionsDb(projectid, e, d, c) {
+        $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
+        var req = {
+            projectid: projectid,
+            permissions: (e ? 'e': '') + (c ? 'c': '') + (d ? 'd': '')
+        };
+        var url = OC.generateUrl('/apps/cospend/editGuestPermissions');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            applyGuestPermissions(projectid, e, d, c);
+        }).always(function() {
+            $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to edit guest permissions') + ' ' + response.responseText);
+        });
+    }
+
+    function applyGuestPermissions(projectid, e, d, c) {
+        var projectLine = $('#projectlist li[projectid="'+projectid+'"]');
+        if (e) {
+            projectLine.find('.permEdit').addClass('permActive');
+        }
+        else {
+            projectLine.find('.permEdit').removeClass('permActive');
+        }
+        if (d) {
+            projectLine.find('.permDelete').addClass('permActive');
+        }
+        else {
+            projectLine.find('.permDelete').removeClass('permActive');
+        }
+        if (c) {
+            projectLine.find('.permCreate').addClass('permActive');
+        }
+        else {
+            projectLine.find('.permCreate').removeClass('permActive');
+        }
+    }
+
     function selectProject(projectitem) {
         var projectid = projectitem.attr('projectid');
         var wasOpen = projectitem.hasClass('open');
@@ -2856,6 +2916,22 @@
             }
             else if ($(this).hasClass('permCreate')) {
                 editSharePermissionsDb(projectid, shid, e, d, !c);
+            }
+        });
+
+        $('body').on('click', '.permguest', function(e) {
+            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            var e = $(this).parent().find('.permEdit').hasClass('permActive');
+            var d = $(this).parent().find('.permDelete').hasClass('permActive');
+            var c = $(this).parent().find('.permCreate').hasClass('permActive');
+            if ($(this).hasClass('permDelete')) {
+                editGuestPermissionsDb(projectid, e, !d, c);
+            }
+            else if ($(this).hasClass('permEdit')) {
+                editGuestPermissionsDb(projectid, !e, d, c);
+            }
+            else if ($(this).hasClass('permCreate')) {
+                editGuestPermissionsDb(projectid, e, d, !c);
             }
         });
 

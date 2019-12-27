@@ -1330,7 +1330,7 @@ class ProjectService {
 
         $qb = $this->dbconnection->getQueryBuilder();
 
-        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport')
+        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestpermissions')
            ->from('cospend_projects', 'p')
            ->where(
                $qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
@@ -1346,6 +1346,7 @@ class ProjectService {
             $dbName  = $row['name'];
             $dbEmail = $row['email'];
             $autoexport = $row['autoexport'];
+            $guestpermissions = $row['guestpermissions'];
             array_push($projects, [
                 'name'=>$dbName,
                 'contact_email'=>$dbEmail,
@@ -1354,7 +1355,8 @@ class ProjectService {
                 'active_members'=>null,
                 'members'=>null,
                 'balance'=>null,
-                'shares'=>[]
+                'shares'=>[],
+                'guestpermissions'=>$guestpermissions
             ]);
         }
         $req->closeCursor();
@@ -1362,7 +1364,7 @@ class ProjectService {
         $qb = $qb->resetQueryParts();
 
         // shared with user
-        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport')
+        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestpermissions')
            ->from('cospend_projects', 'p')
            ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
            ->where(
@@ -1384,6 +1386,7 @@ class ProjectService {
                 $dbName = $row['name'];
                 $dbEmail= $row['email'];
                 $autoexport = $row['autoexport'];
+                $guestpermissions = $row['guestpermissions'];
                 array_push($projects, [
                     'name'=>$dbName,
                     'contact_email'=>$dbEmail,
@@ -1392,7 +1395,8 @@ class ProjectService {
                     'active_members'=>null,
                     'members'=>null,
                     'balance'=>null,
-                    'shares'=>[]
+                    'shares'=>[],
+                    'guestpermissions'=>$guestpermissions
                 ]);
                 array_push($projectids, $dbProjectId);
             }
@@ -1424,7 +1428,7 @@ class ProjectService {
             $group = $this->groupManager->get($candidateGroupId);
             if ($group !== null && $group->inGroup($userO)) {
                 // get projects shared with this group
-                $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport')
+                $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestpermissions')
                     ->from('cospend_projects', 'p')
                     ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
                     ->where(
@@ -1446,6 +1450,7 @@ class ProjectService {
                         $dbName = $row['name'];
                         $dbEmail= $row['email'];
                         $autoexport = $row['autoexport'];
+                        $guestpermissions = $row['guestpermissions'];
                         array_push($projects, [
                             'name'=>$dbName,
                             'contact_email'=>$dbEmail,
@@ -1454,7 +1459,8 @@ class ProjectService {
                             'active_members'=>null,
                             'members'=>null,
                             'balance'=>null,
-                            'shares'=>[]
+                            'shares'=>[],
+                            'guestpermissions'=>$guestpermissions
                         ]);
                         array_push($projectids, $dbProjectId);
                     }
@@ -2026,6 +2032,25 @@ class ProjectService {
         else {
             $response = ['message'=>'No such share'];
         }
+
+        return $response;
+    }
+
+    public function editGuestPermissions($projectid, $permissions) {
+        // check if project exists
+        $qb = $this->dbconnection->getQueryBuilder();
+
+        error_log('pro "'.$projectid.'" perm "'.$permissions.'"');
+        // set the permissions
+        $qb->update('cospend_projects')
+            ->set('guestpermissions', $qb->createNamedParameter($permissions, IQueryBuilder::PARAM_STR))
+            ->where(
+                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+            );
+        $req = $qb->execute();
+        $qb = $qb->resetQueryParts();
+
+        $response = 'OK';
 
         return $response;
     }

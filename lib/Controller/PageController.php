@@ -868,6 +868,7 @@ class PageController extends ApiController {
      */
     public function apiPrivGetBills($projectid, $lastchanged=null) {
         if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+            error_log('LASTCHHHH '.$lastchanged);
             $bills = $this->projectService->getBills($projectid, null, null, null, null, null, null, $lastchanged);
             $billIds = $this->projectService->getAllBillIds($projectid);
             $ts = (new \DateTime())->getTimestamp();
@@ -1476,6 +1477,28 @@ class PageController extends ApiController {
     public function editSharePermissions($projectid, $shid, $permissions) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
             $result = $this->projectService->editSharePermissions($projectid, $shid, $permissions);
+            if ($result === 'OK') {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to edit this project']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function editGuestPermissions($projectid, $permissions) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->editGuestPermissions($projectid, $permissions);
             if ($result === 'OK') {
                 return new DataResponse($result);
             }

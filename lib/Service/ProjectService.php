@@ -2040,12 +2040,11 @@ class ProjectService {
         // check if project exists
         $qb = $this->dbconnection->getQueryBuilder();
 
-        error_log('pro "'.$projectid.'" perm "'.$permissions.'"');
         // set the permissions
         $qb->update('cospend_projects')
             ->set('guestpermissions', $qb->createNamedParameter($permissions, IQueryBuilder::PARAM_STR))
             ->where(
-                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                $qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
             );
         $req = $qb->execute();
         $qb = $qb->resetQueryParts();

@@ -1794,12 +1794,7 @@
             '            <li>' +
             '                <a href="#" class="copyProjectGuestLink" title="'+guestLink+'">' +
             '                    <span class="icon-clippy"></span>' +
-            '                    <span>'+guestAccessStr+'</span>' +
-            '                </a>' +
-            '            </li>' +
-            '            <li>' +
-            '                <a href="#" class="guestpermissionsLink" title="'+guestLink+'">' +
-            '                    <span class="icon-category-security"></span>' +
+            '                    <span>'+guestAccessStr+'&nbsp</span>' +
             '                    <div class="guestpermissions">' +
             '                       <div class="icon-category-disabled permguest permDelete '+(delPerm ? 'permActive' : '')+'" ' +
             '                       title="'+t('cospend', 'Permission to delete bills')+'"></div>'+
@@ -3482,7 +3477,7 @@
             exportProject(projectid);
         });
 
-        $('body').on('click', '.autoexportSelect', function(e) {
+        $('body').on('click', '.autoexportSelect, .permguest', function(e) {
             e.stopPropagation();
         });
 

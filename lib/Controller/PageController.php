@@ -714,7 +714,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 400
             );
             return $response;
@@ -757,7 +757,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiSetProjectInfo($projectid, $passwd, $name, $contact_email, $password, $autoexport=null) {
-        if ($this->checkLogin($projectid, $passwd)) {
+        if ($this->checkLogin($projectid, $passwd) and $this->projectService->guestHasPermission($projectid, 'e')) {
             $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport);
             if ($result === 'UPDATED') {
                 return new DataResponse($result);
@@ -768,7 +768,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
             );
             return $response;
@@ -813,7 +813,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
             );
             return $response;
@@ -854,7 +854,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
             );
             return $response;
@@ -908,7 +908,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
             );
             return $response;
@@ -922,7 +922,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiAddMember($projectid, $password, $name, $weight) {
-        if ($this->checkLogin($projectid, $password)) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'c')) {
             $result = $this->projectService->addMember($projectid, $name, $weight);
             if (is_numeric($result)) {
                 // inserted bill id
@@ -934,7 +934,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
             );
             return $response;
@@ -974,7 +974,7 @@ class PageController extends ApiController {
      */
     public function apiAddBill($projectid, $password, $date, $what, $payer, $payed_for,
                                $amount, $repeat='n', $paymentmode=null, $categoryid=null, $repeatallactive=0) {
-        if ($this->checkLogin($projectid, $password)) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'c')) {
             $result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
                                                      $repeat, $paymentmode, $categoryid, $repeatallactive);
             if (is_numeric($result)) {
@@ -992,7 +992,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1039,7 +1039,7 @@ class PageController extends ApiController {
      */
     public function apiEditBill($projectid, $password, $billid, $date, $what, $payer, $payed_for,
                                 $amount, $repeat='n', $paymentmode=null, $categoryid=null, $repeatallactive=null) {
-        if ($this->checkLogin($projectid, $password)) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
             $result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
                                                       $amount, $repeat, $paymentmode, $categoryid, $repeatallactive);
             if (is_numeric($result)) {
@@ -1058,7 +1058,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1105,7 +1105,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiDeleteBill($projectid, $password, $billid) {
-        if ($this->checkLogin($projectid, $password)) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'd')) {
             if ($this->projectService->getBill($projectid, $billid) !== null) {
                 $billObj = $this->billMapper->find($billid);
                 $this->activityManager->triggerEvent(
@@ -1125,7 +1125,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1172,7 +1172,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiDeleteMember($projectid, $password, $memberid) {
-        if ($this->checkLogin($projectid, $password)) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'd')) {
             $result = $this->projectService->deleteMember($projectid, $memberid);
             if ($result === 'OK') {
                 return new DataResponse($result);
@@ -1183,7 +1183,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1221,7 +1221,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiDeleteProject($projectid, $password) {
-        if ($this->checkLogin($projectid, $password)) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'd')) {
             $result = $this->projectService->deleteProject($projectid);
             if ($result === 'DELETED') {
                 return new DataResponse($result);
@@ -1232,7 +1232,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1270,7 +1270,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiEditMember($projectid, $password, $memberid, $name, $weight, $activated) {
-        if ($this->checkLogin($projectid, $password)) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
             $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated);
             if (is_array($result) and array_key_exists('activated', $result)) {
                 return new DataResponse($result);
@@ -1281,7 +1281,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1327,7 +1327,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1368,7 +1368,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1401,7 +1401,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiAutoSettlement($projectid, $password) {
-        if ($this->checkLogin($projectid, $password)) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'c')) {
             $result = $this->projectService->autoSettlement($projectid);
             if ($result === 'OK') {
                 return new DataResponse($result);
@@ -1412,7 +1412,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
             );
             return $response;

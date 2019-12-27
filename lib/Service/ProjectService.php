@@ -207,6 +207,16 @@ class ProjectService {
         }
     }
 
+    public function guestHasPermission($projectid, $permission) {
+        $projectInfo = $this->getProjectInfo($projectid);
+        if ($projectInfo !== null) {
+            return (strrpos($projectInfo['guestpermissions'], $permission) !== false);
+        }
+        else {
+            return false;
+        }
+    }
+
     /**
      * check if user owns the external project
      */
@@ -377,7 +387,7 @@ class ProjectService {
 
         $qb = $this->dbconnection->getQueryBuilder();
 
-        $qb->select('id', 'password', 'name', 'email', 'userid', 'lastchanged')
+        $qb->select('id', 'password', 'name', 'email', 'userid', 'lastchanged', 'guestpermissions')
            ->from('cospend_projects', 'p')
            ->where(
                $qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -392,6 +402,7 @@ class ProjectService {
             $dbName = $row['name'];
             $dbEmail= $row['email'];
             $dbUserId = $row['userid'];
+            $dbGuestPermissions = $row['guestpermissions'];
             $dbLastchanged = intval($row['lastchanged']);
             break;
         }
@@ -411,6 +422,7 @@ class ProjectService {
                 'name'=>$dbName,
                 'contact_email'=>$dbEmail,
                 'id'=>$dbProjectId,
+                'guestpermissions'=>$dbGuestPermissions,
                 'active_members'=>$activeMembers,
                 'members'=>$members,
                 'balance'=>$balance,

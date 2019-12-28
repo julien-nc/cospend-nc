@@ -208,6 +208,11 @@ input[type=number] {
 .permActive {
     background-color: var(--color-success);
 }
+.deleteGroupShareButton,
+.deleteUserShareButton,
+.perm, .permguest {
+    height: 25px;
+}
 .permCreate,
 .permDelete,
 .permEdit {

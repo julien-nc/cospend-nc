@@ -868,7 +868,6 @@ class PageController extends ApiController {
      */
     public function apiPrivGetBills($projectid, $lastchanged=null) {
         if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-            error_log('LASTCHHHH '.$lastchanged);
             $bills = $this->projectService->getBills($projectid, null, null, null, null, null, null, $lastchanged);
             $billIds = $this->projectService->getAllBillIds($projectid);
             $ts = (new \DateTime())->getTimestamp();

@@ -3504,10 +3504,12 @@
                   function(targetPath) {
                       importSWProject(targetPath);
                   },
-                  false, null, true
+                  false,
+                  ['text/csv'],
+                  true
               );
         });
-        
+
         $('body').on('click', '.exportProject', function() {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
             exportProject(projectid);

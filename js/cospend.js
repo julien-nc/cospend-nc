@@ -70,6 +70,10 @@
             name: t('cospend', 'Clothes'),
             icon: '👚'
         },
+        '-10': {
+            name: t('cospend', 'Reimbursement'),
+            icon: '💰'
+        },
     };
 
     cospend.paymentModes = {
@@ -1167,7 +1171,8 @@
             '        '+t('cospend', 'Category')+
             ':   </label>' +
             '    <select id="category-stats">' +
-            '       <option value="0" selected>'+t('cospend', 'All')+'</option>';
+            '       <option value="0">'+t('cospend', 'All')+'</option>' +
+            '       <option value="-100" selected>'+t('cospend', 'All except reimbursement')+'</option>';
         var cat;
         for (var catId in cospend.categories) {
             cat = cospend.categories[catId];
@@ -3421,7 +3426,7 @@
 
         $('body').on('click', '.getProjectStats', function(e) {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
-            getProjectStatistics(projectid);
+            getProjectStatistics(projectid, null, null, null, -100);
         });
 
         $('body').on('change', '#date-min-stats, #date-max-stats, #payment-mode-stats, ' +

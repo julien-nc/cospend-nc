@@ -1330,6 +1330,19 @@ class PageController extends ApiController {
     }
 
     /**
+     * @NoAdminRequired
+     */
+    public function importSWProject($path) {
+        $result = $this->projectService->importSWProject($path, $this->userId);
+        if (!is_array($result) and is_string($result)) {
+            return new DataResponse($result);
+        }
+        else {
+            return new DataResponse($result, 400);
+        }
+    }
+
+    /**
      * Used by MoneyBuster to check if weblogin is valid
      * @NoAdminRequired
      * @NoCSRFRequired

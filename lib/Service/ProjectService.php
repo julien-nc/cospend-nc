@@ -2378,7 +2378,7 @@ class ProjectService {
                     }
                     // add members
                     foreach ($membersWeight as $memberName => $weight) {
-                        $memberId =  $this->addMember($projectid, $memberName, $weight);
+                        $memberId = $this->addMember($projectid, $memberName, $weight);
                         if (!is_numeric($memberId)) {
                             $this->deleteProject($projectid);
                             $response = ['message'=>'Error when adding member '.$memberName];
@@ -2422,7 +2422,7 @@ class ProjectService {
        /**
      * @NoAdminRequired
      */
-    public function importSWProject($path) {
+    public function importSWProject($path, $userId) {
         $cleanPath = str_replace(array('../', '..\\'), '',  $path);
         $userFolder = \OC::$server->getUserFolder();
         if ($userFolder->nodeExists($cleanPath)) {
@@ -2450,8 +2450,7 @@ class ProjectService {
                                 !array_key_exists('Currency', $columns)
                             ) {
                                 fclose($handle);
-                                $response = new DataResponse(['message'=>'Malformed CSV, bad column names'], 400);
-                                return $response;
+                                return ['message'=>'Malformed CSV, bad column names'];
                             }
                             // manage members
                             $m=0;
@@ -2462,8 +2461,7 @@ class ProjectService {
                             foreach ($owersArray as $ower) {
                                 if (strlen($ower) === 0) {
                                     fclose($handle);
-                                    $response = new DataResponse(['message'=>'Malformed CSV, cannot have an empty ower'], 400);
-                                    return $response;
+                                    return ['message'=>'Malformed CSV, cannot have an empty ower'];
                                 }
                                 if (!array_key_exists($ower, $membersWeight)) {
                                     $membersWeight[$ower] = 1.0;
@@ -2495,15 +2493,13 @@ class ProjectService {
                                 };
                             }
                             if (!isset($payer_name) || empty($payer_name)) {
-                                $response = new DataResponse(['message'=>'Malformed CSV, no payer in row: '.$row], 400);
-                                return $response;
+                                return ['message'=>'Malformed CSV, no payer in row: '.$row];
                             }
                             $payer_weight = 1;
 
                             if (!is_numeric($amount)) {
                                 fclose($handle);
-                                $response = new DataResponse(['message'=>'Malformed CSV, bad amount on line '.$row], 400);
-                                return $response;
+                                return ['message'=>'Malformed CSV, bad amount on line '.$row];
                             }
                             array_push($bills,
                                 [
@@ -2522,26 +2518,21 @@ class ProjectService {
                     $memberNameToId = [];
 
                     // add project
-                    $user = $this->userManager->get($this->userId);
+                    $user = $this->userManager->get($userId);
                     $userEmail = $user->getEMailAddress();
                     $projectid = str_replace('.csv', '', $file->getName());
                     $projectName = $projectid;
-                    $projResult = $this->createProject($projectName, $projectid, '', $userEmail, $this->userId);
-                    if ($projResult->getStatus() !== 200) {
-                        $response = new DataResponse('Error in project creation '.$projResult->getData()['message'], 400);
-                        return $response;
+                    $projResult = $this->createProject($projectName, $projectid, '', $userEmail, $userId);
+                    if (!is_string($projResult)) {
+                        return ['message'=>'Error in project creation '.$projResult['message']];
                     }
                     // add members
                     foreach ($membersWeight as $memberName => $weight) {
-                        $addMemberResult =  $this->addMember($projectid, $memberName, $weight);
-                        if ($addMemberResult->getStatus() !== 200) {
+                        $memberId = $this->addMember($projectid, $memberName, $weight);
+                        if (!is_numeric($memberId)) {
                             $this->deleteProject($projectid);
-                            $response = new DataResponse(['message'=>'Error when adding member '.$memberName], 400);
-                            return $response;
+                            return ['message'=>'Error when adding member '.$memberName];
                         }
-                        $data = $addMemberResult->getData();
-                        $memberId = $data;
-
                         $memberNameToId[$memberName] = $memberId;
                     }
                     // add bills
@@ -2553,24 +2544,23 @@ class ProjectService {
                         }
                         $owerIdsStr = implode(',', $owerIds);
                         $addBillResult = $this->addBill($projectid, $bill['date'], $bill['what'], $payerId, $owerIdsStr, $bill['amount'], 'n');
-                        if ($addBillResult->getStatus() !== 200) {
+                        if (!is_numeric($addBillResult)) {
                             $this->deleteProject($projectid);
-                            $response = new DataResponse(['message'=>'Error when adding bill '.$bill['what']], 400);
-                            return $response;
+                            return ['message'=>'Error when adding bill '.$bill['what']];
                         }
                     }
-                    $response = new DataResponse($projectid);
+                    $response = $projectid;
                 }
                 else {
-                    $response = new DataResponse(['message'=>'Access denied'], 403);
+                    $response = ['message'=>'Access denied'];
                 }
             }
             else {
-                $response = new DataResponse(['message'=>'Access denied'], 403);
+                $response = ['message'=>'Access denied'];
             }
         }
         else {
-            $response = new DataResponse(['message'=>'Access denied'], 403);
+            $response = ['message'=>'Access denied'];
         }
 
         return $response;

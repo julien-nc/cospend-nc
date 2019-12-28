@@ -267,7 +267,8 @@
                 members: [],
                 active_members: [],
                 balance: {},
-                external: false
+                external: false,
+                guestpermissions: 'edc'
             });
 
             var div = $('#newprojectdiv');
@@ -408,7 +409,8 @@
         });
     }
 
-    function createBill(projectid, what, amount, payer_id, date, owerIds, repeat, custom=false, paymentmode=null, categoryid=null) {
+    function createBill(projectid, what, amount, payer_id, date, owerIds, repeat,
+                        custom=false, paymentmode=null, categoryid=null, repeatallactive=0) {
         $('.loading-bill').addClass('icon-loading-small');
         var req = {
             what: what,
@@ -417,6 +419,7 @@
             payed_for: owerIds.join(','),
             amount: amount,
             repeat: repeat,
+            repeatallactive: repeatallactive,
             paymentmode: paymentmode,
             categoryid: categoryid
         };
@@ -450,6 +453,7 @@
                 amount: amount,
                 payer_id: payer_id,
                 repeat: repeat,
+                repeatallactive: repeatallactive,
                 paymentmode: paymentmode,
                 categoryid: categoryid
             };
@@ -463,7 +467,7 @@
             var bill = cospend.bills[projectid][billid];
             if (!custom) {
                 updateBillItem(projectid, 0, bill);
-                updateDisplayedBill(projectid, billid, what, payer_id, repeat, paymentmode, categoryid);
+                updateDisplayedBill(projectid, billid, what, payer_id, repeat, paymentmode, categoryid, repeatallactive);
             }
             else {
                 addBill(projectid, bill);
@@ -479,7 +483,8 @@
         });
     }
 
-    function saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat, paymentmode=null, categoryid=null) {
+    function saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat,
+                      paymentmode=null, categoryid=null, repeatallactive=null) {
         $('.loading-bill').addClass('icon-loading-small');
         var req = {
             what: what,
@@ -488,6 +493,7 @@
             payed_for: owerIds.join(','),
             amount: amount,
             repeat: repeat,
+            repeatallactive: repeatallactive,
             paymentmode: paymentmode,
             categoryid: categoryid
         };
@@ -522,6 +528,7 @@
             cospend.bills[projectid][billid].amount = amount;
             cospend.bills[projectid][billid].payer_id = payer_id;
             cospend.bills[projectid][billid].repeat = repeat;
+            cospend.bills[projectid][billid].repeatallactive = repeatallactive;
             cospend.bills[projectid][billid].paymentmode = paymentmode;
             cospend.bills[projectid][billid].categoryid = categoryid;
             var billOwers = [];
@@ -533,7 +540,7 @@
             // update ui
             var bill = cospend.bills[projectid][billid];
             updateBillItem(projectid, billid, bill);
-            updateDisplayedBill(projectid, billid, what, payer_id, repeat, paymentmode, categoryid);
+            updateDisplayedBill(projectid, billid, what, payer_id, repeat, paymentmode, categoryid, repeatallactive);
 
             updateProjectBalances(projectid);
 
@@ -1276,7 +1283,7 @@
         return cospend.projects[projectid].name;
     }
 
-    function updateDisplayedBill(projectid, billid, what, payer_id, repeat, paymentmode=null, categoryid=null) {
+    function updateDisplayedBill(projectid, billid, what, payer_id, repeat, paymentmode=null, categoryid=null, repeatallactive=0) {
         var projectName = getProjectName(projectid);
         $('.bill-title').attr('billid', billid);
         var c = {r: 128, g: 128, b: 128};
@@ -1473,6 +1480,10 @@
             '               <option value="m">'+t('cospend', 'month')+'</option>' +
             '               <option value="y">'+t('cospend', 'year')+'</option>' +
             '            </select>' +
+            '           <input id="repeatallactive" class="checkbox" type="checkbox"/>' +
+            '           <label for="repeatallactive" class="checkboxlabel">' +
+            '               ' + t('cospend', 'Include all active member on repeat') +
+            '           </label> ' +
             '        </div>' +
             '        <div class="bill-payment-mode">' +
             '            <label for="payment-mode">' +
@@ -1536,10 +1547,17 @@
             $('#repeatbill').val(bill.repeat);
             $('#payment-mode').val(bill.paymentmode || 'n');
             $('#category').val(bill.categoryid || '0');
+            $('#repeatallactive').prop('checked', bill.repeatallactive || false);
+            if (bill.repeat === 'n') {
+                $('#repeatallactive').hide();
+                $('label[for=repeatallactive]').hide();
+            }
         }
         else {
             $('.bill-type').show();
             $('#owerValidate').show();
+            $('#repeatallactive').hide();
+            $('label[for=repeatallactive]').hide();
         }
     }
 
@@ -1727,6 +1745,9 @@
             guestLink = OC.generateUrl('/apps/cospend/loginproject/'+projectid);
             guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
         }
+        var editPerm = (project.guestpermissions.indexOf('e') !== -1);
+        var delPerm = (project.guestpermissions.indexOf('d') !== -1);
+        var creaPerm = (project.guestpermissions.indexOf('c') !== -1);
         var li =
             '<li class="projectitem collapsible" projectid="'+projectid+'">' +
             '    <a class="icon-folder" href="#" title="'+projectid+'">' +
@@ -1773,7 +1794,15 @@
             '            <li>' +
             '                <a href="#" class="copyProjectGuestLink" title="'+guestLink+'">' +
             '                    <span class="icon-clippy"></span>' +
-            '                    <span>'+guestAccessStr+'</span>' +
+            '                    <span>'+guestAccessStr+'&nbsp</span>' +
+            '                    <div class="guestpermissions">' +
+            '                       <div class="icon-category-disabled permguest permDelete '+(delPerm ? 'permActive' : '')+'" ' +
+            '                       title="'+t('cospend', 'Permission to delete bills')+'"></div>'+
+            '                       <div class="icon-rename permguest permEdit '+(editPerm ? 'permActive' : '')+'" ' +
+            '                       title="'+t('cospend', 'Permission to edit bills and project')+'"></div>'+
+            '                       <div class="icon-add permguest permCreate '+(creaPerm ? 'permActive' : '')+'" ' +
+            '                       title="'+t('cospend', 'Permission to create bills')+'"></div>'+
+            '                    </div>' +
             '                </a>' +
             '            </li>' +
             '            <li>' +
@@ -1878,7 +1907,9 @@
             for (i=0; i < project.shares.length; i++) {
                 var userid = project.shares[i].userid;
                 var username = project.shares[i].name;
-                addUserShare(projectid, userid, username);
+                var shid = project.shares[i].id;
+                var permissions = project.shares[i].permissions;
+                addShare(projectid, userid, username, shid, false, permissions);
             }
         }
 
@@ -1886,7 +1917,9 @@
             for (i=0; i < project.group_shares.length; i++) {
                 var groupid = project.group_shares[i].groupid;
                 var groupname = project.group_shares[i].name;
-                addGroupShare(projectid, groupid, groupname);
+                var shid = project.group_shares[i].id;
+                var permissions = project.group_shares[i].permissions;
+                addShare(projectid, groupid, groupname, shid, true, permissions);
             }
         }
 
@@ -1995,6 +2028,7 @@
         var amount = parseFloat($('.input-bill-amount').val());
         var payer_id = parseInt($('.input-bill-payer').val());
         var repeat = $('#repeatbill').val();
+        var repeatallactive = $('#repeatallactive').is(':checked') ? 1 : 0;
         var paymentmode = $('#payment-mode').val();
         var categoryid = $('#category').val();
 
@@ -2027,7 +2061,7 @@
 
         // if valid, save the bill or create it if needed
         if (valid) {
-            createBill(projectid, what, amount, payer_id, date, owerIds, repeat, false, paymentmode, categoryid);
+            createBill(projectid, what, amount, payer_id, date, owerIds, repeat, false, paymentmode, categoryid, repeatallactive);
         }
         else {
             OC.Notification.showTemporary(t('cospend', 'Bill values are not valid'));
@@ -2051,6 +2085,7 @@
         var amount = parseFloat($('.input-bill-amount').val());
         var payer_id = parseInt($('.input-bill-payer').val());
         var repeat = $('#repeatbill').val();
+        var repeatallactive = $('#repeatallactive').is(':checked') ? 1 : 0;
         var paymentmode = $('#payment-mode').val();
         var categoryid = $('#category').val();
 
@@ -2100,12 +2135,13 @@
                 oldBill.amount !== amount ||
                 oldBill.date !== date ||
                 oldBill.repeat !== repeat ||
+                oldBill.repeatallactive !== repeatallactive ||
                 oldBill.payer_id !== payer_id ||
                 oldBill.categoryid !== categoryid ||
                 oldBill.paymentmode !== paymentmode ||
                 owersChanged
             ) {
-                saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat, paymentmode, categoryid);
+                saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat, paymentmode, categoryid, repeatallactive);
             }
         }
         else {
@@ -2150,6 +2186,9 @@
                 for (var k in optionsValues) {
                     if (k === 'selectedProject') {
                         cospend.restoredSelectedProjectId = optionsValues[k];
+                    }
+                    else if (k === 'outputDirectory') {
+                        $('#outputDirectory').text(optionsValues[k])
                     }
                 }
             }
@@ -2253,7 +2292,7 @@
             data: req,
             async: true
         }).done(function (response) {
-            addUserShare(projectid, userid, username);
+            addShare(projectid, userid, username, response, false, 'edc');
             var projectname = getProjectName(projectid);
             OC.Notification.showTemporary(t('cospend', 'Shared project {pname} with {uname}', {pname: projectname, uname: username}));
         }).always(function() {
@@ -2263,23 +2302,11 @@
         });
     }
 
-    function addUserShare(projectid, userid, username) {
-        var displayString = userid;
-        if (userid !== username) {
-            displayString = username + ' (' + userid + ')';
-        }
-        var li = '<li userid="'+escapeHTML(userid)+'" username="' + escapeHTML(username) + '">' +
-            '<div class="shareLabel"><div class="shareLabelIcon icon-user"></div><span>' + displayString + '</span></div>' +
-            '<div class="icon-delete deleteUserShareButton"></div></li>';
-        $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share').append(li);
-        $('.projectitem[projectid="' + projectid + '"] .shareinput').val('');
-    }
-
-    function deleteUserShareDb(projectid, userid) {
-        $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[userid=' + userid + '] .deleteUserShareButton').addClass('icon-loading-small');
+    function deleteUserShareDb(projectid, shid) {
+        $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteUserShareButton').addClass('icon-loading-small');
         var req = {
             projectid: projectid,
-            userid: userid
+            shid: shid
         };
         var url = OC.generateUrl('/apps/cospend/deleteUserShare');
         $.ajax({
@@ -2288,12 +2315,12 @@
             data: req,
             async: true
         }).done(function (response) {
-            var li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[userid=' + userid + ']');
+            var li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + ']');
             li.fadeOut('normal', function() {
                 li.remove();
             });
         }).always(function() {
-            $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[userid=' + userid + '] .deleteUserShareButton').removeClass('icon-loading-small');
+            $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteUserShareButton').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('cospend', 'Failed to delete user share') + ' ' + response.responseText);
         });
@@ -2312,7 +2339,7 @@
             data: req,
             async: true
         }).done(function (response) {
-            addGroupShare(projectid, groupid, groupname);
+            addShare(projectid, groupid, groupname, response, true, 'edc');
             var projectname = getProjectName(projectid);
             OC.Notification.showTemporary(t('cospend', 'Shared project {pname} with group {gname}', {pname: projectname, gname: groupname}));
         }).always(function() {
@@ -2322,24 +2349,43 @@
         });
     }
 
-    function addGroupShare(projectid, groupid, groupname) {
-        var displayString = groupid;
-        if (groupid !== groupname) {
-            displayString = groupname + ' (' + groupid + ')';
+    function addShare(projectid, elemId, elemName, id, isGroup, permissions) {
+        var displayString = elemId;
+        if (elemId !== elemName) {
+            displayString = elemName + ' (' + elemId + ')';
         }
-        var g = t('cospend', 'group');
-        var li = '<li groupid="'+escapeHTML(groupid)+'" groupname="' + escapeHTML(groupname) + '">' +
-            '<div class="shareLabel"><div class="shareLabelIcon icon-group"></div>' + displayString + '</div>' +
-            '<div class="icon-delete deleteGroupShareButton"></div></li>';
+        var iconClass, deleteButtonClass;
+        if (isGroup) {
+            iconClass = 'icon-group';
+            deleteButtonClass = 'deleteGroupShareButton';
+        }
+        else {
+            iconClass = 'icon-user';
+            deleteButtonClass = 'deleteUserShareButton';
+        }
+        var editPerm = (permissions.indexOf('e') !== -1);
+        var delPerm = (permissions.indexOf('d') !== -1);
+        var creaPerm = (permissions.indexOf('c') !== -1);
+        var li = '<li shid="'+id+'" elemid="'+escapeHTML(elemId)+'" elemname="' + escapeHTML(elemName) + '">' +
+            '<div class="shareLabel"><div class="shareLabelIcon '+iconClass+'">'+
+            '</div><span>' + displayString + '</span></div>' +
+            '<div class="icon-delete '+deleteButtonClass+'"></div>'+
+            '<div class="icon-category-disabled perm permDelete '+(delPerm ? 'permActive' : '')+'" ' +
+            'title="'+t('cospend', 'Permission to delete bills')+'"></div>'+
+            '<div class="icon-rename perm permEdit '+(editPerm ? 'permActive' : '')+'" ' +
+            'title="'+t('cospend', 'Permission to edit bills and project')+'"></div>'+
+            '<div class="icon-add perm permCreate '+(creaPerm ? 'permActive' : '')+'" ' +
+            'title="'+t('cospend', 'Permission to create bills')+'"></div>'+
+            '</li>';
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share').append(li);
         $('.projectitem[projectid="' + projectid + '"] .shareinput').val('');
     }
 
-    function deleteGroupShareDb(projectid, groupid) {
-        $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[groupid=' + groupid + '] .deleteGroupShareButton').addClass('icon-loading-small');
+    function deleteGroupShareDb(projectid, shid) {
+        $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteGroupShareButton').addClass('icon-loading-small');
         var req = {
             projectid: projectid,
-            groupid: groupid
+            shid: shid
         };
         var url = OC.generateUrl('/apps/cospend/deleteGroupShare');
         $.ajax({
@@ -2348,15 +2394,104 @@
             data: req,
             async: true
         }).done(function (response) {
-            var li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[groupid=' + groupid + ']');
+            var li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + ']');
             li.fadeOut('normal', function() {
                 li.remove();
             });
         }).always(function() {
-            $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[groupid=' + groupid + '] .deleteGroupShareButton').removeClass('icon-loading-small');
+            $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteGroupShareButton').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('cospend', 'Failed to delete group share') + ' ' + response.responseText);
         });
+    }
+
+    function editSharePermissionsDb(projectid, shid, e, d, c) {
+        $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
+        $('.li[shid="'+shid+'"] perm').addClass('icon-loading-small');
+        var req = {
+            projectid: projectid,
+            shid: shid,
+            permissions: (e ? 'e': '') + (c ? 'c': '') + (d ? 'd': '')
+        };
+        var url = OC.generateUrl('/apps/cospend/editSharePermissions');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            applySharePermissions(projectid, shid, e, d, c);
+        }).always(function() {
+            $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
+            $('.li[shid="'+shid+'"] perm').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to edit share permissions') + ' ' + response.responseText);
+        });
+    }
+
+    function applySharePermissions(projectid, shid, e, d, c) {
+        var shLine = $('li[shid="'+shid+'"]');
+        if (e) {
+            shLine.find('.permEdit').addClass('permActive');
+        }
+        else {
+            shLine.find('.permEdit').removeClass('permActive');
+        }
+        if (d) {
+            shLine.find('.permDelete').addClass('permActive');
+        }
+        else {
+            shLine.find('.permDelete').removeClass('permActive');
+        }
+        if (c) {
+            shLine.find('.permCreate').addClass('permActive');
+        }
+        else {
+            shLine.find('.permCreate').removeClass('permActive');
+        }
+    }
+
+    function editGuestPermissionsDb(projectid, e, d, c) {
+        $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
+        var req = {
+            projectid: projectid,
+            permissions: (e ? 'e': '') + (c ? 'c': '') + (d ? 'd': '')
+        };
+        var url = OC.generateUrl('/apps/cospend/editGuestPermissions');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            applyGuestPermissions(projectid, e, d, c);
+        }).always(function() {
+            $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to edit guest permissions') + ' ' + response.responseText);
+        });
+    }
+
+    function applyGuestPermissions(projectid, e, d, c) {
+        var projectLine = $('#projectlist li[projectid="'+projectid+'"]');
+        if (e) {
+            projectLine.find('.permEdit').addClass('permActive');
+        }
+        else {
+            projectLine.find('.permEdit').removeClass('permActive');
+        }
+        if (d) {
+            projectLine.find('.permDelete').addClass('permActive');
+        }
+        else {
+            projectLine.find('.permDelete').removeClass('permActive');
+        }
+        if (c) {
+            projectLine.find('.permCreate').addClass('permActive');
+        }
+        else {
+            projectLine.find('.permCreate').removeClass('permActive');
+        }
     }
 
     function selectProject(projectitem) {
@@ -2587,6 +2722,7 @@
         var amount = parseFloat($('.input-bill-amount').val());
         var payer_id = parseInt($('.input-bill-payer').val());
         var repeat = 'n';
+        var repeatallactive = 0;
         var paymentmode = $('#payment-mode').val();
         var categoryid = $('#category').val();
 
@@ -2645,12 +2781,12 @@
                 var amountVal = parseFloat($(this).val());
                 var owerSelected = $('.owerEntry input[owerid="'+owerId+'"]').is(':checked');
                 if (!isNaN(amountVal) && amountVal > 0.0 && owerSelected) {
-                    createBill(projectid, what, amountVal, payer_id, date, [owerId], repeat, true, paymentmode, categoryid);
+                    createBill(projectid, what, amountVal, payer_id, date, [owerId], repeat, true, paymentmode, categoryid, repeatallactive);
                     tmpAmount = tmpAmount - amountVal;
                 }
             });
             // create equitable bill with the rest
-            createBill(projectid, what, tmpAmount, payer_id, date, owerIds, repeat, true, paymentmode, categoryid);
+            createBill(projectid, what, tmpAmount, payer_id, date, owerIds, repeat, true, paymentmode, categoryid, repeatallactive);
             // empty bill detail
             $('#billdetail').html('');
             // remove new bill line
@@ -2675,6 +2811,7 @@
         var amount = parseFloat($('.input-bill-amount').val());
         var payer_id = parseInt($('.input-bill-payer').val());
         var repeat = 'n';
+        var repeatallactive = 0;
         var paymentmode = $('#payment-mode').val();
         var categoryid = $('#category').val();
 
@@ -2696,7 +2833,7 @@
                 var owerId = parseInt($(this).attr('owerid'));
                 var amountVal = parseFloat($(this).val());
                 if (!isNaN(amountVal) && amountVal > 0.0) {
-                    createBill(projectid, what, amountVal, payer_id, date, [owerId], repeat, true, paymentmode, categoryid);
+                    createBill(projectid, what, amountVal, payer_id, date, [owerId], repeat, true, paymentmode, categoryid, repeatallactive);
                     total = total + amountVal;
                 }
             });
@@ -2741,6 +2878,7 @@
         else {
             //restoreOptionsFromUrlParams();
             $('#newprojectbutton').hide();
+            $('#set-output-div').hide();
             $('#addextprojectbutton').hide();
             $('#importProjectButton').hide();
             $('#importSWProjectButton').hide();
@@ -2775,14 +2913,47 @@
 
         $('body').on('click', '.deleteUserShareButton', function(e) {
             var projectid = $(this).parent().parent().parent().attr('projectid');
-            var userid = $(this).parent().attr('userid');
-            deleteUserShareDb(projectid, userid);
+            var shid = $(this).parent().attr('shid');
+            deleteUserShareDb(projectid, shid);
         });
 
         $('body').on('click', '.deleteGroupShareButton', function(e) {
             var projectid = $(this).parent().parent().parent().attr('projectid');
-            var groupid = $(this).parent().attr('groupid');
-            deleteGroupShareDb(projectid, groupid);
+            var shid = $(this).parent().attr('shid');
+            deleteGroupShareDb(projectid, shid);
+        });
+
+        $('body').on('click', '.perm', function(e) {
+            var projectid = $(this).parent().parent().parent().attr('projectid');
+            var shid = $(this).parent().attr('shid');
+            var e = $(this).parent().find('.permEdit').hasClass('permActive');
+            var d = $(this).parent().find('.permDelete').hasClass('permActive');
+            var c = $(this).parent().find('.permCreate').hasClass('permActive');
+            if ($(this).hasClass('permDelete')) {
+                editSharePermissionsDb(projectid, shid, e, !d, c);
+            }
+            else if ($(this).hasClass('permEdit')) {
+                editSharePermissionsDb(projectid, shid, !e, d, c);
+            }
+            else if ($(this).hasClass('permCreate')) {
+                editSharePermissionsDb(projectid, shid, e, d, !c);
+            }
+        });
+
+        $('body').on('click', '.permguest', function(e) {
+            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            var e = $(this).parent().find('.permEdit').hasClass('permActive');
+            var d = $(this).parent().find('.permDelete').hasClass('permActive');
+            var c = $(this).parent().find('.permCreate').hasClass('permActive');
+            if ($(this).hasClass('permDelete')) {
+                editGuestPermissionsDb(projectid, e, !d, c);
+            }
+            else if ($(this).hasClass('permEdit')) {
+                editGuestPermissionsDb(projectid, !e, d, c);
+            }
+            else if ($(this).hasClass('permCreate')) {
+                editGuestPermissionsDb(projectid, e, d, !c);
+            }
         });
 
         $('body').on('click', '.shareProjectButton', function(e) {
@@ -3117,8 +3288,23 @@
         $('body').on('change', '.input-bill-date, #billdetail .bill-form select', function(e) {
             onBillEdited();
         });
+        $('body').on('click', '#repeatallactive', function(e) {
+            onBillEdited();
+        });
 
-        $('body').on('change', '#billdetail .bill-form input[type=checkbox]', function(e) {
+        // show/hide repeatallactive
+        $('body').on('change', '#repeatbill', function(e) {
+            if ($(this).val() === 'n') {
+                $('#repeatallactive').hide();
+                $('label[for=repeatallactive]').hide();
+            }
+            else {
+                $('#repeatallactive').show();
+                $('label[for=repeatallactive]').show();
+            }
+        });
+
+        $('body').on('change', '#billdetail .bill-form .bill-owers input[type=checkbox]', function(e) {
             var billtype = $('#billtype').val();
             if (billtype === 'perso') {
                 if ($(this).is(':checked')) {
@@ -3327,7 +3513,7 @@
             exportProject(projectid);
         });
 
-        $('body').on('click', '.autoexportSelect', function(e) {
+        $('body').on('click', '.autoexportSelect, .permguest', function(e) {
             e.stopPropagation();
         });
 
@@ -3411,6 +3597,10 @@
                 $('#amount').val('0');
                 $('#amount').prop('disabled', false);
                 $('#repeatbill').prop('disabled', false);
+                if ($('#repeatbill').val() !== 'n') {
+                    $('#repeatallactive').show();
+                    $('label[for=repeatallactive]').show();
+                }
             }
             else if (billtype === 'custom') {
                 $('#owerNone').hide();
@@ -3422,6 +3612,8 @@
                 updateCustomAmount();
                 $('#amount').prop('disabled', true);
                 $('#repeatbill').val('n').prop('disabled', true);
+                $('#repeatallactive').hide();
+                $('label[for=repeatallactive]').hide();
             }
             else if (billtype === 'perso') {
                 $('#owerNone').show();
@@ -3437,6 +3629,8 @@
                 });
                 $('#amount').prop('disabled', false);
                 $('#repeatbill').val('n').prop('disabled', true);
+                $('#repeatallactive').hide();
+                $('label[for=repeatallactive]').hide();
             }
             $('#owerValidate').text(owerValidateStr);
         });
@@ -3475,6 +3669,22 @@
             else if (billtype === 'normal') {
                 createNormalBill();
             }
+        });
+
+        $('body').on('click', '#changeOutputButton', function() {
+            OC.dialogs.filepicker(
+                t('maps', 'Choose where to write output files (stats, settlement, export)'),
+                function(targetPath) {
+                    if (targetPath === '') {
+                        targetPath = '/';
+                    }
+                    saveOptionValue({outputDirectory: targetPath});
+                    $('#outputDirectory').text(targetPath)
+                },
+                false,
+                'httpd/unix-directory',
+                true
+            );
         });
 
         if (OCA.Theming) {

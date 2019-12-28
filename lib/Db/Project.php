@@ -22,6 +22,7 @@ class Project extends Entity {
     protected $password;
     protected $autoexport;
     protected $lastchanged;
+    protected $guestpermissions;
 
     public function __construct() {
         $this->addType('id', 'string');
@@ -31,5 +32,6 @@ class Project extends Entity {
         $this->addType('password', 'string');
         $this->addType('autoexport', 'string');
         $this->addType('lastchanged', 'integer');
+        $this->addType('guestpermissions', 'string');
     }
 }

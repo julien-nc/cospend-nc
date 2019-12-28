@@ -5,7 +5,7 @@ build_dir=/tmp/build
 sign_dir=/tmp/sign
 cert_dir=$(HOME)/.nextcloud/certificates
 webserveruser ?= www-data
-occ_dir ?= /var/www/html/n16
+occ_dir ?= /var/www/html/n17
 
 all: appstore
 

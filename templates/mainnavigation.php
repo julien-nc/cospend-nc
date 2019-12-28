@@ -15,7 +15,7 @@
             <input id="projectnameinput" type="text" value="<?php p($l->t('My project name')); ?>"/>
 
             <label for="projectpasswordinput"><?php p($l->t('password (optional, required to connect with MoneyBuster)')); ?></label>
-            <input id="projectpasswordinput" type="password" value=""/>
+            <input id="projectpasswordinput" type="password" value="" autocomplete="off"/>
             <button id="createproject" type="button" class="icon-add">
                 <?php p($l->t('Add project')); ?>
             </button>
@@ -55,7 +55,7 @@
                 <br/>
 
                 <label for="extprojectpasswordinput"><?php p($l->t('password')); ?></label>
-                <input id="extprojectpasswordinput" type="password" value="lala"/>
+                <input id="extprojectpasswordinput" type="password" value="" autocomplete="off"/>
                 <button id="addextproject" type="button" class="icon-add">
                     <?php p($l->t('Add')); ?>
                 </button>
@@ -72,6 +72,12 @@
         <button id="generalGuestLinkButton" class="icon-clippy" >
             <?php p($l->t('Guest access link')); ?>
         </button>
+        <div id="set-output-div">
+            <button id="changeOutputButton" class="icon-folder" >
+                <?php p($l->t('Change output directory')); ?>
+            </button>
+            <label id="outputDirectory">/Cospend</label>
+        </div>
     </div>
 </div>
 <p id="projectid"><?php p($_['projectid']); ?></p>

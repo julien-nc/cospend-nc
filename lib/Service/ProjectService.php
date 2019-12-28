@@ -13,6 +13,7 @@
 namespace OCA\Cospend\Service;
 
 use OCP\IL10N;
+use OCP\IConfig;
 use OCP\ILogger;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
@@ -32,11 +33,13 @@ class ProjectService {
 
     private $l10n;
     private $logger;
+    private $config;
     private $qb;
     private $dbconnection;
 
     public function __construct (ILogger $logger,
                                 IL10N $l10n,
+                                IConfig $config,
                                 ProjectMapper $projectMapper,
                                 BillMapper $billMapper,
                                 ActivityManager $activityManager,
@@ -45,6 +48,7 @@ class ProjectService {
                                 IUserManager $userManager,
                                 IGroupManager $groupManager) {
         $this->trans = $l10n;
+        $this->config = $config;
         $this->logger = $logger;
         $this->qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
         $this->dbconnection = \OC::$server->getDatabaseConnection();
@@ -123,6 +127,90 @@ class ProjectService {
                     return false;
                 }
             }
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * check if user owns the project
+     * or if the project is shared with the user with corresponding permission
+     */
+    public function userHasPermission($userid, $projectid, $permission) {
+        $projectInfo = $this->getProjectInfo($projectid);
+        if ($projectInfo !== null) {
+            // does the user own the project ?
+            if ($projectInfo['userid'] === $userid) {
+                return true;
+            }
+            else {
+                $qb = $this->dbconnection->getQueryBuilder();
+                // is the project shared with the user ?
+                $qb->select('userid', 'projectid', 'permissions')
+                    ->from('cospend_shares', 's')
+                    ->where(
+                        $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+                    )
+                    ->andWhere(
+                        $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                    )
+                    ->andWhere(
+                        $qb->expr()->eq('userid', $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR))
+                    );
+                $req = $qb->execute();
+                $dbProjectId = null;
+                $dbPermissions = null;
+                while ($row = $req->fetch()) {
+                    $dbProjectId = $row['projectid'];
+                    $dbPermissions = $row['permissions'];
+                    break;
+                }
+                $req->closeCursor();
+                $qb = $qb->resetQueryParts();
+
+                if ($dbProjectId !== null and strrpos($dbPermissions, $permission) !== false) {
+                    return true;
+                }
+                else {
+                    // if not, is the project shared with a group containing the user?
+                    $userO = $this->userManager->get($userid);
+
+                    $qb->select('userid', 'permissions')
+                        ->from('cospend_shares', 's')
+                        ->where(
+                            $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
+                        )
+                        ->andWhere(
+                            $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                        );
+                    $req = $qb->execute();
+                    while ($row = $req->fetch()){
+                        $groupId = $row['userid'];
+                        $dbPermissions = $row['permissions'];
+                        if ($this->groupManager->groupExists($groupId)
+                            and $this->groupManager->get($groupId)->inGroup($userO)
+                            and strrpos($dbPermissions, $permission) !== false
+                        ) {
+                            return true;
+                        }
+                    }
+                    $req->closeCursor();
+                    $qb = $qb->resetQueryParts();
+
+                    return false;
+                }
+            }
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function guestHasPermission($projectid, $permission) {
+        $projectInfo = $this->getProjectInfo($projectid);
+        if ($projectInfo !== null) {
+            return (strrpos($projectInfo['guestpermissions'], $permission) !== false);
         }
         else {
             return false;
@@ -299,7 +387,7 @@ class ProjectService {
 
         $qb = $this->dbconnection->getQueryBuilder();
 
-        $qb->select('id', 'password', 'name', 'email', 'userid', 'lastchanged')
+        $qb->select('id', 'password', 'name', 'email', 'userid', 'lastchanged', 'guestpermissions')
            ->from('cospend_projects', 'p')
            ->where(
                $qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -314,6 +402,7 @@ class ProjectService {
             $dbName = $row['name'];
             $dbEmail= $row['email'];
             $dbUserId = $row['userid'];
+            $dbGuestPermissions = $row['guestpermissions'];
             $dbLastchanged = intval($row['lastchanged']);
             break;
         }
@@ -333,6 +422,7 @@ class ProjectService {
                 'name'=>$dbName,
                 'contact_email'=>$dbEmail,
                 'id'=>$dbProjectId,
+                'guestpermissions'=>$dbGuestPermissions,
                 'active_members'=>$activeMembers,
                 'members'=>$members,
                 'balance'=>$balance,
@@ -407,9 +497,13 @@ class ProjectService {
         return $statistics;
     }
 
-    public function addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode=null, $categoryid=null) {
+    public function addBill($projectid, $date, $what, $payer, $payed_for,
+                            $amount, $repeat, $paymentmode=null, $categoryid=null, $repeatallactive=0) {
         if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
             return ['repeat'=> ['Invalid value.']];
+        }
+        if ($repeatallactive === null || $repeatallactive === '' || !is_numeric($repeatallactive)) {
+            return ['repeatallactive'=> ['Invalid value.']];
         }
         if ($date === null || $date === '') {
             return ['date'=> ['This field is required.']];
@@ -453,6 +547,7 @@ class ProjectService {
                 'amount' => $qb->createNamedParameter($amount, IQueryBuilder::PARAM_STR),
                 'payerid' => $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT),
                 'repeat' => $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR),
+                'repeatallactive' => $qb->createNamedParameter($repeatallactive, IQueryBuilder::PARAM_INT),
                 'categoryid' => $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT),
                 'paymentmode' => $qb->createNamedParameter($paymentmode, IQueryBuilder::PARAM_STR),
                 'lastchanged' => $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT)
@@ -596,7 +691,7 @@ class ProjectService {
         $qb = $qb->resetQueryParts();
 
         // get the bill
-        $qb->select('id', 'what', 'date', 'amount', 'payerid', 'repeat', 'paymentmode', 'categoryid')
+        $qb->select('id', 'what', 'date', 'amount', 'payerid', 'repeat', 'repeatallactive', 'paymentmode', 'categoryid')
            ->from('cospend_bills', 'b')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -611,6 +706,7 @@ class ProjectService {
             $dbWhat = $row['what'];
             $dbDate = $row['date'];
             $dbRepeat = $row['repeat'];
+            $dbRepeatAllActive = $row['repeatallactive'];
             $dbPayerId = intval($row['payerid']);
             $dbPaymentMode = $row['paymentmode'];
             $dbCategoryId = intval($row['categoryid']);
@@ -622,6 +718,7 @@ class ProjectService {
                 'payer_id' => $dbPayerId,
                 'owers' => $billOwers,
                 'repeat' => $dbRepeat,
+                'repeatallactive' => $dbRepeatAllActive,
                 'paymentmode' => $dbPaymentMode,
                 'categoryid' => $dbCategoryId
             ];
@@ -1014,7 +1111,8 @@ class ProjectService {
             $billOwersByBill[$billId] = $billOwers;
         }
 
-        $qb->select('id', 'what', 'date', 'amount', 'payerid', 'repeat', 'paymentmode', 'categoryid', 'lastchanged')
+        $qb->select('id', 'what', 'date', 'amount', 'payerid', 'repeat',
+                    'paymentmode', 'categoryid', 'lastchanged', 'repeatallactive')
            ->from('cospend_bills', 'b')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -1067,6 +1165,7 @@ class ProjectService {
             $dbPaymentMode = $row['paymentmode'];
             $dbCategoryId = intval($row['categoryid']);
             $dbLastchanged = intval($row['lastchanged']);
+            $dbRepeatAllActive = intval($row['repeatallactive']);
             array_push(
                 $bills,
                 [
@@ -1079,7 +1178,8 @@ class ProjectService {
                     'repeat' => $dbRepeat,
                     'paymentmode' => $dbPaymentMode,
                     'categoryid' => $dbCategoryId,
-                    'lastchanged' => $dbLastchanged
+                    'lastchanged' => $dbLastchanged,
+                    'repeatallactive' => $dbRepeatAllActive
                 ]
             );
         }
@@ -1242,7 +1342,7 @@ class ProjectService {
 
         $qb = $this->dbconnection->getQueryBuilder();
 
-        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport')
+        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestpermissions')
            ->from('cospend_projects', 'p')
            ->where(
                $qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
@@ -1258,6 +1358,7 @@ class ProjectService {
             $dbName  = $row['name'];
             $dbEmail = $row['email'];
             $autoexport = $row['autoexport'];
+            $guestpermissions = $row['guestpermissions'];
             array_push($projects, [
                 'name'=>$dbName,
                 'contact_email'=>$dbEmail,
@@ -1266,7 +1367,8 @@ class ProjectService {
                 'active_members'=>null,
                 'members'=>null,
                 'balance'=>null,
-                'shares'=>[]
+                'shares'=>[],
+                'guestpermissions'=>$guestpermissions
             ]);
         }
         $req->closeCursor();
@@ -1274,7 +1376,7 @@ class ProjectService {
         $qb = $qb->resetQueryParts();
 
         // shared with user
-        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport')
+        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestpermissions')
            ->from('cospend_projects', 'p')
            ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
            ->where(
@@ -1296,6 +1398,7 @@ class ProjectService {
                 $dbName = $row['name'];
                 $dbEmail= $row['email'];
                 $autoexport = $row['autoexport'];
+                $guestpermissions = $row['guestpermissions'];
                 array_push($projects, [
                     'name'=>$dbName,
                     'contact_email'=>$dbEmail,
@@ -1304,7 +1407,8 @@ class ProjectService {
                     'active_members'=>null,
                     'members'=>null,
                     'balance'=>null,
-                    'shares'=>[]
+                    'shares'=>[],
+                    'guestpermissions'=>$guestpermissions
                 ]);
                 array_push($projectids, $dbProjectId);
             }
@@ -1336,7 +1440,7 @@ class ProjectService {
             $group = $this->groupManager->get($candidateGroupId);
             if ($group !== null && $group->inGroup($userO)) {
                 // get projects shared with this group
-                $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport')
+                $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestpermissions')
                     ->from('cospend_projects', 'p')
                     ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
                     ->where(
@@ -1358,6 +1462,7 @@ class ProjectService {
                         $dbName = $row['name'];
                         $dbEmail= $row['email'];
                         $autoexport = $row['autoexport'];
+                        $guestpermissions = $row['guestpermissions'];
                         array_push($projects, [
                             'name'=>$dbName,
                             'contact_email'=>$dbEmail,
@@ -1366,7 +1471,8 @@ class ProjectService {
                             'active_members'=>null,
                             'members'=>null,
                             'balance'=>null,
-                            'shares'=>[]
+                            'shares'=>[],
+                            'guestpermissions'=>$guestpermissions
                         ]);
                         array_push($projectids, $dbProjectId);
                     }
@@ -1434,7 +1540,7 @@ class ProjectService {
         }
 
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('projectid', 'userid')
+        $qb->select('projectid', 'userid', 'id', 'permissions')
            ->from('cospend_shares', 'sh')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -1446,8 +1552,15 @@ class ProjectService {
         while ($row = $req->fetch()){
             $dbuserId = $row['userid'];
             $dbprojectId = $row['projectid'];
+            $dbId = $row['id'];
+            $dbPermissions = $row['permissions'];
             if (array_key_exists($dbuserId, $userIdToName)) {
-                array_push($shares, ['userid'=>$dbuserId, 'name'=>$userIdToName[$dbuserId]]);
+                array_push($shares, [
+                    'userid'=>$dbuserId,
+                    'name'=>$userIdToName[$dbuserId],
+                    'id'=>$dbId,
+                    'permissions'=>$dbPermissions
+                ]);
             }
         }
         $req->closeCursor();
@@ -1465,7 +1578,7 @@ class ProjectService {
         }
 
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('projectid', 'userid')
+        $qb->select('projectid', 'userid', 'id', 'permissions')
            ->from('cospend_shares', 'sh')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -1477,8 +1590,15 @@ class ProjectService {
         while ($row = $req->fetch()){
             $dbGroupId = $row['userid'];
             $dbprojectId = $row['projectid'];
+            $dbId = $row['id'];
+            $dbPermissions = $row['permissions'];
             if (array_key_exists($dbGroupId, $groupIdToName)) {
-                array_push($shares, ['groupid'=>$dbGroupId, 'name'=>$groupIdToName[$dbGroupId]]);
+                array_push($shares, [
+                    'groupid'=>$dbGroupId,
+                    'name'=>$groupIdToName[$dbGroupId],
+                    'id'=>$dbId,
+                    'permissions'=>$dbPermissions
+                ]);
             }
         }
         $req->closeCursor();
@@ -1542,7 +1662,7 @@ class ProjectService {
     }
 
     public function editBill($projectid, $billid, $date, $what, $payer, $payed_for,
-                              $amount, $repeat, $paymentmode=null, $categoryid=null) {
+                              $amount, $repeat, $paymentmode=null, $categoryid=null, $repeatallactive=null) {
         $qb = $this->dbconnection->getQueryBuilder();
         $qb->update('cospend_bills');
 
@@ -1565,6 +1685,9 @@ class ProjectService {
         }
         $qb->set('repeat', $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR));
 
+        if ($repeatallactive !== null && is_numeric($repeatallactive)) {
+            $qb->set('repeatallactive', $qb->createNamedParameter($repeatallactive, IQueryBuilder::PARAM_INT));
+        }
         if ($paymentmode !== null && is_string($paymentmode)) {
             $qb->set('paymentmode', $qb->createNamedParameter($paymentmode, IQueryBuilder::PARAM_STR));
         }
@@ -1606,7 +1729,7 @@ class ProjectService {
             }
         }
 
-        // do it already !
+        // do it already!
         $qb->where(
                $qb->expr()->eq('id', $qb->createNamedParameter($billid, IQueryBuilder::PARAM_INT))
            )
@@ -1649,7 +1772,7 @@ class ProjectService {
             $continue = false;
             // get bills whith repetition flag
             $qb = $this->dbconnection->getQueryBuilder();
-            $qb->select('id', 'projectid', 'what', 'date', 'amount', 'payerid', 'repeat')
+            $qb->select('id', 'projectid', 'what', 'date', 'amount', 'payerid', 'repeat', 'repeatallactive')
             ->from('cospend_bills', 'b')
             ->where(
                 $qb->expr()->neq('repeat', $qb->createNamedParameter('n', IQueryBuilder::PARAM_STR))
@@ -1660,12 +1783,14 @@ class ProjectService {
                 $id = $row['id'];
                 $what = $row['what'];
                 $repeat = $row['repeat'];
+                $repeatallactive = $row['repeatallactive'];
                 $date = $row['date'];
                 $projectid = $row['projectid'];
                 array_push($bills, [
                     'id' => $id,
                     'what' => $what,
                     'repeat' => $repeat,
+                    'repeatallactive' => $repeatallactive,
                     'date' => $date,
                     'projectid' => $projectid
                 ]);
@@ -1699,7 +1824,7 @@ class ProjectService {
                     }
 
                     // same day of month if possible, otherwise at end of month
-                    $nextDate = new DateTime();
+                    $nextDate = new \DateTime();
                     $nextDate->setDate($nextYear, $nextMonth, 1);
                     if ($billDate->format('d') > $nextDate->format('t')) {
                         $nextDate->setDate($nextYear, $nextMonth, $nextDate->format('t'));
@@ -1758,13 +1883,24 @@ class ProjectService {
         $bill = $this->getBill($projectid, $billid);
 
         $owerIds = [];
-        foreach ($bill['owers'] as $ower) {
-            array_push($owerIds, $ower['id']);
+        if (intval($bill['repeatallactive']) === 1) {
+            $pInfo = $this->getProjectInfo($projectid);
+            foreach ($pInfo['active_members'] as $am) {
+                array_push($owerIds, $am['id']);
+            }
+        }
+        else {
+            foreach ($bill['owers'] as $ower) {
+                if ($ower['activated']) {
+                    array_push($owerIds, $ower['id']);
+                }
+            }
         }
         $owerIdsStr = implode(',', $owerIds);
 
         $newBillId = $this->addBill($projectid, $datetime->format('Y-m-d'), $bill['what'], $bill['payer_id'],
-                       $owerIdsStr, $bill['amount'], $bill['repeat'], $bill['paymentmode'], $bill['categoryid']);
+                                    $owerIdsStr, $bill['amount'], $bill['repeat'], $bill['paymentmode'],
+                                    $bill['categoryid'], $bill['repeatallactive']);
 
         $billObj = $this->billMapper->find($newBillId);
         $this->activityManager->triggerEvent(
@@ -1774,7 +1910,7 @@ class ProjectService {
         );
 
         // now we can remove repeat flag on original bill
-        $this->editBill($projectid, $billid, $bill['date'], $bill['what'], $bill['payer_id'], null, $bill['amount'], 'n');
+        $this->editBill($projectid, $billid, $bill['date'], $bill['what'], $bill['payer_id'], null, $bill['amount'], 'n', null, null, 0);
     }
 
     public function addUserShare($projectid, $userid, $fromUserId) {
@@ -1821,7 +1957,8 @@ class ProjectService {
                     $req = $qb->execute();
                     $qb = $qb->resetQueryParts();
 
-                    $response = 'OK';
+                    $insertedShareId = intval($qb->getLastInsertId());
+                    $response = $insertedShareId;
 
                     // activity
                     $projectObj = $this->projectMapper->find($projectid);
@@ -1869,10 +2006,70 @@ class ProjectService {
         return $response;
     }
 
-    public function deleteUserShare($projectid, $userid, $fromUserId) {
+    public function editSharePermissions($projectid, $shid, $permissions) {
         // check if user share exists
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('userid', 'projectid')
+        $qb->select('id', 'projectid')
+            ->from('cospend_shares', 's')
+            ->where(
+                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+            )
+            ->andWhere(
+                $qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
+            );
+        $req = $qb->execute();
+        $dbId = null;
+        while ($row = $req->fetch()){
+            $dbId = $row['id'];
+            break;
+        }
+        $req->closeCursor();
+        $qb = $qb->resetQueryParts();
+
+        if ($dbId !== null) {
+            // set the permissions
+            $qb->update('cospend_shares')
+                ->set('permissions', $qb->createNamedParameter($permissions, IQueryBuilder::PARAM_STR))
+                ->where(
+                    $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                )
+                ->andWhere(
+                    $qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
+                );
+            $req = $qb->execute();
+            $qb = $qb->resetQueryParts();
+
+            $response = 'OK';
+        }
+        else {
+            $response = ['message'=>'No such share'];
+        }
+
+        return $response;
+    }
+
+    public function editGuestPermissions($projectid, $permissions) {
+        // check if project exists
+        $qb = $this->dbconnection->getQueryBuilder();
+
+        // set the permissions
+        $qb->update('cospend_projects')
+            ->set('guestpermissions', $qb->createNamedParameter($permissions, IQueryBuilder::PARAM_STR))
+            ->where(
+                $qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+            );
+        $req = $qb->execute();
+        $qb = $qb->resetQueryParts();
+
+        $response = 'OK';
+
+        return $response;
+    }
+
+    public function deleteUserShare($projectid, $shid, $fromUserId) {
+        // check if user share exists
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('id', 'userid', 'projectid')
             ->from('cospend_shares', 's')
             ->where(
                 $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
@@ -1881,25 +2078,27 @@ class ProjectService {
                 $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
             )
             ->andWhere(
-                $qb->expr()->eq('userid', $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR))
+                $qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
             );
         $req = $qb->execute();
+        $dbId = null;
         $dbuserId = null;
         while ($row = $req->fetch()){
+            $dbId = $row['id'];
             $dbuserId = $row['userid'];
             break;
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();
 
-        if ($dbuserId !== null) {
+        if ($dbId !== null) {
             // delete
             $qb->delete('cospend_shares')
                 ->where(
                     $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
                 )
                 ->andWhere(
-                    $qb->expr()->eq('userid', $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR))
+                    $qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
                 )
                 ->andWhere(
                     $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
@@ -1914,7 +2113,7 @@ class ProjectService {
             $this->activityManager->triggerEvent(
                 ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
                 ActivityManager::SUBJECT_PROJECT_UNSHARE,
-                ['who'=>$userid, 'type'=>'u']
+                ['who'=>$dbuserId, 'type'=>'u']
             );
 
             // SEND NOTIFICATION
@@ -1932,7 +2131,7 @@ class ProjectService {
                 ->setLink('/apps/cospend', 'GET');
 
             $notification->setApp('cospend')
-                ->setUser($userid)
+                ->setUser($dbuserId)
                 ->setDateTime(new \DateTime())
                 ->setObject('deleteusershare', $projectid)
                 ->setSubject('delete_user_share', [$fromUserId, $projectInfo['name']])
@@ -1989,7 +2188,8 @@ class ProjectService {
                 $req = $qb->execute();
                 $qb = $qb->resetQueryParts();
 
-                $response = 'OK';
+                $insertedShareId = intval($qb->getLastInsertId());
+                $response = $insertedShareId;
 
                 // activity
                 $projectObj = $this->projectMapper->find($projectid);
@@ -1998,29 +2198,6 @@ class ProjectService {
                     ActivityManager::SUBJECT_PROJECT_SHARE,
                     ['who'=>$groupid, 'type'=>'g']
                 );
-
-                //// SEND NOTIFICATION
-                //$manager = \OC::$server->getNotificationManager();
-                //$notification = $manager->createNotification();
-
-                //$acceptAction = $notification->createAction();
-                //$acceptAction->setLabel('accept')
-                //    ->setLink('/apps/cospend', 'GET');
-
-                //$declineAction = $notification->createAction();
-                //$declineAction->setLabel('decline')
-                //    ->setLink('/apps/cospend', 'GET');
-
-                //$notification->setApp('cospend')
-                //    ->setUser($userid)
-                //    ->setDateTime(new \DateTime())
-                //    ->setObject('addusershare', $projectid)
-                //    ->setSubject('add_user_share', [$fromUserId, $projectInfo['name']])
-                //    ->addAction($acceptAction)
-                //    ->addAction($declineAction)
-                //    ;
-
-                //$manager->notify($notification);
             }
             else {
                 $response = ['message'=>'Already shared with this group'];
@@ -2033,10 +2210,10 @@ class ProjectService {
         return $response;
     }
 
-    public function deleteGroupShare($projectid, $groupid, $fromUserId) {
+    public function deleteGroupShare($projectid, $shid, $fromUserId) {
         // check if group share exists
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('userid', 'projectid')
+        $qb->select('userid', 'projectid', 'id')
             ->from('cospend_shares', 's')
             ->where(
                 $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
@@ -2045,12 +2222,14 @@ class ProjectService {
                 $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
             )
             ->andWhere(
-                $qb->expr()->eq('userid', $qb->createNamedParameter($groupid, IQueryBuilder::PARAM_STR))
+                $qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
             );
         $req = $qb->execute();
         $dbGroupId = null;
+        $dbId = null;
         while ($row = $req->fetch()){
             $dbGroupId = $row['userid'];
+            $dbId = $row['id'];
             break;
         }
         $req->closeCursor();
@@ -2063,7 +2242,7 @@ class ProjectService {
                     $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
                 )
                 ->andWhere(
-                    $qb->expr()->eq('userid', $qb->createNamedParameter($groupid, IQueryBuilder::PARAM_STR))
+                    $qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
                 )
                 ->andWhere(
                     $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
@@ -2078,33 +2257,8 @@ class ProjectService {
             $this->activityManager->triggerEvent(
                 ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
                 ActivityManager::SUBJECT_PROJECT_UNSHARE,
-                ['who'=>$groupid, 'type'=>'g']
+                ['who'=>$dbGroupId, 'type'=>'g']
             );
-
-            //// SEND NOTIFICATION
-            //$projectInfo = $this->getProjectInfo($projectid);
-
-            //$manager = \OC::$server->getNotificationManager();
-            //$notification = $manager->createNotification();
-
-            //$acceptAction = $notification->createAction();
-            //$acceptAction->setLabel('accept')
-            //    ->setLink('/apps/cospend', 'GET');
-
-            //$declineAction = $notification->createAction();
-            //$declineAction->setLabel('decline')
-            //    ->setLink('/apps/cospend', 'GET');
-
-            //$notification->setApp('cospend')
-            //    ->setUser($userid)
-            //    ->setDateTime(new \DateTime())
-            //    ->setObject('deleteusershare', $projectid)
-            //    ->setSubject('delete_user_share', [$this->userId, $projectInfo['name']])
-            //    ->addAction($acceptAction)
-            //    ->addAction($declineAction)
-            //    ;
-
-            //$manager->notify($notification);
         }
         else {
             $response = ['message'=>'No such share'];
@@ -2114,26 +2268,15 @@ class ProjectService {
     }
 
     public function exportCsvSettlement($projectid, $userId) {
-        // create Cospend directory if needed
+        // create export directory if needed
+        $outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
         $userFolder = \OC::$server->getUserFolder($userId);
-        if (!$userFolder->nodeExists('/Cospend')) {
-            $userFolder->newFolder('Cospend');
-        }
-        if ($userFolder->nodeExists('/Cospend')) {
-            $folder = $userFolder->get('/Cospend');
-            if ($folder->getType() !== \OCP\Files\FileInfo::TYPE_FOLDER) {
-                $response = ['message'=>'/Cospend is not a folder'];
-                return $response;
-            }
-            else if (!$folder->isCreatable()) {
-                $response = ['message'=>'/Cospend is not writeable'];
-                return $response;
-            }
-        }
-        else {
-            $response = ['message'=>'Impossible to create /Cospend'];
+        $msg = $this->createAndCheckExportDirectory($userFolder, $outPath);
+        if ($msg !== '') {
+            $response = ['message'=>$msg];
             return $response;
         }
+        $folder = $userFolder->get($outPath);
 
         // create file
         if ($folder->nodeExists($projectid.'-settlement.csv')) {
@@ -2156,32 +2299,42 @@ class ProjectService {
 
         fclose($handler);
         $file->touch();
-        $response = ['path'=>'/Cospend/'.$projectid.'-settlement.csv'];
+        $response = ['path'=>$outPath.'/'.$projectid.'-settlement.csv'];
         return $response;
+    }
+
+    private function createAndCheckExportDirectory($userFolder, $outPath) {
+        if (!$userFolder->nodeExists($outPath)) {
+            $userFolder->newFolder($outPath);
+        }
+        if ($userFolder->nodeExists($outPath)) {
+            $folder = $userFolder->get($outPath);
+            if ($folder->getType() !== \OCP\Files\FileInfo::TYPE_FOLDER) {
+                return $outPath.' is not a folder';
+            }
+            else if (!$folder->isCreatable()) {
+                return $outPath.' is not writeable';
+            }
+            else {
+                return '';
+            }
+        }
+        else {
+            return 'Impossible to create '.$outPath;
+        }
     }
 
     public function exportCsvStatistics($projectid, $userId, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null,
                                         $amountMin=null, $amountMax=null) {
-        // create Cospend directory if needed
+        // create export directory if needed
+        $outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
         $userFolder = \OC::$server->getUserFolder($userId);
-        if (!$userFolder->nodeExists('/Cospend')) {
-            $userFolder->newFolder('Cospend');
-        }
-        if ($userFolder->nodeExists('/Cospend')) {
-            $folder = $userFolder->get('/Cospend');
-            if ($folder->getType() !== \OCP\Files\FileInfo::TYPE_FOLDER) {
-                $response = ['message'=>'/Cospend is not a folder'];
-                return $response;
-            }
-            else if (!$folder->isCreatable()) {
-                $response = ['message'=>'/Cospend is not writeable'];
-                return $response;
-            }
-        }
-        else {
-            $response = ['message'=>'Impossible to create /Cospend'];
+        $msg = $this->createAndCheckExportDirectory($userFolder, $outPath);
+        if ($msg !== '') {
+            $response = ['message'=>$msg];
             return $response;
         }
+        $folder = $userFolder->get($outPath);
 
         // create file
         if ($folder->nodeExists($projectid.'-stats.csv')) {
@@ -2201,31 +2354,20 @@ class ProjectService {
 
         fclose($handler);
         $file->touch();
-        $response = ['path'=>'/Cospend/'.$projectid.'-stats.csv'];
+        $response = ['path'=>$outPath.'/'.$projectid.'-stats.csv'];
         return $response;
     }
 
     public function exportCsvProject($projectid, $name, $userId) {
-        // create Cospend directory if needed
+        // create export directory if needed
+        $outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
         $userFolder = \OC::$server->getUserFolder($userId);
-        if (!$userFolder->nodeExists('/Cospend')) {
-            $userFolder->newFolder('Cospend');
-        }
-        if ($userFolder->nodeExists('/Cospend')) {
-            $folder = $userFolder->get('/Cospend');
-            if ($folder->getType() !== \OCP\Files\FileInfo::TYPE_FOLDER) {
-                $response = ['message'=>'/Cospend is not a folder'];
-                return $response;
-            }
-            else if (!$folder->isCreatable()) {
-                $response = ['message'=>'/Cospend is not writeable'];
-                return $response;
-            }
-        }
-        else {
-            $response = ['message'=>'Impossible to create /Cospend'];
+        $msg = $this->createAndCheckExportDirectory($userFolder, $outPath);
+        if ($msg !== '') {
+            $response = ['message'=>$msg];
             return $response;
         }
+        $folder = $userFolder->get($outPath);
 
         // create file
         $filename = $projectid.'.csv';
@@ -2237,7 +2379,7 @@ class ProjectService {
         }
         $file = $folder->newFile($filename);
         $handler = $file->fopen('w');
-        fwrite($handler, "what,amount,date,payer_name,payer_weight,owers,repeat,categoryid,paymentmode\n");
+        fwrite($handler, "what,amount,date,payer_name,payer_weight,owers,repeat,repeatallactive,categoryid,paymentmode\n");
         $members = $this->getMembers($projectid);
         $memberIdToName = [];
         $memberIdToWeight = [];
@@ -2259,13 +2401,13 @@ class ProjectService {
             $payer_name = $memberIdToName[$payer_id];
             $payer_weight = $memberIdToWeight[$payer_id];
             fwrite($handler, '"'.$bill['what'].'",'.floatval($bill['amount']).','.$bill['date'].',"'.$payer_name.'",'.
-                             floatval($payer_weight).',"'.$owersTxt.'",'.$bill['repeat'].','.
+                             floatval($payer_weight).',"'.$owersTxt.'",'.$bill['repeat'].','.$bill['repeatallactive'].','.
                              $bill['categoryid'].','.$bill['paymentmode']."\n");
         }
 
         fclose($handler);
         $file->touch();
-        $response = ['path'=>'/Cospend/'.$filename];
+        $response = ['path'=>$outPath.'/'.$filename];
         return $response;
     }
 
@@ -2317,6 +2459,7 @@ class ProjectService {
                             $repeat = array_key_exists('repeat', $columns) ? $data[$columns['repeat']] : 'n';
                             $categoryid = array_key_exists('categoryid', $columns) ? intval($data[$columns['categoryid']]) : null;
                             $paymentmode = array_key_exists('paymentmode', $columns) ? $data[$columns['paymentmode']] : null;
+                            $repeatallactive = array_key_exists('repeatallactive', $columns) ? $data[$columns['repeatallactive']] : 0;
 
                             // manage members
                             if (is_numeric($payer_weight)) {
@@ -2394,7 +2537,9 @@ class ProjectService {
                             array_push($owerIds, $memberNameToId[$owerName]);
                         }
                         $owerIdsStr = implode(',', $owerIds);
-                        $addBillResult = $this->addBill($projectid, $bill['date'], $bill['what'], $payerId, $owerIdsStr, $bill['amount'], 'n', $bill['paymentmode'], $bill['categoryid']);
+                        $addBillResult = $this->addBill($projectid, $bill['date'], $bill['what'], $payerId,
+                                                        $owerIdsStr, $bill['amount'], 'n', $bill['paymentmode'],
+                                                        $bill['categoryid'], $repeatallactive);
                         if (!is_numeric($addBillResult)) {
                             $this->deleteProject($projectid);
                             $response = ['message'=>'Error when adding bill '.$bill['what']];
@@ -2640,6 +2785,7 @@ class ProjectService {
 
         foreach ($this->userManager->search('') as $u) {
             $uid = $u->getUID();
+            $outPath = $this->config->getUserValue($uid, 'cospend', 'outputDirectory', '/Cospend');
 
             $qb->select('p.id', 'p.name', 'p.autoexport')
             ->from('cospend_projects', 'p')
@@ -2669,7 +2815,7 @@ class ProjectService {
                 $exportName = $dbProjectId.$suffix.'.csv';
 
                 $userFolder = \OC::$server->getUserFolder($uid);
-                if (! $userFolder->nodeExists('/Cospend/'.$exportName)) {
+                if (! $userFolder->nodeExists($outPath.'/'.$exportName)) {
                     $this->exportCsvProject($dbProjectId, $exportName, $uid);
                 }
             }

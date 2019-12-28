@@ -317,7 +317,7 @@ class PageController extends ApiController {
      *
      */
     public function webDeleteProject($projectid) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'd')) {
             $result = $this->projectService->deleteProject($projectid);
             if ($result === 'DELETED') {
                 return new DataResponse($result);
@@ -340,7 +340,7 @@ class PageController extends ApiController {
      *
      */
     public function webDeleteBill($projectid, $billid) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'd')) {
             if ($this->projectService->getBill($projectid, $billid) !== null) {
                 $billObj = $this->billMapper->find($billid);
                 $this->activityManager->triggerEvent(
@@ -451,7 +451,7 @@ class PageController extends ApiController {
      *
      */
     public function webEditMember($projectid, $memberid, $name, $weight, $activated) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
             $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated);
             if (is_array($result) and array_key_exists('activated', $result)) {
                 return new DataResponse($result);
@@ -474,11 +474,11 @@ class PageController extends ApiController {
      *
      */
     public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for,
-                                $amount, $repeat, $paymentmode=null, $categoryid=null) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+                                $amount, $repeat, $paymentmode=null, $categoryid=null, $repeatallactive=null) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
             $result =  $this->projectService->editBill(
                 $projectid, $billid, $date, $what, $payer, $payed_for,
-                $amount, $repeat, $paymentmode, $categoryid
+                $amount, $repeat, $paymentmode, $categoryid, $repeatallactive
             );
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($billid);
@@ -508,7 +508,7 @@ class PageController extends ApiController {
      *
      */
     public function webEditProject($projectid, $name, $contact_email, $password, $autoexport=null) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
             $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport);
             if ($result === 'UPDATED') {
                 return new DataResponse($result);
@@ -577,11 +577,11 @@ class PageController extends ApiController {
      *
      */
     public function webAddBill($projectid, $date, $what, $payer, $payed_for, $amount,
-                               $repeat, $paymentmode=null, $categoryid=null) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+                               $repeat, $paymentmode=null, $categoryid=null, $repeatallactive=0) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
             $result = $this->projectService->addBill(
                 $projectid, $date, $what, $payer, $payed_for, $amount,
-                $repeat, $paymentmode, $categoryid
+                $repeat, $paymentmode, $categoryid, $repeatallactive
             );
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($result);
@@ -611,7 +611,7 @@ class PageController extends ApiController {
      *
      */
     public function webAddMember($projectid, $name) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
             $result = $this->projectService->addMember($projectid, $name, 1);
             if (is_numeric($result)) {
                 // inserted bill id
@@ -714,8 +714,37 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 400
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivGetProjectInfo($projectid) {
+        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+            $projectInfo = $this->projectService->getProjectInfo($projectid);
+            if ($projectInfo !== null) {
+                unset($projectInfo['userid']);
+                return new DataResponse($projectInfo);
+            }
+            else {
+                $response = new DataResponse(
+                    ['message'=>'Project not found in the database']
+                    , 404
+                );
+                return $response;
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action.']
+                , 403
             );
             return $response;
         }
@@ -728,7 +757,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiSetProjectInfo($projectid, $passwd, $name, $contact_email, $password, $autoexport=null) {
-        if ($this->checkLogin($projectid, $passwd)) {
+        if ($this->checkLogin($projectid, $passwd) and $this->projectService->guestHasPermission($projectid, 'e')) {
             $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport);
             if ($result === 'UPDATED') {
                 return new DataResponse($result);
@@ -739,7 +768,31 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivSetProjectInfo($projectid, $name, $contact_email, $password, $autoexport=null) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport);
+            if ($result === 'UPDATED') {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action.']
                 , 401
             );
             return $response;
@@ -760,8 +813,28 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivGetMembers($projectid, $lastchanged=null) {
+        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+            $members = $this->projectService->getMembers($projectid, null, $lastchanged);
+            $response = new DataResponse($members);
+            return $response;
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
             );
             return $response;
         }
@@ -781,8 +854,34 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivGetBills($projectid, $lastchanged=null) {
+        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+            $bills = $this->projectService->getBills($projectid, null, null, null, null, null, null, $lastchanged);
+            $billIds = $this->projectService->getAllBillIds($projectid);
+            $ts = (new \DateTime())->getTimestamp();
+            $response = new DataResponse([
+                'bills'=>$bills,
+                'allBillIds'=>$billIds,
+                'timestamp'=>$ts
+            ]);
+            return $response;
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
             );
             return $response;
         }
@@ -808,7 +907,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
             );
             return $response;
@@ -822,7 +921,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiAddMember($projectid, $password, $name, $weight) {
-        if ($this->checkLogin($projectid, $password)) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'c')) {
             $result = $this->projectService->addMember($projectid, $name, $weight);
             if (is_numeric($result)) {
                 // inserted bill id
@@ -834,8 +933,33 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivAddMember($projectid, $name, $weight) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
+            $result = $this->projectService->addMember($projectid, $name, $weight);
+            if (is_numeric($result)) {
+                // inserted bill id
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
             );
             return $response;
         }
@@ -847,9 +971,11 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiAddBill($projectid, $password, $date, $what, $payer, $payed_for, $amount, $repeat='n', $paymentmode=null, $categoryid=null) {
-        if ($this->checkLogin($projectid, $password)) {
-            $result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount, $repeat, $paymentmode, $categoryid);
+    public function apiAddBill($projectid, $password, $date, $what, $payer, $payed_for,
+                               $amount, $repeat='n', $paymentmode=null, $categoryid=null, $repeatallactive=0) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'c')) {
+            $result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
+                                                     $repeat, $paymentmode, $categoryid, $repeatallactive);
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($result);
                 $this->activityManager->triggerEvent(
@@ -865,8 +991,40 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivAddBill($projectid, $date, $what, $payer, $payed_for,
+                               $amount, $repeat='n', $paymentmode=null, $categoryid=null, $repeatallactive=0) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
+            $result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
+                                                     $repeat, $paymentmode, $categoryid, $repeatallactive);
+            if (is_numeric($result)) {
+                $billObj = $this->billMapper->find($result);
+                $this->activityManager->triggerEvent(
+                    ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                    ActivityManager::SUBJECT_BILL_CREATE,
+                    []
+                );
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
             );
             return $response;
         }
@@ -879,10 +1037,10 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiEditBill($projectid, $password, $billid, $date, $what, $payer, $payed_for,
-                                $amount, $repeat='n', $paymentmode=null, $categoryid=null) {
-        if ($this->checkLogin($projectid, $password)) {
+                                $amount, $repeat='n', $paymentmode=null, $categoryid=null, $repeatallactive=null) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
             $result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
-                                                      $amount, $repeat, $paymentmode, $categoryid);
+                                                      $amount, $repeat, $paymentmode, $categoryid, $repeatallactive);
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($billid);
                 $this->activityManager->triggerEvent(
@@ -899,8 +1057,41 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivEditBill($projectid, $billid, $date, $what, $payer, $payed_for,
+                                $amount, $repeat='n', $paymentmode=null, $categoryid=null, $repeatallactive=null) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
+                                                      $amount, $repeat, $paymentmode, $categoryid, $repeatallactive);
+            if (is_numeric($result)) {
+                $billObj = $this->billMapper->find($billid);
+                $this->activityManager->triggerEvent(
+                    ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                    ActivityManager::SUBJECT_BILL_UPDATE,
+                    []
+                );
+
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
             );
             return $response;
         }
@@ -913,7 +1104,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiDeleteBill($projectid, $password, $billid) {
-        if ($this->checkLogin($projectid, $password)) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'd')) {
             if ($this->projectService->getBill($projectid, $billid) !== null) {
                 $billObj = $this->billMapper->find($billid);
                 $this->activityManager->triggerEvent(
@@ -933,8 +1124,41 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivDeleteBill($projectid, $billid) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'd')) {
+            if ($this->projectService->getBill($projectid, $billid) !== null) {
+                $billObj = $this->billMapper->find($billid);
+                $this->activityManager->triggerEvent(
+                    ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                    ActivityManager::SUBJECT_BILL_DELETE,
+                    []
+                );
+            }
+
+            $result = $this->projectService->deleteBill($projectid, $billid);
+            if ($result === 'OK') {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 404);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
             );
             return $response;
         }
@@ -947,7 +1171,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiDeleteMember($projectid, $password, $memberid) {
-        if ($this->checkLogin($projectid, $password)) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'd')) {
             $result = $this->projectService->deleteMember($projectid, $memberid);
             if ($result === 'OK') {
                 return new DataResponse($result);
@@ -958,8 +1182,32 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivDeleteMember($projectid, $memberid) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'd')) {
+            $result = $this->projectService->deleteMember($projectid, $memberid);
+            if ($result === 'OK') {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 404);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
             );
             return $response;
         }
@@ -972,7 +1220,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiDeleteProject($projectid, $password) {
-        if ($this->checkLogin($projectid, $password)) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'd')) {
             $result = $this->projectService->deleteProject($projectid);
             if ($result === 'DELETED') {
                 return new DataResponse($result);
@@ -983,8 +1231,32 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivDeleteProject($projectid) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'd')) {
+            $result = $this->projectService->deleteProject($projectid);
+            if ($result === 'DELETED') {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 404);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
             );
             return $response;
         }
@@ -997,7 +1269,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiEditMember($projectid, $password, $memberid, $name, $weight, $activated) {
-        if ($this->checkLogin($projectid, $password)) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
             $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated);
             if (is_array($result) and array_key_exists('activated', $result)) {
                 return new DataResponse($result);
@@ -1008,8 +1280,32 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivEditMember($projectid, $memberid, $name, $weight, $activated) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated);
+            if (is_array($result) and array_key_exists('activated', $result)) {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 403);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
             );
             return $response;
         }
@@ -1030,8 +1326,29 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivGetProjectStatistics($projectid, $dateMin=null, $dateMax=null, $paymentMode=null,
+                                            $category=null, $amountMin=null, $amountMax=null) {
+        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+            $result = $this->projectService->getProjectStatistics($projectid, 'lowername', $dateMin, $dateMax, $paymentMode,
+                                               $category, $amountMin, $amountMax);
+            $response = new DataResponse($result);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
             );
             return $response;
         }
@@ -1050,8 +1367,27 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivGetProjectSettlement($projectid) {
+        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+            $result = $this->projectService->getProjectSettlement($projectid);
+            $response = new DataResponse($result);
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
             );
             return $response;
         }
@@ -1064,7 +1400,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiAutoSettlement($projectid, $password) {
-        if ($this->checkLogin($projectid, $password)) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'c')) {
             $result = $this->projectService->autoSettlement($projectid);
             if ($result === 'OK') {
                 return new DataResponse($result);
@@ -1075,8 +1411,32 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn\'t understand how to supply the credentials required.']
+                ['message'=>'Unauthorized action']
                 , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivAutoSettlement($projectid) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
+            $result = $this->projectService->autoSettlement($projectid);
+            if ($result === 'OK') {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 403);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
             );
             return $response;
         }
@@ -1113,9 +1473,9 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function addUserShare($projectid, $userid) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-            $result = $this->projectService->addUserShare($projectid, $userid, $this->userId);
+    public function editSharePermissions($projectid, $shid, $permissions) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->editSharePermissions($projectid, $shid, $permissions);
             if ($result === 'OK') {
                 return new DataResponse($result);
             }
@@ -1135,9 +1495,53 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function deleteUserShare($projectid, $userid) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-            $result = $this->projectService->deleteUserShare($projectid, $userid, $this->userId);
+    public function editGuestPermissions($projectid, $permissions) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->editGuestPermissions($projectid, $permissions);
+            if ($result === 'OK') {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to edit this project']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function addUserShare($projectid, $userid) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->addUserShare($projectid, $userid, $this->userId);
+            if (is_numeric($result)) {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to edit this project']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function deleteUserShare($projectid, $shid) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->deleteUserShare($projectid, $shid, $this->userId);
             if ($result === 'OK') {
                 return new DataResponse($result);
             }
@@ -1158,9 +1562,9 @@ class PageController extends ApiController {
      * @NoAdminRequired
      */
     public function addGroupShare($projectid, $groupid) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
             $result = $this->projectService->addGroupShare($projectid, $groupid, $this->userId);
-            if ($result === 'OK') {
+            if (is_numeric($result)) {
                 return new DataResponse($result);
             }
             else {
@@ -1179,9 +1583,9 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function deleteGroupShare($projectid, $groupid) {
-        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-            $result = $this->projectService->deleteGroupShare($projectid, $groupid, $this->userId);
+    public function deleteGroupShare($projectid, $shid) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->deleteGroupShare($projectid, $shid, $this->userId);
             if ($result === 'OK') {
                 return new DataResponse($result);
             }

@@ -199,11 +199,40 @@ input[type=number] {
 .shareLabel {
     float: left;
 }
+.shareLabel span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100px;
+}
+.permActive {
+    background-color: var(--color-success);
+}
+.deleteGroupShareButton,
+.deleteUserShareButton,
+.perm, .permguest {
+    height: 25px;
+}
+.permCreate,
+.permDelete,
+.permEdit {
+    margin-left: 1px;
+    margin-right: 1px;
+    border-radius: 20%;
+    cursor: pointer;
+}
+.permCreate,
+.permDelete,
+.permEdit,
 .deleteGroupShareButton,
 .deleteUserShareButton {
     float: right;
     padding-left: 15px;
     padding-right: 15px;
+}
+.guestpermissions {
+    margin-top: auto;
+    margin-bottom: auto;
 }
 .loading-bill {
     margin-left: 10px;
@@ -273,6 +302,10 @@ input[type=number] {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.autoexportProject {
+    display: flex !important;
+    align-items: center !important;
+}
 .member-list-disabled-icon {
     display: inline-block;
     margin-bottom: -3px;
@@ -295,4 +328,17 @@ a.billitem .app-content-list-item-icon {
 }
 #billtype {
     max-width: 95%;
+}
+#set-output-div {
+    display: flex;
+    align-items: center;
+    /*height: 50px;*/
+}
+#set-output-div label {
+    word-wrap: anywhere;
+    text-align: center;
+    width: 40%;
+}
+#set-output-div button {
+    width: 60%;
 }

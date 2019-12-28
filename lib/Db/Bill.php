@@ -26,6 +26,7 @@ class Bill extends Entity {
     protected $categoryid;
     protected $paymentmode;
     protected $lastchanged;
+    protected $repeatuntil;
 
     public function __construct() {
         $this->addType('id', 'integer');
@@ -39,5 +40,6 @@ class Bill extends Entity {
         $this->addType('categoryid', 'integer');
         $this->addType('paymentmode', 'string');
         $this->addType('lastchanged', 'integer');
+        $this->addType('repeatuntil', 'string');
     }
 }

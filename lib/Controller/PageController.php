@@ -474,11 +474,13 @@ class PageController extends ApiController {
      *
      */
     public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for,
-                                $amount, $repeat, $paymentmode=null, $categoryid=null, $repeatallactive=null) {
+                                $amount, $repeat, $paymentmode=null, $categoryid=null,
+                                $repeatallactive=null, $repeatuntil=null) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
             $result =  $this->projectService->editBill(
                 $projectid, $billid, $date, $what, $payer, $payed_for,
-                $amount, $repeat, $paymentmode, $categoryid, $repeatallactive
+                $amount, $repeat, $paymentmode, $categoryid,
+                $repeatallactive, $repeatuntil
             );
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($billid);
@@ -577,11 +579,12 @@ class PageController extends ApiController {
      *
      */
     public function webAddBill($projectid, $date, $what, $payer, $payed_for, $amount,
-                               $repeat, $paymentmode=null, $categoryid=null, $repeatallactive=0) {
+                               $repeat, $paymentmode=null, $categoryid=null, $repeatallactive=0,
+                               $repeatuntil=null) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
             $result = $this->projectService->addBill(
                 $projectid, $date, $what, $payer, $payed_for, $amount,
-                $repeat, $paymentmode, $categoryid, $repeatallactive
+                $repeat, $paymentmode, $categoryid, $repeatallactive, $repeatuntil
             );
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($result);
@@ -972,10 +975,12 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiAddBill($projectid, $password, $date, $what, $payer, $payed_for,
-                               $amount, $repeat='n', $paymentmode=null, $categoryid=null, $repeatallactive=0) {
+                               $amount, $repeat='n', $paymentmode=null, $categoryid=null,
+                               $repeatallactive=0, $repeatuntil=null) {
         if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'c')) {
             $result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
-                                                     $repeat, $paymentmode, $categoryid, $repeatallactive);
+                                                     $repeat, $paymentmode, $categoryid, $repeatallactive,
+                                                     $repeatuntil);
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($result);
                 $this->activityManager->triggerEvent(
@@ -1004,10 +1009,12 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiPrivAddBill($projectid, $date, $what, $payer, $payed_for,
-                               $amount, $repeat='n', $paymentmode=null, $categoryid=null, $repeatallactive=0) {
+                               $amount, $repeat='n', $paymentmode=null, $categoryid=null,
+                               $repeatallactive=0, $repeatuntil=null) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
             $result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
-                                                     $repeat, $paymentmode, $categoryid, $repeatallactive);
+                                                     $repeat, $paymentmode, $categoryid, $repeatallactive,
+                                                     $repeatuntil);
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($result);
                 $this->activityManager->triggerEvent(
@@ -1037,10 +1044,12 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiEditBill($projectid, $password, $billid, $date, $what, $payer, $payed_for,
-                                $amount, $repeat='n', $paymentmode=null, $categoryid=null, $repeatallactive=null) {
+                                $amount, $repeat='n', $paymentmode=null, $categoryid=null,
+                                $repeatallactive=null, $repeatuntil=null) {
         if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
             $result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
-                                                      $amount, $repeat, $paymentmode, $categoryid, $repeatallactive);
+                                                      $amount, $repeat, $paymentmode, $categoryid,
+                                                      $repeatallactive, $repeatuntil);
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($billid);
                 $this->activityManager->triggerEvent(
@@ -1070,10 +1079,12 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiPrivEditBill($projectid, $billid, $date, $what, $payer, $payed_for,
-                                $amount, $repeat='n', $paymentmode=null, $categoryid=null, $repeatallactive=null) {
+                                $amount, $repeat='n', $paymentmode=null, $categoryid=null,
+                                $repeatallactive=null, $repeatuntil=null) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
             $result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
-                                                      $amount, $repeat, $paymentmode, $categoryid, $repeatallactive);
+                                                      $amount, $repeat, $paymentmode, $categoryid,
+                                                      $repeatallactive, $repeatuntil);
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($billid);
                 $this->activityManager->triggerEvent(

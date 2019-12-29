@@ -2432,7 +2432,7 @@
 
     function editSharePermissionsDb(projectid, shid, e, d, c) {
         $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
-        $('.li[shid="'+shid+'"] perm').addClass('icon-loading-small');
+        $('li[shid="'+shid+'"] .perm').addClass('icon-loading-small');
         var req = {
             projectid: projectid,
             shid: shid,
@@ -2448,7 +2448,7 @@
             applySharePermissions(projectid, shid, e, d, c);
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
-            $('.li[shid="'+shid+'"] perm').removeClass('icon-loading-small');
+            $('li[shid="'+shid+'"] .perm').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('cospend', 'Failed to edit share permissions') + ' ' + response.responseText);
         });
@@ -2478,6 +2478,7 @@
 
     function editGuestPermissionsDb(projectid, e, d, c) {
         $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
+        $('li[projectid="'+projectid+'"] .permguest').addClass('icon-loading-small');
         var req = {
             projectid: projectid,
             permissions: (e ? 'e': '') + (c ? 'c': '') + (d ? 'd': '')
@@ -2492,6 +2493,7 @@
             applyGuestPermissions(projectid, e, d, c);
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
+            $('li[projectid="'+projectid+'"] .permguest').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('cospend', 'Failed to edit guest permissions') + ' ' + response.responseText);
         });

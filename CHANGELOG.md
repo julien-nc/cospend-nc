@@ -5,10 +5,30 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-## 0.2.1 – 2019-12-23
+## 0.2.4 – 2019-12-30
 ### Added
 - option to change output directory
 [#57](https://gitlab.com/eneiluj/cospend-nc/issues/57) @xsus95
+- permissions for guest access and user/group shares
+[#34](https://gitlab.com/eneiluj/cospend-nc/issues/34) @yward
+- option to include all active members when repeating a bill
+[#53](https://gitlab.com/eneiluj/cospend-nc/issues/53) @quizilkend
+- new REST API which requires login
+- able to import projects files exported from splitwise
+[!152](https://gitlab.com/eneiluj/cospend-nc/merge_requests/152) @denics
+- new 'reimbursement' category that can be used to filter stats
+[#24](https://gitlab.com/eneiluj/cospend-nc/issues/24) @mr-manuel
+- able to set a max repetition date
+[#29](https://gitlab.com/eneiluj/cospend-nc/issues/29) @eldiep
+- monthly stats
+[#23](https://gitlab.com/eneiluj/cospend-nc/issues/23) @mr-manuel
+
+### Changed
+- design improvements
+
+### Fixed
+- don't include disabled members when repeating
+[#53](https://gitlab.com/eneiluj/cospend-nc/issues/53) @quizilkend
 
 ## 0.2.0 – 2019-12-16
 ### Added

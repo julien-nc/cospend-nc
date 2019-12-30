@@ -54,7 +54,19 @@
 }
 b.memberName, b.memberWeight {
     font-weight: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90px;
+    display: inline-block;
 }
+.memberNameBalance {
+    display: block;
+    height: 30px;
+}
+.member-list-disabled {
+    background-position: 14px center, 0px center !important;
+}
+
 
 .bill-left select,
 .bill-left input {
@@ -349,7 +361,7 @@ input[type=number] {
 }
 .member-list-disabled-icon {
     display: inline-block;
-    margin-bottom: -3px;
+    height: 44px;
 }
 a.billitem .app-content-list-item-icon {
     background-position: center;

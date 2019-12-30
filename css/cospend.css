@@ -116,20 +116,58 @@ input[type=number] {
     -moz-appearance: number-input !important;
     -webkit-appearance: initial !important;
 }
+#monthlyTable,
 #settlementTable,
 #statsTable {
-    width: 100%;
+    width: 95%;
     margin: 20px 20px 20px 20px;
+    padding-right: 20px;
 }
+#monthlyTable {
+    display:block;
+    overflow: scroll;
+}
+#monthlyTable th,
 #settlementTable th,
 #statsTable th {
     font-weight: bold;
+    text-align: center;
+}
+#monthlyTable td,
+#settlementTable td:last-child,
+#statsTable td {
+    text-align: right;
+}
+#monthlyTable td:first-child,
+#settlementTable td,
+#statsTable td:first-child {
+    text-align: left;
+}
+#settlementTable th,
+#settlementTable td,
+#statsTable th,
+#statsTable td,
+#monthlyTable th,
+#monthlyTable td {
+    border: 1px solid var(--color-border-dark);
+    padding: 0px 5px 0px 5px;
+}
+#settlementTable th span,
+#statsTable th span,
+#monthlyTable th span {
+    display: block;
+    max-width: 100px;
+    word-wrap: break-word;
+    white-space: normal;
 }
 #mbTitle,
 #settlementTitle,
 #statsTitle {
     text-align: center;
     background-color: var(--color-background-dark);
+}
+.statTableTitle {
+    padding: 0px 0px 0px 20px !important;
 }
 .undoDeleteBill {
     display: none;
@@ -173,6 +211,9 @@ input[type=number] {
     opacity: 0.6;
     transform: rotate(180deg);
     margin-top: 44px;
+}
+#billdetail {
+    max-width: 65%;
 }
 #billdetail > h2 {
     padding: 20px 0px 20px 0px;

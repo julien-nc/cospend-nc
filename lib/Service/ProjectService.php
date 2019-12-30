@@ -453,6 +453,7 @@ class ProjectService {
         }
 
         $bills = $this->getBills($projectId, $dateMin, $dateMax, $paymentMode, $category, $amountMin, $amountMax);
+        // compute classic stats
         foreach ($bills as $bill) {
             $payerId = $bill['payer_id'];
             $amount = $bill['amount'];
@@ -494,7 +495,37 @@ class ProjectService {
             array_push($statistics, $statistic);
         }
 
-        return $statistics;
+        // compute monthly stats
+        $monthlyStats = [];
+        foreach ($bills as $bill) {
+            $payerId = $bill['payer_id'];
+            $amount = $bill['amount'];
+            $date = $bill['date'];
+            $month = substr($date, 0, 7);
+            if (!array_key_exists($month, $monthlyStats)) {
+                $monthlyStats[$month] = [];
+                foreach ($members as $member) {
+                    $monthlyStats[$month][$member['id']] = 0;
+                }
+            }
+
+            $monthlyStats[$month][$payerId] += $amount;
+        }
+        // monthly average
+        $nbMonth = count(array_keys($monthlyStats));
+        if ($nbMonth > 0) {
+            $key = $this->trans->t('Average per month');
+            $monthlyStats[$key] = [];
+            foreach ($members as $member) {
+                $sum = 0;
+                foreach ($monthlyStats as $month=>$mStat) {
+                    $sum += $monthlyStats[$month][$member['id']];
+                }
+                $monthlyStats[$key][$member['id']] = $sum / $nbMonth;
+            }
+        }
+
+        return ['stats'=>$statistics, 'monthlyStats'=>$monthlyStats];
     }
 
     public function addBill($projectid, $date, $what, $payer, $payed_for,
@@ -2427,8 +2458,9 @@ class ProjectService {
         $file = $folder->newFile($projectid.'-stats.csv');
         $handler = $file->fopen('w');
         fwrite($handler, $this->trans->t('Member name').','. $this->trans->t('Paid').','. $this->trans->t('Spent').','. $this->trans->t('Balance')."\n");
-        $stats = $this->getProjectStatistics($projectid, 'lowername', $dateMin, $dateMax, $paymentMode,
+        $allStats = $this->getProjectStatistics($projectid, 'lowername', $dateMin, $dateMax, $paymentMode,
                                                     $category, $amountMin, $amountMax);
+        $stats = $allStats['stats'];
         if (!is_array($stats)) {
         }
 

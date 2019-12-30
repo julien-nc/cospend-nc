@@ -1128,11 +1128,13 @@
         img.src = srcurl;
     }
 
-    function displayStatistics(projectid, statList, dateMin=null, dateMax=null, paymentMode=null, category=null,
+    function displayStatistics(projectid, allStats, dateMin=null, dateMax=null, paymentMode=null, category=null,
                                amountMin=null, amountMax=null) {
         // deselect bill
         $('.billitem').removeClass('selectedbill');
 
+        var statList = allStats.stats;
+        var monthlyStats = allStats.monthlyStats;
         var project = cospend.projects[projectid];
         var projectName = getProjectName(projectid);
         $('#billdetail').html('');
@@ -1191,6 +1193,7 @@
             '</div>' +
             '<br/>' +
             totalPayedText +
+            '<br/><h2 class="statTableTitle">'+t('cospend', 'Global stats')+'</h2>' +
             '<table id="statsTable"><thead>' +
             '<th>'+nameStr+'</th>' +
             '<th>'+paidStr+'</th>' +
@@ -1218,7 +1221,27 @@
                 '<td'+balanceClass+'>'+balance+'</td>' +
                 '</tr>';
         }
-        statsStr = statsStr + '</table>';
+        statsStr += '</table>';
+        // monthly stats
+        statsStr += '<h2 class="statTableTitle">'+t('cospend', 'Monthly stats')+'</h2>';
+        statsStr += '<table id="monthlyTable"><thead>' +
+            '<th>'+t('cospend', 'Month/Member')+'</th>';
+        for (var mid in cospend.members[projectid]) {
+            statsStr += '<th><span>'+cospend.members[projectid][mid].name+'</span></th>';
+        }
+        statsStr += '</thead>';
+        for (var month in monthlyStats) {
+            statsStr += '<tr>';
+            statsStr += '<td>'+month+'</td>';
+            for (var mid in cospend.members[projectid]) {
+                statsStr += '<td>';
+                statsStr += monthlyStats[month][mid].toFixed(2);
+                statsStr += '</td>';
+            }
+            statsStr += '</tr>';
+        }
+        statsStr += '</table>';
+
         $('#billdetail').html(statsStr);
 
         if (dateMin) {

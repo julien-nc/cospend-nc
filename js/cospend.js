@@ -1796,9 +1796,9 @@
             guestLink = OC.generateUrl('/apps/cospend/loginproject/'+projectid);
             guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
         }
-        var editPerm = (project.guestpermissions.indexOf('e') !== -1);
-        var delPerm = (project.guestpermissions.indexOf('d') !== -1);
-        var creaPerm = (project.guestpermissions.indexOf('c') !== -1);
+        var editPerm = (project.hasOwnProperty('guestpermissions') && project.guestpermissions.indexOf('e') !== -1);
+        var delPerm = (project.hasOwnProperty('guestpermissions') && project.guestpermissions.indexOf('d') !== -1);
+        var creaPerm = (project.hasOwnProperty('guestpermissions') && project.guestpermissions.indexOf('c') !== -1);
         var li =
             '<li class="projectitem collapsible" projectid="'+projectid+'">' +
             '    <a class="icon-folder" href="#" title="'+projectid+'">' +

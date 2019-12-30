@@ -429,10 +429,11 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
         $data = $resp->getData();
+        $stats = $data['stats'];
         // check member stats
         $id1Found = false;
         $id2Found = false;
-        foreach ($data as $stat) {
+        foreach ($stats as $stat) {
             if ($stat['member']['id'] === $idMember1) {
                 $this->assertEquals((99/2 - 12.3), $stat['balance']);
                 $this->assertEquals(99, $stat['paid']);
@@ -484,10 +485,11 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
         $data = $resp->getData();
+        $stats = $data['stats'];
         // check member stats
         $id1Found = false;
         $id2Found = false;
-        foreach ($data as $stat) {
+        foreach ($stats as $stat) {
             if ($stat['member']['id'] === $idMember1) {
                 $this->assertEquals(0, $stat['balance']);
                 $this->assertEquals(99, $stat['paid']);

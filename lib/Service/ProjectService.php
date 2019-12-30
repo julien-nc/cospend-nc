@@ -514,15 +514,16 @@ class ProjectService {
         // monthly average
         $nbMonth = count(array_keys($monthlyStats));
         if ($nbMonth > 0) {
-            $key = $this->trans->t('Average per month');
-            $monthlyStats[$key] = [];
+            $averageStats = [];
             foreach ($members as $member) {
                 $sum = 0;
                 foreach ($monthlyStats as $month=>$mStat) {
                     $sum += $monthlyStats[$month][$member['id']];
                 }
-                $monthlyStats[$key][$member['id']] = $sum / $nbMonth;
+                $averageStats[$member['id']] = $sum / $nbMonth;
             }
+            $key = $this->trans->t('Average per month');
+            $monthlyStats[$key] = $averageStats;
         }
 
         return ['stats'=>$statistics, 'monthlyStats'=>$monthlyStats];

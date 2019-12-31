@@ -497,6 +497,7 @@ class ProjectService {
 
         // compute monthly stats
         $monthlyStats = [];
+        $allMembersKey = 0;
         foreach ($bills as $bill) {
             $payerId = $bill['payer_id'];
             $amount = $bill['amount'];
@@ -507,9 +508,11 @@ class ProjectService {
                 foreach ($members as $member) {
                     $monthlyStats[$month][$member['id']] = 0;
                 }
+                $monthlyStats[$month][$allMembersKey] = 0;
             }
 
             $monthlyStats[$month][$payerId] += $amount;
+            $monthlyStats[$month][$allMembersKey] += $amount;
         }
         // monthly average
         $nbMonth = count(array_keys($monthlyStats));
@@ -522,8 +525,15 @@ class ProjectService {
                 }
                 $averageStats[$member['id']] = $sum / $nbMonth;
             }
-            $key = $this->trans->t('Average per month');
-            $monthlyStats[$key] = $averageStats;
+            // average for all members
+            $sum = 0;
+            foreach ($monthlyStats as $month=>$mStat) {
+                $sum += $monthlyStats[$month][$allMembersKey];
+            }
+            $averageStats[$allMembersKey] = $sum / $nbMonth;
+
+            $averageKey = $this->trans->t('Average per month');
+            $monthlyStats[$averageKey] = $averageStats;
         }
 
         return ['stats'=>$statistics, 'monthlyStats'=>$monthlyStats];

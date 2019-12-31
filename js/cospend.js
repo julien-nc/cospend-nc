@@ -1251,9 +1251,18 @@
             statsStr += '<th class="sorttable_numeric"><span>'+month+'</span></th>';
         }
         statsStr += '</thead>';
-        for (var mid in cospend.members[projectid]) {
+        var mids = Object.keys(cospend.members[projectid]);
+        mids.push('0');
+        var mid;
+        for (var i=0; i < mids.length; i++) {
+            mid = mids[i];
             statsStr += '<tr>';
-            statsStr += '<td>'+cospend.members[projectid][mid].name+'</td>';
+            if (parseInt(mid) === 0) {
+                statsStr += '<td><b>'+t('cospend', 'All members')+'</b></td>';
+            }
+            else {
+                statsStr += '<td>'+cospend.members[projectid][mid].name+'</td>';
+            }
             for (var month in monthlyStats) {
                 statsStr += '<td>';
                 statsStr += monthlyStats[month][mid].toFixed(2);

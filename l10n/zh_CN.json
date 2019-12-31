@@ -111,7 +111,6 @@
     "Failed to delete user share" : "删除用户共享失败",
     "Shared project {pname} with group {gname}" : "已共享项目 {pname} 给 {gname}",
     "Failed to add group share" : "无法添加用户组共享",
-    "group" : "用户组",
     "Failed to delete group share" : "无法删除用户组共享",
     "Failed to generate public link to file" : "无法生成文件的公共链接",
     "Project exported in {path}" : "项目已导出到 {path}",

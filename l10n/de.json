@@ -112,7 +112,6 @@
     "Failed to delete user share" : "Nutzeranteil konnte nicht gelöscht werden",
     "Shared project {pname} with group {gname}" : "Geteiltes Projekt {pname} mit Gruppe {gname}",
     "Failed to add group share" : "Gruppenfreigabe konnte nicht hinzugefügt werden",
-    "group" : "Gruppe",
     "Failed to delete group share" : "Gruppenfreigabe konnte nicht gelöscht werden",
     "Failed to generate public link to file" : "Fehler beim Erstellen des öffentlichen Links zur Datei",
     "Project exported in {path}" : "Projekt exportiert in {path}",

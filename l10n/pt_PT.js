@@ -113,7 +113,6 @@ OC.L10N.register(
     "Failed to delete user share" : "Falha ao eliminar partilha de utilizador",
     "Shared project {pname} with group {gname}" : "Projecto partilhado {pname} com {gname}",
     "Failed to add group share" : "Falha ao adicionar partilha de grupo",
-    "group" : "grupo",
     "Failed to delete group share" : "Falha ao eliminar partilha de grupo",
     "Failed to generate public link to file" : "Falha ao gerar ligação pública para o ficheiro",
     "Project exported in {path}" : "Projecto exportado em {path}",

@@ -108,7 +108,6 @@ OC.L10N.register(
     "Failed to delete user share" : "Αποτυχία διαγραφής κοινοποίησης χρήστη",
     "Shared project {pname} with group {gname}" : "Κοινοποιήθηκε το έργο {pname} με την ομάδα {gname}",
     "Failed to add group share" : "Αποτυχία προσθήκης κοινοποίησης ομάδας",
-    "group" : "ομάδα",
     "Failed to delete group share" : "Αποτυχία διαγραφής κοινοποίησης ομάδας",
     "Failed to generate public link to file" : "Αποτυχία δημιουργίας δημόσιου συνδέσμου στο αρχείο",
     "Project exported in {path}" : "Το έργο εξήχθη στο {path}",

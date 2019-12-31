@@ -417,6 +417,7 @@
             else {
                 memberLine.find('.memberAvatar').addClass('memberAvatarDisabled');
             }
+            memberLine.find('.memberAvatar img').attr('src', imgurl);
 
             OC.Notification.showTemporary(t('cospend', 'Member saved'));
             // get bills again to refresh names

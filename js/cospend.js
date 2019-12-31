@@ -90,6 +90,10 @@
             name: t('cospend', 'Excursions'),
             icon: '🚸'
         },
+        '-15': {
+            name: t('cospend', 'Sport'),
+            icon: '🎾'
+        },
     };
 
     cospend.paymentModes = {

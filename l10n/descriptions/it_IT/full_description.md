@@ -6,27 +6,28 @@ Puoi usarlo quando condividi una casa, quando vai in vacanza con gli amici, ogni
 
 Permette di creare progetti con membri e spese. Ogni membro ha un bilancio calcolato sulla base delle spese di progetto. In questo modo si può vedere chi deve al gruppo quanto e quanto deve il gruppo a chi. In ultimo, è possibile richiedere un piano di liquidazione che indica i pagamenti da effettuare per ripristinare i saldi dei membri.
 
-I membri del progetto sono indipendenti dagli utenti Nextcloud. Una volta che hai accesso a un progetto (come ospite o come utente Nextcloud), non ci sono restrizione su ciò che puoi aggiungere/modificare/eliminare. I progetti sono accessibili e modificabili da persone senza un account Nextcloud. Ogni progetto ha un ID e una password per l'accesso ospite.
+I membri del progetto sono indipendenti dagli utenti Nextcloud. Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
 
-[MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Il client Android è [disponibile in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/).
+Il client per Android [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) è [disponibile su F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) e sul [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
-## Funzionalità
+## Funzioni
 
 * ✎ crea/modifica/elimina progetti, membri, spese
 * ⚖ controlla i saldi dei membri
 * 🗠 visualizza le statistiche del progetto
 * ♻ visualizza piano di liquidazione
 * 🎇 crea automaticamente i pagamenti di rimborso dal piano di liquidazione
-* 🗓 crea spese ricorrenti (giorno/settimana/mese/anno)
+* 🗓 create recurring bills (daily/weekly/monthly/yearly)
 * 📊 facoltativamente fornisce un importo personalizzato per ciascun membro in nuove spese
 * 🔗 inserisci il link pubblico a un file personale nella descrizione della fattura (immagine del scontrino per esempio)
 * 👩 accesso ospite per persone fuori Nextcloud
-* 👫 condividi un progetto con gli utenti Nextcloud
+* 👫 condividi i progetti con utenti/gruppi Nextcloud
 * 🖫 importa/esporta progetti come csv (compatibile con i file csv da IHateMoney)
 * 🖧 aggiungi progetti esterni (ospitati da un'altra istanza Nextcloud)
 * 🔗 genera link/codice QR per importare facilmente progetti in MoneyBuster
+* 🗲 implementa le notifiche e il flusso di attività di Nextcloud
 
-Questa app è stata testata su Nextcloud 15 con Firefox 57+ e Chromium.
+Questa app è testata su Nextcloud 17 con Firefox 57+ e Chromium.
 
 Questa app è in fase di sviluppo.
 

@@ -1,1 +1,1 @@
-Shared budget manager
+共享预算管理器

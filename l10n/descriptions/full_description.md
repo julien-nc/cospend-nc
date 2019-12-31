@@ -9,9 +9,10 @@ It lets you create projects with members and bills. Each member has a balance co
 This way you can see who owes the group and who the group owes. Ultimately you can ask for a settlement plan telling you which payments to make to reset members balances.
 
 Project members are independent from Nextcloud users.
+Once you've got access to a project (as a guest or as a Nextcloud user), there is no restriction on what you can add/edit/delete.
 Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
 
-[MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) and on the [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
+[MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/).
 
 ## Features
 
@@ -20,17 +21,16 @@ Projects can be accessed and modified by people without a Nextcloud account. Eac
 * 🗠 display project statistics
 * ♻ display settlement plan
 * 🎇 automatically create reimbursement bills from settlement plan
-* 🗓 create recurring bills (daily/weekly/monthly/yearly)
+* 🗓 create recurring bills (day/week/month/year)
 * 📊 optionally provide custom amount for each member in new bills
 * 🔗 insert public link to a personal file in bill description (picture of physical bill for example)
 * 👩 guest access for people outside Nextcloud
-* 👫 share projects with Nextcloud users/groups
+* 👫 share a project with Nextcloud users
 * 🖫 import/export projects as csv (compatible with csv files from IHateMoney)
 * 🖧 add external projects (hosted by another Nextcloud instance)
 * 🔗 generate link/QRCode to easily import projects in MoneyBuster
-* 🗲 implement Nextcloud notifications and activity stream
 
-This app is tested on Nextcloud 17 with Firefox 57+ and Chromium.
+This app is tested on Nextcloud 15 with Firefox 57+ and Chromium.
 
 This app is under development.
 

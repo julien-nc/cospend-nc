@@ -1,32 +1,33 @@
 # Nextcloud Cospend 💰
 
-Nextcloud Cospend is a group/shared budget manager. It was inspired by the great [IHateMoney](https://github.com/spiral-project/ihatemoney/).
+Nextcloud Cospend es un gestor de presupuesto compartido. Fue inspirado por el magnífico [IHateMoney](https://github.com/spiral-project/ihatemoney/).
 
-You can use it when you share a house, when you go on vacation with friends, whenever you share money with others.
+Puedes usarlo cuando compartes una casa, cuando vas de vacaciones con tus amigos, siempre que compartas dinero con otros.
 
-It lets you create projects with members and bills. Each member has a balance computed from the project bills. This way you can see who owes the group and who the group owes. Ultimately you can ask for a settlement plan telling you which payments to make to reset members balances.
+Te permite crear proyectos con miembros y facturas. Cada miembro tiene un saldo calculado a partir de las facturas del proyecto. De esta manera se puede ver quién debe al grupo y a quién debe el grupo. En última instancia, puedes pedir un plan de liquidación diciendo qué pagos hacer para restablecer los saldos de los miembros.
 
-Project members are independent from Nextcloud users. Once you've got access to a project (as a guest or as a Nextcloud user), there is no restriction on what you can add/edit/delete. Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
+Los miembros del proyecto son independientes de los usuarios de Nextcloud. Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
 
-[MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/).
+El cliente para Android [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) está [disponible en F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) y en la [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
-## Features
+## Funcionalidades
 
-* ✎ create/edit/delete projects, members, bills
-* ⚖ check member balances
+* ✎ Crear/editar/borrar proyectos, miembros, facturas
+* ⚖ verificar el saldo de los miembros
 * 🗠 display project statistics
 * ♻ display settlement plan
 * 🎇 automatically create reimbursement bills from settlement plan
-* 🗓 create recurring bills (day/week/month/year)
+* 🗓 create recurring bills (daily/weekly/monthly/yearly)
 * 📊 optionally provide custom amount for each member in new bills
 * 🔗 insert public link to a personal file in bill description (picture of physical bill for example)
 * 👩 guest access for people outside Nextcloud
-* 👫 share a project with Nextcloud users
+* 👫 share projects with Nextcloud users/groups
 * 🖫 import/export projects as csv (compatible with csv files from IHateMoney)
 * 🖧 add external projects (hosted by another Nextcloud instance)
 * 🔗 generate link/QRCode to easily import projects in MoneyBuster
+* 🗲 implement Nextcloud notifications and activity stream
 
-This app is tested on Nextcloud 15 with Firefox 57+ and Chromium.
+This app is tested on Nextcloud 17 with Firefox 57+ and Chromium.
 
 This app is under development.
 

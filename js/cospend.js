@@ -74,6 +74,22 @@
             name: t('cospend', 'Reimbursement'),
             icon: '💰'
         },
+        '-11': {
+            name: t('cospend', 'Restaurant'),
+            icon: '🍴'
+        },
+        '-12': {
+            name: t('cospend', 'Accommodation'),
+            icon: '🛌'
+        },
+        '-13': {
+            name: t('cospend', 'Transport'),
+            icon: '🚌'
+        },
+        '-14': {
+            name: t('cospend', 'Excursions'),
+            icon: '🚸'
+        },
     };
 
     cospend.paymentModes = {

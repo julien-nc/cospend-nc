@@ -400,17 +400,11 @@
             // update title
             memberLine.find('b.memberName').attr('title', newName+' (x'+cospend.members[projectid][memberid].weight+')');
             if (newActivated !== null && newActivated === false) {
-                memberLine.find('.member-list-icon').addClass('member-list-disabled');
-
                 memberLine.find('.toggleMember span').first().removeClass('icon-delete').addClass('icon-history');
                 memberLine.find('.toggleMember span').eq(1).text(t('cospend', 'Reactivate'));
                 cospend.members[projectid][memberid].activated = newActivated;
             }
             else if (newActivated !== null && newActivated === true) {
-                //memberLine.find('.member-list-disabled-icon').remove();
-                memberLine.find('.member-list-icon').removeClass('member-list-disabled');
-                memberLine.find('.member-list-icon').css('background-image', 'url('+imgurl+')');
-
                 memberLine.find('.toggleMember span').first().removeClass('icon-history').addClass('icon-delete');
                 memberLine.find('.toggleMember span').eq(1).text(t('cospend', 'Deactivate'));
                 cospend.members[projectid][memberid].activated = newActivated;
@@ -418,10 +412,10 @@
             // update icon
             var imgurl = OC.generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(response.name));
             if (cospend.members[projectid][memberid].activated) {
-                memberLine.find('.member-list-icon').attr('style', 'background-image: url('+imgurl+')');
+                memberLine.find('.memberAvatar').removeClass('memberAvatarDisabled');
             }
             else {
-                memberLine.find('.member-list-icon').attr('style', 'background-image: url('+imgurl+'), var(--icon-disabled-user-000);');
+                memberLine.find('.memberAvatar').addClass('memberAvatarDisabled');
             }
 
             OC.Notification.showTemporary(t('cospend', 'Member saved'));
@@ -2035,8 +2029,11 @@
         var changeWeightStr = t('cospend', 'Change weight');
         var li =
             '<li memberid="'+member.id+'" class="memberitem'+invisibleClass+'">' +
-            '    <a class="member-list-icon'+(member.activated ? '' : ' member-list-disabled')+'" ' +
-            '    style="background-image: url('+imgurl+')'+(member.activated ? '' : ', var(--icon-disabled-user-000)')+'" href="#">' +
+            '    <div class="memberAvatar'+(member.activated ? '' : ' memberAvatarDisabled')+'">' +
+            '       <div class="disabledMask"></div>' +
+            '       <img src="'+imgurl+'"/>' +
+            '    </div>' +
+            '    <a class="member-list-icon" href="#">' +
             '        <span class="memberNameBalance">' +
             '            <b class="memberName" title="'+member.name+' (x'+member.weight+')">' +
                             member.name +

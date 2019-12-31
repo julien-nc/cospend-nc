@@ -63,8 +63,32 @@ b.memberName, b.memberWeight {
     display: block;
     height: 30px;
 }
-.member-list-disabled {
-    background-position: 14px center, 0px center !important;
+.memberAvatar img {
+    width: 24px;
+    height: auto;
+    border-radius: 50%;
+    margin: 10px 6px 10px 6px;
+}
+.memberAvatar .disabledMask {
+    display: none;
+}
+.memberAvatarDisabled .disabledMask {
+    display: block;
+}
+.disabledMask {
+    width: 25px;
+    height: 25px;
+    background-image: url(images/forbidden.svg);
+    position: absolute;
+    top: 9px;
+    left: 49px;
+}
+.memberAvatar {
+    width: 36px;
+    height: 44px;
+}
+.member-list-icon {
+    padding: 0 12px 0 5px !important;
 }
 
 

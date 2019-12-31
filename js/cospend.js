@@ -1041,10 +1041,10 @@
         var autoSettleStr = ' <button class="autoSettlement" projectid="'+projectid+'"><span class="icon-play"></span>'+t('cospend', 'Add these payments to project')+'</button>';
         var settlementStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 id="settlementTitle"><span class="icon-category-organization"></span>'+titleStr+exportStr+autoSettleStr+'</h2>' +
-            '<table id="settlementTable"><thead>' +
+            '<table id="settlementTable" class="sortable"><thead>' +
             '<th>'+fromStr+'</th>' +
             '<th>'+toStr+'</th>' +
-            '<th>'+howMuchStr+'</th>' +
+            '<th class="sorttable_numeric">'+howMuchStr+'</th>' +
             '</thead>';
         var whoPaysName, toWhomName, amount;
         for (var i=0; i < transactionList.length; i++) {
@@ -1060,6 +1060,7 @@
         }
         settlementStr = settlementStr + '</table>';
         $('#billdetail').html(settlementStr);
+        sorttable.makeSortable(document.getElementById('settlementTable'));
     }
 
     function getProjectMoneyBusterLink(projectid) {
@@ -1214,11 +1215,11 @@
             '<br/>' +
             totalPayedText +
             '<br/><h2 class="statTableTitle">'+t('cospend', 'Global stats')+'</h2>' +
-            '<table id="statsTable"><thead>' +
+            '<table id="statsTable" class="sortable"><thead>' +
             '<th>'+nameStr+'</th>' +
-            '<th>'+paidStr+'</th>' +
-            '<th>'+spentStr+'</th>' +
-            '<th>'+balanceStr+'</th>' +
+            '<th class="sorttable_numeric">'+paidStr+'</th>' +
+            '<th class="sorttable_numeric">'+spentStr+'</th>' +
+            '<th class="sorttable_numeric">'+balanceStr+'</th>' +
             '</thead>';
         var paid, spent, balance, name, balanceClass;
         for (var i=0; i < statList.length; i++) {
@@ -1244,7 +1245,7 @@
         statsStr += '</table>';
         // monthly stats
         statsStr += '<h2 class="statTableTitle">'+t('cospend', 'Monthly stats')+'</h2>';
-        statsStr += '<table id="monthlyTable"><thead>' +
+        statsStr += '<table id="monthlyTable" class="sortable"><thead>' +
             '<th>'+t('cospend', 'Month/Member')+'</th>';
         for (var mid in cospend.members[projectid]) {
             statsStr += '<th><span>'+cospend.members[projectid][mid].name+'</span></th>';
@@ -1263,6 +1264,10 @@
         statsStr += '</table>';
 
         $('#billdetail').html(statsStr);
+
+        // make tables sortable
+        sorttable.makeSortable(document.getElementById('statsTable'));
+        sorttable.makeSortable(document.getElementById('monthlyTable'));
 
         if (dateMin) {
             $('#date-min-stats').val(dateMin);

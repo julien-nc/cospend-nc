@@ -1,6 +1,7 @@
 <?php
 script('cospend', 'moment-timezone-with-data.min');
 script('cospend', 'kjua.min');
+script('cospend', 'sorttable');
 script('cospend', 'cospend');
 
 //style('cospend', 'style');

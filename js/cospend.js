@@ -621,7 +621,9 @@
             bill.date + '\n' + memberName + ' -> ' + owerNames;
         var imgurl = OC.generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(memberName));
         var item = '<a href="#" class="app-content-list-item billitem selectedbill" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
-            '<div class="app-content-list-item-icon" style="background-image: url('+imgurl+');"> </div>' +
+            '<div class="app-content-list-item-icon" style="background-image: url('+imgurl+');"> ' +
+            '   <div class="billItemDisabledMask'+(cospend.members[projectid][bill.payer_id].activated ? '' : ' disabled')+'"></div>' +
+            '</div>' +
             '<div class="app-content-list-item-line-one">'+whatFormatted+'</div>' +
             '<div class="app-content-list-item-line-two">'+bill.amount.toFixed(2)+' ('+memberName+' → '+owerNames+')</div>' +
             '<span class="app-content-list-item-details">'+bill.date+'</span>' +
@@ -1694,7 +1696,9 @@
             imgurl = OC.generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(' '));
         }
         var item = '<a href="#" class="app-content-list-item billitem" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
-            '<div class="app-content-list-item-icon" style="background-image: url('+imgurl+');"> </div>'+
+            '<div class="app-content-list-item-icon" style="background-image: url('+imgurl+');"> ' +
+            '   <div class="billItemDisabledMask'+(cospend.members[projectid][bill.payer_id].activated ? '' : ' disabled')+'"></div>' +
+            '</div>'+
             '<div class="app-content-list-item-line-one">'+whatFormatted+'</div>' +
             '<div class="app-content-list-item-line-two">'+bill.amount.toFixed(2)+' ('+memberName+' → '+owerNames+')</div>' +
             '<span class="app-content-list-item-details">'+bill.date+'</span>' +

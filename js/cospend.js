@@ -1246,15 +1246,15 @@
         // monthly stats
         statsStr += '<h2 class="statTableTitle">'+t('cospend', 'Monthly stats')+'</h2>';
         statsStr += '<table id="monthlyTable" class="sortable"><thead>' +
-            '<th>'+t('cospend', 'Month/Member')+'</th>';
-        for (var mid in cospend.members[projectid]) {
-            statsStr += '<th><span>'+cospend.members[projectid][mid].name+'</span></th>';
+            '<th>'+t('cospend', 'Member/Month')+'</th>';
+        for (var month in monthlyStats) {
+            statsStr += '<th class="sorttable_numeric"><span>'+month+'</span></th>';
         }
         statsStr += '</thead>';
-        for (var month in monthlyStats) {
+        for (var mid in cospend.members[projectid]) {
             statsStr += '<tr>';
-            statsStr += '<td>'+month+'</td>';
-            for (var mid in cospend.members[projectid]) {
+            statsStr += '<td>'+cospend.members[projectid][mid].name+'</td>';
+            for (var month in monthlyStats) {
                 statsStr += '<td>';
                 statsStr += monthlyStats[month][mid].toFixed(2);
                 statsStr += '</td>';

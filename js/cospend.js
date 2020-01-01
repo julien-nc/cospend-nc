@@ -36,51 +36,63 @@
     cospend.categories = {
         '-1': {
             name: t('cospend', 'Grocery'),
-            icon: '🛒'
+            icon: '🛒',
+            color: '#ffaa00'
         },
         '-2': {
             name: t('cospend', 'Bar/Party'),
-            icon: '🎉'
+            icon: '🎉',
+            color: '#aa55ff'
         },
         '-3': {
             name: t('cospend', 'Rent'),
-            icon: '🏠'
+            icon: '🏠',
+            color: '#da8733'
         },
         '-4': {
             name: t('cospend', 'Bill'),
-            icon: '🌩'
+            icon: '🌩',
+            color: '#4aa6b0'
         },
         '-5': {
             name: t('cospend', 'Excursion/Culture'),
-            icon: '🚸'
+            icon: '🚸',
+            color: '#0055ff'
         },
         '-6': {
             name: t('cospend', 'Health'),
-            icon: '💚'
+            icon: '💚',
+            color: '#bf090c'
         },
         '-7': {
             name: t('cospend', 'Shopping'),
-            icon: '🛍'
+            icon: '🛍',
+            color: '#e167d1'
         },
         '-8': {
             name: t('cospend', 'Reimbursement'),
-            icon: '💰'
+            icon: '💰',
+            color: '#e1d85a'
         },
         '-9': {
             name: t('cospend', 'Restaurant'),
-            icon: '🍴'
+            icon: '🍴',
+            color: '#d0d5e1'
         },
         '-10': {
             name: t('cospend', 'Accommodation'),
-            icon: '🛌'
+            icon: '🛌',
+            color: '#5de1a3'
         },
         '-11': {
             name: t('cospend', 'Transport'),
-            icon: '🚌'
+            icon: '🚌',
+            color: '#6f2ee1'
         },
         '-12': {
             name: t('cospend', 'Sport'),
-            icon: '🎾'
+            icon: '🎾',
+            color: '#69e177'
         },
     };
 
@@ -1197,6 +1209,7 @@
 
         var statList = allStats.stats;
         var monthlyStats = allStats.monthlyStats;
+        var categoryStats = allStats.categoryStats;
         var project = cospend.projects[projectid];
         var projectName = getProjectName(projectid);
         $('#billdetail').html('');
@@ -1315,6 +1328,7 @@
 
         statsStr += '<hr/><canvas id="memberPaidChart"></canvas>';
         statsStr += '<hr/><canvas id="memberSpentChart"></canvas>';
+        statsStr += '<hr/><canvas id="categoryChart"></canvas>';
 
         $('#billdetail').html(statsStr);
 
@@ -1380,6 +1394,42 @@
                 title: {
                     display: true,
                     text: t('cospend', 'For whom was it spent?')
+                },
+                responsive: true,
+                showAllTooltips: false
+            }
+        });
+        // category chart
+        var categoryData = {
+            datasets: [{
+                data: [],
+                backgroundColor: []
+            }],
+            labels: []
+        };
+        var catName, catIdInt;
+        for (var catId in categoryStats) {
+            paid = categoryStats[catId];
+            catIdInt = parseInt(catId);
+            if (catIdInt < 0 && catIdInt > -12) {
+                catName = cospend.categories[catId].icon + ' ' + cospend.categories[catId].name;
+                color = cospend.categories[catId].color;
+            }
+            else {
+                catName = t('cospend', 'No category');
+                color = 'black';
+            }
+            categoryData.datasets[0].data.push(paid);
+            categoryData.datasets[0].backgroundColor.push(color);
+            categoryData.labels.push(catName);
+        }
+        var categoryPieChart = new Chart($('#categoryChart'), {
+            type: 'pie',
+            data: categoryData,
+            options: {
+                title: {
+                    display: true,
+                    text: t('cospend', 'What was paid per category?')
                 },
                 responsive: true,
                 showAllTooltips: false

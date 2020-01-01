@@ -535,8 +535,25 @@ class ProjectService {
             $averageKey = $this->trans->t('Average per month');
             $monthlyStats[$averageKey] = $averageStats;
         }
+        // compute category stats
+        $categoryStats = [];
+        foreach ($bills as $bill) {
+            $categoryId = $bill['categoryid'];
+            if (intval($categoryId) > -1 || intval($categoryId) < -12) {
+                $categoryId = 0;
+            }
+            $amount = $bill['amount'];
+            if (!array_key_exists($categoryId, $categoryStats)) {
+                $categoryStats[$categoryId] = 0;
+            }
+            $categoryStats[$categoryId] += $amount;
+        }
 
-        return ['stats'=>$statistics, 'monthlyStats'=>$monthlyStats];
+        return [
+            'stats'=>$statistics,
+            'monthlyStats'=>$monthlyStats,
+            'categoryStats'=>$categoryStats
+        ];
     }
 
     public function addBill($projectid, $date, $what, $payer, $payed_for,

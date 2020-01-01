@@ -441,13 +441,16 @@ class ProjectService {
         $membersPaid = [];
         $membersSpent = [];
 
+        // get the real global balances with no filters
+        $balances = $this->getBalance($projectId);
+
         $members = $this->getMembers($projectId, $memberOrder);
         foreach ($members as $member) {
             $memberId = $member['id'];
             $memberWeight = $member['weight'];
             $membersWeight[$memberId] = $memberWeight;
             $membersNbBills[$memberId] = 0;
-            $membersBalance[$memberId] = 0.0;
+            $membersBalance[$memberId] = $balances[$memberId];
             $membersPaid[$memberId] = 0.0;
             $membersSpent[$memberId] = 0.0;
         }
@@ -460,7 +463,6 @@ class ProjectService {
             $owers = $bill['owers'];
 
             $membersNbBills[$payerId]++;
-            $membersBalance[$payerId] += $amount;
             $membersPaid[$payerId] += $amount;
 
             $nbOwerShares = 0.0;
@@ -478,7 +480,6 @@ class ProjectService {
                 }
                 $owerId = $ower['id'];
                 $spent = $amount / $nbOwerShares * $owerWeight;
-                $membersBalance[$owerId] -= $spent;
                 $membersSpent[$owerId] += $spent;
             }
         }

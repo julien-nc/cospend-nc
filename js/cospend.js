@@ -1326,8 +1326,7 @@
         }
         statsStr += '</table>';
 
-        statsStr += '<hr/><canvas id="memberPaidChart"></canvas>';
-        statsStr += '<hr/><canvas id="memberSpentChart"></canvas>';
+        statsStr += '<hr/><canvas id="memberChart"></canvas>';
         statsStr += '<hr/><canvas id="categoryChart"></canvas>';
 
         $('#billdetail').html(statsStr);
@@ -1349,11 +1348,17 @@
             var index = context.dataIndex;
             return colors[index % colors.length];
         }
-        var memberPaidData = {
+        var memberBackgroundColors = [];
+        var memberData = {
+            // 2 datasets: paid and spent
             datasets: [{
                 data: [],
                 backgroundColor: []
-            }],
+            },{
+                data: [],
+                backgroundColor: []
+            }
+        ],
             labels: []
         };
         var memberSpentData = {
@@ -1368,32 +1373,22 @@
             spent = statList[i].spent.toFixed(2);
             name = statList[i].member.name;
             color = rgbObjToHex(statList[i].member.color);
-            memberPaidData.datasets[0].data.push(paid);
-            memberSpentData.datasets[0].data.push(spent);
-            memberPaidData.datasets[0].backgroundColor.push(color);
-            memberSpentData.datasets[0].backgroundColor.push(color);
-            memberPaidData.labels.push(name);
-            memberSpentData.labels.push(name);
+            memberData.datasets[0].data.push(paid);
+            memberData.datasets[1].data.push(spent);
+
+            memberBackgroundColors.push(color);
+
+            memberData.labels.push(name);
         }
-        var memberPaidPieChart = new Chart($('#memberPaidChart'), {
+        memberData.datasets[0].backgroundColor = memberBackgroundColors;
+        memberData.datasets[1].backgroundColor = memberBackgroundColors;
+        var memberPieChart = new Chart($('#memberChart'), {
             type: 'pie',
-            data: memberPaidData,
+            data: memberData,
             options: {
                 title: {
                     display: true,
-                    text: t('cospend', 'How much was paid?')
-                },
-                responsive: true,
-                showAllTooltips: false
-            }
-        });
-        var memberSpentPieChart = new Chart($('#memberSpentChart'), {
-            type: 'pie',
-            data: memberSpentData,
-            options: {
-                title: {
-                    display: true,
-                    text: t('cospend', 'For whom was it spent?')
+                    text: t('cospend', 'How much was paid (outside circle) and spent (inside pie)?')
                 },
                 responsive: true,
                 showAllTooltips: false
@@ -1409,7 +1404,7 @@
         };
         var catName, catIdInt;
         for (var catId in categoryStats) {
-            paid = categoryStats[catId];
+            paid = categoryStats[catId].toFixed(2);
             catIdInt = parseInt(catId);
             if (catIdInt < 0 && catIdInt > -12) {
                 catName = cospend.categories[catId].icon + ' ' + cospend.categories[catId].name;

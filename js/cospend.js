@@ -115,6 +115,10 @@
         return hex.length == 1 ? "0" + hex : hex;
     }
 
+    function rgbObjToHex(o) {
+        return rgbToHex(o.r, o.g, o.b);
+    }
+
     function rgbToHex(r, g, b) {
         return "#" + componentToHex(parseInt(r)) + componentToHex(parseInt(g)) + componentToHex(parseInt(b));
     }
@@ -179,6 +183,51 @@
     }
 
     var undoDeleteBillStyle = 'opacity:1; background-image: url('+OC.generateUrl('/svg/core/actions/history?color=2AB4FF')+');';
+
+    Chart.plugins.register({
+        beforeRender: function (chart) {
+            if (chart.config.options.showAllTooltips) {
+                // create an array of tooltips
+                // we can't use the chart tooltip because there is only one tooltip per chart
+                chart.pluginTooltips = [];
+                chart.config.data.datasets.forEach(function (dataset, i) {
+                    chart.getDatasetMeta(i).data.forEach(function (sector, j) {
+                        chart.pluginTooltips.push(new Chart.Tooltip({
+                            _chart: chart.chart,
+                            _chartInstance: chart,
+                            _data: chart.data,
+                            _options: chart.options.tooltips,
+                            _active: [sector]
+                        }, chart));
+                    });
+                });
+
+                // turn off normal tooltips
+                chart.options.tooltips.enabled = false;
+            }
+        },
+        afterDraw: function (chart, easing) {
+            if (chart.config.options.showAllTooltips) {
+                // we don't want the permanent tooltips to animate, so don't do anything till the animation runs atleast once
+                if (!chart.allTooltipsOnce) {
+                    if (easing !== 1)
+                        return;
+                    chart.allTooltipsOnce = true;
+                }
+
+                // turn on tooltips
+                chart.options.tooltips.enabled = true;
+                Chart.helpers.each(chart.pluginTooltips, function (tooltip) {
+                    tooltip.initialize();
+                    tooltip.update();
+                    // we don't actually need this since we are not animating tooltips
+                    tooltip.pivot();
+                    tooltip.transition(easing).draw();
+                });
+                chart.options.tooltips.enabled = false;
+            }
+        }
+    });
 
     /*
      * get key events
@@ -1264,7 +1313,79 @@
         }
         statsStr += '</table>';
 
+        statsStr += '<hr/><canvas id="memberPaidChart"></canvas>';
+        statsStr += '<hr/><canvas id="memberSpentChart"></canvas>';
+
         $('#billdetail').html(statsStr);
+
+        // CHARTS
+        var color;
+        var colors = [
+            'red',
+            'blue',
+            'green',
+            'black',
+            'yellow',
+            'orange',
+            'purple',
+            'pink',
+            'cyan'
+        ]
+        var colorF = function(context) {
+            var index = context.dataIndex;
+            return colors[index % colors.length];
+        }
+        var memberPaidData = {
+            datasets: [{
+                data: [],
+                backgroundColor: []
+            }],
+            labels: []
+        };
+        var memberSpentData = {
+            datasets: [{
+                data: [],
+                backgroundColor: []
+            }],
+            labels: []
+        };
+        for (var i=0; i < statList.length; i++) {
+            paid = statList[i].paid.toFixed(2);
+            spent = statList[i].spent.toFixed(2);
+            name = statList[i].member.name;
+            color = rgbObjToHex(statList[i].member.color);
+            memberPaidData.datasets[0].data.push(paid);
+            memberSpentData.datasets[0].data.push(spent);
+            memberPaidData.datasets[0].backgroundColor.push(color);
+            memberSpentData.datasets[0].backgroundColor.push(color);
+            memberPaidData.labels.push(name);
+            memberSpentData.labels.push(name);
+        }
+        var memberPaidPieChart = new Chart($('#memberPaidChart'), {
+            type: 'pie',
+            data: memberPaidData,
+            options: {
+                title: {
+                    display: true,
+                    text: t('cospend', 'How much was paid?')
+                },
+                responsive: true,
+                showAllTooltips: false
+            }
+        });
+        var memberSpentPieChart = new Chart($('#memberSpentChart'), {
+            type: 'pie',
+            data: memberSpentData,
+            options: {
+                title: {
+                    display: true,
+                    text: t('cospend', 'For whom was it spent?')
+                },
+                responsive: true,
+                showAllTooltips: false
+            }
+        });
+
 
         // make tables sortable
         sorttable.makeSortable(document.getElementById('statsTable'));

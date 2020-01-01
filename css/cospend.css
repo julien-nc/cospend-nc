@@ -429,3 +429,7 @@ a.billitem .app-content-list-item-icon {
 #set-output-div button {
     width: 60%;
 }
+#memberPaidChart,
+#memberSpentChart {
+    width: 49%;
+}

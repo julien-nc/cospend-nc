@@ -429,11 +429,15 @@ a.billitem .app-content-list-item-icon {
 #set-output-div button {
     width: 60%;
 }
-#memberPaidChart,
-#memberSpentChart {
+#memberPolarChart,
+#categoryMemberChart,
+#memberChart,
+#categoryChart {
     width: 49%;
+    margin: 0 20px 0 20px;
 }
-#categoryMemberSelect {
+#categoryMemberSelect,
+#memberPolarSelect {
     display: block;
     margin-left: auto;
     margin-right: auto;

@@ -1031,6 +1031,10 @@
                 cospend.currentCategoryMemberChart.destroy();
                 delete cospend.currentCategoryMemberChart;
             }
+            if (cospend.currentMemberPolarChart) {
+                cospend.currentMemberPolarChart.destroy();
+                delete cospend.currentMemberPolarChart;
+            }
             displayStatistics(projectid, response, dateMin, dateMax, paymentMode, category, amountMin, amountMax);
         }).always(function() {
         }).fail(function() {
@@ -1349,6 +1353,13 @@
         }
         statsStr += '</select>';
         statsStr += '<canvas id="categoryMemberChart"></canvas>';
+        statsStr += '<hr/><select id="memberPolarSelect">';
+        for (var mid in cospend.members[projectid]) {
+            statsStr += '<option value="'+mid+'">'+
+                        cospend.members[projectid][mid].name+'</option>';
+        }
+        statsStr += '</select>';
+        statsStr += '<canvas id="memberPolarChart"></canvas>';
 
         $('#billdetail').html(statsStr);
 
@@ -1412,7 +1423,10 @@
                     text: t('cospend', 'Who paid (outside circle) and spent (inside pie)?')
                 },
                 responsive: true,
-                showAllTooltips: false
+                showAllTooltips: false,
+                legend: {
+                    position: 'left'
+                }
             }
         });
         // category chart
@@ -1448,7 +1462,10 @@
                     text: t('cospend', 'What was paid per category?')
                 },
                 responsive: true,
-                showAllTooltips: false
+                showAllTooltips: false,
+                legend: {
+                    position: 'left'
+                }
             }
         });
 
@@ -1477,6 +1494,7 @@
 
         // category member chart
         displayCategoryMemberChart();
+        displayMemberPolarChart();
     }
 
     function displayCategoryMemberChart() {
@@ -1522,11 +1540,68 @@
                     text: t('cospend', 'Who paid for category "{c}"?', {c: catName})
                 },
                 responsive: true,
-                showAllTooltips: false
+                showAllTooltips: false,
+                legend: {
+                    position: 'left'
+                }
             }
         });
         if (scroll) {
-            window.scrollTo(0, document.body.scrollHeight);
+            $(window).scrollTop($('#categoryMemberSelect').position().top);
+        }
+    }
+
+    function displayMemberPolarChart() {
+        var categoryMemberStats = cospend.currentStats.categoryMemberStats;
+        var projectid = cospend.currentStatsProjectId;
+        var scroll = false;
+        if (cospend.currentMemberPolarChart) {
+            cospend.currentMemberPolarChart.destroy();
+            scroll = true;
+        }
+        var selectedMemberId = $('#memberPolarSelect').val();
+        var memberName = cospend.members[projectid][selectedMemberId].name;
+
+        var memberData = {
+            datasets: [{
+                data: [],
+                backgroundColor: []
+            }],
+            labels: []
+        };
+        var catName, paid, color;
+        for (var catId in categoryMemberStats) {
+            //memberName = cospend.members[projectid][mid].name;
+            if (parseInt(catId) === 0) {
+                catName = t('cospend', 'No category');
+                color = 'black';
+            }
+            else {
+                catName = cospend.categories[catId].icon+' '+cospend.categories[catId].name;
+                color = cospend.categories[catId].color;
+            }
+            paid = categoryMemberStats[catId][selectedMemberId].toFixed(2);
+            memberData.datasets[0].data.push(paid);
+            memberData.datasets[0].backgroundColor.push(color);
+            memberData.labels.push(catName);
+        }
+        cospend.currentMemberPolarChart = new Chart($('#memberPolarChart'), {
+            type: 'polarArea',
+            data: memberData,
+            options: {
+                title: {
+                    display: true,
+                    text: t('cospend', 'What kind of member is "{m}"?', {m: memberName})
+                },
+                responsive: true,
+                showAllTooltips: false,
+                legend: {
+                    position: 'left'
+                }
+            }
+        });
+        if (scroll) {
+            $(window).scrollTop($('#memberPolarSelect').position().top);
         }
     }
 
@@ -4032,6 +4107,10 @@
 
         $('body').on('change', '#categoryMemberSelect', function(e) {
             displayCategoryMemberChart();
+        });
+
+        $('body').on('change', '#memberPolarSelect', function(e) {
+            displayMemberPolarChart();
         });
 
         if (OCA.Theming) {

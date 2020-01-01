@@ -51,7 +51,7 @@
             icon: '🌩'
         },
         '-5': {
-            name: t('cospend', 'Excursion'),
+            name: t('cospend', 'Excursion/Culture'),
             icon: '🚸'
         },
         '-6': {

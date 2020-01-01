@@ -1144,7 +1144,7 @@ class ProjectService {
         if ($category !== null and $category !== '' and intval($category) !== 0) {
             if (intval($category) === -100) {
                 $qb->andWhere(
-                    $qb->expr()->neq('categoryid', $qb->createNamedParameter(-10, IQueryBuilder::PARAM_INT))
+                    $qb->expr()->neq('categoryid', $qb->createNamedParameter(-8, IQueryBuilder::PARAM_INT))
                 );
             }
             else {
@@ -1233,7 +1233,7 @@ class ProjectService {
         if ($category !== null and $category !== '' and intval($category) !== 0) {
             if (intval($category) === -100) {
                 $qb->andWhere(
-                    $qb->expr()->neq('categoryid', $qb->createNamedParameter(-10, IQueryBuilder::PARAM_INT))
+                    $qb->expr()->neq('categoryid', $qb->createNamedParameter(-8, IQueryBuilder::PARAM_INT))
                 );
             }
             else {

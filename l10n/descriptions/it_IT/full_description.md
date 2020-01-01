@@ -6,9 +6,9 @@ Puoi usarlo quando condividi una casa, quando vai in vacanza con gli amici, ogni
 
 Permette di creare progetti con membri e spese. Ogni membro ha un bilancio calcolato sulla base delle spese di progetto. In questo modo si può vedere chi deve al gruppo quanto e quanto deve il gruppo a chi. In ultimo, è possibile richiedere un piano di liquidazione che indica i pagamenti da effettuare per ripristinare i saldi dei membri.
 
-I membri del progetto sono indipendenti dagli utenti Nextcloud. Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
+I membri del progetto sono indipendenti dagli utenti Nextcloud. I progetti sono accessibili e modificabili da persone senza un account Nextcloud. Ogni progetto ha un ID e una password per l'accesso ospite.
 
-[MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) and on the [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
+Il client per Android [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) è [disponibile su F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) e sul [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
 ## Funzioni
 
@@ -21,13 +21,13 @@ I membri del progetto sono indipendenti dagli utenti Nextcloud. Projects can be 
 * 📊 facoltativamente fornisce un importo personalizzato per ciascun membro in nuove spese
 * 🔗 inserisci il link pubblico a un file personale nella descrizione della fattura (immagine del scontrino per esempio)
 * 👩 accesso ospite per persone fuori Nextcloud
-* 👫 share projects with Nextcloud users/groups
+* 👫 condividi i progetti con utenti/gruppi Nextcloud
 * 🖫 importa/esporta progetti come csv (compatibile con i file csv da IHateMoney)
 * 🖧 aggiungi progetti esterni (ospitati da un'altra istanza Nextcloud)
 * 🔗 genera link/codice QR per importare facilmente progetti in MoneyBuster
-* 🗲 implement Nextcloud notifications and activity stream
+* 🗲 implementa le notifiche e il flusso di attività di Nextcloud
 
-This app is tested on Nextcloud 17 with Firefox 57+ and Chromium.
+Questa app è testata su Nextcloud 17 con Firefox 57+ e Chromium.
 
 Questa app è in fase di sviluppo.
 

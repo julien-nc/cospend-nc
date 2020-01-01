@@ -6,9 +6,9 @@ Puedes usarlo cuando compartes una casa, cuando vas de vacaciones con tus amigos
 
 Te permite crear proyectos con miembros y facturas. Cada miembro tiene un saldo calculado a partir de las facturas del proyecto. De esta manera se puede ver quién debe al grupo y a quién debe el grupo. En última instancia, puedes pedir un plan de liquidación diciendo qué pagos hacer para restablecer los saldos de los miembros.
 
-Los miembros del proyecto son independientes de los usuarios de Nextcloud. Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
+Los miembros del proyecto son independientes de los usuarios de Nextcloud. Los proyectos pueden ser accedidos y modificados por personas sin una cuenta de Nextcloud. Cada proyecto tiene un ID y una contraseña para el acceso de invitados.
 
-[MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) and on the [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
+El cliente para Android [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) está [disponible en F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) y en la [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
 ## Funcionalidades
 

@@ -8,7 +8,7 @@ Es lässt dich Projekte mit Mitgliedern und Ausgaben erstellen. Anhand der Ausga
 
 Projektmitglieder sind unabhängig von Nextcloud Benutzern. Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
 
-[MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android Client ist [erhältlich in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) und im [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
+[MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) and on the [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
 ## Funktionen
 
@@ -21,13 +21,13 @@ Projektmitglieder sind unabhängig von Nextcloud Benutzern. Projects can be acce
 * 📊 Gib bei neuen Ausgaben einen eigenen Betrag für jedes Mitglied an (optional)
 * 🔗 Füge der Ausgabenbeschreibung eine persönliche Datei mit einen öffentlichen Link hinzu (z.B. Bild der Quittung für eine Ausgabe)
 * 👩 Gastzugang für Personen ohne Nextcloud-Konto
-* Projekte mit Nextcloud Benutzern/Gruppen teilen
+* 👫 share projects with Nextcloud users/groups
 * 🖫 Importiere/Exportieren ein Projekt als CSV (kompatibel mit CSV-Dateien von IHateMoney)
 * 🖧 externes Projekt hinzufügen (von einer anderen Nextcloud Instanz gehostet)
 * 🔗 Link/QRCode generieren um Projekte einfach in MoneyBuster zu importieren
-* 🗲 Nextcloud Benachrichtigungen und Aktivitäts-Stream implementieren
+* 🗲 implement Nextcloud notifications and activity stream
 
-Diese App wurde mit Nextcloud 17 auf Firefox57+ und Chromium getestet.
+This app is tested on Nextcloud 17 with Firefox 57+ and Chromium.
 
 Diese App befindet sich in der Entwicklung.
 

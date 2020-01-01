@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2019-12-31 17:17+0100\n"
-"PO-Revision-Date: 2019-12-31 16:19\n"
+"PO-Revision-Date: 2019-12-31 17:30\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -69,23 +69,23 @@ msgstr "Roupas"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:74
 msgid "Reimbursement"
-msgstr ""
+msgstr "Reembolso"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:78
 msgid "Restaurant"
-msgstr ""
+msgstr "Restaurante"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:82
 msgid "Accommodation"
-msgstr ""
+msgstr "Alojamento"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:86
 msgid "Transport"
-msgstr ""
+msgstr "Transporte"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:90
 msgid "Excursions"
-msgstr ""
+msgstr "Excursões"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:97
 msgid "Credit card"
@@ -179,7 +179,7 @@ msgstr "Projecto guardado"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:770
 msgid "Failed to edit project"
-msgstr ""
+msgstr "Falha ao editar projecto"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:822
 msgid "Deleted project {id}"
@@ -308,7 +308,7 @@ msgstr "Categoria"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1206
 msgid "All except reimbursement"
-msgstr ""
+msgstr "Tudo excepto reembolso"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1214
 msgid "Minimum amount"
@@ -320,15 +320,15 @@ msgstr "Montante máximo"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1219
 msgid "Global stats"
-msgstr ""
+msgstr "Estatísticas globais"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1249
 msgid "Monthly stats"
-msgstr ""
+msgstr "Estatísticas mensais"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1251
 msgid "Month/Member"
-msgstr ""
+msgstr "Mês/Membro"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1334
 msgid "Failed to get bills"
@@ -364,7 +364,7 @@ msgstr "Ninguém"
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1477
 #: /var/www/html/n17/apps/cospend/js/cospend.js:3676
 msgid "Create the bill"
-msgstr ""
+msgstr "Criar a factura"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1478
 msgid "Attach public link to personal file"
@@ -424,11 +424,11 @@ msgstr "ano"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1544
 msgid "Include all active member on repeat"
-msgstr ""
+msgstr "Incluir todos os membros activos ao repetir"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1547
 msgid "Repeat until"
-msgstr ""
+msgstr "Repetir até"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1652
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1689
@@ -496,17 +496,17 @@ msgstr "Prima Enter para validar"
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1867
 #: /var/www/html/n17/apps/cospend/js/cospend.js:2448
 msgid "Permission to delete bills"
-msgstr ""
+msgstr "Permissão para eliminar facturas"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1869
 #: /var/www/html/n17/apps/cospend/js/cospend.js:2450
 msgid "Permission to edit bills and project"
-msgstr ""
+msgstr "Permissão para editar facturas e projecto"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1871
 #: /var/www/html/n17/apps/cospend/js/cospend.js:2452
 msgid "Permission to create bills"
-msgstr ""
+msgstr "Permissão para criar facturas"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1917
 msgid "No"
@@ -571,11 +571,11 @@ msgstr "Falha ao eliminar partilha de grupo"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:2502
 msgid "Failed to edit share permissions"
-msgstr ""
+msgstr "Falha ao editar permissões de partilha"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:2547
 msgid "Failed to edit guest permissions"
-msgstr ""
+msgstr "Falha ao editar as permissões de convidado"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:2618
 msgid "Failed to generate public link to file"
@@ -678,67 +678,67 @@ msgstr "Escolha o ficheiro de projecto CSV"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:3587
 msgid "Choose SplitWise project file"
-msgstr ""
+msgstr "Escolha o ficheiro de projecto SplitWise"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:3673
 msgid "Create the bills"
-msgstr ""
+msgstr "Criar as facturas"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:3768
 msgid "Choose where to write output files (stats, settlement, export)"
-msgstr ""
+msgstr "Escolha onde escrever os ficheiros de saída (estatísticas, liquidação, exportação)"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:87
 msgid "You have created a new bill {bill} in project {project}"
-msgstr ""
+msgstr "Criou uma nova factura {bill} no projecto {project}"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:87
 msgid "{user} has created a new bill {bill} in project {project}"
-msgstr ""
+msgstr "{user} criou uma nova factura {bill} no projecto {project}"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:90
 msgid "You have deleted the bill {bill} of project {project}"
-msgstr ""
+msgstr "Eliminou a factura {bill} do projecto {project}"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:90
 msgid "{user} has deleted the bill {bill} of project {project}"
-msgstr ""
+msgstr "{user} eliminou a factura {bill} do projecto {project}"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:93
 msgid "You have shared the project {project} with {who}"
-msgstr ""
+msgstr "Partilhou o projecto {project} com {who}"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:93
 msgid "{user} has shared the project {project} with {who}"
-msgstr ""
+msgstr "{user} partilhou o projecto {project} com {who}"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:96
 msgid "You have removed {who} from the project {project}"
-msgstr ""
+msgstr "Removeu {who} do projecto {project}"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:96
 msgid "{user} has removed {who} from the project {project}"
-msgstr ""
+msgstr "{user} removeu {who} do projecto {project}"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:99
 msgid "You have updated the bill {bill} of project {project}"
-msgstr ""
+msgstr "Actualizou a factura {bill} do projecto {project}"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:99
 msgid "{user} has updated the bill {bill} of project {project}"
-msgstr ""
+msgstr "{user} actualizou a factura {bill} do projecto {project}"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/ActivityManager.php:163
 msgid "A guest user"
-msgstr ""
+msgstr "Um utilizador convidado"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/BillSetting.php:42
 msgid "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted"
-msgstr ""
+msgstr "Uma <strong>factura</strong> foi actualizada/criada/eliminada dentro da aplicação Cospend"
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/Setting.php:54
 msgid "Changes in the <strong>Cospend app</strong>"
-msgstr ""
+msgstr "Alterações feitas na <strong>aplicação Cospend</strong>"
 
 #: /var/www/html/n17/apps/cospend/lib/Notification/Notifier.php:86
 #, php-format
@@ -752,7 +752,7 @@ msgstr "O utilizador \"%s\" deixou de partilhar o projecto Cospend \"%s\" consig
 
 #: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:525
 msgid "Average per month"
-msgstr ""
+msgstr "Média por mês"
 
 #: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2854
 msgid "daily"
@@ -827,7 +827,7 @@ msgstr "Nome do meu projecto"
 
 #: /var/www/html/n17/apps/cospend/templates/mainnavigation.php:17
 msgid "password (optional, required to connect with MoneyBuster)"
-msgstr ""
+msgstr "senha (opcional, necessária para se conectar com o MoneyBuster)"
 
 #: /var/www/html/n17/apps/cospend/templates/mainnavigation.php:20
 msgid "Add project"
@@ -867,9 +867,9 @@ msgstr "Importar ficheiro de projecto CSV"
 
 #: /var/www/html/n17/apps/cospend/templates/mainnavigation.php:70
 msgid "Import SplitWise project file"
-msgstr ""
+msgstr "Importar o ficheiro SplitWise do projecto"
 
 #: /var/www/html/n17/apps/cospend/templates/mainnavigation.php:77
 msgid "Change output directory"
-msgstr ""
+msgstr "Mudar pasta de saída"
 

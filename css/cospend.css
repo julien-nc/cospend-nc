@@ -433,3 +433,8 @@ a.billitem .app-content-list-item-icon {
 #memberSpentChart {
     width: 49%;
 }
+#categoryMemberSelect {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

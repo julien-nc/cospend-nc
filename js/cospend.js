@@ -1210,6 +1210,10 @@
         var statList = allStats.stats;
         var monthlyStats = allStats.monthlyStats;
         var categoryStats = allStats.categoryStats;
+        var categoryMemberStats = allStats.categoryMemberStats;
+        cospend.currentStats = allStats;
+        cospend.currentStatsProjectId = projectid;
+
         var project = cospend.projects[projectid];
         var projectName = getProjectName(projectid);
         $('#billdetail').html('');
@@ -1328,6 +1332,19 @@
 
         statsStr += '<hr/><canvas id="memberChart"></canvas>';
         statsStr += '<hr/><canvas id="categoryChart"></canvas>';
+        statsStr += '<hr/><select id="categoryMemberSelect">';
+        for (var catId in categoryMemberStats) {
+            if (parseInt(catId) !== 0) {
+                statsStr += '<option value="'+catId+'">'+
+                            cospend.categories[catId].icon+' '+
+                            cospend.categories[catId].name+'</option>';
+            }
+            else {
+                statsStr += '<option value="'+catId+'">'+t('cospend', 'No category')+'</option>';
+            }
+        }
+        statsStr += '</select>';
+        statsStr += '<canvas id="categoryMemberChart"></canvas>';
 
         $('#billdetail').html(statsStr);
 
@@ -1388,7 +1405,7 @@
             options: {
                 title: {
                     display: true,
-                    text: t('cospend', 'How much was paid (outside circle) and spent (inside pie)?')
+                    text: t('cospend', 'Who paid (outside circle) and spent (inside pie)?')
                 },
                 responsive: true,
                 showAllTooltips: false
@@ -1430,7 +1447,8 @@
                 showAllTooltips: false
             }
         });
-
+        // category member chart
+        displayCategoryMemberChart();
 
         // make tables sortable
         sorttable.makeSortable(document.getElementById('statsTable'));
@@ -1453,6 +1471,57 @@
         }
         if (amountMax) {
             $('#amount-max-stats').val(amountMax);
+        }
+    }
+
+    function displayCategoryMemberChart() {
+        var categoryMemberStats = cospend.currentStats.categoryMemberStats;
+        var projectid = cospend.currentStatsProjectId;
+        var scroll = false;
+        if (cospend.currentCategoryMemberChart) {
+            cospend.currentCategoryMemberChart.destroy();
+            scroll = true;
+        }
+        var selectedCatId = $('#categoryMemberSelect').val();
+        var catName;
+        if (parseInt(selectedCatId) === 0) {
+            catName = t('cospend', 'No category');
+        }
+        else {
+            catName = cospend.categories[selectedCatId].icon+' '+cospend.categories[selectedCatId].name;
+        }
+
+        var categoryData = {
+            datasets: [{
+                data: [],
+                backgroundColor: []
+            }],
+            labels: []
+        };
+        var categoryStats, memberName, paid, color;
+        categoryStats = categoryMemberStats[selectedCatId];
+        for (var mid in categoryStats) {
+            memberName = cospend.members[projectid][mid].name;
+            color = rgbObjToHex(cospend.members[projectid][mid].color);
+            paid = categoryStats[mid].toFixed(2);
+            categoryData.datasets[0].data.push(paid);
+            categoryData.datasets[0].backgroundColor.push(color);
+            categoryData.labels.push(memberName);
+        }
+        cospend.currentCategoryMemberChart = new Chart($('#categoryMemberChart'), {
+            type: 'pie',
+            data: categoryData,
+            options: {
+                title: {
+                    display: true,
+                    text: t('cospend', 'Who paid for category "{c}"?', {c: catName})
+                },
+                responsive: true,
+                showAllTooltips: false
+            }
+        });
+        if (scroll) {
+            window.scrollTo(0, document.body.scrollHeight);
         }
     }
 
@@ -3954,6 +4023,10 @@
                 'httpd/unix-directory',
                 true
             );
+        });
+
+        $('body').on('change', '#categoryMemberSelect', function(e) {
+            displayCategoryMemberChart();
         });
 
         if (OCA.Theming) {

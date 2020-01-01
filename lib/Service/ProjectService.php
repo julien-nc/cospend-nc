@@ -548,11 +548,29 @@ class ProjectService {
             }
             $categoryStats[$categoryId] += $amount;
         }
+        // compute category per member stats
+        $categoryMemberStats = [];
+        foreach ($bills as $bill) {
+            $payerId = $bill['payer_id'];
+            $categoryId = $bill['categoryid'];
+            if (intval($categoryId) > -1 || intval($categoryId) < -12) {
+                $categoryId = 0;
+            }
+            $amount = $bill['amount'];
+            if (!array_key_exists($categoryId, $categoryMemberStats)) {
+                $categoryMemberStats[$categoryId] = [];
+                foreach ($members as $member) {
+                    $categoryMemberStats[$categoryId][$member['id']] = 0;
+                }
+            }
+            $categoryMemberStats[$categoryId][$payerId] += $amount;
+        }
 
         return [
             'stats'=>$statistics,
             'monthlyStats'=>$monthlyStats,
-            'categoryStats'=>$categoryStats
+            'categoryStats'=>$categoryStats,
+            'categoryMemberStats'=>$categoryMemberStats
         ];
     }
 

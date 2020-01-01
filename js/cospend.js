@@ -35,11 +35,11 @@
 
     cospend.categories = {
         '-1': {
-            name: t('cospend', 'Groceries'),
+            name: t('cospend', 'Grocery'),
             icon: '🛒'
         },
         '-2': {
-            name: t('cospend', 'Leisure'),
+            name: t('cospend', 'Bar/Party'),
             icon: '🎉'
         },
         '-3': {
@@ -47,50 +47,38 @@
             icon: '🏠'
         },
         '-4': {
-            name: t('cospend', 'Bills'),
+            name: t('cospend', 'Bill'),
             icon: '🌩'
         },
         '-5': {
-            name: t('cospend', 'Culture'),
-            icon: '🗽'
+            name: t('cospend', 'Excursion'),
+            icon: '🚸'
         },
         '-6': {
             name: t('cospend', 'Health'),
             icon: '💚'
         },
         '-7': {
-            name: t('cospend', 'Tools'),
-            icon: '🔨'
+            name: t('cospend', 'Shopping'),
+            icon: '🛍'
         },
         '-8': {
-            name: t('cospend', 'Multimedia'),
-            icon: '💻'
-        },
-        '-9': {
-            name: t('cospend', 'Clothes'),
-            icon: '👚'
-        },
-        '-10': {
             name: t('cospend', 'Reimbursement'),
             icon: '💰'
         },
-        '-11': {
+        '-9': {
             name: t('cospend', 'Restaurant'),
             icon: '🍴'
         },
-        '-12': {
+        '-10': {
             name: t('cospend', 'Accommodation'),
             icon: '🛌'
         },
-        '-13': {
+        '-11': {
             name: t('cospend', 'Transport'),
             icon: '🚌'
         },
-        '-14': {
-            name: t('cospend', 'Excursions'),
-            icon: '🚸'
-        },
-        '-15': {
+        '-12': {
             name: t('cospend', 'Sport'),
             icon: '🎾'
         },

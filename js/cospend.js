@@ -1027,6 +1027,10 @@
             if (cospend.currentProjectId !== projectid) {
                 selectProject($('.projectitem[projectid="'+projectid+'"]'));
             }
+            if (cospend.currentCategoryMemberChart) {
+                cospend.currentCategoryMemberChart.destroy();
+                delete cospend.currentCategoryMemberChart;
+            }
             displayStatistics(projectid, response, dateMin, dateMax, paymentMode, category, amountMin, amountMax);
         }).always(function() {
         }).fail(function() {
@@ -1447,8 +1451,6 @@
                 showAllTooltips: false
             }
         });
-        // category member chart
-        displayCategoryMemberChart();
 
         // make tables sortable
         sorttable.makeSortable(document.getElementById('statsTable'));
@@ -1472,6 +1474,9 @@
         if (amountMax) {
             $('#amount-max-stats').val(amountMax);
         }
+
+        // category member chart
+        displayCategoryMemberChart();
     }
 
     function displayCategoryMemberChart() {

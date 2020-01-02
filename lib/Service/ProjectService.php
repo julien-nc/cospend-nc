@@ -691,7 +691,7 @@ class ProjectService {
            );
         $req = $qb->execute();
 
-        while ($row = $req->fetch()){
+        while ($row = $req->fetch()) {
             $dbMemberId = intval($row['id']);
             $dbWeight = floatval($row['weight']);
             $dbName = $row['name'];
@@ -699,8 +699,10 @@ class ProjectService {
             $dbColor = $row['color'];
             if ($dbColor === null) {
                 $av = $this->avatarManager->getGuestAvatar($dbName);
-                $color = $av->avatarBackgroundColor($dbName);
-                $dbColor = dechex($color->r).dechex($color->g).dechex($color->b);
+                $dbColor = $av->avatarBackgroundColor($dbName);
+            }
+            else {
+                $dbColor = $this->hexToRgb($dbColor);
             }
 
             $member = [
@@ -1361,8 +1363,10 @@ class ProjectService {
                 $dbColor = $row['color'];
                 if ($dbColor === null) {
                     $av = $this->avatarManager->getGuestAvatar($dbName);
-                    $color = $av->avatarBackgroundColor($dbName);
-                    $dbColor = dechex($color->r).dechex($color->g).dechex($color->b);
+                    $dbColor = $av->avatarBackgroundColor($dbName);
+                }
+                else {
+                    $dbColor = $this->hexToRgb($dbColor);
                 }
 
                 // find index to make sorted insert
@@ -1396,8 +1400,10 @@ class ProjectService {
                 $dbColor = $row['color'];
                 if ($dbColor === null) {
                     $av = $this->avatarManager->getGuestAvatar($dbName);
-                    $color = $av->avatarBackgroundColor($dbName);
-                    $dbColor = dechex($color->r).dechex($color->g).dechex($color->b);
+                    $dbColor = $av->avatarBackgroundColor($dbName);
+                }
+                else {
+                    $dbColor = $this->hexToRgb($dbColor);
                 }
 
                 array_push(
@@ -1775,8 +1781,10 @@ class ProjectService {
             $dbColor = $row['color'];
             if ($dbColor === null) {
                 $av = $this->avatarManager->getGuestAvatar($dbName);
-                $color = $av->avatarBackgroundColor($dbName);
-                $dbColor = dechex($color->r).dechex($color->g).dechex($color->b);
+                $dbColor = $av->avatarBackgroundColor($dbName);
+            }
+            else {
+                $dbColor = $this->hexToRgb($dbColor);
             }
             $member = [
                     'activated' => ($dbActivated === 1),
@@ -3015,6 +3023,15 @@ class ProjectService {
             $req->closeCursor();
             $qb = $qb->resetQueryParts();
         }
+    }
+
+    private function hexToRgb($color) {
+        $color = \str_replace('#', '', $color);
+        $split_hex_color = str_split($color, 2);
+        $r = hexdec($split_hex_color[0]);
+        $g = hexdec($split_hex_color[1]);
+        $b = hexdec($split_hex_color[2]);
+        return ['r'=>$r, 'g'=>$g, 'b'=>$b];
     }
 
 }

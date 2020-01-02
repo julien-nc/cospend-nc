@@ -459,7 +459,7 @@
         }).done(function (response) {
             var memberLine = $('.projectitem[projectid="'+projectid+'"] ul.memberlist > li[memberid='+memberid+']');
             // update member values
-            cospend.members[projectid][memberid].color = response.color;
+            cospend.members[projectid][memberid].color = rgbObjToHex(response.color).replace('#', '');
             if (newName) {
                 memberLine.find('b.memberName').text(newName);
                 cospend.members[projectid][memberid].name = newName;
@@ -1415,18 +1415,11 @@
         ],
             labels: []
         };
-        var memberSpentData = {
-            datasets: [{
-                data: [],
-                backgroundColor: []
-            }],
-            labels: []
-        };
         for (var i=0; i < statList.length; i++) {
             paid = statList[i].paid.toFixed(2);
             spent = statList[i].spent.toFixed(2);
             name = statList[i].member.name;
-            color = '#'+statList[i].member.color;
+            color = '#'+cospend.members[projectid][statList[i].member.id].color;
             memberData.datasets[0].data.push(paid);
             memberData.datasets[1].data.push(spent);
 
@@ -2347,7 +2340,13 @@
 
     function addMember(projectid, member, balance) {
         // add member to dict
-        cospend.members[projectid][member.id] = member;
+        cospend.members[projectid][member.id] = {
+            id: member.id,
+            name: member.name,
+            activated: member.activated,
+            weight: member.weight,
+            color: rgbObjToHex(member.color).replace('#', '')
+        };
 
         var invisibleClass = '';
         var balanceStr;
@@ -2374,7 +2373,7 @@
             iconToggleStr = 'icon-history';
             toggleStr = t('cospend', 'Reactivate');
         }
-        var color = member.color || '000000';
+        var color = cospend.members[projectid][member.id].color;
         imgurl = OC.generateUrl('/apps/cospend/getAvatar?color='+color+'&name='+encodeURIComponent(member.name));
 
 

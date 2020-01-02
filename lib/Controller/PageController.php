@@ -450,9 +450,9 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webEditMember($projectid, $memberid, $name, $weight, $activated) {
+    public function webEditMember($projectid, $memberid, $name, $weight, $activated, $color=null) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
-            $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated);
+            $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated, $color);
             if (is_array($result) and array_key_exists('activated', $result)) {
                 return new DataResponse($result);
             }
@@ -616,7 +616,7 @@ class PageController extends ApiController {
     public function webAddMember($projectid, $name) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
             $result = $this->projectService->addMember($projectid, $name, 1);
-            if (is_numeric($result)) {
+            if (is_array($result)) {
                 // inserted bill id
                 return new DataResponse($result);
             }
@@ -926,9 +926,9 @@ class PageController extends ApiController {
     public function apiAddMember($projectid, $password, $name, $weight) {
         if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'c')) {
             $result = $this->projectService->addMember($projectid, $name, $weight);
-            if (is_numeric($result)) {
+            if (is_array($result)) {
                 // inserted bill id
-                return new DataResponse($result);
+                return new DataResponse($result['id']);
             }
             else {
                 return new DataResponse($result, 400);
@@ -951,9 +951,9 @@ class PageController extends ApiController {
     public function apiPrivAddMember($projectid, $name, $weight) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
             $result = $this->projectService->addMember($projectid, $name, $weight);
-            if (is_numeric($result)) {
+            if (is_array($result)) {
                 // inserted bill id
-                return new DataResponse($result);
+                return new DataResponse($result['id']);
             }
             else {
                 return new DataResponse($result, 400);
@@ -1279,9 +1279,9 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiEditMember($projectid, $password, $memberid, $name, $weight, $activated) {
+    public function apiEditMember($projectid, $password, $memberid, $name, $weight, $activated, $color=null) {
         if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
-            $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated);
+            $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated, $color);
             if (is_array($result) and array_key_exists('activated', $result)) {
                 return new DataResponse($result);
             }
@@ -1303,9 +1303,9 @@ class PageController extends ApiController {
      * @NoCSRFRequired
      * @CORS
      */
-    public function apiPrivEditMember($projectid, $memberid, $name, $weight, $activated) {
+    public function apiPrivEditMember($projectid, $memberid, $name, $weight, $activated, $color=null) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
-            $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated);
+            $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated, $color);
             if (is_array($result) and array_key_exists('activated', $result)) {
                 return new DataResponse($result);
             }

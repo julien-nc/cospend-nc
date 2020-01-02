@@ -385,14 +385,8 @@
             data: req,
             async: true,
         }).done(function (response) {
-            var member = {
-                id: response,
-                name: name,
-                weight: 1,
-                activated: true
-            };
             // add member to UI
-            addMember(projectid, member, 0);
+            addMember(projectid, response, 0);
             // fold new member form
             $('.newmemberdiv').slideUp();
             updateNumberOfMember(projectid);
@@ -463,7 +457,9 @@
                 cospend.members[projectid][memberid].activated = newActivated;
             }
             // update icon
-            var imgurl = OC.generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(response.name));
+            var imgurl = OC.generateUrl('/apps/cospend/getAvatar?color=' +
+                        cospend.members[projectid][memberid].color +
+                        '&name='+encodeURIComponent(response.name));
             if (cospend.members[projectid][memberid].activated) {
                 memberLine.find('.memberAvatar').removeClass('memberAvatarDisabled');
             }
@@ -673,7 +669,9 @@
 
         var title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
             bill.date + '\n' + memberName + ' -> ' + owerNames;
-        var imgurl = OC.generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(memberName));
+        var imgurl = OC.generateUrl('/apps/cospend/getAvatar?color=' +
+                    cospend.members[projectid][bill.payer_id].color +
+                    '&name='+encodeURIComponent(memberName));
         var item = '<a href="#" class="app-content-list-item billitem selectedbill" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
             '<div class="app-content-list-item-icon" style="background-image: url('+imgurl+');"> ' +
             '   <div class="billItemDisabledMask'+(cospend.members[projectid][bill.payer_id].activated ? '' : ' disabled')+'"></div>' +
@@ -1404,7 +1402,7 @@
             paid = statList[i].paid.toFixed(2);
             spent = statList[i].spent.toFixed(2);
             name = statList[i].member.name;
-            color = rgbObjToHex(statList[i].member.color);
+            color = '#'+statList[i].member.color;
             memberData.datasets[0].data.push(paid);
             memberData.datasets[1].data.push(spent);
 
@@ -1525,7 +1523,7 @@
         categoryStats = categoryMemberStats[selectedCatId];
         for (var mid in categoryStats) {
             memberName = cospend.members[projectid][mid].name;
-            color = rgbObjToHex(cospend.members[projectid][mid].color);
+            color = '#'+cospend.members[projectid][mid].color;
             paid = categoryStats[mid].toFixed(2);
             categoryData.datasets[0].data.push(paid);
             categoryData.datasets[0].backgroundColor.push(color);
@@ -1663,12 +1661,12 @@
                                  repeatuntil=null) {
         var projectName = getProjectName(projectid);
         $('.bill-title').attr('billid', billid);
-        var c = {r: 128, g: 128, b: 128};
+        var c = '#888888';
         if (billid !== 0) {
             $('.bill-type').hide();
             $('#owerValidate').hide();
             var memberPayer = cospend.members[projectid][payer_id];
-            c = memberPayer.color;
+            c = '#'+memberPayer.color;
         }
 
         var links = what.match(/https?:\/\/[^\s]+/gi) || [];
@@ -1697,7 +1695,7 @@
             t('cospend', 'Bill : {what}', {what: whatFormatted}) +
             ' ' + formattedLinks
         );
-        $('.bill-title').attr('style', 'background-color: rgb('+c.r+', '+c.g+', '+c.b+');');
+        $('.bill-title').attr('style', 'background-color: '+c+';');
     }
 
     function displayBill(projectid, billid) {
@@ -1715,7 +1713,7 @@
             owerIds.push(owers[i].id);
         }
 
-        var c = {r: 128, g: 128, b:128};
+        var c = '#888888';
         var owerCheckboxes = '';
         var payerOptions = '';
         var member;
@@ -1758,7 +1756,7 @@
                 payerDisabled = ' disabled';
             }
             var memberPayer = cospend.members[projectid][bill.payer_id];
-            c = memberPayer.color;
+            c = '#'+memberPayer.color;
         }
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
@@ -1811,7 +1809,7 @@
 
         var detail =
             '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
-            '<h2 class="bill-title" projectid="'+projectid+'" billid="'+bill.id+'" style="background-color: rgb('+c.r+', '+c.g+', '+c.b+');">' +
+            '<h2 class="bill-title" projectid="'+projectid+'" billid="'+bill.id+'" style="background-color: '+c+';">' +
             '    <span class="loading-bill"></span>' +
             '    <span class="icon-edit-white"></span>'+titleStr+' '+formattedLinks +
             '</h2>' +
@@ -2001,7 +1999,7 @@
         }
         var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
 
-        var imgurl;
+        var imgurl, color;
         var disabled = '';
         if (bill.id !== 0) {
             if (!cospend.members[projectid].hasOwnProperty(bill.payer_id)) {
@@ -2013,7 +2011,8 @@
             title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
                 bill.date + '\n' + memberName + ' → ' + owerNames;
 
-            imgurl = OC.generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(memberName));
+            color = cospend.members[projectid][bill.payer_id].color;
+            imgurl = OC.generateUrl('/apps/cospend/getAvatar?color='+color+'&name='+encodeURIComponent(memberName));
             // disabled
             disabled = cospend.members[projectid][bill.payer_id].activated ? '' : ' disabled';
         }
@@ -2351,7 +2350,8 @@
             iconToggleStr = 'icon-history';
             toggleStr = t('cospend', 'Reactivate');
         }
-        imgurl = OC.generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(member.name));
+        var color = member.color || '000000';
+        imgurl = OC.generateUrl('/apps/cospend/getAvatar?color='+color+'&name='+encodeURIComponent(member.name));
 
 
         var renameStr = t('cospend', 'Rename');

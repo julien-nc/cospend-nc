@@ -1243,6 +1243,7 @@
         var categoryMemberStats = allStats.categoryMemberStats;
         cospend.currentStats = allStats;
         cospend.currentStatsProjectId = projectid;
+        var color;
 
         var project = cospend.projects[projectid];
         var projectName = getProjectName(projectid);
@@ -1322,12 +1323,13 @@
             spent = statList[i].spent.toFixed(2);
             balance = statList[i].balance.toFixed(2);
             name = statList[i].member.name;
+            color = '#'+cospend.members[projectid][statList[i].member.id].color;
             statsStr = statsStr +
                 '<tr>' +
-                '<td>'+name+'</td>' +
-                '<td>'+paid+'</td>' +
-                '<td>'+spent+'</td>' +
-                '<td'+balanceClass+'>'+balance+'</td>' +
+                '<td style="border: 2px solid '+color+';">'+name+'</td>' +
+                '<td style="border: 2px solid '+color+';">'+paid+'</td>' +
+                '<td style="border: 2px solid '+color+';">'+spent+'</td>' +
+                '<td style="border: 2px solid '+color+';"'+balanceClass+'>'+balance+'</td>' +
                 '</tr>';
         }
         statsStr += '</table>';
@@ -1344,15 +1346,18 @@
         var mid;
         for (var i=0; i < mids.length; i++) {
             mid = mids[i];
-            statsStr += '<tr>';
             if (parseInt(mid) === 0) {
+                color = 'var(--color-border-dark)';
+                statsStr += '<tr>';
                 statsStr += '<td><b>'+t('cospend', 'All members')+'</b></td>';
             }
             else {
-                statsStr += '<td>'+cospend.members[projectid][mid].name+'</td>';
+                color = '#'+cospend.members[projectid][mid].color;
+                statsStr += '<tr>';
+                statsStr += '<td style="border: 2px solid '+color+';">'+cospend.members[projectid][mid].name+'</td>';
             }
             for (var month in monthlyStats) {
-                statsStr += '<td>';
+                statsStr += '<td style="border: 2px solid '+color+';">';
                 statsStr += monthlyStats[month][mid].toFixed(2);
                 statsStr += '</td>';
             }
@@ -1386,7 +1391,6 @@
         $('#billdetail').html(statsStr);
 
         // CHARTS
-        var color;
         var colors = [
             'red',
             'blue',

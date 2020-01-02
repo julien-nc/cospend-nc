@@ -190,12 +190,14 @@ input[type=number] {
 #statsTable td:first-child {
     text-align: left;
 }
+#statsTable,
+#monthlyTable{
+    border-spacing: 2px 2px;
+}
 #settlementTable th,
 #settlementTable td,
 #statsTable th,
-#statsTable td,
-#monthlyTable th,
-#monthlyTable td {
+#monthlyTable th {
     border: 1px solid var(--color-border-dark);
     padding: 0px 5px 0px 5px;
 }

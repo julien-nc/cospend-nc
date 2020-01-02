@@ -399,7 +399,28 @@
         });
     }
 
-    function editMember(projectid, memberid, newName, newWeight, newActivated) {
+    function askChangeMemberColor(projectid, memberid) {
+        cospend.changingColorProjectId = projectid;
+        cospend.changingColorMemberId = memberid;
+        var currentColor = '#'+cospend.members[projectid][memberid].color;
+        $('#membercolorinput').val(currentColor);
+        $('#membercolorinput').click();
+    }
+
+    function okColor() {
+        var color = $('#membercolorinput').val();
+        var projectid = cospend.changingColorProjectId;
+        var memberid = cospend.changingColorMemberId;
+        editMember(
+            projectid, memberid,
+            cospend.members[projectid][memberid].name,
+            cospend.members[projectid][memberid].weight,
+            cospend.members[projectid][memberid].activated,
+            color.replace('#', '')
+        );
+    }
+
+    function editMember(projectid, memberid, newName, newWeight, newActivated, color=null) {
         $('.projectitem[projectid="'+projectid+'"] ul.memberlist > li[memberid='+memberid+']')
             .addClass('icon-loading-small')
             .removeClass('editing');
@@ -408,6 +429,9 @@
             weight: newWeight,
             activated: newActivated
         };
+        if (color) {
+            req.color = color;
+        }
         var url, type;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
@@ -4111,6 +4135,16 @@
 
         $('body').on('change', '#memberPolarSelect', function(e) {
             displayMemberPolarChart();
+        });
+
+        $('body').on('click', '.memberAvatar', function(e) {
+            var projectid = $(this).parent().parent().parent().attr('projectid');
+            var memberid = $(this).parent().attr('memberid');
+            askChangeMemberColor(projectid, memberid);
+        });
+
+        $('body').on('change', '#membercolorinput', function(e) {
+            okColor();
         });
 
         if (OCA.Theming) {

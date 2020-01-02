@@ -68,6 +68,7 @@ b.memberName, b.memberWeight {
     height: auto;
     border-radius: 50%;
     margin: 10px 6px 10px 6px;
+    cursor: pointer;
 }
 .memberAvatar .disabledMask {
     display: none;
@@ -441,4 +442,13 @@ a.billitem .app-content-list-item-icon {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+#membercolorinput {
+    opacity: 0;
+    width: 0px;
+    height: 0px;
+    min-height: 0px;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
 }

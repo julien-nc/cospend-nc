@@ -83,3 +83,4 @@
 <p id="projectid"><?php p($_['projectid']); ?></p>
 <p id="password"><?php p($_['password']); ?></p>
 <img id="dummylogo"/>
+<input id="membercolorinput" type="color"></input>

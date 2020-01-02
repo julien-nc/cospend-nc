@@ -175,6 +175,16 @@ class UtilsController extends Controller {
             // either we have it already or not
             $dataFolder = $this->serverContainer->getAppFolder();
             $letter = strtoupper($name[0]);
+            // precaution if file was manually delete from real filesystem
+            if ($dataFolder->nodeExists('cospend/'.$letter.$color.'.png')) {
+                error_log('DOES EXIST '.$letter.$color.'.png');
+                $cospendFolder = $dataFolder->get('cospend');
+                $dataFile = $cospendFolder->get($letter.$color.'.png');
+                $resultData = $dataFile->getContent();
+                // TODO find a way to check to file really exists in the filesystem
+                // if not, delete the file obj
+                //$dataFile->delete();
+            }
             if (!$dataFolder->nodeExists('cospend/'.$letter.$color.'.png')) {
                 $size = 64;
                 $backgroundColor = $this->hexToRgb($color);
@@ -210,10 +220,9 @@ class UtilsController extends Controller {
                 $cospendFolder = $dataFolder->get('cospend');
                 $outFile = $cospendFolder->newFile($letter.$color.'.png');
                 $outFile->putContent($data);
+
+                $resultData = $data;
             }
-            $cospendFolder = $dataFolder->get('cospend');
-            $dataFile = $cospendFolder->get($letter.$color.'.png');
-            $resultData = $dataFile->getContent();
             return new DataDisplayResponse($resultData);
         }
     }

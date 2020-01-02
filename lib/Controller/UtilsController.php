@@ -174,9 +174,9 @@ class UtilsController extends Controller {
         else {
             // either we have it already or not
             $dataFolder = $this->serverContainer->getAppFolder();
+            $letter = strtoupper($name[0]);
             if (!$dataFolder->nodeExists('cospend/'.$letter.$color.'.png')) {
                 $size = 64;
-                $letter = strtoupper($name[0]);
                 $backgroundColor = $this->hexToRgb($color);
 
                 $im = imagecreatetruecolor($size, $size);
@@ -211,6 +211,7 @@ class UtilsController extends Controller {
                 $outFile = $cospendFolder->newFile($letter.$color.'.png');
                 $outFile->putContent($data);
             }
+            $cospendFolder = $dataFolder->get('cospend');
             $dataFile = $cospendFolder->get($letter.$color.'.png');
             $resultData = $dataFile->getContent();
             return new DataDisplayResponse($resultData);

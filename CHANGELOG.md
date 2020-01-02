@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-## 0.2.4 – 2019-12-30
+## 0.3.0 – 2020-01-03
 ### Added
 - option to change output directory
 [#57](https://gitlab.com/eneiluj/cospend-nc/issues/57) @xsus95
@@ -22,13 +22,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [#29](https://gitlab.com/eneiluj/cospend-nc/issues/29) @eldiep
 - monthly stats
 [#23](https://gitlab.com/eneiluj/cospend-nc/issues/23) @mr-manuel
+- pie and polar area charts in stats
+- now possible to edit member color
+- show amount owed by each member in bill form
 
 ### Changed
 - design improvements
+- improve category list
+[#58](https://gitlab.com/eneiluj/cospend-nc/issues/58) @archit3kt
+- improve disabled design
+- make all tables sortable
 
 ### Fixed
 - don't include disabled members when repeating
 [#53](https://gitlab.com/eneiluj/cospend-nc/issues/53) @quizilkend
+- always get global user balance in stats even with filters
 
 ## 0.2.0 – 2019-12-16
 ### Added

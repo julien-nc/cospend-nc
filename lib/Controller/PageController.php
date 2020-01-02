@@ -391,9 +391,12 @@ class PageController extends ApiController {
      *
      */
     public function webGetProjectStatistics($projectid, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null,
-                                            $amountMin=null, $amountMax=null) {
+                                            $amountMin=null, $amountMax=null, $showDisabled='1') {
         if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-            $result = $this->projectService->getProjectStatistics($projectid, 'lowername', $dateMin, $dateMax, $paymentMode, $category, $amountMin, $amountMax);
+            $result = $this->projectService->getProjectStatistics(
+                $projectid, 'lowername', $dateMin, $dateMax, $paymentMode,
+                $category, $amountMin, $amountMax, $showDisabled
+            );
             return new DataResponse($result);
         }
         else {
@@ -1329,10 +1332,12 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiGetProjectStatistics($projectid, $password, $dateMin=null, $dateMax=null, $paymentMode=null,
-                                            $category=null, $amountMin=null, $amountMax=null) {
+                                            $category=null, $amountMin=null, $amountMax=null, $showDisabled='1') {
         if ($this->checkLogin($projectid, $password)) {
-            $result = $this->projectService->getProjectStatistics($projectid, 'lowername', $dateMin, $dateMax, $paymentMode,
-                                               $category, $amountMin, $amountMax);
+            $result = $this->projectService->getProjectStatistics(
+                $projectid, 'lowername', $dateMin, $dateMax, $paymentMode,
+                $category, $amountMin, $amountMax, $showDisabled
+            );
             $response = new DataResponse($result);
         }
         else {
@@ -1350,10 +1355,12 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiPrivGetProjectStatistics($projectid, $dateMin=null, $dateMax=null, $paymentMode=null,
-                                            $category=null, $amountMin=null, $amountMax=null) {
+                                            $category=null, $amountMin=null, $amountMax=null, $showDisabled='1') {
         if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-            $result = $this->projectService->getProjectStatistics($projectid, 'lowername', $dateMin, $dateMax, $paymentMode,
-                                               $category, $amountMin, $amountMax);
+            $result = $this->projectService->getProjectStatistics(
+                $projectid, 'lowername', $dateMin, $dateMax, $paymentMode,
+                $category, $amountMin, $amountMax, $showDisabled
+            );
             $response = new DataResponse($result);
         }
         else {

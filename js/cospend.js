@@ -1011,7 +1011,7 @@
     }
 
     function getProjectStatistics(projectid, dateMin=null, dateMax=null, paymentMode=null, category=null,
-                                  amountMin=null, amountMax=null) {
+                                  amountMin=null, amountMax=null, showDisabled=true) {
         $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
         var req = {
             dateMin: dateMin,
@@ -1019,7 +1019,8 @@
             paymentMode: paymentMode,
             category: category,
             amountMin: amountMin,
-            amountMax: amountMax
+            amountMax: amountMax,
+            showDisabled: showDisabled ? '1' : '0'
         };
         var url;
         var type;
@@ -1057,7 +1058,8 @@
                 cospend.currentMemberPolarChart.destroy();
                 delete cospend.currentMemberPolarChart;
             }
-            displayStatistics(projectid, response, dateMin, dateMax, paymentMode, category, amountMin, amountMax);
+            displayStatistics(projectid, response, dateMin, dateMax, paymentMode, category,
+                              amountMin, amountMax, showDisabled);
         }).always(function() {
         }).fail(function() {
             OC.Notification.showTemporary(t('cospend', 'Failed to get statistics'));
@@ -1233,7 +1235,7 @@
     }
 
     function displayStatistics(projectid, allStats, dateMin=null, dateMax=null, paymentMode=null, category=null,
-                               amountMin=null, amountMax=null) {
+                               amountMin=null, amountMax=null, showDisabled=true) {
         // deselect bill
         $('.billitem').removeClass('selectedbill');
 
@@ -1300,6 +1302,8 @@
             '    </select>' +
             '    <label for="amount-min-stats">'+t('cospend', 'Minimum amount')+': </label><input type="number" id="amount-min-stats"/>' +
             '    <label for="amount-max-stats">'+t('cospend', 'Maximum amount')+': </label><input type="number" id="amount-max-stats"/>' +
+            '    <input id="showDisabled" class="checkbox" type="checkbox"/>' +
+            '    <label for="showDisabled" class="checkboxlabel">'+t('cospend', 'Show disabled members')+'</label> ' +
             '</div>' +
             '<br/>' +
             totalPayedText +
@@ -1341,27 +1345,34 @@
             statsStr += '<th class="sorttable_numeric"><span>'+month+'</span></th>';
         }
         statsStr += '</thead>';
-        var mids = Object.keys(cospend.members[projectid]);
-        mids.push('0');
+        //var mids = Object.keys(cospend.members[projectid]);
+        //mids.push('0');
+        var mids = null;
+        for (var month in monthlyStats) {
+            mids = Object.keys(monthlyStats[month]);
+            break;
+        }
         var mid;
-        for (var i=0; i < mids.length; i++) {
-            mid = mids[i];
-            if (parseInt(mid) === 0) {
-                color = 'var(--color-border-dark)';
-                statsStr += '<tr>';
-                statsStr += '<td><b>'+t('cospend', 'All members')+'</b></td>';
+        if (mids !== null) {
+            for (var i=0; i < mids.length; i++) {
+                mid = mids[i];
+                if (parseInt(mid) === 0) {
+                    color = 'var(--color-border-dark)';
+                    statsStr += '<tr>';
+                    statsStr += '<td><b>'+t('cospend', 'All members')+'</b></td>';
+                }
+                else {
+                    color = '#'+cospend.members[projectid][mid].color;
+                    statsStr += '<tr>';
+                    statsStr += '<td style="border: 2px solid '+color+';">'+cospend.members[projectid][mid].name+'</td>';
+                }
+                for (var month in monthlyStats) {
+                    statsStr += '<td style="border: 2px solid '+color+';">';
+                    statsStr += monthlyStats[month][mid].toFixed(2);
+                    statsStr += '</td>';
+                }
+                statsStr += '</tr>';
             }
-            else {
-                color = '#'+cospend.members[projectid][mid].color;
-                statsStr += '<tr>';
-                statsStr += '<td style="border: 2px solid '+color+';">'+cospend.members[projectid][mid].name+'</td>';
-            }
-            for (var month in monthlyStats) {
-                statsStr += '<td style="border: 2px solid '+color+';">';
-                statsStr += monthlyStats[month][mid].toFixed(2);
-                statsStr += '</td>';
-            }
-            statsStr += '</tr>';
         }
         statsStr += '</table>';
 
@@ -1381,9 +1392,17 @@
         statsStr += '</select>';
         statsStr += '<canvas id="categoryMemberChart"></canvas>';
         statsStr += '<hr/><select id="memberPolarSelect">';
-        for (var mid in cospend.members[projectid]) {
-            statsStr += '<option value="'+mid+'">'+
-                        cospend.members[projectid][mid].name+'</option>';
+        var displayedMemberIds = null;
+        for (var catId in categoryMemberStats) {
+            displayedMemberIds = Object.keys(categoryMemberStats[catId]);
+            break;
+        }
+        if (displayedMemberIds !== null) {
+            for (var i=0; i < displayedMemberIds.length; i++) {
+                mid = displayedMemberIds[i];
+                statsStr += '<option value="'+mid+'">'+
+                            cospend.members[projectid][mid].name+'</option>';
+            }
         }
         statsStr += '</select>';
         statsStr += '<canvas id="memberPolarChart"></canvas>';
@@ -1391,21 +1410,6 @@
         $('#billdetail').html(statsStr);
 
         // CHARTS
-        var colors = [
-            'red',
-            'blue',
-            'green',
-            'black',
-            'yellow',
-            'orange',
-            'purple',
-            'pink',
-            'cyan'
-        ]
-        var colorF = function(context) {
-            var index = context.dataIndex;
-            return colors[index % colors.length];
-        }
         var memberBackgroundColors = [];
         var memberData = {
             // 2 datasets: paid and spent
@@ -1433,21 +1437,24 @@
         }
         memberData.datasets[0].backgroundColor = memberBackgroundColors;
         memberData.datasets[1].backgroundColor = memberBackgroundColors;
-        var memberPieChart = new Chart($('#memberChart'), {
-            type: 'pie',
-            data: memberData,
-            options: {
-                title: {
-                    display: true,
-                    text: t('cospend', 'Who paid (outside circle) and spent (inside pie)?')
-                },
-                responsive: true,
-                showAllTooltips: false,
-                legend: {
-                    position: 'left'
+
+        if (displayedMemberIds !== null) {
+            var memberPieChart = new Chart($('#memberChart'), {
+                type: 'pie',
+                data: memberData,
+                options: {
+                    title: {
+                        display: true,
+                        text: t('cospend', 'Who paid (outside circle) and spent (inside pie)?')
+                    },
+                    responsive: true,
+                    showAllTooltips: false,
+                    legend: {
+                        position: 'left'
+                    }
                 }
-            }
-        });
+            });
+        }
         // category chart
         var categoryData = {
             datasets: [{
@@ -1472,25 +1479,27 @@
             categoryData.datasets[0].backgroundColor.push(color);
             categoryData.labels.push(catName);
         }
-        var categoryPieChart = new Chart($('#categoryChart'), {
-            type: 'pie',
-            data: categoryData,
-            options: {
-                title: {
-                    display: true,
-                    text: t('cospend', 'What was paid per category?')
-                },
-                responsive: true,
-                showAllTooltips: false,
-                legend: {
-                    position: 'left'
+        if (displayedMemberIds !== null) {
+            var categoryPieChart = new Chart($('#categoryChart'), {
+                type: 'pie',
+                data: categoryData,
+                options: {
+                    title: {
+                        display: true,
+                        text: t('cospend', 'What was paid per category?')
+                    },
+                    responsive: true,
+                    showAllTooltips: false,
+                    legend: {
+                        position: 'left'
+                    }
                 }
-            }
-        });
+            });
 
-        // make tables sortable
-        sorttable.makeSortable(document.getElementById('statsTable'));
-        sorttable.makeSortable(document.getElementById('monthlyTable'));
+            // make tables sortable
+            sorttable.makeSortable(document.getElementById('statsTable'));
+            sorttable.makeSortable(document.getElementById('monthlyTable'));
+        }
 
         if (dateMin) {
             $('#date-min-stats').val(dateMin);
@@ -1510,10 +1519,14 @@
         if (amountMax) {
             $('#amount-max-stats').val(amountMax);
         }
+        if (showDisabled) {
+            $('#showDisabled').prop('checked', true);
+        }
 
-        // category member chart
-        displayCategoryMemberChart();
-        displayMemberPolarChart();
+        if (displayedMemberIds !== null) {
+            displayCategoryMemberChart();
+            displayMemberPolarChart();
+        }
     }
 
     function displayCategoryMemberChart() {
@@ -3862,7 +3875,8 @@
         });
 
         $('body').on('change', '#date-min-stats, #date-max-stats, #payment-mode-stats, ' +
-                               '#category-stats, #amount-min-stats, #amount-max-stats', function(e) {
+                               '#category-stats, #amount-min-stats, #amount-max-stats, ' +
+                               '#showDisabled', function(e) {
             var projectid = cospend.currentProjectId;
             var dateMin = $('#date-min-stats').val();
             var dateMax = $('#date-max-stats').val();
@@ -3870,7 +3884,8 @@
             var category = $('#category-stats').val();
             var amountMin = $('#amount-min-stats').val();
             var amountMax = $('#amount-max-stats').val();
-            getProjectStatistics(projectid, dateMin, dateMax, paymentMode, category, amountMin, amountMax);
+            var showDisabled = $('#showDisabled').is(':checked');
+            getProjectStatistics(projectid, dateMin, dateMax, paymentMode, category, amountMin, amountMax, showDisabled);
         });
 
         $('body').on('click', '.getProjectSettlement', function(e) {

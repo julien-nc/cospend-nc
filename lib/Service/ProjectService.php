@@ -434,12 +434,15 @@ class ProjectService {
     }
 
     public function getProjectStatistics($projectId, $memberOrder=null, $dateMin=null, $dateMax=null,
-                                          $paymentMode=null, $category=null, $amountMin=null, $amountMax=null) {
+                                          $paymentMode=null, $category=null, $amountMin=null, $amountMax=null,
+                                          $showDisabled='1') {
         $membersWeight = [];
         $membersNbBills = [];
         $membersBalance = [];
         $membersPaid = [];
         $membersSpent = [];
+
+        $showDisabled = ($showDisabled === '1');
 
         // get the real global balances with no filters
         $balances = $this->getBalance($projectId);
@@ -455,6 +458,17 @@ class ProjectService {
             $membersSpent[$memberId] = 0.0;
         }
 
+        // build list of members to display
+        $membersToDisplay = [];
+        foreach ($members as $member) {
+            $memberId = $member['id'];
+            // only take enabled members or those with non-zero balance
+            if ($showDisabled or $member['activated'] or floatval($membersBalance[$memberId]) !== 0.0) {
+                $membersToDisplay[$memberId] = $member;
+            }
+        }
+
+        // compute stats
         $bills = $this->getBills($projectId, $dateMin, $dateMax, $paymentMode, $category, $amountMin, $amountMax);
         // compute classic stats
         foreach ($bills as $bill) {
@@ -484,9 +498,9 @@ class ProjectService {
             }
         }
 
+        // build global stats data
         $statistics = [];
-        foreach ($members as $member) {
-            $memberId = $member['id'];
+        foreach ($membersToDisplay as $memberId => $member) {
             $statistic = [
                 'balance' => $membersBalance[$memberId],
                 'paid' => $membersPaid[$memberId],
@@ -506,25 +520,27 @@ class ProjectService {
             $month = substr($date, 0, 7);
             if (!array_key_exists($month, $monthlyStats)) {
                 $monthlyStats[$month] = [];
-                foreach ($members as $member) {
-                    $monthlyStats[$month][$member['id']] = 0;
+                foreach ($membersToDisplay as $memberId => $member) {
+                    $monthlyStats[$month][$memberId] = 0;
                 }
                 $monthlyStats[$month][$allMembersKey] = 0;
             }
 
-            $monthlyStats[$month][$payerId] += $amount;
-            $monthlyStats[$month][$allMembersKey] += $amount;
+            if (array_key_exists($payerId, $membersToDisplay)) {
+                $monthlyStats[$month][$payerId] += $amount;
+                $monthlyStats[$month][$allMembersKey] += $amount;
+            }
         }
         // monthly average
         $nbMonth = count(array_keys($monthlyStats));
         if ($nbMonth > 0) {
             $averageStats = [];
-            foreach ($members as $member) {
+            foreach ($membersToDisplay as $memberId => $member) {
                 $sum = 0;
                 foreach ($monthlyStats as $month=>$mStat) {
-                    $sum += $monthlyStats[$month][$member['id']];
+                    $sum += $monthlyStats[$month][$memberId];
                 }
-                $averageStats[$member['id']] = $sum / $nbMonth;
+                $averageStats[$memberId] = $sum / $nbMonth;
             }
             // average for all members
             $sum = 0;
@@ -560,11 +576,13 @@ class ProjectService {
             $amount = $bill['amount'];
             if (!array_key_exists($categoryId, $categoryMemberStats)) {
                 $categoryMemberStats[$categoryId] = [];
-                foreach ($members as $member) {
-                    $categoryMemberStats[$categoryId][$member['id']] = 0;
+                foreach ($membersToDisplay as $memberId => $member) {
+                    $categoryMemberStats[$categoryId][$memberId] = 0;
                 }
             }
-            $categoryMemberStats[$categoryId][$payerId] += $amount;
+            if (array_key_exists($payerId, $membersToDisplay)) {
+                $categoryMemberStats[$categoryId][$payerId] += $amount;
+            }
         }
 
         return [

@@ -177,7 +177,6 @@ class UtilsController extends Controller {
             $letter = strtoupper($name[0]);
             // precaution if file was manually delete from real filesystem
             if ($dataFolder->nodeExists('cospend/'.$letter.$color.'.png')) {
-                error_log('DOES EXIST '.$letter.$color.'.png');
                 $cospendFolder = $dataFolder->get('cospend');
                 $dataFile = $cospendFolder->get($letter.$color.'.png');
                 $resultData = $dataFile->getContent();

@@ -279,13 +279,13 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
         $data = $resp->getData();
-        $idMember1 = intval($data);
+        $idMember1 = intval($data['id']);
 
         $resp = $this->pageController->webAddMember('superproj', 'robert');
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
         $data = $resp->getData();
-        $idMember2 = intval($data);
+        $idMember2 = intval($data['id']);
 
         // create member with unauthorized user
         $resp = $this->pageController2->webAddMember('superproj', 'bobby');

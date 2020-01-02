@@ -1243,6 +1243,7 @@
         var monthlyStats = allStats.monthlyStats;
         var categoryStats = allStats.categoryStats;
         var categoryMemberStats = allStats.categoryMemberStats;
+        var memberIds = allStats.memberIds;
         cospend.currentStats = allStats;
         cospend.currentStatsProjectId = projectid;
         var color;
@@ -1345,34 +1346,27 @@
             statsStr += '<th class="sorttable_numeric"><span>'+month+'</span></th>';
         }
         statsStr += '</thead>';
-        //var mids = Object.keys(cospend.members[projectid]);
-        //mids.push('0');
-        var mids = null;
-        for (var month in monthlyStats) {
-            mids = Object.keys(monthlyStats[month]);
-            break;
-        }
+        var mids = memberIds.slice();
+        mids.push('0');
         var mid;
-        if (mids !== null) {
-            for (var i=0; i < mids.length; i++) {
-                mid = mids[i];
-                if (parseInt(mid) === 0) {
-                    color = 'var(--color-border-dark)';
-                    statsStr += '<tr>';
-                    statsStr += '<td><b>'+t('cospend', 'All members')+'</b></td>';
-                }
-                else {
-                    color = '#'+cospend.members[projectid][mid].color;
-                    statsStr += '<tr>';
-                    statsStr += '<td style="border: 2px solid '+color+';">'+cospend.members[projectid][mid].name+'</td>';
-                }
-                for (var month in monthlyStats) {
-                    statsStr += '<td style="border: 2px solid '+color+';">';
-                    statsStr += monthlyStats[month][mid].toFixed(2);
-                    statsStr += '</td>';
-                }
-                statsStr += '</tr>';
+        for (var i=0; i < mids.length; i++) {
+            mid = mids[i];
+            if (parseInt(mid) === 0) {
+                color = 'var(--color-border-dark)';
+                statsStr += '<tr>';
+                statsStr += '<td><b>'+t('cospend', 'All members')+'</b></td>';
             }
+            else {
+                color = '#'+cospend.members[projectid][mid].color;
+                statsStr += '<tr>';
+                statsStr += '<td style="border: 2px solid '+color+';">'+cospend.members[projectid][mid].name+'</td>';
+            }
+            for (var month in monthlyStats) {
+                statsStr += '<td style="border: 2px solid '+color+';">';
+                statsStr += monthlyStats[month][mid].toFixed(2);
+                statsStr += '</td>';
+            }
+            statsStr += '</tr>';
         }
         statsStr += '</table>';
 
@@ -1392,17 +1386,10 @@
         statsStr += '</select>';
         statsStr += '<canvas id="categoryMemberChart"></canvas>';
         statsStr += '<hr/><select id="memberPolarSelect">';
-        var displayedMemberIds = null;
-        for (var catId in categoryMemberStats) {
-            displayedMemberIds = Object.keys(categoryMemberStats[catId]);
-            break;
-        }
-        if (displayedMemberIds !== null) {
-            for (var i=0; i < displayedMemberIds.length; i++) {
-                mid = displayedMemberIds[i];
-                statsStr += '<option value="'+mid+'">'+
-                            cospend.members[projectid][mid].name+'</option>';
-            }
+        for (var i=0; i < memberIds.length; i++) {
+            mid = memberIds[i];
+            statsStr += '<option value="'+mid+'">'+
+                        cospend.members[projectid][mid].name+'</option>';
         }
         statsStr += '</select>';
         statsStr += '<canvas id="memberPolarChart"></canvas>';
@@ -1423,9 +1410,13 @@
         ],
             labels: []
         };
+        var sumPaid = 0;
+        var sumSpent = 0;
         for (var i=0; i < statList.length; i++) {
             paid = statList[i].paid.toFixed(2);
             spent = statList[i].spent.toFixed(2);
+            sumPaid += parseFloat(paid);
+            sumSpent += parseFloat(spent);
             name = statList[i].member.name;
             color = '#'+cospend.members[projectid][statList[i].member.id].color;
             memberData.datasets[0].data.push(paid);
@@ -1438,7 +1429,7 @@
         memberData.datasets[0].backgroundColor = memberBackgroundColors;
         memberData.datasets[1].backgroundColor = memberBackgroundColors;
 
-        if (displayedMemberIds !== null) {
+        if (statList.length > 0 && sumPaid > 0.0 && sumSpent > 0.0) {
             var memberPieChart = new Chart($('#memberChart'), {
                 type: 'pie',
                 data: memberData,
@@ -1479,7 +1470,7 @@
             categoryData.datasets[0].backgroundColor.push(color);
             categoryData.labels.push(catName);
         }
-        if (displayedMemberIds !== null) {
+        if (Object.keys(categoryStats).length > 0) {
             var categoryPieChart = new Chart($('#categoryChart'), {
                 type: 'pie',
                 data: categoryData,
@@ -1495,7 +1486,9 @@
                     }
                 }
             });
+        }
 
+        if (memberIds.length > 0) {
             // make tables sortable
             sorttable.makeSortable(document.getElementById('statsTable'));
             sorttable.makeSortable(document.getElementById('monthlyTable'));
@@ -1523,10 +1516,8 @@
             $('#showDisabled').prop('checked', true);
         }
 
-        if (displayedMemberIds !== null) {
-            displayCategoryMemberChart();
-            displayMemberPolarChart();
-        }
+        displayCategoryMemberChart();
+        displayMemberPolarChart();
     }
 
     function displayCategoryMemberChart() {
@@ -1535,10 +1526,14 @@
         var scroll = false;
         if (cospend.currentCategoryMemberChart) {
             cospend.currentCategoryMemberChart.destroy();
+            delete cospend.currentCategoryMemberChart;
             scroll = true;
         }
         var selectedCatId = $('#categoryMemberSelect').val();
         var catName;
+        if (selectedCatId === null || selectedCatId === '') {
+            return;
+        }
         if (parseInt(selectedCatId) === 0) {
             catName = t('cospend', 'No category');
         }
@@ -1589,10 +1584,15 @@
         var scroll = false;
         if (cospend.currentMemberPolarChart) {
             cospend.currentMemberPolarChart.destroy();
+            delete cospend.currentMemberPolarChart;
             scroll = true;
         }
         var selectedMemberId = $('#memberPolarSelect').val();
         var memberName = cospend.members[projectid][selectedMemberId].name;
+
+        if (Object.keys(categoryMemberStats).length === 0) {
+            return;
+        }
 
         var memberData = {
             datasets: [{

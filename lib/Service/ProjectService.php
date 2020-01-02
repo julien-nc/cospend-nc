@@ -590,7 +590,8 @@ class ProjectService {
             'stats'=>$statistics,
             'monthlyStats'=>$monthlyStats,
             'categoryStats'=>$categoryStats,
-            'categoryMemberStats'=>$categoryMemberStats
+            'categoryMemberStats'=>$categoryMemberStats,
+            'memberIds'=>array_keys($membersToDisplay)
         ];
     }
 

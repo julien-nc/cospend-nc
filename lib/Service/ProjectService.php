@@ -463,7 +463,8 @@ class ProjectService {
         foreach ($members as $member) {
             $memberId = $member['id'];
             // only take enabled members or those with non-zero balance
-            if ($showDisabled or $member['activated'] or floatval($membersBalance[$memberId]) !== 0.0) {
+            $mBalance = floatval($membersBalance[$memberId]);
+            if ($showDisabled or $member['activated'] or $mBalance >= 0.01 or $mBalance <= -0.01) {
                 $membersToDisplay[$memberId] = $member;
             }
         }

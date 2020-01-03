@@ -1790,7 +1790,7 @@
                 payerDisabled = ' disabled';
             }
             var memberPayer = cospend.members[projectid][bill.payer_id];
-            c = '#'+memberPayer.color;
+            c = '#'+(memberPayer.color || '888888');
         }
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');

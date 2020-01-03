@@ -1984,7 +1984,6 @@
         var amount = $('#amount').val();
         var nbChecked = $('.owerEntry .checkbox:checked').length;
         var billType = $('#billtype').val();
-        console.log('UPUPUPUP '+billType);
         var billId = parseInt($('#billdetail .bill-title').attr('billid'));
         if (nbChecked > 0 &&
             (billId !== 0 || billType === 'normal') &&

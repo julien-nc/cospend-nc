@@ -2607,7 +2607,7 @@ class ProjectService {
             $memberIdToName[$member['id']] = $member['name'];
             $memberIdToWeight[$member['id']] = $member['weight'];
             fwrite($handler, 'deleteMeIfYouWant,1,1970-01-01,"'.$member['name'].'",'.floatval($member['weight']).',"'.
-                             $member['name'].'",n,,'."\n");;
+                             $member['name'].'",n,,,,'."\n");;
         }
         $bills = $this->getBills($projectid);
         foreach ($bills as $bill) {
@@ -2742,13 +2742,13 @@ class ProjectService {
                     }
                     // add members
                     foreach ($membersWeight as $memberName => $weight) {
-                        $memberId = $this->addMember($projectid, $memberName, $weight);
-                        if (!is_numeric($memberId)) {
+                        $insertedMember = $this->addMember($projectid, $memberName, $weight);
+                        if (!is_array($insertedMember)) {
                             $this->deleteProject($projectid);
                             $response = ['message'=>'Error when adding member '.$memberName];
                             return $response;
                         }
-                        $memberNameToId[$memberName] = $memberId;
+                        $memberNameToId[$memberName] = $insertedMember['id'];
                     }
                     // add bills
                     foreach ($bills as $bill) {

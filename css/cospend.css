@@ -296,7 +296,8 @@ input[type=number] {
     width: 100px;
 }
 .icon-shar {
-    background-image: var(--icon-share-000);
+    background-image: url(images/shar.svg);
+    background-size: 16px 16px;
     min-width: 16px;
     min-height: 16px;
 }

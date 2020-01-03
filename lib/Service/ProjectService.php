@@ -1106,7 +1106,7 @@ class ProjectService {
         return 'DELETED';
     }
 
-    public function addMember($projectid, $name, $weight) {
+    public function addMember($projectid, $name, $weight, $active=1) {
         if ($name !== null && $name !== '') {
             if ($this->getMemberByName($projectid, $name) === null) {
                 $weightToInsert = 1;
@@ -1118,6 +1118,9 @@ class ProjectService {
                         return 'Weight is not a valid decimal value';
                     }
                 }
+                if ($active === null || !is_numeric($active)) {
+                    return 'Active is not a valid integer value';
+                }
 
                 $ts = (new \DateTime())->getTimestamp();
 
@@ -1127,7 +1130,7 @@ class ProjectService {
                         'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
                         'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
                         'weight' => $qb->createNamedParameter($weightToInsert, IQueryBuilder::PARAM_STR),
-                        'activated' => $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT),
+                        'activated' => $qb->createNamedParameter($active, IQueryBuilder::PARAM_INT),
                         'lastchanged' => $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT)
                     ]);
                 $req = $qb->execute();
@@ -2602,15 +2605,17 @@ class ProjectService {
         }
         $file = $folder->newFile($filename);
         $handler = $file->fopen('w');
-        fwrite($handler, "what,amount,date,payer_name,payer_weight,owers,repeat,repeatallactive,repeatuntil,categoryid,paymentmode\n");
+        fwrite($handler, "what,amount,date,payer_name,payer_weight,payer_active,owers,repeat,repeatallactive,repeatuntil,categoryid,paymentmode\n");
         $members = $this->getMembers($projectid);
         $memberIdToName = [];
         $memberIdToWeight = [];
+        $memberIdToActive = [];
         foreach ($members as $member) {
             $memberIdToName[$member['id']] = $member['name'];
             $memberIdToWeight[$member['id']] = $member['weight'];
-            fwrite($handler, 'deleteMeIfYouWant,1,1970-01-01,"'.$member['name'].'",'.floatval($member['weight']).',"'.
-                             $member['name'].'",n,,,,'."\n");;
+            $memberIdToActive[$member['id']] = intval($member['activated']);
+            fwrite($handler, 'deleteMeIfYouWant,1,1970-01-01,"'.$member['name'].'",'.floatval($member['weight']).','.
+                              intval($member['activated']).',"'.$member['name'].'",n,,,,'."\n");;
         }
         $bills = $this->getBills($projectid);
         foreach ($bills as $bill) {
@@ -2623,8 +2628,10 @@ class ProjectService {
             $payer_id = $bill['payer_id'];
             $payer_name = $memberIdToName[$payer_id];
             $payer_weight = $memberIdToWeight[$payer_id];
+            $payer_active = $memberIdToActive[$payer_id];
             fwrite($handler, '"'.$bill['what'].'",'.floatval($bill['amount']).','.$bill['date'].',"'.$payer_name.'",'.
-                             floatval($payer_weight).',"'.$owersTxt.'",'.$bill['repeat'].','.$bill['repeatallactive'].','.
+                             floatval($payer_weight).','.$payer_active.',"'.$owersTxt.'",'.$bill['repeat'].
+                             ','.$bill['repeatallactive'].','.
                              $bill['repeatuntil'].','.$bill['categoryid'].','.$bill['paymentmode']."\n");
         }
 
@@ -2643,6 +2650,7 @@ class ProjectService {
                 if (($handle = $file->fopen('r')) !== false) {
                     $columns = [];
                     $membersWeight = [];
+                    $membersActive = [];
                     $bills = [];
                     $row = 0;
                     while (($data = fgetcsv($handle, 1000, ',')) !== false) {
@@ -2679,6 +2687,7 @@ class ProjectService {
                             $payer_name = $data[$columns['payer_name']];
                             $payer_weight = $data[$columns['payer_weight']];
                             $owers = $data[$columns['owers']];
+                            $payer_active = array_key_exists('payer_active', $columns) ? $data[$columns['payer_active']] : 1;
                             $repeat = array_key_exists('repeat', $columns) ? $data[$columns['repeat']] : 'n';
                             $categoryid = array_key_exists('categoryid', $columns) ? intval($data[$columns['categoryid']]) : null;
                             $paymentmode = array_key_exists('paymentmode', $columns) ? $data[$columns['paymentmode']] : null;
@@ -2686,6 +2695,7 @@ class ProjectService {
                             $repeatuntil = array_key_exists('repeatuntil', $columns) ? $data[$columns['repeatuntil']] : null;
 
                             // manage members
+                            $membersActive[$payer_name] = intval($payer_active);
                             if (is_numeric($payer_weight)) {
                                 $membersWeight[$payer_name] = floatval($payer_weight);
                             }
@@ -2748,7 +2758,7 @@ class ProjectService {
                     }
                     // add members
                     foreach ($membersWeight as $memberName => $weight) {
-                        $insertedMember = $this->addMember($projectid, $memberName, $weight);
+                        $insertedMember = $this->addMember($projectid, $memberName, $weight, $membersActive[$memberName]);
                         if (!is_array($insertedMember)) {
                             $this->deleteProject($projectid);
                             $response = ['message'=>'Error when adding member '.$memberName];

@@ -2200,7 +2200,7 @@
             '            <li class="app-navigation-entry-utils-counter"><span>'+project.members.length+'</span></li>';
         if (!project.external) {
             li = li + '            <li class="app-navigation-entry-utils-menu-button shareProjectButton">' +
-            '                <button class="icon-share"></button>' +
+            '                <button class="icon-shar"></button>' +
             '            </li>';
         }
         li = li + '            <li class="app-navigation-entry-utils-menu-button projectMenuButton">' +

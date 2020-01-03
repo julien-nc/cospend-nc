@@ -295,6 +295,11 @@ input[type=number] {
     text-overflow: ellipsis;
     width: 100px;
 }
+.icon-shar {
+    background-image: var(--icon-share-000);
+    min-width: 16px;
+    min-height: 16px;
+}
 .permActive {
     background-color: var(--color-success);
 }

@@ -2912,12 +2912,12 @@ class ProjectService {
                     }
                     // add members
                     foreach ($membersWeight as $memberName => $weight) {
-                        $memberId = $this->addMember($projectid, $memberName, $weight);
-                        if (!is_numeric($memberId)) {
+                        $insertedMember = $this->addMember($projectid, $memberName, $weight);
+                        if (!is_array($insertedMember)) {
                             $this->deleteProject($projectid);
                             return ['message'=>'Error when adding member '.$memberName];
                         }
-                        $memberNameToId[$memberName] = $memberId;
+                        $memberNameToId[$memberName] = $insertedMember['id'];
                     }
                     // add bills
                     foreach ($bills as $bill) {

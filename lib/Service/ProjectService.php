@@ -601,8 +601,11 @@ class ProjectService {
         if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
             return ['repeat'=> ['Invalid value.']];
         }
-        if ($repeatallactive === null || $repeatallactive === '' || !is_numeric($repeatallactive)) {
+        if ($repeatallactive === null || ($repeatallactive !== '' && !is_numeric($repeatallactive))) {
             return ['repeatallactive'=> ['Invalid value.']];
+        }
+        if ($repeatallactive !== null && $repeatallactive === '') {
+            $repeatallactive = 0;
         }
         if ($repeatuntil !== null && $repeatuntil === '') {
             $repeatuntil = null;
@@ -2720,7 +2723,10 @@ class ProjectService {
                                     'payer_name'=>$payer_name,
                                     'owers'=>$owersArray,
                                     'paymentmode'=>$paymentmode,
-                                    'categoryid'=>$categoryid
+                                    'categoryid'=>$categoryid,
+                                    'repeat'=>$repeat,
+                                    'repeatuntil'=>$repeatuntil,
+                                    'repeatallactive'=>$repeatallactive
                                 ]
                             );
                         }
@@ -2759,8 +2765,10 @@ class ProjectService {
                         }
                         $owerIdsStr = implode(',', $owerIds);
                         $addBillResult = $this->addBill($projectid, $bill['date'], $bill['what'], $payerId,
-                                                        $owerIdsStr, $bill['amount'], 'n', $bill['paymentmode'],
-                                                        $bill['categoryid'], $repeatallactive, $repeatuntil);
+                                                        $owerIdsStr, $bill['amount'], $bill['repeat'],
+                                                        $bill['paymentmode'],
+                                                        $bill['categoryid'], $bill['repeatallactive'],
+                                                        $bill['repeatuntil']);
                         if (!is_numeric($addBillResult)) {
                             $this->deleteProject($projectid);
                             $response = ['message'=>'Error when adding bill '.$bill['what']];

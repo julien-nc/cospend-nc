@@ -12,6 +12,7 @@
 namespace OCA\Cospend\Controller;
 
 use OCP\App\IAppManager;
+use OCP\Files\IAppData;
 use OCP\IAvatarManager;
 use OCP\AppFramework\Http\DataDisplayResponse;
 
@@ -42,9 +43,11 @@ class UtilsController extends Controller {
                                 IConfig $config,
                                 IAppManager $appManager,
                                 IAvatarManager $avatarManager,
+                                IAppData $appData,
                                 $UserId) {
         parent::__construct($AppName, $request);
         $this->userId = $UserId;
+        $this->appData = $appData;
         $this->avatarManager = $avatarManager;
         $this->serverContainer = $serverContainer;
         $this->dbtype = $config->getSystemValue('dbtype');
@@ -173,18 +176,27 @@ class UtilsController extends Controller {
         }
         else {
             // either we have it already or not
-            $dataFolder = $this->serverContainer->getAppFolder();
+            try {
+                $avatarFolder = $this->appData->getFolder('avatar');
+            }
+            catch (\OCP\Files\NotFoundException $e) {
+                try {
+                    $avatarFolder = $this->appData->newFolder('avatar');
+                }
+                catch (\OCP\Files\NotPermittedException $e) {
+                    $avatarFolder = null;
+                }
+            }
             $letter = strtoupper($name[0]);
             // precaution if file was manually delete from real filesystem
-            if ($dataFolder->nodeExists('cospend/'.$letter.$color.'.png')) {
-                $cospendFolder = $dataFolder->get('cospend');
-                $dataFile = $cospendFolder->get($letter.$color.'.png');
+            if ($avatarFolder !== null and $avatarFolder->fileExists($letter.$color.'.png')) {
+                $dataFile = $avatarFolder->getFile($letter.$color.'.png');
                 $resultData = $dataFile->getContent();
                 // TODO find a way to check to file really exists in the filesystem
                 // if not, delete the file obj
                 //$dataFile->delete();
             }
-            if (!$dataFolder->nodeExists('cospend/'.$letter.$color.'.png')) {
+            if ($avatarFolder === null || !$avatarFolder->fileExists($letter.$color.'.png')) {
                 $size = 64;
                 $backgroundColor = $this->hexToRgb($color);
 
@@ -213,12 +225,10 @@ class UtilsController extends Controller {
                 ob_end_clean();
 
                 // store it
-                if (!$dataFolder->nodeExists('cospend')) {
-                    $dataFolder->newFolder('cospend');
+                if ($avatarFolder !== null) {
+                    $outFile = $avatarFolder->newFile($letter.$color.'.png');
+                    $outFile->putContent($data);
                 }
-                $cospendFolder = $dataFolder->get('cospend');
-                $outFile = $cospendFolder->newFile($letter.$color.'.png');
-                $outFile->putContent($data);
 
                 $resultData = $data;
             }

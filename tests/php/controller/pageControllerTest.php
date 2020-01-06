@@ -209,7 +209,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->query('ServerContainer')->getConfig(),
             $c->getServer()->getAppManager(),
             $c->query('ServerContainer')->getAvatarManager(),
-            \OC\Server::getAppDataDir('cospend'),
+            $c->getServer()->getAppDataDir('cospend'),
             'test'
         );
     }

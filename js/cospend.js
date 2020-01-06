@@ -64,32 +64,32 @@
             icon: '💚',
             color: '#bf090c'
         },
-        '-7': {
+        '-10': {
             name: t('cospend', 'Shopping'),
             icon: '🛍',
             color: '#e167d1'
         },
-        '-8': {
+        '-11': {
             name: t('cospend', 'Reimbursement'),
             icon: '💰',
             color: '#e1d85a'
         },
-        '-9': {
+        '-12': {
             name: t('cospend', 'Restaurant'),
             icon: '🍴',
             color: '#d0d5e1'
         },
-        '-10': {
+        '-13': {
             name: t('cospend', 'Accommodation'),
             icon: '🛌',
             color: '#5de1a3'
         },
-        '-11': {
+        '-14': {
             name: t('cospend', 'Transport'),
             icon: '🚌',
             color: '#6f2ee1'
         },
-        '-12': {
+        '-15': {
             name: t('cospend', 'Sport'),
             icon: '🎾',
             color: '#69e177'
@@ -685,7 +685,6 @@
             paymentmodeChar = cospend.paymentModes[bill.paymentmode].icon + ' ';
         }
         var categoryChar = '';
-        // groceries, leisure, rent, bills
         if (cospend.categories.hasOwnProperty(bill.categoryid)) {
             categoryChar = cospend.categories[bill.categoryid].icon + ' ';
         }
@@ -1374,7 +1373,7 @@
         statsStr += '<hr/><canvas id="categoryChart"></canvas>';
         statsStr += '<hr/><select id="categoryMemberSelect">';
         for (var catId in categoryMemberStats) {
-            if (parseInt(catId) !== 0) {
+            if (parseInt(catId) !== 0 && cospend.categories.hasOwnProperty(catId)) {
                 statsStr += '<option value="'+catId+'">'+
                             cospend.categories[catId].icon+' '+
                             cospend.categories[catId].name+'</option>';
@@ -1458,7 +1457,7 @@
         for (var catId in categoryStats) {
             paid = categoryStats[catId].toFixed(2);
             catIdInt = parseInt(catId);
-            if (catIdInt < 0 && catIdInt > -12) {
+            if (cospend.categories.hasOwnProperty(catId)) {
                 catName = cospend.categories[catId].icon + ' ' + cospend.categories[catId].name;
                 color = cospend.categories[catId].color;
             }
@@ -1534,11 +1533,11 @@
         if (selectedCatId === null || selectedCatId === '') {
             return;
         }
-        if (parseInt(selectedCatId) === 0) {
-            catName = t('cospend', 'No category');
+        if (cospend.categories.hasOwnProperty(selectedCatId)) {
+            catName = cospend.categories[selectedCatId].icon+' '+cospend.categories[selectedCatId].name;
         }
         else {
-            catName = cospend.categories[selectedCatId].icon+' '+cospend.categories[selectedCatId].name;
+            catName = t('cospend', 'No category');
         }
 
         var categoryData = {
@@ -1604,13 +1603,13 @@
         var catName, paid, color;
         for (var catId in categoryMemberStats) {
             //memberName = cospend.members[projectid][mid].name;
-            if (parseInt(catId) === 0) {
-                catName = t('cospend', 'No category');
-                color = 'black';
-            }
-            else {
+            if (cospend.categories.hasOwnProperty(catId)) {
                 catName = cospend.categories[catId].icon+' '+cospend.categories[catId].name;
                 color = cospend.categories[catId].color;
+            }
+            else {
+                catName = t('cospend', 'No category');
+                color = 'black';
             }
             paid = categoryMemberStats[catId][selectedMemberId].toFixed(2);
             memberData.datasets[0].data.push(paid);
@@ -1718,7 +1717,6 @@
             paymentmodeChar = cospend.paymentModes[paymentmode].icon + ' ';
         }
         var categoryChar = '';
-        // groceries leisure, rent, bills
         if (cospend.categories.hasOwnProperty(categoryid)) {
             categoryChar = cospend.categories[categoryid].icon + ' ';
         }
@@ -1815,7 +1813,6 @@
             paymentmodeChar = cospend.paymentModes[bill.paymentmode].icon + ' ';
         }
         var categoryChar = '';
-        // groceries, leisure, rent, bills
         if (cospend.categories.hasOwnProperty(bill.categoryid)) {
             categoryChar = cospend.categories[bill.categoryid].icon + ' ';
         }
@@ -1960,7 +1957,12 @@
         if (billid !== 0) {
             $('#repeatbill').val(bill.repeat);
             $('#payment-mode').val(bill.paymentmode || 'n');
-            $('#category').val(bill.categoryid || '0');
+            if (cospend.categories.hasOwnProperty(bill.categoryid)) {
+                $('#category').val(bill.categoryid);
+            }
+            else {
+                $('#category').val(0);
+            }
             $('#repeatallactive').prop('checked', bill.repeatallactive || false);
             if (bill.repeat === 'n') {
                 $('#repeatallactive').hide();
@@ -2046,7 +2048,6 @@
             paymentmodeChar = cospend.paymentModes[bill.paymentmode].icon + ' ';
         }
         var categoryChar = '';
-        // groceries, leisure, rent, bills
         if (cospend.categories.hasOwnProperty(bill.categoryid)) {
             categoryChar = cospend.categories[bill.categoryid].icon + ' ';
         }

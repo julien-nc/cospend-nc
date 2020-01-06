@@ -2415,6 +2415,7 @@
 
         var renameStr = t('cospend', 'Rename');
         var changeWeightStr = t('cospend', 'Change weight');
+        var changeColorStr = t('cospend', 'Change color');
         var li =
             '<li memberid="'+member.id+'" class="memberitem'+invisibleClass+'">' +
             '    <div class="memberAvatar'+(member.activated ? '' : ' memberAvatarDisabled')+'">' +
@@ -2449,6 +2450,12 @@
             '                <a href="#" class="editWeightMember">' +
             '                    <span class="icon-rename"></span>' +
             '                    <span>'+changeWeightStr+'</span>' +
+            '                </a>' +
+            '            </li>' +
+            '            <li>' +
+            '                <a href="#" class="editColorMember">' +
+            '                    <span class="icon-toggle-background"></span>' +
+            '                    <span>'+changeColorStr+'</span>' +
             '                </a>' +
             '            </li>' +
             '            <li>' +
@@ -4178,6 +4185,12 @@
         $('body').on('click', '.memberAvatar', function(e) {
             var projectid = $(this).parent().parent().parent().attr('projectid');
             var memberid = $(this).parent().attr('memberid');
+            askChangeMemberColor(projectid, memberid);
+        });
+
+        $('body').on('click', '.editColorMember', function(e) {
+            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            var memberid = $(this).parent().parent().parent().parent().attr('memberid');
             askChangeMemberColor(projectid, memberid);
         });
 

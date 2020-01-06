@@ -1945,10 +1945,10 @@
             '            <div class="owerAllNoneDiv">' +
             '            <button id="owerAll"><span class="icon-group"></span> '+allStr+'</button>' +
             '            <button id="owerNone"><span class="icon-disabled-users"></span> '+noneStr+'</button>' +
-            '            <button id="owerValidate"><span class="icon-confirm"></span> '+owerValidateStr+'</button>' +
             '            </div>' +
             '            '+owerCheckboxes +
             '        </div>' +
+            '        <button id="owerValidate"><span class="icon-confirm"></span> <span id="owerValidateText">'+owerValidateStr+'</span></button>' +
             '    </div>' +
             '</div>';
 
@@ -4120,7 +4120,7 @@
                 $('#repeatuntil').hide();
                 $('label[for=repeatuntil]').hide();
             }
-            $('#owerValidate').text(owerValidateStr);
+            $('#owerValidateText').text(owerValidateStr);
         });
 
         $('body').on('paste change', '.amountinput', function(e) {

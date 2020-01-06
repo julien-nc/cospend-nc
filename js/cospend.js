@@ -1843,6 +1843,7 @@
             '<h2 class="bill-title" projectid="'+projectid+'" billid="'+bill.id+'" style="background-color: '+c+';">' +
             '    <span class="loading-bill"></span>' +
             '    <span class="icon-edit-white"></span>'+titleStr+' '+formattedLinks +
+            '    <button id="owerValidate"><span class="icon-confirm"></span> <span id="owerValidateText">'+owerValidateStr+'</span></button>' +
             '</h2>' +
             '<div class="bill-form">' +
             '    <div class="bill-left">' +
@@ -1948,7 +1949,6 @@
             '            </div>' +
             '            '+owerCheckboxes +
             '        </div>' +
-            '        <button id="owerValidate"><span class="icon-confirm"></span> <span id="owerValidateText">'+owerValidateStr+'</span></button>' +
             '    </div>' +
             '</div>';
 

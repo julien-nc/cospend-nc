@@ -59,6 +59,22 @@ class ProjectService {
         $this->groupManager = $groupManager;
         $this->userManager = $userManager;
         $this->shareManager = $shareManager;
+
+        $this->categoryNames = [
+        '-1'=>$this->trans->t('Grocery'),
+        '-2'=>$this->trans->t('Bar/Party'),
+        '-3'=>$this->trans->t('Rent'),
+        '-4'=>$this->trans->t('Bill'),
+        '-5'=>$this->trans->t('Excursion/Culture'),
+        '-6'=>$this->trans->t('Health'),
+        '-10'=>$this->trans->t('Shopping'),
+        '-11'=>$this->trans->t('Reimbursement'),
+        '-12'=>$this->trans->t('Restaurant'),
+        '-13'=>$this->trans->t('Accommodation'),
+        '-14'=>$this->trans->t('Transport'),
+        '-15'=>$this->trans->t('Sport')
+        ];
+
     }
 
     private function db_quote_escape_string($str){
@@ -557,7 +573,7 @@ class ProjectService {
         $categoryStats = [];
         foreach ($bills as $bill) {
             $categoryId = $bill['categoryid'];
-            if (intval($categoryId) > -1 || intval($categoryId) < -12) {
+            if (!array_key_exists(strval($categoryId), $this->categoryNames)) {
                 $categoryId = 0;
             }
             $amount = $bill['amount'];
@@ -571,7 +587,7 @@ class ProjectService {
         foreach ($bills as $bill) {
             $payerId = $bill['payer_id'];
             $categoryId = $bill['categoryid'];
-            if (intval($categoryId) > -1 || intval($categoryId) < -12) {
+            if (!array_key_exists(strval($categoryId), $this->categoryNames)) {
                 $categoryId = 0;
             }
             $amount = $bill['amount'];

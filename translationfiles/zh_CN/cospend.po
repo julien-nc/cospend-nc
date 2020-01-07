@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2019-12-31 17:17+0100\n"
-"PO-Revision-Date: 2019-12-31 16:19\n"
+"POT-Creation-Date: 2020-01-07 17:46+0100\n"
+"PO-Revision-Date: 2020-01-07 16:48\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -32,659 +32,702 @@ msgid "Failed to save Cospend setting"
 msgstr "保存失败"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:38
-msgid "Groceries"
-msgstr "生活用品"
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:64
+msgid "Grocery"
+msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:42
-msgid "Leisure"
-msgstr "休闲娱乐"
+#: /var/www/html/n17/apps/cospend/js/cospend.js:43
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:65
+msgid "Bar/Party"
+msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:46
+#: /var/www/html/n17/apps/cospend/js/cospend.js:48
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:66
 msgid "Rent"
 msgstr "租金"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:50
-msgid "Bills"
-msgstr "账单"
-
-#: /var/www/html/n17/apps/cospend/js/cospend.js:54
-msgid "Culture"
-msgstr "文化"
+#: /var/www/html/n17/apps/cospend/js/cospend.js:53
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:67
+msgid "Bill"
+msgstr ""
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:58
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:68
+msgid "Excursion/Culture"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/js/cospend.js:63
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:69
 msgid "Health"
 msgstr "健康"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:62
-msgid "Tools"
-msgstr "工具"
+#: /var/www/html/n17/apps/cospend/js/cospend.js:68
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:70
+msgid "Shopping"
+msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:66
-msgid "Multimedia"
-msgstr "多媒体"
-
-#: /var/www/html/n17/apps/cospend/js/cospend.js:70
-msgid "Clothes"
-msgstr "衣服"
-
-#: /var/www/html/n17/apps/cospend/js/cospend.js:74
+#: /var/www/html/n17/apps/cospend/js/cospend.js:73
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:71
 msgid "Reimbursement"
 msgstr ""
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:78
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:72
 msgid "Restaurant"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:82
+#: /var/www/html/n17/apps/cospend/js/cospend.js:83
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:73
 msgid "Accommodation"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:86
+#: /var/www/html/n17/apps/cospend/js/cospend.js:88
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:74
 msgid "Transport"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:90
-msgid "Excursions"
+#: /var/www/html/n17/apps/cospend/js/cospend.js:93
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:75
+msgid "Sport"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:97
+#: /var/www/html/n17/apps/cospend/js/cospend.js:101
 msgid "Credit card"
 msgstr "信用卡"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:101
+#: /var/www/html/n17/apps/cospend/js/cospend.js:105
 msgid "Cash"
 msgstr "现金"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:105
+#: /var/www/html/n17/apps/cospend/js/cospend.js:109
 msgid "Check"
 msgstr "支票"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:227
+#: /var/www/html/n17/apps/cospend/js/cospend.js:280
 msgid "Failed to add external project"
 msgstr "添加外部项目失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:265
+#: /var/www/html/n17/apps/cospend/js/cospend.js:318
 msgid "Failed to get external project"
 msgstr "添加外部项目失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:305
+#: /var/www/html/n17/apps/cospend/js/cospend.js:358
 msgid "Failed to create project"
 msgstr "创建项目失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:347
+#: /var/www/html/n17/apps/cospend/js/cospend.js:394
 msgid "Created member {name}"
 msgstr "创建成员 {name}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:351
+#: /var/www/html/n17/apps/cospend/js/cospend.js:398
 msgid "Failed to add member"
 msgstr "无法添加评论"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:406
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2029
+#: /var/www/html/n17/apps/cospend/js/cospend.js:475
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2411
 msgid "Reactivate"
 msgstr "重新激活"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:415
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2024
+#: /var/www/html/n17/apps/cospend/js/cospend.js:480
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2406
 msgid "Deactivate"
 msgstr "禁用"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:427
+#: /var/www/html/n17/apps/cospend/js/cospend.js:495
 msgid "Member saved"
 msgstr "成员已保存"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:435
+#: /var/www/html/n17/apps/cospend/js/cospend.js:503
 msgid "Failed to save member"
 msgstr "保存成员失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:508
+#: /var/www/html/n17/apps/cospend/js/cospend.js:576
 msgid "Bill created"
 msgstr "已创建账单"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:512
+#: /var/www/html/n17/apps/cospend/js/cospend.js:580
 msgid "Failed to create bill"
 msgstr "创建账单失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:580
+#: /var/www/html/n17/apps/cospend/js/cospend.js:648
 msgid "Bill saved"
 msgstr "账单已保存"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:585
+#: /var/www/html/n17/apps/cospend/js/cospend.js:653
 msgid "Failed to save bill"
 msgstr "保存账单失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:607
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1359
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1456
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1667
+#: /var/www/html/n17/apps/cospend/js/cospend.js:675
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1708
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1804
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2038
 msgid "link"
 msgstr "链接"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:670
+#: /var/www/html/n17/apps/cospend/js/cospend.js:741
 msgid "Failed to delete external project"
 msgstr "删除外部项目失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:698
+#: /var/www/html/n17/apps/cospend/js/cospend.js:769
 msgid "Failed to save external project"
 msgstr "保存外部项目失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:760
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1803
+#: /var/www/html/n17/apps/cospend/js/cospend.js:831
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2179
 msgid "Deleted {name}"
 msgstr "已删除 {name}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:766
+#: /var/www/html/n17/apps/cospend/js/cospend.js:837
 msgid "Project saved"
 msgstr "工程已保存"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:770
+#: /var/www/html/n17/apps/cospend/js/cospend.js:841
 msgid "Failed to edit project"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:822
+#: /var/www/html/n17/apps/cospend/js/cospend.js:893
 msgid "Deleted project {id}"
 msgstr "已删除的项目 {id}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:825
+#: /var/www/html/n17/apps/cospend/js/cospend.js:896
 msgid "Failed to delete project"
 msgstr "删除项目失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:864
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1330
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2875
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2929
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3463
+#: /var/www/html/n17/apps/cospend/js/cospend.js:935
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1679
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3269
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3323
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3857
 msgid "No bill yet"
 msgstr "尚未收到账单"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:869
+#: /var/www/html/n17/apps/cospend/js/cospend.js:940
 msgid "Deleted bill"
 msgstr "已删除账单"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:872
+#: /var/www/html/n17/apps/cospend/js/cospend.js:943
 msgid "Failed to delete bill"
 msgstr "删除账单失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:937
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1008
 msgid "Failed to get projects"
 msgstr "获取项目失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:983
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1064
 msgid "Failed to get statistics"
 msgstr "获取统计数据失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1023
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1104
 msgid "Failed to get settlement"
 msgstr "未能获取部分"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1036
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1117
 msgid "Settlement of project {name}"
 msgstr "项目 {name} 的结算"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1037
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2403
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1118
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2528
 msgid "Who pays?"
 msgstr "谁支付?"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1038
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2403
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1119
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2528
 msgid "To whom?"
 msgstr "给谁"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1039
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1448
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2403
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1120
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1796
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2528
 msgid "How much?"
 msgstr "多少钱？"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1042
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1178
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1123
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1267
 msgid "Export"
 msgstr "导出"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1044
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1125
 msgid "Add these payments to project"
 msgstr "添加这些付款到项目"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1092
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1174
 msgid "MoneyBuster link/QRCode for project {name}"
 msgstr "项目 {name} 的 MoneyBuster 链接/二维码"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1099
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1181
 msgid "Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone."
 msgstr "使用已安装 MoneyBuster APP 的安卓手机扫描这个二维码，并打开链接。或者也可以简单地将链接发送到另一台安卓手机。"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1165
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1254
 msgid "Statistics of project {name}"
 msgstr "项目统计 {name}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1166
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2461
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1255
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2586
 msgid "Member name"
 msgstr "成员名称"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1167
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2461
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1256
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2586
 msgid "Paid"
 msgstr "已付"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1168
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2461
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1257
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2586
 msgid "Spent"
 msgstr "支出"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1169
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2461
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1258
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2586
 msgid "Balance"
 msgstr "余额"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1181
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1270
 msgid "Total payed by all the members: {t}"
 msgstr "所有成员的总付款: {t}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1185
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1274
 msgid "Minimum date"
 msgstr "最小日期"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1186
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1275
 msgid "Maximum date"
 msgstr "最大日期"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1189
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1486
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1278
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1833
 msgid "Payment mode"
 msgstr "支付模式"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1192
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1205
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1475
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1281
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1294
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1822
 msgid "All"
 msgstr "全部"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1202
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1487
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1291
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1834
 msgid "Category"
 msgstr "类别"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1206
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1295
 msgid "All except reimbursement"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1214
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1303
 msgid "Minimum amount"
 msgstr "最小金额"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1215
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1304
 msgid "Maximum amount"
 msgstr "最大金额"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1219
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1306
+msgid "Show disabled members"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1310
 msgid "Global stats"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1249
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1341
 msgid "Monthly stats"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1251
-msgid "Month/Member"
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1343
+msgid "Member/Month"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1334
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1356
+msgid "All members"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1382
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1465
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1540
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1611
+msgid "No category"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1438
+msgid "Who paid (outside circle) and spent (inside pie)?"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1479
+msgid "What was paid per category?"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1566
+msgid "Who paid for category \"{c}\"?"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1625
+msgid "What kind of member is \"{m}\"?"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1683
 msgid "Failed to get bills"
 msgstr "获取账单失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1379
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1473
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1727
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1820
 msgid "Bill : {what}"
 msgstr "账单 : {what}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1447
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1795
 msgid "What?"
 msgstr "内容？"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1449
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1797
 msgid "Who payed?"
 msgstr "谁支付?"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1450
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1798
 msgid "When?"
 msgstr "何时？"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1451
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1799
 msgid "For whom?"
 msgstr "为谁购买？"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1476
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1557
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1572
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1823
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1906
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1921
 msgid "None"
 msgstr "未设置"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1477
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3676
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1824
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4072
 msgid "Create the bill"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1478
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1825
 msgid "Attach public link to personal file"
 msgstr "将公开链接指向到个人文件"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1479
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1826
 msgid "Classic, even split"
 msgstr "经典，平均摊分"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1480
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1827
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
 msgstr "经典模式：选择一个支付人，输入账单的金额，选择这笔消费涉及的有关成员，然后账单会平均摊分到所选的成员上。实际生活例子：一个人支付整个餐厅账单，每个人都同意平均摊分这笔费用。"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1481
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1828
 msgid "Custom owed amount per member"
 msgstr "自定义每个成员拖欠的金额"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1482
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1829
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
 msgstr "自定义模式，不平均摊分：选择一个支付人，忽略账单金额（已禁止输入），输入每个相关成员的个性化欠款金额。然后按“创建账单”。多个对应的账单将会被创建。实际生活例子：一个人支付整个餐厅账单，但是每个人吃的套餐价格差异很大。"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1483
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1830
 msgid "Even split with optional personal parts"
 msgstr "除了选定的成员以外，其他成员平均摊分"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1484
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1831
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr "经典+个人模式：这个模式类似于典型模式。选择一个支付人，输入实际消费支出的金额。然后选择和此消费相关的成员。另外，可以设定属于某个成员的个人消费金额。多个账单将会被创建：一部分属于团队共同支出，另外一部分属于每个个人的支出。实际生活示例：我们在购物结账的时候，账单里其中一部分购买的物品是整个团队公用的，但也有掺杂了一些个人物品（例如单独一件衬衫），其他团队成员并不希望为此个人物品买单。"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1485
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1832
 msgid "Bill type"
 msgstr "账单类型"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1533
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1882
 msgid "Repeat this bill every"
 msgstr "重复此账单的频率"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1536
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1885
 msgid "do not repeat"
 msgstr "不要重复"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1537
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1886
 msgid "day"
 msgstr "日"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1538
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1887
 msgid "week"
 msgstr "周"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1539
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1888
 msgid "month"
 msgstr "月"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1540
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1889
 msgid "year"
 msgstr "年"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1544
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1893
 msgid "Include all active member on repeat"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1547
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1896
 msgid "Repeat until"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1652
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1689
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1995
+msgid "{n} each"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2023
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2060
 msgid "Member list is not up to date. Reloading in 5 sec."
 msgstr "成员列表尚未更新。5秒内重新加载。"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1774
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2150
 msgid "Failed to update balances"
 msgstr "更新余额失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1787
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2163
 msgid "Add member"
 msgstr "添加成员"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1788
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2164
 #: /var/www/html/n17/apps/cospend/templates/mainnavigation.php:73
 msgid "Guest access link"
 msgstr "访客链接"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1789
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2034
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2165
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2417
 msgid "Rename"
 msgstr "重命名"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1790
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2166
 msgid "Change password"
 msgstr "修改密码"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1791
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2167
 msgid "Display statistics"
 msgstr "显示统计"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1792
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2168
 msgid "Settle the project"
 msgstr "清算项目"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1793
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2169
 msgid "Export to csv"
 msgstr "导出到 csv 文件"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1794
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2170
 msgid "Auto export"
 msgstr "自动导出"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1797
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2173
 msgid "Delete remote project"
 msgstr "删除远程项目"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1800
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2176
 msgid "Delete"
 msgstr "删除"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1802
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2178
 msgid "Link/QRCode for MoneyBuster"
 msgstr "MoneyBuster的链接/二维码"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1804
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2180
 msgid "Remove"
 msgstr "移除"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1805
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2181
 msgid "Press enter to validate"
 msgstr "按回车验证"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1867
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2448
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2243
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2842
 msgid "Permission to delete bills"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1869
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2450
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2245
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2844
 msgid "Permission to edit bills and project"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1871
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2452
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2247
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2846
 msgid "Permission to create bills"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1917
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2293
 msgid "No"
 msgstr "取消"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1918
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2294
 msgid "Daily"
 msgstr "每天"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1919
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2295
 msgid "Weekly"
 msgstr "每周"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1920
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2296
 msgid "Monthly"
 msgstr "每月"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2035
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2418
 msgid "Change weight"
 msgstr "更改权重"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2139
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2223
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2419
+msgid "Change color"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2532
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2617
 msgid "Bill values are not valid"
 msgstr "账单数据无效"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2241
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2635
 msgid "Failed to save option values"
 msgstr "保存选项失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2274
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2668
 msgid "Failed to restore options values"
 msgstr "无法还原选项"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2352
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2746
 msgid "Failed to get user list"
 msgstr "获取用户列表失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2371
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2765
 msgid "Shared project {pname} with {uname}"
 msgstr "已共享项目 {pname} 给 {uname}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2375
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2769
 msgid "Failed to add user share"
 msgstr "添加用户共享失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2399
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2793
 msgid "Failed to delete user share"
 msgstr "删除用户共享失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2418
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2812
 msgid "Shared project {pname} with group {gname}"
 msgstr "已共享项目 {pname} 给 {gname}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2422
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2816
 msgid "Failed to add group share"
 msgstr "无法添加用户组共享"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2478
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2872
 msgid "Failed to delete group share"
 msgstr "无法删除用户组共享"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2502
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2896
 msgid "Failed to edit share permissions"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2547
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2941
 msgid "Failed to edit guest permissions"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2618
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3012
 msgid "Failed to generate public link to file"
 msgstr "无法生成文件的公共链接"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2638
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3032
 msgid "Project exported in {path}"
 msgstr "项目已导出到 {path}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2642
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3036
 msgid "Failed to export project"
 msgstr "导出项目失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2665
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3059
 msgid "Project statistics exported in {path}"
 msgstr "项目统计已导出到 {path}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2669
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3063
 msgid "Failed to export project statistics"
 msgstr "导出项目统计失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2685
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3079
 msgid "Project settlement exported in {path}"
 msgstr "项目结算已导出到 {path}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2689
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3083
 msgid "Failed to export project settlement"
 msgstr "导出项目结算失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2723
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3117
 msgid "Project settlement bills added"
 msgstr "项目结算单已添加"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2727
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3121
 msgid "Failed to add project settlement bills"
 msgstr "添加项目结算账单失败"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2733
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2758
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3127
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3152
 msgid "Only CSV files can be imported"
 msgstr "仅可导入 CSV 文件"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2752
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2777
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3146
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3171
 msgid "Failed to import project file"
 msgstr "导入项目文件失败。"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2845
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3239
 msgid "Personal parts are bigger than the paid amount"
 msgstr "个人部件大于总体支付金额"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2881
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2939
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3099
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3112
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3125
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3157
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3170
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3183
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3224
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3236
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3275
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3333
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3493
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3506
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3519
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3551
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3564
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3577
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3618
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3630
 msgid "Invalid values"
 msgstr "数值无效"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2935
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3329
 msgid "There is no custom amount"
 msgstr "没有自定义金额"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3048
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3442
 msgid "user or group name"
 msgstr "用户或者用户组名称"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3213
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3607
 msgid "newMemberName"
 msgstr "新组员名称"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3481
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3875
 msgid "New Bill"
 msgstr "新建账单"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3493
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3887
 msgid "2 active members are required to create a bill"
 msgstr "至少需要2个活跃成员才可以创建账单"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3543
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3939
 msgid "Guest link for '{pid}' copied to clipboard"
 msgstr "访客链接 '{pid}'' 已复制到剪贴板"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3556
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3952
 msgid "Guest link copied to clipboard"
 msgstr "访客链接已复制到剪贴板"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3565
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3961
 msgid "Choose file"
 msgstr "选择文件"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3575
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3971
 msgid "Choose csv project file"
 msgstr "选择 csv 项目文件"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3587
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3983
 msgid "Choose SplitWise project file"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3673
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4069
 msgid "Create the bills"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3768
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4164
 msgid "Choose where to write output files (stats, settlement, export)"
 msgstr ""
 
@@ -750,19 +793,19 @@ msgstr "用户 “%s” 和您共享了 Cospend 项目 “%s”。"
 msgid "User \"%s\" stopped sharing Cospend project \"%s\" with you."
 msgstr "用户 “%s” 取消了和您共享 Cospend 项目 “%s”。"
 
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:525
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:569
 msgid "Average per month"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2854
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2991
 msgid "daily"
 msgstr "每天"
 
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2869
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:3006
 msgid "weekly"
 msgstr "每周"
 
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2890
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:3027
 msgid "monthly"
 msgstr "每月"
 

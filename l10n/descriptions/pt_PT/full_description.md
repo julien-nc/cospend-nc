@@ -12,20 +12,20 @@ Os membros do projecto são independentes dos utilizadores do Nextcloud. Os proj
 
 ## Funcionalidades
 
-* ✎ criar/editar/eliminar projectos, membros, facturas
+* ✎ criar/editar/eliminar projectos, membros e facturas
 * ⚖ verificar os saldos dos membros
 * 🗠 exibir estatísticas do projecto
 * ♻ exibir plano de liquidação
 * 🎇 criar automaticamente facturas de reembolso a partir do plano de liquidação
-* 🗓 create recurring bills (daily/weekly/monthly/yearly)
-* 📊 fornece, opcionalmente, um valor personalizado para cada membro em facturas novas
-* 🔗 insere uma ligação pública para um ficheiro pessoal na descrição da factura (fotografia da factura em papel, por exemplo)
+* 🗓 criar facturas recorrentes (diárias/semanais/mensais/anuais)
+* 📊 fornecer, opcionalmente, um valor personalizado para cada membro em facturas novas
+* 🔗 inserir uma ligação pública para um ficheiro pessoal na descrição da factura (fotografia da factura em papel, por exemplo)
 * 👩 acesso de convidado para pessoas fora do Nextcloud
-* 👫 share projects with Nextcloud users/groups
-* 🖫 importação/exportação de projectos no formato CSV (compatível com ficheiros CSV do IHateMoney)
-* 🖧 adição de projectos externos (alojados noutra instância Nextcloud)
+* 👫 partilhar projectos com o os utilizadores/grupos do Nextcloud
+* 🖫 importar/exportar projectos no formato CSV (compatível com ficheiros CSV do IHateMoney)
+* 🖧 adicionar projectos externos (alojados noutra instância do Nextcloud)
 * 🔗 gerar ligação/código-QR para importar facilmente projectos no MoneyBuster
-* 🗲 implement Nextcloud notifications and activity stream
+* 🗲 implementar notificações e fluxo de actividades do Nextcloud
 
 Esta aplicação foi testada no Nextcloud 17 com o Firefox 57+ e o Chromium.
 

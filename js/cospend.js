@@ -1307,7 +1307,7 @@
             '</div>' +
             '<br/>' +
             totalPayedText +
-            '<br/><h2 class="statTableTitle">'+t('cospend', 'Global stats')+'</h2>' +
+            '<br/><hr/><h2 class="statTableTitle">'+t('cospend', 'Global stats')+'</h2>' +
             '<table id="statsTable" class="sortable"><thead>' +
             '<th>'+nameStr+'</th>' +
             '<th class="sorttable_numeric">'+paidStr+'</th>' +

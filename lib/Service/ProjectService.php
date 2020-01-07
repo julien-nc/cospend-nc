@@ -894,7 +894,7 @@ class ProjectService {
             $toId = $transaction['to'];
             $amount = floatval($transaction['amount']);
             $billTitle = $memberIdToName[$fromId].' → '.$memberIdToName[$toId];
-            $addBillResult = $this->addBill($projectid, $date, $billTitle, $fromId, $toId, $amount, 'n', null, -10);
+            $addBillResult = $this->addBill($projectid, $date, $billTitle, $fromId, $toId, $amount, 'n', null, -11);
             if (!is_numeric($addBillResult)) {
                 return ['message'=>'Error when addind a bill'];
             }

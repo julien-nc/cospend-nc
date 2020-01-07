@@ -2047,7 +2047,7 @@ class ProjectService {
 
                 // Repeat if $nextDate is in the past (or today)
                 $diff = $now->diff($nextDate);
-                if ($nextDate->format('Y-m-d') === $billDate->format('Y-m-d') || $diff->invert) {
+                if ($nextDate->format('Y-m-d') === $now->format('Y-m-d') || $diff->invert) {
                     $this->repeatBill($bill['projectid'], $bill['id'], $nextDate);
                     if (!array_key_exists($bill['projectid'], $projects)) {
                         $projects[$bill['projectid']] = $this->getProjectInfo($bill['projectid']);

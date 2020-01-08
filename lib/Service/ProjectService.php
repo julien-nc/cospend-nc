@@ -782,7 +782,7 @@ class ProjectService {
             $dbCurrencyName = $row['currency_name'];
             $dbAutoexport = $row['autoexport'];
             $dbLastchanged = intval($row['lastchanged']);
-            $dbGuestpermissions = $row['guestpermissions'];
+            $dbGuestPermissions = $row['guestpermissions'];
             $project = [
                     'id' => $dbId,
                     'name' => $dbName,

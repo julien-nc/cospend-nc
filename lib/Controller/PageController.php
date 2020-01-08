@@ -512,9 +512,9 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webEditProject($projectid, $name, $contact_email, $password, $autoexport=null, $currency_name=null) {
+    public function webEditProject($projectid, $name, $contact_email, $password, $autoexport=null, $currencyname=null) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
-            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currency_name);
+            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname);
             if ($result === 'UPDATED') {
                 return new DataResponse($result);
             }
@@ -762,9 +762,9 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiSetProjectInfo($projectid, $passwd, $name, $contact_email, $password, $autoexport=null, $currency_name=null) {
+    public function apiSetProjectInfo($projectid, $passwd, $name, $contact_email, $password, $autoexport=null, $currencyname=null) {
         if ($this->checkLogin($projectid, $passwd) and $this->projectService->guestHasPermission($projectid, 'e')) {
-            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currency_name);
+            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname);
             if ($result === 'UPDATED') {
                 return new DataResponse($result);
             }
@@ -786,9 +786,9 @@ class PageController extends ApiController {
      * @NoCSRFRequired
      * @CORS
      */
-    public function apiPrivSetProjectInfo($projectid, $name, $contact_email, $password, $autoexport=null, $currency_name=null) {
+    public function apiPrivSetProjectInfo($projectid, $name, $contact_email, $password, $autoexport=null, $currencyname=null) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
-            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currency_name);
+            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname);
             if ($result === 'UPDATED') {
                 return new DataResponse($result);
             }

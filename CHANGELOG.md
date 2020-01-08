@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-## 0.3.0 – 2020-01-03
+## 0.3.0 – 2020-01-08
 ### Added
 - option to change output directory
 [#57](https://gitlab.com/eneiluj/cospend-nc/issues/57) @xsus95
@@ -32,11 +32,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [#58](https://gitlab.com/eneiluj/cospend-nc/issues/58) @archit3kt
 - improve disabled design
 - make all tables sortable
+- now able to import/export all bill/members values
+- move 'create bill(s)' button
 
 ### Fixed
 - don't include disabled members when repeating
 [#53](https://gitlab.com/eneiluj/cospend-nc/issues/53) @quizilkend
 - always get global user balance in stats even with filters
+- import/export csv
+[#53](https://gitlab.com/eneiluj/cospend-nc/issues/53) @quizilkend
+- share icon was hidden by some adblockers
+[#53](https://gitlab.com/eneiluj/cospend-nc/issues/53) @quizilkend
+- huge bug in bill repetition date condition
 
 ## 0.2.0 – 2019-12-16
 ### Added

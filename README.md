@@ -13,7 +13,6 @@ It lets you create projects with members and bills. Each member has a balance co
 This way you can see who owes the group and who the group owes. Ultimately you can ask for a settlement plan telling you which payments to make to reset members balances.
 
 Project members are independent from Nextcloud users.
-Once you've got access to a project (as a guest or as a Nextcloud user), there is no restriction on what you can add/edit/delete.
 Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
 
 [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) and on the [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).

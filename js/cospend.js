@@ -1009,6 +1009,46 @@
         });
     }
 
+    function getProjectCurrencies(projectid) {
+        $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
+        var req = {
+        };
+        var url;
+        var type;
+        var project = cospend.projects[projectid];
+        if (!cospend.pageIsPublic) {
+            if (project.external) {
+                var id = projectid.split('@')[0];
+                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password;
+                type = 'GET';
+            }
+            else {
+                req.projectid = projectid;
+                url = OC.generateUrl('/apps/cospend/getProjectInfo');
+                type = 'POST';
+            }
+        }
+        else {
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
+            type = 'GET';
+        }
+        cospend.currentGetProjectsAjax = $.ajax({
+            type: type,
+            url: url,
+            data: req,
+            async: true,
+        }).done(function (response) {
+            if (cospend.currentProjectId !== projectid) {
+                selectProject($('.projectitem[projectid="'+projectid+'"]'));
+            }
+            displayCurrencies(projectid, response);
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('cospend', 'Failed to get project currencies'));
+            $('#billdetail').html('');
+        });
+    }
+
     function getProjectStatistics(projectid, dateMin=null, dateMax=null, paymentMode=null, category=null,
                                   amountMin=null, amountMax=null, showDisabled=true) {
         $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
@@ -1231,6 +1271,23 @@
         // dirty trick to get image URL from css url()... Anyone knows better ?
         var srcurl = $('#dummylogo').css('content').replace('url("', '').replace('")', '');
         img.src = srcurl;
+    }
+
+    function displayCurrencies(projectid, projectInfo) {
+        // deselect bill
+        $('.billitem').removeClass('selectedbill');
+        var project = cospend.projects[projectid];
+        var projectName = getProjectName(projectid);
+        $('#billdetail').html('');
+        $('.app-content-list').addClass('showdetails');
+        var titleStr = t('cospend', 'Currencies of project {name}', {name: projectName});
+
+        var curStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
+            '<h2 id="statsTitle"><span class="icon-currencies"></span>'+titleStr+'</h2>' +
+            '<div id="main-currency">' +
+            '</div>';
+
+        $('#billdetail').html(curStr);
     }
 
     function displayStatistics(projectid, allStats, dateMin=null, dateMax=null, paymentMode=null, category=null,
@@ -2168,6 +2225,7 @@
         var settleStr = t('cospend', 'Settle the project');
         var exportStr = t('cospend', 'Export to csv');
         var autoexportStr = t('cospend', 'Auto export');
+        var manageCurrenciesStr = t('cospend', 'Manage currencies');
         var deleteStr;
         if (project.external) {
             deleteStr = t('cospend', 'Delete remote project');
@@ -2264,6 +2322,12 @@
             '                <a href="#" class="editProjectPassword">' +
             '                    <span class="icon-rename"></span>' +
             '                    <span>'+changePwdStr+'</span>' +
+            '                </a>' +
+            '            </li>' +
+            '            <li>' +
+            '                <a href="#" class="manageProjectCurrencies">' +
+            '                    <span class="icon-currencies"></span>' +
+            '                    <span>'+manageCurrenciesStr+'</span>' +
             '                </a>' +
             '            </li>' +
             '            <li>' +
@@ -3900,6 +3964,11 @@
         $('body').on('click', '.getProjectStats', function(e) {
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
             getProjectStatistics(projectid, null, null, null, -100);
+        });
+
+        $('body').on('click', '.manageProjectCurrencies', function(e) {
+            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
+            getProjectCurrencies(projectid);
         });
 
         $('body').on('change', '#date-min-stats, #date-max-stats, #payment-mode-stats, ' +

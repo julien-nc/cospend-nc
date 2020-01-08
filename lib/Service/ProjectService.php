@@ -403,7 +403,7 @@ class ProjectService {
 
         $qb = $this->dbconnection->getQueryBuilder();
 
-        $qb->select('id', 'password', 'name', 'email', 'userid', 'lastchanged', 'guestpermissions')
+        $qb->select('id', 'password', 'name', 'email', 'userid', 'lastchanged', 'guestpermissions', 'autoexport', 'currency_name')
            ->from('cospend_projects', 'p')
            ->where(
                $qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -420,6 +420,8 @@ class ProjectService {
             $dbUserId = $row['userid'];
             $dbGuestPermissions = $row['guestpermissions'];
             $dbLastchanged = intval($row['lastchanged']);
+            $dbAutoexport= $row['autoexport'];
+            $dbCurrencyName= $row['currency_name'];
             break;
         }
         $req->closeCursor();
@@ -439,6 +441,8 @@ class ProjectService {
                 'contact_email'=>$dbEmail,
                 'id'=>$dbProjectId,
                 'guestpermissions'=>$dbGuestPermissions,
+                'autoexport'=>$dbAutoexport,
+                'currency_name'=>$dbCurrencyName,
                 'active_members'=>$activeMembers,
                 'members'=>$members,
                 'balance'=>$balance,
@@ -762,7 +766,7 @@ class ProjectService {
         $project = null;
 
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('id', 'userid', 'name', 'email', 'password')
+        $qb->select('id', 'userid', 'name', 'email', 'password', 'currency_name', 'autoexport', 'guestpermissions', 'lastchanged')
            ->from('cospend_projects', 'p')
            ->where(
                $qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -775,12 +779,20 @@ class ProjectService {
             $dbName = $row['name'];
             $dbUserId = $row['userid'];
             $dbEmail = $row['email'];
+            $dbCurrencyName = $row['currency_name'];
+            $dbAutoexport = $row['autoexport'];
+            $dbLastchanged = intval($row['lastchanged']);
+            $dbGuestpermissions = $row['guestpermissions'];
             $project = [
                     'id' => $dbId,
                     'name' => $dbName,
                     'userid' => $dbUserId,
                     'password' => $dbPassword,
-                    'email' => $dbEmail
+                    'email' => $dbEmail,
+                    'lastchanged' => $dbLastchanged,
+                    'currency_name' => $dbCurrencyName,
+                    'autoexport' => $dbAutoexport,
+                    'guestpermissions' => $dbGuestPermissions
             ];
             break;
         }
@@ -1050,7 +1062,7 @@ class ProjectService {
         }
     }
 
-    public function editProject($projectid, $name, $contact_email, $password, $autoexport=null) {
+    public function editProject($projectid, $name, $contact_email, $password, $autoexport=null, $currency_name=null) {
         if ($name === null || $name === '') {
             return ['name'=> ['This field is required.']];
         }
@@ -1073,6 +1085,14 @@ class ProjectService {
         }
         if ($autoexport !== null && $autoexport !== '') {
             $qb->set('autoexport', $qb->createNamedParameter($autoexport, IQueryBuilder::PARAM_STR));
+        }
+        if ($currency_name !== null) {
+            if ($currency_name === '') {
+                $qb->set('currency_name', $qb->createNamedParameter(null, IQueryBuilder::PARAM_STR));
+            }
+            else {
+                $qb->set('currency_name', $qb->createNamedParameter($currency_name, IQueryBuilder::PARAM_STR));
+            }
         }
         if ($this->getProjectById($projectid) !== null) {
             $ts = (new \DateTime())->getTimestamp();
@@ -1514,7 +1534,7 @@ class ProjectService {
 
         $qb = $this->dbconnection->getQueryBuilder();
 
-        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestpermissions')
+        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestpermissions', 'p.currency_name', 'p.lastchanged')
            ->from('cospend_projects', 'p')
            ->where(
                $qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
@@ -1531,16 +1551,20 @@ class ProjectService {
             $dbEmail = $row['email'];
             $autoexport = $row['autoexport'];
             $guestpermissions = $row['guestpermissions'];
+            $dbCurrencyName = $row['currency_name'];
+            $dbLastchanged = intval($row['lastchanged']);
             array_push($projects, [
                 'name'=>$dbName,
                 'contact_email'=>$dbEmail,
                 'id'=>$dbProjectId,
                 'autoexport'=>$autoexport,
+                'lastchanged'=>$dbLastchanged,
                 'active_members'=>null,
                 'members'=>null,
                 'balance'=>null,
                 'shares'=>[],
-                'guestpermissions'=>$guestpermissions
+                'guestpermissions'=>$guestpermissions,
+                'currency_name'=>$dbCurrencyName
             ]);
         }
         $req->closeCursor();
@@ -1548,7 +1572,7 @@ class ProjectService {
         $qb = $qb->resetQueryParts();
 
         // shared with user
-        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestpermissions')
+        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestpermissions', 'p.currency_name', 'p.lastchanged')
            ->from('cospend_projects', 'p')
            ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
            ->where(
@@ -1571,16 +1595,20 @@ class ProjectService {
                 $dbEmail= $row['email'];
                 $autoexport = $row['autoexport'];
                 $guestpermissions = $row['guestpermissions'];
+                $dbCurrencyName = $row['currency_name'];
+                $dbLastchanged = intval($row['lastchanged']);
                 array_push($projects, [
                     'name'=>$dbName,
                     'contact_email'=>$dbEmail,
                     'id'=>$dbProjectId,
                     'autoexport'=>$autoexport,
+                    'lastchanged'=>$dbLastchanged,
                     'active_members'=>null,
                     'members'=>null,
                     'balance'=>null,
                     'shares'=>[],
-                    'guestpermissions'=>$guestpermissions
+                    'guestpermissions'=>$guestpermissions,
+                    'currency_name'=>$dbCurrencyName
                 ]);
                 array_push($projectids, $dbProjectId);
             }
@@ -1612,7 +1640,7 @@ class ProjectService {
             $group = $this->groupManager->get($candidateGroupId);
             if ($group !== null && $group->inGroup($userO)) {
                 // get projects shared with this group
-                $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestpermissions')
+                $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestpermissions', 'p.currency_name', 'p.lastchanged')
                     ->from('cospend_projects', 'p')
                     ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
                     ->where(
@@ -1635,16 +1663,20 @@ class ProjectService {
                         $dbEmail= $row['email'];
                         $autoexport = $row['autoexport'];
                         $guestpermissions = $row['guestpermissions'];
+                        $dbCurrencyName = $row['currency_name'];
+                        $dbLastchanged = intval($row['lastchanged']);
                         array_push($projects, [
                             'name'=>$dbName,
                             'contact_email'=>$dbEmail,
                             'id'=>$dbProjectId,
                             'autoexport'=>$autoexport,
+                            'lastchanged'=>$dbLastchanged,
                             'active_members'=>null,
                             'members'=>null,
                             'balance'=>null,
                             'shares'=>[],
-                            'guestpermissions'=>$guestpermissions
+                            'guestpermissions'=>$guestpermissions,
+                            'currency_name'=>$dbCurrencyName
                         ]);
                         array_push($projectids, $dbProjectId);
                     }
@@ -1660,6 +1692,7 @@ class ProjectService {
             $members = $this->getMembers($dbProjectId, 'lowername');
             $shares = $this->getUserShares($dbProjectId);
             $groupShares = $this->getGroupShares($dbProjectId);
+            $currencies = $this->getCurrencies($dbProjectId);
             $activeMembers = [];
             foreach ($members as $member) {
                 if ($member['activated']) {
@@ -1672,6 +1705,7 @@ class ProjectService {
             $projects[$i]['balance'] = $balance;
             $projects[$i]['shares'] = $shares;
             $projects[$i]['group_shares'] = $groupShares;
+            $projects[$i]['currencies'] = $currencies;
         }
 
         // get external projects
@@ -1701,6 +1735,32 @@ class ProjectService {
         $req->closeCursor();
 
         return $projects;
+    }
+
+    private function getCurrencies($projectid) {
+        $currencies = [];
+
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('name', 'id', 'exchange_rate')
+           ->from('cospend_currencies', 'c')
+           ->where(
+               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+           );
+        $req = $qb->execute();
+        while ($row = $req->fetch()){
+            $dbName = $row['name'];
+            $dbId = $row['id'];
+            $dbExchangeRate = $row['exchange_rate'];
+            array_push($currencies, [
+                'name'=>$dbName,
+                'exchange_rate'=>$dbExchangeRate,
+                'id'=>$dbId
+            ]);
+        }
+        $req->closeCursor();
+        $qb = $qb->resetQueryParts();
+
+        return $currencies;
     }
 
     private function getUserShares($projectid) {

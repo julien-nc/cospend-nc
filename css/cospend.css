@@ -299,11 +299,24 @@ input[type=number] {
     text-overflow: ellipsis;
     width: 100px;
 }
+.icon-currencies {
+    background-color: var(--color-main-text);
+    padding: 0 !important;
+    mask: url(images/currency.svg) no-repeat;
+    mask-size: 22px 22px;
+    mask-position: center;
+    min-width: 44px !important;
+    min-height: 44px !important;
+}
+#billdetail .icon-currencies {
+    min-width: 23px !important;
+    min-height: 23px !important;
+}
 .icon-shar {
-    background-image: url(images/shar.svg);
-    background-size: 16px 16px;
-    min-width: 16px;
-    min-height: 16px;
+    background-color: var(--color-main-text) !important;
+    mask: url(images/shar.svg) no-repeat;
+    mask-size: 16px 16px;
+    mask-position: center;
 }
 .permActive {
     background-color: var(--color-success);

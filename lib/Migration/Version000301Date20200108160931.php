@@ -51,6 +51,7 @@ class Version000301Date20200108160931 extends SimpleMigrationStep {
 				'notnull' => true,
 				'length' => 10,
 			]);
+			$table->setPrimaryKey(['id']);
 		}
 
 		if ($schema->hasTable('cospend_projects')) {

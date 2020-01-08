@@ -1535,6 +1535,72 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
+    public function addCurrency($projectid, $name, $rate) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->addCurrency($projectid, $name, $rate);
+            if (is_numeric($result)) {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to edit this project']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function editCurrency($projectid, $currencyid, $name, $rate) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->editCurrency($projectid, $currencyid, $name, $rate);
+            if (is_array($result)) {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to edit this project']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function deleteCurrency($projectid, $currencyid) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->deleteCurrency($projectid, $currencyid);
+            if (is_numeric($result)) {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to edit this project']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     */
     public function addUserShare($projectid, $userid) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
             $result = $this->projectService->addUserShare($projectid, $userid, $this->userId);

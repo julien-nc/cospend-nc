@@ -772,12 +772,13 @@
         });
     }
 
-    function editProject(projectid, newName, newEmail, newPassword, newAutoexport=null) {
+    function editProject(projectid, newName, newEmail, newPassword, newAutoexport=null, newcurrencyname=null) {
         var req = {
             name: newName,
             contact_email: newEmail,
             password: newPassword,
-            autoexport: newAutoexport
+            autoexport: newAutoexport,
+            currencyname: newcurrencyname
         };
         var url, type;
         var project = cospend.projects[projectid];
@@ -832,8 +833,15 @@
             );
             // remove editing mode
             projectLine.removeClass('editing');
-            // reset bill edition
-            $('#billdetail').html('');
+            if (newcurrencyname === null) {
+                // reset bill edition
+                $('#billdetail').html('');
+            }
+            else {
+                $('#main-currency-label-label').text(t('cospend', 'Main currency: {c}', {c: newcurrencyname || ''}));
+                $('#main-currency-label').show();
+                $('#main-currency-edit').hide();
+            }
             OC.Notification.showTemporary(t('cospend', 'Project saved'));
         }).always(function() {
         }).fail(function(response) {
@@ -1277,17 +1285,132 @@
         // deselect bill
         $('.billitem').removeClass('selectedbill');
         var project = cospend.projects[projectid];
+        var mainCurrencyName = projectInfo.currencyname;
+        var currencies = projectInfo.currencies;
         var projectName = getProjectName(projectid);
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
         var titleStr = t('cospend', 'Currencies of project {name}', {name: projectName});
 
         var curStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
-            '<h2 id="statsTitle"><span class="icon-currencies"></span>'+titleStr+'</h2>' +
-            '<div id="main-currency">' +
+            '<h2 id="curTitle" projectid="'+projectid+'"><span class="icon-currencies"></span>'+titleStr+'</h2>' +
+            '<div id="main-currency-div">' +
+            '    <div id="main-currency-label">' +
+            '        <label id="main-currency-label-label">'+
+                     t('cospend', 'Main currency: {c}', {c: mainCurrencyName || ''})+'</label>' +
+            '        <input type="submit" value="" class="icon-rename editMainCurrency">' +
+            '    </div>' +
+            '    <div id="main-currency-edit">' +
+            '        <input type="text" value="'+(mainCurrencyName || '')+'" class="editMainCurrencyInput">' +
+            '        <input type="submit" value="" class="icon-close editMainCurrencyClose">' +
+            '        <input type="submit" value="" class="icon-checkmark editMainCurrencyOk">' +
+            '    </div>' +
+            '</div>' +
+            '<div id="currencies-div">' +
+            '    <div id="add-currency">' +
+            '        <label for="addCurrencyNameInput">'+t('cospend', 'Currency name')+'</label>'+
+            '        <input type="text" value="" id="addCurrencyNameInput">' +
+            '        <label for="addCurrencyRateInput">'+t('cospend', '1 main currency equals')+'</label>'+
+            '        <input type="number" value="1" id="addCurrencyRateInput">' +
+            '        <input type="submit" value="" class="icon-add addCurrencyOk">' +
+            '    </div>' +
+            '    <div id="currency-list">' +
+            '    </div>' +
             '</div>';
 
         $('#billdetail').html(curStr);
+        for (var i = 0; i < currencies.length; i++) {
+            addCurrency(projectid, currencies[i]);
+        }
+    }
+
+    function addCurrencyDb(projectid, name, rate) {
+        $('.addCurrencyOk').addClass('icon-loading-small');
+        var req = {
+            projectid: projectid,
+            name: name,
+            rate: rate
+        };
+        var url = OC.generateUrl('/apps/cospend/addCurrency');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            addCurrency(projectid, {name: name, exchange_rate: rate});
+            OC.Notification.showTemporary(t('cospend', 'Currency {n} added', {n: name}));
+        }).always(function() {
+            $('.addCurrencyOk').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to add currency') + ' ' + response.responseText);
+        });
+    }
+
+    function addCurrency(projectid, currency) {
+        var curStr = '<div class="one-currency" projectid="'+projectid+'" currencyid="'+currency.id+'">' +
+            '    <div class="one-currency-label">' +
+            '        <label class="one-currency-label-label">'+
+                     t('cospend', 'Currency: {c} ({r})', {c: currency.name, r: currency.exchange_rate})+'</label>' +
+            '        <input type="submit" value="" class="icon-rename editOneCurrency">' +
+            '        <input type="submit" value="" class="icon-delete deleteOneCurrency">' +
+            '    </div>' +
+            '    <div class="one-currency-edit">' +
+            '        <label>'+t('cospend', 'Currency name')+'</label>'+
+            '        <input type="text" value="'+currency.name+'" class="editCurrencyNameInput">' +
+            '        <label>'+t('cospend', '1 main currency equals')+'</label>'+
+            '        <input type="number" value="'+currency.exchange_rate+'" class="editCurrencyRateInput">' +
+            '        <input type="submit" value="" class="icon-close editCurrencyClose">' +
+            '        <input type="submit" value="" class="icon-checkmark editCurrencyOk">' +
+            '    </div>' +
+            '</div>';
+        $('#currency-list').append(curStr);
+    }
+
+    function deleteCurrencyDb(projectid, currencyId) {
+        $('.one-currency[currencyid='+currencyId+'] .deleteOneCurrency').addClass('icon-loading-small');
+        var req = {
+            projectid: projectid,
+            currencyid: currencyId
+        };
+        var url = OC.generateUrl('/apps/cospend/deleteCurrency');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            $('.one-currency[currencyid=' + currencyId + ']').remove();
+        }).always(function() {
+            $('.one-currency[currencyid='+currencyId+'] .deleteOneCurrency').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to delete currency') + ' ' + response.responseText);
+        });
+    }
+
+    function editCurrencyDb(projectid, currencyId, name, rate) {
+        $('.one-currency[currencyid='+currencyId+'] .editCurrencyOk').addClass('icon-loading-small');
+        var req = {
+            projectid: projectid,
+            currencyid: currencyId,
+            name: name,
+            rate: rate
+        };
+        var url = OC.generateUrl('/apps/cospend/editCurrency');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            $('.one-currency[currencyid=' + currencyId + '] .one-currency-edit').hide();
+            $('.one-currency[currencyid=' + currencyId + '] .one-currency-label').show()
+            .find('.one-currency-label-label').text(t('cospend', 'Currency: {c} ({r})', {c: name, r: rate}));
+        }).always(function() {
+            $('.one-currency[currencyid='+currencyId+'] .editCurrencyOk').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to edit currency') + ' ' + response.responseText);
+        });
     }
 
     function displayStatistics(projectid, allStats, dateMin=null, dateMax=null, paymentMode=null, category=null,
@@ -4266,6 +4389,73 @@
 
         $('body').on('change', '#membercolorinput', function(e) {
             okColor();
+        });
+
+        // main currency
+        $('body').on('click', '.editMainCurrency', function(e) {
+            $('#main-currency-label').hide();
+            $('#main-currency-edit').show();
+            $('.editMainCurrencyInput').focus().select();
+        });
+
+        $('body').on('click', '.editMainCurrencyOk', function(e) {
+            var projectid = $('#curTitle').attr('projectid');
+            var value = $('.editMainCurrencyInput').val();
+            var projectName = cospend.projects[projectid].name;
+            editProject(projectid, projectName, null, null, null, value);
+        });
+
+        $('body').on('click', '.editMainCurrencyClose', function(e) {
+            $('#main-currency-label').show();
+            $('#main-currency-edit').hide();
+        });
+
+        // other currencies
+        $('body').on('click', '.addCurrencyOk', function(e) {
+            var projectid = $('#curTitle').attr('projectid');
+            var name = $('#addCurrencyNameInput').val();
+            if (name === null || name === '') {
+                OC.Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
+                return;
+            }
+            var rate = parseFloat($('#addCurrencyRateInput').val());
+            if (isNaN(rate)) {
+                OC.Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
+                return;
+            }
+            addCurrencyDb(projectid, name, rate);
+        });
+
+        $('body').on('click', '.deleteOneCurrency', function(e) {
+            var projectid = $('#curTitle').attr('projectid');
+            var currencyId = $(this).parent().parent().attr('currencyid');
+            deleteCurrencyDb(projectid, currencyId);
+        });
+
+        $('body').on('click', '.editOneCurrency', function(e) {
+            $(this).parent().hide();
+            $(this).parent().parent().find('.one-currency-edit').show().find('.editCurrencyRateInput').focus().select();
+        });
+
+        $('body').on('click', '.editCurrencyOk', function(e) {
+            var projectid = $('#curTitle').attr('projectid');
+            var currencyId = $(this).parent().parent().attr('currencyid');
+            var name = $(this).parent().find('.editCurrencyNameInput').val();
+            if (name === null || name === '') {
+                OC.Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
+                return;
+            }
+            var rate = parseFloat($(this).parent().find('.editCurrencyRateInput').val());
+            if (isNaN(rate)) {
+                OC.Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
+                return;
+            }
+            editCurrencyDb(projectid, currencyId, name, rate);
+        });
+
+        $('body').on('click', '.editCurrencyClose', function(e) {
+            $(this).parent().hide();
+            $(this).parent().parent().find('.one-currency-label').show();
         });
 
         if (OCA.Theming) {

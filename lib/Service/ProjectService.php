@@ -435,6 +435,7 @@ class ProjectService {
                 }
             }
             $balance = $this->getBalance($dbProjectId);
+            $currencies = $this->getCurrencies($dbProjectId);
             $projectInfo = [
                 'userid'=>$dbUserId,
                 'name'=>$dbName,
@@ -443,6 +444,7 @@ class ProjectService {
                 'guestpermissions'=>$dbGuestPermissions,
                 'autoexport'=>$dbAutoexport,
                 'currencyname'=>$dbCurrencyName,
+                'currencies'=>$currencies,
                 'active_members'=>$activeMembers,
                 'members'=>$members,
                 'balance'=>$balance,
@@ -2212,6 +2214,106 @@ class ProjectService {
         // now we can remove repeat flag on original bill
         $this->editBill($projectid, $billid, $bill['date'], $bill['what'], $bill['payer_id'], null,
                         $bill['amount'], 'n', null, null, 0, null);
+    }
+
+    public function addCurrency($projectid, $name, $rate) {
+        $qb = $this->dbconnection->getQueryBuilder();
+        $projectInfo = $this->getProjectInfo($projectid);
+
+        $qb->insert('cospend_currencies')
+            ->values([
+                'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
+                'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
+                'exchange_rate' => $qb->createNamedParameter($rate, IQueryBuilder::PARAM_STR)
+            ]);
+        $req = $qb->execute();
+        $qb = $qb->resetQueryParts();
+
+        $insertedCurrencyId = intval($qb->getLastInsertId());
+        $response = $insertedCurrencyId;
+
+        return $response;
+    }
+
+    private function getCurrency($projectId, $currencyid) {
+        $currency = null;
+
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('id', 'name', 'exchange_rate', 'projectid')
+           ->from('cospend_currencies', 'c')
+           ->where(
+               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+           )
+           ->andWhere(
+               $qb->expr()->eq('id', $qb->createNamedParameter($currencyid, IQueryBuilder::PARAM_INT))
+           );
+        $req = $qb->execute();
+
+        while ($row = $req->fetch()) {
+            $dbCurrencyId = intval($row['id']);
+            $dbRate = floatval($row['exchange_rate']);
+            $dbName = $row['name'];
+            $currency = [
+                    'name' => $dbName,
+                    'id' => $dbCurrencyId,
+                    'exchange_rate' => $dbRate,
+                    'projectid' => $projectId
+            ];
+            break;
+        }
+        $req->closeCursor();
+        $qb = $qb->resetQueryParts();
+        return $currency;
+    }
+
+    public function deleteCurrency($projectid, $currencyid) {
+        $currencyToDelete = $this->getCurrency($projectid, $currencyid);
+        if ($currencyToDelete !== null) {
+            $qb = $this->dbconnection->getQueryBuilder();
+            $qb->delete('cospend_currencies')
+               ->where(
+                   $qb->expr()->eq('id', $qb->createNamedParameter($currencyid, IQueryBuilder::PARAM_INT))
+               )
+               ->andWhere(
+                   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+               );
+            $req = $qb->execute();
+            $qb = $qb->resetQueryParts();
+
+            return $currencyid;
+        }
+        else {
+            return ["message" => "Not Found"];
+        }
+    }
+
+    public function editCurrency($projectid, $currencyid, $name, $exchange_rate) {
+        if ($name !== null && $name !== '' && is_numeric($exchange_rate)) {
+            if ($this->getCurrency($projectid, $currencyid) !== null) {
+                $qb = $this->dbconnection->getQueryBuilder();
+                $qb->update('cospend_currencies');
+                $qb->set('exchange_rate', $qb->createNamedParameter($exchange_rate, IQueryBuilder::PARAM_STR));
+                $qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
+                $qb->where(
+                    $qb->expr()->eq('id', $qb->createNamedParameter($currencyid, IQueryBuilder::PARAM_INT))
+                )
+                ->andWhere(
+                    $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                );
+                $req = $qb->execute();
+                $qb = $qb->resetQueryParts();
+
+                $editedCurrency = $this->getCurrency($projectid, $currencyid);
+
+                return $editedCurrency;
+            }
+            else {
+                return ['message'=>['This project have no such currency']];
+            }
+        }
+        else {
+            return ['message'=> ['Incorrect field values']];
+        }
     }
 
     public function addUserShare($projectid, $userid, $fromUserId) {

@@ -1751,8 +1751,8 @@ class ProjectService {
         $req = $qb->execute();
         while ($row = $req->fetch()){
             $dbName = $row['name'];
-            $dbId = $row['id'];
-            $dbExchangeRate = $row['exchange_rate'];
+            $dbId = intval($row['id']);
+            $dbExchangeRate = floatval($row['exchange_rate']);
             array_push($currencies, [
                 'name'=>$dbName,
                 'exchange_rate'=>$dbExchangeRate,

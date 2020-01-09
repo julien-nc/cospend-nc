@@ -826,6 +826,9 @@
                     cospend.projects[projectid].password = newPassword;
                 }
             }
+            if (newcurrencyname) {
+                project.currencyname = newcurrencyname || null;
+            }
             // update deleted text
             var projectName = cospend.projects[projectid].name;
             projectLine.find('.app-navigation-entry-deleted-description').text(
@@ -1297,11 +1300,11 @@
             '<div id="main-currency-div">' +
             '    <div id="main-currency-label">' +
             '        <label id="main-currency-label-label">'+
-                     t('cospend', 'Main currency: {c}', {c: mainCurrencyName || ''})+'</label>' +
+                     t('cospend', 'Main currency: {c}', {c: mainCurrencyName || t('cospend', 'None')})+'</label>' +
             '        <input type="submit" value="" class="icon-rename editMainCurrency">' +
             '    </div>' +
             '    <div id="main-currency-edit">' +
-            '        <input type="text" value="'+(mainCurrencyName || '')+'" class="editMainCurrencyInput">' +
+            '        <input type="text" value="'+(mainCurrencyName || t('cospend', 'Potatoe'))+'" class="editMainCurrencyInput">' +
             '        <input type="submit" value="" class="icon-close editMainCurrencyClose">' +
             '        <input type="submit" value="" class="icon-checkmark editMainCurrencyOk">' +
             '    </div>' +
@@ -1310,8 +1313,8 @@
             '    <div id="add-currency">' +
             '        <label for="addCurrencyNameInput">'+t('cospend', 'Currency name')+'</label>'+
             '        <input type="text" value="" id="addCurrencyNameInput">' +
-            '        <label for="addCurrencyRateInput">'+t('cospend', '1 main currency equals')+'</label>'+
-            '        <input type="number" value="1" id="addCurrencyRateInput">' +
+            '        <label for="addCurrencyRateInput">'+t('cospend', '1 equals how much main currency?')+'</label>'+
+            '        <input type="number" value="1" id="addCurrencyRateInput" step="0.0001" min="0">' +
             '        <input type="submit" value="" class="icon-add addCurrencyOk">' +
             '    </div>' +
             '    <div id="currency-list">' +
@@ -1339,6 +1342,11 @@
             async: true
         }).done(function (response) {
             addCurrency(projectid, {name: name, exchange_rate: rate});
+            cospend.projects[projectid].currencies.push({
+                name: name,
+                exchange_rate: rate,
+                id: response
+            });
             OC.Notification.showTemporary(t('cospend', 'Currency {n} added', {n: name}));
         }).always(function() {
             $('.addCurrencyOk').removeClass('icon-loading-small');
@@ -1358,8 +1366,8 @@
             '    <div class="one-currency-edit">' +
             '        <label>'+t('cospend', 'Currency name')+'</label>'+
             '        <input type="text" value="'+currency.name+'" class="editCurrencyNameInput">' +
-            '        <label>'+t('cospend', '1 main currency equals')+'</label>'+
-            '        <input type="number" value="'+currency.exchange_rate+'" class="editCurrencyRateInput">' +
+            '        <label>'+t('cospend', '1 equals how much main currency?')+'</label>'+
+            '        <input type="number" value="'+currency.exchange_rate+'" class="editCurrencyRateInput" step="0.0001" min="0">' +
             '        <input type="submit" value="" class="icon-close editCurrencyClose">' +
             '        <input type="submit" value="" class="icon-checkmark editCurrencyOk">' +
             '    </div>' +
@@ -1381,6 +1389,17 @@
             async: true
         }).done(function (response) {
             $('.one-currency[currencyid=' + currencyId + ']').remove();
+            var currencies = cospend.projects[projectid].currencies;
+            var iToDel = null;
+            for (var i = 0; i < currencies.length; i++) {
+                if (parseInt(currencies[i].id) === parseInt(currencyId)) {
+                    iToDel = i;
+                    break;
+                }
+            }
+            if (iToDel !== null) {
+                currencies.splice(iToDel, 1);
+            }
         }).always(function() {
             $('.one-currency[currencyid='+currencyId+'] .deleteOneCurrency').removeClass('icon-loading-small');
         }).fail(function(response) {
@@ -1406,6 +1425,14 @@
             $('.one-currency[currencyid=' + currencyId + '] .one-currency-edit').hide();
             $('.one-currency[currencyid=' + currencyId + '] .one-currency-label').show()
             .find('.one-currency-label-label').text(t('cospend', 'Currency: {c} ({r})', {c: name, r: rate}));
+            var currencies = cospend.projects[projectid].currencies;
+            for (var i = 0; i < currencies.length; i++) {
+                if (parseInt(currencies[i].id) === parseInt(currencyId)) {
+                    currencies[i].name = name;
+                    currencies[i].exchange_rate = rate;
+                    break;
+                }
+            }
         }).always(function() {
             $('.one-currency[currencyid='+currencyId+'] .editCurrencyOk').removeClass('icon-loading-small');
         }).fail(function(response) {
@@ -2018,6 +2045,18 @@
             addFileHtml = '<button id="addFileLinkButton"><span class="icon-public"></span>'+addFileLinkText+'</button>';
         }
 
+        var currenciesStr = '';
+        if (cospend.projects[projectid].currencyname && cospend.projects[projectid].currencies.length > 0) {
+            currenciesStr = '<select id="bill-currency">' +
+                '<option value="">' + cospend.projects[projectid].currencyname + '</option>';
+            var currency;
+            for (var i = 0; i < cospend.projects[projectid].currencies.length; i++) {
+                currency = cospend.projects[projectid].currencies[i];
+                currenciesStr += '<option value="'+currency.id+'">'+currency.name+' (x'+currency.exchange_rate+')</option>';
+            }
+            currenciesStr += '</select>';
+        }
+
         var detail =
             '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 class="bill-title" projectid="'+projectid+'" billid="'+bill.id+'" style="background-color: '+c+';">' +
@@ -2041,6 +2080,7 @@
             '            </label>' +
             '            <label id="amountEach"></label>' +
             '            <input type="number" id="amount" class="input-bill-amount" value="'+bill.amount+'" step="0.01" min="0"/>' +
+            '           ' + currenciesStr +
             '        </div>' +
             '        <div class="bill-payer">' +
             '            <label for="payer">' +
@@ -2772,6 +2812,27 @@
 
         // if valid, save the bill
         if (valid) {
+            // manage currencies
+            if ($('#bill-currency') && $('#bill-currency').val()) {
+                var currencyId = $('#bill-currency').val();
+                var currencies = cospend.projects[projectid].currencies;
+                var currency = null;
+                for (var i = 0; i < currencies.length; i++) {
+                    if (parseInt(currencies[i].id) === parseInt(currencyId)) {
+                        currency = currencies[i];
+                        break;
+                    }
+                }
+                if (currency) {
+                    var userAmount = amount;
+                    amount = amount * currency.exchange_rate;
+                    amount = parseFloat(amount.toFixed(2));
+                    $('#amount').val(amount);
+                    what += ' ('+userAmount+' '+currency.name+')';
+                    $('#what').val(what);
+                    $('#bill-currency').val('');
+                }
+            }
             // if values have changed, save the bill
             var oldBill = cospend.bills[projectid][billid];
             // if ower lists don't have the same length, it has changed

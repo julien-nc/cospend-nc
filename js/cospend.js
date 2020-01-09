@@ -3602,14 +3602,35 @@
         }
 
         if (valid) {
+            var initWhat = what;
+            // manage currencies
+            var initAmount;
+            var currency = null;
+            if ($('#bill-currency') && $('#bill-currency').val()) {
+                var currencyId = $('#bill-currency').val();
+                var currencies = cospend.projects[projectid].currencies;
+                for (var i = 0; i < currencies.length; i++) {
+                    if (parseInt(currencies[i].id) === parseInt(currencyId)) {
+                        currency = currencies[i];
+                        break;
+                    }
+                }
+            }
             var total = 0;
             $('.amountinput').each(function() {
+                var oneWhat = initWhat;
                 var owerId = parseInt($(this).attr('owerid'));
                 var amountVal = parseFloat($(this).val());
                 if (!isNaN(amountVal) && amountVal > 0.0) {
-                    createBill(projectid, what, amountVal, payer_id, date, [owerId], repeat, true,
-                               paymentmode, categoryid, repeatallactive, repeatuntil);
                     total = total + amountVal;
+                    if (currency !== null) {
+                        initAmount = amountVal;
+                        amountVal = amountVal * currency.exchange_rate;
+                        amountVal = parseFloat(amountVal.toFixed(2));
+                        oneWhat += ' ('+initAmount+' '+currency.name+')';
+                    }
+                    createBill(projectid, oneWhat, amountVal, payer_id, date, [owerId], repeat, true,
+                               paymentmode, categoryid, repeatallactive, repeatuntil);
                 }
             });
             // if something was actually created, clean up

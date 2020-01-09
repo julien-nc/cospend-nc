@@ -841,7 +841,7 @@
                 $('#billdetail').html('');
             }
             else {
-                $('#main-currency-label-label').text(t('cospend', 'Main currency: {c}', {c: newcurrencyname || t('cospend', 'None')}));
+                $('#main-currency-label-label').text(newcurrencyname || t('cospend', 'None'));
                 $('#main-currency-label').show();
                 $('#main-currency-edit').hide();
             }
@@ -1297,28 +1297,42 @@
 
         var curStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 id="curTitle" projectid="'+projectid+'"><span class="icon-currencies"></span>'+titleStr+'</h2>' +
-            '<div id="main-currency-div">' +
-            '    <div id="main-currency-label">' +
-            '        <label id="main-currency-label-label">'+
-                     t('cospend', 'Main currency: {c}', {c: mainCurrencyName || t('cospend', 'None')})+'</label>' +
-            '        <input type="submit" value="" class="icon-rename editMainCurrency">' +
-            '    </div>' +
-            '    <div id="main-currency-edit">' +
-            '        <input type="text" value="'+(mainCurrencyName || t('cospend', 'Potatoe'))+'" class="editMainCurrencyInput">' +
-            '        <input type="submit" value="" class="icon-close editMainCurrencyClose">' +
-            '        <input type="submit" value="" class="icon-checkmark editMainCurrencyOk">' +
-            '    </div>' +
-            '</div>' +
-            '<div id="currencies-div">' +
-            '    <div id="add-currency">' +
-            '        <label for="addCurrencyNameInput">'+t('cospend', 'Currency name')+'</label>'+
-            '        <input type="text" value="" id="addCurrencyNameInput">' +
-            '        <label for="addCurrencyRateInput">'+t('cospend', '1 equals how much main currency?')+'</label>'+
-            '        <input type="number" value="1" id="addCurrencyRateInput" step="0.0001" min="0">' +
-            '        <input type="submit" value="" class="icon-add addCurrencyOk">' +
-            '    </div>' +
-            '    <div id="currency-list">' +
-            '    </div>' +
+            '<div id="manage-currencies">' +
+            '    <div id="main-currency-div">' +
+            '        <label>' +
+            '            <a class="icon icon-tag"></a>' +
+            '            '+t('cospend', 'Main currency')+
+            '        </label>' +
+            '        <div id="main-currency-label">' +
+            '            <label id="main-currency-label-label">'+
+                         (mainCurrencyName || t('cospend', 'None'))+'</label>' +
+            '            <input type="submit" value="" class="icon-rename editMainCurrency">' +
+            '        </div>' +
+            '        <div id="main-currency-edit">' +
+            '            <input type="text" value="'+(mainCurrencyName || t('cospend', 'Potatoe'))+'" class="editMainCurrencyInput">' +
+            '            <input type="submit" value="" class="icon-close editMainCurrencyClose">' +
+            '            <input type="submit" value="" class="icon-checkmark editMainCurrencyOk">' +
+            '        </div>' +
+            '    </div><hr/>' +
+            '    <div id="currencies-div">' +
+            '        <label>' +
+            '            <a class="icon icon-add"></a>' +
+            '            '+t('cospend', 'Add currency')+
+            '        </label>' +
+            '        <div id="add-currency">' +
+            '            <label for="addCurrencyNameInput">'+t('cospend', 'Name')+'</label>'+
+            '            <input type="text" value="" id="addCurrencyNameInput">' +
+            '            <label for="addCurrencyRateInput"> '+t('cospend', 'Exchange rate to main currency')+'</label>'+
+            '            <input type="number" value="1" id="addCurrencyRateInput" step="0.0001" min="0">' +
+            '            <input type="submit" value="" class="icon-add addCurrencyOk">' +
+            '        </div><hr/><br/>' +
+            '        <label>' +
+            '            <a class="icon icon-currencies"></a>' +
+            '            '+t('cospend', 'Currency list')+
+            '        </label><br/><br/>' +
+            '        <div id="currency-list">' +
+            '        </div>' +
+            '    </div>';
             '</div>';
 
         $('#billdetail').html(curStr);
@@ -1359,14 +1373,14 @@
         var curStr = '<div class="one-currency" projectid="'+projectid+'" currencyid="'+currency.id+'">' +
             '    <div class="one-currency-label">' +
             '        <label class="one-currency-label-label">'+
-                     t('cospend', 'Currency: {c} ({r})', {c: currency.name, r: currency.exchange_rate})+'</label>' +
+                     currency.name+' (x'+currency.exchange_rate+')</label>' +
             '        <input type="submit" value="" class="icon-rename editOneCurrency">' +
             '        <input type="submit" value="" class="icon-delete deleteOneCurrency">' +
             '    </div>' +
             '    <div class="one-currency-edit">' +
             '        <label>'+t('cospend', 'Currency name')+'</label>'+
             '        <input type="text" value="'+currency.name+'" class="editCurrencyNameInput">' +
-            '        <label>'+t('cospend', '1 equals how much main currency?')+'</label>'+
+            '        <label>'+t('cospend', 'Exchange rate to main currency')+'</label>'+
             '        <input type="number" value="'+currency.exchange_rate+'" class="editCurrencyRateInput" step="0.0001" min="0">' +
             '        <input type="submit" value="" class="icon-close editCurrencyClose">' +
             '        <input type="submit" value="" class="icon-checkmark editCurrencyOk">' +
@@ -1424,7 +1438,7 @@
         }).done(function (response) {
             $('.one-currency[currencyid=' + currencyId + '] .one-currency-edit').hide();
             $('.one-currency[currencyid=' + currencyId + '] .one-currency-label').show()
-            .find('.one-currency-label-label').text(t('cospend', 'Currency: {c} ({r})', {c: name, r: rate}));
+            .find('.one-currency-label-label').text(name+' (x'+rate+')');
             var currencies = cospend.projects[projectid].currencies;
             for (var i = 0; i < currencies.length; i++) {
                 if (parseInt(currencies[i].id) === parseInt(currencyId)) {
@@ -4568,7 +4582,9 @@
 
         $('body').on('click', '.editOneCurrency', function(e) {
             $(this).parent().hide();
-            $(this).parent().parent().find('.one-currency-edit').show().find('.editCurrencyRateInput').focus().select();
+            $(this).parent().parent().find('.one-currency-edit').show()
+            .css('display', 'grid')
+            .find('.editCurrencyRateInput').focus().select();
         });
 
         $('body').on('click', '.editCurrencyOk', function(e) {

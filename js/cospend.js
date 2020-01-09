@@ -826,7 +826,7 @@
                     cospend.projects[projectid].password = newPassword;
                 }
             }
-            if (newcurrencyname) {
+            if (newcurrencyname !== null) {
                 project.currencyname = newcurrencyname || null;
             }
             // update deleted text
@@ -841,7 +841,7 @@
                 $('#billdetail').html('');
             }
             else {
-                $('#main-currency-label-label').text(t('cospend', 'Main currency: {c}', {c: newcurrencyname || ''}));
+                $('#main-currency-label-label').text(t('cospend', 'Main currency: {c}', {c: newcurrencyname || t('cospend', 'None')}));
                 $('#main-currency-label').show();
                 $('#main-currency-edit').hide();
             }
@@ -2752,6 +2752,27 @@
 
         // if valid, save the bill or create it if needed
         if (valid) {
+            // manage currencies
+            if ($('#bill-currency') && $('#bill-currency').val()) {
+                var currencyId = $('#bill-currency').val();
+                var currencies = cospend.projects[projectid].currencies;
+                var currency = null;
+                for (var i = 0; i < currencies.length; i++) {
+                    if (parseInt(currencies[i].id) === parseInt(currencyId)) {
+                        currency = currencies[i];
+                        break;
+                    }
+                }
+                if (currency) {
+                    var userAmount = amount;
+                    amount = amount * currency.exchange_rate;
+                    amount = parseFloat(amount.toFixed(2));
+                    $('#amount').val(amount);
+                    what += ' ('+userAmount+' '+currency.name+')';
+                    $('#what').val(what);
+                    $('#bill-currency').val('');
+                }
+            }
             createBill(projectid, what, amount, payer_id, date, owerIds, repeat, false,
                        paymentmode, categoryid, repeatallactive, repeatuntil);
         }
@@ -3493,18 +3514,49 @@
         }
 
         if (valid) {
+            var initWhat = what;
+            // manage currencies
+            var currency = null;
+            var initAmount;
+            if ($('#bill-currency') && $('#bill-currency').val()) {
+                var currencyId = $('#bill-currency').val();
+                var currencies = cospend.projects[projectid].currencies;
+                for (var i = 0; i < currencies.length; i++) {
+                    if (parseInt(currencies[i].id) === parseInt(currencyId)) {
+                        currency = currencies[i];
+                        break;
+                    }
+                }
+            }
             // create bills related to personal parts
             tmpAmount = amount;
             $('.amountinput').each(function() {
+                var oneWhat = initWhat;
                 var owerId = parseInt($(this).attr('owerid'));
                 var amountVal = parseFloat($(this).val());
                 var owerSelected = $('.owerEntry input[owerid="'+owerId+'"]').is(':checked');
                 if (!isNaN(amountVal) && amountVal > 0.0 && owerSelected) {
-                    createBill(projectid, what, amountVal, payer_id, date, [owerId], repeat, true,
-                               paymentmode, categoryid, repeatallactive, repeatuntil);
                     tmpAmount = tmpAmount - amountVal;
+                    if (currency !== null) {
+                        initAmount = amountVal;
+                        amountVal = amountVal * currency.exchange_rate;
+                        amountVal = parseFloat(amountVal.toFixed(2));
+                        oneWhat += ' ('+initAmount+' '+currency.name+')';
+                    }
+                    createBill(projectid, oneWhat, amountVal, payer_id, date, [owerId], repeat, true,
+                               paymentmode, categoryid, repeatallactive, repeatuntil);
                 }
             });
+            // currency conversion for main amount
+            if (currency) {
+                var userAmount = tmpAmount;
+                tmpAmount = tmpAmount * currency.exchange_rate;
+                tmpAmount = parseFloat(tmpAmount.toFixed(2));
+                $('#amount').val(tmpAmount);
+                what += ' ('+userAmount+' '+currency.name+')';
+                $('#what').val(what);
+                $('#bill-currency').val('');
+            }
             // create equitable bill with the rest
             createBill(projectid, what, tmpAmount, payer_id, date, owerIds, repeat, true,
                        paymentmode, categoryid, repeatallactive, repeatuntil);
@@ -4317,8 +4369,8 @@
             }
         });
 
-        $('body').on('change', '#billtype', function() {
-            $('.modehint').slideUp();
+    $('body').on('change', '#billtype', function() {
+        $('.modehint').slideUp();
             var owerValidateStr = t('cospend', 'Create the bills');
             var billtype = $(this).val();
             if (billtype === 'normal') {

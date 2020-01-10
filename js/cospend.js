@@ -1575,7 +1575,7 @@
             '    <div class="one-category-label">' +
             '        <label class="one-category-label-icon">'+(category.icon || '')+'</label>' +
             '        <label class="one-category-label-label">'+category.name+'</label>' +
-            '        <input class="one-category-label-color" type="color" value="'+category.color+'" readonly disabled/>' +
+            '        <input class="one-category-label-color" type="color" value="'+category.color+'" readonly/>' +
             '        <input type="submit" value="" class="icon-rename editOneCategory">' +
             '        <input type="submit" value="" class="icon-delete deleteOneCategory">' +
             '    </div>' +
@@ -5016,6 +5016,9 @@
                 }
                 editCategoryDb(projectid, categoryId, name, icon, color);
             }
+        });
+        $('body').on('click', '.one-category-label-color', function (e) {
+            e.preventDefault();
         });
 
         $('body').on('click', '.editCategoryClose', function(e) {

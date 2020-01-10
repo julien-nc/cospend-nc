@@ -1756,10 +1756,9 @@ class ProjectService {
         while ($row = $req->fetch()){
             $dbName = $row['name'];
             $dbId = intval($row['id']);
-            array_push($categories, [
-                'name'=>$dbName,
-                'id'=>$dbId
-            ]);
+            $categories[$dbId] = [
+                'name'=>$dbName
+            ];
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();

@@ -1529,8 +1529,8 @@
             '</div>';
 
         $('#billdetail').html(catStr);
-        for (var i = 0; i < categories.length; i++) {
-            addCategory(projectid, categories[i]);
+        for (var catId in categories) {
+            addCategory(projectid, catId, categories[catId]);
         }
     }
 
@@ -1547,11 +1547,10 @@
             data: req,
             async: true
         }).done(function (response) {
-            addCategory(projectid, {name: name, id: response});
-            cospend.projects[projectid].categories.push({
+            addCategory(projectid, response, {name: name});
+            cospend.projects[projectid].categories[response] = {
                 name: name,
-                id: response
-            });
+            };
             OC.Notification.showTemporary(t('cospend', 'Category {n} added', {n: name}));
         }).always(function() {
             $('.addCategoryOk').removeClass('icon-loading-small');
@@ -1560,8 +1559,8 @@
         });
     }
 
-    function addCategory(projectid, category) {
-        var catStr = '<div class="one-category" projectid="'+projectid+'" categoryid="'+category.id+'">' +
+    function addCategory(projectid, catId, category) {
+        var catStr = '<div class="one-category" projectid="'+projectid+'" categoryid="'+catId+'">' +
             '    <div class="one-category-label">' +
             '        <label class="one-category-label-label">'+
                      category.name+'</label>' +
@@ -1592,17 +1591,7 @@
             async: true
         }).done(function (response) {
             $('.one-category[categoryid=' + categoryId + ']').remove();
-            var categories = cospend.projects[projectid].categories;
-            var iToDel = null;
-            for (var i = 0; i < categories.length; i++) {
-                if (parseInt(categories[i].id) === parseInt(categoryId)) {
-                    iToDel = i;
-                    break;
-                }
-            }
-            if (iToDel !== null) {
-                categories.splice(iToDel, 1);
-            }
+            delete cospend.projects[projectid].categories[categoryId];
         }).always(function() {
             $('.one-category[categoryid='+categoryId+'] .deleteOneCategory').removeClass('icon-loading-small');
         }).fail(function(response) {
@@ -1627,13 +1616,7 @@
             $('.one-category[categoryid=' + categoryId + '] .one-category-edit').hide();
             $('.one-category[categoryid=' + categoryId + '] .one-category-label').show()
             .find('.one-category-label-label').text(name);
-            var categories = cospend.projects[projectid].categories;
-            for (var i = 0; i < categories.length; i++) {
-                if (parseInt(categories[i].id) === parseInt(categoryId)) {
-                    categories[i].name = name;
-                    break;
-                }
-            }
+            cospend.projects[projectid].categories[categoryId].name = name;
         }).always(function() {
             $('.one-category[categoryid='+categoryId+'] .editCategoryOk').removeClass('icon-loading-small');
         }).fail(function(response) {
@@ -2345,6 +2328,10 @@
             cat = cospend.categories[catId];
             detail += '       <option value="'+catId+'">'+cat.icon+' '+cat.name+'</option>';
         }
+        for (var catId in cospend.projects[projectid].categories) {
+            cat = cospend.projects[projectid].categories[catId];
+            detail += '       <option value="'+catId+'">'+cat.name+'</option>';
+        }
         detail +=
             '            </select>' +
             '        </div>' +
@@ -2378,7 +2365,9 @@
         if (billid !== 0) {
             $('#repeatbill').val(bill.repeat);
             $('#payment-mode').val(bill.paymentmode || 'n');
-            if (cospend.categories.hasOwnProperty(bill.categoryid)) {
+            console.log(bill.categoryid);
+            if (cospend.categories.hasOwnProperty(bill.categoryid) ||
+                cospend.projects[projectid].categories.hasOwnProperty(bill.categoryid)) {
                 $('#category').val(bill.categoryid);
             }
             else {

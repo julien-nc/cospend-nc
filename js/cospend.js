@@ -1565,11 +1565,11 @@
             '            '+t('cospend', 'Add category')+
             '        </label>' +
             '        <div id="add-category">' +
-            '            <label for="addCategoryNameInput">'+t('cospend', 'Name')+'</label>'+
-            '            <input type="text" value="" id="addCategoryNameInput">' +
             '            <label for="addCategoryIconInput">'+t('cospend', 'Icon')+'</label>'+
             '            <input type="text" value="" id="addCategoryIconInput">' +
-            '            <label for="addCategoryColorInput">'+t('cospend', 'Name')+'</label>'+
+            '            <label for="addCategoryNameInput">'+t('cospend', 'Name')+'</label>'+
+            '            <input type="text" value="" id="addCategoryNameInput">' +
+            '            <label for="addCategoryColorInput">'+t('cospend', 'Color')+'</label>'+
             '            <input type="color" value="" id="addCategoryColorInput">' +
             '            <input type="submit" value="" class="icon-add addCategoryOk">' +
             '        </div><hr/><br/>' +

@@ -312,6 +312,7 @@ input[type=number] {
 #billdetail .icon-currencies {
     min-width: 23px !important;
     min-height: 23px !important;
+    vertical-align: middle;
 }
 .icon-shar {
     background-color: var(--color-main-text) !important;

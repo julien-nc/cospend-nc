@@ -1556,6 +1556,57 @@ class PageController extends ApiController {
 
     /**
      * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     * @CORS
+     */
+    public function apiAddCategory($projectid, $password, $name, $icon, $color) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
+            $result = $this->projectService->addCategory($projectid, $name, $icon, $color);
+            if (is_numeric($result)) {
+                // inserted category id
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivAddCategory($projectid, $name, $icon, $color) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->addCategory($projectid, $name, $icon, $color);
+            if (is_numeric($result)) {
+                // inserted category id
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
      */
     public function editCategory($projectid, $categoryid, $name, $icon, $color) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
@@ -1570,6 +1621,55 @@ class PageController extends ApiController {
         else {
             $response = new DataResponse(
                 ['message'=>'You are not allowed to edit this project']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     * @CORS
+     */
+    public function apiEditCategory($projectid, $password, $categoryid, $name, $icon, $color) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
+            $result = $this->projectService->editCategory($projectid, $categoryid, $name, $icon, $color);
+            if (is_array($result)) {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 403);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivEditCategory($projectid, $categoryid, $name, $icon, $color) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->editCategory($projectid, $categoryid, $name, $icon, $color);
+            if (is_array($result)) {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 403);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
                 , 403
             );
             return $response;
@@ -1600,6 +1700,55 @@ class PageController extends ApiController {
 
     /**
      * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     * @CORS
+     */
+    public function apiDeleteCategory($projectid, $password, $categoryid) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
+            $result = $this->projectService->deleteCategory($projectid, $categoryid);
+            if (is_numeric($result)) {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivDeleteCategory($projectid, $categoryid) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->deleteCategory($projectid, $categoryid);
+            if (is_numeric($result)) {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
      */
     public function addCurrency($projectid, $name, $rate) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
@@ -1614,6 +1763,57 @@ class PageController extends ApiController {
         else {
             $response = new DataResponse(
                 ['message'=>'You are not allowed to edit this project']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     * @CORS
+     */
+    public function apiAddCurrency($projectid, $password, $name, $rate) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
+            $result = $this->projectService->addCurrency($projectid, $name, $rate);
+            if (is_numeric($result)) {
+                // inserted currency id
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivAddCurrency($projectid, $name, $rate) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->addCurrency($projectid, $name, $rate);
+            if (is_numeric($result)) {
+                // inserted bill id
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
                 , 403
             );
             return $response;
@@ -1644,6 +1844,55 @@ class PageController extends ApiController {
 
     /**
      * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     * @CORS
+     */
+    public function apiEditCurrency($projectid, $password, $currencyid, $name, $rate) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
+            $result = $this->projectService->editCurrency($projectid, $currencyid, $name, $rate);
+            if (is_array($result)) {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 403);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivEditCurrency($projectid, $currencyid, $name, $rate) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->editCurrency($projectid, $currencyid, $name, $rate);
+            if (is_array($result)) {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 403);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
      */
     public function deleteCurrency($projectid, $currencyid) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
@@ -1658,6 +1907,55 @@ class PageController extends ApiController {
         else {
             $response = new DataResponse(
                 ['message'=>'You are not allowed to edit this project']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     * @CORS
+     */
+    public function apiDeleteCurrency($projectid, $password, $currencyid) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
+            $result = $this->projectService->deleteCurrency($projectid, $currencyid);
+            if (is_numeric($result)) {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivDeleteCurrency($projectid, $currencyid) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->deleteCurrency($projectid, $currencyid);
+            if (is_numeric($result)) {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'Unauthorized action']
                 , 403
             );
             return $response;

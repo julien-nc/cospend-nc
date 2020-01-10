@@ -343,7 +343,9 @@
                 active_members: [],
                 balance: {},
                 external: false,
-                guestpermissions: 'edc'
+                guestpermissions: 'edc',
+                categories: {},
+                currencies: []
             });
 
             var div = $('#newprojectdiv');
@@ -1389,11 +1391,24 @@
     function addCurrencyDb(projectid, name, rate) {
         $('.addCurrencyOk').addClass('icon-loading-small');
         var req = {
-            projectid: projectid,
             name: name,
             rate: rate
         };
-        var url = OC.generateUrl('/apps/cospend/addCurrency');
+        var url;
+        var project = cospend.projects[projectid];
+        if (!cospend.pageIsPublic) {
+            if (project.external) {
+                var id = projectid.split('@')[0];
+                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/currency';
+            }
+            else {
+                req.projectid = projectid;
+                url = OC.generateUrl('/apps/cospend/addCurrency');
+            }
+        }
+        else {
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/currency');
+        }
         $.ajax({
             type: 'POST',
             url: url,
@@ -1437,12 +1452,28 @@
     function deleteCurrencyDb(projectid, currencyId) {
         $('.one-currency[currencyid='+currencyId+'] .deleteOneCurrency').addClass('icon-loading-small');
         var req = {
-            projectid: projectid,
-            currencyid: currencyId
         };
-        var url = OC.generateUrl('/apps/cospend/deleteCurrency');
+        var url, type;
+        var project = cospend.projects[projectid];
+        if (!cospend.pageIsPublic) {
+            if (project.external) {
+                var id = projectid.split('@')[0];
+                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/currency/' + currencyId;
+                type = 'DELETE';
+            }
+            else {
+                req.projectid = projectid;
+                req.currencyid = currencyId;
+                url = OC.generateUrl('/apps/cospend/deleteCurrency');
+                type = 'POST';
+            }
+        }
+        else {
+            type = 'DELETE';
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/currency/'+currencyId);
+        }
         $.ajax({
-            type: 'POST',
+            type: type,
             url: url,
             data: req,
             async: true
@@ -1469,14 +1500,30 @@
     function editCurrencyDb(projectid, currencyId, name, rate) {
         $('.one-currency[currencyid='+currencyId+'] .editCurrencyOk').addClass('icon-loading-small');
         var req = {
-            projectid: projectid,
-            currencyid: currencyId,
             name: name,
             rate: rate
         };
-        var url = OC.generateUrl('/apps/cospend/editCurrency');
+        var url, type;
+        var project = cospend.projects[projectid];
+        if (!cospend.pageIsPublic) {
+            if (project.external) {
+                var id = projectid.split('@')[0];
+                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/currency/' + currencyId;
+                type = 'PUT';
+            }
+            else {
+                req.projectid = projectid;
+                req.currencyid = currencyId;
+                url = OC.generateUrl('/apps/cospend/editCurrency');
+                type = 'POST';
+            }
+        }
+        else {
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/currency/'+currencyId);
+            type = 'PUT';
+        }
         $.ajax({
-            type: 'POST',
+            type: type,
             url: url,
             data: req,
             async: true
@@ -1544,12 +1591,25 @@
     function addCategoryDb(projectid, name, icon, color) {
         $('.addCategoryOk').addClass('icon-loading-small');
         var req = {
-            projectid: projectid,
             name: name,
             icon: icon,
             color: color
         };
-        var url = OC.generateUrl('/apps/cospend/addCategory');
+        var url;
+        var project = cospend.projects[projectid];
+        if (!cospend.pageIsPublic) {
+            if (project.external) {
+                var id = projectid.split('@')[0];
+                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/category';
+            }
+            else {
+                req.projectid = projectid;
+                url = OC.generateUrl('/apps/cospend/addCategory');
+            }
+        }
+        else {
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/category');
+        }
         $.ajax({
             type: 'POST',
             url: url,
@@ -1596,12 +1656,28 @@
     function deleteCategoryDb(projectid, categoryId) {
         $('.one-category[categoryid='+categoryId+'] .deleteOneCategory').addClass('icon-loading-small');
         var req = {
-            projectid: projectid,
-            categoryid: categoryId
         };
-        var url = OC.generateUrl('/apps/cospend/deleteCategory');
+        var url, type;
+        var project = cospend.projects[projectid];
+        if (!cospend.pageIsPublic) {
+            if (project.external) {
+                var id = projectid.split('@')[0];
+                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/category/' + categoryId;
+                type = 'DELETE';
+            }
+            else {
+                req.projectid = projectid;
+                req.categoryid = categoryId;
+                url = OC.generateUrl('/apps/cospend/deleteCategory');
+                type = 'POST';
+            }
+        }
+        else {
+            type = 'DELETE';
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/category/'+categoryId);
+        }
         $.ajax({
-            type: 'POST',
+            type: type,
             url: url,
             data: req,
             async: true
@@ -1618,15 +1694,31 @@
     function editCategoryDb(projectid, categoryId, name, icon, color) {
         $('.one-category[categoryid='+categoryId+'] .editCategoryOk').addClass('icon-loading-small');
         var req = {
-            projectid: projectid,
-            categoryid: categoryId,
             name: name,
             icon: icon,
             color: color
         };
-        var url = OC.generateUrl('/apps/cospend/editCategory');
+        var url, type;
+        var project = cospend.projects[projectid];
+        if (!cospend.pageIsPublic) {
+            if (project.external) {
+                var id = projectid.split('@')[0];
+                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/category/' + categoryId;
+                type = 'PUT';
+            }
+            else {
+                req.projectid = projectid;
+                req.categoryid = categoryId;
+                url = OC.generateUrl('/apps/cospend/editCategory');
+                type = 'POST';
+            }
+        }
+        else {
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/category/'+categoryId);
+            type = 'PUT';
+        }
         $.ajax({
-            type: 'POST',
+            type: type,
             url: url,
             data: req,
             async: true

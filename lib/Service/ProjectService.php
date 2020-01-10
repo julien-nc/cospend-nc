@@ -383,6 +383,22 @@ class ProjectService {
             $req = $qb->execute();
             $qb = $qb->resetQueryParts();
 
+            // delete currencies
+            $qb->delete('cospend_currencies')
+                ->where(
+                    $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                );
+            $req = $qb->execute();
+            $qb = $qb->resetQueryParts();
+
+            // delete categories
+            $qb->delete('cospend_project_categories')
+                ->where(
+                    $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                );
+            $req = $qb->execute();
+            $qb = $qb->resetQueryParts();
+
             // delete project
             $qb->delete('cospend_projects')
                 ->where(

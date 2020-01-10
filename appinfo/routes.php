@@ -43,6 +43,12 @@ return [
         ['name' => 'page#apiGetProjectStatistics', 'url' => '/api/projects/{projectid}/{password}/statistics', 'verb' => 'GET'],
         ['name' => 'page#apiGetProjectSettlement', 'url' => '/api/projects/{projectid}/{password}/settle', 'verb' => 'GET'],
         ['name' => 'page#apiAutoSettlement', 'url' => '/api/projects/{projectid}/{password}/autosettlement', 'verb' => 'GET'],
+        ['name' => 'page#apiAddCurrency', 'url' => '/api/projects/{projectid}/{password}/currency', 'verb' => 'POST'],
+        ['name' => 'page#apiEditCurrency', 'url' => '/api/projects/{projectid}/{password}/currency/{currencyid}', 'verb' => 'PUT'],
+        ['name' => 'page#apiDeleteCurrency', 'url' => '/api/projects/{projectid}/{password}/currency/{currencyid}', 'verb' => 'DELETE'],
+        ['name' => 'page#apiAddCategory', 'url' => '/api/projects/{projectid}/{password}/category', 'verb' => 'POST'],
+        ['name' => 'page#apiEditCategory', 'url' => '/api/projects/{projectid}/{password}/category/{categoryid}', 'verb' => 'PUT'],
+        ['name' => 'page#apiDeleteCategory', 'url' => '/api/projects/{projectid}/{password}/category/{categoryid}', 'verb' => 'DELETE'],
 
         // api for logged in clients
         [
@@ -65,6 +71,12 @@ return [
         ['name' => 'page#apiPrivGetProjectStatistics', 'url' => '/api-priv/projects/{projectid}/statistics', 'verb' => 'GET'],
         ['name' => 'page#apiPrivGetProjectSettlement', 'url' => '/api-priv/projects/{projectid}/settle', 'verb' => 'GET'],
         ['name' => 'page#apiPrivAutoSettlement', 'url' => '/api-priv/projects/{projectid}/autosettlement', 'verb' => 'GET'],
+        ['name' => 'page#apiPrivAddCurrency', 'url' => '/api-priv/projects/{projectid}/currency', 'verb' => 'POST'],
+        ['name' => 'page#apiPrivEditCurrency', 'url' => '/api-priv/projects/{projectid}/currency/{currencyid}', 'verb' => 'PUT'],
+        ['name' => 'page#apiPrivDeleteCurrency', 'url' => '/api-priv/projects/{projectid}/currency/{currencyid}', 'verb' => 'DELETE'],
+        ['name' => 'page#apiPrivAddCategory', 'url' => '/api-priv/projects/{projectid}/category', 'verb' => 'POST'],
+        ['name' => 'page#apiPrivEditCategory', 'url' => '/api-priv/projects/{projectid}/category/{categoryid}', 'verb' => 'PUT'],
+        ['name' => 'page#apiPrivDeleteCategory', 'url' => '/api-priv/projects/{projectid}/category/{categoryid}', 'verb' => 'DELETE'],
 
         ['name' => 'utils#getOptionsValues', 'url' => '/getOptionsValues', 'verb' => 'POST'],
         ['name' => 'utils#saveOptionValue', 'url' => '/saveOptionValue', 'verb' => 'POST'],

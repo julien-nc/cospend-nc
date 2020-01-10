@@ -1707,13 +1707,13 @@
             '       <option value="0">'+t('cospend', 'All')+'</option>' +
             '       <option value="-100" selected>'+t('cospend', 'All except reimbursement')+'</option>';
         var cat;
-        for (var catId in cospend.categories) {
-            cat = cospend.categories[catId];
-            statsStr += '       <option value="'+catId+'">'+cat.icon+' '+cat.name+'</option>';
-        }
         for (var catId in cospend.projects[projectid].categories) {
             cat = cospend.projects[projectid].categories[catId];
             statsStr += '       <option value="'+catId+'">'+(cat.icon || '')+' '+cat.name+'</option>';
+        }
+        for (var catId in cospend.categories) {
+            cat = cospend.categories[catId];
+            statsStr += '       <option value="'+catId+'">'+cat.icon+' '+cat.name+'</option>';
         }
         statsStr +=
             '    </select>' +

@@ -430,9 +430,11 @@ a.billitem .app-content-list-item-icon {
     background-repeat: no-repeat;
     background-size: cover;
 }
+#manage-categories,
 #manage-currencies {
     margin-left: 20px;
 }
+#manage-categories .icon,
 #manage-currencies .icon {
     line-height: 44px;
     padding: 0 12px 0 25px;
@@ -441,7 +443,8 @@ a.billitem .app-content-list-item-icon {
     display: inline-block;
     padding: 0 12px 0 25px !important;
 }
-#manage-currencies input[type=submit]{
+#manage-categories input[type=submit],
+#manage-currencies input[type=submit] {
     width: 36px !important;
 }
 #stats-filters {
@@ -494,32 +497,45 @@ a.billitem .app-content-list-item-icon {
     border: 0px;
 }
 #main-currency-edit,
+.one-category-edit,
 .one-currency-edit {
     display: none;
 }
+#category-list,
+#add-category,
 #currency-list,
 #main-currency-edit,
 #add-currency,
 #main-currency-label {
     margin-left: 37px;
 }
+#add-category {
+    display: grid;
+    grid-template: 1fr / 250px 130px 50px;
+}
 #add-currency {
     display: grid;
     grid-template: 1fr / 250px 100px;
 }
+.one-category-edit,
 .one-currency-edit {
     grid-template: 1fr / 1fr 1fr;
     background-color: var(--color-background-dark);
 }
+.one-category-edit label,
+#add-category label,
+.one-category-label label,
 .one-currency-edit label,
 #add-currency label,
 .one-currency-label label {
     line-height: 40px;
 }
-.one-currency-label input[type=submit]{
+.one-category-label input[type=submit],
+.one-currency-label input[type=submit] {
     border-radius: 0 !important;
     width: 36px !important;
 }
+.one-category-label,
 .one-currency-label {
     display: grid;
     grid-template: 1fr / 150px 37px 37px;

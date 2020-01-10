@@ -26,6 +26,7 @@
         projectDeletionTimer: {},
         billDeletionTimer: {},
         currencyDeletionTimer: {},
+        categoryDeletionTimer: {},
         // indexed by projectid, then by billid
         bills: {},
         // indexed by projectid, then by memberid
@@ -1061,6 +1062,46 @@
         });
     }
 
+    function getProjectCategories(projectid) {
+        $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
+        var req = {
+        };
+        var url;
+        var type;
+        var project = cospend.projects[projectid];
+        if (!cospend.pageIsPublic) {
+            if (project.external) {
+                var id = projectid.split('@')[0];
+                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password;
+                type = 'GET';
+            }
+            else {
+                req.projectid = projectid;
+                url = OC.generateUrl('/apps/cospend/getProjectInfo');
+                type = 'POST';
+            }
+        }
+        else {
+            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
+            type = 'GET';
+        }
+        cospend.currentGetProjectsAjax = $.ajax({
+            type: type,
+            url: url,
+            data: req,
+            async: true,
+        }).done(function (response) {
+            if (cospend.currentProjectId !== projectid) {
+                selectProject($('.projectitem[projectid="'+projectid+'"]'));
+            }
+            displayCategories(projectid, response);
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('cospend', 'Failed to get project categories'));
+            $('#billdetail').html('');
+        });
+    }
+
     function getProjectStatistics(projectid, dateMin=null, dateMax=null, paymentMode=null, category=null,
                                   amountMin=null, amountMax=null, showDisabled=true) {
         $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
@@ -1452,6 +1493,151 @@
             $('.one-currency[currencyid='+currencyId+'] .editCurrencyOk').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(t('cospend', 'Failed to edit currency') + ' ' + response.responseText);
+        });
+    }
+
+    function displayCategories(projectid, projectInfo) {
+        // deselect bill
+        $('.billitem').removeClass('selectedbill');
+        var project = cospend.projects[projectid];
+        var categories = projectInfo.categories;
+        var projectName = getProjectName(projectid);
+        $('#billdetail').html('');
+        $('.app-content-list').addClass('showdetails');
+        var titleStr = t('cospend', 'Categories of project {name}', {name: projectName});
+
+        var catStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
+            '<h2 id="catTitle" projectid="'+projectid+'"><span class="icon-category-app-bundles"></span>'+titleStr+'</h2>' +
+            '<div id="manage-categories">' +
+            '    <div id="categories-div">' +
+            '        <label>' +
+            '            <a class="icon icon-add"></a>' +
+            '            '+t('cospend', 'Add category')+
+            '        </label>' +
+            '        <div id="add-category">' +
+            '            <label for="addCategoryNameInput">'+t('cospend', 'Name')+'</label>'+
+            '            <input type="text" value="" id="addCategoryNameInput">' +
+            '            <input type="submit" value="" class="icon-add addCategoryOk">' +
+            '        </div><hr/><br/>' +
+            '        <label>' +
+            '            <a class="icon icon-category-app-bundles"></a>' +
+            '            '+t('cospend', 'Category list')+
+            '        </label><br/><br/>' +
+            '        <div id="category-list">' +
+            '        </div>' +
+            '    </div>';
+            '</div>';
+
+        $('#billdetail').html(catStr);
+        for (var i = 0; i < categories.length; i++) {
+            addCategory(projectid, categories[i]);
+        }
+    }
+
+    function addCategoryDb(projectid, name) {
+        $('.addCategoryOk').addClass('icon-loading-small');
+        var req = {
+            projectid: projectid,
+            name: name
+        };
+        var url = OC.generateUrl('/apps/cospend/addCategory');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            addCategory(projectid, {name: name, id: response});
+            cospend.projects[projectid].categories.push({
+                name: name,
+                id: response
+            });
+            OC.Notification.showTemporary(t('cospend', 'Category {n} added', {n: name}));
+        }).always(function() {
+            $('.addCategoryOk').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to add category') + ' ' + response.responseText);
+        });
+    }
+
+    function addCategory(projectid, category) {
+        var catStr = '<div class="one-category" projectid="'+projectid+'" categoryid="'+category.id+'">' +
+            '    <div class="one-category-label">' +
+            '        <label class="one-category-label-label">'+
+                     category.name+'</label>' +
+            '        <input type="submit" value="" class="icon-rename editOneCategory">' +
+            '        <input type="submit" value="" class="icon-delete deleteOneCategory">' +
+            '    </div>' +
+            '    <div class="one-category-edit">' +
+            '        <label>'+t('cospend', 'Category name')+'</label>'+
+            '        <input type="text" value="'+category.name+'" class="editCategoryNameInput">' +
+            '        <input type="submit" value="" class="icon-close editCategoryClose">' +
+            '        <input type="submit" value="" class="icon-checkmark editCategoryOk">' +
+            '    </div>' +
+            '</div>';
+        $('#category-list').append(catStr);
+    }
+
+    function deleteCategoryDb(projectid, categoryId) {
+        $('.one-category[categoryid='+categoryId+'] .deleteOneCategory').addClass('icon-loading-small');
+        var req = {
+            projectid: projectid,
+            categoryid: categoryId
+        };
+        var url = OC.generateUrl('/apps/cospend/deleteCategory');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            $('.one-category[categoryid=' + categoryId + ']').remove();
+            var categories = cospend.projects[projectid].categories;
+            var iToDel = null;
+            for (var i = 0; i < categories.length; i++) {
+                if (parseInt(categories[i].id) === parseInt(categoryId)) {
+                    iToDel = i;
+                    break;
+                }
+            }
+            if (iToDel !== null) {
+                categories.splice(iToDel, 1);
+            }
+        }).always(function() {
+            $('.one-category[categoryid='+categoryId+'] .deleteOneCategory').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to delete category') + ' ' + response.responseText);
+        });
+    }
+
+    function editCategoryDb(projectid, categoryId, name) {
+        $('.one-category[categoryid='+categoryId+'] .editCategoryOk').addClass('icon-loading-small');
+        var req = {
+            projectid: projectid,
+            categoryid: categoryId,
+            name: name
+        };
+        var url = OC.generateUrl('/apps/cospend/editCategory');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            $('.one-category[categoryid=' + categoryId + '] .one-category-edit').hide();
+            $('.one-category[categoryid=' + categoryId + '] .one-category-label').show()
+            .find('.one-category-label-label').text(name);
+            var categories = cospend.projects[projectid].categories;
+            for (var i = 0; i < categories.length; i++) {
+                if (parseInt(categories[i].id) === parseInt(categoryId)) {
+                    categories[i].name = name;
+                    break;
+                }
+            }
+        }).always(function() {
+            $('.one-category[categoryid='+categoryId+'] .editCategoryOk').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to edit category') + ' ' + response.responseText);
         });
     }
 
@@ -2404,6 +2590,7 @@
         var exportStr = t('cospend', 'Export to csv');
         var autoexportStr = t('cospend', 'Auto export');
         var manageCurrenciesStr = t('cospend', 'Manage currencies');
+        var manageCategoriesStr = t('cospend', 'Manage categories');
         var deleteStr;
         if (project.external) {
             deleteStr = t('cospend', 'Delete remote project');
@@ -2501,14 +2688,22 @@
             '                    <span class="icon-rename"></span>' +
             '                    <span>'+changePwdStr+'</span>' +
             '                </a>' +
-            '            </li>' +
-            '            <li>' +
+            '            </li>';
+        if (!project.external) {
+            li = li + '            <li>' +
+            '                <a href="#" class="manageProjectCategories">' +
+            '                    <span class="icon-category-app-bundles"></span>' +
+            '                    <span>'+manageCategoriesStr+'</span>' +
+            '                </a>' +
+            '            </li>';
+            li = li + '            <li>' +
             '                <a href="#" class="manageProjectCurrencies">' +
             '                    <span class="icon-currencies"></span>' +
             '                    <span>'+manageCurrenciesStr+'</span>' +
             '                </a>' +
-            '            </li>' +
-            '            <li>' +
+            '            </li>';
+        }
+        li = li + '            <li>' +
             '                <a href="#" class="getProjectStats">' +
             '                    <span class="icon-category-monitoring"></span>' +
             '                    <span>'+displayStatsStr+'</span>' +
@@ -4243,6 +4438,11 @@
             getProjectCurrencies(projectid);
         });
 
+        $('body').on('click', '.manageProjectCategories', function(e) {
+            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
+            getProjectCategories(projectid);
+        });
+
         $('body').on('change', '#date-min-stats, #date-max-stats, #payment-mode-stats, ' +
                                '#category-stats, #amount-min-stats, #amount-max-stats, ' +
                                '#showDisabled', function(e) {
@@ -4660,6 +4860,81 @@
         $('body').on('click', '.editCurrencyClose', function(e) {
             $(this).parent().hide();
             $(this).parent().parent().find('.one-currency-label').show();
+        });
+
+        // manage categories TODO
+        $('body').on('click', '.addCategoryOk', function(e) {
+            var projectid = $('#catTitle').attr('projectid');
+            var name = $('#addCategoryNameInput').val();
+            if (name === null || name === '') {
+                OC.Notification.showTemporary(t('cospend', 'Category name should not be empty'));
+                return;
+            }
+            addCategoryDb(projectid, name);
+        });
+
+        $('body').on('keyup', '#addCategoryNameInput', function(e) {
+            if (e.key === 'Enter') {
+                var projectid = $('#catTitle').attr('projectid');
+                var name = $('#addCategoryNameInput').val();
+                if (name === null || name === '') {
+                    OC.Notification.showTemporary(t('cospend', 'Category name should not be empty'));
+                    return;
+                }
+                addCategoryDb(projectid, name);
+            }
+        });
+
+        $('body').on('click', '.deleteOneCategory', function(e) {
+            var projectid = $('#catTitle').attr('projectid');
+            var categoryId = $(this).parent().parent().attr('categoryid');
+            if ($(this).hasClass('icon-history')) {
+                $(this).removeClass('icon-history').addClass('icon-delete');
+                cospend.categoryDeletionTimer[categoryId].pause();
+                delete cospend.categoryDeletionTimer[categoryId];
+            }
+            else {
+                $(this).addClass('icon-history').removeClass('icon-delete');
+                cospend.categoryDeletionTimer[categoryId] = new Timer(function() {
+                    deleteCategoryDb(projectid, categoryId);
+                }, 7000);
+            }
+        });
+
+        $('body').on('click', '.editOneCategory', function(e) {
+            $(this).parent().hide();
+            $(this).parent().parent().find('.one-category-edit').show()
+            .css('display', 'grid')
+            .find('.editCategoryNameInput').focus().select();
+        });
+
+        $('body').on('click', '.editCategoryOk', function(e) {
+            var projectid = $('#catTitle').attr('projectid');
+            var categoryId = $(this).parent().parent().attr('categoryid');
+            var name = $(this).parent().find('.editCategoryNameInput').val();
+            if (name === null || name === '') {
+                OC.Notification.showTemporary(t('cospend', 'Category name should not be empty'));
+                return;
+            }
+            editCategoryDb(projectid, categoryId, name);
+        });
+
+        $('body').on('keyup', '.editCategoryNameInput', function(e) {
+            if (e.key === 'Enter') {
+                var projectid = $('#catTitle').attr('projectid');
+                var categoryId = $(this).parent().parent().attr('categoryid');
+                var name = $(this).parent().find('.editCategoryNameInput').val();
+                if (name === null || name === '') {
+                    OC.Notification.showTemporary(t('cospend', 'Category name should not be empty'));
+                    return;
+                }
+                editCategoryDb(projectid, categoryId, name);
+            }
+        });
+
+        $('body').on('click', '.editCategoryClose', function(e) {
+            $(this).parent().hide();
+            $(this).parent().parent().find('.one-category-label').show();
         });
 
         if (OCA.Theming) {

@@ -436,6 +436,7 @@ class ProjectService {
             }
             $balance = $this->getBalance($dbProjectId);
             $currencies = $this->getCurrencies($dbProjectId);
+            $categories = $this->getCategories($dbProjectId);
             $projectInfo = [
                 'userid'=>$dbUserId,
                 'name'=>$dbName,
@@ -445,6 +446,7 @@ class ProjectService {
                 'autoexport'=>$dbAutoexport,
                 'currencyname'=>$dbCurrencyName,
                 'currencies'=>$currencies,
+                'categories'=>$categories,
                 'active_members'=>$activeMembers,
                 'members'=>$members,
                 'balance'=>$balance,
@@ -1695,6 +1697,7 @@ class ProjectService {
             $shares = $this->getUserShares($dbProjectId);
             $groupShares = $this->getGroupShares($dbProjectId);
             $currencies = $this->getCurrencies($dbProjectId);
+            $categories = $this->getCategories($dbProjectId);
             $activeMembers = [];
             foreach ($members as $member) {
                 if ($member['activated']) {
@@ -1708,6 +1711,7 @@ class ProjectService {
             $projects[$i]['shares'] = $shares;
             $projects[$i]['group_shares'] = $groupShares;
             $projects[$i]['currencies'] = $currencies;
+            $projects[$i]['categories'] = $categories;
         }
 
         // get external projects
@@ -1737,6 +1741,30 @@ class ProjectService {
         $req->closeCursor();
 
         return $projects;
+    }
+
+    private function getCategories($projectid) {
+        $categories = [];
+
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('name', 'id')
+           ->from('cospend_project_categories', 'c')
+           ->where(
+               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+           );
+        $req = $qb->execute();
+        while ($row = $req->fetch()){
+            $dbName = $row['name'];
+            $dbId = intval($row['id']);
+            array_push($categories, [
+                'name'=>$dbName,
+                'id'=>$dbId
+            ]);
+        }
+        $req->closeCursor();
+        $qb = $qb->resetQueryParts();
+
+        return $categories;
     }
 
     private function getCurrencies($projectid) {
@@ -2214,6 +2242,102 @@ class ProjectService {
         // now we can remove repeat flag on original bill
         $this->editBill($projectid, $billid, $bill['date'], $bill['what'], $bill['payer_id'], null,
                         $bill['amount'], 'n', null, null, 0, null);
+    }
+
+    public function addCategory($projectid, $name) {
+        $qb = $this->dbconnection->getQueryBuilder();
+        $projectInfo = $this->getProjectInfo($projectid);
+
+        $qb->insert('cospend_project_categories')
+            ->values([
+                'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
+                'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR)
+            ]);
+        $req = $qb->execute();
+        $qb = $qb->resetQueryParts();
+
+        $insertedCategoryId = intval($qb->getLastInsertId());
+        $response = $insertedCategoryId;
+
+        return $response;
+    }
+
+    private function getCategory($projectId, $categoryid) {
+        $category = null;
+
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('id', 'name', 'projectid')
+           ->from('cospend_project_categories', 'c')
+           ->where(
+               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+           )
+           ->andWhere(
+               $qb->expr()->eq('id', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT))
+           );
+        $req = $qb->execute();
+
+        while ($row = $req->fetch()) {
+            $dbCategoryId = intval($row['id']);
+            $dbName = $row['name'];
+            $category = [
+                    'name' => $dbName,
+                    'id' => $dbCategoryId,
+                    'projectid' => $projectId
+            ];
+            break;
+        }
+        $req->closeCursor();
+        $qb = $qb->resetQueryParts();
+        return $category;
+    }
+
+    public function deleteCategory($projectid, $categoryid) {
+        $categoryToDelete = $this->getCategory($projectid, $categoryid);
+        if ($categoryToDelete !== null) {
+            $qb = $this->dbconnection->getQueryBuilder();
+            $qb->delete('cospend_project_categories')
+               ->where(
+                   $qb->expr()->eq('id', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT))
+               )
+               ->andWhere(
+                   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+               );
+            $req = $qb->execute();
+            $qb = $qb->resetQueryParts();
+
+            return $categoryid;
+        }
+        else {
+            return ["message" => "Not Found"];
+        }
+    }
+
+    public function editCategory($projectid, $categoryid, $name) {
+        if ($name !== null && $name !== '') {
+            if ($this->getCategory($projectid, $categoryid) !== null) {
+                $qb = $this->dbconnection->getQueryBuilder();
+                $qb->update('cospend_project_categories');
+                $qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
+                $qb->where(
+                    $qb->expr()->eq('id', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT))
+                )
+                ->andWhere(
+                    $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                );
+                $req = $qb->execute();
+                $qb = $qb->resetQueryParts();
+
+                $editedCategory = $this->getCategory($projectid, $categoryid);
+
+                return $editedCategory;
+            }
+            else {
+                return ['message'=>['This project have no such category']];
+            }
+        }
+        else {
+            return ['message'=> ['Incorrect field values']];
+        }
     }
 
     public function addCurrency($projectid, $name, $rate) {

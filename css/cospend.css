@@ -504,7 +504,7 @@ a.billitem .app-content-list-item-icon {
 }
 #add-currency {
     display: grid;
-    grid-template: 1fr / 1fr 1fr;
+    grid-template: 1fr / 250px 100px;
 }
 .one-currency-edit {
     grid-template: 1fr / 1fr 1fr;

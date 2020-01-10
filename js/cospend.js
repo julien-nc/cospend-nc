@@ -25,6 +25,7 @@
         projectEditionMode: null,
         projectDeletionTimer: {},
         billDeletionTimer: {},
+        currencyDeletionTimer: {},
         // indexed by projectid, then by billid
         bills: {},
         // indexed by projectid, then by memberid
@@ -1355,7 +1356,7 @@
             data: req,
             async: true
         }).done(function (response) {
-            addCurrency(projectid, {name: name, exchange_rate: rate});
+            addCurrency(projectid, {name: name, exchange_rate: rate, id: response});
             cospend.projects[projectid].currencies.push({
                 name: name,
                 exchange_rate: rate,
@@ -4552,6 +4553,14 @@
             var projectName = cospend.projects[projectid].name;
             editProject(projectid, projectName, null, null, null, value);
         });
+        $('body').on('keyup', '.editMainCurrencyInput', function(e) {
+            if (e.key === 'Enter') {
+                var projectid = $('#curTitle').attr('projectid');
+                var value = $('.editMainCurrencyInput').val();
+                var projectName = cospend.projects[projectid].name;
+                editProject(projectid, projectName, null, null, null, value);
+            }
+        });
 
         $('body').on('click', '.editMainCurrencyClose', function(e) {
             $('#main-currency-label').show();
@@ -4574,17 +4583,44 @@
             addCurrencyDb(projectid, name, rate);
         });
 
+        $('body').on('keyup', '#addCurrencyNameInput, #addCurrencyRateInput', function(e) {
+            if (e.key === 'Enter') {
+                var projectid = $('#curTitle').attr('projectid');
+                var name = $('#addCurrencyNameInput').val();
+                if (name === null || name === '') {
+                    OC.Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
+                    return;
+                }
+                var rate = parseFloat($('#addCurrencyRateInput').val());
+                if (isNaN(rate)) {
+                    OC.Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
+                    return;
+                }
+                addCurrencyDb(projectid, name, rate);
+            }
+        });
+
         $('body').on('click', '.deleteOneCurrency', function(e) {
             var projectid = $('#curTitle').attr('projectid');
             var currencyId = $(this).parent().parent().attr('currencyid');
-            deleteCurrencyDb(projectid, currencyId);
+            if ($(this).hasClass('icon-history')) {
+                $(this).removeClass('icon-history').addClass('icon-delete');
+                cospend.currencyDeletionTimer[currencyId].pause();
+                delete cospend.currencyDeletionTimer[currencyId];
+            }
+            else {
+                $(this).addClass('icon-history').removeClass('icon-delete');
+                cospend.currencyDeletionTimer[currencyId] = new Timer(function() {
+                    deleteCurrencyDb(projectid, currencyId);
+                }, 7000);
+            }
         });
 
         $('body').on('click', '.editOneCurrency', function(e) {
             $(this).parent().hide();
             $(this).parent().parent().find('.one-currency-edit').show()
             .css('display', 'grid')
-            .find('.editCurrencyRateInput').focus().select();
+            .find('.editCurrencyNameInput').focus().select();
         });
 
         $('body').on('click', '.editCurrencyOk', function(e) {
@@ -4601,6 +4637,24 @@
                 return;
             }
             editCurrencyDb(projectid, currencyId, name, rate);
+        });
+
+        $('body').on('keyup', '.editCurrencyNameInput, .editCurrencyRateInput', function(e) {
+            if (e.key === 'Enter') {
+                var projectid = $('#curTitle').attr('projectid');
+                var currencyId = $(this).parent().parent().attr('currencyid');
+                var name = $(this).parent().find('.editCurrencyNameInput').val();
+                if (name === null || name === '') {
+                    OC.Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
+                    return;
+                }
+                var rate = parseFloat($(this).parent().find('.editCurrencyRateInput').val());
+                if (isNaN(rate)) {
+                    OC.Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
+                    return;
+                }
+                editCurrencyDb(projectid, currencyId, name, rate);
+            }
         });
 
         $('body').on('click', '.editCurrencyClose', function(e) {

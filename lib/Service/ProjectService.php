@@ -468,6 +468,8 @@ class ProjectService {
 
         $showDisabled = ($showDisabled === '1');
 
+        $projectCategories = $this->getCategories($projectId);
+
         // get the real global balances with no filters
         $balances = $this->getBalance($projectId);
 
@@ -581,7 +583,9 @@ class ProjectService {
         $categoryStats = [];
         foreach ($bills as $bill) {
             $categoryId = $bill['categoryid'];
-            if (!array_key_exists(strval($categoryId), $this->categoryNames)) {
+            if (!array_key_exists(strval($categoryId), $this->categoryNames) and
+                !array_key_exists(strval($categoryId), $projectCategories)
+            ) {
                 $categoryId = 0;
             }
             $amount = $bill['amount'];
@@ -595,7 +599,9 @@ class ProjectService {
         foreach ($bills as $bill) {
             $payerId = $bill['payer_id'];
             $categoryId = $bill['categoryid'];
-            if (!array_key_exists(strval($categoryId), $this->categoryNames)) {
+            if (!array_key_exists(strval($categoryId), $this->categoryNames) and
+                !array_key_exists(strval($categoryId), $projectCategories)
+            ) {
                 $categoryId = 0;
             }
             $amount = $bill['amount'];
@@ -1747,7 +1753,7 @@ class ProjectService {
         $categories = [];
 
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('name', 'id')
+        $qb->select('name', 'id', 'icon', 'color')
            ->from('cospend_project_categories', 'c')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -1755,9 +1761,13 @@ class ProjectService {
         $req = $qb->execute();
         while ($row = $req->fetch()){
             $dbName = $row['name'];
+            $dbIcon = $row['icon'];
+            $dbColor = $row['color'];
             $dbId = intval($row['id']);
             $categories[$dbId] = [
-                'name'=>$dbName
+                'name'=>$dbName,
+                'icon'=>$dbIcon,
+                'color'=>$dbColor
             ];
         }
         $req->closeCursor();
@@ -2243,13 +2253,15 @@ class ProjectService {
                         $bill['amount'], 'n', null, null, 0, null);
     }
 
-    public function addCategory($projectid, $name) {
+    public function addCategory($projectid, $name, $icon, $color) {
         $qb = $this->dbconnection->getQueryBuilder();
         $projectInfo = $this->getProjectInfo($projectid);
 
         $qb->insert('cospend_project_categories')
             ->values([
                 'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
+                'icon' => $qb->createNamedParameter($icon, IQueryBuilder::PARAM_STR),
+                'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
                 'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR)
             ]);
         $req = $qb->execute();
@@ -2265,7 +2277,7 @@ class ProjectService {
         $category = null;
 
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('id', 'name', 'projectid')
+        $qb->select('id', 'name', 'projectid', 'icon', 'color')
            ->from('cospend_project_categories', 'c')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -2278,8 +2290,12 @@ class ProjectService {
         while ($row = $req->fetch()) {
             $dbCategoryId = intval($row['id']);
             $dbName = $row['name'];
+            $dbIcon = $row['icon'];
+            $dbColor = $row['color'];
             $category = [
                     'name' => $dbName,
+                    'icon' => $dbIcon,
+                    'color' => $dbColor,
                     'id' => $dbCategoryId,
                     'projectid' => $projectId
             ];
@@ -2311,12 +2327,14 @@ class ProjectService {
         }
     }
 
-    public function editCategory($projectid, $categoryid, $name) {
+    public function editCategory($projectid, $categoryid, $name, $icon, $color) {
         if ($name !== null && $name !== '') {
             if ($this->getCategory($projectid, $categoryid) !== null) {
                 $qb = $this->dbconnection->getQueryBuilder();
                 $qb->update('cospend_project_categories');
                 $qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
+                $qb->set('icon', $qb->createNamedParameter($icon, IQueryBuilder::PARAM_STR));
+                $qb->set('color', $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR));
                 $qb->where(
                     $qb->expr()->eq('id', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT))
                 )

@@ -690,6 +690,9 @@
         if (cospend.categories.hasOwnProperty(bill.categoryid)) {
             categoryChar = cospend.categories[bill.categoryid].icon + ' ';
         }
+        if (cospend.projects[projectid].categories.hasOwnProperty(bill.categoryid)) {
+            categoryChar = (cospend.projects[projectid].categories[bill.categoryid].icon || '') + ' ';
+        }
         var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
 
         var title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
@@ -1517,6 +1520,10 @@
             '        <div id="add-category">' +
             '            <label for="addCategoryNameInput">'+t('cospend', 'Name')+'</label>'+
             '            <input type="text" value="" id="addCategoryNameInput">' +
+            '            <label for="addCategoryIconInput">'+t('cospend', 'Icon')+'</label>'+
+            '            <input type="text" value="" id="addCategoryIconInput">' +
+            '            <label for="addCategoryColorInput">'+t('cospend', 'Name')+'</label>'+
+            '            <input type="color" value="" id="addCategoryColorInput">' +
             '            <input type="submit" value="" class="icon-add addCategoryOk">' +
             '        </div><hr/><br/>' +
             '        <label>' +
@@ -1534,11 +1541,13 @@
         }
     }
 
-    function addCategoryDb(projectid, name) {
+    function addCategoryDb(projectid, name, icon, color) {
         $('.addCategoryOk').addClass('icon-loading-small');
         var req = {
             projectid: projectid,
-            name: name
+            name: name,
+            icon: icon,
+            color: color
         };
         var url = OC.generateUrl('/apps/cospend/addCategory');
         $.ajax({
@@ -1547,10 +1556,12 @@
             data: req,
             async: true
         }).done(function (response) {
-            addCategory(projectid, response, {name: name});
             cospend.projects[projectid].categories[response] = {
                 name: name,
+                icon: icon,
+                color: color
             };
+            addCategory(projectid, response, cospend.projects[projectid].categories[response]);
             OC.Notification.showTemporary(t('cospend', 'Category {n} added', {n: name}));
         }).always(function() {
             $('.addCategoryOk').removeClass('icon-loading-small');
@@ -1562,14 +1573,19 @@
     function addCategory(projectid, catId, category) {
         var catStr = '<div class="one-category" projectid="'+projectid+'" categoryid="'+catId+'">' +
             '    <div class="one-category-label">' +
-            '        <label class="one-category-label-label">'+
-                     category.name+'</label>' +
+            '        <label class="one-category-label-icon">'+(category.icon || '')+'</label>' +
+            '        <label class="one-category-label-label">'+category.name+'</label>' +
+            '        <input class="one-category-label-color" type="color" value="'+category.color+'" readonly disabled/>' +
             '        <input type="submit" value="" class="icon-rename editOneCategory">' +
             '        <input type="submit" value="" class="icon-delete deleteOneCategory">' +
             '    </div>' +
             '    <div class="one-category-edit">' +
+            '        <label>'+t('cospend', 'Category icon')+'</label>'+
+            '        <input type="text" value="'+(category.icon || '')+'" class="editCategoryIconInput">' +
             '        <label>'+t('cospend', 'Category name')+'</label>'+
             '        <input type="text" value="'+category.name+'" class="editCategoryNameInput">' +
+            '        <label>'+t('cospend', 'Category color')+'</label>'+
+            '        <input type="color" value="'+category.color+'" class="editCategoryColorInput">' +
             '        <input type="submit" value="" class="icon-close editCategoryClose">' +
             '        <input type="submit" value="" class="icon-checkmark editCategoryOk">' +
             '    </div>' +
@@ -1599,12 +1615,14 @@
         });
     }
 
-    function editCategoryDb(projectid, categoryId, name) {
+    function editCategoryDb(projectid, categoryId, name, icon, color) {
         $('.one-category[categoryid='+categoryId+'] .editCategoryOk').addClass('icon-loading-small');
         var req = {
             projectid: projectid,
             categoryid: categoryId,
-            name: name
+            name: name,
+            icon: icon,
+            color: color
         };
         var url = OC.generateUrl('/apps/cospend/editCategory');
         $.ajax({
@@ -1616,7 +1634,11 @@
             $('.one-category[categoryid=' + categoryId + '] .one-category-edit').hide();
             $('.one-category[categoryid=' + categoryId + '] .one-category-label').show()
             .find('.one-category-label-label').text(name);
+            $('.one-category[categoryid=' + categoryId + '] .one-category-label .one-category-label-icon').text(icon || '');
+            $('.one-category[categoryid=' + categoryId + '] .one-category-label .one-category-label-color').val(color);
             cospend.projects[projectid].categories[categoryId].name = name;
+            cospend.projects[projectid].categories[categoryId].icon = icon;
+            cospend.projects[projectid].categories[categoryId].color = color;
         }).always(function() {
             $('.one-category[categoryid='+categoryId+'] .editCategoryOk').removeClass('icon-loading-small');
         }).fail(function(response) {
@@ -1688,6 +1710,10 @@
         for (var catId in cospend.categories) {
             cat = cospend.categories[catId];
             statsStr += '       <option value="'+catId+'">'+cat.icon+' '+cat.name+'</option>';
+        }
+        for (var catId in cospend.projects[projectid].categories) {
+            cat = cospend.projects[projectid].categories[catId];
+            statsStr += '       <option value="'+catId+'">'+(cat.icon || '')+' '+cat.name+'</option>';
         }
         statsStr +=
             '    </select>' +
@@ -1764,10 +1790,19 @@
         statsStr += '<hr/><canvas id="categoryChart"></canvas>';
         statsStr += '<hr/><select id="categoryMemberSelect">';
         for (var catId in categoryMemberStats) {
-            if (parseInt(catId) !== 0 && cospend.categories.hasOwnProperty(catId)) {
-                statsStr += '<option value="'+catId+'">'+
-                            cospend.categories[catId].icon+' '+
-                            cospend.categories[catId].name+'</option>';
+            if (parseInt(catId) !== 0 &&
+                (cospend.categories.hasOwnProperty(catId) || cospend.projects[projectid].categories.hasOwnProperty(catId))
+            ) {
+                if (cospend.categories.hasOwnProperty(catId)) {
+                    statsStr += '<option value="'+catId+'">'+
+                                cospend.categories[catId].icon+' '+
+                                cospend.categories[catId].name+'</option>';
+                }
+                else {
+                    statsStr += '<option value="'+catId+'">'+
+                                (cospend.projects[projectid].categories[catId].icon || '')+' '+
+                                cospend.projects[projectid].categories[catId].name+'</option>';
+                }
             }
             else {
                 statsStr += '<option value="'+catId+'">'+t('cospend', 'No category')+'</option>';
@@ -1852,6 +1887,11 @@
                 catName = cospend.categories[catId].icon + ' ' + cospend.categories[catId].name;
                 color = cospend.categories[catId].color;
             }
+            else if (cospend.projects[projectid].categories.hasOwnProperty(catId)) {
+                catName = (cospend.projects[projectid].categories[catId].icon || '') +
+                    ' ' + cospend.projects[projectid].categories[catId].name;
+                color = cospend.projects[projectid].categories[catId].color || 'red';
+            }
             else {
                 catName = t('cospend', 'No category');
                 color = 'black';
@@ -1927,6 +1967,10 @@
         if (cospend.categories.hasOwnProperty(selectedCatId)) {
             catName = cospend.categories[selectedCatId].icon+' '+cospend.categories[selectedCatId].name;
         }
+        else if (cospend.projects[projectid].categories.hasOwnProperty(selectedCatId)) {
+            catName = (cospend.projects[projectid].categories[selectedCatId].icon || '') +
+                ' '+cospend.projects[projectid].categories[selectedCatId].name;
+        }
         else {
             catName = t('cospend', 'No category');
         }
@@ -1997,6 +2041,11 @@
             if (cospend.categories.hasOwnProperty(catId)) {
                 catName = cospend.categories[catId].icon+' '+cospend.categories[catId].name;
                 color = cospend.categories[catId].color;
+            }
+            else if (cospend.projects[projectid].categories.hasOwnProperty(catId)) {
+                catName = (cospend.projects[projectid].categories[catId].icon || '') +
+                    ' '+cospend.projects[projectid].categories[catId].name;
+                color = cospend.projects[projectid].categories[catId].color || 'red';
             }
             else {
                 catName = t('cospend', 'No category');
@@ -2111,6 +2160,9 @@
         if (cospend.categories.hasOwnProperty(categoryid)) {
             categoryChar = cospend.categories[categoryid].icon + ' ';
         }
+        else if (cospend.projects[projectid].categories.hasOwnProperty(categoryid)) {
+            categoryChar = (cospend.projects[projectid].categories[categoryid].icon || '') + ' ';
+        }
         var whatFormatted = paymentmodeChar + categoryChar + what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
         $('.bill-title').html(
             '<span class="loading-bill"></span>' +
@@ -2206,6 +2258,9 @@
         var categoryChar = '';
         if (cospend.categories.hasOwnProperty(bill.categoryid)) {
             categoryChar = cospend.categories[bill.categoryid].icon + ' ';
+        }
+        if (cospend.projects[projectid].categories.hasOwnProperty(bill.categoryid)) {
+            categoryChar = (cospend.projects[projectid].categories[bill.categoryid].icon || '') + ' ';
         }
         var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
         var titleStr = t('cospend', 'Bill : {what}', {what: whatFormatted});
@@ -2324,13 +2379,13 @@
             '            <select id="category">' +
             '               <option value="0" selected>'+t('cospend', 'None')+'</option>';
         var cat;
+        for (var catId in cospend.projects[projectid].categories) {
+            cat = cospend.projects[projectid].categories[catId];
+            detail += '       <option value="'+catId+'">'+(cat.icon || '')+' '+cat.name+'</option>';
+        }
         for (var catId in cospend.categories) {
             cat = cospend.categories[catId];
             detail += '       <option value="'+catId+'">'+cat.icon+' '+cat.name+'</option>';
-        }
-        for (var catId in cospend.projects[projectid].categories) {
-            cat = cospend.projects[projectid].categories[catId];
-            detail += '       <option value="'+catId+'">'+cat.name+'</option>';
         }
         detail +=
             '            </select>' +
@@ -2365,7 +2420,6 @@
         if (billid !== 0) {
             $('#repeatbill').val(bill.repeat);
             $('#payment-mode').val(bill.paymentmode || 'n');
-            console.log(bill.categoryid);
             if (cospend.categories.hasOwnProperty(bill.categoryid) ||
                 cospend.projects[projectid].categories.hasOwnProperty(bill.categoryid)) {
                 $('#category').val(bill.categoryid);
@@ -2460,6 +2514,9 @@
         var categoryChar = '';
         if (cospend.categories.hasOwnProperty(bill.categoryid)) {
             categoryChar = cospend.categories[bill.categoryid].icon + ' ';
+        }
+        if (cospend.projects[projectid].categories.hasOwnProperty(bill.categoryid)) {
+            categoryChar = (cospend.projects[projectid].categories[bill.categoryid].icon || '') + ' ';
         }
         var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
 
@@ -4859,10 +4916,20 @@
                 OC.Notification.showTemporary(t('cospend', 'Category name should not be empty'));
                 return;
             }
-            addCategoryDb(projectid, name);
+            var icon = $('#addCategoryIconInput').val();
+            if (icon === null || icon === '') {
+                OC.Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
+                return;
+            }
+            var color = $('#addCategoryColorInput').val();
+            if (color === null || color === '') {
+                OC.Notification.showTemporary(t('cospend', 'Category color should not be empty'));
+                return;
+            }
+            addCategoryDb(projectid, name, icon, color);
         });
 
-        $('body').on('keyup', '#addCategoryNameInput', function(e) {
+        $('body').on('keyup', '#addCategoryNameInput, #addCategoryIconInput', function(e) {
             if (e.key === 'Enter') {
                 var projectid = $('#catTitle').attr('projectid');
                 var name = $('#addCategoryNameInput').val();
@@ -4870,7 +4937,17 @@
                     OC.Notification.showTemporary(t('cospend', 'Category name should not be empty'));
                     return;
                 }
-                addCategoryDb(projectid, name);
+                var icon = $('#addCategoryIconInput').val();
+                if (icon === null || icon === '') {
+                    OC.Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
+                    return;
+                }
+                var color = $('#addCategoryColorInput').val();
+                if (color === null || color === '') {
+                    OC.Notification.showTemporary(t('cospend', 'Category color should not be empty'));
+                    return;
+                }
+                addCategoryDb(projectid, name, icon, color);
             }
         });
 
@@ -4905,10 +4982,20 @@
                 OC.Notification.showTemporary(t('cospend', 'Category name should not be empty'));
                 return;
             }
-            editCategoryDb(projectid, categoryId, name);
+            var icon = $(this).parent().find('.editCategoryIconInput').val();
+            if (icon === null || icon === '') {
+                OC.Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
+                return;
+            }
+            var color = $(this).parent().find('.editCategoryColorInput').val();
+            if (color === null || color === '') {
+                OC.Notification.showTemporary(t('cospend', 'Category color should not be empty'));
+                return;
+            }
+            editCategoryDb(projectid, categoryId, name, icon, color);
         });
 
-        $('body').on('keyup', '.editCategoryNameInput', function(e) {
+        $('body').on('keyup', '.editCategoryNameInput, .editCategoryIconInput', function(e) {
             if (e.key === 'Enter') {
                 var projectid = $('#catTitle').attr('projectid');
                 var categoryId = $(this).parent().parent().attr('categoryid');
@@ -4917,7 +5004,17 @@
                     OC.Notification.showTemporary(t('cospend', 'Category name should not be empty'));
                     return;
                 }
-                editCategoryDb(projectid, categoryId, name);
+                var icon = $(this).parent().find('.editCategoryIconInput').val();
+                if (icon === null || icon === '') {
+                    OC.Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
+                    return;
+                }
+                var color = $(this).parent().find('.editCategoryColorInput').val();
+                if (color === null || color === '') {
+                    OC.Notification.showTemporary(t('cospend', 'Category color should not be empty'));
+                    return;
+                }
+                editCategoryDb(projectid, categoryId, name, icon, color);
             }
         });
 

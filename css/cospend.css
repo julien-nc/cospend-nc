@@ -511,7 +511,7 @@ a.billitem .app-content-list-item-icon {
 }
 #add-category {
     display: grid;
-    grid-template: 1fr / 250px 130px 50px;
+    grid-template: 1fr / 250px 130px;
 }
 #add-currency {
     display: grid;
@@ -535,7 +535,10 @@ a.billitem .app-content-list-item-icon {
     border-radius: 0 !important;
     width: 36px !important;
 }
-.one-category-label,
+.one-category-label {
+    display: grid;
+    grid-template: 1fr / 30px 150px 150px 37px 37px;
+}
 .one-currency-label {
     display: grid;
     grid-template: 1fr / 150px 37px 37px;

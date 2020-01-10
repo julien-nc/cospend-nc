@@ -1535,9 +1535,9 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function addCategory($projectid, $name) {
+    public function addCategory($projectid, $name, $icon, $color) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
-            $result = $this->projectService->addCategory($projectid, $name);
+            $result = $this->projectService->addCategory($projectid, $name, $icon, $color);
             if (is_numeric($result)) {
                 return new DataResponse($result);
             }
@@ -1557,9 +1557,9 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function editCategory($projectid, $categoryid, $name) {
+    public function editCategory($projectid, $categoryid, $name, $icon, $color) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
-            $result = $this->projectService->editCategory($projectid, $categoryid, $name);
+            $result = $this->projectService->editCategory($projectid, $categoryid, $name, $icon, $color);
             if (is_array($result)) {
                 return new DataResponse($result);
             }

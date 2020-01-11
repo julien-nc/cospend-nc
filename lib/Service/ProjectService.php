@@ -2930,6 +2930,8 @@ class ProjectService {
         }
         $folder = $userFolder->get($outPath);
 
+        $projectInfo = $this->getProjectInfo($projectid);
+
         // create file
         $filename = $projectid.'.csv';
         if ($name !== null) {
@@ -2941,7 +2943,7 @@ class ProjectService {
         $file = $folder->newFile($filename);
         $handler = $file->fopen('w');
         fwrite($handler, "what,amount,date,payer_name,payer_weight,payer_active,owers,repeat,repeatallactive,repeatuntil,categoryid,paymentmode\n");
-        $members = $this->getMembers($projectid);
+        $members = $projectInfo['members'];
         $memberIdToName = [];
         $memberIdToWeight = [];
         $memberIdToActive = [];
@@ -2971,12 +2973,24 @@ class ProjectService {
         }
 
         // write categories
-        $categories = $this->getCategories($projectid);
+        $categories = $projectInfo['categories'];
         if (count($categories) > 0) {
             fwrite($handler, "\n");
             fwrite($handler, "categoryname,categoryid,icon,color\n");
             foreach ($categories as $id=>$cat) {
                 fwrite($handler, '"'.$cat['name'].'",'.intval($id).',"'.$cat['icon'].'","'.$cat['color'].'"'."\n");
+            }
+        }
+
+        // write currencies
+        $currencies = $projectInfo['currencies'];
+        if (count($currencies) > 0) {
+            fwrite($handler, "\n");
+            fwrite($handler, "currencyname,exchange_rate\n");
+            // main currency
+            fwrite($handler, '"'.$projectInfo['currencyname'].'",1'."\n");
+            foreach ($currencies as $cur) {
+                fwrite($handler, '"'.$cur['name'].'",'.floatval($cur['exchange_rate'])."\n");
             }
         }
 
@@ -2997,6 +3011,8 @@ class ProjectService {
                     $membersWeight = [];
                     $membersActive = [];
                     $bills = [];
+                    $currencies = [];
+                    $mainCurrencyName = null;
                     $categories = [];
                     $categoryIdConv = [];
                     $previousLineEmpty = false;
@@ -3030,6 +3046,11 @@ class ProjectService {
                             ) {
                                 $currentSection = 'categories';
                             }
+                            else if (array_key_exists('exchange_rate', $columns) and
+                                     array_key_exists('currencyname', $columns)
+                            ) {
+                                $currentSection = 'currencies';
+                            }
                             else {
                                 fclose($handle);
                                 $response = ['message'=>'Malformed CSV, bad column names'];
@@ -3050,6 +3071,19 @@ class ProjectService {
                                     'id'=>$categoryid,
                                     'name'=>$categoryname
                                 ]);
+                            }
+                            else if ($currentSection === 'currencies') {
+                                $name = $data[$columns['currencyname']];
+                                $exchange_rate = $data[$columns['exchange_rate']];
+                                if (floatval($exchange_rate) === 1.0) {
+                                    $mainCurrencyName = $name;
+                                }
+                                else {
+                                    array_push($currencies, [
+                                        'name'=>$name,
+                                        'exchange_rate'=>$exchange_rate
+                                    ]);
+                                }
                             }
                             else if ($currentSection === 'bills') {
                                 $what = $data[$columns['what']];
@@ -3126,6 +3160,10 @@ class ProjectService {
                         $response = ['message'=>'Error in project creation '.$projResult['message']];
                         return $response;
                     }
+                    // set project main currency
+                    if ($mainCurrencyName !== null) {
+                        $this->editProject($projectid, $projectName, null, null, null, $mainCurrencyName);
+                    }
                     // add categories
                     foreach ($categories as $cat) {
                         $insertedCatId = $this->addCategory($projectid, $cat['name'], $cat['icon'], $cat['color']);
@@ -3135,6 +3173,15 @@ class ProjectService {
                             return $response;
                         }
                         $categoryIdConv[$cat['id']] = $insertedCatId;
+                    }
+                    // add currencies
+                    foreach ($currencies as $cur) {
+                        $insertedCurId = $this->addCurrency($projectid, $cur['name'], $cur['exchange_rate']);
+                        if (!is_numeric($insertedCurId)) {
+                            $this->deleteProject($projectid);
+                            $response = ['message'=>'Error when adding currency '.$cur['name']];
+                            return $response;
+                        }
                     }
                     // add members
                     foreach ($membersWeight as $memberName => $weight) {

@@ -2970,6 +2970,16 @@ class ProjectService {
                              $bill['repeatuntil'].','.$bill['categoryid'].','.$bill['paymentmode']."\n");
         }
 
+        // write categories
+        $categories = $this->getCategories($projectid);
+        if (count($categories) > 0) {
+            fwrite($handler, "\n");
+            fwrite($handler, "categoryname,categoryid,icon,color\n");
+            foreach ($categories as $id=>$cat) {
+                fwrite($handler, '"'.$cat['name'].'",'.intval($id).',"'.$cat['icon'].'","'.$cat['color'].'"'."\n");
+            }
+        }
+
         fclose($handler);
         $file->touch();
         $response = ['path'=>$outPath.'/'.$filename];
@@ -2987,81 +2997,106 @@ class ProjectService {
                     $membersWeight = [];
                     $membersActive = [];
                     $bills = [];
+                    $categories = [];
+                    $categoryIdConv = [];
+                    $previousLineEmpty = false;
+                    $currentSection = null;
                     $row = 0;
                     while (($data = fgetcsv($handle, 1000, ',')) !== false) {
-                        // first line : get column order
-                        if ($row === 0) {
+                        if ($data === [null]) {
+                            $previousLineEmpty = true;
+                        }
+                        // determine which section we're entering
+                        else if ($row === 0 or $previousLineEmpty) {
+                            $previousLineEmpty = false;
                             $nbCol = count($data);
-                            if ($nbCol < 6) {
-                                fclose($handle);
-                                $response = ['message'=>'Malformed CSV, bad column number'];
-                                return $response;
+                            $columns = [];
+                            for ($c=0; $c < $nbCol; $c++) {
+                                $columns[$data[$c]] = $c;
+                            }
+                            if (array_key_exists('what', $columns) and
+                                array_key_exists('amount', $columns) and
+                                array_key_exists('date', $columns) and
+                                array_key_exists('payer_name', $columns) and
+                                array_key_exists('payer_weight', $columns) and
+                                array_key_exists('owers', $columns)
+                            ) {
+                                $currentSection = 'bills';
+                            }
+                            else if (array_key_exists('icon', $columns) and
+                                     array_key_exists('color', $columns) and
+                                     array_key_exists('categoryid', $columns) and
+                                     array_key_exists('categoryname', $columns)
+                            ) {
+                                $currentSection = 'categories';
                             }
                             else {
-                                for ($c=0; $c < $nbCol; $c++) {
-                                    $columns[$data[$c]] = $c;
-                                }
-                            }
-                            if (!array_key_exists('what', $columns) or
-                                !array_key_exists('amount', $columns) or
-                                !array_key_exists('date', $columns) or
-                                !array_key_exists('payer_name', $columns) or
-                                !array_key_exists('payer_weight', $columns) or
-                                !array_key_exists('owers', $columns)
-                            ) {
                                 fclose($handle);
                                 $response = ['message'=>'Malformed CSV, bad column names'];
                                 return $response;
                             }
                         }
-                        // normal line : bill
+                        // normal line : bill or category
                         else {
-                            $what = $data[$columns['what']];
-                            $amount = $data[$columns['amount']];
-                            $date = $data[$columns['date']];
-                            $payer_name = $data[$columns['payer_name']];
-                            $payer_weight = $data[$columns['payer_weight']];
-                            $owers = $data[$columns['owers']];
-                            $payer_active = array_key_exists('payer_active', $columns) ? $data[$columns['payer_active']] : 1;
-                            $repeat = array_key_exists('repeat', $columns) ? $data[$columns['repeat']] : 'n';
-                            $categoryid = array_key_exists('categoryid', $columns) ? intval($data[$columns['categoryid']]) : null;
-                            $paymentmode = array_key_exists('paymentmode', $columns) ? $data[$columns['paymentmode']] : null;
-                            $repeatallactive = array_key_exists('repeatallactive', $columns) ? $data[$columns['repeatallactive']] : 0;
-                            $repeatuntil = array_key_exists('repeatuntil', $columns) ? $data[$columns['repeatuntil']] : null;
+                            $previousLineEmpty = false;
+                            if ($currentSection === 'categories') {
+                                $icon = $data[$columns['icon']];
+                                $color = $data[$columns['color']];
+                                $categoryid = $data[$columns['categoryid']];
+                                $categoryname = $data[$columns['categoryname']];
+                                array_push($categories, [
+                                    'icon'=>$icon,
+                                    'color'=>$color,
+                                    'id'=>$categoryid,
+                                    'name'=>$categoryname
+                                ]);
+                            }
+                            else if ($currentSection === 'bills') {
+                                $what = $data[$columns['what']];
+                                $amount = $data[$columns['amount']];
+                                $date = $data[$columns['date']];
+                                $payer_name = $data[$columns['payer_name']];
+                                $payer_weight = $data[$columns['payer_weight']];
+                                $owers = $data[$columns['owers']];
+                                $payer_active = array_key_exists('payer_active', $columns) ? $data[$columns['payer_active']] : 1;
+                                $repeat = array_key_exists('repeat', $columns) ? $data[$columns['repeat']] : 'n';
+                                $categoryid = array_key_exists('categoryid', $columns) ? intval($data[$columns['categoryid']]) : null;
+                                $paymentmode = array_key_exists('paymentmode', $columns) ? $data[$columns['paymentmode']] : null;
+                                $repeatallactive = array_key_exists('repeatallactive', $columns) ? $data[$columns['repeatallactive']] : 0;
+                                $repeatuntil = array_key_exists('repeatuntil', $columns) ? $data[$columns['repeatuntil']] : null;
 
-                            // manage members
-                            $membersActive[$payer_name] = intval($payer_active);
-                            if (is_numeric($payer_weight)) {
-                                $membersWeight[$payer_name] = floatval($payer_weight);
-                            }
-                            else {
-                                fclose($handle);
-                                $response = ['message'=>'Malformed CSV, bad payer weight on line '.$row];
-                                return $response;
-                            }
-                            if (strlen($owers) === 0) {
-                                fclose($handle);
-                                $response = ['message'=>'Malformed CSV, bad owers on line '.$row];
-                                return $response;
-                            }
-                            $owersArray = explode(', ', $owers);
-                            foreach ($owersArray as $ower) {
-                                if (strlen($ower) === 0) {
+                                // manage members
+                                $membersActive[$payer_name] = intval($payer_active);
+                                if (is_numeric($payer_weight)) {
+                                    $membersWeight[$payer_name] = floatval($payer_weight);
+                                }
+                                else {
+                                    fclose($handle);
+                                    $response = ['message'=>'Malformed CSV, bad payer weight on line '.$row];
+                                    return $response;
+                                }
+                                if (strlen($owers) === 0) {
                                     fclose($handle);
                                     $response = ['message'=>'Malformed CSV, bad owers on line '.$row];
                                     return $response;
                                 }
-                                if (!array_key_exists($ower, $membersWeight)) {
-                                    $membersWeight[$ower] = 1.0;
+                                $owersArray = explode(', ', $owers);
+                                foreach ($owersArray as $ower) {
+                                    if (strlen($ower) === 0) {
+                                        fclose($handle);
+                                        $response = ['message'=>'Malformed CSV, bad owers on line '.$row];
+                                        return $response;
+                                    }
+                                    if (!array_key_exists($ower, $membersWeight)) {
+                                        $membersWeight[$ower] = 1.0;
+                                    }
                                 }
-                            }
-                            if (!is_numeric($amount)) {
-                                fclose($handle);
-                                $response = ['message'=>'Malformed CSV, bad amount on line '.$row];
-                                return $response;
-                            }
-                            array_push($bills,
-                                [
+                                if (!is_numeric($amount)) {
+                                    fclose($handle);
+                                    $response = ['message'=>'Malformed CSV, bad amount on line '.$row];
+                                    return $response;
+                                }
+                                array_push($bills, [
                                     'what'=>$what,
                                     'date'=>$date,
                                     'amount'=>$amount,
@@ -3072,8 +3107,8 @@ class ProjectService {
                                     'repeat'=>$repeat,
                                     'repeatuntil'=>$repeatuntil,
                                     'repeatallactive'=>$repeatallactive
-                                ]
-                            );
+                                ]);
+                            }
                         }
                         $row++;
                     }
@@ -3091,6 +3126,16 @@ class ProjectService {
                         $response = ['message'=>'Error in project creation '.$projResult['message']];
                         return $response;
                     }
+                    // add categories
+                    foreach ($categories as $cat) {
+                        $insertedCatId = $this->addCategory($projectid, $cat['name'], $cat['icon'], $cat['color']);
+                        if (!is_numeric($insertedCatId)) {
+                            $this->deleteProject($projectid);
+                            $response = ['message'=>'Error when adding category '.$cat['name']];
+                            return $response;
+                        }
+                        $categoryIdConv[$cat['id']] = $insertedCatId;
+                    }
                     // add members
                     foreach ($membersWeight as $memberName => $weight) {
                         $insertedMember = $this->addMember($projectid, $memberName, $weight, $membersActive[$memberName]);
@@ -3103,6 +3148,11 @@ class ProjectService {
                     }
                     // add bills
                     foreach ($bills as $bill) {
+                        // manage category id if this is a custom category
+                        $catId = $bill['categoryid'];
+                        if (is_numeric($catId) and intval($catId) > 0) {
+                            $catId = $categoryIdConv[$catId];
+                        }
                         $payerId = $memberNameToId[$bill['payer_name']];
                         $owerIds = [];
                         foreach ($bill['owers'] as $owerName) {
@@ -3112,7 +3162,7 @@ class ProjectService {
                         $addBillResult = $this->addBill($projectid, $bill['date'], $bill['what'], $payerId,
                                                         $owerIdsStr, $bill['amount'], $bill['repeat'],
                                                         $bill['paymentmode'],
-                                                        $bill['categoryid'], $bill['repeatallactive'],
+                                                        $catId, $bill['repeatallactive'],
                                                         $bill['repeatuntil']);
                         if (!is_numeric($addBillResult)) {
                             $this->deleteProject($projectid);

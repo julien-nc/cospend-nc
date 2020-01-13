@@ -1823,8 +1823,9 @@
             '<th class="sorttable_numeric">'+spentStr+'</th>' +
             '<th class="sorttable_numeric">'+balanceStr+'</th>' +
             '</thead>';
-        var paid, spent, balance, name, balanceClass;
+        var paid, spent, balance, name, balanceClass, member, imgurl;
         for (var i=0; i < statList.length; i++) {
+            member = cospend.members[projectid][statList[i].member.id];
             balanceClass = '';
             if (statList[i].balance > 0) {
                 balanceClass = ' class="balancePositive"';
@@ -1836,10 +1837,17 @@
             spent = statList[i].spent.toFixed(2);
             balance = statList[i].balance.toFixed(2);
             name = statList[i].member.name;
-            color = '#'+cospend.members[projectid][statList[i].member.id].color;
+            color = '#'+member.color;
+            imgurl = OC.generateUrl('/apps/cospend/getAvatar?color=' + member.color + '&name=' + encodeURIComponent(member.name));
             statsStr = statsStr +
                 '<tr>' +
-                '<td style="border: 2px solid '+color+';">'+name+'</td>' +
+                '<td style="border: 2px solid '+color+';">'+
+                '<div class="owerAvatar'+(member.activated ? '' : ' owerAvatarDisabled')+'">' +
+                '   <div class="disabledMask"></div>' +
+                '   <img src="' + imgurl + '"/>' +
+                '</div>' +
+                name+
+                '</td>' +
                 '<td style="border: 2px solid '+color+';">'+paid+'</td>' +
                 '<td style="border: 2px solid '+color+';">'+spent+'</td>' +
                 '<td style="border: 2px solid '+color+';"'+balanceClass+'>'+balance+'</td>' +
@@ -1859,15 +1867,23 @@
         var mid;
         for (var i=0; i < mids.length; i++) {
             mid = mids[i];
+            member = cospend.members[projectid][mid];
             if (parseInt(mid) === 0) {
                 color = 'var(--color-border-dark)';
                 statsStr += '<tr>';
                 statsStr += '<td><b>'+t('cospend', 'All members')+'</b></td>';
             }
             else {
-                color = '#'+cospend.members[projectid][mid].color;
+                color = '#'+member.color;
+                imgurl = OC.generateUrl('/apps/cospend/getAvatar?color=' + member.color + '&name=' + encodeURIComponent(member.name));
                 statsStr += '<tr>';
-                statsStr += '<td style="border: 2px solid '+color+';">'+cospend.members[projectid][mid].name+'</td>';
+                statsStr += '<td style="border: 2px solid '+color+';">' +
+                '<div class="owerAvatar'+(member.activated ? '' : ' owerAvatarDisabled')+'">' +
+                '   <div class="disabledMask"></div>' +
+                '   <img src="' + imgurl + '"/>' +
+                '</div>' +
+                cospend.members[projectid][mid].name +
+                '</td>';
             }
             for (var month in monthlyStats) {
                 statsStr += '<td style="border: 2px solid '+color+';">';

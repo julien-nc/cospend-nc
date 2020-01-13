@@ -1168,7 +1168,7 @@ class ProjectService {
         return 'DELETED';
     }
 
-    public function addMember($projectid, $name, $weight, $active=1) {
+    public function addMember($projectid, $name, $weight, $active=1, $color=null) {
         if ($name !== null && $name !== '') {
             if ($this->getMemberByName($projectid, $name) === null) {
                 $weightToInsert = 1;
@@ -1193,6 +1193,7 @@ class ProjectService {
                         'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
                         'weight' => $qb->createNamedParameter($weightToInsert, IQueryBuilder::PARAM_STR),
                         'activated' => $qb->createNamedParameter($active, IQueryBuilder::PARAM_INT),
+                        'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
                         'lastchanged' => $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT)
                     ]);
                 $req = $qb->execute();

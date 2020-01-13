@@ -616,9 +616,9 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webAddMember($projectid, $name) {
+    public function webAddMember($projectid, $name, $weight=1, $active=1, $color=null) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
-            $result = $this->projectService->addMember($projectid, $name, 1);
+            $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color);
             if (is_array($result)) {
                 // inserted bill id
                 return new DataResponse($result);
@@ -926,9 +926,9 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiAddMember($projectid, $password, $name, $weight) {
+    public function apiAddMember($projectid, $password, $name, $weight, $active=1, $color=null) {
         if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'c')) {
-            $result = $this->projectService->addMember($projectid, $name, $weight);
+            $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color);
             if (is_array($result)) {
                 // inserted bill id
                 return new DataResponse($result['id']);
@@ -951,9 +951,9 @@ class PageController extends ApiController {
      * @NoCSRFRequired
      * @CORS
      */
-    public function apiPrivAddMember($projectid, $name, $weight) {
+    public function apiPrivAddMember($projectid, $name, $weight, $active=1, $color=null) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
-            $result = $this->projectService->addMember($projectid, $name, $weight);
+            $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color);
             if (is_array($result)) {
                 // inserted bill id
                 return new DataResponse($result['id']);

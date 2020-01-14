@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-01-14 00:40+0100\n"
+"POT-Creation-Date: 2020-01-14 17:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -295,13 +295,16 @@ msgid "Add currency"
 msgstr ""
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1370
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1441
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1570
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1645
 msgid "Name"
 msgstr ""
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1372
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1443
-msgid "Exchange rate to main currency"
+msgid ""
+"Exchange rate to main currency (1 of this currency = X of main currency)"
 msgstr ""
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1378
@@ -314,10 +317,6 @@ msgstr ""
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1428
 msgid "Failed to add currency"
-msgstr ""
-
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1441
-msgid "Currency name"
 msgstr ""
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1496
@@ -337,10 +336,12 @@ msgid "Add category"
 msgstr ""
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1568
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1643
 msgid "Icon"
 msgstr ""
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1572
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1647
 msgid "Color"
 msgstr ""
 
@@ -354,18 +355,6 @@ msgstr ""
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1629
 msgid "Failed to add category"
-msgstr ""
-
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1643
-msgid "Category icon"
-msgstr ""
-
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1645
-msgid "Category name"
-msgstr ""
-
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1647
-msgid "Category color"
 msgstr ""
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:1690

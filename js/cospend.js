@@ -1369,7 +1369,7 @@
             '        <div id="add-currency">' +
             '            <label for="addCurrencyNameInput">'+t('cospend', 'Name')+'</label>'+
             '            <input type="text" value="" id="addCurrencyNameInput">' +
-            '            <label for="addCurrencyRateInput"> '+t('cospend', 'Exchange rate to main currency')+'</label>'+
+            '            <label for="addCurrencyRateInput"> '+t('cospend', 'Exchange rate to main currency (1 of this currency = X of main currency)')+'</label>'+
             '            <input type="number" value="1" id="addCurrencyRateInput" step="0.0001" min="0">' +
             '            <input type="submit" value="" class="icon-add addCurrencyOk">' +
             '        </div><hr/><br/>' +
@@ -1438,9 +1438,9 @@
             '        <input type="submit" value="" class="icon-delete deleteOneCurrency">' +
             '    </div>' +
             '    <div class="one-currency-edit">' +
-            '        <label>'+t('cospend', 'Currency name')+'</label>'+
+            '        <label>'+t('cospend', 'Name')+'</label>'+
             '        <input type="text" value="'+currency.name+'" class="editCurrencyNameInput">' +
-            '        <label>'+t('cospend', 'Exchange rate to main currency')+'</label>'+
+            '        <label>'+t('cospend', 'Exchange rate to main currency (1 of this currency = X of main currency)')+'</label>'+
             '        <input type="number" value="'+currency.exchange_rate+'" class="editCurrencyRateInput" step="0.0001" min="0">' +
             '        <input type="submit" value="" class="icon-close editCurrencyClose">' +
             '        <input type="submit" value="" class="icon-checkmark editCurrencyOk">' +
@@ -1640,11 +1640,11 @@
             '        <input type="submit" value="" class="icon-delete deleteOneCategory">' +
             '    </div>' +
             '    <div class="one-category-edit">' +
-            '        <label>'+t('cospend', 'Category icon')+'</label>'+
+            '        <label>'+t('cospend', 'Icon')+'</label>'+
             '        <input type="text" value="'+(category.icon || '')+'" class="editCategoryIconInput">' +
-            '        <label>'+t('cospend', 'Category name')+'</label>'+
+            '        <label>'+t('cospend', 'Name')+'</label>'+
             '        <input type="text" value="'+category.name+'" class="editCategoryNameInput">' +
-            '        <label>'+t('cospend', 'Category color')+'</label>'+
+            '        <label>'+t('cospend', 'Color')+'</label>'+
             '        <input type="color" value="'+category.color+'" class="editCategoryColorInput">' +
             '        <input type="submit" value="" class="icon-close editCategoryClose">' +
             '        <input type="submit" value="" class="icon-checkmark editCategoryOk">' +

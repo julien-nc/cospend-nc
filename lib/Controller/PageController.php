@@ -620,7 +620,6 @@ class PageController extends ApiController {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
             $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color);
             if (is_array($result)) {
-                // inserted bill id
                 return new DataResponse($result);
             }
             else {
@@ -930,7 +929,6 @@ class PageController extends ApiController {
         if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'c')) {
             $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color);
             if (is_array($result)) {
-                // inserted bill id
                 return new DataResponse($result['id']);
             }
             else {
@@ -955,7 +953,6 @@ class PageController extends ApiController {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
             $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color);
             if (is_array($result)) {
-                // inserted bill id
                 return new DataResponse($result['id']);
             }
             else {

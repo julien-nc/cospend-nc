@@ -2406,7 +2406,9 @@
             var currency;
             for (var i = 0; i < cospend.projects[projectid].currencies.length; i++) {
                 currency = cospend.projects[projectid].currencies[i];
-                currenciesStr += '<option value="'+currency.id+'">'+currency.name+' (x'+currency.exchange_rate+')</option>';
+                currenciesStr += '<option value="'+currency.id+'">' +
+                    currency.name+' ⇒ '+cospend.projects[projectid].currencyname+' (x'+currency.exchange_rate+')' +
+                    '</option>';
             }
             currenciesStr += '</select>';
         }
@@ -3152,6 +3154,16 @@
         }
     }
 
+    function cleanStringFromCurrency(projectid, str) {
+        var currency, re;
+        for (var i = 0; i < cospend.projects[projectid].currencies.length; i++) {
+            currency = cospend.projects[projectid].currencies[i];
+            re = new RegExp(' \\(\\d+\\.?\\d* '+currency.name+'\\)','g');
+            str = str.replace(re, '');
+        }
+        return str;
+    }
+
     function onBillEdited() {
         updateAmountEach();
         // get bill info
@@ -3220,6 +3232,7 @@
                     amount = amount * currency.exchange_rate;
                     amount = parseFloat(amount.toFixed(2));
                     $('#amount').val(amount);
+                    what = cleanStringFromCurrency(projectid, what);
                     what += ' ('+userAmount+' '+currency.name+')';
                     $('#what').val(what);
                     $('#bill-currency').val('');

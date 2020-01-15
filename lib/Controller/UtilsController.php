@@ -207,7 +207,12 @@ class UtilsController extends Controller {
                         $backgroundColor['g'],
                         $backgroundColor['b']
                 );
-                $white = imagecolorallocate($im, 255, 255, 255);
+                if (($backgroundColor['r'] + $backgroundColor['g'] + $backgroundColor['b']) / 3 < 230) {
+                    $textColor = imagecolorallocate($im, 255, 255, 255);
+                }
+                else {
+                    $textColor = imagecolorallocate($im, 0, 0, 0);
+                }
                 imagefilledrectangle($im, 0, 0, $size, $size, $background);
 
                 $font = __DIR__ . '/../../../../core/fonts/NotoSans-Regular.ttf';
@@ -217,7 +222,7 @@ class UtilsController extends Controller {
                         $im, $letter, $font, (int)$fontSize
                 );
 
-                imagettftext($im, $fontSize, 0, $x, $y, $white, $font, $letter);
+                imagettftext($im, $fontSize, 0, $x, $y, $textColor, $font, $letter);
 
                 ob_start();
                 imagepng($im);

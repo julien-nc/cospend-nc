@@ -164,7 +164,7 @@ class PageController extends ApiController {
         ];
         $response = new PublicTemplateResponse('cospend', 'login', $params);
         $response->setHeaderTitle($this->trans->t('Cospend public access'));
-        $response->setHeaderDetails($this->trans->t('Enter password for project %s', [$projectid]));
+        $response->setHeaderDetails($this->trans->t('Enter password of project %s', [$projectid]));
         $response->setFooterVisible(false);
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedImageDomain('*')
@@ -192,7 +192,7 @@ class PageController extends ApiController {
         ];
         $response = new PublicTemplateResponse('cospend', 'login', $params);
         $response->setHeaderTitle($this->trans->t('Cospend public access'));
-        $response->setHeaderDetails($this->trans->t('Enter project id and access code'));
+        $response->setHeaderDetails($this->trans->t('Enter project id and password'));
         $response->setFooterVisible(false);
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedImageDomain('*')

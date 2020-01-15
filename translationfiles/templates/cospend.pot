@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-01-15 12:37+0100\n"
+"POT-Creation-Date: 2020-01-15 15:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -959,11 +959,11 @@ msgstr ""
 
 #: /var/www/html/n17/apps/cospend/lib/Controller/PageController.php:167
 #, php-format
-msgid "Enter password for project %s"
+msgid "Enter password of project %s"
 msgstr ""
 
 #: /var/www/html/n17/apps/cospend/lib/Controller/PageController.php:195
-msgid "Enter project id and access code"
+msgid "Enter project id and password"
 msgstr ""
 
 #: /var/www/html/n17/apps/cospend/lib/Controller/PageController.php:225

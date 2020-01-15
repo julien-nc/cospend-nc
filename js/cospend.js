@@ -5154,6 +5154,14 @@
             $(this).parent().parent().find('.one-category-label').show();
         });
 
+        $('body').on('click', '.owerEntry .owerAvatar', function (e) {
+            var billId = parseInt($('#billdetail .bill-title').attr('billid'));
+            var billType = $('#billtype').val();
+            if (billId !== 0 || billType === 'normal' || billType === 'perso') {
+                $(this).parent().find('input').click();
+            }
+        });
+
         if (OCA.Theming) {
             var c = OCA.Theming.color;
             // invalid color

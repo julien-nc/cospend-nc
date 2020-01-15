@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-01-15 11:49+0100\n"
+"POT-Creation-Date: 2020-01-15 12:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -948,6 +948,31 @@ msgstr ""
 
 #: /var/www/html/n17/apps/cospend/lib/Activity/Setting.php:54
 msgid "Changes in the <strong>Cospend app</strong>"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/lib/Controller/PageController.php:166
+#: /var/www/html/n17/apps/cospend/lib/Controller/PageController.php:194
+#: /var/www/html/n17/apps/cospend/lib/Controller/PageController.php:224
+#: /var/www/html/n17/apps/cospend/lib/Controller/PageController.php:247
+msgid "Cospend public access"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/lib/Controller/PageController.php:167
+#, php-format
+msgid "Enter password for project %s"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/lib/Controller/PageController.php:195
+msgid "Enter project id and access code"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/lib/Controller/PageController.php:225
+#, php-format
+msgid "Project %s"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/lib/Controller/PageController.php:248
+msgid "Access denied"
 msgstr ""
 
 #: /var/www/html/n17/apps/cospend/lib/Notification/Notifier.php:86

@@ -24,6 +24,7 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\ApiController;
@@ -161,7 +162,10 @@ class PageController extends ApiController {
             'wrong'=>false,
             'cospend_version'=>$this->appVersion
         ];
-        $response = new TemplateResponse('cospend', 'login', $params);
+        $response = new PublicTemplateResponse('cospend', 'login', $params);
+        $response->setHeaderTitle($this->trans->t('Cospend public access'));
+        $response->setHeaderDetails($this->trans->t('Enter password for project %s', [$projectid]));
+        $response->setFooterVisible(false);
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedImageDomain('*')
             ->addAllowedMediaDomain('*')
@@ -186,7 +190,10 @@ class PageController extends ApiController {
             'wrong'=>false,
             'cospend_version'=>$this->appVersion
         ];
-        $response = new TemplateResponse('cospend', 'login', $params);
+        $response = new PublicTemplateResponse('cospend', 'login', $params);
+        $response->setHeaderTitle($this->trans->t('Cospend public access'));
+        $response->setHeaderDetails($this->trans->t('Enter project id and access code'));
+        $response->setFooterVisible(false);
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedImageDomain('*')
             ->addAllowedMediaDomain('*')
@@ -213,7 +220,10 @@ class PageController extends ApiController {
                 'password'=>$password,
                 'cospend_version'=>$this->appVersion
             ];
-            $response = new TemplateResponse('cospend', 'main', $params);
+            $response = new PublicTemplateResponse('cospend', 'main', $params);
+            $response->setHeaderTitle($this->trans->t('Cospend public access'));
+            $response->setHeaderDetails($this->trans->t('Project %s', [$projectid]));
+            $response->setFooterVisible(false);
             $csp = new ContentSecurityPolicy();
             $csp->addAllowedImageDomain('*')
                 ->addAllowedMediaDomain('*')
@@ -233,7 +243,10 @@ class PageController extends ApiController {
                 'wrong'=>true,
                 'cospend_version'=>$this->appVersion
             ];
-            $response = new TemplateResponse('cospend', 'login', $params);
+            $response = new PublicTemplateResponse('cospend', 'login', $params);
+            $response->setHeaderTitle($this->trans->t('Cospend public access'));
+            $response->setHeaderDetails($this->trans->t('Access denied'));
+            $response->setFooterVisible(false);
             $csp = new ContentSecurityPolicy();
             $csp->addAllowedImageDomain('*')
                 ->addAllowedMediaDomain('*')

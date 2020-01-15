@@ -207,7 +207,7 @@ class UtilsController extends Controller {
                         $backgroundColor['g'],
                         $backgroundColor['b']
                 );
-                if (($backgroundColor['r'] + $backgroundColor['g'] + $backgroundColor['b']) / 3 < 230) {
+                if (($backgroundColor['r'] + $backgroundColor['g'] + $backgroundColor['b']) / 3 < 220) {
                     $textColor = imagecolorallocate($im, 255, 255, 255);
                 }
                 else {

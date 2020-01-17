@@ -2337,6 +2337,19 @@ class ProjectService {
             $req = $qb->execute();
             $qb = $qb->resetQueryParts();
 
+            // then get rid of this category in bills
+            $qb = $this->dbconnection->getQueryBuilder();
+            $qb->update('cospend_bills');
+            $qb->set('categoryid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT));
+            $qb->where(
+                $qb->expr()->eq('categoryid', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT))
+            )
+            ->andWhere(
+                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+            );
+            $req = $qb->execute();
+            $qb = $qb->resetQueryParts();
+
             return $categoryid;
         }
         else {

@@ -3144,7 +3144,7 @@
                     var userAmount = amount;
                     amount = amount * currency.exchange_rate;
                     $('#amount').val(amount);
-                    what += ' ('+userAmount+' '+currency.name+')';
+                    what += ' ('+userAmount.toFixed(2)+' '+currency.name+')';
                     $('#what').val(what);
                     $('#bill-currency').val('');
                 }
@@ -3235,7 +3235,7 @@
                     amount = amount * currency.exchange_rate;
                     $('#amount').val(amount);
                     what = cleanStringFromCurrency(projectid, what);
-                    what += ' ('+userAmount+' '+currency.name+')';
+                    what += ' ('+userAmount.toFixed(2)+' '+currency.name+')';
                     $('#what').val(what);
                     $('#bill-currency').val('');
                 }
@@ -3926,7 +3926,7 @@
                     if (currency !== null) {
                         initAmount = amountVal;
                         amountVal = amountVal * currency.exchange_rate;
-                        oneWhat += ' ('+initAmount+' '+currency.name+')';
+                        oneWhat += ' ('+initAmount.toFixed(2)+' '+currency.name+')';
                     }
                     createBill(projectid, oneWhat, amountVal, payer_id, date, [owerId], repeat, true,
                                paymentmode, categoryid, repeatallactive, repeatuntil);
@@ -3937,7 +3937,7 @@
                 var userAmount = tmpAmount;
                 tmpAmount = tmpAmount * currency.exchange_rate;
                 $('#amount').val(tmpAmount);
-                what += ' ('+userAmount+' '+currency.name+')';
+                what += ' ('+userAmount.toFixed(2)+' '+currency.name+')';
                 $('#what').val(what);
                 $('#bill-currency').val('');
             }
@@ -4010,7 +4010,7 @@
                     if (currency !== null) {
                         initAmount = amountVal;
                         amountVal = amountVal * currency.exchange_rate;
-                        oneWhat += ' ('+initAmount+' '+currency.name+')';
+                        oneWhat += ' ('+initAmount.toFixed(2)+' '+currency.name+')';
                     }
                     createBill(projectid, oneWhat, amountVal, payer_id, date, [owerId], repeat, true,
                                paymentmode, categoryid, repeatallactive, repeatuntil);

@@ -3143,7 +3143,6 @@
                 if (currency) {
                     var userAmount = amount;
                     amount = amount * currency.exchange_rate;
-                    amount = parseFloat(amount.toFixed(2));
                     $('#amount').val(amount);
                     what += ' ('+userAmount+' '+currency.name+')';
                     $('#what').val(what);
@@ -3234,7 +3233,6 @@
                 if (currency) {
                     var userAmount = amount;
                     amount = amount * currency.exchange_rate;
-                    amount = parseFloat(amount.toFixed(2));
                     $('#amount').val(amount);
                     what = cleanStringFromCurrency(projectid, what);
                     what += ' ('+userAmount+' '+currency.name+')';
@@ -3928,7 +3926,6 @@
                     if (currency !== null) {
                         initAmount = amountVal;
                         amountVal = amountVal * currency.exchange_rate;
-                        amountVal = parseFloat(amountVal.toFixed(2));
                         oneWhat += ' ('+initAmount+' '+currency.name+')';
                     }
                     createBill(projectid, oneWhat, amountVal, payer_id, date, [owerId], repeat, true,
@@ -3939,7 +3936,6 @@
             if (currency) {
                 var userAmount = tmpAmount;
                 tmpAmount = tmpAmount * currency.exchange_rate;
-                tmpAmount = parseFloat(tmpAmount.toFixed(2));
                 $('#amount').val(tmpAmount);
                 what += ' ('+userAmount+' '+currency.name+')';
                 $('#what').val(what);
@@ -4014,7 +4010,6 @@
                     if (currency !== null) {
                         initAmount = amountVal;
                         amountVal = amountVal * currency.exchange_rate;
-                        amountVal = parseFloat(amountVal.toFixed(2));
                         oneWhat += ' ('+initAmount+' '+currency.name+')';
                     }
                     createBill(projectid, oneWhat, amountVal, payer_id, date, [owerId], repeat, true,

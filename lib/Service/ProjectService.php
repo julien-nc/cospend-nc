@@ -475,7 +475,7 @@ class ProjectService {
 
     public function getProjectStatistics($projectId, $memberOrder=null, $dateMin=null, $dateMax=null,
                                           $paymentMode=null, $category=null, $amountMin=null, $amountMax=null,
-                                          $showDisabled='1') {
+                                          $showDisabled='1', $currencyId=null) {
         $membersWeight = [];
         $membersNbBills = [];
         $membersBalance = [];
@@ -483,6 +483,11 @@ class ProjectService {
         $membersSpent = [];
 
         $showDisabled = ($showDisabled === '1');
+
+        $currency = null;
+        if ($currencyId !== null and intval($currencyId) !== 0) {
+            $currency = $this->getCurrency($projectId, $currencyId);
+        }
 
         $projectCategories = $this->getCategories($projectId);
 
@@ -543,14 +548,27 @@ class ProjectService {
 
         // build global stats data
         $statistics = [];
-        foreach ($membersToDisplay as $memberId => $member) {
-            $statistic = [
-                'balance' => $membersBalance[$memberId],
-                'paid' => $membersPaid[$memberId],
-                'spent' => $membersSpent[$memberId],
-                'member' => $member
-            ];
-            array_push($statistics, $statistic);
+        if ($currency === null) {
+            foreach ($membersToDisplay as $memberId => $member) {
+                $statistic = [
+                    'balance' => $membersBalance[$memberId],
+                    'paid' => $membersPaid[$memberId],
+                    'spent' => $membersSpent[$memberId],
+                    'member' => $member
+                ];
+                array_push($statistics, $statistic);
+            }
+        }
+        else {
+            foreach ($membersToDisplay as $memberId => $member) {
+                $statistic = [
+                    'balance' => ($membersBalance[$memberId] === 0.0) ? 0 : $membersBalance[$memberId] / $currency['exchange_rate'],
+                    'paid' => ($membersPaid[$memberId] === 0.0) ? 0 : $membersPaid[$memberId] / $currency['exchange_rate'],
+                    'spent' => ($membersSpent[$memberId] === 0.0) ? 0 : $membersSpent[$memberId] / $currency['exchange_rate'],
+                    'member' => $member
+                ];
+                array_push($statistics, $statistic);
+            }
         }
 
         // compute monthly stats
@@ -595,6 +613,14 @@ class ProjectService {
             $averageKey = $this->trans->t('Average per month');
             $monthlyStats[$averageKey] = $averageStats;
         }
+        // convert if necessary
+        if ($currency !== null) {
+            foreach ($monthlyStats as $month=>$mStat) {
+                foreach ($mStat as $mid=>$val) {
+                    $monthlyStats[$month][$mid] = ($monthlyStats[$month][$mid] === 0.0) ? 0 : $monthlyStats[$month][$mid] / $currency['exchange_rate'];
+                }
+            }
+        }
         // compute category stats
         $categoryStats = [];
         foreach ($bills as $bill) {
@@ -609,6 +635,12 @@ class ProjectService {
                 $categoryStats[$categoryId] = 0;
             }
             $categoryStats[$categoryId] += $amount;
+        }
+        // convert if necessary
+        if ($currency !== null) {
+            foreach ($categoryStats as $catId=>$val) {
+                $categoryStats[$catId] = ($val === 0.0) ? 0 : $val / $currency['exchange_rate'];
+            }
         }
         // compute category per member stats
         $categoryMemberStats = [];
@@ -629,6 +661,14 @@ class ProjectService {
             }
             if (array_key_exists($payerId, $membersToDisplay)) {
                 $categoryMemberStats[$categoryId][$payerId] += $amount;
+            }
+        }
+        // convert if necessary
+        if ($currency !== null) {
+            foreach ($categoryMemberStats as $catId=>$mStat) {
+                foreach ($mStat as $mid=>$val) {
+                    $categoryMemberStats[$catId][$mid] = ($val === 0.0) ? 0 : $val / $currency['exchange_rate'];
+                }
             }
         }
 
@@ -2899,7 +2939,7 @@ class ProjectService {
     }
 
     public function exportCsvStatistics($projectid, $userId, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null,
-                                        $amountMin=null, $amountMax=null) {
+                                        $amountMin=null, $amountMax=null, $showDisabled='1', $currencyId=null) {
         // create export directory if needed
         $outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
         $userFolder = \OC::$server->getUserFolder($userId);
@@ -2918,7 +2958,7 @@ class ProjectService {
         $handler = $file->fopen('w');
         fwrite($handler, $this->trans->t('Member name').','. $this->trans->t('Paid').','. $this->trans->t('Spent').','. $this->trans->t('Balance')."\n");
         $allStats = $this->getProjectStatistics($projectid, 'lowername', $dateMin, $dateMax, $paymentMode,
-                                                    $category, $amountMin, $amountMax);
+                                                $category, $amountMin, $amountMax, $showDisabled, $currencyId);
         $stats = $allStats['stats'];
         if (!is_array($stats)) {
         }

@@ -404,11 +404,11 @@ class PageController extends ApiController {
      *
      */
     public function webGetProjectStatistics($projectid, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null,
-                                            $amountMin=null, $amountMax=null, $showDisabled='1') {
+                                            $amountMin=null, $amountMax=null, $showDisabled='1', $currencyId=null) {
         if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
             $result = $this->projectService->getProjectStatistics(
                 $projectid, 'lowername', $dateMin, $dateMax, $paymentMode,
-                $category, $amountMin, $amountMax, $showDisabled
+                $category, $amountMin, $amountMax, $showDisabled, $currencyId
             );
             return new DataResponse($result);
         }
@@ -1342,11 +1342,11 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiGetProjectStatistics($projectid, $password, $dateMin=null, $dateMax=null, $paymentMode=null,
-                                            $category=null, $amountMin=null, $amountMax=null, $showDisabled='1') {
+                                            $category=null, $amountMin=null, $amountMax=null, $showDisabled='1', $currencyId=null) {
         if ($this->checkLogin($projectid, $password)) {
             $result = $this->projectService->getProjectStatistics(
                 $projectid, 'lowername', $dateMin, $dateMax, $paymentMode,
-                $category, $amountMin, $amountMax, $showDisabled
+                $category, $amountMin, $amountMax, $showDisabled, $currencyId
             );
             $response = new DataResponse($result);
         }
@@ -1365,11 +1365,11 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiPrivGetProjectStatistics($projectid, $dateMin=null, $dateMax=null, $paymentMode=null,
-                                            $category=null, $amountMin=null, $amountMax=null, $showDisabled='1') {
+                                            $category=null, $amountMin=null, $amountMax=null, $showDisabled='1', $currencyId=null) {
         if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
             $result = $this->projectService->getProjectStatistics(
                 $projectid, 'lowername', $dateMin, $dateMax, $paymentMode,
-                $category, $amountMin, $amountMax, $showDisabled
+                $category, $amountMin, $amountMax, $showDisabled, $currencyId
             );
             $response = new DataResponse($result);
         }
@@ -2131,10 +2131,11 @@ class PageController extends ApiController {
      * @NoAdminRequired
      */
     public function exportCsvStatistics($projectid, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null,
-                                        $amountMin=null, $amountMax=null) {
+                                        $amountMin=null, $amountMax=null, $showDisabled='1', $currencyId=null) {
         if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
             $result = $this->projectService->exportCsvStatistics($projectid, $this->userId, $dateMin, $dateMax,
-                                                                 $paymentMode, $category, $amountMin, $amountMax);
+                                                                 $paymentMode, $category, $amountMin, $amountMax,
+                                                                 $showDisabled, $currencyId);
             if (is_array($result) and array_key_exists('path', $result)) {
                 return new DataResponse($result);
             }

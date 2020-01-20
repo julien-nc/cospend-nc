@@ -1108,7 +1108,7 @@
     }
 
     function getProjectStatistics(projectid, dateMin=null, dateMax=null, paymentMode=null, category=null,
-                                  amountMin=null, amountMax=null, showDisabled=true) {
+                                  amountMin=null, amountMax=null, showDisabled=true, currencyId=null) {
         $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
         var req = {
             dateMin: dateMin,
@@ -1117,7 +1117,8 @@
             category: category,
             amountMin: amountMin,
             amountMax: amountMax,
-            showDisabled: showDisabled ? '1' : '0'
+            showDisabled: showDisabled ? '1' : '0',
+            currencyId: currencyId
         };
         var url;
         var type;
@@ -1156,7 +1157,7 @@
                 delete cospend.currentMemberPolarChart;
             }
             displayStatistics(projectid, response, dateMin, dateMax, paymentMode, category,
-                              amountMin, amountMax, showDisabled);
+                              amountMin, amountMax, showDisabled, currencyId);
         }).always(function() {
         }).fail(function() {
             OC.Notification.showTemporary(t('cospend', 'Failed to get statistics'));
@@ -1743,7 +1744,7 @@
     }
 
     function displayStatistics(projectid, allStats, dateMin=null, dateMax=null, paymentMode=null, category=null,
-                               amountMin=null, amountMax=null, showDisabled=true) {
+                               amountMin=null, amountMax=null, showDisabled=true, currencyId=null) {
         // deselect bill
         $('.billitem').removeClass('selectedbill');
 
@@ -1815,6 +1816,16 @@
             '    </select>' +
             '    <label for="amount-min-stats">'+t('cospend', 'Minimum amount')+': </label><input type="number" id="amount-min-stats"/>' +
             '    <label for="amount-max-stats">'+t('cospend', 'Maximum amount')+': </label><input type="number" id="amount-max-stats"/>' +
+            '    <label for="currency-stats">'+t('cospend', 'Currency used')+': </label>' +
+            '    <select id="currency-stats">' +
+            '       <option value="0">'+(project.currencyname || t('cospend', 'Main project\'s currency'))+'</option>';
+        var currency;
+        for (var i = 0; i < project.currencies.length; i++) {
+            currency = project.currencies[i];
+            statsStr += '<option value="'+currency.id+'">'+currency.name+' (x'+currency.exchange_rate+')</option>';
+        }
+        statsStr +=
+            '    </select>' +
             '    <input id="showDisabled" class="checkbox" type="checkbox"/>' +
             '    <label for="showDisabled" class="checkboxlabel">'+t('cospend', 'Show disabled members')+'</label> ' +
             '</div>' +
@@ -2056,6 +2067,9 @@
         }
         if (showDisabled) {
             $('#showDisabled').prop('checked', true);
+        }
+        if (currencyId) {
+            $('#currency-stats').val(currencyId);
         }
 
         displayCategoryMemberChart();
@@ -3693,7 +3707,7 @@
     }
 
     function exportStatistics(projectid, dateMin=null, dateMax=null, paymentMode=null, category=null,
-                              amountMin=null, amountMax=null) {
+                              amountMin=null, amountMax=null, showDisabled=true, currencyId=null) {
         $('.exportStats[projectid="'+projectid+'"] span').addClass('icon-loading-small');
         var req = {
             projectid: projectid,
@@ -3702,7 +3716,9 @@
             paymentMode: paymentMode,
             category: category,
             amountMin: amountMin,
-            amountMax: amountMax
+            amountMax: amountMax,
+            showDisabled: showDisabled ? '1' : '0',
+            currencyId: currencyId
         };
         var url = OC.generateUrl('/apps/cospend/exportCsvStatistics');
         $.ajax({
@@ -4618,7 +4634,7 @@
 
         $('body').on('change', '#date-min-stats, #date-max-stats, #payment-mode-stats, ' +
                                '#category-stats, #amount-min-stats, #amount-max-stats, ' +
-                               '#showDisabled', function(e) {
+                               '#showDisabled, #currency-stats', function(e) {
             var projectid = cospend.currentProjectId;
             var dateMin = $('#date-min-stats').val();
             var dateMax = $('#date-max-stats').val();
@@ -4627,7 +4643,8 @@
             var amountMin = $('#amount-min-stats').val();
             var amountMax = $('#amount-max-stats').val();
             var showDisabled = $('#showDisabled').is(':checked');
-            getProjectStatistics(projectid, dateMin, dateMax, paymentMode, category, amountMin, amountMax, showDisabled);
+            var currencyId = $('#currency-stats').val();
+            getProjectStatistics(projectid, dateMin, dateMax, paymentMode, category, amountMin, amountMax, showDisabled, currencyId);
         });
 
         $('body').on('click', '.getProjectSettlement', function(e) {
@@ -4730,8 +4747,10 @@
             var category = $('#category-stats').val();
             var amountMin = $('#amount-min-stats').val();
             var amountMax = $('#amount-max-stats').val();
+            var showDisabled = $('#showDisabled').is(':checked');
+            var currencyId = $('#currency-stats').val();
 
-            exportStatistics(projectid, dateMin, dateMax, paymentMode, category, amountMin, amountMax);
+            exportStatistics(projectid, dateMin, dateMax, paymentMode, category, amountMin, amountMax, showDisabled, currencyId);
         });
 
         $('body').on('click', '.exportSettlement', function() {

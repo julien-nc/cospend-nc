@@ -1816,7 +1816,7 @@
             '    </select>' +
             '    <label for="amount-min-stats">'+t('cospend', 'Minimum amount')+': </label><input type="number" id="amount-min-stats"/>' +
             '    <label for="amount-max-stats">'+t('cospend', 'Maximum amount')+': </label><input type="number" id="amount-max-stats"/>' +
-            '    <label for="currency-stats">'+t('cospend', 'Currency used')+': </label>' +
+            '    <label for="currency-stats">'+t('cospend', 'Currency of statistic values')+': </label>' +
             '    <select id="currency-stats">' +
             '       <option value="0">'+(project.currencyname || t('cospend', 'Main project\'s currency'))+'</option>';
         var currency;

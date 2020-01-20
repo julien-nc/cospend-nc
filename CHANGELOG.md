@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.3.2 – 2020-01-20
+### Added
+- project currencies management and conversion
+[#36](https://gitlab.com/eneiluj/cospend-nc/issues/36)
+[#46](https://gitlab.com/eneiluj/cospend-nc/issues/46) @archit3kt @Allirion @deepbluev7 @puerki
+- custom categories
+[#65](https://gitlab.com/eneiluj/cospend-nc/issues/65) @Helloha
+
+### Changed
+- show avatars where it's possible
+
+### Fixed
+- use proper templates for public pages (guest access)
+
 ## 0.3.0 – 2020-01-08
 ### Added
 - option to change output directory

@@ -187,16 +187,21 @@ class UtilsController extends Controller {
                     $avatarFolder = null;
                 }
             }
-            $letter = strtoupper($name[0]);
+            $letter = strtoupper(substr($name, 0, 2));
+            if (mb_strlen($letter) === 2) {
+                $letter = $letter[0];
+            }
+            $filename = md5($letter).$color.'.png';
             // precaution if file was manually delete from real filesystem
-            if ($avatarFolder !== null and $avatarFolder->fileExists($letter.$color.'.png')) {
-                $dataFile = $avatarFolder->getFile($letter.$color.'.png');
+            if ($avatarFolder !== null and $avatarFolder->fileExists($filename)) {
+                $dataFile = $avatarFolder->getFile($filename);
                 $resultData = $dataFile->getContent();
                 // TODO find a way to check to file really exists in the filesystem
                 // if not, delete the file obj
                 //$dataFile->delete();
             }
-            if ($avatarFolder === null || !$avatarFolder->fileExists($letter.$color.'.png')) {
+            if ($avatarFolder === null || !$avatarFolder->fileExists($filename)) {
+                error_log('generate '.$filename);
                 $size = 64;
                 $backgroundColor = $this->hexToRgb($color);
 
@@ -231,7 +236,7 @@ class UtilsController extends Controller {
 
                 // store it
                 if ($avatarFolder !== null) {
-                    $outFile = $avatarFolder->newFile($letter.$color.'.png');
+                    $outFile = $avatarFolder->newFile($filename);
                     $outFile->putContent($data);
                 }
 

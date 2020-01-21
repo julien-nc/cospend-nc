@@ -3190,7 +3190,7 @@
         return str;
     }
 
-    function onBillEdited() {
+    function onBillEdited(amountChanged=false) {
         // get bill info
         var billid = $('.bill-title').attr('billid');
         var projectid = $('.bill-title').attr('projectid');
@@ -3242,6 +3242,10 @@
 
         // if valid, save the bill
         if (valid) {
+            if (amountChanged) {
+                what = cleanStringFromCurrency(projectid, what);
+                $('#what').val(what);
+            }
             // manage currencies
             if ($('#bill-currency') && $('#bill-currency').val()) {
                 var currencyId = $('#bill-currency').val();
@@ -4484,8 +4488,11 @@
         });
 
         // what and amount : delay on edition
-        $('body').on('keyup paste change', '.input-bill-what, .input-bill-amount', delay(function(e) {
+        $('body').on('keyup paste change', '.input-bill-what', delay(function(e) {
             onBillEdited();
+        }, 2000));
+        $('body').on('keyup paste change', '.input-bill-amount', delay(function(e) {
+            onBillEdited(true);
         }, 2000));
 
         // other bill fields : direct on edition

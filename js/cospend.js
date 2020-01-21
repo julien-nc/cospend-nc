@@ -2297,6 +2297,7 @@
             ' ' + formattedLinks
         );
         $('.bill-title').attr('style', 'background-color: '+c+';');
+        updateAmountEach(projectid);
     }
 
     function displayBill(projectid, billid) {
@@ -2354,6 +2355,7 @@
                     '<label for="'+projectid+member.id+'" class="checkboxlabel">'+member.name+'</label> ' +
                     '<input id="amount'+projectid+member.id+'" owerid="'+member.id+'" class="amountinput" type="number" value="" step="0.01" min="0"/>' +
                     '<label for="amount'+projectid+member.id+'" class="numberlabel">'+member.name+'</label>' +
+                    '<label class="spentlabel"></label>' +
                     '</div>';
             }
         }
@@ -2452,8 +2454,7 @@
             '                <a class="icon icon-quota"></a>' +
             '                '+amountStr+
             '            </label>' +
-            '            <label id="amountEach"></label>' +
-            '            <input type="number" id="amount" class="input-bill-amount" value="'+bill.amount+'" step="0.01" min="0"/>' +
+            '            <input type="number" id="amount" class="input-bill-amount" value="'+bill.amount+'" step="any" min="0"/>' +
             '           ' + currenciesStr +
             '        </div>' +
             '        <div class="bill-payer">' +
@@ -2578,23 +2579,31 @@
             $('#repeatuntil').hide();
             $('label[for=repeatuntil]').hide();
         }
-        updateAmountEach();
+        updateAmountEach(projectid);
     }
 
-    function updateAmountEach() {
+    function updateAmountEach(projectid) {
         var amount = $('#amount').val();
         var nbChecked = $('.owerEntry .checkbox:checked').length;
+        var weightSum = 0;
+        var oneWeight, mid, owerVal;
         var billType = $('#billtype').val();
         var billId = parseInt($('#billdetail .bill-title').attr('billid'));
+        $('.spentlabel').text('');
         if (nbChecked > 0 &&
             (billId !== 0 || billType === 'normal') &&
             !isNaN(amount) &&
             parseFloat(amount) > 0.0) {
-            var each = parseFloat(amount) / nbChecked;
-            $('#amountEach').text(' ('+t('cospend', '{n} each', {n: each.toFixed(2)})+')').show();
-        }
-        else {
-            $('#amountEach').hide();
+            $('.owerEntry .checkbox:checked').each(function() {
+                mid = $(this).attr('owerid');
+                weightSum += cospend.members[projectid][mid].weight;
+            });
+            oneWeight = parseFloat(amount) / weightSum;
+            $('.owerEntry .checkbox:checked').each(function() {
+                mid = $(this).attr('owerid');
+                owerVal = oneWeight * cospend.members[projectid][mid].weight;
+                $(this).parent().find('.spentlabel').text('('+owerVal.toFixed(2)+')');
+            });
         }
     }
 
@@ -3182,10 +3191,10 @@
     }
 
     function onBillEdited() {
-        updateAmountEach();
         // get bill info
         var billid = $('.bill-title').attr('billid');
         var projectid = $('.bill-title').attr('projectid');
+        updateAmountEach(projectid);
         // check fields validity
         var valid = true;
 

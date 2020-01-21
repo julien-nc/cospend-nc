@@ -4372,7 +4372,8 @@
 
         $('body').on('click', '.editWeightMember', function(e) {
             var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
-            var weight = $(this).parent().parent().parent().parent().find('a > span > b.memberWeight').text();
+            var mid = $(this).parent().parent().parent().parent().attr('memberid');
+            var weight = cospend.members[projectid][mid].weight;
             $(this).parent().parent().parent().parent().find('.editMemberInput').val(weight).focus().select();
             $('.memberlist li').removeClass('editing');
             $(this).parent().parent().parent().parent().addClass('editing');

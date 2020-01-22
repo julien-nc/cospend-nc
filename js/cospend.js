@@ -1238,12 +1238,14 @@
             amount = transactionList[i].amount.toFixed(2);
             whoPaysName = getMemberName(projectid, transactionList[i].from);
             toWhomName = getMemberName(projectid, transactionList[i].to);
-            settlementStr = settlementStr +
-                '<tr>' +
-                '<td>'+whoPaysName+'</td>' +
-                '<td>'+toWhomName+'</td>' +
-                '<td>'+amount+'</td>' +
-                '</tr>';
+            if (amount !== '0.00') {
+                settlementStr = settlementStr +
+                    '<tr>' +
+                    '<td>'+whoPaysName+'</td>' +
+                    '<td>'+toWhomName+'</td>' +
+                    '<td>'+amount+'</td>' +
+                    '</tr>';
+            }
         }
         settlementStr = settlementStr + '</table>';
         $('#billdetail').html(settlementStr);

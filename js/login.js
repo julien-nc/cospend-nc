@@ -27,6 +27,10 @@
     function main() {
         var url = OC.generateUrl('/apps/cospend/project');
         $('#loginform').attr('action', url);
+
+        if ($('#passwordInput').val().length > 0) {
+            $('#loginform').submit();
+        }
     }
 
 })(jQuery, OC);

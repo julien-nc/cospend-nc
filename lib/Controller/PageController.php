@@ -149,6 +149,35 @@ class PageController extends ApiController {
         return $response;
     }
 
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     */
+    public function pubLoginProjectPassword($projectid, $password='') {
+        // PARAMS to view
+        $params = [
+            'projectid'=>$projectid,
+            'password'=>$password,
+            'wrong'=>false,
+            'cospend_version'=>$this->appVersion
+        ];
+        $response = new PublicTemplateResponse('cospend', 'login', $params);
+        $response->setHeaderTitle($this->trans->t('Cospend public access'));
+        $response->setHeaderDetails($this->trans->t('Enter password of project %s', [$projectid]));
+        $response->setFooterVisible(false);
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            //->addAllowedChildSrcDomain('*')
+            ->addAllowedFrameDomain('*')
+            ->addAllowedWorkerSrcDomain('*')
+            ->addAllowedObjectDomain('*')
+            ->addAllowedScriptDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
 
     /**
      * @NoAdminRequired

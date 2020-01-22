@@ -20,7 +20,11 @@ if (array_key_exists('projectid', $_)) {
 <br/>
 <label for="passwordInput" id="passwordlabel"><?php p($l->t('Project password (aka Access code)')); ?></label>
 <br/>
-<input id="passwordInput" name="password" type="password" value=""/>
+<input id="passwordInput" name="password" type="password" value="<?php 
+if (array_key_exists('password', $_)) {
+    p($_['password']);
+}
+?>"/>
 
 <br/>
 <button id="okbutton" type="submit">Submit</button>

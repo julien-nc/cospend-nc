@@ -117,6 +117,7 @@ return [
         ['name' => 'page#webGetProjectStatistics', 'url' => 'getStatistics', 'verb' => 'POST'],
         ['name' => 'page#webGetProjectSettlement', 'url' => 'getSettlement', 'verb' => 'POST'],
         ['name' => 'page#webAutoSettlement', 'url' => 'autoSettlement', 'verb' => 'POST'],
+        ['name' => 'page#pubLoginProjectPassword', 'url' => 'loginproject/{projectid}/{password}', 'verb' => 'GET'],
         ['name' => 'page#pubLoginProject', 'url' => 'loginproject/{projectid}', 'verb' => 'GET'],
         ['name' => 'page#pubLogin', 'url' => 'login', 'verb' => 'GET'],
         ['name' => 'page#pubProject', 'url' => 'project', 'verb' => 'POST'],

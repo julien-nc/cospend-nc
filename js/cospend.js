@@ -464,13 +464,17 @@
             var memberLine = $('.projectitem[projectid="'+projectid+'"] ul.memberlist > li[memberid='+memberid+']');
             // update member values
             cospend.members[projectid][memberid].color = rgbObjToHex(response.color).replace('#', '');
-            if (newName) {
-                memberLine.find('b.memberName').text(newName);
-                cospend.members[projectid][memberid].name = newName;
-            }
             if (newWeight) {
                 cospend.members[projectid][memberid].weight = newWeight;
                 updateProjectBalances(projectid);
+            }
+            if (newName) {
+                var weight = parseFloat(cospend.members[projectid][memberid].weight);
+                memberLine.find('b.memberName').text(
+                    ((weight !== 1.0) ? ('(x'+cospend.members[projectid][memberid].weight+') ') : '') +
+                    newName
+                );
+                cospend.members[projectid][memberid].name = newName;
             }
             // update title
             memberLine.find('b.memberName').attr('title', newName+' (x'+cospend.members[projectid][memberid].weight+')');
@@ -3053,7 +3057,7 @@
             '    <a class="member-list-icon" href="#">' +
             '        <span class="memberNameBalance">' +
             '            <b class="memberName" title="'+member.name+' (x'+member.weight+')">' +
-                            member.name +
+                            ((parseFloat(member.weight) !== 1.0) ? ('(x'+member.weight+') ') : '') + member.name +
                         '</b>' +
                          balanceStr +
             '        </span>' +
@@ -4367,7 +4371,8 @@
 
         $('body').on('click', '.renameMember', function(e) {
             var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
-            var name = $(this).parent().parent().parent().parent().find('a > span > b.memberName').text();
+            var mid = $(this).parent().parent().parent().parent().attr('memberid');
+            var name = cospend.members[projectid][mid].name;
             $(this).parent().parent().parent().parent().find('.editMemberInput').val(name).focus().select();
             $('.memberlist li').removeClass('editing');
             $(this).parent().parent().parent().parent().addClass('editing');
@@ -4399,7 +4404,7 @@
                 }
                 else if (cospend.memberEditionMode === MEMBER_WEIGHT_EDITION) {
                     var newWeight = $(this).val();
-                    newName = $(this).parent().parent().parent().find('b.memberName').text();
+                    newName = cospend.members[projectid][memberid].name;
                     editMember(projectid, memberid, newName, newWeight, null);
                 }
             }

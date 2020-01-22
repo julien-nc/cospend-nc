@@ -56,7 +56,7 @@ b.memberName, b.memberWeight {
     font-weight: normal;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 90px;
+    max-width: 104px;
     display: inline-block;
 }
 .memberNameBalance {
@@ -67,7 +67,7 @@ b.memberName, b.memberWeight {
     width: 24px;
     height: auto;
     border-radius: 50%;
-    margin: 10px 6px 10px 6px;
+    margin: 10px 6px 10px 0px;
     cursor: pointer;
 }
 .memberAvatar .disabledMask {
@@ -82,10 +82,10 @@ b.memberName, b.memberWeight {
     background-image: url(images/forbidden.svg);
     position: absolute;
     top: 9px;
-    left: 49px;
+    left: 43px;
 }
 .memberAvatar {
-    width: 36px;
+    width: 26px;
     height: 44px;
 }
 .member-list-icon {

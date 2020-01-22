@@ -115,6 +115,10 @@ b.memberName, b.memberWeight {
     display: inline-block;
     vertical-align: middle;
 }
+#statsTable .owerAvatar img,
+#monthlyTable .owerAvatar img {
+    margin-bottom: 2px;
+}
 .owerAvatar img {
     width: 24px;
     height: auto;
@@ -127,6 +131,10 @@ b.memberName, b.memberWeight {
 }
 .owerAvatarDisabled {
     margin-left: -28px;
+}
+#statsTable .owerAvatarDisabled .disabledMask,
+#monthlyTable .owerAvatarDisabled .disabledMask {
+    top: -1px;
 }
 .owerAvatarDisabled .disabledMask {
     display: inline-block;

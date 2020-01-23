@@ -17,7 +17,7 @@ Projektmitglieder sind unabhängig von Nextcloud Benutzern. Projekte können von
 * 🗠 Projektstatistik anzeigen
 * ♻ Abrechnungsplan anzeigen
 * 🎇 Erstelle Ausgleichszahlungen vom Abrechnungsplan (automatisch)
-* 🗓 create recurring bills (daily/weekly/monthly/yearly)
+* 🗓 Erstelle wiederkehrende Rechnungen (täglich/wöchentlich/monatlich/jährlich)
 * 📊 Gib bei neuen Ausgaben einen eigenen Betrag für jedes Mitglied an (optional)
 * 🔗 Füge der Ausgabenbeschreibung eine persönliche Datei mit einen öffentlichen Link hinzu (z.B. Bild der Quittung für eine Ausgabe)
 * 👩 Gastzugang für Personen ohne Nextcloud-Konto

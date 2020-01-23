@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-01-14 17:54+0100\n"
-"PO-Revision-Date: 2020-01-14 16:56\n"
+"POT-Creation-Date: 2020-01-20 14:51+0100\n"
+"PO-Revision-Date: 2020-01-20 14:10\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Greek\n"
 "Language: el_GR\n"
@@ -124,12 +124,12 @@ msgid "Failed to add member"
 msgstr "Αποτυχία προσθήκης μέλους"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:479
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3009
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3029
 msgid "Reactivate"
 msgstr "Επανενεργοποίηση"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:484
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3004
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3024
 msgid "Deactivate"
 msgstr "Απενεργοποίηση"
 
@@ -158,9 +158,9 @@ msgid "Failed to save bill"
 msgstr "Αποτυχία αποθήκευσης λογαριασμού"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:679
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2256
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2362
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2617
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2274
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2380
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2637
 msgid "link"
 msgstr "σύνδεσμος"
 
@@ -173,15 +173,15 @@ msgid "Failed to save external project"
 msgstr "Αποτυχία αποθήκευσης εξωτερικού έργου"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:842
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2763
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2783
 msgid "Deleted {name}"
 msgstr "Διαγραφή {name}"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:851
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1355
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2384
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2480
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2495
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1356
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2402
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2500
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2515
 msgid "None"
 msgstr "Κανένα"
 
@@ -202,10 +202,10 @@ msgid "Failed to delete project"
 msgstr "Αποτυχία διαγραφής έργου"
 
 #: /var/www/html/n17/apps/cospend/js/cospend.js:953
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2227
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3940
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4015
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4549
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2245
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3969
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4043
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4577
 msgid "No bill yet"
 msgstr "Δεν υπάρχει ακόμα λογαριασμός"
 
@@ -229,644 +229,657 @@ msgstr ""
 msgid "Failed to get project categories"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1162
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1163
 msgid "Failed to get statistics"
 msgstr "Αποτυχία λήψης στατιστικών"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1202
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1203
 msgid "Failed to get settlement"
 msgstr "Αποτυχία λήψης διακανονισμού"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1215
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1216
 msgid "Settlement of project {name}"
 msgstr "Διακανονισμός έργου {name}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1216
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2848
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1217
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2901
 msgid "Who pays?"
 msgstr "Ποιος πληρώνει;"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1217
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2848
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1218
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2901
 msgid "To whom?"
 msgstr "Προς ποιον;"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1218
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2354
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2848
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1219
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2372
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2901
 msgid "How much?"
 msgstr "Πόσο;"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1221
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1772
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1222
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1777
 msgid "Export"
 msgstr "Εξαγωγή"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1223
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1224
 msgid "Add these payments to project"
 msgstr "Προσθήκη πληρωμών στο έργο"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1272
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1273
 msgid "MoneyBuster link/QRCode for project {name}"
 msgstr "Σύνδεσμος/QRCode MoneyBuster για το έργο {name}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1279
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1280
 msgid "Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone."
 msgstr "Σάρωση αυτού του QRCode με το MoneyBuster στο Android και άνοιγμα του συνδέσμου ή αποστολή του συνδέσμου σε άλλο τηλέφωνο Android."
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1343
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1344
 msgid "Currencies of project {name}"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1351
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1352
 msgid "Main currency"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1359
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1360
 msgid "Potatoe"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1367
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1368
 msgid "Add currency"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1370
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1441
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1570
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1645
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1371
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1444
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1575
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1650
 msgid "Name"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1372
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1443
-msgid "Exchange rate to main currency (1 of this currency = X of main currency)"
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1373
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1446
+msgid "Exchange rate to main currency"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1378
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1374
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1447
+msgid "(1 of this currency = X of main currency)"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1381
 msgid "Currency list"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1424
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1427
 msgid "Currency {n} added"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1428
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1431
 msgid "Failed to add currency"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1496
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1501
 msgid "Failed to delete currency"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1545
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1550
 msgid "Failed to edit currency"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1557
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1562
 msgid "Categories of project {name}"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1565
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1570
 msgid "Add category"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1568
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1643
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1573
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1648
 msgid "Icon"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1572
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1647
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1577
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1652
 msgid "Color"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1578
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1583
 msgid "Category list"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1625
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1630
 msgid "Category {n} added"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1629
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1634
 msgid "Failed to add category"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1690
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1695
 msgid "Failed to delete category"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1737
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1742
 msgid "Failed to edit category"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1759
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1764
 msgid "Statistics of project {name}"
 msgstr "Στατιστικά του έργου {name}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1760
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2906
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1765
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2959
 msgid "Member name"
 msgstr "Όνομα μέλους"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1761
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2906
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1766
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2959
 msgid "Paid"
 msgstr "Πληρώθηκε"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1762
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2906
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1767
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2959
 msgid "Spent"
 msgstr "Ξοδεύτηκαν"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1763
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2906
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1768
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:2959
 msgid "Balance"
 msgstr "Υπόλοιπο"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1775
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1780
 msgid "Total payed by all the members: {t}"
 msgstr "Συνολικό ποσό που καταβλήθηκε από όλα τα μέλη: {t}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1779
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1784
 msgid "Minimum date"
 msgstr "Ελάχιστη ημερομηνία"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1780
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1785
 msgid "Maximum date"
 msgstr "Μέγιστη ημερομηνία"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1783
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2394
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1788
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2412
 msgid "Payment mode"
 msgstr "Τρόπος πληρωμής"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1786
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1799
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2383
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1791
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1804
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2401
 msgid "All"
 msgstr "Όλα"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1796
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2395
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1801
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2413
 msgid "Category"
 msgstr "Κατηγορία"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1800
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1805
 msgid "All except reimbursement"
 msgstr "Όλα εκτός από τις αποζημιώσεις"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1812
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1817
 msgid "Minimum amount"
 msgstr "Ελάχιστο ποσό"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1813
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1818
 msgid "Maximum amount"
 msgstr "Μέγιστο ποσό"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1815
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1819
+msgid "Currency of statistic values"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1821
+msgid "Main project's currency"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1830
 msgid "Show disabled members"
 msgstr "Εμφάνιση απενεργοποιημένων μελών"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1819
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1834
 msgid "Global stats"
 msgstr "Συνολικά στατιστικά στοιχεία"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1858
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1873
 msgid "Monthly stats"
 msgstr "Μηνιαία στατιστικά"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1860
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1875
 msgid "Member/Month"
 msgstr "Μέλος/Μήνας"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1874
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1889
 msgid "All members"
 msgstr "Όλα τα μέλη"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1916
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2004
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2083
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2159
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1931
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2019
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2101
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2177
 msgid "No category"
 msgstr "Χωρίς κατηγορία"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:1972
+#: /var/www/html/n17/apps/cospend/js/cospend.js:1987
 msgid "Who paid (outside circle) and spent (inside pie)?"
 msgstr "Ποιος πλήρωσε (εκτός κύκλου) και ξόδεψε (μέσα σε πίτα);"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2018
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2033
 msgid "What was paid per category?"
 msgstr "Τι πληρώθηκε ανά κατηγορία;"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2109
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2127
 msgid "Who paid for category \"{c}\"?"
 msgstr "Ποιος πλήρωσε για \"{c}\";"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2173
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2191
 msgid "What kind of member is \"{m}\"?"
 msgstr "Τι είδος μέλους είναι ο \"{m}\";"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2231
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2249
 msgid "Failed to get bills"
 msgstr "Αποτυχία λήψης λογαριασμών"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2278
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2381
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2296
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2399
 msgid "Bill : {what}"
 msgstr "Λογαριασμός : {what}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2353
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2371
 msgid "What?"
 msgstr "Τι;"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2355
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2373
 msgid "Who payed?"
 msgstr "Ποιος πλήρωσε;"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2356
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2374
 msgid "When?"
 msgstr "Πότε;"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2357
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2375
 msgid "For whom?"
 msgstr "Προς ποιον;"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2385
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4774
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2403
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4805
 msgid "Create the bill"
 msgstr "Δημιουργία λογαριασμού"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2386
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2404
 msgid "Attach public link to personal file"
 msgstr "Επισύναψη δημόσιου συνδέσμου σε προσωπικό αρχείο"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2387
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2405
 msgid "Classic, even split"
 msgstr "Κλασικό, ισότιμη κατανομή"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2388
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2406
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
 msgstr "Κλασική λειτουργία: Επιλέξτε έναν πληρωτή, εισάγετε ένα ποσό λογαριασμού και επιλέξτε ποιος ενδιαφέρεται για το σύνολο των δαπανών, ο λογαριασμός κατανέμεται στη συνέχεια ισότιμα μεταξύ επιλεγμένων μελών. Παράδειγμα: Ένα άτομο πληρώνει ολόκληρο το λογαριασμό του εστιατορίου και όλοι συμφωνούν να κατανείμουν ομοιόμορφα το κόστος."
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2389
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2407
 msgid "Custom owed amount per member"
 msgstr "Προσαρμοσμένο οφειλόμενο ποσό ανά μέλος"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2390
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2408
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
 msgstr "Προσαρμοσμένη λειτουργία, άνιση κατανομή: Επιλέξτε έναν πληρωτή, αγνοήστε το ποσό του λογαριασμού (το οποίο είναι απενεργοποιημένο) και εισάγετε ένα οφειλόμενο ποσό για κάθε ενδιαφερόμενο μέλος. Στη συνέχεια πατήστε \"Δημιουργία λογαριασμών\". Θα δημιουργηθούν πολλαπλοί λογαριασμοί. Παράδειγμα: Το ένα άτομο πληρώνει ολόκληρο το λογαριασμό του εστιατορίου, αλλά υπάρχουν μεγάλες διαφορές τιμών μεταξύ του τι έφαγε κάθε άτομο."
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2391
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2409
 msgid "Even split with optional personal parts"
 msgstr "Ισότιμη κατανομή με προαιρετικά προσωπικά μέρη"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2392
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2410
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr "Κλασσική + προσωπική λειτουργία: Αυτή η λειτουργία είναι παρόμοια με την κλασική. Επιλέξτε έναν πληρωτή και εισάγετε ένα ποσό λογαριασμού που αντιστοιχεί σε αυτό που πραγματικά πληρώσατε. Στη συνέχεια επιλέξτε ποιος ενδιαφέρεται για το λογαριασμό και προαιρετικά ορίστε ένα ποσό που σχετίζεται με προσωπικά πράγματα για ορισμένα μέλη. Θα δημιουργηθούν πολλαπλοί λογαριασμοί: ένας για τις κοινές δαπάνες και ένας για κάθε προσωπικό κομμάτι. Παράδειγμα: Πηγαίνουμε για ψώνια, μέρος των αγαθών που αγοράσαμε αφορά την ομάδα, αλλά κάποιος πρόσθεσε επίσης κάτι προσωπικό (όπως ένα πουκάμισο) το οποίο οι άλλοι δεν θέλουν να πληρώσουν συλλογικά."
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2393
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2411
 msgid "Bill type"
 msgstr "Τύπος λογαριασμού"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2456
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2476
 msgid "Repeat this bill every"
 msgstr "Επανάληψη αυτού του λογαριασμού κάθε"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2459
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2479
 msgid "do not repeat"
 msgstr "να μην επαναληφθεί"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2460
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2480
 msgid "day"
 msgstr "μέρα"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2461
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2481
 msgid "week"
 msgstr "εβδομάδα"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2462
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2482
 msgid "month"
 msgstr "μήνας"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2463
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2483
 msgid "year"
 msgstr "έτος"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2467
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2487
 msgid "Include all active member on repeat"
 msgstr "Συμπερίληψη όλων των ενεργών μελών στην επανάληψη"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2470
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2490
 msgid "Repeat until"
 msgstr "Επανάληψη εώς"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2574
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2594
 msgid "{n} each"
 msgstr "{n} κάθε"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2602
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2642
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2622
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2662
 msgid "Member list is not up to date. Reloading in 5 sec."
 msgstr "Η λίστα μελών δεν είναι ενημερωμένη. Ανανέωση σε 5 δευτ."
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2732
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2752
 msgid "Failed to update balances"
 msgstr "Αποτυχία ενημέρωσης υπολοίπων"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2745
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2765
 msgid "Add member"
 msgstr "Προσθήκη μέλους"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2746
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2766
 #: /var/www/html/n17/apps/cospend/templates/mainnavigation.php:73
 msgid "Guest access link"
 msgstr "Σύνδεσμος πρόσβασης επισκέπτη"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2747
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3015
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2767
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3035
 msgid "Rename"
 msgstr "Μετονομασία"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2748
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2768
 msgid "Change password"
 msgstr "Αλλαγή κωδικού πρόσβασης"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2749
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2769
 msgid "Display statistics"
 msgstr "Προβολή στατιστικών"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2750
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2770
 msgid "Settle the project"
 msgstr "Εξόφληση έργου"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2751
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2771
 msgid "Export to csv"
 msgstr "Εξαγωγή σε csv"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2752
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2772
 msgid "Auto export"
 msgstr "Αυτόματη εξαγωγή"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2753
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2773
 msgid "Manage currencies"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2754
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2774
 msgid "Manage categories"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2757
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2777
 msgid "Delete remote project"
 msgstr "Διαγραφή απομακρυσμένου έργου"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2760
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2780
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2762
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2782
 msgid "Link/QRCode for MoneyBuster"
 msgstr "Σύνδεσμος / QRCode για το MoneyBuster"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2764
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2784
 msgid "Remove"
 msgstr "Αφαίρεση"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2765
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2785
 msgid "Press enter to validate"
 msgstr "Πιέστε enter για επικύρωση"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2827
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3482
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2847
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3511
 msgid "Permission to delete bills"
 msgstr "Άδεια διαγραφής λογαριασμών"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2829
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3484
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2849
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3513
 msgid "Permission to edit bills and project"
 msgstr "Άδεια επεξεργασίας λογαριασμών και έργου"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2831
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3486
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2851
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3515
 msgid "Permission to create bills"
 msgstr "Άδεια δημιουργίας λογαριασμών"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2891
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2911
 msgid "No"
 msgstr "Όχι"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2892
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2912
 msgid "Daily"
 msgstr "Καθημερινά"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2893
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2913
 msgid "Weekly"
 msgstr "Εβδομαδιαία"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:2894
+#: /var/www/html/n17/apps/cospend/js/cospend.js:2914
 msgid "Monthly"
 msgstr "Μηνιαία"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3016
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3036
 msgid "Change weight"
 msgstr "Αλλαγή βάρους"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3017
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3037
 msgid "Change color"
 msgstr "Αλλαγή χρώματος"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3151
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3257
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3170
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3286
 msgid "Bill values are not valid"
 msgstr "Οι τιμές των λογαριασμών δεν είναι έγκυρες"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3275
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3304
 msgid "Failed to save option values"
 msgstr "Αποτυχία αποθήκευσης επιλογής τιμών"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3308
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3337
 msgid "Failed to restore options values"
 msgstr "Αποτυχία επαναφοράς επιλογής τιμών"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3386
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3415
 msgid "Failed to get user list"
 msgstr "Αποτυχία λήψης λίστας χρηστών"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3405
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3434
 msgid "Shared project {pname} with {uname}"
 msgstr "Κοινοποιήθηκε το έργο {pname} με το χρήστη {uname}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3409
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3438
 msgid "Failed to add user share"
 msgstr "Αποτυχία προσθήκης κοινοποίησης χρήστη"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3433
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3462
 msgid "Failed to delete user share"
 msgstr "Αποτυχία διαγραφής κοινοποίησης χρήστη"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3452
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3481
 msgid "Shared project {pname} with group {gname}"
 msgstr "Κοινοποιήθηκε το έργο {pname} με την ομάδα {gname}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3456
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3485
 msgid "Failed to add group share"
 msgstr "Αποτυχία προσθήκης κοινοποίησης ομάδας"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3512
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3541
 msgid "Failed to delete group share"
 msgstr "Αποτυχία διαγραφής κοινοποίησης ομάδας"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3536
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3565
 msgid "Failed to edit share permissions"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3581
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3610
 msgid "Failed to edit guest permissions"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3652
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3681
 msgid "Failed to generate public link to file"
 msgstr "Αποτυχία δημιουργίας δημόσιου συνδέσμου στο αρχείο"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3672
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3701
 msgid "Project exported in {path}"
 msgstr "Το έργο εξήχθη στο {path}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3676
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3705
 msgid "Failed to export project"
 msgstr "Αποτυχία εξαγωγής έργου"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3699
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3730
 msgid "Project statistics exported in {path}"
 msgstr "Τα στατιστικά του έργου εξήχθησαν στο {path}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3703
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3734
 msgid "Failed to export project statistics"
 msgstr "Αποτυχία εξαγωγής στατιστικών έργου"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3719
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3750
 msgid "Project settlement exported in {path}"
 msgstr "Ο διακανονισμός έργου εξήχθη στο {path}"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3723
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3754
 msgid "Failed to export project settlement"
 msgstr "Αδυναμία εξαγωγής διακανονισμού έργου"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3757
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3788
 msgid "Project settlement bills added"
 msgstr "Οι λογαριασμοί διακανονισμού έργου προστέθηκαν"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3761
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3792
 msgid "Failed to add project settlement bills"
 msgstr "Αποτυχία προσθήκης λογαριασμών διακανονισμού έργου"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3767
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3792
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3798
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3823
 msgid "Only CSV files can be imported"
 msgstr "Μόνο αρχεία CSV μπορούν να εισαχθούν"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3786
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3811
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3817
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3842
 msgid "Failed to import project file"
 msgstr "Αποτυχία εισαγωγής αρχείου έργου"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3879
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3910
 msgid "Personal parts are bigger than the paid amount"
 msgstr "Τα προσωπικά μέρη είναι μεγαλύτερα από το πληρωμένο ποσό"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:3946
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4025
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4185
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4198
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4211
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4243
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4256
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4269
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4310
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4322
+#: /var/www/html/n17/apps/cospend/js/cospend.js:3975
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4053
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4213
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4226
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4239
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4271
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4284
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4297
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4338
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4350
 msgid "Invalid values"
 msgstr "Μη έγκυρες τιμές"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4021
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4049
 msgid "There is no custom amount"
 msgstr "Δεν υπάρχει προσαρμοσμένο ποσό"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4134
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4162
 msgid "user or group name"
 msgstr "όνομα χρήστη ή ομάδας"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4299
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4327
 msgid "newMemberName"
 msgstr "νέοΌνομαΧρήστη"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4567
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4595
 msgid "New Bill"
 msgstr "Νέος Λογαριασμός"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4579
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4607
 msgid "2 active members are required to create a bill"
 msgstr "2 ενεργοί χρήστες απαιτούνται για τη δημιουργία λογαριασμού"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4641
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4670
 msgid "Guest link for '{pid}' copied to clipboard"
 msgstr "Ο σύνδεσμος επισκέπτη για το '{pid}' αντιγράφηκε στο πρόχειρο"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4654
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4683
 msgid "Guest link copied to clipboard"
 msgstr "Ο σύνδεσμος επισκέπτη αντιγράφηκε στο πρόχειρο"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4663
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4692
 msgid "Choose file"
 msgstr "Επιλογή αρχείου"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4673
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4702
 msgid "Choose csv project file"
 msgstr "Επιλογή ενός αρχείου έργου csv"
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4685
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4714
 msgid "Choose SplitWise project file"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4771
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4802
 msgid "Create the bills"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4866
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4897
 msgid "Choose where to write output files (stats, settlement, export)"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4936
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4952
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4992
-#: /var/www/html/n17/apps/cospend/js/cospend.js:5009
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4967
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4983
+#: /var/www/html/n17/apps/cospend/js/cospend.js:5023
+#: /var/www/html/n17/apps/cospend/js/cospend.js:5040
 msgid "Currency name should not be empty"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4941
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4957
-#: /var/www/html/n17/apps/cospend/js/cospend.js:4997
-#: /var/www/html/n17/apps/cospend/js/cospend.js:5014
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4972
+#: /var/www/html/n17/apps/cospend/js/cospend.js:4988
+#: /var/www/html/n17/apps/cospend/js/cospend.js:5028
+#: /var/www/html/n17/apps/cospend/js/cospend.js:5045
 msgid "Exchange rate should be a number"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:5031
-#: /var/www/html/n17/apps/cospend/js/cospend.js:5052
-#: /var/www/html/n17/apps/cospend/js/cospend.js:5097
-#: /var/www/html/n17/apps/cospend/js/cospend.js:5119
+#: /var/www/html/n17/apps/cospend/js/cospend.js:5062
+#: /var/www/html/n17/apps/cospend/js/cospend.js:5083
+#: /var/www/html/n17/apps/cospend/js/cospend.js:5128
+#: /var/www/html/n17/apps/cospend/js/cospend.js:5150
 msgid "Category name should not be empty"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:5036
-#: /var/www/html/n17/apps/cospend/js/cospend.js:5057
-#: /var/www/html/n17/apps/cospend/js/cospend.js:5102
-#: /var/www/html/n17/apps/cospend/js/cospend.js:5124
+#: /var/www/html/n17/apps/cospend/js/cospend.js:5067
+#: /var/www/html/n17/apps/cospend/js/cospend.js:5088
+#: /var/www/html/n17/apps/cospend/js/cospend.js:5133
+#: /var/www/html/n17/apps/cospend/js/cospend.js:5155
 msgid "Category icon should not be empty"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/js/cospend.js:5041
-#: /var/www/html/n17/apps/cospend/js/cospend.js:5062
-#: /var/www/html/n17/apps/cospend/js/cospend.js:5107
-#: /var/www/html/n17/apps/cospend/js/cospend.js:5129
+#: /var/www/html/n17/apps/cospend/js/cospend.js:5072
+#: /var/www/html/n17/apps/cospend/js/cospend.js:5093
+#: /var/www/html/n17/apps/cospend/js/cospend.js:5138
+#: /var/www/html/n17/apps/cospend/js/cospend.js:5160
 msgid "Category color should not be empty"
 msgstr ""
 
@@ -922,6 +935,31 @@ msgstr ""
 msgid "Changes in the <strong>Cospend app</strong>"
 msgstr ""
 
+#: /var/www/html/n17/apps/cospend/lib/Controller/PageController.php:166
+#: /var/www/html/n17/apps/cospend/lib/Controller/PageController.php:194
+#: /var/www/html/n17/apps/cospend/lib/Controller/PageController.php:224
+#: /var/www/html/n17/apps/cospend/lib/Controller/PageController.php:247
+msgid "Cospend public access"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/lib/Controller/PageController.php:167
+#, php-format
+msgid "Enter password of project %s"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/lib/Controller/PageController.php:195
+msgid "Enter project id and password"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/lib/Controller/PageController.php:225
+#, php-format
+msgid "Project %s"
+msgstr ""
+
+#: /var/www/html/n17/apps/cospend/lib/Controller/PageController.php:248
+msgid "Access denied"
+msgstr ""
+
 #: /var/www/html/n17/apps/cospend/lib/Notification/Notifier.php:86
 #, php-format
 msgid "User \"%s\" shared Cospend project \"%s\" with you."
@@ -932,19 +970,19 @@ msgstr "Ο χρήστης \"%s\" κοινοποίησε ένα έργο Cospend 
 msgid "User \"%s\" stopped sharing Cospend project \"%s\" with you."
 msgstr "Ο χρήστης \"%s\" διέκοψε την κοινοποίηση έργου Cospend \"%s\" με εσάς."
 
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:595
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:613
 msgid "Average per month"
 msgstr ""
 
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:3408
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:3461
 msgid "daily"
 msgstr "καθημερινά"
 
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:3423
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:3476
 msgid "weekly"
 msgstr "εβδομαδιαία"
 
-#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:3444
+#: /var/www/html/n17/apps/cospend/lib/Service/ProjectService.php:3497
 msgid "monthly"
 msgstr "μηνιαία"
 

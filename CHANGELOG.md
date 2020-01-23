@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-## 0.3.2 – 2020-01-20
+## 0.3.2 – 2020-01-23
 ### Added
 - project currencies management and conversion
 [#36](https://gitlab.com/eneiluj/cospend-nc/issues/36)
@@ -15,9 +15,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - show avatars where it's possible
+- improve spent value display in bill edition form
+[#68](https://gitlab.com/eneiluj/cospend-nc/issues/68) @jaroslaw.gerin
+- improve weight value display in member list item
+[#68](https://gitlab.com/eneiluj/cospend-nc/issues/68) @jaroslaw.gerin
 
 ### Fixed
 - use proper templates for public pages (guest access)
+- utf8 characters in avatar
+[#67](https://gitlab.com/eneiluj/cospend-nc/issues/67) @jaroslaw.gerin
 
 ## 0.3.0 – 2020-01-08
 ### Added

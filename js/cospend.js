@@ -471,8 +471,7 @@
             if (newName) {
                 var weight = parseFloat(cospend.members[projectid][memberid].weight);
                 memberLine.find('b.memberName').text(
-                    ((weight !== 1.0) ? ('(x'+cospend.members[projectid][memberid].weight+') ') : '') +
-                    newName
+                    newName + ((weight !== 1.0) ? (' (x'+cospend.members[projectid][memberid].weight+')') : '')
                 );
                 cospend.members[projectid][memberid].name = newName;
             }
@@ -3059,7 +3058,7 @@
             '    <a class="member-list-icon" href="#">' +
             '        <span class="memberNameBalance">' +
             '            <b class="memberName" title="'+member.name+' (x'+member.weight+')">' +
-                            ((parseFloat(member.weight) !== 1.0) ? ('(x'+member.weight+') ') : '') + member.name +
+                            member.name + ((parseFloat(member.weight) !== 1.0) ? (' (x'+member.weight+')') : '') +
                         '</b>' +
                          balanceStr +
             '        </span>' +

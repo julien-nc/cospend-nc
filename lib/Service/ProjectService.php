@@ -29,6 +29,13 @@ use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Db\BillMapper;
 
+function endswith($string, $test) {
+    $strlen = strlen($string);
+    $testlen = strlen($test);
+    if ($testlen > $strlen) return false;
+    return substr_compare($string, $test, $strlen - $testlen, $testlen) === 0;
+}
+
 class ProjectService {
 
     private $l10n;
@@ -828,7 +835,7 @@ class ProjectService {
         return $member;
     }
 
-    private function getProjectById($projectId) {
+    public function getProjectById($projectId) {
         $project = null;
 
         $qb = $this->dbconnection->getQueryBuilder();
@@ -2990,6 +2997,9 @@ class ProjectService {
         $filename = $projectid.'.csv';
         if ($name !== null) {
             $filename = $name;
+            if (!endswith($filename, '.csv')) {
+                $filename .= '.csv';
+            }
         }
         if ($folder->nodeExists($filename)) {
             $folder->get($filename)->delete();

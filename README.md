@@ -67,6 +67,6 @@ Any feedback will be appreciated.
 
 ## Screenshots
 
-![payb1](https://gitlab.com/eneiluj/cospend-nc/wikis/uploads/044d9700ac6f7e1f965df4336f09b4ef/payb1.png)
-![payb2](https://gitlab.com/eneiluj/cospend-nc/wikis/uploads/8803d3fa32322e95d31cdd63c4cb3efd/payb2.png)
-![payb3](https://gitlab.com/eneiluj/cospend-nc/wikis/uploads/7cb6c83f0214ba5bb27b3abf5286c221/payb3.png)
+![1](https://gitlab.com/eneiluj/cospend-nc/wikis/uploads/5e4d6f74e72560d9d7eeda3e3f62746f/1.png)
+![2](https://gitlab.com/eneiluj/cospend-nc/wikis/uploads/f4eef68a64dcbf89a59ea35a1cb21c79/2.png)
+![3](https://gitlab.com/eneiluj/cospend-nc/wikis/uploads/e36c1985a882b7d1b009735e5b8e71ae/3.png)

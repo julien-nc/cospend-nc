@@ -1513,10 +1513,32 @@ class PageController extends ApiController {
         foreach($this->groupManager->search('') as $g) {
             $groupNames[$g->getGID()] = $g->getDisplayName();
         }
+        // circles
+        $circleNames = [];
+        $circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
+        if ($circlesEnabled) {
+            $cs = \OCA\Circles\Api\v1\Circles::listCircles(\OCA\Circles\Model\Circle::CIRCLES_ALL, '', 0);
+            foreach ($cs as $c) {
+                $circleUniqueId = $c->getUniqueId();
+                $circleName = $c->getName();
+                if ($c->getOwner()->getUserId() === $this->userId) {
+                    $circleNames[$circleUniqueId] = $circleName;
+                    continue;
+                }
+                $circleDetails = \OCA\Circles\Api\v1\Circles::detailsCircle($c->getUniqueId());
+                foreach ($circleDetails->getMembers() as $m) {
+                    if ($m->getUserId() === $this->userId) {
+                        $circleNames[$circleUniqueId] = $circleName;
+                        break;
+                    }
+                }
+            }
+        }
         $response = new DataResponse(
             [
                 'users'=>$userNames,
-                'groups'=>$groupNames
+                'groups'=>$groupNames,
+                'circles'=>$circleNames
             ]
         );
         $csp = new ContentSecurityPolicy();
@@ -2073,6 +2095,50 @@ class PageController extends ApiController {
     public function deleteGroupShare($projectid, $shid) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
             $result = $this->projectService->deleteGroupShare($projectid, $shid, $this->userId);
+            if ($result === 'OK') {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to edit this project']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function addCircleShare($projectid, $circleid) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->addCircleShare($projectid, $circleid, $this->userId);
+            if (is_numeric($result)) {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message'=>'You are not allowed to edit this project']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function deleteCircleShare($projectid, $shid) {
+        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+            $result = $this->projectService->deleteCircleShare($projectid, $shid, $this->userId);
             if ($result === 'OK') {
                 return new DataResponse($result);
             }

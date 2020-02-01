@@ -2988,7 +2988,7 @@
                 var username = project.shares[i].name;
                 var shid = project.shares[i].id;
                 var permissions = project.shares[i].permissions;
-                addShare(projectid, userid, username, shid, false, permissions);
+                addShare(projectid, userid, username, shid, 'u', permissions);
             }
         }
 
@@ -2998,7 +2998,17 @@
                 var groupname = project.group_shares[i].name;
                 var shid = project.group_shares[i].id;
                 var permissions = project.group_shares[i].permissions;
-                addShare(projectid, groupid, groupname, shid, true, permissions);
+                addShare(projectid, groupid, groupname, shid, 'g', permissions);
+            }
+        }
+
+        if (project.circle_shares) {
+            for (i=0; i < project.circle_shares.length; i++) {
+                var circleid = project.circle_shares[i].circleid;
+                var circlename = project.circle_shares[i].name;
+                var shid = project.circle_shares[i].id;
+                var permissions = project.circle_shares[i].permissions;
+                addShare(projectid, circleid, circlename, shid, 'c', permissions);
             }
         }
 
@@ -3373,6 +3383,7 @@
         }).done(function (response) {
             cospend.userIdName = response.users;
             cospend.groupIdName = response.groups;
+            cospend.circleIdName = response.circles;
             var data = [];
             var d, name, id;
             for (id in response.users) {
@@ -3380,7 +3391,7 @@
                 d = {
                     id: id,
                     name: name,
-                    group: false,
+                    type: 'u',
                     projectid: projectid
                 };
                 if (id !== name) {
@@ -3398,7 +3409,7 @@
                 d = {
                     id: id,
                     name: name,
-                    group: true,
+                    type: 'g',
                     projectid: projectid
                 };
                 if (id !== name) {
@@ -3411,21 +3422,39 @@
                 }
                 data.push(d);
             }
+            for (id in response.circles) {
+                name = response.circles[id];
+                d = {
+                    id: id,
+                    name: name,
+                    type: 'c',
+                    projectid: projectid
+                };
+                d.label = name;
+                d.value = name;
+                data.push(d);
+            }
             var ii = input.autocomplete({
                 source: data,
                 select: function (e, ui) {
                     var it = ui.item;
-                    if (it.group) {
+                    if (it.type === 'g') {
                         addGroupShareDb(it.projectid, it.id, it.name);
                     }
-                    else {
+                    else if (it.type === 'u') {
                         addUserShareDb(it.projectid, it.id, it.name);
+                    }
+                    else if (it.type === 'c') {
+                        addCircleShareDb(it.projectid, it.id, it.name);
                     }
                 }
             }).data('ui-autocomplete')._renderItem = function(ul, item) {
                 var iconClass = 'icon-user';
-                if (item.group) {
+                if (item.type === 'g') {
                     iconClass = 'icon-group';
+                }
+                else if (item.type === 'c') {
+                    iconClass = 'share-icon-circle';
                 }
                 var listItem = $('<li></li>')
                     .data('item.autocomplete', item)
@@ -3451,7 +3480,7 @@
             data: req,
             async: true
         }).done(function (response) {
-            addShare(projectid, userid, username, response, false, 'edc');
+            addShare(projectid, userid, username, response, 'u', 'edc');
             var projectname = getProjectName(projectid);
             OC.Notification.showTemporary(t('cospend', 'Shared project {pname} with {uname}', {pname: projectname, uname: username}));
         }).always(function() {
@@ -3485,6 +3514,53 @@
         });
     }
 
+    function addCircleShareDb(projectid, circleId, circleName) {
+        $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
+        var req = {
+            projectid: projectid,
+            circleid: circleId
+        };
+        var url = OC.generateUrl('/apps/cospend/addCircleShare');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            addShare(projectid, circleId, circleName, response, 'c', 'edc');
+            var projectname = getProjectName(projectid);
+            OC.Notification.showTemporary(t('cospend', 'Shared project {pname} with circle {cname}', {pname: projectname, cname: circleName}));
+        }).always(function() {
+            $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to add circle share') + ' ' + response.responseText);
+        });
+    }
+
+    function deleteCircleShareDb(projectid, shid) {
+        $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteCircleShareButton').addClass('icon-loading-small');
+        var req = {
+            projectid: projectid,
+            shid: shid
+        };
+        var url = OC.generateUrl('/apps/cospend/deleteCircleShare');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            var li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + ']');
+            li.fadeOut('normal', function() {
+                li.remove();
+            });
+        }).always(function() {
+            $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteCircleShareButton').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to delete circle share') + ' ' + response.responseText);
+        });
+    }
+
     function addGroupShareDb(projectid, groupid, groupname) {
         $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
         var req = {
@@ -3498,7 +3574,7 @@
             data: req,
             async: true
         }).done(function (response) {
-            addShare(projectid, groupid, groupname, response, true, 'edc');
+            addShare(projectid, groupid, groupname, response, 'g', 'edc');
             var projectname = getProjectName(projectid);
             OC.Notification.showTemporary(t('cospend', 'Shared project {pname} with group {gname}', {pname: projectname, gname: groupname}));
         }).always(function() {
@@ -3508,19 +3584,26 @@
         });
     }
 
-    function addShare(projectid, elemId, elemName, id, isGroup, permissions) {
+    function addShare(projectid, elemId, elemName, id, type, permissions) {
         var displayString = elemId;
-        if (elemId !== elemName) {
+        if (type === 'c') {
+            displayString = elemName;
+        }
+        else if (elemId !== elemName) {
             displayString = elemName + ' (' + elemId + ')';
         }
         var iconClass, deleteButtonClass;
-        if (isGroup) {
+        if (type === 'g') {
             iconClass = 'icon-group';
             deleteButtonClass = 'deleteGroupShareButton';
         }
-        else {
+        else if (type === 'u') {
             iconClass = 'icon-user';
             deleteButtonClass = 'deleteUserShareButton';
+        }
+        else if (type === 'c') {
+            iconClass = 'share-icon-circle';
+            deleteButtonClass = 'deleteCircleShareButton';
         }
         var editPerm = (permissions.indexOf('e') !== -1);
         var delPerm = (permissions.indexOf('d') !== -1);
@@ -4137,6 +4220,12 @@
             var projectid = $(this).parent().parent().parent().attr('projectid');
             var shid = $(this).parent().attr('shid');
             deleteGroupShareDb(projectid, shid);
+        });
+
+        $('body').on('click', '.deleteCircleShareButton', function(e) {
+            var projectid = $(this).parent().parent().parent().attr('projectid');
+            var shid = $(this).parent().attr('shid');
+            deleteCircleShareDb(projectid, shid);
         });
 
         $('body').on('click', '.perm', function(e) {

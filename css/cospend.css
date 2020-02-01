@@ -365,6 +365,7 @@ input[type=number] {
     background-color: var(--color-success);
 }
 .deleteGroupShareButton,
+.deleteCircleShareButton,
 .deleteUserShareButton,
 .perm, .permguest {
     height: 25px;
@@ -381,6 +382,7 @@ input[type=number] {
 .permDelete,
 .permEdit,
 .deleteGroupShareButton,
+.deleteCircleShareButton,
 .deleteUserShareButton {
     float: right;
     padding-left: 15px;
@@ -389,6 +391,12 @@ input[type=number] {
 .guestpermissions {
     margin-top: auto;
     margin-bottom: auto;
+}
+.share-icon-circle {
+    background-image: var(--icon-circles-circles-000);
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position: 0px 8px;
 }
 .loading-bill {
     margin-left: 10px;
@@ -431,6 +439,11 @@ input[type=number] {
 .shareLabelIcon {
     margin-left: 10px;
     margin-right: 10px;
+}
+.shareLabelIcon {
+    width: 20px;
+    height: 25px;
+    background-position: 0px 4px;
 }
 .shareCompleteIcon {
     background-color: inherit;

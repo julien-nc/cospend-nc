@@ -111,6 +111,10 @@
             name: t('cospend', 'Check'),
             icon: '🎫'
         },
+        t: {
+            name: t('cospend', 'Transfer'),
+            icon: '⇄'
+        },
     };
 
     //////////////// UTILS /////////////////////

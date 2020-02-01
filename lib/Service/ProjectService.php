@@ -128,6 +128,7 @@ class ProjectService {
                 else {
                     // if not, is the project shared with a group containing the user?
                     $userO = $this->userManager->get($userid);
+                    $accessWithGroup = null;
 
                     $qb->select('userid')
                         ->from('cospend_shares', 's')
@@ -141,13 +142,50 @@ class ProjectService {
                     while ($row = $req->fetch()){
                         $groupId = $row['userid'];
                         if ($this->groupManager->groupExists($groupId) && $this->groupManager->get($groupId)->inGroup($userO)) {
-                            return true;
+                            $accessWithGroup = $groupId;
+                            break;
                         }
                     }
                     $req->closeCursor();
                     $qb = $qb->resetQueryParts();
 
-                    return false;
+                    if ($accessWithGroup !== null) {
+                        return true;
+                    }
+                    else {
+                        $circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
+                        if ($circlesEnabled) {
+                            $dbCircleId = null;
+
+                            $qb->select('userid')
+                                ->from('cospend_shares', 's')
+                                ->where(
+                                    $qb->expr()->eq('type', $qb->createNamedParameter('c', IQueryBuilder::PARAM_STR))
+                                )
+                                ->andWhere(
+                                    $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                                );
+                            $req = $qb->execute();
+                            while ($row = $req->fetch()) {
+                                $circleId = $row['userid'];
+                                $circleDetails = \OCA\Circles\Api\v1\Circles::detailsCircle($circleId);
+                                if ($circleDetails) {
+                                    if ($circleDetails->getOwner()->getUserId() === $userid) {
+                                        return true;
+                                    }
+                                    else {
+                                        foreach ($circleDetails->getMembers() as $m) {
+                                            if ($m->getUserId() === $userid) {
+                                                return true;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        return false;
+                    }
+
                 }
             }
         }

@@ -1317,7 +1317,7 @@ class ProjectService {
             }
         }
         else {
-            return $this->trans->t('name field is required');
+            return $this->trans->t('Name field is required');
         }
     }
 
@@ -2256,7 +2256,7 @@ class ProjectService {
         if ($payer !== null && $payer !== '' && is_numeric($payer)) {
             $member = $this->getMemberById($projectid, $payer);
             if ($member === null) {
-                return ['payer'=>$this->trans->t('Not a valid choice.')];
+                return ['payer'=>$this->trans->t('Not a valid choice')];
             }
             else {
                 $qb->set('payerid', $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT));
@@ -2276,7 +2276,7 @@ class ProjectService {
                         return ['payed_for'=>$this->trans->t('Invalid value')];
                     }
                     if ($this->getMemberById($projectid, $owerId) === null) {
-                        return ['payed_for'=>$this->trans->t('Not a valid choice.')];
+                        return ['payed_for'=>$this->trans->t('Not a valid choice')];
                     }
                 }
             }

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-02-02 17:18+0100\n"
+"POT-Creation-Date: 2020-02-02 17:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1066,6 +1066,8 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:781
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:793
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2259
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2279
 msgid "Not a valid choice"
 msgstr ""
 
@@ -1086,6 +1088,7 @@ msgid "This project have no such member"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1202
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1320
 msgid "Name field is required"
 msgstr ""
 
@@ -1109,21 +1112,12 @@ msgstr ""
 msgid "This project already has this member"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1320
-msgid "name field is required"
-msgstr ""
-
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2220
 msgid "There is no such bill"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2224
 msgid "\"What\" field is required"
-msgstr ""
-
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2259
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2279
-msgid "Not a valid choice."
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2603

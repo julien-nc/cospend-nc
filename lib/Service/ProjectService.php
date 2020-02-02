@@ -350,7 +350,7 @@ class ProjectService {
         if ($dbid === null) {
             // check if id is valid
             if (strpos($id, '/') !== false) {
-                return ['message'=>'Invalid project id'];
+                return ['message'=>$this->trans->t('Invalid project id')];
             }
             $dbPassword = '';
             if ($password !== null && $password !== '') {
@@ -375,7 +375,7 @@ class ProjectService {
             return $id;
         }
         else {
-            return ['message'=>'A project with id "'.$id.'" already exists'];
+            return ['message'=>$this->trans->t('A project with id "%1$s" already exists', [$id])];
         }
     }
 
@@ -400,7 +400,7 @@ class ProjectService {
         if ($dbprojectid === null) {
             // check if id is valid
             if (strpos($id, '/') !== false) {
-                return ['message'=>'Invalid project id'];
+                return ['message'=>$this->trans->t('Invalid project id')];
             }
             $qb->insert('cospend_ext_projects')
                 ->values([
@@ -414,7 +414,7 @@ class ProjectService {
             return $id;
         }
         else {
-            return ['message'=>'A project with id "'.$id.'" and url "'.$ncurl.'" already exists'];
+            return ['message'=>$this->trans->t('A project with id "%1$s" and url "%2$s" already exists', [$id, $ncurl])];
         }
     }
 
@@ -479,7 +479,7 @@ class ProjectService {
             return 'DELETED';
         }
         else {
-            return ['Not Found'];
+            return [$this->trans->t('Not Found')];
         }
     }
 
@@ -754,10 +754,10 @@ class ProjectService {
                             $amount, $repeat, $paymentmode=null, $categoryid=null,
                             $repeatallactive=0, $repeatuntil=null) {
         if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
-            return ['repeat'=> ['Invalid value.']];
+            return ['repeat'=>$this->trans->t('Invalid value.')];
         }
         if ($repeatallactive === null || ($repeatallactive !== '' && !is_numeric($repeatallactive))) {
-            return ['repeatallactive'=> ['Invalid value.']];
+            return ['repeatallactive'=>$this->trans->t('Invalid value.')];
         }
         if ($repeatallactive !== null && $repeatallactive === '') {
             $repeatallactive = 0;
@@ -766,31 +766,31 @@ class ProjectService {
             $repeatuntil = null;
         }
         if ($date === null || $date === '') {
-            return ['date'=> ['This field is required.']];
+            return ['date'=>$this->trans->t('This field is required.')];
         }
         if ($what === null || $what === '') {
-            return ['what'=> ['This field is required.']];
+            return ['what'=>$this->trans->t('This field is required.')];
         }
         if ($amount === null || $amount === '' || !is_numeric($amount)) {
-            return ['amount'=> ['This field is required.']];
+            return ['amount'=>$this->trans->t('This field is required.')];
         }
         if ($payer === null || $payer === '' || !is_numeric($payer)) {
-            return ['payer'=> ['This field is required.']];
+            return ['payer'=>$this->trans->t('This field is required.')];
         }
         if ($this->getMemberById($projectid, $payer) === null) {
-            return ['payer'=>['Not a valid choice']];
+            return ['payer'=>$this->trans->t('Not a valid choice')];
         }
         // check owers
         $owerIds = explode(',', $payed_for);
         if ($payed_for === null || $payed_for === '' || count($owerIds) === 0) {
-            return ['payed_for'=>['Invalid value']];
+            return ['payed_for'=>$this->trans->t('Invalid value')];
         }
         foreach ($owerIds as $owerId) {
             if (!is_numeric($owerId)) {
-                return ['payed_for'=>['Invalid value']];
+                return ['payed_for'=>$this->trans->t('Invalid value')];
             }
             if ($this->getMemberById($projectid, $owerId) === null) {
-                return ['payed_for'=>['Not a valid choice']];
+                return ['payed_for'=>$this->trans->t('Not a valid choice')];
             }
         }
 
@@ -851,7 +851,7 @@ class ProjectService {
             return 'OK';
         }
         else {
-            return ["message" => "Not Found"];
+            return ['message'=>$this->trans->t('Not Found')];
         }
     }
 
@@ -1024,7 +1024,7 @@ class ProjectService {
     public function autoSettlement($projectid) {
         $transactions = $this->getProjectSettlement($projectid);
         if (!is_array($transactions)) {
-            return ['message'=>'Error when getting project settlement transactions'];
+            return ['message'=>$this->trans->t('Error when getting project settlement transactions')];
         }
 
         $members = $this->getMembers($projectid);
@@ -1043,7 +1043,7 @@ class ProjectService {
             $billTitle = $memberIdToName[$fromId].' → '.$memberIdToName[$toId];
             $addBillResult = $this->addBill($projectid, $date, $billTitle, $fromId, $toId, $amount, 'n', null, -11);
             if (!is_numeric($addBillResult)) {
-                return ['message'=>'Error when addind a bill'];
+                return ['message'=>$this->trans->t('Error when addind a bill')];
             }
         }
         return 'OK';
@@ -1156,7 +1156,7 @@ class ProjectService {
                         $qb->set('weight', $qb->createNamedParameter($newWeight, IQueryBuilder::PARAM_STR));
                     }
                     else {
-                        return ['weight' => ['Not a valid decimal value']];
+                        return ['weight'=>$this->trans->t('Not a valid decimal value')];
                     }
                 }
                 if ($activated !== null && $activated !== '' && ($activated === 'true' || $activated === 'false')) {
@@ -1189,17 +1189,17 @@ class ProjectService {
                 return $editedMember;
             }
             else {
-                return ['name'=>['This project have no such member']];
+                return ['name'=>$this->trans->t('This project have no such member')];
             }
         }
         else {
-            return ['name'=> ['This field is required.']];
+            return ['name'=>$this->trans->t('This field is required.')];
         }
     }
 
     public function editProject($projectid, $name, $contact_email, $password, $autoexport=null, $currencyname=null) {
         if ($name === null || $name === '') {
-            return ['name'=> ['This field is required.']];
+            return ['name'=> [$this->trans->t('Name field is required.')]];
         }
 
         $qb = $this->dbconnection->getQueryBuilder();
@@ -1211,7 +1211,7 @@ class ProjectService {
                 $qb->set('email', $qb->createNamedParameter($contact_email, IQueryBuilder::PARAM_STR));
             }
             else {
-                return ['contact_email'=> ['Invalid email address']];
+                return ['contact_email'=> [$this->trans->t('Invalid email address')]];
             }
         }
         if ($password !== null && $password !== '') {
@@ -1242,7 +1242,7 @@ class ProjectService {
             return 'UPDATED';
         }
         else {
-            return ['message'=>["There is no such project"]];
+            return ['message'=>$this->trans->t('There is no such project')];
         }
     }
 
@@ -1286,11 +1286,11 @@ class ProjectService {
                         $weightToInsert = floatval($weight);
                     }
                     else {
-                        return 'Weight is not a valid decimal value';
+                        return $this->trans->t('Weight is not a valid decimal value');
                     }
                 }
                 if ($active === null || !is_numeric($active)) {
-                    return 'Active is not a valid integer value';
+                    return $this->trans->t('Active is not a valid integer value');
                 }
 
                 $ts = (new \DateTime())->getTimestamp();
@@ -1313,11 +1313,11 @@ class ProjectService {
                 return $insertedMember;
             }
             else {
-                return 'This project already has this member';
+                return $this->trans->t('This project already has this member');
             }
         }
         else {
-            return 'name field is required';
+            return $this->trans->t('name field is required');
         }
     }
 
@@ -2217,16 +2217,16 @@ class ProjectService {
 
         // first check the bill exists
         if ($this->getBill($projectid, $billid) === null) {
-            return ['message'=> ['There is no such bill']];
+            return ['message'=>$this->trans->t('There is no such bill')];
         }
         // then edit the hell of it
         if ($what === null || $what === '') {
-            return ['what'=> ['This field is required.']];
+            return ['what'=>$this->trans->t('"What" field is required.')];
         }
         $qb->set('what', $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR));
 
         if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
-            return ['repeat'=> ['Invalid value.']];
+            return ['repeat'=>$this->trans->t('Invalid value.')];
         }
         $qb->set('repeat', $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR));
 
@@ -2256,7 +2256,7 @@ class ProjectService {
         if ($payer !== null && $payer !== '' && is_numeric($payer)) {
             $member = $this->getMemberById($projectid, $payer);
             if ($member === null) {
-                return ['payer'=>['Not a valid choice']];
+                return ['payer'=>$this->trans->t('Not a valid choice.')];
             }
             else {
                 $qb->set('payerid', $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT));
@@ -2268,15 +2268,15 @@ class ProjectService {
         if ($payed_for !== null && $payed_for !== '') {
             $owerIds = explode(',', $payed_for);
             if (count($owerIds) === 0) {
-                return ['payed_for'=>['Invalid value']];
+                return ['payed_for'=>$this->trans->t('Invalid value.')];
             }
             else {
                 foreach ($owerIds as $owerId) {
                     if (!is_numeric($owerId)) {
-                        return ['payed_for'=>['Invalid value']];
+                        return ['payed_for'=>$this->trans->t('Invalid value.')];
                     }
                     if ($this->getMemberById($projectid, $owerId) === null) {
-                        return ['payed_for'=>['Not a valid choice']];
+                        return ['payed_for'=>$this->trans->t('Not a valid choice.')];
                     }
                 }
             }
@@ -2600,7 +2600,7 @@ class ProjectService {
             return $categoryid;
         }
         else {
-            return ["message" => "Not Found"];
+            return ['message'=>$this->trans->t('Not found')];
         }
     }
 
@@ -2626,11 +2626,11 @@ class ProjectService {
                 return $editedCategory;
             }
             else {
-                return ['message'=>['This project have no such category']];
+                return ['message'=>$this->trans->t('This project have no such category')];
             }
         }
         else {
-            return ['message'=> ['Incorrect field values']];
+            return ['message'=>$this->trans->t('Incorrect field values')];
         }
     }
 
@@ -2701,7 +2701,7 @@ class ProjectService {
             return $currencyid;
         }
         else {
-            return ["message" => "Not Found"];
+            return ['message'=>$this->trans->t('Not found')];
         }
     }
 
@@ -2726,11 +2726,11 @@ class ProjectService {
                 return $editedCurrency;
             }
             else {
-                return ['message'=>['This project have no such currency']];
+                return ['message'=>$this->trans->t('This project have no such currency')];
             }
         }
         else {
-            return ['message'=> ['Incorrect field values']];
+            return ['message'=>$this->trans->t('Incorrect field values')];
         }
     }
 
@@ -2811,20 +2811,20 @@ class ProjectService {
                         ;
 
                     $manager->notify($notification);
+
+                    return $response;
                 }
                 else {
-                    $response = ['message'=>'Already shared with this user'];
+                    return ['message'=>$this->trans->t('Already shared with this user')];
                 }
             }
             else {
-                $response = ['message'=>'Impossible to share the project with its owner'];
+                return ['message'=>$this->trans->t('Impossible to share the project with its owner')];
             }
         }
         else {
-            $response = ['message'=>'No such user'];
+            return ['message'=>$this->trans->t('No such user')];
         }
-
-        return $response;
     }
 
     public function editSharePermissions($projectid, $shid, $permissions) {
@@ -2860,13 +2860,11 @@ class ProjectService {
             $req = $qb->execute();
             $qb = $qb->resetQueryParts();
 
-            $response = 'OK';
+            return 'OK';
         }
         else {
-            $response = ['message'=>'No such share'];
+            return ['message'=>$this->trans->t('No such share')];
         }
-
-        return $response;
     }
 
     public function editGuestPermissions($projectid, $permissions) {
@@ -2961,12 +2959,12 @@ class ProjectService {
                 ;
 
             $manager->notify($notification);
+
+            return $response;
         }
         else {
-            $response = ['message'=>'No such share'];
+            return ['message'=>$this->trans->t('No such share')];
         }
-
-        return $response;
     }
 
     public function addGroupShare($projectid, $groupid, $fromUserId) {
@@ -3019,16 +3017,16 @@ class ProjectService {
                     ActivityManager::SUBJECT_PROJECT_SHARE,
                     ['who'=>$groupid, 'type'=>'g']
                 );
+
+                return $response;
             }
             else {
-                $response = ['message'=>'Already shared with this group'];
+                return ['message'=>$this->trans->t('Already shared with this group')];
             }
         }
         else {
-            $response = ['message'=>'No such group'];
+            return ['message'=>$this->trans->t('No such group')];
         }
-
-        return $response;
     }
 
     public function deleteGroupShare($projectid, $shid, $fromUserId) {
@@ -3080,12 +3078,12 @@ class ProjectService {
                 ActivityManager::SUBJECT_PROJECT_UNSHARE,
                 ['who'=>$dbGroupId, 'type'=>'g']
             );
+
+            return $response;
         }
         else {
-            $response = ['message'=>'No such share'];
+            return ['message'=>$this->trans->t('No such share')];
         }
-
-        return $response;
     }
 
     public function addCircleShare($projectid, $circleid, $fromUserId) {
@@ -3097,7 +3095,7 @@ class ProjectService {
             foreach ($cs as $c) {
                 if ($c->getUniqueId() === $circleid) {
                     if ($c->getType() === \OCA\Circles\Model\Circle::CIRCLES_PERSONAL) {
-                        return ['message'=>'Sharing with personal circles is not supported'];
+                        return ['message'=>$this->trans->t('Sharing with personal circles is not supported')];
                     }
                     else {
                         $exists = true;
@@ -3148,20 +3146,20 @@ class ProjectService {
                         ActivityManager::SUBJECT_PROJECT_SHARE,
                         ['who'=>$circleid, 'type'=>'c']
                     );
+
+                    return $response;
                 }
                 else {
-                    $response = ['message'=>'Already shared with this circle'];
+                    return ['message'=>$this->trans->t('Already shared with this circle')];
                 }
             }
             else {
-                $response = ['message'=>'No such circle'];
+                return ['message'=>$this->trans->t('No such circle')];
             }
         }
         else {
-            $response = ['message'=>'Circles app is not enabled'];
+            return ['message'=>$this->trans->t('Circles app is not enabled')];
         }
-
-        return $response;
     }
 
     public function deleteCircleShare($projectid, $shid, $fromUserId) {
@@ -3215,7 +3213,7 @@ class ProjectService {
             );
         }
         else {
-            $response = ['message'=>'No such share'];
+            $response = ['message'=>$this->trans->t('No such share')];
         }
 
         return $response;
@@ -3264,17 +3262,17 @@ class ProjectService {
         if ($userFolder->nodeExists($outPath)) {
             $folder = $userFolder->get($outPath);
             if ($folder->getType() !== \OCP\Files\FileInfo::TYPE_FOLDER) {
-                return $outPath.' is not a folder';
+                return $this->trans->t('%1$s is not a folder', [$outPath]);
             }
             else if (!$folder->isCreatable()) {
-                return $outPath.' is not writeable';
+                return $this->trans->t('%1$s is not writeable', [$outPath]);
             }
             else {
                 return '';
             }
         }
         else {
-            return 'Impossible to create '.$outPath;
+            return $this->trans->t('Impossible to create %1$s', [$outPath]);
         }
     }
 
@@ -3450,8 +3448,7 @@ class ProjectService {
                             }
                             else {
                                 fclose($handle);
-                                $response = ['message'=>'Malformed CSV, bad column names'];
-                                return $response;
+                                return ['message'=>$this->trans->t('Malformed CSV, bad column names')];
                             }
                         }
                         // normal line : bill or category
@@ -3503,20 +3500,17 @@ class ProjectService {
                                 }
                                 else {
                                     fclose($handle);
-                                    $response = ['message'=>'Malformed CSV, bad payer weight on line '.$row];
-                                    return $response;
+                                    return ['message'=>$this->trans->t('Malformed CSV, bad payer weight on line %1$s', [$row])];
                                 }
                                 if (strlen($owers) === 0) {
                                     fclose($handle);
-                                    $response = ['message'=>'Malformed CSV, bad owers on line '.$row];
-                                    return $response;
+                                    return ['message'=>$this->trans->t('Malformed CSV, bad owers on line %1$s', [$row])];
                                 }
                                 $owersArray = explode(', ', $owers);
                                 foreach ($owersArray as $ower) {
                                     if (strlen($ower) === 0) {
                                         fclose($handle);
-                                        $response = ['message'=>'Malformed CSV, bad owers on line '.$row];
-                                        return $response;
+                                        return ['message'=>$this->trans->t('Malformed CSV, bad owers on line %1$s', [$row])];
                                     }
                                     if (!array_key_exists($ower, $membersWeight)) {
                                         $membersWeight[$ower] = 1.0;
@@ -3524,8 +3518,7 @@ class ProjectService {
                                 }
                                 if (!is_numeric($amount)) {
                                     fclose($handle);
-                                    $response = ['message'=>'Malformed CSV, bad amount on line '.$row];
-                                    return $response;
+                                    return ['message'=>$this->trans->t('Malformed CSV, bad amount on line %1$s', [$row])];
                                 }
                                 array_push($bills, [
                                     'what'=>$what,
@@ -3554,8 +3547,7 @@ class ProjectService {
                     $projectName = $projectid;
                     $projResult = $this->createProject($projectName, $projectid, '', $userEmail, $userId);
                     if (!is_string($projResult)) {
-                        $response = ['message'=>'Error in project creation '.$projResult['message']];
-                        return $response;
+                        return ['message'=>$this->trans->t('Error in project creation, %1$s', [$projResult['message']])];
                     }
                     // set project main currency
                     if ($mainCurrencyName !== null) {
@@ -3566,8 +3558,7 @@ class ProjectService {
                         $insertedCatId = $this->addCategory($projectid, $cat['name'], $cat['icon'], $cat['color']);
                         if (!is_numeric($insertedCatId)) {
                             $this->deleteProject($projectid);
-                            $response = ['message'=>'Error when adding category '.$cat['name']];
-                            return $response;
+                            return ['message'=>$this->trans->t('Error when adding category %1$s', [$cat['name']])];
                         }
                         $categoryIdConv[$cat['id']] = $insertedCatId;
                     }
@@ -3576,8 +3567,7 @@ class ProjectService {
                         $insertedCurId = $this->addCurrency($projectid, $cur['name'], $cur['exchange_rate']);
                         if (!is_numeric($insertedCurId)) {
                             $this->deleteProject($projectid);
-                            $response = ['message'=>'Error when adding currency '.$cur['name']];
-                            return $response;
+                            return ['message'=>$this->trans->t('Error when adding currency %1$s', [$cur['name']])];
                         }
                     }
                     // add members
@@ -3585,8 +3575,7 @@ class ProjectService {
                         $insertedMember = $this->addMember($projectid, $memberName, $weight, $membersActive[$memberName]);
                         if (!is_array($insertedMember)) {
                             $this->deleteProject($projectid);
-                            $response = ['message'=>'Error when adding member '.$memberName];
-                            return $response;
+                            return ['message'=>$this->trans->t('Error when adding member %1$s', [$memberName])];
                         }
                         $memberNameToId[$memberName] = $insertedMember['id'];
                     }
@@ -3610,26 +3599,23 @@ class ProjectService {
                                                         $bill['repeatuntil']);
                         if (!is_numeric($addBillResult)) {
                             $this->deleteProject($projectid);
-                            $response = ['message'=>'Error when adding bill '.$bill['what']];
-                            return $response;
+                            return ['message'=>$this->trans->t('Error when adding bill %1$s', [$bill['what']])];
                         }
                     }
-                    $response = $projectid;
+
+                    return $projectid;
                 }
                 else {
-                    $response = ['message'=>'Access denied'];
+                    return ['message'=>$this->trans->t('Access denied')];
                 }
             }
             else {
-                $response = ['message'=>'Access denied'];
+                return ['message'=>$this->trans->t('Access denied')];
             }
         }
         else {
-            $response = ['message'=>'Access denied'];
+            return ['message'=>$this->trans->t('Access denied')];
         }
-
-        return $response;
-
     }
 
        /**
@@ -3663,7 +3649,7 @@ class ProjectService {
                                 !array_key_exists('Currency', $columns)
                             ) {
                                 fclose($handle);
-                                return ['message'=>'Malformed CSV, bad column names'];
+                                return ['message'=>$this->trans->t('Malformed CSV, bad column names')];
                             }
                             // manage members
                             $m=0;
@@ -3674,7 +3660,7 @@ class ProjectService {
                             foreach ($owersArray as $ower) {
                                 if (strlen($ower) === 0) {
                                     fclose($handle);
-                                    return ['message'=>'Malformed CSV, cannot have an empty ower'];
+                                    return ['message'=>$this->trans->t('Malformed CSV, cannot have an empty ower')];
                                 }
                                 if (!array_key_exists($ower, $membersWeight)) {
                                     $membersWeight[$ower] = 1.0;
@@ -3706,13 +3692,13 @@ class ProjectService {
                                 };
                             }
                             if (!isset($payer_name) || empty($payer_name)) {
-                                return ['message'=>'Malformed CSV, no payer in row: '.$row];
+                                return ['message'=>$this->trans->t('Malformed CSV, no payer on line %1$s', [$row])];
                             }
                             $payer_weight = 1;
 
                             if (!is_numeric($amount)) {
                                 fclose($handle);
-                                return ['message'=>'Malformed CSV, bad amount on line '.$row];
+                                return ['message'=>$this->trans->t('Malformed CSV, bad amount on line %1$s', [$row])];
                             }
                             array_push($bills,
                                 [
@@ -3737,14 +3723,14 @@ class ProjectService {
                     $projectName = $projectid;
                     $projResult = $this->createProject($projectName, $projectid, '', $userEmail, $userId);
                     if (!is_string($projResult)) {
-                        return ['message'=>'Error in project creation '.$projResult['message']];
+                        return ['message'=>$this->trans->t('Error in project creation, %1$s', [$projResult['message']])];
                     }
                     // add members
                     foreach ($membersWeight as $memberName => $weight) {
                         $insertedMember = $this->addMember($projectid, $memberName, $weight);
                         if (!is_array($insertedMember)) {
                             $this->deleteProject($projectid);
-                            return ['message'=>'Error when adding member '.$memberName];
+                            return ['message'=>$this->trans->t('Error when adding member %1$s', [$memberName])];
                         }
                         $memberNameToId[$memberName] = $insertedMember['id'];
                     }
@@ -3759,25 +3745,22 @@ class ProjectService {
                         $addBillResult = $this->addBill($projectid, $bill['date'], $bill['what'], $payerId, $owerIdsStr, $bill['amount'], 'n');
                         if (!is_numeric($addBillResult)) {
                             $this->deleteProject($projectid);
-                            return ['message'=>'Error when adding bill '.$bill['what']];
+                            return ['message'=>$this->trans->t('Error when adding bill %1$s', [$bill['what']])];
                         }
                     }
-                    $response = $projectid;
+                    return $projectid;
                 }
                 else {
-                    $response = ['message'=>'Access denied'];
+                    return ['message'=>$this->trans->t('Access denied')];
                 }
             }
             else {
-                $response = ['message'=>'Access denied'];
+                return ['message'=>$this->trans->t('Access denied')];
             }
         }
         else {
-            $response = ['message'=>'Access denied'];
+            return ['message'=>$this->trans->t('Access denied')];
         }
-
-        return $response;
-
     }
 
     /**

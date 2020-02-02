@@ -283,7 +283,7 @@
         }).always(function() {
             $('#addextproject').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to add external project') + ' ' + response.responseText);
+            OC.Notification.showTemporary(t('cospend', 'Failed to add external project') + ': ' + response.responseJSON.message);
             $('#addextproject').removeClass('icon-loading-small');
         });
     }
@@ -321,7 +321,10 @@
             if (select) {
                 deleteExternalProject(id + '@' + ncurl);
             }
-            OC.Notification.showTemporary(t('cospend', 'Failed to get external project') + ' ' + (response.responseText || ''));
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to get external project') +
+                ': ' + (response.responseJSON.message || '')
+            );
         });
     }
 
@@ -363,7 +366,8 @@
         }).always(function() {
             $('#createproject').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to create project') + ' ' + response.responseText);
+            console.log(response);
+            OC.Notification.showTemporary(t('cospend', 'Failed to create project') + ': ' + response.responseJSON.message);
         });
     }
 
@@ -403,7 +407,10 @@
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to add member') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to add member') +
+                ': ' + response.responseText
+            );
         });
     }
 
@@ -511,7 +518,10 @@
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"] ul.memberlist > li[memberid='+memberid+']').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to save member') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to save member') +
+                ': ' + response.responseText
+            );
         });
     }
 
@@ -588,7 +598,10 @@
         }).always(function() {
             $('.loading-bill').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to create bill') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to create bill') +
+                ': ' + response.responseText
+            );
         });
     }
 
@@ -662,7 +675,7 @@
         }).fail(function(response) {
             OC.Notification.showTemporary(
                 t('cospend', 'Failed to save bill') +
-                ' ' + response.responseText
+                ' ' + (response.responseJSON.message || response.responseJSON)
             );
         });
     }
@@ -864,7 +877,7 @@
         }).fail(function(response) {
             OC.Notification.showTemporary(
                 t('cospend', 'Failed to edit project') +
-                ' ' + response.responseText
+                ': ' + (response.responseJSON.message || response.responseJSON.name || response.responseJSON.contact_email)
             );
         });
     }
@@ -918,7 +931,10 @@
             OC.Notification.showTemporary(t('cospend', 'Deleted project {id}', {id: projectid}));
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to delete project') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to delete project') +
+                ': ' + response.responseText
+            );
         });
     }
 
@@ -965,7 +981,10 @@
             OC.Notification.showTemporary(t('cospend', 'Deleted bill'));
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to delete bill') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to delete bill') +
+                ': ' + response.responseJSON.message
+            );
             var deleteBillIcon = $('.billitem[billid='+billid+'] .deleteBillIcon');
             deleteBillIcon.parent().find('.undoDeleteBill').hide();
             deleteBillIcon.parent().removeClass('deleted');
@@ -1437,7 +1456,10 @@
         }).always(function() {
             $('.addCurrencyOk').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to add currency') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to add currency') +
+                ': ' + response.responseText
+            );
         });
     }
 
@@ -1507,7 +1529,10 @@
         }).always(function() {
             $('.one-currency[currencyid='+currencyId+'] .deleteOneCurrency').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to delete currency') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to delete currency') +
+                ': ' + response.responseJSON.message
+            );
         });
     }
 
@@ -1556,7 +1581,10 @@
         }).always(function() {
             $('.one-currency[currencyid='+currencyId+'] .editCurrencyOk').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to edit currency') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to edit currency') +
+                '; ' + response.responseJSON.message
+            );
         });
     }
 
@@ -1640,7 +1668,10 @@
         }).always(function() {
             $('.addCategoryOk').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to add category') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to add category') +
+                ': ' + response.responseText
+            );
         });
     }
 
@@ -1701,7 +1732,9 @@
         }).always(function() {
             $('.one-category[categoryid='+categoryId+'] .deleteOneCategory').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to delete category') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to delete category') +
+                ': ' + response.responseJSON.message);
         });
     }
 
@@ -1748,7 +1781,10 @@
         }).always(function() {
             $('.one-category[categoryid='+categoryId+'] .editCategoryOk').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to edit category') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to edit category') +
+                ': ' + response.responseJSON.message
+            );
         });
     }
 
@@ -3486,7 +3522,10 @@
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to add user share') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to add user share') +
+                ': ' + response.responseJSON.message
+            );
         });
     }
 
@@ -3510,7 +3549,10 @@
         }).always(function() {
             $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteUserShareButton').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to delete user share') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to delete user share') +
+                ': ' + response.responseJSON.message
+            );
         });
     }
 
@@ -3533,7 +3575,10 @@
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to add circle share') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to add circle share') +
+                ': ' + response.responseJSON.message
+            );
         });
     }
 
@@ -3557,7 +3602,10 @@
         }).always(function() {
             $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteCircleShareButton').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to delete circle share') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to delete circle share') +
+                ': ' + response.responseJSON.message
+            );
         });
     }
 
@@ -3580,7 +3628,10 @@
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to add group share') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to add group share') +
+                ': ' + response.responseJSON.message
+            );
         });
     }
 
@@ -3643,7 +3694,10 @@
         }).always(function() {
             $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteGroupShareButton').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to delete group share') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to delete group share') +
+                ': ' + response.responseJSON.message
+            );
         });
     }
 
@@ -3667,7 +3721,10 @@
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
             $('li[shid="'+shid+'"] .perm').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to edit share permissions') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to edit share permissions') +
+                ': ' + response.responseJSON.message
+            );
         });
     }
 
@@ -3712,7 +3769,10 @@
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
             $('li[projectid="'+projectid+'"] .permguest').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to edit guest permissions') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to edit guest permissions') +
+                ': ' + response.responseJSON.message
+            );
         });
     }
 
@@ -3783,7 +3843,10 @@
         }).always(function() {
         }).fail(function(response) {
             $('.loading-bill').removeClass('icon-loading-small');
-            OC.Notification.showTemporary(t('cospend', 'Failed to generate public link to file') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to generate public link to file') +
+                ': ' + response.responseJSON.message
+            );
         });
     }
 
@@ -3807,7 +3870,10 @@
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to export project') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to export project') +
+                ': ' + response.responseJSON.message
+            );
         });
     }
 
@@ -3836,7 +3902,10 @@
         }).always(function() {
             $('.exportStats[projectid="'+projectid+'"] span').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to export project statistics') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to export project statistics') +
+                ': ' + response.responseJSON.message
+            );
         });
     }
 
@@ -3856,7 +3925,10 @@
         }).always(function() {
             $('.exportSettlement[projectid="'+projectid+'"] span').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to export project settlement') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to export project settlement') +
+                ': ' + response.responseJSON.message
+            );
         });
     }
 
@@ -3894,7 +3966,10 @@
         }).always(function() {
             $('.autoSettlement[projectid="'+projectid+'"] span').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to add project settlement bills') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to add project settlement bills') +
+                ': ' + response.responseJSON.message
+            );
         });
     }
 
@@ -3919,7 +3994,10 @@
         }).always(function() {
         }).fail(function(response) {
             $('#addFileLinkButton').removeClass('icon-loading-small');
-            OC.Notification.showTemporary(t('cospend', 'Failed to import project file') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to import project file') +
+                ': ' + response.responseJSON.message
+            );
         });
     }
 
@@ -3944,7 +4022,10 @@
         }).always(function() {
         }).fail(function(response) {
             $('#addFileLinkButton').removeClass('icon-loading-small');
-            OC.Notification.showTemporary(t('cospend', 'Failed to import project file') + ' ' + response.responseText);
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to import project file') +
+                ': ' + response.responseJSON.message
+            );
         });
     }
 

@@ -2187,15 +2187,15 @@ class PageController extends ApiController {
                     $response = new DataResponse(['token'=>$token]);
                 }
                 else {
-                    $response = new DataResponse(['message'=>'Access denied'], 403);
+                    $response = new DataResponse(['message'=>$this->trans->t('Access denied')], 403);
                 }
             }
             else {
-                $response = new DataResponse(['message'=>'Access denied'], 403);
+                $response = new DataResponse(['message'=>$this->trans->t('Access denied')], 403);
             }
         }
         else {
-            $response = new DataResponse(['message'=>'Access denied'], 403);
+            $response = new DataResponse(['message'=>$this->trans->t('Access denied')], 403);
         }
         return $response;
     }

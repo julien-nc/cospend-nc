@@ -222,12 +222,34 @@ class CospendProvider implements IProvider {
 					'name' => $user !== null ? $user->getDisplayName() : $subjectParams['who']
 				];
 			}
-			else {
+			else if ($subjectParams['type'] === 'g') {
 				$group = $this->groupManager->get($subjectParams['who']);
 				$params['who'] = [
 					'type' => 'highlight',
 					'id' => $subjectParams['who'],
 					'name' => $group !== null ? $group->getDisplayName() : $subjectParams['who']
+				];
+			}
+			else if ($subjectParams['type'] === 'c') {
+				$displayName = $this->l10n->t('circle %1$s', [$subjectParams['who']]);
+				$circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
+				if ($circlesEnabled) {
+					$circleDetails = null;
+					try {
+						$circleDetails = \OCA\Circles\Api\v1\Circles::detailsCircle($subjectParams['who']);
+					}
+					catch (\OCA\Circles\Exceptions\CircleDoesNotExistException $e) {
+					}
+					if ($circleDetails) {
+						$displayName = 'circle '.$circleDetails->getName();
+						$displayName = $this->l10n->t('circle %1$s', [$circleDetails->getName()]);
+					}
+				}
+				$params['who'] = [
+					'type' => 'highlight',
+					'id' => $subjectParams['who'],
+					'name' => $displayName,
+					'link' => \OCA\Circles\Api\v1\Circles::generateAbsoluteLink($subjectParams['who'])
 				];
 			}
 		}

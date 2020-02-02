@@ -754,10 +754,10 @@ class ProjectService {
                             $amount, $repeat, $paymentmode=null, $categoryid=null,
                             $repeatallactive=0, $repeatuntil=null) {
         if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
-            return ['repeat'=>$this->trans->t('Invalid value.')];
+            return ['repeat'=>$this->trans->t('Invalid value')];
         }
         if ($repeatallactive === null || ($repeatallactive !== '' && !is_numeric($repeatallactive))) {
-            return ['repeatallactive'=>$this->trans->t('Invalid value.')];
+            return ['repeatallactive'=>$this->trans->t('Invalid value')];
         }
         if ($repeatallactive !== null && $repeatallactive === '') {
             $repeatallactive = 0;
@@ -766,16 +766,16 @@ class ProjectService {
             $repeatuntil = null;
         }
         if ($date === null || $date === '') {
-            return ['date'=>$this->trans->t('This field is required.')];
+            return ['date'=>$this->trans->t('This field is required')];
         }
         if ($what === null || $what === '') {
-            return ['what'=>$this->trans->t('This field is required.')];
+            return ['what'=>$this->trans->t('This field is required')];
         }
         if ($amount === null || $amount === '' || !is_numeric($amount)) {
-            return ['amount'=>$this->trans->t('This field is required.')];
+            return ['amount'=>$this->trans->t('This field is required')];
         }
         if ($payer === null || $payer === '' || !is_numeric($payer)) {
-            return ['payer'=>$this->trans->t('This field is required.')];
+            return ['payer'=>$this->trans->t('This field is required')];
         }
         if ($this->getMemberById($projectid, $payer) === null) {
             return ['payer'=>$this->trans->t('Not a valid choice')];
@@ -1193,13 +1193,13 @@ class ProjectService {
             }
         }
         else {
-            return ['name'=>$this->trans->t('This field is required.')];
+            return ['name'=>$this->trans->t('This field is required')];
         }
     }
 
     public function editProject($projectid, $name, $contact_email, $password, $autoexport=null, $currencyname=null) {
         if ($name === null || $name === '') {
-            return ['name'=> [$this->trans->t('Name field is required.')]];
+            return ['name'=> [$this->trans->t('Name field is required')]];
         }
 
         $qb = $this->dbconnection->getQueryBuilder();
@@ -2221,12 +2221,12 @@ class ProjectService {
         }
         // then edit the hell of it
         if ($what === null || $what === '') {
-            return ['what'=>$this->trans->t('"What" field is required.')];
+            return ['what'=>$this->trans->t('"What" field is required')];
         }
         $qb->set('what', $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR));
 
         if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
-            return ['repeat'=>$this->trans->t('Invalid value.')];
+            return ['repeat'=>$this->trans->t('Invalid value')];
         }
         $qb->set('repeat', $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR));
 
@@ -2268,12 +2268,12 @@ class ProjectService {
         if ($payed_for !== null && $payed_for !== '') {
             $owerIds = explode(',', $payed_for);
             if (count($owerIds) === 0) {
-                return ['payed_for'=>$this->trans->t('Invalid value.')];
+                return ['payed_for'=>$this->trans->t('Invalid value')];
             }
             else {
                 foreach ($owerIds as $owerId) {
                     if (!is_numeric($owerId)) {
-                        return ['payed_for'=>$this->trans->t('Invalid value.')];
+                        return ['payed_for'=>$this->trans->t('Invalid value')];
                     }
                     if ($this->getMemberById($projectid, $owerId) === null) {
                         return ['payed_for'=>$this->trans->t('Not a valid choice.')];

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-02-02 17:03+0100\n"
+"POT-Creation-Date: 2020-02-02 17:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1048,10 +1048,12 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:757
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:760
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:786
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:790
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2229
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2271
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2276
-msgid "Invalid value."
+msgid "Invalid value"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:769
@@ -1059,17 +1061,12 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:775
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:778
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1196
-msgid "This field is required."
+msgid "This field is required"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:781
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:793
 msgid "Not a valid choice"
-msgstr ""
-
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:786
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:790
-msgid "Invalid value"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1027
@@ -1089,7 +1086,7 @@ msgid "This project have no such member"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1202
-msgid "Name field is required."
+msgid "Name field is required"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1214
@@ -1121,7 +1118,7 @@ msgid "There is no such bill"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2224
-msgid "\"What\" field is required."
+msgid "\"What\" field is required"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2259

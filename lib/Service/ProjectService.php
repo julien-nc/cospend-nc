@@ -153,6 +153,7 @@ class ProjectService {
                         return true;
                     }
                     else {
+                        // if not, are circles enabled and is the project shared with a circle containing the user?
                         $circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
                         if ($circlesEnabled) {
                             $dbCircleId = null;
@@ -168,18 +169,8 @@ class ProjectService {
                             $req = $qb->execute();
                             while ($row = $req->fetch()) {
                                 $circleId = $row['userid'];
-                                $circleDetails = \OCA\Circles\Api\v1\Circles::detailsCircle($circleId);
-                                if ($circleDetails) {
-                                    if ($circleDetails->getOwner()->getUserId() === $userid) {
-                                        return true;
-                                    }
-                                    else {
-                                        foreach ($circleDetails->getMembers() as $m) {
-                                            if ($m->getUserId() === $userid) {
-                                                return true;
-                                            }
-                                        }
-                                    }
+                                if ($this->isUserInCircle($userid, $circleId)) {
+                                    return true;
                                 }
                             }
                         }
@@ -236,6 +227,7 @@ class ProjectService {
                 else {
                     // if not, is the project shared with a group containing the user?
                     $userO = $this->userManager->get($userid);
+                    $accessWithGroup = null;
 
                     $qb->select('userid', 'permissions')
                         ->from('cospend_shares', 's')
@@ -253,13 +245,45 @@ class ProjectService {
                             and $this->groupManager->get($groupId)->inGroup($userO)
                             and strrpos($dbPermissions, $permission) !== false
                         ) {
-                            return true;
+                            $accessWithGroup = $groupId;
+                            break;
                         }
                     }
                     $req->closeCursor();
                     $qb = $qb->resetQueryParts();
 
-                    return false;
+                    if ($accessWithGroup !== null) {
+                        return true;
+                    }
+                    else {
+                        // if not, are circles enabled and is the project shared with a circle containing the user
+                        // with asked permission?
+                        $circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
+                        if ($circlesEnabled) {
+                            $dbCircleId = null;
+
+                            $qb->select('userid', 'permissions')
+                                ->from('cospend_shares', 's')
+                                ->where(
+                                    $qb->expr()->eq('type', $qb->createNamedParameter('c', IQueryBuilder::PARAM_STR))
+                                )
+                                ->andWhere(
+                                    $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                                );
+                            $req = $qb->execute();
+                            while ($row = $req->fetch()) {
+                                $circleId = $row['userid'];
+                                $dbPermissions = $row['permissions'];
+                                // got permission
+                                if (strrpos($dbPermissions, $permission) !== false) {
+                                    if ($this->isUserInCircle($userid, $circleId)) {
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                        return false;
+                    }
                 }
             }
         }
@@ -1640,6 +1664,30 @@ class ProjectService {
         return $membersBalance;
     }
 
+    private function isUserInCircle($userId, $circleId) {
+        $circleDetails = null;
+        try {
+            $circleDetails = \OCA\Circles\Api\v1\Circles::detailsCircle($circleId);
+        }
+        catch (\OCA\Circles\Exceptions\CircleDoesNotExistException $e) {
+        }
+        if ($circleDetails) {
+            // is the circle owner
+            if ($circleDetails->getOwner()->getUserId() === $userId) {
+                return true;
+            }
+            else {
+                foreach ($circleDetails->getMembers() as $m) {
+                    // is member of this circle
+                    if ($m->getUserId() === $userId) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public function getProjects($userId) {
         $projects = [];
         $projectids = [];
@@ -1795,6 +1843,75 @@ class ProjectService {
                 }
                 $req->closeCursor();
                 $qb = $qb->resetQueryParts();
+            }
+        }
+
+        $circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
+        if ($circlesEnabled) {
+            // get circles with which a project is shared
+            $candidateCircleIds = [];
+            $qb->select('userid')
+            ->from('cospend_shares', 's')
+            ->where(
+                $qb->expr()->eq('type', $qb->createNamedParameter('c', IQueryBuilder::PARAM_STR))
+            )
+            ->groupBy('userid');
+            $req = $qb->execute();
+            while ($row = $req->fetch()){
+                $circleId = $row['userid'];
+                array_push($candidateCircleIds, $circleId);
+            }
+            $req->closeCursor();
+            $qb = $qb->resetQueryParts();
+
+            // is the user member of these circles?
+            foreach ($candidateCircleIds as $candidateCircleId) {
+                if ($this->isUserInCircle($userId, $candidateCircleId)) {
+                    // get projects shared with this circle
+                    $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestpermissions', 'p.currencyname', 'p.lastchanged')
+                        ->from('cospend_projects', 'p')
+                        ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
+                        ->where(
+                            $qb->expr()->eq('s.userid', $qb->createNamedParameter($candidateCircleId, IQueryBuilder::PARAM_STR))
+                        )
+                        ->andWhere(
+                            $qb->expr()->eq('s.type', $qb->createNamedParameter('c', IQueryBuilder::PARAM_STR))
+                        );
+                    $req = $qb->execute();
+
+                    $dbProjectId = null;
+                    $dbPassword = null;
+                    while ($row = $req->fetch()){
+                        $dbProjectId = $row['id'];
+                        // avoid putting twice the same project
+                        // this can happen with a share loop or multiple shares
+                        if (!in_array($dbProjectId, $projectids)) {
+                            $dbPassword = $row['password'];
+                            $dbName = $row['name'];
+                            $dbEmail= $row['email'];
+                            $autoexport = $row['autoexport'];
+                            $guestpermissions = $row['guestpermissions'];
+                            $dbCurrencyName = $row['currencyname'];
+                            $dbLastchanged = intval($row['lastchanged']);
+                            array_push($projects, [
+                                'name'=>$dbName,
+                                'contact_email'=>$dbEmail,
+                                'id'=>$dbProjectId,
+                                'autoexport'=>$autoexport,
+                                'lastchanged'=>$dbLastchanged,
+                                'active_members'=>null,
+                                'members'=>null,
+                                'balance'=>null,
+                                'shares'=>[],
+                                'guestpermissions'=>$guestpermissions,
+                                'currencyname'=>$dbCurrencyName
+                            ]);
+                            array_push($projectids, $dbProjectId);
+                        }
+                    }
+                    $req->closeCursor();
+                    $qb = $qb->resetQueryParts();
+                }
             }
         }
 
@@ -2975,12 +3092,19 @@ class ProjectService {
         // check if circleId exists
         $circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
         if ($circlesEnabled) {
-            $circleUniqueIds = [];
             $cs = \OCA\Circles\Api\v1\Circles::listCircles(\OCA\Circles\Model\Circle::CIRCLES_ALL, '', 0);
+            $exists = false;
             foreach ($cs as $c) {
-                array_push($circleUniqueIds, $c->getUniqueId());
+                if ($c->getUniqueId() === $circleid) {
+                    if ($c->getType() === \OCA\Circles\Model\Circle::CIRCLES_PERSONAL) {
+                        return ['message'=>'Sharing with personal circles is not supported'];
+                    }
+                    else {
+                        $exists = true;
+                    }
+                }
             }
-            if ($circleid !== '' and in_array($circleid, $circleUniqueIds)) {
+            if ($circleid !== '' and $exists) {
                 $qb = $this->dbconnection->getQueryBuilder();
                 $projectInfo = $this->getProjectInfo($projectid);
                 // check if circle share exists

@@ -2499,7 +2499,7 @@
             '                <a class="icon icon-quota"></a>' +
             '                '+amountStr+
             '            </label>' +
-            '            <input type="number" id="amount" class="input-bill-amount" value="'+bill.amount+'" step="any" min="0"/>' +
+            '            <input type="number" id="amount" class="input-bill-amount" value="'+bill.amount+'" step="any"/>' +
             '           ' + currenciesStr +
             '        </div>' +
             '        <div class="bill-payer">' +

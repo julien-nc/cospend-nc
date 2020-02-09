@@ -527,6 +527,7 @@ class PageController extends ApiController {
                 $amount, $repeat, $paymentmode, $categoryid,
                 $repeatallactive, $repeatuntil
             );
+            sleep(4);
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($billid);
                 $this->activityManager->triggerEvent(

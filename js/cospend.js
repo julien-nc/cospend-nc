@@ -664,8 +664,12 @@
             // update ui
             var bill = cospend.bills[projectid][billid];
             updateBillItem(projectid, billid, bill);
-            updateDisplayedBill(projectid, billid, what, payer_id, repeat,
-                                paymentmode, categoryid, repeatallactive, repeatuntil);
+            var displayedBillTitle = $('#billdetail .bill-title');
+            if (parseInt(displayedBillTitle.attr('billid')) === parseInt(billid) &&
+                displayedBillTitle.attr('projectid') === projectid) {
+                updateDisplayedBill(projectid, billid, what, payer_id, repeat,
+                                    paymentmode, categoryid, repeatallactive, repeatuntil);
+            }
 
             updateProjectBalances(projectid);
 
@@ -682,6 +686,11 @@
 
     function updateBillItem(projectid, billid, bill) {
         var billItem = $('.billitem[billid='+billid+']');
+        var billSelected = billItem.hasClass('selectedbill');
+        var selectedClass = '';
+        if (billSelected) {
+            selectedClass = ' selectedbill';
+        }
 
         var owerNames = '';
         var ower, i;
@@ -722,7 +731,7 @@
         var imgurl = OC.generateUrl('/apps/cospend/getAvatar?color=' +
                     cospend.members[projectid][bill.payer_id].color +
                     '&name='+encodeURIComponent(memberName));
-        var item = '<a href="#" class="app-content-list-item billitem selectedbill" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
+        var item = '<a href="#" class="app-content-list-item billitem'+selectedClass+'" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
             '<div class="app-content-list-item-icon" style="background-image: url('+imgurl+');"> ' +
             '   <div class="billItemDisabledMask'+(cospend.members[projectid][bill.payer_id].activated ? '' : ' disabled')+'"></div>' +
             '</div>' +

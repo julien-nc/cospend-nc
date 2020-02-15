@@ -1811,6 +1811,14 @@
         cospend.currentStatsProjectId = projectid;
         var color;
 
+        var isFiltered = (    (dateMin !== null && dateMin !== '')
+                           || (dateMax !== null && dateMax !== '')
+                           || (paymentMode !== null && paymentMode !== 'n')
+                           || (category !== null && parseInt(category) !== 0)
+                           || (amountMin !== null && amountMin !== '')
+                           || (amountMax !== null && amountMax !== '')
+                        );
+
         var project = cospend.projects[projectid];
         var projectName = getProjectName(projectid);
         $('#billdetail').html('');
@@ -1820,6 +1828,7 @@
         var paidStr = t('cospend', 'Paid');
         var spentStr = t('cospend', 'Spent');
         var balanceStr = t('cospend', 'Balance');
+        var filteredBalanceStr = t('cospend', 'Filtered balance');
         var exportStr = '';
 
         var totalPayed = 0.0;
@@ -1889,10 +1898,14 @@
             '<table id="statsTable" class="sortable"><thead>' +
             '<th>'+nameStr+'</th>' +
             '<th class="sorttable_numeric">'+paidStr+'</th>' +
-            '<th class="sorttable_numeric">'+spentStr+'</th>' +
+            '<th class="sorttable_numeric">'+spentStr+'</th>';
+        if (isFiltered) {
+            statsStr += '<th class="sorttable_numeric">'+filteredBalanceStr+'</th>';
+        }
+        statsStr +=
             '<th class="sorttable_numeric">'+balanceStr+'</th>' +
             '</thead>';
-        var paid, spent, balance, name, balanceClass, member, imgurl;
+        var paid, spent, balance, filteredBalance, name, balanceClass, filteredBalanceClass, member, imgurl;
         for (var i=0; i < statList.length; i++) {
             member = cospend.members[projectid][statList[i].member.id];
             balanceClass = '';
@@ -1902,13 +1915,21 @@
             else if (statList[i].balance < 0) {
                 balanceClass = ' class="balanceNegative"';
             }
+            filteredBalanceClass = '';
+            if (statList[i].filtered_balance > 0) {
+                filteredBalanceClass = ' class="balancePositive"';
+            }
+            else if (statList[i].filtered_balance < 0) {
+                filteredBalanceClass = ' class="balanceNegative"';
+            }
             paid = statList[i].paid.toFixed(2);
             spent = statList[i].spent.toFixed(2);
             balance = statList[i].balance.toFixed(2);
+            filteredBalance = statList[i].filtered_balance.toFixed(2);
             name = statList[i].member.name;
             color = '#'+member.color;
             imgurl = OC.generateUrl('/apps/cospend/getAvatar?color=' + member.color + '&name=' + encodeURIComponent(member.name));
-            statsStr = statsStr +
+            statsStr +=
                 '<tr>' +
                 '<td style="border: 2px solid '+color+';">'+
                 '<div class="owerAvatar'+(member.activated ? '' : ' owerAvatarDisabled')+'">' +
@@ -1918,7 +1939,11 @@
                 name+
                 '</td>' +
                 '<td style="border: 2px solid '+color+';">'+paid+'</td>' +
-                '<td style="border: 2px solid '+color+';">'+spent+'</td>' +
+                '<td style="border: 2px solid '+color+';">'+spent+'</td>';
+            if (isFiltered) {
+                statsStr += '<td style="border: 2px solid '+color+';"'+filteredBalanceClass+'>'+filteredBalance+'</td>';
+            }
+            statsStr +=
                 '<td style="border: 2px solid '+color+';"'+balanceClass+'>'+balance+'</td>' +
                 '</tr>';
         }

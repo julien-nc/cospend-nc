@@ -548,6 +548,7 @@ class ProjectService {
         $membersWeight = [];
         $membersNbBills = [];
         $membersBalance = [];
+        $membersFilteredBalance = [];
         $membersPaid = [];
         $membersSpent = [];
 
@@ -570,6 +571,7 @@ class ProjectService {
             $membersWeight[$memberId] = $memberWeight;
             $membersNbBills[$memberId] = 0;
             $membersBalance[$memberId] = $balances[$memberId];
+            $membersFilteredBalance[$memberId] = 0.0;
             $membersPaid[$memberId] = 0.0;
             $membersSpent[$memberId] = 0.0;
         }
@@ -594,6 +596,7 @@ class ProjectService {
             $owers = $bill['owers'];
 
             $membersNbBills[$payerId]++;
+            $membersFilteredBalance[$payerId] += $amount;
             $membersPaid[$payerId] += $amount;
 
             $nbOwerShares = 0.0;
@@ -611,6 +614,7 @@ class ProjectService {
                 }
                 $owerId = $ower['id'];
                 $spent = $amount / $nbOwerShares * $owerWeight;
+                $membersFilteredBalance[$owerId] -= $spent;
                 $membersSpent[$owerId] += $spent;
             }
         }
@@ -621,6 +625,7 @@ class ProjectService {
             foreach ($membersToDisplay as $memberId => $member) {
                 $statistic = [
                     'balance' => $membersBalance[$memberId],
+                    'filtered_balance' => $membersFilteredBalance[$memberId],
                     'paid' => $membersPaid[$memberId],
                     'spent' => $membersSpent[$memberId],
                     'member' => $member
@@ -632,6 +637,7 @@ class ProjectService {
             foreach ($membersToDisplay as $memberId => $member) {
                 $statistic = [
                     'balance' => ($membersBalance[$memberId] === 0.0) ? 0 : $membersBalance[$memberId] / $currency['exchange_rate'],
+                    'filtered_balance' => ($membersFilteredBalance[$memberId] === 0.0) ? 0 : $membersFilteredBalance[$memberId] / $currency['exchange_rate'],
                     'paid' => ($membersPaid[$memberId] === 0.0) ? 0 : $membersPaid[$memberId] / $currency['exchange_rate'],
                     'spent' => ($membersSpent[$memberId] === 0.0) ? 0 : $membersSpent[$memberId] / $currency['exchange_rate'],
                     'member' => $member

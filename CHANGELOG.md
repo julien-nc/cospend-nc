@@ -5,6 +5,27 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.3.3 – 2020-02-22
+### Added
+- occ export-project command
+[#69](https://gitlab.com/eneiluj/cospend-nc/issues/69) @schwerpunkt
+- bank transfer payment mode
+- circle share
+[#31](https://gitlab.com/eneiluj/cospend-nc/issues/31) @sunjam1
+- show filtered balance in stats (if different from general balance)
+[#58](https://gitlab.com/eneiluj/cospend-nc/issues/58) @archit3kt
+
+### Changed
+- project screenshots
+- improve error messages
+- upgrade tools used in CI
+
+### Fixed
+- remove minimum value for 'amount' field in bill edition
+[#72](https://gitlab.com/eneiluj/cospend-nc/issues/72) @schwerpunkt
+- avoid mess when changing displayed bill during saving request
+[#73](https://gitlab.com/eneiluj/cospend-nc/issues/73) @schwerpunkt
+
 ## 0.3.2 – 2020-01-23
 ### Added
 - project currencies management and conversion

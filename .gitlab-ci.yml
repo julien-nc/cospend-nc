@@ -47,9 +47,9 @@ test_nc18_pgsql:
   variables:
       POSTGRES_DB: plop
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ""
+      POSTGRES_PASSWORD: "toto"
   script:
-    - DEBIAN_FRONTEND=noninteractive apt-get install php7.3-pgsql postgresql postgresql-client -yqq > /dev/null 2>&1
+    - DEBIAN_FRONTEND=noninteractive apt-get install php7.3-pgsql postgresql-client -yqq > /dev/null 2>&1
     # copy local copy that has been cloned already
     - cp -r . /tmp/cospend
     - mkdir -p /var/www/html ; pushd /var/www/html
@@ -58,7 +58,7 @@ test_nc18_pgsql:
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/cospend ./
-    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "pgsql" --database-host "postgres:5432" --database-name oc_autotest --database-user postgres --database-pass="" --admin-user "admin" --admin-pass "password"
+    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "pgsql" --database-host "postgres:5432" --database-name oc_autotest --database-user postgres --database-pass="toto" --admin-user "admin" --admin-pass "password"
     - sudo -u www-data php /var/www/html/nextcloud/occ app:enable cospend
     - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
     # check code with occ

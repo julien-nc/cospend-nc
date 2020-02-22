@@ -125,7 +125,6 @@ OC.L10N.register(
     "year" : "Jahr",
     "Include all active member on repeat" : "Alle aktiven Mitglieder bei Wiederholung einbeziehen",
     "Repeat until" : "Wiederholen bis",
-    "{n} each" : "jeder {n}",
     "Member list is not up to date. Reloading in 5 sec." : "Mitgliederliste nicht aktuell. Wird in 5 Sek neu geladen.",
     "Failed to update balances" : "Aktualisierung der Balancen fehlgeschlagen",
     "Add member" : "Mitglied hinzufügen",

@@ -102,7 +102,6 @@ OC.L10N.register(
     "year" : "jaar",
     "Include all active member on repeat" : "Alle actieve leden mee opnemen bij herhalen",
     "Repeat until" : "Herhaal tot",
-    "{n} each" : "{n} elk",
     "Member list is not up to date. Reloading in 5 sec." : "De deelnemerslijst is niet bijgewerkt. Deze wordt herladen over 5 seconden.",
     "Failed to update balances" : "Kan saldi niet bijwerken",
     "Add member" : "Deelnemer toevoegen",

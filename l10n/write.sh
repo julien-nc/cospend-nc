@@ -29,3 +29,4 @@ rename 's/el_GR/el/g' *.js*
 rename 's/bg_BG/bg/g' *.js*
 rename 's/en_US/en/g' *.js*
 rename 's/sl_SI/sl/g' *.js*
+rename 's/sq_AL/sq/g' *.js*

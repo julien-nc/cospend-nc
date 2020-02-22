@@ -6,9 +6,9 @@
 
 Σας επιτρέπει να δημιουργείτε έργα με μέλη και λογαριασμούς. Κάθε μέλος έχει ένα υπόλοιπο λογαριασμού που υπολογίζεται από τους λογαριασμούς του έργου. Με αυτόν τον τρόπο μπορείτε να δείτε ποιος χρωστάει στην ομάδα και σε ποιον οφείλει η ομάδα. Εν τέλει μπορείτε να ζητήσετε για ένα σχέδιο διακανονισμού, το οποίο θα σας ενημερώνει σχετικά με τις πληρωμές που πρέπει να κάνετε για να ισορροπήσετε τα υπόλοιπα των μελών.
 
-Τα μέλη του έργου είναι ανεξάρτητα από τους χρήστες του Nextcloud. Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
+Τα μέλη του έργου είναι ανεξάρτητα από τους χρήστες του Nextcloud. Στα έργα μπορούν να έχουν πρόσβαση και να τα τροποποιήσουν άτομα χωρίς λογαριασμό Nextcloud. Κάθε έργο έχει αναγνωριστικό και κωδικό πρόσβασης για την πρόσβαση των επισκεπτών.
 
-[MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) and on the [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
+Η Android εφαρμογή του [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) είναι [διαθέσιμη στο F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) και στο [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
 ## Δυνατότητες
 
@@ -17,17 +17,17 @@
 * 🗠 προβολή στατιστικών στοιχείων έργου
 * ♻ προβολή σχεδίου διακανονισμού
 * 🎇 αυτόματη δημιουργία λογαριασμού αποζημίωσης από το σχέδιο διακανονισμού
-* 🗓 create recurring bills (daily/weekly/monthly/yearly)
+* 🗓 δημιουργία επαναλαμβανόμενων λογαριασμών (ημέρα/εβδομάδα/μήνας/έτος)
 * 📊 προαιρετική παροχή προσαρμοσμένου ποσού για κάθε μέλος σε νέους λογαριασμούς
 * 🔗 εισαγωγή δημόσιου συνδέσμου σε ένα προσωπικό αρχείο στην περιγραφή του λογαριασμού (για παράδειγμα εικόνα του φυσικού λογαριασμού)
 * 👩 πρόσβαση επισκεπτών για άτομα εκτός του Nextcloud
-* 👫 share projects with Nextcloud users/groups
+* 👫 κοινοποίηση έργων με χρήστες / ομάδες του Nextcloud
 * 🖫 εισαγωγή / εξαγωγή έργων σε csv (συμβατά με αρχεία csv από το IHateMoney)
 * 🖧 προσθήκη εξωτερικών έργων (που φιλοξενούνται σε άλλη εγκατάσταση του Nextcloud)
 * 🔗 δημιουργία συνδέσμου / QRCode για εύκολη εισαγωγή έργων στο MoneyBuster
-* 🗲 implement Nextcloud notifications and activity stream
+* 🗲 εφαρμογή ειδοποιήσεων Nextcloud και ροής δραστηριότητας
 
-This app is tested on Nextcloud 17 with Firefox 57+ and Chromium.
+Αυτή η εφαρμογή ελέγχθηκε στο Nextcloud 17 με το Firefox 57+ και το Chromium.
 
 Η δημιουργία αυτής της εφαρμογής βρίσκεται σε εξέλιξη.
 

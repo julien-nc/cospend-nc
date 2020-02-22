@@ -1,50 +1,50 @@
 # Nextcloud Cospend 💰
 
-Nextcloud Cospend is a group/shared budget manager. It was inspired by the great [IHateMoney](https://github.com/spiral-project/ihatemoney/).
+A Próxima Cospend é um gerenciador de orçamento compartilhado/de grupo. Foi inspirado pelo ótimo [IHateMoney](https://github.com/spiral-project/ihatemoney/).
 
-You can use it when you share a house, when you go on vacation with friends, whenever you share money with others.
+Você pode usá-lo quando você compartilha uma casa, quando você vai de férias com amigos, ou sempre que você compartilha despesas com outras pessoas.
 
-It lets you create projects with members and bills. Each member has a balance computed from the project bills. This way you can see who owes the group and who the group owes. Ultimately you can ask for a settlement plan telling you which payments to make to reset members balances.
+Ele permite criar projetos com membros e despesas. Cada membro tem um saldo calculado a partir das faturas do projeto. Desta forma você pode ver quem deve ao grupo e a quem o grupo deve. Em última análise pode pedir um plano de quitação que lhe diga quais os pagamentos a fazer para saldar as dívidas dos membros.
 
-Project members are independent from Nextcloud users. Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
+Os membros do projeto são independentes dos usuários do Nextcloud. Projetos podem ser acessados e modificados por pessoas sem uma conta do Nextcloud. Cada projeto tem um ID e uma senha para acesso de convidados.
 
-[MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) and on the [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
+[MoneyBuster](https://gitlab.com/eneiluj/moneybuster) é um cliente Android que está [disponível no F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) e na [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
-## Features
+## Funcionalidades
 
-* ✎ create/edit/delete projects, members, bills
-* ⚖ check member balances
-* 🗠 display project statistics
-* ♻ display settlement plan
-* 🎇 automatically create reimbursement bills from settlement plan
-* 🗓 create recurring bills (daily/weekly/monthly/yearly)
-* 📊 optionally provide custom amount for each member in new bills
-* 🔗 insert public link to a personal file in bill description (picture of physical bill for example)
-* 👩 guest access for people outside Nextcloud
-* 👫 share projects with Nextcloud users/groups
-* 🖫 import/export projects as csv (compatible with csv files from IHateMoney)
-* 🖧 add external projects (hosted by another Nextcloud instance)
-* 🔗 generate link/QRCode to easily import projects in MoneyBuster
-* 🗲 implement Nextcloud notifications and activity stream
+* ✎ criar/editar/excluir projetos, membros e despesas
+* ⚖ verificar os saldos dos membros
+* 🗠 exibir estatísticas do projeto
+* ♻ exibir plano de quitação
+* 🎇 criar automaticamente reembolsos a partir do plano de quitação
+* 🗓 criar despesas recorrentes (diárias/semanais/mensais/anuais)
+* 📊 fornecer, opcionalmente, um valor personalizado para cada membro em despesas novas
+* 🔗 inserir link público para um arquivo pessoal na descrição da despesa (imagem da fatura física, por exemplo)
+* 👩 acesso de convidado para pessoas fora do Nextcloud
+* 👫 compartilhar projetos com o os usuários/grupos do Nextcloud
+* 🖫 importar/exportar projetos no formato CSV (compatível com aquivos CSV do IHateMoney)
+* 🖧 adicionar projetos externos (hospedados por outra instância de Nextcloud)
+* 🔗 gerar link/QRCode para importar facilmente projetos no MoneyBuster
+* 🗲 implementar notificações e fluxo de atividades do Nextcloud
 
-This app is tested on Nextcloud 17 with Firefox 57+ and Chromium.
+Este aplicativo está testado no Nextcloud 17 com Firefox 57+ e Chromium.
 
-This app is under development.
+Este aplicativo está em desenvolvimento.
 
-🌍 Help us to translate this app on [Nextcloud-Cospend/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
+🌍 Ajude-nos a traduzir esta aplicação no [projeto Crowdin do Nextcloud-Cospend/MoneyBuster](https://crowdin.com/project/moneybuster).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
+⚒ Veja outras formas de ajudar nos [guias de contribuição](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
-## Install
+## Instalar
 
-See the [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc) for installation details.
+Consulte o [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc) para obter detalhes de instalação.
 
-Check [CHANGELOG](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
+Consulte o arquivo [CHANGELOG](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) para ver o que há de novo e o que está por vir na próxima versão.
 
-Check [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+Consulte o arquivo [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) para ver a lista completa dos autores.
 
-## Known issues
+## Problemas conhecidos
 
-* it does not make you rich
+* ele não te torna rico
 
-Any feedback will be appreciated.
+Qualquer comentário será apreciado.

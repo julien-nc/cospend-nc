@@ -49,7 +49,7 @@ test_nc18_pgsql:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ""
   script:
-    - DEBIAN_FRONTEND=noninteractive apt-get install php7.3-pgsql postgresql-client -yqq > /dev/null 2>&1
+    - DEBIAN_FRONTEND=noninteractive apt-get install php7.3-pgsql postgresql postgresql-client -yqq > /dev/null 2>&1
     # copy local copy that has been cloned already
     - cp -r . /tmp/cospend
     - mkdir -p /var/www/html ; pushd /var/www/html

@@ -3454,7 +3454,7 @@ class ProjectService {
                             }
                             else {
                                 fclose($handle);
-                                return ['message'=>$this->trans->t('Malformed CSV, bad column names')];
+                                return ['message'=>$this->trans->t('Malformed CSV, bad column names at line %1$s', [$row + 1])];
                             }
                         }
                         // normal line : bill or category
@@ -3506,17 +3506,17 @@ class ProjectService {
                                 }
                                 else {
                                     fclose($handle);
-                                    return ['message'=>$this->trans->t('Malformed CSV, bad payer weight on line %1$s', [$row])];
+                                    return ['message'=>$this->trans->t('Malformed CSV, bad payer weight on line %1$s', [$row + 1])];
                                 }
                                 if (strlen($owers) === 0) {
                                     fclose($handle);
-                                    return ['message'=>$this->trans->t('Malformed CSV, bad owers on line %1$s', [$row])];
+                                    return ['message'=>$this->trans->t('Malformed CSV, bad owers on line %1$s', [$row + 1])];
                                 }
                                 $owersArray = explode(', ', $owers);
                                 foreach ($owersArray as $ower) {
                                     if (strlen($ower) === 0) {
                                         fclose($handle);
-                                        return ['message'=>$this->trans->t('Malformed CSV, bad owers on line %1$s', [$row])];
+                                        return ['message'=>$this->trans->t('Malformed CSV, bad owers on line %1$s', [$row + 1])];
                                     }
                                     if (!array_key_exists($ower, $membersWeight)) {
                                         $membersWeight[$ower] = 1.0;
@@ -3524,7 +3524,7 @@ class ProjectService {
                                 }
                                 if (!is_numeric($amount)) {
                                     fclose($handle);
-                                    return ['message'=>$this->trans->t('Malformed CSV, bad amount on line %1$s', [$row])];
+                                    return ['message'=>$this->trans->t('Malformed CSV, bad amount on line %1$s', [$row + 1])];
                                 }
                                 array_push($bills, [
                                     'what'=>$what,

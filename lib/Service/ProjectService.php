@@ -3512,32 +3512,34 @@ class ProjectService {
                                     fclose($handle);
                                     return ['message'=>$this->trans->t('Malformed CSV, bad owers on line %1$s', [$row + 1])];
                                 }
-                                $owersArray = explode(', ', $owers);
-                                foreach ($owersArray as $ower) {
-                                    if (strlen($ower) === 0) {
+                                if ($payer_name !== $owers) {
+                                    $owersArray = explode(', ', $owers);
+                                    foreach ($owersArray as $ower) {
+                                        if (strlen($ower) === 0) {
+                                            fclose($handle);
+                                            return ['message'=>$this->trans->t('Malformed CSV, bad owers on line %1$s', [$row + 1])];
+                                        }
+                                        if (!array_key_exists($ower, $membersWeight)) {
+                                            $membersWeight[$ower] = 1.0;
+                                        }
+                                    }
+                                    if (!is_numeric($amount)) {
                                         fclose($handle);
-                                        return ['message'=>$this->trans->t('Malformed CSV, bad owers on line %1$s', [$row + 1])];
+                                        return ['message'=>$this->trans->t('Malformed CSV, bad amount on line %1$s', [$row + 1])];
                                     }
-                                    if (!array_key_exists($ower, $membersWeight)) {
-                                        $membersWeight[$ower] = 1.0;
-                                    }
+                                    array_push($bills, [
+                                        'what'=>$what,
+                                        'date'=>$date,
+                                        'amount'=>$amount,
+                                        'payer_name'=>$payer_name,
+                                        'owers'=>$owersArray,
+                                        'paymentmode'=>$paymentmode,
+                                        'categoryid'=>$categoryid,
+                                        'repeat'=>$repeat,
+                                        'repeatuntil'=>$repeatuntil,
+                                        'repeatallactive'=>$repeatallactive
+                                    ]);
                                 }
-                                if (!is_numeric($amount)) {
-                                    fclose($handle);
-                                    return ['message'=>$this->trans->t('Malformed CSV, bad amount on line %1$s', [$row + 1])];
-                                }
-                                array_push($bills, [
-                                    'what'=>$what,
-                                    'date'=>$date,
-                                    'amount'=>$amount,
-                                    'payer_name'=>$payer_name,
-                                    'owers'=>$owersArray,
-                                    'paymentmode'=>$paymentmode,
-                                    'categoryid'=>$categoryid,
-                                    'repeat'=>$repeat,
-                                    'repeatuntil'=>$repeatuntil,
-                                    'repeatallactive'=>$repeatallactive
-                                ]);
                             }
                         }
                         $row++;

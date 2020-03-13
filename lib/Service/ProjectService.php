@@ -652,8 +652,8 @@ class ProjectService {
         foreach ($bills as $bill) {
             $payerId = $bill['payer_id'];
             $amount = $bill['amount'];
-            $date = $bill['date'];
-            $month = substr($date, 0, 7);
+            $date = \DateTime::createFromFormat('U', $bill['timestamp']);
+            $month = $date->format('Y-m');
             if (!array_key_exists($month, $monthlyStats)) {
                 $monthlyStats[$month] = [];
                 foreach ($membersToDisplay as $memberId => $member) {
@@ -758,7 +758,7 @@ class ProjectService {
 
     public function addBill($projectid, $date, $what, $payer, $payed_for,
                             $amount, $repeat, $paymentmode=null, $categoryid=null,
-                            $repeatallactive=0, $repeatuntil=null) {
+                            $repeatallactive=0, $repeatuntil=null, $timestamp=null) {
         if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
             return ['repeat'=>$this->trans->t('Invalid value')];
         }
@@ -772,7 +772,18 @@ class ProjectService {
             $repeatuntil = null;
         }
         if ($date === null || $date === '') {
-            return ['date'=>$this->trans->t('This field is required')];
+            if ($timestamps === null || !is_numeric($timestamp)) {
+                return ['message'=>$this->trans->t('Timestamp (or date) field is required')];
+            }
+            else {
+                $dateTs = intval($timestamp);
+            }
+        }
+        else {
+            $dateTs = strtotime($date);
+            if ($dateTs === false) {
+                return ['date'=>$this->trans->t('Invalid date')];
+            }
         }
         if ($what === null || $what === '') {
             return ['what'=>$this->trans->t('This field is required')];
@@ -809,7 +820,7 @@ class ProjectService {
             ->values([
                 'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
                 'what' => $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR),
-                'date' => $qb->createNamedParameter($date, IQueryBuilder::PARAM_STR),
+                'timestamp' => $qb->createNamedParameter($dateTs, IQueryBuilder::PARAM_INT),
                 'amount' => $qb->createNamedParameter($amount, IQueryBuilder::PARAM_STR),
                 'payerid' => $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT),
                 'repeat' => $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR),
@@ -976,7 +987,7 @@ class ProjectService {
         $qb = $qb->resetQueryParts();
 
         // get the bill
-        $qb->select('id', 'what', 'date', 'amount', 'payerid', 'repeat',
+        $qb->select('id', 'what', 'timestamp', 'amount', 'payerid', 'repeat',
                     'repeatallactive', 'paymentmode', 'categoryid', 'repeatuntil')
            ->from('cospend_bills', 'b')
            ->where(
@@ -990,7 +1001,8 @@ class ProjectService {
             $dbBillId = intval($row['id']);
             $dbAmount = floatval($row['amount']);
             $dbWhat = $row['what'];
-            $dbDate = $row['date'];
+            $dbTimestamp = $row['timestamp'];
+            $dbDate = \DateTime::createFromFormat('U', $dbTimestamp);
             $dbRepeat = $row['repeat'];
             $dbRepeatAllActive = $row['repeatallactive'];
             $dbRepeatUntil = $row['repeatuntil'];
@@ -1001,7 +1013,8 @@ class ProjectService {
                 'id' => $dbBillId,
                 'amount' => $dbAmount,
                 'what' => $dbWhat,
-                'date' => $dbDate,
+                'date' => $dbDate->format('Y-m-d'),
+                'timestamp' => $dbTimestamp,
                 'payer_id' => $dbPayerId,
                 'owers' => $billOwers,
                 'repeat' => $dbRepeat,
@@ -1039,15 +1052,14 @@ class ProjectService {
             $memberIdToName[$member['id']] = $member['name'];
         }
 
-        $now = new \DateTime();
-        $date = $now->format('Y-m-d');
+        $ts = (new \DateTime())->getTimestamp();
 
         foreach ($transactions as $transaction) {
             $fromId = $transaction['from'];
             $toId = $transaction['to'];
             $amount = floatval($transaction['amount']);
             $billTitle = $memberIdToName[$fromId].' → '.$memberIdToName[$toId];
-            $addBillResult = $this->addBill($projectid, $date, $billTitle, $fromId, $toId, $amount, 'n', null, -11);
+            $addBillResult = $this->addBill($projectid, null, $billTitle, $fromId, $toId, $amount, 'n', null, -11, 0, null, $ts);
             if (!is_numeric($addBillResult)) {
                 return ['message'=>$this->trans->t('Error when addind a bill')];
             }
@@ -1341,24 +1353,26 @@ class ProjectService {
            );
         // take bills that have changed after $lastchanged
         if ($lastchanged !== null and is_numeric($lastchanged)) {
-           $qb->andWhere(
-               $qb->expr()->gt('lastchanged', $qb->createNamedParameter(intval($lastchanged), IQueryBuilder::PARAM_INT))
-           );
+            $qb->andWhere(
+                $qb->expr()->gt('lastchanged', $qb->createNamedParameter(intval($lastchanged), IQueryBuilder::PARAM_INT))
+            );
         }
         if ($dateMin !== null and $dateMin !== '') {
-           $qb->andWhere(
-               $qb->expr()->gte('date', $qb->createNamedParameter($dateMin, IQueryBuilder::PARAM_STR))
-           );
+            $dateMinTs = strtotime($dateMin);
+            $qb->andWhere(
+                $qb->expr()->gte('timestamp', $qb->createNamedParameter($dateMinTs, IQueryBuilder::PARAM_INT))
+            );
         }
         if ($dateMax !== null and $dateMax !== '') {
-           $qb->andWhere(
-               $qb->expr()->lte('date', $qb->createNamedParameter($dateMax, IQueryBuilder::PARAM_STR))
-           );
+            $dateMaxTs = strtotime($dateMax);
+            $qb->andWhere(
+                $qb->expr()->lte('timestamp', $qb->createNamedParameter($dateMaxTs, IQueryBuilder::PARAM_INT))
+            );
         }
         if ($paymentMode !== null and $paymentMode !== '' and $paymentMode !== 'n') {
-           $qb->andWhere(
-               $qb->expr()->eq('paymentmode', $qb->createNamedParameter($paymentMode, IQueryBuilder::PARAM_STR))
-           );
+            $qb->andWhere(
+                $qb->expr()->eq('paymentmode', $qb->createNamedParameter($paymentMode, IQueryBuilder::PARAM_STR))
+            );
         }
         if ($category !== null and $category !== '' and intval($category) !== 0) {
             if (intval($category) === -100) {
@@ -1423,7 +1437,7 @@ class ProjectService {
             $billOwersByBill[$billId] = $billOwers;
         }
 
-        $qb->select('id', 'what', 'date', 'amount', 'payerid', 'repeat',
+        $qb->select('id', 'what', 'timestamp', 'amount', 'payerid', 'repeat',
                     'paymentmode', 'categoryid', 'lastchanged', 'repeatallactive', 'repeatuntil')
            ->from('cospend_bills', 'b')
            ->where(
@@ -1436,14 +1450,16 @@ class ProjectService {
            );
         }
         if ($dateMin !== null and $dateMin !== '') {
-           $qb->andWhere(
-               $qb->expr()->gte('date', $qb->createNamedParameter($dateMin, IQueryBuilder::PARAM_STR))
-           );
+            $dateMinTs = strtotime($dateMin);
+            $qb->andWhere(
+                $qb->expr()->gte('timestamp', $qb->createNamedParameter($dateMinTs, IQueryBuilder::PARAM_INT))
+            );
         }
         if ($dateMax !== null and $dateMax !== '') {
-           $qb->andWhere(
-               $qb->expr()->lte('date', $qb->createNamedParameter($dateMax, IQueryBuilder::PARAM_STR))
-           );
+            $dateMaxTs = strtotime($dateMax);
+            $qb->andWhere(
+                $qb->expr()->lte('timestamp', $qb->createNamedParameter($dateMaxTs, IQueryBuilder::PARAM_INT))
+            );
         }
         if ($paymentMode !== null and $paymentMode !== '' and $paymentMode !== 'n') {
            $qb->andWhere(
@@ -1473,13 +1489,14 @@ class ProjectService {
                $qb->expr()->lte('amount', $qb->createNamedParameter(floatval($amountMax), IQueryBuilder::PARAM_STR))
            );
         }
-        $qb->orderBy('date', 'ASC');
+        $qb->orderBy('timestamp', 'ASC');
         $req = $qb->execute();
         while ($row = $req->fetch()){
             $dbBillId = intval($row['id']);
             $dbAmount = floatval($row['amount']);
             $dbWhat = $row['what'];
-            $dbDate = $row['date'];
+            $dbTimestamp = $row['timestamp'];
+            $dbDate = \DateTime::createFromFormat('U', $dbTimestamp);
             $dbRepeat = $row['repeat'];
             $dbPayerId = intval($row['payerid']);
             $dbPaymentMode = $row['paymentmode'];
@@ -1493,7 +1510,8 @@ class ProjectService {
                     'id' => $dbBillId,
                     'amount' => $dbAmount,
                     'what' => $dbWhat,
-                    'date' => $dbDate,
+                    'timestamp' => $dbTimestamp,
+                    'date' => $dbDate->format('Y-m-d'),
                     'payer_id' => $dbPayerId,
                     'owers' => $billOwersByBill[$row['id']],
                     'repeat' => $dbRepeat,
@@ -2213,7 +2231,7 @@ class ProjectService {
 
     public function editBill($projectid, $billid, $date, $what, $payer, $payed_for,
                               $amount, $repeat, $paymentmode=null, $categoryid=null,
-                              $repeatallactive=null, $repeatuntil=null) {
+                              $repeatallactive=null, $repeatuntil=null, $timestamp=null) {
         $qb = $this->dbconnection->getQueryBuilder();
         $qb->update('cospend_bills');
 
@@ -2254,7 +2272,21 @@ class ProjectService {
             $qb->set('categoryid', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT));
         }
         if ($date !== null && $date !== '') {
-            $qb->set('date', $qb->createNamedParameter($date, IQueryBuilder::PARAM_STR));
+            $dateTs = strtotime($date);
+            if ($dateTs !== false) {
+                $qb->set('timestamp', $qb->createNamedParameter($dateTs, IQueryBuilder::PARAM_INT));
+            }
+            else {
+                return ['date'=>$this->trans->t('Invalid value')];
+            }
+        }
+        else if ($timestamp !== null && $timestamp !== '') {
+            if (is_numeric($timestamp)) {
+                $qb->set('timestamp', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT));
+            }
+            else {
+                return ['timestamp'=>$this->trans->t('Invalid value')];
+            }
         }
         if ($amount !== null && $amount !== '' && is_numeric($amount)) {
             $qb->set('amount', $qb->createNamedParameter($amount, IQueryBuilder::PARAM_STR));
@@ -2331,7 +2363,7 @@ class ProjectService {
             $continue = false;
             // get bills whith repetition flag
             $qb = $this->dbconnection->getQueryBuilder();
-            $qb->select('id', 'projectid', 'what', 'date', 'amount', 'payerid', 'repeat', 'repeatallactive')
+            $qb->select('id', 'projectid', 'what', 'timestamp', 'amount', 'payerid', 'repeat', 'repeatallactive')
             ->from('cospend_bills', 'b')
             ->where(
                 $qb->expr()->neq('repeat', $qb->createNamedParameter('n', IQueryBuilder::PARAM_STR))
@@ -2343,14 +2375,13 @@ class ProjectService {
                 $what = $row['what'];
                 $repeat = $row['repeat'];
                 $repeatallactive = $row['repeatallactive'];
-                $date = $row['date'];
+                $timestamp = $row['timestamp'];
                 $projectid = $row['projectid'];
                 array_push($bills, [
                     'id' => $id,
                     'what' => $what,
                     'repeat' => $repeat,
                     'repeatallactive' => $repeatallactive,
-                    'date' => $date,
                     'projectid' => $projectid
                 ]);
             }
@@ -2360,7 +2391,7 @@ class ProjectService {
             foreach ($bills as $bill) {
                 // Use DateTimeImmutable instead of DateTime so that $billDate->add() returns a
                 // new instance instead of modifying $billDate
-                $billDate = new \DateTimeImmutable($bill['date']);
+                $billDate = \DateTimeImmutable::createFromFormat('U', $timestamp);
 
                 $nextDate = null;
                 switch($bill['repeat']) {
@@ -2422,7 +2453,7 @@ class ProjectService {
                         $projects[$bill['projectid']] = $this->getProjectInfo($bill['projectid']);
                     }
                     array_push($result, [
-                        'date_orig' => $bill['date'],
+                        'date_orig' => $billDate->format('Y-m-d'),
                         'date_repeat' => $nextDate->format('Y-m-d'),
                         'what' => $bill['what'],
                         'project_name' => $projects[$bill['projectid']]['name']
@@ -2460,7 +2491,7 @@ class ProjectService {
         // if bill should be repeated until...
         if ($bill['repeatuntil'] !== null && $bill['repeatuntil'] !== '') {
             $untilDate = new \DateTime($bill['repeatuntil']);
-            $billDate = new \DateTimeImmutable($bill['date']);
+            $billDate = \DateTimeImmutable::createFromFormat('U', $bill['timestamp']);
             $nextDate = new \DateTime('now');
             if ($bill['repeat'] === 'd') {
                 $nextDate = $billDate->add(new \DateInterval('P1D'));
@@ -2507,9 +2538,10 @@ class ProjectService {
             }
         }
 
-        $newBillId = $this->addBill($projectid, $datetime->format('Y-m-d'), $bill['what'], $bill['payer_id'],
+        $newBillId = $this->addBill($projectid, null, $bill['what'], $bill['payer_id'],
                                     $owerIdsStr, $bill['amount'], $bill['repeat'], $bill['paymentmode'],
-                                    $bill['categoryid'], $bill['repeatallactive'], $bill['repeatuntil']);
+                                    $bill['categoryid'], $bill['repeatallactive'], $bill['repeatuntil'],
+                                    $datetime->getTimestamp());
 
         $billObj = $this->billMapper->find($newBillId);
         $this->activityManager->triggerEvent(
@@ -2519,7 +2551,7 @@ class ProjectService {
         );
 
         // now we can remove repeat flag on original bill
-        $this->editBill($projectid, $billid, $bill['date'], $bill['what'], $bill['payer_id'], null,
+        $this->editBill($projectid, $billid, null, $bill['what'], $bill['payer_id'], null,
                         $bill['amount'], 'n', null, null, 0, null);
     }
 
@@ -3343,7 +3375,7 @@ class ProjectService {
         }
         $file = $folder->newFile($filename);
         $handler = $file->fopen('w');
-        fwrite($handler, "what,amount,date,payer_name,payer_weight,payer_active,owers,repeat,repeatallactive,repeatuntil,categoryid,paymentmode\n");
+        fwrite($handler, "what,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,repeatallactive,repeatuntil,categoryid,paymentmode\n");
         $members = $projectInfo['members'];
         $memberIdToName = [];
         $memberIdToWeight = [];
@@ -3367,7 +3399,10 @@ class ProjectService {
             $payer_name = $memberIdToName[$payer_id];
             $payer_weight = $memberIdToWeight[$payer_id];
             $payer_active = $memberIdToActive[$payer_id];
-            fwrite($handler, '"'.$bill['what'].'",'.floatval($bill['amount']).','.$bill['date'].',"'.$payer_name.'",'.
+            $dateTime = \DateTime::createFromFormat('U', $bill['timestamp']);
+            $oldDateStr = $dateTime->format('Y-m-d');
+            fwrite($handler, '"'.$bill['what'].'",'.floatval($bill['amount']).','.$oldDateStr.','.$bill['timestamp'].
+                             ',"'.$payer_name.'",'.
                              floatval($payer_weight).','.$payer_active.',"'.$owersTxt.'",'.$bill['repeat'].
                              ','.$bill['repeatallactive'].','.
                              $bill['repeatuntil'].','.$bill['categoryid'].','.$bill['paymentmode']."\n");
@@ -3433,7 +3468,7 @@ class ProjectService {
                             }
                             if (array_key_exists('what', $columns) and
                                 array_key_exists('amount', $columns) and
-                                array_key_exists('date', $columns) and
+                                (array_key_exists('date', $columns) or array_key_exists('timestamp', $columns)) and
                                 array_key_exists('payer_name', $columns) and
                                 array_key_exists('payer_weight', $columns) and
                                 array_key_exists('owers', $columns)
@@ -3488,7 +3523,13 @@ class ProjectService {
                             else if ($currentSection === 'bills') {
                                 $what = $data[$columns['what']];
                                 $amount = $data[$columns['amount']];
-                                $date = $data[$columns['date']];
+                                if (array_key_exists('date', $columns)) {
+                                    $date = $data[$columns['date']];
+                                    $timestamp = strtotime($date);
+                                }
+                                else if (array_key_exists('timestamp', $columns)) {
+                                    $timestamp = $data[$columns['timestamp']];
+                                }
                                 $payer_name = $data[$columns['payer_name']];
                                 $payer_weight = $data[$columns['payer_weight']];
                                 $owers = $data[$columns['owers']];
@@ -3529,7 +3570,7 @@ class ProjectService {
                                     }
                                     array_push($bills, [
                                         'what'=>$what,
-                                        'date'=>$date,
+                                        'timestamp'=>$timestamp,
                                         'amount'=>$amount,
                                         'payer_name'=>$payer_name,
                                         'owers'=>$owersArray,
@@ -3600,11 +3641,11 @@ class ProjectService {
                             array_push($owerIds, $memberNameToId[$owerName]);
                         }
                         $owerIdsStr = implode(',', $owerIds);
-                        $addBillResult = $this->addBill($projectid, $bill['date'], $bill['what'], $payerId,
+                        $addBillResult = $this->addBill($projectid, null, $bill['what'], $payerId,
                                                         $owerIdsStr, $bill['amount'], $bill['repeat'],
                                                         $bill['paymentmode'],
                                                         $catId, $bill['repeatallactive'],
-                                                        $bill['repeatuntil']);
+                                                        $bill['repeatuntil'], $bill['timestamp']);
                         if (!is_numeric($addBillResult)) {
                             $this->deleteProject($projectid);
                             return ['message'=>$this->trans->t('Error when adding bill %1$s', [$bill['what']])];
@@ -3684,6 +3725,7 @@ class ProjectService {
                             $what = $data[$columns['Description']];
                             $amount = $data[$columns['Cost']];
                             $date = $data[$columns['Date']];
+                            $timestamp = strtotime($date);
                             $l = 0;
                             for ($c=5; $c < $nbCol; $c++){
                                 if (max($data[$c], 0) !== 0){
@@ -3711,7 +3753,7 @@ class ProjectService {
                             array_push($bills,
                                 [
                                     'what'=>$what,
-                                    'date'=>$date,
+                                    'timestamp'=>$timestamp,
                                     'amount'=>$amount,
                                     'payer_name'=>$payer_name,
                                     'owers'=>$owersList,
@@ -3750,7 +3792,8 @@ class ProjectService {
                             array_push($owerIds, $memberNameToId[$owerName]);
                         }
                         $owerIdsStr = implode(',', $owerIds);
-                        $addBillResult = $this->addBill($projectid, $bill['date'], $bill['what'], $payerId, $owerIdsStr, $bill['amount'], 'n');
+                        $addBillResult = $this->addBill($projectid, null, $bill['what'], $payerId, $owerIdsStr, $bill['amount'], 'n',
+                                                        null, null, 0, null, $timestamp);
                         if (!is_numeric($addBillResult)) {
                             $this->deleteProject($projectid);
                             return ['message'=>$this->trans->t('Error when adding bill %1$s', [$bill['what']])];

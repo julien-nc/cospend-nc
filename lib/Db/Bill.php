@@ -18,7 +18,7 @@ class Bill extends Entity {
 
     protected $what;
     protected $payerid;
-    protected $date;
+    protected $timestamp;
     protected $repeat;
     protected $repeatallactive;
     protected $projectid;
@@ -32,7 +32,7 @@ class Bill extends Entity {
         $this->addType('id', 'integer');
         $this->addType('what', 'string');
         $this->addType('payerid', 'integer');
-        $this->addType('date', 'string');
+        $this->addType('timestamp', 'integer');
         $this->addType('amount', 'float');
         $this->addType('repeat', 'string');
         $this->addType('repeatallactive', 'integer');

@@ -525,12 +525,12 @@
         });
     }
 
-    function createBill(projectid, what, amount, payer_id, date, owerIds, repeat,
+    function createBill(projectid, what, amount, payer_id, timestamp, owerIds, repeat,
                         custom=false, paymentmode=null, categoryid=null, repeatallactive=0, repeatuntil=null) {
         $('.loading-bill').addClass('icon-loading-small');
         var req = {
             what: what,
-            date: date,
+            timestamp: timestamp,
             payer: payer_id,
             payed_for: owerIds.join(','),
             amount: amount,
@@ -566,7 +566,7 @@
             cospend.bills[projectid][billid] = {
                 id: billid,
                 what: what,
-                date: date,
+                timestamp: timestamp,
                 amount: amount,
                 payer_id: payer_id,
                 repeat: repeat,
@@ -605,12 +605,12 @@
         });
     }
 
-    function saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat,
+    function saveBill(projectid, billid, what, amount, payer_id, timestamp, owerIds, repeat,
                       paymentmode=null, categoryid=null, repeatallactive=null, repeatuntil=null) {
         $('.loading-bill').addClass('icon-loading-small');
         var req = {
             what: what,
-            date: date,
+            timestamp: timestamp,
             payer: payer_id,
             payed_for: owerIds.join(','),
             amount: amount,
@@ -647,7 +647,7 @@
         }).done(function (response) {
             // update dict
             cospend.bills[projectid][billid].what = what;
-            cospend.bills[projectid][billid].date = date;
+            cospend.bills[projectid][billid].timestamp = timestamp;
             cospend.bills[projectid][billid].amount = amount;
             cospend.bills[projectid][billid].payer_id = payer_id;
             cospend.bills[projectid][billid].repeat = repeat;
@@ -726,8 +726,12 @@
         }
         var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
 
+        var billMom = moment.unix(bill.timestamp);
+        var billDate = billMom.format('YYYY-MM-DD');
+        var billTime = billMom.format('HH:mm');
+
         var title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
-            bill.date + '\n' + memberName + ' -> ' + owerNames;
+            billDate + ' ' + billTime + '\n' + memberName + ' -> ' + owerNames;
         var imgurl = OC.generateUrl('/apps/cospend/getAvatar?color=' +
                     cospend.members[projectid][bill.payer_id].color +
                     '&name='+encodeURIComponent(memberName));
@@ -737,7 +741,7 @@
             '</div>' +
             '<div class="app-content-list-item-line-one">'+whatFormatted+'</div>' +
             '<div class="app-content-list-item-line-two">'+bill.amount.toFixed(2)+' ('+memberName+' → '+owerNames+')</div>' +
-            '<span class="app-content-list-item-details">'+bill.date+'</span>' +
+            '<span class="app-content-list-item-details">'+billDate+'</span>' +
             '<div class="icon-delete deleteBillIcon"></div>' +
             '<div class="icon-history undoDeleteBill" style="'+undoDeleteBillStyle+'" title="Undo"></div>' +
             '</a>';
@@ -2387,6 +2391,11 @@
         var bill = cospend.bills[projectid][billid];
         var projectName = getProjectName(projectid);
 
+        var billMom = moment.unix(bill.timestamp);
+        var billDate = billMom.format('YYYY-MM-DD');
+        var billTime = billMom.format('HH:mm');
+        console.log('ts '+bill.timestamp+' date '+billDate+' time '+billTime);
+
         var owers = bill.owers;
         var owerIds = [];
         var i;
@@ -2550,7 +2559,8 @@
             '                <a class="icon icon-calendar-dark"></a>' +
             '                '+dateStr+
             '            </label>' +
-            '            <input type="date" id="date" class="input-bill-date" value="'+bill.date+'"/>' +
+            '            <input type="date" id="date" class="input-bill-date" value="'+billDate+'"/>' +
+            '            <input type="time" id="time" class="input-bill-time" value="'+billTime+'"/>' +
             '            <label for="repeatbill">' +
             '                <a class="icon icon-play-next"></a>' +
             '                '+t('cospend', 'Repeat this bill every')+
@@ -2702,6 +2712,10 @@
     function addBill(projectid, bill) {
         cospend.bills[projectid][bill.id] = bill;
 
+        var billMom = moment.unix(bill.timestamp);
+        var billDate = billMom.format('YYYY-MM-DD');
+        var billTime = billMom.format('HH:mm');
+
         var owerNames = '';
         var ower, i;
         for (i=0; i < bill.owers.length; i++) {
@@ -2753,7 +2767,7 @@
             memberName = getMemberName(projectid, bill.payer_id);
 
             title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
-                bill.date + '\n' + memberName + ' → ' + owerNames;
+                billDate + ' ' + billTime + '\n' + memberName + ' → ' + owerNames;
 
             color = cospend.members[projectid][bill.payer_id].color;
             imgurl = OC.generateUrl('/apps/cospend/getAvatar?color='+color+'&name='+encodeURIComponent(memberName));
@@ -2769,7 +2783,7 @@
             '</div>'+
             '<div class="app-content-list-item-line-one">'+whatFormatted+'</div>' +
             '<div class="app-content-list-item-line-two">'+bill.amount.toFixed(2)+' ('+memberName+' → '+owerNames+')</div>' +
-            '<span class="app-content-list-item-details">'+bill.date+'</span>' +
+            '<span class="app-content-list-item-details">'+billDate+'</span>' +
             '<div class="icon-delete deleteBillIcon"></div>' +
             '<div class="icon-history undoDeleteBill" style="'+undoDeleteBillStyle+'" title="Undo"></div>' +
             '</a>';
@@ -3204,6 +3218,10 @@
 
         var what = $('.input-bill-what').val();
         var date = $('.input-bill-date').val();
+        var time = $('.input-bill-time').val();
+        if (!time || time === '') {
+            time = '00:00';
+        }
         var amount = parseFloat($('.input-bill-amount').val());
         var payer_id = parseInt($('.input-bill-payer').val());
         var repeat = $('#repeatbill').val();
@@ -3230,6 +3248,9 @@
             valid = false;
         }
         if (date === null || date === '' || date.match(/^\d\d\d\d-\d\d-\d\d$/g) === null) {
+            valid = false;
+        }
+        if (time === null || time === '' || time.match(/^\d\d:\d\d$/g) === null) {
             valid = false;
         }
         if (isNaN(amount) || isNaN(payer_id)) {
@@ -3261,7 +3282,9 @@
                     $('#bill-currency').val('');
                 }
             }
-            createBill(projectid, what, amount, payer_id, date, owerIds, repeat, false,
+            // get timestamp
+            var timestamp = moment(date + ' ' + time).unix();
+            createBill(projectid, what, amount, payer_id, timestamp, owerIds, repeat, false,
                        paymentmode, categoryid, repeatallactive, repeatuntil);
         }
         else {
@@ -3294,6 +3317,10 @@
 
         var what = $('.input-bill-what').val();
         var date = $('.input-bill-date').val();
+        var time = $('.input-bill-time').val();
+        if (!time || time === '') {
+            time = '00:00';
+        }
         var amount = parseFloat($('.input-bill-amount').val());
         var payer_id = parseInt($('.input-bill-payer').val());
         var repeat = $('#repeatbill').val();
@@ -3320,6 +3347,9 @@
             valid = false;
         }
         if (date === null || date === '' || date.match(/^\d\d\d\d-\d\d-\d\d$/g) === null) {
+            valid = false;
+        }
+        if (time === null || time === '' || time.match(/^\d\d:\d\d$/g) === null) {
             valid = false;
         }
         if (isNaN(amount) || isNaN(payer_id)) {
@@ -3369,9 +3399,11 @@
                     }
                 }
             }
+            // get timestamp
+            var timestamp = moment(date + ' ' + time).unix();
             if (oldBill.what !== what ||
                 oldBill.amount !== amount ||
-                oldBill.date !== date ||
+                oldBill.timestamp !== timestamp ||
                 oldBill.repeat !== repeat ||
                 oldBill.repeatallactive !== repeatallactive ||
                 oldBill.repeatuntil !== repeatuntil ||
@@ -3380,7 +3412,7 @@
                 oldBill.paymentmode !== paymentmode ||
                 owersChanged
             ) {
-                saveBill(projectid, billid, what, amount, payer_id, date, owerIds, repeat,
+                saveBill(projectid, billid, what, amount, payer_id, timestamp, owerIds, repeat,
                          paymentmode, categoryid, repeatallactive, repeatuntil);
             }
         }
@@ -4080,6 +4112,10 @@
 
         var what = $('.input-bill-what').val();
         var date = $('.input-bill-date').val();
+        var time = $('.input-bill-time').val();
+        if (!time || time === '') {
+            time = '00:00';
+        }
         var amount = parseFloat($('.input-bill-amount').val());
         var payer_id = parseInt($('.input-bill-payer').val());
         var repeat = 'n';
@@ -4110,6 +4146,9 @@
             valid = false;
         }
         if (date === null || date === '' || date.match(/^\d\d\d\d-\d\d-\d\d$/g) === null) {
+            valid = false;
+        }
+        if (time === null || time === '' || time.match(/^\d\d:\d\d$/g) === null) {
             valid = false;
         }
         if (isNaN(amount) || isNaN(payer_id)) {
@@ -4150,6 +4189,8 @@
                     }
                 }
             }
+            // get timestamp
+            var timestamp = moment(date + ' ' + time).unix();
             // create bills related to personal parts
             tmpAmount = amount;
             $('.amountinput').each(function() {
@@ -4164,7 +4205,7 @@
                         amountVal = amountVal * currency.exchange_rate;
                         oneWhat += ' ('+initAmount.toFixed(2)+' '+currency.name+')';
                     }
-                    createBill(projectid, oneWhat, amountVal, payer_id, date, [owerId], repeat, true,
+                    createBill(projectid, oneWhat, amountVal, payer_id, timestamp, [owerId], repeat, true,
                                paymentmode, categoryid, repeatallactive, repeatuntil);
                 }
             });
@@ -4178,7 +4219,7 @@
                 $('#bill-currency').val('');
             }
             // create equitable bill with the rest
-            createBill(projectid, what, tmpAmount, payer_id, date, owerIds, repeat, true,
+            createBill(projectid, what, tmpAmount, payer_id, timestamp, owerIds, repeat, true,
                        paymentmode, categoryid, repeatallactive, repeatuntil);
             // empty bill detail
             $('#billdetail').html('');
@@ -4201,6 +4242,10 @@
 
         var what = $('.input-bill-what').val();
         var date = $('.input-bill-date').val();
+        var time = $('.input-bill-time').val();
+        if (!time || time === '') {
+            time = '00:00';
+        }
         var amount = parseFloat($('.input-bill-amount').val());
         var payer_id = parseInt($('.input-bill-payer').val());
         var repeat = 'n';
@@ -4215,6 +4260,9 @@
             valid = false;
         }
         if (date === null || date === '' || date.match(/^\d\d\d\d-\d\d-\d\d$/g) === null) {
+            valid = false;
+        }
+        if (time === null || time === '' || time.match(/^\d\d:\d\d$/g) === null) {
             valid = false;
         }
         if (isNaN(amount) || isNaN(payer_id)) {
@@ -4236,6 +4284,8 @@
                     }
                 }
             }
+            // get timestamp
+            var timestamp = moment(date + ' ' + time).unix();
             var total = 0;
             $('.amountinput').each(function() {
                 var oneWhat = initWhat;
@@ -4248,7 +4298,7 @@
                         amountVal = amountVal * currency.exchange_rate;
                         oneWhat += ' ('+initAmount.toFixed(2)+' '+currency.name+')';
                     }
-                    createBill(projectid, oneWhat, amountVal, payer_id, date, [owerId], repeat, true,
+                    createBill(projectid, oneWhat, amountVal, payer_id, timestamp, [owerId], repeat, true,
                                paymentmode, categoryid, repeatallactive, repeatuntil);
                 }
             });
@@ -4710,7 +4760,7 @@
         }, 2000));
 
         // other bill fields : direct on edition
-        $('body').on('change', '.input-bill-date, .input-bill-repeatuntil, #billdetail .bill-form select', function(e) {
+        $('body').on('change', '.input-bill-date, .input-bill-time, .input-bill-repeatuntil, #billdetail .bill-form select', function(e) {
             onBillEdited();
         });
         $('body').on('click', '#repeatallactive', function(e) {
@@ -4824,7 +4874,7 @@
                     var bill = {
                         id: 0,
                         what: t('cospend', 'New Bill'),
-                        date: moment().format('YYYY-MM-DD'),
+                        timestamp: moment().unix(),
                         amount: 0.0,
                         payer_id: 0,
                         repeat: 'n',

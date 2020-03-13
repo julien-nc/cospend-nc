@@ -771,19 +771,20 @@ class ProjectService {
         if ($repeatuntil !== null && $repeatuntil === '') {
             $repeatuntil = null;
         }
-        if ($date === null || $date === '') {
-            if ($timestamps === null || !is_numeric($timestamp)) {
+        // priority to timestamp (moneybuster might send both for a moment)
+        if ($timestamp === null || !is_numeric($timestamp)) {
+            if ($date === null || $date === '') {
                 return ['message'=>$this->trans->t('Timestamp (or date) field is required')];
             }
             else {
-                $dateTs = intval($timestamp);
+                $dateTs = strtotime($date);
+                if ($dateTs === false) {
+                    return ['date'=>$this->trans->t('Invalid date')];
+                }
             }
         }
         else {
-            $dateTs = strtotime($date);
-            if ($dateTs === false) {
-                return ['date'=>$this->trans->t('Invalid date')];
-            }
+            $dateTs = intval($timestamp);
         }
         if ($what === null || $what === '') {
             return ['what'=>$this->trans->t('This field is required')];
@@ -2271,21 +2272,22 @@ class ProjectService {
         if ($categoryid !== null && is_numeric($categoryid)) {
             $qb->set('categoryid', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT));
         }
-        if ($date !== null && $date !== '') {
+        // priority to timestamp (moneybuster might send both for a moment)
+        if ($timestamp !== null && $timestamp !== '') {
+            if (is_numeric($timestamp)) {
+                $qb->set('timestamp', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT));
+            }
+            else {
+                return ['timestamp'=>$this->trans->t('Invalid value')];
+            }
+        }
+        else if ($date !== null && $date !== '') {
             $dateTs = strtotime($date);
             if ($dateTs !== false) {
                 $qb->set('timestamp', $qb->createNamedParameter($dateTs, IQueryBuilder::PARAM_INT));
             }
             else {
                 return ['date'=>$this->trans->t('Invalid value')];
-            }
-        }
-        else if ($timestamp !== null && $timestamp !== '') {
-            if (is_numeric($timestamp)) {
-                $qb->set('timestamp', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT));
-            }
-            else {
-                return ['timestamp'=>$this->trans->t('Invalid value')];
             }
         }
         if ($amount !== null && $amount !== '' && is_numeric($amount)) {

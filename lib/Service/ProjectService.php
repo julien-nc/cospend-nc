@@ -3538,12 +3538,13 @@ class ProjectService {
                             else if ($currentSection === 'bills') {
                                 $what = $data[$columns['what']];
                                 $amount = $data[$columns['amount']];
-                                if (array_key_exists('date', $columns)) {
+                                // priority to timestamp
+                                if (array_key_exists('timestamp', $columns)) {
+                                    $timestamp = $data[$columns['timestamp']];
+                                }
+                                else if (array_key_exists('date', $columns)) {
                                     $date = $data[$columns['date']];
                                     $timestamp = strtotime($date);
-                                }
-                                else if (array_key_exists('timestamp', $columns)) {
-                                    $timestamp = $data[$columns['timestamp']];
                                 }
                                 $payer_name = $data[$columns['payer_name']];
                                 $payer_weight = $data[$columns['payer_weight']];

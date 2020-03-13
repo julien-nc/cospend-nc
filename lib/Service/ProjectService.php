@@ -29,6 +29,19 @@ use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Db\BillMapper;
 
+define('CAT_GROCERY', -1);
+define('CAT_BAR', -2);
+define('CAT_RENT', -3);
+define('CAT_BILL', -4);
+define('CAT_CULTURE', -5);
+define('CAT_HEALTH', -6);
+define('CAT_SHOPPING', -10);
+define('CAT_REIMBURSEMENT', -11);
+define('CAT_RESTAURANT', -12);
+define('CAT_ACCOMODATION', -13);
+define('CAT_TRANSPORT', -14);
+define('CAT_SPORT', -15);
+
 function endswith($string, $test) {
     $strlen = strlen($string);
     $testlen = strlen($test);
@@ -1060,7 +1073,7 @@ class ProjectService {
             $toId = $transaction['to'];
             $amount = floatval($transaction['amount']);
             $billTitle = $memberIdToName[$fromId].' → '.$memberIdToName[$toId];
-            $addBillResult = $this->addBill($projectid, null, $billTitle, $fromId, $toId, $amount, 'n', null, -11, 0, null, $ts);
+            $addBillResult = $this->addBill($projectid, null, $billTitle, $fromId, $toId, $amount, 'n', null, CAT_REIMBURSEMENT, 0, null, $ts);
             if (!is_numeric($addBillResult)) {
                 return ['message'=>$this->trans->t('Error when addind a bill')];
             }
@@ -1379,7 +1392,7 @@ class ProjectService {
             if (intval($category) === -100) {
                 $or = $qb->expr()->orx();
                 $or->add($qb->expr()->isNull('categoryid'));
-                $or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(-8, IQueryBuilder::PARAM_INT)));
+                $or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(CAT_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
                 $qb->andWhere($or);
             }
             else {
@@ -1471,7 +1484,7 @@ class ProjectService {
             if (intval($category) === -100) {
                 $or = $qb->expr()->orx();
                 $or->add($qb->expr()->isNull('categoryid'));
-                $or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(-8, IQueryBuilder::PARAM_INT)));
+                $or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(CAT_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
                 $qb->andWhere($or);
             }
             else {

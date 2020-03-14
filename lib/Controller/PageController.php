@@ -741,6 +741,22 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      * @NoCSRFRequired
+     * @CORS
+     */
+    public function apiPrivCreateProject($name, $id, $password, $contact_email) {
+        $result = $this->projectService->createProject($name, $id, $password, $contact_email, $this->userId);
+        if (is_string($result) and !is_array($result)) {
+            // project id
+            return new DataResponse($result);
+        }
+        else {
+            return new DataResponse($result, 400);
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
      * @PublicPage
      * @CORS
      */

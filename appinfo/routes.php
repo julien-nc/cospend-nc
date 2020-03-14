@@ -57,6 +57,7 @@ return [
             'verb'         => 'OPTIONS',
             'requirements' => ['path' => '.+']
         ],
+        ['name' => 'page#apiPrivCreateProject', 'url' => '/api-priv/projects', 'verb' => 'POST'],
         ['name' => 'page#apiPrivGetProjectInfo', 'url' => '/api-priv/projects/{projectid}', 'verb' => 'GET'],
         ['name' => 'page#apiPrivSetProjectInfo', 'url' => '/api-priv/projects/{projectid}', 'verb' => 'PUT'],
         ['name' => 'page#apiPrivDeleteProject', 'url' => '/api-priv/projects/{projectid}', 'verb' => 'DELETE'],

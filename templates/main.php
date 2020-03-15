@@ -1,10 +1,11 @@
 <?php
-script('cospend', 'kjua.min');
-script('cospend', 'sorttable');
-script('cospend', 'Chart.min');
+script('cospend', '../node_modules/kjua/dist/kjua.min');
+script('cospend', '../node_modules/sorttable/sorttable');
+script('cospend', '../node_modules/chart.js/dist/Chart.min');
 script('cospend', 'cospend');
 
 style('cospend', 'cospend');
+style('cospend', '../node_modules/chart.js/dist/Chart');
 
 ?>
 

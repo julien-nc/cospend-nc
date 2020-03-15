@@ -1,5 +1,4 @@
 <?php
-script('cospend', '../node_modules/kjua/dist/kjua.min');
 script('cospend', 'cospend');
 
 style('cospend', 'cospend');

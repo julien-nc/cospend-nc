@@ -4,8 +4,6 @@ script('cospend', 'sorttable');
 script('cospend', 'Chart.min');
 script('cospend', 'cospend');
 
-//style('cospend', 'style');
-style('cospend', 'fontawesome/css/all.min');
 style('cospend', 'cospend');
 
 ?>

@@ -9,6 +9,9 @@
  * @author Julien Veyssier <eneiluj@posteo.net>
  * @copyright Julien Veyssier 2019
  */
+
+import { generateUrl } from '@nextcloud/router';
+
 (function ($, OC) {
     'use strict';
 
@@ -25,7 +28,7 @@
     });
 
     function main() {
-        var url = OC.generateUrl('/apps/cospend/project');
+        var url = generateUrl('/apps/cospend/project');
         $('#loginform').attr('action', url);
 
         if ($('#passwordInput').val().length > 0) {

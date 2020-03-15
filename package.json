@@ -28,6 +28,7 @@
     "extends @nextcloud/browserslist-config"
   ],
   "dependencies": {
+    "@nextcloud/router": "^1.0.0",
     "kjua": "^0.6.0",
     "sorttable": "^1.0.2",
     "chart.js": "^2.9.3"

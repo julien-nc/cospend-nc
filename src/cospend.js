@@ -13,6 +13,8 @@ import kjua from 'kjua/dist/kjua.min';
 import 'sorttable/sorttable';
 import 'chart.js/dist/Chart.min';
 
+import { generateUrl } from '@nextcloud/router';
+
 (function ($, OC) {
     'use strict';
 
@@ -204,7 +206,7 @@ import 'chart.js/dist/Chart.min';
         return base;
     }
 
-    var undoDeleteBillStyle = 'opacity:1; background-image: url('+OC.generateUrl('/svg/core/actions/history?color=2AB4FF')+');';
+    var undoDeleteBillStyle = 'opacity:1; background-image: url('+generateUrl('/svg/core/actions/history?color=2AB4FF')+');';
 
     Chart.plugins.register({
         beforeRender: function (chart) {
@@ -275,7 +277,7 @@ import 'chart.js/dist/Chart.min';
             url: ncurl,
             password: password
         };
-        var url = OC.generateUrl('/apps/cospend/addExternalProject');
+        var url = generateUrl('/apps/cospend/addExternalProject');
         $.ajax({
             type: 'POST',
             url: url,
@@ -339,7 +341,7 @@ import 'chart.js/dist/Chart.min';
             name: name,
             password: password
         };
-        var url = OC.generateUrl('/apps/cospend/createProject');
+        var url = generateUrl('/apps/cospend/createProject');
         $.ajax({
             type: 'POST',
             url: url,
@@ -389,11 +391,11 @@ import 'chart.js/dist/Chart.min';
             }
             else {
                 req.projectid = projectid;
-                url = OC.generateUrl('/apps/cospend/addMember');
+                url = generateUrl('/apps/cospend/addMember');
             }
         }
         else {
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/members');
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/members');
         }
         $.ajax({
             type: 'POST',
@@ -462,12 +464,12 @@ import 'chart.js/dist/Chart.min';
             else {
                 req.projectid = projectid;
                 req.memberid = memberid;
-                url = OC.generateUrl('/apps/cospend/editMember');
+                url = generateUrl('/apps/cospend/editMember');
                 type = 'POST';
             }
         }
         else {
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/members/'+memberid);
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/members/'+memberid);
             type = 'PUT';
         }
         $.ajax({
@@ -503,7 +505,7 @@ import 'chart.js/dist/Chart.min';
                 cospend.members[projectid][memberid].activated = newActivated;
             }
             // update icon
-            var imgurl = OC.generateUrl('/apps/cospend/getAvatar?color=' +
+            var imgurl = generateUrl('/apps/cospend/getAvatar?color=' +
                         cospend.members[projectid][memberid].color +
                         '&name='+encodeURIComponent(response.name));
             if (cospend.members[projectid][memberid].activated) {
@@ -553,11 +555,11 @@ import 'chart.js/dist/Chart.min';
             }
             else {
                 req.projectid = projectid;
-                url = OC.generateUrl('/apps/cospend/addBill');
+                url = generateUrl('/apps/cospend/addBill');
             }
         }
         else {
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/bills');
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/bills');
         }
         $.ajax({
             type: 'POST',
@@ -636,12 +638,12 @@ import 'chart.js/dist/Chart.min';
                 req.projectid = projectid;
                 req.billid = billid;
                 type = 'POST';
-                url = OC.generateUrl('/apps/cospend/editBill');
+                url = generateUrl('/apps/cospend/editBill');
             }
         }
         else {
             type = 'PUT';
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/bills/'+billid);
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/bills/'+billid);
         }
         $.ajax({
             type: type,
@@ -736,7 +738,7 @@ import 'chart.js/dist/Chart.min';
 
         var title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
             billDate + ' ' + billTime + '\n' + memberName + ' -> ' + owerNames;
-        var imgurl = OC.generateUrl('/apps/cospend/getAvatar?color=' +
+        var imgurl = generateUrl('/apps/cospend/getAvatar?color=' +
                     cospend.members[projectid][bill.payer_id].color +
                     '&name='+encodeURIComponent(memberName));
         var item = '<a href="#" class="app-content-list-item billitem'+selectedClass+'" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
@@ -763,7 +765,7 @@ import 'chart.js/dist/Chart.min';
         var url, type;
         var project = cospend.projects[projectid];
         type = 'POST';
-        url = OC.generateUrl('/apps/cospend/deleteExternalProject');
+        url = generateUrl('/apps/cospend/deleteExternalProject');
         $.ajax({
             type: type,
             url: url,
@@ -800,7 +802,7 @@ import 'chart.js/dist/Chart.min';
         var url, type;
         var project = cospend.projects[projectid];
         type = 'POST';
-        url = OC.generateUrl('/apps/cospend/editExternalProject');
+        url = generateUrl('/apps/cospend/editExternalProject');
         $.ajax({
             type: type,
             url: url,
@@ -835,12 +837,12 @@ import 'chart.js/dist/Chart.min';
             else {
                 req.projectid = projectid;
                 type = 'POST';
-                url = OC.generateUrl('/apps/cospend/editProject');
+                url = generateUrl('/apps/cospend/editProject');
             }
         }
         else {
             type = 'PUT';
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
         }
         $.ajax({
             type: type,
@@ -917,13 +919,13 @@ import 'chart.js/dist/Chart.min';
             }
             else {
                 req.projectid = projectid;
-                url = OC.generateUrl('/apps/cospend/deleteProject');
+                url = generateUrl('/apps/cospend/deleteProject');
                 type = 'POST';
             }
         }
         else {
             type = 'DELETE';
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
         }
         $.ajax({
             type: type,
@@ -942,7 +944,7 @@ import 'chart.js/dist/Chart.min';
                 $('#billdetail').html('');
             }
             if (cospend.pageIsPublic) {
-                var redirectUrl = OC.generateUrl('/apps/cospend/login');
+                var redirectUrl = generateUrl('/apps/cospend/login');
                 window.location.replace(redirectUrl);
             }
             OC.Notification.showTemporary(t('cospend', 'Deleted project {id}', {id: projectid}));
@@ -970,12 +972,12 @@ import 'chart.js/dist/Chart.min';
                 req.projectid = projectid;
                 req.billid = billid;
                 type = 'POST';
-                url = OC.generateUrl('/apps/cospend/deleteBill');
+                url = generateUrl('/apps/cospend/deleteBill');
             }
         }
         else {
             type = 'DELETE';
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/bills/'+billid);
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/bills/'+billid);
         }
         $.ajax({
             type: type,
@@ -1015,11 +1017,11 @@ import 'chart.js/dist/Chart.min';
         var url;
         var type;
         if (!cospend.pageIsPublic) {
-            url = OC.generateUrl('/apps/cospend/getProjects');
+            url = generateUrl('/apps/cospend/getProjects');
             type = 'POST';
         }
         else {
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
             type = 'GET';
         }
         cospend.currentGetProjectsAjax = $.ajax({
@@ -1085,12 +1087,12 @@ import 'chart.js/dist/Chart.min';
             }
             else {
                 req.projectid = projectid;
-                url = OC.generateUrl('/apps/cospend/getProjectInfo');
+                url = generateUrl('/apps/cospend/getProjectInfo');
                 type = 'POST';
             }
         }
         else {
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
             type = 'GET';
         }
         cospend.currentGetProjectsAjax = $.ajax({
@@ -1125,12 +1127,12 @@ import 'chart.js/dist/Chart.min';
             }
             else {
                 req.projectid = projectid;
-                url = OC.generateUrl('/apps/cospend/getProjectInfo');
+                url = generateUrl('/apps/cospend/getProjectInfo');
                 type = 'POST';
             }
         }
         else {
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
             type = 'GET';
         }
         cospend.currentGetProjectsAjax = $.ajax({
@@ -1175,12 +1177,12 @@ import 'chart.js/dist/Chart.min';
             else {
                 req.projectid = projectid;
                 type = 'POST';
-                url = OC.generateUrl('/apps/cospend/getStatistics');
+                url = generateUrl('/apps/cospend/getStatistics');
             }
         }
         else {
             type = 'GET';
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/statistics');
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/statistics');
         }
         cospend.currentGetProjectsAjax = $.ajax({
             type: type,
@@ -1224,12 +1226,12 @@ import 'chart.js/dist/Chart.min';
             else {
                 req.projectid = projectid;
                 type = 'POST';
-                url = OC.generateUrl('/apps/cospend/getSettlement');
+                url = generateUrl('/apps/cospend/getSettlement');
             }
         }
         else {
             type = 'GET';
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/settle');
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/settle');
         }
         cospend.currentGetProjectsAjax = $.ajax({
             type: type,
@@ -1309,7 +1311,7 @@ import 'chart.js/dist/Chart.min';
             url = 'https://net.eneiluj.moneybuster.cospend/' + ncurl.replace(/\/$/, '').replace(/https?:\/\//gi, '') + '/' + id + '/' + password;
         }
         else {
-            url = 'https://net.eneiluj.moneybuster.cospend/' + window.location.host + OC.generateUrl('').replace('/index.php', '') + projectid + '/';
+            url = 'https://net.eneiluj.moneybuster.cospend/' + window.location.host + generateUrl('').replace('/index.php', '') + projectid + '/';
         }
 
         var projectName = getProjectName(projectid);
@@ -1451,11 +1453,11 @@ import 'chart.js/dist/Chart.min';
             }
             else {
                 req.projectid = projectid;
-                url = OC.generateUrl('/apps/cospend/addCurrency');
+                url = generateUrl('/apps/cospend/addCurrency');
             }
         }
         else {
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/currency');
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/currency');
         }
         $.ajax({
             type: 'POST',
@@ -1517,13 +1519,13 @@ import 'chart.js/dist/Chart.min';
             else {
                 req.projectid = projectid;
                 req.currencyid = currencyId;
-                url = OC.generateUrl('/apps/cospend/deleteCurrency');
+                url = generateUrl('/apps/cospend/deleteCurrency');
                 type = 'POST';
             }
         }
         else {
             type = 'DELETE';
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/currency/'+currencyId);
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/currency/'+currencyId);
         }
         $.ajax({
             type: type,
@@ -1570,12 +1572,12 @@ import 'chart.js/dist/Chart.min';
             else {
                 req.projectid = projectid;
                 req.currencyid = currencyId;
-                url = OC.generateUrl('/apps/cospend/editCurrency');
+                url = generateUrl('/apps/cospend/editCurrency');
                 type = 'POST';
             }
         }
         else {
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/currency/'+currencyId);
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/currency/'+currencyId);
             type = 'PUT';
         }
         $.ajax({
@@ -1663,11 +1665,11 @@ import 'chart.js/dist/Chart.min';
             }
             else {
                 req.projectid = projectid;
-                url = OC.generateUrl('/apps/cospend/addCategory');
+                url = generateUrl('/apps/cospend/addCategory');
             }
         }
         else {
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/category');
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/category');
         }
         $.ajax({
             type: 'POST',
@@ -1730,13 +1732,13 @@ import 'chart.js/dist/Chart.min';
             else {
                 req.projectid = projectid;
                 req.categoryid = categoryId;
-                url = OC.generateUrl('/apps/cospend/deleteCategory');
+                url = generateUrl('/apps/cospend/deleteCategory');
                 type = 'POST';
             }
         }
         else {
             type = 'DELETE';
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/category/'+categoryId);
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/category/'+categoryId);
         }
         $.ajax({
             type: type,
@@ -1773,12 +1775,12 @@ import 'chart.js/dist/Chart.min';
             else {
                 req.projectid = projectid;
                 req.categoryid = categoryId;
-                url = OC.generateUrl('/apps/cospend/editCategory');
+                url = generateUrl('/apps/cospend/editCategory');
                 type = 'POST';
             }
         }
         else {
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/category/'+categoryId);
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/category/'+categoryId);
             type = 'PUT';
         }
         $.ajax({
@@ -1936,7 +1938,7 @@ import 'chart.js/dist/Chart.min';
             filteredBalance = statList[i].filtered_balance.toFixed(2);
             name = statList[i].member.name;
             color = '#'+member.color;
-            imgurl = OC.generateUrl('/apps/cospend/getAvatar?color=' + member.color + '&name=' + encodeURIComponent(member.name));
+            imgurl = generateUrl('/apps/cospend/getAvatar?color=' + member.color + '&name=' + encodeURIComponent(member.name));
             statsStr +=
                 '<tr>' +
                 '<td style="border: 2px solid '+color+';">'+
@@ -1977,7 +1979,7 @@ import 'chart.js/dist/Chart.min';
             }
             else {
                 color = '#'+member.color;
-                imgurl = OC.generateUrl('/apps/cospend/getAvatar?color=' + member.color + '&name=' + encodeURIComponent(member.name));
+                imgurl = generateUrl('/apps/cospend/getAvatar?color=' + member.color + '&name=' + encodeURIComponent(member.name));
                 statsStr += '<tr>';
                 statsStr += '<td style="border: 2px solid '+color+';">' +
                 '<div class="owerAvatar'+(member.activated ? '' : ' owerAvatarDisabled')+'">' +
@@ -2304,13 +2306,13 @@ import 'chart.js/dist/Chart.min';
                 url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/bills';
             }
             else {
-                url = OC.generateUrl('/apps/cospend/getBills');
+                url = generateUrl('/apps/cospend/getBills');
                 type = 'POST';
                 req.projectid = projectid;
             }
         }
         else {
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/bills');
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/bills');
             type = 'GET';
         }
         cospend.currentGetProjectsAjax = $.ajax({
@@ -2436,7 +2438,7 @@ import 'chart.js/dist/Chart.min';
             // show member if it's an ower or if it's activated
             if (member.activated || owerIds.indexOf(member.id) !== -1) {
                 color = cospend.members[projectid][member.id].color;
-                imgurl = OC.generateUrl('/apps/cospend/getAvatar?color=' + color + '&name=' + encodeURIComponent(member.name));
+                imgurl = generateUrl('/apps/cospend/getAvatar?color=' + color + '&name=' + encodeURIComponent(member.name));
                 owerCheckboxes = owerCheckboxes +
                     '<div class="owerEntry">' +
                     '<div class="owerAvatar'+(cospend.members[projectid][member.id].activated ? '' : ' owerAvatarDisabled')+'">' +
@@ -2774,12 +2776,12 @@ import 'chart.js/dist/Chart.min';
                 billDate + ' ' + billTime + '\n' + memberName + ' → ' + owerNames;
 
             color = cospend.members[projectid][bill.payer_id].color;
-            imgurl = OC.generateUrl('/apps/cospend/getAvatar?color='+color+'&name='+encodeURIComponent(memberName));
+            imgurl = generateUrl('/apps/cospend/getAvatar?color='+color+'&name='+encodeURIComponent(memberName));
             // disabled
             disabled = cospend.members[projectid][bill.payer_id].activated ? '' : ' disabled';
         }
         else {
-            imgurl = OC.generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(' '));
+            imgurl = generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(' '));
         }
         var item = '<a href="#" class="app-content-list-item billitem" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
             '<div class="app-content-list-item-icon" style="background-image: url('+imgurl+');"> ' +
@@ -2814,12 +2816,12 @@ import 'chart.js/dist/Chart.min';
             }
             else {
                 req.projectid = projectid;
-                url = OC.generateUrl('/apps/cospend/getProjectInfo');
+                url = generateUrl('/apps/cospend/getProjectInfo');
                 type = 'POST';
             }
         }
         else {
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
             type = 'GET';
         }
         cospend.currentGetProjectsAjax = $.ajax({
@@ -2895,7 +2897,7 @@ import 'chart.js/dist/Chart.min';
             guestLink = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/loginproject/' + id;
         }
         else {
-            guestLink = OC.generateUrl('/apps/cospend/loginproject/'+projectid);
+            guestLink = generateUrl('/apps/cospend/loginproject/'+projectid);
             guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
         }
         var editPerm = (project.hasOwnProperty('guestpermissions') && project.guestpermissions.indexOf('e') !== -1);
@@ -3145,7 +3147,7 @@ import 'chart.js/dist/Chart.min';
             toggleStr = t('cospend', 'Reactivate');
         }
         var color = cospend.members[projectid][member.id].color;
-        imgurl = OC.generateUrl('/apps/cospend/getAvatar?color='+color+'&name='+encodeURIComponent(member.name));
+        imgurl = generateUrl('/apps/cospend/getAvatar?color='+color+'&name='+encodeURIComponent(member.name));
 
 
         var renameStr = t('cospend', 'Rename');
@@ -3430,7 +3432,7 @@ import 'chart.js/dist/Chart.min';
             var req = {
                 options: optionValues
             };
-            var url = OC.generateUrl('/apps/cospend/saveOptionValue');
+            var url = generateUrl('/apps/cospend/saveOptionValue');
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -3447,7 +3449,7 @@ import 'chart.js/dist/Chart.min';
 
     function restoreOptions() {
         var mom;
-        var url = OC.generateUrl('/apps/cospend/getOptionsValues');
+        var url = generateUrl('/apps/cospend/getOptionsValues');
         var req = {
         };
         var optionsValues = {};
@@ -3480,7 +3482,7 @@ import 'chart.js/dist/Chart.min';
     function addUserAutocompletion(input, projectid) {
         var req = {
         };
-        var url = OC.generateUrl('/apps/cospend/getUserList');
+        var url = generateUrl('/apps/cospend/getUserList');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3579,7 +3581,7 @@ import 'chart.js/dist/Chart.min';
             projectid: projectid,
             userid: userid
         };
-        var url = OC.generateUrl('/apps/cospend/addUserShare');
+        var url = generateUrl('/apps/cospend/addUserShare');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3605,7 +3607,7 @@ import 'chart.js/dist/Chart.min';
             projectid: projectid,
             shid: shid
         };
-        var url = OC.generateUrl('/apps/cospend/deleteUserShare');
+        var url = generateUrl('/apps/cospend/deleteUserShare');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3632,7 +3634,7 @@ import 'chart.js/dist/Chart.min';
             projectid: projectid,
             circleid: circleId
         };
-        var url = OC.generateUrl('/apps/cospend/addCircleShare');
+        var url = generateUrl('/apps/cospend/addCircleShare');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3658,7 +3660,7 @@ import 'chart.js/dist/Chart.min';
             projectid: projectid,
             shid: shid
         };
-        var url = OC.generateUrl('/apps/cospend/deleteCircleShare');
+        var url = generateUrl('/apps/cospend/deleteCircleShare');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3685,7 +3687,7 @@ import 'chart.js/dist/Chart.min';
             projectid: projectid,
             groupid: groupid
         };
-        var url = OC.generateUrl('/apps/cospend/addGroupShare');
+        var url = generateUrl('/apps/cospend/addGroupShare');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3750,7 +3752,7 @@ import 'chart.js/dist/Chart.min';
             projectid: projectid,
             shid: shid
         };
-        var url = OC.generateUrl('/apps/cospend/deleteGroupShare');
+        var url = generateUrl('/apps/cospend/deleteGroupShare');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3779,7 +3781,7 @@ import 'chart.js/dist/Chart.min';
             shid: shid,
             permissions: (e ? 'e': '') + (c ? 'c': '') + (d ? 'd': '')
         };
-        var url = OC.generateUrl('/apps/cospend/editSharePermissions');
+        var url = generateUrl('/apps/cospend/editSharePermissions');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3827,7 +3829,7 @@ import 'chart.js/dist/Chart.min';
             projectid: projectid,
             permissions: (e ? 'e': '') + (c ? 'c': '') + (d ? 'd': '')
         };
-        var url = OC.generateUrl('/apps/cospend/editGuestPermissions');
+        var url = generateUrl('/apps/cospend/editGuestPermissions');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3895,7 +3897,7 @@ import 'chart.js/dist/Chart.min';
         var req = {
             path: targetPath
         };
-        var url = OC.generateUrl('/apps/cospend/getPublicFileShare');
+        var url = generateUrl('/apps/cospend/getPublicFileShare');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3904,7 +3906,7 @@ import 'chart.js/dist/Chart.min';
         }).done(function (response) {
             $('.loading-bill').removeClass('icon-loading-small');
 
-            var filePublicUrl = window.location.protocol + '//' + window.location.hostname + OC.generateUrl('/s/'+response.token);
+            var filePublicUrl = window.location.protocol + '//' + window.location.hostname + generateUrl('/s/'+response.token);
 
             var what = $('#what').val();
             what = what + ' ' + filePublicUrl;
@@ -3929,7 +3931,7 @@ import 'chart.js/dist/Chart.min';
             projectid: projectid,
             name: filename
         };
-        var url = OC.generateUrl('/apps/cospend/exportCsvProject');
+        var url = generateUrl('/apps/cospend/exportCsvProject');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3961,7 +3963,7 @@ import 'chart.js/dist/Chart.min';
             showDisabled: showDisabled ? '1' : '0',
             currencyId: currencyId
         };
-        var url = OC.generateUrl('/apps/cospend/exportCsvStatistics');
+        var url = generateUrl('/apps/cospend/exportCsvStatistics');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3984,7 +3986,7 @@ import 'chart.js/dist/Chart.min';
         var req = {
             projectid: projectid
         };
-        var url = OC.generateUrl('/apps/cospend/exportCsvSettlement');
+        var url = generateUrl('/apps/cospend/exportCsvSettlement');
         $.ajax({
             type: 'POST',
             url: url,
@@ -4016,12 +4018,12 @@ import 'chart.js/dist/Chart.min';
             }
             else {
                 req.projectid = projectid;
-                url = OC.generateUrl('/apps/cospend/autoSettlement');
+                url = generateUrl('/apps/cospend/autoSettlement');
                 type = 'POST';
             }
         }
         else {
-            url = OC.generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/autosettlement');
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/autosettlement');
             type = 'GET';
         }
         $.ajax({
@@ -4052,7 +4054,7 @@ import 'chart.js/dist/Chart.min';
         var req = {
             path: targetPath
         };
-        var url = OC.generateUrl('/apps/cospend/importCsvProject');
+        var url = generateUrl('/apps/cospend/importCsvProject');
         $.ajax({
             type: 'POST',
             url: url,
@@ -4080,7 +4082,7 @@ import 'chart.js/dist/Chart.min';
         var req = {
             path: targetPath
         };
-        var url = OC.generateUrl('/apps/cospend/importSWProject');
+        var url = generateUrl('/apps/cospend/importSWProject');
         $.ajax({
             type: 'POST',
             url: url,
@@ -4946,7 +4948,7 @@ import 'chart.js/dist/Chart.min';
                 guestLink = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/loginproject/' + id;
             }
             else {
-                guestLink = OC.generateUrl('/apps/cospend/loginproject/'+projectid);
+                guestLink = generateUrl('/apps/cospend/loginproject/'+projectid);
                 guestLink = window.location.protocol + '//' + window.location.host + guestLink;
             }
             var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select();
@@ -4955,12 +4957,12 @@ import 'chart.js/dist/Chart.min';
             OC.Notification.showTemporary(t('cospend', 'Guest link for \'{pid}\' copied to clipboard', {pid: projectid}));
         });
 
-        var guestLink = OC.generateUrl('/apps/cospend/login');
+        var guestLink = generateUrl('/apps/cospend/login');
         guestLink = window.location.protocol + '//' + window.location.host + guestLink;
         $('#generalGuestLinkButton').attr('title', guestLink);
 
         $('body').on('click', '#generalGuestLinkButton', function() {
-            var guestLink = OC.generateUrl('/apps/cospend/login');
+            var guestLink = generateUrl('/apps/cospend/login');
             guestLink = window.location.protocol + '//' + window.location.host + guestLink;
             var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select();
             document.execCommand('copy');

@@ -1,3 +1,5 @@
+import { generateUrl } from '@nextcloud/router';
+
 (function() {
     if (!OCA.Cospend) {
         OCA.Cospend = {};
@@ -5,7 +7,7 @@
 })();
 
 function setAllowAnonymousCreation(val) {
-    var url = OC.generateUrl('/apps/cospend/setAllowAnonymousCreation');
+    var url = generateUrl('/apps/cospend/setAllowAnonymousCreation');
     var req = {
         allow: val
     }

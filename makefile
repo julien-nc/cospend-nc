@@ -48,12 +48,12 @@ endif
 .PHONY: npm
 npm:
 	$(npm) install
-	#$(npm) run build
+	$(npm) run build
 
 .PHONY: npm-dev
 npm-dev:
 	$(npm) install
-	#$(npm) run dev
+	$(npm) run dev
 
 clean:
 	sudo rm -rf $(build_dir)

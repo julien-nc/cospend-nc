@@ -1,7 +1,4 @@
 <?php
-script('cospend', '../node_modules/kjua/dist/kjua.min');
-script('cospend', '../node_modules/sorttable/sorttable');
-script('cospend', '../node_modules/chart.js/dist/Chart.min');
 script('cospend', 'cospend');
 
 style('cospend', 'cospend');

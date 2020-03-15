@@ -9,7 +9,10 @@
  * @author Julien Veyssier <eneiluj@posteo.net>
  * @copyright Julien Veyssier 2019
  */
-import 'kjua/dist/kjua.min';
+//import 'kjua/dist/kjua.min';
+//import 'kjua/src/kjua';
+//import { kjua } from 'kjua/dist/kjua.min';
+//import { kjua } from 'kjua/src/kjua';
 import 'sorttable/sorttable';
 import 'chart.js/dist/Chart.min';
 

@@ -67,7 +67,6 @@ appstore: clean
 	--exclude=appinfo/signature.json \
 	--exclude=*.swp \
 	--exclude=build \
-	--exclude=README.md \
 	--exclude=.gitignore \
 	--exclude=.travis.yml \
 	--exclude=.scrutinizer.yml \
@@ -75,6 +74,13 @@ appstore: clean
 	--exclude=composer.json \
 	--exclude=composer.lock \
 	--exclude=composer.phar \
+	--exclude=package.json \
+	--exclude=package-lock.json \
+	--exclude=js/node_modules \
+	--exclude=node_modules \
+	--exclude=translationfiles \
+	--exclude=webpack.* \
+	--exclude=.gitlab-ci.yml \
 	--exclude=crowdin.yml \
 	--exclude=tools \
 	--exclude=l10n/.tx \

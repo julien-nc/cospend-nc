@@ -24,7 +24,7 @@ Projects can be accessed and modified by people without a Nextcloud account. Eac
 * 🎇 automatically create reimbursement bills from settlement plan
 * 🗓 create recurring bills (daily/weekly/monthly/yearly)
 * 📊 optionally provide custom amount for each member in new bills
-* 🔗 link bill personal files (picture of physical bill for example)
+* 🔗 link bills with personal files (picture of physical bill for example)
 * 👩 guest access for people outside Nextcloud
 * 👫 share projects with Nextcloud users/groups/circles
 * 🖫 import/export projects as csv (compatible with csv files from IHateMoney)

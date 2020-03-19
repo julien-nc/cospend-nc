@@ -78,6 +78,7 @@ appstore: clean
 	--exclude=package-lock.json \
 	--exclude=js/node_modules \
 	--exclude=node_modules \
+	--exclude=src \
 	--exclude=translationfiles \
 	--exclude=webpack.* \
 	--exclude=.gitlab-ci.yml \

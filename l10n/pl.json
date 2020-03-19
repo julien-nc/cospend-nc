@@ -1,9 +1,16 @@
 { "translations": {
     "Cospend" : "Cospend",
-    "Cospend setting saved" : "Cospend zapisano ustawienia",
-    "Failed to save Cospend setting" : "Nie udało się zapisać ustawień Cospend",
     "Rent" : "Wynajem",
     "Health" : "Zdrowie",
+    "Who pays?" : "Kto płaci?",
+    "To whom?" : "Do kogo?",
+    "How much?" : "Ile?",
+    "Member name" : "Nazwa użytkownika",
+    "Paid" : "Zapłacone",
+    "Spent" : "Wydatki",
+    "Balance" : "Saldo",
+    "Cospend setting saved" : "Cospend zapisano ustawienia",
+    "Failed to save Cospend setting" : "Nie udało się zapisać ustawień Cospend",
     "Credit card" : "Karta kredytowa",
     "Cash" : "Gotówka",
     "Check" : "Czek",
@@ -35,17 +42,10 @@
     "Failed to get statistics" : "Nie udało się uzyskać statystyk",
     "Failed to get settlement" : "Nie udało się uzyskać rozliczenia",
     "Settlement of project {name}" : "Rozliczenie projektu {name}",
-    "Who pays?" : "Kto płaci?",
-    "To whom?" : "Do kogo?",
-    "How much?" : "Ile?",
     "Export" : "Eksportuj",
     "Add these payments to project" : "Dodaj te płatności do projektu",
     "MoneyBuster link/QRCode for project {name}" : "Link MoneyBuster / QRCode dla projektu {name}",
     "Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone." : "Zeskanuj ten QRCode za pomocą telefonu z Androidem i zainstalowaną aplikacją MoneyBuster. Otwórz link lub wyślij link na inny telefon z Androidem.",
-    "Statistics of project {name}" : "Statystyki projektu {name}",
-    "Member name" : "Nazwa użytkownika",
-    "Paid" : "Zapłacone",
-    "Spent" : "Wydatki",
-    "Balance" : "Saldo"
+    "Statistics of project {name}" : "Statystyki projektu {name}"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

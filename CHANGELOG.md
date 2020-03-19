@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 0.4.0 – 2020-03-19
+### Added
+- add 'time' field for bills
+[#48](https://gitlab.com/eneiluj/cospend-nc/issues/48) @mikoladz @rexkani
+- private API route to create project as a user
+
+### Changed
+- improve CSV project import
+- switch to npm+webpack!
+
+### Fixed
+- fix 'all except reimbursement' stat filter
+[#77](https://gitlab.com/eneiluj/cospend-nc/issues/77) @jonfin
+
 ## 0.3.3 – 2020-02-22
 ### Added
 - occ export-project command

@@ -10,24 +10,25 @@ Project members are independent from Nextcloud users. Projects can be accessed a
 
 [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) and on the [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
+[PayForMe](https://github.com/mayflower/PayForMe) iOS client is currently being developped!
+
 ## Features
 
-* ✎ create/edit/delete projects, members, bills
+* ✎ create/edit/delete projects, members, bills, bill categories, currencies
 * ⚖ check member balances
 * 🗠 display project statistics
 * ♻ display settlement plan
 * 🎇 automatically create reimbursement bills from settlement plan
 * 🗓 create recurring bills (daily/weekly/monthly/yearly)
 * 📊 optionally provide custom amount for each member in new bills
-* 🔗 insert public link to a personal file in bill description (picture of physical bill for example)
+* 🔗 link bills with personal files (picture of physical bill for example)
 * 👩 guest access for people outside Nextcloud
-* 👫 share projects with Nextcloud users/groups
+* 👫 share projects with Nextcloud users/groups/circles
 * 🖫 import/export projects as csv (compatible with csv files from IHateMoney)
-* 🖧 add external projects (hosted by another Nextcloud instance)
 * 🔗 generate link/QRCode to easily import projects in MoneyBuster
 * 🗲 implement Nextcloud notifications and activity stream
 
-This app is tested on Nextcloud 17 with Firefox 57+ and Chromium.
+This app is tested on Nextcloud 18 with Firefox 57+ and Chromium.
 
 This app is under development.
 

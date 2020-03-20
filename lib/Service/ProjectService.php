@@ -362,7 +362,7 @@ class ProjectService {
         $qb = $qb->resetQueryParts();
         if ($dbid === null) {
             // check if id is valid
-            if (strpos($id, '/') !== false) {
+            if (strpos($id, '/') !== false or strpos($id, ',') !== false) {
                 return ['message'=>$this->trans->t('Invalid project id')];
             }
             $dbPassword = '';
@@ -686,14 +686,14 @@ class ProjectService {
             $averageStats = [];
             foreach ($membersToDisplay as $memberId => $member) {
                 $sum = 0;
-                foreach ($monthlyStats as $month=>$mStat) {
+                foreach ($monthlyStats as $month => $mStat) {
                     $sum += $monthlyStats[$month][$memberId];
                 }
                 $averageStats[$memberId] = $sum / $nbMonth;
             }
             // average for all members
             $sum = 0;
-            foreach ($monthlyStats as $month=>$mStat) {
+            foreach ($monthlyStats as $month => $mStat) {
                 $sum += $monthlyStats[$month][$allMembersKey];
             }
             $averageStats[$allMembersKey] = $sum / $nbMonth;
@@ -703,8 +703,8 @@ class ProjectService {
         }
         // convert if necessary
         if ($currency !== null) {
-            foreach ($monthlyStats as $month=>$mStat) {
-                foreach ($mStat as $mid=>$val) {
+            foreach ($monthlyStats as $month => $mStat) {
+                foreach ($mStat as $mid => $val) {
                     $monthlyStats[$month][$mid] = ($monthlyStats[$month][$mid] === 0.0) ? 0 : $monthlyStats[$month][$mid] / $currency['exchange_rate'];
                 }
             }
@@ -726,7 +726,7 @@ class ProjectService {
         }
         // convert if necessary
         if ($currency !== null) {
-            foreach ($categoryStats as $catId=>$val) {
+            foreach ($categoryStats as $catId => $val) {
                 $categoryStats[$catId] = ($val === 0.0) ? 0 : $val / $currency['exchange_rate'];
             }
         }
@@ -753,19 +753,19 @@ class ProjectService {
         }
         // convert if necessary
         if ($currency !== null) {
-            foreach ($categoryMemberStats as $catId=>$mStat) {
-                foreach ($mStat as $mid=>$val) {
+            foreach ($categoryMemberStats as $catId => $mStat) {
+                foreach ($mStat as $mid => $val) {
                     $categoryMemberStats[$catId][$mid] = ($val === 0.0) ? 0 : $val / $currency['exchange_rate'];
                 }
             }
         }
 
         return [
-            'stats'=>$statistics,
-            'monthlyStats'=>$monthlyStats,
-            'categoryStats'=>$categoryStats,
-            'categoryMemberStats'=>$categoryMemberStats,
-            'memberIds'=>array_keys($membersToDisplay)
+            'stats' => $statistics,
+            'monthlyStats' => $monthlyStats,
+            'categoryStats' => $categoryStats,
+            'categoryMemberStats' => $categoryMemberStats,
+            'memberIds' => array_keys($membersToDisplay)
         ];
     }
 
@@ -773,10 +773,10 @@ class ProjectService {
                             $amount, $repeat, $paymentmode=null, $categoryid=null,
                             $repeatallactive=0, $repeatuntil=null, $timestamp=null) {
         if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
-            return ['repeat'=>$this->trans->t('Invalid value')];
+            return ['repeat' => $this->trans->t('Invalid value')];
         }
         if ($repeatallactive === null || ($repeatallactive !== '' && !is_numeric($repeatallactive))) {
-            return ['repeatallactive'=>$this->trans->t('Invalid value')];
+            return ['repeatallactive' => $this->trans->t('Invalid value')];
         }
         if ($repeatallactive !== null && $repeatallactive === '') {
             $repeatallactive = 0;
@@ -787,41 +787,41 @@ class ProjectService {
         // priority to timestamp (moneybuster might send both for a moment)
         if ($timestamp === null || !is_numeric($timestamp)) {
             if ($date === null || $date === '') {
-                return ['message'=>$this->trans->t('Timestamp (or date) field is required')];
+                return ['message' => $this->trans->t('Timestamp (or date) field is required')];
             }
             else {
                 $dateTs = strtotime($date);
                 if ($dateTs === false) {
-                    return ['date'=>$this->trans->t('Invalid date')];
+                    return ['date' => $this->trans->t('Invalid date')];
                 }
             }
         }
         else {
             $dateTs = intval($timestamp);
         }
-        if ($what === null || $what === '') {
-            return ['what'=>$this->trans->t('This field is required')];
+        if ($what === null || $what === '' || strpos($name, '/') !== false || strpos($name, ',') !== false) {
+            return ['what' => $this->trans->t('This field is invalid')];
         }
         if ($amount === null || $amount === '' || !is_numeric($amount)) {
-            return ['amount'=>$this->trans->t('This field is required')];
+            return ['amount' => $this->trans->t('This field is required')];
         }
         if ($payer === null || $payer === '' || !is_numeric($payer)) {
-            return ['payer'=>$this->trans->t('This field is required')];
+            return ['payer' => $this->trans->t('This field is required')];
         }
         if ($this->getMemberById($projectid, $payer) === null) {
-            return ['payer'=>$this->trans->t('Not a valid choice')];
+            return ['payer' => $this->trans->t('Not a valid choice')];
         }
         // check owers
         $owerIds = explode(',', $payed_for);
         if ($payed_for === null || $payed_for === '' || count($owerIds) === 0) {
-            return ['payed_for'=>$this->trans->t('Invalid value')];
+            return ['payed_for' => $this->trans->t('Invalid value')];
         }
         foreach ($owerIds as $owerId) {
             if (!is_numeric($owerId)) {
-                return ['payed_for'=>$this->trans->t('Invalid value')];
+                return ['payed_for' => $this->trans->t('Invalid value')];
             }
             if ($this->getMemberById($projectid, $owerId) === null) {
-                return ['payed_for'=>$this->trans->t('Not a valid choice')];
+                return ['payed_for' => $this->trans->t('Not a valid choice')];
             }
         }
 
@@ -1182,13 +1182,16 @@ class ProjectService {
             if ($this->getMemberById($projectid, $memberid) !== null) {
                 $qb = $this->dbconnection->getQueryBuilder();
                 $qb->update('cospend_members');
+                if (strpos($name, '/') !== false or strpos($name, ',') !== false) {
+                    return ['name' => $this->trans->t('Invalid member name')];
+                }
                 if ($weight !== null && $weight !== '') {
                     if (is_numeric($weight) and floatval($weight) > 0.0) {
                         $newWeight = floatval($weight);
                         $qb->set('weight', $qb->createNamedParameter($newWeight, IQueryBuilder::PARAM_STR));
                     }
                     else {
-                        return ['weight'=>$this->trans->t('Not a valid decimal value')];
+                        return ['weight' => $this->trans->t('Not a valid decimal value')];
                     }
                 }
                 if ($activated !== null && $activated !== '' && ($activated === 'true' || $activated === 'false')) {
@@ -1221,17 +1224,17 @@ class ProjectService {
                 return $editedMember;
             }
             else {
-                return ['name'=>$this->trans->t('This project have no such member')];
+                return ['name' => $this->trans->t('This project have no such member')];
             }
         }
         else {
-            return ['name'=>$this->trans->t('This field is required')];
+            return ['name' => $this->trans->t('This field is required')];
         }
     }
 
     public function editProject($projectid, $name, $contact_email, $password, $autoexport=null, $currencyname=null) {
         if ($name === null || $name === '') {
-            return ['name'=> [$this->trans->t('Name field is required')]];
+            return ['name' => [$this->trans->t('Name field is required')]];
         }
 
         $qb = $this->dbconnection->getQueryBuilder();
@@ -1312,6 +1315,9 @@ class ProjectService {
     public function addMember($projectid, $name, $weight, $active=1, $color=null) {
         if ($name !== null && $name !== '') {
             if ($this->getMemberByName($projectid, $name) === null) {
+                if (strpos($name, '/') !== false or strpos($name, ',') !== false) {
+                    return $this->trans->t('Invalid member name');
+                }
                 $weightToInsert = 1;
                 if ($weight !== null && $weight !== '') {
                     if (is_numeric($weight) and floatval($weight) > 0.0) {
@@ -2255,11 +2261,11 @@ class ProjectService {
 
         // first check the bill exists
         if ($this->getBill($projectid, $billid) === null) {
-            return ['message'=>$this->trans->t('There is no such bill')];
+            return ['message' => $this->trans->t('There is no such bill')];
         }
         // then edit the hell of it
-        if ($what === null || $what === '') {
-            return ['what'=>$this->trans->t('"What" field is required')];
+        if ($what === null || $what === '' || strpos($what, '/') !== false || strpos($what, ',') !== false) {
+            return ['what' => $this->trans->t('"What" field is invalid')];
         }
         $qb->set('what', $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR));
 
@@ -2291,7 +2297,7 @@ class ProjectService {
                 $qb->set('timestamp', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT));
             }
             else {
-                return ['timestamp'=>$this->trans->t('Invalid value')];
+                return ['timestamp' => $this->trans->t('Invalid value')];
             }
         }
         else if ($date !== null && $date !== '') {
@@ -2300,7 +2306,7 @@ class ProjectService {
                 $qb->set('timestamp', $qb->createNamedParameter($dateTs, IQueryBuilder::PARAM_INT));
             }
             else {
-                return ['date'=>$this->trans->t('Invalid value')];
+                return ['date' => $this->trans->t('Invalid value')];
             }
         }
         if ($amount !== null && $amount !== '' && is_numeric($amount)) {
@@ -2309,7 +2315,7 @@ class ProjectService {
         if ($payer !== null && $payer !== '' && is_numeric($payer)) {
             $member = $this->getMemberById($projectid, $payer);
             if ($member === null) {
-                return ['payer'=>$this->trans->t('Not a valid choice')];
+                return ['payer' => $this->trans->t('Not a valid choice')];
             }
             else {
                 $qb->set('payerid', $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT));
@@ -2321,15 +2327,15 @@ class ProjectService {
         if ($payed_for !== null && $payed_for !== '') {
             $owerIds = explode(',', $payed_for);
             if (count($owerIds) === 0) {
-                return ['payed_for'=>$this->trans->t('Invalid value')];
+                return ['payed_for' => $this->trans->t('Invalid value')];
             }
             else {
                 foreach ($owerIds as $owerId) {
                     if (!is_numeric($owerId)) {
-                        return ['payed_for'=>$this->trans->t('Invalid value')];
+                        return ['payed_for' => $this->trans->t('Invalid value')];
                     }
                     if ($this->getMemberById($projectid, $owerId) === null) {
-                        return ['payed_for'=>$this->trans->t('Not a valid choice')];
+                        return ['payed_for' => $this->trans->t('Not a valid choice')];
                     }
                 }
             }

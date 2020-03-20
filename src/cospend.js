@@ -335,6 +335,12 @@ import { generateUrl } from '@nextcloud/router';
     }
 
     function createProject(id, name, password) {
+        if (!name || name.match(',') || name.match('/') ||
+            !id || id.match(',') || id.match('/')
+        ) {
+            OC.Notification.showTemporary(t('cospend', 'Invalid values'));
+            return;
+        }
         $('#createproject').addClass('icon-loading-small');
         var req = {
             id: id,
@@ -378,6 +384,10 @@ import { generateUrl } from '@nextcloud/router';
     }
 
     function createMember(projectid, name) {
+        if (!name || name.match(',')) {
+            OC.Notification.showTemporary(t('cospend', 'Invalid values'));
+            return;
+        }
         $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
         var req = {
             name: name
@@ -3215,12 +3225,27 @@ import { generateUrl } from '@nextcloud/router';
         $(li).appendTo('#projectlist li.projectitem[projectid="'+projectid+'"] .memberlist');
     }
 
+    function basicBillValueCheck(what, date, time, amount, payer_id) {
+        var valid = true;
+        if (what === null || what === '' || what.match(',') || what.match('/')) {
+            valid = false;
+        }
+        if (date === null || date === '' || date.match(/^\d\d\d\d-\d\d-\d\d$/g) === null) {
+            valid = false;
+        }
+        if (time === null || time === '' || time.match(/^\d\d:\d\d$/g) === null) {
+            valid = false;
+        }
+        if (isNaN(amount) || isNaN(payer_id)) {
+            valid = false;
+        }
+        return valid;
+    }
+
     function createNormalBill() {
         // get bill info
         var billid = $('.bill-title').attr('billid');
         var projectid = $('.bill-title').attr('projectid');
-        // check fields validity
-        var valid = true;
 
         var what = $('.input-bill-what').val();
         var date = $('.input-bill-date').val();
@@ -3236,6 +3261,8 @@ import { generateUrl } from '@nextcloud/router';
         var paymentmode = $('#payment-mode').val();
         var categoryid = $('#category').val();
 
+        var valid = basicBillValueCheck(what, date, time, amount, payer_id);
+
         var owerIds = [];
         var owerId;
         $('.owerEntry input').each(function() {
@@ -3250,18 +3277,6 @@ import { generateUrl } from '@nextcloud/router';
             }
         });
 
-        if (what === null || what === '') {
-            valid = false;
-        }
-        if (date === null || date === '' || date.match(/^\d\d\d\d-\d\d-\d\d$/g) === null) {
-            valid = false;
-        }
-        if (time === null || time === '' || time.match(/^\d\d:\d\d$/g) === null) {
-            valid = false;
-        }
-        if (isNaN(amount) || isNaN(payer_id)) {
-            valid = false;
-        }
         if (owerIds.length === 0) {
             valid = false;
         }
@@ -3313,8 +3328,6 @@ import { generateUrl } from '@nextcloud/router';
         var billid = $('.bill-title').attr('billid');
         var projectid = $('.bill-title').attr('projectid');
         updateAmountEach(projectid);
-        // check fields validity
-        var valid = true;
 
         // if this is a new bill : get out
         if (billid === '0') {
@@ -3335,6 +3348,8 @@ import { generateUrl } from '@nextcloud/router';
         var paymentmode = $('#payment-mode').val();
         var categoryid = $('#category').val();
 
+        var valid = basicBillValueCheck(what, date, time, amount, payer_id);
+
         var owerIds = [];
         var owerId;
         $('.owerEntry input').each(function() {
@@ -3349,18 +3364,6 @@ import { generateUrl } from '@nextcloud/router';
             }
         });
 
-        if (what === null || what === '') {
-            valid = false;
-        }
-        if (date === null || date === '' || date.match(/^\d\d\d\d-\d\d-\d\d$/g) === null) {
-            valid = false;
-        }
-        if (time === null || time === '' || time.match(/^\d\d:\d\d$/g) === null) {
-            valid = false;
-        }
-        if (isNaN(amount) || isNaN(payer_id)) {
-            valid = false;
-        }
         if (owerIds.length === 0) {
             valid = false;
         }
@@ -4130,6 +4133,8 @@ import { generateUrl } from '@nextcloud/router';
         var paymentmode = $('#payment-mode').val();
         var categoryid = $('#category').val();
 
+        var valid = basicBillValueCheck(what, date, time, amount, payer_id);
+
         var owerIds = [];
         var owerId;
         $('.owerEntry input').each(function() {
@@ -4144,19 +4149,7 @@ import { generateUrl } from '@nextcloud/router';
             }
         });
 
-        var valid = true;
-
         var tmpAmount;
-
-        if (what === null || what === '') {
-            valid = false;
-        }
-        if (date === null || date === '' || date.match(/^\d\d\d\d-\d\d-\d\d$/g) === null) {
-            valid = false;
-        }
-        if (time === null || time === '' || time.match(/^\d\d:\d\d$/g) === null) {
-            valid = false;
-        }
         if (isNaN(amount) || isNaN(payer_id)) {
             valid = false;
         }
@@ -4260,20 +4253,7 @@ import { generateUrl } from '@nextcloud/router';
         var paymentmode = $('#payment-mode').val();
         var categoryid = $('#category').val();
 
-        var valid = true;
-
-        if (what === null || what === '') {
-            valid = false;
-        }
-        if (date === null || date === '' || date.match(/^\d\d\d\d-\d\d-\d\d$/g) === null) {
-            valid = false;
-        }
-        if (time === null || time === '' || time.match(/^\d\d:\d\d$/g) === null) {
-            valid = false;
-        }
-        if (isNaN(amount) || isNaN(payer_id)) {
-            valid = false;
-        }
+        var valid = basicBillValueCheck(what, date, time, amount, payer_id);
 
         if (valid) {
             var initWhat = what;

@@ -799,7 +799,7 @@ class ProjectService {
         else {
             $dateTs = intval($timestamp);
         }
-        if ($what === null || $what === '' || strpos($name, '/') !== false || strpos($name, ',') !== false) {
+        if ($what === null || $what === '' || strpos($what, '/') !== false || strpos($what, ',') !== false) {
             return ['what' => $this->trans->t('This field is invalid')];
         }
         if ($amount === null || $amount === '' || !is_numeric($amount)) {

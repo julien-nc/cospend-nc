@@ -81,18 +81,18 @@ class ProjectService {
         $this->shareManager = $shareManager;
 
         $this->categoryNames = [
-        '-1'=>$this->trans->t('Grocery'),
-        '-2'=>$this->trans->t('Bar/Party'),
-        '-3'=>$this->trans->t('Rent'),
-        '-4'=>$this->trans->t('Bill'),
-        '-5'=>$this->trans->t('Excursion/Culture'),
-        '-6'=>$this->trans->t('Health'),
-        '-10'=>$this->trans->t('Shopping'),
-        '-11'=>$this->trans->t('Reimbursement'),
-        '-12'=>$this->trans->t('Restaurant'),
-        '-13'=>$this->trans->t('Accommodation'),
-        '-14'=>$this->trans->t('Transport'),
-        '-15'=>$this->trans->t('Sport')
+        '-1' => $this->trans->t('Grocery'),
+        '-2' => $this->trans->t('Bar/Party'),
+        '-3' => $this->trans->t('Rent'),
+        '-4' => $this->trans->t('Bill'),
+        '-5' => $this->trans->t('Excursion/Culture'),
+        '-6' => $this->trans->t('Health'),
+        '-10' => $this->trans->t('Shopping'),
+        '-11' => $this->trans->t('Reimbursement'),
+        '-12' => $this->trans->t('Restaurant'),
+        '-13' => $this->trans->t('Accommodation'),
+        '-14' => $this->trans->t('Transport'),
+        '-15' => $this->trans->t('Sport')
         ];
 
     }
@@ -363,7 +363,7 @@ class ProjectService {
         if ($dbid === null) {
             // check if id is valid
             if (strpos($id, '/') !== false or strpos($id, ',') !== false) {
-                return ['message'=>$this->trans->t('Invalid project id')];
+                return ['message' => $this->trans->t('Invalid project id')];
             }
             $dbPassword = '';
             if ($password !== null && $password !== '') {
@@ -388,7 +388,7 @@ class ProjectService {
             return $id;
         }
         else {
-            return ['message'=>$this->trans->t('A project with id "%1$s" already exists', [$id])];
+            return ['message' => $this->trans->t('A project with id "%1$s" already exists', [$id])];
         }
     }
 
@@ -413,7 +413,7 @@ class ProjectService {
         if ($dbprojectid === null) {
             // check if id is valid
             if (strpos($id, '/') !== false) {
-                return ['message'=>$this->trans->t('Invalid project id')];
+                return ['message' => $this->trans->t('Invalid project id')];
             }
             $qb->insert('cospend_ext_projects')
                 ->values([
@@ -427,7 +427,7 @@ class ProjectService {
             return $id;
         }
         else {
-            return ['message'=>$this->trans->t('A project with id "%1$s" and url "%2$s" already exists', [$id, $ncurl])];
+            return ['message' => $this->trans->t('A project with id "%1$s" and url "%2$s" already exists', [$id, $ncurl])];
         }
     }
 
@@ -536,19 +536,19 @@ class ProjectService {
             $currencies = $this->getCurrencies($dbProjectId);
             $categories = $this->getCategories($dbProjectId);
             $projectInfo = [
-                'userid'=>$dbUserId,
-                'name'=>$dbName,
-                'contact_email'=>$dbEmail,
-                'id'=>$dbProjectId,
-                'guestpermissions'=>$dbGuestPermissions,
-                'autoexport'=>$dbAutoexport,
-                'currencyname'=>$dbCurrencyName,
-                'currencies'=>$currencies,
-                'categories'=>$categories,
-                'active_members'=>$activeMembers,
-                'members'=>$members,
-                'balance'=>$balance,
-                'lastchanged'=>$dbLastchanged
+                'userid' => $dbUserId,
+                'name' => $dbName,
+                'contact_email' => $dbEmail,
+                'id' => $dbProjectId,
+                'guestpermissions' => $dbGuestPermissions,
+                'autoexport' => $dbAutoexport,
+                'currencyname' => $dbCurrencyName,
+                'currencies' => $currencies,
+                'categories' => $categories,
+                'active_members' => $activeMembers,
+                'members' => $members,
+                'balance' => $balance,
+                'lastchanged' => $dbLastchanged
             ];
         }
 
@@ -882,7 +882,7 @@ class ProjectService {
             return 'OK';
         }
         else {
-            return ['message'=>$this->trans->t('Not Found')];
+            return ['message' => $this->trans->t('Not Found')];
         }
     }
 
@@ -1057,7 +1057,7 @@ class ProjectService {
     public function autoSettlement($projectid) {
         $transactions = $this->getProjectSettlement($projectid);
         if (!is_array($transactions)) {
-            return ['message'=>$this->trans->t('Error when getting project settlement transactions')];
+            return ['message' => $this->trans->t('Error when getting project settlement transactions')];
         }
 
         $members = $this->getMembers($projectid);
@@ -1075,7 +1075,7 @@ class ProjectService {
             $billTitle = $memberIdToName[$fromId].' → '.$memberIdToName[$toId];
             $addBillResult = $this->addBill($projectid, null, $billTitle, $fromId, $toId, $amount, 'n', null, CAT_REIMBURSEMENT, 0, null, $ts);
             if (!is_numeric($addBillResult)) {
-                return ['message'=>$this->trans->t('Error when addind a bill')];
+                return ['message' => $this->trans->t('Error when addind a bill')];
             }
         }
         return 'OK';
@@ -1137,7 +1137,7 @@ class ProjectService {
         }
 
         $newResults = $results;
-        array_push($newResults, ['to'=>$crediter, 'amount'=>$amount, 'from'=>$debiter]);
+        array_push($newResults, ['to' => $crediter, 'amount' => $amount, 'from' => $debiter]);
 
         $newDebiterBalance = $debiterBalance + $amount;
         if ($newDebiterBalance < 0.0) {
@@ -1246,7 +1246,7 @@ class ProjectService {
                 $qb->set('email', $qb->createNamedParameter($contact_email, IQueryBuilder::PARAM_STR));
             }
             else {
-                return ['contact_email'=> [$this->trans->t('Invalid email address')]];
+                return ['contact_email' => [$this->trans->t('Invalid email address')]];
             }
         }
         if ($password !== null && $password !== '') {
@@ -1277,7 +1277,7 @@ class ProjectService {
             return 'UPDATED';
         }
         else {
-            return ['message'=>$this->trans->t('There is no such project')];
+            return ['message' => $this->trans->t('There is no such project')];
         }
     }
 
@@ -1626,8 +1626,8 @@ class ProjectService {
                         'name' => $dbName,
                         'id' => $dbMemberId,
                         'weight' => $dbWeight,
-                        'color'=>$dbColor,
-                        'lastchanged'=>$dbLastchanged
+                        'color' => $dbColor,
+                        'lastchanged' => $dbLastchanged
                     ]]
                 );
             }
@@ -1655,8 +1655,8 @@ class ProjectService {
                         'name' => $dbName,
                         'id' => $dbMemberId,
                         'weight' => $dbWeight,
-                        'color'=>$dbColor,
-                        'lastchanged'=>$dbLastchanged
+                        'color' => $dbColor,
+                        'lastchanged' => $dbLastchanged
                     ]
                 );
             }
@@ -1758,17 +1758,17 @@ class ProjectService {
             $dbCurrencyName = $row['currencyname'];
             $dbLastchanged = intval($row['lastchanged']);
             array_push($projects, [
-                'name'=>$dbName,
-                'contact_email'=>$dbEmail,
-                'id'=>$dbProjectId,
-                'autoexport'=>$autoexport,
-                'lastchanged'=>$dbLastchanged,
-                'active_members'=>null,
-                'members'=>null,
-                'balance'=>null,
-                'shares'=>[],
-                'guestpermissions'=>$guestpermissions,
-                'currencyname'=>$dbCurrencyName
+                'name' => $dbName,
+                'contact_email' => $dbEmail,
+                'id' => $dbProjectId,
+                'autoexport' => $autoexport,
+                'lastchanged' => $dbLastchanged,
+                'active_members' => null,
+                'members' => null,
+                'balance' => null,
+                'shares' => [],
+                'guestpermissions' => $guestpermissions,
+                'currencyname' => $dbCurrencyName
             ]);
         }
         $req->closeCursor();
@@ -1802,17 +1802,17 @@ class ProjectService {
                 $dbCurrencyName = $row['currencyname'];
                 $dbLastchanged = intval($row['lastchanged']);
                 array_push($projects, [
-                    'name'=>$dbName,
-                    'contact_email'=>$dbEmail,
-                    'id'=>$dbProjectId,
-                    'autoexport'=>$autoexport,
-                    'lastchanged'=>$dbLastchanged,
-                    'active_members'=>null,
-                    'members'=>null,
-                    'balance'=>null,
-                    'shares'=>[],
-                    'guestpermissions'=>$guestpermissions,
-                    'currencyname'=>$dbCurrencyName
+                    'name' => $dbName,
+                    'contact_email' => $dbEmail,
+                    'id' => $dbProjectId,
+                    'autoexport' => $autoexport,
+                    'lastchanged' => $dbLastchanged,
+                    'active_members' => null,
+                    'members' => null,
+                    'balance' => null,
+                    'shares' => [],
+                    'guestpermissions' => $guestpermissions,
+                    'currencyname' => $dbCurrencyName
                 ]);
                 array_push($projectids, $dbProjectId);
             }
@@ -1870,17 +1870,17 @@ class ProjectService {
                         $dbCurrencyName = $row['currencyname'];
                         $dbLastchanged = intval($row['lastchanged']);
                         array_push($projects, [
-                            'name'=>$dbName,
-                            'contact_email'=>$dbEmail,
-                            'id'=>$dbProjectId,
-                            'autoexport'=>$autoexport,
-                            'lastchanged'=>$dbLastchanged,
-                            'active_members'=>null,
-                            'members'=>null,
-                            'balance'=>null,
-                            'shares'=>[],
-                            'guestpermissions'=>$guestpermissions,
-                            'currencyname'=>$dbCurrencyName
+                            'name' => $dbName,
+                            'contact_email' => $dbEmail,
+                            'id' => $dbProjectId,
+                            'autoexport' => $autoexport,
+                            'lastchanged' => $dbLastchanged,
+                            'active_members' => null,
+                            'members' => null,
+                            'balance' => null,
+                            'shares' => [],
+                            'guestpermissions' => $guestpermissions,
+                            'currencyname' => $dbCurrencyName
                         ]);
                         array_push($projectids, $dbProjectId);
                     }
@@ -1938,17 +1938,17 @@ class ProjectService {
                             $dbCurrencyName = $row['currencyname'];
                             $dbLastchanged = intval($row['lastchanged']);
                             array_push($projects, [
-                                'name'=>$dbName,
-                                'contact_email'=>$dbEmail,
-                                'id'=>$dbProjectId,
-                                'autoexport'=>$autoexport,
-                                'lastchanged'=>$dbLastchanged,
-                                'active_members'=>null,
-                                'members'=>null,
-                                'balance'=>null,
-                                'shares'=>[],
-                                'guestpermissions'=>$guestpermissions,
-                                'currencyname'=>$dbCurrencyName
+                                'name' => $dbName,
+                                'contact_email' => $dbEmail,
+                                'id' => $dbProjectId,
+                                'autoexport' => $autoexport,
+                                'lastchanged' => $dbLastchanged,
+                                'active_members' => null,
+                                'members' => null,
+                                'balance' => null,
+                                'shares' => [],
+                                'guestpermissions' => $guestpermissions,
+                                'currencyname' => $dbCurrencyName
                             ]);
                             array_push($projectids, $dbProjectId);
                         }
@@ -1998,15 +1998,15 @@ class ProjectService {
             $dbPassword = $row['password'];
             $dbNcUrl = $row['ncurl'];
             array_push($projects, [
-                'name'=>$dbProjectId.'@'.$dbNcUrl,
-                'ncurl'=>$dbNcUrl,
-                'id'=>$dbProjectId,
-                'password'=>$dbPassword,
-                'active_members'=>null,
-                'members'=>null,
-                'balance'=>null,
-                'shares'=>[],
-                'external'=>true
+                'name' => $dbProjectId.'@'.$dbNcUrl,
+                'ncurl' => $dbNcUrl,
+                'id' => $dbProjectId,
+                'password' => $dbPassword,
+                'active_members' => null,
+                'members' => null,
+                'balance' => null,
+                'shares' => [],
+                'external' => true
             ]);
         }
         $req->closeCursor();
@@ -2030,9 +2030,9 @@ class ProjectService {
             $dbColor = $row['color'];
             $dbId = intval($row['id']);
             $categories[$dbId] = [
-                'name'=>$dbName,
-                'icon'=>$dbIcon,
-                'color'=>$dbColor
+                'name' => $dbName,
+                'icon' => $dbIcon,
+                'color' => $dbColor
             ];
         }
         $req->closeCursor();
@@ -2056,9 +2056,9 @@ class ProjectService {
             $dbId = intval($row['id']);
             $dbExchangeRate = floatval($row['exchange_rate']);
             array_push($currencies, [
-                'name'=>$dbName,
-                'exchange_rate'=>$dbExchangeRate,
-                'id'=>$dbId
+                'name' => $dbName,
+                'exchange_rate' => $dbExchangeRate,
+                'id' => $dbId
             ]);
         }
         $req->closeCursor();
@@ -2092,10 +2092,10 @@ class ProjectService {
             $dbPermissions = $row['permissions'];
             if (array_key_exists($dbuserId, $userIdToName)) {
                 array_push($shares, [
-                    'userid'=>$dbuserId,
-                    'name'=>$userIdToName[$dbuserId],
-                    'id'=>$dbId,
-                    'permissions'=>$dbPermissions
+                    'userid' => $dbuserId,
+                    'name' => $userIdToName[$dbuserId],
+                    'id' => $dbId,
+                    'permissions' => $dbPermissions
                 ]);
             }
         }
@@ -2130,10 +2130,10 @@ class ProjectService {
             $dbPermissions = $row['permissions'];
             if (array_key_exists($dbGroupId, $groupIdToName)) {
                 array_push($shares, [
-                    'groupid'=>$dbGroupId,
-                    'name'=>$groupIdToName[$dbGroupId],
-                    'id'=>$dbId,
-                    'permissions'=>$dbPermissions
+                    'groupid' => $dbGroupId,
+                    'name' => $groupIdToName[$dbGroupId],
+                    'id' => $dbId,
+                    'permissions' => $dbPermissions
                 ]);
             }
         }
@@ -2173,10 +2173,10 @@ class ProjectService {
                 $dbPermissions = $row['permissions'];
                 if (array_key_exists($dbCircleId, $circleIdToName)) {
                     array_push($shares, [
-                        'circleid'=>$dbCircleId,
-                        'name'=>$circleIdToName[$dbCircleId],
-                        'id'=>$dbId,
-                        'permissions'=>$dbPermissions
+                        'circleid' => $dbCircleId,
+                        'name' => $circleIdToName[$dbCircleId],
+                        'id' => $dbId,
+                        'permissions' => $dbPermissions
                     ]);
                 }
             }
@@ -2270,7 +2270,7 @@ class ProjectService {
         $qb->set('what', $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR));
 
         if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
-            return ['repeat'=>$this->trans->t('Invalid value')];
+            return ['repeat' => $this->trans->t('Invalid value')];
         }
         $qb->set('repeat', $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR));
 
@@ -2659,7 +2659,7 @@ class ProjectService {
             return $categoryid;
         }
         else {
-            return ['message'=>$this->trans->t('Not found')];
+            return ['message' => $this->trans->t('Not found')];
         }
     }
 
@@ -2685,11 +2685,11 @@ class ProjectService {
                 return $editedCategory;
             }
             else {
-                return ['message'=>$this->trans->t('This project have no such category')];
+                return ['message' => $this->trans->t('This project have no such category')];
             }
         }
         else {
-            return ['message'=>$this->trans->t('Incorrect field values')];
+            return ['message' => $this->trans->t('Incorrect field values')];
         }
     }
 
@@ -2760,7 +2760,7 @@ class ProjectService {
             return $currencyid;
         }
         else {
-            return ['message'=>$this->trans->t('Not found')];
+            return ['message' => $this->trans->t('Not found')];
         }
     }
 
@@ -2785,11 +2785,11 @@ class ProjectService {
                 return $editedCurrency;
             }
             else {
-                return ['message'=>$this->trans->t('This project have no such currency')];
+                return ['message' => $this->trans->t('This project have no such currency')];
             }
         }
         else {
-            return ['message'=>$this->trans->t('Incorrect field values')];
+            return ['message' => $this->trans->t('Incorrect field values')];
         }
     }
 
@@ -2845,7 +2845,7 @@ class ProjectService {
                     $this->activityManager->triggerEvent(
                         ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
                         ActivityManager::SUBJECT_PROJECT_SHARE,
-                        ['who'=>$userid, 'type'=>'u']
+                        ['who' => $userid, 'type' => 'u']
                     );
 
                     // SEND NOTIFICATION
@@ -2874,15 +2874,15 @@ class ProjectService {
                     return $response;
                 }
                 else {
-                    return ['message'=>$this->trans->t('Already shared with this user')];
+                    return ['message' => $this->trans->t('Already shared with this user')];
                 }
             }
             else {
-                return ['message'=>$this->trans->t('Impossible to share the project with its owner')];
+                return ['message' => $this->trans->t('Impossible to share the project with its owner')];
             }
         }
         else {
-            return ['message'=>$this->trans->t('No such user')];
+            return ['message' => $this->trans->t('No such user')];
         }
     }
 
@@ -2922,7 +2922,7 @@ class ProjectService {
             return 'OK';
         }
         else {
-            return ['message'=>$this->trans->t('No such share')];
+            return ['message' => $this->trans->t('No such share')];
         }
     }
 
@@ -2991,7 +2991,7 @@ class ProjectService {
             $this->activityManager->triggerEvent(
                 ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
                 ActivityManager::SUBJECT_PROJECT_UNSHARE,
-                ['who'=>$dbuserId, 'type'=>'u']
+                ['who' => $dbuserId, 'type' => 'u']
             );
 
             // SEND NOTIFICATION
@@ -3022,7 +3022,7 @@ class ProjectService {
             return $response;
         }
         else {
-            return ['message'=>$this->trans->t('No such share')];
+            return ['message' => $this->trans->t('No such share')];
         }
     }
 
@@ -3074,17 +3074,17 @@ class ProjectService {
                 $this->activityManager->triggerEvent(
                     ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
                     ActivityManager::SUBJECT_PROJECT_SHARE,
-                    ['who'=>$groupid, 'type'=>'g']
+                    ['who' => $groupid, 'type' => 'g']
                 );
 
                 return $response;
             }
             else {
-                return ['message'=>$this->trans->t('Already shared with this group')];
+                return ['message' => $this->trans->t('Already shared with this group')];
             }
         }
         else {
-            return ['message'=>$this->trans->t('No such group')];
+            return ['message' => $this->trans->t('No such group')];
         }
     }
 
@@ -3135,13 +3135,13 @@ class ProjectService {
             $this->activityManager->triggerEvent(
                 ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
                 ActivityManager::SUBJECT_PROJECT_UNSHARE,
-                ['who'=>$dbGroupId, 'type'=>'g']
+                ['who' => $dbGroupId, 'type' => 'g']
             );
 
             return $response;
         }
         else {
-            return ['message'=>$this->trans->t('No such share')];
+            return ['message' => $this->trans->t('No such share')];
         }
     }
 
@@ -3154,7 +3154,7 @@ class ProjectService {
             foreach ($cs as $c) {
                 if ($c->getUniqueId() === $circleid) {
                     if ($c->getType() === \OCA\Circles\Model\Circle::CIRCLES_PERSONAL) {
-                        return ['message'=>$this->trans->t('Sharing with personal circles is not supported')];
+                        return ['message' => $this->trans->t('Sharing with personal circles is not supported')];
                     }
                     else {
                         $exists = true;
@@ -3203,21 +3203,21 @@ class ProjectService {
                     $this->activityManager->triggerEvent(
                         ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
                         ActivityManager::SUBJECT_PROJECT_SHARE,
-                        ['who'=>$circleid, 'type'=>'c']
+                        ['who' => $circleid, 'type' => 'c']
                     );
 
                     return $response;
                 }
                 else {
-                    return ['message'=>$this->trans->t('Already shared with this circle')];
+                    return ['message' => $this->trans->t('Already shared with this circle')];
                 }
             }
             else {
-                return ['message'=>$this->trans->t('No such circle')];
+                return ['message' => $this->trans->t('No such circle')];
             }
         }
         else {
-            return ['message'=>$this->trans->t('Circles app is not enabled')];
+            return ['message' => $this->trans->t('Circles app is not enabled')];
         }
     }
 
@@ -3268,11 +3268,11 @@ class ProjectService {
             $this->activityManager->triggerEvent(
                 ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
                 ActivityManager::SUBJECT_PROJECT_UNSHARE,
-                ['who'=>$dbCircleId, 'type'=>'c']
+                ['who' => $dbCircleId, 'type' => 'c']
             );
         }
         else {
-            $response = ['message'=>$this->trans->t('No such share')];
+            $response = ['message' => $this->trans->t('No such share')];
         }
 
         return $response;
@@ -3284,7 +3284,7 @@ class ProjectService {
         $userFolder = \OC::$server->getUserFolder($userId);
         $msg = $this->createAndCheckExportDirectory($userFolder, $outPath);
         if ($msg !== '') {
-            $response = ['message'=>$msg];
+            $response = ['message' => $msg];
             return $response;
         }
         $folder = $userFolder->get($outPath);
@@ -3310,7 +3310,7 @@ class ProjectService {
 
         fclose($handler);
         $file->touch();
-        $response = ['path'=>$outPath.'/'.$projectid.'-settlement.csv'];
+        $response = ['path' => $outPath.'/'.$projectid.'-settlement.csv'];
         return $response;
     }
 
@@ -3342,7 +3342,7 @@ class ProjectService {
         $userFolder = \OC::$server->getUserFolder($userId);
         $msg = $this->createAndCheckExportDirectory($userFolder, $outPath);
         if ($msg !== '') {
-            $response = ['message'=>$msg];
+            $response = ['message' => $msg];
             return $response;
         }
         $folder = $userFolder->get($outPath);
@@ -3366,7 +3366,7 @@ class ProjectService {
 
         fclose($handler);
         $file->touch();
-        $response = ['path'=>$outPath.'/'.$projectid.'-stats.csv'];
+        $response = ['path' => $outPath.'/'.$projectid.'-stats.csv'];
         return $response;
     }
 
@@ -3376,7 +3376,7 @@ class ProjectService {
         $userFolder = \OC::$server->getUserFolder($userId);
         $msg = $this->createAndCheckExportDirectory($userFolder, $outPath);
         if ($msg !== '') {
-            $response = ['message'=>$msg];
+            $response = ['message' => $msg];
             return $response;
         }
         $folder = $userFolder->get($outPath);
@@ -3434,7 +3434,7 @@ class ProjectService {
         if (count($categories) > 0) {
             fwrite($handler, "\n");
             fwrite($handler, "categoryname,categoryid,icon,color\n");
-            foreach ($categories as $id=>$cat) {
+            foreach ($categories as $id => $cat) {
                 fwrite($handler, '"'.$cat['name'].'",'.intval($id).',"'.$cat['icon'].'","'.$cat['color'].'"'."\n");
             }
         }
@@ -3453,7 +3453,7 @@ class ProjectService {
 
         fclose($handler);
         $file->touch();
-        $response = ['path'=>$outPath.'/'.$filename];
+        $response = ['path' => $outPath.'/'.$filename];
         return $response;
     }
 
@@ -3510,7 +3510,7 @@ class ProjectService {
                             }
                             else {
                                 fclose($handle);
-                                return ['message'=>$this->trans->t('Malformed CSV, bad column names at line %1$s', [$row + 1])];
+                                return ['message' => $this->trans->t('Malformed CSV, bad column names at line %1$s', [$row + 1])];
                             }
                         }
                         // normal line : bill or category
@@ -3522,10 +3522,10 @@ class ProjectService {
                                 $categoryid = $data[$columns['categoryid']];
                                 $categoryname = $data[$columns['categoryname']];
                                 array_push($categories, [
-                                    'icon'=>$icon,
-                                    'color'=>$color,
-                                    'id'=>$categoryid,
-                                    'name'=>$categoryname
+                                    'icon' => $icon,
+                                    'color' => $color,
+                                    'id' => $categoryid,
+                                    'name' => $categoryname
                                 ]);
                             }
                             else if ($currentSection === 'currencies') {
@@ -3536,8 +3536,8 @@ class ProjectService {
                                 }
                                 else {
                                     array_push($currencies, [
-                                        'name'=>$name,
-                                        'exchange_rate'=>$exchange_rate
+                                        'name' => $name,
+                                        'exchange_rate' => $exchange_rate
                                     ]);
                                 }
                             }
@@ -3569,18 +3569,18 @@ class ProjectService {
                                 }
                                 else {
                                     fclose($handle);
-                                    return ['message'=>$this->trans->t('Malformed CSV, bad payer weight on line %1$s', [$row + 1])];
+                                    return ['message' => $this->trans->t('Malformed CSV, bad payer weight on line %1$s', [$row + 1])];
                                 }
                                 if (strlen($owers) === 0) {
                                     fclose($handle);
-                                    return ['message'=>$this->trans->t('Malformed CSV, bad owers on line %1$s', [$row + 1])];
+                                    return ['message' => $this->trans->t('Malformed CSV, bad owers on line %1$s', [$row + 1])];
                                 }
                                 if ($payer_name !== $owers) {
                                     $owersArray = explode(', ', $owers);
                                     foreach ($owersArray as $ower) {
                                         if (strlen($ower) === 0) {
                                             fclose($handle);
-                                            return ['message'=>$this->trans->t('Malformed CSV, bad owers on line %1$s', [$row + 1])];
+                                            return ['message' => $this->trans->t('Malformed CSV, bad owers on line %1$s', [$row + 1])];
                                         }
                                         if (!array_key_exists($ower, $membersWeight)) {
                                             $membersWeight[$ower] = 1.0;
@@ -3588,19 +3588,19 @@ class ProjectService {
                                     }
                                     if (!is_numeric($amount)) {
                                         fclose($handle);
-                                        return ['message'=>$this->trans->t('Malformed CSV, bad amount on line %1$s', [$row + 1])];
+                                        return ['message' => $this->trans->t('Malformed CSV, bad amount on line %1$s', [$row + 1])];
                                     }
                                     array_push($bills, [
-                                        'what'=>$what,
-                                        'timestamp'=>$timestamp,
-                                        'amount'=>$amount,
-                                        'payer_name'=>$payer_name,
-                                        'owers'=>$owersArray,
-                                        'paymentmode'=>$paymentmode,
-                                        'categoryid'=>$categoryid,
-                                        'repeat'=>$repeat,
-                                        'repeatuntil'=>$repeatuntil,
-                                        'repeatallactive'=>$repeatallactive
+                                        'what' => $what,
+                                        'timestamp' => $timestamp,
+                                        'amount' => $amount,
+                                        'payer_name' => $payer_name,
+                                        'owers' => $owersArray,
+                                        'paymentmode' => $paymentmode,
+                                        'categoryid' => $categoryid,
+                                        'repeat' => $repeat,
+                                        'repeatuntil' => $repeatuntil,
+                                        'repeatallactive' => $repeatallactive
                                     ]);
                                 }
                             }
@@ -3618,7 +3618,7 @@ class ProjectService {
                     $projectName = $projectid;
                     $projResult = $this->createProject($projectName, $projectid, '', $userEmail, $userId);
                     if (!is_string($projResult)) {
-                        return ['message'=>$this->trans->t('Error in project creation, %1$s', [$projResult['message']])];
+                        return ['message' => $this->trans->t('Error in project creation, %1$s', [$projResult['message']])];
                     }
                     // set project main currency
                     if ($mainCurrencyName !== null) {
@@ -3629,7 +3629,7 @@ class ProjectService {
                         $insertedCatId = $this->addCategory($projectid, $cat['name'], $cat['icon'], $cat['color']);
                         if (!is_numeric($insertedCatId)) {
                             $this->deleteProject($projectid);
-                            return ['message'=>$this->trans->t('Error when adding category %1$s', [$cat['name']])];
+                            return ['message' => $this->trans->t('Error when adding category %1$s', [$cat['name']])];
                         }
                         $categoryIdConv[$cat['id']] = $insertedCatId;
                     }
@@ -3638,7 +3638,7 @@ class ProjectService {
                         $insertedCurId = $this->addCurrency($projectid, $cur['name'], $cur['exchange_rate']);
                         if (!is_numeric($insertedCurId)) {
                             $this->deleteProject($projectid);
-                            return ['message'=>$this->trans->t('Error when adding currency %1$s', [$cur['name']])];
+                            return ['message' => $this->trans->t('Error when adding currency %1$s', [$cur['name']])];
                         }
                     }
                     // add members
@@ -3646,7 +3646,7 @@ class ProjectService {
                         $insertedMember = $this->addMember($projectid, $memberName, $weight, $membersActive[$memberName]);
                         if (!is_array($insertedMember)) {
                             $this->deleteProject($projectid);
-                            return ['message'=>$this->trans->t('Error when adding member %1$s', [$memberName])];
+                            return ['message' => $this->trans->t('Error when adding member %1$s', [$memberName])];
                         }
                         $memberNameToId[$memberName] = $insertedMember['id'];
                     }
@@ -3670,22 +3670,22 @@ class ProjectService {
                                                         $bill['repeatuntil'], $bill['timestamp']);
                         if (!is_numeric($addBillResult)) {
                             $this->deleteProject($projectid);
-                            return ['message'=>$this->trans->t('Error when adding bill %1$s', [$bill['what']])];
+                            return ['message' => $this->trans->t('Error when adding bill %1$s', [$bill['what']])];
                         }
                     }
 
                     return $projectid;
                 }
                 else {
-                    return ['message'=>$this->trans->t('Access denied')];
+                    return ['message' => $this->trans->t('Access denied')];
                 }
             }
             else {
-                return ['message'=>$this->trans->t('Access denied')];
+                return ['message' => $this->trans->t('Access denied')];
             }
         }
         else {
-            return ['message'=>$this->trans->t('Access denied')];
+            return ['message' => $this->trans->t('Access denied')];
         }
     }
 
@@ -3720,7 +3720,7 @@ class ProjectService {
                                 !array_key_exists('Currency', $columns)
                             ) {
                                 fclose($handle);
-                                return ['message'=>$this->trans->t('Malformed CSV, bad column names')];
+                                return ['message' => $this->trans->t('Malformed CSV, bad column names')];
                             }
                             // manage members
                             $m=0;
@@ -3731,7 +3731,7 @@ class ProjectService {
                             foreach ($owersArray as $ower) {
                                 if (strlen($ower) === 0) {
                                     fclose($handle);
-                                    return ['message'=>$this->trans->t('Malformed CSV, cannot have an empty ower')];
+                                    return ['message' => $this->trans->t('Malformed CSV, cannot have an empty ower')];
                                 }
                                 if (!array_key_exists($ower, $membersWeight)) {
                                     $membersWeight[$ower] = 1.0;
@@ -3764,21 +3764,21 @@ class ProjectService {
                                 };
                             }
                             if (!isset($payer_name) || empty($payer_name)) {
-                                return ['message'=>$this->trans->t('Malformed CSV, no payer on line %1$s', [$row])];
+                                return ['message' => $this->trans->t('Malformed CSV, no payer on line %1$s', [$row])];
                             }
                             $payer_weight = 1;
 
                             if (!is_numeric($amount)) {
                                 fclose($handle);
-                                return ['message'=>$this->trans->t('Malformed CSV, bad amount on line %1$s', [$row])];
+                                return ['message' => $this->trans->t('Malformed CSV, bad amount on line %1$s', [$row])];
                             }
                             array_push($bills,
                                 [
-                                    'what'=>$what,
-                                    'timestamp'=>$timestamp,
-                                    'amount'=>$amount,
-                                    'payer_name'=>$payer_name,
-                                    'owers'=>$owersList,
+                                    'what' => $what,
+                                    'timestamp' => $timestamp,
+                                    'amount' => $amount,
+                                    'payer_name' => $payer_name,
+                                    'owers' => $owersList,
                                 ]
                             );
                         }
@@ -3795,14 +3795,14 @@ class ProjectService {
                     $projectName = $projectid;
                     $projResult = $this->createProject($projectName, $projectid, '', $userEmail, $userId);
                     if (!is_string($projResult)) {
-                        return ['message'=>$this->trans->t('Error in project creation, %1$s', [$projResult['message']])];
+                        return ['message' => $this->trans->t('Error in project creation, %1$s', [$projResult['message']])];
                     }
                     // add members
                     foreach ($membersWeight as $memberName => $weight) {
                         $insertedMember = $this->addMember($projectid, $memberName, $weight);
                         if (!is_array($insertedMember)) {
                             $this->deleteProject($projectid);
-                            return ['message'=>$this->trans->t('Error when adding member %1$s', [$memberName])];
+                            return ['message' => $this->trans->t('Error when adding member %1$s', [$memberName])];
                         }
                         $memberNameToId[$memberName] = $insertedMember['id'];
                     }
@@ -3818,21 +3818,21 @@ class ProjectService {
                                                         null, null, 0, null, $timestamp);
                         if (!is_numeric($addBillResult)) {
                             $this->deleteProject($projectid);
-                            return ['message'=>$this->trans->t('Error when adding bill %1$s', [$bill['what']])];
+                            return ['message' => $this->trans->t('Error when adding bill %1$s', [$bill['what']])];
                         }
                     }
                     return $projectid;
                 }
                 else {
-                    return ['message'=>$this->trans->t('Access denied')];
+                    return ['message' => $this->trans->t('Access denied')];
                 }
             }
             else {
-                return ['message'=>$this->trans->t('Access denied')];
+                return ['message' => $this->trans->t('Access denied')];
             }
         }
         else {
-            return ['message'=>$this->trans->t('Access denied')];
+            return ['message' => $this->trans->t('Access denied')];
         }
     }
 
@@ -3954,7 +3954,7 @@ class ProjectService {
         $r = hexdec($split_hex_color[0]);
         $g = hexdec($split_hex_color[1]);
         $b = hexdec($split_hex_color[2]);
-        return ['r'=>$r, 'g'=>$g, 'b'=>$b];
+        return ['r' => $r, 'g' => $g, 'b' => $b];
     }
 
 }

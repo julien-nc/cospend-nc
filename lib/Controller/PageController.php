@@ -128,10 +128,10 @@ class PageController extends ApiController {
     public function index() {
         // PARAMS to view
         $params = [
-            'projectid'=>'',
-            'password'=>'',
-            'username'=>$this->userId,
-            'cospend_version'=>$this->appVersion
+            'projectid' => '',
+            'password' => '',
+            'username' => $this->userId,
+            'cospend_version' => $this->appVersion
         ];
         $response = new TemplateResponse('cospend', 'main', $params);
         $csp = new ContentSecurityPolicy();
@@ -157,10 +157,10 @@ class PageController extends ApiController {
     public function pubLoginProjectPassword($projectid, $password='') {
         // PARAMS to view
         $params = [
-            'projectid'=>$projectid,
-            'password'=>$password,
-            'wrong'=>false,
-            'cospend_version'=>$this->appVersion
+            'projectid' => $projectid,
+            'password' => $password,
+            'wrong' => false,
+            'cospend_version' => $this->appVersion
         ];
         $response = new PublicTemplateResponse('cospend', 'login', $params);
         $response->setHeaderTitle($this->trans->t('Cospend public access'));
@@ -187,9 +187,9 @@ class PageController extends ApiController {
     public function pubLoginProject($projectid) {
         // PARAMS to view
         $params = [
-            'projectid'=>$projectid,
-            'wrong'=>false,
-            'cospend_version'=>$this->appVersion
+            'projectid' => $projectid,
+            'wrong' => false,
+            'cospend_version' => $this->appVersion
         ];
         $response = new PublicTemplateResponse('cospend', 'login', $params);
         $response->setHeaderTitle($this->trans->t('Cospend public access'));
@@ -216,8 +216,8 @@ class PageController extends ApiController {
     public function pubLogin() {
         // PARAMS to view
         $params = [
-            'wrong'=>false,
-            'cospend_version'=>$this->appVersion
+            'wrong' => false,
+            'cospend_version' => $this->appVersion
         ];
         $response = new PublicTemplateResponse('cospend', 'login', $params);
         $response->setHeaderTitle($this->trans->t('Cospend public access'));
@@ -245,9 +245,9 @@ class PageController extends ApiController {
         if ($this->checkLogin($projectid, $password)) {
             // PARAMS to view
             $params = [
-                'projectid'=>$projectid,
-                'password'=>$password,
-                'cospend_version'=>$this->appVersion
+                'projectid' => $projectid,
+                'password' => $password,
+                'cospend_version' => $this->appVersion
             ];
             $response = new PublicTemplateResponse('cospend', 'main', $params);
             $response->setHeaderTitle($this->trans->t('Cospend public access'));
@@ -269,8 +269,8 @@ class PageController extends ApiController {
             //$response = new DataResponse(null, 403);
             //return $response;
             $params = [
-                'wrong'=>true,
-                'cospend_version'=>$this->appVersion
+                'wrong' => true,
+                'cospend_version' => $this->appVersion
             ];
             $response = new PublicTemplateResponse('cospend', 'login', $params);
             $response->setHeaderTitle($this->trans->t('Cospend public access'));
@@ -370,7 +370,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to delete this project']
+                ['message' => 'You are not allowed to delete this project']
                 , 403
             );
             return $response;
@@ -402,7 +402,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to delete this bill']
+                ['message' => 'You are not allowed to delete this bill']
                 , 403
             );
             return $response;
@@ -421,7 +421,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to get this project\'s info']
+                ['message' => 'You are not allowed to get this project\'s info']
                 , 403
             );
             return $response;
@@ -443,7 +443,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to get this project\'s statistics']
+                ['message' => 'You are not allowed to get this project\'s statistics']
                 , 403
             );
             return $response;
@@ -461,7 +461,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to get this project\'s settlement']
+                ['message' => 'You are not allowed to get this project\'s settlement']
                 , 403
             );
             return $response;
@@ -484,7 +484,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to settle this project automatically']
+                ['message' => 'You are not allowed to settle this project automatically']
                 , 403
             );
             return $response;
@@ -507,7 +507,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to edit this member']
+                ['message' => 'You are not allowed to edit this member']
                 , 403
             );
             return $response;
@@ -543,7 +543,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to edit this bill']
+                ['message' => 'You are not allowed to edit this bill']
                 , 403
             );
             return $response;
@@ -566,7 +566,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to edit this project']
                 , 403
             );
             return $response;
@@ -589,7 +589,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to edit this external project']
+                ['message' => 'You are not allowed to edit this external project']
                 , 400
             );
             return $response;
@@ -612,7 +612,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to delete this external project']
+                ['message' => 'You are not allowed to delete this external project']
                 , 400
             );
             return $response;
@@ -647,7 +647,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to add a bill to this project']
+                ['message' => 'You are not allowed to add a bill to this project']
                 , 403
             );
             return $response;
@@ -670,7 +670,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to add member to this project']
+                ['message' => 'You are not allowed to add member to this project']
                 , 403
             );
             return $response;
@@ -689,7 +689,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to get bills of this project']
+                ['message' => 'You are not allowed to get bills of this project']
                 , 403
             );
             return $response;
@@ -731,7 +731,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Anonymous project creation is not allowed on this server']
+                ['message' => 'Anonymous project creation is not allowed on this server']
                 , 403
             );
             return $response;
@@ -769,7 +769,7 @@ class PageController extends ApiController {
             }
             else {
                 $response = new DataResponse(
-                    ['message'=>'Project not found in the database']
+                    ['message' => 'Project not found in the database']
                     , 404
                 );
                 return $response;
@@ -777,7 +777,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 400
             );
             return $response;
@@ -798,7 +798,7 @@ class PageController extends ApiController {
             }
             else {
                 $response = new DataResponse(
-                    ['message'=>'Project not found in the database']
+                    ['message' => 'Project not found in the database']
                     , 404
                 );
                 return $response;
@@ -806,7 +806,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action.']
+                ['message' => 'Unauthorized action.']
                 , 403
             );
             return $response;
@@ -831,7 +831,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -855,7 +855,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action.']
+                ['message' => 'Unauthorized action.']
                 , 401
             );
             return $response;
@@ -876,7 +876,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -896,7 +896,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 403
             );
             return $response;
@@ -917,7 +917,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -935,15 +935,15 @@ class PageController extends ApiController {
             $billIds = $this->projectService->getAllBillIds($projectid);
             $ts = (new \DateTime())->getTimestamp();
             $response = new DataResponse([
-                'bills'=>$bills,
-                'allBillIds'=>$billIds,
-                'timestamp'=>$ts
+                'bills' => $bills,
+                'allBillIds' => $billIds,
+                'timestamp' => $ts
             ]);
             return $response;
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 403
             );
             return $response;
@@ -962,15 +962,15 @@ class PageController extends ApiController {
             $billIds = $this->projectService->getAllBillIds($projectid);
             $ts = (new \DateTime())->getTimestamp();
             $response = new DataResponse([
-                'bills'=>$bills,
-                'allBillIds'=>$billIds,
-                'timestamp'=>$ts
+                'bills' => $bills,
+                'allBillIds' => $billIds,
+                'timestamp' => $ts
             ]);
             return $response;
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -995,7 +995,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1019,7 +1019,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 403
             );
             return $response;
@@ -1054,7 +1054,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1088,7 +1088,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 403
             );
             return $response;
@@ -1124,7 +1124,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1159,7 +1159,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 403
             );
             return $response;
@@ -1193,7 +1193,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1226,7 +1226,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 403
             );
             return $response;
@@ -1251,7 +1251,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1275,7 +1275,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 403
             );
             return $response;
@@ -1300,7 +1300,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1324,7 +1324,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 403
             );
             return $response;
@@ -1349,7 +1349,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1373,7 +1373,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 403
             );
             return $response;
@@ -1397,7 +1397,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1420,7 +1420,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 403
             );
             return $response;
@@ -1440,7 +1440,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1459,7 +1459,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 403
             );
             return $response;
@@ -1484,7 +1484,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1508,7 +1508,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 403
             );
             return $response;
@@ -1552,9 +1552,9 @@ class PageController extends ApiController {
         }
         $response = new DataResponse(
             [
-                'users'=>$userNames,
-                'groups'=>$groupNames,
-                'circles'=>$circleNames
+                'users' => $userNames,
+                'groups' => $groupNames,
+                'circles' => $circleNames
             ]
         );
         $csp = new ContentSecurityPolicy();
@@ -1580,7 +1580,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to edit this project']
                 , 403
             );
             return $response;
@@ -1602,7 +1602,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to edit this project']
                 , 403
             );
             return $response;
@@ -1624,7 +1624,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to edit this project']
                 , 403
             );
             return $response;
@@ -1650,7 +1650,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1675,7 +1675,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 403
             );
             return $response;
@@ -1697,7 +1697,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to edit this project']
                 , 403
             );
             return $response;
@@ -1722,7 +1722,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1746,7 +1746,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 403
             );
             return $response;
@@ -1768,7 +1768,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to edit this project']
                 , 403
             );
             return $response;
@@ -1793,7 +1793,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1817,7 +1817,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 403
             );
             return $response;
@@ -1839,7 +1839,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to edit this project']
                 , 403
             );
             return $response;
@@ -1865,7 +1865,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1890,7 +1890,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 403
             );
             return $response;
@@ -1912,7 +1912,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to edit this project']
                 , 403
             );
             return $response;
@@ -1937,7 +1937,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -1961,7 +1961,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 403
             );
             return $response;
@@ -1983,7 +1983,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to edit this project']
                 , 403
             );
             return $response;
@@ -2008,7 +2008,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 401
             );
             return $response;
@@ -2032,7 +2032,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'Unauthorized action']
+                ['message' => 'Unauthorized action']
                 , 403
             );
             return $response;
@@ -2054,7 +2054,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to edit this project']
                 , 403
             );
             return $response;
@@ -2076,7 +2076,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to edit this project']
                 , 403
             );
             return $response;
@@ -2098,7 +2098,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to edit this project']
                 , 403
             );
             return $response;
@@ -2120,7 +2120,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to edit this project']
                 , 403
             );
             return $response;
@@ -2142,7 +2142,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to edit this project']
                 , 403
             );
             return $response;
@@ -2164,7 +2164,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to edit this project']
                 , 403
             );
             return $response;
@@ -2200,18 +2200,18 @@ class PageController extends ApiController {
                         $share = $this->shareManager->createShare($share);
                         $token = $share->getToken();
                     }
-                    $response = new DataResponse(['token'=>$token]);
+                    $response = new DataResponse(['token' => $token]);
                 }
                 else {
-                    $response = new DataResponse(['message'=>$this->trans->t('Access denied')], 403);
+                    $response = new DataResponse(['message' => $this->trans->t('Access denied')], 403);
                 }
             }
             else {
-                $response = new DataResponse(['message'=>$this->trans->t('Access denied')], 403);
+                $response = new DataResponse(['message' => $this->trans->t('Access denied')], 403);
             }
         }
         else {
-            $response = new DataResponse(['message'=>$this->trans->t('Access denied')], 403);
+            $response = new DataResponse(['message' => $this->trans->t('Access denied')], 403);
         }
         return $response;
     }
@@ -2231,7 +2231,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to export this project settlement']
+                ['message' => 'You are not allowed to export this project settlement']
                 , 403
             );
             return $response;
@@ -2256,7 +2256,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to export this project statistics']
+                ['message' => 'You are not allowed to export this project statistics']
                 , 403
             );
             return $response;
@@ -2283,7 +2283,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message'=>'You are not allowed to export this project']
+                ['message' => 'You are not allowed to export this project']
                 , 403
             );
             return $response;

@@ -1034,7 +1034,7 @@ class PageController extends ApiController {
      */
     public function apiAddBill($projectid, $password, $date, $what, $payer, $payed_for,
                                $amount, $repeat='n', $paymentmode=null, $categoryid=null,
-                               $repeatallactive=0, $repeatuntil=null) {
+                               $repeatallactive=0, $repeatuntil=null, $timestamp=null) {
         if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'c')) {
             $result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
                                                      $repeat, $paymentmode, $categoryid, $repeatallactive,

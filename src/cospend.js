@@ -3227,7 +3227,7 @@ import { generateUrl } from '@nextcloud/router';
 
     function basicBillValueCheck(what, date, time, amount, payer_id) {
         var valid = true;
-        if (what === null || what === '' || what.match(',') || what.match('/')) {
+        if (what === null || what === '' || what.match(',')) {
             valid = false;
         }
         if (date === null || date === '' || date.match(/^\d\d\d\d-\d\d-\d\d$/g) === null) {

@@ -799,7 +799,7 @@ class ProjectService {
         else {
             $dateTs = intval($timestamp);
         }
-        if ($what === null || $what === '' || strpos($what, '/') !== false || strpos($what, ',') !== false) {
+        if ($what === null || $what === '' || strpos($what, ',') !== false) {
             return ['what' => $this->trans->t('This field is invalid')];
         }
         if ($amount === null || $amount === '' || !is_numeric($amount)) {
@@ -2264,7 +2264,7 @@ class ProjectService {
             return ['message' => $this->trans->t('There is no such bill')];
         }
         // then edit the hell of it
-        if ($what === null || $what === '' || strpos($what, '/') !== false || strpos($what, ',') !== false) {
+        if ($what === null || $what === '' || strpos($what, ',') !== false) {
             return ['what' => $this->trans->t('"What" field is invalid')];
         }
         $qb->set('what', $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR));

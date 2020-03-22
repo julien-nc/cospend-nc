@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.4.1 – 2020-03-22
+### Added
+- new translations
+
+### Fixed
+- add constraints on many fields (back and frontend)
+- mistake in add bill public api
+[#79](https://gitlab.com/eneiluj/cospend-nc/issues/79) @call-me-matt
+
 ## 0.4.0 – 2020-03-19
 ### Added
 - add 'time' field for bills

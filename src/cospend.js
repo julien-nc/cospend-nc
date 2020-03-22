@@ -3829,12 +3829,20 @@ import { generateUrl } from '@nextcloud/router';
         $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
         $('li[projectid="'+projectid+'"] .permguest').addClass('icon-loading-small');
         var req = {
-            projectid: projectid,
             permissions: (e ? 'e': '') + (c ? 'c': '') + (d ? 'd': '')
         };
-        var url = generateUrl('/apps/cospend/editGuestPermissions');
+        var method, url;
+        if (!cospend.pageIsPublic) {
+            req.projectid = projectid;
+            url = generateUrl('/apps/cospend/editGuestPermissions');
+            method = 'POST';
+        }
+        else {
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/guest-permissions');
+            method = 'PUT';
+        }
         $.ajax({
-            type: 'POST',
+            type: method,
             url: url,
             data: req,
             async: true

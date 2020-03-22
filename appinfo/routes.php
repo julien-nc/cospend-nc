@@ -49,6 +49,7 @@ return [
         ['name' => 'page#apiAddCategory', 'url' => '/api/projects/{projectid}/{password}/category', 'verb' => 'POST'],
         ['name' => 'page#apiEditCategory', 'url' => '/api/projects/{projectid}/{password}/category/{categoryid}', 'verb' => 'PUT'],
         ['name' => 'page#apiDeleteCategory', 'url' => '/api/projects/{projectid}/{password}/category/{categoryid}', 'verb' => 'DELETE'],
+        ['name' => 'page#apiEditGuestPermissions', 'url' => '/api/projects/{projectid}/{password}/guest-permissions', 'verb' => 'PUT'],
 
         // api for logged in clients
         [

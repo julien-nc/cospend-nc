@@ -1611,6 +1611,31 @@ class PageController extends ApiController {
 
     /**
      * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     * @CORS
+     */
+    public function apiEditGuestPermissions($projectid, $password, $permissions) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
+            $result = $this->projectService->editGuestPermissions($projectid, $permissions);
+            if ($result === 'OK') {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message' => 'You are not allowed to edit this project']
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
      */
     public function addCategory($projectid, $name, $icon, $color) {
         if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {

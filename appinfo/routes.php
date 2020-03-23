@@ -33,6 +33,7 @@ return [
         ['name' => 'page#apiDeleteProject', 'url' => '/api/projects/{projectid}/{password}', 'verb' => 'DELETE'],
         ['name' => 'page#apiGetMembers', 'url' => '/api/projects/{projectid}/{password}/members', 'verb' => 'GET'],
         ['name' => 'page#apiAddMember', 'url' => '/api/projects/{projectid}/{password}/members', 'verb' => 'POST'],
+        ['name' => 'page#apiv2AddMember', 'url' => '/apiv2/projects/{projectid}/{password}/members', 'verb' => 'POST'],
         ['name' => 'page#apiEditMember', 'url' => '/api/projects/{projectid}/{password}/members/{memberid}', 'verb' => 'PUT'],
         ['name' => 'page#apiDeleteMember', 'url' => '/api/projects/{projectid}/{password}/members/{memberid}', 'verb' => 'DELETE'],
         ['name' => 'page#apiGetBills', 'url' => '/api/projects/{projectid}/{password}/bills', 'verb' => 'GET'],
@@ -49,7 +50,7 @@ return [
         ['name' => 'page#apiAddCategory', 'url' => '/api/projects/{projectid}/{password}/category', 'verb' => 'POST'],
         ['name' => 'page#apiEditCategory', 'url' => '/api/projects/{projectid}/{password}/category/{categoryid}', 'verb' => 'PUT'],
         ['name' => 'page#apiDeleteCategory', 'url' => '/api/projects/{projectid}/{password}/category/{categoryid}', 'verb' => 'DELETE'],
-        ['name' => 'page#apiEditGuestPermissions', 'url' => '/api/projects/{projectid}/{password}/guest-permissions', 'verb' => 'PUT'],
+        ['name' => 'page#apiEditGuestAccessLevel', 'url' => '/api/projects/{projectid}/{password}/guest-access-level', 'verb' => 'PUT'],
 
         // api for logged in clients
         [
@@ -93,8 +94,8 @@ return [
         ['name' => 'page#addUserShare', 'url' => '/addUserShare', 'verb' => 'POST'],
         ['name' => 'page#addGroupShare', 'url' => '/addGroupShare', 'verb' => 'POST'],
         ['name' => 'page#addCircleShare', 'url' => '/addCircleShare', 'verb' => 'POST'],
-        ['name' => 'page#editSharePermissions', 'url' => '/editSharePermissions', 'verb' => 'POST'],
-        ['name' => 'page#editGuestPermissions', 'url' => '/editGuestPermissions', 'verb' => 'POST'],
+        ['name' => 'page#editShareAccessLevel', 'url' => '/editShareAccessLevel', 'verb' => 'POST'],
+        ['name' => 'page#editGuestAccessLevel', 'url' => '/editGuestAccessLevel', 'verb' => 'POST'],
         ['name' => 'page#getPublicFileShare', 'url' => '/getPublicFileShare', 'verb' => 'POST'],
         ['name' => 'page#importCsvProject', 'url' => '/importCsvProject', 'verb' => 'POST'],
         ['name' => 'page#importSWProject', 'url' => '/importSWProject', 'verb' => 'POST'],

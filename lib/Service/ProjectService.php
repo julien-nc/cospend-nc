@@ -42,6 +42,11 @@ define('CAT_ACCOMODATION', -13);
 define('CAT_TRANSPORT', -14);
 define('CAT_SPORT', -15);
 
+define('ACCESS_VIEWER', 1);
+define('ACCESS_PARTICIPANT', 2);
+define('ACCESS_MAINTENER', 3);
+define('ACCESS_ADMIN', 4);
+
 function endswith($string, $test) {
     $strlen = strlen($string);
     $testlen = strlen($test);
@@ -198,21 +203,18 @@ class ProjectService {
         }
     }
 
-    /**
-     * check if user owns the project
-     * or if the project is shared with the user with corresponding permission
-     */
-    public function userHasPermission($userid, $projectid, $permission) {
+    public function getUserMaxAccessLevel($userid, $projectid) {
+        $result = 0;
         $projectInfo = $this->getProjectInfo($projectid);
         if ($projectInfo !== null) {
             // does the user own the project ?
             if ($projectInfo['userid'] === $userid) {
-                return true;
+                return ACCESS_ADMIN;
             }
             else {
                 $qb = $this->dbconnection->getQueryBuilder();
                 // is the project shared with the user ?
-                $qb->select('userid', 'projectid', 'permissions')
+                $qb->select('userid', 'projectid', 'accesslevel')
                     ->from('cospend_shares', 's')
                     ->where(
                         $qb->expr()->eq('type', $qb->createNamedParameter('u', IQueryBuilder::PARAM_STR))
@@ -225,94 +227,103 @@ class ProjectService {
                     );
                 $req = $qb->execute();
                 $dbProjectId = null;
-                $dbPermissions = null;
+                $dbAccessLevel = null;
                 while ($row = $req->fetch()) {
                     $dbProjectId = $row['projectid'];
-                    $dbPermissions = $row['permissions'];
+                    $dbAccessLevel = $row['accesslevel'];
                     break;
                 }
                 $req->closeCursor();
                 $qb = $qb->resetQueryParts();
 
-                if ($dbProjectId !== null and strrpos($dbPermissions, $permission) !== false) {
-                    return true;
+                if ($dbProjectId !== null and $dbAccessLevel > $result) {
+                    $result = $dbAccessLevel;
                 }
-                else {
-                    // if not, is the project shared with a group containing the user?
-                    $userO = $this->userManager->get($userid);
-                    $accessWithGroup = null;
 
-                    $qb->select('userid', 'permissions')
+                // is the project shared with a group containing the user?
+                $userO = $this->userManager->get($userid);
+                $accessWithGroup = null;
+
+                $qb->select('userid', 'accesslevel')
+                    ->from('cospend_shares', 's')
+                    ->where(
+                        $qb->expr()->eq('type', $qb->createNamedParameter('g', IQueryBuilder::PARAM_STR))
+                    )
+                    ->andWhere(
+                        $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                    );
+                $req = $qb->execute();
+                while ($row = $req->fetch()){
+                    $groupId = $row['userid'];
+                    $dbAccessLevel = $row['accesslevel'];
+                    if ($this->groupManager->groupExists($groupId)
+                        and $this->groupManager->get($groupId)->inGroup($userO)
+                        and $dbAccessLevel > $result
+                    ) {
+                        $result = $dbAccessLevel;
+                    }
+                }
+                $req->closeCursor();
+                $qb = $qb->resetQueryParts();
+
+                // are circles enabled and is the project shared with a circle containing the user
+                $circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
+                if ($circlesEnabled) {
+                    $dbCircleId = null;
+
+                    $qb->select('userid', 'accesslevel')
                         ->from('cospend_shares', 's')
                         ->where(
-                            $qb->expr()->eq('type', $qb->createNamedParameter('g', IQueryBuilder::PARAM_STR))
+                            $qb->expr()->eq('type', $qb->createNamedParameter('c', IQueryBuilder::PARAM_STR))
                         )
                         ->andWhere(
                             $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
                         );
                     $req = $qb->execute();
-                    while ($row = $req->fetch()){
-                        $groupId = $row['userid'];
-                        $dbPermissions = $row['permissions'];
-                        if ($this->groupManager->groupExists($groupId)
-                            and $this->groupManager->get($groupId)->inGroup($userO)
-                            and strrpos($dbPermissions, $permission) !== false
-                        ) {
-                            $accessWithGroup = $groupId;
-                            break;
+                    while ($row = $req->fetch()) {
+                        $circleId = $row['userid'];
+                        $dbAccessLevel = $row['accesslevel'];
+                        if ($this->isUserInCircle($userid, $circleId) and $dbAccessLevel > $result) {
+                            $result = $dbAccessLevel;
                         }
-                    }
-                    $req->closeCursor();
-                    $qb = $qb->resetQueryParts();
-
-                    if ($accessWithGroup !== null) {
-                        return true;
-                    }
-                    else {
-                        // if not, are circles enabled and is the project shared with a circle containing the user
-                        // with asked permission?
-                        $circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
-                        if ($circlesEnabled) {
-                            $dbCircleId = null;
-
-                            $qb->select('userid', 'permissions')
-                                ->from('cospend_shares', 's')
-                                ->where(
-                                    $qb->expr()->eq('type', $qb->createNamedParameter('c', IQueryBuilder::PARAM_STR))
-                                )
-                                ->andWhere(
-                                    $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
-                                );
-                            $req = $qb->execute();
-                            while ($row = $req->fetch()) {
-                                $circleId = $row['userid'];
-                                $dbPermissions = $row['permissions'];
-                                // got permission
-                                if (strrpos($dbPermissions, $permission) !== false) {
-                                    if ($this->isUserInCircle($userid, $circleId)) {
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-                        return false;
                     }
                 }
             }
+        }
+
+        return $result;
+    }
+
+    public function getGuestAccessLevel($projectid) {
+        $projectInfo = $this->getProjectInfo($projectid);
+        if ($projectInfo !== null) {
+            return $projectInfo['guestaccesslevel'];
         }
         else {
             return false;
         }
     }
 
-    public function guestHasPermission($projectid, $permission) {
-        $projectInfo = $this->getProjectInfo($projectid);
-        if ($projectInfo !== null) {
-            return (strrpos($projectInfo['guestpermissions'], $permission) !== false);
+    public function getShareAccessLevel($projectid, $shid) {
+        $result = 0;
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('accesslevel')
+           ->from('cospend_shares', 's')
+           ->where(
+               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+           )
+           ->andWhere(
+               $qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
+           );
+        $req = $qb->execute();
+        while ($row = $req->fetch()){
+            $result = $row['accesslevel'];
+            break;
         }
-        else {
-            return false;
-        }
+        $req->closeCursor();
+        $qb = $qb->resetQueryParts();
+
+        return $result;
     }
 
     /**
@@ -501,7 +512,7 @@ class ProjectService {
 
         $qb = $this->dbconnection->getQueryBuilder();
 
-        $qb->select('id', 'password', 'name', 'email', 'userid', 'lastchanged', 'guestpermissions', 'autoexport', 'currencyname')
+        $qb->select('id', 'password', 'name', 'email', 'userid', 'lastchanged', 'guestaccesslevel', 'autoexport', 'currencyname')
            ->from('cospend_projects', 'p')
            ->where(
                $qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -516,7 +527,7 @@ class ProjectService {
             $dbName = $row['name'];
             $dbEmail= $row['email'];
             $dbUserId = $row['userid'];
-            $dbGuestPermissions = $row['guestpermissions'];
+            $dbGuestAccessLevel = $row['guestaccesslevel'];
             $dbLastchanged = intval($row['lastchanged']);
             $dbAutoexport= $row['autoexport'];
             $dbCurrencyName= $row['currencyname'];
@@ -540,7 +551,7 @@ class ProjectService {
                 'name' => $dbName,
                 'contact_email' => $dbEmail,
                 'id' => $dbProjectId,
-                'guestpermissions' => $dbGuestPermissions,
+                'guestaccesslevel' => $dbGuestAccessLevel,
                 'autoexport' => $dbAutoexport,
                 'currencyname' => $dbCurrencyName,
                 'currencies' => $currencies,
@@ -932,7 +943,7 @@ class ProjectService {
         $project = null;
 
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('id', 'userid', 'name', 'email', 'password', 'currencyname', 'autoexport', 'guestpermissions', 'lastchanged')
+        $qb->select('id', 'userid', 'name', 'email', 'password', 'currencyname', 'autoexport', 'guestaccesslevel', 'lastchanged')
            ->from('cospend_projects', 'p')
            ->where(
                $qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -948,17 +959,17 @@ class ProjectService {
             $dbCurrencyName = $row['currencyname'];
             $dbAutoexport = $row['autoexport'];
             $dbLastchanged = intval($row['lastchanged']);
-            $dbGuestPermissions = $row['guestpermissions'];
+            $dbGuestAccessLevel = $row['guestaccesslevel'];
             $project = [
-                    'id' => $dbId,
-                    'name' => $dbName,
-                    'userid' => $dbUserId,
-                    'password' => $dbPassword,
-                    'email' => $dbEmail,
-                    'lastchanged' => $dbLastchanged,
-                    'currencyname' => $dbCurrencyName,
-                    'autoexport' => $dbAutoexport,
-                    'guestpermissions' => $dbGuestPermissions
+                'id' => $dbId,
+                'name' => $dbName,
+                'userid' => $dbUserId,
+                'password' => $dbPassword,
+                'email' => $dbEmail,
+                'lastchanged' => $dbLastchanged,
+                'currencyname' => $dbCurrencyName,
+                'autoexport' => $dbAutoexport,
+                'guestaccesslevel' => $dbGuestAccessLevel
             ];
             break;
         }
@@ -1738,7 +1749,7 @@ class ProjectService {
 
         $qb = $this->dbconnection->getQueryBuilder();
 
-        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestpermissions', 'p.currencyname', 'p.lastchanged')
+        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestaccesslevel', 'p.currencyname', 'p.lastchanged')
            ->from('cospend_projects', 'p')
            ->where(
                $qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
@@ -1754,7 +1765,7 @@ class ProjectService {
             $dbName  = $row['name'];
             $dbEmail = $row['email'];
             $autoexport = $row['autoexport'];
-            $guestpermissions = $row['guestpermissions'];
+            $guestAccessLevel = $row['guestaccesslevel'];
             $dbCurrencyName = $row['currencyname'];
             $dbLastchanged = intval($row['lastchanged']);
             array_push($projects, [
@@ -1767,7 +1778,7 @@ class ProjectService {
                 'members' => null,
                 'balance' => null,
                 'shares' => [],
-                'guestpermissions' => $guestpermissions,
+                'guestaccesslevel' => $guestAccessLevel,
                 'currencyname' => $dbCurrencyName
             ]);
         }
@@ -1776,7 +1787,7 @@ class ProjectService {
         $qb = $qb->resetQueryParts();
 
         // shared with user
-        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestpermissions', 'p.currencyname', 'p.lastchanged')
+        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestaccesslevel', 'p.currencyname', 'p.lastchanged')
            ->from('cospend_projects', 'p')
            ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
            ->where(
@@ -1798,7 +1809,7 @@ class ProjectService {
                 $dbName = $row['name'];
                 $dbEmail= $row['email'];
                 $autoexport = $row['autoexport'];
-                $guestpermissions = $row['guestpermissions'];
+                $guestAccessLevel = $row['guestaccesslevel'];
                 $dbCurrencyName = $row['currencyname'];
                 $dbLastchanged = intval($row['lastchanged']);
                 array_push($projects, [
@@ -1811,7 +1822,7 @@ class ProjectService {
                     'members' => null,
                     'balance' => null,
                     'shares' => [],
-                    'guestpermissions' => $guestpermissions,
+                    'guestaccesslevel' => $guestAccessLevel,
                     'currencyname' => $dbCurrencyName
                 ]);
                 array_push($projectids, $dbProjectId);
@@ -1844,7 +1855,7 @@ class ProjectService {
             $group = $this->groupManager->get($candidateGroupId);
             if ($group !== null && $group->inGroup($userO)) {
                 // get projects shared with this group
-                $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestpermissions', 'p.currencyname', 'p.lastchanged')
+                $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestaccesslevel', 'p.currencyname', 'p.lastchanged')
                     ->from('cospend_projects', 'p')
                     ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
                     ->where(
@@ -1866,7 +1877,7 @@ class ProjectService {
                         $dbName = $row['name'];
                         $dbEmail= $row['email'];
                         $autoexport = $row['autoexport'];
-                        $guestpermissions = $row['guestpermissions'];
+                        $guestAccessLevel = $row['guestaccesslevel'];
                         $dbCurrencyName = $row['currencyname'];
                         $dbLastchanged = intval($row['lastchanged']);
                         array_push($projects, [
@@ -1879,7 +1890,7 @@ class ProjectService {
                             'members' => null,
                             'balance' => null,
                             'shares' => [],
-                            'guestpermissions' => $guestpermissions,
+                            'guestaccesslevel' => $guestAccessLevel,
                             'currencyname' => $dbCurrencyName
                         ]);
                         array_push($projectids, $dbProjectId);
@@ -1912,7 +1923,7 @@ class ProjectService {
             foreach ($candidateCircleIds as $candidateCircleId) {
                 if ($this->isUserInCircle($userId, $candidateCircleId)) {
                     // get projects shared with this circle
-                    $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestpermissions', 'p.currencyname', 'p.lastchanged')
+                    $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestaccesslevel', 'p.currencyname', 'p.lastchanged')
                         ->from('cospend_projects', 'p')
                         ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
                         ->where(
@@ -1934,7 +1945,7 @@ class ProjectService {
                             $dbName = $row['name'];
                             $dbEmail= $row['email'];
                             $autoexport = $row['autoexport'];
-                            $guestpermissions = $row['guestpermissions'];
+                            $guestAccessLevel = $row['guestaccesslevel'];
                             $dbCurrencyName = $row['currencyname'];
                             $dbLastchanged = intval($row['lastchanged']);
                             array_push($projects, [
@@ -1947,7 +1958,7 @@ class ProjectService {
                                 'members' => null,
                                 'balance' => null,
                                 'shares' => [],
-                                'guestpermissions' => $guestpermissions,
+                                'guestaccesslevel' => $guestAccessLevel,
                                 'currencyname' => $dbCurrencyName
                             ]);
                             array_push($projectids, $dbProjectId);
@@ -2076,7 +2087,7 @@ class ProjectService {
         }
 
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('projectid', 'userid', 'id', 'permissions')
+        $qb->select('projectid', 'userid', 'id', 'accesslevel')
            ->from('cospend_shares', 'sh')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -2089,13 +2100,13 @@ class ProjectService {
             $dbuserId = $row['userid'];
             $dbprojectId = $row['projectid'];
             $dbId = $row['id'];
-            $dbPermissions = $row['permissions'];
+            $dbAccessLevel = $row['accesslevel'];
             if (array_key_exists($dbuserId, $userIdToName)) {
                 array_push($shares, [
                     'userid' => $dbuserId,
                     'name' => $userIdToName[$dbuserId],
                     'id' => $dbId,
-                    'permissions' => $dbPermissions
+                    'accesslevel' => $dbAccessLevel
                 ]);
             }
         }
@@ -2114,7 +2125,7 @@ class ProjectService {
         }
 
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('projectid', 'userid', 'id', 'permissions')
+        $qb->select('projectid', 'userid', 'id', 'accesslevel')
            ->from('cospend_shares', 'sh')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -2127,13 +2138,13 @@ class ProjectService {
             $dbGroupId = $row['userid'];
             $dbprojectId = $row['projectid'];
             $dbId = $row['id'];
-            $dbPermissions = $row['permissions'];
+            $dbAccessLevel = $row['accesslevel'];
             if (array_key_exists($dbGroupId, $groupIdToName)) {
                 array_push($shares, [
                     'groupid' => $dbGroupId,
                     'name' => $groupIdToName[$dbGroupId],
                     'id' => $dbId,
-                    'permissions' => $dbPermissions
+                    'accesslevel' => $dbAccessLevel
                 ]);
             }
         }
@@ -2157,7 +2168,7 @@ class ProjectService {
             }
 
             $qb = $this->dbconnection->getQueryBuilder();
-            $qb->select('projectid', 'userid', 'id', 'permissions')
+            $qb->select('projectid', 'userid', 'id', 'accesslevel')
             ->from('cospend_shares', 'sh')
             ->where(
                 $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -2170,13 +2181,13 @@ class ProjectService {
                 $dbCircleId = $row['userid'];
                 $dbprojectId = $row['projectid'];
                 $dbId = $row['id'];
-                $dbPermissions = $row['permissions'];
+                $dbAccessLevel = $row['accesslevel'];
                 if (array_key_exists($dbCircleId, $circleIdToName)) {
                     array_push($shares, [
                         'circleid' => $dbCircleId,
                         'name' => $circleIdToName[$dbCircleId],
                         'id' => $dbId,
-                        'permissions' => $dbPermissions
+                        'accesslevel' => $dbAccessLevel
                     ]);
                 }
             }
@@ -2886,7 +2897,7 @@ class ProjectService {
         }
     }
 
-    public function editSharePermissions($projectid, $shid, $permissions) {
+    public function editShareAccessLevel($projectid, $shid, $accesslevel) {
         // check if user share exists
         $qb = $this->dbconnection->getQueryBuilder();
         $qb->select('id', 'projectid')
@@ -2907,9 +2918,9 @@ class ProjectService {
         $qb = $qb->resetQueryParts();
 
         if ($dbId !== null) {
-            // set the permissions
+            // set the accesslevel
             $qb->update('cospend_shares')
-                ->set('permissions', $qb->createNamedParameter($permissions, IQueryBuilder::PARAM_STR))
+                ->set('accesslevel', $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT))
                 ->where(
                     $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
                 )
@@ -2926,13 +2937,13 @@ class ProjectService {
         }
     }
 
-    public function editGuestPermissions($projectid, $permissions) {
+    public function editGuestAccessLevel($projectid, $accesslevel) {
         // check if project exists
         $qb = $this->dbconnection->getQueryBuilder();
 
-        // set the permissions
+        // set the access level
         $qb->update('cospend_projects')
-            ->set('guestpermissions', $qb->createNamedParameter($permissions, IQueryBuilder::PARAM_STR))
+            ->set('guestaccesslevel', $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT))
             ->where(
                 $qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
             );

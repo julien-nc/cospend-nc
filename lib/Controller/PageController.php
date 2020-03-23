@@ -41,6 +41,11 @@ use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Service\ProjectService;
 use OCA\Cospend\Activity\ActivityManager;
 
+define('ACCESS_VIEWER', 1);
+define('ACCESS_PARTICIPANT', 2);
+define('ACCESS_MAINTENER', 3);
+define('ACCESS_ADMIN', 4);
+
 function endswith($string, $test) {
     $strlen = strlen($string);
     $testlen = strlen($test);
@@ -359,7 +364,7 @@ class PageController extends ApiController {
      *
      */
     public function webDeleteProject($projectid) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'd')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_ADMIN) {
             $result = $this->projectService->deleteProject($projectid);
             if ($result === 'DELETED') {
                 return new DataResponse($result);
@@ -382,7 +387,7 @@ class PageController extends ApiController {
      *
      */
     public function webDeleteBill($projectid, $billid) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'd')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
             if ($this->projectService->getBill($projectid, $billid) !== null) {
                 $billObj = $this->billMapper->find($billid);
                 $this->activityManager->triggerEvent(
@@ -496,7 +501,7 @@ class PageController extends ApiController {
      *
      */
     public function webEditMember($projectid, $memberid, $name, $weight, $activated, $color=null) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated, $color);
             if (is_array($result) and array_key_exists('activated', $result)) {
                 return new DataResponse($result);
@@ -521,7 +526,8 @@ class PageController extends ApiController {
     public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for,
                                 $amount, $repeat, $paymentmode=null, $categoryid=null,
                                 $repeatallactive=null, $repeatuntil=null, $timestamp=null) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        $userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
+        if ($userAccessLevel >= ACCESS_PARTICIPANT) {
             $result =  $this->projectService->editBill(
                 $projectid, $billid, $date, $what, $payer, $payed_for,
                 $amount, $repeat, $paymentmode, $categoryid,
@@ -555,7 +561,7 @@ class PageController extends ApiController {
      *
      */
     public function webEditProject($projectid, $name, $contact_email, $password, $autoexport=null, $currencyname=null) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_ADMIN) {
             $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname);
             if ($result === 'UPDATED') {
                 return new DataResponse($result);
@@ -626,7 +632,7 @@ class PageController extends ApiController {
     public function webAddBill($projectid, $date, $what, $payer, $payed_for, $amount,
                                $repeat, $paymentmode=null, $categoryid=null, $repeatallactive=0,
                                $repeatuntil=null, $timestamp=null) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
             $result = $this->projectService->addBill(
                 $projectid, $date, $what, $payer, $payed_for, $amount,
                 $repeat, $paymentmode, $categoryid, $repeatallactive, $repeatuntil, $timestamp
@@ -659,7 +665,7 @@ class PageController extends ApiController {
      *
      */
     public function webAddMember($projectid, $name, $weight=1, $active=1, $color=null) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color);
             if (is_array($result)) {
                 return new DataResponse($result);
@@ -820,7 +826,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiSetProjectInfo($projectid, $passwd, $name, $contact_email, $password, $autoexport=null, $currencyname=null) {
-        if ($this->checkLogin($projectid, $passwd) and $this->projectService->guestHasPermission($projectid, 'e')) {
+        if ($this->checkLogin($projectid, $passwd) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_ADMIN) {
             $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname);
             if ($result === 'UPDATED') {
                 return new DataResponse($result);
@@ -844,7 +850,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiPrivSetProjectInfo($projectid, $name, $contact_email, $password, $autoexport=null, $currencyname=null) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_ADMIN) {
             $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname);
             if ($result === 'UPDATED') {
                 return new DataResponse($result);
@@ -984,7 +990,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiAddMember($projectid, $password, $name, $weight, $active=1, $color=null) {
-        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'c')) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color);
             if (is_array($result)) {
                 return new DataResponse($result['id']);
@@ -995,7 +1001,32 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => 'You are not allowed to add members']
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     * @CORS
+     */
+    public function apiv2AddMember($projectid, $password, $name, $weight, $active=1, $color=null) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER) {
+            $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color);
+            if (is_array($result)) {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message' => 'You are not allowed to add members']
                 , 401
             );
             return $response;
@@ -1008,7 +1039,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiPrivAddMember($projectid, $name, $weight, $active=1, $color=null) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color);
             if (is_array($result)) {
                 return new DataResponse($result['id']);
@@ -1019,7 +1050,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => 'You are not allowed to add members']
                 , 403
             );
             return $response;
@@ -1035,7 +1066,7 @@ class PageController extends ApiController {
     public function apiAddBill($projectid, $password, $date, $what, $payer, $payed_for,
                                $amount, $repeat='n', $paymentmode=null, $categoryid=null,
                                $repeatallactive=0, $repeatuntil=null, $timestamp=null) {
-        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'c')) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT) {
             $result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
                                                      $repeat, $paymentmode, $categoryid, $repeatallactive,
                                                      $repeatuntil, $timestamp);
@@ -1054,7 +1085,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => 'You are not allowed to add bills']
                 , 401
             );
             return $response;
@@ -1069,7 +1100,7 @@ class PageController extends ApiController {
     public function apiPrivAddBill($projectid, $date, $what, $payer, $payed_for,
                                $amount, $repeat='n', $paymentmode=null, $categoryid=null,
                                $repeatallactive=0, $repeatuntil=null, $timestamp=null) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
             $result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
                                                      $repeat, $paymentmode, $categoryid, $repeatallactive,
                                                      $repeatuntil, $timestamp);
@@ -1088,7 +1119,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => 'You are not allowed to add bills']
                 , 403
             );
             return $response;
@@ -1104,7 +1135,7 @@ class PageController extends ApiController {
     public function apiEditBill($projectid, $password, $billid, $date, $what, $payer, $payed_for,
                                 $amount, $repeat='n', $paymentmode=null, $categoryid=null,
                                 $repeatallactive=null, $repeatuntil=null, $timestamp=null) {
-        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT) {
             $result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
                                                       $amount, $repeat, $paymentmode, $categoryid,
                                                       $repeatallactive, $repeatuntil, $timestamp);
@@ -1124,7 +1155,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => 'You are not allowed to edit this bill']
                 , 401
             );
             return $response;
@@ -1139,7 +1170,7 @@ class PageController extends ApiController {
     public function apiPrivEditBill($projectid, $billid, $date, $what, $payer, $payed_for,
                                 $amount, $repeat='n', $paymentmode=null, $categoryid=null,
                                 $repeatallactive=null, $repeatuntil=null, $timestamp=null) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
             $result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
                                                       $amount, $repeat, $paymentmode, $categoryid,
                                                       $repeatallactive, $repeatuntil, $timestamp);
@@ -1173,7 +1204,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiDeleteBill($projectid, $password, $billid) {
-        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'd')) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT) {
             if ($this->projectService->getBill($projectid, $billid) !== null) {
                 $billObj = $this->billMapper->find($billid);
                 $this->activityManager->triggerEvent(
@@ -1206,7 +1237,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiPrivDeleteBill($projectid, $billid) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'd')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
             if ($this->projectService->getBill($projectid, $billid) !== null) {
                 $billObj = $this->billMapper->find($billid);
                 $this->activityManager->triggerEvent(
@@ -1240,7 +1271,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiDeleteMember($projectid, $password, $memberid) {
-        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'd')) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->deleteMember($projectid, $memberid);
             if ($result === 'OK') {
                 return new DataResponse($result);
@@ -1264,7 +1295,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiPrivDeleteMember($projectid, $memberid) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'd')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->deleteMember($projectid, $memberid);
             if ($result === 'OK') {
                 return new DataResponse($result);
@@ -1289,7 +1320,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiDeleteProject($projectid, $password) {
-        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'd')) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_ADMIN) {
             $result = $this->projectService->deleteProject($projectid);
             if ($result === 'DELETED') {
                 return new DataResponse($result);
@@ -1313,7 +1344,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiPrivDeleteProject($projectid) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'd')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_ADMIN) {
             $result = $this->projectService->deleteProject($projectid);
             if ($result === 'DELETED') {
                 return new DataResponse($result);
@@ -1338,7 +1369,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiEditMember($projectid, $password, $memberid, $name, $weight, $activated, $color=null) {
-        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated, $color);
             if (is_array($result) and array_key_exists('activated', $result)) {
                 return new DataResponse($result);
@@ -1362,7 +1393,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiPrivEditMember($projectid, $memberid, $name, $weight, $activated, $color=null) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated, $color);
             if (is_array($result) and array_key_exists('activated', $result)) {
                 return new DataResponse($result);
@@ -1473,7 +1504,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiAutoSettlement($projectid, $password) {
-        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'c')) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT) {
             $result = $this->projectService->autoSettlement($projectid);
             if ($result === 'OK') {
                 return new DataResponse($result);
@@ -1497,7 +1528,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiPrivAutoSettlement($projectid) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'c')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
             $result = $this->projectService->autoSettlement($projectid);
             if ($result === 'OK') {
                 return new DataResponse($result);
@@ -1568,9 +1599,10 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function editSharePermissions($projectid, $shid, $permissions) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
-            $result = $this->projectService->editSharePermissions($projectid, $shid, $permissions);
+    public function editShareAccessLevel($projectid, $shid, $accesslevel) {
+        $userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
+        if ($userAccessLevel >= ACCESS_PARTICIPANT and $userAccessLevel >= $accesslevel) {
+            $result = $this->projectService->editShareAccessLevel($projectid, $shid, $accesslevel);
             if ($result === 'OK') {
                 return new DataResponse($result);
             }
@@ -1580,7 +1612,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this project']
+                ['message' => $this->trans->t('You are not allowed to give such shared access level')]
                 , 403
             );
             return $response;
@@ -1590,9 +1622,10 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function editGuestPermissions($projectid, $permissions) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
-            $result = $this->projectService->editGuestPermissions($projectid, $permissions);
+    public function editGuestAccessLevel($projectid, $accesslevel) {
+        $userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
+        if ($userAccessLevel >= ACCESS_ADMIN) {
+            $result = $this->projectService->editGuestAccessLevel($projectid, $accesslevel);
             if ($result === 'OK') {
                 return new DataResponse($result);
             }
@@ -1602,7 +1635,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to edit guest access level']
                 , 403
             );
             return $response;
@@ -1615,19 +1648,29 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiEditGuestPermissions($projectid, $password, $permissions) {
-        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
-            $result = $this->projectService->editGuestPermissions($projectid, $permissions);
-            if ($result === 'OK') {
-                return new DataResponse($result);
+    public function apiEditGuestAccessLevel($projectid, $password, $accesslevel) {
+        if ($this->checkLogin($projectid, $password)) {
+            $guestAccessLevel = $this->projectService->getGuestAccessLevel($projectid);
+            if ($guestAccessLevel >= ACCESS_PARTICIPANT and $guestAccessLevel >= $accesslevel) {
+                $result = $this->projectService->editGuestAccessLevel($projectid, $accesslevel);
+                if ($result === 'OK') {
+                    return new DataResponse($result);
+                }
+                else {
+                    return new DataResponse($result, 400);
+                }
             }
             else {
-                return new DataResponse($result, 400);
+                $response = new DataResponse(
+                    ['message' => 'You are not allowed to give such access level']
+                    , 403
+                );
+                return $response;
             }
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to access this project']
                 , 403
             );
             return $response;
@@ -1638,7 +1681,7 @@ class PageController extends ApiController {
      * @NoAdminRequired
      */
     public function addCategory($projectid, $name, $icon, $color) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->addCategory($projectid, $name, $icon, $color);
             if (is_numeric($result)) {
                 return new DataResponse($result);
@@ -1649,7 +1692,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to manage categories']
                 , 403
             );
             return $response;
@@ -1663,7 +1706,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiAddCategory($projectid, $password, $name, $icon, $color) {
-        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->addCategory($projectid, $name, $icon, $color);
             if (is_numeric($result)) {
                 // inserted category id
@@ -1675,7 +1718,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => 'You are not allowed to manage categories']
                 , 401
             );
             return $response;
@@ -1688,7 +1731,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiPrivAddCategory($projectid, $name, $icon, $color) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->addCategory($projectid, $name, $icon, $color);
             if (is_numeric($result)) {
                 // inserted category id
@@ -1700,7 +1743,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => 'You are not allowed to manage categories']
                 , 403
             );
             return $response;
@@ -1711,7 +1754,7 @@ class PageController extends ApiController {
      * @NoAdminRequired
      */
     public function editCategory($projectid, $categoryid, $name, $icon, $color) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->editCategory($projectid, $categoryid, $name, $icon, $color);
             if (is_array($result)) {
                 return new DataResponse($result);
@@ -1722,7 +1765,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to manage categories']
                 , 403
             );
             return $response;
@@ -1736,7 +1779,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiEditCategory($projectid, $password, $categoryid, $name, $icon, $color) {
-        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->editCategory($projectid, $categoryid, $name, $icon, $color);
             if (is_array($result)) {
                 return new DataResponse($result);
@@ -1747,7 +1790,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => 'You are not allowed to manage categories']
                 , 401
             );
             return $response;
@@ -1760,7 +1803,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiPrivEditCategory($projectid, $categoryid, $name, $icon, $color) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->editCategory($projectid, $categoryid, $name, $icon, $color);
             if (is_array($result)) {
                 return new DataResponse($result);
@@ -1771,7 +1814,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => 'You are not allowed to manage categories']
                 , 403
             );
             return $response;
@@ -1782,7 +1825,7 @@ class PageController extends ApiController {
      * @NoAdminRequired
      */
     public function deleteCategory($projectid, $categoryid) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->deleteCategory($projectid, $categoryid);
             if (is_numeric($result)) {
                 return new DataResponse($result);
@@ -1793,7 +1836,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to manage categories']
                 , 403
             );
             return $response;
@@ -1807,7 +1850,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiDeleteCategory($projectid, $password, $categoryid) {
-        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->deleteCategory($projectid, $categoryid);
             if (is_numeric($result)) {
                 return new DataResponse($result);
@@ -1818,7 +1861,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => 'You are not allowed to manage categories']
                 , 401
             );
             return $response;
@@ -1831,7 +1874,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiPrivDeleteCategory($projectid, $categoryid) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->deleteCategory($projectid, $categoryid);
             if (is_numeric($result)) {
                 return new DataResponse($result);
@@ -1842,7 +1885,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => 'You are not allowed to manage categories']
                 , 403
             );
             return $response;
@@ -1853,7 +1896,7 @@ class PageController extends ApiController {
      * @NoAdminRequired
      */
     public function addCurrency($projectid, $name, $rate) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->addCurrency($projectid, $name, $rate);
             if (is_numeric($result)) {
                 return new DataResponse($result);
@@ -1864,7 +1907,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to manage currencies']
                 , 403
             );
             return $response;
@@ -1878,7 +1921,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiAddCurrency($projectid, $password, $name, $rate) {
-        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->addCurrency($projectid, $name, $rate);
             if (is_numeric($result)) {
                 // inserted currency id
@@ -1890,7 +1933,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => 'You are not allowed to manage currencies']
                 , 401
             );
             return $response;
@@ -1903,7 +1946,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiPrivAddCurrency($projectid, $name, $rate) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->addCurrency($projectid, $name, $rate);
             if (is_numeric($result)) {
                 // inserted bill id
@@ -1915,7 +1958,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => 'You are not allowed to manage currencies']
                 , 403
             );
             return $response;
@@ -1926,7 +1969,7 @@ class PageController extends ApiController {
      * @NoAdminRequired
      */
     public function editCurrency($projectid, $currencyid, $name, $rate) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->editCurrency($projectid, $currencyid, $name, $rate);
             if (is_array($result)) {
                 return new DataResponse($result);
@@ -1937,7 +1980,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to manage currencies']
                 , 403
             );
             return $response;
@@ -1951,7 +1994,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiEditCurrency($projectid, $password, $currencyid, $name, $rate) {
-        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->editCurrency($projectid, $currencyid, $name, $rate);
             if (is_array($result)) {
                 return new DataResponse($result);
@@ -1962,7 +2005,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => 'You are not allowed to manage currencies']
                 , 401
             );
             return $response;
@@ -1975,7 +2018,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiPrivEditCurrency($projectid, $currencyid, $name, $rate) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->editCurrency($projectid, $currencyid, $name, $rate);
             if (is_array($result)) {
                 return new DataResponse($result);
@@ -1986,7 +2029,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => 'You are not allowed to manage currencies']
                 , 403
             );
             return $response;
@@ -1997,7 +2040,7 @@ class PageController extends ApiController {
      * @NoAdminRequired
      */
     public function deleteCurrency($projectid, $currencyid) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->deleteCurrency($projectid, $currencyid);
             if (is_numeric($result)) {
                 return new DataResponse($result);
@@ -2008,7 +2051,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to manage currencies']
                 , 403
             );
             return $response;
@@ -2022,7 +2065,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiDeleteCurrency($projectid, $password, $currencyid) {
-        if ($this->checkLogin($projectid, $password) and $this->projectService->guestHasPermission($projectid, 'e')) {
+        if ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->deleteCurrency($projectid, $currencyid);
             if (is_numeric($result)) {
                 return new DataResponse($result);
@@ -2033,7 +2076,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => 'You are not allowed to manage currencies']
                 , 401
             );
             return $response;
@@ -2046,7 +2089,7 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiPrivDeleteCurrency($projectid, $currencyid) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->deleteCurrency($projectid, $currencyid);
             if (is_numeric($result)) {
                 return new DataResponse($result);
@@ -2057,7 +2100,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => 'You are not allowed to manage currencies']
                 , 403
             );
             return $response;
@@ -2068,7 +2111,7 @@ class PageController extends ApiController {
      * @NoAdminRequired
      */
     public function addUserShare($projectid, $userid) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
             $result = $this->projectService->addUserShare($projectid, $userid, $this->userId);
             if (is_numeric($result)) {
                 return new DataResponse($result);
@@ -2090,7 +2133,10 @@ class PageController extends ApiController {
      * @NoAdminRequired
      */
     public function deleteUserShare($projectid, $shid) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        // allow to delete share if user perms are at least participant AND if this share perms are <= user perms
+        $userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
+        $shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
+        if ($userAccessLevel >= ACCESS_PARTICIPANT and $userAccessLevel >= $shareAccessLevel) {
             $result = $this->projectService->deleteUserShare($projectid, $shid, $this->userId);
             if ($result === 'OK') {
                 return new DataResponse($result);
@@ -2101,7 +2147,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to remove this shared access']
                 , 403
             );
             return $response;
@@ -2112,7 +2158,7 @@ class PageController extends ApiController {
      * @NoAdminRequired
      */
     public function addGroupShare($projectid, $groupid) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
             $result = $this->projectService->addGroupShare($projectid, $groupid, $this->userId);
             if (is_numeric($result)) {
                 return new DataResponse($result);
@@ -2134,7 +2180,10 @@ class PageController extends ApiController {
      * @NoAdminRequired
      */
     public function deleteGroupShare($projectid, $shid) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        // allow to delete share if user perms are at least participant AND if this share perms are <= user perms
+        $userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
+        $shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
+        if ($userAccessLevel >= ACCESS_PARTICIPANT and $userAccessLevel >= $shareAccessLevel) {
             $result = $this->projectService->deleteGroupShare($projectid, $shid, $this->userId);
             if ($result === 'OK') {
                 return new DataResponse($result);
@@ -2145,7 +2194,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to remove this shared access']
                 , 403
             );
             return $response;
@@ -2156,7 +2205,7 @@ class PageController extends ApiController {
      * @NoAdminRequired
      */
     public function addCircleShare($projectid, $circleid) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
             $result = $this->projectService->addCircleShare($projectid, $circleid, $this->userId);
             if (is_numeric($result)) {
                 return new DataResponse($result);
@@ -2178,7 +2227,10 @@ class PageController extends ApiController {
      * @NoAdminRequired
      */
     public function deleteCircleShare($projectid, $shid) {
-        if ($this->projectService->userHasPermission($this->userId, $projectid, 'e')) {
+        // allow to delete share if user perms are at least participant AND if this share perms are <= user perms
+        $userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
+        $shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
+        if ($userAccessLevel >= ACCESS_PARTICIPANT and $userAccessLevel >= $shareAccessLevel) {
             $result = $this->projectService->deleteCircleShare($projectid, $shid, $this->userId);
             if ($result === 'OK') {
                 return new DataResponse($result);
@@ -2189,7 +2241,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this project']
+                ['message' => 'You are not allowed to remove this shared access']
                 , 403
             );
             return $response;

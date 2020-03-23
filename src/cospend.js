@@ -15,6 +15,11 @@ import 'chart.js/dist/Chart.min';
 
 import { generateUrl } from '@nextcloud/router';
 
+var ACCESS_VIEWER = 1;
+var ACCESS_PARTICIPANT = 2;
+var ACCESS_MAINTENER = 3;
+var ACCESS_ADMIN = 4;
+
 (function ($, OC) {
     'use strict';
 
@@ -362,7 +367,7 @@ import { generateUrl } from '@nextcloud/router';
                 active_members: [],
                 balance: {},
                 external: false,
-                guestpermissions: 'edc',
+                guestaccesslevel: ACCESS_PARTICIPANT,
                 categories: {},
                 currencies: []
             });
@@ -397,7 +402,7 @@ import { generateUrl } from '@nextcloud/router';
         if (!cospend.pageIsPublic) {
             if (project.external) {
                 var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/members';
+                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/apiv2/projects/' + id + '/' + project.password + '/members';
             }
             else {
                 req.projectid = projectid;
@@ -405,7 +410,7 @@ import { generateUrl } from '@nextcloud/router';
             }
         }
         else {
-            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/members');
+            url = generateUrl('/apps/cospend/apiv2/projects/'+cospend.projectid+'/'+cospend.password+'/members');
         }
         $.ajax({
             type: 'POST',
@@ -425,7 +430,7 @@ import { generateUrl } from '@nextcloud/router';
         }).fail(function(response) {
             OC.Notification.showTemporary(
                 t('cospend', 'Failed to add member') +
-                ': ' + response.responseText
+                ': ' + (response.responseJSON.message || response.responseText)
             );
         });
     }
@@ -536,7 +541,7 @@ import { generateUrl } from '@nextcloud/router';
         }).fail(function(response) {
             OC.Notification.showTemporary(
                 t('cospend', 'Failed to save member') +
-                ': ' + response.responseText
+                ': ' + (response.responseJSON.message || response.responseText)
             );
         });
     }
@@ -616,7 +621,7 @@ import { generateUrl } from '@nextcloud/router';
         }).fail(function(response) {
             OC.Notification.showTemporary(
                 t('cospend', 'Failed to create bill') +
-                ': ' + response.responseText
+                ': ' + (response.responseJSON.message || response.responseText)
             );
         });
     }
@@ -795,7 +800,7 @@ import { generateUrl } from '@nextcloud/router';
         }).fail(function(response) {
             OC.Notification.showTemporary(
                 t('cospend', 'Failed to delete external project') +
-                ' ' + response.responseText
+                ': ' + (response.responseJSON.message || response.responseText)
             );
         });
     }
@@ -823,7 +828,7 @@ import { generateUrl } from '@nextcloud/router';
         }).fail(function(response) {
             OC.Notification.showTemporary(
                 t('cospend', 'Failed to save external project') +
-                ' ' + response.responseText
+                ': ' + (response.responseJSON.message || response.responseText)
             );
         });
     }
@@ -962,7 +967,7 @@ import { generateUrl } from '@nextcloud/router';
         }).fail(function(response) {
             OC.Notification.showTemporary(
                 t('cospend', 'Failed to delete project') +
-                ': ' + response.responseText
+                ': ' + (response.responseJSON.message || response.responseText)
             );
         });
     }
@@ -1487,7 +1492,7 @@ import { generateUrl } from '@nextcloud/router';
         }).fail(function(response) {
             OC.Notification.showTemporary(
                 t('cospend', 'Failed to add currency') +
-                ': ' + response.responseText
+                ': ' + (response.responseJSON.message || response.responseText)
             );
         });
     }
@@ -1699,7 +1704,7 @@ import { generateUrl } from '@nextcloud/router';
         }).fail(function(response) {
             OC.Notification.showTemporary(
                 t('cospend', 'Failed to add category') +
-                ': ' + response.responseText
+                ': ' + (response.responseJSON.message || response.responseText)
             );
         });
     }
@@ -2910,9 +2915,7 @@ import { generateUrl } from '@nextcloud/router';
             guestLink = generateUrl('/apps/cospend/loginproject/'+projectid);
             guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
         }
-        var editPerm = (project.hasOwnProperty('guestpermissions') && project.guestpermissions.indexOf('e') !== -1);
-        var delPerm = (project.hasOwnProperty('guestpermissions') && project.guestpermissions.indexOf('d') !== -1);
-        var creaPerm = (project.hasOwnProperty('guestpermissions') && project.guestpermissions.indexOf('c') !== -1);
+        var accessLevel = parseInt(project.guestaccesslevel);
         var li =
             '<li class="projectitem collapsible" projectid="'+projectid+'">' +
             '    <a class="icon-folder" href="#" title="'+projectid+'">' +
@@ -2960,13 +2963,15 @@ import { generateUrl } from '@nextcloud/router';
             '                <a href="#" class="copyProjectGuestLink" title="'+guestLink+'">' +
             '                    <span class="icon-clippy"></span>' +
             '                    <span>'+guestAccessStr+'&nbsp</span>' +
-            '                    <div class="guestpermissions">' +
-            '                       <div class="icon-category-disabled permguest permDelete '+(delPerm ? 'permActive' : '')+'" ' +
-            '                       title="'+t('cospend', 'Permission to delete bills')+'"></div>'+
-            '                       <div class="icon-rename permguest permEdit '+(editPerm ? 'permActive' : '')+'" ' +
-            '                       title="'+t('cospend', 'Permission to edit bills and project')+'"></div>'+
-            '                       <div class="icon-add permguest permCreate '+(creaPerm ? 'permActive' : '')+'" ' +
-            '                       title="'+t('cospend', 'Permission to create bills')+'"></div>'+
+            '                    <div class="guestaccesslevel">' +
+            '                       <div class="icon-user-admin accesslevelguest accesslevelAdmin '+(accessLevel === ACCESS_ADMIN ? 'accesslevelActive' : '')+'" ' +
+            '                       title="'+t('cospend', 'Admin: edit/delete project + maintener permissions')+'"></div>'+
+            '                       <div class="icon-star accesslevelguest accesslevelMaintener '+(accessLevel === ACCESS_MAINTENER ? 'accesslevelActive' : '')+'" ' +
+            '                       title="'+t('cospend', 'Maintener: add/edit members/categories/currencies + participant permissions')+'"></div>'+
+            '                       <div class="icon-category-customization accesslevelguest accesslevelParticipant '+(accessLevel === ACCESS_PARTICIPANT ? 'accesslevelActive' : '')+'" ' +
+            '                       title="'+t('cospend', 'Participant: add/edit/delete bills + viewer permissions')+'"></div>'+
+            '                       <div class="icon-toggle accesslevelguest accesslevelViewer '+(accessLevel === ACCESS_VIEWER ? 'accesslevelActive' : '')+'" ' +
+            '                       title="'+t('cospend', 'Viewer')+'"></div>'+
             '                    </div>' +
             '                </a>' +
             '            </li>' +
@@ -3087,8 +3092,8 @@ import { generateUrl } from '@nextcloud/router';
                 var userid = project.shares[i].userid;
                 var username = project.shares[i].name;
                 var shid = project.shares[i].id;
-                var permissions = project.shares[i].permissions;
-                addShare(projectid, userid, username, shid, 'u', permissions);
+                var accesslevel = parseInt(project.shares[i].accesslevel);
+                addShare(projectid, userid, username, shid, 'u', accesslevel);
             }
         }
 
@@ -3097,8 +3102,8 @@ import { generateUrl } from '@nextcloud/router';
                 var groupid = project.group_shares[i].groupid;
                 var groupname = project.group_shares[i].name;
                 var shid = project.group_shares[i].id;
-                var permissions = project.group_shares[i].permissions;
-                addShare(projectid, groupid, groupname, shid, 'g', permissions);
+                var accesslevel = parseInt(project.group_shares[i].accesslevel);
+                addShare(projectid, groupid, groupname, shid, 'g', accesslevel);
             }
         }
 
@@ -3107,8 +3112,8 @@ import { generateUrl } from '@nextcloud/router';
                 var circleid = project.circle_shares[i].circleid;
                 var circlename = project.circle_shares[i].name;
                 var shid = project.circle_shares[i].id;
-                var permissions = project.circle_shares[i].permissions;
-                addShare(projectid, circleid, circlename, shid, 'c', permissions);
+                var accesslevel = parseInt(project.circle_shares[i].accesslevel);
+                addShare(projectid, circleid, circlename, shid, 'c', accesslevel);
             }
         }
 
@@ -3710,7 +3715,7 @@ import { generateUrl } from '@nextcloud/router';
         });
     }
 
-    function addShare(projectid, elemId, elemName, id, type, permissions) {
+    function addShare(projectid, elemId, elemName, id, type, accesslevel) {
         var displayString = elemId;
         if (type === 'c') {
             displayString = elemName;
@@ -3731,19 +3736,20 @@ import { generateUrl } from '@nextcloud/router';
             iconClass = 'share-icon-circle';
             deleteButtonClass = 'deleteCircleShareButton';
         }
-        var editPerm = (permissions.indexOf('e') !== -1);
-        var delPerm = (permissions.indexOf('d') !== -1);
-        var creaPerm = (permissions.indexOf('c') !== -1);
         var li = '<li shid="'+id+'" elemid="'+escapeHTML(elemId)+'" elemname="' + escapeHTML(elemName) + '">' +
             '<div class="shareLabel"><div class="shareLabelIcon '+iconClass+'">'+
             '</div><span>' + displayString + '</span></div>' +
             '<div class="icon-delete '+deleteButtonClass+'"></div>'+
-            '<div class="icon-category-disabled perm permDelete '+(delPerm ? 'permActive' : '')+'" ' +
-            'title="'+t('cospend', 'Permission to delete bills')+'"></div>'+
-            '<div class="icon-rename perm permEdit '+(editPerm ? 'permActive' : '')+'" ' +
-            'title="'+t('cospend', 'Permission to edit bills and project')+'"></div>'+
-            '<div class="icon-add perm permCreate '+(creaPerm ? 'permActive' : '')+'" ' +
-            'title="'+t('cospend', 'Permission to create bills')+'"></div>'+
+
+            '<div class="icon-user-admin accesslevel accesslevelAdmin '+(accesslevel === ACCESS_ADMIN ? 'accesslevelActive' : '')+'" ' +
+            'title="'+t('cospend', 'Admin: edit/delete project + maintener permissions')+'"></div>'+
+            '<div class="icon-star accesslevel accesslevelMaintener '+(accesslevel === ACCESS_MAINTENER ? 'accesslevelActive' : '')+'" ' +
+            'title="'+t('cospend', 'Maintener: add/edit members/categories/currencies + participant permissions')+'"></div>'+
+            '<div class="icon-category-customization accesslevel accesslevelParticipant '+(accesslevel === ACCESS_PARTICIPANT ? 'accesslevelActive' : '')+'" ' +
+            'title="'+t('cospend', 'Participant: add/edit/delete bills + viewer permissions')+'"></div>'+
+            '<div class="icon-toggle accesslevel accesslevelViewer '+(accesslevel === ACCESS_VIEWER ? 'accesslevelActive' : '')+'" ' +
+            'title="'+t('cospend', 'Viewer')+'"></div>'+
+
             '</li>';
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share').append(li);
         $('.projectitem[projectid="' + projectid + '"] .shareinput').val('');
@@ -3776,69 +3782,64 @@ import { generateUrl } from '@nextcloud/router';
         });
     }
 
-    function editSharePermissionsDb(projectid, shid, e, d, c) {
+    function editShareAccessLevelDb(projectid, shid, accesslevel) {
         $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
-        $('li[shid="'+shid+'"] .perm').addClass('icon-loading-small');
+        $('li[shid="'+shid+'"] .accesslevel').addClass('icon-loading-small');
         var req = {
             projectid: projectid,
             shid: shid,
-            permissions: (e ? 'e': '') + (c ? 'c': '') + (d ? 'd': '')
+            accesslevel: accesslevel
         };
-        var url = generateUrl('/apps/cospend/editSharePermissions');
+        var url = generateUrl('/apps/cospend/editShareAccessLevel');
         $.ajax({
             type: 'POST',
             url: url,
             data: req,
             async: true
         }).done(function (response) {
-            applySharePermissions(projectid, shid, e, d, c);
+            applyShareAccessLevel(projectid, shid, accesslevel);
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
-            $('li[shid="'+shid+'"] .perm').removeClass('icon-loading-small');
+            $('li[shid="'+shid+'"] .accesslevel').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(
-                t('cospend', 'Failed to edit share permissions') +
+                t('cospend', 'Failed to edit share access level') +
                 ': ' + response.responseJSON.message
             );
         });
     }
 
-    function applySharePermissions(projectid, shid, e, d, c) {
+    function applyShareAccessLevel(projectid, shid, accesslevel) {
         var shLine = $('li[shid="'+shid+'"]');
-        if (e) {
-            shLine.find('.permEdit').addClass('permActive');
+        shLine.find('.accesslevel').removeClass('accesslevelActive');
+        if (accesslevel === ACCESS_VIEWER) {
+            shLine.find('.accesslevelViewer').addClass('accesslevelActive');
         }
-        else {
-            shLine.find('.permEdit').removeClass('permActive');
+        else if (accesslevel === ACCESS_PARTICIPANT) {
+            shLine.find('.accesslevelParticipant').addClass('accesslevelActive');
         }
-        if (d) {
-            shLine.find('.permDelete').addClass('permActive');
+        else if (accesslevel === ACCESS_MAINTENER) {
+            shLine.find('.accesslevelMaintener').addClass('accesslevelActive');
         }
-        else {
-            shLine.find('.permDelete').removeClass('permActive');
-        }
-        if (c) {
-            shLine.find('.permCreate').addClass('permActive');
-        }
-        else {
-            shLine.find('.permCreate').removeClass('permActive');
+        else if (accesslevel === ACCESS_ADMIN) {
+            shLine.find('.accesslevelAdmin').addClass('accesslevelActive');
         }
     }
 
-    function editGuestPermissionsDb(projectid, e, d, c) {
+    function editGuestAccessLevelDb(projectid, accesslevel) {
         $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
-        $('li[projectid="'+projectid+'"] .permguest').addClass('icon-loading-small');
+        $('li[projectid="'+projectid+'"] .accesslevelguest').addClass('icon-loading-small');
         var req = {
-            permissions: (e ? 'e': '') + (c ? 'c': '') + (d ? 'd': '')
+            accesslevel: accesslevel
         };
         var method, url;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
-            url = generateUrl('/apps/cospend/editGuestPermissions');
+            url = generateUrl('/apps/cospend/editGuestAccessLevel');
             method = 'POST';
         }
         else {
-            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/guest-permissions');
+            url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/guest-access-level');
             method = 'PUT';
         }
         $.ajax({
@@ -3847,37 +3848,32 @@ import { generateUrl } from '@nextcloud/router';
             data: req,
             async: true
         }).done(function (response) {
-            applyGuestPermissions(projectid, e, d, c);
+            applyGuestAccessLevel(projectid, accesslevel);
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
-            $('li[projectid="'+projectid+'"] .permguest').removeClass('icon-loading-small');
+            $('li[projectid="'+projectid+'"] .accesslevelguest').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(
-                t('cospend', 'Failed to edit guest permissions') +
+                t('cospend', 'Failed to edit guest access level') +
                 ': ' + response.responseJSON.message
             );
         });
     }
 
-    function applyGuestPermissions(projectid, e, d, c) {
+    function applyGuestAccessLevel(projectid, accesslevel) {
         var projectLine = $('#projectlist li[projectid="'+projectid+'"]');
-        if (e) {
-            projectLine.find('.permEdit').addClass('permActive');
+        projectLine.find('.accesslevelguest').removeClass('accesslevelActive');
+        if (accesslevel === ACCESS_VIEWER) {
+            projectLine.find('.accesslevelguest.accesslevelViewer').addClass('accesslevelActive');
         }
-        else {
-            projectLine.find('.permEdit').removeClass('permActive');
+        else if (accesslevel === ACCESS_PARTICIPANT) {
+            projectLine.find('.accesslevelguest.accesslevelParticipant').addClass('accesslevelActive');
         }
-        if (d) {
-            projectLine.find('.permDelete').addClass('permActive');
+        else if (accesslevel === ACCESS_MAINTENER) {
+            projectLine.find('.accesslevelguest.accesslevelMaintener').addClass('accesslevelActive');
         }
-        else {
-            projectLine.find('.permDelete').removeClass('permActive');
-        }
-        if (c) {
-            projectLine.find('.permCreate').addClass('permActive');
-        }
-        else {
-            projectLine.find('.permCreate').removeClass('permActive');
+        else if (accesslevel === ACCESS_ADMIN) {
+            projectLine.find('.accesslevelguest.accesslevelAdmin').addClass('accesslevelActive');
         }
     }
 
@@ -4387,37 +4383,35 @@ import { generateUrl } from '@nextcloud/router';
             deleteCircleShareDb(projectid, shid);
         });
 
-        $('body').on('click', '.perm', function(e) {
+        $('body').on('click', '.accesslevel', function(e) {
             var projectid = $(this).parent().parent().parent().attr('projectid');
             var shid = $(this).parent().attr('shid');
-            var e = $(this).parent().find('.permEdit').hasClass('permActive');
-            var d = $(this).parent().find('.permDelete').hasClass('permActive');
-            var c = $(this).parent().find('.permCreate').hasClass('permActive');
-            if ($(this).hasClass('permDelete')) {
-                editSharePermissionsDb(projectid, shid, e, !d, c);
+            var accesslevel = ACCESS_VIEWER;
+            if ($(this).hasClass('accesslevelAdmin')) {
+                accesslevel = ACCESS_ADMIN;
             }
-            else if ($(this).hasClass('permEdit')) {
-                editSharePermissionsDb(projectid, shid, !e, d, c);
+            else if ($(this).hasClass('accesslevelMaintener')) {
+                accesslevel = ACCESS_MAINTENER;
             }
-            else if ($(this).hasClass('permCreate')) {
-                editSharePermissionsDb(projectid, shid, e, d, !c);
+            else if ($(this).hasClass('accesslevelParticipant')) {
+                accesslevel = ACCESS_PARTICIPANT;
             }
+            editShareAccessLevelDb(projectid, shid, accesslevel);
         });
 
-        $('body').on('click', '.permguest', function(e) {
+        $('body').on('click', '.accesslevelguest', function(e) {
             var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
-            var e = $(this).parent().find('.permEdit').hasClass('permActive');
-            var d = $(this).parent().find('.permDelete').hasClass('permActive');
-            var c = $(this).parent().find('.permCreate').hasClass('permActive');
-            if ($(this).hasClass('permDelete')) {
-                editGuestPermissionsDb(projectid, e, !d, c);
+            var accesslevel = ACCESS_VIEWER;
+            if ($(this).hasClass('accesslevelAdmin')) {
+                accesslevel = ACCESS_ADMIN;
             }
-            else if ($(this).hasClass('permEdit')) {
-                editGuestPermissionsDb(projectid, !e, d, c);
+            else if ($(this).hasClass('accesslevelMaintener')) {
+                accesslevel = ACCESS_MAINTENER;
             }
-            else if ($(this).hasClass('permCreate')) {
-                editGuestPermissionsDb(projectid, e, d, !c);
+            else if ($(this).hasClass('accesslevelParticipant')) {
+                accesslevel = ACCESS_PARTICIPANT;
             }
+            editGuestAccessLevelDb(projectid, accesslevel);
         });
 
         $('body').on('click', '.shareProjectButton', function(e) {
@@ -5001,7 +4995,7 @@ import { generateUrl } from '@nextcloud/router';
             exportProject(projectid);
         });
 
-        $('body').on('click', '.autoexportSelect, .permguest', function(e) {
+        $('body').on('click', '.autoexportSelect, .accesslevelguest', function(e) {
             e.stopPropagation();
         });
 

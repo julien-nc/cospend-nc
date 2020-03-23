@@ -32,7 +32,7 @@ test_nc18_sqlite:
     # check code with occ
     - sudo -u www-data php /var/www/html/nextcloud/occ app:check-code cospend
     # check JS code
-    - jshint --verbose cospend/js/cospend.js && echo "jshint OK" || echo "jshint has complaints"
+    - jshint --verbose cospend/src/cospend.js && echo "jshint OK" || echo "jshint has complaints"
     - popd ; popd ; mkdir coverage
     - phpunit --configuration /var/www/html/nextcloud/apps/cospend/phpunit.xml --coverage-text --color=never --coverage-html coverage
 
@@ -64,7 +64,7 @@ test_nc18_pgsql:
     # check code with occ
     - sudo -u www-data php /var/www/html/nextcloud/occ app:check-code cospend
     # check JS code
-    - jshint --verbose cospend/js/cospend.js && echo "jshint OK" || echo "jshint has complaints"
+    - jshint --verbose cospend/src/cospend.js && echo "jshint OK" || echo "jshint has complaints"
     - popd ; popd ; mkdir coverage
     - phpunit --configuration /var/www/html/nextcloud/apps/cospend/phpunit.xml
 
@@ -95,7 +95,7 @@ test_nc18_mysql:
     # check code with occ
     - sudo -u www-data php /var/www/html/nextcloud/occ app:check-code cospend
     # check JS code
-    - jshint --verbose cospend/js/cospend.js && echo "jshint OK" || echo "jshint has complaints"
+    - jshint --verbose cospend/src/cospend.js && echo "jshint OK" || echo "jshint has complaints"
     - popd ; popd ; mkdir coverage
     - phpunit --configuration /var/www/html/nextcloud/apps/cospend/phpunit.xml
 

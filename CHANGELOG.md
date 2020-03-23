@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.4.2 – 2020-03-23
+### Fixed
+- guest permissions edition in public access
+[#80](https://gitlab.com/eneiluj/cospend-nc/issues/80) @call-me-matt
+- remove constraint on bill breaking link to public file
+[#83](https://gitlab.com/eneiluj/cospend-nc/issues/83) @Dunkelschunkel
+
 ## 0.4.1 – 2020-03-22
 ### Added
 - new translations

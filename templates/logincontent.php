@@ -9,9 +9,9 @@ if ($_['wrong']) {
 }
 ?>
 
-<label for="projectidInput" id="projectidlabel"><?php p($l->t('Project ID')); ?></label>
+<label for="projectidInput" id="projectidlabel"><?php p($l->t('Project ID/name')); ?></label>
 <br/>
-<input id="projectidInput" name="projectid" type="text" value="<?php 
+<input id="projectidInput" name="projectid" type="text" value="<?php
 if (array_key_exists('projectid', $_)) {
     p($_['projectid']);
 }
@@ -20,7 +20,7 @@ if (array_key_exists('projectid', $_)) {
 <br/>
 <label for="passwordInput" id="passwordlabel"><?php p($l->t('Project password (aka Access code)')); ?></label>
 <br/>
-<input id="passwordInput" name="password" type="password" value="<?php 
+<input id="passwordInput" name="password" type="password" value="<?php
 if (array_key_exists('password', $_)) {
     p($_['password']);
 }

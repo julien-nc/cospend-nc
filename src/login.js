@@ -20,10 +20,11 @@ import { generateUrl } from '@nextcloud/router';
         if (!pageUrlWithProjectid) {
             $('#passwordInput').val('');
             $('#projectidInput').val('');
+            $('#projectidInput').focus().select();
         }
         else {
+            $('#passwordInput').focus().select();
         }
-        $('#projectidInput').focus().select();
         main();
     });
 

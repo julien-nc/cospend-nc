@@ -2882,7 +2882,7 @@ import { generateUrl } from '@nextcloud/router';
         var projectid = project.id;
         var addMemberStr = t('cospend', 'Add member');
         var guestAccessStr = t('cospend', 'Guest access link');
-        var renameStr = t('cospend', 'Rename');
+        var renameStr = t('cospend', 'Change title');
         var changePwdStr = t('cospend', 'Change password');
         var displayStatsStr = t('cospend', 'Display statistics');
         var settleStr = t('cospend', 'Settle the project');

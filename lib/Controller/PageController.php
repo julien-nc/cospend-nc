@@ -41,10 +41,7 @@ use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Service\ProjectService;
 use OCA\Cospend\Activity\ActivityManager;
 
-define('ACCESS_VIEWER', 1);
-define('ACCESS_PARTICIPANT', 2);
-define('ACCESS_MAINTENER', 3);
-define('ACCESS_ADMIN', 4);
+require_once __DIR__ . '/../Service/const.php';
 
 function endswith($string, $test) {
     $strlen = strlen($string);

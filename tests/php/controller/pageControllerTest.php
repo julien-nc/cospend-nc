@@ -658,48 +658,6 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $this->assertEquals('DELETED', $data);
 
-        // EXTERNAL PROJECTS
-        // ADD ONE
-        $resp = $this->pageController->webAddExternalProject('idext', 'lastcloud.net', 'passodoble');
-        $status = $resp->getStatus();
-        $this->assertEquals(200, $status);
-        $data = $resp->getData();
-        $idExt = $data;
-
-        $resp = $this->pageController->webAddExternalProject('idext', 'lastcloud.net', 'passodoble');
-        $status = $resp->getStatus();
-        $this->assertEquals(400, $status);
-
-        $resp = $this->pageController->webAddExternalProject('id/ext', 'lastcloud.net', 'passodoble');
-        $status = $resp->getStatus();
-        $this->assertEquals(400, $status);
-
-        // EDIT EXT PROJECT
-        $resp = $this->pageController->webEditExternalProject($idExt, 'lastcloud.net', 'passotriple');
-        $status = $resp->getStatus();
-        $this->assertEquals(200, $status);
-
-        $resp = $this->pageController->webEditExternalProject($idExt, 'lastcloud.org', 'passotriple');
-        $status = $resp->getStatus();
-        $this->assertEquals(400, $status);
-
-        // GET PROJECTS
-        $resp = $this->pageController->webGetProjects();
-        $status = $resp->getStatus();
-        $this->assertEquals(200, $status);
-        $data = $resp->getData();
-        $this->assertEquals(1, count($data));
-        $this->assertEquals('idext', $data[0]['id']);
-
-        // DELETE EXT PROJECT
-        $resp = $this->pageController->webDeleteExternalProject($idExt, 'lastcloud.net');
-        $status = $resp->getStatus();
-        $this->assertEquals(200, $status);
-
-        $resp = $this->pageController->webDeleteExternalProject($idExt, 'lastcloud.org');
-        $status = $resp->getStatus();
-        $this->assertEquals(400, $status);
-
         // GET USER LIST
         $resp = $this->pageController->getUserList();
         $status = $resp->getStatus();

@@ -3005,9 +3005,9 @@ var ACCESS_ADMIN = 4;
             '                    <div class="guestaccesslevel">' +
             '                       <div class="icon-user-admin accesslevelguest accesslevelAdmin '+(accessLevel === ACCESS_ADMIN ? 'accesslevelActive' : '')+'" ' +
             '                       title="'+t('cospend', 'Admin: edit/delete project + maintener permissions')+'"></div>'+
-            '                       <div class="icon-star accesslevelguest accesslevelMaintener '+(accessLevel === ACCESS_MAINTENER ? 'accesslevelActive' : '')+'" ' +
+            '                       <div class="icon-category-customization accesslevelguest accesslevelMaintener '+(accessLevel === ACCESS_MAINTENER ? 'accesslevelActive' : '')+'" ' +
             '                       title="'+t('cospend', 'Maintener: add/edit members/categories/currencies + participant permissions')+'"></div>'+
-            '                       <div class="icon-category-customization accesslevelguest accesslevelParticipant '+(accessLevel === ACCESS_PARTICIPANT ? 'accesslevelActive' : '')+'" ' +
+            '                       <div class="icon-rename accesslevelguest accesslevelParticipant '+(accessLevel === ACCESS_PARTICIPANT ? 'accesslevelActive' : '')+'" ' +
             '                       title="'+t('cospend', 'Participant: add/edit/delete bills + viewer permissions')+'"></div>'+
             '                       <div class="icon-toggle accesslevelguest accesslevelViewer '+(accessLevel === ACCESS_VIEWER ? 'accesslevelActive' : '')+'" ' +
             '                       title="'+t('cospend', 'Viewer')+'"></div>'+
@@ -3803,9 +3803,9 @@ var ACCESS_ADMIN = 4;
 
             '<div class="icon-user-admin accesslevel accesslevelAdmin '+(accesslevel === ACCESS_ADMIN ? 'accesslevelActive' : '')+'" ' +
             'title="'+t('cospend', 'Admin: edit/delete project + maintener permissions')+'"></div>'+
-            '<div class="icon-star accesslevel accesslevelMaintener '+(accesslevel === ACCESS_MAINTENER ? 'accesslevelActive' : '')+'" ' +
+            '<div class="icon-category-customization accesslevel accesslevelMaintener '+(accesslevel === ACCESS_MAINTENER ? 'accesslevelActive' : '')+'" ' +
             'title="'+t('cospend', 'Maintener: add/edit members/categories/currencies + participant permissions')+'"></div>'+
-            '<div class="icon-category-customization accesslevel accesslevelParticipant '+(accesslevel === ACCESS_PARTICIPANT ? 'accesslevelActive' : '')+'" ' +
+            '<div class="icon-rename accesslevel accesslevelParticipant '+(accesslevel === ACCESS_PARTICIPANT ? 'accesslevelActive' : '')+'" ' +
             'title="'+t('cospend', 'Participant: add/edit/delete bills + viewer permissions')+'"></div>'+
             '<div class="icon-toggle accesslevel accesslevelViewer '+(accesslevel === ACCESS_VIEWER ? 'accesslevelActive' : '')+'" ' +
             'title="'+t('cospend', 'Viewer')+'"></div>'+

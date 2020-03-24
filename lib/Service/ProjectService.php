@@ -2018,6 +2018,34 @@ class ProjectService {
         return $shares;
     }
 
+    public function getProjectInfoFromShareToken($token) {
+        $projectId = null;
+        $accessLevel = null;
+
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('projectid', 'accesslevel')
+           ->from('cospend_shares', 'sh')
+           ->where(
+               $qb->expr()->eq('userid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
+           )
+           ->andWhere(
+               $qb->expr()->eq('type', $qb->createNamedParameter('l', IQueryBuilder::PARAM_STR))
+           );
+        $req = $qb->execute();
+        while ($row = $req->fetch()){
+            $projectId = $row['projectid'];
+            $accessLevel = intval($row['accesslevel']);
+            break;
+        }
+        $req->closeCursor();
+        $qb = $qb->resetQueryParts();
+
+        return [
+            'projectid' => $projectId,
+            'accesslevel' => $accessLevel
+        ];
+    }
+
     private function getGroupShares($projectid) {
         $shares = [];
 

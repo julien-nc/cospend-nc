@@ -888,16 +888,21 @@ var ACCESS_ADMIN = 4;
                 }
             }
             else {
-                response.myaccesslevel = response.guestaccesslevel;
+                if (!response.myaccesslevel) {
+                    response.myaccesslevel = response.guestaccesslevel;
+                }
                 addProject(response);
                 $('.projectitem').addClass('open');
                 cospend.currentProjectId = cospend.projectid;
                 getBills(cospend.projectid);
             }
+            console.log('my access level '+response.myaccesslevel)
         }).always(function() {
             cospend.currentGetProjectsAjax = null;
-        }).fail(function() {
-            OC.Notification.showTemporary(t('cospend', 'Failed to get projects'));
+        }).fail(function(response) {
+            OC.Notification.showTemporary(t('cospend', 'Failed to get projects') +
+                ': ' + (response.responseJSON.message || response.responseText)
+            );
         });
     }
 
@@ -2656,7 +2661,7 @@ var ACCESS_ADMIN = 4;
         var guestLink;
         guestLink = generateUrl('/apps/cospend/loginproject/'+projectid);
         guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
-        var accessLevel = parseInt(project.guestaccesslevel);
+        var guestAccessLevel = parseInt(project.guestaccesslevel);
         var li =
             '<li class="projectitem collapsible" projectid="'+projectid+'">' +
             '    <a class="icon-folder" href="#" title="'+projectid+'">' +
@@ -2714,13 +2719,13 @@ var ACCESS_ADMIN = 4;
             '                    <span class="icon-clippy"></span>' +
             '                    <span>'+guestAccessStr+'&nbsp</span>' +
             '                    <div class="guestaccesslevel">' +
-            '                       <div class="icon-user-admin accesslevelguest accesslevelAdmin '+(accessLevel === ACCESS_ADMIN ? 'accesslevelActive' : '')+'" ' +
+            '                       <div class="icon-user-admin accesslevelguest accesslevelAdmin '+(guestAccessLevel === ACCESS_ADMIN ? 'accesslevelActive' : '')+'" ' +
             '                       title="'+t('cospend', 'Admin: edit/delete project + maintener permissions')+'"></div>'+
-            '                       <div class="icon-category-customization accesslevelguest accesslevelMaintener '+(accessLevel === ACCESS_MAINTENER ? 'accesslevelActive' : '')+'" ' +
+            '                       <div class="icon-category-customization accesslevelguest accesslevelMaintener '+(guestAccessLevel === ACCESS_MAINTENER ? 'accesslevelActive' : '')+'" ' +
             '                       title="'+t('cospend', 'Maintener: add/edit members/categories/currencies + participant permissions')+'"></div>'+
-            '                       <div class="icon-rename accesslevelguest accesslevelParticipant '+(accessLevel === ACCESS_PARTICIPANT ? 'accesslevelActive' : '')+'" ' +
+            '                       <div class="icon-rename accesslevelguest accesslevelParticipant '+(guestAccessLevel === ACCESS_PARTICIPANT ? 'accesslevelActive' : '')+'" ' +
             '                       title="'+t('cospend', 'Participant: add/edit/delete bills + viewer permissions')+'"></div>'+
-            '                       <div class="icon-toggle accesslevelguest accesslevelViewer '+(accessLevel === ACCESS_VIEWER ? 'accesslevelActive' : '')+'" ' +
+            '                       <div class="icon-toggle accesslevelguest accesslevelViewer '+(guestAccessLevel === ACCESS_VIEWER ? 'accesslevelActive' : '')+'" ' +
             '                       title="'+t('cospend', 'Viewer')+'"></div>'+
             '                    </div>' +
             '                </a>' +
@@ -4220,7 +4225,7 @@ var ACCESS_ADMIN = 4;
     }
 
     $(document).ready(function() {
-        cospend.pageIsPublic = (document.URL.indexOf('/cospend/project') !== -1);
+        cospend.pageIsPublic = (document.URL.indexOf('/cospend/project') !== -1 || document.URL.indexOf('/cospend/s/') !== -1);
         if ( !cospend.pageIsPublic ) {
             restoreOptions();
         }

@@ -2105,6 +2105,52 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
+    public function addPublicShare($projectid) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
+            $result = $this->projectService->addPublicShare($projectid, $this->userId);
+            if (is_array($result)) {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message' => $this->trans->t('You are not allowed to add a public share')]
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function deletePublicShare($projectid, $shid) {
+        $userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
+        $shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
+        if ($userAccessLevel >= ACCESS_PARTICIPANT and $userAccessLevel >= $shareAccessLevel) {
+            $result = $this->projectService->deletePublicShare($projectid, $shid);
+            if ($result === 'OK') {
+                return new DataResponse($result);
+            }
+            else {
+                return new DataResponse($result, 400);
+            }
+        }
+        else {
+            $response = new DataResponse(
+                ['message' => $this->trans->t('You are not allowed to remove this shared access')]
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     */
     public function addGroupShare($projectid, $groupid) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
             $result = $this->projectService->addGroupShare($projectid, $groupid, $this->userId);

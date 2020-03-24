@@ -44,6 +44,12 @@ var ACCESS_ADMIN = 4;
         members: {},
         projects: {},
         currentProjectId: null,
+        pubLinkData: {
+            type: 'l',
+            name: null,
+            label: t('cospend', 'Add public link'),
+            value: ''
+        }
     };
 
     cospend.categories = {
@@ -2646,6 +2652,7 @@ var ACCESS_ADMIN = 4;
         var moneyBusterUrlStr = t('cospend', 'Link/QRCode for MoneyBuster');
         var deletedStr = t('cospend', 'Deleted {name}', {name: name});
         var shareTitle = t('cospend', 'Press enter to validate');
+        var defaultShareText = t('cospend', 'User, group or circle name...');
         var guestLink;
         guestLink = generateUrl('/apps/cospend/loginproject/'+projectid);
         guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
@@ -2674,8 +2681,21 @@ var ACCESS_ADMIN = 4;
             '        </div>' +
             '    </div>';
         li = li + '    <ul class="app-navigation-entry-share">' +
-            '           <li class="shareinputli" title="'+shareTitle+'"><input type="text" class="shareinput"/></li>' +
-            '       </ul>';
+            '           <li class="shareinputli" title="'+shareTitle+'"><input type="text" class="shareinput" placeholder="'+defaultShareText+'"/></li>';
+        li +=
+            '           <li class="addpubshareitem">' +
+            '               <a class="icon-public" href="#">' +
+            '                   <span>' + t('cospend', 'Add public link') + '</span>' +
+            '               </a>' +
+            '               <div class="app-navigation-entry-utils">' +
+            '                   <ul>' +
+            '                       <li class="app-navigation-entry-utils-menu-button addPublicShareButton">' +
+            '                           <button class="icon-add"></button>' +
+            '                       </li>' +
+            '                   </ul>' +
+            '               </div>' +
+            '            </li>' +
+            '          </ul>';
         li = li + '    <div class="newmemberdiv">' +
             '        <input class="newmembername" type="text" value=""/>' +
             '        <button class="newmemberbutton icon-add"></button>' +
@@ -2830,6 +2850,15 @@ var ACCESS_ADMIN = 4;
                 var shid = project.circle_shares[i].id;
                 var accesslevel = parseInt(project.circle_shares[i].accesslevel);
                 addShare(projectid, circleid, circlename, shid, 'c', accesslevel);
+            }
+        }
+
+        if (project.public_shares) {
+            for (i=0; i < project.public_shares.length; i++) {
+                var token = project.public_shares[i].token;
+                var shid = project.public_shares[i].id;
+                var accesslevel = parseInt(project.public_shares[i].accesslevel);
+                addShare(projectid, null, t('cospend', 'Public share link'), shid, 'l', accesslevel, token);
             }
         }
 
@@ -3224,6 +3253,13 @@ var ACCESS_ADMIN = 4;
         });
     }
 
+    // trick to always show public link item: replace default autocomplete filter function
+    var origFilter = $.ui.autocomplete.filter;
+    $.ui.autocomplete.filter = function (array, term) {
+        var result = [cospend.pubLinkData];
+        return result.concat(origFilter(array, term));
+    };
+
     function addUserAutocompletion(input, projectid) {
         var req = {
         };
@@ -3287,6 +3323,7 @@ var ACCESS_ADMIN = 4;
                 d.value = name;
                 data.push(d);
             }
+            cospend.pubLinkData.projectid = projectid;
             var ii = input.autocomplete({
                 source: data,
                 select: function (e, ui) {
@@ -3300,8 +3337,12 @@ var ACCESS_ADMIN = 4;
                     else if (it.type === 'c') {
                         addCircleShareDb(it.projectid, it.id, it.name);
                     }
+                    else if (it.type === 'l') {
+                        addPublicShareDb(it.projectid);
+                    }
                 }
-            }).data('ui-autocomplete')._renderItem = function(ul, item) {
+            });
+            ii.data('ui-autocomplete')._renderItem = function(ul, item) {
                 var iconClass = 'icon-user';
                 if (item.type === 'g') {
                     iconClass = 'icon-group';
@@ -3309,12 +3350,16 @@ var ACCESS_ADMIN = 4;
                 else if (item.type === 'c') {
                     iconClass = 'share-icon-circle';
                 }
+                else if (item.type === 'l') {
+                    iconClass = 'icon-public';
+                }
                 var listItem = $('<li></li>')
                     .data('item.autocomplete', item)
                     .append('<a class="shareCompleteLink"><button class="shareCompleteIcon '+iconClass+'"></button> ' + item.label + '</a>')
                     .appendTo(ul);
                 return listItem;
             };
+            //console.log(ii.data('ui-autocomplete'));
         }).fail(function() {
             OC.Notification.showTemporary(t('cospend', 'Failed to get user list'));
         });
@@ -3370,6 +3415,60 @@ var ACCESS_ADMIN = 4;
         }).fail(function(response) {
             OC.Notification.showTemporary(
                 t('cospend', 'Failed to delete user share') +
+                ': ' + response.responseJSON.message
+            );
+        });
+    }
+
+    function addPublicShareDb(projectid) {
+        $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
+        var req = {
+            projectid: projectid,
+        };
+        var url = generateUrl('/apps/cospend/addPublicShare');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            addShare(projectid, null, t('cospend', 'Public share link'), response.id, 'l', ACCESS_PARTICIPANT, response.token);
+            var projectname = getProjectName(projectid);
+            OC.Notification.showTemporary(t('cospend', 'Shared project {pname} with public link access', {pname: projectname}));
+        }).always(function() {
+            $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to add public share') +
+                ': ' + response.responseJSON.message
+            );
+        });
+    }
+
+    function deletePublicShareDb(projectid, shid) {
+        $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] ' +
+            '.deletePublicShareButton span:first').addClass('icon-loading-small');
+        var req = {
+            projectid: projectid,
+            shid: shid
+        };
+        var url = generateUrl('/apps/cospend/deletePublicShare');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            var li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + ']');
+            li.fadeOut('normal', function() {
+                li.remove();
+            });
+        }).always(function() {
+            $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] '+
+                '.deletePublicShareButton span:first').removeClass('icon-loading-small');
+        }).fail(function(response) {
+            OC.Notification.showTemporary(
+                t('cospend', 'Failed to delete public share') +
                 ': ' + response.responseJSON.message
             );
         });
@@ -3454,9 +3553,9 @@ var ACCESS_ADMIN = 4;
         });
     }
 
-    function addShare(projectid, elemId, elemName, id, type, accesslevel) {
+    function addShare(projectid, elemId, elemName, id, type, accesslevel, token=null) {
         var displayString = elemId;
-        if (type === 'c') {
+        if (type === 'c' || type === 'l') {
             displayString = elemName;
         }
         else if (elemId !== elemName) {
@@ -3475,13 +3574,19 @@ var ACCESS_ADMIN = 4;
             iconClass = 'share-icon-circle';
             deleteButtonClass = 'deleteCircleShareButton';
         }
+        else if (type === 'l') {
+            iconClass = 'icon-public';
+            deleteButtonClass = 'deletePublicShareButton';
+        }
+        var tokenStr = (type === 'l') ? 'token="'+token+'"' : '';
         var li =
-            '<li class="shareitem" shid="'+id+'" elemid="'+escapeHTML(elemId)+'" elemname="' + escapeHTML(elemName) + '">' +
+            '<li class="shareitem" shid="'+id+'" '+tokenStr+' elemid="'+escapeHTML(elemId)+'" elemname="' + escapeHTML(elemName) + '">' +
             '    <a class="'+iconClass+'" href="#" title="'+projectid+'">' +
             '        <span>' + displayString + '</span>' +
             '    </a>' +
             '    <div class="app-navigation-entry-utils">' +
             '    <ul>' +
+            // TODO add 'copy to clipboard' button
             '            <li class="app-navigation-entry-utils-menu-button projectMenuButton">' +
             '                <button></button>' +
             '            </li>' +
@@ -4159,6 +4264,17 @@ var ACCESS_ADMIN = 4;
             deleteCircleShareDb(projectid, shid);
         });
 
+        $('body').on('click', '.deletePublicShareButton', function(e) {
+            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            var shid = $(this).parent().parent().parent().parent().attr('shid');
+            deletePublicShareDb(projectid, shid);
+        });
+
+        $('body').on('click', '.addPublicShareButton', function(e) {
+            var projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
+            addPublicShareDb(projectid);
+        });
+
         $('body').on('click', '.accesslevel', function(e) {
             var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
             var shid = $(this).parent().parent().parent().parent().attr('shid');
@@ -4200,8 +4316,6 @@ var ACCESS_ADMIN = 4;
             else {
                 shareDiv.slideDown();
                 $(this).addClass('activeButton');
-                var defaultShareText = t('cospend', 'User, group or circle name');
-                $(this).parent().parent().parent().find('.shareinput').val(defaultShareText).focus().select();
             }
         });
 

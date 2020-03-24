@@ -1422,6 +1422,7 @@ class PageController extends ApiController {
                 $category, $amountMin, $amountMax, $showDisabled, $currencyId
             );
             $response = new DataResponse($result);
+            return $response;
         }
         else {
             $response = new DataResponse(
@@ -1445,6 +1446,7 @@ class PageController extends ApiController {
                 $category, $amountMin, $amountMax, $showDisabled, $currencyId
             );
             $response = new DataResponse($result);
+            return $response;
         }
         else {
             $response = new DataResponse(
@@ -1465,6 +1467,7 @@ class PageController extends ApiController {
         if ($this->checkLogin($projectid, $password)) {
             $result = $this->projectService->getProjectSettlement($projectid);
             $response = new DataResponse($result);
+            return $response;
         }
         else {
             $response = new DataResponse(
@@ -1484,6 +1487,7 @@ class PageController extends ApiController {
         if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
             $result = $this->projectService->getProjectSettlement($projectid);
             $response = new DataResponse($result);
+            return $response;
         }
         else {
             $response = new DataResponse(
@@ -1598,7 +1602,10 @@ class PageController extends ApiController {
      */
     public function editShareAccessLevel($projectid, $shid, $accesslevel) {
         $userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
-        if ($userAccessLevel >= ACCESS_PARTICIPANT and $userAccessLevel >= $accesslevel) {
+        $shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
+        // allow edition if user is at least participant and has greater or equal access level than target
+        // user can't give higher access level than his/her level (do not downgrade one)
+        if ($userAccessLevel >= ACCESS_PARTICIPANT and $userAccessLevel >= $accesslevel and $userAccessLevel >= $shareAccessLevel) {
             $result = $this->projectService->editShareAccessLevel($projectid, $shid, $accesslevel);
             if ($result === 'OK') {
                 return new DataResponse($result);
@@ -1646,32 +1653,37 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiEditGuestAccessLevel($projectid, $password, $accesslevel) {
-        if ($this->checkLogin($projectid, $password)) {
-            $guestAccessLevel = $this->projectService->getGuestAccessLevel($projectid);
-            if ($guestAccessLevel >= ACCESS_PARTICIPANT and $guestAccessLevel >= $accesslevel) {
-                $result = $this->projectService->editGuestAccessLevel($projectid, $accesslevel);
-                if ($result === 'OK') {
-                    return new DataResponse($result);
-                }
-                else {
-                    return new DataResponse($result, 400);
-                }
-            }
-            else {
-                $response = new DataResponse(
-                    ['message' => 'You are not allowed to give such access level']
-                    , 403
-                );
-                return $response;
-            }
-        }
-        else {
-            $response = new DataResponse(
-                ['message' => 'You are not allowed to access this project']
-                , 403
-            );
-            return $response;
-        }
+        $response = new DataResponse(
+            ['message' => 'You are not allowed to edit guest access level']
+            , 403
+        );
+        return $response;
+        //if ($this->checkLogin($projectid, $password)) {
+        //    $guestAccessLevel = $this->projectService->getGuestAccessLevel($projectid);
+        //    if ($guestAccessLevel >= ACCESS_PARTICIPANT and $guestAccessLevel >= $accesslevel) {
+        //        $result = $this->projectService->editGuestAccessLevel($projectid, $accesslevel);
+        //        if ($result === 'OK') {
+        //            return new DataResponse($result);
+        //        }
+        //        else {
+        //            return new DataResponse($result, 400);
+        //        }
+        //    }
+        //    else {
+        //        $response = new DataResponse(
+        //            ['message' => 'You are not allowed to give such access level']
+        //            , 403
+        //        );
+        //        return $response;
+        //    }
+        //}
+        //else {
+        //    $response = new DataResponse(
+        //        ['message' => 'You are not allowed to access this project']
+        //        , 403
+        //    );
+        //    return $response;
+        //}
     }
 
     /**

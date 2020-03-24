@@ -4,6 +4,9 @@
 * @poVoq (issue master)
 * @MrCustomizer
 * @swestersund
+* @jwsp1
+* @call-me-matt
+* @Dunkelschunkel
 * @redplanet
 * @Questlog
 * @MoathZ

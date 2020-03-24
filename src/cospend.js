@@ -767,6 +767,9 @@ var ACCESS_ADMIN = 4;
             '<div class="icon-history undoDeleteBill" style="'+undoDeleteBillStyle+'" title="Undo"></div>' +
             '</a>';
         billItem.replaceWith(item);
+        if (cospend.projects[projectid].myaccesslevel <= ACCESS_VIEWER) {
+            $('.billitem[billid='+bill.id+'] .deleteBillIcon').hide();
+        }
     }
 
     function deleteExternalProject(projectid, updateList=false) {
@@ -1075,6 +1078,7 @@ var ACCESS_ADMIN = 4;
             }
             else {
                 response.external = false;
+                response.myaccesslevel = response.guestaccesslevel;
                 addProject(response);
                 $('.projectitem').addClass('open');
                 cospend.currentProjectId = cospend.projectid;
@@ -1306,6 +1310,10 @@ var ACCESS_ADMIN = 4;
         settlementStr = settlementStr + '</table>';
         $('#billdetail').html(settlementStr);
         sorttable.makeSortable(document.getElementById('settlementTable'));
+
+        if (cospend.projects[projectid].myaccesslevel <= ACCESS_VIEWER) {
+            $('.autoSettlement').hide();
+        }
     }
 
     function getProjectMoneyBusterLink(projectid) {
@@ -1425,19 +1433,22 @@ var ACCESS_ADMIN = 4;
             '        </div>' +
             '    </div><hr/>' +
             '    <div id="currencies-div">' +
-            '        <label>' +
-            '            <a class="icon icon-add"></a>' +
-            '            '+t('cospend', 'Add currency')+
-            '        </label>' +
-            '        <div id="add-currency">' +
-            '            <label for="addCurrencyNameInput">'+t('cospend', 'Name')+'</label>'+
-            '            <input type="text" value="" id="addCurrencyNameInput">' +
-            '            <label for="addCurrencyRateInput"> '+t('cospend', 'Exchange rate to main currency') +
-            '               <br/>' + t('cospend', '(1 of this currency = X of main currency)')+
-            '            </label>'+
-            '            <input type="number" value="1" id="addCurrencyRateInput" step="0.0001" min="0">' +
-            '            <input type="submit" value="" class="icon-add addCurrencyOk">' +
-            '        </div><hr/><br/>' +
+            '        <div id="add-currency-div">' +
+            '            <label>' +
+            '                <a class="icon icon-add"></a>' +
+            '                '+t('cospend', 'Add currency')+
+            '            </label>' +
+            '            <div id="add-currency">' +
+            '                <label for="addCurrencyNameInput">'+t('cospend', 'Name')+'</label>'+
+            '                <input type="text" value="" id="addCurrencyNameInput">' +
+            '                <label for="addCurrencyRateInput"> '+t('cospend', 'Exchange rate to main currency') +
+            '                   <br/>' + t('cospend', '(1 of this currency = X of main currency)')+
+            '                </label>'+
+            '                <input type="number" value="1" id="addCurrencyRateInput" step="0.0001" min="0">' +
+            '                <input type="submit" value="" class="icon-add addCurrencyOk">' +
+            '            </div><hr/>' +
+            '        </div>' +
+            '        <br/>' +
             '        <label>' +
             '            <a class="icon icon-currencies"></a>' +
             '            '+t('cospend', 'Currency list')+
@@ -1450,6 +1461,13 @@ var ACCESS_ADMIN = 4;
         $('#billdetail').html(curStr);
         for (var i = 0; i < currencies.length; i++) {
             addCurrency(projectid, currencies[i]);
+        }
+
+        if (cospend.projects[projectid].myaccesslevel < ACCESS_MAINTENER) {
+            $('.editMainCurrency').hide();
+            $('.editOneCurrency').hide();
+            $('.deleteOneCurrency').hide();
+            $('#add-currency-div').hide();
         }
     }
 
@@ -1636,19 +1654,22 @@ var ACCESS_ADMIN = 4;
             '<h2 id="catTitle" projectid="'+projectid+'"><span class="icon-category-app-bundles"></span>'+titleStr+'</h2>' +
             '<div id="manage-categories">' +
             '    <div id="categories-div">' +
-            '        <label>' +
-            '            <a class="icon icon-add"></a>' +
-            '            '+t('cospend', 'Add category')+
-            '        </label>' +
-            '        <div id="add-category">' +
-            '            <label for="addCategoryIconInput">'+t('cospend', 'Icon')+'</label>'+
-            '            <input type="text" value="" id="addCategoryIconInput">' +
-            '            <label for="addCategoryNameInput">'+t('cospend', 'Name')+'</label>'+
-            '            <input type="text" value="" id="addCategoryNameInput">' +
-            '            <label for="addCategoryColorInput">'+t('cospend', 'Color')+'</label>'+
-            '            <input type="color" value="" id="addCategoryColorInput">' +
-            '            <input type="submit" value="" class="icon-add addCategoryOk">' +
-            '        </div><hr/><br/>' +
+            '        <div id="add-category-div">' +
+            '            <label>' +
+            '                <a class="icon icon-add"></a>' +
+            '                '+t('cospend', 'Add category')+
+            '            </label>' +
+            '            <div id="add-category">' +
+            '                <label for="addCategoryIconInput">'+t('cospend', 'Icon')+'</label>'+
+            '                <input type="text" value="" id="addCategoryIconInput">' +
+            '                <label for="addCategoryNameInput">'+t('cospend', 'Name')+'</label>'+
+            '                <input type="text" value="" id="addCategoryNameInput">' +
+            '                <label for="addCategoryColorInput">'+t('cospend', 'Color')+'</label>'+
+            '                <input type="color" value="" id="addCategoryColorInput">' +
+            '                <input type="submit" value="" class="icon-add addCategoryOk">' +
+            '            </div>' +
+            '            <hr/>' +
+            '        </div><br/>' +
             '        <label>' +
             '            <a class="icon icon-category-app-bundles"></a>' +
             '            '+t('cospend', 'Category list')+
@@ -1661,6 +1682,11 @@ var ACCESS_ADMIN = 4;
         $('#billdetail').html(catStr);
         for (var catId in categories) {
             addCategory(projectid, catId, categories[catId]);
+        }
+        if (cospend.projects[projectid].myaccesslevel < ACCESS_MAINTENER) {
+            $('#add-category-div').hide();
+            $('.editOneCategory').hide();
+            $('.deleteOneCategory').hide();
         }
     }
 
@@ -2690,6 +2716,16 @@ var ACCESS_ADMIN = 4;
             $('label[for=repeatuntil]').hide();
         }
         updateAmountEach(projectid);
+
+        if (cospend.projects[projectid].myaccesslevel <= ACCESS_VIEWER) {
+            $('#billdetail button').hide();
+            $('#billdetail input').each(function() {
+                $(this).prop('readonly', true);
+            });
+            $('#billdetail select, #billdetail input[type=checkbox]').each(function() {
+                $(this).prop('disabled', true);
+            });
+        }
     }
 
     function updateAmountEach(projectid) {
@@ -2814,6 +2850,9 @@ var ACCESS_ADMIN = 4;
 
         if (parseInt(getUrlParameter('bill')) === bill.id && getUrlParameter('project') === projectid) {
             displayBill(projectid, bill.id);
+        }
+        if (cospend.projects[projectid].myaccesslevel <= ACCESS_VIEWER) {
+            $('.billitem[billid='+bill.id+'] .deleteBillIcon').hide();
         }
     }
 
@@ -3117,6 +3156,20 @@ var ACCESS_ADMIN = 4;
             }
         }
 
+        if (project.myaccesslevel < ACCESS_ADMIN) {
+            $('li.projectitem[projectid='+project.id+'] .autoexportSelect').prop('disabled', true);
+            $('li.projectitem[projectid='+project.id+'] .editProjectName').hide();
+            $('li.projectitem[projectid='+project.id+'] .editProjectPassword').hide();
+            $('li.projectitem[projectid='+project.id+'] .deleteProject').hide();
+            if (project.myaccesslevel < ACCESS_MAINTENER) {
+                $('li.projectitem[projectid='+project.id+'] .addMember').hide();
+                if (project.myaccesslevel < ACCESS_PARTICIPANT) {
+                    $('li.projectitem[projectid='+project.id+'] .deleteUserShareButton').hide();
+                    $('li.projectitem[projectid='+project.id+'] .shareinput').hide();
+                }
+            }
+        }
+
         //// set selected project
         //if (cospend.restoredSelectedProjectId === projectid) {
         //    $('.projectitem').removeClass('selectedproject');
@@ -3228,6 +3281,13 @@ var ACCESS_ADMIN = 4;
             '</li>';
 
         $(li).appendTo('#projectlist li.projectitem[projectid="'+projectid+'"] .memberlist');
+
+        if (cospend.projects[projectid].myaccesslevel < ACCESS_MAINTENER) {
+            $('li.projectitem[projectid='+projectid+'] .renameMember').hide();
+            $('li.projectitem[projectid='+projectid+'] .editWeightMember').hide();
+            $('li.projectitem[projectid='+projectid+'] .editColorMember').hide();
+            $('li.projectitem[projectid='+projectid+'] .toggleMember').hide();
+        }
     }
 
     function basicBillValueCheck(what, date, time, amount, payer_id) {
@@ -3881,6 +3941,16 @@ var ACCESS_ADMIN = 4;
         var projectid = projectitem.attr('projectid');
         var wasOpen = projectitem.hasClass('open');
         var wasSelected = (cospend.currentProjectId === projectid);
+        if (cospend.projects[projectid].myaccesslevel <= ACCESS_VIEWER) {
+            if ($('#newBillButton').is(':visible')) {
+                $('#newBillButton').fadeOut();
+            }
+        }
+        else {
+            if (!$('#newBillButton').is(':visible')) {
+                $('#newBillButton').fadeIn();
+            }
+        }
         $('.projectitem.open').removeClass('open');
         if (!wasOpen) {
             projectitem.addClass('open');

@@ -214,7 +214,7 @@ class ProjectService {
                 $dbAccessLevel = null;
                 while ($row = $req->fetch()) {
                     $dbProjectId = $row['projectid'];
-                    $dbAccessLevel = $row['accesslevel'];
+                    $dbAccessLevel = intval($row['accesslevel']);
                     break;
                 }
                 $req->closeCursor();
@@ -239,7 +239,7 @@ class ProjectService {
                 $req = $qb->execute();
                 while ($row = $req->fetch()){
                     $groupId = $row['userid'];
-                    $dbAccessLevel = $row['accesslevel'];
+                    $dbAccessLevel = intval($row['accesslevel']);
                     if ($this->groupManager->groupExists($groupId)
                         and $this->groupManager->get($groupId)->inGroup($userO)
                         and $dbAccessLevel > $result
@@ -266,7 +266,7 @@ class ProjectService {
                     $req = $qb->execute();
                     while ($row = $req->fetch()) {
                         $circleId = $row['userid'];
-                        $dbAccessLevel = $row['accesslevel'];
+                        $dbAccessLevel = intval($row['accesslevel']);
                         if ($this->isUserInCircle($userid, $circleId) and $dbAccessLevel > $result) {
                             $result = $dbAccessLevel;
                         }
@@ -281,7 +281,7 @@ class ProjectService {
     public function getGuestAccessLevel($projectid) {
         $projectInfo = $this->getProjectInfo($projectid);
         if ($projectInfo !== null) {
-            return $projectInfo['guestaccesslevel'];
+            return intval($projectInfo['guestaccesslevel']);
         }
         else {
             return false;
@@ -301,7 +301,7 @@ class ProjectService {
            );
         $req = $qb->execute();
         while ($row = $req->fetch()){
-            $result = $row['accesslevel'];
+            $result = intval($row['accesslevel']);
             break;
         }
         $req->closeCursor();
@@ -511,7 +511,7 @@ class ProjectService {
             $dbName = $row['name'];
             $dbEmail= $row['email'];
             $dbUserId = $row['userid'];
-            $dbGuestAccessLevel = $row['guestaccesslevel'];
+            $dbGuestAccessLevel = intval($row['guestaccesslevel']);
             $dbLastchanged = intval($row['lastchanged']);
             $dbAutoexport= $row['autoexport'];
             $dbCurrencyName= $row['currencyname'];
@@ -943,7 +943,7 @@ class ProjectService {
             $dbCurrencyName = $row['currencyname'];
             $dbAutoexport = $row['autoexport'];
             $dbLastchanged = intval($row['lastchanged']);
-            $dbGuestAccessLevel = $row['guestaccesslevel'];
+            $dbGuestAccessLevel = intval($row['guestaccesslevel']);
             $project = [
                 'id' => $dbId,
                 'name' => $dbName,
@@ -1733,7 +1733,7 @@ class ProjectService {
 
         $qb = $this->dbconnection->getQueryBuilder();
 
-        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestaccesslevel', 'p.currencyname', 'p.lastchanged')
+        $qb->select('p.id', 'p.userid', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestaccesslevel', 'p.currencyname', 'p.lastchanged')
            ->from('cospend_projects', 'p')
            ->where(
                $qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
@@ -1744,16 +1744,18 @@ class ProjectService {
         $dbPassword = null;
         while ($row = $req->fetch()){
             $dbProjectId = $row['id'];
+            $dbUserId = $row['userid'];
             array_push($projectids, $dbProjectId);
             $dbPassword = $row['password'];
             $dbName  = $row['name'];
             $dbEmail = $row['email'];
             $autoexport = $row['autoexport'];
-            $guestAccessLevel = $row['guestaccesslevel'];
+            $guestAccessLevel = intval($row['guestaccesslevel']);
             $dbCurrencyName = $row['currencyname'];
             $dbLastchanged = intval($row['lastchanged']);
             array_push($projects, [
                 'name' => $dbName,
+                'userid' => $dbUserId,
                 'contact_email' => $dbEmail,
                 'id' => $dbProjectId,
                 'autoexport' => $autoexport,
@@ -1771,7 +1773,7 @@ class ProjectService {
         $qb = $qb->resetQueryParts();
 
         // shared with user
-        $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestaccesslevel', 'p.currencyname', 'p.lastchanged')
+        $qb->select('p.id', 'p.userid', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestaccesslevel', 'p.currencyname', 'p.lastchanged')
            ->from('cospend_projects', 'p')
            ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
            ->where(
@@ -1789,15 +1791,17 @@ class ProjectService {
             // avoid putting twice the same project
             // this can happen with a share loop
             if (!in_array($dbProjectId, $projectids)) {
+                $dbUserId = $row['userid'];
                 $dbPassword = $row['password'];
                 $dbName = $row['name'];
                 $dbEmail= $row['email'];
                 $autoexport = $row['autoexport'];
-                $guestAccessLevel = $row['guestaccesslevel'];
+                $guestAccessLevel = intval($row['guestaccesslevel']);
                 $dbCurrencyName = $row['currencyname'];
                 $dbLastchanged = intval($row['lastchanged']);
                 array_push($projects, [
                     'name' => $dbName,
+                    'userid' => $dbUserId,
                     'contact_email' => $dbEmail,
                     'id' => $dbProjectId,
                     'autoexport' => $autoexport,
@@ -1839,7 +1843,7 @@ class ProjectService {
             $group = $this->groupManager->get($candidateGroupId);
             if ($group !== null && $group->inGroup($userO)) {
                 // get projects shared with this group
-                $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestaccesslevel', 'p.currencyname', 'p.lastchanged')
+                $qb->select('p.id', 'p.userid', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestaccesslevel', 'p.currencyname', 'p.lastchanged')
                     ->from('cospend_projects', 'p')
                     ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
                     ->where(
@@ -1857,15 +1861,17 @@ class ProjectService {
                     // avoid putting twice the same project
                     // this can happen with a share loop
                     if (!in_array($dbProjectId, $projectids)) {
+                        $dbUserId = $row['userid'];
                         $dbPassword = $row['password'];
                         $dbName = $row['name'];
                         $dbEmail= $row['email'];
                         $autoexport = $row['autoexport'];
-                        $guestAccessLevel = $row['guestaccesslevel'];
+                        $guestAccessLevel = intval($row['guestaccesslevel']);
                         $dbCurrencyName = $row['currencyname'];
                         $dbLastchanged = intval($row['lastchanged']);
                         array_push($projects, [
                             'name' => $dbName,
+                            'userid' => $dbUserId,
                             'contact_email' => $dbEmail,
                             'id' => $dbProjectId,
                             'autoexport' => $autoexport,
@@ -1907,7 +1913,7 @@ class ProjectService {
             foreach ($candidateCircleIds as $candidateCircleId) {
                 if ($this->isUserInCircle($userId, $candidateCircleId)) {
                     // get projects shared with this circle
-                    $qb->select('p.id', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestaccesslevel', 'p.currencyname', 'p.lastchanged')
+                    $qb->select('p.id', 'p.userid', 'p.password', 'p.name', 'p.email', 'p.autoexport', 'p.guestaccesslevel', 'p.currencyname', 'p.lastchanged')
                         ->from('cospend_projects', 'p')
                         ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
                         ->where(
@@ -1925,15 +1931,17 @@ class ProjectService {
                         // avoid putting twice the same project
                         // this can happen with a share loop or multiple shares
                         if (!in_array($dbProjectId, $projectids)) {
+                            $dbUserId = $row['userid'];
                             $dbPassword = $row['password'];
                             $dbName = $row['name'];
                             $dbEmail= $row['email'];
                             $autoexport = $row['autoexport'];
-                            $guestAccessLevel = $row['guestaccesslevel'];
+                            $guestAccessLevel = intval($row['guestaccesslevel']);
                             $dbCurrencyName = $row['currencyname'];
                             $dbLastchanged = intval($row['lastchanged']);
                             array_push($projects, [
                                 'name' => $dbName,
+                                'userid' => $dbUserId,
                                 'contact_email' => $dbEmail,
                                 'id' => $dbProjectId,
                                 'autoexport' => $autoexport,
@@ -1963,6 +1971,7 @@ class ProjectService {
             $circleShares = $this->getCircleShares($dbProjectId);
             $currencies = $this->getCurrencies($dbProjectId);
             $categories = $this->getCategories($dbProjectId);
+            $myAccessLevel = $this->getUserMaxAccessLevel($userId, $dbProjectId);
             $activeMembers = [];
             foreach ($members as $member) {
                 if ($member['activated']) {
@@ -1978,6 +1987,7 @@ class ProjectService {
             $projects[$i]['circle_shares'] = $circleShares;
             $projects[$i]['currencies'] = $currencies;
             $projects[$i]['categories'] = $categories;
+            $projects[$i]['myaccesslevel'] = $myAccessLevel;
         }
 
         // get external projects
@@ -2084,7 +2094,7 @@ class ProjectService {
             $dbuserId = $row['userid'];
             $dbprojectId = $row['projectid'];
             $dbId = $row['id'];
-            $dbAccessLevel = $row['accesslevel'];
+            $dbAccessLevel = intval($row['accesslevel']);
             if (array_key_exists($dbuserId, $userIdToName)) {
                 array_push($shares, [
                     'userid' => $dbuserId,
@@ -2122,7 +2132,7 @@ class ProjectService {
             $dbGroupId = $row['userid'];
             $dbprojectId = $row['projectid'];
             $dbId = $row['id'];
-            $dbAccessLevel = $row['accesslevel'];
+            $dbAccessLevel = intval($row['accesslevel']);
             if (array_key_exists($dbGroupId, $groupIdToName)) {
                 array_push($shares, [
                     'groupid' => $dbGroupId,
@@ -2165,7 +2175,7 @@ class ProjectService {
                 $dbCircleId = $row['userid'];
                 $dbprojectId = $row['projectid'];
                 $dbId = $row['id'];
-                $dbAccessLevel = $row['accesslevel'];
+                $dbAccessLevel = intval($row['accesslevel']);
                 if (array_key_exists($dbCircleId, $circleIdToName)) {
                     array_push($shares, [
                         'circleid' => $dbCircleId,

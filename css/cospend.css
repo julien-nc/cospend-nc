@@ -257,6 +257,7 @@ input[type=number] {
 #mbTitle,
 #settlementTitle,
 #curTitle,
+#catTitle,
 #statsTitle {
     text-align: center;
     background-color: var(--color-background-dark);

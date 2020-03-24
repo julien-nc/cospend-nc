@@ -372,7 +372,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to delete this project']
+                ['message' => $this->trans->t('You are not allowed to delete this project')]
                 , 403
             );
             return $response;
@@ -404,7 +404,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to delete this bill']
+                ['message' => $this->trans->t('You are not allowed to delete this bill')]
                 , 403
             );
             return $response;
@@ -423,7 +423,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to get this project\'s info']
+                ['message' => $this->trans->t('You are not allowed to get this project\'s info')]
                 , 403
             );
             return $response;
@@ -445,7 +445,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to get this project\'s statistics']
+                ['message' => $this->trans->t('You are not allowed to get this project\'s statistics')]
                 , 403
             );
             return $response;
@@ -463,7 +463,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to get this project\'s settlement']
+                ['message' => $this->trans->t('You are not allowed to get this project\'s settlement')]
                 , 403
             );
             return $response;
@@ -486,7 +486,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to settle this project automatically']
+                ['message' => $this->trans->t('You are not allowed to settle this project automatically')]
                 , 403
             );
             return $response;
@@ -509,7 +509,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this member']
+                ['message' => $this->trans->t('You are not allowed to edit this member')]
                 , 403
             );
             return $response;
@@ -546,7 +546,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this bill']
+                ['message' => $this->trans->t('You are not allowed to edit this bill')]
                 , 403
             );
             return $response;
@@ -569,7 +569,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this project']
+                ['message' => $this->trans->t('You are not allowed to edit this project')]
                 , 403
             );
             return $response;
@@ -592,7 +592,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this external project']
+                ['message' => $this->trans->t('You are not allowed to edit this external project')]
                 , 400
             );
             return $response;
@@ -615,7 +615,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to delete this external project']
+                ['message' => $this->trans->t('You are not allowed to delete this external project')]
                 , 400
             );
             return $response;
@@ -650,7 +650,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to add a bill to this project']
+                ['message' => $this->trans->t('You are not allowed to add a bill to this project')]
                 , 403
             );
             return $response;
@@ -673,7 +673,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to add member to this project']
+                ['message' => $this->trans->t('You are not allowed to add member to this project')]
                 , 403
             );
             return $response;
@@ -692,7 +692,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to get bills of this project']
+                ['message' => $this->trans->t('You are not allowed to get bills of this project')]
                 , 403
             );
             return $response;
@@ -734,7 +734,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Anonymous project creation is not allowed on this server']
+                ['message' => $this->trans->t('Anonymous project creation is not allowed on this server')]
                 , 403
             );
             return $response;
@@ -772,7 +772,7 @@ class PageController extends ApiController {
             }
             else {
                 $response = new DataResponse(
-                    ['message' => 'Project not found in the database']
+                    ['message' => $this->trans->t('Project not found in the database')]
                     , 404
                 );
                 return $response;
@@ -780,7 +780,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 400
             );
             return $response;
@@ -801,7 +801,7 @@ class PageController extends ApiController {
             }
             else {
                 $response = new DataResponse(
-                    ['message' => 'Project not found in the database']
+                    ['message' => $this->trans->t('Project not found in the database')]
                     , 404
                 );
                 return $response;
@@ -809,7 +809,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action.']
+                ['message' => $this->trans->t('Unauthorized action.')]
                 , 403
             );
             return $response;
@@ -834,7 +834,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 401
             );
             return $response;
@@ -858,7 +858,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action.']
+                ['message' => $this->trans->t('Unauthorized action.')]
                 , 401
             );
             return $response;
@@ -879,7 +879,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 401
             );
             return $response;
@@ -899,7 +899,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 403
             );
             return $response;
@@ -920,7 +920,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 401
             );
             return $response;
@@ -946,7 +946,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 403
             );
             return $response;
@@ -973,7 +973,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 401
             );
             return $response;
@@ -998,7 +998,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to add members']
+                ['message' => $this->trans->t('You are not allowed to add members')]
                 , 401
             );
             return $response;
@@ -1023,7 +1023,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to add members']
+                ['message' => $this->trans->t('You are not allowed to add members')]
                 , 401
             );
             return $response;
@@ -1047,7 +1047,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to add members']
+                ['message' => $this->trans->t('You are not allowed to add members')]
                 , 403
             );
             return $response;
@@ -1082,7 +1082,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to add bills']
+                ['message' => $this->trans->t('You are not allowed to add bills')]
                 , 401
             );
             return $response;
@@ -1116,7 +1116,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to add bills']
+                ['message' => $this->trans->t('You are not allowed to add bills')]
                 , 403
             );
             return $response;
@@ -1152,7 +1152,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this bill']
+                ['message' => $this->trans->t('You are not allowed to edit this bill')]
                 , 401
             );
             return $response;
@@ -1187,7 +1187,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 403
             );
             return $response;
@@ -1221,7 +1221,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 401
             );
             return $response;
@@ -1254,7 +1254,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 403
             );
             return $response;
@@ -1279,7 +1279,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 401
             );
             return $response;
@@ -1303,7 +1303,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 403
             );
             return $response;
@@ -1328,7 +1328,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 401
             );
             return $response;
@@ -1352,7 +1352,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 403
             );
             return $response;
@@ -1377,7 +1377,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 401
             );
             return $response;
@@ -1401,7 +1401,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 403
             );
             return $response;
@@ -1426,7 +1426,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 401
             );
             return $response;
@@ -1450,7 +1450,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 403
             );
             return $response;
@@ -1471,7 +1471,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 401
             );
             return $response;
@@ -1491,7 +1491,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 403
             );
             return $response;
@@ -1516,7 +1516,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 401
             );
             return $response;
@@ -1540,7 +1540,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'Unauthorized action']
+                ['message' => $this->trans->t('Unauthorized action')]
                 , 403
             );
             return $response;
@@ -1639,7 +1639,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit guest access level']
+                ['message' => $this->trans->t('You are not allowed to edit guest access level')]
                 , 403
             );
             return $response;
@@ -1654,7 +1654,7 @@ class PageController extends ApiController {
      */
     public function apiEditGuestAccessLevel($projectid, $password, $accesslevel) {
         $response = new DataResponse(
-            ['message' => 'You are not allowed to edit guest access level']
+            ['message' => $this->trans->t('You are not allowed to edit guest access level')]
             , 403
         );
         return $response;
@@ -1671,7 +1671,7 @@ class PageController extends ApiController {
         //    }
         //    else {
         //        $response = new DataResponse(
-        //            ['message' => 'You are not allowed to give such access level']
+        //            ['message' => $this->trans->t('You are not allowed to give such access level')]
         //            , 403
         //        );
         //        return $response;
@@ -1679,7 +1679,7 @@ class PageController extends ApiController {
         //}
         //else {
         //    $response = new DataResponse(
-        //        ['message' => 'You are not allowed to access this project']
+        //        ['message' => $this->trans->t('You are not allowed to access this project')]
         //        , 403
         //    );
         //    return $response;
@@ -1701,7 +1701,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to manage categories']
+                ['message' => $this->trans->t('You are not allowed to manage categories')]
                 , 403
             );
             return $response;
@@ -1727,7 +1727,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to manage categories']
+                ['message' => $this->trans->t('You are not allowed to manage categories')]
                 , 401
             );
             return $response;
@@ -1752,7 +1752,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to manage categories']
+                ['message' => $this->trans->t('You are not allowed to manage categories')]
                 , 403
             );
             return $response;
@@ -1774,7 +1774,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to manage categories']
+                ['message' => $this->trans->t('You are not allowed to manage categories')]
                 , 403
             );
             return $response;
@@ -1799,7 +1799,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to manage categories']
+                ['message' => $this->trans->t('You are not allowed to manage categories')]
                 , 401
             );
             return $response;
@@ -1823,7 +1823,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to manage categories']
+                ['message' => $this->trans->t('You are not allowed to manage categories')]
                 , 403
             );
             return $response;
@@ -1845,7 +1845,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to manage categories']
+                ['message' => $this->trans->t('You are not allowed to manage categories')]
                 , 403
             );
             return $response;
@@ -1870,7 +1870,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to manage categories']
+                ['message' => $this->trans->t('You are not allowed to manage categories')]
                 , 401
             );
             return $response;
@@ -1894,7 +1894,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to manage categories']
+                ['message' => $this->trans->t('You are not allowed to manage categories')]
                 , 403
             );
             return $response;
@@ -1916,7 +1916,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to manage currencies']
+                ['message' => $this->trans->t('You are not allowed to manage currencies')]
                 , 403
             );
             return $response;
@@ -1942,7 +1942,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to manage currencies']
+                ['message' => $this->trans->t('You are not allowed to manage currencies')]
                 , 401
             );
             return $response;
@@ -1967,7 +1967,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to manage currencies']
+                ['message' => $this->trans->t('You are not allowed to manage currencies')]
                 , 403
             );
             return $response;
@@ -1989,7 +1989,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to manage currencies']
+                ['message' => $this->trans->t('You are not allowed to manage currencies')]
                 , 403
             );
             return $response;
@@ -2014,7 +2014,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to manage currencies']
+                ['message' => $this->trans->t('You are not allowed to manage currencies')]
                 , 401
             );
             return $response;
@@ -2038,7 +2038,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to manage currencies']
+                ['message' => $this->trans->t('You are not allowed to manage currencies')]
                 , 403
             );
             return $response;
@@ -2060,7 +2060,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to manage currencies']
+                ['message' => $this->trans->t('You are not allowed to manage currencies')]
                 , 403
             );
             return $response;
@@ -2085,7 +2085,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to manage currencies']
+                ['message' => $this->trans->t('You are not allowed to manage currencies')]
                 , 401
             );
             return $response;
@@ -2109,7 +2109,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to manage currencies']
+                ['message' => $this->trans->t('You are not allowed to manage currencies')]
                 , 403
             );
             return $response;
@@ -2131,7 +2131,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this project']
+                ['message' => $this->trans->t('You are not allowed to edit this project')]
                 , 403
             );
             return $response;
@@ -2156,7 +2156,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to remove this shared access']
+                ['message' => $this->trans->t('You are not allowed to remove this shared access')]
                 , 403
             );
             return $response;
@@ -2178,7 +2178,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this project']
+                ['message' => $this->trans->t('You are not allowed to edit this project')]
                 , 403
             );
             return $response;
@@ -2203,7 +2203,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to remove this shared access']
+                ['message' => $this->trans->t('You are not allowed to remove this shared access')]
                 , 403
             );
             return $response;
@@ -2225,7 +2225,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to edit this project']
+                ['message' => $this->trans->t('You are not allowed to edit this project')]
                 , 403
             );
             return $response;
@@ -2250,7 +2250,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to remove this shared access']
+                ['message' => $this->trans->t('You are not allowed to remove this shared access')]
                 , 403
             );
             return $response;
@@ -2317,7 +2317,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to export this project settlement']
+                ['message' => $this->trans->t('You are not allowed to export this project settlement')]
                 , 403
             );
             return $response;
@@ -2342,7 +2342,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to export this project statistics']
+                ['message' => $this->trans->t('You are not allowed to export this project statistics')]
                 , 403
             );
             return $response;
@@ -2369,7 +2369,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => 'You are not allowed to export this project']
+                ['message' => $this->trans->t('You are not allowed to export this project')]
                 , 403
             );
             return $response;

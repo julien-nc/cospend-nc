@@ -326,21 +326,22 @@ input[type=number] {
 .app-navigation-entry-share {
     display: none;
 }
-.app-navigation-entry-share li {
+/*.app-navigation-entry-share li {
     display: inline-block !important;
     padding: 5px 10px 5px 10px !important;
 }
+*/
+.shareitem input[type=radio] {
+    min-width: 0px;
+    min-height: 0px;
+    flex: initial;
+    margin-left: 0px !important;
+    margin-right: 5px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
 .shareinput {
     width: 100%;
-}
-.shareLabel {
-    float: left;
-}
-.shareLabel span {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100px;
 }
 .icon-currencies {
     background-color: var(--color-main-text);
@@ -433,18 +434,6 @@ input[type=number] {
 }
 .memberitem > a {
     opacity: 1 !important;
-}
-.shareLabel * {
-    float: left;
-}
-.shareLabelIcon {
-    margin-left: 10px;
-    margin-right: 10px;
-}
-.shareLabelIcon {
-    width: 20px;
-    height: 25px;
-    background-position: 0px 4px;
 }
 .shareCompleteIcon {
     background-color: inherit;

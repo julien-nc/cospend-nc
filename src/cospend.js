@@ -3656,7 +3656,7 @@ var ACCESS_ADMIN = 4;
             data: req,
             async: true
         }).done(function (response) {
-            addShare(projectid, userid, username, response, 'u', 'edc');
+            addShare(projectid, userid, username, response, 'u', ACCESS_PARTICIPANT);
             var projectname = getProjectName(projectid);
             OC.Notification.showTemporary(t('cospend', 'Shared project {pname} with {uname}', {pname: projectname, uname: username}));
         }).always(function() {
@@ -3670,7 +3670,8 @@ var ACCESS_ADMIN = 4;
     }
 
     function deleteUserShareDb(projectid, shid) {
-        $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteUserShareButton').addClass('icon-loading-small');
+        $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] ' +
+            '.deleteUserShareButton span:first').addClass('icon-loading-small');
         var req = {
             projectid: projectid,
             shid: shid
@@ -3687,7 +3688,8 @@ var ACCESS_ADMIN = 4;
                 li.remove();
             });
         }).always(function() {
-            $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteUserShareButton').removeClass('icon-loading-small');
+            $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] '+
+                '.deleteUserShareButton span:first').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(
                 t('cospend', 'Failed to delete user share') +
@@ -3709,7 +3711,7 @@ var ACCESS_ADMIN = 4;
             data: req,
             async: true
         }).done(function (response) {
-            addShare(projectid, circleId, circleName, response, 'c', 'edc');
+            addShare(projectid, circleId, circleName, response, 'c', ACCESS_PARTICIPANT);
             var projectname = getProjectName(projectid);
             OC.Notification.showTemporary(t('cospend', 'Shared project {pname} with circle {cname}', {pname: projectname, cname: circleName}));
         }).always(function() {
@@ -3762,7 +3764,7 @@ var ACCESS_ADMIN = 4;
             data: req,
             async: true
         }).done(function (response) {
-            addShare(projectid, groupid, groupname, response, 'g', 'edc');
+            addShare(projectid, groupid, groupname, response, 'g', ACCESS_PARTICIPANT);
             var projectname = getProjectName(projectid);
             OC.Notification.showTemporary(t('cospend', 'Shared project {pname} with group {gname}', {pname: projectname, gname: groupname}));
         }).always(function() {
@@ -3796,21 +3798,71 @@ var ACCESS_ADMIN = 4;
             iconClass = 'share-icon-circle';
             deleteButtonClass = 'deleteCircleShareButton';
         }
-        var li = '<li shid="'+id+'" elemid="'+escapeHTML(elemId)+'" elemname="' + escapeHTML(elemName) + '">' +
-            '<div class="shareLabel"><div class="shareLabelIcon '+iconClass+'">'+
-            '</div><span>' + displayString + '</span></div>' +
-            '<div class="icon-delete '+deleteButtonClass+'"></div>'+
-
-            '<div class="icon-user-admin accesslevel accesslevelAdmin '+(accesslevel === ACCESS_ADMIN ? 'accesslevelActive' : '')+'" ' +
-            'title="'+t('cospend', 'Admin: edit/delete project + maintener permissions')+'"></div>'+
-            '<div class="icon-category-customization accesslevel accesslevelMaintener '+(accesslevel === ACCESS_MAINTENER ? 'accesslevelActive' : '')+'" ' +
-            'title="'+t('cospend', 'Maintener: add/edit members/categories/currencies + participant permissions')+'"></div>'+
-            '<div class="icon-rename accesslevel accesslevelParticipant '+(accesslevel === ACCESS_PARTICIPANT ? 'accesslevelActive' : '')+'" ' +
-            'title="'+t('cospend', 'Participant: add/edit/delete bills + viewer permissions')+'"></div>'+
-            '<div class="icon-toggle accesslevel accesslevelViewer '+(accesslevel === ACCESS_VIEWER ? 'accesslevelActive' : '')+'" ' +
-            'title="'+t('cospend', 'Viewer')+'"></div>'+
-
+        var li =
+            '<li class="shareitem" shid="'+id+'" elemid="'+escapeHTML(elemId)+'" elemname="' + escapeHTML(elemName) + '">' +
+            '    <a class="'+iconClass+'" href="#" title="'+projectid+'">' +
+            '        <span>' + displayString + '</span>' +
+            '    </a>' +
+            '    <div class="app-navigation-entry-utils">' +
+            '    <ul>' +
+            '            <li class="app-navigation-entry-utils-menu-button projectMenuButton">' +
+            '                <button></button>' +
+            '            </li>' +
+            '     </ul>' +
+            '    </div>' +
+            '    <div class="app-navigation-entry-menu">' +
+            '        <ul>' +
+            '            <li>' +
+            '                <a href="#" class="accesslevel accesslevelViewer">' +
+            '                    <span class="icon-toggle"></span>' +
+            '                    <input type="radio" ' + (accesslevel === ACCESS_VIEWER ? 'checked' : '') + '/>' +
+            '                    <label>'+t('cospend', 'Viewer')+'</label>' +
+            '                </a>' +
+            '            </li><li>' +
+            '            <li>' +
+            '                <a href="#" class="accesslevel accesslevelParticipant" title="'+t('cospend', 'Participant: add/edit/delete bills + viewer permissions')+'">' +
+            '                    <span class="icon-rename"></span>' +
+            '                    <input type="radio" ' + (accesslevel === ACCESS_PARTICIPANT ? 'checked' : '') + '/>' +
+            '                    <label>'+t('cospend', 'Participant')+'</label>' +
+            '                </a>' +
+            '            </li><li>' +
+            '            <li>' +
+            '                <a href="#" class="accesslevel accesslevelMaintener" title="'+t('cospend', 'Maintener: add/edit members/categories/currencies + participant permissions')+'">' +
+            '                    <span class="icon-category-customization"></span>' +
+            '                    <input type="radio" ' + (accesslevel === ACCESS_MAINTENER ? 'checked' : '') + '/>' +
+            '                    <label>'+t('cospend', 'Maintener')+'</label>' +
+            '                </a>' +
+            '            </li><li>' +
+            '            <li>' +
+            '                <a href="#" class="accesslevel accesslevelAdmin" title="'+t('cospend', 'Admin: edit/delete project + maintener permissions')+'">' +
+            '                    <span class="icon-user-admin"></span>' +
+            '                    <input type="radio" ' + (accesslevel === ACCESS_ADMIN ? 'checked' : '') + '/>' +
+            '                    <label>'+t('cospend', 'Admin')+'</label>' +
+            '                </a>' +
+            '            </li><li>' +
+            '                <a href="#" class="' + deleteButtonClass + '">' +
+            '                    <span class="icon-delete"></span>' +
+            '                    <span>'+t('cospend', 'Delete')+'</span>' +
+            '                </a>' +
+            '            </li>' +
+            '       </ul>' +
+            '   </div>' +
             '</li>';
+        //var li = '<li shid="'+id+'" elemid="'+escapeHTML(elemId)+'" elemname="' + escapeHTML(elemName) + '">' +
+        //    '<div class="shareLabel"><div class="shareLabelIcon '+iconClass+'">'+
+        //    '</div><span>' + displayString + '</span></div>' +
+        //    '<div class="icon-delete '+deleteButtonClass+'"></div>'+
+
+        //    '<div class="icon-user-admin accesslevel accesslevelAdmin '+(accesslevel === ACCESS_ADMIN ? 'accesslevelActive' : '')+'" ' +
+        //    'title="'+t('cospend', 'Admin: edit/delete project + maintener permissions')+'"></div>'+
+        //    '<div class="icon-category-customization accesslevel accesslevelMaintener '+(accesslevel === ACCESS_MAINTENER ? 'accesslevelActive' : '')+'" ' +
+        //    'title="'+t('cospend', 'Maintener: add/edit members/categories/currencies + participant permissions')+'"></div>'+
+        //    '<div class="icon-rename accesslevel accesslevelParticipant '+(accesslevel === ACCESS_PARTICIPANT ? 'accesslevelActive' : '')+'" ' +
+        //    'title="'+t('cospend', 'Participant: add/edit/delete bills + viewer permissions')+'"></div>'+
+        //    '<div class="icon-toggle accesslevel accesslevelViewer '+(accesslevel === ACCESS_VIEWER ? 'accesslevelActive' : '')+'" ' +
+        //    'title="'+t('cospend', 'Viewer')+'"></div>'+
+
+        //    '</li>';
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share').append(li);
         $('.projectitem[projectid="' + projectid + '"] .shareinput').val('');
     }
@@ -3844,7 +3896,7 @@ var ACCESS_ADMIN = 4;
 
     function editShareAccessLevelDb(projectid, shid, accesslevel) {
         $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
-        $('li[shid="'+shid+'"] .accesslevel').addClass('icon-loading-small');
+        $('li[shid="'+shid+'"] .accesslevel span').addClass('icon-loading-small');
         var req = {
             projectid: projectid,
             shid: shid,
@@ -3860,7 +3912,7 @@ var ACCESS_ADMIN = 4;
             applyShareAccessLevel(projectid, shid, accesslevel);
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
-            $('li[shid="'+shid+'"] .accesslevel').removeClass('icon-loading-small');
+            $('li[shid="'+shid+'"] .accesslevel span').removeClass('icon-loading-small');
         }).fail(function(response) {
             OC.Notification.showTemporary(
                 t('cospend', 'Failed to edit share access level') +
@@ -3871,18 +3923,18 @@ var ACCESS_ADMIN = 4;
 
     function applyShareAccessLevel(projectid, shid, accesslevel) {
         var shLine = $('li[shid="'+shid+'"]');
-        shLine.find('.accesslevel').removeClass('accesslevelActive');
+        shLine.find('.accesslevel input[type=radio]').prop('checked', false);
         if (accesslevel === ACCESS_VIEWER) {
-            shLine.find('.accesslevelViewer').addClass('accesslevelActive');
+            shLine.find('.accesslevelViewer input[type=radio]').prop('checked', true);
         }
         else if (accesslevel === ACCESS_PARTICIPANT) {
-            shLine.find('.accesslevelParticipant').addClass('accesslevelActive');
+            shLine.find('.accesslevelParticipant input[type=radio]').prop('checked', true);
         }
         else if (accesslevel === ACCESS_MAINTENER) {
-            shLine.find('.accesslevelMaintener').addClass('accesslevelActive');
+            shLine.find('.accesslevelMaintener input[type=radio]').prop('checked', true);
         }
         else if (accesslevel === ACCESS_ADMIN) {
-            shLine.find('.accesslevelAdmin').addClass('accesslevelActive');
+            shLine.find('.accesslevelAdmin input[type=radio]').prop('checked', true);
         }
     }
 
@@ -4436,26 +4488,26 @@ var ACCESS_ADMIN = 4;
         });
 
         $('body').on('click', '.deleteUserShareButton', function(e) {
-            var projectid = $(this).parent().parent().parent().attr('projectid');
-            var shid = $(this).parent().attr('shid');
+            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            var shid = $(this).parent().parent().parent().parent().attr('shid');
             deleteUserShareDb(projectid, shid);
         });
 
         $('body').on('click', '.deleteGroupShareButton', function(e) {
-            var projectid = $(this).parent().parent().parent().attr('projectid');
-            var shid = $(this).parent().attr('shid');
+            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            var shid = $(this).parent().parent().parent().parent().attr('shid');
             deleteGroupShareDb(projectid, shid);
         });
 
         $('body').on('click', '.deleteCircleShareButton', function(e) {
-            var projectid = $(this).parent().parent().parent().attr('projectid');
-            var shid = $(this).parent().attr('shid');
+            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            var shid = $(this).parent().parent().parent().parent().attr('shid');
             deleteCircleShareDb(projectid, shid);
         });
 
         $('body').on('click', '.accesslevel', function(e) {
-            var projectid = $(this).parent().parent().parent().attr('projectid');
-            var shid = $(this).parent().attr('shid');
+            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            var shid = $(this).parent().parent().parent().parent().attr('shid');
             var accesslevel = ACCESS_VIEWER;
             if ($(this).hasClass('accesslevelAdmin')) {
                 accesslevel = ACCESS_ADMIN;
@@ -4467,6 +4519,7 @@ var ACCESS_ADMIN = 4;
                 accesslevel = ACCESS_PARTICIPANT;
             }
             editShareAccessLevelDb(projectid, shid, accesslevel);
+            e.stopPropagation();
         });
 
         $('body').on('click', '.accesslevelguest', function(e) {
@@ -4493,7 +4546,7 @@ var ACCESS_ADMIN = 4;
             else {
                 shareDiv.slideDown();
                 $(this).addClass('activeButton');
-                var defaultShareText = t('cospend', 'user or group name');
+                var defaultShareText = t('cospend', 'User, group or circle name');
                 $(this).parent().parent().parent().find('.shareinput').val(defaultShareText).focus().select();
             }
         });

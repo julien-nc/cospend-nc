@@ -3585,11 +3585,17 @@ var ACCESS_ADMIN = 4;
             '        <span>' + displayString + '</span>' +
             '    </a>' +
             '    <div class="app-navigation-entry-utils">' +
-            '    <ul>' +
-            // TODO add 'copy to clipboard' button
-            '            <li class="app-navigation-entry-utils-menu-button projectMenuButton">' +
-            '                <button></button>' +
-            '            </li>' +
+            '    <ul>';
+        if (type === 'l') {
+            li +=
+            '        <li class="app-navigation-entry-utils-menu-button copyPublicShareButton">' +
+            '            <button class="icon-clippy"></button>' +
+            '        </li>';
+            }
+        li +=
+            '        <li class="app-navigation-entry-utils-menu-button projectMenuButton">' +
+            '            <button></button>' +
+            '        </li>' +
             '     </ul>' +
             '    </div>' +
             '    <div class="app-navigation-entry-menu">' +
@@ -4207,6 +4213,12 @@ var ACCESS_ADMIN = 4;
         }
     }
 
+    function copyToClipboard(text) {
+        var dummy = $('<input id="dummycopy">').val(text).appendTo('body').select();
+        document.execCommand('copy');
+        $('#dummycopy').remove();
+    }
+
     $(document).ready(function() {
         cospend.pageIsPublic = (document.URL.indexOf('/cospend/project') !== -1);
         if ( !cospend.pageIsPublic ) {
@@ -4268,6 +4280,15 @@ var ACCESS_ADMIN = 4;
             var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
             var shid = $(this).parent().parent().parent().parent().attr('shid');
             deletePublicShareDb(projectid, shid);
+        });
+
+        $('body').on('click', '.copyPublicShareButton', function(e) {
+            var token = $(this).parent().parent().parent().attr('token');
+            var projectid = $(this).parent().parent().parent().attr('projectid');
+            var publicLink = generateUrl('/apps/cospend/s/'+token);
+            publicLink = window.location.protocol + '//' + window.location.host + publicLink;
+            copyToClipboard(publicLink);
+            OC.Notification.showTemporary(t('cospend', 'Public link copied to clipboard'));
         });
 
         $('body').on('click', '.addPublicShareButton', function(e) {
@@ -4753,9 +4774,7 @@ var ACCESS_ADMIN = 4;
             var guestLink;
             guestLink = generateUrl('/apps/cospend/loginproject/'+projectid);
             guestLink = window.location.protocol + '//' + window.location.host + guestLink;
-            var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select();
-            document.execCommand('copy');
-            $('#dummycopy').remove();
+            copyToClipboard(guestLink);
             OC.Notification.showTemporary(t('cospend', 'Guest link for \'{pid}\' copied to clipboard', {pid: projectid}));
         });
 

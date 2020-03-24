@@ -310,34 +310,6 @@ class ProjectService {
         return $result;
     }
 
-    /**
-     * check if user owns the external project
-     */
-    public function userCanAccessExternalProject($userid, $projectid, $ncurl) {
-        $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('projectid')
-           ->from('cospend_ext_projects', 'ep')
-           ->where(
-               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
-           )
-           ->andWhere(
-               $qb->expr()->eq('ncurl', $qb->createNamedParameter($ncurl, IQueryBuilder::PARAM_STR))
-           )
-           ->andWhere(
-               $qb->expr()->eq('userid', $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR))
-           );
-        $req = $qb->execute();
-        $dbProjectId = null;
-        while ($row = $req->fetch()){
-            $dbProjectId = $row['projectid'];
-            break;
-        }
-        $req->closeCursor();
-        $qb = $qb->resetQueryParts();
-
-        return ($dbProjectId !== null);
-    }
-
     public function createProject($name, $id, $password, $contact_email, $userid='') {
         $qb = $this->dbconnection->getQueryBuilder();
 
@@ -384,45 +356,6 @@ class ProjectService {
         }
         else {
             return ['message' => $this->trans->t('A project with id "%1$s" already exists', [$id])];
-        }
-    }
-
-    public function addExternalProject($ncurl, $id, $password, $userid) {
-        $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('projectid')
-           ->from('cospend_ext_projects', 'ep')
-           ->where(
-               $qb->expr()->eq('projectid', $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR))
-           )
-           ->andWhere(
-               $qb->expr()->eq('ncurl', $qb->createNamedParameter($ncurl, IQueryBuilder::PARAM_STR))
-           );
-        $req = $qb->execute();
-        $dbprojectid = null;
-        while ($row = $req->fetch()){
-            $dbprojectid = $row['projectid'];
-            break;
-        }
-        $req->closeCursor();
-        $qb = $qb->resetQueryParts();
-        if ($dbprojectid === null) {
-            // check if id is valid
-            if (strpos($id, '/') !== false) {
-                return ['message' => $this->trans->t('Invalid project id')];
-            }
-            $qb->insert('cospend_ext_projects')
-                ->values([
-                    'userid' => $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR),
-                    'projectid' => $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR),
-                    'ncurl' => $qb->createNamedParameter($ncurl, IQueryBuilder::PARAM_STR),
-                    'password' => $qb->createNamedParameter($password, IQueryBuilder::PARAM_STR)
-                ]);
-            $req = $qb->execute();
-
-            return $id;
-        }
-        else {
-            return ['message' => $this->trans->t('A project with id "%1$s" and url "%2$s" already exists', [$id, $ncurl])];
         }
     }
 
@@ -1276,37 +1209,6 @@ class ProjectService {
         }
     }
 
-    public function editExternalProject($projectid, $ncurl, $password) {
-        $qb = $this->dbconnection->getQueryBuilder();
-        $qb->update('cospend_ext_projects');
-        $qb->set('password', $qb->createNamedParameter($password, IQueryBuilder::PARAM_STR));
-        $qb->where(
-            $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
-        )
-        ->andWhere(
-            $qb->expr()->eq('ncurl', $qb->createNamedParameter($ncurl, IQueryBuilder::PARAM_STR))
-        );
-        $req = $qb->execute();
-        $qb = $qb->resetQueryParts();
-
-        return 'UPDATED';
-    }
-
-    public function deleteExternalProject($projectid, $ncurl) {
-        $qb = $this->dbconnection->getQueryBuilder();
-        $qb->delete('cospend_ext_projects')
-            ->where(
-                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
-            )
-            ->andWhere(
-                $qb->expr()->eq('ncurl', $qb->createNamedParameter($ncurl, IQueryBuilder::PARAM_STR))
-            );
-        $req = $qb->execute();
-        $qb = $qb->resetQueryParts();
-
-        return 'DELETED';
-    }
-
     public function addMember($projectid, $name, $weight, $active=1, $color=null) {
         if ($name !== null && $name !== '') {
             if ($this->getMemberByName($projectid, $name) === null) {
@@ -1989,32 +1891,6 @@ class ProjectService {
             $projects[$i]['categories'] = $categories;
             $projects[$i]['myaccesslevel'] = $myAccessLevel;
         }
-
-        // get external projects
-        $qb->select('ep.projectid', 'ep.password', 'ep.ncurl')
-           ->from('cospend_ext_projects', 'ep')
-           ->where(
-               $qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
-           );
-        $req = $qb->execute();
-
-        while ($row = $req->fetch()){
-            $dbProjectId = $row['projectid'];
-            $dbPassword = $row['password'];
-            $dbNcUrl = $row['ncurl'];
-            array_push($projects, [
-                'name' => $dbProjectId.'@'.$dbNcUrl,
-                'ncurl' => $dbNcUrl,
-                'id' => $dbProjectId,
-                'password' => $dbPassword,
-                'active_members' => null,
-                'members' => null,
-                'balance' => null,
-                'shares' => [],
-                'external' => true
-            ]);
-        }
-        $req->closeCursor();
 
         return $projects;
     }

@@ -345,21 +345,6 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webAddExternalProject($id, $url, $password) {
-        $result = $this->projectService->addExternalProject($url, $id, $password, $this->userId);
-        if (!is_array($result) and is_string($result)) {
-            // project id
-            return new DataResponse($result);
-        }
-        else {
-            return new DataResponse($result, 400);
-        }
-    }
-
-    /**
-     * @NoAdminRequired
-     *
-     */
     public function webDeleteProject($projectid) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_ADMIN) {
             $result = $this->projectService->deleteProject($projectid);
@@ -571,52 +556,6 @@ class PageController extends ApiController {
             $response = new DataResponse(
                 ['message' => $this->trans->t('You are not allowed to edit this project')]
                 , 403
-            );
-            return $response;
-        }
-    }
-
-    /**
-     * @NoAdminRequired
-     *
-     */
-    public function webEditExternalProject($projectid, $ncurl, $password) {
-        if ($this->projectService->userCanAccessExternalProject($this->userId, $projectid, $ncurl)) {
-            $result = $this->projectService->editExternalProject($projectid, $ncurl, $password);
-            if ($result === 'UPDATED') {
-                return new DataResponse($result);
-            }
-            else {
-                return new DataResponse($result, 403);
-            }
-        }
-        else {
-            $response = new DataResponse(
-                ['message' => $this->trans->t('You are not allowed to edit this external project')]
-                , 400
-            );
-            return $response;
-        }
-    }
-
-    /**
-     * @NoAdminRequired
-     *
-     */
-    public function webDeleteExternalProject($projectid, $ncurl) {
-        if ($this->projectService->userCanAccessExternalProject($this->userId, $projectid, $ncurl)) {
-            $result = $this->projectService->deleteExternalProject($projectid, $ncurl);
-            if ($result === 'DELETED') {
-                return new DataResponse($result);
-            }
-            else {
-                return new DataResponse($result, 403);
-            }
-        }
-        else {
-            $response = new DataResponse(
-                ['message' => $this->trans->t('You are not allowed to delete this external project')]
-                , 400
             );
             return $response;
         }

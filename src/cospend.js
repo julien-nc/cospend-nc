@@ -275,70 +275,6 @@ var ACCESS_ADMIN = 4;
         }
     }
 
-    function addExtProject(ncurl, id, password) {
-        $('#addextproject').addClass('icon-loading-small');
-        var req = {
-            id: id,
-            url: ncurl,
-            password: password
-        };
-        var url = generateUrl('/apps/cospend/addExternalProject');
-        $.ajax({
-            type: 'POST',
-            url: url,
-            data: req,
-            async: true,
-        }).done(function (response) {
-            // get project info
-            getExternalProject(ncurl, id, password, true);
-        }).always(function() {
-            $('#addextproject').removeClass('icon-loading-small');
-        }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to add external project') + ': ' + response.responseJSON.message);
-            $('#addextproject').removeClass('icon-loading-small');
-        });
-    }
-
-    function getExternalProject(ncurl, id, password, select=false) {
-        var req = {
-        };
-        var url = ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + password;
-        $.ajax({
-            type: 'GET',
-            url: url,
-            data: req,
-            async: true,
-        }).done(function (response) {
-            response.external = true;
-            response.ncurl = ncurl;
-            response.password = password;
-            response.id = id + '@' + ncurl;
-            addProject(response);
-
-            var div = $('#addextprojectdiv');
-            $('#addextprojectbutton').removeClass('icon-triangle-s').addClass('icon-triangle-e');
-            div.slideUp('normal', function() {
-                $('#newBillButton').fadeIn();
-                $('#newprojectbutton').fadeIn();
-            });
-
-            // select created project
-            if (select) {
-                selectProject($('.projectitem[projectid="'+response.id+'"]'));
-            }
-        }).always(function() {
-            $('#addextproject').removeClass('icon-loading-small');
-        }).fail(function(response) {
-            if (select) {
-                deleteExternalProject(id + '@' + ncurl);
-            }
-            OC.Notification.showTemporary(
-                t('cospend', 'Failed to get external project') +
-                ': ' + (response.responseJSON.message || '')
-            );
-        });
-    }
-
     function createProject(id, name, password) {
         if (!name || name.match(',') || name.match('/') ||
             !id || id.match(',') || id.match('/')
@@ -366,7 +302,6 @@ var ACCESS_ADMIN = 4;
                 members: [],
                 active_members: [],
                 balance: {},
-                external: false,
                 guestaccesslevel: ACCESS_PARTICIPANT,
                 categories: {},
                 currencies: []
@@ -376,14 +311,12 @@ var ACCESS_ADMIN = 4;
             $('#newprojectbutton').removeClass('icon-triangle-s').addClass('icon-triangle-e');
             div.slideUp('normal', function() {
                 $('#newBillButton').fadeIn();
-                $('#addextprojectbutton').fadeIn();
             });
             // select created project
             selectProject($('.projectitem[projectid="'+id+'"]'));
         }).always(function() {
             $('#createproject').removeClass('icon-loading-small');
         }).fail(function(response) {
-            console.log(response);
             OC.Notification.showTemporary(t('cospend', 'Failed to create project') + ': ' + response.responseJSON.message);
         });
     }
@@ -400,14 +333,8 @@ var ACCESS_ADMIN = 4;
         var url;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/apiv2/projects/' + id + '/' + project.password + '/members';
-            }
-            else {
-                req.projectid = projectid;
-                url = generateUrl('/apps/cospend/addMember');
-            }
+            req.projectid = projectid;
+            url = generateUrl('/apps/cospend/addMember');
         }
         else {
             url = generateUrl('/apps/cospend/apiv2/projects/'+cospend.projectid+'/'+cospend.password+'/members');
@@ -471,17 +398,10 @@ var ACCESS_ADMIN = 4;
         var url, type;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/members/' + memberid;
-                type = 'PUT';
-            }
-            else {
-                req.projectid = projectid;
-                req.memberid = memberid;
-                url = generateUrl('/apps/cospend/editMember');
-                type = 'POST';
-            }
+            req.projectid = projectid;
+            req.memberid = memberid;
+            url = generateUrl('/apps/cospend/editMember');
+            type = 'POST';
         }
         else {
             url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/members/'+memberid);
@@ -564,14 +484,8 @@ var ACCESS_ADMIN = 4;
         var url, type;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/bills';
-            }
-            else {
-                req.projectid = projectid;
-                url = generateUrl('/apps/cospend/addBill');
-            }
+            req.projectid = projectid;
+            url = generateUrl('/apps/cospend/addBill');
         }
         else {
             url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/bills');
@@ -644,17 +558,10 @@ var ACCESS_ADMIN = 4;
         var url, type;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/bills/' + billid;
-                type = 'PUT';
-            }
-            else {
-                req.projectid = projectid;
-                req.billid = billid;
-                type = 'POST';
-                url = generateUrl('/apps/cospend/editBill');
-            }
+            req.projectid = projectid;
+            req.billid = billid;
+            type = 'POST';
+            url = generateUrl('/apps/cospend/editBill');
         }
         else {
             type = 'PUT';
@@ -772,70 +679,6 @@ var ACCESS_ADMIN = 4;
         }
     }
 
-    function deleteExternalProject(projectid, updateList=false) {
-        var id = projectid.split('@')[0];
-        var ncurl = projectid.split('@')[1];
-
-        var req = {
-            projectid: id,
-            ncurl: ncurl
-        };
-        var url, type;
-        var project = cospend.projects[projectid];
-        type = 'POST';
-        url = generateUrl('/apps/cospend/deleteExternalProject');
-        $.ajax({
-            type: type,
-            url: url,
-            data: req,
-            async: true,
-        }).done(function (response) {
-            if (updateList) {
-                $('.projectitem[projectid="'+projectid+'"]').fadeOut('normal', function() {
-                    $(this).remove();
-                });
-                if (cospend.currentProjectId === projectid) {
-                    $('#bill-list').html('');
-                    $('#billdetail').html('');
-                }
-            }
-        }).always(function() {
-        }).fail(function(response) {
-            OC.Notification.showTemporary(
-                t('cospend', 'Failed to delete external project') +
-                ': ' + (response.responseJSON.message || response.responseText)
-            );
-        });
-    }
-
-    function editExternalProject(projectid, newPassword) {
-        var id = projectid.split('@')[0];
-        var ncurl = projectid.split('@')[1];
-
-        var req = {
-            projectid: id,
-            ncurl: ncurl,
-            password: newPassword
-        };
-        var url, type;
-        var project = cospend.projects[projectid];
-        type = 'POST';
-        url = generateUrl('/apps/cospend/editExternalProject');
-        $.ajax({
-            type: type,
-            url: url,
-            data: req,
-            async: true,
-        }).done(function (response) {
-        }).always(function() {
-        }).fail(function(response) {
-            OC.Notification.showTemporary(
-                t('cospend', 'Failed to save external project') +
-                ': ' + (response.responseJSON.message || response.responseText)
-            );
-        });
-    }
-
     function editProject(projectid, newName, newEmail, newPassword, newAutoexport=null, newcurrencyname=null) {
         var req = {
             name: newName,
@@ -847,16 +690,9 @@ var ACCESS_ADMIN = 4;
         var url, type;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password;
-                type = 'PUT';
-            }
-            else {
-                req.projectid = projectid;
-                type = 'POST';
-                url = generateUrl('/apps/cospend/editProject');
-            }
+            req.projectid = projectid;
+            type = 'POST';
+            url = generateUrl('/apps/cospend/editProject');
         }
         else {
             type = 'PUT';
@@ -868,17 +704,10 @@ var ACCESS_ADMIN = 4;
             data: req,
             async: true,
         }).done(function (response) {
-            // we also need to edit the external project on our NC instance
-            if (project.external && newPassword) {
-                editExternalProject(projectid, newPassword);
-            }
             var projectLine = $('.projectitem[projectid="'+projectid+'"]');
             // update project values
             if (newName) {
                 var displayedName = escapeHTML(newName);
-                if (project.external) {
-                    displayedName = '<span class="icon-external" style="display: inline-grid; margin-bottom: -3px;"></span> ' + displayedName;
-                }
                 projectLine.find('>a span').html(displayedName);
                 cospend.projects[projectid].name = newName;
             }
@@ -930,16 +759,9 @@ var ACCESS_ADMIN = 4;
         var url, type;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password;
-                type = 'DELETE';
-            }
-            else {
-                req.projectid = projectid;
-                url = generateUrl('/apps/cospend/deleteProject');
-                type = 'POST';
-            }
+            req.projectid = projectid;
+            url = generateUrl('/apps/cospend/deleteProject');
+            type = 'POST';
         }
         else {
             type = 'DELETE';
@@ -951,9 +773,6 @@ var ACCESS_ADMIN = 4;
             data: req,
             async: true,
         }).done(function (response) {
-            if (project.external) {
-                deleteExternalProject(projectid);
-            }
             $('.projectitem[projectid="'+projectid+'"]').fadeOut('normal', function() {
                 $(this).remove();
             });
@@ -981,17 +800,10 @@ var ACCESS_ADMIN = 4;
         var url, type;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/bills/' + billid;
-                type = 'DELETE';
-            }
-            else {
-                req.projectid = projectid;
-                req.billid = billid;
-                type = 'POST';
-                url = generateUrl('/apps/cospend/deleteBill');
-            }
+            req.projectid = projectid;
+            req.billid = billid;
+            type = 'POST';
+            url = generateUrl('/apps/cospend/deleteBill');
         }
         else {
             type = 'DELETE';
@@ -1066,18 +878,10 @@ var ACCESS_ADMIN = 4;
                 cospend.members = {};
                 cospend.projects = {};
                 for (var i = 0; i < response.length; i++) {
-                    // get project info if it's external
-                    if (response[i].external) {
-                        getExternalProject(response[i].ncurl, response[i].id, response[i].password);
-                    }
-                    else {
-                        response[i].external = false;
-                        addProject(response[i]);
-                    }
+                    addProject(response[i]);
                 }
             }
             else {
-                response.external = false;
                 response.myaccesslevel = response.guestaccesslevel;
                 addProject(response);
                 $('.projectitem').addClass('open');
@@ -1099,16 +903,9 @@ var ACCESS_ADMIN = 4;
         var type;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password;
-                type = 'GET';
-            }
-            else {
-                req.projectid = projectid;
-                url = generateUrl('/apps/cospend/getProjectInfo');
-                type = 'POST';
-            }
+            req.projectid = projectid;
+            url = generateUrl('/apps/cospend/getProjectInfo');
+            type = 'POST';
         }
         else {
             url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
@@ -1139,16 +936,9 @@ var ACCESS_ADMIN = 4;
         var type;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password;
-                type = 'GET';
-            }
-            else {
-                req.projectid = projectid;
-                url = generateUrl('/apps/cospend/getProjectInfo');
-                type = 'POST';
-            }
+            req.projectid = projectid;
+            url = generateUrl('/apps/cospend/getProjectInfo');
+            type = 'POST';
         }
         else {
             url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
@@ -1188,16 +978,9 @@ var ACCESS_ADMIN = 4;
         var type;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/statistics';
-                type = 'GET';
-            }
-            else {
-                req.projectid = projectid;
-                type = 'POST';
-                url = generateUrl('/apps/cospend/getStatistics');
-            }
+            req.projectid = projectid;
+            type = 'POST';
+            url = generateUrl('/apps/cospend/getStatistics');
         }
         else {
             type = 'GET';
@@ -1237,16 +1020,9 @@ var ACCESS_ADMIN = 4;
         var type;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/settle';
-                type = 'GET';
-            }
-            else {
-                req.projectid = projectid;
-                type = 'POST';
-                url = generateUrl('/apps/cospend/getSettlement');
-            }
+            req.projectid = projectid;
+            type = 'POST';
+            url = generateUrl('/apps/cospend/getSettlement');
         }
         else {
             type = 'GET';
@@ -1282,7 +1058,7 @@ var ACCESS_ADMIN = 4;
         var toStr = t('cospend', 'To whom?');
         var howMuchStr = t('cospend', 'How much?');
         var exportStr = '';
-        if (!cospend.pageIsPublic && !project.external) {
+        if (!cospend.pageIsPublic) {
             exportStr = ' <button class="exportSettlement" projectid="'+projectid+'"><span class="icon-file"></span>'+t('cospend', 'Export')+'</button>';
         }
         var autoSettleStr = ' <button class="autoSettlement" projectid="'+projectid+'"><span class="icon-play"></span>'+t('cospend', 'Add these payments to project')+'</button>';
@@ -1325,17 +1101,7 @@ var ACCESS_ADMIN = 4;
         }
 
         var project = cospend.projects[projectid];
-        var url;
-
-        if (project.external) {
-            var id = projectid.split('@')[0];
-            var ncurl = project.ncurl;
-            var password = project.password;
-            url = 'https://net.eneiluj.moneybuster.cospend/' + ncurl.replace(/\/$/, '').replace(/https?:\/\//gi, '') + '/' + id + '/' + password;
-        }
-        else {
-            url = 'https://net.eneiluj.moneybuster.cospend/' + window.location.host + generateUrl('').replace('/index.php', '') + projectid + '/';
-        }
+        var url= 'https://net.eneiluj.moneybuster.cospend/' + window.location.host + generateUrl('').replace('/index.php', '') + projectid + '/';
 
         var projectName = getProjectName(projectid);
         $('#billdetail').html('');
@@ -1480,14 +1246,8 @@ var ACCESS_ADMIN = 4;
         var url;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/currency';
-            }
-            else {
-                req.projectid = projectid;
-                url = generateUrl('/apps/cospend/addCurrency');
-            }
+            req.projectid = projectid;
+            url = generateUrl('/apps/cospend/addCurrency');
         }
         else {
             url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/currency');
@@ -1544,17 +1304,10 @@ var ACCESS_ADMIN = 4;
         var url, type;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/currency/' + currencyId;
-                type = 'DELETE';
-            }
-            else {
-                req.projectid = projectid;
-                req.currencyid = currencyId;
-                url = generateUrl('/apps/cospend/deleteCurrency');
-                type = 'POST';
-            }
+            req.projectid = projectid;
+            req.currencyid = currencyId;
+            url = generateUrl('/apps/cospend/deleteCurrency');
+            type = 'POST';
         }
         else {
             type = 'DELETE';
@@ -1597,17 +1350,10 @@ var ACCESS_ADMIN = 4;
         var url, type;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/currency/' + currencyId;
-                type = 'PUT';
-            }
-            else {
-                req.projectid = projectid;
-                req.currencyid = currencyId;
-                url = generateUrl('/apps/cospend/editCurrency');
-                type = 'POST';
-            }
+            req.projectid = projectid;
+            req.currencyid = currencyId;
+            url = generateUrl('/apps/cospend/editCurrency');
+            type = 'POST';
         }
         else {
             url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/currency/'+currencyId);
@@ -1700,14 +1446,8 @@ var ACCESS_ADMIN = 4;
         var url;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/category';
-            }
-            else {
-                req.projectid = projectid;
-                url = generateUrl('/apps/cospend/addCategory');
-            }
+            req.projectid = projectid;
+            url = generateUrl('/apps/cospend/addCategory');
         }
         else {
             url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/category');
@@ -1765,17 +1505,10 @@ var ACCESS_ADMIN = 4;
         var url, type;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/category/' + categoryId;
-                type = 'DELETE';
-            }
-            else {
-                req.projectid = projectid;
-                req.categoryid = categoryId;
-                url = generateUrl('/apps/cospend/deleteCategory');
-                type = 'POST';
-            }
+            req.projectid = projectid;
+            req.categoryid = categoryId;
+            url = generateUrl('/apps/cospend/deleteCategory');
+            type = 'POST';
         }
         else {
             type = 'DELETE';
@@ -1808,17 +1541,10 @@ var ACCESS_ADMIN = 4;
         var url, type;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/category/' + categoryId;
-                type = 'PUT';
-            }
-            else {
-                req.projectid = projectid;
-                req.categoryid = categoryId;
-                url = generateUrl('/apps/cospend/editCategory');
-                type = 'POST';
-            }
+            req.projectid = projectid;
+            req.categoryid = categoryId;
+            url = generateUrl('/apps/cospend/editCategory');
+            type = 'POST';
         }
         else {
             url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/category/'+categoryId);
@@ -1887,7 +1613,7 @@ var ACCESS_ADMIN = 4;
             totalPayed += statList[i].paid;
         }
 
-        if (!cospend.pageIsPublic && !project.external) {
+        if (!cospend.pageIsPublic) {
             exportStr = ' <button class="exportStats" projectid="'+projectid+'"><span class="icon-file"></span>'+t('cospend', 'Export')+'</button>';
         }
         var totalPayedText = '<p class="totalPayedText">' +
@@ -2341,16 +2067,9 @@ var ACCESS_ADMIN = 4;
         var project = cospend.projects[projectid];
 
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                type = 'GET';
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/bills';
-            }
-            else {
-                url = generateUrl('/apps/cospend/getBills');
-                type = 'POST';
-                req.projectid = projectid;
-            }
+            url = generateUrl('/apps/cospend/getBills');
+            type = 'POST';
+            req.projectid = projectid;
         }
         else {
             url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/bills');
@@ -2441,7 +2160,6 @@ var ACCESS_ADMIN = 4;
         var billMom = moment.unix(bill.timestamp);
         var billDate = billMom.format('YYYY-MM-DD');
         var billTime = billMom.format('HH:mm');
-        console.log('ts '+bill.timestamp+' date '+billDate+' time '+billTime);
 
         var owers = bill.owers;
         var owerIds = [];
@@ -2863,16 +2581,9 @@ var ACCESS_ADMIN = 4;
         var type;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password;
-                type = 'GET';
-            }
-            else {
-                req.projectid = projectid;
-                url = generateUrl('/apps/cospend/getProjectInfo');
-                type = 'POST';
-            }
+            req.projectid = projectid;
+            url = generateUrl('/apps/cospend/getProjectInfo');
+            type = 'POST';
         }
         else {
             url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password);
@@ -2920,9 +2631,6 @@ var ACCESS_ADMIN = 4;
         cospend.members[project.id] = {};
 
         var name = project.name;
-        if (project.external) {
-            name = '<span class="icon-external" style="display: inline-grid; margin-bottom: -3px;"></span> ' + name;
-        }
         var projectid = project.id;
         var addMemberStr = t('cospend', 'Add member');
         var guestAccessStr = t('cospend', 'Guest access link');
@@ -2934,26 +2642,13 @@ var ACCESS_ADMIN = 4;
         var autoexportStr = t('cospend', 'Auto export');
         var manageCurrenciesStr = t('cospend', 'Manage currencies');
         var manageCategoriesStr = t('cospend', 'Manage categories');
-        var deleteStr;
-        if (project.external) {
-            deleteStr = t('cospend', 'Delete remote project');
-        }
-        else {
-            deleteStr = t('cospend', 'Delete');
-        }
+        var deleteStr = t('cospend', 'Delete');
         var moneyBusterUrlStr = t('cospend', 'Link/QRCode for MoneyBuster');
         var deletedStr = t('cospend', 'Deleted {name}', {name: name});
-        var removeExtStr = t('cospend', 'Remove');
         var shareTitle = t('cospend', 'Press enter to validate');
         var guestLink;
-        if (project.external) {
-            var id = projectid.split('@')[0];
-            guestLink = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/loginproject/' + id;
-        }
-        else {
-            guestLink = generateUrl('/apps/cospend/loginproject/'+projectid);
-            guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
-        }
+        guestLink = generateUrl('/apps/cospend/loginproject/'+projectid);
+        guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
         var accessLevel = parseInt(project.guestaccesslevel);
         var li =
             '<li class="projectitem collapsible" projectid="'+projectid+'">' +
@@ -2963,11 +2658,9 @@ var ACCESS_ADMIN = 4;
             '    <div class="app-navigation-entry-utils">' +
             '        <ul>' +
             '            <li class="app-navigation-entry-utils-counter"><span>'+project.members.length+'</span></li>';
-        if (!project.external) {
-            li = li + '            <li class="app-navigation-entry-utils-menu-button shareProjectButton">' +
+        li = li + '            <li class="app-navigation-entry-utils-menu-button shareProjectButton">' +
             '                <button class="icon-shar"></button>' +
             '            </li>';
-        }
         li = li + '            <li class="app-navigation-entry-utils-menu-button projectMenuButton">' +
             '                <button></button>' +
             '            </li>' +
@@ -2980,11 +2673,9 @@ var ACCESS_ADMIN = 4;
             '            <input type="submit" value="" class="icon-checkmark editProjectOk">' +
             '        </div>' +
             '    </div>';
-        if (!project.external) {
-            li = li + '    <ul class="app-navigation-entry-share">' +
-            '        <li class="shareinputli" title="'+shareTitle+'"><input type="text" class="shareinput"/></li>' +
-            '    </ul>';
-        }
+        li = li + '    <ul class="app-navigation-entry-share">' +
+            '           <li class="shareinputli" title="'+shareTitle+'"><input type="text" class="shareinput"/></li>' +
+            '       </ul>';
         li = li + '    <div class="newmemberdiv">' +
             '        <input class="newmembername" type="text" value=""/>' +
             '        <button class="newmemberbutton icon-add"></button>' +
@@ -3032,20 +2723,18 @@ var ACCESS_ADMIN = 4;
             '                    <span>'+changePwdStr+'</span>' +
             '                </a>' +
             '            </li>';
-        if (!project.external) {
-            li = li + '            <li>' +
+        li = li + '            <li>' +
             '                <a href="#" class="manageProjectCategories">' +
             '                    <span class="icon-category-app-bundles"></span>' +
             '                    <span>'+manageCategoriesStr+'</span>' +
             '                </a>' +
             '            </li>';
-            li = li + '            <li>' +
+        li = li + '            <li>' +
             '                <a href="#" class="manageProjectCurrencies">' +
             '                    <span class="icon-currencies"></span>' +
             '                    <span>'+manageCurrenciesStr+'</span>' +
             '                </a>' +
             '            </li>';
-        }
         li = li + '            <li>' +
             '                <a href="#" class="getProjectStats">' +
             '                    <span class="icon-category-monitoring"></span>' +
@@ -3058,14 +2747,13 @@ var ACCESS_ADMIN = 4;
             '                    <span>'+settleStr+'</span>' +
             '                </a>' +
             '            </li>';
-        if (!project.external) {
-            li = li + '            <li>' +
+        li = li + '            <li>' +
             '                <a href="#" class="exportProject">' +
             '                    <span class="icon-category-office"></span>' +
             '                    <span>'+exportStr+'</span>' +
             '                </a>' +
             '            </li>';
-            li = li + '            <li>' +
+        li = li + '            <li>' +
             '                <a href="#" class="autoexportProject">' +
             '                    <span class="icon-category-office"></span>' +
             '                    <span class="autoexportLabel">'+autoexportStr+'</span>' +
@@ -3077,21 +2765,12 @@ var ACCESS_ADMIN = 4;
             '                    </select>' +
             '                </a>' +
             '            </li>';
-        }
         li = li + '            <li>' +
             '                <a href="#" class="deleteProject">' +
             '                    <span class="icon-delete"></span>' +
             '                    <span>'+deleteStr+'</span>' +
             '                </a>' +
             '            </li>';
-        if (project.external) {
-            li = li + '            <li>' +
-            '                <a href="#" class="removeExternalProject">' +
-            '                    <span class="icon-category-disabled"></span>' +
-            '                    <span>'+removeExtStr+'</span>' +
-            '                </a>' +
-            '            </li>';
-        }
         li = li + '        </ul>' +
             '    </div>' +
             '    <div class="app-navigation-entry-deleted">' +
@@ -3111,9 +2790,7 @@ var ACCESS_ADMIN = 4;
             selectProject($('.projectitem[projectid="'+projectid+'"]'));
         }
 
-        if (!project.external) {
-            $('.projectitem[projectid="'+projectid+'"] .autoexportSelect').val(project.autoexport);
-        }
+        $('.projectitem[projectid="'+projectid+'"] .autoexportSelect').val(project.autoexport);
 
         if (cospend.pageIsPublic) {
             $('.projectitem[projectid="'+projectid+'"] .shareProjectButton').hide();
@@ -4125,16 +3802,9 @@ var ACCESS_ADMIN = 4;
         var url, type;
         var project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                url = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/api/projects/' + id + '/' + project.password + '/autosettlement';
-                type = 'GET';
-            }
-            else {
-                req.projectid = projectid;
-                url = generateUrl('/apps/cospend/autoSettlement');
-                type = 'POST';
-            }
+            req.projectid = projectid;
+            url = generateUrl('/apps/cospend/autoSettlement');
+            type = 'POST';
         }
         else {
             url = generateUrl('/apps/cospend/api/projects/'+cospend.projectid+'/'+cospend.password+'/autosettlement');
@@ -4441,7 +4111,6 @@ var ACCESS_ADMIN = 4;
             //restoreOptionsFromUrlParams();
             $('#newprojectbutton').hide();
             $('#set-output-div').hide();
-            $('#addextprojectbutton').hide();
             $('#importProjectButton').hide();
             $('#importSWProjectButton').hide();
             cospend.projectid = $('#projectid').text();
@@ -4560,14 +4229,12 @@ var ACCESS_ADMIN = 4;
                 $(this).removeClass('icon-triangle-s').addClass('icon-triangle-e');
                 div.slideUp('normal', function() {
                     $('#newBillButton').fadeIn();
-                    $('#addextprojectbutton').fadeIn();
                 });
             }
             else {
                 $(this).removeClass('icon-triangle-e').addClass('icon-triangle-s');
                 div.slideDown('normal', function() {
                     $('#newBillButton').fadeOut();
-                    $('#addextprojectbutton').fadeOut();
                     $('#projectidinput').focus().select();
                 });
             }
@@ -4610,69 +4277,6 @@ var ACCESS_ADMIN = 4;
             else {
                 OC.Notification.showTemporary(t('cospend', 'Invalid values'));
             }
-        });
-
-        $('#addextprojectbutton').click(function() {
-            var div = $('#addextprojectdiv');
-            if (div.is(':visible')) {
-                $(this).removeClass('icon-triangle-s').addClass('icon-triangle-e');
-                div.slideUp('normal', function() {
-                    $('#newBillButton').fadeIn();
-                    $('#newprojectbutton').fadeIn();
-                });
-            }
-            else {
-                $(this).removeClass('icon-triangle-e').addClass('icon-triangle-s');
-                div.slideDown('normal', function() {
-                    $('#newBillButton').fadeOut();
-                    $('#newprojectbutton').fadeOut();
-                    $('#ncurlinput').focus().select();
-                });
-            }
-        });
-
-        $('#ncurlinput, #extprojectidinput, #extprojectpasswordinput').on('keyup', function(e) {
-            if (e.key === 'Enter') {
-                var url = $('#ncurlinput').val();
-                var id = $('#extprojectidinput').val();
-                var password = $('#extprojectpasswordinput').val();
-                if (url && id && password && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
-                    addExtProject(url, id, password);
-                }
-                else {
-                    OC.Notification.showTemporary(t('cospend', 'Invalid values'));
-                }
-            }
-        });
-
-        $('#addextprojectform').submit(function(e) {
-            var url = $('#ncurlinput').val();
-            var id = $('#extprojectidinput').val();
-            var password = $('#extprojectpasswordinput').val();
-            if (url && id && password && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
-                addExtProject(url, id, password);
-            }
-            else {
-                OC.Notification.showTemporary(t('cospend', 'Invalid values'));
-            }
-            e.preventDefault();
-        });
-
-        $('#addextproject').click(function() {
-            var url = $('#ncurlinput').val();
-            var id = $('#extprojectidinput').val();
-            var password = $('#extprojectpasswordinput').val();
-            if (url && id && password && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
-                addExtProject(url, id, password);
-            }
-            else {
-                OC.Notification.showTemporary(t('cospend', 'Invalid values'));
-            }
-        });
-
-        $('body').on('click', '.removeExternalProject', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
-            deleteExternalProject(projectid, true);
         });
 
         $('body').on('click', '.deleteProject', function(e) {
@@ -5033,14 +4637,8 @@ var ACCESS_ADMIN = 4;
             var projectid = $(this).parent().parent().parent().parent().attr('projectid');
             var project = cospend.projects[projectid];
             var guestLink;
-            if (project.external) {
-                var id = projectid.split('@')[0];
-                guestLink = project.ncurl.replace(/\/$/, '') + '/index.php/apps/cospend/loginproject/' + id;
-            }
-            else {
-                guestLink = generateUrl('/apps/cospend/loginproject/'+projectid);
-                guestLink = window.location.protocol + '//' + window.location.host + guestLink;
-            }
+            guestLink = generateUrl('/apps/cospend/loginproject/'+projectid);
+            guestLink = window.location.protocol + '//' + window.location.host + guestLink;
             var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select();
             document.execCommand('copy');
             $('#dummycopy').remove();

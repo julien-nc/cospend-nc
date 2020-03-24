@@ -39,30 +39,6 @@
         </button>
     </div>
     <div id="app-settings-content">
-        <!-- Your settings content here -->
-        <button id="addextprojectbutton" type="button" class="icon-triangle-e">
-            <?php p($l->t('Add external project')); ?>
-        </button>
-        <div id="addextprojectdiv">
-
-            <form id="addextprojectform" autocomplete="off">
-                <label for="ncurlinput"><?php p($l->t('Nextcloud address')); ?></label>
-                <input id="ncurlinput" type="text" value="<?php p($l->t('https://other.nextcloud.instance.net')); ?>"/>
-                <br/>
-
-                <label for="extprojectidinput"><?php p($l->t('project id')); ?></label>
-                <input id="extprojectidinput" type="text" value="<?php p($l->t('myProjectId')); ?>"/>
-                <br/>
-
-                <label for="extprojectpasswordinput"><?php p($l->t('password')); ?></label>
-                <input id="extprojectpasswordinput" type="password" value="" autocomplete="off"/>
-                <button id="addextproject" type="button" class="icon-add">
-                    <?php p($l->t('Add')); ?>
-                </button>
-            </form>
-
-            <hr/>
-        </div>
         <button id="importProjectButton" class="icon-download" >
             <?php p($l->t('Import csv project file')); ?>
         </button>

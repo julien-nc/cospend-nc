@@ -3848,21 +3848,6 @@ var ACCESS_ADMIN = 4;
             '       </ul>' +
             '   </div>' +
             '</li>';
-        //var li = '<li shid="'+id+'" elemid="'+escapeHTML(elemId)+'" elemname="' + escapeHTML(elemName) + '">' +
-        //    '<div class="shareLabel"><div class="shareLabelIcon '+iconClass+'">'+
-        //    '</div><span>' + displayString + '</span></div>' +
-        //    '<div class="icon-delete '+deleteButtonClass+'"></div>'+
-
-        //    '<div class="icon-user-admin accesslevel accesslevelAdmin '+(accesslevel === ACCESS_ADMIN ? 'accesslevelActive' : '')+'" ' +
-        //    'title="'+t('cospend', 'Admin: edit/delete project + maintener permissions')+'"></div>'+
-        //    '<div class="icon-category-customization accesslevel accesslevelMaintener '+(accesslevel === ACCESS_MAINTENER ? 'accesslevelActive' : '')+'" ' +
-        //    'title="'+t('cospend', 'Maintener: add/edit members/categories/currencies + participant permissions')+'"></div>'+
-        //    '<div class="icon-rename accesslevel accesslevelParticipant '+(accesslevel === ACCESS_PARTICIPANT ? 'accesslevelActive' : '')+'" ' +
-        //    'title="'+t('cospend', 'Participant: add/edit/delete bills + viewer permissions')+'"></div>'+
-        //    '<div class="icon-toggle accesslevel accesslevelViewer '+(accesslevel === ACCESS_VIEWER ? 'accesslevelActive' : '')+'" ' +
-        //    'title="'+t('cospend', 'Viewer')+'"></div>'+
-
-        //    '</li>';
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share').append(li);
         $('.projectitem[projectid="' + projectid + '"] .shareinput').val('');
     }

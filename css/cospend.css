@@ -326,12 +326,8 @@ input[type=number] {
 .app-navigation-entry-share {
     display: none;
 }
-/*.app-navigation-entry-share li {
-    display: inline-block !important;
-    padding: 5px 10px 5px 10px !important;
-}
-*/
 .shareitem input[type=radio] {
+    cursor: pointer;
     min-width: 0px;
     min-height: 0px;
     flex: initial;
@@ -339,6 +335,7 @@ input[type=number] {
     margin-right: 5px;
     margin-top: auto;
     margin-bottom: auto;
+    pointer-events:none;
 }
 .shareinput {
     width: 100%;

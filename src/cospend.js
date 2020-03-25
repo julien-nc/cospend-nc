@@ -2715,9 +2715,9 @@ var ACCESS_ADMIN = 4;
             '                </a>' +
             '            </li>' +
             '            <li>' +
-            '                <a href="#" class="copyProjectGuestLink" title="'+guestLink+'">' +
+            '                <a href="#" class="copyProjectGuestLink" title="'+guestLink+'" style="padding-right: 0px !important;">' +
             '                    <span class="icon-clippy"></span>' +
-            '                    <span>'+guestAccessStr+'&nbsp</span>' +
+            '                    <span class="guest-link-label">'+guestAccessStr+'&nbsp</span>' +
             '                    <div class="guestaccesslevel">' +
             '                       <div class="icon-user-admin accesslevelguest accesslevelAdmin '+(guestAccessLevel === ACCESS_ADMIN ? 'accesslevelActive' : '')+'" ' +
             '                       title="'+t('cospend', 'Admin: edit/delete project + maintener permissions')+'"></div>'+

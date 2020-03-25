@@ -589,3 +589,8 @@ a.billitem .app-content-list-item-icon {
     border-radius: 0;
     width: 36px !important;
 }
+.guest-link-label {
+    max-width: 45%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

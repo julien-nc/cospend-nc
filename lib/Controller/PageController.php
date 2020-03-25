@@ -642,7 +642,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => $this->trans->t('You are not allowed to add a bill')]
+                ['message' => $this->trans->t('You are not allowed to add bills')]
                 , 403
             );
             return $response;
@@ -665,7 +665,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => $this->trans->t('You are not allowed to add member')]
+                ['message' => $this->trans->t('You are not allowed to add members')]
                 , 403
             );
             return $response;
@@ -2244,7 +2244,7 @@ class PageController extends ApiController {
         }
         else {
             $response = new DataResponse(
-                ['message' => $this->trans->t('You are not allowed to add a public share')]
+                ['message' => $this->trans->t('You are not allowed to add public shared accesses')]
                 , 403
             );
             return $response;

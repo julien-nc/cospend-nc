@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-03-22 03:00+0100\n"
-"PO-Revision-Date: 2020-03-22 02:03\n"
+"POT-Creation-Date: 2020-03-25 19:54+0100\n"
+"PO-Revision-Date: 2020-03-25 18:55\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: English, United Kingdom\n"
 "Language: en_GB\n"
@@ -81,40 +81,196 @@ msgstr ""
 msgid "Changes in the <strong>Cospend app</strong>"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:166
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:195
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:223
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:253
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:276
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:168
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:197
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:225
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:256
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:277
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:308
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:331
 msgid "Cospend public access"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:167
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:196
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:169
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:198
 #, php-format
 msgid "Enter password of project %s"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:224
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:226
 msgid "Enter project id and password"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:254
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:257
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:309
 #, php-format
 msgid "Project %s"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:277
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2206
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2210
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2214
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3680
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3684
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3688
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3827
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3831
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3835
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:278
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:332
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2404
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2408
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2412
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3758
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3762
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3766
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3905
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3909
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3913
 msgid "Access denied"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:413
+msgid "You are not allowed to delete this project"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:445
+msgid "You are not allowed to delete this bill"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:464
+msgid "You are not allowed to get this project's info"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:486
+msgid "You are not allowed to get this project's statistics"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:504
+msgid "You are not allowed to get this project's settlement"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:527
+msgid "You are not allowed to settle this project automatically"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:550
+msgid "You are not allowed to edit this member"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:587
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1175
+msgid "You are not allowed to edit this bill"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:610
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2200
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2293
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2340
+msgid "You are not allowed to edit this project"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:645
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1101
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1135
+msgid "You are not allowed to add bills"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:668
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1009
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1038
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1062
+msgid "You are not allowed to add members"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:687
+msgid "You are not allowed to get the bill list"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:729
+msgid "Anonymous project creation is not allowed on this server"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:772
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:801
+msgid "Project not found"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:780
+msgid "Bad password or public link"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:809
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:838
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:862
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:884
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:904
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:926
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:952
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:980
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1210
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1248
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1281
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1310
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1334
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1363
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1387
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1416
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1440
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1466
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1490
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1512
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1532
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1561
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1585
+msgid "Unauthorized action"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1661
+msgid "You are not allowed to give such shared access level"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1684
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1699
+msgid "You are not allowed to edit guest access level"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1746
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1776
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1801
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1823
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1852
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1876
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1898
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1927
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1951
+msgid "You are not allowed to manage categories"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1973
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2003
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2028
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2050
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2079
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2103
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2125
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2154
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2178
+msgid "You are not allowed to manage currencies"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2225
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2271
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2318
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2365
+msgid "You are not allowed to remove this shared access"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2247
+msgid "You are not allowed to add public shared accesses"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2432
+msgid "You are not allowed to export this project settlement"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2457
+msgid "You are not allowed to export this project statistics"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2484
+msgid "You are not allowed to export this project"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Notification/Notifier.php:86
@@ -127,365 +283,363 @@ msgstr ""
 msgid "User \"%s\" stopped sharing Cospend project \"%s\" with you."
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:84
-#: /var/www/html/n18/apps/cospend/src/cospend.js:46
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:73
+#: /var/www/html/n18/apps/cospend/src/cospend.js:57
 msgid "Grocery"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:85
-#: /var/www/html/n18/apps/cospend/src/cospend.js:51
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:74
+#: /var/www/html/n18/apps/cospend/src/cospend.js:62
 msgid "Bar/Party"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:86
-#: /var/www/html/n18/apps/cospend/src/cospend.js:56
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:75
+#: /var/www/html/n18/apps/cospend/src/cospend.js:67
 msgid "Rent"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:87
-#: /var/www/html/n18/apps/cospend/src/cospend.js:61
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:76
+#: /var/www/html/n18/apps/cospend/src/cospend.js:72
 msgid "Bill"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:88
-#: /var/www/html/n18/apps/cospend/src/cospend.js:66
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:77
+#: /var/www/html/n18/apps/cospend/src/cospend.js:77
 msgid "Excursion/Culture"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:89
-#: /var/www/html/n18/apps/cospend/src/cospend.js:71
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:78
+#: /var/www/html/n18/apps/cospend/src/cospend.js:82
 msgid "Health"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:90
-#: /var/www/html/n18/apps/cospend/src/cospend.js:76
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:79
+#: /var/www/html/n18/apps/cospend/src/cospend.js:87
 msgid "Shopping"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:91
-#: /var/www/html/n18/apps/cospend/src/cospend.js:81
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:80
+#: /var/www/html/n18/apps/cospend/src/cospend.js:92
 msgid "Reimbursement"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:92
-#: /var/www/html/n18/apps/cospend/src/cospend.js:86
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:81
+#: /var/www/html/n18/apps/cospend/src/cospend.js:97
 msgid "Restaurant"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:93
-#: /var/www/html/n18/apps/cospend/src/cospend.js:91
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:82
+#: /var/www/html/n18/apps/cospend/src/cospend.js:102
 msgid "Accommodation"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:94
-#: /var/www/html/n18/apps/cospend/src/cospend.js:96
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:83
+#: /var/www/html/n18/apps/cospend/src/cospend.js:107
 msgid "Transport"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:95
-#: /var/www/html/n18/apps/cospend/src/cospend.js:101
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:84
+#: /var/www/html/n18/apps/cospend/src/cospend.js:112
 msgid "Sport"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:366
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:416
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:333
 msgid "Invalid project id"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:391
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:358
 #, php-format
 msgid "A project with id \"%1$s\" already exists"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:430
-#, php-format
-msgid "A project with id \"%1$s\" and url \"%2$s\" already exists"
-msgstr ""
-
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:495
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:885
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:423
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:813
 msgid "Not Found"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:701
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:629
 msgid "Average per month"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:776
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:779
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:817
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:821
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2273
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2300
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2309
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2330
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2335
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:704
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:707
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:745
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:749
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2214
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2241
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2250
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2271
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2276
 msgid "Invalid value"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:790
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:718
 msgid "Timestamp (or date) field is required"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:795
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:723
 msgid "Invalid date"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:803
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:731
 msgid "This field is invalid"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:806
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:809
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1231
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:734
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:737
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1159
 msgid "This field is required"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:812
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:824
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2318
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2338
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:740
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:752
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2259
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2279
 msgid "Not a valid choice"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1060
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:988
 msgid "Error when getting project settlement transactions"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1078
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1006
 msgid "Error when addind a bill"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1186
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1319
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1114
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1216
 msgid "Invalid member name"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1194
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1122
 msgid "Not a valid decimal value"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1227
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1155
 msgid "This project have no such member"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1237
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1358
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1165
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1255
 msgid "Name field is required"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1249
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1177
 msgid "Invalid email address"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1280
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1208
 msgid "There is no such project"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1327
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1224
 msgid "Weight is not a valid decimal value"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1331
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1228
 msgid "Active is not a valid integer value"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1354
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1251
 msgid "This project already has this member"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2264
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2205
 msgid "There is no such bill"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2268
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2209
 msgid "\"What\" field is invalid"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2662
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2763
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2603
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2704
 msgid "Not found"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2688
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2629
 msgid "This project have no such category"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2692
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2792
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2633
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2733
 msgid "Incorrect field values"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2788
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2729
 msgid "This project have no such currency"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2877
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2818
 msgid "Already shared with this user"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2881
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2822
 msgid "Impossible to share the project with its owner"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2885
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2826
 msgid "No such user"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2925
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3025
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3144
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3275
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2921
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3021
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3222
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3353
 msgid "No such share"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3083
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3103
+msgid "No such shared access"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3161
 msgid "Already shared with this group"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3087
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3165
 msgid "No such group"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3157
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3235
 msgid "Sharing with personal circles is not supported"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3212
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3290
 msgid "Already shared with this circle"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3216
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3294
 msgid "No such circle"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3220
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3298
 msgid "Circles app is not enabled"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3298
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1272
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3376
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1068
 msgid "Who pays?"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3298
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1273
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3376
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1069
 msgid "To whom?"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3298
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1274
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2478
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3376
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1070
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2241
 msgid "How much?"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3324
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3402
 #, php-format
 msgid "%1$s is not a folder"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3327
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3405
 #, php-format
 msgid "%1$s is not writeable"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3334
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3412
 #, php-format
 msgid "Impossible to create %1$s"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3356
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1847
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3434
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1618
 msgid "Member name"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3356
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1848
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3434
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1619
 msgid "Paid"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3356
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1849
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3434
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1620
 msgid "Spent"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3356
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1850
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3434
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1621
 msgid "Balance"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3513
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3591
 #, php-format
 msgid "Malformed CSV, bad column names at line %1$s"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3572
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3650
 #, php-format
 msgid "Malformed CSV, bad payer weight on line %1$s"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3576
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3583
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3654
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3661
 #, php-format
 msgid "Malformed CSV, bad owers on line %1$s"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3591
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3773
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3669
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3851
 #, php-format
 msgid "Malformed CSV, bad amount on line %1$s"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3621
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3798
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3699
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3876
 #, php-format
 msgid "Error in project creation, %1$s"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3632
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3710
 #, php-format
 msgid "Error when adding category %1$s"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3641
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3719
 #, php-format
 msgid "Error when adding currency %1$s"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3649
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3805
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3727
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3883
 #, php-format
 msgid "Error when adding member %1$s"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3673
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3821
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3751
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3899
 #, php-format
 msgid "Error when adding bill %1$s"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3723
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3801
 msgid "Malformed CSV, bad column names"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3734
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3812
 msgid "Malformed CSV, cannot have an empty ower"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3767
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3845
 #, php-format
 msgid "Malformed CSV, no payer on line %1$s"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3860
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3938
 msgid "daily"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3875
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3953
 msgid "weekly"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3896
+#: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3974
 msgid "monthly"
 msgstr ""
 
@@ -501,777 +655,801 @@ msgstr ""
 msgid "Failed to save Cospend setting"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:109
+#: /var/www/html/n18/apps/cospend/src/cospend.js:50
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2696
+msgid "Add public link"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/src/cospend.js:120
 msgid "Credit card"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:113
+#: /var/www/html/n18/apps/cospend/src/cospend.js:124
 msgid "Cash"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:117
+#: /var/www/html/n18/apps/cospend/src/cospend.js:128
 msgid "Check"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:121
+#: /var/www/html/n18/apps/cospend/src/cospend.js:132
 msgid "Transfer"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:292
-msgid "Failed to add external project"
-msgstr ""
-
-#: /var/www/html/n18/apps/cospend/src/cospend.js:331
-msgid "Failed to get external project"
-msgstr ""
-
-#: /var/www/html/n18/apps/cospend/src/cospend.js:341
-#: /var/www/html/n18/apps/cospend/src/cospend.js:388
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4235
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4309
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4475
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4488
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4501
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4533
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4546
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4559
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4600
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4612
+#: /var/www/html/n18/apps/cospend/src/cospend.js:288
+#: /var/www/html/n18/apps/cospend/src/cospend.js:332
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4135
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4209
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4395
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4408
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4421
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4457
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4469
 msgid "Invalid values"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:382
+#: /var/www/html/n18/apps/cospend/src/cospend.js:326
 msgid "Failed to create project"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:422
+#: /var/www/html/n18/apps/cospend/src/cospend.js:360
 msgid "Created member {name}"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:427
+#: /var/www/html/n18/apps/cospend/src/cospend.js:365
 msgid "Failed to add member"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:509
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3157
+#: /var/www/html/n18/apps/cospend/src/cospend.js:440
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2929
 msgid "Reactivate"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:514
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3152
+#: /var/www/html/n18/apps/cospend/src/cospend.js:445
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2924
 msgid "Deactivate"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:529
+#: /var/www/html/n18/apps/cospend/src/cospend.js:460
 msgid "Member saved"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:538
+#: /var/www/html/n18/apps/cospend/src/cospend.js:469
 msgid "Failed to save member"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:613
+#: /var/www/html/n18/apps/cospend/src/cospend.js:538
 msgid "Bill created"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:618
+#: /var/www/html/n18/apps/cospend/src/cospend.js:543
 msgid "Failed to create bill"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:692
+#: /var/www/html/n18/apps/cospend/src/cospend.js:610
 msgid "Bill saved"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:697
+#: /var/www/html/n18/apps/cospend/src/cospend.js:615
 msgid "Failed to save bill"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:724
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2373
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2486
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2755
+#: /var/www/html/n18/apps/cospend/src/cospend.js:642
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2137
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2249
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2528
 msgid "link"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:797
-msgid "Failed to delete external project"
-msgstr ""
-
-#: /var/www/html/n18/apps/cospend/src/cospend.js:825
-msgid "Failed to save external project"
-msgstr ""
-
-#: /var/www/html/n18/apps/cospend/src/cospend.js:891
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2901
+#: /var/www/html/n18/apps/cospend/src/cospend.js:734
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2661
 msgid "Deleted {name}"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:900
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1413
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2508
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2606
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2621
+#: /var/www/html/n18/apps/cospend/src/cospend.js:743
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1206
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2271
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2369
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2384
 msgid "None"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:904
+#: /var/www/html/n18/apps/cospend/src/cospend.js:747
 msgid "Project saved"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:908
+#: /var/www/html/n18/apps/cospend/src/cospend.js:751
 msgid "Failed to edit project"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:960
+#: /var/www/html/n18/apps/cospend/src/cospend.js:793
 msgid "Deleted project {id}"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:964
+#: /var/www/html/n18/apps/cospend/src/cospend.js:797
 msgid "Failed to delete project"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1005
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2344
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4229
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4299
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4844
+#: /var/www/html/n18/apps/cospend/src/cospend.js:831
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2108
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4129
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4199
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4701
 msgid "No bill yet"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1010
+#: /var/www/html/n18/apps/cospend/src/cospend.js:836
 msgid "Deleted bill"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1014
+#: /var/www/html/n18/apps/cospend/src/cospend.js:840
 msgid "Failed to delete bill"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1081
+#: /var/www/html/n18/apps/cospend/src/cospend.js:903
 msgid "Failed to get projects"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1120
+#: /var/www/html/n18/apps/cospend/src/cospend.js:937
 msgid "Failed to get project currencies"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1160
+#: /var/www/html/n18/apps/cospend/src/cospend.js:970
 msgid "Failed to get project categories"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1218
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1021
 msgid "Failed to get statistics"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1258
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1054
 msgid "Failed to get settlement"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1271
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1067
 msgid "Settlement of project {name}"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1277
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1860
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1073
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1631
 msgid "Export"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1279
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1075
 msgid "Add these payments to project"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1330
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1120
 msgid "MoneyBuster link/QRCode for project {name}"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1337
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1127
 msgid "Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone."
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1401
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1130
+msgid "Android will know MoneyBuster can open such a link (based on the 'https://net.eneiluj.moneybuster.cospend' part) and you will be able to add the project."
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1194
 msgid "Currencies of project {name}"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1409
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1202
 msgid "Main currency"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1417
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1210
 msgid "Potatoe"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1425
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1219
 msgid "Add currency"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1428
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1222
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1301
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1425
 #: /var/www/html/n18/apps/cospend/src/cospend.js:1504
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1641
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1719
 msgid "Name"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1430
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1506
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1224
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1303
 msgid "Exchange rate to main currency"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1431
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1507
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1225
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1304
 msgid "(1 of this currency = X of main currency)"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1438
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1234
 msgid "Currency list"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1484
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1281
 msgid "Currency {n} added"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1489
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1286
 msgid "Failed to add currency"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1562
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1352
 msgid "Failed to delete currency"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1614
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1397
 msgid "Failed to edit currency"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1628
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1411
 msgid "Categories of project {name}"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1636
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1420
 msgid "Add category"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1639
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1717
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1423
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1502
 msgid "Icon"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1643
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1721
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1427
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1506
 msgid "Color"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1649
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1435
 msgid "Category list"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1696
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1481
 msgid "Category {n} added"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1701
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1486
 msgid "Failed to add category"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1765
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1543
 msgid "Failed to delete category"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1814
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1585
 msgid "Failed to edit category"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1846
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1617
 msgid "Statistics of project {name}"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1851
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1622
 msgid "Filtered balance"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1863
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1634
 msgid "Total payed by all the members: {t}"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1867
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1638
 msgid "Minimum date"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1868
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1639
 msgid "Maximum date"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1871
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2518
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1642
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2281
 msgid "Payment mode"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1874
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1887
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2507
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1645
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1658
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2270
 msgid "All"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1884
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2519
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1655
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2282
 msgid "Category"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1888
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1659
 msgid "All except reimbursement"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1900
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1671
 msgid "Minimum amount"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1901
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1672
 msgid "Maximum amount"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1902
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1673
 msgid "Currency of statistic values"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1904
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1675
 msgid "Main project's currency"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1913
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1684
 msgid "Show disabled members"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1917
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1688
 msgid "Global stats"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1972
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1743
 msgid "Monthly stats"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1974
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1745
 msgid "Member/Month"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:1988
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1759
 msgid "All members"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2030
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2118
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2200
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2276
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1801
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1889
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1971
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2047
 msgid "No category"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2086
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1857
 msgid "Who paid (outside circle) and spent (inside pie)?"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2132
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1903
 msgid "What was paid per category?"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2226
+#: /var/www/html/n18/apps/cospend/src/cospend.js:1997
 msgid "Who paid for category \"{c}\"?"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2290
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2061
 msgid "What kind of member is \"{m}\"?"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2348
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2112
 msgid "Failed to get bills"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2395
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2505
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2159
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2268
 msgid "Bill : {what}"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2477
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2240
 msgid "What?"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2479
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2242
 msgid "Who payed?"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2480
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2243
 msgid "When?"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2481
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2244
 msgid "For whom?"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2509
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5072
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2272
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4921
 msgid "Create the bill"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2510
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2273
 msgid "Attach public link to personal file"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2511
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2274
 msgid "Classic, even split"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2512
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2275
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2513
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2276
 msgid "Custom owed amount per member"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2514
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2277
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2515
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2278
 msgid "Even split with optional personal parts"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2516
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2279
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2517
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2280
 msgid "Bill type"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2582
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2345
 msgid "Repeat this bill every"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2585
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2348
 msgid "do not repeat"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2586
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2349
 msgid "day"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2587
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2350
 msgid "week"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2588
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2351
 msgid "month"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2589
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2352
 msgid "year"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2593
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2356
 msgid "Include all active member on repeat"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2596
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2359
 msgid "Repeat until"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2740
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2780
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2513
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2553
 msgid "Member list is not up to date. Reloading in 5 sec."
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2870
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2639
 msgid "Failed to update balances"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2883
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2649
 msgid "Add member"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2884
-#: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:73
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2650
+#: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:49
 msgid "Guest access link"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2885
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3163
-msgid "Rename"
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2651
+msgid "Change title"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2886
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2652
 msgid "Change password"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2887
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2653
 msgid "Display statistics"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2888
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2654
 msgid "Settle the project"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2889
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2655
 msgid "Export to csv"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2890
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2656
 msgid "Auto export"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2891
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2657
 msgid "Manage currencies"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2892
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2658
 msgid "Manage categories"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2895
-msgid "Delete remote project"
-msgstr ""
-
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2898
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2659
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3641
 msgid "Delete"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2900
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2660
 msgid "Link/QRCode for MoneyBuster"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2902
-msgid "Remove"
-msgstr ""
-
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2903
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2662
 msgid "Press enter to validate"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2965
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3742
-msgid "Permission to delete bills"
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2663
+msgid "User, group or circle name..."
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2967
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3744
-msgid "Permission to edit bills and project"
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2726
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3633
+msgid "Admin: edit/delete project + maintener permissions"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2969
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3746
-msgid "Permission to create bills"
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2728
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3626
+msgid "Maintener: add/edit members/categories/currencies + participant permissions"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3029
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2730
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3619
+msgid "Participant: add/edit/delete bills + viewer permissions"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2732
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3615
+msgid "Viewer"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2789
 msgid "No"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3030
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2790
 msgid "Daily"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3031
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2791
 msgid "Weekly"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3032
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2792
 msgid "Monthly"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3164
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2869
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3443
+msgid "Public share link"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2935
+msgid "Rename"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2936
 msgid "Change weight"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3165
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2937
 msgid "Change color"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3312
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3429
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3091
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3208
 msgid "Bill values are not valid"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3447
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3226
 msgid "Failed to save option values"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3480
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3259
 msgid "Failed to restore options values"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3577
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3372
 msgid "Failed to get user list"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3596
-msgid "Shared project {pname} with {uname}"
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3391
+msgid "Project {pname} is now shared with {uname}"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3601
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3396
 msgid "Failed to add user share"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3628
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3425
 msgid "Failed to delete user share"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3649
-msgid "Shared project {pname} with circle {cname}"
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3445
+msgid "Public access link added for project {pname}"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3654
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3450
+msgid "Failed to add public share"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3479
+msgid "Failed to delete public share"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3500
+msgid "Project {pname} is now shared with circle {cname}"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3505
 msgid "Failed to add circle share"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3681
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3532
 msgid "Failed to delete circle share"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3702
-msgid "Shared project {pname} with group {gname}"
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3553
+msgid "Project {pname} is now shared with group {gname}"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3707
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3558
 msgid "Failed to add group share"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3773
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3622
+msgid "Participant"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3629
+msgid "Maintener"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3636
+msgid "Admin"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3672
 msgid "Failed to delete group share"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3800
-msgid "Failed to edit share permissions"
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3699
+msgid "Failed to edit share access level"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3848
-msgid "Failed to edit guest permissions"
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3750
+msgid "Failed to edit guest access level"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3922
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3829
 msgid "Failed to generate public link to file"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3944
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3851
 msgid "Project exported in {path}"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3949
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3856
 msgid "Failed to export project"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3976
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3883
 msgid "Project statistics exported in {path}"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3981
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3888
 msgid "Failed to export project statistics"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:3999
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3906
 msgid "Project settlement exported in {path}"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4004
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3911
 msgid "Failed to export project settlement"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4040
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3940
 msgid "Project settlement bills added"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4045
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3945
 msgid "Failed to add project settlement bills"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4053
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4081
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3953
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3981
 msgid "Only CSV files can be imported"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4073
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4101
+#: /var/www/html/n18/apps/cospend/src/cospend.js:3973
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4001
 msgid "Failed to import project file"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4168
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4068
 msgid "Personal parts are bigger than the paid amount"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4305
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4205
 msgid "There is no custom amount"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4424
-msgid "user or group name"
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4299
+msgid "Public link copied to clipboard"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4589
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4446
 msgid "newMemberName"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4862
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4719
 msgid "New Bill"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4874
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4731
 msgid "2 active members are required to create a bill"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4937
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4786
 msgid "Guest link for '{pid}' copied to clipboard"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4950
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4799
 msgid "Guest link copied to clipboard"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4959
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4808
 msgid "Choose file"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4969
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4818
 msgid "Choose csv project file"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:4981
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4830
 msgid "Choose SplitWise project file"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5069
+#: /var/www/html/n18/apps/cospend/src/cospend.js:4918
 msgid "Create the bills"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5164
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5013
 msgid "Choose where to write output files (stats, settlement, export)"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5234
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5250
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5290
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5307
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5083
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5099
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5139
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5156
 msgid "Currency name should not be empty"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5239
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5255
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5295
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5312
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5088
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5104
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5144
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5161
 msgid "Exchange rate should be a number"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5329
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5350
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5395
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5417
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5178
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5199
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5244
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5266
 msgid "Category name should not be empty"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5334
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5355
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5400
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5422
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5183
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5204
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5249
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5271
 msgid "Category icon should not be empty"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5339
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5360
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5405
-#: /var/www/html/n18/apps/cospend/src/cospend.js:5427
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5188
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5209
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5254
+#: /var/www/html/n18/apps/cospend/src/cospend.js:5276
 msgid "Category color should not be empty"
 msgstr ""
 
@@ -1301,7 +1479,8 @@ msgid "Wrong project Id or password"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/templates/logincontent.php:12
-msgid "Project ID"
+#: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:11
+msgid "Project ID/name"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/templates/logincontent.php:21
@@ -1312,18 +1491,12 @@ msgstr ""
 msgid "New project"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:11
-#: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:53
-msgid "project id"
-msgstr ""
-
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:12
-#: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:54
 msgid "myProjectId"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:14
-msgid "name"
+msgid "Title"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:15
@@ -1331,7 +1504,7 @@ msgid "My project name"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:17
-msgid "password (optional, required to connect with MoneyBuster)"
+msgid "Password (optional, required for guest access)"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:20
@@ -1346,35 +1519,15 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:44
-msgid "Add external project"
-msgstr ""
-
-#: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:49
-msgid "Nextcloud address"
-msgstr ""
-
-#: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:50
-msgid "https://other.nextcloud.instance.net"
-msgstr ""
-
-#: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:57
-msgid "password"
-msgstr ""
-
-#: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:60
-msgid "Add"
-msgstr ""
-
-#: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:67
+#: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:43
 msgid "Import csv project file"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:70
+#: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:46
 msgid "Import SplitWise project file"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:77
+#: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:53
 msgid "Change output directory"
 msgstr ""
 

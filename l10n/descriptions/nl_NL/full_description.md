@@ -1,12 +1,12 @@
 # Nextcloud Cospend 💰
 
-Nextcloud Cospend is a group/shared budget manager. It was inspired by the great [IHateMoney](https://github.com/spiral-project/ihatemoney/).
+Nextcloud Cospend is een groep/deelbaar budgetmanager. It was inspired by the great [IHateMoney](https://github.com/spiral-project/ihatemoney/).
 
 You can use it when you share a house, when you go on vacation with friends, whenever you share money with others.
 
-It lets you create projects with members and bills. Each member has a balance computed from the project bills. This way you can see who owes the group and who the group owes. Ultimately you can ask for a settlement plan telling you which payments to make to reset members balances.
+Het laat je projecten aanmaken met deelnemers en rekeningen. Each member has a balance computed from the project bills. This way you can see who owes the group and who the group owes. Uiteindelijk kunt je vragen om een betalingsplan waarbij je te maken betalingen krijgt om de deelnemersbalans te resetten.
 
-Project members are independent from Nextcloud users. Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
+Projectdeelnemers zijn onafhankelijk van Nextcloud gebruikers. Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
 
 [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) and on the [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
@@ -17,7 +17,7 @@ Project members are independent from Nextcloud users. Projects can be accessed a
 * ✎ create/edit/delete projects, members, bills, bill categories, currencies
 * ⚖ check member balances
 * 🗠 display project statistics
-* ♻ display settlement plan
+* ♻ afrekeningsplan weergeven
 * 🎇 automatically create reimbursement bills from settlement plan
 * 🗓 create recurring bills (daily/weekly/monthly/yearly)
 * 📊 optionally provide custom amount for each member in new bills
@@ -32,7 +32,7 @@ This app is tested on Nextcloud 18 with Firefox 57+ and Chromium.
 
 This app is under development.
 
-🌍 Help us to translate this app on [Nextcloud-Cospend/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
+🌍 Help ons deze app te vertalen bij het [Nextcloud-Cospend/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
 
 ⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 

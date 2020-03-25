@@ -8,7 +8,7 @@
     <div id="newprojectdiv">
 
         <form id="newprojectform" autocomplete="off">
-            <label for="projectidinput"><?php p($l->t('Project id/name')); ?></label>
+            <label for="projectidinput"><?php p($l->t('Project ID/name')); ?></label>
             <input id="projectidinput" type="text" value="<?php p($l->t('myProjectId')); ?>"/>
 
             <label for="projectnameinput"><?php p($l->t('Title')); ?></label>

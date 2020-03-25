@@ -3385,7 +3385,7 @@ var ACCESS_ADMIN = 4;
         }).done(function (response) {
             addShare(projectid, userid, username, response, 'u', ACCESS_PARTICIPANT);
             var projectname = getProjectName(projectid);
-            OC.Notification.showTemporary(t('cospend', 'Shared project {pname} with {uname}', {pname: projectname, uname: username}));
+            OC.Notification.showTemporary(t('cospend', 'Project {pname} is now shared with {uname}', {pname: projectname, uname: username}));
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
         }).fail(function(response) {
@@ -3439,7 +3439,7 @@ var ACCESS_ADMIN = 4;
         }).done(function (response) {
             addShare(projectid, null, t('cospend', 'Public share link'), response.id, 'l', ACCESS_PARTICIPANT, response.token);
             var projectname = getProjectName(projectid);
-            OC.Notification.showTemporary(t('cospend', 'Shared project {pname} with public link access', {pname: projectname}));
+            OC.Notification.showTemporary(t('cospend', 'Public access link added for project {pname}', {pname: projectname}));
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
         }).fail(function(response) {
@@ -3494,7 +3494,7 @@ var ACCESS_ADMIN = 4;
         }).done(function (response) {
             addShare(projectid, circleId, circleName, response, 'c', ACCESS_PARTICIPANT);
             var projectname = getProjectName(projectid);
-            OC.Notification.showTemporary(t('cospend', 'Shared project {pname} with circle {cname}', {pname: projectname, cname: circleName}));
+            OC.Notification.showTemporary(t('cospend', 'Project {pname} is now shared with circle {cname}', {pname: projectname, cname: circleName}));
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
         }).fail(function(response) {
@@ -3547,7 +3547,7 @@ var ACCESS_ADMIN = 4;
         }).done(function (response) {
             addShare(projectid, groupid, groupname, response, 'g', ACCESS_PARTICIPANT);
             var projectname = getProjectName(projectid);
-            OC.Notification.showTemporary(t('cospend', 'Shared project {pname} with group {gname}', {pname: projectname, gname: groupname}));
+            OC.Notification.showTemporary(t('cospend', 'Project {pname} is now shared with group {gname}', {pname: projectname, gname: groupname}));
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
         }).fail(function(response) {

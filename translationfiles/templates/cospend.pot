@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-03-25 17:36+0100\n"
+"POT-Creation-Date: 2020-03-25 19:27+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -166,15 +166,15 @@ msgid "You are not allowed to edit this project"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:645
-msgid "You are not allowed to add a bill to this project"
+msgid "You are not allowed to add a bill"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:668
-msgid "You are not allowed to add member to this project"
+msgid "You are not allowed to add member"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:687
-msgid "You are not allowed to get bills of this project"
+msgid "You are not allowed to get the bill list"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:729
@@ -183,7 +183,7 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:772
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:801
-msgid "Project not found in the database"
+msgid "Project not found"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:780
@@ -191,11 +191,8 @@ msgid "Bad password or public link"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:809
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:862
-msgid "Unauthorized action."
-msgstr ""
-
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:838
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:862
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:884
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:904
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:926
@@ -503,7 +500,7 @@ msgid "No such share"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3103
-msgid "No such share access"
+msgid "No such shared access"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3161
@@ -1282,7 +1279,7 @@ msgid "Failed to get user list"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/cospend.js:3388
-msgid "Shared project {pname} with {uname}"
+msgid "Project {pname} is now shared with {uname}"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/cospend.js:3393
@@ -1294,7 +1291,7 @@ msgid "Failed to delete user share"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/cospend.js:3442
-msgid "Shared project {pname} with public link access"
+msgid "Public access link added for project {pname}"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/cospend.js:3447
@@ -1306,7 +1303,7 @@ msgid "Failed to delete public share"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/cospend.js:3497
-msgid "Shared project {pname} with circle {cname}"
+msgid "Project {pname} is now shared with circle {cname}"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/cospend.js:3502
@@ -1318,7 +1315,7 @@ msgid "Failed to delete circle share"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/cospend.js:3550
-msgid "Shared project {pname} with group {gname}"
+msgid "Project {pname} is now shared with group {gname}"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/cospend.js:3555
@@ -1514,6 +1511,7 @@ msgid "Wrong project Id or password"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/templates/logincontent.php:12
+#: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:11
 msgid "Project ID/name"
 msgstr ""
 
@@ -1523,10 +1521,6 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:6
 msgid "New project"
-msgstr ""
-
-#: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:11
-msgid "Project id/name"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:12

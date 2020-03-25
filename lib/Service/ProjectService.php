@@ -3100,7 +3100,7 @@ class ProjectService {
             return $response;
         }
         else {
-            return ['message' => $this->trans->t('No such share access')];
+            return ['message' => $this->trans->t('No such shared access')];
         }
     }
 

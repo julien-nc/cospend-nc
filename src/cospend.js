@@ -1125,6 +1125,9 @@ var ACCESS_ADMIN = 4;
             '<br/>' +
             '<label id="mbUrlHintLabel">' +
             t('cospend', 'Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone.') +
+            '</label>' +
+            '<label id="mbUrlHintLabel">' +
+            t('cospend', 'Android will know MoneyBuster can open such a link (based on the \'https://net.eneiluj.moneybuster.cospend\' part) and you will be able to add the project.') +
             '</label>';
         $('#billdetail').html(mbStr);
 

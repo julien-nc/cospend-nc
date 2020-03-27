@@ -896,7 +896,6 @@ var ACCESS_ADMIN = 4;
                 cospend.currentProjectId = cospend.projectid;
                 getBills(cospend.projectid);
             }
-            console.log('my access level '+response.myaccesslevel)
         }).always(function() {
             cospend.currentGetProjectsAjax = null;
         }).fail(function(response) {
@@ -4505,9 +4504,14 @@ var ACCESS_ADMIN = 4;
                     editMember(projectid, memberid, newName, null, null);
                 }
                 else if (cospend.memberEditionMode === MEMBER_WEIGHT_EDITION) {
-                    var newWeight = $(this).val();
-                    newName = cospend.members[projectid][memberid].name;
-                    editMember(projectid, memberid, newName, newWeight, null);
+                    var newWeight = parseFloat($(this).val());
+                    if (!isNaN(newWeight)) {
+                        newName = cospend.members[projectid][memberid].name;
+                        editMember(projectid, memberid, newName, newWeight, null);
+                    }
+                    else {
+                        OC.Notification.showTemporary(t('cospend', 'Invalid weight'));
+                    }
                 }
             }
         });
@@ -4521,9 +4525,14 @@ var ACCESS_ADMIN = 4;
                 editMember(projectid, memberid, newName, null, null);
             }
             else if (cospend.memberEditionMode === MEMBER_WEIGHT_EDITION) {
-                var newWeight = $(this).parent().find('.editMemberInput').val();
-                newName = $(this).parent().parent().parent().find('b.memberName').text();
-                editMember(projectid, memberid, newName, newWeight, null);
+                var newWeight = parseFloat($(this).parent().find('.editMemberInput').val());
+                if (!isNaN(newWeight)) {
+                    newName = cospend.members[projectid][memberid].name;
+                    editMember(projectid, memberid, newName, newWeight, null);
+                }
+                else {
+                    OC.Notification.showTemporary(t('cospend', 'Invalid weight'));
+                }
             }
         });
 

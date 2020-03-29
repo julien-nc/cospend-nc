@@ -346,6 +346,9 @@ input[type=number] {
     mask: url(images/currency.svg) no-repeat;
     mask-size: 22px 22px;
     mask-position: center;
+    -webkit-mask: url(images/currency.svg) no-repeat;
+    -webkit-mask-size: 22px 22px;
+    -webkit-mask-position: center;
     min-width: 44px !important;
     min-height: 44px !important;
 }
@@ -359,6 +362,9 @@ input[type=number] {
     mask: url(images/shar.svg) no-repeat;
     mask-size: 16px 16px;
     mask-position: center;
+    -webkit-mask: url(images/shar.svg) no-repeat;
+    -webkit-mask-size: 16px 16px;
+    -webkit-mask-position: center;
 }
 .accesslevelActive {
     background-color: var(--color-success);

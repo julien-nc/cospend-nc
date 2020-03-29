@@ -340,6 +340,18 @@ input[type=number] {
 .shareinput {
     width: 100%;
 }
+.icon-cospend {
+    background-color: var(--color-main-text);
+    padding: 0 !important;
+    mask: url(images/app_black.svg) no-repeat;
+    mask-size: 22px auto;
+    mask-position: center;
+    -webkit-mask: url(images/app_black.svg) no-repeat;
+    -webkit-mask-size: 22px auto;
+    -webkit-mask-position: center;
+    min-width: 44px !important;
+    min-height: 44px !important;
+}
 .icon-time {
     background-color: var(--color-main-text);
     padding: 0 !important;
@@ -364,6 +376,7 @@ input[type=number] {
     min-width: 44px !important;
     min-height: 44px !important;
 }
+#billdetail .icon-cospend,
 #billdetail .icon-time,
 #billdetail .icon-currencies {
     min-width: 23px !important;
@@ -647,11 +660,13 @@ a.billitem .app-content-list-item-icon {
 .bill-amount {
     margin-top: 25px;
 }
+.bill-amount .icon-cospend,
 .bill-time .icon-time,
 .bill-currency-convert .icon-currencies {
     display: inline-block;
     padding-left: 34px !important;
 }
+.bill-amount label,
 .bill-time label,
 .bill-currency-convert label {
     padding-top: 10px;

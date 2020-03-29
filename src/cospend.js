@@ -2325,7 +2325,7 @@ var ACCESS_ADMIN = 4;
             '        </div>' + addFileHtml +
             '        <div class="bill-amount">' +
             '            <label for="amount">' +
-            '                <a class="icon icon-quota"></a>' +
+            '                <a class="icon icon-cospend"></a>' +
             '                '+amountStr+
             '            </label>' +
             '            <input type="number" id="amount" class="input-bill-amount" value="'+bill.amount+'" step="any"/>' +

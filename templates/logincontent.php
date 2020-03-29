@@ -11,7 +11,7 @@ if ($_['wrong']) {
 
 <label for="projectidInput" id="projectidlabel"><?php p($l->t('Project ID/name')); ?></label>
 <br/>
-<input id="projectidInput" name="projectid" type="text" value="<?php
+<input id="projectidInput" name="projectid" type="text" maxlength="64" value="<?php
 if (array_key_exists('projectid', $_)) {
     p($_['projectid']);
 }

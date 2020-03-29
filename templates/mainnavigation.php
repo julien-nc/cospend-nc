@@ -9,13 +9,13 @@
 
         <form id="newprojectform" autocomplete="off">
             <label for="projectidinput"><?php p($l->t('Project ID/name')); ?></label>
-            <input id="projectidinput" type="text" value="<?php p($l->t('myProjectId')); ?>"/>
+            <input id="projectidinput" type="text" value="<?php p($l->t('myProjectId')); ?>" maxlength="64"/>
 
             <label for="projectnameinput"><?php p($l->t('Title')); ?></label>
-            <input id="projectnameinput" type="text" value="<?php p($l->t('My project name')); ?>"/>
+            <input id="projectnameinput" type="text" value="<?php p($l->t('My project name')); ?>" maxlength="300"/>
 
             <label for="projectpasswordinput"><?php p($l->t('Password (optional, required for guest access)')); ?></label>
-            <input id="projectpasswordinput" type="password" value="" autocomplete="off"/>
+            <input id="projectpasswordinput" type="password" value="" autocomplete="off" maxlength="100"/>
             <button id="createproject" type="button" class="icon-add">
                 <?php p($l->t('Add project')); ?>
             </button>

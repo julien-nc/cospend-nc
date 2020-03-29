@@ -1206,7 +1206,7 @@ var ACCESS_ADMIN = 4;
             '            <input type="submit" value="" class="icon-rename editMainCurrency">' +
             '        </div>' +
             '        <div id="main-currency-edit">' +
-            '            <input type="text" value="'+(mainCurrencyName || t('cospend', 'Potatoe'))+'" class="editMainCurrencyInput">' +
+            '            <input type="text" maxlength="64" value="'+(mainCurrencyName || t('cospend', 'Potatoe'))+'" class="editMainCurrencyInput">' +
             '            <input type="submit" value="" class="icon-close editMainCurrencyClose">' +
             '            <input type="submit" value="" class="icon-checkmark editMainCurrencyOk">' +
             '        </div>' +
@@ -2313,7 +2313,7 @@ var ACCESS_ADMIN = 4;
             '                <a class="icon icon-tag"></a>' +
             '                '+whatStr+
             '            </label>' +
-            '            <input type="text" id="what" class="input-bill-what" value="'+bill.what+'"/>' +
+            '            <input type="text" id="what" maxlength="300" class="input-bill-what" value="'+bill.what+'"/>' +
             '        </div>' + addFileHtml +
             '        <div class="bill-amount">' +
             '            <label for="amount">' +
@@ -2682,13 +2682,13 @@ var ACCESS_ADMIN = 4;
             '    </div>' +
             '    <div class="app-navigation-entry-edit">' +
             '        <div>' +
-            '            <input type="text" value="'+project.name+'" class="editProjectInput">' +
+            '            <input type="text" maxlength="300" value="'+project.name+'" class="editProjectInput">' +
             '            <input type="submit" value="" class="icon-close editProjectClose">' +
             '            <input type="submit" value="" class="icon-checkmark editProjectOk">' +
             '        </div>' +
             '    </div>';
         li = li + '    <ul class="app-navigation-entry-share">' +
-            '           <li class="shareinputli" title="'+shareTitle+'"><input type="text" class="shareinput" placeholder="'+defaultShareText+'"/></li>';
+            '           <li class="shareinputli" title="'+shareTitle+'"><input type="text" maxlength="300" class="shareinput" placeholder="'+defaultShareText+'"/></li>';
         li +=
             '           <li class="addpubshareitem">' +
             '               <a class="icon-public" href="#">' +
@@ -2704,7 +2704,7 @@ var ACCESS_ADMIN = 4;
             '            </li>' +
             '          </ul>';
         li = li + '    <div class="newmemberdiv">' +
-            '        <input class="newmembername" type="text" value=""/>' +
+            '        <input class="newmembername" maxlength="300" type="text" value=""/>' +
             '        <button class="newmemberbutton icon-add"></button>' +
             '    </div>' +
 

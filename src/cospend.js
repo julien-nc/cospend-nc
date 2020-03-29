@@ -2368,6 +2368,7 @@ var ACCESS_ADMIN = 4;
             '            </select>' +
             '        </div>' +
             '        <div class="bill-repeat-extra">' +
+            '        <div class="bill-repeat-include">' +
             '           <input id="repeatallactive" class="checkbox" type="checkbox"/>' +
             '           <label for="repeatallactive" class="checkboxlabel">' +
             '               ' + t('cospend', 'Include all active member on repeat') +
@@ -2379,6 +2380,7 @@ var ACCESS_ADMIN = 4;
             '               ' + t('cospend', 'Repeat until') +
             '           </label> ' +
             '           <input type="date" id="repeatuntil" class="input-bill-repeatuntil" value="'+bill.repeatuntil+'"/>' +
+            '        </div>' +
             '        </div>' +
             '        <div class="bill-payment-mode">' +
             '            <label for="payment-mode">' +
@@ -2457,19 +2459,13 @@ var ACCESS_ADMIN = 4;
             }
             $('#repeatallactive').prop('checked', bill.repeatallactive || false);
             if (bill.repeat === 'n') {
-                $('#repeatallactive').hide();
-                $('label[for=repeatallactive]').hide();
-                $('#repeatuntil').hide();
-                $('label[for=repeatuntil]').hide();
+                $('.bill-repeat-extra').hide();
             }
         }
         else {
             $('.bill-type').show();
             $('#owerValidate').show();
-            $('#repeatallactive').hide();
-            $('label[for=repeatallactive]').hide();
-            $('#repeatuntil').hide();
-            $('label[for=repeatuntil]').hide();
+            $('.bill-repeat-extra').hide();
         }
         updateAmountEach(projectid);
 
@@ -4647,16 +4643,10 @@ var ACCESS_ADMIN = 4;
         // show/hide repeatallactive
         $('body').on('change', '#repeatbill', function(e) {
             if ($(this).val() === 'n') {
-                $('#repeatallactive').hide();
-                $('label[for=repeatallactive]').hide();
-                $('#repeatuntil').hide();
-                $('label[for=repeatuntil]').hide();
+                $('.bill-repeat-extra').hide();
             }
             else {
-                $('#repeatallactive').show();
-                $('label[for=repeatallactive]').show();
-                $('#repeatuntil').show();
-                $('label[for=repeatuntil]').show();
+                $('.bill-repeat-extra').show();
             }
         });
 
@@ -4963,10 +4953,7 @@ var ACCESS_ADMIN = 4;
                 $('#amount').prop('disabled', false);
                 $('#repeatbill').prop('disabled', false);
                 if ($('#repeatbill').val() !== 'n') {
-                    $('#repeatallactive').show();
-                    $('label[for=repeatallactive]').show();
-                    $('#repeatuntil').show();
-                    $('label[for=repeatuntil]').show();
+                    $('.bill-repeat-extra').show();
                 }
             }
             else if (billtype === 'custom') {
@@ -4979,10 +4966,7 @@ var ACCESS_ADMIN = 4;
                 updateCustomAmount();
                 $('#amount').prop('disabled', true);
                 $('#repeatbill').val('n').prop('disabled', true);
-                $('#repeatallactive').hide();
-                $('label[for=repeatallactive]').hide();
-                $('#repeatuntil').hide();
-                $('label[for=repeatuntil]').hide();
+                $('.bill-repeat-extra').hide();
             }
             else if (billtype === 'perso') {
                 $('#owerNone').show();
@@ -4998,10 +4982,7 @@ var ACCESS_ADMIN = 4;
                 });
                 $('#amount').prop('disabled', false);
                 $('#repeatbill').val('n').prop('disabled', true);
-                $('#repeatallactive').hide();
-                $('label[for=repeatallactive]').hide();
-                $('#repeatuntil').hide();
-                $('label[for=repeatuntil]').hide();
+                $('.bill-repeat-extra').hide();
             }
             $('#owerValidateText').text(owerValidateStr);
         });

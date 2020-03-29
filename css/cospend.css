@@ -656,8 +656,9 @@ a.billitem .app-content-list-item-icon {
 .bill-currency-convert label {
     padding-top: 10px;
 }
-.bill-repeat-extra {
-    text-align: right;
+.bill-repeat-include {
+    text-align: left;
     margin-top: 5px;
     margin-bottom: 5px;
+    padding-left: 8px;
 }

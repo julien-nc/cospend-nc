@@ -1219,7 +1219,7 @@ var ACCESS_ADMIN = 4;
             '            </label>' +
             '            <div id="add-currency">' +
             '                <label for="addCurrencyNameInput">'+t('cospend', 'Name')+'</label>'+
-            '                <input type="text" value="" id="addCurrencyNameInput">' +
+            '                <input type="text" value="" maxlength="64" id="addCurrencyNameInput">' +
             '                <label for="addCurrencyRateInput"> '+t('cospend', 'Exchange rate to main currency') +
             '                   <br/>' + t('cospend', '(1 of this currency = X of main currency)')+
             '                </label>'+
@@ -1298,7 +1298,7 @@ var ACCESS_ADMIN = 4;
             '    </div>' +
             '    <div class="one-currency-edit">' +
             '        <label>'+t('cospend', 'Name')+'</label>'+
-            '        <input type="text" value="'+currency.name+'" class="editCurrencyNameInput">' +
+            '        <input type="text" value="'+currency.name+'" maxlength="64" class="editCurrencyNameInput">' +
             '        <label> '+t('cospend', 'Exchange rate to main currency') +
             '           <br/>' + t('cospend', '(1 of this currency = X of main currency)')+
             '        </label>'+
@@ -1419,11 +1419,11 @@ var ACCESS_ADMIN = 4;
             '                '+t('cospend', 'Add category')+
             '            </label>' +
             '            <div id="add-category">' +
-            '                <label for="addCategoryIconInput">'+t('cospend', 'Icon')+'</label>'+
-            '                <input type="text" value="" id="addCategoryIconInput">' +
-            '                <label for="addCategoryNameInput">'+t('cospend', 'Name')+'</label>'+
-            '                <input type="text" value="" id="addCategoryNameInput">' +
-            '                <label for="addCategoryColorInput">'+t('cospend', 'Color')+'</label>'+
+            '                <label for="addCategoryIconInput">' + t('cospend', 'Icon')+ ' ' + t('cospend', '(unicode character like 🌸)') + '</label>'+
+            '                <input type="text" value="" maxlength="3" id="addCategoryIconInput">' +
+            '                <label for="addCategoryNameInput">' + t('cospend', 'Name') + '</label>'+
+            '                <input type="text" value="" maxlength="300" id="addCategoryNameInput">' +
+            '                <label for="addCategoryColorInput">' + t('cospend', 'Color') + '</label>' +
             '                <input type="color" value="" id="addCategoryColorInput">' +
             '                <input type="submit" value="" class="icon-add addCategoryOk">' +
             '            </div>' +
@@ -1499,9 +1499,9 @@ var ACCESS_ADMIN = 4;
             '    </div>' +
             '    <div class="one-category-edit">' +
             '        <label>'+t('cospend', 'Icon')+'</label>'+
-            '        <input type="text" value="'+(category.icon || '')+'" class="editCategoryIconInput">' +
+            '        <input type="text" value="'+(category.icon || '')+'" maxlength="3" class="editCategoryIconInput">' +
             '        <label>'+t('cospend', 'Name')+'</label>'+
-            '        <input type="text" value="'+category.name+'" class="editCategoryNameInput">' +
+            '        <input type="text" value="'+category.name+'" maxlength="300" class="editCategoryNameInput">' +
             '        <label>'+t('cospend', 'Color')+'</label>'+
             '        <input type="color" value="'+category.color+'" class="editCategoryColorInput">' +
             '        <input type="submit" value="" class="icon-close editCategoryClose">' +

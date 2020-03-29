@@ -2279,6 +2279,8 @@ var ACCESS_ADMIN = 4;
         var billTypeStr = t('cospend', 'Bill type');
         var paymentModeStr = t('cospend', 'Payment mode');
         var categoryStr = t('cospend', 'Category');
+        var currencyConvertStr = t('cospend', 'Convert in');
+        var timeStr = t('cospend', 'What time?');
 
         var addFileHtml = '';
         if (!cospend.pageIsPublic) {
@@ -2287,8 +2289,14 @@ var ACCESS_ADMIN = 4;
 
         var currenciesStr = '';
         if (cospend.projects[projectid].currencyname && cospend.projects[projectid].currencies.length > 0) {
-            currenciesStr = '<select id="bill-currency">' +
-                '<option value="">' + cospend.projects[projectid].currencyname + '</option>';
+            currenciesStr =
+                '<div class="bill-currency-convert">' +
+                '<label for="bill-currency">' +
+                '    <a class="icon icon-currencies"></a>' +
+                '    '+currencyConvertStr+
+                '</label>' +
+                '<select id="bill-currency">' +
+                '    <option value="">' + cospend.projects[projectid].currencyname + '</option>';
             var currency;
             for (var i = 0; i < cospend.projects[projectid].currencies.length; i++) {
                 currency = cospend.projects[projectid].currencies[i];
@@ -2296,7 +2304,7 @@ var ACCESS_ADMIN = 4;
                     currency.name+' ⇒ '+cospend.projects[projectid].currencyname+' (x'+currency.exchange_rate+')' +
                     '</option>';
             }
-            currenciesStr += '</select>';
+            currenciesStr += '</select></div>';
         }
 
         var detail =
@@ -2321,8 +2329,8 @@ var ACCESS_ADMIN = 4;
             '                '+amountStr+
             '            </label>' +
             '            <input type="number" id="amount" class="input-bill-amount" value="'+bill.amount+'" step="any"/>' +
-            '           ' + currenciesStr +
             '        </div>' +
+            '        ' + currenciesStr +
             '        <div class="bill-payer">' +
             '            <label for="payer">' +
             '                <a class="icon icon-user"></a>' +
@@ -2338,23 +2346,36 @@ var ACCESS_ADMIN = 4;
             '                '+dateStr+
             '            </label>' +
             '            <input type="date" id="date" class="input-bill-date" value="'+billDate+'"/>' +
+            '        </div>' +
+            '        <div class="bill-time">' +
+            '            <label for="time">' +
+            '                <a class="icon icon-time"></a>' +
+            '                '+timeStr+
+            '            </label>' +
             '            <input type="time" id="time" class="input-bill-time" value="'+billTime+'"/>' +
+            '        </div>' +
+            '        <div class="bill-repeat">' +
             '            <label for="repeatbill">' +
             '                <a class="icon icon-play-next"></a>' +
-            '                '+t('cospend', 'Repeat this bill every')+
+            '                '+t('cospend', 'Repeat')+
             '            </label>' +
             '            <select id="repeatbill">' +
             '               <option value="n" selected>'+t('cospend', 'do not repeat')+'</option>' +
-            '               <option value="d">'+t('cospend', 'day')+'</option>' +
-            '               <option value="w">'+t('cospend', 'week')+'</option>' +
-            '               <option value="m">'+t('cospend', 'month')+'</option>' +
-            '               <option value="y">'+t('cospend', 'year')+'</option>' +
+            '               <option value="d">'+t('cospend', 'daily')+'</option>' +
+            '               <option value="w">'+t('cospend', 'weekly')+'</option>' +
+            '               <option value="m">'+t('cospend', 'monthly')+'</option>' +
+            '               <option value="y">'+t('cospend', 'yearly')+'</option>' +
             '            </select>' +
+            '        </div>' +
+            '        <div class="bill-repeat-extra">' +
             '           <input id="repeatallactive" class="checkbox" type="checkbox"/>' +
             '           <label for="repeatallactive" class="checkboxlabel">' +
             '               ' + t('cospend', 'Include all active member on repeat') +
             '           </label><br/>' +
-            '           <label for="repeatuntil" class="checkboxlabel">' +
+            '        </div>' +
+            '        <div class="bill-repeat-until">' +
+            '           <label for="repeatuntil">' +
+            '                <a class="icon icon-pause"></a>' +
             '               ' + t('cospend', 'Repeat until') +
             '           </label> ' +
             '           <input type="date" id="repeatuntil" class="input-bill-repeatuntil" value="'+bill.repeatuntil+'"/>' +

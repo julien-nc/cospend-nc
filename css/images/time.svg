@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="50.000008"
+   height="39.999996"
+   id="svg12257"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   version="1.0"
+   sodipodi:docbase="D:\Home\Wikipedia"
+   sodipodi:docname="Simple icon time.svg">
+  <defs
+     id="defs12259" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.5795652"
+     inkscape:cx="27.142857"
+     inkscape:cy="44.285714"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="1024"
+     inkscape:window-height="682"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4" />
+  <metadata
+     id="metadata12262">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-306.4286,-335.2193)">
+    <g
+       id="g1960"
+       transform="translate(131.4286,99.34979)">
+      <path
+         id="path1948"
+         d="M 200,237.86949 C 190.08587,237.86949 181.99999,245.95537 181.99999,255.86951 C 181.99999,265.78364 190.08587,273.86952 200,273.86952 C 209.91414,273.86952 218.00002,265.78364 218.00002,255.86951 C 218.00002,245.95537 209.91414,237.86949 200,237.86949 z M 200,241.8695 C 207.74989,241.8695 214.00002,248.11963 214.00002,255.86951 C 214.00002,263.61939 207.74989,269.86952 200,269.86952 C 192.25012,269.86952 185.99999,263.61939 185.99999,255.86951 C 185.99999,248.11963 192.25012,241.8695 200,241.8695 z "
+         style="color:black;fill:black;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:7.00000048;stroke-linecap:butt;stroke-linejoin:round;marker:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" />
+      <path
+         id="path1950"
+         d="M 200.25,242.625 C 199.14542,242.64223 198.26397,243.55167 198.28125,244.65625 L 198.28125,258.375 C 198.27245,259.10687 198.6641,259.78511 199.30238,260.14332 C 199.94065,260.50154 200.72361,260.48253 201.34375,260.09375 L 208.625,255.625 C 209.25907,255.26307 209.64557,254.58442 209.63336,253.85443 C 209.62115,253.12444 209.21217,252.45909 208.56636,252.11857 C 207.92054,251.77804 207.1405,251.81644 206.53125,252.21875 L 202.28125,254.8125 L 202.28125,244.65625 C 202.28972,244.11498 202.07843,243.59338 201.69565,243.2106 C 201.31287,242.82782 200.79127,242.61653 200.25,242.625 z "
+         style="fill:black;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:3.99999881;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+  </g>
+</svg>

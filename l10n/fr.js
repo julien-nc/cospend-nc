@@ -294,6 +294,7 @@ OC.L10N.register(
     "There is no custom amount" : "Il n'y a pas de montant personnalisé",
     "Public link copied to clipboard" : "Lien public copié dans le presse-papier",
     "newMemberName" : "nomNouveauMembre",
+    "Invalid weight" : "Poids invalide",
     "New Bill" : "Nouvelle facture",
     "2 active members are required to create a bill" : "2 membres actifs sont nécessaires pour créer une facture",
     "Guest link for '{pid}' copied to clipboard" : "Lien invité pour '{pid}' copié dans le presse-papier",

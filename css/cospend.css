@@ -556,6 +556,11 @@ a.billitem .app-content-list-item-icon {
 #main-currency-label {
     margin-left: 37px;
 }
+#main-currency-label {
+    width: 160px;
+    display: grid;
+    grid-template: 1fr / 1fr 1fr;
+}
 #add-category {
     display: grid;
     grid-template: 1fr / 250px 130px;
@@ -569,6 +574,7 @@ a.billitem .app-content-list-item-icon {
     grid-template: 1fr / 1fr 1fr;
     background-color: var(--color-background-dark);
 }
+#main-currency-label-label,
 .one-category-edit label,
 #add-category label,
 .one-category-label label,
@@ -585,6 +591,12 @@ a.billitem .app-content-list-item-icon {
 .one-category-label {
     display: grid;
     grid-template: 1fr / 30px 150px 150px 37px 37px;
+}
+#main-currency-edit {
+    grid-template: 1fr / 150px 37px 37px;
+}
+.editMainCurrencyInput {
+    width: 96%;
 }
 .one-currency-label {
     display: grid;

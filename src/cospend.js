@@ -5060,7 +5060,7 @@ var ACCESS_ADMIN = 4;
         // main currency
         $('body').on('click', '.editMainCurrency', function(e) {
             $('#main-currency-label').hide();
-            $('#main-currency-edit').show();
+            $('#main-currency-edit').show().css('display', 'grid');
             $('.editMainCurrencyInput').focus().select();
         });
 

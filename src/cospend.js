@@ -2417,7 +2417,9 @@ var ACCESS_ADMIN = 4;
             '    </div>' +
             '    <div class="bill-right">' +
             '        <div class="bill-type">' +
-            '            <a class="icon icon-toggle-filelist"></a><span>'+billTypeStr+'</span>' +
+            '            <label class="bill-owers-label">' +
+            '                <a class="icon icon-toggle-filelist"></a><span>'+billTypeStr+'</span>' +
+            '            </label>' +
             '            <select id="billtype">' +
             '               <option value="normal" selected>' + normalBillOption + '</option>' +
             '               <option value="perso">' + personalShareBillOption + '</option>' +
@@ -2429,7 +2431,9 @@ var ACCESS_ADMIN = 4;
             '            <div class="modehint modecustom">' + customBillHint + '</div>' +
             '        </div>' +
             '        <div class="bill-owers">' +
-            '            <a class="icon icon-group"></a><span>'+owersStr+'</span>' +
+            '            <label class="bill-owers-label">' +
+            '                <a class="icon icon-group"></a><span>'+owersStr+'</span>' +
+            '            </label>' +
             '            <div class="owerAllNoneDiv">' +
             '            <button id="owerAll"><span class="icon-group"></span> '+allStr+'</button>' +
             '            <button id="owerNone"><span class="icon-disabled-users"></span> '+noneStr+'</button>' +

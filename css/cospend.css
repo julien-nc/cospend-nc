@@ -645,12 +645,16 @@ a.billitem .app-content-list-item-icon {
 .bill-date,
 .bill-payment-mode,
 .bill-amount {
-    margin-top: 20px;
+    margin-top: 25px;
 }
 .bill-time .icon-time,
 .bill-currency-convert .icon-currencies {
-    display: inline flow-root list-item;
+    display: inline-block;
     padding-left: 34px !important;
+}
+.bill-time label,
+.bill-currency-convert label {
+    padding-top: 10px;
 }
 .bill-repeat-extra {
     text-align: right;

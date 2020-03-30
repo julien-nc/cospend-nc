@@ -9,8 +9,8 @@ import { generateUrl } from '@nextcloud/router';
 })();
 
 function setAllowAnonymousCreation(val) {
-    var url = generateUrl('/apps/cospend/setAllowAnonymousCreation');
-    var req = {
+    const url = generateUrl('/apps/cospend/setAllowAnonymousCreation');
+    const req = {
         allow: val
     }
     $.ajax({

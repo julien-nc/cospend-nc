@@ -15,22 +15,22 @@ import 'chart.js/dist/Chart.min';
 
 import { generateUrl } from '@nextcloud/router';
 
-var ACCESS_VIEWER = 1;
-var ACCESS_PARTICIPANT = 2;
-var ACCESS_MAINTENER = 3;
-var ACCESS_ADMIN = 4;
+const ACCESS_VIEWER = 1;
+const ACCESS_PARTICIPANT = 2;
+const ACCESS_MAINTENER = 3;
+const ACCESS_ADMIN = 4;
 
 (function ($, OC) {
     'use strict';
 
     //////////////// VAR DEFINITION /////////////////////
-    var MEMBER_NAME_EDITION = 1;
-    var MEMBER_WEIGHT_EDITION = 2;
+    const MEMBER_NAME_EDITION = 1;
+    const MEMBER_WEIGHT_EDITION = 2;
 
-    var PROJECT_NAME_EDITION = 1;
-    var PROJECT_PASSWORD_EDITION = 2;
+    const PROJECT_NAME_EDITION = 1;
+    const PROJECT_PASSWORD_EDITION = 2;
 
-    var cospend = {
+    const cospend = {
         restoredSelectedProjectId: null,
         memberEditionMode: null,
         projectEditionMode: null,
@@ -137,7 +137,7 @@ var ACCESS_ADMIN = 4;
     //////////////// UTILS /////////////////////
 
     function hexToRgb(hex) {
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
         return result ? {
             r: parseInt(result[1], 16),
             g: parseInt(result[2], 16),
@@ -146,8 +146,8 @@ var ACCESS_ADMIN = 4;
     }
 
     function componentToHex(c) {
-        var hex = c.toString(16);
-        return hex.length == 1 ? "0" + hex : hex;
+        const hex = c.toString();
+        return hex.length === 1 ? "0" + hex : hex;
     }
 
     function rgbObjToHex(o) {
@@ -159,7 +159,7 @@ var ACCESS_ADMIN = 4;
     }
 
     function hexToDarkerHex(hex) {
-        var rgb = hexToRgb(hex);
+        const rgb = hexToRgb(hex);
         while (getColorBrightness(rgb) > 100) {
             if (rgb.r > 0) rgb.r--;
             if (rgb.g > 0) rgb.g--;
@@ -174,7 +174,7 @@ var ACCESS_ADMIN = 4;
     }
 
     function Timer(callback, mydelay) {
-        var timerId, start, remaining = mydelay;
+        let timerId, start, remaining = mydelay;
 
         this.pause = function() {
             window.clearTimeout(timerId);
@@ -190,10 +190,10 @@ var ACCESS_ADMIN = 4;
         this.resume();
     }
 
-    var mytimer = 0;
+    let mytimer = 0;
     function delay(callback, ms) {
         return function() {
-            var context = this, args = arguments;
+            const context = this, args = arguments;
             clearTimeout(mytimer);
             mytimer = setTimeout(function () {
                 callback.apply(context, args);
@@ -210,14 +210,14 @@ var ACCESS_ADMIN = 4;
     }
 
     function basename(str) {
-        var base = String(str).substring(str.lastIndexOf('/') + 1);
+        let base = String(str).substring(str.lastIndexOf('/') + 1);
         if (base.lastIndexOf(".") !== -1) {
             base = base.substring(0, base.lastIndexOf("."));
         }
         return base;
     }
 
-    var undoDeleteBillStyle = 'opacity:1; background-image: url('+generateUrl('/svg/core/actions/history?color=2AB4FF')+');';
+    const undoDeleteBillStyle = 'opacity:1; background-image: url('+generateUrl('/svg/core/actions/history?color=2AB4FF')+');';
 
     Chart.plugins.register({
         beforeRender: function (chart) {
@@ -269,7 +269,7 @@ var ACCESS_ADMIN = 4;
      */
     function checkKey(e) {
         e = e || window.event;
-        var kc = e.keyCode;
+        const kc = e.keyCode;
         //console.log(kc);
 
         // key '<'
@@ -289,12 +289,12 @@ var ACCESS_ADMIN = 4;
             return;
         }
         $('#createproject').addClass('icon-loading-small');
-        var req = {
+        const req = {
             id: id,
             name: name,
             password: password
         };
-        var url = generateUrl('/apps/cospend/createProject');
+        const url = generateUrl('/apps/cospend/createProject');
         $.ajax({
             type: 'POST',
             url: url,
@@ -313,7 +313,7 @@ var ACCESS_ADMIN = 4;
                 currencies: []
             });
 
-            var div = $('#newprojectdiv');
+            const div = $('#newprojectdiv');
             $('#newprojectbutton').removeClass('icon-triangle-s').addClass('icon-triangle-e');
             div.slideUp('normal', function() {
                 $('#newBillButton').fadeIn();
@@ -333,11 +333,10 @@ var ACCESS_ADMIN = 4;
             return;
         }
         $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
-        var req = {
+        const req = {
             name: name
         };
-        var url;
-        var project = cospend.projects[projectid];
+        let url;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             url = generateUrl('/apps/cospend/addMember');
@@ -371,15 +370,15 @@ var ACCESS_ADMIN = 4;
     function askChangeMemberColor(projectid, memberid) {
         cospend.changingColorProjectId = projectid;
         cospend.changingColorMemberId = memberid;
-        var currentColor = '#'+cospend.members[projectid][memberid].color;
+        const currentColor = '#'+cospend.members[projectid][memberid].color;
         $('#membercolorinput').val(currentColor);
         $('#membercolorinput').click();
     }
 
     function okColor() {
-        var color = $('#membercolorinput').val();
-        var projectid = cospend.changingColorProjectId;
-        var memberid = cospend.changingColorMemberId;
+        const color = $('#membercolorinput').val();
+        const projectid = cospend.changingColorProjectId;
+        const memberid = cospend.changingColorMemberId;
         editMember(
             projectid, memberid,
             cospend.members[projectid][memberid].name,
@@ -393,7 +392,7 @@ var ACCESS_ADMIN = 4;
         $('.projectitem[projectid="'+projectid+'"] ul.memberlist > li[memberid='+memberid+']')
             .addClass('icon-loading-small')
             .removeClass('editing');
-        var req = {
+        const req = {
             name: newName,
             weight: newWeight,
             activated: newActivated
@@ -401,8 +400,7 @@ var ACCESS_ADMIN = 4;
         if (color) {
             req.color = color;
         }
-        var url, type;
-        var project = cospend.projects[projectid];
+        let url, type;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             req.memberid = memberid;
@@ -419,7 +417,7 @@ var ACCESS_ADMIN = 4;
             data: req,
             async: true,
         }).done(function (response) {
-            var memberLine = $('.projectitem[projectid="'+projectid+'"] ul.memberlist > li[memberid='+memberid+']');
+            const memberLine = $('.projectitem[projectid="'+projectid+'"] ul.memberlist > li[memberid='+memberid+']');
             // update member values
             cospend.members[projectid][memberid].color = rgbObjToHex(response.color).replace('#', '');
             if (newWeight) {
@@ -427,7 +425,7 @@ var ACCESS_ADMIN = 4;
                 updateProjectBalances(projectid);
             }
             if (newName) {
-                var weight = parseFloat(cospend.members[projectid][memberid].weight);
+                const weight = parseFloat(cospend.members[projectid][memberid].weight);
                 memberLine.find('b.memberName').text(
                     newName + ((weight !== 1.0) ? (' (x'+cospend.members[projectid][memberid].weight+')') : '')
                 );
@@ -446,7 +444,7 @@ var ACCESS_ADMIN = 4;
                 cospend.members[projectid][memberid].activated = newActivated;
             }
             // update icon
-            var imgurl = generateUrl('/apps/cospend/getAvatar?color=' +
+            const imgurl = generateUrl('/apps/cospend/getAvatar?color=' +
                         cospend.members[projectid][memberid].color +
                         '&name='+encodeURIComponent(response.name));
             if (cospend.members[projectid][memberid].activated) {
@@ -475,7 +473,7 @@ var ACCESS_ADMIN = 4;
     function createBill(projectid, what, amount, payer_id, timestamp, owerIds, repeat,
                         custom=false, paymentmode=null, categoryid=null, repeatallactive=0, repeatuntil=null) {
         $('.loading-bill').addClass('icon-loading-small');
-        var req = {
+        const req = {
             what: what,
             timestamp: timestamp,
             payer: payer_id,
@@ -487,8 +485,7 @@ var ACCESS_ADMIN = 4;
             paymentmode: paymentmode,
             categoryid: categoryid
         };
-        var url, type;
-        var project = cospend.projects[projectid];
+        let url;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             url = generateUrl('/apps/cospend/addBill');
@@ -502,7 +499,7 @@ var ACCESS_ADMIN = 4;
             data: req,
             async: true,
         }).done(function (response) {
-            var billid = response;
+            const billid = response;
             // update dict
             cospend.bills[projectid][billid] = {
                 id: billid,
@@ -516,14 +513,14 @@ var ACCESS_ADMIN = 4;
                 paymentmode: paymentmode,
                 categoryid: categoryid
             };
-            var billOwers = [];
-            for (var i=0; i < owerIds.length; i++) {
+            const billOwers = [];
+            for (let i=0; i < owerIds.length; i++) {
                 billOwers.push({id: owerIds[i]});
             }
             cospend.bills[projectid][billid].owers = billOwers;
 
             // update ui
-            var bill = cospend.bills[projectid][billid];
+            const bill = cospend.bills[projectid][billid];
             if (!custom) {
                 updateBillItem(projectid, 0, bill);
                 updateDisplayedBill(projectid, billid, what, payer_id, repeat,
@@ -549,7 +546,7 @@ var ACCESS_ADMIN = 4;
     function saveBill(projectid, billid, what, amount, payer_id, timestamp, owerIds, repeat,
                       paymentmode=null, categoryid=null, repeatallactive=null, repeatuntil=null) {
         $('.loading-bill').addClass('icon-loading-small');
-        var req = {
+        const req = {
             what: what,
             timestamp: timestamp,
             payer: payer_id,
@@ -561,8 +558,7 @@ var ACCESS_ADMIN = 4;
             paymentmode: paymentmode,
             categoryid: categoryid
         };
-        var url, type;
-        var project = cospend.projects[projectid];
+        let url, type;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             req.billid = billid;
@@ -589,16 +585,16 @@ var ACCESS_ADMIN = 4;
             cospend.bills[projectid][billid].repeatuntil = repeatuntil;
             cospend.bills[projectid][billid].paymentmode = paymentmode;
             cospend.bills[projectid][billid].categoryid = categoryid;
-            var billOwers = [];
-            for (var i=0; i < owerIds.length; i++) {
+            const billOwers = [];
+            for (let i=0; i < owerIds.length; i++) {
                 billOwers.push({id: owerIds[i]});
             }
             cospend.bills[projectid][billid].owers = billOwers;
 
             // update ui
-            var bill = cospend.bills[projectid][billid];
+            const bill = cospend.bills[projectid][billid];
             updateBillItem(projectid, billid, bill);
-            var displayedBillTitle = $('#billdetail .bill-title');
+            const displayedBillTitle = $('#billdetail .bill-title');
             if (parseInt(displayedBillTitle.attr('billid')) === parseInt(billid) &&
                 displayedBillTitle.attr('projectid') === projectid) {
                 updateDisplayedBill(projectid, billid, what, payer_id, repeat,
@@ -619,57 +615,57 @@ var ACCESS_ADMIN = 4;
     }
 
     function updateBillItem(projectid, billid, bill) {
-        var billItem = $('.billitem[billid='+billid+']');
-        var billSelected = billItem.hasClass('selectedbill');
-        var selectedClass = '';
+        const billItem = $('.billitem[billid='+billid+']');
+        const billSelected = billItem.hasClass('selectedbill');
+        let selectedClass = '';
         if (billSelected) {
             selectedClass = ' selectedbill';
         }
 
-        var owerNames = '';
-        var ower, i;
-        for (i=0; i < bill.owers.length; i++) {
+        let owerNames = '';
+        let ower;
+        for (let i=0; i < bill.owers.length; i++) {
             ower = bill.owers[i];
             owerNames = owerNames + getMemberName(projectid, ower.id) + ', ';
         }
         owerNames = owerNames.replace(/, $/, '');
-        var memberName = getMemberName(projectid, bill.payer_id);
+        const memberName = getMemberName(projectid, bill.payer_id);
 
-        var links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
-        var formattedLinks = '';
-        var linkChars = '';
-        for (i=0; i < links.length; i++) {
+        const links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
+        let formattedLinks = '';
+        let linkChars = '';
+        for (let i=0; i < links.length; i++) {
             formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">['+t('cospend', 'link')+']</a> ';
             linkChars = linkChars + '  🔗';
         }
-        var repeatChar = '';
+        let repeatChar = '';
         if (bill.repeat !== 'n') {
             repeatChar = ' ⏩';
         }
-        var paymentmodeChar = '';
+        let paymentmodeChar = '';
         // c b f card, cash, check
         if (cospend.paymentModes.hasOwnProperty(bill.paymentmode)) {
             paymentmodeChar = cospend.paymentModes[bill.paymentmode].icon + ' ';
         }
-        var categoryChar = '';
+        let categoryChar = '';
         if (cospend.categories.hasOwnProperty(bill.categoryid)) {
             categoryChar = cospend.categories[bill.categoryid].icon + ' ';
         }
         if (cospend.projects[projectid].categories.hasOwnProperty(bill.categoryid)) {
             categoryChar = (cospend.projects[projectid].categories[bill.categoryid].icon || '') + ' ';
         }
-        var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
+        const whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
 
-        var billMom = moment.unix(bill.timestamp);
-        var billDate = billMom.format('YYYY-MM-DD');
-        var billTime = billMom.format('HH:mm');
+        const billMom = moment.unix(bill.timestamp);
+        const billDate = billMom.format('YYYY-MM-DD');
+        const billTime = billMom.format('HH:mm');
 
-        var title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
+        const title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
             billDate + ' ' + billTime + '\n' + memberName + ' -> ' + owerNames;
-        var imgurl = generateUrl('/apps/cospend/getAvatar?color=' +
+        const imgurl = generateUrl('/apps/cospend/getAvatar?color=' +
                     cospend.members[projectid][bill.payer_id].color +
                     '&name='+encodeURIComponent(memberName));
-        var item = '<a href="#" class="app-content-list-item billitem'+selectedClass+'" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
+        const item = '<a href="#" class="app-content-list-item billitem'+selectedClass+'" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
             '<div class="app-content-list-item-icon" style="background-image: url('+imgurl+');"> ' +
             '   <div class="billItemDisabledMask'+(cospend.members[projectid][bill.payer_id].activated ? '' : ' disabled')+'"></div>' +
             '</div>' +
@@ -686,15 +682,15 @@ var ACCESS_ADMIN = 4;
     }
 
     function editProject(projectid, newName, newEmail, newPassword, newAutoexport=null, newcurrencyname=null) {
-        var req = {
+        const req = {
             name: newName,
             contact_email: newEmail,
             password: newPassword,
             autoexport: newAutoexport,
             currencyname: newcurrencyname
         };
-        var url, type;
-        var project = cospend.projects[projectid];
+        let url, type;
+        const project = cospend.projects[projectid];
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             type = 'POST';
@@ -709,11 +705,11 @@ var ACCESS_ADMIN = 4;
             url: url,
             data: req,
             async: true,
-        }).done(function (response) {
-            var projectLine = $('.projectitem[projectid="'+projectid+'"]');
+        }).done(function () {
+            const projectLine = $('.projectitem[projectid="'+projectid+'"]');
             // update project values
             if (newName) {
-                var displayedName = escapeHTML(newName);
+                const displayedName = escapeHTML(newName);
                 projectLine.find('>a span').html(displayedName);
                 cospend.projects[projectid].name = newName;
             }
@@ -729,7 +725,7 @@ var ACCESS_ADMIN = 4;
                 project.currencyname = newcurrencyname || null;
             }
             // update deleted text
-            var projectName = cospend.projects[projectid].name;
+            const projectName = cospend.projects[projectid].name;
             projectLine.find('.app-navigation-entry-deleted-description').text(
                 t('cospend', 'Deleted {name}', {name: projectName})
             );
@@ -755,15 +751,14 @@ var ACCESS_ADMIN = 4;
     }
 
     function updateNumberOfMember(projectid) {
-        var nbMembers = $('li.projectitem[projectid="'+projectid+'"] ul.memberlist > li').length;
+        const nbMembers = $('li.projectitem[projectid="'+projectid+'"] ul.memberlist > li').length;
         $('li.projectitem[projectid="'+projectid+'"] .app-navigation-entry-utils-counter span').text(nbMembers);
     }
 
     function deleteProject(projectid) {
-        var req = {
+        const req = {
         };
-        var url, type;
-        var project = cospend.projects[projectid];
+        let url, type;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             url = generateUrl('/apps/cospend/deleteProject');
@@ -787,7 +782,7 @@ var ACCESS_ADMIN = 4;
                 $('#billdetail').html('');
             }
             if (cospend.pageIsPublic) {
-                var redirectUrl = generateUrl('/apps/cospend/login');
+                const redirectUrl = generateUrl('/apps/cospend/login');
                 window.location.replace(redirectUrl);
             }
             OC.Notification.showTemporary(t('cospend', 'Deleted project {id}', {id: projectid}));
@@ -801,10 +796,9 @@ var ACCESS_ADMIN = 4;
     }
 
     function deleteBill(projectid, billid) {
-        var req = {
+        const req = {
         };
-        var url, type;
-        var project = cospend.projects[projectid];
+        let url, type;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             req.billid = billid;
@@ -840,7 +834,7 @@ var ACCESS_ADMIN = 4;
                 t('cospend', 'Failed to delete bill') +
                 ': ' + response.responseJSON.message
             );
-            var deleteBillIcon = $('.billitem[billid='+billid+'] .deleteBillIcon');
+            const deleteBillIcon = $('.billitem[billid='+billid+'] .deleteBillIcon');
             deleteBillIcon.parent().find('.undoDeleteBill').hide();
             deleteBillIcon.parent().removeClass('deleted');
             deleteBillIcon.show();
@@ -848,10 +842,9 @@ var ACCESS_ADMIN = 4;
     }
 
     function getProjects() {
-        var req = {
+        const req = {
         };
-        var url;
-        var type;
+        let url, type;
         if (!cospend.pageIsPublic) {
             url = generateUrl('/apps/cospend/getProjects');
             type = 'POST';
@@ -866,10 +859,10 @@ var ACCESS_ADMIN = 4;
             data: req,
             async: true,
             xhr: function() {
-                var xhr = new window.XMLHttpRequest();
+                const xhr = new window.XMLHttpRequest();
                 xhr.addEventListener('progress', function(evt) {
                     if (evt.lengthComputable) {
-                        var percentComplete = evt.loaded / evt.total * 100;
+                        //const percentComplete = evt.loaded / evt.total * 100;
                         //$('#loadingpc').text(parseInt(percentComplete) + '%');
                     }
                 }, false);
@@ -883,7 +876,7 @@ var ACCESS_ADMIN = 4;
                 cospend.bills = {};
                 cospend.members = {};
                 cospend.projects = {};
-                for (var i = 0; i < response.length; i++) {
+                for (let i = 0; i < response.length; i++) {
                     addProject(response[i]);
                 }
             }
@@ -907,11 +900,9 @@ var ACCESS_ADMIN = 4;
 
     function getProjectCurrencies(projectid) {
         $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
-        var req = {
+        const req = {
         };
-        var url;
-        var type;
-        var project = cospend.projects[projectid];
+        let url, type;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             url = generateUrl('/apps/cospend/getProjectInfo');
@@ -940,11 +931,9 @@ var ACCESS_ADMIN = 4;
 
     function getProjectCategories(projectid) {
         $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
-        var req = {
+        const req = {
         };
-        var url;
-        var type;
-        var project = cospend.projects[projectid];
+        let url, type;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             url = generateUrl('/apps/cospend/getProjectInfo');
@@ -974,7 +963,7 @@ var ACCESS_ADMIN = 4;
     function getProjectStatistics(projectid, dateMin=null, dateMax=null, paymentMode=null, category=null,
                                   amountMin=null, amountMax=null, showDisabled=true, currencyId=null) {
         $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
-        var req = {
+        const req = {
             dateMin: dateMin,
             dateMax: dateMax,
             paymentMode: paymentMode,
@@ -984,9 +973,7 @@ var ACCESS_ADMIN = 4;
             showDisabled: showDisabled ? '1' : '0',
             currencyId: currencyId
         };
-        var url;
-        var type;
-        var project = cospend.projects[projectid];
+        let url, type;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             type = 'POST';
@@ -1024,11 +1011,9 @@ var ACCESS_ADMIN = 4;
 
     function getProjectSettlement(projectid) {
         $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
-        var req = {
+        const req = {
         };
-        var url;
-        var type;
-        var project = cospend.projects[projectid];
+        let url, type;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             type = 'POST';
@@ -1059,28 +1044,27 @@ var ACCESS_ADMIN = 4;
         // unselect bill
         $('.billitem').removeClass('selectedbill');
 
-        var project = cospend.projects[projectid];
-        var projectName = getProjectName(projectid);
+        const projectName = getProjectName(projectid);
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
-        var titleStr = t('cospend', 'Settlement of project {name}', {name: projectName});
-        var fromStr = t('cospend', 'Who pays?');
-        var toStr = t('cospend', 'To whom?');
-        var howMuchStr = t('cospend', 'How much?');
-        var exportStr = '';
+        const titleStr = t('cospend', 'Settlement of project {name}', {name: projectName});
+        const fromStr = t('cospend', 'Who pays?');
+        const toStr = t('cospend', 'To whom?');
+        const howMuchStr = t('cospend', 'How much?');
+        let exportStr = '';
         if (!cospend.pageIsPublic) {
             exportStr = ' <button class="exportSettlement" projectid="'+projectid+'"><span class="icon-file"></span>'+t('cospend', 'Export')+'</button>';
         }
-        var autoSettleStr = ' <button class="autoSettlement" projectid="'+projectid+'"><span class="icon-play"></span>'+t('cospend', 'Add these payments to project')+'</button>';
-        var settlementStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
+        const autoSettleStr = ' <button class="autoSettlement" projectid="'+projectid+'"><span class="icon-play"></span>'+t('cospend', 'Add these payments to project')+'</button>';
+        let settlementStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 id="settlementTitle"><span class="icon-category-organization"></span>'+titleStr+exportStr+autoSettleStr+'</h2>' +
             '<table id="settlementTable" class="sortable"><thead>' +
             '<th>'+fromStr+'</th>' +
             '<th>'+toStr+'</th>' +
             '<th class="sorttable_numeric">'+howMuchStr+'</th>' +
             '</thead>';
-        var whoPaysName, toWhomName, amount;
-        for (var i=0; i < transactionList.length; i++) {
+        let whoPaysName, toWhomName, amount;
+        for (let i=0; i < transactionList.length; i++) {
             amount = transactionList[i].amount.toFixed(2);
             whoPaysName = getMemberName(projectid, transactionList[i].from);
             toWhomName = getMemberName(projectid, transactionList[i].to);
@@ -1110,14 +1094,13 @@ var ACCESS_ADMIN = 4;
             selectProject($('.projectitem[projectid="'+projectid+'"]'));
         }
 
-        var project = cospend.projects[projectid];
-        var url= 'https://net.eneiluj.moneybuster.cospend/' + window.location.host + generateUrl('').replace('/index.php', '') + projectid + '/';
+        const url= 'https://net.eneiluj.moneybuster.cospend/' + window.location.host + generateUrl('').replace('/index.php', '') + projectid + '/';
 
-        var projectName = getProjectName(projectid);
+        const projectName = getProjectName(projectid);
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
-        var titleStr = t('cospend', 'MoneyBuster link/QRCode for project {name}', {name: projectName});
-        var mbStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
+        const titleStr = t('cospend', 'MoneyBuster link/QRCode for project {name}', {name: projectName});
+        const mbStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 id="mbTitle"><span class="icon-phone"></span>'+titleStr+'</h2>' +
             '<div id="qrcodediv"></div>' +
             '<label id="mbUrlLabel">' + url + '</label>' +
@@ -1130,10 +1113,10 @@ var ACCESS_ADMIN = 4;
             '</label>';
         $('#billdetail').html(mbStr);
 
-        var img = new Image();
+        const img = new Image();
         // wait for the image to be loaded to generate the QRcode
         img.onload = function(){
-            var qr = kjua({
+            const qr = kjua({
                 text: url,
                 crisp: false,
                 render: 'canvas',
@@ -1154,7 +1137,7 @@ var ACCESS_ADMIN = 4;
             $('#qrcodediv').append(qr);
         };
         img.onerror = function() {
-            var qr = kjua({
+            const qr = kjua({
                 text: url,
                 crisp: false,
                 render: 'canvas',
@@ -1177,22 +1160,20 @@ var ACCESS_ADMIN = 4;
         };
 
         // dirty trick to get image URL from css url()... Anyone knows better ?
-        var srcurl = $('#dummylogo').css('content').replace('url("', '').replace('")', '');
-        img.src = srcurl;
+        img.src = $('#dummylogo').css('content').replace('url("', '').replace('")', '');
     }
 
     function displayCurrencies(projectid, projectInfo) {
         // deselect bill
         $('.billitem').removeClass('selectedbill');
-        var project = cospend.projects[projectid];
-        var mainCurrencyName = projectInfo.currencyname;
-        var currencies = projectInfo.currencies;
-        var projectName = getProjectName(projectid);
+        const mainCurrencyName = projectInfo.currencyname;
+        const currencies = projectInfo.currencies;
+        const projectName = getProjectName(projectid);
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
-        var titleStr = t('cospend', 'Currencies of project {name}', {name: projectName});
+        const titleStr = t('cospend', 'Currencies of project {name}', {name: projectName});
 
-        var curStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
+        const curStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 id="curTitle" projectid="'+projectid+'"><span class="icon-currencies"></span>'+titleStr+'</h2>' +
             '<div id="manage-currencies">' +
             '    <div id="main-currency-div">' +
@@ -1238,7 +1219,7 @@ var ACCESS_ADMIN = 4;
             '</div>';
 
         $('#billdetail').html(curStr);
-        for (var i = 0; i < currencies.length; i++) {
+        for (let i = 0; i < currencies.length; i++) {
             addCurrency(projectid, currencies[i]);
         }
 
@@ -1252,12 +1233,11 @@ var ACCESS_ADMIN = 4;
 
     function addCurrencyDb(projectid, name, rate) {
         $('.addCurrencyOk').addClass('icon-loading-small');
-        var req = {
+        const req = {
             name: name,
             rate: rate
         };
-        var url;
-        var project = cospend.projects[projectid];
+        let url;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             url = generateUrl('/apps/cospend/addCurrency');
@@ -1289,7 +1269,7 @@ var ACCESS_ADMIN = 4;
     }
 
     function addCurrency(projectid, currency) {
-        var curStr = '<div class="one-currency" projectid="'+projectid+'" currencyid="'+currency.id+'">' +
+        const curStr = '<div class="one-currency" projectid="'+projectid+'" currencyid="'+currency.id+'">' +
             '    <div class="one-currency-label">' +
             '        <label class="one-currency-label-label">'+
                      currency.name+' (x'+currency.exchange_rate+')</label>' +
@@ -1312,10 +1292,9 @@ var ACCESS_ADMIN = 4;
 
     function deleteCurrencyDb(projectid, currencyId) {
         $('.one-currency[currencyid='+currencyId+'] .deleteOneCurrency').addClass('icon-loading-small');
-        var req = {
+        const req = {
         };
-        var url, type;
-        var project = cospend.projects[projectid];
+        let url, type;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             req.currencyid = currencyId;
@@ -1333,9 +1312,9 @@ var ACCESS_ADMIN = 4;
             async: true
         }).done(function (response) {
             $('.one-currency[currencyid=' + currencyId + ']').remove();
-            var currencies = cospend.projects[projectid].currencies;
-            var iToDel = null;
-            for (var i = 0; i < currencies.length; i++) {
+            const currencies = cospend.projects[projectid].currencies;
+            let iToDel = null;
+            for (let i = 0; i < currencies.length; i++) {
                 if (parseInt(currencies[i].id) === parseInt(currencyId)) {
                     iToDel = i;
                     break;
@@ -1356,12 +1335,11 @@ var ACCESS_ADMIN = 4;
 
     function editCurrencyDb(projectid, currencyId, name, rate) {
         $('.one-currency[currencyid='+currencyId+'] .editCurrencyOk').addClass('icon-loading-small');
-        var req = {
+        const req = {
             name: name,
             rate: rate
         };
-        var url, type;
-        var project = cospend.projects[projectid];
+        let url, type;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             req.currencyid = currencyId;
@@ -1381,8 +1359,8 @@ var ACCESS_ADMIN = 4;
             $('.one-currency[currencyid=' + currencyId + '] .one-currency-edit').hide();
             $('.one-currency[currencyid=' + currencyId + '] .one-currency-label').show()
             .find('.one-currency-label-label').text(name+' (x'+rate+')');
-            var currencies = cospend.projects[projectid].currencies;
-            for (var i = 0; i < currencies.length; i++) {
+            const currencies = cospend.projects[projectid].currencies;
+            for (let i = 0; i < currencies.length; i++) {
                 if (parseInt(currencies[i].id) === parseInt(currencyId)) {
                     currencies[i].name = name;
                     currencies[i].exchange_rate = rate;
@@ -1402,14 +1380,13 @@ var ACCESS_ADMIN = 4;
     function displayCategories(projectid, projectInfo) {
         // deselect bill
         $('.billitem').removeClass('selectedbill');
-        var project = cospend.projects[projectid];
-        var categories = projectInfo.categories;
-        var projectName = getProjectName(projectid);
+        const categories = projectInfo.categories;
+        const projectName = getProjectName(projectid);
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
-        var titleStr = t('cospend', 'Categories of project {name}', {name: projectName});
+        const titleStr = t('cospend', 'Categories of project {name}', {name: projectName});
 
-        var catStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
+        const catStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 id="catTitle" projectid="'+projectid+'"><span class="icon-category-app-bundles"></span>'+titleStr+'</h2>' +
             '<div id="manage-categories">' +
             '    <div id="categories-div">' +
@@ -1439,7 +1416,7 @@ var ACCESS_ADMIN = 4;
             '</div>';
 
         $('#billdetail').html(catStr);
-        for (var catId in categories) {
+        for (const catId in categories) {
             addCategory(projectid, catId, categories[catId]);
         }
         if (cospend.projects[projectid].myaccesslevel < ACCESS_MAINTENER) {
@@ -1451,13 +1428,12 @@ var ACCESS_ADMIN = 4;
 
     function addCategoryDb(projectid, name, icon, color) {
         $('.addCategoryOk').addClass('icon-loading-small');
-        var req = {
+        const req = {
             name: name,
             icon: icon,
             color: color
         };
-        var url;
-        var project = cospend.projects[projectid];
+        let url;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             url = generateUrl('/apps/cospend/addCategory');
@@ -1489,7 +1465,7 @@ var ACCESS_ADMIN = 4;
     }
 
     function addCategory(projectid, catId, category) {
-        var catStr = '<div class="one-category" projectid="'+projectid+'" categoryid="'+catId+'">' +
+        const catStr = '<div class="one-category" projectid="'+projectid+'" categoryid="'+catId+'">' +
             '    <div class="one-category-label">' +
             '        <label class="one-category-label-icon">'+(category.icon || '')+'</label>' +
             '        <label class="one-category-label-label">'+category.name+'</label>' +
@@ -1513,10 +1489,9 @@ var ACCESS_ADMIN = 4;
 
     function deleteCategoryDb(projectid, categoryId) {
         $('.one-category[categoryid='+categoryId+'] .deleteOneCategory').addClass('icon-loading-small');
-        var req = {
+        const req = {
         };
-        var url, type;
-        var project = cospend.projects[projectid];
+        let url, type;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             req.categoryid = categoryId;
@@ -1546,13 +1521,12 @@ var ACCESS_ADMIN = 4;
 
     function editCategoryDb(projectid, categoryId, name, icon, color) {
         $('.one-category[categoryid='+categoryId+'] .editCategoryOk').addClass('icon-loading-small');
-        var req = {
+        const req = {
             name: name,
             icon: icon,
             color: color
         };
-        var url, type;
-        var project = cospend.projects[projectid];
+        let url, type;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             req.categoryid = categoryId;
@@ -1592,16 +1566,15 @@ var ACCESS_ADMIN = 4;
         // deselect bill
         $('.billitem').removeClass('selectedbill');
 
-        var statList = allStats.stats;
-        var monthlyStats = allStats.monthlyStats;
-        var categoryStats = allStats.categoryStats;
-        var categoryMemberStats = allStats.categoryMemberStats;
-        var memberIds = allStats.memberIds;
+        const statList = allStats.stats;
+        const monthlyStats = allStats.monthlyStats;
+        const categoryStats = allStats.categoryStats;
+        const categoryMemberStats = allStats.categoryMemberStats;
+        const memberIds = allStats.memberIds;
         cospend.currentStats = allStats;
         cospend.currentStatsProjectId = projectid;
-        var color;
-
-        var isFiltered = (    (dateMin !== null && dateMin !== '')
+        let color;
+        const isFiltered = (    (dateMin !== null && dateMin !== '')
                            || (dateMax !== null && dateMax !== '')
                            || (paymentMode !== null && paymentMode !== 'n')
                            || (category !== null && parseInt(category) !== 0)
@@ -1609,29 +1582,29 @@ var ACCESS_ADMIN = 4;
                            || (amountMax !== null && amountMax !== '')
                         );
 
-        var project = cospend.projects[projectid];
-        var projectName = getProjectName(projectid);
+        const project = cospend.projects[projectid];
+        const projectName = getProjectName(projectid);
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
-        var titleStr = t('cospend', 'Statistics of project {name}', {name: projectName});
-        var nameStr = t('cospend', 'Member name');
-        var paidStr = t('cospend', 'Paid');
-        var spentStr = t('cospend', 'Spent');
-        var balanceStr = t('cospend', 'Balance');
-        var filteredBalanceStr = t('cospend', 'Filtered balance');
-        var exportStr = '';
+        const titleStr = t('cospend', 'Statistics of project {name}', {name: projectName});
+        const nameStr = t('cospend', 'Member name');
+        const paidStr = t('cospend', 'Paid');
+        const spentStr = t('cospend', 'Spent');
+        const balanceStr = t('cospend', 'Balance');
+        const filteredBalanceStr = t('cospend', 'Filtered balance');
+        let exportStr = '';
 
-        var totalPayed = 0.0;
-        for (var i=0; i < statList.length; i++) {
+        let totalPayed = 0.0;
+        for (let i=0; i < statList.length; i++) {
             totalPayed += statList[i].paid;
         }
 
         if (!cospend.pageIsPublic) {
             exportStr = ' <button class="exportStats" projectid="'+projectid+'"><span class="icon-file"></span>'+t('cospend', 'Export')+'</button>';
         }
-        var totalPayedText = '<p class="totalPayedText">' +
+        const totalPayedText = '<p class="totalPayedText">' +
                              t('cospend', 'Total payed by all the members: {t}', {t: totalPayed.toFixed(2)}) + '</p>';
-        var statsStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
+        let statsStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 id="statsTitle"><span class="icon-category-monitoring"></span>'+titleStr+exportStr+'</h2>' +
             '<div id="stats-filters">' +
             '    <label for="date-min-stats">'+t('cospend', 'Minimum date')+': </label><input type="date" id="date-min-stats"/>' +
@@ -1642,8 +1615,8 @@ var ACCESS_ADMIN = 4;
             ':   </label>' +
             '    <select id="payment-mode-stats">' +
             '       <option value="n" selected>'+t('cospend', 'All')+'</option>';
-        var pm;
-        for (var pmId in cospend.paymentModes) {
+        let pm;
+        for (const pmId in cospend.paymentModes) {
             pm = cospend.paymentModes[pmId];
             statsStr += '       <option value="'+pmId+'">'+pm.icon+' '+pm.name+'</option>';
         }
@@ -1656,12 +1629,12 @@ var ACCESS_ADMIN = 4;
             '    <select id="category-stats">' +
             '       <option value="0">'+t('cospend', 'All')+'</option>' +
             '       <option value="-100" selected>'+t('cospend', 'All except reimbursement')+'</option>';
-        var cat;
-        for (var catId in cospend.projects[projectid].categories) {
+        let cat;
+        for (const catId in cospend.projects[projectid].categories) {
             cat = cospend.projects[projectid].categories[catId];
             statsStr += '       <option value="'+catId+'">'+(cat.icon || '')+' '+cat.name+'</option>';
         }
-        for (var catId in cospend.categories) {
+        for (const catId in cospend.categories) {
             cat = cospend.categories[catId];
             statsStr += '       <option value="'+catId+'">'+cat.icon+' '+cat.name+'</option>';
         }
@@ -1672,8 +1645,8 @@ var ACCESS_ADMIN = 4;
             '    <label for="currency-stats">'+t('cospend', 'Currency of statistic values')+': </label>' +
             '    <select id="currency-stats">' +
             '       <option value="0">'+(project.currencyname || t('cospend', 'Main project\'s currency'))+'</option>';
-        var currency;
-        for (var i = 0; i < project.currencies.length; i++) {
+        let currency;
+        for (let i = 0; i < project.currencies.length; i++) {
             currency = project.currencies[i];
             statsStr += '<option value="'+currency.id+'">'+currency.name+' (x'+currency.exchange_rate+')</option>';
         }
@@ -1695,8 +1668,8 @@ var ACCESS_ADMIN = 4;
         statsStr +=
             '<th class="sorttable_numeric">'+balanceStr+'</th>' +
             '</thead>';
-        var paid, spent, balance, filteredBalance, name, balanceClass, filteredBalanceClass, member, imgurl;
-        for (var i=0; i < statList.length; i++) {
+        let paid, spent, balance, filteredBalance, name, balanceClass, filteredBalanceClass, member, imgurl;
+        for (let i=0; i < statList.length; i++) {
             member = cospend.members[projectid][statList[i].member.id];
             balanceClass = '';
             if (statList[i].balance > 0) {
@@ -1742,14 +1715,14 @@ var ACCESS_ADMIN = 4;
         statsStr += '<h2 class="statTableTitle">'+t('cospend', 'Monthly stats')+'</h2>';
         statsStr += '<table id="monthlyTable" class="sortable"><thead>' +
             '<th>'+t('cospend', 'Member/Month')+'</th>';
-        for (var month in monthlyStats) {
+        for (const month in monthlyStats) {
             statsStr += '<th class="sorttable_numeric"><span>'+month+'</span></th>';
         }
         statsStr += '</thead>';
-        var mids = memberIds.slice();
+        const mids = memberIds.slice();
         mids.push('0');
-        var mid;
-        for (var i=0; i < mids.length; i++) {
+        let mid;
+        for (let i=0; i < mids.length; i++) {
             mid = mids[i];
             member = cospend.members[projectid][mid];
             if (parseInt(mid) === 0) {
@@ -1769,7 +1742,7 @@ var ACCESS_ADMIN = 4;
                 cospend.members[projectid][mid].name +
                 '</td>';
             }
-            for (var month in monthlyStats) {
+            for (const month in monthlyStats) {
                 statsStr += '<td style="border: 2px solid '+color+';">';
                 statsStr += monthlyStats[month][mid].toFixed(2);
                 statsStr += '</td>';
@@ -1781,7 +1754,7 @@ var ACCESS_ADMIN = 4;
         statsStr += '<hr/><canvas id="memberChart"></canvas>';
         statsStr += '<hr/><canvas id="categoryChart"></canvas>';
         statsStr += '<hr/><select id="categoryMemberSelect">';
-        for (var catId in categoryMemberStats) {
+        for (const catId in categoryMemberStats) {
             if (parseInt(catId) !== 0 &&
                 (cospend.categories.hasOwnProperty(catId) || cospend.projects[projectid].categories.hasOwnProperty(catId))
             ) {
@@ -1803,7 +1776,7 @@ var ACCESS_ADMIN = 4;
         statsStr += '</select>';
         statsStr += '<canvas id="categoryMemberChart"></canvas>';
         statsStr += '<hr/><select id="memberPolarSelect">';
-        for (var i=0; i < memberIds.length; i++) {
+        for (let i=0; i < memberIds.length; i++) {
             mid = memberIds[i];
             statsStr += '<option value="'+mid+'">'+
                         cospend.members[projectid][mid].name+'</option>';
@@ -1814,8 +1787,8 @@ var ACCESS_ADMIN = 4;
         $('#billdetail').html(statsStr);
 
         // CHARTS
-        var memberBackgroundColors = [];
-        var memberData = {
+        const memberBackgroundColors = [];
+        const memberData = {
             // 2 datasets: paid and spent
             datasets: [{
                 data: [],
@@ -1827,9 +1800,9 @@ var ACCESS_ADMIN = 4;
         ],
             labels: []
         };
-        var sumPaid = 0;
-        var sumSpent = 0;
-        for (var i=0; i < statList.length; i++) {
+        let sumPaid = 0;
+        let sumSpent = 0;
+        for (let i=0; i < statList.length; i++) {
             paid = statList[i].paid.toFixed(2);
             spent = statList[i].spent.toFixed(2);
             sumPaid += parseFloat(paid);
@@ -1847,7 +1820,7 @@ var ACCESS_ADMIN = 4;
         memberData.datasets[1].backgroundColor = memberBackgroundColors;
 
         if (statList.length > 0 && sumPaid > 0.0 && sumSpent > 0.0) {
-            var memberPieChart = new Chart($('#memberChart'), {
+            new Chart($('#memberChart'), {
                 type: 'pie',
                 data: memberData,
                 options: {
@@ -1864,15 +1837,15 @@ var ACCESS_ADMIN = 4;
             });
         }
         // category chart
-        var categoryData = {
+        const categoryData = {
             datasets: [{
                 data: [],
                 backgroundColor: []
             }],
             labels: []
         };
-        var catName, catIdInt;
-        for (var catId in categoryStats) {
+        let catName, catIdInt;
+        for (const catId in categoryStats) {
             paid = categoryStats[catId].toFixed(2);
             catIdInt = parseInt(catId);
             if (cospend.categories.hasOwnProperty(catId)) {
@@ -1893,7 +1866,7 @@ var ACCESS_ADMIN = 4;
             categoryData.labels.push(catName);
         }
         if (Object.keys(categoryStats).length > 0) {
-            var categoryPieChart = new Chart($('#categoryChart'), {
+            new Chart($('#categoryChart'), {
                 type: 'pie',
                 data: categoryData,
                 options: {
@@ -1946,16 +1919,16 @@ var ACCESS_ADMIN = 4;
     }
 
     function displayCategoryMemberChart() {
-        var categoryMemberStats = cospend.currentStats.categoryMemberStats;
-        var projectid = cospend.currentStatsProjectId;
-        var scroll = false;
+        const categoryMemberStats = cospend.currentStats.categoryMemberStats;
+        const projectid = cospend.currentStatsProjectId;
+        let scroll = false;
         if (cospend.currentCategoryMemberChart) {
             cospend.currentCategoryMemberChart.destroy();
             delete cospend.currentCategoryMemberChart;
             scroll = true;
         }
-        var selectedCatId = $('#categoryMemberSelect').val();
-        var catName;
+        const selectedCatId = $('#categoryMemberSelect').val();
+        let catName;
         if (selectedCatId === null || selectedCatId === '') {
             return;
         }
@@ -1970,16 +1943,16 @@ var ACCESS_ADMIN = 4;
             catName = t('cospend', 'No category');
         }
 
-        var categoryData = {
+        const categoryData = {
             datasets: [{
                 data: [],
                 backgroundColor: []
             }],
             labels: []
         };
-        var categoryStats, memberName, paid, color;
-        categoryStats = categoryMemberStats[selectedCatId];
-        for (var mid in categoryStats) {
+        const categoryStats = categoryMemberStats[selectedCatId];
+        let memberName, paid, color;
+        for (const mid in categoryStats) {
             memberName = cospend.members[projectid][mid].name;
             color = '#'+cospend.members[projectid][mid].color;
             paid = categoryStats[mid].toFixed(2);
@@ -2008,30 +1981,30 @@ var ACCESS_ADMIN = 4;
     }
 
     function displayMemberPolarChart() {
-        var categoryMemberStats = cospend.currentStats.categoryMemberStats;
-        var projectid = cospend.currentStatsProjectId;
-        var scroll = false;
+        const categoryMemberStats = cospend.currentStats.categoryMemberStats;
+        const projectid = cospend.currentStatsProjectId;
+        let scroll = false;
         if (cospend.currentMemberPolarChart) {
             cospend.currentMemberPolarChart.destroy();
             delete cospend.currentMemberPolarChart;
             scroll = true;
         }
-        var selectedMemberId = $('#memberPolarSelect').val();
-        var memberName = cospend.members[projectid][selectedMemberId].name;
+        const selectedMemberId = $('#memberPolarSelect').val();
+        const memberName = cospend.members[projectid][selectedMemberId].name;
 
         if (Object.keys(categoryMemberStats).length === 0) {
             return;
         }
 
-        var memberData = {
+        const memberData = {
             datasets: [{
                 data: [],
                 backgroundColor: []
             }],
             labels: []
         };
-        var catName, paid, color;
-        for (var catId in categoryMemberStats) {
+        let catName, paid, color;
+        for (const catId in categoryMemberStats) {
             //memberName = cospend.members[projectid][mid].name;
             if (cospend.categories.hasOwnProperty(catId)) {
                 catName = cospend.categories[catId].icon+' '+cospend.categories[catId].name;
@@ -2073,12 +2046,8 @@ var ACCESS_ADMIN = 4;
 
     function getBills(projectid) {
         $('#bill-list').html('<h2 class="icon-loading-small"></h2>');
-        var req = {};
-        var url;
-        var type;
-
-        var project = cospend.projects[projectid];
-
+        const req = {};
+        let url, type;
         if (!cospend.pageIsPublic) {
             url = generateUrl('/apps/cospend/getBills');
             type = 'POST';
@@ -2097,8 +2066,8 @@ var ACCESS_ADMIN = 4;
             $('#bill-list').html('');
             cospend.bills[projectid] = {};
             if (response.length > 0) {
-                var bill;
-                for (var i = 0; i < response.length; i++) {
+                let bill;
+                for (let i = 0; i < response.length; i++) {
                     bill = response[i];
                     addBill(projectid, bill);
                 }
@@ -2120,38 +2089,37 @@ var ACCESS_ADMIN = 4;
     function updateDisplayedBill(projectid, billid, what, payer_id, repeat,
                                  paymentmode=null, categoryid=null, repeatallactive=0,
                                  repeatuntil=null) {
-        var projectName = getProjectName(projectid);
         $('.bill-title').attr('billid', billid);
-        var c = '#888888';
+        let c = '#888888';
         if (billid !== 0) {
             $('.bill-type').hide();
             $('#owerValidate').hide();
-            var memberPayer = cospend.members[projectid][payer_id];
+            const memberPayer = cospend.members[projectid][payer_id];
             c = '#'+memberPayer.color;
         }
 
-        var links = what.match(/https?:\/\/[^\s]+/gi) || [];
-        var formattedLinks = '';
-        for (var i=0; i < links.length; i++) {
+        const links = what.match(/https?:\/\/[^\s]+/gi) || [];
+        let formattedLinks = '';
+        for (let i=0; i < links.length; i++) {
             formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">[🔗 '+t('cospend', 'link')+']</a> ';
         }
-        var repeatChar = '';
+        let repeatChar = '';
         if (repeat !== 'n') {
             repeatChar = ' ⏩';
         }
-        var paymentmodeChar = '';
+        let paymentmodeChar = '';
         // c b f card, cash, check
         if (cospend.paymentModes.hasOwnProperty(paymentmode)) {
             paymentmodeChar = cospend.paymentModes[paymentmode].icon + ' ';
         }
-        var categoryChar = '';
+        let categoryChar = '';
         if (cospend.categories.hasOwnProperty(categoryid)) {
             categoryChar = cospend.categories[categoryid].icon + ' ';
         }
         else if (cospend.projects[projectid].categories.hasOwnProperty(categoryid)) {
             categoryChar = (cospend.projects[projectid].categories[categoryid].icon || '') + ' ';
         }
-        var whatFormatted = paymentmodeChar + categoryChar + what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
+        const whatFormatted = paymentmodeChar + categoryChar + what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
         $('.bill-title').html(
             '<span class="loading-bill"></span>' +
             '<span class="icon-edit-white"></span>' +
@@ -2167,27 +2135,25 @@ var ACCESS_ADMIN = 4;
         $('.billitem').removeClass('selectedbill');
         $('.billitem[billid='+billid+']').addClass('selectedbill');
 
-        var bill = cospend.bills[projectid][billid];
-        var projectName = getProjectName(projectid);
+        const bill = cospend.bills[projectid][billid];
 
-        var billMom = moment.unix(bill.timestamp);
-        var billDate = billMom.format('YYYY-MM-DD');
-        var billTime = billMom.format('HH:mm');
+        const billMom = moment.unix(bill.timestamp);
+        const billDate = billMom.format('YYYY-MM-DD');
+        const billTime = billMom.format('HH:mm');
 
-        var owers = bill.owers;
-        var owerIds = [];
-        var i;
-        for (i=0; i < owers.length; i++) {
+        const owers = bill.owers;
+        const owerIds = [];
+        for (let i=0; i < owers.length; i++) {
             owerIds.push(owers[i].id);
         }
 
-        var c = '#888888';
-        var owerCheckboxes = '';
-        var payerOptions = '';
-        var member;
-        var selected, checked, readonly;
-        var color, imgurl;
-        for (var memberid in cospend.members[projectid]) {
+        let c = '#888888';
+        let owerCheckboxes = '';
+        let payerOptions = '';
+        let member;
+        let selected, checked, readonly;
+        let color, imgurl;
+        for (const memberid in cospend.members[projectid]) {
             member = cospend.members[projectid][memberid];
             // payer
             selected = '';
@@ -2225,69 +2191,69 @@ var ACCESS_ADMIN = 4;
                     '</div>';
             }
         }
-        var payerDisabled = '';
+        let payerDisabled = '';
         if (billid !== 0) {
             // disable payer select if bill is not new
             if (!cospend.members[projectid][bill.payer_id].activated) {
                 payerDisabled = ' disabled';
             }
-            var memberPayer = cospend.members[projectid][bill.payer_id];
+            const memberPayer = cospend.members[projectid][bill.payer_id];
             c = '#'+(memberPayer.color || '888888');
         }
         $('#billdetail').html('');
         $('.app-content-list').addClass('showdetails');
-        var whatStr = t('cospend', 'What?');
-        var amountStr = t('cospend', 'How much?');
-        var payerStr = t('cospend', 'Who payed?');
-        var dateStr = t('cospend', 'When?');
-        var owersStr = t('cospend', 'For whom?');
+        const whatStr = t('cospend', 'What?');
+        const amountStr = t('cospend', 'How much?');
+        const payerStr = t('cospend', 'Who payed?');
+        const dateStr = t('cospend', 'When?');
+        const owersStr = t('cospend', 'For whom?');
 
-        var links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
-        var formattedLinks = '';
-        for (i=0; i < links.length; i++) {
+        const links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
+        let formattedLinks = '';
+        for (let i=0; i < links.length; i++) {
             formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">[🔗 '+t('cospend', 'link')+']</a> ';
         }
-        var repeatChar = '';
+        let repeatChar = '';
         if (bill.repeat !== 'n') {
             repeatChar = ' ⏩';
         }
-        var paymentmodeChar = '';
+        let paymentmodeChar = '';
         // c b f card, cash, check
         if (cospend.paymentModes.hasOwnProperty(bill.paymentmode)) {
             paymentmodeChar = cospend.paymentModes[bill.paymentmode].icon + ' ';
         }
-        var categoryChar = '';
+        let categoryChar = '';
         if (cospend.categories.hasOwnProperty(bill.categoryid)) {
             categoryChar = cospend.categories[bill.categoryid].icon + ' ';
         }
         if (cospend.projects[projectid].categories.hasOwnProperty(bill.categoryid)) {
             categoryChar = (cospend.projects[projectid].categories[bill.categoryid].icon || '') + ' ';
         }
-        var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
-        var titleStr = t('cospend', 'Bill : {what}', {what: whatFormatted});
+        const whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
+        const titleStr = t('cospend', 'Bill : {what}', {what: whatFormatted});
 
-        var allStr = t('cospend', 'All');
-        var noneStr = t('cospend', 'None');
-        var owerValidateStr = t('cospend', 'Create the bill');
-        var addFileLinkText = t('cospend', 'Attach public link to personal file');
-        var normalBillOption = t('cospend', 'Classic, even split');
-        var normalBillHint = t('cospend', 'Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost.');
-        var customBillOption = t('cospend', 'Custom owed amount per member');
-        var customBillHint = t('cospend', 'Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press "Create the bills". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate.');
-        var personalShareBillOption = t('cospend', 'Even split with optional personal parts');
-        var personalShareBillHint = t('cospend', 'Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don\'t want to collectively pay.');
-        var billTypeStr = t('cospend', 'Bill type');
-        var paymentModeStr = t('cospend', 'Payment mode');
-        var categoryStr = t('cospend', 'Category');
-        var currencyConvertStr = t('cospend', 'Convert in');
-        var timeStr = t('cospend', 'What time?');
+        const allStr = t('cospend', 'All');
+        const noneStr = t('cospend', 'None');
+        const owerValidateStr = t('cospend', 'Create the bill');
+        const addFileLinkText = t('cospend', 'Attach public link to personal file');
+        const normalBillOption = t('cospend', 'Classic, even split');
+        const normalBillHint = t('cospend', 'Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost.');
+        const customBillOption = t('cospend', 'Custom owed amount per member');
+        const customBillHint = t('cospend', 'Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press "Create the bills". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate.');
+        const personalShareBillOption = t('cospend', 'Even split with optional personal parts');
+        const personalShareBillHint = t('cospend', 'Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don\'t want to collectively pay.');
+        const billTypeStr = t('cospend', 'Bill type');
+        const paymentModeStr = t('cospend', 'Payment mode');
+        const categoryStr = t('cospend', 'Category');
+        const currencyConvertStr = t('cospend', 'Convert in');
+        const timeStr = t('cospend', 'What time?');
 
-        var addFileHtml = '';
+        let addFileHtml = '';
         if (!cospend.pageIsPublic) {
             addFileHtml = '<button id="addFileLinkButton"><span class="icon-public"></span>'+addFileLinkText+'</button>';
         }
 
-        var currenciesStr = '';
+        let currenciesStr = '';
         if (cospend.projects[projectid].currencyname && cospend.projects[projectid].currencies.length > 0) {
             currenciesStr =
                 '<div class="bill-currency-convert">' +
@@ -2297,8 +2263,8 @@ var ACCESS_ADMIN = 4;
                 '</label>' +
                 '<select id="bill-currency">' +
                 '    <option value="">' + cospend.projects[projectid].currencyname + '</option>';
-            var currency;
-            for (var i = 0; i < cospend.projects[projectid].currencies.length; i++) {
+            let currency;
+            for (let i = 0; i < cospend.projects[projectid].currencies.length; i++) {
                 currency = cospend.projects[projectid].currencies[i];
                 currenciesStr += '<option value="'+currency.id+'">' +
                     currency.name+' ⇒ '+cospend.projects[projectid].currencyname+' (x'+currency.exchange_rate+')' +
@@ -2307,7 +2273,7 @@ var ACCESS_ADMIN = 4;
             currenciesStr += '</select></div>';
         }
 
-        var detail =
+        let detail =
             '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
             '<h2 class="bill-title" projectid="'+projectid+'" billid="'+bill.id+'" style="background-color: '+c+';">' +
             '    <span class="loading-bill"></span>' +
@@ -2387,8 +2353,8 @@ var ACCESS_ADMIN = 4;
             '            </label>' +
             '            <select id="payment-mode">' +
             '               <option value="n" selected>'+t('cospend', 'None')+'</option>';
-        var pm;
-        for (var pmId in cospend.paymentModes) {
+        let pm;
+        for (const pmId in cospend.paymentModes) {
             pm = cospend.paymentModes[pmId];
             detail += '       <option value="'+pmId+'">'+pm.icon+' '+pm.name+'</option>';
         }
@@ -2402,12 +2368,12 @@ var ACCESS_ADMIN = 4;
             '            </label>' +
             '            <select id="category">' +
             '               <option value="0" selected>'+t('cospend', 'None')+'</option>';
-        var cat;
-        for (var catId in cospend.projects[projectid].categories) {
+        let cat;
+        for (const catId in cospend.projects[projectid].categories) {
             cat = cospend.projects[projectid].categories[catId];
             detail += '       <option value="'+catId+'">'+(cat.icon || '')+' '+cat.name+'</option>';
         }
-        for (var catId in cospend.categories) {
+        for (const catId in cospend.categories) {
             cat = cospend.categories[catId];
             detail += '       <option value="'+catId+'">'+cat.icon+' '+cat.name+'</option>';
         }
@@ -2485,12 +2451,12 @@ var ACCESS_ADMIN = 4;
     }
 
     function updateAmountEach(projectid) {
-        var amount = $('#amount').val();
-        var nbChecked = $('.owerEntry .checkbox:checked').length;
-        var weightSum = 0;
-        var oneWeight, mid, owerVal;
-        var billType = $('#billtype').val();
-        var billId = parseInt($('#billdetail .bill-title').attr('billid'));
+        const amount = $('#amount').val();
+        const nbChecked = $('.owerEntry .checkbox:checked').length;
+        let weightSum = 0;
+        let oneWeight, mid, owerVal;
+        const billType = $('#billtype').val();
+        const billId = parseInt($('#billdetail .bill-title').attr('billid'));
         $('.spentlabel').text('');
         if (nbChecked > 0 &&
             (billId !== 0 || billType === 'normal') &&
@@ -2510,9 +2476,8 @@ var ACCESS_ADMIN = 4;
     }
 
     function getMemberName(projectid, memberid) {
-        //var memberName = $('.projectitem[projectid="'+projectid+'"] .memberlist > li[memberid='+memberid+'] b.memberName').text();
-        var memberName = cospend.members[projectid][memberid].name;
-        return memberName;
+        //const memberName = $('.projectitem[projectid="'+projectid+'"] .memberlist > li[memberid='+memberid+'] b.memberName').text();
+        return cospend.members[projectid][memberid].name;
     }
 
     function reload(msg) {
@@ -2525,14 +2490,13 @@ var ACCESS_ADMIN = 4;
     function addBill(projectid, bill) {
         cospend.bills[projectid][bill.id] = bill;
 
-        var billMom = moment.unix(bill.timestamp);
-        var billDate = billMom.format('YYYY-MM-DD');
-        var billTime = billMom.format('HH:mm');
+        const billMom = moment.unix(bill.timestamp);
+        const billDate = billMom.format('YYYY-MM-DD');
+        const billTime = billMom.format('HH:mm');
 
-        var owerNames = '';
-        var ower, i;
-        for (i=0; i < bill.owers.length; i++) {
-            ower = bill.owers[i];
+        let owerNames = '';
+        for (let i=0; i < bill.owers.length; i++) {
+            const ower = bill.owers[i];
             if (!cospend.members[projectid].hasOwnProperty(ower.id)) {
                 reload(t('cospend', 'Member list is not up to date. Reloading in 5 sec.'));
                 return;
@@ -2540,38 +2504,36 @@ var ACCESS_ADMIN = 4;
             owerNames = owerNames + getMemberName(projectid, ower.id) + ', ';
         }
         owerNames = owerNames.replace(/, $/, '');
-        var title = '';
-        var memberName = '';
-        var memberFirstLetter;
-        var c;
+        let title = '';
+        let memberName = '';
 
-        var links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
-        var formattedLinks = '';
-        var linkChars = '';
-        for (i=0; i < links.length; i++) {
+        const links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
+        let formattedLinks = '';
+        let linkChars = '';
+        for (let i=0; i < links.length; i++) {
             formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">['+t('cospend', 'link')+']</a> ';
             linkChars = linkChars + '  🔗';
         }
-        var repeatChar = '';
+        let repeatChar = '';
         if (bill.id !== 0 && bill.repeat !== 'n') {
             repeatChar = ' ⏩';
         }
-        var paymentmodeChar = '';
+        let paymentmodeChar = '';
         // c b f card, cash, check
         if (cospend.paymentModes.hasOwnProperty(bill.paymentmode)) {
             paymentmodeChar = cospend.paymentModes[bill.paymentmode].icon + ' ';
         }
-        var categoryChar = '';
+        let categoryChar = '';
         if (cospend.categories.hasOwnProperty(bill.categoryid)) {
             categoryChar = cospend.categories[bill.categoryid].icon + ' ';
         }
         if (cospend.projects[projectid].categories.hasOwnProperty(bill.categoryid)) {
             categoryChar = (cospend.projects[projectid].categories[bill.categoryid].icon || '') + ' ';
         }
-        var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
+        const whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
 
-        var imgurl, color;
-        var disabled = '';
+        let imgurl, color;
+        let disabled = '';
         if (bill.id !== 0) {
             if (!cospend.members[projectid].hasOwnProperty(bill.payer_id)) {
                 reload(t('cospend', 'Member list is not up to date. Reloading in 5 sec.'));
@@ -2590,7 +2552,7 @@ var ACCESS_ADMIN = 4;
         else {
             imgurl = generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(' '));
         }
-        var item = '<a href="#" class="app-content-list-item billitem" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
+        const item = '<a href="#" class="app-content-list-item billitem" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
             '<div class="app-content-list-item-icon" style="background-image: url('+imgurl+');"> ' +
             '   <div class="billItemDisabledMask'+disabled+'"></div>' +
             '</div>'+
@@ -2613,11 +2575,9 @@ var ACCESS_ADMIN = 4;
     }
 
     function updateProjectBalances(projectid) {
-        var req = {
+        const req = {
         };
-        var url;
-        var type;
-        var project = cospend.projects[projectid];
+        let url, type;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             url = generateUrl('/apps/cospend/getProjectInfo');
@@ -2633,8 +2593,8 @@ var ACCESS_ADMIN = 4;
             data: req,
             async: true,
         }).done(function (response) {
-            var balance, balanceField, balanceClass, balanceTxt;
-            for (var memberid in response.balance) {
+            let balance, balanceField, balanceClass, balanceTxt;
+            for (const memberid in response.balance) {
                 balance = response.balance[memberid];
                 balanceField = $('.projectitem[projectid="'+projectid+'"] .memberlist > li[memberid='+memberid+'] b.balance');
                 balanceField.removeClass('balancePositive').removeClass('balanceNegative');
@@ -2668,28 +2628,28 @@ var ACCESS_ADMIN = 4;
         cospend.projects[project.id] = project;
         cospend.members[project.id] = {};
 
-        var name = project.name;
-        var projectid = project.id;
-        var addMemberStr = t('cospend', 'Add member');
-        var guestAccessStr = t('cospend', 'Guest access link');
-        var renameStr = t('cospend', 'Change title');
-        var changePwdStr = t('cospend', 'Change password');
-        var displayStatsStr = t('cospend', 'Display statistics');
-        var settleStr = t('cospend', 'Settle the project');
-        var exportStr = t('cospend', 'Export to csv');
-        var autoexportStr = t('cospend', 'Auto export');
-        var manageCurrenciesStr = t('cospend', 'Manage currencies');
-        var manageCategoriesStr = t('cospend', 'Manage categories');
-        var deleteStr = t('cospend', 'Delete');
-        var moneyBusterUrlStr = t('cospend', 'Link/QRCode for MoneyBuster');
-        var deletedStr = t('cospend', 'Deleted {name}', {name: name});
-        var shareTitle = t('cospend', 'Press enter to validate');
-        var defaultShareText = t('cospend', 'User, group or circle name...');
-        var guestLink;
+        const name = project.name;
+        const projectid = project.id;
+        const addMemberStr = t('cospend', 'Add member');
+        const guestAccessStr = t('cospend', 'Guest access link');
+        const renameStr = t('cospend', 'Change title');
+        const changePwdStr = t('cospend', 'Change password');
+        const displayStatsStr = t('cospend', 'Display statistics');
+        const settleStr = t('cospend', 'Settle the project');
+        const exportStr = t('cospend', 'Export to csv');
+        const autoexportStr = t('cospend', 'Auto export');
+        const manageCurrenciesStr = t('cospend', 'Manage currencies');
+        const manageCategoriesStr = t('cospend', 'Manage categories');
+        const deleteStr = t('cospend', 'Delete');
+        const moneyBusterUrlStr = t('cospend', 'Link/QRCode for MoneyBuster');
+        const deletedStr = t('cospend', 'Deleted {name}', {name: name});
+        const shareTitle = t('cospend', 'Press enter to validate');
+        const defaultShareText = t('cospend', 'User, group or circle name...');
+        let guestLink;
         guestLink = generateUrl('/apps/cospend/loginproject/'+projectid);
         guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
-        var guestAccessLevel = parseInt(project.guestaccesslevel);
-        var li =
+        const guestAccessLevel = parseInt(project.guestaccesslevel);
+        let li =
             '<li class="projectitem collapsible" projectid="'+projectid+'">' +
             '    <a class="icon-folder" href="#" title="'+projectid+'">' +
             '        <span>'+name+'</span>' +
@@ -2849,47 +2809,46 @@ var ACCESS_ADMIN = 4;
             $('.projectitem[projectid="'+projectid+'"] .exportProject').parent().hide();
         }
 
-        var i;
-        for (i=0; i < project.members.length; i++) {
-            var memberId = project.members[i].id;
+        for (let i=0; i < project.members.length; i++) {
+            const memberId = project.members[i].id;
             addMember(projectid, project.members[i], project.balance[memberId]);
         }
 
         if (project.shares) {
-            for (i=0; i < project.shares.length; i++) {
-                var userid = project.shares[i].userid;
-                var username = project.shares[i].name;
-                var shid = project.shares[i].id;
-                var accesslevel = parseInt(project.shares[i].accesslevel);
+            for (let i=0; i < project.shares.length; i++) {
+                const userid = project.shares[i].userid;
+                const username = project.shares[i].name;
+                const shid = project.shares[i].id;
+                const accesslevel = parseInt(project.shares[i].accesslevel);
                 addShare(projectid, userid, username, shid, 'u', accesslevel);
             }
         }
 
         if (project.group_shares) {
-            for (i=0; i < project.group_shares.length; i++) {
-                var groupid = project.group_shares[i].groupid;
-                var groupname = project.group_shares[i].name;
-                var shid = project.group_shares[i].id;
-                var accesslevel = parseInt(project.group_shares[i].accesslevel);
+            for (let i=0; i < project.group_shares.length; i++) {
+                const groupid = project.group_shares[i].groupid;
+                const groupname = project.group_shares[i].name;
+                const shid = project.group_shares[i].id;
+                const accesslevel = parseInt(project.group_shares[i].accesslevel);
                 addShare(projectid, groupid, groupname, shid, 'g', accesslevel);
             }
         }
 
         if (project.circle_shares) {
-            for (i=0; i < project.circle_shares.length; i++) {
-                var circleid = project.circle_shares[i].circleid;
-                var circlename = project.circle_shares[i].name;
-                var shid = project.circle_shares[i].id;
-                var accesslevel = parseInt(project.circle_shares[i].accesslevel);
+            for (let i=0; i < project.circle_shares.length; i++) {
+                const circleid = project.circle_shares[i].circleid;
+                const circlename = project.circle_shares[i].name;
+                const shid = project.circle_shares[i].id;
+                const accesslevel = parseInt(project.circle_shares[i].accesslevel);
                 addShare(projectid, circleid, circlename, shid, 'c', accesslevel);
             }
         }
 
         if (project.public_shares) {
-            for (i=0; i < project.public_shares.length; i++) {
-                var token = project.public_shares[i].token;
-                var shid = project.public_shares[i].id;
-                var accesslevel = parseInt(project.public_shares[i].accesslevel);
+            for (let i=0; i < project.public_shares.length; i++) {
+                const token = project.public_shares[i].token;
+                const shid = project.public_shares[i].id;
+                const accesslevel = parseInt(project.public_shares[i].accesslevel);
                 addShare(projectid, null, t('cospend', 'Public share link'), shid, 'l', accesslevel, token);
             }
         }
@@ -2927,8 +2886,8 @@ var ACCESS_ADMIN = 4;
             color: rgbObjToHex(member.color).replace('#', '')
         };
 
-        var invisibleClass = '';
-        var balanceStr;
+        let invisibleClass = '';
+        let balanceStr;
         if (balance >= 0.01) {
             balanceStr = '<b class="balance balancePositive">+'+balance.toFixed(2)+'</b>';
         }
@@ -2941,8 +2900,8 @@ var ACCESS_ADMIN = 4;
                 invisibleClass = ' invisibleMember';
             }
         }
-        var iconToggleStr, toggleStr, imgurl;
-        var lockSpan = '';
+        let iconToggleStr, toggleStr, imgurl;
+        let lockSpan = '';
         if (member.activated) {
             iconToggleStr = 'icon-delete';
             toggleStr = t('cospend', 'Deactivate');
@@ -2952,14 +2911,14 @@ var ACCESS_ADMIN = 4;
             iconToggleStr = 'icon-history';
             toggleStr = t('cospend', 'Reactivate');
         }
-        var color = cospend.members[projectid][member.id].color;
+        const color = cospend.members[projectid][member.id].color;
         imgurl = generateUrl('/apps/cospend/getAvatar?color='+color+'&name='+encodeURIComponent(member.name));
 
 
-        var renameStr = t('cospend', 'Rename');
-        var changeWeightStr = t('cospend', 'Change weight');
-        var changeColorStr = t('cospend', 'Change color');
-        var li =
+        const renameStr = t('cospend', 'Rename');
+        const changeWeightStr = t('cospend', 'Change weight');
+        const changeColorStr = t('cospend', 'Change color');
+        const li =
             '<li memberid="'+member.id+'" class="memberitem'+invisibleClass+'">' +
             '    <div class="memberAvatar'+(member.activated ? '' : ' memberAvatarDisabled')+'">' +
             '       <div class="disabledMask"></div>' +
@@ -3029,7 +2988,7 @@ var ACCESS_ADMIN = 4;
     }
 
     function basicBillValueCheck(what, date, time, amount, payer_id) {
-        var valid = true;
+        let valid = true;
         if (what === null || what === '' || what.match(',')) {
             valid = false;
         }
@@ -3047,27 +3006,26 @@ var ACCESS_ADMIN = 4;
 
     function createNormalBill() {
         // get bill info
-        var billid = $('.bill-title').attr('billid');
-        var projectid = $('.bill-title').attr('projectid');
+        const projectid = $('.bill-title').attr('projectid');
 
-        var what = $('.input-bill-what').val();
-        var date = $('.input-bill-date').val();
-        var time = $('.input-bill-time').val();
+        let what = $('.input-bill-what').val();
+        const date = $('.input-bill-date').val();
+        let time = $('.input-bill-time').val();
         if (!time || time === '') {
             time = '00:00';
         }
-        var amount = parseFloat($('.input-bill-amount').val());
-        var payer_id = parseInt($('.input-bill-payer').val());
-        var repeat = $('#repeatbill').val();
-        var repeatallactive = $('#repeatallactive').is(':checked') ? 1 : 0;
-        var repeatuntil = $('.input-bill-repeatuntil').val();
-        var paymentmode = $('#payment-mode').val();
-        var categoryid = $('#category').val();
+        let amount = parseFloat($('.input-bill-amount').val());
+        const payer_id = parseInt($('.input-bill-payer').val());
+        const repeat = $('#repeatbill').val();
+        const repeatallactive = $('#repeatallactive').is(':checked') ? 1 : 0;
+        const repeatuntil = $('.input-bill-repeatuntil').val();
+        const paymentmode = $('#payment-mode').val();
+        const categoryid = $('#category').val();
 
-        var valid = basicBillValueCheck(what, date, time, amount, payer_id);
+        let valid = basicBillValueCheck(what, date, time, amount, payer_id);
 
-        var owerIds = [];
-        var owerId;
+        const owerIds = [];
+        let owerId;
         $('.owerEntry input').each(function() {
             if ($(this).is(':checked')) {
                 owerId = parseInt($(this).attr('owerid'));
@@ -3088,17 +3046,17 @@ var ACCESS_ADMIN = 4;
         if (valid) {
             // manage currencies
             if ($('#bill-currency') && $('#bill-currency').val()) {
-                var currencyId = $('#bill-currency').val();
-                var currencies = cospend.projects[projectid].currencies;
-                var currency = null;
-                for (var i = 0; i < currencies.length; i++) {
+                const currencyId = $('#bill-currency').val();
+                const currencies = cospend.projects[projectid].currencies;
+                let currency = null;
+                for (let i = 0; i < currencies.length; i++) {
                     if (parseInt(currencies[i].id) === parseInt(currencyId)) {
                         currency = currencies[i];
                         break;
                     }
                 }
                 if (currency) {
-                    var userAmount = amount;
+                    const userAmount = amount;
                     amount = amount * currency.exchange_rate;
                     $('#amount').val(amount);
                     what += ' ('+userAmount.toFixed(2)+' '+currency.name+')';
@@ -3107,7 +3065,7 @@ var ACCESS_ADMIN = 4;
                 }
             }
             // get timestamp
-            var timestamp = moment(date + ' ' + time).unix();
+            const timestamp = moment(date + ' ' + time).unix();
             createBill(projectid, what, amount, payer_id, timestamp, owerIds, repeat, false,
                        paymentmode, categoryid, repeatallactive, repeatuntil);
         }
@@ -3117,8 +3075,8 @@ var ACCESS_ADMIN = 4;
     }
 
     function cleanStringFromCurrency(projectid, str) {
-        var currency, re;
-        for (var i = 0; i < cospend.projects[projectid].currencies.length; i++) {
+        let currency, re;
+        for (let i = 0; i < cospend.projects[projectid].currencies.length; i++) {
             currency = cospend.projects[projectid].currencies[i];
             re = new RegExp(' \\(\\d+\\.?\\d* '+currency.name+'\\)','g');
             str = str.replace(re, '');
@@ -3128,8 +3086,8 @@ var ACCESS_ADMIN = 4;
 
     function onBillEdited(amountChanged=false) {
         // get bill info
-        var billid = $('.bill-title').attr('billid');
-        var projectid = $('.bill-title').attr('projectid');
+        const billid = $('.bill-title').attr('billid');
+        const projectid = $('.bill-title').attr('projectid');
         updateAmountEach(projectid);
 
         // if this is a new bill : get out
@@ -3137,24 +3095,24 @@ var ACCESS_ADMIN = 4;
             return;
         }
 
-        var what = $('.input-bill-what').val();
-        var date = $('.input-bill-date').val();
-        var time = $('.input-bill-time').val();
+        let what = $('.input-bill-what').val();
+        const date = $('.input-bill-date').val();
+        let time = $('.input-bill-time').val();
         if (!time || time === '') {
             time = '00:00';
         }
-        var amount = parseFloat($('.input-bill-amount').val());
-        var payer_id = parseInt($('.input-bill-payer').val());
-        var repeat = $('#repeatbill').val();
-        var repeatallactive = $('#repeatallactive').is(':checked') ? 1 : 0;
-        var repeatuntil = $('.input-bill-repeatuntil').val();
-        var paymentmode = $('#payment-mode').val();
-        var categoryid = $('#category').val();
+        let amount = parseFloat($('.input-bill-amount').val());
+        const payer_id = parseInt($('.input-bill-payer').val());
+        const repeat = $('#repeatbill').val();
+        const repeatallactive = $('#repeatallactive').is(':checked') ? 1 : 0;
+        const repeatuntil = $('.input-bill-repeatuntil').val();
+        const paymentmode = $('#payment-mode').val();
+        const categoryid = $('#category').val();
 
-        var valid = basicBillValueCheck(what, date, time, amount, payer_id);
+        let valid = basicBillValueCheck(what, date, time, amount, payer_id);
 
-        var owerIds = [];
-        var owerId;
+        const owerIds = [];
+        let owerId;
         $('.owerEntry input').each(function() {
             if ($(this).is(':checked')) {
                 owerId = parseInt($(this).attr('owerid'));
@@ -3179,17 +3137,17 @@ var ACCESS_ADMIN = 4;
             }
             // manage currencies
             if ($('#bill-currency') && $('#bill-currency').val()) {
-                var currencyId = $('#bill-currency').val();
-                var currencies = cospend.projects[projectid].currencies;
-                var currency = null;
-                for (var i = 0; i < currencies.length; i++) {
+                const currencyId = $('#bill-currency').val();
+                const currencies = cospend.projects[projectid].currencies;
+                let currency = null;
+                for (let i = 0; i < currencies.length; i++) {
                     if (parseInt(currencies[i].id) === parseInt(currencyId)) {
                         currency = currencies[i];
                         break;
                     }
                 }
                 if (currency) {
-                    var userAmount = amount;
+                    const userAmount = amount;
                     amount = amount * currency.exchange_rate;
                     $('#amount').val(amount);
                     what = cleanStringFromCurrency(projectid, what);
@@ -3199,12 +3157,12 @@ var ACCESS_ADMIN = 4;
                 }
             }
             // if values have changed, save the bill
-            var oldBill = cospend.bills[projectid][billid];
+            const oldBill = cospend.bills[projectid][billid];
             // if ower lists don't have the same length, it has changed
-            var owersChanged = (oldBill.owers.length !== owerIds.length);
+            let owersChanged = (oldBill.owers.length !== owerIds.length);
             // same length : check content
             if (!owersChanged) {
-                for (var i=0; i < oldBill.owers.length; i++) {
+                for (let i=0; i < oldBill.owers.length; i++) {
                     if (owerIds.indexOf(oldBill.owers[i].id) === -1) {
                         owersChanged = true;
                         break;
@@ -3212,7 +3170,7 @@ var ACCESS_ADMIN = 4;
                 }
             }
             // get timestamp
-            var timestamp = moment(date + ' ' + time).unix();
+            const timestamp = moment(date + ' ' + time).unix();
             if (oldBill.what !== what ||
                 oldBill.amount !== amount ||
                 oldBill.timestamp !== timestamp ||
@@ -3235,10 +3193,10 @@ var ACCESS_ADMIN = 4;
 
     function saveOptionValue(optionValues) {
         if (!cospend.pageIsPublic) {
-            var req = {
+            const req = {
                 options: optionValues
             };
-            var url = generateUrl('/apps/cospend/saveOptionValue');
+            const url = generateUrl('/apps/cospend/saveOptionValue');
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -3254,11 +3212,10 @@ var ACCESS_ADMIN = 4;
     }
 
     function restoreOptions() {
-        var mom;
-        var url = generateUrl('/apps/cospend/getOptionsValues');
-        var req = {
+        const url = generateUrl('/apps/cospend/getOptionsValues');
+        const req = {
         };
-        var optionsValues = {};
+        let optionsValues = {};
         $.ajax({
             type: 'POST',
             url: url,
@@ -3267,7 +3224,7 @@ var ACCESS_ADMIN = 4;
         }).done(function (response) {
             optionsValues = response.values;
             if (optionsValues) {
-                for (var k in optionsValues) {
+                for (const k in optionsValues) {
                     if (k === 'selectedProject') {
                         cospend.restoredSelectedProjectId = optionsValues[k];
                     }
@@ -3286,16 +3243,16 @@ var ACCESS_ADMIN = 4;
     }
 
     // trick to always show public link item: replace default autocomplete filter function
-    var origFilter = $.ui.autocomplete.filter;
+    const origFilter = $.ui.autocomplete.filter;
     $.ui.autocomplete.filter = function (array, term) {
-        var result = [cospend.pubLinkData];
+        const result = [cospend.pubLinkData];
         return result.concat(origFilter(array, term));
     };
 
     function addUserAutocompletion(input, projectid) {
-        var req = {
+        const req = {
         };
-        var url = generateUrl('/apps/cospend/getUserList');
+        const url = generateUrl('/apps/cospend/getUserList');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3305,8 +3262,8 @@ var ACCESS_ADMIN = 4;
             cospend.userIdName = response.users;
             cospend.groupIdName = response.groups;
             cospend.circleIdName = response.circles;
-            var data = [];
-            var d, name, id;
+            const data = [];
+            let d, name, id;
             for (id in response.users) {
                 name = response.users[id];
                 d = {
@@ -3356,10 +3313,10 @@ var ACCESS_ADMIN = 4;
                 data.push(d);
             }
             cospend.pubLinkData.projectid = projectid;
-            var ii = input.autocomplete({
+            input.autocomplete({
                 source: data,
                 select: function (e, ui) {
-                    var it = ui.item;
+                    const it = ui.item;
                     if (it.type === 'g') {
                         addGroupShareDb(it.projectid, it.id, it.name);
                     }
@@ -3373,9 +3330,8 @@ var ACCESS_ADMIN = 4;
                         addPublicShareDb(it.projectid);
                     }
                 }
-            });
-            ii.data('ui-autocomplete')._renderItem = function(ul, item) {
-                var iconClass = 'icon-user';
+            }).data('ui-autocomplete')._renderItem = function(ul, item) {
+                let iconClass = 'icon-user';
                 if (item.type === 'g') {
                     iconClass = 'icon-group';
                 }
@@ -3385,11 +3341,10 @@ var ACCESS_ADMIN = 4;
                 else if (item.type === 'l') {
                     iconClass = 'icon-public';
                 }
-                var listItem = $('<li></li>')
+                return $('<li></li>')
                     .data('item.autocomplete', item)
                     .append('<a class="shareCompleteLink"><button class="shareCompleteIcon '+iconClass+'"></button> ' + item.label + '</a>')
                     .appendTo(ul);
-                return listItem;
             };
             //console.log(ii.data('ui-autocomplete'));
         }).fail(function() {
@@ -3399,11 +3354,11 @@ var ACCESS_ADMIN = 4;
 
     function addUserShareDb(projectid, userid, username) {
         $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
-        var req = {
+        const req = {
             projectid: projectid,
             userid: userid
         };
-        var url = generateUrl('/apps/cospend/addUserShare');
+        const url = generateUrl('/apps/cospend/addUserShare');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3426,18 +3381,18 @@ var ACCESS_ADMIN = 4;
     function deleteUserShareDb(projectid, shid) {
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] ' +
             '.deleteUserShareButton span:first').addClass('icon-loading-small');
-        var req = {
+        const req = {
             projectid: projectid,
             shid: shid
         };
-        var url = generateUrl('/apps/cospend/deleteUserShare');
+        const url = generateUrl('/apps/cospend/deleteUserShare');
         $.ajax({
             type: 'POST',
             url: url,
             data: req,
             async: true
-        }).done(function (response) {
-            var li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + ']');
+        }).done(function () {
+            const li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + ']');
             li.fadeOut('normal', function() {
                 li.remove();
             });
@@ -3454,10 +3409,10 @@ var ACCESS_ADMIN = 4;
 
     function addPublicShareDb(projectid) {
         $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
-        var req = {
+        const req = {
             projectid: projectid,
         };
-        var url = generateUrl('/apps/cospend/addPublicShare');
+        const url = generateUrl('/apps/cospend/addPublicShare');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3465,7 +3420,7 @@ var ACCESS_ADMIN = 4;
             async: true
         }).done(function (response) {
             addShare(projectid, null, t('cospend', 'Public share link'), response.id, 'l', ACCESS_PARTICIPANT, response.token);
-            var projectname = getProjectName(projectid);
+            const projectname = getProjectName(projectid);
             OC.Notification.showTemporary(t('cospend', 'Public access link added for project {pname}', {pname: projectname}));
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
@@ -3480,18 +3435,18 @@ var ACCESS_ADMIN = 4;
     function deletePublicShareDb(projectid, shid) {
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] ' +
             '.deletePublicShareButton span:first').addClass('icon-loading-small');
-        var req = {
+        const req = {
             projectid: projectid,
             shid: shid
         };
-        var url = generateUrl('/apps/cospend/deletePublicShare');
+        const url = generateUrl('/apps/cospend/deletePublicShare');
         $.ajax({
             type: 'POST',
             url: url,
             data: req,
             async: true
-        }).done(function (response) {
-            var li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + ']');
+        }).done(function () {
+            const li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + ']');
             li.fadeOut('normal', function() {
                 li.remove();
             });
@@ -3508,11 +3463,11 @@ var ACCESS_ADMIN = 4;
 
     function addCircleShareDb(projectid, circleId, circleName) {
         $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
-        var req = {
+        const req = {
             projectid: projectid,
             circleid: circleId
         };
-        var url = generateUrl('/apps/cospend/addCircleShare');
+        const url = generateUrl('/apps/cospend/addCircleShare');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3520,7 +3475,7 @@ var ACCESS_ADMIN = 4;
             async: true
         }).done(function (response) {
             addShare(projectid, circleId, circleName, response, 'c', ACCESS_PARTICIPANT);
-            var projectname = getProjectName(projectid);
+            const projectname = getProjectName(projectid);
             OC.Notification.showTemporary(t('cospend', 'Project {pname} is now shared with circle {cname}', {pname: projectname, cname: circleName}));
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
@@ -3534,18 +3489,18 @@ var ACCESS_ADMIN = 4;
 
     function deleteCircleShareDb(projectid, shid) {
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteCircleShareButton').addClass('icon-loading-small');
-        var req = {
+        const req = {
             projectid: projectid,
             shid: shid
         };
-        var url = generateUrl('/apps/cospend/deleteCircleShare');
+        const url = generateUrl('/apps/cospend/deleteCircleShare');
         $.ajax({
             type: 'POST',
             url: url,
             data: req,
             async: true
-        }).done(function (response) {
-            var li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + ']');
+        }).done(function () {
+            const li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + ']');
             li.fadeOut('normal', function() {
                 li.remove();
             });
@@ -3561,11 +3516,11 @@ var ACCESS_ADMIN = 4;
 
     function addGroupShareDb(projectid, groupid, groupname) {
         $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
-        var req = {
+        const req = {
             projectid: projectid,
             groupid: groupid
         };
-        var url = generateUrl('/apps/cospend/addGroupShare');
+        const url = generateUrl('/apps/cospend/addGroupShare');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3573,7 +3528,7 @@ var ACCESS_ADMIN = 4;
             async: true
         }).done(function (response) {
             addShare(projectid, groupid, groupname, response, 'g', ACCESS_PARTICIPANT);
-            var projectname = getProjectName(projectid);
+            const projectname = getProjectName(projectid);
             OC.Notification.showTemporary(t('cospend', 'Project {pname} is now shared with group {gname}', {pname: projectname, gname: groupname}));
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
@@ -3586,14 +3541,14 @@ var ACCESS_ADMIN = 4;
     }
 
     function addShare(projectid, elemId, elemName, id, type, accesslevel, token=null) {
-        var displayString = elemId;
+        let displayString = elemId;
         if (type === 'c' || type === 'l') {
             displayString = elemName;
         }
         else if (elemId !== elemName) {
             displayString = elemName + ' (' + elemId + ')';
         }
-        var iconClass, deleteButtonClass;
+        let iconClass, deleteButtonClass;
         if (type === 'g') {
             iconClass = 'icon-group';
             deleteButtonClass = 'deleteGroupShareButton';
@@ -3610,8 +3565,8 @@ var ACCESS_ADMIN = 4;
             iconClass = 'icon-public';
             deleteButtonClass = 'deletePublicShareButton';
         }
-        var tokenStr = (type === 'l') ? 'token="'+token+'"' : '';
-        var li =
+        const tokenStr = (type === 'l') ? 'token="'+token+'"' : '';
+        let li =
             '<li class="shareitem" shid="'+id+'" '+tokenStr+' elemid="'+escapeHTML(elemId)+'" elemname="' + escapeHTML(elemName) + '">' +
             '    <a class="'+iconClass+'" href="#" title="'+projectid+'">' +
             '        <span>' + displayString + '</span>' +
@@ -3674,18 +3629,18 @@ var ACCESS_ADMIN = 4;
 
     function deleteGroupShareDb(projectid, shid) {
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteGroupShareButton').addClass('icon-loading-small');
-        var req = {
+        const req = {
             projectid: projectid,
             shid: shid
         };
-        var url = generateUrl('/apps/cospend/deleteGroupShare');
+        const url = generateUrl('/apps/cospend/deleteGroupShare');
         $.ajax({
             type: 'POST',
             url: url,
             data: req,
             async: true
-        }).done(function (response) {
-            var li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + ']');
+        }).done(function () {
+            const li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + ']');
             li.fadeOut('normal', function() {
                 li.remove();
             });
@@ -3702,12 +3657,12 @@ var ACCESS_ADMIN = 4;
     function editShareAccessLevelDb(projectid, shid, accesslevel) {
         $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
         $('li[shid="'+shid+'"] .accesslevel span').addClass('icon-loading-small');
-        var req = {
+        const req = {
             projectid: projectid,
             shid: shid,
             accesslevel: accesslevel
         };
-        var url = generateUrl('/apps/cospend/editShareAccessLevel');
+        const url = generateUrl('/apps/cospend/editShareAccessLevel');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3727,7 +3682,7 @@ var ACCESS_ADMIN = 4;
     }
 
     function applyShareAccessLevel(projectid, shid, accesslevel) {
-        var shLine = $('li[shid="'+shid+'"]');
+        const shLine = $('li[shid="'+shid+'"]');
         shLine.find('.accesslevel input[type=radio]').prop('checked', false);
         if (accesslevel === ACCESS_VIEWER) {
             shLine.find('.accesslevelViewer input[type=radio]').prop('checked', true);
@@ -3746,10 +3701,10 @@ var ACCESS_ADMIN = 4;
     function editGuestAccessLevelDb(projectid, accesslevel) {
         $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
         $('li[projectid="'+projectid+'"] .accesslevelguest').addClass('icon-loading-small');
-        var req = {
+        const req = {
             accesslevel: accesslevel
         };
-        var method, url;
+        let method, url;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             url = generateUrl('/apps/cospend/editGuestAccessLevel');
@@ -3778,7 +3733,7 @@ var ACCESS_ADMIN = 4;
     }
 
     function applyGuestAccessLevel(projectid, accesslevel) {
-        var projectLine = $('#projectlist li[projectid="'+projectid+'"]');
+        const projectLine = $('#projectlist li[projectid="'+projectid+'"]');
         projectLine.find('.accesslevelguest').removeClass('accesslevelActive');
         if (accesslevel === ACCESS_VIEWER) {
             projectLine.find('.accesslevelguest.accesslevelViewer').addClass('accesslevelActive');
@@ -3795,9 +3750,9 @@ var ACCESS_ADMIN = 4;
     }
 
     function selectProject(projectitem) {
-        var projectid = projectitem.attr('projectid');
-        var wasOpen = projectitem.hasClass('open');
-        var wasSelected = (cospend.currentProjectId === projectid);
+        const projectid = projectitem.attr('projectid');
+        const wasOpen = projectitem.hasClass('open');
+        const wasSelected = (cospend.currentProjectId === projectid);
         if (cospend.projects[projectid].myaccesslevel <= ACCESS_VIEWER) {
             if ($('#newBillButton').is(':visible')) {
                 $('#newBillButton').fadeOut();
@@ -3828,10 +3783,10 @@ var ACCESS_ADMIN = 4;
 
     function generatePublicLinkToFile(targetPath) {
         $('.loading-bill').addClass('icon-loading-small');
-        var req = {
+        const req = {
             path: targetPath
         };
-        var url = generateUrl('/apps/cospend/getPublicFileShare');
+        const url = generateUrl('/apps/cospend/getPublicFileShare');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3840,9 +3795,9 @@ var ACCESS_ADMIN = 4;
         }).done(function (response) {
             $('.loading-bill').removeClass('icon-loading-small');
 
-            var filePublicUrl = window.location.protocol + '//' + window.location.hostname + generateUrl('/s/'+response.token);
+            const filePublicUrl = window.location.protocol + '//' + window.location.hostname + generateUrl('/s/'+response.token);
 
-            var what = $('#what').val();
+            let what = $('#what').val();
             what = what + ' ' + filePublicUrl;
             $('#what').val(what);
             onBillEdited();
@@ -3858,14 +3813,14 @@ var ACCESS_ADMIN = 4;
 
     function exportProject(projectid) {
         $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
-        var timeStamp = Math.floor(Date.now());
-        var dateStr = OC.Util.formatDate(timeStamp);
-        var filename = projectid + '_' + dateStr + '.csv';
-        var req = {
+        const timeStamp = Math.floor(Date.now());
+        const dateStr = OC.Util.formatDate(timeStamp);
+        const filename = projectid + '_' + dateStr + '.csv';
+        const req = {
             projectid: projectid,
             name: filename
         };
-        var url = generateUrl('/apps/cospend/exportCsvProject');
+        const url = generateUrl('/apps/cospend/exportCsvProject');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3886,7 +3841,7 @@ var ACCESS_ADMIN = 4;
     function exportStatistics(projectid, dateMin=null, dateMax=null, paymentMode=null, category=null,
                               amountMin=null, amountMax=null, showDisabled=true, currencyId=null) {
         $('.exportStats[projectid="'+projectid+'"] span').addClass('icon-loading-small');
-        var req = {
+        const req = {
             projectid: projectid,
             dateMin: dateMin,
             dateMax: dateMax,
@@ -3897,7 +3852,7 @@ var ACCESS_ADMIN = 4;
             showDisabled: showDisabled ? '1' : '0',
             currencyId: currencyId
         };
-        var url = generateUrl('/apps/cospend/exportCsvStatistics');
+        const url = generateUrl('/apps/cospend/exportCsvStatistics');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3917,10 +3872,10 @@ var ACCESS_ADMIN = 4;
 
     function exportSettlement(projectid) {
         $('.exportSettlement[projectid="'+projectid+'"] span').addClass('icon-loading-small');
-        var req = {
+        const req = {
             projectid: projectid
         };
-        var url = generateUrl('/apps/cospend/exportCsvSettlement');
+        const url = generateUrl('/apps/cospend/exportCsvSettlement');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3940,10 +3895,9 @@ var ACCESS_ADMIN = 4;
 
     function autoSettlement(projectid) {
         $('.autoSettlement[projectid="'+projectid+'"] span').addClass('icon-loading-small');
-        var req = {
+        const req = {
         };
-        var url, type;
-        var project = cospend.projects[projectid];
+        let url, type;
         if (!cospend.pageIsPublic) {
             req.projectid = projectid;
             url = generateUrl('/apps/cospend/autoSettlement');
@@ -3978,10 +3932,10 @@ var ACCESS_ADMIN = 4;
             return;
         }
         $('#addFileLinkButton').addClass('icon-loading-small');
-        var req = {
+        const req = {
             path: targetPath
         };
-        var url = generateUrl('/apps/cospend/importCsvProject');
+        const url = generateUrl('/apps/cospend/importCsvProject');
         $.ajax({
             type: 'POST',
             url: url,
@@ -4006,10 +3960,10 @@ var ACCESS_ADMIN = 4;
             return;
         }
         $('#addFileLinkButton').addClass('icon-loading-small');
-        var req = {
+        const req = {
             path: targetPath
         };
-        var url = generateUrl('/apps/cospend/importSWProject');
+        const url = generateUrl('/apps/cospend/importSWProject');
         $.ajax({
             type: 'POST',
             url: url,
@@ -4029,9 +3983,9 @@ var ACCESS_ADMIN = 4;
     }
 
     function updateCustomAmount() {
-        var tot = 0;
+        let tot = 0;
         $('.amountinput').each(function() {
-            var val = parseFloat($(this).val());
+            const val = parseFloat($(this).val());
             if (!isNaN(val) && val > 0.0) {
                 tot = tot + val;
             }
@@ -4041,26 +3995,26 @@ var ACCESS_ADMIN = 4;
 
     // create equitable bill with personal parts
     function createEquiPersoBill() {
-        var projectid = $('.bill-title').attr('projectid');
+        const projectid = $('.bill-title').attr('projectid');
 
-        var what = $('.input-bill-what').val();
-        var date = $('.input-bill-date').val();
-        var time = $('.input-bill-time').val();
+        let what = $('.input-bill-what').val();
+        const date = $('.input-bill-date').val();
+        let time = $('.input-bill-time').val();
         if (!time || time === '') {
             time = '00:00';
         }
-        var amount = parseFloat($('.input-bill-amount').val());
-        var payer_id = parseInt($('.input-bill-payer').val());
-        var repeat = 'n';
-        var repeatallactive = 0;
-        var repeatuntil = null;
-        var paymentmode = $('#payment-mode').val();
-        var categoryid = $('#category').val();
+        const amount = parseFloat($('.input-bill-amount').val());
+        const payer_id = parseInt($('.input-bill-payer').val());
+        const repeat = 'n';
+        const repeatallactive = 0;
+        const repeatuntil = null;
+        const paymentmode = $('#payment-mode').val();
+        const categoryid = $('#category').val();
 
-        var valid = basicBillValueCheck(what, date, time, amount, payer_id);
+        let valid = basicBillValueCheck(what, date, time, amount, payer_id);
 
-        var owerIds = [];
-        var owerId;
+        const owerIds = [];
+        let owerId;
         $('.owerEntry input').each(function() {
             if ($(this).is(':checked')) {
                 owerId = parseInt($(this).attr('owerid'));
@@ -4073,7 +4027,7 @@ var ACCESS_ADMIN = 4;
             }
         });
 
-        var tmpAmount;
+        let tmpAmount;
         if (isNaN(amount) || isNaN(payer_id)) {
             valid = false;
         }
@@ -4081,9 +4035,9 @@ var ACCESS_ADMIN = 4;
             // check if amount - allPersonalParts >= 0
             tmpAmount = amount;
             $('.amountinput').each(function() {
-                var owerId = parseInt($(this).attr('owerid'));
-                var amountVal = parseFloat($(this).val());
-                var owerSelected = $('.owerEntry input[owerid="'+owerId+'"]').is(':checked');
+                const owerId = parseInt($(this).attr('owerid'));
+                const amountVal = parseFloat($(this).val());
+                const owerSelected = $('.owerEntry input[owerid="'+owerId+'"]').is(':checked');
                 if (!isNaN(amountVal) && amountVal > 0.0 && owerSelected) {
                     tmpAmount = tmpAmount - amountVal;
                 }
@@ -4098,14 +4052,14 @@ var ACCESS_ADMIN = 4;
         }
 
         if (valid) {
-            var initWhat = what;
+            const initWhat = what;
             // manage currencies
-            var currency = null;
-            var initAmount;
+            let currency = null;
+            let initAmount;
             if ($('#bill-currency') && $('#bill-currency').val()) {
-                var currencyId = $('#bill-currency').val();
-                var currencies = cospend.projects[projectid].currencies;
-                for (var i = 0; i < currencies.length; i++) {
+                const currencyId = $('#bill-currency').val();
+                const currencies = cospend.projects[projectid].currencies;
+                for (let i = 0; i < currencies.length; i++) {
                     if (parseInt(currencies[i].id) === parseInt(currencyId)) {
                         currency = currencies[i];
                         break;
@@ -4113,14 +4067,14 @@ var ACCESS_ADMIN = 4;
                 }
             }
             // get timestamp
-            var timestamp = moment(date + ' ' + time).unix();
+            const timestamp = moment(date + ' ' + time).unix();
             // create bills related to personal parts
             tmpAmount = amount;
             $('.amountinput').each(function() {
-                var oneWhat = initWhat;
-                var owerId = parseInt($(this).attr('owerid'));
-                var amountVal = parseFloat($(this).val());
-                var owerSelected = $('.owerEntry input[owerid="'+owerId+'"]').is(':checked');
+                let oneWhat = initWhat;
+                const owerId = parseInt($(this).attr('owerid'));
+                let amountVal = parseFloat($(this).val());
+                const owerSelected = $('.owerEntry input[owerid="'+owerId+'"]').is(':checked');
                 if (!isNaN(amountVal) && amountVal > 0.0 && owerSelected) {
                     tmpAmount = tmpAmount - amountVal;
                     if (currency !== null) {
@@ -4134,7 +4088,7 @@ var ACCESS_ADMIN = 4;
             });
             // currency conversion for main amount
             if (currency) {
-                var userAmount = tmpAmount;
+                const userAmount = tmpAmount;
                 tmpAmount = tmpAmount * currency.exchange_rate;
                 $('#amount').val(tmpAmount);
                 what += ' ('+userAmount.toFixed(2)+' '+currency.name+')';
@@ -4161,33 +4115,33 @@ var ACCESS_ADMIN = 4;
     }
 
     function createCustomAmountBill() {
-        var projectid = $('.bill-title').attr('projectid');
+        const projectid = $('.bill-title').attr('projectid');
 
-        var what = $('.input-bill-what').val();
-        var date = $('.input-bill-date').val();
-        var time = $('.input-bill-time').val();
+        const what = $('.input-bill-what').val();
+        const date = $('.input-bill-date').val();
+        let time = $('.input-bill-time').val();
         if (!time || time === '') {
             time = '00:00';
         }
-        var amount = parseFloat($('.input-bill-amount').val());
-        var payer_id = parseInt($('.input-bill-payer').val());
-        var repeat = 'n';
-        var repeatallactive = 0;
-        var repeatuntil = null;
-        var paymentmode = $('#payment-mode').val();
-        var categoryid = $('#category').val();
+        const amount = parseFloat($('.input-bill-amount').val());
+        const payer_id = parseInt($('.input-bill-payer').val());
+        const repeat = 'n';
+        const repeatallactive = 0;
+        const repeatuntil = null;
+        const paymentmode = $('#payment-mode').val();
+        const categoryid = $('#category').val();
 
-        var valid = basicBillValueCheck(what, date, time, amount, payer_id);
+        const valid = basicBillValueCheck(what, date, time, amount, payer_id);
 
         if (valid) {
-            var initWhat = what;
+            const initWhat = what;
             // manage currencies
-            var initAmount;
-            var currency = null;
+            let initAmount;
+            let currency = null;
             if ($('#bill-currency') && $('#bill-currency').val()) {
-                var currencyId = $('#bill-currency').val();
-                var currencies = cospend.projects[projectid].currencies;
-                for (var i = 0; i < currencies.length; i++) {
+                const currencyId = $('#bill-currency').val();
+                const currencies = cospend.projects[projectid].currencies;
+                for (let i = 0; i < currencies.length; i++) {
                     if (parseInt(currencies[i].id) === parseInt(currencyId)) {
                         currency = currencies[i];
                         break;
@@ -4195,12 +4149,12 @@ var ACCESS_ADMIN = 4;
                 }
             }
             // get timestamp
-            var timestamp = moment(date + ' ' + time).unix();
-            var total = 0;
+            const timestamp = moment(date + ' ' + time).unix();
+            let total = 0;
             $('.amountinput').each(function() {
-                var oneWhat = initWhat;
-                var owerId = parseInt($(this).attr('owerid'));
-                var amountVal = parseFloat($(this).val());
+                let oneWhat = initWhat;
+                const owerId = parseInt($(this).attr('owerid'));
+                let amountVal = parseFloat($(this).val());
                 if (!isNaN(amountVal) && amountVal > 0.0) {
                     total = total + amountVal;
                     if (currency !== null) {
@@ -4235,10 +4189,10 @@ var ACCESS_ADMIN = 4;
     }
 
     function getUrlParameter(sParam) {
-        var sPageURL = window.location.search.substring(1);
-        var sURLVariables = sPageURL.split('&');
-        for (var i = 0; i < sURLVariables.length; i++) {
-            var sParameterName = sURLVariables[i].split('=');
+        const sPageURL = window.location.search.substring(1);
+        const sURLVariables = sPageURL.split('&');
+        for (let i = 0; i < sURLVariables.length; i++) {
+            const sParameterName = sURLVariables[i].split('=');
             if (sParameterName[0] === sParam) {
                 return decodeURIComponent(sParameterName[1]);
             }
@@ -4246,7 +4200,7 @@ var ACCESS_ADMIN = 4;
     }
 
     function copyToClipboard(text) {
-        var dummy = $('<input id="dummycopy">').val(text).appendTo('body').select();
+        const dummy = $('<input id="dummycopy">').val(text).appendTo('body').select();
         document.execCommand('copy');
         $('#dummycopy').remove();
     }
@@ -4286,52 +4240,50 @@ var ACCESS_ADMIN = 4;
 
         $('body').on('focus','.shareinput', function(e) {
             $(this).select();
-            var projectid = $(this).parent().parent().parent().attr('projectid');
+            const projectid = $(this).parent().parent().parent().attr('projectid');
             addUserAutocompletion($(this), projectid);
         });
 
-        $('body').on('click', '.deleteUserShareButton', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
-            var shid = $(this).parent().parent().parent().parent().attr('shid');
+        $('body').on('click', '.deleteUserShareButton', function() {
+            const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            const shid = $(this).parent().parent().parent().parent().attr('shid');
             deleteUserShareDb(projectid, shid);
         });
 
-        $('body').on('click', '.deleteGroupShareButton', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
-            var shid = $(this).parent().parent().parent().parent().attr('shid');
+        $('body').on('click', '.deleteGroupShareButton', function() {
+            const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            const shid = $(this).parent().parent().parent().parent().attr('shid');
             deleteGroupShareDb(projectid, shid);
         });
 
-        $('body').on('click', '.deleteCircleShareButton', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
-            var shid = $(this).parent().parent().parent().parent().attr('shid');
+        $('body').on('click', '.deleteCircleShareButton', function() {
+            const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            const shid = $(this).parent().parent().parent().parent().attr('shid');
             deleteCircleShareDb(projectid, shid);
         });
 
-        $('body').on('click', '.deletePublicShareButton', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
-            var shid = $(this).parent().parent().parent().parent().attr('shid');
+        $('body').on('click', '.deletePublicShareButton', function() {
+            const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            const shid = $(this).parent().parent().parent().parent().attr('shid');
             deletePublicShareDb(projectid, shid);
         });
 
-        $('body').on('click', '.copyPublicShareButton', function(e) {
-            var token = $(this).parent().parent().parent().attr('token');
-            var projectid = $(this).parent().parent().parent().attr('projectid');
-            var publicLink = generateUrl('/apps/cospend/s/'+token);
-            publicLink = window.location.protocol + '//' + window.location.host + publicLink;
+        $('body').on('click', '.copyPublicShareButton', function() {
+            const token = $(this).parent().parent().parent().attr('token');
+            const publicLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/s/'+token);
             copyToClipboard(publicLink);
             OC.Notification.showTemporary(t('cospend', 'Public link copied to clipboard'));
         });
 
-        $('body').on('click', '.addPublicShareButton', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
+        $('body').on('click', '.addPublicShareButton', function() {
+            const projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
             addPublicShareDb(projectid);
         });
 
         $('body').on('click', '.accesslevel', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
-            var shid = $(this).parent().parent().parent().parent().attr('shid');
-            var accesslevel = ACCESS_VIEWER;
+            const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            const shid = $(this).parent().parent().parent().parent().attr('shid');
+            let accesslevel = ACCESS_VIEWER;
             if ($(this).hasClass('accesslevelAdmin')) {
                 accesslevel = ACCESS_ADMIN;
             }
@@ -4345,9 +4297,9 @@ var ACCESS_ADMIN = 4;
             e.stopPropagation();
         });
 
-        $('body').on('click', '.accesslevelguest', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
-            var accesslevel = ACCESS_VIEWER;
+        $('body').on('click', '.accesslevelguest', function() {
+            const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            let accesslevel = ACCESS_VIEWER;
             if ($(this).hasClass('accesslevelAdmin')) {
                 accesslevel = ACCESS_ADMIN;
             }
@@ -4360,8 +4312,8 @@ var ACCESS_ADMIN = 4;
             editGuestAccessLevelDb(projectid, accesslevel);
         });
 
-        $('body').on('click', '.shareProjectButton', function(e) {
-            var shareDiv = $(this).parent().parent().parent().find('.app-navigation-entry-share');
+        $('body').on('click', '.shareProjectButton', function() {
+            const shareDiv = $(this).parent().parent().parent().find('.app-navigation-entry-share');
             if (shareDiv.is(':visible')) {
                 shareDiv.slideUp();
                 $(this).removeClass('activeButton');
@@ -4372,8 +4324,8 @@ var ACCESS_ADMIN = 4;
             }
         });
 
-        $('body').on('click', '.projectMenuButton, .memberMenuButton', function(e) {
-            var wasOpen = $(this).parent().parent().parent().find('>.app-navigation-entry-menu').hasClass('open');
+        $('body').on('click', '.projectMenuButton, .memberMenuButton', function() {
+            const wasOpen = $(this).parent().parent().parent().find('>.app-navigation-entry-menu').hasClass('open');
             $('.app-navigation-entry-menu.open').removeClass('open');
             if (!wasOpen) {
                 $(this).parent().parent().parent().find('>.app-navigation-entry-menu').addClass('open');
@@ -4391,7 +4343,7 @@ var ACCESS_ADMIN = 4;
         });
 
         $('#newprojectbutton').click(function() {
-            var div = $('#newprojectdiv');
+            const div = $('#newprojectdiv');
             if (div.is(':visible')) {
                 $(this).removeClass('icon-triangle-s').addClass('icon-triangle-e');
                 div.slideUp('normal', function() {
@@ -4409,9 +4361,9 @@ var ACCESS_ADMIN = 4;
 
         $('#projectnameinput, #projectidinput, #projectpasswordinput').on('keyup', function(e) {
             if (e.key === 'Enter') {
-                var name = $('#projectnameinput').val();
-                var id = $('#projectidinput').val();
-                var password = $('#projectpasswordinput').val();
+                const name = $('#projectnameinput').val();
+                const id = $('#projectidinput').val();
+                const password = $('#projectpasswordinput').val();
                 if (name && id && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
                     createProject(id, name, password);
                 }
@@ -4422,9 +4374,9 @@ var ACCESS_ADMIN = 4;
         });
 
         $('#newprojectform').submit(function(e) {
-            var name = $('#projectnameinput').val();
-            var id = $('#projectidinput').val();
-            var password = $('#projectpasswordinput').val();
+            const name = $('#projectnameinput').val();
+            const id = $('#projectidinput').val();
+            const password = $('#projectpasswordinput').val();
             if (name && id && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
                 createProject(id, name, password);
             }
@@ -4435,9 +4387,9 @@ var ACCESS_ADMIN = 4;
         });
 
         $('#createproject').click(function() {
-            var name = $('#projectnameinput').val();
-            var id = $('#projectidinput').val();
-            var password = $('#projectpasswordinput').val();
+            const name = $('#projectnameinput').val();
+            const id = $('#projectidinput').val();
+            const password = $('#projectpasswordinput').val();
             if (name && id && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
                 createProject(id, name, password);
             }
@@ -4446,34 +4398,33 @@ var ACCESS_ADMIN = 4;
             }
         });
 
-        $('body').on('click', '.deleteProject', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
+        $('body').on('click', '.deleteProject', function() {
+            const projectid = $(this).parent().parent().parent().parent().attr('projectid');
             $(this).parent().parent().parent().parent().addClass('deleted');
             cospend.projectDeletionTimer[projectid] = new Timer(function() {
                 deleteProject(projectid);
             }, 7000);
         });
 
-        $('body').on('click', '.undoDeleteProject', function(e) {
-            var projectid = $(this).parent().parent().attr('projectid');
+        $('body').on('click', '.undoDeleteProject', function() {
+            const projectid = $(this).parent().parent().attr('projectid');
             $(this).parent().parent().removeClass('deleted');
             cospend.projectDeletionTimer[projectid].pause();
             delete cospend.projectDeletionTimer[projectid];
         });
 
-        $('body').on('click', '.addMember', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
-            var name = $('.projectitem[projectid="'+projectid+'"] > a > span').text();
+        $('body').on('click', '.addMember', function() {
+            const projectid = $(this).parent().parent().parent().parent().attr('projectid');
 
-            var newmemberdiv = $('.projectitem[projectid="'+projectid+'"] .newmemberdiv');
+            const newmemberdiv = $('.projectitem[projectid="'+projectid+'"] .newmemberdiv');
             newmemberdiv.show().attr('style', 'display: inline-flex;');
-            var defaultMemberName = t('cospend', 'newMemberName');
+            const defaultMemberName = t('cospend', 'newMemberName');
             newmemberdiv.find('.newmembername').val(defaultMemberName).focus().select();
         });
 
-        $('body').on('click', '.newmemberbutton', function(e) {
-            var projectid = $(this).parent().parent().attr('projectid');
-            var name = $(this).parent().find('input').val();
+        $('body').on('click', '.newmemberbutton', function() {
+            const projectid = $(this).parent().parent().attr('projectid');
+            const name = $(this).parent().find('input').val();
             if (projectid && name) {
                 createMember(projectid, name);
             }
@@ -4484,8 +4435,8 @@ var ACCESS_ADMIN = 4;
 
         $('body').on('keyup', '.newmembername', function(e) {
             if (e.key === 'Enter') {
-                var name = $(this).val();
-                var projectid = $(this).parent().parent().attr('projectid');
+                const name = $(this).val();
+                const projectid = $(this).parent().parent().attr('projectid');
                 if (projectid && name) {
                     createMember(projectid, name);
                 }
@@ -4495,20 +4446,20 @@ var ACCESS_ADMIN = 4;
             }
         });
 
-        $('body').on('click', '.renameMember', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
-            var mid = $(this).parent().parent().parent().parent().attr('memberid');
-            var name = cospend.members[projectid][mid].name;
+        $('body').on('click', '.renameMember', function() {
+            const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            const mid = $(this).parent().parent().parent().parent().attr('memberid');
+            const name = cospend.members[projectid][mid].name;
             $(this).parent().parent().parent().parent().find('.editMemberInput').val(name).focus().select();
             $('.memberlist li').removeClass('editing');
             $(this).parent().parent().parent().parent().addClass('editing');
             cospend.memberEditionMode = MEMBER_NAME_EDITION;
         });
 
-        $('body').on('click', '.editWeightMember', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
-            var mid = $(this).parent().parent().parent().parent().attr('memberid');
-            var weight = cospend.members[projectid][mid].weight;
+        $('body').on('click', '.editWeightMember', function() {
+            const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            const mid = $(this).parent().parent().parent().parent().attr('memberid');
+            const weight = cospend.members[projectid][mid].weight;
             $(this).parent().parent().parent().parent().find('.editMemberInput').val(weight).focus().select();
             $('.memberlist li').removeClass('editing');
             $(this).parent().parent().parent().parent().addClass('editing');
@@ -4521,15 +4472,15 @@ var ACCESS_ADMIN = 4;
 
         $('body').on('keyup', '.editMemberInput', function(e) {
             if (e.key === 'Enter') {
-                var memberid = $(this).parent().parent().parent().attr('memberid');
-                var projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
-                var newName;
+                const memberid = $(this).parent().parent().parent().attr('memberid');
+                const projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
+                let newName;
                 if (cospend.memberEditionMode === MEMBER_NAME_EDITION) {
                     newName = $(this).val();
                     editMember(projectid, memberid, newName, null, null);
                 }
                 else if (cospend.memberEditionMode === MEMBER_WEIGHT_EDITION) {
-                    var newWeight = parseFloat($(this).val());
+                    const newWeight = parseFloat($(this).val());
                     if (!isNaN(newWeight)) {
                         newName = cospend.members[projectid][memberid].name;
                         editMember(projectid, memberid, newName, newWeight, null);
@@ -4541,16 +4492,16 @@ var ACCESS_ADMIN = 4;
             }
         });
 
-        $('body').on('click', '.editMemberOk', function(e) {
-            var memberid = $(this).parent().parent().parent().attr('memberid');
-            var projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
-            var newName;
+        $('body').on('click', '.editMemberOk', function() {
+            const memberid = $(this).parent().parent().parent().attr('memberid');
+            const projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
+            let newName;
             if (cospend.memberEditionMode === MEMBER_NAME_EDITION) {
                 newName = $(this).parent().find('.editMemberInput').val();
                 editMember(projectid, memberid, newName, null, null);
             }
             else if (cospend.memberEditionMode === MEMBER_WEIGHT_EDITION) {
-                var newWeight = parseFloat($(this).parent().find('.editMemberInput').val());
+                const newWeight = parseFloat($(this).parent().find('.editMemberInput').val());
                 if (!isNaN(newWeight)) {
                     newName = cospend.members[projectid][memberid].name;
                     editMember(projectid, memberid, newName, newWeight, null);
@@ -4561,17 +4512,17 @@ var ACCESS_ADMIN = 4;
             }
         });
 
-        $('body').on('click', '.toggleMember', function(e) {
-            var memberid = $(this).parent().parent().parent().parent().attr('memberid');
-            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
-            var newName = $(this).parent().parent().parent().parent().find('>a span b.memberName').text();
-            var activated = $(this).find('span').first().hasClass('icon-history');
+        $('body').on('click', '.toggleMember', function() {
+            const memberid = $(this).parent().parent().parent().parent().attr('memberid');
+            const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            const newName = $(this).parent().parent().parent().parent().find('>a span b.memberName').text();
+            const activated = $(this).find('span').first().hasClass('icon-history');
             editMember(projectid, memberid, newName, null, activated);
         });
 
-        $('body').on('click', '.editProjectName', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
-            var name = cospend.projects[projectid].name;
+        $('body').on('click', '.editProjectName', function() {
+            const projectid = $(this).parent().parent().parent().parent().attr('projectid');
+            const name = cospend.projects[projectid].name;
             $(this).parent().parent().parent().parent().find('.editProjectInput').val(name).attr('type', 'text').focus().select();
             $('#projectlist > li').removeClass('editing');
             $(this).parent().parent().parent().parent().removeClass('open').addClass('editing');
@@ -4592,29 +4543,29 @@ var ACCESS_ADMIN = 4;
 
         $('body').on('keyup', '.editProjectInput', function(e) {
             if (e.key === 'Enter') {
-                var newName;
-                var projectid = $(this).parent().parent().parent().attr('projectid');
+                let newName;
+                const projectid = $(this).parent().parent().parent().attr('projectid');
                 if (cospend.projectEditionMode === PROJECT_NAME_EDITION) {
                     newName = $(this).val();
                     editProject(projectid, newName, null, null);
                 }
                 else if (cospend.projectEditionMode === PROJECT_PASSWORD_EDITION) {
-                    var newPassword = $(this).val();
+                    const newPassword = $(this).val();
                     newName = $(this).parent().parent().parent().find('>a span').text();
                     editProject(projectid, newName, null, newPassword);
                 }
             }
         });
 
-        $('body').on('click', '.editProjectOk', function(e) {
-            var projectid = $(this).parent().parent().parent().attr('projectid');
-            var newName;
+        $('body').on('click', '.editProjectOk', function() {
+            const projectid = $(this).parent().parent().parent().attr('projectid');
+            let newName;
             if (cospend.projectEditionMode === PROJECT_NAME_EDITION) {
                 newName = $(this).parent().find('.editProjectInput').val();
                 editProject(projectid, newName, null, null);
             }
             else if (cospend.projectEditionMode === PROJECT_PASSWORD_EDITION) {
-                var newPassword = $(this).parent().find('.editProjectInput').val();
+                const newPassword = $(this).parent().find('.editProjectInput').val();
                 newName = $(this).parent().parent().parent().find('>a span').text();
                 editProject(projectid, newName, null, newPassword);
             }
@@ -4622,8 +4573,8 @@ var ACCESS_ADMIN = 4;
 
         $('body').on('click', '.billitem', function(e) {
             if (!$(e.target).hasClass('deleteBillIcon') && !$(e.target).hasClass('undoDeleteBill')) {
-                var billid = parseInt($(this).attr('billid'));
-                var projectid = $(this).attr('projectid');
+                const billid = parseInt($(this).attr('billid'));
+                const projectid = $(this).attr('projectid');
                 displayBill(projectid, billid);
             }
         });
@@ -4660,8 +4611,8 @@ var ACCESS_ADMIN = 4;
             }
         });
 
-        $('body').on('change', '#billdetail .bill-form .bill-owers input[type=checkbox]', function(e) {
-            var billtype = $('#billtype').val();
+        $('body').on('change', '#billdetail .bill-form .bill-owers input[type=checkbox]', function() {
+            const billtype = $('#billtype').val();
             if (billtype === 'perso') {
                 if ($(this).is(':checked')) {
                     $(this).parent().find('input[type=number]').show();
@@ -4675,10 +4626,10 @@ var ACCESS_ADMIN = 4;
             }
         });
 
-        $('body').on('click', '#owerAll', function(e) {
-            var billtype = $('#billtype').val();
-            var projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
-            for (var memberid in cospend.members[projectid]) {
+        $('body').on('click', '#owerAll', function() {
+            const billtype = $('#billtype').val();
+            const projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
+            for (const memberid in cospend.members[projectid]) {
                 if (cospend.members[projectid][memberid].activated) {
                     $('.bill-owers input[owerid='+memberid+']').prop('checked', true);
                 }
@@ -4690,10 +4641,10 @@ var ACCESS_ADMIN = 4;
             onBillEdited();
         });
 
-        $('body').on('click', '#owerNone', function(e) {
-            var billtype = $('#billtype').val();
-            var projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
-            for (var memberid in cospend.members[projectid]) {
+        $('body').on('click', '#owerNone', function() {
+            const billtype = $('#billtype').val();
+            const projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
+            for (const memberid in cospend.members[projectid]) {
                 if (cospend.members[projectid][memberid].activated) {
                     $('.bill-owers input[owerid='+memberid+']').prop('checked', false);
                 }
@@ -4705,8 +4656,8 @@ var ACCESS_ADMIN = 4;
             onBillEdited();
         });
 
-        $('body').on('click', '.undoDeleteBill', function(e) {
-            var billid = $(this).parent().attr('billid');
+        $('body').on('click', '.undoDeleteBill', function() {
+            const billid = $(this).parent().attr('billid');
             cospend.billDeletionTimer[billid].pause();
             delete cospend.billDeletionTimer[billid];
             $(this).parent().find('.deleteBillIcon').show();
@@ -4714,10 +4665,10 @@ var ACCESS_ADMIN = 4;
             $(this).hide();
         });
 
-        $('body').on('click', '.deleteBillIcon', function(e) {
-            var billid = $(this).parent().attr('billid');
+        $('body').on('click', '.deleteBillIcon', function() {
+            const billid = $(this).parent().attr('billid');
             if (billid !== '0') {
-                var projectid = $(this).parent().attr('projectid');
+                const projectid = $(this).parent().attr('projectid');
                 $(this).parent().find('.undoDeleteBill').show();
                 $(this).parent().addClass('deleted');
                 $(this).hide();
@@ -4738,17 +4689,17 @@ var ACCESS_ADMIN = 4;
             }
         });
 
-        $('body').on('click', '#newBillButton', function(e) {
-            var projectid = cospend.currentProjectId;
-            var activatedMembers = [];
-            for (var mid in cospend.members[projectid]) {
+        $('body').on('click', '#newBillButton', function() {
+            const projectid = cospend.currentProjectId;
+            const activatedMembers = [];
+            for (const mid in cospend.members[projectid]) {
                 if (cospend.members[projectid][mid].activated) {
                     activatedMembers.push(mid);
                 }
             }
             if (activatedMembers.length > 1) {
                 if (cospend.currentProjectId !== null && $('.billitem[billid=0]').length === 0) {
-                    var bill = {
+                    const bill = {
                         id: 0,
                         what: t('cospend', 'New Bill'),
                         timestamp: moment().unix(),
@@ -4770,64 +4721,61 @@ var ACCESS_ADMIN = 4;
             $(this).select();
         });
 
-        $('body').on('click', '.moneyBusterProjectUrl', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
+        $('body').on('click', '.moneyBusterProjectUrl', function() {
+            const projectid = $(this).parent().parent().parent().parent().attr('projectid');
             getProjectMoneyBusterLink(projectid);
         });
 
-        $('body').on('click', '.getProjectStats', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
+        $('body').on('click', '.getProjectStats', function() {
+            const projectid = $(this).parent().parent().parent().parent().attr('projectid');
             getProjectStatistics(projectid, null, null, null, -100);
         });
 
-        $('body').on('click', '.manageProjectCurrencies', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
+        $('body').on('click', '.manageProjectCurrencies', function() {
+            const projectid = $(this).parent().parent().parent().parent().attr('projectid');
             getProjectCurrencies(projectid);
         });
 
-        $('body').on('click', '.manageProjectCategories', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
+        $('body').on('click', '.manageProjectCategories', function() {
+            const projectid = $(this).parent().parent().parent().parent().attr('projectid');
             getProjectCategories(projectid);
         });
 
         $('body').on('change', '#date-min-stats, #date-max-stats, #payment-mode-stats, ' +
                                '#category-stats, #amount-min-stats, #amount-max-stats, ' +
-                               '#showDisabled, #currency-stats', function(e) {
-            var projectid = cospend.currentProjectId;
-            var dateMin = $('#date-min-stats').val();
-            var dateMax = $('#date-max-stats').val();
-            var paymentMode = $('#payment-mode-stats').val();
-            var category = $('#category-stats').val();
-            var amountMin = $('#amount-min-stats').val();
-            var amountMax = $('#amount-max-stats').val();
-            var showDisabled = $('#showDisabled').is(':checked');
-            var currencyId = $('#currency-stats').val();
+                               '#showDisabled, #currency-stats', function() {
+            const projectid = cospend.currentProjectId;
+            const dateMin = $('#date-min-stats').val();
+            const dateMax = $('#date-max-stats').val();
+            const paymentMode = $('#payment-mode-stats').val();
+            const category = $('#category-stats').val();
+            const amountMin = $('#amount-min-stats').val();
+            const amountMax = $('#amount-max-stats').val();
+            const showDisabled = $('#showDisabled').is(':checked');
+            const currencyId = $('#currency-stats').val();
             getProjectStatistics(projectid, dateMin, dateMax, paymentMode, category, amountMin, amountMax, showDisabled, currencyId);
         });
 
-        $('body').on('click', '.getProjectSettlement', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
+        $('body').on('click', '.getProjectSettlement', function() {
+            const projectid = $(this).parent().parent().parent().parent().attr('projectid');
             getProjectSettlement(projectid);
         });
 
         $('body').on('click', '.copyProjectGuestLink', function() {
-            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
-            var project = cospend.projects[projectid];
-            var guestLink;
-            guestLink = generateUrl('/apps/cospend/loginproject/'+projectid);
-            guestLink = window.location.protocol + '//' + window.location.host + guestLink;
+            const projectid = $(this).parent().parent().parent().parent().attr('projectid');
+            const guestLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/loginproject/'+projectid);
             copyToClipboard(guestLink);
             OC.Notification.showTemporary(t('cospend', 'Guest link for \'{pid}\' copied to clipboard', {pid: projectid}));
         });
 
-        var guestLink = generateUrl('/apps/cospend/login');
+        let guestLink = generateUrl('/apps/cospend/login');
         guestLink = window.location.protocol + '//' + window.location.host + guestLink;
         $('#generalGuestLinkButton').attr('title', guestLink);
 
         $('body').on('click', '#generalGuestLinkButton', function() {
-            var guestLink = generateUrl('/apps/cospend/login');
+            let guestLink = generateUrl('/apps/cospend/login');
             guestLink = window.location.protocol + '//' + window.location.host + guestLink;
-            var dummy = $('<input id="dummycopy">').val(guestLink).appendTo('body').select();
+            $('<input id="dummycopy">').val(guestLink).appendTo('body').select();
             document.execCommand('copy');
             $('#dummycopy').remove();
             OC.Notification.showTemporary(t('cospend', 'Guest link copied to clipboard'));
@@ -4872,7 +4820,7 @@ var ACCESS_ADMIN = 4;
         });
 
         $('body').on('click', '.exportProject', function() {
-            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
+            const projectid = $(this).parent().parent().parent().parent().attr('projectid');
             exportProject(projectid);
         });
 
@@ -4880,41 +4828,41 @@ var ACCESS_ADMIN = 4;
             e.stopPropagation();
         });
 
-        $('body').on('change', '.autoexportSelect', function(e) {
-            var newval = $(this).val();
-            var projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
-            var projectName = getProjectName(projectid);
+        $('body').on('change', '.autoexportSelect', function() {
+            const newval = $(this).val();
+            const projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
+            const projectName = getProjectName(projectid);
             editProject(projectid, projectName, null, null, newval);
             $(this).parent().click();
         });
 
         $('body').on('click', '.exportStats', function() {
-            var projectid = $(this).attr('projectid');
+            const projectid = $(this).attr('projectid');
 
-            var dateMin = $('#date-min-stats').val();
-            var dateMax = $('#date-max-stats').val();
-            var paymentMode = $('#payment-mode-stats').val();
-            var category = $('#category-stats').val();
-            var amountMin = $('#amount-min-stats').val();
-            var amountMax = $('#amount-max-stats').val();
-            var showDisabled = $('#showDisabled').is(':checked');
-            var currencyId = $('#currency-stats').val();
+            const dateMin = $('#date-min-stats').val();
+            const dateMax = $('#date-max-stats').val();
+            const paymentMode = $('#payment-mode-stats').val();
+            const category = $('#category-stats').val();
+            const amountMin = $('#amount-min-stats').val();
+            const amountMax = $('#amount-max-stats').val();
+            const showDisabled = $('#showDisabled').is(':checked');
+            const currencyId = $('#currency-stats').val();
 
             exportStatistics(projectid, dateMin, dateMax, paymentMode, category, amountMin, amountMax, showDisabled, currencyId);
         });
 
         $('body').on('click', '.exportSettlement', function() {
-            var projectid = $(this).attr('projectid');
+            const projectid = $(this).attr('projectid');
             exportSettlement(projectid);
         });
 
         $('body').on('click', '.autoSettlement', function() {
-            var projectid = $(this).attr('projectid');
+            const projectid = $(this).attr('projectid');
             autoSettlement(projectid);
         });
 
         $('body').on('click', '#modehintbutton', function() {
-            var billtype = $('#billtype').val();
+            const billtype = $('#billtype').val();
             if (billtype === 'normal') {
                 if ($('.modenormal').is(':visible')) {
                     $('.modenormal').slideUp();
@@ -4949,8 +4897,8 @@ var ACCESS_ADMIN = 4;
 
     $('body').on('change', '#billtype', function() {
         $('.modehint').slideUp();
-            var owerValidateStr = t('cospend', 'Create the bills');
-            var billtype = $(this).val();
+            let owerValidateStr = t('cospend', 'Create the bills');
+            const billtype = $(this).val();
             if (billtype === 'normal') {
                 owerValidateStr = t('cospend', 'Create the bill');
                 $('#owerNone').show();
@@ -5006,15 +4954,15 @@ var ACCESS_ADMIN = 4;
             $('#owerValidateText').text(owerValidateStr);
         });
 
-        $('body').on('paste change', '.amountinput', function(e) {
-            var billtype = $('#billtype').val();
+        $('body').on('paste change', '.amountinput', function() {
+            const billtype = $('#billtype').val();
             if (billtype === 'custom') {
                 updateCustomAmount();
             }
         });
 
         $('body').on('keyup','.amountinput', function(e) {
-            var billtype = $('#billtype').val();
+            const billtype = $('#billtype').val();
             if (billtype === 'custom') {
                 updateCustomAmount();
                 if (e.key === 'Enter') {
@@ -5029,7 +4977,7 @@ var ACCESS_ADMIN = 4;
         });
 
         $('body').on('click', '#owerValidate', function() {
-            var billtype = $('#billtype').val();
+            const billtype = $('#billtype').val();
             if (billtype === 'custom') {
                 updateCustomAmount();
                 createCustomAmountBill();
@@ -5066,15 +5014,15 @@ var ACCESS_ADMIN = 4;
             displayMemberPolarChart();
         });
 
-        $('body').on('click', '.memberAvatar', function(e) {
-            var projectid = $(this).parent().parent().parent().attr('projectid');
-            var memberid = $(this).parent().attr('memberid');
+        $('body').on('click', '.memberAvatar', function() {
+            const projectid = $(this).parent().parent().parent().attr('projectid');
+            const memberid = $(this).parent().attr('memberid');
             askChangeMemberColor(projectid, memberid);
         });
 
-        $('body').on('click', '.editColorMember', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
-            var memberid = $(this).parent().parent().parent().parent().attr('memberid');
+        $('body').on('click', '.editColorMember', function() {
+            const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+            const memberid = $(this).parent().parent().parent().parent().attr('memberid');
             askChangeMemberColor(projectid, memberid);
         });
 
@@ -5089,17 +5037,17 @@ var ACCESS_ADMIN = 4;
             $('.editMainCurrencyInput').focus().select();
         });
 
-        $('body').on('click', '.editMainCurrencyOk', function(e) {
-            var projectid = $('#curTitle').attr('projectid');
-            var value = $('.editMainCurrencyInput').val();
-            var projectName = cospend.projects[projectid].name;
+        $('body').on('click', '.editMainCurrencyOk', function() {
+            const projectid = $('#curTitle').attr('projectid');
+            const value = $('.editMainCurrencyInput').val();
+            const projectName = cospend.projects[projectid].name;
             editProject(projectid, projectName, null, null, null, value);
         });
         $('body').on('keyup', '.editMainCurrencyInput', function(e) {
             if (e.key === 'Enter') {
-                var projectid = $('#curTitle').attr('projectid');
-                var value = $('.editMainCurrencyInput').val();
-                var projectName = cospend.projects[projectid].name;
+                const projectid = $('#curTitle').attr('projectid');
+                const value = $('.editMainCurrencyInput').val();
+                const projectName = cospend.projects[projectid].name;
                 editProject(projectid, projectName, null, null, null, value);
             }
         });
@@ -5110,14 +5058,14 @@ var ACCESS_ADMIN = 4;
         });
 
         // other currencies
-        $('body').on('click', '.addCurrencyOk', function(e) {
-            var projectid = $('#curTitle').attr('projectid');
-            var name = $('#addCurrencyNameInput').val();
+        $('body').on('click', '.addCurrencyOk', function() {
+            const projectid = $('#curTitle').attr('projectid');
+            const name = $('#addCurrencyNameInput').val();
             if (name === null || name === '') {
                 OC.Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
                 return;
             }
-            var rate = parseFloat($('#addCurrencyRateInput').val());
+            const rate = parseFloat($('#addCurrencyRateInput').val());
             if (isNaN(rate)) {
                 OC.Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
                 return;
@@ -5127,13 +5075,13 @@ var ACCESS_ADMIN = 4;
 
         $('body').on('keyup', '#addCurrencyNameInput, #addCurrencyRateInput', function(e) {
             if (e.key === 'Enter') {
-                var projectid = $('#curTitle').attr('projectid');
-                var name = $('#addCurrencyNameInput').val();
+                const projectid = $('#curTitle').attr('projectid');
+                const name = $('#addCurrencyNameInput').val();
                 if (name === null || name === '') {
                     OC.Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
                     return;
                 }
-                var rate = parseFloat($('#addCurrencyRateInput').val());
+                const rate = parseFloat($('#addCurrencyRateInput').val());
                 if (isNaN(rate)) {
                     OC.Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
                     return;
@@ -5142,9 +5090,9 @@ var ACCESS_ADMIN = 4;
             }
         });
 
-        $('body').on('click', '.deleteOneCurrency', function(e) {
-            var projectid = $('#curTitle').attr('projectid');
-            var currencyId = $(this).parent().parent().attr('currencyid');
+        $('body').on('click', '.deleteOneCurrency', function() {
+            const projectid = $('#curTitle').attr('projectid');
+            const currencyId = $(this).parent().parent().attr('currencyid');
             if ($(this).hasClass('icon-history')) {
                 $(this).removeClass('icon-history').addClass('icon-delete');
                 cospend.currencyDeletionTimer[currencyId].pause();
@@ -5165,15 +5113,15 @@ var ACCESS_ADMIN = 4;
             .find('.editCurrencyNameInput').focus().select();
         });
 
-        $('body').on('click', '.editCurrencyOk', function(e) {
-            var projectid = $('#curTitle').attr('projectid');
-            var currencyId = $(this).parent().parent().attr('currencyid');
-            var name = $(this).parent().find('.editCurrencyNameInput').val();
+        $('body').on('click', '.editCurrencyOk', function() {
+            const projectid = $('#curTitle').attr('projectid');
+            const currencyId = $(this).parent().parent().attr('currencyid');
+            const name = $(this).parent().find('.editCurrencyNameInput').val();
             if (name === null || name === '') {
                 OC.Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
                 return;
             }
-            var rate = parseFloat($(this).parent().find('.editCurrencyRateInput').val());
+            const rate = parseFloat($(this).parent().find('.editCurrencyRateInput').val());
             if (isNaN(rate)) {
                 OC.Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
                 return;
@@ -5183,14 +5131,14 @@ var ACCESS_ADMIN = 4;
 
         $('body').on('keyup', '.editCurrencyNameInput, .editCurrencyRateInput', function(e) {
             if (e.key === 'Enter') {
-                var projectid = $('#curTitle').attr('projectid');
-                var currencyId = $(this).parent().parent().attr('currencyid');
-                var name = $(this).parent().find('.editCurrencyNameInput').val();
+                const projectid = $('#curTitle').attr('projectid');
+                const currencyId = $(this).parent().parent().attr('currencyid');
+                const name = $(this).parent().find('.editCurrencyNameInput').val();
                 if (name === null || name === '') {
                     OC.Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
                     return;
                 }
-                var rate = parseFloat($(this).parent().find('.editCurrencyRateInput').val());
+                const rate = parseFloat($(this).parent().find('.editCurrencyRateInput').val());
                 if (isNaN(rate)) {
                     OC.Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
                     return;
@@ -5205,19 +5153,19 @@ var ACCESS_ADMIN = 4;
         });
 
         // manage categories TODO
-        $('body').on('click', '.addCategoryOk', function(e) {
-            var projectid = $('#catTitle').attr('projectid');
-            var name = $('#addCategoryNameInput').val();
+        $('body').on('click', '.addCategoryOk', function() {
+            const projectid = $('#catTitle').attr('projectid');
+            const name = $('#addCategoryNameInput').val();
             if (name === null || name === '') {
                 OC.Notification.showTemporary(t('cospend', 'Category name should not be empty'));
                 return;
             }
-            var icon = $('#addCategoryIconInput').val();
+            const icon = $('#addCategoryIconInput').val();
             if (icon === null || icon === '') {
                 OC.Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
                 return;
             }
-            var color = $('#addCategoryColorInput').val();
+            const color = $('#addCategoryColorInput').val();
             if (color === null || color === '') {
                 OC.Notification.showTemporary(t('cospend', 'Category color should not be empty'));
                 return;
@@ -5227,18 +5175,18 @@ var ACCESS_ADMIN = 4;
 
         $('body').on('keyup', '#addCategoryNameInput, #addCategoryIconInput', function(e) {
             if (e.key === 'Enter') {
-                var projectid = $('#catTitle').attr('projectid');
-                var name = $('#addCategoryNameInput').val();
+                const projectid = $('#catTitle').attr('projectid');
+                const name = $('#addCategoryNameInput').val();
                 if (name === null || name === '') {
                     OC.Notification.showTemporary(t('cospend', 'Category name should not be empty'));
                     return;
                 }
-                var icon = $('#addCategoryIconInput').val();
+                const icon = $('#addCategoryIconInput').val();
                 if (icon === null || icon === '') {
                     OC.Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
                     return;
                 }
-                var color = $('#addCategoryColorInput').val();
+                const color = $('#addCategoryColorInput').val();
                 if (color === null || color === '') {
                     OC.Notification.showTemporary(t('cospend', 'Category color should not be empty'));
                     return;
@@ -5247,9 +5195,9 @@ var ACCESS_ADMIN = 4;
             }
         });
 
-        $('body').on('click', '.deleteOneCategory', function(e) {
-            var projectid = $('#catTitle').attr('projectid');
-            var categoryId = $(this).parent().parent().attr('categoryid');
+        $('body').on('click', '.deleteOneCategory', function() {
+            const projectid = $('#catTitle').attr('projectid');
+            const categoryId = $(this).parent().parent().attr('categoryid');
             if ($(this).hasClass('icon-history')) {
                 $(this).removeClass('icon-history').addClass('icon-delete');
                 cospend.categoryDeletionTimer[categoryId].pause();
@@ -5270,20 +5218,20 @@ var ACCESS_ADMIN = 4;
             .find('.editCategoryNameInput').focus().select();
         });
 
-        $('body').on('click', '.editCategoryOk', function(e) {
-            var projectid = $('#catTitle').attr('projectid');
-            var categoryId = $(this).parent().parent().attr('categoryid');
-            var name = $(this).parent().find('.editCategoryNameInput').val();
+        $('body').on('click', '.editCategoryOk', function() {
+            const projectid = $('#catTitle').attr('projectid');
+            const categoryId = $(this).parent().parent().attr('categoryid');
+            const name = $(this).parent().find('.editCategoryNameInput').val();
             if (name === null || name === '') {
                 OC.Notification.showTemporary(t('cospend', 'Category name should not be empty'));
                 return;
             }
-            var icon = $(this).parent().find('.editCategoryIconInput').val();
+            const icon = $(this).parent().find('.editCategoryIconInput').val();
             if (icon === null || icon === '') {
                 OC.Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
                 return;
             }
-            var color = $(this).parent().find('.editCategoryColorInput').val();
+            const color = $(this).parent().find('.editCategoryColorInput').val();
             if (color === null || color === '') {
                 OC.Notification.showTemporary(t('cospend', 'Category color should not be empty'));
                 return;
@@ -5293,19 +5241,19 @@ var ACCESS_ADMIN = 4;
 
         $('body').on('keyup', '.editCategoryNameInput, .editCategoryIconInput', function(e) {
             if (e.key === 'Enter') {
-                var projectid = $('#catTitle').attr('projectid');
-                var categoryId = $(this).parent().parent().attr('categoryid');
-                var name = $(this).parent().find('.editCategoryNameInput').val();
+                const projectid = $('#catTitle').attr('projectid');
+                const categoryId = $(this).parent().parent().attr('categoryid');
+                const name = $(this).parent().find('.editCategoryNameInput').val();
                 if (name === null || name === '') {
                     OC.Notification.showTemporary(t('cospend', 'Category name should not be empty'));
                     return;
                 }
-                var icon = $(this).parent().find('.editCategoryIconInput').val();
+                const icon = $(this).parent().find('.editCategoryIconInput').val();
                 if (icon === null || icon === '') {
                     OC.Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
                     return;
                 }
-                var color = $(this).parent().find('.editCategoryColorInput').val();
+                const color = $(this).parent().find('.editCategoryColorInput').val();
                 if (color === null || color === '') {
                     OC.Notification.showTemporary(t('cospend', 'Category color should not be empty'));
                     return;
@@ -5322,16 +5270,16 @@ var ACCESS_ADMIN = 4;
             $(this).parent().parent().find('.one-category-label').show();
         });
 
-        $('body').on('click', '.owerEntry .owerAvatar', function (e) {
-            var billId = parseInt($('#billdetail .bill-title').attr('billid'));
-            var billType = $('#billtype').val();
+        $('body').on('click', '.owerEntry .owerAvatar', function () {
+            const billId = parseInt($('#billdetail .bill-title').attr('billid'));
+            const billType = $('#billtype').val();
             if (billId !== 0 || billType === 'normal' || billType === 'perso') {
                 $(this).parent().find('input').click();
             }
         });
 
         if (OCA.Theming) {
-            var c = OCA.Theming.color;
+            const c = OCA.Theming.color;
             // invalid color
             if (!c || (c.length !== 4 && c.length !== 7)) {
                 cospend.themeColor = '#0082C9';

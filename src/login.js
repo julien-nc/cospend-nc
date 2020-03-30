@@ -16,7 +16,7 @@ import { generateUrl } from '@nextcloud/router';
     'use strict';
 
     $(document).ready(function() {
-        var pageUrlWithProjectid = (document.URL.indexOf('/loginproject') !== -1);
+        const pageUrlWithProjectid = (document.URL.indexOf('/loginproject') !== -1);
         if (!pageUrlWithProjectid) {
             $('#passwordInput').val('');
             $('#projectidInput').val('');
@@ -29,7 +29,7 @@ import { generateUrl } from '@nextcloud/router';
     });
 
     function main() {
-        var url = generateUrl('/apps/cospend/project');
+        const url = generateUrl('/apps/cospend/project');
         $('#loginform').attr('action', url);
 
         if ($('#passwordInput').val().length > 0) {

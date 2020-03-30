@@ -1069,11 +1069,11 @@ var ACCESS_ADMIN = 4;
         var howMuchStr = t('cospend', 'How much?');
         var exportStr = '';
         if (!cospend.pageIsPublic) {
-            exportStr = ' <button class="exportSettlement" projectid="'+projectid+'"><span class="icon-file"></span>'+t('cospend', 'Export')+'</button>';
+            exportStr = ' <button class="exportSettlement" projectid="'+projectid+'"><span class="icon-save"></span>'+t('cospend', 'Export')+'</button>';
         }
-        var autoSettleStr = ' <button class="autoSettlement" projectid="'+projectid+'"><span class="icon-play"></span>'+t('cospend', 'Add these payments to project')+'</button>';
+        var autoSettleStr = ' <button class="autoSettlement" projectid="'+projectid+'"><span class="icon-add"></span>'+t('cospend', 'Add these payments to project')+'</button>';
         var settlementStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
-            '<h2 id="settlementTitle"><span class="icon-category-organization"></span>'+titleStr+exportStr+autoSettleStr+'</h2>' +
+            '<h2 id="settlementTitle"><span class="icon-reimburse"></span>'+titleStr+exportStr+autoSettleStr+'</h2>' +
             '<table id="settlementTable" class="sortable"><thead>' +
             '<th>'+fromStr+'</th>' +
             '<th>'+toStr+'</th>' +
@@ -1627,7 +1627,7 @@ var ACCESS_ADMIN = 4;
         }
 
         if (!cospend.pageIsPublic) {
-            exportStr = ' <button class="exportStats" projectid="'+projectid+'"><span class="icon-file"></span>'+t('cospend', 'Export')+'</button>';
+            exportStr = ' <button class="exportStats" projectid="'+projectid+'"><span class="icon-save"></span>'+t('cospend', 'Export')+'</button>';
         }
         var totalPayedText = '<p class="totalPayedText">' +
                              t('cospend', 'Total payed by all the members: {t}', {t: totalPayed.toFixed(2)}) + '</p>';
@@ -2767,7 +2767,7 @@ var ACCESS_ADMIN = 4;
             '            </li>' +
             '            <li>' +
             '                <a href="#" class="editProjectPassword">' +
-            '                    <span class="icon-rename"></span>' +
+            '                    <span class="icon-password"></span>' +
             '                    <span>'+changePwdStr+'</span>' +
             '                </a>' +
             '            </li>';
@@ -2791,19 +2791,19 @@ var ACCESS_ADMIN = 4;
             '            </li>' +
             '            <li>' +
             '                <a href="#" class="getProjectSettlement">' +
-            '                    <span class="icon-category-organization"></span>' +
+            '                    <span class="icon-reimburse"></span>' +
             '                    <span>'+settleStr+'</span>' +
             '                </a>' +
             '            </li>';
         li = li + '            <li>' +
             '                <a href="#" class="exportProject">' +
-            '                    <span class="icon-category-office"></span>' +
+            '                    <span class="icon-save"></span>' +
             '                    <span>'+exportStr+'</span>' +
             '                </a>' +
             '            </li>';
         li = li + '            <li>' +
             '                <a href="#" class="autoexportProject">' +
-            '                    <span class="icon-category-office"></span>' +
+            '                    <span class="icon-schedule"></span>' +
             '                    <span class="autoexportLabel">'+autoexportStr+'</span>' +
             '                    <select class="autoexportSelect">' +
             '                       <option value="n">'+t('cospend', 'No')+'</option>' +
@@ -2987,13 +2987,13 @@ var ACCESS_ADMIN = 4;
             '            </li>' +
             '            <li>' +
             '                <a href="#" class="editWeightMember">' +
-            '                    <span class="icon-rename"></span>' +
+            '                    <span class="icon-quota"></span>' +
             '                    <span>'+changeWeightStr+'</span>' +
             '                </a>' +
             '            </li>' +
             '            <li>' +
             '                <a href="#" class="editColorMember">' +
-            '                    <span class="icon-toggle-background"></span>' +
+            '                    <span class="icon-palette"></span>' +
             '                    <span>'+changeColorStr+'</span>' +
             '                </a>' +
             '            </li>' +

@@ -344,10 +344,10 @@ input[type=number] {
     background-color: var(--color-main-text);
     padding: 0 !important;
     mask: url(images/app_black.svg) no-repeat;
-    mask-size: 22px auto;
+    mask-size: 18px auto;
     mask-position: center;
     -webkit-mask: url(images/app_black.svg) no-repeat;
-    -webkit-mask-size: 22px auto;
+    -webkit-mask-size: 18px auto;
     -webkit-mask-position: center;
     min-width: 44px !important;
     min-height: 44px !important;
@@ -356,10 +356,22 @@ input[type=number] {
     background-color: var(--color-main-text);
     padding: 0 !important;
     mask: url(images/time.svg) no-repeat;
-    mask-size: 22px auto;
+    mask-size: 18px auto;
     mask-position: center;
     -webkit-mask: url(images/time.svg) no-repeat;
-    -webkit-mask-size: 22px auto;
+    -webkit-mask-size: 18px auto;
+    -webkit-mask-position: center;
+    min-width: 44px !important;
+    min-height: 44px !important;
+}
+.icon-schedule {
+    background-color: var(--color-main-text);
+    padding: 0 !important;
+    mask: url(images/schedule.svg) no-repeat;
+    mask-size: 16px auto;
+    mask-position: center;
+    -webkit-mask: url(images/schedule.svg) no-repeat;
+    -webkit-mask-size: 16px auto;
     -webkit-mask-position: center;
     min-width: 44px !important;
     min-height: 44px !important;
@@ -368,14 +380,51 @@ input[type=number] {
     background-color: var(--color-main-text);
     padding: 0 !important;
     mask: url(images/currency.svg) no-repeat;
-    mask-size: 22px 22px;
+    mask-size: 18px 18px;
     mask-position: center;
     -webkit-mask: url(images/currency.svg) no-repeat;
-    -webkit-mask-size: 22px 22px;
+    -webkit-mask-size: 18px 18px;
     -webkit-mask-position: center;
     min-width: 44px !important;
     min-height: 44px !important;
 }
+.icon-palette {
+    background-color: var(--color-main-text);
+    padding: 0 !important;
+    mask: url(images/palette.svg) no-repeat;
+    mask-size: 18px 18px;
+    mask-position: center;
+    -webkit-mask: url(images/palette.svg) no-repeat;
+    -webkit-mask-size: 18px 18px;
+    -webkit-mask-position: center;
+    min-width: 44px !important;
+    min-height: 44px !important;
+}
+.icon-reimburse {
+    background-color: var(--color-main-text);
+    padding: 0 !important;
+    mask: url(images/reimburse.svg) no-repeat;
+    mask-size: 18px 18px;
+    mask-position: center;
+    -webkit-mask: url(images/reimburse.svg) no-repeat;
+    -webkit-mask-size: 18px 18px;
+    -webkit-mask-position: center;
+    min-width: 44px !important;
+    min-height: 44px !important;
+}
+.icon-save {
+    background-color: var(--color-main-text);
+    padding: 0 !important;
+    mask: url(images/save.svg) no-repeat;
+    mask-size: 18px 18px;
+    mask-position: center;
+    -webkit-mask: url(images/save.svg) no-repeat;
+    -webkit-mask-size: 18px 18px;
+    -webkit-mask-position: center;
+    min-width: 44px !important;
+    min-height: 44px !important;
+}
+#settlementTitle .icon-reimburse,
 #billdetail .icon-cospend,
 #billdetail .icon-time,
 #billdetail .icon-currencies {
@@ -676,4 +725,9 @@ a.billitem .app-content-list-item-icon {
     margin-top: 5px;
     margin-bottom: 5px;
     padding-left: 8px;
+}
+.exportStats span,
+.exportSettlement span {
+    min-height: 16px !important;
+    min-width: 16px !important;
 }

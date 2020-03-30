@@ -5311,6 +5311,35 @@ var ACCESS_ADMIN = 4;
             }
         });
 
+        // context menu (right click)
+        $('body').on('contextmenu',
+            '.memberitem > .app-navigation-entry-utils, .memberitem > a, .memberitem .memberAvatar, ' +
+            '.shareitem > .app-navigation-entry-utils, .shareitem > a, ' +
+            '.projectitem > .app-navigation-entry-utils, .projectitem > a ',
+            function(e) {
+                var menu = $(this).parent().find('> .app-navigation-entry-menu');
+                var wasOpen = menu.hasClass('open');
+                $('.app-navigation-entry-menu.open').removeClass('open');
+                if (!wasOpen) {
+                    menu.addClass('open');
+                }
+                return false;
+            }
+        );
+
+        // right click on expand icon
+        $('body').on('contextmenu', '.projectitem', function(e) {
+            if (e.target.tagName === 'LI' && $(e.target).hasClass('projectitem')) {
+                var menu = $(this).find('> .app-navigation-entry-menu');
+                var wasOpen = menu.hasClass('open');
+                $('.app-navigation-entry-menu.open').removeClass('open');
+                if (!wasOpen) {
+                    menu.addClass('open');
+                }
+                return false;
+            }
+        });
+
         if (OCA.Theming) {
             var c = OCA.Theming.color;
             // invalid color

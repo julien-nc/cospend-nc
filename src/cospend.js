@@ -9,6 +9,7 @@
  * @author Julien Veyssier <eneiluj@posteo.net>
  * @copyright Julien Veyssier 2019
  */
+import * as Notification from "./notification";
 import kjua from 'kjua/dist/kjua.min';
 import 'sorttable/sorttable';
 import 'chart.js/dist/Chart.min';
@@ -285,7 +286,7 @@ const ACCESS_ADMIN = 4;
         if (!name || name.match(',') || name.match('/') ||
             !id || id.match(',') || id.match('/')
         ) {
-            OC.Notification.showTemporary(t('cospend', 'Invalid values'));
+            Notification.showTemporary(t('cospend', 'Invalid values'));
             return;
         }
         $('#createproject').addClass('icon-loading-small');
@@ -323,13 +324,13 @@ const ACCESS_ADMIN = 4;
         }).always(function() {
             $('#createproject').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to create project') + ': ' + response.responseJSON.message);
+            Notification.showTemporary(t('cospend', 'Failed to create project') + ': ' + response.responseJSON.message);
         });
     }
 
     function createMember(projectid, name) {
         if (!name || name.match(',')) {
-            OC.Notification.showTemporary(t('cospend', 'Invalid values'));
+            Notification.showTemporary(t('cospend', 'Invalid values'));
             return;
         }
         $('.projectitem[projectid="'+projectid+'"]').addClass('icon-loading-small');
@@ -356,11 +357,11 @@ const ACCESS_ADMIN = 4;
             $('.newmemberdiv').slideUp();
             updateNumberOfMember(projectid);
             $('#billdetail').html('');
-            OC.Notification.showTemporary(t('cospend', 'Created member {name}', {name: name}));
+            Notification.showTemporary(t('cospend', 'Created member {name}', {name: name}));
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to add member') +
                 ': ' + (response.responseJSON.message || response.responseText)
             );
@@ -455,7 +456,7 @@ const ACCESS_ADMIN = 4;
             }
             memberLine.find('.memberAvatar img').attr('src', imgurl);
 
-            OC.Notification.showTemporary(t('cospend', 'Member saved'));
+            Notification.showTemporary(t('cospend', 'Member saved'));
             // get bills again to refresh names
             getBills(projectid);
             // reset bill edition
@@ -463,7 +464,7 @@ const ACCESS_ADMIN = 4;
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"] ul.memberlist > li[memberid='+memberid+']').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to save member') +
                 ': ' + (response.responseJSON.message || response.responseText)
             );
@@ -532,11 +533,11 @@ const ACCESS_ADMIN = 4;
 
             updateProjectBalances(projectid);
 
-            OC.Notification.showTemporary(t('cospend', 'Bill created'));
+            Notification.showTemporary(t('cospend', 'Bill created'));
         }).always(function() {
             $('.loading-bill').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to create bill') +
                 ': ' + (response.responseJSON.message || response.responseText)
             );
@@ -603,11 +604,11 @@ const ACCESS_ADMIN = 4;
 
             updateProjectBalances(projectid);
 
-            OC.Notification.showTemporary(t('cospend', 'Bill saved'));
+            Notification.showTemporary(t('cospend', 'Bill saved'));
         }).always(function() {
             $('.loading-bill').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to save bill') +
                 ' ' + (response.responseJSON.message || response.responseJSON)
             );
@@ -740,10 +741,10 @@ const ACCESS_ADMIN = 4;
                 $('#main-currency-label').show();
                 $('#main-currency-edit').hide();
             }
-            OC.Notification.showTemporary(t('cospend', 'Project saved'));
+            Notification.showTemporary(t('cospend', 'Project saved'));
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to edit project') +
                 ': ' + (response.responseJSON.message || response.responseJSON.name || response.responseJSON.contact_email)
             );
@@ -785,10 +786,10 @@ const ACCESS_ADMIN = 4;
                 const redirectUrl = generateUrl('/apps/cospend/login');
                 window.location.replace(redirectUrl);
             }
-            OC.Notification.showTemporary(t('cospend', 'Deleted project {id}', {id: projectid}));
+            Notification.showTemporary(t('cospend', 'Deleted project {id}', {id: projectid}));
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to delete project') +
                 ': ' + (response.responseJSON.message || response.responseText)
             );
@@ -827,10 +828,10 @@ const ACCESS_ADMIN = 4;
             });
             delete cospend.bills[projectid][billid];
             updateProjectBalances(projectid);
-            OC.Notification.showTemporary(t('cospend', 'Deleted bill'));
+            Notification.showTemporary(t('cospend', 'Deleted bill'));
         }).always(function() {
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to delete bill') +
                 ': ' + response.responseJSON.message
             );
@@ -892,7 +893,7 @@ const ACCESS_ADMIN = 4;
         }).always(function() {
             cospend.currentGetProjectsAjax = null;
         }).fail(function(response) {
-            OC.Notification.showTemporary(t('cospend', 'Failed to get projects') +
+            Notification.showTemporary(t('cospend', 'Failed to get projects') +
                 ': ' + (response.responseJSON.message || response.responseText)
             );
         });
@@ -924,7 +925,7 @@ const ACCESS_ADMIN = 4;
             displayCurrencies(projectid, response);
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('cospend', 'Failed to get project currencies'));
+            Notification.showTemporary(t('cospend', 'Failed to get project currencies'));
             $('#billdetail').html('');
         });
     }
@@ -955,7 +956,7 @@ const ACCESS_ADMIN = 4;
             displayCategories(projectid, response);
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('cospend', 'Failed to get project categories'));
+            Notification.showTemporary(t('cospend', 'Failed to get project categories'));
             $('#billdetail').html('');
         });
     }
@@ -1004,7 +1005,7 @@ const ACCESS_ADMIN = 4;
                               amountMin, amountMax, showDisabled, currencyId);
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('cospend', 'Failed to get statistics'));
+            Notification.showTemporary(t('cospend', 'Failed to get statistics'));
             $('#billdetail').html('');
         });
     }
@@ -1035,7 +1036,7 @@ const ACCESS_ADMIN = 4;
             displaySettlement(projectid, response);
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('cospend', 'Failed to get settlement'));
+            Notification.showTemporary(t('cospend', 'Failed to get settlement'));
             $('#billdetail').html('');
         });
     }
@@ -1257,11 +1258,11 @@ const ACCESS_ADMIN = 4;
                 exchange_rate: rate,
                 id: response
             });
-            OC.Notification.showTemporary(t('cospend', 'Currency {n} added', {n: name}));
+            Notification.showTemporary(t('cospend', 'Currency {n} added', {n: name}));
         }).always(function() {
             $('.addCurrencyOk').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to add currency') +
                 ': ' + (response.responseJSON.message || response.responseText)
             );
@@ -1326,7 +1327,7 @@ const ACCESS_ADMIN = 4;
         }).always(function() {
             $('.one-currency[currencyid='+currencyId+'] .deleteOneCurrency').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to delete currency') +
                 ': ' + response.responseJSON.message
             );
@@ -1370,7 +1371,7 @@ const ACCESS_ADMIN = 4;
         }).always(function() {
             $('.one-currency[currencyid='+currencyId+'] .editCurrencyOk').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to edit currency') +
                 '; ' + response.responseJSON.message
             );
@@ -1453,11 +1454,11 @@ const ACCESS_ADMIN = 4;
                 color: color
             };
             addCategory(projectid, response, cospend.projects[projectid].categories[response]);
-            OC.Notification.showTemporary(t('cospend', 'Category {n} added', {n: name}));
+            Notification.showTemporary(t('cospend', 'Category {n} added', {n: name}));
         }).always(function() {
             $('.addCategoryOk').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to add category') +
                 ': ' + (response.responseJSON.message || response.responseText)
             );
@@ -1513,7 +1514,7 @@ const ACCESS_ADMIN = 4;
         }).always(function() {
             $('.one-category[categoryid='+categoryId+'] .deleteOneCategory').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to delete category') +
                 ': ' + response.responseJSON.message);
         });
@@ -1554,7 +1555,7 @@ const ACCESS_ADMIN = 4;
         }).always(function() {
             $('.one-category[categoryid='+categoryId+'] .editCategoryOk').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to edit category') +
                 ': ' + response.responseJSON.message
             );
@@ -2077,7 +2078,7 @@ const ACCESS_ADMIN = 4;
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('cospend', 'Failed to get bills'));
+            Notification.showTemporary(t('cospend', 'Failed to get bills'));
             $('#bill-list').html('');
         });
     }
@@ -2481,7 +2482,7 @@ const ACCESS_ADMIN = 4;
     }
 
     function reload(msg) {
-        OC.Notification.showTemporary(msg);
+        Notification.showTemporary(msg);
         new Timer(function() {
             location.reload();
         }, 5000);
@@ -2620,7 +2621,7 @@ const ACCESS_ADMIN = 4;
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('cospend', 'Failed to update balances'));
+            Notification.showTemporary(t('cospend', 'Failed to update balances'));
         });
     }
 
@@ -3070,7 +3071,7 @@ const ACCESS_ADMIN = 4;
                        paymentmode, categoryid, repeatallactive, repeatuntil);
         }
         else {
-            OC.Notification.showTemporary(t('cospend', 'Bill values are not valid'));
+            Notification.showTemporary(t('cospend', 'Bill values are not valid'));
         }
     }
 
@@ -3187,7 +3188,7 @@ const ACCESS_ADMIN = 4;
             }
         }
         else {
-            OC.Notification.showTemporary(t('cospend', 'Bill values are not valid'));
+            Notification.showTemporary(t('cospend', 'Bill values are not valid'));
         }
     }
 
@@ -3204,7 +3205,7 @@ const ACCESS_ADMIN = 4;
                 async: true
             }).done(function (response) {
             }).fail(function() {
-                OC.Notification.showTemporary(
+                Notification.showTemporary(
                     t('cospend', 'Failed to save option values')
                 );
             });
@@ -3236,7 +3237,7 @@ const ACCESS_ADMIN = 4;
             // quite important ;-)
             main();
         }).fail(function() {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to restore options values')
             );
         });
@@ -3348,7 +3349,7 @@ const ACCESS_ADMIN = 4;
             };
             //console.log(ii.data('ui-autocomplete'));
         }).fail(function() {
-            OC.Notification.showTemporary(t('cospend', 'Failed to get user list'));
+            Notification.showTemporary(t('cospend', 'Failed to get user list'));
         });
     }
 
@@ -3367,11 +3368,11 @@ const ACCESS_ADMIN = 4;
         }).done(function (response) {
             addShare(projectid, userid, username, response, 'u', ACCESS_PARTICIPANT);
             var projectname = getProjectName(projectid);
-            OC.Notification.showTemporary(t('cospend', 'Project {pname} is now shared with {uname}', {pname: projectname, uname: username}));
+            Notification.showTemporary(t('cospend', 'Project {pname} is now shared with {uname}', {pname: projectname, uname: username}));
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to add user share') +
                 ': ' + response.responseJSON.message
             );
@@ -3400,7 +3401,7 @@ const ACCESS_ADMIN = 4;
             $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] '+
                 '.deleteUserShareButton span:first').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to delete user share') +
                 ': ' + response.responseJSON.message
             );
@@ -3421,11 +3422,11 @@ const ACCESS_ADMIN = 4;
         }).done(function (response) {
             addShare(projectid, null, t('cospend', 'Public share link'), response.id, 'l', ACCESS_PARTICIPANT, response.token);
             const projectname = getProjectName(projectid);
-            OC.Notification.showTemporary(t('cospend', 'Public access link added for project {pname}', {pname: projectname}));
+            Notification.showTemporary(t('cospend', 'Public access link added for project {pname}', {pname: projectname}));
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to add public share') +
                 ': ' + response.responseJSON.message
             );
@@ -3454,7 +3455,7 @@ const ACCESS_ADMIN = 4;
             $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] '+
                 '.deletePublicShareButton span:first').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to delete public share') +
                 ': ' + response.responseJSON.message
             );
@@ -3476,11 +3477,11 @@ const ACCESS_ADMIN = 4;
         }).done(function (response) {
             addShare(projectid, circleId, circleName, response, 'c', ACCESS_PARTICIPANT);
             const projectname = getProjectName(projectid);
-            OC.Notification.showTemporary(t('cospend', 'Project {pname} is now shared with circle {cname}', {pname: projectname, cname: circleName}));
+            Notification.showTemporary(t('cospend', 'Project {pname} is now shared with circle {cname}', {pname: projectname, cname: circleName}));
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to add circle share') +
                 ': ' + response.responseJSON.message
             );
@@ -3507,7 +3508,7 @@ const ACCESS_ADMIN = 4;
         }).always(function() {
             $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteCircleShareButton').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to delete circle share') +
                 ': ' + response.responseJSON.message
             );
@@ -3529,11 +3530,11 @@ const ACCESS_ADMIN = 4;
         }).done(function (response) {
             addShare(projectid, groupid, groupname, response, 'g', ACCESS_PARTICIPANT);
             const projectname = getProjectName(projectid);
-            OC.Notification.showTemporary(t('cospend', 'Project {pname} is now shared with group {gname}', {pname: projectname, gname: groupname}));
+            Notification.showTemporary(t('cospend', 'Project {pname} is now shared with group {gname}', {pname: projectname, gname: groupname}));
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to add group share') +
                 ': ' + response.responseJSON.message
             );
@@ -3647,7 +3648,7 @@ const ACCESS_ADMIN = 4;
         }).always(function() {
             $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteGroupShareButton').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to delete group share') +
                 ': ' + response.responseJSON.message
             );
@@ -3674,7 +3675,7 @@ const ACCESS_ADMIN = 4;
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
             $('li[shid="'+shid+'"] .accesslevel span').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to edit share access level') +
                 ': ' + response.responseJSON.message
             );
@@ -3725,7 +3726,7 @@ const ACCESS_ADMIN = 4;
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
             $('li[projectid="'+projectid+'"] .accesslevelguest').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to edit guest access level') +
                 ': ' + response.responseJSON.message
             );
@@ -3804,7 +3805,7 @@ const ACCESS_ADMIN = 4;
         }).always(function() {
         }).fail(function(response) {
             $('.loading-bill').removeClass('icon-loading-small');
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to generate public link to file') +
                 ': ' + response.responseJSON.message
             );
@@ -3827,11 +3828,11 @@ const ACCESS_ADMIN = 4;
             data: req,
             async: true
         }).done(function (response) {
-            OC.Notification.showTemporary(t('cospend', 'Project exported in {path}', {path: response.path}));
+            Notification.showTemporary(t('cospend', 'Project exported in {path}', {path: response.path}));
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to export project') +
                 ': ' + response.responseJSON.message
             );
@@ -3859,11 +3860,11 @@ const ACCESS_ADMIN = 4;
             data: req,
             async: true
         }).done(function (response) {
-            OC.Notification.showTemporary(t('cospend', 'Project statistics exported in {path}', {path: response.path}));
+            Notification.showTemporary(t('cospend', 'Project statistics exported in {path}', {path: response.path}));
         }).always(function() {
             $('.exportStats[projectid="'+projectid+'"] span').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to export project statistics') +
                 ': ' + response.responseJSON.message
             );
@@ -3882,11 +3883,11 @@ const ACCESS_ADMIN = 4;
             data: req,
             async: true
         }).done(function (response) {
-            OC.Notification.showTemporary(t('cospend', 'Project settlement exported in {path}', {path: response.path}));
+            Notification.showTemporary(t('cospend', 'Project settlement exported in {path}', {path: response.path}));
         }).always(function() {
             $('.exportSettlement[projectid="'+projectid+'"] span').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to export project settlement') +
                 ': ' + response.responseJSON.message
             );
@@ -3915,11 +3916,11 @@ const ACCESS_ADMIN = 4;
         }).done(function (response) {
             updateProjectBalances(projectid);
             getBills(projectid);
-            OC.Notification.showTemporary(t('cospend', 'Project settlement bills added'));
+            Notification.showTemporary(t('cospend', 'Project settlement bills added'));
         }).always(function() {
             $('.autoSettlement[projectid="'+projectid+'"] span').removeClass('icon-loading-small');
         }).fail(function(response) {
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to add project settlement bills') +
                 ': ' + response.responseJSON.message
             );
@@ -3928,7 +3929,7 @@ const ACCESS_ADMIN = 4;
 
     function importProject(targetPath) {
         if (!endsWith(targetPath, '.csv')) {
-            OC.Notification.showTemporary(t('cospend', 'Only CSV files can be imported'));
+            Notification.showTemporary(t('cospend', 'Only CSV files can be imported'));
             return;
         }
         $('#addFileLinkButton').addClass('icon-loading-small');
@@ -3947,7 +3948,7 @@ const ACCESS_ADMIN = 4;
         }).always(function() {
         }).fail(function(response) {
             $('#addFileLinkButton').removeClass('icon-loading-small');
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to import project file') +
                 ': ' + response.responseJSON.message
             );
@@ -3956,7 +3957,7 @@ const ACCESS_ADMIN = 4;
 
     function importSWProject(targetPath) {
         if (!endsWith(targetPath, '.csv')) {
-            OC.Notification.showTemporary(t('cospend', 'Only CSV files can be imported'));
+            Notification.showTemporary(t('cospend', 'Only CSV files can be imported'));
             return;
         }
         $('#addFileLinkButton').addClass('icon-loading-small');
@@ -3975,7 +3976,7 @@ const ACCESS_ADMIN = 4;
         }).always(function() {
         }).fail(function(response) {
             $('#addFileLinkButton').removeClass('icon-loading-small');
-            OC.Notification.showTemporary(
+            Notification.showTemporary(
                 t('cospend', 'Failed to import project file') +
                 ': ' + response.responseJSON.message
             );
@@ -4043,7 +4044,7 @@ const ACCESS_ADMIN = 4;
                 }
             });
             if (tmpAmount < 0.0) {
-                OC.Notification.showTemporary(t('cospend', 'Personal parts are bigger than the paid amount'));
+                Notification.showTemporary(t('cospend', 'Personal parts are bigger than the paid amount'));
                 return;
             }
         }
@@ -4110,7 +4111,7 @@ const ACCESS_ADMIN = 4;
             $('.app-content-list').removeClass('showdetails');
         }
         else {
-            OC.Notification.showTemporary(t('cospend', 'Invalid values'));
+            Notification.showTemporary(t('cospend', 'Invalid values'));
         }
     }
 
@@ -4180,11 +4181,11 @@ const ACCESS_ADMIN = 4;
                 $('.app-content-list').removeClass('showdetails');
             }
             else {
-                OC.Notification.showTemporary(t('cospend', 'There is no custom amount'));
+                Notification.showTemporary(t('cospend', 'There is no custom amount'));
             }
         }
         else {
-            OC.Notification.showTemporary(t('cospend', 'Invalid values'));
+            Notification.showTemporary(t('cospend', 'Invalid values'));
         }
     }
 
@@ -4272,7 +4273,7 @@ const ACCESS_ADMIN = 4;
             const token = $(this).parent().parent().parent().attr('token');
             const publicLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/s/'+token);
             copyToClipboard(publicLink);
-            OC.Notification.showTemporary(t('cospend', 'Public link copied to clipboard'));
+            Notification.showTemporary(t('cospend', 'Public link copied to clipboard'));
         });
 
         $('body').on('click', '.addPublicShareButton', function() {
@@ -4368,7 +4369,7 @@ const ACCESS_ADMIN = 4;
                     createProject(id, name, password);
                 }
                 else {
-                    OC.Notification.showTemporary(t('cospend', 'Invalid values'));
+                    Notification.showTemporary(t('cospend', 'Invalid values'));
                 }
             }
         });
@@ -4381,7 +4382,7 @@ const ACCESS_ADMIN = 4;
                 createProject(id, name, password);
             }
             else {
-                OC.Notification.showTemporary(t('cospend', 'Invalid values'));
+                Notification.showTemporary(t('cospend', 'Invalid values'));
             }
             e.preventDefault();
         });
@@ -4394,7 +4395,7 @@ const ACCESS_ADMIN = 4;
                 createProject(id, name, password);
             }
             else {
-                OC.Notification.showTemporary(t('cospend', 'Invalid values'));
+                Notification.showTemporary(t('cospend', 'Invalid values'));
             }
         });
 
@@ -4429,7 +4430,7 @@ const ACCESS_ADMIN = 4;
                 createMember(projectid, name);
             }
             else {
-                OC.Notification.showTemporary(t('cospend', 'Invalid values'));
+                Notification.showTemporary(t('cospend', 'Invalid values'));
             }
         });
 
@@ -4441,7 +4442,7 @@ const ACCESS_ADMIN = 4;
                     createMember(projectid, name);
                 }
                 else {
-                    OC.Notification.showTemporary(t('cospend', 'Invalid values'));
+                    Notification.showTemporary(t('cospend', 'Invalid values'));
                 }
             }
         });
@@ -4486,7 +4487,7 @@ const ACCESS_ADMIN = 4;
                         editMember(projectid, memberid, newName, newWeight, null);
                     }
                     else {
-                        OC.Notification.showTemporary(t('cospend', 'Invalid weight'));
+                        Notification.showTemporary(t('cospend', 'Invalid weight'));
                     }
                 }
             }
@@ -4507,7 +4508,7 @@ const ACCESS_ADMIN = 4;
                     editMember(projectid, memberid, newName, newWeight, null);
                 }
                 else {
-                    OC.Notification.showTemporary(t('cospend', 'Invalid weight'));
+                    Notification.showTemporary(t('cospend', 'Invalid weight'));
                 }
             }
         });
@@ -4713,7 +4714,7 @@ const ACCESS_ADMIN = 4;
                 displayBill(projectid, 0);
             }
             else {
-                OC.Notification.showTemporary(t('cospend', '2 active members are required to create a bill'));
+                Notification.showTemporary(t('cospend', '2 active members are required to create a bill'));
             }
         });
 
@@ -4765,7 +4766,7 @@ const ACCESS_ADMIN = 4;
             const projectid = $(this).parent().parent().parent().parent().attr('projectid');
             const guestLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/loginproject/'+projectid);
             copyToClipboard(guestLink);
-            OC.Notification.showTemporary(t('cospend', 'Guest link for \'{pid}\' copied to clipboard', {pid: projectid}));
+            Notification.showTemporary(t('cospend', 'Guest link for \'{pid}\' copied to clipboard', {pid: projectid}));
         });
 
         let guestLink = generateUrl('/apps/cospend/login');
@@ -4778,7 +4779,7 @@ const ACCESS_ADMIN = 4;
             $('<input id="dummycopy">').val(guestLink).appendTo('body').select();
             document.execCommand('copy');
             $('#dummycopy').remove();
-            OC.Notification.showTemporary(t('cospend', 'Guest link copied to clipboard'));
+            Notification.showTemporary(t('cospend', 'Guest link copied to clipboard'));
         });
 
         $('body').on('click', '#app-details-toggle', function() {
@@ -5062,12 +5063,12 @@ const ACCESS_ADMIN = 4;
             const projectid = $('#curTitle').attr('projectid');
             const name = $('#addCurrencyNameInput').val();
             if (name === null || name === '') {
-                OC.Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
+                Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
                 return;
             }
             const rate = parseFloat($('#addCurrencyRateInput').val());
             if (isNaN(rate)) {
-                OC.Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
+                Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
                 return;
             }
             addCurrencyDb(projectid, name, rate);
@@ -5078,12 +5079,12 @@ const ACCESS_ADMIN = 4;
                 const projectid = $('#curTitle').attr('projectid');
                 const name = $('#addCurrencyNameInput').val();
                 if (name === null || name === '') {
-                    OC.Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
+                    Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
                     return;
                 }
                 const rate = parseFloat($('#addCurrencyRateInput').val());
                 if (isNaN(rate)) {
-                    OC.Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
+                    Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
                     return;
                 }
                 addCurrencyDb(projectid, name, rate);
@@ -5118,12 +5119,12 @@ const ACCESS_ADMIN = 4;
             const currencyId = $(this).parent().parent().attr('currencyid');
             const name = $(this).parent().find('.editCurrencyNameInput').val();
             if (name === null || name === '') {
-                OC.Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
+                Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
                 return;
             }
             const rate = parseFloat($(this).parent().find('.editCurrencyRateInput').val());
             if (isNaN(rate)) {
-                OC.Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
+                Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
                 return;
             }
             editCurrencyDb(projectid, currencyId, name, rate);
@@ -5135,12 +5136,12 @@ const ACCESS_ADMIN = 4;
                 const currencyId = $(this).parent().parent().attr('currencyid');
                 const name = $(this).parent().find('.editCurrencyNameInput').val();
                 if (name === null || name === '') {
-                    OC.Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
+                    Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
                     return;
                 }
                 const rate = parseFloat($(this).parent().find('.editCurrencyRateInput').val());
                 if (isNaN(rate)) {
-                    OC.Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
+                    Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
                     return;
                 }
                 editCurrencyDb(projectid, currencyId, name, rate);
@@ -5157,17 +5158,17 @@ const ACCESS_ADMIN = 4;
             const projectid = $('#catTitle').attr('projectid');
             const name = $('#addCategoryNameInput').val();
             if (name === null || name === '') {
-                OC.Notification.showTemporary(t('cospend', 'Category name should not be empty'));
+                Notification.showTemporary(t('cospend', 'Category name should not be empty'));
                 return;
             }
             const icon = $('#addCategoryIconInput').val();
             if (icon === null || icon === '') {
-                OC.Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
+                Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
                 return;
             }
             const color = $('#addCategoryColorInput').val();
             if (color === null || color === '') {
-                OC.Notification.showTemporary(t('cospend', 'Category color should not be empty'));
+                Notification.showTemporary(t('cospend', 'Category color should not be empty'));
                 return;
             }
             addCategoryDb(projectid, name, icon, color);
@@ -5178,17 +5179,17 @@ const ACCESS_ADMIN = 4;
                 const projectid = $('#catTitle').attr('projectid');
                 const name = $('#addCategoryNameInput').val();
                 if (name === null || name === '') {
-                    OC.Notification.showTemporary(t('cospend', 'Category name should not be empty'));
+                    Notification.showTemporary(t('cospend', 'Category name should not be empty'));
                     return;
                 }
                 const icon = $('#addCategoryIconInput').val();
                 if (icon === null || icon === '') {
-                    OC.Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
+                    Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
                     return;
                 }
                 const color = $('#addCategoryColorInput').val();
                 if (color === null || color === '') {
-                    OC.Notification.showTemporary(t('cospend', 'Category color should not be empty'));
+                    Notification.showTemporary(t('cospend', 'Category color should not be empty'));
                     return;
                 }
                 addCategoryDb(projectid, name, icon, color);
@@ -5223,17 +5224,17 @@ const ACCESS_ADMIN = 4;
             const categoryId = $(this).parent().parent().attr('categoryid');
             const name = $(this).parent().find('.editCategoryNameInput').val();
             if (name === null || name === '') {
-                OC.Notification.showTemporary(t('cospend', 'Category name should not be empty'));
+                Notification.showTemporary(t('cospend', 'Category name should not be empty'));
                 return;
             }
             const icon = $(this).parent().find('.editCategoryIconInput').val();
             if (icon === null || icon === '') {
-                OC.Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
+                Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
                 return;
             }
             const color = $(this).parent().find('.editCategoryColorInput').val();
             if (color === null || color === '') {
-                OC.Notification.showTemporary(t('cospend', 'Category color should not be empty'));
+                Notification.showTemporary(t('cospend', 'Category color should not be empty'));
                 return;
             }
             editCategoryDb(projectid, categoryId, name, icon, color);
@@ -5245,17 +5246,17 @@ const ACCESS_ADMIN = 4;
                 const categoryId = $(this).parent().parent().attr('categoryid');
                 const name = $(this).parent().find('.editCategoryNameInput').val();
                 if (name === null || name === '') {
-                    OC.Notification.showTemporary(t('cospend', 'Category name should not be empty'));
+                    Notification.showTemporary(t('cospend', 'Category name should not be empty'));
                     return;
                 }
                 const icon = $(this).parent().find('.editCategoryIconInput').val();
                 if (icon === null || icon === '') {
-                    OC.Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
+                    Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
                     return;
                 }
                 const color = $(this).parent().find('.editCategoryColorInput').val();
                 if (color === null || color === '') {
-                    OC.Notification.showTemporary(t('cospend', 'Category color should not be empty'));
+                    Notification.showTemporary(t('cospend', 'Category color should not be empty'));
                     return;
                 }
                 editCategoryDb(projectid, categoryId, name, icon, color);

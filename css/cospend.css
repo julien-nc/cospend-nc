@@ -101,6 +101,16 @@ b.memberName, b.memberWeight {
     background-image: url(images/forbidden.svg);
     margin: -1px 0 0 -1px;
 }
+.billItemRepeatMask {
+    display: none;
+}
+.billItemRepeatMask.show {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background-image: var(--icon-play-next-000);
+    margin: 35px 0 0 -4px;
+}
 
 #settlementTable .owerAvatar,
 #statsTable .owerAvatar,

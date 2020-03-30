@@ -642,10 +642,6 @@ var ACCESS_ADMIN = 4;
             formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">['+t('cospend', 'link')+']</a> ';
             linkChars = linkChars + '  🔗';
         }
-        var repeatChar = '';
-        if (bill.repeat !== 'n') {
-            repeatChar = ' ⏩';
-        }
         var paymentmodeChar = '';
         // c b f card, cash, check
         if (cospend.paymentModes.hasOwnProperty(bill.paymentmode)) {
@@ -658,7 +654,7 @@ var ACCESS_ADMIN = 4;
         if (cospend.projects[projectid].categories.hasOwnProperty(bill.categoryid)) {
             categoryChar = (cospend.projects[projectid].categories[bill.categoryid].icon || '') + ' ';
         }
-        var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
+        var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars;
 
         var billMom = moment.unix(bill.timestamp);
         var billDate = billMom.format('YYYY-MM-DD');
@@ -672,6 +668,7 @@ var ACCESS_ADMIN = 4;
         var item = '<a href="#" class="app-content-list-item billitem'+selectedClass+'" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
             '<div class="app-content-list-item-icon" style="background-image: url('+imgurl+');"> ' +
             '   <div class="billItemDisabledMask'+(cospend.members[projectid][bill.payer_id].activated ? '' : ' disabled')+'"></div>' +
+            '   <div class="billItemRepeatMask'+(bill.repeat === 'n' ? '' : ' show')+'"></div>' +
             '</div>' +
             '<div class="app-content-list-item-line-one">'+whatFormatted+'</div>' +
             '<div class="app-content-list-item-line-two">'+bill.amount.toFixed(2)+' ('+memberName+' → '+owerNames+')</div>' +
@@ -2147,10 +2144,6 @@ var ACCESS_ADMIN = 4;
         for (var i=0; i < links.length; i++) {
             formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">[🔗 '+t('cospend', 'link')+']</a> ';
         }
-        var repeatChar = '';
-        if (repeat !== 'n') {
-            repeatChar = ' ⏩';
-        }
         var paymentmodeChar = '';
         // c b f card, cash, check
         if (cospend.paymentModes.hasOwnProperty(paymentmode)) {
@@ -2163,7 +2156,7 @@ var ACCESS_ADMIN = 4;
         else if (cospend.projects[projectid].categories.hasOwnProperty(categoryid)) {
             categoryChar = (cospend.projects[projectid].categories[categoryid].icon || '') + ' ';
         }
-        var whatFormatted = paymentmodeChar + categoryChar + what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
+        var whatFormatted = paymentmodeChar + categoryChar + what.replace(/https?:\/\/[^\s]+/gi, '');
         $('.bill-title').html(
             '<span class="loading-bill"></span>' +
             '<span class="icon-edit-white"></span>' +
@@ -2259,10 +2252,6 @@ var ACCESS_ADMIN = 4;
         for (i=0; i < links.length; i++) {
             formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">[🔗 '+t('cospend', 'link')+']</a> ';
         }
-        var repeatChar = '';
-        if (bill.repeat !== 'n') {
-            repeatChar = ' ⏩';
-        }
         var paymentmodeChar = '';
         // c b f card, cash, check
         if (cospend.paymentModes.hasOwnProperty(bill.paymentmode)) {
@@ -2275,7 +2264,7 @@ var ACCESS_ADMIN = 4;
         if (cospend.projects[projectid].categories.hasOwnProperty(bill.categoryid)) {
             categoryChar = (cospend.projects[projectid].categories[bill.categoryid].icon || '') + ' ';
         }
-        var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
+        var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '');
         var titleStr = t('cospend', 'Bill : {what}', {what: whatFormatted});
 
         var allStr = t('cospend', 'All');
@@ -2560,10 +2549,6 @@ var ACCESS_ADMIN = 4;
             formattedLinks = formattedLinks + '<a href="'+links[i]+'" target="blank">['+t('cospend', 'link')+']</a> ';
             linkChars = linkChars + '  🔗';
         }
-        var repeatChar = '';
-        if (bill.id !== 0 && bill.repeat !== 'n') {
-            repeatChar = ' ⏩';
-        }
         var paymentmodeChar = '';
         // c b f card, cash, check
         if (cospend.paymentModes.hasOwnProperty(bill.paymentmode)) {
@@ -2576,10 +2561,11 @@ var ACCESS_ADMIN = 4;
         if (cospend.projects[projectid].categories.hasOwnProperty(bill.categoryid)) {
             categoryChar = (cospend.projects[projectid].categories[bill.categoryid].icon || '') + ' ';
         }
-        var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
+        var whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars;
 
         var imgurl, color;
         var disabled = '';
+        var showRepeat = '';
         if (bill.id !== 0) {
             if (!cospend.members[projectid].hasOwnProperty(bill.payer_id)) {
                 reload(t('cospend', 'Member list is not up to date. Reloading in 5 sec.'));
@@ -2594,6 +2580,7 @@ var ACCESS_ADMIN = 4;
             imgurl = generateUrl('/apps/cospend/getAvatar?color='+color+'&name='+encodeURIComponent(memberName));
             // disabled
             disabled = cospend.members[projectid][bill.payer_id].activated ? '' : ' disabled';
+            showRepeat = bill.repeat === 'n' ? '' : ' show';
         }
         else {
             imgurl = generateUrl('/apps/cospend/getAvatar?name='+encodeURIComponent(' '));
@@ -2601,6 +2588,7 @@ var ACCESS_ADMIN = 4;
         var item = '<a href="#" class="app-content-list-item billitem" billid="'+bill.id+'" projectid="'+projectid+'" title="'+title+'">' +
             '<div class="app-content-list-item-icon" style="background-image: url('+imgurl+');"> ' +
             '   <div class="billItemDisabledMask'+disabled+'"></div>' +
+            '   <div class="billItemRepeatMask'+showRepeat+'"></div>' +
             '</div>'+
             '<div class="app-content-list-item-line-one">'+whatFormatted+'</div>' +
             '<div class="app-content-list-item-line-two">'+bill.amount.toFixed(2)+' ('+memberName+' → '+owerNames+')</div>' +

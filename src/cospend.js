@@ -1079,17 +1079,29 @@ var ACCESS_ADMIN = 4;
             '<th>'+toStr+'</th>' +
             '<th class="sorttable_numeric">'+howMuchStr+'</th>' +
             '</thead>';
-        var whoPaysName, toWhomName, amount;
+        var amount, memberFrom, memberTo, imgurlFrom, imgurlTo;
         for (var i=0; i < transactionList.length; i++) {
             amount = transactionList[i].amount.toFixed(2);
-            whoPaysName = getMemberName(projectid, transactionList[i].from);
-            toWhomName = getMemberName(projectid, transactionList[i].to);
+            memberFrom = cospend.members[projectid][transactionList[i].from];
+            memberTo = cospend.members[projectid][transactionList[i].to];
+            imgurlFrom = generateUrl('/apps/cospend/getAvatar?color=' + memberFrom.color + '&name=' + encodeURIComponent(memberFrom.name));
+            imgurlTo = generateUrl('/apps/cospend/getAvatar?color=' + memberTo.color + '&name=' + encodeURIComponent(memberTo.name));
             if (amount !== '0.00') {
                 settlementStr = settlementStr +
                     '<tr>' +
-                    '<td>'+whoPaysName+'</td>' +
-                    '<td>'+toWhomName+'</td>' +
-                    '<td>'+amount+'</td>' +
+                    '<td style="border: 2px solid #'+memberFrom.color+';">' +
+                    '<div class="owerAvatar'+(memberFrom.activated ? '' : ' owerAvatarDisabled')+'">' +
+                    '   <div class="disabledMask"></div>' +
+                    '   <img src="' + imgurlFrom + '"/>' +
+                    '</div>' +
+                    memberFrom.name + '</td>' +
+                    '<td style="border: 2px solid #'+memberTo.color+';">' +
+                    '<div class="owerAvatar'+(memberTo.activated ? '' : ' owerAvatarDisabled')+'">' +
+                    '   <div class="disabledMask"></div>' +
+                    '   <img src="' + imgurlTo + '"/>' +
+                    '</div>' +
+                    memberTo.name + '</td>' +
+                    '<td>' + amount + '</td>' +
                     '</tr>';
             }
         }
@@ -1721,7 +1733,7 @@ var ACCESS_ADMIN = 4;
             imgurl = generateUrl('/apps/cospend/getAvatar?color=' + member.color + '&name=' + encodeURIComponent(member.name));
             statsStr +=
                 '<tr>' +
-                '<td style="border: 2px solid '+color+';">'+
+                '<td style="border: 2px solid '+color+';">' +
                 '<div class="owerAvatar'+(member.activated ? '' : ' owerAvatarDisabled')+'">' +
                 '   <div class="disabledMask"></div>' +
                 '   <img src="' + imgurl + '"/>' +

@@ -102,11 +102,13 @@ b.memberName, b.memberWeight {
     margin: -1px 0 0 -1px;
 }
 
+#settlementTable .owerAvatar,
 #statsTable .owerAvatar,
 #monthlyTable .owerAvatar {
     height: 24px;
     margin: 1px 5px 1px 5px;
 }
+#settlementTable .owerAvatarDisabled,
 #statsTable .owerAvatarDisabled,
 #monthlyTable .owerAvatarDisabled {
     margin-left: -23px;
@@ -115,6 +117,7 @@ b.memberName, b.memberWeight {
     display: inline-block;
     vertical-align: middle;
 }
+#settlementTable .owerAvatar img,
 #statsTable .owerAvatar img,
 #monthlyTable .owerAvatar img {
     margin-bottom: 2px;
@@ -235,6 +238,7 @@ input[type=number] {
 #statsTable td:first-child {
     text-align: left;
 }
+#settlementTable,
 #statsTable,
 #monthlyTable{
     border-spacing: 2px 2px;

@@ -1216,7 +1216,7 @@ const ACCESS_ADMIN = 4;
             '        </label><br/><br/>' +
             '        <div id="currency-list">' +
             '        </div>' +
-            '    </div>';
+            '    </div>' +
             '</div>';
 
         $('#billdetail').html(curStr);
@@ -1413,7 +1413,7 @@ const ACCESS_ADMIN = 4;
             '        </label><br/><br/>' +
             '        <div id="category-list">' +
             '        </div>' +
-            '    </div>';
+            '    </div>' +
             '</div>';
 
         $('#billdetail').html(catStr);

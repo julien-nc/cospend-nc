@@ -227,7 +227,7 @@ const ACCESS_ADMIN = 4;
                 // we can't use the chart tooltip because there is only one tooltip per chart
                 chart.pluginTooltips = [];
                 chart.config.data.datasets.forEach(function (dataset, i) {
-                    chart.getDatasetMeta(i).data.forEach(function (sector, j) {
+                    chart.getDatasetMeta(i).data.forEach(function (sector) {
                         chart.pluginTooltips.push(new Chart.Tooltip({
                             _chart: chart.chart,
                             _chartInstance: chart,
@@ -301,7 +301,7 @@ const ACCESS_ADMIN = 4;
             url: url,
             data: req,
             async: true,
-        }).done(function (response) {
+        }).done(function () {
             addProject({
                 id: id,
                 name: name,
@@ -575,7 +575,7 @@ const ACCESS_ADMIN = 4;
             url: url,
             data: req,
             async: true,
-        }).done(function (response) {
+        }).done(function () {
             // update dict
             cospend.bills[projectid][billid].what = what;
             cospend.bills[projectid][billid].timestamp = timestamp;
@@ -774,7 +774,7 @@ const ACCESS_ADMIN = 4;
             url: url,
             data: req,
             async: true,
-        }).done(function (response) {
+        }).done(function () {
             $('.projectitem[projectid="'+projectid+'"]').fadeOut('normal', function() {
                 $(this).remove();
             });
@@ -815,7 +815,7 @@ const ACCESS_ADMIN = 4;
             url: url,
             data: req,
             async: true,
-        }).done(function (response) {
+        }).done(function () {
             // if the deleted bill was displayed in details, empty detail
             if ($('#billdetail .bill-title').length > 0 && $('#billdetail .bill-title').attr('billid') === billid) {
                 $('#billdetail').html('');
@@ -1311,7 +1311,7 @@ const ACCESS_ADMIN = 4;
             url: url,
             data: req,
             async: true
-        }).done(function (response) {
+        }).done(function () {
             $('.one-currency[currencyid=' + currencyId + ']').remove();
             const currencies = cospend.projects[projectid].currencies;
             let iToDel = null;
@@ -1356,7 +1356,7 @@ const ACCESS_ADMIN = 4;
             url: url,
             data: req,
             async: true
-        }).done(function (response) {
+        }).done(function () {
             $('.one-currency[currencyid=' + currencyId + '] .one-currency-edit').hide();
             $('.one-currency[currencyid=' + currencyId + '] .one-currency-label').show()
             .find('.one-currency-label-label').text(name+' (x'+rate+')');
@@ -1508,7 +1508,7 @@ const ACCESS_ADMIN = 4;
             url: url,
             data: req,
             async: true
-        }).done(function (response) {
+        }).done(function () {
             $('.one-category[categoryid=' + categoryId + ']').remove();
             delete cospend.projects[projectid].categories[categoryId];
         }).always(function() {
@@ -1543,7 +1543,7 @@ const ACCESS_ADMIN = 4;
             url: url,
             data: req,
             async: true
-        }).done(function (response) {
+        }).done(function () {
             $('.one-category[categoryid=' + categoryId + '] .one-category-edit').hide();
             $('.one-category[categoryid=' + categoryId + '] .one-category-label').show()
             .find('.one-category-label-label').text(name);
@@ -3203,7 +3203,7 @@ const ACCESS_ADMIN = 4;
                 url: url,
                 data: req,
                 async: true
-            }).done(function (response) {
+            }).done(function () {
             }).fail(function() {
                 Notification.showTemporary(
                     t('cospend', 'Failed to save option values')
@@ -3669,7 +3669,7 @@ const ACCESS_ADMIN = 4;
             url: url,
             data: req,
             async: true
-        }).done(function (response) {
+        }).done(function () {
             applyShareAccessLevel(projectid, shid, accesslevel);
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
@@ -3720,7 +3720,7 @@ const ACCESS_ADMIN = 4;
             url: url,
             data: req,
             async: true
-        }).done(function (response) {
+        }).done(function () {
             applyGuestAccessLevel(projectid, accesslevel);
         }).always(function() {
             $('.projectitem[projectid="'+projectid+'"]').removeClass('icon-loading-small');
@@ -3913,7 +3913,7 @@ const ACCESS_ADMIN = 4;
             url: url,
             data: req,
             async: true
-        }).done(function (response) {
+        }).done(function () {
             updateProjectBalances(projectid);
             getBills(projectid);
             Notification.showTemporary(t('cospend', 'Project settlement bills added'));
@@ -3942,7 +3942,7 @@ const ACCESS_ADMIN = 4;
             url: url,
             data: req,
             async: true
-        }).done(function (response) {
+        }).done(function () {
             $('#addFileLinkButton').removeClass('icon-loading-small');
             getProjects();
         }).always(function() {
@@ -3970,7 +3970,7 @@ const ACCESS_ADMIN = 4;
             url: url,
             data: req,
             async: true
-        }).done(function (response) {
+        }).done(function () {
             $('#addFileLinkButton').removeClass('icon-loading-small');
             getProjects();
         }).always(function() {
@@ -4239,7 +4239,7 @@ const ACCESS_ADMIN = 4;
             }
         };
 
-        $('body').on('focus','.shareinput', function(e) {
+        $('body').on('focus','.shareinput', function() {
             $(this).select();
             const projectid = $(this).parent().parent().parent().attr('projectid');
             addUserAutocompletion($(this), projectid);
@@ -4333,7 +4333,7 @@ const ACCESS_ADMIN = 4;
             }
         });
 
-        $('body').on('click', '.projectitem > a', function(e) {
+        $('body').on('click', '.projectitem > a', function() {
             selectProject($(this).parent());
         });
 
@@ -4467,7 +4467,7 @@ const ACCESS_ADMIN = 4;
             cospend.memberEditionMode = MEMBER_WEIGHT_EDITION;
         });
 
-        $('body').on('click', '.editMemberClose', function(e) {
+        $('body').on('click', '.editMemberClose', function() {
             $(this).parent().parent().parent().removeClass('editing');
         });
 
@@ -4530,15 +4530,14 @@ const ACCESS_ADMIN = 4;
             cospend.projectEditionMode = PROJECT_NAME_EDITION;
         });
 
-        $('body').on('click', '.editProjectPassword', function(e) {
-            var projectid = $(this).parent().parent().parent().parent().attr('projectid');
+        $('body').on('click', '.editProjectPassword', function() {
             $(this).parent().parent().parent().parent().find('.editProjectInput').attr('type', 'password').val('').focus();
             $('#projectlist > li').removeClass('editing');
             $(this).parent().parent().parent().parent().removeClass('open').addClass('editing');
             cospend.projectEditionMode = PROJECT_PASSWORD_EDITION;
         });
 
-        $('body').on('click', '.editProjectClose', function(e) {
+        $('body').on('click', '.editProjectClose', function() {
             $(this).parent().parent().parent().removeClass('editing');
         });
 
@@ -4581,23 +4580,23 @@ const ACCESS_ADMIN = 4;
         });
 
         // what and amount : delay on edition
-        $('body').on('keyup paste change', '.input-bill-what', delay(function(e) {
+        $('body').on('keyup paste change', '.input-bill-what', delay(function() {
             onBillEdited();
         }, 2000));
-        $('body').on('keyup paste change', '.input-bill-amount', delay(function(e) {
+        $('body').on('keyup paste change', '.input-bill-amount', delay(function() {
             onBillEdited(true);
         }, 2000));
 
         // other bill fields : direct on edition
-        $('body').on('change', '.input-bill-date, .input-bill-time, .input-bill-repeatuntil, #billdetail .bill-form select', function(e) {
+        $('body').on('change', '.input-bill-date, .input-bill-time, .input-bill-repeatuntil, #billdetail .bill-form select', function() {
             onBillEdited();
         });
-        $('body').on('click', '#repeatallactive', function(e) {
+        $('body').on('click', '#repeatallactive', function() {
             onBillEdited();
         });
 
         // show/hide repeatallactive
-        $('body').on('change', '#repeatbill', function(e) {
+        $('body').on('change', '#repeatbill', function() {
             if ($(this).val() === 'n') {
                 $('#repeatallactive').hide();
                 $('label[for=repeatallactive]').hide();
@@ -4718,7 +4717,7 @@ const ACCESS_ADMIN = 4;
             }
         });
 
-        $('body').on('focus', '.input-bill-what, .input-bill-amount, #projectidinput, #projectnameinput, #projectpasswordinput', function(e) {
+        $('body').on('focus', '.input-bill-what, .input-bill-amount, #projectidinput, #projectnameinput, #projectpasswordinput', function() {
             $(this).select();
         });
 
@@ -4896,7 +4895,7 @@ const ACCESS_ADMIN = 4;
             }
         });
 
-    $('body').on('change', '#billtype', function() {
+        $('body').on('change', '#billtype', function() {
         $('.modehint').slideUp();
             let owerValidateStr = t('cospend', 'Create the bills');
             const billtype = $(this).val();
@@ -5007,11 +5006,11 @@ const ACCESS_ADMIN = 4;
             );
         });
 
-        $('body').on('change', '#categoryMemberSelect', function(e) {
+        $('body').on('change', '#categoryMemberSelect', function() {
             displayCategoryMemberChart();
         });
 
-        $('body').on('change', '#memberPolarSelect', function(e) {
+        $('body').on('change', '#memberPolarSelect', function() {
             displayMemberPolarChart();
         });
 
@@ -5027,12 +5026,12 @@ const ACCESS_ADMIN = 4;
             askChangeMemberColor(projectid, memberid);
         });
 
-        $('body').on('change', '#membercolorinput', function(e) {
+        $('body').on('change', '#membercolorinput', function() {
             okColor();
         });
 
         // main currency
-        $('body').on('click', '.editMainCurrency', function(e) {
+        $('body').on('click', '.editMainCurrency', function() {
             $('#main-currency-label').hide();
             $('#main-currency-edit').show().css('display', 'grid');
             $('.editMainCurrencyInput').focus().select();
@@ -5053,7 +5052,7 @@ const ACCESS_ADMIN = 4;
             }
         });
 
-        $('body').on('click', '.editMainCurrencyClose', function(e) {
+        $('body').on('click', '.editMainCurrencyClose', function() {
             $('#main-currency-label').show();
             $('#main-currency-edit').hide();
         });
@@ -5107,7 +5106,7 @@ const ACCESS_ADMIN = 4;
             }
         });
 
-        $('body').on('click', '.editOneCurrency', function(e) {
+        $('body').on('click', '.editOneCurrency', function() {
             $(this).parent().hide();
             $(this).parent().parent().find('.one-currency-edit').show()
             .css('display', 'grid')
@@ -5148,7 +5147,7 @@ const ACCESS_ADMIN = 4;
             }
         });
 
-        $('body').on('click', '.editCurrencyClose', function(e) {
+        $('body').on('click', '.editCurrencyClose', function() {
             $(this).parent().hide();
             $(this).parent().parent().find('.one-currency-label').show();
         });
@@ -5212,7 +5211,7 @@ const ACCESS_ADMIN = 4;
             }
         });
 
-        $('body').on('click', '.editOneCategory', function(e) {
+        $('body').on('click', '.editOneCategory', function() {
             $(this).parent().hide();
             $(this).parent().parent().find('.one-category-edit').show()
             .css('display', 'grid')
@@ -5266,7 +5265,7 @@ const ACCESS_ADMIN = 4;
             e.preventDefault();
         });
 
-        $('body').on('click', '.editCategoryClose', function(e) {
+        $('body').on('click', '.editCategoryClose', function() {
             $(this).parent().hide();
             $(this).parent().parent().find('.one-category-label').show();
         });

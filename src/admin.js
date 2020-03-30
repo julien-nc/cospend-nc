@@ -31,7 +31,7 @@ function setAllowAnonymousCreation(val) {
 }
 
 $(document).ready(function() {
-    $('body').on('change', 'input#allowAnonymousCreation', function(e) {
+    $('body').on('change', 'input#allowAnonymousCreation', function() {
         setAllowAnonymousCreation($(this).is(':checked') ? '1' : '0');
     });
 });

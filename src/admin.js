@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 import { generateUrl } from '@nextcloud/router';
 
 (function() {

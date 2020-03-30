@@ -13,7 +13,7 @@ function setAllowAnonymousCreation(val) {
     const url = generateUrl('/apps/cospend/setAllowAnonymousCreation');
     const req = {
         allow: val
-    }
+    };
     $.ajax({
         type: 'POST',
         url: url,

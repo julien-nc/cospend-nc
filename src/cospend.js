@@ -3230,7 +3230,7 @@ const ACCESS_ADMIN = 4;
                         cospend.restoredSelectedProjectId = optionsValues[k];
                     }
                     else if (k === 'outputDirectory') {
-                        $('#outputDirectory').text(optionsValues[k])
+                        $('#outputDirectory').text(optionsValues[k]);
                     }
                 }
             }
@@ -4998,7 +4998,7 @@ const ACCESS_ADMIN = 4;
                         targetPath = '/';
                     }
                     saveOptionValue({outputDirectory: targetPath});
-                    $('#outputDirectory').text(targetPath)
+                    $('#outputDirectory').text(targetPath);
                 },
                 false,
                 'httpd/unix-directory',

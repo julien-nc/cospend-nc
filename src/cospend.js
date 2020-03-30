@@ -11,9 +11,9 @@
  */
 import * as Notification from "./notification";
 import kjua from 'kjua/dist/kjua.min';
-import 'sorttable/sorttable';
-import 'chart.js/dist/Chart.min';
-
+import * as sorttable from 'sorttable/sorttable';
+import * as Chart from 'chart.js/dist/Chart';
+import * as moment from 'moment';
 import { generateUrl } from '@nextcloud/router';
 
 const ACCESS_VIEWER = 1;
@@ -162,9 +162,9 @@ const ACCESS_ADMIN = 4;
     function hexToDarkerHex(hex) {
         const rgb = hexToRgb(hex);
         while (getColorBrightness(rgb) > 100) {
-            if (rgb.r > 0) rgb.r--;
-            if (rgb.g > 0) rgb.g--;
-            if (rgb.b > 0) rgb.b--;
+            if (rgb.r > 0) { rgb.r--; }
+            if (rgb.g > 0) { rgb.g--; }
+            if (rgb.b > 0) { rgb.b--; }
         }
         return rgbToHex(rgb.r, rgb.g, rgb.b);
     }
@@ -246,8 +246,9 @@ const ACCESS_ADMIN = 4;
             if (chart.config.options.showAllTooltips) {
                 // we don't want the permanent tooltips to animate, so don't do anything till the animation runs atleast once
                 if (!chart.allTooltipsOnce) {
-                    if (easing !== 1)
+                    if (easing !== 1) {
                         return;
+                    }
                     chart.allTooltipsOnce = true;
                 }
 

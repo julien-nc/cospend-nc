@@ -10,25 +10,24 @@
  * @copyright Julien Veyssier 2019
  */
 
-import { generateUrl } from '@nextcloud/router';
+import {generateUrl} from '@nextcloud/router';
 
 (function ($, OC) {
     'use strict';
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         const pageUrlWithProjectid = (document.URL.indexOf('/loginproject') !== -1);
         if (!pageUrlWithProjectid) {
             $('#passwordInput').val('');
             $('#projectidInput').val('');
             $('#projectidInput').focus().select();
-        }
-        else {
+        } else {
             $('#passwordInput').focus().select();
         }
         main();
     });
 
-    function main() {
+    function main () {
         const url = generateUrl('/apps/cospend/project');
         $('#loginform').attr('action', url);
 

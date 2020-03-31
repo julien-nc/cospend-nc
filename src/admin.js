@@ -1,15 +1,15 @@
 /*jshint esversion: 6 */
 
-import { generateUrl } from '@nextcloud/router';
+import {generateUrl} from '@nextcloud/router';
 import * as Notification from "./notification";
 
-(function() {
+(function () {
     if (!OCA.Cospend) {
         OCA.Cospend = {};
     }
 })();
 
-function setAllowAnonymousCreation(val) {
+function setAllowAnonymousCreation (val) {
     const url = generateUrl('/apps/cospend/setAllowAnonymousCreation');
     const req = {
         allow: val
@@ -23,15 +23,15 @@ function setAllowAnonymousCreation(val) {
         Notification.showTemporary(
             t('cospend', 'Cospend setting saved')
         );
-    }).fail(function() {
+    }).fail(function () {
         Notification.showTemporary(
             t('cospend', 'Failed to save Cospend setting')
         );
     });
 }
 
-$(document).ready(function() {
-    $('body').on('change', 'input#allowAnonymousCreation', function() {
+$(document).ready(function () {
+    $('body').on('change', 'input#allowAnonymousCreation', function () {
         setAllowAnonymousCreation($(this).is(':checked') ? '1' : '0');
     });
 });

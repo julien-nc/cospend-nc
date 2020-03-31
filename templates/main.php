@@ -1,10 +1,10 @@
 <?php
-script('cospend', '../node_modules/emojionearea/dist/emojionearea.min');
+script('cospend', 'emojionearea.min');
 script('cospend', 'cospend');
 
 style('cospend', 'cospend');
-style('cospend', '../node_modules/chart.js/dist/Chart');
-style('cospend', '../node_modules/emojionearea/dist/emojionearea.min');
+style('cospend', 'Chart.min');
+style('cospend', 'emojionearea.min');
 
 ?>
 

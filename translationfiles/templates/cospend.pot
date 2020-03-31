@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-03-31 19:10+0200\n"
+"POT-Creation-Date: 2020-03-31 19:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -636,17 +636,14 @@ msgid "Malformed CSV, no payer on line %1$s"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3938
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2379
 msgid "daily"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3953
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2380
 msgid "weekly"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3974
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2381
 msgid "monthly"
 msgstr ""
 
@@ -1125,11 +1122,27 @@ msgid "Repeat"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/cospend.js:2378
-msgid "do not repeat"
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2823
+msgid "No"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2379
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2824
+msgid "Daily"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2380
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2825
+msgid "Weekly"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2381
+#: /var/www/html/n18/apps/cospend/src/cospend.js:2826
+msgid "Monthly"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/cospend.js:2382
-msgid "yearly"
+msgid "Yearly"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/cospend.js:2389
@@ -1226,22 +1239,6 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/src/cospend.js:2766
 #: /var/www/html/n18/apps/cospend/src/cospend.js:3649
 msgid "Viewer"
-msgstr ""
-
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2823
-msgid "No"
-msgstr ""
-
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2824
-msgid "Daily"
-msgstr ""
-
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2825
-msgid "Weekly"
-msgstr ""
-
-#: /var/www/html/n18/apps/cospend/src/cospend.js:2826
-msgid "Monthly"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/cospend.js:2903

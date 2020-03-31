@@ -2375,11 +2375,11 @@ var ACCESS_ADMIN = 4;
             '                '+t('cospend', 'Repeat')+
             '            </label>' +
             '            <select id="repeatbill">' +
-            '               <option value="n" selected>'+t('cospend', 'do not repeat')+'</option>' +
-            '               <option value="d">'+t('cospend', 'daily')+'</option>' +
-            '               <option value="w">'+t('cospend', 'weekly')+'</option>' +
-            '               <option value="m">'+t('cospend', 'monthly')+'</option>' +
-            '               <option value="y">'+t('cospend', 'yearly')+'</option>' +
+            '               <option value="n" selected>'+t('cospend', 'No')+'</option>' +
+            '               <option value="d">'+t('cospend', 'Daily')+'</option>' +
+            '               <option value="w">'+t('cospend', 'Weekly')+'</option>' +
+            '               <option value="m">'+t('cospend', 'Monthly')+'</option>' +
+            '               <option value="y">'+t('cospend', 'Yearly')+'</option>' +
             '            </select>' +
             '        </div>' +
             '        <div class="bill-repeat-extra">' +

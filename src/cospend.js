@@ -1428,7 +1428,7 @@ var ACCESS_ADMIN = 4;
             '                '+t('cospend', 'Add category')+
             '            </label>' +
             '            <div id="add-category">' +
-            '                <label for="addCategoryIconInput">' + t('cospend', 'Icon')+ ' ' + t('cospend', '(unicode character like 🌸)') + '</label>'+
+            '                <label for="addCategoryIconInput">' + t('cospend', 'Icon') + '</label>'+
             '                <input type="text" value="" maxlength="3" id="addCategoryIconInput">' +
             '                <label for="addCategoryNameInput">' + t('cospend', 'Name') + '</label>'+
             '                <input type="text" value="" maxlength="300" id="addCategoryNameInput">' +
@@ -1456,6 +1456,11 @@ var ACCESS_ADMIN = 4;
             $('.editOneCategory').hide();
             $('.deleteOneCategory').hide();
         }
+        $('#addCategoryIconInput').emojioneArea({
+            standalone: true,
+            saveEmojisAs: 'unicode',
+            pickerPosition: 'bottom',
+        });
     }
 
     function addCategoryDb(projectid, name, icon, color) {

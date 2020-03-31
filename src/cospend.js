@@ -2294,7 +2294,7 @@ var ACCESS_ADMIN = 4;
         var billTypeStr = t('cospend', 'Bill type');
         var paymentModeStr = t('cospend', 'Payment mode');
         var categoryStr = t('cospend', 'Category');
-        var currencyConvertStr = t('cospend', 'Convert in');
+        var currencyConvertStr = t('cospend', 'Convert to');
         var timeStr = t('cospend', 'What time?');
 
         var addFileHtml = '';

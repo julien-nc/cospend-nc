@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-03-31 19:05+0200\n"
+"POT-Creation-Date: 2020-03-31 19:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1113,7 +1113,7 @@ msgid "Bill type"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/cospend.js:2297
-msgid "Convert in"
+msgid "Convert to"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/cospend.js:2298

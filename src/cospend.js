@@ -1458,8 +1458,9 @@ var ACCESS_ADMIN = 4;
         }
         $('#addCategoryIconInput').emojioneArea({
             standalone: true,
+            autocomplete: false,
             saveEmojisAs: 'unicode',
-            pickerPosition: 'bottom',
+            pickerPosition: 'right',
         });
     }
 
@@ -1523,6 +1524,12 @@ var ACCESS_ADMIN = 4;
             '    </div>' +
             '</div>';
         $('#category-list').append(catStr);
+        $('.one-category[categoryid='+catId+'] .editCategoryIconInput').emojioneArea({
+            standalone: true,
+            autocomplete: false,
+            saveEmojisAs: 'unicode',
+            pickerPosition: 'right',
+        });
     }
 
     function deleteCategoryDb(projectid, categoryId) {
@@ -1591,6 +1598,8 @@ var ACCESS_ADMIN = 4;
             cospend.projects[projectid].categories[categoryId].name = name;
             cospend.projects[projectid].categories[categoryId].icon = icon;
             cospend.projects[projectid].categories[categoryId].color = color;
+            // reload bill list
+            getBills(projectid);
         }).always(function() {
             $('.one-category[categoryid='+categoryId+'] .editCategoryOk').removeClass('icon-loading-small');
         }).fail(function(response) {

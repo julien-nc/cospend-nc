@@ -5,6 +5,7 @@ import {getProjectName, selectProject} from "./project";
 import * as Notification from "./notification";
 import * as constants from "./constants";
 import cospend from "./state";
+import {getBills} from './bill';
 
 export function getProjectCategories (projectid) {
     $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
@@ -54,7 +55,7 @@ export function displayCategories (projectid, projectInfo) {
         '                ' + t('cospend', 'Add category') +
         '            </label>' +
         '            <div id="add-category">' +
-        '                <label for="addCategoryIconInput">' + t('cospend', 'Icon') + ' ' + t('cospend', '(unicode character like 🌸)') + '</label>' +
+        '                <label for="addCategoryIconInput">' + t('cospend', 'Icon') + '</label>'+
         '                <input type="text" value="" maxlength="3" id="addCategoryIconInput">' +
         '                <label for="addCategoryNameInput">' + t('cospend', 'Name') + '</label>' +
         '                <input type="text" value="" maxlength="300" id="addCategoryNameInput">' +
@@ -82,6 +83,12 @@ export function displayCategories (projectid, projectInfo) {
         $('.editOneCategory').hide();
         $('.deleteOneCategory').hide();
     }
+    $('#addCategoryIconInput').emojioneArea({
+        standalone: true,
+        autocomplete: false,
+        saveEmojisAs: 'unicode',
+        pickerPosition: 'bottom',
+    });
 }
 
 export function addCategoryDb (projectid, name, icon, color) {
@@ -142,6 +149,12 @@ export function addCategory (projectid, catId, category) {
         '    </div>' +
         '</div>';
     $('#category-list').append(catStr);
+    $('.one-category[categoryid='+catId+'] .editCategoryIconInput').emojioneArea({
+        standalone: true,
+        autocomplete: false,
+        saveEmojisAs: 'unicode',
+        pickerPosition: 'bottom',
+    });
 }
 
 export function deleteCategoryDb (projectid, categoryId) {
@@ -165,6 +178,8 @@ export function deleteCategoryDb (projectid, categoryId) {
     }).done(function () {
         $('.one-category[categoryid=' + categoryId + ']').remove();
         delete cospend.projects[projectid].categories[categoryId];
+        // reload bill list
+        getBills(projectid);
     }).always(function () {
         $('.one-category[categoryid=' + categoryId + '] .deleteOneCategory').removeClass('icon-loading-small');
     }).fail(function (response) {
@@ -205,6 +220,8 @@ export function editCategoryDb (projectid, categoryId, name, icon, color) {
         cospend.projects[projectid].categories[categoryId].name = name;
         cospend.projects[projectid].categories[categoryId].icon = icon;
         cospend.projects[projectid].categories[categoryId].color = color;
+        // reload bill list
+        getBills(projectid);
     }).always(function () {
         $('.one-category[categoryid=' + categoryId + '] .editCategoryOk').removeClass('icon-loading-small');
     }).fail(function (response) {

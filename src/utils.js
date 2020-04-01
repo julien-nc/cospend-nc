@@ -194,3 +194,10 @@ export function copyToClipboard (text) {
     document.execCommand('copy');
     $('#dummycopy').remove();
 }
+
+export function reload (msg) {
+    Notification.showTemporary(msg);
+    new Timer(function () {
+        location.reload();
+    }, 5000);
+}

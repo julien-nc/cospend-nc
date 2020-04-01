@@ -6,17 +6,10 @@ import {generateUrl} from "@nextcloud/router";
 import * as constants from "./constants";
 import cospend from "./state";
 import {updateProjectBalances} from "./project";
-import {getUrlParameter, Timer} from "./utils";
+import {getUrlParameter, reload} from "./utils";
 import {getMemberName} from "./member";
 
 const undoDeleteBillStyle = 'opacity:1; background-image: url(' + generateUrl('/svg/core/actions/history?color=2AB4FF') + ');';
-
-function reload (msg) {
-    Notification.showTemporary(msg);
-    new Timer(function () {
-        location.reload();
-    }, 5000);
-}
 
 function cleanStringFromCurrency (projectid, str) {
     let currency, re;

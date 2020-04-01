@@ -7,6 +7,129 @@ import * as constants from './constants';
 import cospend from './state';
 import {getBills} from './bill';
 
+export function categoryEvents() {
+    $('body').on('click', '.manageProjectCategories', function() {
+        const projectid = $(this).parent().parent().parent().parent().attr('projectid');
+        getProjectCategories(projectid);
+    });
+
+    $('body').on('click', '.addCategoryOk', function() {
+        const projectid = $('#catTitle').attr('projectid');
+        const name = $('#addCategoryNameInput').val();
+        if (name === null || name === '') {
+            Notification.showTemporary(t('cospend', 'Category name should not be empty'));
+            return;
+        }
+        const icon = $('#addCategoryIconInput').val();
+        if (icon === null || icon === '') {
+            Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
+            return;
+        }
+        const color = $('#addCategoryColorInput').val();
+        if (color === null || color === '') {
+            Notification.showTemporary(t('cospend', 'Category color should not be empty'));
+            return;
+        }
+        addCategoryDb(projectid, name, icon, color);
+    });
+
+    $('body').on('keyup', '#addCategoryNameInput, #addCategoryIconInput', function(e) {
+        if (e.key === 'Enter') {
+            const projectid = $('#catTitle').attr('projectid');
+            const name = $('#addCategoryNameInput').val();
+            if (name === null || name === '') {
+                Notification.showTemporary(t('cospend', 'Category name should not be empty'));
+                return;
+            }
+            const icon = $('#addCategoryIconInput').val();
+            if (icon === null || icon === '') {
+                Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
+                return;
+            }
+            const color = $('#addCategoryColorInput').val();
+            if (color === null || color === '') {
+                Notification.showTemporary(t('cospend', 'Category color should not be empty'));
+                return;
+            }
+            addCategoryDb(projectid, name, icon, color);
+        }
+    });
+
+    $('body').on('click', '.deleteOneCategory', function() {
+        const projectid = $('#catTitle').attr('projectid');
+        const categoryId = $(this).parent().parent().attr('categoryid');
+        if ($(this).hasClass('icon-history')) {
+            $(this).removeClass('icon-history').addClass('icon-delete');
+            cospend.categoryDeletionTimer[categoryId].pause();
+            delete cospend.categoryDeletionTimer[categoryId];
+        } else {
+            $(this).addClass('icon-history').removeClass('icon-delete');
+            cospend.categoryDeletionTimer[categoryId] = new Timer(function() {
+                deleteCategoryDb(projectid, categoryId);
+            }, 7000);
+        }
+    });
+
+    $('body').on('click', '.editOneCategory', function() {
+        $(this).parent().hide();
+        $(this).parent().parent().find('.one-category-edit').show()
+            .css('display', 'grid')
+            .find('.editCategoryNameInput').focus().select();
+    });
+
+    $('body').on('click', '.editCategoryOk', function() {
+        const projectid = $('#catTitle').attr('projectid');
+        const categoryId = $(this).parent().parent().attr('categoryid');
+        const name = $(this).parent().find('.editCategoryNameInput').val();
+        if (name === null || name === '') {
+            Notification.showTemporary(t('cospend', 'Category name should not be empty'));
+            return;
+        }
+        const icon = $(this).parent().find('.editCategoryIconInput').val();
+        if (icon === null || icon === '') {
+            Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
+            return;
+        }
+        const color = $(this).parent().find('.editCategoryColorInput').val();
+        if (color === null || color === '') {
+            Notification.showTemporary(t('cospend', 'Category color should not be empty'));
+            return;
+        }
+        editCategoryDb(projectid, categoryId, name, icon, color);
+    });
+
+    $('body').on('keyup', '.editCategoryNameInput, .editCategoryIconInput', function(e) {
+        if (e.key === 'Enter') {
+            const projectid = $('#catTitle').attr('projectid');
+            const categoryId = $(this).parent().parent().attr('categoryid');
+            const name = $(this).parent().find('.editCategoryNameInput').val();
+            if (name === null || name === '') {
+                Notification.showTemporary(t('cospend', 'Category name should not be empty'));
+                return;
+            }
+            const icon = $(this).parent().find('.editCategoryIconInput').val();
+            if (icon === null || icon === '') {
+                Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
+                return;
+            }
+            const color = $(this).parent().find('.editCategoryColorInput').val();
+            if (color === null || color === '') {
+                Notification.showTemporary(t('cospend', 'Category color should not be empty'));
+                return;
+            }
+            editCategoryDb(projectid, categoryId, name, icon, color);
+        }
+    });
+    $('body').on('click', '.one-category-label-color', function(e) {
+        e.preventDefault();
+    });
+
+    $('body').on('click', '.editCategoryClose', function() {
+        $(this).parent().hide();
+        $(this).parent().parent().find('.one-category-label').show();
+    });
+}
+
 export function getProjectCategories(projectid) {
     $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
     const req = {};

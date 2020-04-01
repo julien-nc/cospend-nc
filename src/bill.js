@@ -7,8 +7,279 @@ import cospend from './state';
 import {updateProjectBalances} from './project';
 import {getUrlParameter, reload} from './utils';
 import {getMemberName} from './member';
+import {
+    delay,
+    Timer,
+    generatePublicLinkToFile,
+    updateCustomAmount
+} from './utils';
 
 const undoDeleteBillStyle = 'opacity:1; background-image: url(' + generateUrl('/svg/core/actions/history?color=2AB4FF') + ');';
+
+export function billEvents() {
+    $('body').on('click', '.billitem', function (e) {
+        if (!$(e.target).hasClass('deleteBillIcon') && !$(e.target).hasClass('undoDeleteBill')) {
+            const billid = parseInt($(this).attr('billid'));
+            const projectid = $(this).attr('projectid');
+            displayBill(projectid, billid);
+        }
+    });
+
+    // what and amount : delay on edition
+    $('body').on('keyup paste change', '.input-bill-what', delay(function () {
+        onBillEdited();
+    }, 2000));
+    $('body').on('keyup paste change', '.input-bill-amount', delay(function () {
+        onBillEdited(true);
+    }, 2000));
+
+    // other bill fields : direct on edition
+    $('body').on('change', '.input-bill-date, .input-bill-time, .input-bill-repeatuntil, #billdetail .bill-form select', function () {
+        onBillEdited();
+    });
+    $('body').on('click', '#repeatallactive', function () {
+        onBillEdited();
+    });
+
+    // show/hide repeatallactive
+    $('body').on('change', '#repeatbill', function () {
+        if ($(this).val() === 'n') {
+            $('.bill-repeat-extra').hide();
+        } else {
+            $('.bill-repeat-extra').show();
+        }
+    });
+
+    $('body').on('change', '#billdetail .bill-form .bill-owers input[type=checkbox]', function () {
+        const billtype = $('#billtype').val();
+        if (billtype === 'perso') {
+            if ($(this).is(':checked')) {
+                $(this).parent().find('input[type=number]').show();
+            } else {
+                $(this).parent().find('input[type=number]').hide();
+            }
+        } else {
+            onBillEdited();
+        }
+    });
+
+    $('body').on('click', '#owerAll', function () {
+        const billtype = $('#billtype').val();
+        const projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
+        for (const memberid in cospend.members[projectid]) {
+            if (cospend.members[projectid][memberid].activated) {
+                $('.bill-owers input[owerid=' + memberid + ']').prop('checked', true);
+            }
+        }
+        if (billtype === 'perso') {
+            $('.bill-owers .amountinput').show();
+        }
+        //$('.owerEntry input').prop('checked', true);
+        onBillEdited();
+    });
+
+    $('body').on('click', '#owerNone', function () {
+        const billtype = $('#billtype').val();
+        const projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
+        for (const memberid in cospend.members[projectid]) {
+            if (cospend.members[projectid][memberid].activated) {
+                $('.bill-owers input[owerid=' + memberid + ']').prop('checked', false);
+            }
+        }
+        if (billtype === 'perso') {
+            $('.bill-owers .amountinput').hide();
+        }
+        //$('.owerEntry input').prop('checked', false);
+        onBillEdited();
+    });
+
+    $('body').on('click', '.undoDeleteBill', function () {
+        const billid = $(this).parent().attr('billid');
+        cospend.billDeletionTimer[billid].pause();
+        delete cospend.billDeletionTimer[billid];
+        $(this).parent().find('.deleteBillIcon').show();
+        $(this).parent().removeClass('deleted');
+        $(this).hide();
+    });
+
+    $('body').on('click', '.deleteBillIcon', function () {
+        const billid = $(this).parent().attr('billid');
+        if (billid !== '0') {
+            const projectid = $(this).parent().attr('projectid');
+            $(this).parent().find('.undoDeleteBill').show();
+            $(this).parent().addClass('deleted');
+            $(this).hide();
+            cospend.billDeletionTimer[billid] = new Timer(function () {
+                deleteBill(projectid, billid);
+            }, 7000);
+        } else {
+            if ($('.bill-title').length > 0 && $('.bill-title').attr('billid') === billid) {
+                $('#billdetail').html('');
+            }
+            $(this).parent().fadeOut('normal', function () {
+                $(this).remove();
+                if ($('.billitem').length === 0) {
+                    $('#bill-list').html('<h2 class="nobill">' + t('cospend', 'No bill yet') + '</h2>');
+                }
+            });
+        }
+    });
+
+    $('body').on('click', '#newBillButton', function () {
+        const projectid = cospend.currentProjectId;
+        const activatedMembers = [];
+        for (const mid in cospend.members[projectid]) {
+            if (cospend.members[projectid][mid].activated) {
+                activatedMembers.push(mid);
+            }
+        }
+        if (activatedMembers.length > 1) {
+            if (cospend.currentProjectId !== null && $('.billitem[billid=0]').length === 0) {
+                const bill = {
+                    id: 0,
+                    what: t('cospend', 'New Bill'),
+                    timestamp: moment().unix(),
+                    amount: 0.0,
+                    payer_id: 0,
+                    repeat: 'n',
+                    owers: []
+                };
+                addBill(projectid, bill);
+            }
+            displayBill(projectid, 0);
+        } else {
+            Notification.showTemporary(t('cospend', '2 active members are required to create a bill'));
+        }
+    });
+
+    $('body').on('click', '#addFileLinkButton', function() {
+        OC.dialogs.filepicker(
+            t('cospend', 'Choose file'),
+            function(targetPath) {
+                generatePublicLinkToFile(targetPath, onBillEdited);
+            },
+            false, null, true
+        );
+    });
+
+    $('body').on('click', '#modehintbutton', function() {
+        const billtype = $('#billtype').val();
+        if (billtype === 'normal') {
+            if ($('.modenormal').is(':visible')) {
+                $('.modenormal').slideUp();
+            } else {
+                $('.modenormal').slideDown();
+            }
+            $('.modecustom').slideUp();
+            $('.modeperso').slideUp();
+        } else if (billtype === 'perso') {
+            if ($('.modeperso').is(':visible')) {
+                $('.modeperso').slideUp();
+            } else {
+                $('.modeperso').slideDown();
+            }
+            $('.modecustom').slideUp();
+            $('.modenormal').slideUp();
+        } else if (billtype === 'custom') {
+            if ($('.modecustom').is(':visible')) {
+                $('.modecustom').slideUp();
+            } else {
+                $('.modecustom').slideDown();
+            }
+            $('.modenormal').slideUp();
+            $('.modeperso').slideUp();
+        }
+    });
+
+    $('body').on('change', '#billtype', function() {
+        $('.modehint').slideUp();
+        let owerValidateStr = t('cospend', 'Create the bills');
+        const billtype = $(this).val();
+        if (billtype === 'normal') {
+            owerValidateStr = t('cospend', 'Create the bill');
+            $('#owerNone').show();
+            $('#owerAll').show();
+            $('.bill-owers .checkbox').show();
+            $('.bill-owers .checkboxlabel').show();
+            $('.bill-owers .numberlabel').hide();
+            $('.bill-owers input[type=number]').hide();
+            $('#amount').val('0');
+            $('#amount').prop('disabled', false);
+            $('#repeatbill').prop('disabled', false);
+            if ($('#repeatbill').val() !== 'n') {
+                $('.bill-repeat-extra').show();
+            }
+        } else if (billtype === 'custom') {
+            $('#owerNone').hide();
+            $('#owerAll').hide();
+            $('.bill-owers .checkbox').hide();
+            $('.bill-owers .checkboxlabel').hide();
+            $('.bill-owers .numberlabel').show();
+            $('.bill-owers input[type=number]').show();
+            updateCustomAmount();
+            $('#amount').prop('disabled', true);
+            $('#repeatbill').val('n').prop('disabled', true);
+            $('.bill-repeat-extra').hide();
+        } else if (billtype === 'perso') {
+            $('#owerNone').show();
+            $('#owerAll').show();
+            $('.bill-owers .checkbox').show();
+            $('.bill-owers .checkboxlabel').show();
+            $('.bill-owers .numberlabel').hide();
+            $('.bill-owers input[type=number]').hide();
+            $('.bill-owers .checkbox').each(function() {
+                if ($(this).is(':checked')) {
+                    $(this).parent().find('input[type=number]').show();
+                }
+            });
+            $('#amount').prop('disabled', false);
+            $('#repeatbill').val('n').prop('disabled', true);
+            $('.bill-repeat-extra').hide();
+        }
+        $('#owerValidateText').text(owerValidateStr);
+    });
+
+    $('body').on('paste change', '.amountinput', function() {
+        const billtype = $('#billtype').val();
+        if (billtype === 'custom') {
+            updateCustomAmount();
+        }
+    });
+
+    $('body').on('keyup', '.amountinput', function(e) {
+        const billtype = $('#billtype').val();
+        if (billtype === 'custom') {
+            updateCustomAmount();
+            if (e.key === 'Enter') {
+                createCustomAmountBill();
+            }
+        } else if (billtype === 'perso') {
+            if (e.key === 'Enter') {
+                createEquiPersoBill();
+            }
+        }
+    });
+
+    $('body').on('click', '#owerValidate', function() {
+        const billtype = $('#billtype').val();
+        if (billtype === 'custom') {
+            updateCustomAmount();
+            createCustomAmountBill();
+        } else if (billtype === 'perso') {
+            createEquiPersoBill();
+        } else if (billtype === 'normal') {
+            createNormalBill();
+        }
+    });
+
+    $('body').on('click', '.owerEntry .owerAvatar', function() {
+        const billId = parseInt($('#billdetail .bill-title').attr('billid'));
+        const billType = $('#billtype').val();
+        if (billId !== 0 || billType === 'normal' || billType === 'perso') {
+            $(this).parent().find('input').click();
+        }
+    });
+}
 
 function cleanStringFromCurrency(projectid, str) {
     let currency, re;

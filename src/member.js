@@ -1,5 +1,9 @@
 /*jshint esversion: 6 */
 
+import {
+    MEMBER_NAME_EDITION,
+    MEMBER_WEIGHT_EDITION,
+} from './constants';
 import * as Notification from './notification';
 import {generateUrl} from '@nextcloud/router';
 import {rgbObjToHex} from './utils';
@@ -8,6 +12,125 @@ import {getBills} from './bill';
 import * as constants from './constants';
 import cospend from './state';
 import * as Chart from 'chart.js';
+
+export function memberEvents() {
+    $('body').on('click', '.addMember', function () {
+        const projectid = $(this).parent().parent().parent().parent().attr('projectid');
+
+        const newmemberdiv = $('.projectitem[projectid="' + projectid + '"] .newmemberdiv');
+        newmemberdiv.show().attr('style', 'display: inline-flex;');
+        const defaultMemberName = t('cospend', 'newMemberName');
+        newmemberdiv.find('.newmembername').val(defaultMemberName).focus().select();
+    });
+
+    $('body').on('click', '.newmemberbutton', function () {
+        const projectid = $(this).parent().parent().attr('projectid');
+        const name = $(this).parent().find('input').val();
+        if (projectid && name) {
+            createMember(projectid, name);
+        } else {
+            Notification.showTemporary(t('cospend', 'Invalid values'));
+        }
+    });
+
+    $('body').on('keyup', '.newmembername', function (e) {
+        if (e.key === 'Enter') {
+            const name = $(this).val();
+            const projectid = $(this).parent().parent().attr('projectid');
+            if (projectid && name) {
+                createMember(projectid, name);
+            } else {
+                Notification.showTemporary(t('cospend', 'Invalid values'));
+            }
+        }
+    });
+
+    $('body').on('click', '.renameMember', function () {
+        const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+        const mid = $(this).parent().parent().parent().parent().attr('memberid');
+        const name = cospend.members[projectid][mid].name;
+        $(this).parent().parent().parent().parent().find('.editMemberInput').val(name).focus().select();
+        $('.memberlist li').removeClass('editing');
+        $(this).parent().parent().parent().parent().addClass('editing');
+        cospend.memberEditionMode = MEMBER_NAME_EDITION;
+    });
+
+    $('body').on('click', '.editWeightMember', function () {
+        const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+        const mid = $(this).parent().parent().parent().parent().attr('memberid');
+        const weight = cospend.members[projectid][mid].weight;
+        $(this).parent().parent().parent().parent().find('.editMemberInput').val(weight).focus().select();
+        $('.memberlist li').removeClass('editing');
+        $(this).parent().parent().parent().parent().addClass('editing');
+        cospend.memberEditionMode = MEMBER_WEIGHT_EDITION;
+    });
+
+    $('body').on('click', '.editMemberClose', function () {
+        $(this).parent().parent().parent().removeClass('editing');
+    });
+
+    $('body').on('keyup', '.editMemberInput', function (e) {
+        if (e.key === 'Enter') {
+            const memberid = $(this).parent().parent().parent().attr('memberid');
+            const projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
+            let newName;
+            if (cospend.memberEditionMode === MEMBER_NAME_EDITION) {
+                newName = $(this).val();
+                editMember(projectid, memberid, newName, null, null);
+            } else if (cospend.memberEditionMode === MEMBER_WEIGHT_EDITION) {
+                const newWeight = parseFloat($(this).val());
+                if (!isNaN(newWeight)) {
+                    newName = cospend.members[projectid][memberid].name;
+                    editMember(projectid, memberid, newName, newWeight, null);
+                } else {
+                    Notification.showTemporary(t('cospend', 'Invalid weight'));
+                }
+            }
+        }
+    });
+
+    $('body').on('click', '.editMemberOk', function () {
+        const memberid = $(this).parent().parent().parent().attr('memberid');
+        const projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
+        let newName;
+        if (cospend.memberEditionMode === MEMBER_NAME_EDITION) {
+            newName = $(this).parent().find('.editMemberInput').val();
+            editMember(projectid, memberid, newName, null, null);
+        } else if (cospend.memberEditionMode === MEMBER_WEIGHT_EDITION) {
+            const newWeight = parseFloat($(this).parent().find('.editMemberInput').val());
+            if (!isNaN(newWeight)) {
+                newName = cospend.members[projectid][memberid].name;
+                editMember(projectid, memberid, newName, newWeight, null);
+            } else {
+                Notification.showTemporary(t('cospend', 'Invalid weight'));
+            }
+        }
+    });
+
+    $('body').on('click', '.toggleMember', function () {
+        const memberid = $(this).parent().parent().parent().parent().attr('memberid');
+        const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+        const newName = $(this).parent().parent().parent().parent().find('>a span b.memberName').text();
+        const activated = $(this).find('span').first().hasClass('icon-history');
+        editMember(projectid, memberid, newName, null, activated);
+    });
+
+    $('body').on('click', '.memberAvatar', function() {
+        const projectid = $(this).parent().parent().parent().attr('projectid');
+        const memberid = $(this).parent().attr('memberid');
+        askChangeMemberColor(projectid, memberid);
+    });
+
+    $('body').on('click', '.editColorMember', function() {
+        const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+        const memberid = $(this).parent().parent().parent().parent().attr('memberid');
+        askChangeMemberColor(projectid, memberid);
+    });
+
+    $('body').on('change', '#membercolorinput', function() {
+        okMemberColor();
+    });
+}
 
 export function getMemberName(projectid, memberid) {
     //const memberName = $('.projectitem[projectid="'+projectid+'"] .memberlist > li[memberid='+memberid+'] b.memberName').text();
@@ -263,127 +386,5 @@ export function addMember(projectid, member, balance) {
         $('li.projectitem[projectid=' + projectid + '] .editWeightMember').hide();
         $('li.projectitem[projectid=' + projectid + '] .editColorMember').hide();
         $('li.projectitem[projectid=' + projectid + '] .toggleMember').hide();
-    }
-}
-
-export function displayMemberPolarChart() {
-    const categoryMemberStats = cospend.currentStats.categoryMemberStats;
-    const projectid = cospend.currentStatsProjectId;
-    let scroll = false;
-    if (cospend.currentMemberPolarChart) {
-        cospend.currentMemberPolarChart.destroy();
-        delete cospend.currentMemberPolarChart;
-        scroll = true;
-    }
-    const selectedMemberId = $('#memberPolarSelect').val();
-    const memberName = cospend.members[projectid][selectedMemberId].name;
-
-    if (Object.keys(categoryMemberStats).length === 0) {
-        return;
-    }
-
-    const memberData = {
-        datasets: [{
-            data: [],
-            backgroundColor: []
-        }],
-        labels: []
-    };
-    let catName, paid, color;
-    for (const catId in categoryMemberStats) {
-        //memberName = cospend.members[projectid][mid].name;
-        if (cospend.categories.hasOwnProperty(catId)) {
-            catName = cospend.categories[catId].icon + ' ' + cospend.categories[catId].name;
-            color = cospend.categories[catId].color;
-        } else if (cospend.projects[projectid].categories.hasOwnProperty(catId)) {
-            catName = (cospend.projects[projectid].categories[catId].icon || '') +
-                ' ' + cospend.projects[projectid].categories[catId].name;
-            color = cospend.projects[projectid].categories[catId].color || 'red';
-        } else {
-            catName = t('cospend', 'No category');
-            color = 'black';
-        }
-        paid = categoryMemberStats[catId][selectedMemberId].toFixed(2);
-        memberData.datasets[0].data.push(paid);
-        memberData.datasets[0].backgroundColor.push(color);
-        memberData.labels.push(catName);
-    }
-    cospend.currentMemberPolarChart = new Chart($('#memberPolarChart'), {
-        type: 'polarArea',
-        data: memberData,
-        options: {
-            title: {
-                display: true,
-                text: t('cospend', 'What kind of member is "{m}"?', {m: memberName})
-            },
-            responsive: true,
-            showAllTooltips: false,
-            legend: {
-                position: 'left'
-            }
-        }
-    });
-    if (scroll) {
-        $(window).scrollTop($('#memberPolarSelect').position().top);
-    }
-}
-
-export function displayCategoryMemberChart() {
-    const categoryMemberStats = cospend.currentStats.categoryMemberStats;
-    const projectid = cospend.currentStatsProjectId;
-    let scroll = false;
-    if (cospend.currentCategoryMemberChart) {
-        cospend.currentCategoryMemberChart.destroy();
-        delete cospend.currentCategoryMemberChart;
-        scroll = true;
-    }
-    const selectedCatId = $('#categoryMemberSelect').val();
-    let catName;
-    if (selectedCatId === null || selectedCatId === '') {
-        return;
-    }
-    if (cospend.categories.hasOwnProperty(selectedCatId)) {
-        catName = cospend.categories[selectedCatId].icon + ' ' + cospend.categories[selectedCatId].name;
-    } else if (cospend.projects[projectid].categories.hasOwnProperty(selectedCatId)) {
-        catName = (cospend.projects[projectid].categories[selectedCatId].icon || '') +
-            ' ' + cospend.projects[projectid].categories[selectedCatId].name;
-    } else {
-        catName = t('cospend', 'No category');
-    }
-
-    const categoryData = {
-        datasets: [{
-            data: [],
-            backgroundColor: []
-        }],
-        labels: []
-    };
-    const categoryStats = categoryMemberStats[selectedCatId];
-    let memberName, paid, color;
-    for (const mid in categoryStats) {
-        memberName = cospend.members[projectid][mid].name;
-        color = '#' + cospend.members[projectid][mid].color;
-        paid = categoryStats[mid].toFixed(2);
-        categoryData.datasets[0].data.push(paid);
-        categoryData.datasets[0].backgroundColor.push(color);
-        categoryData.labels.push(memberName);
-    }
-    cospend.currentCategoryMemberChart = new Chart($('#categoryMemberChart'), {
-        type: 'pie',
-        data: categoryData,
-        options: {
-            title: {
-                display: true,
-                text: t('cospend', 'Who paid for category "{c}"?', {c: catName})
-            },
-            responsive: true,
-            showAllTooltips: false,
-            legend: {
-                position: 'left'
-            }
-        }
-    });
-    if (scroll) {
-        $(window).scrollTop($('#categoryMemberSelect').position().top);
     }
 }

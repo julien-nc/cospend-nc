@@ -1,10 +1,142 @@
 /*jshint esversion: 6 */
 
 import {generateUrl} from '@nextcloud/router';
-import {getProjectName, selectProject} from './project';
+import {
+    getProjectName,
+    selectProject,
+    editProject
+} from './project';
 import * as Notification from './notification';
 import * as constants from './constants';
 import cospend from './state';
+
+export function currencyEvents() {
+    // main currency
+    $('body').on('click', '.editMainCurrency', function () {
+        $('#main-currency-label').hide();
+        $('#main-currency-edit').show().css('display', 'grid');
+        $('.editMainCurrencyInput').focus().select();
+    });
+
+    $('body').on('click', '.editMainCurrencyOk', function () {
+        const projectid = $('#curTitle').attr('projectid');
+        const value = $('.editMainCurrencyInput').val();
+        const projectName = cospend.projects[projectid].name;
+        editProject(projectid, projectName, null, null, null, value);
+    });
+    $('body').on('keyup', '.editMainCurrencyInput', function (e) {
+        if (e.key === 'Enter') {
+            const projectid = $('#curTitle').attr('projectid');
+            const value = $('.editMainCurrencyInput').val();
+            const projectName = cospend.projects[projectid].name;
+            editProject(projectid, projectName, null, null, null, value);
+        }
+    });
+
+    $('body').on('click', '.editMainCurrencyClose', function () {
+        $('#main-currency-label').show();
+        $('#main-currency-edit').hide();
+    });
+
+    // other currencies
+    $('body').on('click', '.addCurrencyOk', function () {
+        const projectid = $('#curTitle').attr('projectid');
+        const name = $('#addCurrencyNameInput').val();
+        if (name === null || name === '') {
+            Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
+            return;
+        }
+        const rate = parseFloat($('#addCurrencyRateInput').val());
+        if (isNaN(rate)) {
+            Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
+            return;
+        }
+        addCurrencyDb(projectid, name, rate);
+    });
+
+    $('body').on('keyup', '#addCurrencyNameInput, #addCurrencyRateInput', function (e) {
+        if (e.key === 'Enter') {
+            const projectid = $('#curTitle').attr('projectid');
+            const name = $('#addCurrencyNameInput').val();
+            if (name === null || name === '') {
+                Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
+                return;
+            }
+            const rate = parseFloat($('#addCurrencyRateInput').val());
+            if (isNaN(rate)) {
+                Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
+                return;
+            }
+            addCurrencyDb(projectid, name, rate);
+        }
+    });
+
+    $('body').on('click', '.deleteOneCurrency', function () {
+        const projectid = $('#curTitle').attr('projectid');
+        const currencyId = $(this).parent().parent().attr('currencyid');
+        if ($(this).hasClass('icon-history')) {
+            $(this).removeClass('icon-history').addClass('icon-delete');
+            cospend.currencyDeletionTimer[currencyId].pause();
+            delete cospend.currencyDeletionTimer[currencyId];
+        } else {
+            $(this).addClass('icon-history').removeClass('icon-delete');
+            cospend.currencyDeletionTimer[currencyId] = new Timer(function () {
+                deleteCurrencyDb(projectid, currencyId);
+            }, 7000);
+        }
+    });
+
+    $('body').on('click', '.editOneCurrency', function () {
+        $(this).parent().hide();
+        $(this).parent().parent().find('.one-currency-edit').show()
+            .css('display', 'grid')
+            .find('.editCurrencyNameInput').focus().select();
+    });
+
+    $('body').on('click', '.editCurrencyOk', function () {
+        const projectid = $('#curTitle').attr('projectid');
+        const currencyId = $(this).parent().parent().attr('currencyid');
+        const name = $(this).parent().find('.editCurrencyNameInput').val();
+        if (name === null || name === '') {
+            Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
+            return;
+        }
+        const rate = parseFloat($(this).parent().find('.editCurrencyRateInput').val());
+        if (isNaN(rate)) {
+            Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
+            return;
+        }
+        editCurrencyDb(projectid, currencyId, name, rate);
+    });
+
+    $('body').on('keyup', '.editCurrencyNameInput, .editCurrencyRateInput', function (e) {
+        if (e.key === 'Enter') {
+            const projectid = $('#curTitle').attr('projectid');
+            const currencyId = $(this).parent().parent().attr('currencyid');
+            const name = $(this).parent().find('.editCurrencyNameInput').val();
+            if (name === null || name === '') {
+                Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
+                return;
+            }
+            const rate = parseFloat($(this).parent().find('.editCurrencyRateInput').val());
+            if (isNaN(rate)) {
+                Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
+                return;
+            }
+            editCurrencyDb(projectid, currencyId, name, rate);
+        }
+    });
+
+    $('body').on('click', '.editCurrencyClose', function () {
+        $(this).parent().hide();
+        $(this).parent().parent().find('.one-currency-label').show();
+    });
+
+    $('body').on('click', '.manageProjectCurrencies', function() {
+        const projectid = $(this).parent().parent().parent().parent().attr('projectid');
+        getProjectCurrencies(projectid);
+    });
+}
 
 export function getProjectCurrencies(projectid) {
     $('#billdetail').html('<h2 class="icon-loading-small"></h2>');

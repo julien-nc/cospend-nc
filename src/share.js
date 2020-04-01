@@ -5,6 +5,92 @@ import * as constants from './constants';
 import {getProjectName} from './project';
 import * as Notification from './notification';
 import cospend from './state';
+import {
+    copyToClipboard,
+} from './utils';
+
+export function shareEvents() {
+    $('body').on('focus', '.shareinput', function() {
+        $(this).select();
+        const projectid = $(this).parent().parent().parent().attr('projectid');
+        addUserAutocompletion($(this), projectid);
+    });
+
+    $('body').on('click', '.deleteUserShareButton', function() {
+        const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+        const shid = $(this).parent().parent().parent().parent().attr('shid');
+        deleteUserShareDb(projectid, shid);
+    });
+
+    $('body').on('click', '.deleteGroupShareButton', function() {
+        const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+        const shid = $(this).parent().parent().parent().parent().attr('shid');
+        deleteGroupShareDb(projectid, shid);
+    });
+
+    $('body').on('click', '.deleteCircleShareButton', function() {
+        const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+        const shid = $(this).parent().parent().parent().parent().attr('shid');
+        deleteCircleShareDb(projectid, shid);
+    });
+
+    $('body').on('click', '.deletePublicShareButton', function() {
+        const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+        const shid = $(this).parent().parent().parent().parent().attr('shid');
+        deletePublicShareDb(projectid, shid);
+    });
+
+    $('body').on('click', '.copyPublicShareButton', function() {
+        const token = $(this).parent().parent().parent().attr('token');
+        const publicLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/s/' + token);
+        copyToClipboard(publicLink);
+        Notification.showTemporary(t('cospend', 'Public link copied to clipboard'));
+    });
+
+    $('body').on('click', '.addPublicShareButton', function() {
+        const projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
+        addPublicShareDb(projectid);
+    });
+
+    $('body').on('click', '.accesslevel', function(e) {
+        const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+        const shid = $(this).parent().parent().parent().parent().attr('shid');
+        let accesslevel = constants.ACCESS.VIEWER;
+        if ($(this).hasClass('accesslevelAdmin')) {
+            accesslevel = constants.ACCESS.ADMIN;
+        } else if ($(this).hasClass('accesslevelMaintener')) {
+            accesslevel = constants.ACCESS.MAINTENER;
+        } else if ($(this).hasClass('accesslevelParticipant')) {
+            accesslevel = constants.ACCESS.PARTICIPANT;
+        }
+        editShareAccessLevelDb(projectid, shid, accesslevel);
+        e.stopPropagation();
+    });
+
+    $('body').on('click', '.accesslevelguest', function() {
+        const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+        let accesslevel = constants.ACCESS.VIEWER;
+        if ($(this).hasClass('accesslevelAdmin')) {
+            accesslevel = constants.ACCESS.ADMIN;
+        } else if ($(this).hasClass('accesslevelMaintener')) {
+            accesslevel = constants.ACCESS.MAINTENER;
+        } else if ($(this).hasClass('accesslevelParticipant')) {
+            accesslevel = constants.ACCESS.PARTICIPANT;
+        }
+        editGuestAccessLevelDb(projectid, accesslevel);
+    });
+
+    $('body').on('click', '.shareProjectButton', function() {
+        const shareDiv = $(this).parent().parent().parent().find('.app-navigation-entry-share');
+        if (shareDiv.is(':visible')) {
+            shareDiv.slideUp();
+            $(this).removeClass('activeButton');
+        } else {
+            shareDiv.slideDown();
+            $(this).addClass('activeButton');
+        }
+    });
+}
 
 export function addUserShareDb(projectid, userid, username) {
     $('.projectitem[projectid="' + projectid + '"]').addClass('icon-loading-small');

@@ -1,11 +1,9 @@
 /*jshint esversion: 6 */
 
 import {
-    addMember,
-    displayCategoryMemberChart,
-    displayMemberPolarChart,
-    getMemberName
-} from './member';
+    PROJECT_NAME_EDITION,
+    PROJECT_PASSWORD_EDITION
+} from './constants';
 import * as Notification from './notification';
 import {generateUrl} from '@nextcloud/router';
 import 'sorttable/sorttable';
@@ -13,7 +11,15 @@ import kjua from 'kjua';
 import * as Chart from 'chart.js';
 import * as constants from './constants';
 import {getBills} from './bill';
-import {getUrlParameter, saveOptionValue} from './utils';
+import {
+    copyToClipboard,
+    getUrlParameter,
+    Timer,
+    saveOptionValue
+} from './utils';
+import {
+    addMember,
+} from './member';
 import {addShare} from './share';
 import cospend from './state';
 
@@ -27,6 +33,215 @@ import cospend from './state';
  * @author Julien Veyssier <eneiluj@posteo.net>
  * @copyright Julien Veyssier 2019
  */
+
+export function projectEvents() {
+    $('#newprojectbutton').click(function () {
+        const div = $('#newprojectdiv');
+        if (div.is(':visible')) {
+            $(this).removeClass('icon-triangle-s').addClass('icon-triangle-e');
+            div.slideUp('normal', function () {
+                $('#newBillButton').fadeIn();
+            });
+        } else {
+            $(this).removeClass('icon-triangle-e').addClass('icon-triangle-s');
+            div.slideDown('normal', function () {
+                $('#newBillButton').fadeOut();
+                $('#projectidinput').focus().select();
+            });
+        }
+    });
+
+    $('#projectnameinput, #projectidinput, #projectpasswordinput').on('keyup', function (e) {
+        if (e.key === 'Enter') {
+            const name = $('#projectnameinput').val();
+            const id = $('#projectidinput').val();
+            const password = $('#projectpasswordinput').val();
+            if (name && id && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
+                createProject(id, name, password);
+            } else {
+                Notification.showTemporary(t('cospend', 'Invalid values'));
+            }
+        }
+    });
+
+    $('#newprojectform').submit(function (e) {
+        const name = $('#projectnameinput').val();
+        const id = $('#projectidinput').val();
+        const password = $('#projectpasswordinput').val();
+        if (name && id && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
+            createProject(id, name, password);
+        } else {
+            Notification.showTemporary(t('cospend', 'Invalid values'));
+        }
+        e.preventDefault();
+    });
+
+    $('#createproject').click(function () {
+        const name = $('#projectnameinput').val();
+        const id = $('#projectidinput').val();
+        const password = $('#projectpasswordinput').val();
+        if (name && id && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
+            createProject(id, name, password);
+        } else {
+            Notification.showTemporary(t('cospend', 'Invalid values'));
+        }
+    });
+
+    $('body').on('click', '.deleteProject', function () {
+        const projectid = $(this).parent().parent().parent().parent().attr('projectid');
+        $(this).parent().parent().parent().parent().addClass('deleted');
+        cospend.projectDeletionTimer[projectid] = new Timer(function () {
+            deleteProject(projectid);
+        }, 7000);
+    });
+
+    $('body').on('click', '.undoDeleteProject', function () {
+        const projectid = $(this).parent().parent().attr('projectid');
+        $(this).parent().parent().removeClass('deleted');
+        cospend.projectDeletionTimer[projectid].pause();
+        delete cospend.projectDeletionTimer[projectid];
+    });
+
+    $('body').on('click', '.projectitem > a', function() {
+        selectProject($(this).parent());
+    });
+
+    $('body').on('click', '.projectitem', function(e) {
+        if (e.target.tagName === 'LI' && $(e.target).hasClass('projectitem')) {
+            selectProject($(this));
+        }
+    });
+
+    $('body').on('click', '.editProjectName', function () {
+        const projectid = $(this).parent().parent().parent().parent().attr('projectid');
+        const name = cospend.projects[projectid].name;
+        $(this).parent().parent().parent().parent().find('.editProjectInput').val(name).attr('type', 'text').focus().select();
+        $('#projectlist > li').removeClass('editing');
+        $(this).parent().parent().parent().parent().removeClass('open').addClass('editing');
+        cospend.projectEditionMode = PROJECT_NAME_EDITION;
+    });
+
+    $('body').on('click', '.editProjectPassword', function () {
+        $(this).parent().parent().parent().parent().find('.editProjectInput').attr('type', 'password').val('').focus();
+        $('#projectlist > li').removeClass('editing');
+        $(this).parent().parent().parent().parent().removeClass('open').addClass('editing');
+        cospend.projectEditionMode = PROJECT_PASSWORD_EDITION;
+    });
+
+    $('body').on('click', '.editProjectClose', function () {
+        $(this).parent().parent().parent().removeClass('editing');
+    });
+
+    $('body').on('keyup', '.editProjectInput', function (e) {
+        if (e.key === 'Enter') {
+            let newName;
+            const projectid = $(this).parent().parent().parent().attr('projectid');
+            if (cospend.projectEditionMode === PROJECT_NAME_EDITION) {
+                newName = $(this).val();
+                editProject(projectid, newName, null, null);
+            } else if (cospend.projectEditionMode === PROJECT_PASSWORD_EDITION) {
+                const newPassword = $(this).val();
+                newName = $(this).parent().parent().parent().find('>a span').text();
+                editProject(projectid, newName, null, newPassword);
+            }
+        }
+    });
+
+    $('body').on('click', '.editProjectOk', function () {
+        const projectid = $(this).parent().parent().parent().attr('projectid');
+        let newName;
+        if (cospend.projectEditionMode === PROJECT_NAME_EDITION) {
+            newName = $(this).parent().find('.editProjectInput').val();
+            editProject(projectid, newName, null, null);
+        } else if (cospend.projectEditionMode === PROJECT_PASSWORD_EDITION) {
+            const newPassword = $(this).parent().find('.editProjectInput').val();
+            newName = $(this).parent().parent().parent().find('>a span').text();
+            editProject(projectid, newName, null, newPassword);
+        }
+    });
+
+    $('body').on('change', '#date-min-stats, #date-max-stats, #payment-mode-stats, ' +
+        '#category-stats, #amount-min-stats, #amount-max-stats, ' +
+        '#showDisabled, #currency-stats', function () {
+            const projectid = cospend.currentProjectId;
+            const dateMin = $('#date-min-stats').val();
+            const dateMax = $('#date-max-stats').val();
+            const paymentMode = $('#payment-mode-stats').val();
+            const category = $('#category-stats').val();
+            const amountMin = $('#amount-min-stats').val();
+            const amountMax = $('#amount-max-stats').val();
+            const showDisabled = $('#showDisabled').is(':checked');
+            const currencyId = $('#currency-stats').val();
+            getProjectStatistics(projectid, dateMin, dateMax, paymentMode, category, amountMin, amountMax, showDisabled, currencyId);
+        });
+
+    $('body').on('click', '.getProjectSettlement', function () {
+        const projectid = $(this).parent().parent().parent().parent().attr('projectid');
+        getProjectSettlement(projectid);
+    });
+
+    $('body').on('click', '.copyProjectGuestLink', function() {
+        const projectid = $(this).parent().parent().parent().parent().attr('projectid');
+        const guestLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/loginproject/' + projectid);
+        copyToClipboard(guestLink);
+        Notification.showTemporary(t('cospend', 'Guest link for \'{pid}\' copied to clipboard', {pid: projectid}));
+    });
+
+    $('body').on('click', '.exportProject', function() {
+        const projectid = $(this).parent().parent().parent().parent().attr('projectid');
+        exportProject(projectid);
+    });
+
+    $('body').on('click', '.autoexportSelect, .accesslevelguest', function(e) {
+        e.stopPropagation();
+    });
+
+    $('body').on('change', '.autoexportSelect', function() {
+        const newval = $(this).val();
+        const projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
+        const projectName = getProjectName(projectid);
+        editProject(projectid, projectName, null, null, newval);
+        $(this).parent().click();
+    });
+
+    $('body').on('click', '.exportStats', function() {
+        const projectid = $(this).attr('projectid');
+
+        const dateMin = $('#date-min-stats').val();
+        const dateMax = $('#date-max-stats').val();
+        const paymentMode = $('#payment-mode-stats').val();
+        const category = $('#category-stats').val();
+        const amountMin = $('#amount-min-stats').val();
+        const amountMax = $('#amount-max-stats').val();
+        const showDisabled = $('#showDisabled').is(':checked');
+        const currencyId = $('#currency-stats').val();
+
+        exportStatistics(projectid, dateMin, dateMax, paymentMode, category, amountMin, amountMax, showDisabled, currencyId);
+    });
+
+    $('body').on('click', '.exportSettlement', function() {
+        const projectid = $(this).attr('projectid');
+        exportSettlement(projectid);
+    });
+
+    $('body').on('click', '.autoSettlement', function() {
+        const projectid = $(this).attr('projectid');
+        autoSettlement(projectid);
+    });
+
+    $('body').on('change', '#categoryMemberSelect', function() {
+        displayCategoryMemberChart();
+    });
+
+    $('body').on('change', '#memberPolarSelect', function() {
+        displayMemberPolarChart();
+    });
+
+    $('body').on('click', '.getProjectStats', function() {
+        const projectid = $(this).parent().parent().parent().parent().attr('projectid');
+        getProjectStatistics(projectid, null, null, null, -100);
+    });
+}
 
 export function createProject(id, name, password) {
     if (!name || name.match(',') || name.match('/') ||
@@ -1203,4 +1418,126 @@ export function autoSettlement(projectid) {
             ': ' + response.responseJSON.message
         );
     });
+}
+
+export function displayMemberPolarChart() {
+    const categoryMemberStats = cospend.currentStats.categoryMemberStats;
+    const projectid = cospend.currentStatsProjectId;
+    let scroll = false;
+    if (cospend.currentMemberPolarChart) {
+        cospend.currentMemberPolarChart.destroy();
+        delete cospend.currentMemberPolarChart;
+        scroll = true;
+    }
+    const selectedMemberId = $('#memberPolarSelect').val();
+    const memberName = cospend.members[projectid][selectedMemberId].name;
+
+    if (Object.keys(categoryMemberStats).length === 0) {
+        return;
+    }
+
+    const memberData = {
+        datasets: [{
+            data: [],
+            backgroundColor: []
+        }],
+        labels: []
+    };
+    let catName, paid, color;
+    for (const catId in categoryMemberStats) {
+        //memberName = cospend.members[projectid][mid].name;
+        if (cospend.categories.hasOwnProperty(catId)) {
+            catName = cospend.categories[catId].icon + ' ' + cospend.categories[catId].name;
+            color = cospend.categories[catId].color;
+        } else if (cospend.projects[projectid].categories.hasOwnProperty(catId)) {
+            catName = (cospend.projects[projectid].categories[catId].icon || '') +
+                ' ' + cospend.projects[projectid].categories[catId].name;
+            color = cospend.projects[projectid].categories[catId].color || 'red';
+        } else {
+            catName = t('cospend', 'No category');
+            color = 'black';
+        }
+        paid = categoryMemberStats[catId][selectedMemberId].toFixed(2);
+        memberData.datasets[0].data.push(paid);
+        memberData.datasets[0].backgroundColor.push(color);
+        memberData.labels.push(catName);
+    }
+    cospend.currentMemberPolarChart = new Chart($('#memberPolarChart'), {
+        type: 'polarArea',
+        data: memberData,
+        options: {
+            title: {
+                display: true,
+                text: t('cospend', 'What kind of member is "{m}"?', {m: memberName})
+            },
+            responsive: true,
+            showAllTooltips: false,
+            legend: {
+                position: 'left'
+            }
+        }
+    });
+    if (scroll) {
+        $(window).scrollTop($('#memberPolarSelect').position().top);
+    }
+}
+
+export function displayCategoryMemberChart() {
+    const categoryMemberStats = cospend.currentStats.categoryMemberStats;
+    const projectid = cospend.currentStatsProjectId;
+    let scroll = false;
+    if (cospend.currentCategoryMemberChart) {
+        cospend.currentCategoryMemberChart.destroy();
+        delete cospend.currentCategoryMemberChart;
+        scroll = true;
+    }
+    const selectedCatId = $('#categoryMemberSelect').val();
+    let catName;
+    if (selectedCatId === null || selectedCatId === '') {
+        return;
+    }
+    if (cospend.categories.hasOwnProperty(selectedCatId)) {
+        catName = cospend.categories[selectedCatId].icon + ' ' + cospend.categories[selectedCatId].name;
+    } else if (cospend.projects[projectid].categories.hasOwnProperty(selectedCatId)) {
+        catName = (cospend.projects[projectid].categories[selectedCatId].icon || '') +
+            ' ' + cospend.projects[projectid].categories[selectedCatId].name;
+    } else {
+        catName = t('cospend', 'No category');
+    }
+
+    const categoryData = {
+        datasets: [{
+            data: [],
+            backgroundColor: []
+        }],
+        labels: []
+    };
+    const categoryStats = categoryMemberStats[selectedCatId];
+    let memberName, paid, color;
+    for (const mid in categoryStats) {
+        memberName = cospend.members[projectid][mid].name;
+        color = '#' + cospend.members[projectid][mid].color;
+        paid = categoryStats[mid].toFixed(2);
+        categoryData.datasets[0].data.push(paid);
+        categoryData.datasets[0].backgroundColor.push(color);
+        categoryData.labels.push(memberName);
+    }
+    cospend.currentCategoryMemberChart = new Chart($('#categoryMemberChart'), {
+        type: 'pie',
+        data: categoryData,
+        options: {
+            title: {
+                display: true,
+                text: t('cospend', 'Who paid for category "{c}"?', {c: catName})
+            },
+            responsive: true,
+            showAllTooltips: false,
+            legend: {
+                position: 'left'
+            }
+        }
+    });
+    if (scroll) {
+        $(window).scrollTop($('#categoryMemberSelect').position().top);
+    }
 }

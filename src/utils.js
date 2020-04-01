@@ -3,14 +3,6 @@
 import cospend from "./state";
 import {generateUrl} from "@nextcloud/router";
 import * as Notification from "./notification";
-import {editMember} from "./member";
-import {
-    addCircleShareDb,
-    addGroupShareDb,
-    addPublicShareDb,
-    addUserShareDb
-} from "./share";
-import {onBillEdited} from "./bill";
 
 function hexToRgb (hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -148,7 +140,7 @@ export function checkKey (e) {
     }
 }
 
-export function generatePublicLinkToFile (targetPath) {
+export function generatePublicLinkToFile (targetPath, successCallback) {
     $('.loading-bill').addClass('icon-loading-small');
     const req = {
         path: targetPath
@@ -167,7 +159,7 @@ export function generatePublicLinkToFile (targetPath) {
         let what = $('#what').val();
         what = what + ' ' + filePublicUrl;
         $('#what').val(what);
-        onBillEdited();
+        successCallback();
     }).always(function () {
     }).fail(function (response) {
         $('.loading-bill').removeClass('icon-loading-small');

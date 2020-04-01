@@ -731,7 +731,7 @@ import cospend from "./state";
             OC.dialogs.filepicker(
                 t('cospend', 'Choose file'),
                 function (targetPath) {
-                    generatePublicLinkToFile(targetPath);
+                    generatePublicLinkToFile(targetPath, onBillEdited);
                 },
                 false, null, true
             );

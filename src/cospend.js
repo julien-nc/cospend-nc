@@ -28,7 +28,6 @@ import {
     delay,
     generatePublicLinkToFile,
     hexToDarkerHex,
-    okColor,
     saveOptionValue,
     Timer,
     updateCustomAmount
@@ -57,6 +56,7 @@ import {
 } from "./bill";
 import {
     askChangeMemberColor,
+    okMemberColor,
     createMember,
     displayCategoryMemberChart,
     displayMemberPolarChart,
@@ -950,7 +950,7 @@ import cospend from "./state";
         });
 
         $('body').on('change', '#membercolorinput', function () {
-            okColor();
+            okMemberColor();
         });
 
         // main currency

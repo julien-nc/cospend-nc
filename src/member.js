@@ -61,6 +61,19 @@ export function askChangeMemberColor (projectid, memberid) {
     $('#membercolorinput').click();
 }
 
+export function okMemberColor () {
+    const color = $('#membercolorinput').val();
+    const projectid = cospend.changingColorProjectId;
+    const memberid = cospend.changingColorMemberId;
+    editMember(
+        projectid, memberid,
+        cospend.members[projectid][memberid].name,
+        cospend.members[projectid][memberid].weight,
+        cospend.members[projectid][memberid].activated,
+        color.replace('#', '')
+    );
+}
+
 export function editMember (projectid, memberid, newName, newWeight, newActivated, color = null) {
     $('.projectitem[projectid="' + projectid + '"] ul.memberlist > li[memberid=' + memberid + ']')
         .addClass('icon-loading-small')

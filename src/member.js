@@ -216,13 +216,13 @@ export function addMember (projectid, member, balance) {
         '            </li>' +
         '            <li>' +
         '                <a href="#" class="editWeightMember">' +
-        '                    <span class="icon-rename"></span>' +
+        '                    <span class="icon-quota"></span>' +
         '                    <span>' + changeWeightStr + '</span>' +
         '                </a>' +
         '            </li>' +
         '            <li>' +
         '                <a href="#" class="editColorMember">' +
-        '                    <span class="icon-toggle-background"></span>' +
+        '                    <span class="icon-palette"></span>' +
         '                    <span>' + changeColorStr + '</span>' +
         '                </a>' +
         '            </li>' +

@@ -13,7 +13,6 @@
 
 import * as Notification from './notification';
 import * as Chart from 'chart.js/dist/Chart';
-import * as moment from 'moment';
 import * as constants from './constants';
 import {
     MEMBER_NAME_EDITION,

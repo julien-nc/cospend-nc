@@ -1,6 +1,5 @@
 /*jshint esversion: 6 */
 
-import * as moment from 'moment';
 import * as Notification from './notification';
 import {generateUrl} from '@nextcloud/router';
 import * as constants from './constants';

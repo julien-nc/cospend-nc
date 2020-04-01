@@ -104,7 +104,7 @@ import cospend from "./state";
                 // we can't use the chart tooltip because there is only one tooltip per chart
                 chart.pluginTooltips = [];
                 chart.config.data.datasets.forEach(function (dataset, i) {
-                    chart.getDatasetMeta(i).data.forEach(function (sector) {
+                    chart.getDatasetMeta(i).data.forEach(function (sector, j) {
                         chart.pluginTooltips.push(new Chart.Tooltip({
                             _chart: chart.chart,
                             _chartInstance: chart,
@@ -150,7 +150,7 @@ import cospend from "./state";
         return result.concat(origFilter(array, term));
     };
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         cospend.pageIsPublic = (document.URL.indexOf('/cospend/project') !== -1 || document.URL.indexOf('/cospend/s/') !== -1);
         if (!cospend.pageIsPublic) {
             if (restoreOptions()) {
@@ -172,11 +172,11 @@ import cospend from "./state";
         }
     });
 
-    function main () {
+    function main() {
         // get key events
         document.onkeydown = checkKey;
 
-        window.onclick = function (event) {
+        window.onclick = function(event) {
             if (!event.target.matches('.app-navigation-entry-utils-menu-button button')) {
                 $('.app-navigation-entry-menu.open').removeClass('open');
             }
@@ -185,7 +185,7 @@ import cospend from "./state";
             }
         };
 
-        $('body').on('focus', '.shareinput', function () {
+        $('body').on('focus', '.shareinput', function() {
             $(this).select();
             const projectid = $(this).parent().parent().parent().attr('projectid');
             addUserAutocompletion($(this), projectid);
@@ -1187,6 +1187,35 @@ import cospend from "./state";
             const billType = $('#billtype').val();
             if (billId !== 0 || billType === 'normal' || billType === 'perso') {
                 $(this).parent().find('input').click();
+            }
+        });
+
+        // context menu (right click)
+        $('body').on('contextmenu',
+            '.memberitem > .app-navigation-entry-utils, .memberitem > a, .memberitem .memberAvatar, ' +
+            '.shareitem > .app-navigation-entry-utils, .shareitem > a, ' +
+            '.projectitem > .app-navigation-entry-utils, .projectitem > a ',
+            function(e) {
+                var menu = $(this).parent().find('> .app-navigation-entry-menu');
+                var wasOpen = menu.hasClass('open');
+                $('.app-navigation-entry-menu.open').removeClass('open');
+                if (!wasOpen) {
+                    menu.addClass('open');
+                }
+                return false;
+            }
+        );
+
+        // right click on expand icon
+        $('body').on('contextmenu', '.projectitem', function(e) {
+            if (e.target.tagName === 'LI' && $(e.target).hasClass('projectitem')) {
+                var menu = $(this).find('> .app-navigation-entry-menu');
+                var wasOpen = menu.hasClass('open');
+                $('.app-navigation-entry-menu.open').removeClass('open');
+                if (!wasOpen) {
+                    menu.addClass('open');
+                }
+                return false;
             }
         });
 

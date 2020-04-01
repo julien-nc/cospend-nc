@@ -101,12 +101,24 @@ b.memberName, b.memberWeight {
     background-image: url(images/forbidden.svg);
     margin: -1px 0 0 -1px;
 }
+.billItemRepeatMask {
+    display: none;
+}
+.billItemRepeatMask.show {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background-image: var(--icon-play-next-000);
+    margin: 35px 0 0 -4px;
+}
 
+#settlementTable .owerAvatar,
 #statsTable .owerAvatar,
 #monthlyTable .owerAvatar {
     height: 24px;
     margin: 1px 5px 1px 5px;
 }
+#settlementTable .owerAvatarDisabled,
 #statsTable .owerAvatarDisabled,
 #monthlyTable .owerAvatarDisabled {
     margin-left: -23px;
@@ -115,6 +127,7 @@ b.memberName, b.memberWeight {
     display: inline-block;
     vertical-align: middle;
 }
+#settlementTable .owerAvatar img,
 #statsTable .owerAvatar img,
 #monthlyTable .owerAvatar img {
     margin-bottom: 2px;
@@ -235,6 +248,7 @@ input[type=number] {
 #statsTable td:first-child {
     text-align: left;
 }
+#settlementTable,
 #statsTable,
 #monthlyTable{
     border-spacing: 2px 2px;
@@ -340,14 +354,38 @@ input[type=number] {
 .shareinput {
     width: 100%;
 }
+.icon-cospend {
+    background-color: var(--color-main-text);
+    padding: 0 !important;
+    mask: url(images/app_black.svg) no-repeat;
+    mask-size: 18px auto;
+    mask-position: center;
+    -webkit-mask: url(images/app_black.svg) no-repeat;
+    -webkit-mask-size: 18px auto;
+    -webkit-mask-position: center;
+    min-width: 44px !important;
+    min-height: 44px !important;
+}
 .icon-time {
     background-color: var(--color-main-text);
     padding: 0 !important;
     mask: url(images/time.svg) no-repeat;
-    mask-size: 22px auto;
+    mask-size: 18px auto;
     mask-position: center;
     -webkit-mask: url(images/time.svg) no-repeat;
-    -webkit-mask-size: 22px auto;
+    -webkit-mask-size: 18px auto;
+    -webkit-mask-position: center;
+    min-width: 44px !important;
+    min-height: 44px !important;
+}
+.icon-schedule {
+    background-color: var(--color-main-text);
+    padding: 0 !important;
+    mask: url(images/schedule.svg) no-repeat;
+    mask-size: 16px auto;
+    mask-position: center;
+    -webkit-mask: url(images/schedule.svg) no-repeat;
+    -webkit-mask-size: 16px auto;
     -webkit-mask-position: center;
     min-width: 44px !important;
     min-height: 44px !important;
@@ -356,14 +394,52 @@ input[type=number] {
     background-color: var(--color-main-text);
     padding: 0 !important;
     mask: url(images/currency.svg) no-repeat;
-    mask-size: 22px 22px;
+    mask-size: 18px 18px;
     mask-position: center;
     -webkit-mask: url(images/currency.svg) no-repeat;
-    -webkit-mask-size: 22px 22px;
+    -webkit-mask-size: 18px 18px;
     -webkit-mask-position: center;
     min-width: 44px !important;
     min-height: 44px !important;
 }
+.icon-palette {
+    background-color: var(--color-main-text);
+    padding: 0 !important;
+    mask: url(images/palette.svg) no-repeat;
+    mask-size: 18px 18px;
+    mask-position: center;
+    -webkit-mask: url(images/palette.svg) no-repeat;
+    -webkit-mask-size: 18px 18px;
+    -webkit-mask-position: center;
+    min-width: 44px !important;
+    min-height: 44px !important;
+}
+.icon-reimburse {
+    background-color: var(--color-main-text);
+    padding: 0 !important;
+    mask: url(images/reimburse.svg) no-repeat;
+    mask-size: 18px 18px;
+    mask-position: center;
+    -webkit-mask: url(images/reimburse.svg) no-repeat;
+    -webkit-mask-size: 18px 18px;
+    -webkit-mask-position: center;
+    min-width: 44px !important;
+    min-height: 44px !important;
+}
+.icon-save {
+    background-color: var(--color-main-text);
+    padding: 0 !important;
+    mask: url(images/save.svg) no-repeat;
+    mask-size: 18px 18px;
+    mask-position: center;
+    -webkit-mask: url(images/save.svg) no-repeat;
+    -webkit-mask-size: 18px 18px;
+    -webkit-mask-position: center;
+    min-width: 44px !important;
+    min-height: 44px !important;
+}
+#settlementTitle .icon-reimburse,
+#billdetail .icon-cospend,
 #billdetail .icon-time,
 #billdetail .icon-currencies {
     min-width: 23px !important;
@@ -558,6 +634,9 @@ a.billitem .app-content-list-item-icon {
     margin: 0px;
     border: 0px;
 }
+.editCategoryIconInput {
+    width: 130px !important;
+}
 #main-currency-edit,
 .one-category-edit,
 .one-currency-edit {
@@ -583,6 +662,9 @@ a.billitem .app-content-list-item-icon {
 #add-currency {
     display: grid;
     grid-template: 1fr / 250px 100px;
+}
+.one-category-edit {
+    width: 400px;
 }
 .one-category-edit,
 .one-currency-edit {
@@ -647,17 +729,25 @@ a.billitem .app-content-list-item-icon {
 .bill-amount {
     margin-top: 25px;
 }
+.bill-amount .icon-cospend,
 .bill-time .icon-time,
 .bill-currency-convert .icon-currencies {
     display: inline-block;
     padding-left: 34px !important;
 }
+.bill-amount label,
 .bill-time label,
 .bill-currency-convert label {
     padding-top: 10px;
 }
-.bill-repeat-extra {
-    text-align: right;
+.bill-repeat-include {
+    text-align: left;
     margin-top: 5px;
     margin-bottom: 5px;
+    padding-left: 8px;
+}
+.exportStats span,
+.exportSettlement span {
+    min-height: 16px !important;
+    min-width: 16px !important;
 }

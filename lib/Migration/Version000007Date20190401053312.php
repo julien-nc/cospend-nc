@@ -104,6 +104,18 @@ class Version000007Date20190401053312 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['id']);
 		}
+		else {
+			// if previous version had the table
+			// but was old enough not to have isgroupshare column
+			$table = $schema->getTable('cospend_shares');
+			if (!$table->hasColumn('isgroupshare')) {
+				$table->addColumn('isgroupshare', 'smallint', [
+					'notnull' => true,
+					'length' => 1,
+					'default' => 0,
+				]);
+			}
+		}
 
 		if (!$schema->hasTable('cospend_members')) {
 			$table = $schema->createTable('cospend_members');

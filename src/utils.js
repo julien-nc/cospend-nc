@@ -1,8 +1,8 @@
 /*jshint esversion: 6 */
 
-import cospend from "./state";
-import {generateUrl} from "@nextcloud/router";
-import * as Notification from "./notification";
+import cospend from './state';
+import {generateUrl} from '@nextcloud/router';
+import * as Notification from './notification';
 
 function hexToRgb (hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -15,7 +15,7 @@ function hexToRgb (hex) {
 
 function componentToHex (c) {
     const hex = c.toString(16);
-    return hex.length === 1 ? "0" + hex : hex;
+    return hex.length === 1 ? '0' + hex : hex;
 }
 
 export function rgbObjToHex (o) {
@@ -23,7 +23,7 @@ export function rgbObjToHex (o) {
 }
 
 function rgbToHex (r, g, b) {
-    return "#" + componentToHex(parseInt(r)) + componentToHex(parseInt(g)) + componentToHex(parseInt(b));
+    return '#' + componentToHex(parseInt(r)) + componentToHex(parseInt(g)) + componentToHex(parseInt(b));
 }
 
 export function hexToDarkerHex (hex) {
@@ -50,12 +50,12 @@ function getColorBrightness (rgb) {
 export function Timer (callback, mydelay) {
     let timerId, start, remaining = mydelay;
 
-    this.pause = function () {
+    this.pause = function() {
         window.clearTimeout(timerId);
         remaining -= new Date() - start;
     };
 
-    this.resume = function () {
+    this.resume = function() {
         start = new Date();
         window.clearTimeout(timerId);
         timerId = window.setTimeout(callback, remaining);
@@ -67,10 +67,10 @@ export function Timer (callback, mydelay) {
 let mytimer = 0;
 
 export function delay (callback, ms) {
-    return function () {
+    return function() {
         const context = this, args = arguments;
         clearTimeout(mytimer);
-        mytimer = setTimeout(function () {
+        mytimer = setTimeout(function() {
             callback.apply(context, args);
         }, ms || 0);
     };
@@ -86,8 +86,8 @@ export function endsWith (str, suffix) {
 
 export function basename (str) {
     let base = String(str).substring(str.lastIndexOf('/') + 1);
-    if (base.lastIndexOf(".") !== -1) {
-        base = base.substring(0, base.lastIndexOf("."));
+    if (base.lastIndexOf('.') !== -1) {
+        base = base.substring(0, base.lastIndexOf('.'));
     }
     return base;
 }
@@ -114,8 +114,8 @@ export function saveOptionValue (optionValues) {
             url: url,
             data: req,
             async: true
-        }).done(function () {
-        }).fail(function () {
+        }).done(function() {
+        }).fail(function() {
             Notification.showTemporary(
                 t('cospend', 'Failed to save option values')
             );
@@ -151,7 +151,7 @@ export function generatePublicLinkToFile (targetPath, successCallback) {
         url: url,
         data: req,
         async: true
-    }).done(function (response) {
+    }).done(function(response) {
         $('.loading-bill').removeClass('icon-loading-small');
 
         const filePublicUrl = window.location.protocol + '//' + window.location.hostname + generateUrl('/s/' + response.token);
@@ -160,8 +160,8 @@ export function generatePublicLinkToFile (targetPath, successCallback) {
         what = what + ' ' + filePublicUrl;
         $('#what').val(what);
         successCallback();
-    }).always(function () {
-    }).fail(function (response) {
+    }).always(function() {
+    }).fail(function(response) {
         $('.loading-bill').removeClass('icon-loading-small');
         Notification.showTemporary(
             t('cospend', 'Failed to generate public link to file') +
@@ -172,7 +172,7 @@ export function generatePublicLinkToFile (targetPath, successCallback) {
 
 export function updateCustomAmount () {
     let tot = 0;
-    $('.amountinput').each(function () {
+    $('.amountinput').each(function() {
         const val = parseFloat($(this).val());
         if (!isNaN(val) && val > 0.0) {
             tot = tot + val;
@@ -189,7 +189,7 @@ export function copyToClipboard (text) {
 
 export function reload (msg) {
     Notification.showTemporary(msg);
-    new Timer(function () {
+    new Timer(function() {
         location.reload();
     }, 5000);
 }

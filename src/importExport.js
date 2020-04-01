@@ -1,9 +1,9 @@
 /*jshint esversion: 6 */
 
-import {generateUrl} from "@nextcloud/router";
-import * as Notification from "./notification";
-import {endsWith} from "./utils";
-import {getProjects} from "./project";
+import {generateUrl} from '@nextcloud/router';
+import * as Notification from './notification';
+import {endsWith} from './utils';
+import {getProjects} from './project';
 
 
 export function exportProject (projectid) {
@@ -21,11 +21,11 @@ export function exportProject (projectid) {
         url: url,
         data: req,
         async: true
-    }).done(function (response) {
+    }).done(function(response) {
         Notification.showTemporary(t('cospend', 'Project exported in {path}', {path: response.path}));
-    }).always(function () {
+    }).always(function() {
         $('.projectitem[projectid="' + projectid + '"]').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to export project') +
             ': ' + response.responseJSON.message
@@ -53,11 +53,11 @@ export function exportStatistics (projectid, dateMin = null, dateMax = null, pay
         url: url,
         data: req,
         async: true
-    }).done(function (response) {
+    }).done(function(response) {
         Notification.showTemporary(t('cospend', 'Project statistics exported in {path}', {path: response.path}));
-    }).always(function () {
+    }).always(function() {
         $('.exportStats[projectid="' + projectid + '"] span').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to export project statistics') +
             ': ' + response.responseJSON.message
@@ -76,11 +76,11 @@ export function exportSettlement (projectid) {
         url: url,
         data: req,
         async: true
-    }).done(function (response) {
+    }).done(function(response) {
         Notification.showTemporary(t('cospend', 'Project settlement exported in {path}', {path: response.path}));
-    }).always(function () {
+    }).always(function() {
         $('.exportSettlement[projectid="' + projectid + '"] span').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to export project settlement') +
             ': ' + response.responseJSON.message
@@ -103,11 +103,11 @@ export function importProject (targetPath) {
         url: url,
         data: req,
         async: true
-    }).done(function () {
+    }).done(function() {
         $('#addFileLinkButton').removeClass('icon-loading-small');
         getProjects();
-    }).always(function () {
-    }).fail(function (response) {
+    }).always(function() {
+    }).fail(function(response) {
         $('#addFileLinkButton').removeClass('icon-loading-small');
         Notification.showTemporary(
             t('cospend', 'Failed to import project file') +
@@ -131,11 +131,11 @@ export function importSWProject (targetPath) {
         url: url,
         data: req,
         async: true
-    }).done(function () {
+    }).done(function() {
         $('#addFileLinkButton').removeClass('icon-loading-small');
         getProjects();
-    }).always(function () {
-    }).fail(function (response) {
+    }).always(function() {
+    }).fail(function(response) {
         $('#addFileLinkButton').removeClass('icon-loading-small');
         Notification.showTemporary(
             t('cospend', 'Failed to import project file') +

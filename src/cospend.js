@@ -31,7 +31,7 @@ import {
     saveOptionValue,
     Timer,
     updateCustomAmount
-} from "./utils";
+} from './utils';
 import {
     autoSettlement,
     createProject,
@@ -44,7 +44,7 @@ import {
     getProjectSettlement,
     getProjectStatistics,
     selectProject
-} from "./project";
+} from './project';
 import {
     addBill,
     createCustomAmountBill,
@@ -53,7 +53,7 @@ import {
     deleteBill,
     displayBill,
     onBillEdited
-} from "./bill";
+} from './bill';
 import {
     askChangeMemberColor,
     okMemberColor,
@@ -61,7 +61,7 @@ import {
     displayCategoryMemberChart,
     displayMemberPolarChart,
     editMember
-} from "./member";
+} from './member';
 import {
     addUserAutocompletion,
     addPublicShareDb,
@@ -70,40 +70,40 @@ import {
     deletePublicShareDb,
     deleteUserShareDb,
     editShareAccessLevelDb
-} from "./share";
+} from './share';
 import {
     addCategoryDb,
     deleteCategoryDb,
     editCategoryDb,
     getProjectCategories
-} from "./category";
+} from './category';
 import {
     addCurrencyDb,
     deleteCurrencyDb,
     editCurrencyDb,
     getProjectCurrencies
-} from "./currency";
+} from './currency';
 import {
     exportProject,
     exportSettlement,
     exportStatistics,
     importProject,
     importSWProject
-} from "./importExport";
-import cospend from "./state";
+} from './importExport';
+import cospend from './state';
 
 
-(function ($, OC) {
+(function($, OC) {
     'use strict';
 
     Chart.plugins.register({
-        beforeRender: function (chart) {
+        beforeRender: function(chart) {
             if (chart.config.options.showAllTooltips) {
                 // create an array of tooltips
                 // we can't use the chart tooltip because there is only one tooltip per chart
                 chart.pluginTooltips = [];
-                chart.config.data.datasets.forEach(function (dataset, i) {
-                    chart.getDatasetMeta(i).data.forEach(function (sector, j) {
+                chart.config.data.datasets.forEach(function(dataset, i) {
+                    chart.getDatasetMeta(i).data.forEach(function(sector, j) {
                         chart.pluginTooltips.push(new Chart.Tooltip({
                             _chart: chart.chart,
                             _chartInstance: chart,
@@ -118,7 +118,7 @@ import cospend from "./state";
                 chart.options.tooltips.enabled = false;
             }
         },
-        afterDraw: function (chart, easing) {
+        afterDraw: function(chart, easing) {
             if (chart.config.options.showAllTooltips) {
                 // we don't want the permanent tooltips to animate, so don't do anything till the animation runs atleast once
                 if (!chart.allTooltipsOnce) {
@@ -130,7 +130,7 @@ import cospend from "./state";
 
                 // turn on tooltips
                 chart.options.tooltips.enabled = true;
-                Chart.helpers.each(chart.pluginTooltips, function (tooltip) {
+                Chart.helpers.each(chart.pluginTooltips, function(tooltip) {
                     tooltip.initialize();
                     tooltip.update();
                     // we don't actually need this since we are not animating tooltips
@@ -144,7 +144,7 @@ import cospend from "./state";
 
     // trick to always show public link item: replace default autocomplete filter function
     const origFilter = $.ui.autocomplete.filter;
-    $.ui.autocomplete.filter = function (array, term) {
+    $.ui.autocomplete.filter = function(array, term) {
         const result = [cospend.pubLinkData];
         return result.concat(origFilter(array, term));
     };
@@ -158,7 +158,7 @@ import cospend from "./state";
             url: url,
             data: req,
             async: true
-        }).done(function (response) {
+        }).done(function(response) {
             optionsValues = response.values;
             if (optionsValues) {
                 for (const k in optionsValues) {
@@ -170,7 +170,7 @@ import cospend from "./state";
                 }
             }
             main();
-        }).fail(function () {
+        }).fail(function() {
             Notification.showTemporary(
                 t('cospend', 'Failed to restore options values')
             );
@@ -215,43 +215,43 @@ import cospend from "./state";
             addUserAutocompletion($(this), projectid);
         });
 
-        $('body').on('click', '.deleteUserShareButton', function () {
+        $('body').on('click', '.deleteUserShareButton', function() {
             const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
             const shid = $(this).parent().parent().parent().parent().attr('shid');
             deleteUserShareDb(projectid, shid);
         });
 
-        $('body').on('click', '.deleteGroupShareButton', function () {
+        $('body').on('click', '.deleteGroupShareButton', function() {
             const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
             const shid = $(this).parent().parent().parent().parent().attr('shid');
             deleteGroupShareDb(projectid, shid);
         });
 
-        $('body').on('click', '.deleteCircleShareButton', function () {
+        $('body').on('click', '.deleteCircleShareButton', function() {
             const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
             const shid = $(this).parent().parent().parent().parent().attr('shid');
             deleteCircleShareDb(projectid, shid);
         });
 
-        $('body').on('click', '.deletePublicShareButton', function () {
+        $('body').on('click', '.deletePublicShareButton', function() {
             const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
             const shid = $(this).parent().parent().parent().parent().attr('shid');
             deletePublicShareDb(projectid, shid);
         });
 
-        $('body').on('click', '.copyPublicShareButton', function () {
+        $('body').on('click', '.copyPublicShareButton', function() {
             const token = $(this).parent().parent().parent().attr('token');
             const publicLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/s/' + token);
             copyToClipboard(publicLink);
             Notification.showTemporary(t('cospend', 'Public link copied to clipboard'));
         });
 
-        $('body').on('click', '.addPublicShareButton', function () {
+        $('body').on('click', '.addPublicShareButton', function() {
             const projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
             addPublicShareDb(projectid);
         });
 
-        $('body').on('click', '.accesslevel', function (e) {
+        $('body').on('click', '.accesslevel', function(e) {
             const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
             const shid = $(this).parent().parent().parent().parent().attr('shid');
             let accesslevel = constants.ACCESS.VIEWER;
@@ -266,7 +266,7 @@ import cospend from "./state";
             e.stopPropagation();
         });
 
-        $('body').on('click', '.accesslevelguest', function () {
+        $('body').on('click', '.accesslevelguest', function() {
             const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
             let accesslevel = constants.ACCESS.VIEWER;
             if ($(this).hasClass('accesslevelAdmin')) {
@@ -279,7 +279,7 @@ import cospend from "./state";
             editGuestAccessLevelDb(projectid, accesslevel);
         });
 
-        $('body').on('click', '.shareProjectButton', function () {
+        $('body').on('click', '.shareProjectButton', function() {
             const shareDiv = $(this).parent().parent().parent().find('.app-navigation-entry-share');
             if (shareDiv.is(':visible')) {
                 shareDiv.slideUp();
@@ -290,7 +290,7 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('click', '.projectMenuButton, .memberMenuButton', function () {
+        $('body').on('click', '.projectMenuButton, .memberMenuButton', function() {
             const wasOpen = $(this).parent().parent().parent().find('>.app-navigation-entry-menu').hasClass('open');
             $('.app-navigation-entry-menu.open').removeClass('open');
             if (!wasOpen) {
@@ -298,33 +298,33 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('click', '.projectitem > a', function () {
+        $('body').on('click', '.projectitem > a', function() {
             selectProject($(this).parent());
         });
 
-        $('body').on('click', '.projectitem', function (e) {
+        $('body').on('click', '.projectitem', function(e) {
             if (e.target.tagName === 'LI' && $(e.target).hasClass('projectitem')) {
                 selectProject($(this));
             }
         });
 
-        $('#newprojectbutton').click(function () {
+        $('#newprojectbutton').click(function() {
             const div = $('#newprojectdiv');
             if (div.is(':visible')) {
                 $(this).removeClass('icon-triangle-s').addClass('icon-triangle-e');
-                div.slideUp('normal', function () {
+                div.slideUp('normal', function() {
                     $('#newBillButton').fadeIn();
                 });
             } else {
                 $(this).removeClass('icon-triangle-e').addClass('icon-triangle-s');
-                div.slideDown('normal', function () {
+                div.slideDown('normal', function() {
                     $('#newBillButton').fadeOut();
                     $('#projectidinput').focus().select();
                 });
             }
         });
 
-        $('#projectnameinput, #projectidinput, #projectpasswordinput').on('keyup', function (e) {
+        $('#projectnameinput, #projectidinput, #projectpasswordinput').on('keyup', function(e) {
             if (e.key === 'Enter') {
                 const name = $('#projectnameinput').val();
                 const id = $('#projectidinput').val();
@@ -337,7 +337,7 @@ import cospend from "./state";
             }
         });
 
-        $('#newprojectform').submit(function (e) {
+        $('#newprojectform').submit(function(e) {
             const name = $('#projectnameinput').val();
             const id = $('#projectidinput').val();
             const password = $('#projectpasswordinput').val();
@@ -349,7 +349,7 @@ import cospend from "./state";
             e.preventDefault();
         });
 
-        $('#createproject').click(function () {
+        $('#createproject').click(function() {
             const name = $('#projectnameinput').val();
             const id = $('#projectidinput').val();
             const password = $('#projectpasswordinput').val();
@@ -360,22 +360,22 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('click', '.deleteProject', function () {
+        $('body').on('click', '.deleteProject', function() {
             const projectid = $(this).parent().parent().parent().parent().attr('projectid');
             $(this).parent().parent().parent().parent().addClass('deleted');
-            cospend.projectDeletionTimer[projectid] = new Timer(function () {
+            cospend.projectDeletionTimer[projectid] = new Timer(function() {
                 deleteProject(projectid);
             }, 7000);
         });
 
-        $('body').on('click', '.undoDeleteProject', function () {
+        $('body').on('click', '.undoDeleteProject', function() {
             const projectid = $(this).parent().parent().attr('projectid');
             $(this).parent().parent().removeClass('deleted');
             cospend.projectDeletionTimer[projectid].pause();
             delete cospend.projectDeletionTimer[projectid];
         });
 
-        $('body').on('click', '.addMember', function () {
+        $('body').on('click', '.addMember', function() {
             const projectid = $(this).parent().parent().parent().parent().attr('projectid');
 
             const newmemberdiv = $('.projectitem[projectid="' + projectid + '"] .newmemberdiv');
@@ -384,7 +384,7 @@ import cospend from "./state";
             newmemberdiv.find('.newmembername').val(defaultMemberName).focus().select();
         });
 
-        $('body').on('click', '.newmemberbutton', function () {
+        $('body').on('click', '.newmemberbutton', function() {
             const projectid = $(this).parent().parent().attr('projectid');
             const name = $(this).parent().find('input').val();
             if (projectid && name) {
@@ -394,7 +394,7 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('keyup', '.newmembername', function (e) {
+        $('body').on('keyup', '.newmembername', function(e) {
             if (e.key === 'Enter') {
                 const name = $(this).val();
                 const projectid = $(this).parent().parent().attr('projectid');
@@ -406,7 +406,7 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('click', '.renameMember', function () {
+        $('body').on('click', '.renameMember', function() {
             const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
             const mid = $(this).parent().parent().parent().parent().attr('memberid');
             const name = cospend.members[projectid][mid].name;
@@ -416,7 +416,7 @@ import cospend from "./state";
             cospend.memberEditionMode = MEMBER_NAME_EDITION;
         });
 
-        $('body').on('click', '.editWeightMember', function () {
+        $('body').on('click', '.editWeightMember', function() {
             const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
             const mid = $(this).parent().parent().parent().parent().attr('memberid');
             const weight = cospend.members[projectid][mid].weight;
@@ -426,11 +426,11 @@ import cospend from "./state";
             cospend.memberEditionMode = MEMBER_WEIGHT_EDITION;
         });
 
-        $('body').on('click', '.editMemberClose', function () {
+        $('body').on('click', '.editMemberClose', function() {
             $(this).parent().parent().parent().removeClass('editing');
         });
 
-        $('body').on('keyup', '.editMemberInput', function (e) {
+        $('body').on('keyup', '.editMemberInput', function(e) {
             if (e.key === 'Enter') {
                 const memberid = $(this).parent().parent().parent().attr('memberid');
                 const projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
@@ -450,7 +450,7 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('click', '.editMemberOk', function () {
+        $('body').on('click', '.editMemberOk', function() {
             const memberid = $(this).parent().parent().parent().attr('memberid');
             const projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
             let newName;
@@ -468,7 +468,7 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('click', '.toggleMember', function () {
+        $('body').on('click', '.toggleMember', function() {
             const memberid = $(this).parent().parent().parent().parent().attr('memberid');
             const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
             const newName = $(this).parent().parent().parent().parent().find('>a span b.memberName').text();
@@ -476,7 +476,7 @@ import cospend from "./state";
             editMember(projectid, memberid, newName, null, activated);
         });
 
-        $('body').on('click', '.editProjectName', function () {
+        $('body').on('click', '.editProjectName', function() {
             const projectid = $(this).parent().parent().parent().parent().attr('projectid');
             const name = cospend.projects[projectid].name;
             $(this).parent().parent().parent().parent().find('.editProjectInput').val(name).attr('type', 'text').focus().select();
@@ -485,18 +485,18 @@ import cospend from "./state";
             cospend.projectEditionMode = PROJECT_NAME_EDITION;
         });
 
-        $('body').on('click', '.editProjectPassword', function () {
+        $('body').on('click', '.editProjectPassword', function() {
             $(this).parent().parent().parent().parent().find('.editProjectInput').attr('type', 'password').val('').focus();
             $('#projectlist > li').removeClass('editing');
             $(this).parent().parent().parent().parent().removeClass('open').addClass('editing');
             cospend.projectEditionMode = PROJECT_PASSWORD_EDITION;
         });
 
-        $('body').on('click', '.editProjectClose', function () {
+        $('body').on('click', '.editProjectClose', function() {
             $(this).parent().parent().parent().removeClass('editing');
         });
 
-        $('body').on('keyup', '.editProjectInput', function (e) {
+        $('body').on('keyup', '.editProjectInput', function(e) {
             if (e.key === 'Enter') {
                 let newName;
                 const projectid = $(this).parent().parent().parent().attr('projectid');
@@ -511,7 +511,7 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('click', '.editProjectOk', function () {
+        $('body').on('click', '.editProjectOk', function() {
             const projectid = $(this).parent().parent().parent().attr('projectid');
             let newName;
             if (cospend.projectEditionMode === PROJECT_NAME_EDITION) {
@@ -524,7 +524,7 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('click', '.billitem', function (e) {
+        $('body').on('click', '.billitem', function(e) {
             if (!$(e.target).hasClass('deleteBillIcon') && !$(e.target).hasClass('undoDeleteBill')) {
                 const billid = parseInt($(this).attr('billid'));
                 const projectid = $(this).attr('projectid');
@@ -533,23 +533,23 @@ import cospend from "./state";
         });
 
         // what and amount : delay on edition
-        $('body').on('keyup paste change', '.input-bill-what', delay(function () {
+        $('body').on('keyup paste change', '.input-bill-what', delay(function() {
             onBillEdited();
         }, 2000));
-        $('body').on('keyup paste change', '.input-bill-amount', delay(function () {
+        $('body').on('keyup paste change', '.input-bill-amount', delay(function() {
             onBillEdited(true);
         }, 2000));
 
         // other bill fields : direct on edition
-        $('body').on('change', '.input-bill-date, .input-bill-time, .input-bill-repeatuntil, #billdetail .bill-form select', function () {
+        $('body').on('change', '.input-bill-date, .input-bill-time, .input-bill-repeatuntil, #billdetail .bill-form select', function() {
             onBillEdited();
         });
-        $('body').on('click', '#repeatallactive', function () {
+        $('body').on('click', '#repeatallactive', function() {
             onBillEdited();
         });
 
         // show/hide repeatallactive
-        $('body').on('change', '#repeatbill', function () {
+        $('body').on('change', '#repeatbill', function() {
             if ($(this).val() === 'n') {
                 $('.bill-repeat-extra').hide();
             } else {
@@ -557,7 +557,7 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('change', '#billdetail .bill-form .bill-owers input[type=checkbox]', function () {
+        $('body').on('change', '#billdetail .bill-form .bill-owers input[type=checkbox]', function() {
             const billtype = $('#billtype').val();
             if (billtype === 'perso') {
                 if ($(this).is(':checked')) {
@@ -570,7 +570,7 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('click', '#owerAll', function () {
+        $('body').on('click', '#owerAll', function() {
             const billtype = $('#billtype').val();
             const projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
             for (const memberid in cospend.members[projectid]) {
@@ -585,7 +585,7 @@ import cospend from "./state";
             onBillEdited();
         });
 
-        $('body').on('click', '#owerNone', function () {
+        $('body').on('click', '#owerNone', function() {
             const billtype = $('#billtype').val();
             const projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
             for (const memberid in cospend.members[projectid]) {
@@ -600,7 +600,7 @@ import cospend from "./state";
             onBillEdited();
         });
 
-        $('body').on('click', '.undoDeleteBill', function () {
+        $('body').on('click', '.undoDeleteBill', function() {
             const billid = $(this).parent().attr('billid');
             cospend.billDeletionTimer[billid].pause();
             delete cospend.billDeletionTimer[billid];
@@ -609,21 +609,21 @@ import cospend from "./state";
             $(this).hide();
         });
 
-        $('body').on('click', '.deleteBillIcon', function () {
+        $('body').on('click', '.deleteBillIcon', function() {
             const billid = $(this).parent().attr('billid');
             if (billid !== '0') {
                 const projectid = $(this).parent().attr('projectid');
                 $(this).parent().find('.undoDeleteBill').show();
                 $(this).parent().addClass('deleted');
                 $(this).hide();
-                cospend.billDeletionTimer[billid] = new Timer(function () {
+                cospend.billDeletionTimer[billid] = new Timer(function() {
                     deleteBill(projectid, billid);
                 }, 7000);
             } else {
                 if ($('.bill-title').length > 0 && $('.bill-title').attr('billid') === billid) {
                     $('#billdetail').html('');
                 }
-                $(this).parent().fadeOut('normal', function () {
+                $(this).parent().fadeOut('normal', function() {
                     $(this).remove();
                     if ($('.billitem').length === 0) {
                         $('#bill-list').html('<h2 class="nobill">' + t('cospend', 'No bill yet') + '</h2>');
@@ -632,7 +632,7 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('click', '#newBillButton', function () {
+        $('body').on('click', '#newBillButton', function() {
             const projectid = cospend.currentProjectId;
             const activatedMembers = [];
             for (const mid in cospend.members[projectid]) {
@@ -659,33 +659,33 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('focus', '.input-bill-what, .input-bill-amount, #projectidinput, #projectnameinput, #projectpasswordinput', function () {
+        $('body').on('focus', '.input-bill-what, .input-bill-amount, #projectidinput, #projectnameinput, #projectpasswordinput', function() {
             $(this).select();
         });
 
-        $('body').on('click', '.moneyBusterProjectUrl', function () {
+        $('body').on('click', '.moneyBusterProjectUrl', function() {
             const projectid = $(this).parent().parent().parent().parent().attr('projectid');
             getProjectMoneyBusterLink(projectid);
         });
 
-        $('body').on('click', '.getProjectStats', function () {
+        $('body').on('click', '.getProjectStats', function() {
             const projectid = $(this).parent().parent().parent().parent().attr('projectid');
             getProjectStatistics(projectid, null, null, null, -100);
         });
 
-        $('body').on('click', '.manageProjectCurrencies', function () {
+        $('body').on('click', '.manageProjectCurrencies', function() {
             const projectid = $(this).parent().parent().parent().parent().attr('projectid');
             getProjectCurrencies(projectid);
         });
 
-        $('body').on('click', '.manageProjectCategories', function () {
+        $('body').on('click', '.manageProjectCategories', function() {
             const projectid = $(this).parent().parent().parent().parent().attr('projectid');
             getProjectCategories(projectid);
         });
 
         $('body').on('change', '#date-min-stats, #date-max-stats, #payment-mode-stats, ' +
             '#category-stats, #amount-min-stats, #amount-max-stats, ' +
-            '#showDisabled, #currency-stats', function () {
+            '#showDisabled, #currency-stats', function() {
             const projectid = cospend.currentProjectId;
             const dateMin = $('#date-min-stats').val();
             const dateMax = $('#date-max-stats').val();
@@ -698,12 +698,12 @@ import cospend from "./state";
             getProjectStatistics(projectid, dateMin, dateMax, paymentMode, category, amountMin, amountMax, showDisabled, currencyId);
         });
 
-        $('body').on('click', '.getProjectSettlement', function () {
+        $('body').on('click', '.getProjectSettlement', function() {
             const projectid = $(this).parent().parent().parent().parent().attr('projectid');
             getProjectSettlement(projectid);
         });
 
-        $('body').on('click', '.copyProjectGuestLink', function () {
+        $('body').on('click', '.copyProjectGuestLink', function() {
             const projectid = $(this).parent().parent().parent().parent().attr('projectid');
             const guestLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/loginproject/' + projectid);
             copyToClipboard(guestLink);
@@ -714,7 +714,7 @@ import cospend from "./state";
         guestLink = window.location.protocol + '//' + window.location.host + guestLink;
         $('#generalGuestLinkButton').attr('title', guestLink);
 
-        $('body').on('click', '#generalGuestLinkButton', function () {
+        $('body').on('click', '#generalGuestLinkButton', function() {
             let guestLink = generateUrl('/apps/cospend/login');
             guestLink = window.location.protocol + '//' + window.location.host + guestLink;
             $('<input id="dummycopy">').val(guestLink).appendTo('body').select();
@@ -723,24 +723,24 @@ import cospend from "./state";
             Notification.showTemporary(t('cospend', 'Guest link copied to clipboard'));
         });
 
-        $('body').on('click', '#app-details-toggle', function () {
+        $('body').on('click', '#app-details-toggle', function() {
             $('.app-content-list').removeClass('showdetails');
         });
 
-        $('body').on('click', '#addFileLinkButton', function () {
+        $('body').on('click', '#addFileLinkButton', function() {
             OC.dialogs.filepicker(
                 t('cospend', 'Choose file'),
-                function (targetPath) {
+                function(targetPath) {
                     generatePublicLinkToFile(targetPath, onBillEdited);
                 },
                 false, null, true
             );
         });
 
-        $('body').on('click', '#importProjectButton', function () {
+        $('body').on('click', '#importProjectButton', function() {
             OC.dialogs.filepicker(
                 t('cospend', 'Choose csv project file'),
-                function (targetPath) {
+                function(targetPath) {
                     importProject(targetPath);
                 },
                 false,
@@ -749,10 +749,10 @@ import cospend from "./state";
             );
         });
 
-        $('body').on('click', '#importSWProjectButton', function () {
+        $('body').on('click', '#importSWProjectButton', function() {
             OC.dialogs.filepicker(
                 t('cospend', 'Choose SplitWise project file'),
-                function (targetPath) {
+                function(targetPath) {
                     importSWProject(targetPath);
                 },
                 false,
@@ -761,16 +761,16 @@ import cospend from "./state";
             );
         });
 
-        $('body').on('click', '.exportProject', function () {
+        $('body').on('click', '.exportProject', function() {
             const projectid = $(this).parent().parent().parent().parent().attr('projectid');
             exportProject(projectid);
         });
 
-        $('body').on('click', '.autoexportSelect, .accesslevelguest', function (e) {
+        $('body').on('click', '.autoexportSelect, .accesslevelguest', function(e) {
             e.stopPropagation();
         });
 
-        $('body').on('change', '.autoexportSelect', function () {
+        $('body').on('change', '.autoexportSelect', function() {
             const newval = $(this).val();
             const projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
             const projectName = getProjectName(projectid);
@@ -778,7 +778,7 @@ import cospend from "./state";
             $(this).parent().click();
         });
 
-        $('body').on('click', '.exportStats', function () {
+        $('body').on('click', '.exportStats', function() {
             const projectid = $(this).attr('projectid');
 
             const dateMin = $('#date-min-stats').val();
@@ -793,17 +793,17 @@ import cospend from "./state";
             exportStatistics(projectid, dateMin, dateMax, paymentMode, category, amountMin, amountMax, showDisabled, currencyId);
         });
 
-        $('body').on('click', '.exportSettlement', function () {
+        $('body').on('click', '.exportSettlement', function() {
             const projectid = $(this).attr('projectid');
             exportSettlement(projectid);
         });
 
-        $('body').on('click', '.autoSettlement', function () {
+        $('body').on('click', '.autoSettlement', function() {
             const projectid = $(this).attr('projectid');
             autoSettlement(projectid);
         });
 
-        $('body').on('click', '#modehintbutton', function () {
+        $('body').on('click', '#modehintbutton', function() {
             const billtype = $('#billtype').val();
             if (billtype === 'normal') {
                 if ($('.modenormal').is(':visible')) {
@@ -832,7 +832,7 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('change', '#billtype', function () {
+        $('body').on('change', '#billtype', function() {
             $('.modehint').slideUp();
             let owerValidateStr = t('cospend', 'Create the bills');
             const billtype = $(this).val();
@@ -868,7 +868,7 @@ import cospend from "./state";
                 $('.bill-owers .checkboxlabel').show();
                 $('.bill-owers .numberlabel').hide();
                 $('.bill-owers input[type=number]').hide();
-                $('.bill-owers .checkbox').each(function () {
+                $('.bill-owers .checkbox').each(function() {
                     if ($(this).is(':checked')) {
                         $(this).parent().find('input[type=number]').show();
                     }
@@ -880,14 +880,14 @@ import cospend from "./state";
             $('#owerValidateText').text(owerValidateStr);
         });
 
-        $('body').on('paste change', '.amountinput', function () {
+        $('body').on('paste change', '.amountinput', function() {
             const billtype = $('#billtype').val();
             if (billtype === 'custom') {
                 updateCustomAmount();
             }
         });
 
-        $('body').on('keyup', '.amountinput', function (e) {
+        $('body').on('keyup', '.amountinput', function(e) {
             const billtype = $('#billtype').val();
             if (billtype === 'custom') {
                 updateCustomAmount();
@@ -901,7 +901,7 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('click', '#owerValidate', function () {
+        $('body').on('click', '#owerValidate', function() {
             const billtype = $('#billtype').val();
             if (billtype === 'custom') {
                 updateCustomAmount();
@@ -913,10 +913,10 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('click', '#changeOutputButton', function () {
+        $('body').on('click', '#changeOutputButton', function() {
             OC.dialogs.filepicker(
                 t('maps', 'Choose where to write output files (stats, settlement, export)'),
-                function (targetPath) {
+                function(targetPath) {
                     if (targetPath === '') {
                         targetPath = '/';
                     }
@@ -929,44 +929,44 @@ import cospend from "./state";
             );
         });
 
-        $('body').on('change', '#categoryMemberSelect', function () {
+        $('body').on('change', '#categoryMemberSelect', function() {
             displayCategoryMemberChart();
         });
 
-        $('body').on('change', '#memberPolarSelect', function () {
+        $('body').on('change', '#memberPolarSelect', function() {
             displayMemberPolarChart();
         });
 
-        $('body').on('click', '.memberAvatar', function () {
+        $('body').on('click', '.memberAvatar', function() {
             const projectid = $(this).parent().parent().parent().attr('projectid');
             const memberid = $(this).parent().attr('memberid');
             askChangeMemberColor(projectid, memberid);
         });
 
-        $('body').on('click', '.editColorMember', function () {
+        $('body').on('click', '.editColorMember', function() {
             const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
             const memberid = $(this).parent().parent().parent().parent().attr('memberid');
             askChangeMemberColor(projectid, memberid);
         });
 
-        $('body').on('change', '#membercolorinput', function () {
+        $('body').on('change', '#membercolorinput', function() {
             okMemberColor();
         });
 
         // main currency
-        $('body').on('click', '.editMainCurrency', function () {
+        $('body').on('click', '.editMainCurrency', function() {
             $('#main-currency-label').hide();
             $('#main-currency-edit').show().css('display', 'grid');
             $('.editMainCurrencyInput').focus().select();
         });
 
-        $('body').on('click', '.editMainCurrencyOk', function () {
+        $('body').on('click', '.editMainCurrencyOk', function() {
             const projectid = $('#curTitle').attr('projectid');
             const value = $('.editMainCurrencyInput').val();
             const projectName = cospend.projects[projectid].name;
             editProject(projectid, projectName, null, null, null, value);
         });
-        $('body').on('keyup', '.editMainCurrencyInput', function (e) {
+        $('body').on('keyup', '.editMainCurrencyInput', function(e) {
             if (e.key === 'Enter') {
                 const projectid = $('#curTitle').attr('projectid');
                 const value = $('.editMainCurrencyInput').val();
@@ -975,13 +975,13 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('click', '.editMainCurrencyClose', function () {
+        $('body').on('click', '.editMainCurrencyClose', function() {
             $('#main-currency-label').show();
             $('#main-currency-edit').hide();
         });
 
         // other currencies
-        $('body').on('click', '.addCurrencyOk', function () {
+        $('body').on('click', '.addCurrencyOk', function() {
             const projectid = $('#curTitle').attr('projectid');
             const name = $('#addCurrencyNameInput').val();
             if (name === null || name === '') {
@@ -996,7 +996,7 @@ import cospend from "./state";
             addCurrencyDb(projectid, name, rate);
         });
 
-        $('body').on('keyup', '#addCurrencyNameInput, #addCurrencyRateInput', function (e) {
+        $('body').on('keyup', '#addCurrencyNameInput, #addCurrencyRateInput', function(e) {
             if (e.key === 'Enter') {
                 const projectid = $('#curTitle').attr('projectid');
                 const name = $('#addCurrencyNameInput').val();
@@ -1013,7 +1013,7 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('click', '.deleteOneCurrency', function () {
+        $('body').on('click', '.deleteOneCurrency', function() {
             const projectid = $('#curTitle').attr('projectid');
             const currencyId = $(this).parent().parent().attr('currencyid');
             if ($(this).hasClass('icon-history')) {
@@ -1022,20 +1022,20 @@ import cospend from "./state";
                 delete cospend.currencyDeletionTimer[currencyId];
             } else {
                 $(this).addClass('icon-history').removeClass('icon-delete');
-                cospend.currencyDeletionTimer[currencyId] = new Timer(function () {
+                cospend.currencyDeletionTimer[currencyId] = new Timer(function() {
                     deleteCurrencyDb(projectid, currencyId);
                 }, 7000);
             }
         });
 
-        $('body').on('click', '.editOneCurrency', function () {
+        $('body').on('click', '.editOneCurrency', function() {
             $(this).parent().hide();
             $(this).parent().parent().find('.one-currency-edit').show()
                 .css('display', 'grid')
                 .find('.editCurrencyNameInput').focus().select();
         });
 
-        $('body').on('click', '.editCurrencyOk', function () {
+        $('body').on('click', '.editCurrencyOk', function() {
             const projectid = $('#curTitle').attr('projectid');
             const currencyId = $(this).parent().parent().attr('currencyid');
             const name = $(this).parent().find('.editCurrencyNameInput').val();
@@ -1051,7 +1051,7 @@ import cospend from "./state";
             editCurrencyDb(projectid, currencyId, name, rate);
         });
 
-        $('body').on('keyup', '.editCurrencyNameInput, .editCurrencyRateInput', function (e) {
+        $('body').on('keyup', '.editCurrencyNameInput, .editCurrencyRateInput', function(e) {
             if (e.key === 'Enter') {
                 const projectid = $('#curTitle').attr('projectid');
                 const currencyId = $(this).parent().parent().attr('currencyid');
@@ -1069,13 +1069,13 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('click', '.editCurrencyClose', function () {
+        $('body').on('click', '.editCurrencyClose', function() {
             $(this).parent().hide();
             $(this).parent().parent().find('.one-currency-label').show();
         });
 
         // manage categories TODO
-        $('body').on('click', '.addCategoryOk', function () {
+        $('body').on('click', '.addCategoryOk', function() {
             const projectid = $('#catTitle').attr('projectid');
             const name = $('#addCategoryNameInput').val();
             if (name === null || name === '') {
@@ -1095,7 +1095,7 @@ import cospend from "./state";
             addCategoryDb(projectid, name, icon, color);
         });
 
-        $('body').on('keyup', '#addCategoryNameInput, #addCategoryIconInput', function (e) {
+        $('body').on('keyup', '#addCategoryNameInput, #addCategoryIconInput', function(e) {
             if (e.key === 'Enter') {
                 const projectid = $('#catTitle').attr('projectid');
                 const name = $('#addCategoryNameInput').val();
@@ -1117,7 +1117,7 @@ import cospend from "./state";
             }
         });
 
-        $('body').on('click', '.deleteOneCategory', function () {
+        $('body').on('click', '.deleteOneCategory', function() {
             const projectid = $('#catTitle').attr('projectid');
             const categoryId = $(this).parent().parent().attr('categoryid');
             if ($(this).hasClass('icon-history')) {
@@ -1126,20 +1126,20 @@ import cospend from "./state";
                 delete cospend.categoryDeletionTimer[categoryId];
             } else {
                 $(this).addClass('icon-history').removeClass('icon-delete');
-                cospend.categoryDeletionTimer[categoryId] = new Timer(function () {
+                cospend.categoryDeletionTimer[categoryId] = new Timer(function() {
                     deleteCategoryDb(projectid, categoryId);
                 }, 7000);
             }
         });
 
-        $('body').on('click', '.editOneCategory', function () {
+        $('body').on('click', '.editOneCategory', function() {
             $(this).parent().hide();
             $(this).parent().parent().find('.one-category-edit').show()
                 .css('display', 'grid')
                 .find('.editCategoryNameInput').focus().select();
         });
 
-        $('body').on('click', '.editCategoryOk', function () {
+        $('body').on('click', '.editCategoryOk', function() {
             const projectid = $('#catTitle').attr('projectid');
             const categoryId = $(this).parent().parent().attr('categoryid');
             const name = $(this).parent().find('.editCategoryNameInput').val();
@@ -1160,7 +1160,7 @@ import cospend from "./state";
             editCategoryDb(projectid, categoryId, name, icon, color);
         });
 
-        $('body').on('keyup', '.editCategoryNameInput, .editCategoryIconInput', function (e) {
+        $('body').on('keyup', '.editCategoryNameInput, .editCategoryIconInput', function(e) {
             if (e.key === 'Enter') {
                 const projectid = $('#catTitle').attr('projectid');
                 const categoryId = $(this).parent().parent().attr('categoryid');
@@ -1182,16 +1182,16 @@ import cospend from "./state";
                 editCategoryDb(projectid, categoryId, name, icon, color);
             }
         });
-        $('body').on('click', '.one-category-label-color', function (e) {
+        $('body').on('click', '.one-category-label-color', function(e) {
             e.preventDefault();
         });
 
-        $('body').on('click', '.editCategoryClose', function () {
+        $('body').on('click', '.editCategoryClose', function() {
             $(this).parent().hide();
             $(this).parent().parent().find('.one-category-label').show();
         });
 
-        $('body').on('click', '.owerEntry .owerAvatar', function () {
+        $('body').on('click', '.owerEntry .owerAvatar', function() {
             const billId = parseInt($('#billdetail .bill-title').attr('billid'));
             const billType = $('#billtype').val();
             if (billId !== 0 || billType === 'normal' || billType === 'perso') {

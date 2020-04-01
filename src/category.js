@@ -1,10 +1,10 @@
 /*jshint esversion: 6 */
 
-import {generateUrl} from "@nextcloud/router";
-import {getProjectName, selectProject} from "./project";
-import * as Notification from "./notification";
-import * as constants from "./constants";
-import cospend from "./state";
+import {generateUrl} from '@nextcloud/router';
+import {getProjectName, selectProject} from './project';
+import * as Notification from './notification';
+import * as constants from './constants';
+import cospend from './state';
 import {getBills} from './bill';
 
 export function getProjectCategories (projectid) {
@@ -24,13 +24,13 @@ export function getProjectCategories (projectid) {
         url: url,
         data: req,
         async: true,
-    }).done(function (response) {
+    }).done(function(response) {
         if (cospend.currentProjectId !== projectid) {
             selectProject($('.projectitem[projectid="' + projectid + '"]'));
         }
         displayCategories(projectid, response);
-    }).always(function () {
-    }).fail(function () {
+    }).always(function() {
+    }).fail(function() {
         Notification.showTemporary(t('cospend', 'Failed to get project categories'));
         $('#billdetail').html('');
     });
@@ -110,7 +110,7 @@ export function addCategoryDb (projectid, name, icon, color) {
         url: url,
         data: req,
         async: true
-    }).done(function (response) {
+    }).done(function(response) {
         cospend.projects[projectid].categories[response] = {
             name: name,
             icon: icon,
@@ -118,9 +118,9 @@ export function addCategoryDb (projectid, name, icon, color) {
         };
         addCategory(projectid, response, cospend.projects[projectid].categories[response]);
         Notification.showTemporary(t('cospend', 'Category {n} added', {n: name}));
-    }).always(function () {
+    }).always(function() {
         $('.addCategoryOk').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to add category') +
             ': ' + (response.responseJSON.message || response.responseText)
@@ -175,14 +175,14 @@ export function deleteCategoryDb (projectid, categoryId) {
         url: url,
         data: req,
         async: true
-    }).done(function () {
+    }).done(function() {
         $('.one-category[categoryid=' + categoryId + ']').remove();
         delete cospend.projects[projectid].categories[categoryId];
         // reload bill list
         getBills(projectid);
-    }).always(function () {
+    }).always(function() {
         $('.one-category[categoryid=' + categoryId + '] .deleteOneCategory').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to delete category') +
             ': ' + response.responseJSON.message);
@@ -211,7 +211,7 @@ export function editCategoryDb (projectid, categoryId, name, icon, color) {
         url: url,
         data: req,
         async: true
-    }).done(function () {
+    }).done(function() {
         $('.one-category[categoryid=' + categoryId + '] .one-category-edit').hide();
         $('.one-category[categoryid=' + categoryId + '] .one-category-label').show()
             .find('.one-category-label-label').text(name);
@@ -222,9 +222,9 @@ export function editCategoryDb (projectid, categoryId, name, icon, color) {
         cospend.projects[projectid].categories[categoryId].color = color;
         // reload bill list
         getBills(projectid);
-    }).always(function () {
+    }).always(function() {
         $('.one-category[categoryid=' + categoryId + '] .editCategoryOk').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to edit category') +
             ': ' + response.responseJSON.message

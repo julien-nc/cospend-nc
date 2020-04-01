@@ -1,10 +1,10 @@
 /*jshint esversion: 6 */
 
-import {generateUrl} from "@nextcloud/router";
-import * as constants from "./constants";
-import {getProjectName} from "./project";
-import * as Notification from "./notification";
-import cospend from "./state";
+import {generateUrl} from '@nextcloud/router';
+import * as constants from './constants';
+import {getProjectName} from './project';
+import * as Notification from './notification';
+import cospend from './state';
 
 export function addUserShareDb (projectid, userid, username) {
     $('.projectitem[projectid="' + projectid + '"]').addClass('icon-loading-small');
@@ -18,16 +18,16 @@ export function addUserShareDb (projectid, userid, username) {
         url: url,
         data: req,
         async: true
-    }).done(function (response) {
+    }).done(function(response) {
         addShare(projectid, userid, username, response, 'u', constants.ACCESS.PARTICIPANT);
         const projectname = getProjectName(projectid);
         Notification.showTemporary(t('cospend', 'Project {pname} is now shared with {uname}', {
             pname: projectname,
             uname: username
         }));
-    }).always(function () {
+    }).always(function() {
         $('.projectitem[projectid="' + projectid + '"]').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to add user share') +
             ': ' + response.responseJSON.message
@@ -48,15 +48,15 @@ export function deleteUserShareDb (projectid, shid) {
         url: url,
         data: req,
         async: true
-    }).done(function () {
+    }).done(function() {
         const li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + ']');
-        li.fadeOut('normal', function () {
+        li.fadeOut('normal', function() {
             li.remove();
         });
-    }).always(function () {
+    }).always(function() {
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] ' +
             '.deleteUserShareButton span:first').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to delete user share') +
             ': ' + response.responseJSON.message
@@ -75,13 +75,13 @@ export function addPublicShareDb (projectid) {
         url: url,
         data: req,
         async: true
-    }).done(function (response) {
+    }).done(function(response) {
         addShare(projectid, null, t('cospend', 'Public share link'), response.id, 'l', constants.ACCESS.PARTICIPANT, response.token);
         const projectname = getProjectName(projectid);
         Notification.showTemporary(t('cospend', 'Public access link added for project {pname}', {pname: projectname}));
-    }).always(function () {
+    }).always(function() {
         $('.projectitem[projectid="' + projectid + '"]').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to add public share') +
             ': ' + response.responseJSON.message
@@ -102,15 +102,15 @@ export function deletePublicShareDb (projectid, shid) {
         url: url,
         data: req,
         async: true
-    }).done(function () {
+    }).done(function() {
         const li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + ']');
-        li.fadeOut('normal', function () {
+        li.fadeOut('normal', function() {
             li.remove();
         });
-    }).always(function () {
+    }).always(function() {
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] ' +
             '.deletePublicShareButton span:first').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to delete public share') +
             ': ' + response.responseJSON.message
@@ -130,16 +130,16 @@ export function addCircleShareDb (projectid, circleId, circleName) {
         url: url,
         data: req,
         async: true
-    }).done(function (response) {
+    }).done(function(response) {
         addShare(projectid, circleId, circleName, response, 'c', constants.ACCESS.PARTICIPANT);
         const projectname = getProjectName(projectid);
         Notification.showTemporary(t('cospend', 'Project {pname} is now shared with circle {cname}', {
             pname: projectname,
             cname: circleName
         }));
-    }).always(function () {
+    }).always(function() {
         $('.projectitem[projectid="' + projectid + '"]').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to add circle share') +
             ': ' + response.responseJSON.message
@@ -159,14 +159,14 @@ export function deleteCircleShareDb (projectid, shid) {
         url: url,
         data: req,
         async: true
-    }).done(function () {
+    }).done(function() {
         const li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + ']');
-        li.fadeOut('normal', function () {
+        li.fadeOut('normal', function() {
             li.remove();
         });
-    }).always(function () {
+    }).always(function() {
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteCircleShareButton').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to delete circle share') +
             ': ' + response.responseJSON.message
@@ -186,16 +186,16 @@ export function addGroupShareDb (projectid, groupid, groupname) {
         url: url,
         data: req,
         async: true
-    }).done(function (response) {
+    }).done(function(response) {
         addShare(projectid, groupid, groupname, response, 'g', constants.ACCESS.PARTICIPANT);
         const projectname = getProjectName(projectid);
         Notification.showTemporary(t('cospend', 'Project {pname} is now shared with group {gname}', {
             pname: projectname,
             gname: groupname
         }));
-    }).always(function () {
+    }).always(function() {
         $('.projectitem[projectid="' + projectid + '"]').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to add group share') +
             ': ' + response.responseJSON.message
@@ -298,14 +298,14 @@ export function deleteGroupShareDb (projectid, shid) {
         url: url,
         data: req,
         async: true
-    }).done(function () {
+    }).done(function() {
         const li = $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + ']');
-        li.fadeOut('normal', function () {
+        li.fadeOut('normal', function() {
             li.remove();
         });
-    }).always(function () {
+    }).always(function() {
         $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteGroupShareButton').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to delete group share') +
             ': ' + response.responseJSON.message
@@ -327,12 +327,12 @@ export function editShareAccessLevelDb (projectid, shid, accesslevel) {
         url: url,
         data: req,
         async: true
-    }).done(function () {
+    }).done(function() {
         applyShareAccessLevel(projectid, shid, accesslevel);
-    }).always(function () {
+    }).always(function() {
         $('.projectitem[projectid="' + projectid + '"]').removeClass('icon-loading-small');
         $('li[shid="' + shid + '"] .accesslevel span').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to edit share access level') +
             ': ' + response.responseJSON.message
@@ -362,7 +362,7 @@ export function addUserAutocompletion (input, projectid) {
         url: url,
         data: req,
         async: true
-    }).done(function (response) {
+    }).done(function(response) {
         cospend.userIdName = response.users;
         cospend.groupIdName = response.groups;
         cospend.circleIdName = response.circles;
@@ -417,7 +417,7 @@ export function addUserAutocompletion (input, projectid) {
         cospend.pubLinkData.projectid = projectid;
         input.autocomplete({
             source: data,
-            select: function (e, ui) {
+            select: function(e, ui) {
                 const it = ui.item;
                 if (it.type === 'g') {
                     addGroupShareDb(it.projectid, it.id, it.name);
@@ -429,7 +429,7 @@ export function addUserAutocompletion (input, projectid) {
                     addPublicShareDb(it.projectid);
                 }
             }
-        }).data('ui-autocomplete')._renderItem = function (ul, item) {
+        }).data('ui-autocomplete')._renderItem = function(ul, item) {
             let iconClass = 'icon-user';
             if (item.type === 'g') {
                 iconClass = 'icon-group';
@@ -444,7 +444,7 @@ export function addUserAutocompletion (input, projectid) {
                 .appendTo(ul);
         };
         //console.log(ii.data('ui-autocomplete'));
-    }).fail(function () {
+    }).fail(function() {
         Notification.showTemporary(t('cospend', 'Failed to get user list'));
     });
 }

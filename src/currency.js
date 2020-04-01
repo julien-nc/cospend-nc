@@ -1,10 +1,10 @@
 /*jshint esversion: 6 */
 
-import {generateUrl} from "@nextcloud/router";
-import {getProjectName, selectProject} from "./project";
-import * as Notification from "./notification";
-import * as constants from "./constants";
-import cospend from "./state";
+import {generateUrl} from '@nextcloud/router';
+import {getProjectName, selectProject} from './project';
+import * as Notification from './notification';
+import * as constants from './constants';
+import cospend from './state';
 
 export function getProjectCurrencies (projectid) {
     $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
@@ -23,13 +23,13 @@ export function getProjectCurrencies (projectid) {
         url: url,
         data: req,
         async: true,
-    }).done(function (response) {
+    }).done(function(response) {
         if (cospend.currentProjectId !== projectid) {
             selectProject($('.projectitem[projectid="' + projectid + '"]'));
         }
         displayCurrencies(projectid, response);
-    }).always(function () {
-    }).fail(function () {
+    }).always(function() {
+    }).fail(function() {
         Notification.showTemporary(t('cospend', 'Failed to get project currencies'));
         $('#billdetail').html('');
     });
@@ -121,7 +121,7 @@ export function addCurrencyDb (projectid, name, rate) {
         url: url,
         data: req,
         async: true
-    }).done(function (response) {
+    }).done(function(response) {
         addCurrency(projectid, {name: name, exchange_rate: rate, id: response});
         cospend.projects[projectid].currencies.push({
             name: name,
@@ -129,9 +129,9 @@ export function addCurrencyDb (projectid, name, rate) {
             id: response
         });
         Notification.showTemporary(t('cospend', 'Currency {n} added', {n: name}));
-    }).always(function () {
+    }).always(function() {
         $('.addCurrencyOk').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to add currency') +
             ': ' + (response.responseJSON.message || response.responseText)
@@ -179,7 +179,7 @@ export function deleteCurrencyDb (projectid, currencyId) {
         url: url,
         data: req,
         async: true
-    }).done(function () {
+    }).done(function() {
         $('.one-currency[currencyid=' + currencyId + ']').remove();
         const currencies = cospend.projects[projectid].currencies;
         let iToDel = null;
@@ -192,9 +192,9 @@ export function deleteCurrencyDb (projectid, currencyId) {
         if (iToDel !== null) {
             currencies.splice(iToDel, 1);
         }
-    }).always(function () {
+    }).always(function() {
         $('.one-currency[currencyid=' + currencyId + '] .deleteOneCurrency').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to delete currency') +
             ': ' + response.responseJSON.message
@@ -223,7 +223,7 @@ export function editCurrencyDb (projectid, currencyId, name, rate) {
         url: url,
         data: req,
         async: true
-    }).done(function () {
+    }).done(function() {
         $('.one-currency[currencyid=' + currencyId + '] .one-currency-edit').hide();
         $('.one-currency[currencyid=' + currencyId + '] .one-currency-label').show()
             .find('.one-currency-label-label').text(name + ' (x' + rate + ')');
@@ -235,9 +235,9 @@ export function editCurrencyDb (projectid, currencyId, name, rate) {
                 break;
             }
         }
-    }).always(function () {
+    }).always(function() {
         $('.one-currency[currencyid=' + currencyId + '] .editCurrencyOk').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to edit currency') +
             '; ' + response.responseJSON.message

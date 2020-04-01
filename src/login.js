@@ -12,10 +12,10 @@
 
 import {generateUrl} from '@nextcloud/router';
 
-(function ($, OC) {
+(function($, OC) {
     'use strict';
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         const pageUrlWithProjectid = (document.URL.indexOf('/loginproject') !== -1);
         if (!pageUrlWithProjectid) {
             $('#passwordInput').val('');

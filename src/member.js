@@ -1,13 +1,13 @@
 /*jshint esversion: 6 */
 
-import * as Notification from "./notification";
-import {generateUrl} from "@nextcloud/router";
-import {rgbObjToHex} from "./utils";
-import {updateProjectBalances} from "./project";
-import {getBills} from "./bill";
-import * as constants from "./constants";
-import cospend from "./state";
-import * as Chart from "chart.js";
+import * as Notification from './notification';
+import {generateUrl} from '@nextcloud/router';
+import {rgbObjToHex} from './utils';
+import {updateProjectBalances} from './project';
+import {getBills} from './bill';
+import * as constants from './constants';
+import cospend from './state';
+import * as Chart from 'chart.js';
 
 export function getMemberName (projectid, memberid) {
     //const memberName = $('.projectitem[projectid="'+projectid+'"] .memberlist > li[memberid='+memberid+'] b.memberName').text();
@@ -35,7 +35,7 @@ export function createMember (projectid, name) {
         url: url,
         data: req,
         async: true,
-    }).done(function (response) {
+    }).done(function(response) {
         // add member to UI
         addMember(projectid, response, 0);
         // fold new member form
@@ -43,9 +43,9 @@ export function createMember (projectid, name) {
         updateNumberOfMember(projectid);
         $('#billdetail').html('');
         Notification.showTemporary(t('cospend', 'Created member {name}', {name: name}));
-    }).always(function () {
+    }).always(function() {
         $('.projectitem[projectid="' + projectid + '"]').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to add member') +
             ': ' + (response.responseJSON.message || response.responseText)
@@ -101,7 +101,7 @@ export function editMember (projectid, memberid, newName, newWeight, newActivate
         url: url,
         data: req,
         async: true,
-    }).done(function (response) {
+    }).done(function(response) {
         const memberLine = $('.projectitem[projectid="' + projectid + '"] ul.memberlist > li[memberid=' + memberid + ']');
         // update member values
         cospend.members[projectid][memberid].color = rgbObjToHex(response.color).replace('#', '');
@@ -143,9 +143,9 @@ export function editMember (projectid, memberid, newName, newWeight, newActivate
         getBills(projectid);
         // reset bill edition
         $('#billdetail').html('');
-    }).always(function () {
+    }).always(function() {
         $('.projectitem[projectid="' + projectid + '"] ul.memberlist > li[memberid=' + memberid + ']').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to save member') +
             ': ' + (response.responseJSON.message || response.responseText)

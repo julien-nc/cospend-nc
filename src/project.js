@@ -47,7 +47,7 @@ export function createProject (id, name, password) {
         url: url,
         data: req,
         async: true,
-    }).done(function () {
+    }).done(function() {
         addProject({
             id: id,
             name: name,
@@ -62,14 +62,14 @@ export function createProject (id, name, password) {
 
         const div = $('#newprojectdiv');
         $('#newprojectbutton').removeClass('icon-triangle-s').addClass('icon-triangle-e');
-        div.slideUp('normal', function () {
+        div.slideUp('normal', function() {
             $('#newBillButton').fadeIn();
         });
         // select created project
         selectProject($('.projectitem[projectid="' + id + '"]'));
-    }).always(function () {
+    }).always(function() {
         $('#createproject').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(t('cospend', 'Failed to create project') + ': ' + response.responseJSON.message);
     });
 }
@@ -97,7 +97,7 @@ export function editProject (projectid, newName, newEmail, newPassword, newAutoe
         url: url,
         data: req,
         async: true,
-    }).done(function () {
+    }).done(function() {
         const projectLine = $('.projectitem[projectid="' + projectid + '"]');
         // update project values
         if (newName) {
@@ -131,8 +131,8 @@ export function editProject (projectid, newName, newEmail, newPassword, newAutoe
             $('#main-currency-edit').hide();
         }
         Notification.showTemporary(t('cospend', 'Project saved'));
-    }).always(function () {
-    }).fail(function (response) {
+    }).always(function() {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to edit project') +
             ': ' + (response.responseJSON.message || response.responseJSON.name || response.responseJSON.contact_email)
@@ -156,8 +156,8 @@ export function deleteProject (projectid) {
         url: url,
         data: req,
         async: true,
-    }).done(function () {
-        $('.projectitem[projectid="' + projectid + '"]').fadeOut('normal', function () {
+    }).done(function() {
+        $('.projectitem[projectid="' + projectid + '"]').fadeOut('normal', function() {
             $(this).remove();
         });
         if (cospend.currentProjectId === projectid) {
@@ -169,8 +169,8 @@ export function deleteProject (projectid) {
             window.location.replace(redirectUrl);
         }
         Notification.showTemporary(t('cospend', 'Deleted project {id}', {id: projectid}));
-    }).always(function () {
-    }).fail(function (response) {
+    }).always(function() {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to delete project') +
             ': ' + (response.responseJSON.message || response.responseText)
@@ -193,9 +193,9 @@ export function getProjects () {
         url: url,
         data: req,
         async: true,
-        xhr: function () {
+        xhr: function() {
             const xhr = new window.XMLHttpRequest();
-            xhr.addEventListener('progress', function (evt) {
+            xhr.addEventListener('progress', function(evt) {
                 if (evt.lengthComputable) {
                     //const percentComplete = evt.loaded / evt.total * 100;
                     //$('#loadingpc').text(parseInt(percentComplete) + '%');
@@ -204,7 +204,7 @@ export function getProjects () {
 
             return xhr;
         }
-    }).done(function (response) {
+    }).done(function(response) {
         if (!cospend.pageIsPublic) {
             $('.projectitem').remove();
             $('#bill-list').html('');
@@ -223,9 +223,9 @@ export function getProjects () {
             cospend.currentProjectId = cospend.projectid;
             getBills(cospend.projectid);
         }
-    }).always(function () {
+    }).always(function() {
         cospend.currentGetProjectsAjax = null;
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(t('cospend', 'Failed to get projects') +
             ': ' + (response.responseJSON.message || response.responseText)
         );
@@ -259,7 +259,7 @@ export function getProjectStatistics (projectid, dateMin = null, dateMax = null,
         url: url,
         data: req,
         async: true,
-    }).done(function (response) {
+    }).done(function(response) {
         if (cospend.currentProjectId !== projectid) {
             selectProject($('.projectitem[projectid="' + projectid + '"]'));
         }
@@ -273,8 +273,8 @@ export function getProjectStatistics (projectid, dateMin = null, dateMax = null,
         }
         displayStatistics(projectid, response, dateMin, dateMax, paymentMode, category,
             amountMin, amountMax, showDisabled, currencyId);
-    }).always(function () {
-    }).fail(function () {
+    }).always(function() {
+    }).fail(function() {
         Notification.showTemporary(t('cospend', 'Failed to get statistics'));
         $('#billdetail').html('');
     });
@@ -297,13 +297,13 @@ export function getProjectSettlement (projectid) {
         url: url,
         data: req,
         async: true,
-    }).done(function (response) {
+    }).done(function(response) {
         if (cospend.currentProjectId !== projectid) {
             selectProject($('.projectitem[projectid="' + projectid + '"]'));
         }
         displaySettlement(projectid, response);
-    }).always(function () {
-    }).fail(function () {
+    }).always(function() {
+    }).fail(function() {
         Notification.showTemporary(t('cospend', 'Failed to get settlement'));
         $('#billdetail').html('');
     });
@@ -396,7 +396,7 @@ export function getProjectMoneyBusterLink (projectid) {
 
     const img = new Image();
     // wait for the image to be loaded to generate the QRcode
-    img.onload = function () {
+    img.onload = function() {
         const qr = kjua({
             text: url,
             crisp: false,
@@ -417,7 +417,7 @@ export function getProjectMoneyBusterLink (projectid) {
         });
         $('#qrcodediv').append(qr);
     };
-    img.onerror = function () {
+    img.onerror = function() {
         const qr = kjua({
             text: url,
             crisp: false,
@@ -815,7 +815,7 @@ export function updateProjectBalances (projectid) {
         url: url,
         data: req,
         async: true,
-    }).done(function (response) {
+    }).done(function(response) {
         let balance, balanceField, balanceClass, balanceTxt;
         for (const memberid in response.balance) {
             balance = response.balance[memberid];
@@ -839,8 +839,8 @@ export function updateProjectBalances (projectid) {
                 }
             }
         }
-    }).always(function () {
-    }).fail(function () {
+    }).always(function() {
+    }).fail(function() {
         Notification.showTemporary(t('cospend', 'Failed to update balances'));
     });
 }
@@ -1147,12 +1147,12 @@ export function editGuestAccessLevelDb (projectid, accesslevel) {
         url: url,
         data: req,
         async: true
-    }).done(function () {
+    }).done(function() {
         applyGuestAccessLevel(projectid, accesslevel);
-    }).always(function () {
+    }).always(function() {
         $('.projectitem[projectid="' + projectid + '"]').removeClass('icon-loading-small');
         $('li[projectid="' + projectid + '"] .accesslevelguest').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to edit guest access level') +
             ': ' + response.responseJSON.message
@@ -1191,13 +1191,13 @@ export function autoSettlement (projectid) {
         url: url,
         data: req,
         async: true
-    }).done(function () {
+    }).done(function() {
         updateProjectBalances(projectid);
         getBills(projectid);
         Notification.showTemporary(t('cospend', 'Project settlement bills added'));
-    }).always(function () {
+    }).always(function() {
         $('.autoSettlement[projectid="' + projectid + '"] span').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to add project settlement bills') +
             ': ' + response.responseJSON.message

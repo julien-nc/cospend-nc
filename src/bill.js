@@ -1,13 +1,13 @@
 /*jshint esversion: 6 */
 
 import * as moment from 'moment';
-import * as Notification from "./notification";
-import {generateUrl} from "@nextcloud/router";
-import * as constants from "./constants";
-import cospend from "./state";
-import {updateProjectBalances} from "./project";
-import {getUrlParameter, reload} from "./utils";
-import {getMemberName} from "./member";
+import * as Notification from './notification';
+import {generateUrl} from '@nextcloud/router';
+import * as constants from './constants';
+import cospend from './state';
+import {updateProjectBalances} from './project';
+import {getUrlParameter, reload} from './utils';
+import {getMemberName} from './member';
 
 const undoDeleteBillStyle = 'opacity:1; background-image: url(' + generateUrl('/svg/core/actions/history?color=2AB4FF') + ');';
 
@@ -48,7 +48,7 @@ export function createBill (projectid, what, amount, payer_id, timestamp, owerId
         url: url,
         data: req,
         async: true,
-    }).done(function (response) {
+    }).done(function(response) {
         const billid = response;
         // update dict
         cospend.bills[projectid][billid] = {
@@ -82,9 +82,9 @@ export function createBill (projectid, what, amount, payer_id, timestamp, owerId
         updateProjectBalances(projectid);
 
         Notification.showTemporary(t('cospend', 'Bill created'));
-    }).always(function () {
+    }).always(function() {
         $('.loading-bill').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to create bill') +
             ': ' + (response.responseJSON.message || response.responseText)
@@ -122,7 +122,7 @@ export function saveBill (projectid, billid, what, amount, payer_id, timestamp, 
         url: url,
         data: req,
         async: true,
-    }).done(function () {
+    }).done(function() {
         // update dict
         cospend.bills[projectid][billid].what = what;
         cospend.bills[projectid][billid].timestamp = timestamp;
@@ -152,9 +152,9 @@ export function saveBill (projectid, billid, what, amount, payer_id, timestamp, 
         updateProjectBalances(projectid);
 
         Notification.showTemporary(t('cospend', 'Bill saved'));
-    }).always(function () {
+    }).always(function() {
         $('.loading-bill').removeClass('icon-loading-small');
-    }).fail(function (response) {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to save bill') +
             ' ' + (response.responseJSON.message || response.responseJSON)
@@ -243,12 +243,12 @@ export function deleteBill (projectid, billid) {
         url: url,
         data: req,
         async: true,
-    }).done(function () {
+    }).done(function() {
         // if the deleted bill was displayed in details, empty detail
         if ($('#billdetail .bill-title').length > 0 && $('#billdetail .bill-title').attr('billid') === billid) {
             $('#billdetail').html('');
         }
-        $('.billitem[billid=' + billid + ']').fadeOut('normal', function () {
+        $('.billitem[billid=' + billid + ']').fadeOut('normal', function() {
             $(this).remove();
             if ($('.billitem').length === 0) {
                 $('#bill-list').html('<h2 class="nobill">' + t('cospend', 'No bill yet') + '</h2>');
@@ -257,8 +257,8 @@ export function deleteBill (projectid, billid) {
         delete cospend.bills[projectid][billid];
         updateProjectBalances(projectid);
         Notification.showTemporary(t('cospend', 'Deleted bill'));
-    }).always(function () {
-    }).fail(function (response) {
+    }).always(function() {
+    }).fail(function(response) {
         Notification.showTemporary(
             t('cospend', 'Failed to delete bill') +
             ': ' + response.responseJSON.message
@@ -287,7 +287,7 @@ export function getBills (projectid) {
         url: url,
         data: req,
         async: true,
-    }).done(function (response) {
+    }).done(function(response) {
         $('#bill-list').html('');
         cospend.bills[projectid] = {};
         if (response.length > 0) {
@@ -299,8 +299,8 @@ export function getBills (projectid) {
         } else {
             $('#bill-list').html('<h2 class="nobill">' + t('cospend', 'No bill yet') + '</h2>');
         }
-    }).always(function () {
-    }).fail(function () {
+    }).always(function() {
+    }).fail(function() {
         Notification.showTemporary(t('cospend', 'Failed to get bills'));
         $('#bill-list').html('');
     });
@@ -646,10 +646,10 @@ export function displayBill (projectid, billid) {
 
     if (cospend.projects[projectid].myaccesslevel <= constants.ACCESS.VIEWER) {
         $('#billdetail button').hide();
-        $('#billdetail input').each(function () {
+        $('#billdetail input').each(function() {
             $(this).prop('readonly', true);
         });
-        $('#billdetail select, #billdetail input[type=checkbox]').each(function () {
+        $('#billdetail select, #billdetail input[type=checkbox]').each(function() {
             $(this).prop('disabled', true);
         });
     }
@@ -762,7 +762,7 @@ export function createNormalBill () {
 
     const owerIds = [];
     let owerId;
-    $('.owerEntry input').each(function () {
+    $('.owerEntry input').each(function() {
         if ($(this).is(':checked')) {
             owerId = parseInt($(this).attr('owerid'));
             if (isNaN(owerId)) {
@@ -837,7 +837,7 @@ export function onBillEdited (amountChanged = false) {
 
     const owerIds = [];
     let owerId;
-    $('.owerEntry input').each(function () {
+    $('.owerEntry input').each(function() {
         if ($(this).is(':checked')) {
             owerId = parseInt($(this).attr('owerid'));
             if (isNaN(owerId)) {
@@ -935,7 +935,7 @@ export function createEquiPersoBill () {
 
     const owerIds = [];
     let owerId;
-    $('.owerEntry input').each(function () {
+    $('.owerEntry input').each(function() {
         if ($(this).is(':checked')) {
             owerId = parseInt($(this).attr('owerid'));
             if (isNaN(owerId)) {
@@ -952,7 +952,7 @@ export function createEquiPersoBill () {
     } else {
         // check if amount - allPersonalParts >= 0
         tmpAmount = amount;
-        $('.amountinput').each(function () {
+        $('.amountinput').each(function() {
             const owerId = parseInt($(this).attr('owerid'));
             const amountVal = parseFloat($(this).val());
             const owerSelected = $('.owerEntry input[owerid="' + owerId + '"]').is(':checked');
@@ -988,7 +988,7 @@ export function createEquiPersoBill () {
         const timestamp = moment(date + ' ' + time).unix();
         // create bills related to personal parts
         tmpAmount = amount;
-        $('.amountinput').each(function () {
+        $('.amountinput').each(function() {
             let oneWhat = initWhat;
             const owerId = parseInt($(this).attr('owerid'));
             let amountVal = parseFloat($(this).val());
@@ -1019,7 +1019,7 @@ export function createEquiPersoBill () {
         // empty bill detail
         $('#billdetail').html('');
         // remove new bill line
-        $('.billitem[billid=0]').fadeOut('normal', function () {
+        $('.billitem[billid=0]').fadeOut('normal', function() {
             $(this).remove();
             if ($('.billitem').length === 0) {
                 $('#bill-list').html('<h2 class="nobill">' + t('cospend', 'No bill yet') + '</h2>');
@@ -1068,7 +1068,7 @@ export function createCustomAmountBill () {
         // get timestamp
         const timestamp = moment(date + ' ' + time).unix();
         let total = 0;
-        $('.amountinput').each(function () {
+        $('.amountinput').each(function() {
             let oneWhat = initWhat;
             const owerId = parseInt($(this).attr('owerid'));
             let amountVal = parseFloat($(this).val());
@@ -1088,7 +1088,7 @@ export function createCustomAmountBill () {
             // empty bill detail
             $('#billdetail').html('');
             // remove new bill line
-            $('.billitem[billid=0]').fadeOut('normal', function () {
+            $('.billitem[billid=0]').fadeOut('normal', function() {
                 $(this).remove();
                 if ($('.billitem').length === 0) {
                     $('#bill-list').html('<h2 class="nobill">' + t('cospend', 'No bill yet') + '</h2>');
@@ -1115,12 +1115,12 @@ function updateAmountEach (projectid) {
         (billId !== 0 || billType === 'normal') &&
         !isNaN(amount) &&
         parseFloat(amount) > 0.0) {
-        $('.owerEntry .checkbox:checked').each(function () {
+        $('.owerEntry .checkbox:checked').each(function() {
             mid = $(this).attr('owerid');
             weightSum += cospend.members[projectid][mid].weight;
         });
         oneWeight = parseFloat(amount) / weightSum;
-        $('.owerEntry .checkbox:checked').each(function () {
+        $('.owerEntry .checkbox:checked').each(function() {
             mid = $(this).attr('owerid');
             owerVal = oneWeight * cospend.members[projectid][mid].weight;
             $(this).parent().find('.spentlabel').text('(' + owerVal.toFixed(2) + ')');

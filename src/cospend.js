@@ -150,13 +150,38 @@ import cospend from "./state";
         return result.concat(origFilter(array, term));
     };
 
+    function restoreOptions () {
+        const url = generateUrl('/apps/cospend/getOptionsValues');
+        const req = {};
+        let optionsValues = {};
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            optionsValues = response.values;
+            if (optionsValues) {
+                for (const k in optionsValues) {
+                    if (k === 'selectedProject') {
+                        cospend.restoredSelectedProjectId = optionsValues[k];
+                    } else if (k === 'outputDirectory') {
+                        $('#outputDirectory').text(optionsValues[k]);
+                    }
+                }
+            }
+            main();
+        }).fail(function () {
+            Notification.showTemporary(
+                t('cospend', 'Failed to restore options values')
+            );
+        });
+    }
+
     $(document).ready(function() {
         cospend.pageIsPublic = (document.URL.indexOf('/cospend/project') !== -1 || document.URL.indexOf('/cospend/s/') !== -1);
         if (!cospend.pageIsPublic) {
-            if (restoreOptions()) {
-                // quite important ;-)
-                main();
-            }
+            restoreOptions();
         } else {
             //restoreOptionsFromUrlParams();
             $('#newprojectbutton').hide();

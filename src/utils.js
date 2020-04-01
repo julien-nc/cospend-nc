@@ -302,38 +302,3 @@ export function copyToClipboard (text) {
     document.execCommand('copy');
     $('#dummycopy').remove();
 }
-
-/**
- *
- * @returns {boolean}
- */
-export async function restoreOptions () {
-    const url = generateUrl('/apps/cospend/getOptionsValues');
-    const req = {};
-    let optionsValues = {};
-    let success = false;
-    $.ajax({
-        type: 'POST',
-        url: url,
-        data: req,
-        async: true
-    }).done(function (response) {
-        optionsValues = response.values;
-        if (optionsValues) {
-            for (const k in optionsValues) {
-                if (k === 'selectedProject') {
-                    cospend.restoredSelectedProjectId = optionsValues[k];
-                } else if (k === 'outputDirectory') {
-                    $('#outputDirectory').text(optionsValues[k]);
-                }
-            }
-        }
-        success = true;
-    }).fail(function () {
-        Notification.showTemporary(
-            t('cospend', 'Failed to restore options values')
-        );
-    });
-
-    return success;
-}

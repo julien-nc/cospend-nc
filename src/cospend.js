@@ -23,14 +23,12 @@ import {
 } from './constants';
 import {generateUrl} from '@nextcloud/router';
 import {
-    addUserAutocompletion,
     checkKey,
     copyToClipboard,
     delay,
     generatePublicLinkToFile,
     hexToDarkerHex,
     okColor,
-    restoreOptions,
     saveOptionValue,
     Timer,
     updateCustomAmount
@@ -65,6 +63,7 @@ import {
     editMember
 } from "./member";
 import {
+    addUserAutocompletion,
     addPublicShareDb,
     deleteCircleShareDb,
     deleteGroupShareDb,

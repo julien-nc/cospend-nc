@@ -4,6 +4,7 @@ import {generateUrl} from "@nextcloud/router";
 import * as constants from "./constants";
 import {getProjectName} from "./project";
 import * as Notification from "./notification";
+import cospend from "./state";
 
 export function addUserShareDb (projectid, userid, username) {
     $('.projectitem[projectid="' + projectid + '"]').addClass('icon-loading-small');
@@ -351,4 +352,99 @@ export function applyShareAccessLevel (projectid, shid, accesslevel) {
     } else if (accesslevel === constants.ACCESS.ADMIN) {
         shLine.find('.accesslevelAdmin input[type=radio]').prop('checked', true);
     }
+}
+
+export function addUserAutocompletion (input, projectid) {
+    const req = {};
+    const url = generateUrl('/apps/cospend/getUserList');
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: req,
+        async: true
+    }).done(function (response) {
+        cospend.userIdName = response.users;
+        cospend.groupIdName = response.groups;
+        cospend.circleIdName = response.circles;
+        const data = [];
+        let d, name, id;
+        for (id in response.users) {
+            name = response.users[id];
+            d = {
+                id: id,
+                name: name,
+                type: 'u',
+                projectid: projectid
+            };
+            if (id !== name) {
+                d.label = name + ' (' + id + ')';
+                d.value = name + ' (' + id + ')';
+            } else {
+                d.label = name;
+                d.value = name;
+            }
+            data.push(d);
+        }
+        for (id in response.groups) {
+            name = response.groups[id];
+            d = {
+                id: id,
+                name: name,
+                type: 'g',
+                projectid: projectid
+            };
+            if (id !== name) {
+                d.label = name + ' (' + id + ')';
+                d.value = name + ' (' + id + ')';
+            } else {
+                d.label = name;
+                d.value = name;
+            }
+            data.push(d);
+        }
+        for (id in response.circles) {
+            name = response.circles[id];
+            d = {
+                id: id,
+                name: name,
+                type: 'c',
+                projectid: projectid
+            };
+            d.label = name;
+            d.value = name;
+            data.push(d);
+        }
+        cospend.pubLinkData.projectid = projectid;
+        input.autocomplete({
+            source: data,
+            select: function (e, ui) {
+                const it = ui.item;
+                if (it.type === 'g') {
+                    addGroupShareDb(it.projectid, it.id, it.name);
+                } else if (it.type === 'u') {
+                    addUserShareDb(it.projectid, it.id, it.name);
+                } else if (it.type === 'c') {
+                    addCircleShareDb(it.projectid, it.id, it.name);
+                } else if (it.type === 'l') {
+                    addPublicShareDb(it.projectid);
+                }
+            }
+        }).data('ui-autocomplete')._renderItem = function (ul, item) {
+            let iconClass = 'icon-user';
+            if (item.type === 'g') {
+                iconClass = 'icon-group';
+            } else if (item.type === 'c') {
+                iconClass = 'share-icon-circle';
+            } else if (item.type === 'l') {
+                iconClass = 'icon-public';
+            }
+            return $('<li></li>')
+                .data('item.autocomplete', item)
+                .append('<a class="shareCompleteLink"><button class="shareCompleteIcon ' + iconClass + '"></button> ' + item.label + '</a>')
+                .appendTo(ul);
+        };
+        //console.log(ii.data('ui-autocomplete'));
+    }).fail(function () {
+        Notification.showTemporary(t('cospend', 'Failed to get user list'));
+    });
 }

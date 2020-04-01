@@ -552,15 +552,9 @@ import cospend from "./state";
         // show/hide repeatallactive
         $('body').on('change', '#repeatbill', function () {
             if ($(this).val() === 'n') {
-                $('#repeatallactive').hide();
-                $('label[for=repeatallactive]').hide();
-                $('#repeatuntil').hide();
-                $('label[for=repeatuntil]').hide();
+                $('.bill-repeat-extra').hide();
             } else {
-                $('#repeatallactive').show();
-                $('label[for=repeatallactive]').show();
-                $('#repeatuntil').show();
-                $('label[for=repeatuntil]').show();
+                $('.bill-repeat-extra').show();
             }
         });
 
@@ -855,10 +849,7 @@ import cospend from "./state";
                 $('#amount').prop('disabled', false);
                 $('#repeatbill').prop('disabled', false);
                 if ($('#repeatbill').val() !== 'n') {
-                    $('#repeatallactive').show();
-                    $('label[for=repeatallactive]').show();
-                    $('#repeatuntil').show();
-                    $('label[for=repeatuntil]').show();
+                    $('.bill-repeat-extra').show();
                 }
             } else if (billtype === 'custom') {
                 $('#owerNone').hide();
@@ -870,10 +861,7 @@ import cospend from "./state";
                 updateCustomAmount();
                 $('#amount').prop('disabled', true);
                 $('#repeatbill').val('n').prop('disabled', true);
-                $('#repeatallactive').hide();
-                $('label[for=repeatallactive]').hide();
-                $('#repeatuntil').hide();
-                $('label[for=repeatuntil]').hide();
+                $('.bill-repeat-extra').hide();
             } else if (billtype === 'perso') {
                 $('#owerNone').show();
                 $('#owerAll').show();
@@ -888,10 +876,7 @@ import cospend from "./state";
                 });
                 $('#amount').prop('disabled', false);
                 $('#repeatbill').val('n').prop('disabled', true);
-                $('#repeatallactive').hide();
-                $('label[for=repeatallactive]').hide();
-                $('#repeatuntil').hide();
-                $('label[for=repeatuntil]').hide();
+                $('.bill-repeat-extra').hide();
             }
             $('#owerValidateText').text(owerValidateStr);
         });

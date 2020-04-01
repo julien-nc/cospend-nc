@@ -544,25 +544,27 @@ export function displayBill (projectid, billid) {
         '                ' + t('cospend', 'Repeat') +
         '            </label>' +
         '            <select id="repeatbill">' +
-        '               <option value="n" selected>' + t('cospend', 'do not repeat') + '</option>' +
-        '               <option value="d">' + t('cospend', 'daily') + '</option>' +
-        '               <option value="w">' + t('cospend', 'weekly') + '</option>' +
-        '               <option value="m">' + t('cospend', 'monthly') + '</option>' +
-        '               <option value="y">' + t('cospend', 'yearly') + '</option>' +
+        '               <option value="n" selected>' + t('cospend', 'No') + '</option>' +
+        '               <option value="d">' + t('cospend', 'Daily') + '</option>' +
+        '               <option value="w">' + t('cospend', 'Weekly') + '</option>' +
+        '               <option value="m">' + t('cospend', 'Monthly') + '</option>' +
+        '               <option value="y">' + t('cospend', 'Yearly') + '</option>' +
         '            </select>' +
         '        </div>' +
         '        <div class="bill-repeat-extra">' +
-        '           <input id="repeatallactive" class="checkbox" type="checkbox"/>' +
-        '           <label for="repeatallactive" class="checkboxlabel">' +
-        '               ' + t('cospend', 'Include all active member on repeat') +
-        '           </label><br/>' +
-        '        </div>' +
-        '        <div class="bill-repeat-until">' +
-        '           <label for="repeatuntil">' +
-        '                <a class="icon icon-pause"></a>' +
-        '               ' + t('cospend', 'Repeat until') +
-        '           </label> ' +
-        '           <input type="date" id="repeatuntil" class="input-bill-repeatuntil" value="' + bill.repeatuntil + '"/>' +
+        '            <div class="bill-repeat-include">' +
+        '               <input id="repeatallactive" class="checkbox" type="checkbox"/>' +
+        '               <label for="repeatallactive" class="checkboxlabel">' +
+        '                   ' + t('cospend', 'Include all active member on repeat') +
+        '               </label><br/>' +
+        '            </div>' +
+        '            <div class="bill-repeat-until">' +
+        '               <label for="repeatuntil">' +
+        '                    <a class="icon icon-pause"></a>' +
+        '                   ' + t('cospend', 'Repeat until') +
+        '               </label> ' +
+        '               <input type="date" id="repeatuntil" class="input-bill-repeatuntil" value="' + bill.repeatuntil + '"/>' +
+        '            </div>' +
         '        </div>' +
         '        <div class="bill-payment-mode">' +
         '            <label for="payment-mode">' +
@@ -640,18 +642,12 @@ export function displayBill (projectid, billid) {
         }
         $('#repeatallactive').prop('checked', bill.repeatallactive || false);
         if (bill.repeat === 'n') {
-            $('#repeatallactive').hide();
-            $('label[for=repeatallactive]').hide();
-            $('#repeatuntil').hide();
-            $('label[for=repeatuntil]').hide();
+            $('.bill-repeat-extra').hide();
         }
     } else {
         $('.bill-type').show();
         $('#owerValidate').show();
-        $('#repeatallactive').hide();
-        $('label[for=repeatallactive]').hide();
-        $('#repeatuntil').hide();
-        $('label[for=repeatuntil]').hide();
+        $('.bill-repeat-extra').hide();
     }
     updateAmountEach(projectid);
 

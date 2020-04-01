@@ -5,17 +5,17 @@ import {
     displayCategoryMemberChart,
     displayMemberPolarChart,
     getMemberName
-} from "./member";
-import * as Notification from "./notification";
-import {generateUrl} from "@nextcloud/router";
-import * as sorttable from "sorttable";
-import kjua from "kjua";
-import * as Chart from "chart.js";
-import * as constants from "./constants";
-import {getBills} from "./bill";
-import {getUrlParameter, saveOptionValue} from "./utils";
-import {addShare} from "./share";
-import cospend from "./state";
+} from './member';
+import * as Notification from './notification';
+import {generateUrl} from '@nextcloud/router';
+import 'sorttable/sorttable';
+import kjua from 'kjua';
+import * as Chart from 'chart.js';
+import * as constants from './constants';
+import {getBills} from './bill';
+import {getUrlParameter, saveOptionValue} from './utils';
+import {addShare} from './share';
+import cospend from './state';
 
 /**
  * Nextcloud - cospend

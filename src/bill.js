@@ -11,7 +11,7 @@ import {getMemberName} from './member';
 
 const undoDeleteBillStyle = 'opacity:1; background-image: url(' + generateUrl('/svg/core/actions/history?color=2AB4FF') + ');';
 
-function cleanStringFromCurrency (projectid, str) {
+function cleanStringFromCurrency(projectid, str) {
     let currency, re;
     for (let i = 0; i < cospend.projects[projectid].currencies.length; i++) {
         currency = cospend.projects[projectid].currencies[i];
@@ -21,7 +21,7 @@ function cleanStringFromCurrency (projectid, str) {
     return str;
 }
 
-export function createBill (projectid, what, amount, payer_id, timestamp, owerIds, repeat,
+export function createBill(projectid, what, amount, payer_id, timestamp, owerIds, repeat,
                             custom = false, paymentmode = null, categoryid = null, repeatallactive = 0, repeatuntil = null) {
     $('.loading-bill').addClass('icon-loading-small');
     const req = {
@@ -92,7 +92,7 @@ export function createBill (projectid, what, amount, payer_id, timestamp, owerId
     });
 }
 
-export function saveBill (projectid, billid, what, amount, payer_id, timestamp, owerIds, repeat,
+export function saveBill(projectid, billid, what, amount, payer_id, timestamp, owerIds, repeat,
                           paymentmode = null, categoryid = null, repeatallactive = null, repeatuntil = null) {
     $('.loading-bill').addClass('icon-loading-small');
     const req = {
@@ -162,7 +162,7 @@ export function saveBill (projectid, billid, what, amount, payer_id, timestamp, 
     });
 }
 
-export function updateBillItem (projectid, billid, bill) {
+export function updateBillItem(projectid, billid, bill) {
     const billItem = $('.billitem[billid=' + billid + ']');
     const billSelected = billItem.hasClass('selectedbill');
     let selectedClass = '';
@@ -226,7 +226,7 @@ export function updateBillItem (projectid, billid, bill) {
     }
 }
 
-export function deleteBill (projectid, billid) {
+export function deleteBill(projectid, billid) {
     const req = {};
     let url, type;
     if (!cospend.pageIsPublic) {
@@ -270,7 +270,7 @@ export function deleteBill (projectid, billid) {
     });
 }
 
-export function getBills (projectid) {
+export function getBills(projectid) {
     $('#bill-list').html('<h2 class="icon-loading-small"></h2>');
     const req = {};
     let url, type;
@@ -306,7 +306,7 @@ export function getBills (projectid) {
     });
 }
 
-export function updateDisplayedBill (projectid, billid, what, payer_id, repeat,
+export function updateDisplayedBill(projectid, billid, what, payer_id, repeat,
                                      paymentmode = null, categoryid = null, repeatallactive = 0,
                                      repeatuntil = null) {
     $('.bill-title').attr('billid', billid);
@@ -345,7 +345,7 @@ export function updateDisplayedBill (projectid, billid, what, payer_id, repeat,
     updateAmountEach(projectid);
 }
 
-export function displayBill (projectid, billid) {
+export function displayBill(projectid, billid) {
     // select bill item
     $('.billitem').removeClass('selectedbill');
     $('.billitem[billid=' + billid + ']').addClass('selectedbill');
@@ -655,7 +655,7 @@ export function displayBill (projectid, billid) {
     }
 }
 
-export function addBill (projectid, bill) {
+export function addBill(projectid, bill) {
     cospend.bills[projectid][bill.id] = bill;
 
     const billMom = moment.unix(bill.timestamp);
@@ -740,7 +740,7 @@ export function addBill (projectid, bill) {
     }
 }
 
-export function createNormalBill () {
+export function createNormalBill() {
     // get bill info
     const projectid = $('.bill-title').attr('projectid');
 
@@ -808,7 +808,7 @@ export function createNormalBill () {
     }
 }
 
-export function onBillEdited (amountChanged = false) {
+export function onBillEdited(amountChanged = false) {
     // get bill info
     const billid = $('.bill-title').attr('billid');
     const projectid = $('.bill-title').attr('projectid');
@@ -914,7 +914,7 @@ export function onBillEdited (amountChanged = false) {
 }
 
 // create equitable bill with personal parts
-export function createEquiPersoBill () {
+export function createEquiPersoBill() {
     const projectid = $('.bill-title').attr('projectid');
 
     let what = $('.input-bill-what').val();
@@ -1031,7 +1031,7 @@ export function createEquiPersoBill () {
     }
 }
 
-export function createCustomAmountBill () {
+export function createCustomAmountBill() {
     const projectid = $('.bill-title').attr('projectid');
 
     const what = $('.input-bill-what').val();
@@ -1103,7 +1103,7 @@ export function createCustomAmountBill () {
     }
 }
 
-function updateAmountEach (projectid) {
+function updateAmountEach(projectid) {
     const amount = $('#amount').val();
     const nbChecked = $('.owerEntry .checkbox:checked').length;
     let weightSum = 0;
@@ -1128,7 +1128,7 @@ function updateAmountEach (projectid) {
     }
 }
 
-function basicBillValueCheck (what, date, time, amount, payer_id) {
+function basicBillValueCheck(what, date, time, amount, payer_id) {
     let valid = true;
     if (what === null || what === '' || what.match(',')) {
         valid = false;

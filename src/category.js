@@ -7,7 +7,7 @@ import * as constants from './constants';
 import cospend from './state';
 import {getBills} from './bill';
 
-export function getProjectCategories (projectid) {
+export function getProjectCategories(projectid) {
     $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
     const req = {};
     let url, type;
@@ -36,7 +36,7 @@ export function getProjectCategories (projectid) {
     });
 }
 
-export function displayCategories (projectid, projectInfo) {
+export function displayCategories(projectid, projectInfo) {
     // deselect bill
     $('.billitem').removeClass('selectedbill');
     const categories = projectInfo.categories;
@@ -91,7 +91,7 @@ export function displayCategories (projectid, projectInfo) {
     });
 }
 
-export function addCategoryDb (projectid, name, icon, color) {
+export function addCategoryDb(projectid, name, icon, color) {
     $('.addCategoryOk').addClass('icon-loading-small');
     const req = {
         name: name,
@@ -128,7 +128,7 @@ export function addCategoryDb (projectid, name, icon, color) {
     });
 }
 
-export function addCategory (projectid, catId, category) {
+export function addCategory(projectid, catId, category) {
     const catStr = '<div class="one-category" projectid="' + projectid + '" categoryid="' + catId + '">' +
         '    <div class="one-category-label">' +
         '        <label class="one-category-label-icon">' + (category.icon || '') + '</label>' +
@@ -157,7 +157,7 @@ export function addCategory (projectid, catId, category) {
     });
 }
 
-export function deleteCategoryDb (projectid, categoryId) {
+export function deleteCategoryDb(projectid, categoryId) {
     $('.one-category[categoryid=' + categoryId + '] .deleteOneCategory').addClass('icon-loading-small');
     const req = {};
     let url, type;
@@ -189,7 +189,7 @@ export function deleteCategoryDb (projectid, categoryId) {
     });
 }
 
-export function editCategoryDb (projectid, categoryId, name, icon, color) {
+export function editCategoryDb(projectid, categoryId, name, icon, color) {
     $('.one-category[categoryid=' + categoryId + '] .editCategoryOk').addClass('icon-loading-small');
     const req = {
         name: name,

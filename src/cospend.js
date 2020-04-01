@@ -149,7 +149,7 @@ import cospend from './state';
         return result.concat(origFilter(array, term));
     };
 
-    function restoreOptions () {
+    function restoreOptions() {
         const url = generateUrl('/apps/cospend/getOptionsValues');
         const req = {};
         let optionsValues = {};

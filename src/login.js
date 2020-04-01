@@ -27,7 +27,7 @@ import {generateUrl} from '@nextcloud/router';
         main();
     });
 
-    function main () {
+    function main() {
         const url = generateUrl('/apps/cospend/project');
         $('#loginform').attr('action', url);
 

@@ -9,7 +9,7 @@ import * as Notification from './notification';
     }
 })();
 
-function setAllowAnonymousCreation (val) {
+function setAllowAnonymousCreation(val) {
     const url = generateUrl('/apps/cospend/setAllowAnonymousCreation');
     const req = {
         allow: val

@@ -6,7 +6,7 @@ import {getProjectName} from './project';
 import * as Notification from './notification';
 import cospend from './state';
 
-export function addUserShareDb (projectid, userid, username) {
+export function addUserShareDb(projectid, userid, username) {
     $('.projectitem[projectid="' + projectid + '"]').addClass('icon-loading-small');
     const req = {
         projectid: projectid,
@@ -35,7 +35,7 @@ export function addUserShareDb (projectid, userid, username) {
     });
 }
 
-export function deleteUserShareDb (projectid, shid) {
+export function deleteUserShareDb(projectid, shid) {
     $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] ' +
         '.deleteUserShareButton span:first').addClass('icon-loading-small');
     const req = {
@@ -64,7 +64,7 @@ export function deleteUserShareDb (projectid, shid) {
     });
 }
 
-export function addPublicShareDb (projectid) {
+export function addPublicShareDb(projectid) {
     $('.projectitem[projectid="' + projectid + '"]').addClass('icon-loading-small');
     const req = {
         projectid: projectid,
@@ -89,7 +89,7 @@ export function addPublicShareDb (projectid) {
     });
 }
 
-export function deletePublicShareDb (projectid, shid) {
+export function deletePublicShareDb(projectid, shid) {
     $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] ' +
         '.deletePublicShareButton span:first').addClass('icon-loading-small');
     const req = {
@@ -118,7 +118,7 @@ export function deletePublicShareDb (projectid, shid) {
     });
 }
 
-export function addCircleShareDb (projectid, circleId, circleName) {
+export function addCircleShareDb(projectid, circleId, circleName) {
     $('.projectitem[projectid="' + projectid + '"]').addClass('icon-loading-small');
     const req = {
         projectid: projectid,
@@ -147,7 +147,7 @@ export function addCircleShareDb (projectid, circleId, circleName) {
     });
 }
 
-export function deleteCircleShareDb (projectid, shid) {
+export function deleteCircleShareDb(projectid, shid) {
     $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteCircleShareButton').addClass('icon-loading-small');
     const req = {
         projectid: projectid,
@@ -174,7 +174,7 @@ export function deleteCircleShareDb (projectid, shid) {
     });
 }
 
-export function addGroupShareDb (projectid, groupid, groupname) {
+export function addGroupShareDb(projectid, groupid, groupname) {
     $('.projectitem[projectid="' + projectid + '"]').addClass('icon-loading-small');
     const req = {
         projectid: projectid,
@@ -203,7 +203,7 @@ export function addGroupShareDb (projectid, groupid, groupname) {
     });
 }
 
-export function addShare (projectid, elemId, elemName, id, type, accesslevel, token = null) {
+export function addShare(projectid, elemId, elemName, id, type, accesslevel, token = null) {
     let displayString = elemId;
     if (type === 'c' || type === 'l') {
         displayString = elemName;
@@ -286,7 +286,7 @@ export function addShare (projectid, elemId, elemName, id, type, accesslevel, to
     $('.projectitem[projectid="' + projectid + '"] .shareinput').val('');
 }
 
-export function deleteGroupShareDb (projectid, shid) {
+export function deleteGroupShareDb(projectid, shid) {
     $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteGroupShareButton').addClass('icon-loading-small');
     const req = {
         projectid: projectid,
@@ -313,7 +313,7 @@ export function deleteGroupShareDb (projectid, shid) {
     });
 }
 
-export function editShareAccessLevelDb (projectid, shid, accesslevel) {
+export function editShareAccessLevelDb(projectid, shid, accesslevel) {
     $('.projectitem[projectid="' + projectid + '"]').addClass('icon-loading-small');
     $('li[shid="' + shid + '"] .accesslevel span').addClass('icon-loading-small');
     const req = {
@@ -340,7 +340,7 @@ export function editShareAccessLevelDb (projectid, shid, accesslevel) {
     });
 }
 
-export function applyShareAccessLevel (projectid, shid, accesslevel) {
+export function applyShareAccessLevel(projectid, shid, accesslevel) {
     const shLine = $('li[shid="' + shid + '"]');
     shLine.find('.accesslevel input[type=radio]').prop('checked', false);
     if (accesslevel === constants.ACCESS.VIEWER) {
@@ -354,7 +354,7 @@ export function applyShareAccessLevel (projectid, shid, accesslevel) {
     }
 }
 
-export function addUserAutocompletion (input, projectid) {
+export function addUserAutocompletion(input, projectid) {
     const req = {};
     const url = generateUrl('/apps/cospend/getUserList');
     $.ajax({

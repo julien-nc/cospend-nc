@@ -28,7 +28,7 @@ import cospend from './state';
  * @copyright Julien Veyssier 2019
  */
 
-export function createProject (id, name, password) {
+export function createProject(id, name, password) {
     if (!name || name.match(',') || name.match('/') ||
         !id || id.match(',') || id.match('/')
     ) {
@@ -74,7 +74,7 @@ export function createProject (id, name, password) {
     });
 }
 
-export function editProject (projectid, newName, newEmail, newPassword, newAutoexport = null, newcurrencyname = null) {
+export function editProject(projectid, newName, newEmail, newPassword, newAutoexport = null, newcurrencyname = null) {
     const req = {
         name: newName,
         contact_email: newEmail,
@@ -140,7 +140,7 @@ export function editProject (projectid, newName, newEmail, newPassword, newAutoe
     });
 }
 
-export function deleteProject (projectid) {
+export function deleteProject(projectid) {
     const req = {};
     let url, type;
     if (!cospend.pageIsPublic) {
@@ -178,7 +178,7 @@ export function deleteProject (projectid) {
     });
 }
 
-export function getProjects () {
+export function getProjects() {
     const req = {};
     let url, type;
     if (!cospend.pageIsPublic) {
@@ -232,7 +232,7 @@ export function getProjects () {
     });
 }
 
-export function getProjectStatistics (projectid, dateMin = null, dateMax = null, paymentMode = null, category = null,
+export function getProjectStatistics(projectid, dateMin = null, dateMax = null, paymentMode = null, category = null,
                                       amountMin = null, amountMax = null, showDisabled = true, currencyId = null) {
     $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
     const req = {
@@ -280,7 +280,7 @@ export function getProjectStatistics (projectid, dateMin = null, dateMax = null,
     });
 }
 
-export function getProjectSettlement (projectid) {
+export function getProjectSettlement(projectid) {
     $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
     const req = {};
     let url, type;
@@ -309,7 +309,7 @@ export function getProjectSettlement (projectid) {
     });
 }
 
-export function displaySettlement (projectid, transactionList) {
+export function displaySettlement(projectid, transactionList) {
     // unselect bill
     $('.billitem').removeClass('selectedbill');
 
@@ -367,7 +367,7 @@ export function displaySettlement (projectid, transactionList) {
     }
 }
 
-export function getProjectMoneyBusterLink (projectid) {
+export function getProjectMoneyBusterLink(projectid) {
     // unselect bill
     $('.billitem').removeClass('selectedbill');
 
@@ -444,7 +444,7 @@ export function getProjectMoneyBusterLink (projectid) {
     img.src = $('#dummylogo').css('content').replace('url("', '').replace('")', '');
 }
 
-export function displayStatistics (projectid, allStats, dateMin = null, dateMax = null, paymentMode = null, category = null,
+export function displayStatistics(projectid, allStats, dateMin = null, dateMax = null, paymentMode = null, category = null,
                                    amountMin = null, amountMax = null, showDisabled = true, currencyId = null) {
     // deselect bill
     $('.billitem').removeClass('selectedbill');
@@ -795,11 +795,11 @@ export function displayStatistics (projectid, allStats, dateMin = null, dateMax 
     displayMemberPolarChart();
 }
 
-export function getProjectName (projectid) {
+export function getProjectName(projectid) {
     return cospend.projects[projectid].name;
 }
 
-export function updateProjectBalances (projectid) {
+export function updateProjectBalances(projectid) {
     const req = {};
     let url, type;
     if (!cospend.pageIsPublic) {
@@ -845,7 +845,7 @@ export function updateProjectBalances (projectid) {
     });
 }
 
-export function addProject (project) {
+export function addProject(project) {
     cospend.projects[project.id] = project;
     cospend.members[project.id] = {};
 
@@ -1096,7 +1096,7 @@ export function addProject (project) {
     //}
 }
 
-export function selectProject (projectitem) {
+export function selectProject(projectitem) {
     const projectid = projectitem.attr('projectid');
     const wasOpen = projectitem.hasClass('open');
     const wasSelected = (cospend.currentProjectId === projectid);
@@ -1127,7 +1127,7 @@ export function selectProject (projectitem) {
     }
 }
 
-export function editGuestAccessLevelDb (projectid, accesslevel) {
+export function editGuestAccessLevelDb(projectid, accesslevel) {
     $('.projectitem[projectid="' + projectid + '"]').addClass('icon-loading-small');
     $('li[projectid="' + projectid + '"] .accesslevelguest').addClass('icon-loading-small');
     const req = {
@@ -1160,7 +1160,7 @@ export function editGuestAccessLevelDb (projectid, accesslevel) {
     });
 }
 
-export function applyGuestAccessLevel (projectid, accesslevel) {
+export function applyGuestAccessLevel(projectid, accesslevel) {
     const projectLine = $('#projectlist li[projectid="' + projectid + '"]');
     projectLine.find('.accesslevelguest').removeClass('accesslevelActive');
     if (accesslevel === constants.ACCESS.VIEWER) {
@@ -1174,7 +1174,7 @@ export function applyGuestAccessLevel (projectid, accesslevel) {
     }
 }
 
-export function autoSettlement (projectid) {
+export function autoSettlement(projectid) {
     $('.autoSettlement[projectid="' + projectid + '"] span').addClass('icon-loading-small');
     const req = {};
     let url, type;

@@ -6,7 +6,7 @@ import * as Notification from './notification';
 import * as constants from './constants';
 import cospend from './state';
 
-export function getProjectCurrencies (projectid) {
+export function getProjectCurrencies(projectid) {
     $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
     const req = {};
     let url, type;
@@ -35,7 +35,7 @@ export function getProjectCurrencies (projectid) {
     });
 }
 
-export function displayCurrencies (projectid, projectInfo) {
+export function displayCurrencies(projectid, projectInfo) {
     // deselect bill
     $('.billitem').removeClass('selectedbill');
     const mainCurrencyName = projectInfo.currencyname;
@@ -103,7 +103,7 @@ export function displayCurrencies (projectid, projectInfo) {
     }
 }
 
-export function addCurrencyDb (projectid, name, rate) {
+export function addCurrencyDb(projectid, name, rate) {
     $('.addCurrencyOk').addClass('icon-loading-small');
     const req = {
         name: name,
@@ -139,7 +139,7 @@ export function addCurrencyDb (projectid, name, rate) {
     });
 }
 
-export function addCurrency (projectid, currency) {
+export function addCurrency(projectid, currency) {
     const curStr = '<div class="one-currency" projectid="' + projectid + '" currencyid="' + currency.id + '">' +
         '    <div class="one-currency-label">' +
         '        <label class="one-currency-label-label">' +
@@ -161,7 +161,7 @@ export function addCurrency (projectid, currency) {
     $('#currency-list').append(curStr);
 }
 
-export function deleteCurrencyDb (projectid, currencyId) {
+export function deleteCurrencyDb(projectid, currencyId) {
     $('.one-currency[currencyid=' + currencyId + '] .deleteOneCurrency').addClass('icon-loading-small');
     const req = {};
     let url, type;
@@ -202,7 +202,7 @@ export function deleteCurrencyDb (projectid, currencyId) {
     });
 }
 
-export function editCurrencyDb (projectid, currencyId, name, rate) {
+export function editCurrencyDb(projectid, currencyId, name, rate) {
     $('.one-currency[currencyid=' + currencyId + '] .editCurrencyOk').addClass('icon-loading-small');
     const req = {
         name: name,

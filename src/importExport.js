@@ -6,7 +6,7 @@ import {endsWith} from './utils';
 import {getProjects} from './project';
 
 
-export function exportProject (projectid) {
+export function exportProject(projectid) {
     $('.projectitem[projectid="' + projectid + '"]').addClass('icon-loading-small');
     const timeStamp = Math.floor(Date.now());
     const dateStr = OC.Util.formatDate(timeStamp);
@@ -33,7 +33,7 @@ export function exportProject (projectid) {
     });
 }
 
-export function exportStatistics (projectid, dateMin = null, dateMax = null, paymentMode = null, category = null,
+export function exportStatistics(projectid, dateMin = null, dateMax = null, paymentMode = null, category = null,
                                   amountMin = null, amountMax = null, showDisabled = true, currencyId = null) {
     $('.exportStats[projectid="' + projectid + '"] span').addClass('icon-loading-small');
     const req = {
@@ -65,7 +65,7 @@ export function exportStatistics (projectid, dateMin = null, dateMax = null, pay
     });
 }
 
-export function exportSettlement (projectid) {
+export function exportSettlement(projectid) {
     $('.exportSettlement[projectid="' + projectid + '"] span').addClass('icon-loading-small');
     const req = {
         projectid: projectid
@@ -88,7 +88,7 @@ export function exportSettlement (projectid) {
     });
 }
 
-export function importProject (targetPath) {
+export function importProject(targetPath) {
     if (!endsWith(targetPath, '.csv')) {
         Notification.showTemporary(t('cospend', 'Only CSV files can be imported'));
         return;
@@ -116,7 +116,7 @@ export function importProject (targetPath) {
     });
 }
 
-export function importSWProject (targetPath) {
+export function importSWProject(targetPath) {
     if (!endsWith(targetPath, '.csv')) {
         Notification.showTemporary(t('cospend', 'Only CSV files can be imported'));
         return;

@@ -9,12 +9,12 @@ import * as constants from './constants';
 import cospend from './state';
 import * as Chart from 'chart.js';
 
-export function getMemberName (projectid, memberid) {
+export function getMemberName(projectid, memberid) {
     //const memberName = $('.projectitem[projectid="'+projectid+'"] .memberlist > li[memberid='+memberid+'] b.memberName').text();
     return cospend.members[projectid][memberid].name;
 }
 
-export function createMember (projectid, name) {
+export function createMember(projectid, name) {
     if (!name || name.match(',')) {
         Notification.showTemporary(t('cospend', 'Invalid values'));
         return;
@@ -53,7 +53,7 @@ export function createMember (projectid, name) {
     });
 }
 
-export function askChangeMemberColor (projectid, memberid) {
+export function askChangeMemberColor(projectid, memberid) {
     cospend.changingColorProjectId = projectid;
     cospend.changingColorMemberId = memberid;
     const currentColor = '#' + cospend.members[projectid][memberid].color;
@@ -61,7 +61,7 @@ export function askChangeMemberColor (projectid, memberid) {
     $('#membercolorinput').click();
 }
 
-export function okMemberColor () {
+export function okMemberColor() {
     const color = $('#membercolorinput').val();
     const projectid = cospend.changingColorProjectId;
     const memberid = cospend.changingColorMemberId;
@@ -74,7 +74,7 @@ export function okMemberColor () {
     );
 }
 
-export function editMember (projectid, memberid, newName, newWeight, newActivated, color = null) {
+export function editMember(projectid, memberid, newName, newWeight, newActivated, color = null) {
     $('.projectitem[projectid="' + projectid + '"] ul.memberlist > li[memberid=' + memberid + ']')
         .addClass('icon-loading-small')
         .removeClass('editing');
@@ -153,12 +153,12 @@ export function editMember (projectid, memberid, newName, newWeight, newActivate
     });
 }
 
-export function updateNumberOfMember (projectid) {
+export function updateNumberOfMember(projectid) {
     const nbMembers = $('li.projectitem[projectid="' + projectid + '"] ul.memberlist > li').length;
     $('li.projectitem[projectid="' + projectid + '"] .app-navigation-entry-utils-counter span').text(nbMembers);
 }
 
-export function addMember (projectid, member, balance) {
+export function addMember(projectid, member, balance) {
     // add member to dict
     cospend.members[projectid][member.id] = {
         id: member.id,
@@ -266,7 +266,7 @@ export function addMember (projectid, member, balance) {
     }
 }
 
-export function displayMemberPolarChart () {
+export function displayMemberPolarChart() {
     const categoryMemberStats = cospend.currentStats.categoryMemberStats;
     const projectid = cospend.currentStatsProjectId;
     let scroll = false;
@@ -328,7 +328,7 @@ export function displayMemberPolarChart () {
     }
 }
 
-export function displayCategoryMemberChart () {
+export function displayCategoryMemberChart() {
     const categoryMemberStats = cospend.currentStats.categoryMemberStats;
     const projectid = cospend.currentStatsProjectId;
     let scroll = false;

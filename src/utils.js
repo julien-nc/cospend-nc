@@ -4,7 +4,7 @@ import cospend from './state';
 import {generateUrl} from '@nextcloud/router';
 import * as Notification from './notification';
 
-function hexToRgb (hex) {
+function hexToRgb(hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
         r: parseInt(result[1], 16),
@@ -13,20 +13,20 @@ function hexToRgb (hex) {
     } : null;
 }
 
-function componentToHex (c) {
+function componentToHex(c) {
     const hex = c.toString(16);
     return hex.length === 1 ? '0' + hex : hex;
 }
 
-export function rgbObjToHex (o) {
+export function rgbObjToHex(o) {
     return rgbToHex(o.r, o.g, o.b);
 }
 
-function rgbToHex (r, g, b) {
+function rgbToHex(r, g, b) {
     return '#' + componentToHex(parseInt(r)) + componentToHex(parseInt(g)) + componentToHex(parseInt(b));
 }
 
-export function hexToDarkerHex (hex) {
+export function hexToDarkerHex(hex) {
     const rgb = hexToRgb(hex);
     while (getColorBrightness(rgb) > 100) {
         if (rgb.r > 0) {
@@ -43,11 +43,11 @@ export function hexToDarkerHex (hex) {
 }
 
 // this formula was found here : https://stackoverflow.com/a/596243/7692836
-function getColorBrightness (rgb) {
+function getColorBrightness(rgb) {
     return 0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b;
 }
 
-export function Timer (callback, mydelay) {
+export function Timer(callback, mydelay) {
     let timerId, start, remaining = mydelay;
 
     this.pause = function() {
@@ -66,7 +66,7 @@ export function Timer (callback, mydelay) {
 
 let mytimer = 0;
 
-export function delay (callback, ms) {
+export function delay(callback, ms) {
     return function() {
         const context = this, args = arguments;
         clearTimeout(mytimer);
@@ -76,15 +76,15 @@ export function delay (callback, ms) {
     };
 }
 
-export function pad (n) {
+export function pad(n) {
     return (n < 10) ? ('0' + n) : n;
 }
 
-export function endsWith (str, suffix) {
+export function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
 
-export function basename (str) {
+export function basename(str) {
     let base = String(str).substring(str.lastIndexOf('/') + 1);
     if (base.lastIndexOf('.') !== -1) {
         base = base.substring(0, base.lastIndexOf('.'));
@@ -92,7 +92,7 @@ export function basename (str) {
     return base;
 }
 
-export function getUrlParameter (sParam) {
+export function getUrlParameter(sParam) {
     const sPageURL = window.location.search.substring(1);
     const sURLVariables = sPageURL.split('&');
     for (let i = 0; i < sURLVariables.length; i++) {
@@ -103,7 +103,7 @@ export function getUrlParameter (sParam) {
     }
 }
 
-export function saveOptionValue (optionValues) {
+export function saveOptionValue(optionValues) {
     if (!cospend.pageIsPublic) {
         const req = {
             options: optionValues
@@ -126,7 +126,7 @@ export function saveOptionValue (optionValues) {
 /*
  * get key events
  */
-export function checkKey (e) {
+export function checkKey(e) {
     e = e || window.event;
     const kc = e.keyCode;
     //console.log(kc);
@@ -140,7 +140,7 @@ export function checkKey (e) {
     }
 }
 
-export function generatePublicLinkToFile (targetPath, successCallback) {
+export function generatePublicLinkToFile(targetPath, successCallback) {
     $('.loading-bill').addClass('icon-loading-small');
     const req = {
         path: targetPath
@@ -170,7 +170,7 @@ export function generatePublicLinkToFile (targetPath, successCallback) {
     });
 }
 
-export function updateCustomAmount () {
+export function updateCustomAmount() {
     let tot = 0;
     $('.amountinput').each(function() {
         const val = parseFloat($(this).val());
@@ -181,13 +181,13 @@ export function updateCustomAmount () {
     $('#amount').val(tot);
 }
 
-export function copyToClipboard (text) {
+export function copyToClipboard(text) {
     const dummy = $('<input id="dummycopy">').val(text).appendTo('body').select();
     document.execCommand('copy');
     $('#dummycopy').remove();
 }
 
-export function reload (msg) {
+export function reload(msg) {
     Notification.showTemporary(msg);
     new Timer(function() {
         location.reload();

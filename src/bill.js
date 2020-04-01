@@ -193,10 +193,6 @@ export function updateBillItem (projectid, billid, bill) {
         formattedLinks = formattedLinks + '<a href="' + links[i] + '" target="blank">[' + t('cospend', 'link') + ']</a> ';
         linkChars = linkChars + '  🔗';
     }
-    let repeatChar = '';
-    if (bill.repeat !== 'n') {
-        repeatChar = ' ⏩';
-    }
     let paymentmodeChar = '';
     // c b f card, cash, check
     if (cospend.paymentModes.hasOwnProperty(bill.paymentmode)) {
@@ -209,7 +205,7 @@ export function updateBillItem (projectid, billid, bill) {
     if (cospend.projects[projectid].categories.hasOwnProperty(bill.categoryid)) {
         categoryChar = (cospend.projects[projectid].categories[bill.categoryid].icon || '') + ' ';
     }
-    const whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
+    const whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars;
 
     const billMom = moment.unix(bill.timestamp);
     const billDate = billMom.format('YYYY-MM-DD');
@@ -223,6 +219,7 @@ export function updateBillItem (projectid, billid, bill) {
     const item = '<a href="#" class="app-content-list-item billitem' + selectedClass + '" billid="' + bill.id + '" projectid="' + projectid + '" title="' + title + '">' +
         '<div class="app-content-list-item-icon" style="background-image: url(' + imgurl + ');"> ' +
         '   <div class="billItemDisabledMask' + (cospend.members[projectid][bill.payer_id].activated ? '' : ' disabled') + '"></div>' +
+        '   <div class="billItemRepeatMask' + (bill.repeat === 'n' ? '' : ' show') + '"></div>' +
         '</div>' +
         '<div class="app-content-list-item-line-one">' + whatFormatted + '</div>' +
         '<div class="app-content-list-item-line-two">' + bill.amount.toFixed(2) + ' (' + memberName + ' → ' + owerNames + ')</div>' +
@@ -333,10 +330,6 @@ export function updateDisplayedBill (projectid, billid, what, payer_id, repeat,
     for (let i = 0; i < links.length; i++) {
         formattedLinks = formattedLinks + '<a href="' + links[i] + '" target="blank">[🔗 ' + t('cospend', 'link') + ']</a> ';
     }
-    let repeatChar = '';
-    if (repeat !== 'n') {
-        repeatChar = ' ⏩';
-    }
     let paymentmodeChar = '';
     // c b f card, cash, check
     if (cospend.paymentModes.hasOwnProperty(paymentmode)) {
@@ -348,7 +341,7 @@ export function updateDisplayedBill (projectid, billid, what, payer_id, repeat,
     } else if (cospend.projects[projectid].categories.hasOwnProperty(categoryid)) {
         categoryChar = (cospend.projects[projectid].categories[categoryid].icon || '') + ' ';
     }
-    const whatFormatted = paymentmodeChar + categoryChar + what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
+    const whatFormatted = paymentmodeChar + categoryChar + what.replace(/https?:\/\/[^\s]+/gi, '');
     $('.bill-title').html(
         '<span class="loading-bill"></span>' +
         '<span class="icon-edit-white"></span>' +
@@ -442,10 +435,6 @@ export function displayBill (projectid, billid) {
     for (let i = 0; i < links.length; i++) {
         formattedLinks = formattedLinks + '<a href="' + links[i] + '" target="blank">[🔗 ' + t('cospend', 'link') + ']</a> ';
     }
-    let repeatChar = '';
-    if (bill.repeat !== 'n') {
-        repeatChar = ' ⏩';
-    }
     let paymentmodeChar = '';
     // c b f card, cash, check
     if (cospend.paymentModes.hasOwnProperty(bill.paymentmode)) {
@@ -458,7 +447,7 @@ export function displayBill (projectid, billid) {
     if (cospend.projects[projectid].categories.hasOwnProperty(bill.categoryid)) {
         categoryChar = (cospend.projects[projectid].categories[bill.categoryid].icon || '') + ' ';
     }
-    const whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + repeatChar;
+    const whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '');
     const titleStr = t('cospend', 'Bill : {what}', {what: whatFormatted});
 
     const allStr = t('cospend', 'All');
@@ -704,10 +693,6 @@ export function addBill (projectid, bill) {
         formattedLinks = formattedLinks + '<a href="' + links[i] + '" target="blank">[' + t('cospend', 'link') + ']</a> ';
         linkChars = linkChars + '  🔗';
     }
-    let repeatChar = '';
-    if (bill.id !== 0 && bill.repeat !== 'n') {
-        repeatChar = ' ⏩';
-    }
     let paymentmodeChar = '';
     // c b f card, cash, check
     if (cospend.paymentModes.hasOwnProperty(bill.paymentmode)) {
@@ -720,10 +705,11 @@ export function addBill (projectid, bill) {
     if (cospend.projects[projectid].categories.hasOwnProperty(bill.categoryid)) {
         categoryChar = (cospend.projects[projectid].categories[bill.categoryid].icon || '') + ' ';
     }
-    const whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars + repeatChar;
+    const whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars;
 
     let imgurl, color;
     let disabled = '';
+    let showRepeat = '';
     if (bill.id !== 0) {
         if (!cospend.members[projectid].hasOwnProperty(bill.payer_id)) {
             reload(t('cospend', 'Member list is not up to date. Reloading in 5 sec.'));
@@ -738,12 +724,14 @@ export function addBill (projectid, bill) {
         imgurl = generateUrl('/apps/cospend/getAvatar?color=' + color + '&name=' + encodeURIComponent(memberName));
         // disabled
         disabled = cospend.members[projectid][bill.payer_id].activated ? '' : ' disabled';
+        showRepeat = bill.repeat === 'n' ? '' : ' show';
     } else {
         imgurl = generateUrl('/apps/cospend/getAvatar?name=' + encodeURIComponent(' '));
     }
     const item = '<a href="#" class="app-content-list-item billitem" billid="' + bill.id + '" projectid="' + projectid + '" title="' + title + '">' +
         '<div class="app-content-list-item-icon" style="background-image: url(' + imgurl + ');"> ' +
         '   <div class="billItemDisabledMask' + disabled + '"></div>' +
+        '   <div class="billItemRepeatMask' + showRepeat + '"></div>' +
         '</div>' +
         '<div class="app-content-list-item-line-one">' + whatFormatted + '</div>' +
         '<div class="app-content-list-item-line-two">' + bill.amount.toFixed(2) + ' (' + memberName + ' → ' + owerNames + ')</div>' +

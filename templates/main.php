@@ -2,7 +2,6 @@
 script('cospend', 'cospend');
 
 style('cospend', 'cospend');
-style('cospend', 'Chart.min');
 
 ?>
 

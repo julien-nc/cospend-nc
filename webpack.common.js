@@ -1,6 +1,6 @@
 const path = require('path');
 //const webpack = require('webpack');
-//const { VueLoaderPlugin } = require('vue-loader');
+const { VueLoaderPlugin } = require('vue-loader');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
@@ -15,10 +15,10 @@ module.exports = {
 	},
 	module: {
 		rules: [
-			//{
-			//	test: /\.css$/,
-			//	use: ['vue-style-loader', 'css-loader'],
-			//},
+			{
+				test: /\.css$/,
+				use: ['vue-style-loader', 'css-loader'],
+			},
 			//{
 			//	test: /\.scss$/,
 			//	use: ['vue-style-loader', 'css-loader', 'sass-loader'],

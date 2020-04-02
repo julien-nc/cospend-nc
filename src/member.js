@@ -11,7 +11,6 @@ import {updateProjectBalances} from './project';
 import {getBills} from './bill';
 import * as constants from './constants';
 import cospend from './state';
-import * as Chart from 'chart.js';
 
 export function memberEvents() {
     $('body').on('click', '.addMember', function () {

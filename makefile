@@ -49,13 +49,11 @@ endif
 npm:
 	$(npm) install
 	$(npm) run build
-	cp node_modules/chart.js/dist/Chart.min.css css/
 
 .PHONY: npm-dev
 npm-dev:
 	$(npm) install
 	$(npm) run dev
-	cp node_modules/chart.js/dist/Chart.min.css css/
 
 clean:
 	sudo rm -rf $(build_dir)

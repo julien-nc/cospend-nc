@@ -1,10 +1,8 @@
 <?php
-script('cospend', 'emojionearea.min');
 script('cospend', 'cospend');
 
 style('cospend', 'cospend');
 style('cospend', 'Chart.min');
-style('cospend', 'emojionearea.min');
 
 ?>
 

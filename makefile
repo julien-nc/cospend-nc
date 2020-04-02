@@ -50,16 +50,12 @@ npm:
 	$(npm) install
 	$(npm) run build
 	cp node_modules/chart.js/dist/Chart.min.css css/
-	cp node_modules/emojionearea/dist/emojionearea.min.css css/
-	cp node_modules/emojionearea/dist/emojionearea.min.js js/
 
 .PHONY: npm-dev
 npm-dev:
 	$(npm) install
 	$(npm) run dev
 	cp node_modules/chart.js/dist/Chart.min.css css/
-	cp node_modules/emojionearea/dist/emojionearea.min.css css/
-	cp node_modules/emojionearea/dist/emojionearea.min.js js/
 
 clean:
 	sudo rm -rf $(build_dir)

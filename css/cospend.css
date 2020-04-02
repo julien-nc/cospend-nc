@@ -634,9 +634,6 @@ a.billitem .app-content-list-item-icon {
     margin: 0px;
     border: 0px;
 }
-.editCategoryIconInput {
-    width: 130px !important;
-}
 #main-currency-edit,
 .one-category-edit,
 .one-currency-edit {
@@ -750,4 +747,20 @@ a.billitem .app-content-list-item-icon {
 .exportSettlement span {
     min-height: 16px !important;
     min-width: 16px !important;
+}
+#add-icon-input-div,
+.edit-icon-input-div {
+    display: inline-flex;
+}
+.edit-icon-input-div button,
+#add-icon-input-div button {
+    width: 40px;
+    border-radius: 0;
+    margin-left: -3px;
+}
+.edit-icon-input-div input,
+#add-icon-input-div input {
+    font-size: 20px;
+    width: 50px;
+    text-align: center;
 }

@@ -6,6 +6,7 @@ import * as Notification from './notification';
 import * as constants from './constants';
 import cospend from './state';
 import {getBills} from './bill';
+import EmojiButton from '@joeattardi/emoji-button';
 
 export function categoryEvents() {
     $('body').on('click', '.manageProjectCategories', function() {
@@ -179,7 +180,10 @@ export function displayCategories(projectid, projectInfo) {
         '            </label>' +
         '            <div id="add-category">' +
         '                <label for="addCategoryIconInput">' + t('cospend', 'Icon') + '</label>'+
-        '                <input type="text" value="" maxlength="3" id="addCategoryIconInput">' +
+        '                <div id="add-icon-input-div">' +
+        '                    <input type="text" value="" maxlength="3" id="addCategoryIconInput">' +
+        '                    <button id="add-icon-button">🙂</button>' +
+        '                </div>' +
         '                <label for="addCategoryNameInput">' + t('cospend', 'Name') + '</label>' +
         '                <input type="text" value="" maxlength="300" id="addCategoryNameInput">' +
         '                <label for="addCategoryColorInput">' + t('cospend', 'Color') + '</label>' +
@@ -206,11 +210,14 @@ export function displayCategories(projectid, projectInfo) {
         $('.editOneCategory').hide();
         $('.deleteOneCategory').hide();
     }
-    $('#addCategoryIconInput').emojioneArea({
-        standalone: true,
-        autocomplete: false,
-        saveEmojisAs: 'unicode',
-        pickerPosition: 'bottom',
+    // emoji management
+    const button = $('#add-icon-button')[0];
+    const picker = new EmojiButton({position: 'auto', zIndex: 9999999});
+    picker.on('emoji', emoji => {
+        $('#addCategoryIconInput').val(emoji);
+    });
+    button.addEventListener('click', () => {
+        picker.togglePicker(button);
     });
 }
 
@@ -262,7 +269,10 @@ export function addCategory(projectid, catId, category) {
         '    </div>' +
         '    <div class="one-category-edit">' +
         '        <label>' + t('cospend', 'Icon') + '</label>' +
-        '        <input type="text" value="' + (category.icon || '') + '" maxlength="3" class="editCategoryIconInput">' +
+        '        <div class="edit-icon-input-div">' +
+        '            <input type="text" value="' + (category.icon || '') + '" maxlength="3" class="editCategoryIconInput" readonly>' +
+        '            <button class="edit-icon-button">🙂</button>' +
+        '        </div>' +
         '        <label>' + t('cospend', 'Name') + '</label>' +
         '        <input type="text" value="' + category.name + '" maxlength="300" class="editCategoryNameInput">' +
         '        <label>' + t('cospend', 'Color') + '</label>' +
@@ -272,11 +282,14 @@ export function addCategory(projectid, catId, category) {
         '    </div>' +
         '</div>';
     $('#category-list').append(catStr);
-    $('.one-category[categoryid='+catId+'] .editCategoryIconInput').emojioneArea({
-        standalone: true,
-        autocomplete: false,
-        saveEmojisAs: 'unicode',
-        pickerPosition: 'bottom',
+    // emoji management
+    const button = $('.one-category[categoryid='+catId+'] .edit-icon-button')[0];
+    const picker = new EmojiButton({position: 'auto', zIndex: 9999999});
+    picker.on('emoji', emoji => {
+        $('.one-category[categoryid='+catId+'] .editCategoryIconInput').val(emoji);
+    });
+    button.addEventListener('click', () => {
+        picker.togglePicker(button);
     });
 }
 

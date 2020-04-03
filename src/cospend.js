@@ -249,9 +249,9 @@ import cospend from './state';
             '.memberitem > .app-navigation-entry-utils, .memberitem > a, .memberitem .memberAvatar, ' +
             '.shareitem > .app-navigation-entry-utils, .shareitem > a, ' +
             '.projectitem > .app-navigation-entry-utils, .projectitem > a ',
-            function(e) {
-                var menu = $(this).parent().find('> .app-navigation-entry-menu');
-                var wasOpen = menu.hasClass('open');
+            function() {
+                const menu = $(this).parent().find('> .app-navigation-entry-menu');
+                const wasOpen = menu.hasClass('open');
                 $('.app-navigation-entry-menu.open').removeClass('open');
                 if (!wasOpen) {
                     menu.addClass('open');
@@ -263,8 +263,8 @@ import cospend from './state';
         // right click on expand icon
         $('body').on('contextmenu', '.projectitem', function(e) {
             if (e.target.tagName === 'LI' && $(e.target).hasClass('projectitem')) {
-                var menu = $(this).find('> .app-navigation-entry-menu');
-                var wasOpen = menu.hasClass('open');
+                const menu = $(this).find('> .app-navigation-entry-menu');
+                const wasOpen = menu.hasClass('open');
                 $('.app-navigation-entry-menu.open').removeClass('open');
                 if (!wasOpen) {
                     menu.addClass('open');

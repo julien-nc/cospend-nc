@@ -276,19 +276,8 @@ export function createProject(id, name, password) {
         url: url,
         data: req,
         async: true,
-    }).done(function() {
-        addProject({
-            id: id,
-            name: name,
-            contact_email: '',
-            members: [],
-            active_members: [],
-            balance: {},
-            guestaccesslevel: constants.ACCESS.PARTICIPANT,
-            categories: {},
-            currencies: []
-        });
-
+    }).done(function(response) {
+        addProject(response);
         const div = $('#newprojectdiv');
         $('#newprojectbutton').removeClass('icon-triangle-s').addClass('icon-triangle-e');
         div.slideUp('normal', function() {
@@ -746,8 +735,8 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
         cat = cospend.projects[projectid].categories[catId];
         statsStr += '       <option value="' + catId + '">' + (cat.icon || '') + ' ' + cat.name + '</option>';
     }
-    for (const catId in cospend.categories) {
-        cat = cospend.categories[catId];
+    for (const catId in cospend.hardCodedCategories) {
+        cat = cospend.hardCodedCategories[catId];
         statsStr += '       <option value="' + catId + '">' + cat.icon + ' ' + cat.name + '</option>';
     }
     statsStr +=
@@ -866,12 +855,12 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     statsStr += '<hr/><select id="categoryMemberSelect">';
     for (const catId in categoryMemberStats) {
         if (parseInt(catId) !== 0 &&
-            (cospend.categories.hasOwnProperty(catId) || cospend.projects[projectid].categories.hasOwnProperty(catId))
+            (cospend.hardCodedCategories.hasOwnProperty(catId) || cospend.projects[projectid].categories.hasOwnProperty(catId))
         ) {
-            if (cospend.categories.hasOwnProperty(catId)) {
+            if (cospend.hardCodedCategories.hasOwnProperty(catId)) {
                 statsStr += '<option value="' + catId + '">' +
-                    cospend.categories[catId].icon + ' ' +
-                    cospend.categories[catId].name + '</option>';
+                    cospend.hardCodedCategories[catId].icon + ' ' +
+                    cospend.hardCodedCategories[catId].name + '</option>';
             } else {
                 statsStr += '<option value="' + catId + '">' +
                     (cospend.projects[projectid].categories[catId].icon || '') + ' ' +
@@ -956,9 +945,9 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     for (const catId in categoryStats) {
         paid = categoryStats[catId].toFixed(2);
         catIdInt = parseInt(catId);
-        if (cospend.categories.hasOwnProperty(catId)) {
-            catName = cospend.categories[catId].icon + ' ' + cospend.categories[catId].name;
-            color = cospend.categories[catId].color;
+        if (cospend.hardCodedCategories.hasOwnProperty(catId)) {
+            catName = cospend.hardCodedCategories[catId].icon + ' ' + cospend.hardCodedCategories[catId].name;
+            color = cospend.hardCodedCategories[catId].color;
         } else if (cospend.projects[projectid].categories.hasOwnProperty(catId)) {
             catName = (cospend.projects[projectid].categories[catId].icon || '') +
                 ' ' + cospend.projects[projectid].categories[catId].name;
@@ -1460,9 +1449,9 @@ export function displayMemberPolarChart() {
     let catName, paid, color;
     for (const catId in categoryMemberStats) {
         //memberName = cospend.members[projectid][mid].name;
-        if (cospend.categories.hasOwnProperty(catId)) {
-            catName = cospend.categories[catId].icon + ' ' + cospend.categories[catId].name;
-            color = cospend.categories[catId].color;
+        if (cospend.hardCodedCategories.hasOwnProperty(catId)) {
+            catName = cospend.hardCodedCategories[catId].icon + ' ' + cospend.hardCodedCategories[catId].name;
+            color = cospend.hardCodedCategories[catId].color;
         } else if (cospend.projects[projectid].categories.hasOwnProperty(catId)) {
             catName = (cospend.projects[projectid].categories[catId].icon || '') +
                 ' ' + cospend.projects[projectid].categories[catId].name;
@@ -1510,8 +1499,8 @@ export function displayCategoryMemberChart() {
     if (selectedCatId === null || selectedCatId === '') {
         return;
     }
-    if (cospend.categories.hasOwnProperty(selectedCatId)) {
-        catName = cospend.categories[selectedCatId].icon + ' ' + cospend.categories[selectedCatId].name;
+    if (cospend.hardCodedCategories.hasOwnProperty(selectedCatId)) {
+        catName = cospend.hardCodedCategories[selectedCatId].icon + ' ' + cospend.hardCodedCategories[selectedCatId].name;
     } else if (cospend.projects[projectid].categories.hasOwnProperty(selectedCatId)) {
         catName = (cospend.projects[projectid].categories[selectedCatId].icon || '') +
             ' ' + cospend.projects[projectid].categories[selectedCatId].name;

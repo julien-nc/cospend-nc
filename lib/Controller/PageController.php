@@ -386,8 +386,8 @@ class PageController extends ApiController {
         $userEmail = $user->getEMailAddress();
         $result = $this->projectService->createProject($name, $id, $password, $userEmail, $this->userId);
         if (is_string($result) and !is_array($result)) {
-            // project id
-            return new DataResponse($result);
+            $projInfo = $this->projectService->getProjectInfo($result);
+            return new DataResponse($projInfo);
         }
         else {
             return new DataResponse($result, 400);

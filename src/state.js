@@ -22,7 +22,7 @@ const cospend = {
         label: t('cospend', 'Add public link'),
         value: ''
     },
-    categories: constants.categories,
+    hardCodedCategories: constants.hardCodedCategories,
     paymentModes: constants.paymentModes
 };
 

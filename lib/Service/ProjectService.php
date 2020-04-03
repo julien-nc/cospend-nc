@@ -69,19 +69,48 @@ class ProjectService {
         $this->userManager = $userManager;
         $this->shareManager = $shareManager;
 
-        $this->categoryNames = [
-        '-1' => $this->trans->t('Grocery'),
-        '-2' => $this->trans->t('Bar/Party'),
-        '-3' => $this->trans->t('Rent'),
-        '-4' => $this->trans->t('Bill'),
-        '-5' => $this->trans->t('Excursion/Culture'),
-        '-6' => $this->trans->t('Health'),
-        '-10' => $this->trans->t('Shopping'),
-        '-11' => $this->trans->t('Reimbursement'),
-        '-12' => $this->trans->t('Restaurant'),
-        '-13' => $this->trans->t('Accommodation'),
-        '-14' => $this->trans->t('Transport'),
-        '-15' => $this->trans->t('Sport')
+        $this->defaultCategoryNames = [
+            '-1' => $this->trans->t('Grocery'),
+            '-2' => $this->trans->t('Bar/Party'),
+            '-3' => $this->trans->t('Rent'),
+            '-4' => $this->trans->t('Bill'),
+            '-5' => $this->trans->t('Excursion/Culture'),
+            '-6' => $this->trans->t('Health'),
+            '-10' => $this->trans->t('Shopping'),
+            '-12' => $this->trans->t('Restaurant'),
+            '-13' => $this->trans->t('Accommodation'),
+            '-14' => $this->trans->t('Transport'),
+            '-15' => $this->trans->t('Sport')
+        ];
+        $this->defaultCategoryIcons = [
+            '-1'  => '🛒',
+            '-2'  => '🎉',
+            '-3'  => '🏠',
+            '-4'  => '🌩',
+            '-5'  => '🚸',
+            '-6'  => '💚',
+            '-10' => '🛍',
+            '-12' => '🍴',
+            '-13' => '🛌',
+            '-14' => '🚌',
+            '-15' => '🎾'
+        ];
+        $this->defaultCategoryColors = [
+            '-1'  => '#ffaa00',
+            '-2'  => '#aa55ff',
+            '-3'  => '#da8733',
+            '-4'  => '#4aa6b0',
+            '-5'  => '#0055ff',
+            '-6'  => '#bf090c',
+            '-10' => '#e167d1',
+            '-12' => '#d0d5e1',
+            '-13' => '#5de1a3',
+            '-14' => '#6f2ee1',
+            '-15' => '#69e177'
+        ];
+
+        $this->hardCodedCategoryNames = [
+            '-11' => $this->trans->t('Reimbursement'),
         ];
 
     }
@@ -351,6 +380,21 @@ class ProjectService {
                 ]);
             $req = $qb->execute();
             $qb = $qb->resetQueryParts();
+
+            // create default categories
+            foreach ($this->defaultCategoryNames as $strId => $name) {
+                $icon = $this->defaultCategoryIcons[$strId];
+                $color = $this->defaultCategoryColors[$strId];
+                $qb->insert('cospend_project_categories')
+                    ->values([
+                        'projectid' => $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR),
+                        'icon' => $qb->createNamedParameter($icon, IQueryBuilder::PARAM_STR),
+                        'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
+                        'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR)
+                    ]);
+                $req = $qb->execute();
+                $qb = $qb->resetQueryParts();
+            }
 
             return $id;
         }
@@ -641,7 +685,7 @@ class ProjectService {
         $categoryStats = [];
         foreach ($bills as $bill) {
             $categoryId = $bill['categoryid'];
-            if (!array_key_exists(strval($categoryId), $this->categoryNames) and
+            if (!array_key_exists(strval($categoryId), $this->hardCodedCategoryNames) and
                 !array_key_exists(strval($categoryId), $projectCategories)
             ) {
                 $categoryId = 0;
@@ -663,7 +707,7 @@ class ProjectService {
         foreach ($bills as $bill) {
             $payerId = $bill['payer_id'];
             $categoryId = $bill['categoryid'];
-            if (!array_key_exists(strval($categoryId), $this->categoryNames) and
+            if (!array_key_exists(strval($categoryId), $this->hardCodedCategoryNames) and
                 !array_key_exists(strval($categoryId), $projectCategories)
             ) {
                 $categoryId = 0;

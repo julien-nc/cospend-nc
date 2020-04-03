@@ -462,8 +462,8 @@ export function updateBillItem(projectid, billid, bill) {
         paymentmodeChar = cospend.paymentModes[bill.paymentmode].icon + ' ';
     }
     let categoryChar = '';
-    if (cospend.categories.hasOwnProperty(bill.categoryid)) {
-        categoryChar = cospend.categories[bill.categoryid].icon + ' ';
+    if (cospend.hardCodedCategories.hasOwnProperty(bill.categoryid)) {
+        categoryChar = cospend.hardCodedCategories[bill.categoryid].icon + ' ';
     }
     if (cospend.projects[projectid].categories.hasOwnProperty(bill.categoryid)) {
         categoryChar = (cospend.projects[projectid].categories[bill.categoryid].icon || '') + ' ';
@@ -599,8 +599,8 @@ export function updateDisplayedBill(projectid, billid, what, payer_id, repeat,
         paymentmodeChar = cospend.paymentModes[paymentmode].icon + ' ';
     }
     let categoryChar = '';
-    if (cospend.categories.hasOwnProperty(categoryid)) {
-        categoryChar = cospend.categories[categoryid].icon + ' ';
+    if (cospend.hardCodedCategories.hasOwnProperty(categoryid)) {
+        categoryChar = cospend.hardCodedCategories[categoryid].icon + ' ';
     } else if (cospend.projects[projectid].categories.hasOwnProperty(categoryid)) {
         categoryChar = (cospend.projects[projectid].categories[categoryid].icon || '') + ' ';
     }
@@ -704,8 +704,8 @@ export function displayBill(projectid, billid) {
         paymentmodeChar = cospend.paymentModes[bill.paymentmode].icon + ' ';
     }
     let categoryChar = '';
-    if (cospend.categories.hasOwnProperty(bill.categoryid)) {
-        categoryChar = cospend.categories[bill.categoryid].icon + ' ';
+    if (cospend.hardCodedCategories.hasOwnProperty(bill.categoryid)) {
+        categoryChar = cospend.hardCodedCategories[bill.categoryid].icon + ' ';
     }
     if (cospend.projects[projectid].categories.hasOwnProperty(bill.categoryid)) {
         categoryChar = (cospend.projects[projectid].categories[bill.categoryid].icon || '') + ' ';
@@ -856,8 +856,8 @@ export function displayBill(projectid, billid) {
         cat = cospend.projects[projectid].categories[catId];
         detail += '       <option value="' + catId + '">' + (cat.icon || '') + ' ' + cat.name + '</option>';
     }
-    for (const catId in cospend.categories) {
-        cat = cospend.categories[catId];
+    for (const catId in cospend.hardCodedCategories) {
+        cat = cospend.hardCodedCategories[catId];
         detail += '       <option value="' + catId + '">' + cat.icon + ' ' + cat.name + '</option>';
     }
     detail +=
@@ -897,7 +897,7 @@ export function displayBill(projectid, billid) {
     if (billid !== 0) {
         $('#repeatbill').val(bill.repeat);
         $('#payment-mode').val(bill.paymentmode || 'n');
-        if (cospend.categories.hasOwnProperty(bill.categoryid) ||
+        if (cospend.hardCodedCategories.hasOwnProperty(bill.categoryid) ||
             cospend.projects[projectid].categories.hasOwnProperty(bill.categoryid)) {
             $('#category').val(bill.categoryid);
         } else {
@@ -958,8 +958,8 @@ export function addBill(projectid, bill) {
         paymentmodeChar = cospend.paymentModes[bill.paymentmode].icon + ' ';
     }
     let categoryChar = '';
-    if (cospend.categories.hasOwnProperty(bill.categoryid)) {
-        categoryChar = cospend.categories[bill.categoryid].icon + ' ';
+    if (cospend.hardCodedCategories.hasOwnProperty(bill.categoryid)) {
+        categoryChar = cospend.hardCodedCategories[bill.categoryid].icon + ' ';
     }
     if (cospend.projects[projectid].categories.hasOwnProperty(bill.categoryid)) {
         categoryChar = (cospend.projects[projectid].categories[bill.categoryid].icon || '') + ' ';

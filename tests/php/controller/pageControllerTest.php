@@ -265,7 +265,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
         $data = $resp->getData();
-        $this->assertEquals('superproj', $data);
+        $this->assertEquals('superproj', $data['id']);
 
         $resp = $this->pageController->webCreateProject('superproj', 'SuperProj', 'toto');
         $status = $resp->getStatus();
@@ -575,7 +575,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
         $data = $resp->getData();
-        $this->assertEquals('projtodel', $data);
+        $this->assertEquals('projtodel', $data['id']);
 
         // attempt to delete : wrong user
         $resp = $this->pageController2->webDeleteProject('projtodel');

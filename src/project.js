@@ -6,7 +6,7 @@ import {
 } from './constants';
 import * as Notification from './notification';
 import {generateUrl} from '@nextcloud/router';
-import 'sorttable/sorttable';
+import 'sorttable';
 import kjua from 'kjua';
 import * as Chart from 'chart.js';
 import * as constants from './constants';
@@ -22,6 +22,11 @@ import {
 } from './member';
 import {addShare} from './share';
 import cospend from './state';
+import {
+    exportProject,
+    exportSettlement,
+    exportStatistics
+} from "./importExport";
 
 /**
  * Nextcloud - cospend
@@ -575,7 +580,7 @@ export function displaySettlement(projectid, transactionList) {
     }
     settlementStr = settlementStr + '</table>';
     $('#billdetail').html(settlementStr);
-    sorttable.makeSortable(document.getElementById('settlementTable'));
+    window.sorttable.makeSortable(document.getElementById('settlementTable'));
 
     if (cospend.projects[projectid].myaccesslevel <= constants.ACCESS.VIEWER) {
         $('.autoSettlement').hide();
@@ -977,8 +982,8 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
 
     if (memberIds.length > 0) {
         // make tables sortable
-        sorttable.makeSortable(document.getElementById('statsTable'));
-        sorttable.makeSortable(document.getElementById('monthlyTable'));
+        window.sorttable.makeSortable(document.getElementById('statsTable'));
+        window.sorttable.makeSortable(document.getElementById('monthlyTable'));
     }
 
     if (dateMin) {

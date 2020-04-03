@@ -7,6 +7,7 @@ import * as constants from './constants';
 import cospend from './state';
 import {getBills} from './bill';
 import EmojiButton from '@joeattardi/emoji-button';
+import {Timer} from "./utils";
 
 export function categoryEvents() {
     $('body').on('click', '.manageProjectCategories', function() {

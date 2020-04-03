@@ -13,7 +13,7 @@
 
 import * as Notification from './notification';
 import * as Chart from 'chart.js/dist/Chart';
-import 'chart.js/dist/Chart.min.css';
+import 'chart.js/dist/Chart.css';
 import {generateUrl} from '@nextcloud/router';
 import {
     checkKey,

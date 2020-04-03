@@ -9,6 +9,7 @@ import {
 import * as Notification from './notification';
 import * as constants from './constants';
 import cospend from './state';
+import {Timer} from "./utils";
 
 export function currencyEvents() {
     // main currency

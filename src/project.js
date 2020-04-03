@@ -22,6 +22,11 @@ import {
 } from './member';
 import {addShare} from './share';
 import cospend from './state';
+import {
+    exportProject,
+    exportSettlement,
+    exportStatistics
+} from "./importExport";
 
 /**
  * Nextcloud - cospend

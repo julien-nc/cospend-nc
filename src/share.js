@@ -2,7 +2,7 @@
 
 import {generateUrl} from '@nextcloud/router';
 import * as constants from './constants';
-import {getProjectName} from './project';
+import {editGuestAccessLevelDb, getProjectName} from './project';
 import * as Notification from './notification';
 import cospend from './state';
 import {

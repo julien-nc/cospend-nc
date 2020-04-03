@@ -1,9 +1,5 @@
 /*jshint esversion: 6 */
 
-import {
-    PROJECT_NAME_EDITION,
-    PROJECT_PASSWORD_EDITION
-} from './constants';
 import * as Notification from './notification';
 import {generateUrl} from '@nextcloud/router';
 import 'sorttable';
@@ -123,14 +119,14 @@ export function projectEvents() {
         $(this).parent().parent().parent().parent().find('.editProjectInput').val(name).attr('type', 'text').focus().select();
         $('#projectlist > li').removeClass('editing');
         $(this).parent().parent().parent().parent().removeClass('open').addClass('editing');
-        cospend.projectEditionMode = PROJECT_NAME_EDITION;
+        cospend.projectEditionMode = constants.PROJECT_NAME_EDITION;
     });
 
     $('body').on('click', '.editProjectPassword', function () {
         $(this).parent().parent().parent().parent().find('.editProjectInput').attr('type', 'password').val('').focus();
         $('#projectlist > li').removeClass('editing');
         $(this).parent().parent().parent().parent().removeClass('open').addClass('editing');
-        cospend.projectEditionMode = PROJECT_PASSWORD_EDITION;
+        cospend.projectEditionMode = constants.PROJECT_PASSWORD_EDITION;
     });
 
     $('body').on('click', '.editProjectClose', function () {
@@ -141,10 +137,10 @@ export function projectEvents() {
         if (e.key === 'Enter') {
             let newName;
             const projectid = $(this).parent().parent().parent().attr('projectid');
-            if (cospend.projectEditionMode === PROJECT_NAME_EDITION) {
+            if (cospend.projectEditionMode === constants.PROJECT_NAME_EDITION) {
                 newName = $(this).val();
                 editProject(projectid, newName, null, null);
-            } else if (cospend.projectEditionMode === PROJECT_PASSWORD_EDITION) {
+            } else if (cospend.projectEditionMode === constants.PROJECT_PASSWORD_EDITION) {
                 const newPassword = $(this).val();
                 newName = $(this).parent().parent().parent().find('>a span').text();
                 editProject(projectid, newName, null, newPassword);
@@ -155,10 +151,10 @@ export function projectEvents() {
     $('body').on('click', '.editProjectOk', function () {
         const projectid = $(this).parent().parent().parent().attr('projectid');
         let newName;
-        if (cospend.projectEditionMode === PROJECT_NAME_EDITION) {
+        if (cospend.projectEditionMode === constants.PROJECT_NAME_EDITION) {
             newName = $(this).parent().find('.editProjectInput').val();
             editProject(projectid, newName, null, null);
-        } else if (cospend.projectEditionMode === PROJECT_PASSWORD_EDITION) {
+        } else if (cospend.projectEditionMode === constants.PROJECT_PASSWORD_EDITION) {
             const newPassword = $(this).parent().find('.editProjectInput').val();
             newName = $(this).parent().parent().parent().find('>a span').text();
             editProject(projectid, newName, null, newPassword);

@@ -1,9 +1,5 @@
 /*jshint esversion: 6 */
 
-import {
-    MEMBER_NAME_EDITION,
-    MEMBER_WEIGHT_EDITION,
-} from './constants';
 import * as Notification from './notification';
 import {generateUrl} from '@nextcloud/router';
 import {rgbObjToHex} from './utils';
@@ -51,7 +47,7 @@ export function memberEvents() {
         $(this).parent().parent().parent().parent().find('.editMemberInput').val(name).focus().select();
         $('.memberlist li').removeClass('editing');
         $(this).parent().parent().parent().parent().addClass('editing');
-        cospend.memberEditionMode = MEMBER_NAME_EDITION;
+        cospend.memberEditionMode = constants.MEMBER_NAME_EDITION;
     });
 
     $('body').on('click', '.editWeightMember', function () {
@@ -61,7 +57,7 @@ export function memberEvents() {
         $(this).parent().parent().parent().parent().find('.editMemberInput').val(weight).focus().select();
         $('.memberlist li').removeClass('editing');
         $(this).parent().parent().parent().parent().addClass('editing');
-        cospend.memberEditionMode = MEMBER_WEIGHT_EDITION;
+        cospend.memberEditionMode = constants.MEMBER_WEIGHT_EDITION;
     });
 
     $('body').on('click', '.editMemberClose', function () {
@@ -73,10 +69,10 @@ export function memberEvents() {
             const memberid = $(this).parent().parent().parent().attr('memberid');
             const projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
             let newName;
-            if (cospend.memberEditionMode === MEMBER_NAME_EDITION) {
+            if (cospend.memberEditionMode === constants.MEMBER_NAME_EDITION) {
                 newName = $(this).val();
                 editMember(projectid, memberid, newName, null, null);
-            } else if (cospend.memberEditionMode === MEMBER_WEIGHT_EDITION) {
+            } else if (cospend.memberEditionMode === constants.MEMBER_WEIGHT_EDITION) {
                 const newWeight = parseFloat($(this).val());
                 if (!isNaN(newWeight)) {
                     newName = cospend.members[projectid][memberid].name;
@@ -92,10 +88,10 @@ export function memberEvents() {
         const memberid = $(this).parent().parent().parent().attr('memberid');
         const projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
         let newName;
-        if (cospend.memberEditionMode === MEMBER_NAME_EDITION) {
+        if (cospend.memberEditionMode === constants.MEMBER_NAME_EDITION) {
             newName = $(this).parent().find('.editMemberInput').val();
             editMember(projectid, memberid, newName, null, null);
-        } else if (cospend.memberEditionMode === MEMBER_WEIGHT_EDITION) {
+        } else if (cospend.memberEditionMode === constants.MEMBER_WEIGHT_EDITION) {
             const newWeight = parseFloat($(this).parent().find('.editMemberInput').val());
             if (!isNaN(newWeight)) {
                 newName = cospend.members[projectid][memberid].name;

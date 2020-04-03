@@ -192,6 +192,19 @@ export function projectEvents() {
         Notification.showTemporary(t('cospend', 'Guest link for \'{pid}\' copied to clipboard', {pid: projectid}));
     });
 
+    $('body').on('click', '.accesslevelguest', function() {
+        const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
+        let accesslevel = constants.ACCESS.VIEWER;
+        if ($(this).hasClass('accesslevelAdmin')) {
+            accesslevel = constants.ACCESS.ADMIN;
+        } else if ($(this).hasClass('accesslevelMaintener')) {
+            accesslevel = constants.ACCESS.MAINTENER;
+        } else if ($(this).hasClass('accesslevelParticipant')) {
+            accesslevel = constants.ACCESS.PARTICIPANT;
+        }
+        editGuestAccessLevelDb(projectid, accesslevel);
+    });
+
     $('body').on('click', '.exportProject', function() {
         const projectid = $(this).parent().parent().parent().parent().attr('projectid');
         exportProject(projectid);

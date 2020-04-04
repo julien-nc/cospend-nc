@@ -3527,7 +3527,7 @@ class ProjectService {
             $memberIdToName[$member['id']] = $member['name'];
             $memberIdToWeight[$member['id']] = $member['weight'];
             $memberIdToActive[$member['id']] = intval($member['activated']);
-            fwrite($handler, 'deleteMeIfYouWant,1,1970-01-01,"'.$member['name'].'",'.floatval($member['weight']).','.
+            fwrite($handler, 'deleteMeIfYouWant,1,1970-01-01,0,"'.$member['name'].'",'.floatval($member['weight']).','.
                               intval($member['activated']).',"'.$member['name'].'",n,,,,'."\n");;
         }
         $bills = $this->getBills($projectid);

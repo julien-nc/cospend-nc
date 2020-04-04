@@ -9,7 +9,7 @@ import {getProjects} from './project';
 export function exportProject(projectid) {
     $('.projectitem[projectid="' + projectid + '"]').addClass('icon-loading-small');
     const timeStamp = Math.floor(Date.now());
-    const dateStr = OC.Util.formatDate(timeStamp);
+    const dateStr = moment(timeStamp).format('YYYY-MM-DD');
     const filename = projectid + '_' + dateStr + '.csv';
     const req = {
         projectid: projectid,

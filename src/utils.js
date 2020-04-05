@@ -196,7 +196,7 @@ export function reload(msg) {
 
 export function slugify(text) {
     let str = String(text).toString();
-    str = str.replace(/^\s+|\s+$/g, ""); // trim
+    str = str.replace(/^\s+|\s+$/g, ''); // trim
     str = str.toLowerCase();
 
     const swaps = {
@@ -320,9 +320,9 @@ export function slugify(text) {
         })
     });
     return str
-        .replace(/[^a-z0-9 -]/g, "") // remove invalid chars
-        .replace(/\s+/g, "-") // collapse whitespace and replace by -
-        .replace(/-+/g, "-") // collapse dashes
-        .replace(/^-+/, "") // trim - from start of text
-        .replace(/-+$/, "");
+        .replace(/[^a-z0-9 -]/g, '_') // remove invalid chars
+        .replace(/\s+/g, '-') // collapse whitespace and replace by -
+        .replace(/-+/g, '-') // collapse dashes
+        .replace(/^-+/, '') // trim - from start of text
+        .replace(/-+$/, '');
 };

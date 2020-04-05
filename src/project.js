@@ -1292,15 +1292,15 @@ export function addProject(project) {
     }
 
     if (project.myaccesslevel < constants.ACCESS.ADMIN) {
-        $('li.projectitem[projectid=' + project.id + '] .autoexportSelect').prop('disabled', true);
-        $('li.projectitem[projectid=' + project.id + '] .editProjectName').hide();
-        $('li.projectitem[projectid=' + project.id + '] .editProjectPassword').hide();
-        $('li.projectitem[projectid=' + project.id + '] .deleteProject').hide();
+        $('li.projectitem[projectid="' + project.id + '"] .autoexportSelect').prop('disabled', true);
+        $('li.projectitem[projectid="' + project.id + '"] .editProjectName').hide();
+        $('li.projectitem[projectid="' + project.id + '"] .editProjectPassword').hide();
+        $('li.projectitem[projectid="' + project.id + '"] .deleteProject').hide();
         if (project.myaccesslevel < constants.ACCESS.MAINTENER) {
-            $('li.projectitem[projectid=' + project.id + '] .addMember').hide();
+            $('li.projectitem[projectid="' + project.id + '"] .addMember').hide();
             if (project.myaccesslevel < constants.ACCESS.PARTICIPANT) {
-                $('li.projectitem[projectid=' + project.id + '] .deleteUserShareButton').hide();
-                $('li.projectitem[projectid=' + project.id + '] .shareinput').hide();
+                $('li.projectitem[projectid="' + project.id + '"] .deleteUserShareButton').hide();
+                $('li.projectitem[projectid="' + project.id + '"] .shareinput').hide();
             }
         }
     }

@@ -377,9 +377,9 @@ export function addMember(projectid, member, balance) {
     $(li).appendTo('#projectlist li.projectitem[projectid="' + projectid + '"] .memberlist');
 
     if (cospend.projects[projectid].myaccesslevel < constants.ACCESS.MAINTENER) {
-        $('li.projectitem[projectid=' + projectid + '] .renameMember').hide();
-        $('li.projectitem[projectid=' + projectid + '] .editWeightMember').hide();
-        $('li.projectitem[projectid=' + projectid + '] .editColorMember').hide();
-        $('li.projectitem[projectid=' + projectid + '] .toggleMember').hide();
+        $('li.projectitem[projectid="' + projectid + '"] .renameMember').hide();
+        $('li.projectitem[projectid="' + projectid + '"] .editWeightMember').hide();
+        $('li.projectitem[projectid="' + projectid + '"] .editColorMember').hide();
+        $('li.projectitem[projectid="' + projectid + '"] .toggleMember').hide();
     }
 }

@@ -7,6 +7,7 @@ import * as Notification from './notification';
 import cospend from './state';
 import {
     copyToClipboard,
+    Timer
 } from './utils';
 
 export function shareEvents() {
@@ -19,25 +20,44 @@ export function shareEvents() {
     $('body').on('click', '.deleteUserShareButton', function() {
         const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
         const shid = $(this).parent().parent().parent().parent().attr('shid');
-        deleteUserShareDb(projectid, shid);
+        $(this).parent().parent().parent().parent().addClass('deleted');
+        cospend.shareDeletionTimer[shid] = new Timer(function () {
+            deleteUserShareDb(projectid, shid);
+        }, 7000);
     });
 
     $('body').on('click', '.deleteGroupShareButton', function() {
         const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
         const shid = $(this).parent().parent().parent().parent().attr('shid');
-        deleteGroupShareDb(projectid, shid);
+        $(this).parent().parent().parent().parent().addClass('deleted');
+        cospend.shareDeletionTimer[shid] = new Timer(function () {
+            deleteGroupShareDb(projectid, shid);
+        }, 7000);
     });
 
     $('body').on('click', '.deleteCircleShareButton', function() {
         const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
         const shid = $(this).parent().parent().parent().parent().attr('shid');
-        deleteCircleShareDb(projectid, shid);
+        $(this).parent().parent().parent().parent().addClass('deleted');
+        cospend.shareDeletionTimer[shid] = new Timer(function () {
+            deleteCircleShareDb(projectid, shid);
+        }, 7000);
     });
 
     $('body').on('click', '.deletePublicShareButton', function() {
         const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
         const shid = $(this).parent().parent().parent().parent().attr('shid');
-        deletePublicShareDb(projectid, shid);
+        $(this).parent().parent().parent().parent().addClass('deleted');
+        cospend.shareDeletionTimer[shid] = new Timer(function () {
+            deletePublicShareDb(projectid, shid);
+        }, 7000);
+    });
+
+    $('body').on('click', '.undoDeleteShare', function () {
+        const shid = $(this).parent().parent().attr('shid');
+        $(this).parent().parent().removeClass('deleted');
+        cospend.shareDeletionTimer[shid].pause();
+        delete cospend.shareDeletionTimer[shid];
     });
 
     $('body').on('click', '.copyPublicShareButton', function() {
@@ -353,6 +373,10 @@ export function addShare(projectid, elemId, elemName, id, type, accesslevel, tok
         '                </a>' +
         '            </li>' +
         '       </ul>' +
+        '   </div>' +
+        '   <div class="app-navigation-entry-deleted">' +
+        '       <div class="app-navigation-entry-deleted-description">' + t('cospend', 'Shared access deleted') + '</div>' +
+        '       <button class="app-navigation-entry-deleted-button icon-history undoDeleteShare" title="Undo"></button>' +
         '   </div>' +
         '</li>';
     $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share').append(li);

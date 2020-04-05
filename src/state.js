@@ -7,6 +7,7 @@ const cospend = {
     memberEditionMode: null,
     projectEditionMode: null,
     projectDeletionTimer: {},
+    shareDeletionTimer: {},
     billDeletionTimer: {},
     currencyDeletionTimer: {},
     categoryDeletionTimer: {},

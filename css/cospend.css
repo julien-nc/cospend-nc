@@ -340,6 +340,9 @@ input[type=number] {
 .app-navigation-entry-share {
     display: none;
 }
+.shareitem .app-navigation-entry-deleted {
+    background-color: var(--color-background-darker) !important;
+}
 .shareitem input[type=radio] {
     cursor: pointer;
     min-width: 0px;

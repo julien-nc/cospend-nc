@@ -323,7 +323,7 @@ input[type=number] {
     margin-top: 44px;
 }
 #billdetail {
-    max-width: 65%;
+    max-width: 100%;
 }
 #billdetail > h2 {
     padding: 20px 0px 20px 0px;
@@ -616,8 +616,9 @@ a.billitem .app-content-list-item-icon {
 #categoryMemberChart,
 #memberChart,
 #categoryChart {
-    width: 49%;
-    margin: 0 20px 0 20px;
+    width: 60%;
+    max-width: 60%;
+    margin: 0 auto 0 auto;
 }
 #categoryMemberSelect,
 #memberPolarSelect {

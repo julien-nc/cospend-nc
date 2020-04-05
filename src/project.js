@@ -58,7 +58,7 @@ export function projectEvents() {
             const name = $('#projectnameinput').val();
             const id = slugify(name);
             const password = $('#projectpasswordinput').val();
-            if (name && id && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
+            if (name && id) {
                 createProject(id, name, password);
             } else {
                 Notification.showTemporary(t('cospend', 'Invalid values'));
@@ -70,7 +70,7 @@ export function projectEvents() {
         const name = $('#projectnameinput').val();
         const id = slugify(name);
         const password = $('#projectpasswordinput').val();
-        if (name && id && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
+        if (name && id) {
             createProject(id, name, password);
         } else {
             Notification.showTemporary(t('cospend', 'Invalid values'));
@@ -82,7 +82,7 @@ export function projectEvents() {
         const name = $('#projectnameinput').val();
         const id = slugify(name);
         const password = $('#projectpasswordinput').val();
-        if (name && id && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
+        if (name && id) {
             createProject(id, name, password);
         } else {
             Notification.showTemporary(t('cospend', 'Invalid values'));

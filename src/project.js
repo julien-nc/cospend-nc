@@ -11,6 +11,7 @@ import {
     copyToClipboard,
     getUrlParameter,
     Timer,
+    slugify,
     saveOptionValue
 } from './utils';
 import {
@@ -55,7 +56,7 @@ export function projectEvents() {
     $('#projectnameinput, #projectidinput, #projectpasswordinput').on('keyup', function (e) {
         if (e.key === 'Enter') {
             const name = $('#projectnameinput').val();
-            const id = $('#projectidinput').val();
+            const id = slugify($('#projectidinput').val());
             const password = $('#projectpasswordinput').val();
             if (name && id && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
                 createProject(id, name, password);
@@ -67,7 +68,7 @@ export function projectEvents() {
 
     $('#newprojectform').submit(function (e) {
         const name = $('#projectnameinput').val();
-        const id = $('#projectidinput').val();
+        const id = slugify($('#projectidinput').val());
         const password = $('#projectpasswordinput').val();
         if (name && id && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
             createProject(id, name, password);
@@ -79,7 +80,7 @@ export function projectEvents() {
 
     $('#createproject').click(function () {
         const name = $('#projectnameinput').val();
-        const id = $('#projectidinput').val();
+        const id = slugify($('#projectidinput').val());
         const password = $('#projectpasswordinput').val();
         if (name && id && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
             createProject(id, name, password);

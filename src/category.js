@@ -81,18 +81,18 @@ export function categoryEvents() {
 
     $('body').on('click', '.editCategoryOk', function() {
         const projectid = $('#catTitle').attr('projectid');
-        const categoryId = $(this).parent().parent().attr('categoryid');
-        const name = $(this).parent().find('.editCategoryNameInput').val();
+        const categoryId = $(this).parent().parent().parent().attr('categoryid');
+        const name = $(this).parent().parent().find('.editCategoryNameInput').val();
         if (name === null || name === '') {
             Notification.showTemporary(t('cospend', 'Category name should not be empty'));
             return;
         }
-        const icon = $(this).parent().find('.editCategoryIconInput').val();
+        const icon = $(this).parent().parent().find('.editCategoryIconInput').val();
         if (icon === null || icon === '') {
             Notification.showTemporary(t('cospend', 'Category icon should not be empty'));
             return;
         }
-        const color = $(this).parent().find('.editCategoryColorInput').val();
+        const color = $(this).parent().parent().find('.editCategoryColorInput').val();
         if (color === null || color === '') {
             Notification.showTemporary(t('cospend', 'Category color should not be empty'));
             return;
@@ -127,8 +127,8 @@ export function categoryEvents() {
     });
 
     $('body').on('click', '.editCategoryClose', function() {
-        $(this).parent().hide();
-        $(this).parent().parent().find('.one-category-label').show();
+        $(this).parent().parent().hide();
+        $(this).parent().parent().parent().find('.one-category-label').show();
     });
 }
 
@@ -189,7 +189,9 @@ export function displayCategories(projectid, projectInfo) {
         '                <input type="text" value="" maxlength="300" id="addCategoryNameInput">' +
         '                <label for="addCategoryColorInput">' + t('cospend', 'Color') + '</label>' +
         '                <input type="color" value="" id="addCategoryColorInput">' +
-        '                <input type="submit" value="" class="icon-add addCategoryOk">' +
+        '                <button class="addCategoryOk">' +
+        '                    <span class="icon-add"></span> <span>' + t('cospend', 'Add this category') + '</span>' +
+        '                </button>' +
         '            </div>' +
         '            <hr/>' +
         '        </div><br/>' +
@@ -278,8 +280,14 @@ export function addCategory(projectid, catId, category) {
         '        <input type="text" value="' + category.name + '" maxlength="300" class="editCategoryNameInput">' +
         '        <label>' + t('cospend', 'Color') + '</label>' +
         '        <input type="color" value="' + category.color + '" class="editCategoryColorInput">' +
-        '        <input type="submit" value="" class="icon-close editCategoryClose">' +
-        '        <input type="submit" value="" class="icon-checkmark editCategoryOk">' +
+        '        <div>' +
+        '           <button class="editCategoryClose">' +
+        '               <span class="icon-close"></span> <span>' + t('cospend', 'Cancel') + '</span>' +
+        '           </button>' +
+        '           <button class="editCategoryOk">' +
+        '               <span class="icon-checkmark"></span> <span>' + t('cospend', 'Save') + '</span>' +
+        '           </button>' +
+        '        </div>' +
         '    </div>' +
         '</div>';
     $('#category-list').append(catStr);

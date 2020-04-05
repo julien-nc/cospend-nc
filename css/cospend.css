@@ -195,8 +195,14 @@ b.memberName, b.memberWeight {
 #owerValidate {
     display: none;
 }
+.addCategoryOk, .addCurrencyOk,
+.editCurrencyOk, .editCategoryOk,
 #owerValidate {
     background-color: #46ba61;
+    color: white;
+}
+.editCurrencyClose, .editCategoryClose {
+    background-color: #e9322d;
     color: white;
 }
 .owerAllNoneDiv,
@@ -584,8 +590,7 @@ a.billitem .app-content-list-item-icon {
     display: inline-block;
     padding: 0 12px 0 25px !important;
 }
-#manage-categories input[type=submit],
-#manage-currencies input[type=submit] {
+.editMainCurrency {
     width: 36px !important;
 }
 #stats-filters {
@@ -658,18 +663,23 @@ a.billitem .app-content-list-item-icon {
 }
 #add-category {
     display: grid;
-    grid-template: 1fr / 250px 130px;
+    grid-template: 1fr / 200px 130px;
 }
 #add-currency {
     display: grid;
-    grid-template: 1fr / 250px 100px;
+    grid-template: 1fr / 300px 100px;
+}
+.addCurrencyRateHint {
+    grid-column: 1/3;
 }
 .one-category-edit {
-    width: 400px;
+    grid-template: 1fr / 200px 100px;
 }
-.one-category-edit,
 .one-currency-edit {
-    grid-template: 1fr / 1fr 1fr;
+    grid-template: 1fr / 300px 100px;
+}
+.one-currency-edit,
+.one-category-edit {
     background-color: var(--color-background-dark);
 }
 #main-currency-label-label,

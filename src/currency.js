@@ -96,13 +96,13 @@ export function currencyEvents() {
 
     $('body').on('click', '.editCurrencyOk', function () {
         const projectid = $('#curTitle').attr('projectid');
-        const currencyId = $(this).parent().parent().attr('currencyid');
-        const name = $(this).parent().find('.editCurrencyNameInput').val();
+        const currencyId = $(this).parent().parent().parent().attr('currencyid');
+        const name = $(this).parent().parent().find('.editCurrencyNameInput').val();
         if (name === null || name === '') {
             Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
             return;
         }
-        const rate = parseFloat($(this).parent().find('.editCurrencyRateInput').val());
+        const rate = parseFloat($(this).parent().parent().find('.editCurrencyRateInput').val());
         if (isNaN(rate)) {
             Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
             return;
@@ -129,8 +129,8 @@ export function currencyEvents() {
     });
 
     $('body').on('click', '.editCurrencyClose', function () {
-        $(this).parent().hide();
-        $(this).parent().parent().find('.one-currency-label').show();
+        $(this).parent().parent().hide();
+        $(this).parent().parent().parent().find('.one-currency-label').show();
     });
 
     $('body').on('click', '.manageProjectCurrencies', function() {
@@ -207,10 +207,12 @@ export function displayCurrencies(projectid, projectInfo) {
         '                <label for="addCurrencyNameInput">' + t('cospend', 'Name') + '</label>' +
         '                <input type="text" value="" maxlength="64" id="addCurrencyNameInput">' +
         '                <label for="addCurrencyRateInput"> ' + t('cospend', 'Exchange rate to main currency') +
-        '                   <br/>' + t('cospend', '(1 of this currency = X of main currency)') +
         '                </label>' +
         '                <input type="number" value="1" id="addCurrencyRateInput" step="0.0001" min="0">' +
-        '                <input type="submit" value="" class="icon-add addCurrencyOk">' +
+        '                <label class="addCurrencyRateHint">' + t('cospend', '(1 of this currency = X of main currency)') + '</label>' +
+        '                <button class="addCurrencyOk">' +
+        '                    <span class="icon-add"></span> <span>' + t('cospend', 'Add this currency') + '</span>' +
+        '                </button>' +
         '            </div><hr/>' +
         '        </div>' +
         '        <br/>' +
@@ -287,8 +289,14 @@ export function addCurrency(projectid, currency) {
         '           <br/>' + t('cospend', '(1 of this currency = X of main currency)') +
         '        </label>' +
         '        <input type="number" value="' + currency.exchange_rate + '" class="editCurrencyRateInput" step="0.0001" min="0">' +
-        '        <input type="submit" value="" class="icon-close editCurrencyClose">' +
-        '        <input type="submit" value="" class="icon-checkmark editCurrencyOk">' +
+        '        <div>' +
+        '           <button class="editCurrencyClose">' +
+        '               <span class="icon-close"></span> <span>' + t('cospend', 'Cancel') + '</span>' +
+        '           </button>' +
+        '           <button class="editCurrencyOk">' +
+        '               <span class="icon-checkmark"></span> <span>' + t('cospend', 'Save') + '</span>' +
+        '           </button>' +
+        '        </div>' +
         '    </div>' +
         '</div>';
     $('#currency-list').append(curStr);

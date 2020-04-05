@@ -171,7 +171,7 @@ import cospend from './state';
             }
         });
 
-        $('body').on('focus', '.input-bill-what, .input-bill-amount, #projectidinput, #projectnameinput, #projectpasswordinput', function() {
+        $('body').on('focus', '.input-bill-what, .input-bill-amount, #projectnameinput, #projectpasswordinput', function() {
             $(this).select();
         });
 

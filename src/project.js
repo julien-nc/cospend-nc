@@ -48,15 +48,15 @@ export function projectEvents() {
             $(this).removeClass('icon-triangle-e').addClass('icon-triangle-s');
             div.slideDown('normal', function () {
                 $('#newBillButton').fadeOut();
-                $('#projectidinput').focus().select();
+                $('#projectnameinput').focus().select();
             });
         }
     });
 
-    $('#projectnameinput, #projectidinput, #projectpasswordinput').on('keyup', function (e) {
+    $('#projectnameinput, #projectpasswordinput').on('keyup', function (e) {
         if (e.key === 'Enter') {
             const name = $('#projectnameinput').val();
-            const id = slugify($('#projectidinput').val());
+            const id = slugify(name);
             const password = $('#projectpasswordinput').val();
             if (name && id && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
                 createProject(id, name, password);
@@ -68,7 +68,7 @@ export function projectEvents() {
 
     $('#newprojectform').submit(function (e) {
         const name = $('#projectnameinput').val();
-        const id = slugify($('#projectidinput').val());
+        const id = slugify(name);
         const password = $('#projectpasswordinput').val();
         if (name && id && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
             createProject(id, name, password);
@@ -80,7 +80,7 @@ export function projectEvents() {
 
     $('#createproject').click(function () {
         const name = $('#projectnameinput').val();
-        const id = slugify($('#projectidinput').val());
+        const id = slugify(name);
         const password = $('#projectpasswordinput').val();
         if (name && id && id.indexOf('@') === -1 && id.indexOf('/') === -1 && id.indexOf(' ') === -1) {
             createProject(id, name, password);

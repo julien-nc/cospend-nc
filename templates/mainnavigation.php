@@ -8,10 +8,7 @@
     <div id="newprojectdiv">
 
         <form id="newprojectform" autocomplete="off">
-            <label for="projectidinput"><?php p($l->t('Project ID/name')); ?></label>
-            <input id="projectidinput" type="text" value="<?php p($l->t('myProjectId')); ?>" maxlength="64"/>
-
-            <label for="projectnameinput"><?php p($l->t('Title')); ?></label>
+            <label for="projectnameinput"><?php p($l->t('Project name')); ?></label>
             <input id="projectnameinput" type="text" value="<?php p($l->t('My project name')); ?>" maxlength="300"/>
 
             <label for="projectpasswordinput"><?php p($l->t('Password (optional, required for guest access)')); ?></label>

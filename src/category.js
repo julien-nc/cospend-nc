@@ -313,7 +313,9 @@ export function deleteCategoryDb(projectid, categoryId) {
         data: req,
         async: true
     }).done(function() {
-        $('.one-category[categoryid=' + categoryId + ']').remove();
+        $('.one-category[categoryid=' + categoryId + ']').fadeOut('normal', function() {
+            $(this).remove();
+        });
         delete cospend.projects[projectid].categories[categoryId];
         // reload bill list
         getBills(projectid);

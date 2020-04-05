@@ -313,7 +313,9 @@ export function deleteCurrencyDb(projectid, currencyId) {
         data: req,
         async: true
     }).done(function() {
-        $('.one-currency[currencyid=' + currencyId + ']').remove();
+        $('.one-currency[currencyid=' + currencyId + ']').fadeOut('normal', function() {
+            $(this).remove();
+        });
         const currencies = cospend.projects[projectid].currencies;
         let iToDel = null;
         for (let i = 0; i < currencies.length; i++) {

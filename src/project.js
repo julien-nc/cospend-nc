@@ -695,6 +695,26 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     const filteredBalanceStr = t('cospend', 'Filtered balance');
     let exportStr = '';
 
+    function category_from_id(catId) {
+        let catName, catColor;
+        if (cospend.hardCodedCategories.hasOwnProperty(catId)) {
+            catName = cospend.hardCodedCategories[catId].icon + ' ' + cospend.hardCodedCategories[catId].name;
+            catColor = cospend.hardCodedCategories[catId].color;
+        } else if (cospend.projects[projectid].categories.hasOwnProperty(catId)) {
+            catName = (cospend.projects[projectid].categories[catId].icon || '') +
+                ' ' + cospend.projects[projectid].categories[catId].name;
+            catColor = cospend.projects[projectid].categories[catId].color || 'red';
+        } else {
+            catName = t('cospend', 'No category');
+            catColor = 'black';
+        }
+
+        return {
+            name: catName,
+            color: catColor,
+        }
+    }
+
     let totalPayed = 0.0;
     for (let i = 0; i < statList.length; i++) {
         totalPayed += statList[i].paid;
@@ -854,21 +874,8 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     statsStr += '<hr/><canvas id="categoryChart"></canvas>';
     statsStr += '<hr/><select id="categoryMemberSelect">';
     for (const catId in categoryMemberStats) {
-        if (parseInt(catId) !== 0 &&
-            (cospend.hardCodedCategories.hasOwnProperty(catId) || cospend.projects[projectid].categories.hasOwnProperty(catId))
-        ) {
-            if (cospend.hardCodedCategories.hasOwnProperty(catId)) {
-                statsStr += '<option value="' + catId + '">' +
-                    cospend.hardCodedCategories[catId].icon + ' ' +
-                    cospend.hardCodedCategories[catId].name + '</option>';
-            } else {
-                statsStr += '<option value="' + catId + '">' +
-                    (cospend.projects[projectid].categories[catId].icon || '') + ' ' +
-                    cospend.projects[projectid].categories[catId].name + '</option>';
-            }
-        } else {
-            statsStr += '<option value="' + catId + '">' + t('cospend', 'No category') + '</option>';
-        }
+        category = category_from_id(catId);
+        statsStr += '<option value="' + catId + '">' + category.name + '</option>';
     }
     statsStr += '</select>';
     statsStr += '<canvas id="categoryMemberChart"></canvas>';
@@ -941,24 +948,14 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
         }],
         labels: []
     };
-    let catName, catIdInt;
     for (const catId in categoryStats) {
         paid = categoryStats[catId].toFixed(2);
         catIdInt = parseInt(catId);
-        if (cospend.hardCodedCategories.hasOwnProperty(catId)) {
-            catName = cospend.hardCodedCategories[catId].icon + ' ' + cospend.hardCodedCategories[catId].name;
-            color = cospend.hardCodedCategories[catId].color;
-        } else if (cospend.projects[projectid].categories.hasOwnProperty(catId)) {
-            catName = (cospend.projects[projectid].categories[catId].icon || '') +
-                ' ' + cospend.projects[projectid].categories[catId].name;
-            color = cospend.projects[projectid].categories[catId].color || 'red';
-        } else {
-            catName = t('cospend', 'No category');
-            color = 'black';
-        }
+        category = category_from_id(catId);
+
         categoryData.datasets[0].data.push(paid);
-        categoryData.datasets[0].backgroundColor.push(color);
-        categoryData.labels.push(catName);
+        categoryData.datasets[0].backgroundColor.push(category.color);
+        categoryData.labels.push(category.name);
     }
     if (Object.keys(categoryStats).length > 0) {
         new Chart($('#categoryChart'), {

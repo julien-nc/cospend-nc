@@ -231,11 +231,12 @@ input[type=number] {
 #categoryTable,
 #settlementTable,
 #statsTable {
+    max-width: 95%;
     margin: 20px auto 20px auto;
-    padding-right: 20px;
 }
 #monthlyTable,
 #categoryTable {
+    display: block;
     overflow: scroll;
 }
 #monthlyTable th,

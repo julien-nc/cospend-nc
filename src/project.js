@@ -672,6 +672,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     const monthlyStats = allStats.monthlyStats;
     const categoryStats = allStats.categoryStats;
     const categoryMemberStats = allStats.categoryMemberStats;
+    const categoryMonthlyStats = allStats.categoryMonthlyStats;
     const memberIds = allStats.memberIds;
     cospend.currentStats = allStats;
     cospend.currentStatsProjectId = projectid;
@@ -695,6 +696,26 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     const balanceStr = t('cospend', 'Balance');
     const filteredBalanceStr = t('cospend', 'Filtered balance');
     let exportStr = '';
+
+    function category_from_id(catId) {
+        let catName, catColor;
+        if (cospend.hardCodedCategories.hasOwnProperty(catId)) {
+            catName = cospend.hardCodedCategories[catId].icon + ' ' + cospend.hardCodedCategories[catId].name;
+            catColor = cospend.hardCodedCategories[catId].color;
+        } else if (cospend.projects[projectid].categories.hasOwnProperty(catId)) {
+            catName = (cospend.projects[projectid].categories[catId].icon || '') +
+                ' ' + cospend.projects[projectid].categories[catId].name;
+            catColor = cospend.projects[projectid].categories[catId].color || 'red';
+        } else {
+            catName = t('cospend', 'No category');
+            catColor = '#000000';
+        }
+
+        return {
+            name: catName,
+            color: catColor,
+        }
+    }
 
     let totalPayed = 0.0;
     for (let i = 0; i < statList.length; i++) {
@@ -812,8 +833,9 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
             '</tr>';
     }
     statsStr += '</table>';
+    statsStr += '<hr/>';
     // monthly stats
-    statsStr += '<h2 class="statTableTitle">' + t('cospend', 'Monthly stats') + '</h2>';
+    statsStr += '<h2 class="statTableTitle">' + t('cospend', 'Monthly stats per member') + '</h2>';
     statsStr += '<table id="monthlyTable" class="sortable"><thead>' +
         '<th>' + t('cospend', 'Member/Month') + '</th>';
     for (const month in monthlyStats) {
@@ -850,26 +872,51 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
         statsStr += '</tr>';
     }
     statsStr += '</table>';
+    statsStr += '<canvas id="memberMonthlyChart"></canvas>';
+
+    // Get all months of the dataset:
+    let months = [];
+    for (const catId in categoryMonthlyStats) {
+        for (const month in categoryMonthlyStats[catId]) {
+            months.push(month);
+        }
+    }
+    const distinctMonths = [...new Set(months)];
+    distinctMonths.sort();
+
+    statsStr += '<hr/>'
+    statsStr += '<h2 class="statTableTitle">' + t('cospend', 'Monthly stats per category') + '</h2>';
+    statsStr += '<table id="categoryTable" class="sortable"><thead>' + '<th>' + t('cospend', 'Category/Month') + '</th>';
+    for (const month of distinctMonths) {
+        statsStr += '<th class="sorttable_numeric"><span>' + month + '</span></th>';
+    }
+    statsStr += '</thead>';
+    let categoryObj;
+    for (const catId in categoryMonthlyStats) {
+        categoryObj = category_from_id(catId);
+
+        statsStr += '<tr>';
+        statsStr += '<td style="border: 2px solid ' + categoryObj.color + ';">' + categoryObj.name + '</td>';
+
+        for(const month of distinctMonths) {
+            statsStr += '<td style="border: 2px solid ' + categoryObj.color + ';">';
+            if(typeof categoryMonthlyStats[catId][month] === 'undefined') {
+                statsStr += '0';
+            } else {
+                statsStr += categoryMonthlyStats[catId][month];
+            }
+        }
+        statsStr += '</tr>';
+    }
+    statsStr += '</table>';
+    statsStr += '<canvas id="categoryMonthlyChart"></canvas>';
 
     statsStr += '<hr/><canvas id="memberChart"></canvas>';
     statsStr += '<hr/><canvas id="categoryChart"></canvas>';
     statsStr += '<hr/><select id="categoryMemberSelect">';
     for (const catId in categoryMemberStats) {
-        if (parseInt(catId) !== 0 &&
-            (cospend.hardCodedCategories.hasOwnProperty(catId) || cospend.projects[projectid].categories.hasOwnProperty(catId))
-        ) {
-            if (cospend.hardCodedCategories.hasOwnProperty(catId)) {
-                statsStr += '<option value="' + catId + '">' +
-                    cospend.hardCodedCategories[catId].icon + ' ' +
-                    cospend.hardCodedCategories[catId].name + '</option>';
-            } else {
-                statsStr += '<option value="' + catId + '">' +
-                    (cospend.projects[projectid].categories[catId].icon || '') + ' ' +
-                    cospend.projects[projectid].categories[catId].name + '</option>';
-            }
-        } else {
-            statsStr += '<option value="' + catId + '">' + t('cospend', 'No category') + '</option>';
-        }
+        categoryObj = category_from_id(catId);
+        statsStr += '<option value="' + catId + '">' + categoryObj.name + '</option>';
     }
     statsStr += '</select>';
     statsStr += '<canvas id="categoryMemberChart"></canvas>';
@@ -885,6 +932,113 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     $('#billdetail').html(statsStr);
 
     // CHARTS
+    let catIdInt;
+
+    // Loop over all categories:
+    let monthlyDatasets = [];
+    for (const catId in categoryMonthlyStats) {
+        catIdInt = parseInt(catId);
+        categoryObj = category_from_id(catId);
+
+        // Build time series:
+        let paid = [];
+        for(const month of distinctMonths) {
+            if(typeof categoryMonthlyStats[catId][month] === 'undefined') {
+                paid.push(0);
+            } else {
+                paid.push(categoryMonthlyStats[catId][month]);
+            }
+        }
+
+        monthlyDatasets.push({
+            label: categoryObj.name,
+            // FIXME hacky way to change alpha channel:
+            backgroundColor: categoryObj.color + "4D",
+            pointBackgroundColor: categoryObj.color,
+            borderColor: categoryObj.color,
+            pointHighlightStroke: categoryObj.color,
+            fill: '-1',
+            lineTension: 0,
+            data: paid,
+        })
+    }
+    // First dataset fill should go down to x-axis:
+    monthlyDatasets[0].fill = 'origin';
+
+    new Chart($('#categoryMonthlyChart'), {
+        type: 'line',
+        data: {
+            labels: distinctMonths,
+            datasets: monthlyDatasets,
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    stacked: true
+                }]
+            },
+            title: {
+                display: true,
+                text: t('cospend', 'Payments per category per month')
+            },
+            responsive: true,
+            showAllTooltips: false,
+            legend: {
+                position: 'left'
+            }
+        }
+    });
+
+    // Go through all project members
+    let memberDatasets = [];
+    for(const member_id of memberIds.slice()) {
+        member = cospend.members[projectid][member_id];
+
+        // Build time series:
+        let paid = [];
+        for(const month of distinctMonths) {
+            paid.push(monthlyStats[month][member_id]);
+        }
+
+        memberDatasets.push({
+            label: member.name,
+            // FIXME hacky way to change alpha channel:
+            backgroundColor: "#" + member.color + "4D",
+            pointBackgroundColor: "#" + member.color,
+            borderColor: "#" + member.color,
+            pointHighlightStroke: "#" + member.color,
+            fill: '-1',
+            lineTension: 0,
+            data: paid,
+        })
+    }
+    // First dataset fill should go down to x-axis:
+    memberDatasets[0].fill = 'origin';
+
+    new Chart($('#memberMonthlyChart'), {
+        type: 'line',
+        data: {
+            labels: distinctMonths,
+            datasets: memberDatasets,
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    stacked: true
+                }]
+            },
+            title: {
+                display: true,
+                text: t('cospend', 'Payments per member per month')
+            },
+            responsive: true,
+            showAllTooltips: false,
+            legend: {
+                position: 'left'
+            }
+        }
+    });
+
     const memberBackgroundColors = [];
     const memberData = {
         // 2 datasets: paid and spent
@@ -942,24 +1096,14 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
         }],
         labels: []
     };
-    let catName, catIdInt;
     for (const catId in categoryStats) {
         paid = categoryStats[catId].toFixed(2);
         catIdInt = parseInt(catId);
-        if (cospend.hardCodedCategories.hasOwnProperty(catId)) {
-            catName = cospend.hardCodedCategories[catId].icon + ' ' + cospend.hardCodedCategories[catId].name;
-            color = cospend.hardCodedCategories[catId].color;
-        } else if (cospend.projects[projectid].categories.hasOwnProperty(catId)) {
-            catName = (cospend.projects[projectid].categories[catId].icon || '') +
-                ' ' + cospend.projects[projectid].categories[catId].name;
-            color = cospend.projects[projectid].categories[catId].color || 'red';
-        } else {
-            catName = t('cospend', 'No category');
-            color = 'black';
-        }
+        categoryObj = category_from_id(catId);
+
         categoryData.datasets[0].data.push(paid);
-        categoryData.datasets[0].backgroundColor.push(color);
-        categoryData.labels.push(catName);
+        categoryData.datasets[0].backgroundColor.push(categoryObj.color);
+        categoryData.labels.push(categoryObj.name);
     }
     if (Object.keys(categoryStats).length > 0) {
         new Chart($('#categoryChart'), {
@@ -983,6 +1127,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
         // make tables sortable
         window.sorttable.makeSortable(document.getElementById('statsTable'));
         window.sorttable.makeSortable(document.getElementById('monthlyTable'));
+        window.sorttable.makeSortable(document.getElementById('categoryTable'));
     }
 
     if (dateMin) {

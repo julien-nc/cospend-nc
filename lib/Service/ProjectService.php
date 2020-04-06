@@ -864,11 +864,38 @@ class ProjectService {
                 }
             }
         }
+        // compute category per month stats
+        $categoryMonthlyStats = [];
+        foreach ($bills as $bill) {
+            $categoryId = $bill['categoryid'];
+            $amount = $bill['amount'];
+            $date = \DateTime::createFromFormat('U', $bill['timestamp']);
+            $month = $date->format('Y-m');
+
+            if (!array_key_exists($categoryId, $categoryMonthlyStats)) {
+                $categoryMonthlyStats[$categoryId] = [];
+            }
+
+            if (!array_key_exists($month, $categoryMonthlyStats[$categoryId])) {
+                $categoryMonthlyStats[$categoryId][$month] = 0;
+            }
+
+            $categoryMonthlyStats[$categoryId][$month] += $amount;
+        }
+        // convert if necessary
+        if ($currency !== null) {
+            foreach ($categoryMonthlyStats as $catId => $cStat) {
+                foreach ($cStat as $cid => $val) {
+                    $categoryMonthlyStats[$catId][$cid] = ($val === 0.0) ? 0 : $val / $currency['exchange_rate'];
+                }
+            }
+        }
 
         return [
             'stats' => $statistics,
             'monthlyStats' => $monthlyStats,
             'categoryStats' => $categoryStats,
+            'categoryMonthlyStats' => $categoryMonthlyStats,
             'categoryMemberStats' => $categoryMemberStats,
             'memberIds' => array_keys($membersToDisplay)
         ];

@@ -870,6 +870,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
         statsStr += '</tr>';
     }
     statsStr += '</table>';
+    statsStr += '<canvas id="memberMonthlyChart"></canvas>';
     statsStr += '<hr/><canvas id="categoryMonthlyChart"></canvas>';
     statsStr += '<hr/><canvas id="memberChart"></canvas>';
     statsStr += '<hr/><canvas id="categoryChart"></canvas>';
@@ -958,6 +959,57 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
             }
         }
     });
+
+    // Go through all project members
+    let memberDatasets = [];
+    for(const member_id of memberIds.slice()) {
+        member = cospend.members[projectid][member_id];
+
+        // Build time series:
+        let paid = [];
+        for(const month of distinctMonths) {
+            paid.push(monthlyStats[month][member_id]);
+        }
+
+        memberDatasets.push({
+            label: member.name,
+            // FIXME hacky way to change alpha channel:
+            backgroundColor: "#" + member.color + "4D",
+            pointBackgroundColor: "#" + member.color,
+            borderColor: "#" + member.color,
+            pointHighlightStroke: "#" + member.color,
+            fill: '-1',
+            lineTension: 0,
+            data: paid,
+        })
+    }
+    // First dataset fill should go down to x-axis:
+    memberDatasets[0].fill = 'origin';
+
+    new Chart($('#memberMonthlyChart'), {
+        type: 'line',
+        data: {
+            labels: distinctMonths,
+            datasets: memberDatasets,
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    stacked: true
+                }]
+            },
+            title: {
+                display: true,
+                text: t('cospend', 'Payments per member per month')
+            },
+            responsive: true,
+            showAllTooltips: false,
+            legend: {
+                position: 'left'
+            }
+        }
+    });
+
     const memberBackgroundColors = [];
     const memberData = {
         // 2 datasets: paid and spent

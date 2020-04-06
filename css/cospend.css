@@ -228,46 +228,54 @@ input[type=number] {
     -webkit-appearance: initial !important;
 }
 #monthlyTable,
+#categoryTable,
 #settlementTable,
 #statsTable {
     width: 95%;
     margin: 20px 20px 20px 20px;
     padding-right: 20px;
 }
-#monthlyTable {
+#monthlyTable,
+#categoryTable {
     display:block;
     overflow: scroll;
 }
 #monthlyTable th,
+#categoryTable th,
 #settlementTable th,
 #statsTable th {
     font-weight: bold;
     text-align: center;
 }
 #monthlyTable td,
+#categoryTable td,
 #settlementTable td:last-child,
 #statsTable td {
     text-align: right;
 }
 #monthlyTable td:first-child,
+#categoryTable td:first-child,
 #settlementTable td,
 #statsTable td:first-child {
     text-align: left;
 }
 #settlementTable,
 #statsTable,
+#categoryTable,
 #monthlyTable{
     border-spacing: 2px 2px;
 }
 #settlementTable th,
 #settlementTable td,
 #statsTable th,
+#categoryTable th,
 #monthlyTable th {
     border: 1px solid var(--color-border-dark);
     padding: 0px 5px 0px 5px;
 }
 #settlementTable th span,
 #statsTable th span,
+#categoryTable th span,
 #monthlyTable th span {
     display: block;
     max-width: 100px;

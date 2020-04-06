@@ -871,7 +871,42 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     }
     statsStr += '</table>';
     statsStr += '<canvas id="memberMonthlyChart"></canvas>';
-    statsStr += '<hr/><canvas id="categoryMonthlyChart"></canvas>';
+
+    // Get all months of the dataset:
+    let months = [];
+    for (const catId in categoryMonthlyStats) {
+        for (const month in categoryMonthlyStats[catId]) {
+            months.push(month);
+        }
+    }
+    const distinctMonths = [...new Set(months)];
+    distinctMonths.sort();
+
+    statsStr += '<hr/>'
+    statsStr += '<table id="categoryTable" class="sortable"><thead>' + '<th>' + t('cospend', 'Category/Month') + '</th>';
+    for (const month of distinctMonths) {
+        statsStr += '<th class="sorttable_numeric"><span>' + month + '</span></th>';
+    }
+    statsStr += '</thead>';
+    for (const catId in categoryMonthlyStats) {
+        category = category_from_id(catId);
+
+        statsStr += '<tr>';
+        statsStr += '<td style="border: 2px solid ' + category.color + ';">' + category.name + '</td>';
+
+        for(const month of distinctMonths) {
+            statsStr += '<td style="border: 2px solid ' + category.color + ';">';
+            if(typeof categoryMonthlyStats[catId][month] === 'undefined') {
+                statsStr += '0';
+            } else {
+                statsStr += categoryMonthlyStats[catId][month];
+            }
+        }
+        statsStr += '</tr>';
+    }
+    statsStr += '</table>';
+    statsStr += '<canvas id="categoryMonthlyChart"></canvas>';
+
     statsStr += '<hr/><canvas id="memberChart"></canvas>';
     statsStr += '<hr/><canvas id="categoryChart"></canvas>';
     statsStr += '<hr/><select id="categoryMemberSelect">';
@@ -894,16 +929,6 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
 
     // CHARTS
     let catIdInt;
-
-    // Get all months of the dataset:
-    let months = [];
-    for (const catId in categoryMonthlyStats) {
-        for (const month in categoryMonthlyStats[catId]) {
-            months.push(month);
-        }
-    }
-    const distinctMonths = [...new Set(months)];
-    distinctMonths.sort();
 
     // Loop over all categories:
     let monthlyDatasets = [];

@@ -628,6 +628,11 @@ a.billitem .app-content-list-item-icon {
     max-width: 60%;
     margin: 0 auto 0 auto;
 }
+#categoryMonthlyChart {
+    width: 80%;
+    max-width: 80%;
+    margin: 0 auto 0 auto;
+}
 #categoryMemberSelect,
 #memberPolarSelect {
     display: block;

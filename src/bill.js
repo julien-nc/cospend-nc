@@ -726,7 +726,7 @@ export function displayBill(projectid, billid) {
     const billTypeStr = t('cospend', 'Bill type');
     const paymentModeStr = t('cospend', 'Payment mode');
     const categoryStr = t('cospend', 'Category');
-    const currencyConvertStr = t('cospend', 'Convert in');
+    const currencyConvertStr = t('cospend', 'Convert to');
     const timeStr = t('cospend', 'What time?');
 
     let addFileHtml = '';

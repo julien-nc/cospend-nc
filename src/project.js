@@ -834,7 +834,6 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     statsStr += '</table>';
     // monthly stats
     statsStr += '<h2 class="statTableTitle">' + t('cospend', 'Monthly stats') + '</h2>';
-    statsStr += '<hr/><canvas id="categoryMonthlyChart"></canvas>';
     statsStr += '<table id="monthlyTable" class="sortable"><thead>' +
         '<th>' + t('cospend', 'Member/Month') + '</th>';
     for (const month in monthlyStats) {
@@ -871,7 +870,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
         statsStr += '</tr>';
     }
     statsStr += '</table>';
-
+    statsStr += '<hr/><canvas id="categoryMonthlyChart"></canvas>';
     statsStr += '<hr/><canvas id="memberChart"></canvas>';
     statsStr += '<hr/><canvas id="categoryChart"></canvas>';
     statsStr += '<hr/><select id="categoryMemberSelect">';
@@ -929,6 +928,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
             borderColor: category.color,
             pointHighlightStroke: category.color,
             fill: '-1',
+            lineTension: 0,
             data: paid,
         })
     }

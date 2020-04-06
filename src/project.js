@@ -890,14 +890,15 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
         statsStr += '<th class="sorttable_numeric"><span>' + month + '</span></th>';
     }
     statsStr += '</thead>';
+    let categoryObj;
     for (const catId in categoryMonthlyStats) {
-        category = category_from_id(catId);
+        categoryObj = category_from_id(catId);
 
         statsStr += '<tr>';
-        statsStr += '<td style="border: 2px solid ' + category.color + ';">' + category.name + '</td>';
+        statsStr += '<td style="border: 2px solid ' + categoryObj.color + ';">' + categoryObj.name + '</td>';
 
         for(const month of distinctMonths) {
-            statsStr += '<td style="border: 2px solid ' + category.color + ';">';
+            statsStr += '<td style="border: 2px solid ' + categoryObj.color + ';">';
             if(typeof categoryMonthlyStats[catId][month] === 'undefined') {
                 statsStr += '0';
             } else {
@@ -913,8 +914,8 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     statsStr += '<hr/><canvas id="categoryChart"></canvas>';
     statsStr += '<hr/><select id="categoryMemberSelect">';
     for (const catId in categoryMemberStats) {
-        category = category_from_id(catId);
-        statsStr += '<option value="' + catId + '">' + category.name + '</option>';
+        categoryObj = category_from_id(catId);
+        statsStr += '<option value="' + catId + '">' + categoryObj.name + '</option>';
     }
     statsStr += '</select>';
     statsStr += '<canvas id="categoryMemberChart"></canvas>';
@@ -936,7 +937,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     let monthlyDatasets = [];
     for (const catId in categoryMonthlyStats) {
         catIdInt = parseInt(catId);
-        category = category_from_id(catId);
+        categoryObj = category_from_id(catId);
 
         // Build time series:
         let paid = [];
@@ -949,12 +950,12 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
         }
 
         monthlyDatasets.push({
-            label: category.name,
+            label: categoryObj.name,
             // FIXME hacky way to change alpha channel:
-            backgroundColor: category.color + "4D",
-            pointBackgroundColor: category.color,
-            borderColor: category.color,
-            pointHighlightStroke: category.color,
+            backgroundColor: categoryObj.color + "4D",
+            pointBackgroundColor: categoryObj.color,
+            borderColor: categoryObj.color,
+            pointHighlightStroke: categoryObj.color,
             fill: '-1',
             lineTension: 0,
             data: paid,
@@ -1097,11 +1098,11 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     for (const catId in categoryStats) {
         paid = categoryStats[catId].toFixed(2);
         catIdInt = parseInt(catId);
-        category = category_from_id(catId);
+        categoryObj = category_from_id(catId);
 
         categoryData.datasets[0].data.push(paid);
-        categoryData.datasets[0].backgroundColor.push(category.color);
-        categoryData.labels.push(category.name);
+        categoryData.datasets[0].backgroundColor.push(categoryObj.color);
+        categoryData.labels.push(categoryObj.name);
     }
     if (Object.keys(categoryStats).length > 0) {
         new Chart($('#categoryChart'), {

@@ -707,7 +707,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
             catColor = cospend.projects[projectid].categories[catId].color || 'red';
         } else {
             catName = t('cospend', 'No category');
-            catColor = 'black';
+            catColor = '#000000';
         }
 
         return {

@@ -832,8 +832,9 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
             '</tr>';
     }
     statsStr += '</table>';
+    statsStr += '<hr/>';
     // monthly stats
-    statsStr += '<h2 class="statTableTitle">' + t('cospend', 'Monthly stats') + '</h2>';
+    statsStr += '<h2 class="statTableTitle">' + t('cospend', 'Monthly stats per member') + '</h2>';
     statsStr += '<table id="monthlyTable" class="sortable"><thead>' +
         '<th>' + t('cospend', 'Member/Month') + '</th>';
     for (const month in monthlyStats) {
@@ -883,6 +884,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     distinctMonths.sort();
 
     statsStr += '<hr/>'
+    statsStr += '<h2 class="statTableTitle">' + t('cospend', 'Monthly stats per category') + '</h2>';
     statsStr += '<table id="categoryTable" class="sortable"><thead>' + '<th>' + t('cospend', 'Category/Month') + '</th>';
     for (const month of distinctMonths) {
         statsStr += '<th class="sorttable_numeric"><span>' + month + '</span></th>';
@@ -1123,6 +1125,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
         // make tables sortable
         window.sorttable.makeSortable(document.getElementById('statsTable'));
         window.sorttable.makeSortable(document.getElementById('monthlyTable'));
+        window.sorttable.makeSortable(document.getElementById('categoryTable'));
     }
 
     if (dateMin) {

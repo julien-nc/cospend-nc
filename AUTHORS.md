@@ -1,6 +1,9 @@
 # Authors
 
 * Julien Veyssier <eneiluj@posteo.net> @eneiluj (Developer)
+* @simonspa (Developper, Tester)
+* @chiefbrain (Developper)
+* g--work
 * @poVoq (issue master)
 * @MrCustomizer
 * @swestersund

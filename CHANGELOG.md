@@ -5,6 +5,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 0.4.5 – 2020-04-07
+### Added
+- monthly stats per category and per member (table and chart)
+[!165](https://gitlab.com/eneiluj/cospend-nc/-/merge_requests/165) @simonspa
+
+### Changed
+- refactor JS
+[!160](https://gitlab.com/eneiluj/cospend-nc/-/merge_requests/160) @chiefbrain
+- convert hardcoded categories to real ones that can be edited/deleted
+[#87](https://gitlab.com/eneiluj/cospend-nc/issues/87) @simonspa
+- don't ask for project id anymore when creating a project, generate it from project name
+[#90](https://gitlab.com/eneiluj/cospend-nc/issues/90) @g--work
+
+### Fixed
+- simpler export name to fix import
+[#89](https://gitlab.com/eneiluj/cospend-nc/issues/89) @simonspa
+- fix export, missing timestamp
+[#89](https://gitlab.com/eneiluj/cospend-nc/issues/89) @simonspa
+- design fixes
+- bug with some project ids
+
 ## 0.4.4 – 2020-03-31
 ### Added
 - now able to share projects with multiple public links with specific roles

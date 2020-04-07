@@ -100,6 +100,7 @@ b.memberName, b.memberWeight {
     height: 105%;
     background-image: url(images/forbidden.svg);
     margin: -1px 0 0 -1px;
+    position: absolute;
 }
 .billItemRepeatMask {
     display: none;
@@ -109,7 +110,8 @@ b.memberName, b.memberWeight {
     width: 16px;
     height: 16px;
     background-image: var(--icon-play-next-000);
-    margin: 35px 0 0 -4px;
+    margin: 33px 0 0 -4px;
+    position: absolute;
 }
 
 #settlementTable .owerAvatar,
@@ -145,6 +147,7 @@ b.memberName, b.memberWeight {
 .owerAvatarDisabled {
     margin-left: -28px;
 }
+#settlementTable .owerAvatarDisabled .disabledMask,
 #statsTable .owerAvatarDisabled .disabledMask,
 #monthlyTable .owerAvatarDisabled .disabledMask {
     top: -1px;
@@ -237,7 +240,6 @@ input[type=number] {
 }
 #monthlyTable,
 #categoryTable {
-    display: block;
     overflow: scroll;
 }
 #monthlyTable th,
@@ -259,6 +261,9 @@ input[type=number] {
 #settlementTable td,
 #statsTable td:first-child {
     text-align: left;
+}
+#categoryTable td:first-child {
+    padding: 0px 5px 0px 5px;
 }
 #settlementTable,
 #statsTable,
@@ -566,10 +571,10 @@ input[type=number] {
     margin: 0px 20px 0px 20px;
 }
 .autoexportSelect {
-    width: 50%;
+    width: 40%;
 }
 .autoexportLabel {
-    width: 50%;
+    width: 60%;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -662,6 +667,14 @@ a.billitem .app-content-list-item-icon {
 .one-category-edit,
 .one-currency-edit {
     display: none;
+}
+.one-category-edit,
+.one-currency-edit {
+    padding: 10px 0px 10px 20px;
+}
+#add-icon-button,
+.one-category-label-icon {
+    font-size: 22px;
 }
 #category-list,
 #add-category,

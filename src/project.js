@@ -983,6 +983,14 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
             },
             responsive: true,
             showAllTooltips: false,
+            hover: {
+                intersect: false,
+                mode: 'index'
+            },
+            tooltips: {
+                intersect: false,
+                mode: 'nearest'
+            },
             legend: {
                 position: 'left'
             }
@@ -1033,6 +1041,14 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
             },
             responsive: true,
             showAllTooltips: false,
+            hover: {
+                intersect: false,
+                mode: 'index'
+            },
+            tooltips: {
+                intersect: false,
+                mode: 'nearest'
+            },
             legend: {
                 position: 'left'
             }
@@ -1217,7 +1233,7 @@ export function addProject(project) {
     const projectid = project.id;
     const addMemberStr = t('cospend', 'Add member');
     const guestAccessStr = t('cospend', 'Guest access link');
-    const renameStr = t('cospend', 'Change title');
+    const renameStr = t('cospend', 'Rename');
     const changePwdStr = t('cospend', 'Change password');
     const displayStatsStr = t('cospend', 'Display statistics');
     const settleStr = t('cospend', 'Settle the project');

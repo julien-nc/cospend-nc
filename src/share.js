@@ -65,6 +65,10 @@ export function shareEvents() {
         const publicLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/s/' + token);
         copyToClipboard(publicLink);
         Notification.showTemporary(t('cospend', 'Public link copied to clipboard'));
+        const button = $(this).find('button').removeClass('icon-clippy').addClass('icon-checkmark-color');
+        new Timer(function () {
+            button.addClass('icon-clippy').removeClass('icon-checkmark-color');
+        }, 5000);
     });
 
     $('body').on('click', '.addPublicShareButton', function() {

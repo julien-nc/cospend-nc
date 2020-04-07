@@ -597,21 +597,23 @@ export function getProjectMoneyBusterLink(projectid) {
     const url = 'https://net.eneiluj.moneybuster.cospend/' + window.location.host + generateUrl('').replace('/index.php', '') + projectid + '/';
 
     const projectName = getProjectName(projectid);
-    $('#billdetail').html('');
+    const container = $('#billdetail');
+    container.html('');
     $('.app-content-list').addClass('showdetails');
     const titleStr = t('cospend', 'MoneyBuster link/QRCode for project {name}', {name: projectName});
-    const mbStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
-        '<h2 id="mbTitle"><span class="icon-phone"></span>' + titleStr + '</h2>' +
-        '<div id="qrcodediv"></div>' +
-        '<label id="mbUrlLabel">' + url + '</label>' +
-        '<br/>' +
-        '<label id="mbUrlHintLabel">' +
-        t('cospend', 'Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone.') +
-        '</label>' +
-        '<label id="mbUrlHintLabel">' +
-        t('cospend', 'Android will know MoneyBuster can open such a link (based on the \'https://net.eneiluj.moneybuster.cospend\' part) and you will be able to add the project.') +
-        '</label>';
-    $('#billdetail').html(mbStr);
+    const hint1 = t('cospend', 'Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone.');
+    const hint2 = t('cospend', 'Android will know MoneyBuster can open such a link (based on the \'https://net.eneiluj.moneybuster.cospend\' part) and you will be able to add the project.');
+
+    container.append($('<div/>', {id: 'app-details-toggle', tabindex: 0, class: 'icon-confirm'}));
+    const title = $('<h2/>', {id: 'mbTitle'})
+        .text(titleStr)
+        .prepend($('<span/>', {class: 'icon-phone'}));
+    container.append(title);
+    container.append($('<div/>', {id: 'qrcodediv'}));
+    container.append($('<label/>', {id: 'mbUrlLabel'}).text(url));
+    container.append('<br/>');
+    container.append($('<label/>', {id: 'mbUrlHintLabel'}).text(hint1));
+    container.append($('<label/>', {id: 'mbUrlHintLabel'}).text(hint2));
 
     const img = new Image();
     // wait for the image to be loaded to generate the QRcode

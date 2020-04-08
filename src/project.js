@@ -533,24 +533,38 @@ export function displaySettlement(projectid, transactionList) {
     $('.billitem').removeClass('selectedbill');
 
     const projectName = getProjectName(projectid);
-    $('#billdetail').html('');
+    const container = $('#billdetail');
+    container.html('');
     $('.app-content-list').addClass('showdetails');
     const titleStr = t('cospend', 'Settlement of project {name}', {name: projectName});
     const fromStr = t('cospend', 'Who pays?');
     const toStr = t('cospend', 'To whom?');
     const howMuchStr = t('cospend', 'How much?');
-    let exportStr = '';
+    let exportButton = null;
     if (!cospend.pageIsPublic) {
-        exportStr = ' <button class="exportSettlement" projectid="' + projectid + '"><span class="icon-save"></span>' + t('cospend', 'Export') + '</button>';
+        exportButton = $('<button/>', {class: 'exportSettlement', projectid: projectid})
+            .append($('<span/>', {class: 'icon-save'}))
+            .append(t('cospend', 'Export'));
     }
-    const autoSettleStr = ' <button class="autoSettlement" projectid="' + projectid + '"><span class="icon-add"></span>' + t('cospend', 'Add these payments to project') + '</button>';
-    let settlementStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
-        '<h2 id="settlementTitle"><span class="icon-reimburse"></span>' + titleStr + exportStr + autoSettleStr + '</h2>' +
-        '<table id="settlementTable" class="sortable"><thead>' +
-        '<th>' + fromStr + '</th>' +
-        '<th>' + toStr + '</th>' +
-        '<th class="sorttable_numeric">' + howMuchStr + '</th>' +
-        '</thead>';
+    const autoSettleButton = $('<button/>', {class: 'autoSettlement', projectid: projectid})
+        .append($('<span/>', {class: 'icon-add'}))
+        .append(t('cospend', 'Add these payments to project'));
+    container.append($('<div/>', {id: 'app-details-toggle', tabindex: '0', class: 'icon-confirm'}));
+    container.append(
+        $('<h2/>', {id: 'settlementTitle'})
+            .append($('<span/>', {class: 'icon-reimburse'}))
+            .append(titleStr)
+            .append(exportButton)
+            .append(autoSettleButton)
+    )
+    const table = $('<table/>', {id: 'settlementTable', class: 'sortable'})
+        .append(
+            $('<thead/>')
+                .append($('<th/>').text(fromStr))
+                .append($('<th/>').text(toStr))
+                .append($('<th/>', {class: 'sorttable_numeric'}).text(howMuchStr))
+        );
+    const tbody = $('<tbody/>');
     let amount, memberFrom, memberTo, imgurlFrom, imgurlTo;
     for (let i = 0; i < transactionList.length; i++) {
         amount = transactionList[i].amount.toFixed(2);
@@ -559,26 +573,32 @@ export function displaySettlement(projectid, transactionList) {
         imgurlFrom = generateUrl('/apps/cospend/getAvatar?color=' + memberFrom.color + '&name=' + encodeURIComponent(memberFrom.name));
         imgurlTo = generateUrl('/apps/cospend/getAvatar?color=' + memberTo.color + '&name=' + encodeURIComponent(memberTo.name));
         if (amount !== '0.00') {
-            settlementStr = settlementStr +
-                '<tr>' +
-                '<td style="border: 2px solid #' + memberFrom.color + ';">' +
-                '<div class="owerAvatar' + (memberFrom.activated ? '' : ' owerAvatarDisabled') + '">' +
-                '   <div class="disabledMask"></div>' +
-                '   <img src="' + imgurlFrom + '"/>' +
-                '</div>' +
-                memberFrom.name + '</td>' +
-                '<td style="border: 2px solid #' + memberTo.color + ';">' +
-                '<div class="owerAvatar' + (memberTo.activated ? '' : ' owerAvatarDisabled') + '">' +
-                '   <div class="disabledMask"></div>' +
-                '   <img src="' + imgurlTo + '"/>' +
-                '</div>' +
-                memberTo.name + '</td>' +
-                '<td>' + amount + '</td>' +
-                '</tr>';
+            tbody.append(
+                $('<tr/>')
+                    .append(
+                        $('<td/>', {style: 'border: 2px solid #' + memberFrom.color + ';'})
+                            .append(
+                                $('<div/>', {class: 'owerAvatar' + (memberFrom.activated ? '' : ' owerAvatarDisabled')})
+                                    .append($('<div/>', {class: 'disabledMask'}))
+                                    .append($('<img/>', {src: imgurlFrom}))
+                            )
+                            .append(memberFrom.name)
+                    )
+                    .append(
+                        $('<td/>', {style: 'border: 2px solid #' + memberTo.color + ';'})
+                            .append(
+                                $('<div/>', {class: 'owerAvatar' + (memberTo.activated ? '' : ' owerAvatarDisabled')})
+                                    .append($('<div/>', {class: 'disabledMask'}))
+                                    .append($('<img/>', {src: imgurlTo}))
+                            )
+                            .append(memberTo.name)
+                    )
+                    .append($('<td/>').text(amount))
+            );
         }
     }
-    settlementStr = settlementStr + '</table>';
-    $('#billdetail').html(settlementStr);
+    table.append(tbody);
+    container.append(table);
     window.sorttable.makeSortable(document.getElementById('settlementTable'));
 
     if (cospend.projects[projectid].myaccesslevel <= constants.ACCESS.VIEWER) {
@@ -820,8 +840,8 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
             '<tr>' +
             '<td style="border: 2px solid ' + color + ';">' +
             '<div class="owerAvatar' + (member.activated ? '' : ' owerAvatarDisabled') + '">' +
-            '   <div class="disabledMask"></div>' +
-            '   <img src="' + imgurl + '"/>' +
+            '<div class="disabledMask"></div>' +
+            '<img src="' + imgurl + '"/>' +
             '</div>' +
             name +
             '</td>' +
@@ -861,7 +881,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
             statsStr += '<td style="border: 2px solid ' + color + ';">' +
                 '<div class="owerAvatar' + (member.activated ? '' : ' owerAvatarDisabled') + '">' +
                 '   <div class="disabledMask"></div>' +
-                '   <img src="' + imgurl + '"/>' +
+                '<img src="' + imgurl + '"/>' +
                 '</div>' +
                 cospend.members[projectid][mid].name +
                 '</td>';

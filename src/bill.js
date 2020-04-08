@@ -666,7 +666,7 @@ export function displayBill(projectid, billid) {
                 '<div class="owerEntry">' +
                 '<div class="owerAvatar' + (cospend.members[projectid][member.id].activated ? '' : ' owerAvatarDisabled') + '">' +
                 '   <div class="disabledMask"></div>' +
-                '   <img src="' + imgurl + '"/>' +
+                '<img src="' + imgurl + '"/>' +
                 '</div>' +
                 '<input id="' + projectid + member.id + '" owerid="' + member.id + '" class="checkbox" type="checkbox"' + checked + readonly + '/>' +
                 '<label for="' + projectid + member.id + '" class="checkboxlabel">' + member.name + '</label> ' +

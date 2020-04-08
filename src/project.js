@@ -1002,40 +1002,42 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
             data: paid,
         })
     }
-    // First dataset fill should go down to x-axis:
-    monthlyDatasets[0].fill = 'origin';
+    if (distinctMonths.length > 0) {
+        // First dataset fill should go down to x-axis:
+        monthlyDatasets[0].fill = 'origin';
 
-    new Chart($('#categoryMonthlyChart'), {
-        type: 'line',
-        data: {
-            labels: distinctMonths,
-            datasets: monthlyDatasets,
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    stacked: true
-                }]
+        new Chart($('#categoryMonthlyChart'), {
+            type: 'line',
+            data: {
+                labels: distinctMonths,
+                datasets: monthlyDatasets,
             },
-            title: {
-                display: true,
-                text: t('cospend', 'Payments per category per month')
-            },
-            responsive: true,
-            showAllTooltips: false,
-            hover: {
-                intersect: false,
-                mode: 'index'
-            },
-            tooltips: {
-                intersect: false,
-                mode: 'nearest'
-            },
-            legend: {
-                position: 'left'
+            options: {
+                scales: {
+                    yAxes: [{
+                        stacked: true
+                    }]
+                },
+                title: {
+                    display: true,
+                    text: t('cospend', 'Payments per category per month')
+                },
+                responsive: true,
+                showAllTooltips: false,
+                hover: {
+                    intersect: false,
+                    mode: 'index'
+                },
+                tooltips: {
+                    intersect: false,
+                    mode: 'nearest'
+                },
+                legend: {
+                    position: 'left'
+                }
             }
-        }
-    });
+        });
+    }
 
     // Go through all project members
     let memberDatasets = [];
@@ -1060,40 +1062,43 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
             data: paid,
         })
     }
-    // First dataset fill should go down to x-axis:
-    memberDatasets[0].fill = 'origin';
 
-    new Chart($('#memberMonthlyChart'), {
-        type: 'line',
-        data: {
-            labels: distinctMonths,
-            datasets: memberDatasets,
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    stacked: true
-                }]
+    if (monthlyStats.length > 0) {
+        // First dataset fill should go down to x-axis:
+        memberDatasets[0].fill = 'origin';
+
+        new Chart($('#memberMonthlyChart'), {
+            type: 'line',
+            data: {
+                labels: distinctMonths,
+                datasets: memberDatasets,
             },
-            title: {
-                display: true,
-                text: t('cospend', 'Payments per member per month')
-            },
-            responsive: true,
-            showAllTooltips: false,
-            hover: {
-                intersect: false,
-                mode: 'index'
-            },
-            tooltips: {
-                intersect: false,
-                mode: 'nearest'
-            },
-            legend: {
-                position: 'left'
+            options: {
+                scales: {
+                    yAxes: [{
+                        stacked: true
+                    }]
+                },
+                title: {
+                    display: true,
+                    text: t('cospend', 'Payments per member per month')
+                },
+                responsive: true,
+                showAllTooltips: false,
+                hover: {
+                    intersect: false,
+                    mode: 'index'
+                },
+                tooltips: {
+                    intersect: false,
+                    mode: 'nearest'
+                },
+                legend: {
+                    position: 'left'
+                }
             }
-        }
-    });
+        });
+    }
 
     const memberBackgroundColors = [];
     const memberData = {
@@ -1179,10 +1184,14 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
         });
     }
 
+    // make tables sortable
     if (memberIds.length > 0) {
-        // make tables sortable
         window.sorttable.makeSortable(document.getElementById('statsTable'));
+    }
+    if (monthlyStats.length > 0) {
         window.sorttable.makeSortable(document.getElementById('monthlyTable'));
+    }
+    if (distinctMonths.length > 0) {
         window.sorttable.makeSortable(document.getElementById('categoryTable'));
     }
 

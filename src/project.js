@@ -628,12 +628,12 @@ export function getProjectMoneyBusterLink(projectid) {
     const title = $('<h2/>', {id: 'mbTitle'})
         .text(titleStr)
         .prepend($('<span/>', {class: 'icon-phone'}));
-    container.append(title);
-    container.append($('<div/>', {id: 'qrcodediv'}));
-    container.append($('<label/>', {id: 'mbUrlLabel'}).text(url));
-    container.append('<br/>');
-    container.append($('<label/>', {id: 'mbUrlHintLabel'}).text(hint1));
-    container.append($('<label/>', {id: 'mbUrlHintLabel'}).text(hint2));
+    container.append(title)
+        .append($('<div/>', {id: 'qrcodediv'}))
+        .append($('<label/>', {id: 'mbUrlLabel'}).text(url))
+        .append('<br/>')
+        .append($('<label/>', {id: 'mbUrlHintLabel'}).text(hint1))
+        .append($('<label/>', {id: 'mbUrlHintLabel'}).text(hint2));
 
     const img = new Image();
     // wait for the image to be loaded to generate the QRcode
@@ -685,6 +685,26 @@ export function getProjectMoneyBusterLink(projectid) {
     img.src = $('#dummylogo').css('content').replace('url("', '').replace('")', '');
 }
 
+function getCategory(projectid, catId) {
+    let catName, catColor;
+    if (cospend.hardCodedCategories.hasOwnProperty(catId)) {
+        catName = cospend.hardCodedCategories[catId].icon + ' ' + cospend.hardCodedCategories[catId].name;
+        catColor = cospend.hardCodedCategories[catId].color;
+    } else if (cospend.projects[projectid].categories.hasOwnProperty(catId)) {
+        catName = (cospend.projects[projectid].categories[catId].icon || '') +
+            ' ' + cospend.projects[projectid].categories[catId].name;
+        catColor = cospend.projects[projectid].categories[catId].color || 'red';
+    } else {
+        catName = t('cospend', 'No category');
+        catColor = '#000000';
+    }
+
+    return {
+        name: catName,
+        color: catColor,
+    }
+}
+
 export function displayStatistics(projectid, allStats, dateMin = null, dateMax = null, paymentMode = null, category = null,
                                    amountMin = null, amountMax = null, showDisabled = true, currencyId = null) {
     // deselect bill
@@ -709,7 +729,8 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
 
     const project = cospend.projects[projectid];
     const projectName = getProjectName(projectid);
-    $('#billdetail').html('');
+    const container = $('#billdetail')
+    container.html('');
     $('.app-content-list').addClass('showdetails');
     const titleStr = t('cospend', 'Statistics of project {name}', {name: projectName});
     const nameStr = t('cospend', 'Member name');
@@ -717,90 +738,87 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     const spentStr = t('cospend', 'Spent');
     const balanceStr = t('cospend', 'Balance');
     const filteredBalanceStr = t('cospend', 'Filtered balance');
-    let exportStr = '';
-
-    function category_from_id(catId) {
-        let catName, catColor;
-        if (cospend.hardCodedCategories.hasOwnProperty(catId)) {
-            catName = cospend.hardCodedCategories[catId].icon + ' ' + cospend.hardCodedCategories[catId].name;
-            catColor = cospend.hardCodedCategories[catId].color;
-        } else if (cospend.projects[projectid].categories.hasOwnProperty(catId)) {
-            catName = (cospend.projects[projectid].categories[catId].icon || '') +
-                ' ' + cospend.projects[projectid].categories[catId].name;
-            catColor = cospend.projects[projectid].categories[catId].color || 'red';
-        } else {
-            catName = t('cospend', 'No category');
-            catColor = '#000000';
-        }
-
-        return {
-            name: catName,
-            color: catColor,
-        }
-    }
 
     let totalPayed = 0.0;
     for (let i = 0; i < statList.length; i++) {
         totalPayed += statList[i].paid;
     }
 
+    let exportButton = null;
     if (!cospend.pageIsPublic) {
-        exportStr = ' <button class="exportStats" projectid="' + projectid + '"><span class="icon-save"></span>' + t('cospend', 'Export') + '</button>';
+        exportButton = $('<button/>', {class: 'exportStats', projectid: projectid})
+            .append($('<span/>', {class: 'icon-save'}))
+            .append(t('cospend', 'Export'));
     }
-    const totalPayedText = '<p class="totalPayedText">' +
-        t('cospend', 'Total payed by all the members: {t}', {t: totalPayed.toFixed(2)}) + '</p>';
-    let statsStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
-        '<h2 id="statsTitle"><span class="icon-category-monitoring"></span>' + titleStr + exportStr + '</h2>' +
-        '<div id="stats-filters">' +
-        '    <label for="date-min-stats">' + t('cospend', 'Minimum date') + ': </label><input type="date" id="date-min-stats"/>' +
-        '    <label for="date-max-stats">' + t('cospend', 'Maximum date') + ': </label><input type="date" id="date-max-stats"/>' +
-        '    <label for="payment-mode-stats">' +
-        '        <a class="icon icon-tag"></a>' +
-        '        ' + t('cospend', 'Payment mode') +
-        ':   </label>' +
-        '    <select id="payment-mode-stats">' +
-        '       <option value="n" selected>' + t('cospend', 'All') + '</option>';
+
+    const paymentModeSelect = $('<select/>', {id: 'payment-mode-stats'})
+        .append($('<option/>', {value: 'n', selected: true}).text(t('cospend', 'All')));
     let pm;
     for (const pmId in cospend.paymentModes) {
         pm = cospend.paymentModes[pmId];
-        statsStr += '       <option value="' + pmId + '">' + pm.icon + ' ' + pm.name + '</option>';
+        paymentModeSelect.append($('<option/>', {value: pmId}).text(pm.icon + ' ' + pm.name));
     }
-    statsStr +=
-        '    </select>' +
-        '    <label for="category-stats">' +
-        '        <a class="icon icon-category-app-bundles"></a>' +
-        '        ' + t('cospend', 'Category') +
-        ':   </label>' +
-        '    <select id="category-stats">' +
-        '       <option value="0">' + t('cospend', 'All') + '</option>' +
-        '       <option value="-100" selected>' + t('cospend', 'All except reimbursement') + '</option>';
+
+    const categorySelect = $('<select/>', {id: 'category-stats'})
+        .append($('<option/>', {value: 0}).text(t('cospend', 'All')))
+        .append($('<option/>', {value: -100, selected: true}).text(t('cospend', 'All except reimbursement')));
     let cat;
     for (const catId in cospend.projects[projectid].categories) {
         cat = cospend.projects[projectid].categories[catId];
-        statsStr += '       <option value="' + catId + '">' + (cat.icon || '') + ' ' + cat.name + '</option>';
+        categorySelect.append($('<option/>', {value: catId}).text((cat.icon || '') + ' ' + cat.name));
     }
     for (const catId in cospend.hardCodedCategories) {
         cat = cospend.hardCodedCategories[catId];
-        statsStr += '       <option value="' + catId + '">' + cat.icon + ' ' + cat.name + '</option>';
+        categorySelect.append($('<option/>', {value: catId}).text(cat.icon + ' ' + cat.name));
     }
-    statsStr +=
-        '    </select>' +
-        '    <label for="amount-min-stats">' + t('cospend', 'Minimum amount') + ': </label><input type="number" id="amount-min-stats"/>' +
-        '    <label for="amount-max-stats">' + t('cospend', 'Maximum amount') + ': </label><input type="number" id="amount-max-stats"/>' +
-        '    <label for="currency-stats">' + t('cospend', 'Currency of statistic values') + ': </label>' +
-        '    <select id="currency-stats">' +
-        '       <option value="0">' + (project.currencyname || t('cospend', 'Main project\'s currency')) + '</option>';
+
+    const currencySelect = $('<select/>', {id: 'currency-stats'})
+        .append($('<option/>', {value: 0}).text((project.currencyname || t('cospend', 'Main project\'s currency'))));
     let currency;
     for (let i = 0; i < project.currencies.length; i++) {
         currency = project.currencies[i];
-        statsStr += '<option value="' + currency.id + '">' + currency.name + ' (x' + currency.exchange_rate + ')</option>';
+        currencySelect.append($('<option/>', {value: currency.id}).text(currency.name + ' (x' + currency.exchange_rate + ')'));
     }
-    statsStr +=
-        '    </select>' +
-        '    <input id="showDisabled" class="checkbox" type="checkbox"/>' +
-        '    <label for="showDisabled" class="checkboxlabel">' + t('cospend', 'Show disabled members') + '</label> ' +
-        '</div>' +
-        '<br/>' +
+
+    container.append($('<div/>', {id: 'app-details-toggle', tabindex: 0, class: 'icon-confirm'}))
+        .append(
+            $('<h2/>', {id: 'statsTitle'})
+                .append($('<span/>', {class: 'icon-category-monitoring'}))
+                .append(titleStr)
+                .append(exportButton)
+        )
+        .append(
+            $('<div/>', {id: 'stats-filters'})
+                .append($('<label/>', {for: 'date-min-stats'}).text(t('cospend', 'Minimum date') + ': '))
+                .append($('<input/>', {id: 'date-min-stats', type: 'date'}))
+                .append($('<label/>', {for: 'date-max-stats'}).text(t('cospend', 'Maximum date') + ': '))
+                .append($('<input/>', {id: 'date-max-stats', type: 'date'}))
+                .append(
+                    $('<label/>', {for: 'payment-mode-stats'})
+                        .append($('<a/>', {class: 'icon icon-tag'}))
+                        .append(' ' + t('cospend', 'Payment mode'))
+                )
+                .append(paymentModeSelect)
+                .append(
+                    $('<label/>', {for: 'category-stats'})
+                        .append($('<a/>', {class: 'icon icon-category-app-bundles'}))
+                        .append(' ' + t('cospend', 'Category'))
+                )
+                .append(categorySelect)
+                .append($('<label/>', {for: 'amount-min-stats'}).text(t('cospend', 'Minimum amount') + ': '))
+                .append($('<input/>', {id: 'amount-min-stats', type: 'number'}))
+                .append($('<label/>', {for: 'amount-max-stats'}).text(t('cospend', 'Maximum amount') + ': '))
+                .append($('<input/>', {id: 'amount-max-stats', type: 'number'}))
+                .append($('<label/>', {for: 'currency-stats'}).text(t('cospend', 'Currency of statistic values') + ': '))
+                .append(currencySelect)
+                .append($('<input/>', {id: 'showDisabled', type: 'checkbox', class: 'checkbox'}))
+                .append($('<label/>', {for: 'showDisabled', class: 'checkboxlabel'}).text(t('cospend', 'Show disabled members')))
+        )
+        .append($('<br/>'));
+
+    const totalPayedText = '<p class="totalPayedText">' +
+        t('cospend', 'Total payed by all the members: {t}', {t: totalPayed.toFixed(2)}) + '</p>';
+    let statsStr =
         totalPayedText +
         '<br/><hr/><h2 class="statTableTitle">' + t('cospend', 'Global stats') + '</h2>' +
         '<table id="statsTable" class="sortable"><thead>' +
@@ -915,7 +933,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     statsStr += '</thead>';
     let categoryObj;
     for (const catId in categoryMonthlyStats) {
-        categoryObj = category_from_id(catId);
+        categoryObj = getCategory(projectid, catId);
 
         statsStr += '<tr>';
         statsStr += '<td style="border: 2px solid ' + categoryObj.color + ';">' + categoryObj.name + '</td>';
@@ -937,7 +955,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     statsStr += '<hr/><canvas id="categoryChart"></canvas>';
     statsStr += '<hr/><select id="categoryMemberSelect">';
     for (const catId in categoryMemberStats) {
-        categoryObj = category_from_id(catId);
+        categoryObj = getCategory(projectid, catId);
         statsStr += '<option value="' + catId + '">' + categoryObj.name + '</option>';
     }
     statsStr += '</select>';
@@ -951,7 +969,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     statsStr += '</select>';
     statsStr += '<canvas id="memberPolarChart"></canvas>';
 
-    $('#billdetail').html(statsStr);
+    $('#billdetail').append(statsStr);
 
     // CHARTS
     let catIdInt;
@@ -960,7 +978,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     let monthlyDatasets = [];
     for (const catId in categoryMonthlyStats) {
         catIdInt = parseInt(catId);
-        categoryObj = category_from_id(catId);
+        categoryObj = getCategory(projectid, catId);
 
         // Build time series:
         let paid = [];
@@ -1137,7 +1155,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     for (const catId in categoryStats) {
         paid = categoryStats[catId].toFixed(2);
         catIdInt = parseInt(catId);
-        categoryObj = category_from_id(catId);
+        categoryObj = getCategory(projectid, catId);
 
         categoryData.datasets[0].data.push(paid);
         categoryData.datasets[0].backgroundColor.push(categoryObj.color);

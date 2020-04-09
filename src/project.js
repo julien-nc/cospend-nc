@@ -1328,150 +1328,197 @@ export function addProject(project) {
     guestLink = generateUrl('/apps/cospend/loginproject/' + projectid);
     guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
     const guestAccessLevel = parseInt(project.guestaccesslevel);
-    let li =
-        '<li class="projectitem collapsible" projectid="' + projectid + '">' +
-        '    <a class="icon-folder" href="#" title="' + projectid + '">' +
-        '        <span>' + name + '</span>' +
-        '    </a>' +
-        '    <div class="app-navigation-entry-utils">' +
-        '        <ul>' +
-        '            <li class="app-navigation-entry-utils-counter"><span>' + project.members.length + '</span></li>';
-    li = li + '            <li class="app-navigation-entry-utils-menu-button shareProjectButton">' +
-        '                <button class="icon-shar"></button>' +
-        '            </li>';
-    li = li + '            <li class="app-navigation-entry-utils-menu-button projectMenuButton">' +
-        '                <button></button>' +
-        '            </li>' +
-        '        </ul>' +
-        '    </div>' +
-        '    <div class="app-navigation-entry-edit">' +
-        '        <div>' +
-        '            <input type="text" maxlength="300" value="' + project.name + '" class="editProjectInput">' +
-        '            <input type="submit" value="" class="icon-close editProjectClose">' +
-        '            <input type="submit" value="" class="icon-checkmark editProjectOk">' +
-        '        </div>' +
-        '    </div>';
-    li = li + '    <ul class="app-navigation-entry-share">' +
-        '           <li class="shareinputli" title="' + shareTitle + '"><input type="text" maxlength="300" class="shareinput" placeholder="' + defaultShareText + '"/></li>';
-    li +=
-        '           <li class="addpubshareitem">' +
-        '               <a class="icon-public" href="#">' +
-        '                   <span>' + t('cospend', 'Add public link') + '</span>' +
-        '               </a>' +
-        '               <div class="app-navigation-entry-utils">' +
-        '                   <ul>' +
-        '                       <li class="app-navigation-entry-utils-menu-button addPublicShareButton">' +
-        '                           <button class="icon-add"></button>' +
-        '                       </li>' +
-        '                   </ul>' +
-        '               </div>' +
-        '            </li>' +
-        '          </ul>';
-    li = li + '    <div class="newmemberdiv">' +
-        '        <input class="newmembername" maxlength="300" type="text" value=""/>' +
-        '        <button class="newmemberbutton icon-add"></button>' +
-        '    </div>' +
+    const li = $('<li/>', {class: 'projectitem collapsible', projectid: projectid})
+        .append(
+            $('<a/>', {class: 'icon-folder', href: '#', title: projectid})
+                .append($('<span/>').text(name))
+        )
+        .append(
+            $('<div/>', {class: 'app-navigation-entry-utils'})
+                .append(
+                    $('<ul/>')
+                        .append(
+                            $('<li/>', {class: 'app-navigation-entry-utils-counter'})
+                                .append($('<span/>').text(project.members.length))
+                        )
+                        .append(
+                            $('<li/>', {class: 'app-navigation-entry-utils-menu-button shareProjectButton'})
+                                .append($('<button/>', {class: 'icon-shar'}))
+                        )
+                        .append(
+                            $('<li/>', {class: 'app-navigation-entry-utils-menu-button projectMenuButton'})
+                                .append($('<button/>'))
+                        )
+                )
+        )
+        .append(
+            $('<div/>', {class: 'app-navigation-entry-edit'})
+                .append(
+                    $('<div/>')
+                        .append($('<input/>', {type: 'text', maxlength: 300, value: project.name, class: 'editProjectInput'}))
+                        .append($('<input/>', {type: 'submit', value: '', class: 'icon-close editProjectClose'}))
+                        .append($('<input/>', {type: 'submit', value: '', class: 'icon-checkmark editProjectOk'}))
+                )
+        )
+        .append(
+            $('<ul/>', {class: 'app-navigation-entry-share'})
+                .append(
+                    $('<li/>', {class: 'shareinputli', title: shareTitle})
+                        .append($('<input/>', {type: 'text', maxlength: 300, class: 'shareinput', placeholder: defaultShareText}))
+                )
+                .append(
+                    $('<li/>', {class: 'addpubshareitem'})
+                        .append(
+                            $('<a/>', {class: 'icon-public', href: '#'})
+                                .append($('<span/>').text(t('cospend', 'Add public link')))
+                        )
+                        .append(
+                            $('<div/>', {class: 'app-navigation-entry-utils'})
+                                .append(
+                                    $('<ul/>')
+                                        .append(
+                                            $('<li/>', {class: 'app-navigation-entry-utils-menu-button addPublicShareButton'})
+                                                .append($('<button/>', {class: 'icon-add'}))
+                                        )
+                                )
+                        )
+                )
+        )
+        .append(
+            $('<div/>', {class: 'newmemberdiv'})
+                .append($('<input/>', {class: 'newmembername', maxlength: 300, type: 'text', value: ''}))
+                .append($('<button/>', {class: 'newmemberbutton icon-add'}))
+        )
+        .append(
+            $('<div/>', {class: 'app-navigation-entry-menu'})
+                .append(
+                    $('<ul/>')
+                        .append(
+                            $('<li/>')
+                                .append(
+                                    $('<a/>', {href: '#', class: 'addMember'})
+                                        .append($('<span/>', {class: 'icon-add'}))
+                                        .append($('<span/>').text(addMemberStr))
+                                )
+                        )
+                        .append(
+                            $('<li/>')
+                                .append(
+                                    $('<a/>', {href: '#', class: 'copyProjectGuestLink', title: guestLink, style: 'padding-right: 0px !important;'})
+                                        .append($('<span/>', {class: 'icon-clippy'}))
+                                        .append($('<span/>', {class: 'guest-link-label'}).text(guestAccessStr + ' '))
+                                        .append(
+                                            $('<div/>', {class: 'guestaccesslevel'})
+                                                .append($('<div/>', {
+                                                    class: 'icon-user-admin accesslevelguest accesslevelAdmin ' +
+                                                        (guestAccessLevel === constants.ACCESS.ADMIN ? 'accesslevelActive' : ''),
+                                                    title: t('cospend', 'Admin: edit/delete project + maintener permissions')
+                                                }))
+                                                .append($('<div/>', {
+                                                    class: 'icon-category-customization accesslevelguest accesslevelMaintener ' +
+                                                        (guestAccessLevel === constants.ACCESS.MAINTENER ? 'accesslevelActive' : ''),
+                                                    title: t('cospend', 'Maintener: add/edit members/categories/currencies + participant permissions')
+                                                }))
+                                                .append($('<div/>', {
+                                                    class: 'icon-rename accesslevelguest accesslevelParticipant ' +
+                                                        (guestAccessLevel === constants.ACCESS.PARTICIPANT ? 'accesslevelActive' : ''),
+                                                    title: t('cospend', 'Participant: add/edit/delete bills + viewer permissions')
+                                                }))
+                                                .append($('<div/>', {
+                                                    class: 'icon-toggle accesslevelguest accesslevelViewer ' +
+                                                        (guestAccessLevel === constants.ACCESS.VIEWER ? 'accesslevelActive' : ''),
+                                                    title: t('cospend', 'Viewer')
+                                                }))
+                                        )
+                                )
+                        )
+                        .append(
+                            $('<li/>').append(
+                                $('<a/>', {href: '#', class: 'moneyBusterProjectUrl'})
+                                    .append($('<span/>', {class: 'icon-phone'}))
+                                    .append($('<span/>').text(moneyBusterUrlStr))
+                            )
+                        )
+                        .append(
+                            $('<li/>').append(
+                                $('<a/>', {href: '#', class: 'editProjectName'})
+                                    .append($('<span/>', {class: 'icon-rename'}))
+                                    .append($('<span/>').text(renameStr))
+                            )
+                        )
+                        .append(
+                            $('<li/>').append(
+                                $('<a/>', {href: '#', class: 'editProjectPassword'})
+                                    .append($('<span/>', {class: 'icon-password'}))
+                                    .append($('<span/>').text(changePwdStr))
+                            )
+                        )
+                        .append(
+                            $('<li/>').append(
+                                $('<a/>', {href: '#', class: 'manageProjectCategories'})
+                                    .append($('<span/>', {class: 'icon-category-app-bundles'}))
+                                    .append($('<span/>').text(manageCategoriesStr))
+                            )
+                        )
+                        .append(
+                            $('<li/>').append(
+                                $('<a/>', {href: '#', class: 'manageProjectCurrencies'})
+                                    .append($('<span/>', {class: 'icon-currencies'}))
+                                    .append($('<span/>').text(manageCurrenciesStr))
+                            )
+                        )
+                        .append(
+                            $('<li/>').append(
+                                $('<a/>', {href: '#', class: 'getProjectStats'})
+                                    .append($('<span/>', {class: 'icon-category-monitoring'}))
+                                    .append($('<span/>').text(displayStatsStr))
+                            )
+                        )
+                        .append(
+                            $('<li/>').append(
+                                $('<a/>', {href: '#', class: 'getProjectSettlement'})
+                                    .append($('<span/>', {class: 'icon-reimburse'}))
+                                    .append($('<span/>').text(settleStr))
+                            )
+                        )
+                        .append(
+                            $('<li/>').append(
+                                $('<a/>', {href: '#', class: 'exportProject'})
+                                    .append($('<span/>', {class: 'icon-save'}))
+                                    .append($('<span/>').text(exportStr))
+                            )
+                        )
+                        .append(
+                            $('<li/>').append(
+                                $('<a/>', {href: '#', class: 'autoexportProject'})
+                                    .append($('<span/>', {class: 'icon-schedule'}))
+                                    .append($('<span/>', {class: 'autoexportLabel'}).text(autoexportStr))
+                                    .append(
+                                        $('<select/>', {class: 'autoexportSelect'})
+                                            .append($('<option/>', {value: 'n'}).text(t('cospend', 'No')))
+                                            .append($('<option/>', {value: 'd'}).text(t('cospend', 'Daily')))
+                                            .append($('<option/>', {value: 'w'}).text(t('cospend', 'Weekly')))
+                                            .append($('<option/>', {value: 'm'}).text(t('cospend', 'Monthly')))
+                                    )
+                            )
+                        )
+                        .append(
+                            $('<li/>').append(
+                                $('<a/>', {href: '#', class: 'deleteProject'})
+                                    .append($('<span/>', {class: 'icon-delete'}))
+                                    .append($('<span/>').text(deleteStr))
+                            )
+                        )
+                )
+        )
+        .append(
+            $('<div/>', {class: 'app-navigation-entry-deleted'})
+                .append($('<div/>', {class: 'app-navigation-entry-deleted-description'}).text(deletedStr))
+                .append($('<button/>', {class: 'app-navigation-entry-deleted-button icon-history undoDeleteProject', title: t('cospend', 'Undo')}))
+        )
+        .append($('<ul/>', {class: 'memberlist'}))
 
-        '    <div class="app-navigation-entry-menu">' +
-        '        <ul>' +
-        '            <li>' +
-        '                <a href="#" class="addMember">' +
-        '                    <span class="icon-add"></span>' +
-        '                    <span>' + addMemberStr + '</span>' +
-        '                </a>' +
-        '            </li>' +
-        '            <li>' +
-        '                <a href="#" class="copyProjectGuestLink" title="' + guestLink + '" style="padding-right: 0px !important;">' +
-        '                    <span class="icon-clippy"></span>' +
-        '                    <span class="guest-link-label">' + guestAccessStr + '&nbsp</span>' +
-        '                    <div class="guestaccesslevel">' +
-        '                       <div class="icon-user-admin accesslevelguest accesslevelAdmin ' + (guestAccessLevel === constants.ACCESS.ADMIN ? 'accesslevelActive' : '') + '" ' +
-        '                       title="' + t('cospend', 'Admin: edit/delete project + maintener permissions') + '"></div>' +
-        '                       <div class="icon-category-customization accesslevelguest accesslevelMaintener ' + (guestAccessLevel === constants.ACCESS.MAINTENER ? 'accesslevelActive' : '') + '" ' +
-        '                       title="' + t('cospend', 'Maintener: add/edit members/categories/currencies + participant permissions') + '"></div>' +
-        '                       <div class="icon-rename accesslevelguest accesslevelParticipant ' + (guestAccessLevel === constants.ACCESS.PARTICIPANT ? 'accesslevelActive' : '') + '" ' +
-        '                       title="' + t('cospend', 'Participant: add/edit/delete bills + viewer permissions') + '"></div>' +
-        '                       <div class="icon-toggle accesslevelguest accesslevelViewer ' + (guestAccessLevel === constants.ACCESS.VIEWER ? 'accesslevelActive' : '') + '" ' +
-        '                       title="' + t('cospend', 'Viewer') + '"></div>' +
-        '                    </div>' +
-        '                </a>' +
-        '            </li>' +
-        '            <li>' +
-        '                <a href="#" class="moneyBusterProjectUrl">' +
-        '                    <span class="icon-phone"></span>' +
-        '                    <span>' + moneyBusterUrlStr + '</span>' +
-        '                </a>' +
-        '            </li>' +
-        '            <li>' +
-        '                <a href="#" class="editProjectName">' +
-        '                    <span class="icon-rename"></span>' +
-        '                    <span>' + renameStr + '</span>' +
-        '                </a>' +
-        '            </li>' +
-        '            <li>' +
-        '                <a href="#" class="editProjectPassword">' +
-        '                    <span class="icon-password"></span>' +
-        '                    <span>' + changePwdStr + '</span>' +
-        '                </a>' +
-        '            </li>';
-    li = li + '            <li>' +
-        '                <a href="#" class="manageProjectCategories">' +
-        '                    <span class="icon-category-app-bundles"></span>' +
-        '                    <span>' + manageCategoriesStr + '</span>' +
-        '                </a>' +
-        '            </li>';
-    li = li + '            <li>' +
-        '                <a href="#" class="manageProjectCurrencies">' +
-        '                    <span class="icon-currencies"></span>' +
-        '                    <span>' + manageCurrenciesStr + '</span>' +
-        '                </a>' +
-        '            </li>';
-    li = li + '            <li>' +
-        '                <a href="#" class="getProjectStats">' +
-        '                    <span class="icon-category-monitoring"></span>' +
-        '                    <span>' + displayStatsStr + '</span>' +
-        '                </a>' +
-        '            </li>' +
-        '            <li>' +
-        '                <a href="#" class="getProjectSettlement">' +
-        '                    <span class="icon-reimburse"></span>' +
-        '                    <span>' + settleStr + '</span>' +
-        '                </a>' +
-        '            </li>';
-    li = li + '            <li>' +
-        '                <a href="#" class="exportProject">' +
-        '                    <span class="icon-save"></span>' +
-        '                    <span>' + exportStr + '</span>' +
-        '                </a>' +
-        '            </li>';
-    li = li + '            <li>' +
-        '                <a href="#" class="autoexportProject">' +
-        '                    <span class="icon-schedule"></span>' +
-        '                    <span class="autoexportLabel">' + autoexportStr + '</span>' +
-        '                    <select class="autoexportSelect">' +
-        '                       <option value="n">' + t('cospend', 'No') + '</option>' +
-        '                       <option value="d">' + t('cospend', 'Daily') + '</option>' +
-        '                       <option value="w">' + t('cospend', 'Weekly') + '</option>' +
-        '                       <option value="m">' + t('cospend', 'Monthly') + '</option>' +
-        '                    </select>' +
-        '                </a>' +
-        '            </li>';
-    li = li + '            <li>' +
-        '                <a href="#" class="deleteProject">' +
-        '                    <span class="icon-delete"></span>' +
-        '                    <span>' + deleteStr + '</span>' +
-        '                </a>' +
-        '            </li>';
-    li = li + '        </ul>' +
-        '    </div>' +
-        '    <div class="app-navigation-entry-deleted">' +
-        '        <div class="app-navigation-entry-deleted-description">' + deletedStr + '</div>' +
-        '        <button class="app-navigation-entry-deleted-button icon-history undoDeleteProject" title="Undo"></button>' +
-        '    </div>' +
-        '    <ul class="memberlist"></ul>' +
-        '</li>';
-
-    $(li).appendTo('#projectlist');
+    $('#projectlist').append(li);
 
     // select project if it was the last selected (option restore on page load)
     if (!getUrlParameter('project') && cospend.restoredSelectedProjectId === projectid) {
@@ -1544,14 +1591,6 @@ export function addProject(project) {
             }
         }
     }
-
-    //// set selected project
-    //if (cospend.restoredSelectedProjectId === projectid) {
-    //    $('.projectitem').removeClass('selectedproject');
-    //    $('.projectitem[projectid="'+projectid+'"]').addClass('selectedproject');
-    //    $('.app-navigation-entry-utils-counter').removeClass('highlighted');
-    //    $('.projectitem[projectid="'+projectid+'"] .app-navigation-entry-utils-counter').addClass('highlighted');
-    //}
 }
 
 export function selectProject(projectitem) {

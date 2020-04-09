@@ -924,9 +924,10 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
         monthlyMemberTbody.append(memberTr);
     }
     monthlyMemberTable.append(monthlyMemberTbody);
-    container.append(monthlyMemberTable);
-
-    let statsStr = '<canvas id="memberMonthlyChart"></canvas>';
+    container.append(monthlyMemberTable)
+        .append($('<canvas/>', {id: 'memberMonthlyChart'}))
+        .append($('<hr/>'))
+        .append($('<h2/>', {class: 'statTableTitle'}).text(t('cospend', 'Monthly stats per category')));
 
     // Get all months of the dataset:
     let months = [];
@@ -938,52 +939,65 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     const distinctMonths = [...new Set(months)];
     distinctMonths.sort();
 
-    statsStr += '<hr/>'
-    statsStr += '<h2 class="statTableTitle">' + t('cospend', 'Monthly stats per category') + '</h2>';
-    statsStr += '<table id="categoryTable" class="sortable"><thead>' + '<th>' + t('cospend', 'Category/Month') + '</th>';
+    const monthlyCategoryTable = $('<table/>', {id: 'categoryTable', class: 'sortable'})
+        .append(
+            $('<thead/>')
+                .append(
+                    $('<tr>')
+                        .append($('<th/>').text(t('cospend', 'Category/Month')))
+                )
+        );
+    const monthlyCategoryTrHead = monthlyCategoryTable.find('thead tr');
     for (const month of distinctMonths) {
-        statsStr += '<th class="sorttable_numeric"><span>' + month + '</span></th>';
+        monthlyCategoryTrHead.append(
+            $('<th/>', {class: 'sorttable_numeric'})
+                .append($('<span/>').text(month))
+        )
     }
-    statsStr += '</thead>';
-    let categoryObj;
+    const monthlyCategoryTbody = $('<tbody/>');
+    let categoryObj, catTr;
     for (const catId in categoryMonthlyStats) {
         categoryObj = getCategory(projectid, catId);
 
-        statsStr += '<tr>';
-        statsStr += '<td style="border: 2px solid ' + categoryObj.color + ';">' + categoryObj.name + '</td>';
+        catTr = $('<tr/>')
+            .append($('<td/>', {style: 'border: 2px solid ' + categoryObj.color + ';'}).text(categoryObj.name));
 
         for(const month of distinctMonths) {
-            statsStr += '<td style="border: 2px solid ' + categoryObj.color + ';">';
-            if(typeof categoryMonthlyStats[catId][month] === 'undefined') {
-                statsStr += '0';
-            } else {
-                statsStr += categoryMonthlyStats[catId][month];
-            }
+            catTr.append(
+                $('<td/>', {style: 'border: 2px solid ' + categoryObj.color + ';'})
+                    .text(
+                        (typeof categoryMonthlyStats[catId][month] === 'undefined') ?
+                        '0' :
+                        categoryMonthlyStats[catId][month]
+                    )
+            );
         }
-        statsStr += '</tr>';
+        monthlyCategoryTbody.append(catTr);
     }
-    statsStr += '</table>';
-    statsStr += '<canvas id="categoryMonthlyChart"></canvas>';
+    monthlyCategoryTable.append(monthlyCategoryTbody);
+    container.append(monthlyCategoryTable)
+        .append($('<canvas/>', {id: 'categoryMonthlyChart'}))
+        .append($('<hr/>'))
+        .append($('<canvas/>', {id: 'memberChart'}))
+        .append($('<hr/>'))
+        .append($('<canvas/>', {id: 'categoryChart'}))
+        .append($('<hr/>'));
+    const catMemberSelect = $('<select/>', {id: 'categoryMemberSelect'});
 
-    statsStr += '<hr/><canvas id="memberChart"></canvas>';
-    statsStr += '<hr/><canvas id="categoryChart"></canvas>';
-    statsStr += '<hr/><select id="categoryMemberSelect">';
     for (const catId in categoryMemberStats) {
         categoryObj = getCategory(projectid, catId);
-        statsStr += '<option value="' + catId + '">' + categoryObj.name + '</option>';
+        catMemberSelect.append($('<option/>', {value: catId}).text(categoryObj.name));
     }
-    statsStr += '</select>';
-    statsStr += '<canvas id="categoryMemberChart"></canvas>';
-    statsStr += '<hr/><select id="memberPolarSelect">';
+    container.append(catMemberSelect)
+        .append($('<canvas/>', {id: 'categoryMemberChart'}))
+        .append($('<hr/>'));
+    const memberPolarSelect = $('<select/>', {id: 'memberPolarSelect'});
     for (let i = 0; i < memberIds.length; i++) {
         mid = memberIds[i];
-        statsStr += '<option value="' + mid + '">' +
-            cospend.members[projectid][mid].name + '</option>';
+        memberPolarSelect.append($('<option/>', {value: mid}).text(cospend.members[projectid][mid].name));
     }
-    statsStr += '</select>';
-    statsStr += '<canvas id="memberPolarChart"></canvas>';
-
-    $('#billdetail').append(statsStr);
+    container.append(memberPolarSelect)
+        .append($('<canvas/>', {id: 'memberPolarChart'}))
 
     // CHARTS
     let catIdInt;

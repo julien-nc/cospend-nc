@@ -23,7 +23,7 @@ import {
     exportProject,
     exportSettlement,
     exportStatistics
-} from "./importExport";
+} from './importExport';
 
 /**
  * Nextcloud - cospend
@@ -645,7 +645,7 @@ export function getProjectMoneyBusterLink(projectid) {
             minVersion: 6,
             ecLevel: 'H',
             size: 210,
-            back: "#ffffff",
+            back: '#ffffff',
             fill: cospend.themeColorDark,
             rounded: 100,
             quiet: 1,
@@ -666,7 +666,7 @@ export function getProjectMoneyBusterLink(projectid) {
             minVersion: 6,
             ecLevel: 'H',
             size: 210,
-            back: "#ffffff",
+            back: '#ffffff',
             fill: cospend.themeColorDark,
             rounded: 100,
             quiet: 1,
@@ -1021,7 +1021,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
         monthlyDatasets.push({
             label: categoryObj.name,
             // FIXME hacky way to change alpha channel:
-            backgroundColor: categoryObj.color + "4D",
+            backgroundColor: categoryObj.color + '4D',
             pointBackgroundColor: categoryObj.color,
             borderColor: categoryObj.color,
             pointHighlightStroke: categoryObj.color,

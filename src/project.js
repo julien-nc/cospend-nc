@@ -814,38 +814,38 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
                 .append($('<input/>', {id: 'showDisabled', type: 'checkbox', class: 'checkbox'}))
                 .append($('<label/>', {for: 'showDisabled', class: 'checkboxlabel'}).text(t('cospend', 'Show disabled members')))
         )
-        .append($('<br/>'));
+        .append($('<br/>'))
+        .append($('<p>', {class: 'totalPayedText'}).text(t('cospend', 'Total payed by all the members: {t}', {t: totalPayed.toFixed(2)})))
+        .append($('<br/><hr/>'))
+        .append($('<h2/>', {class: 'statTableTitle'}).text(t('cospend', 'Global stats')));
 
-    const totalPayedText = '<p class="totalPayedText">' +
-        t('cospend', 'Total payed by all the members: {t}', {t: totalPayed.toFixed(2)}) + '</p>';
-    let statsStr =
-        totalPayedText +
-        '<br/><hr/><h2 class="statTableTitle">' + t('cospend', 'Global stats') + '</h2>' +
-        '<table id="statsTable" class="sortable"><thead>' +
-        '<th>' + nameStr + '</th>' +
-        '<th class="sorttable_numeric">' + paidStr + '</th>' +
-        '<th class="sorttable_numeric">' + spentStr + '</th>';
-    if (isFiltered) {
-        statsStr += '<th class="sorttable_numeric">' + filteredBalanceStr + '</th>';
-    }
-    statsStr +=
-        '<th class="sorttable_numeric">' + balanceStr + '</th>' +
-        '</thead>';
+    const statsTable = $('<table/>', {id: 'statsTable', class: 'sortable'})
+        .append(
+            $('<thead/>')
+                .append($('<tr/>')
+                    .append($('<th/>').text(nameStr))
+                    .append($('<th/>', {class: 'sorttable_numeric'}).text(paidStr))
+                    .append($('<th/>', {class: 'sorttable_numeric'}).text(spentStr))
+                    .append(isFiltered ? $('<th/>', {class: 'sorttable_numeric'}).text(filteredBalanceStr) : null)
+                    .append($('<th/>', {class: 'sorttable_numeric'}).text(balanceStr))
+                )
+        );
     let paid, spent, balance, filteredBalance, name, balanceClass,
         filteredBalanceClass, member, imgurl;
+    const tbody = $('<tbody/>');
     for (let i = 0; i < statList.length; i++) {
         member = cospend.members[projectid][statList[i].member.id];
         balanceClass = '';
         if (statList[i].balance > 0) {
-            balanceClass = ' class="balancePositive"';
+            balanceClass = 'balancePositive';
         } else if (statList[i].balance < 0) {
-            balanceClass = ' class="balanceNegative"';
+            balanceClass = 'balanceNegative';
         }
         filteredBalanceClass = '';
         if (statList[i].filtered_balance > 0) {
-            filteredBalanceClass = ' class="balancePositive"';
+            filteredBalanceClass = 'balancePositive';
         } else if (statList[i].filtered_balance < 0) {
-            filteredBalanceClass = ' class="balanceNegative"';
+            filteredBalanceClass = 'balanceNegative';
         }
         paid = statList[i].paid.toFixed(2);
         spent = statList[i].spent.toFixed(2);
@@ -854,26 +854,26 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
         name = statList[i].member.name;
         color = '#' + member.color;
         imgurl = generateUrl('/apps/cospend/getAvatar?color=' + member.color + '&name=' + encodeURIComponent(member.name));
-        statsStr +=
-            '<tr>' +
-            '<td style="border: 2px solid ' + color + ';">' +
-            '<div class="owerAvatar' + (member.activated ? '' : ' owerAvatarDisabled') + '">' +
-            '<div class="disabledMask"></div>' +
-            '<img src="' + imgurl + '"/>' +
-            '</div>' +
-            name +
-            '</td>' +
-            '<td style="border: 2px solid ' + color + ';">' + paid + '</td>' +
-            '<td style="border: 2px solid ' + color + ';">' + spent + '</td>';
-        if (isFiltered) {
-            statsStr += '<td style="border: 2px solid ' + color + ';"' + filteredBalanceClass + '>' + filteredBalance + '</td>';
-        }
-        statsStr +=
-            '<td style="border: 2px solid ' + color + ';"' + balanceClass + '>' + balance + '</td>' +
-            '</tr>';
+        tbody.append(
+            $('<tr/>')
+                .append(
+                    $('<td/>', {style: 'border: 2px solid ' + color + ';'})
+                        .append(
+                            $('<div/>', {class: 'owerAvatar' + (member.activated ? '' : ' owerAvatarDisabled')})
+                                .append($('<div/>', {class: 'disabledMask'}))
+                                .append($('<img/>', {src: imgurl}))
+                        )
+                        .append(name)
+                )
+                .append($('<td/>', {style: 'border: 2px solid ' + color + ';'}).text(paid))
+                .append($('<td/>', {style: 'border: 2px solid ' + color + ';'}).text(spent))
+                .append(isFiltered ? $('<td/>', {class: filteredBalanceClass, style: 'border: 2px solid ' + color + ';'}).text(filteredBalance) : null)
+                .append($('<td/>', {class: balanceClass, style: 'border: 2px solid ' + color + ';'}).text(balance))
+        );
     }
-    statsStr += '</table>';
-    statsStr += '<hr/>';
+    statsTable.append(tbody);
+    container.append(statsTable);
+    let statsStr = '<hr/>';
     // monthly stats
     statsStr += '<h2 class="statTableTitle">' + t('cospend', 'Monthly stats per member') + '</h2>';
     statsStr += '<table id="monthlyTable" class="sortable"><thead>' +

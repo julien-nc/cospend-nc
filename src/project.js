@@ -872,47 +872,61 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
         );
     }
     statsTable.append(tbody);
-    container.append(statsTable);
-    let statsStr = '<hr/>';
-    // monthly stats
-    statsStr += '<h2 class="statTableTitle">' + t('cospend', 'Monthly stats per member') + '</h2>';
-    statsStr += '<table id="monthlyTable" class="sortable"><thead>' +
-        '<th>' + t('cospend', 'Member/Month') + '</th>';
+    container.append(statsTable)
+        .append($('<hr/>'))
+        .append($('<h2/>', {class: 'statTableTitle'}).text(t('cospend', 'Monthly stats per member')));
+
+    // member monthly stats
+    const monthlyMemberTable = $('<table/>', {id: 'monthlyTable', class: 'sortable'})
+        .append(
+            $('<thead/>')
+                .append(
+                    $('<tr/>')
+                        .append($('<th/>').text(t('cospend', 'Member/Month')))
+                )
+        )
+    const trHead = monthlyMemberTable.find('thead tr');
     for (const month in monthlyStats) {
-        statsStr += '<th class="sorttable_numeric"><span>' + month + '</span></th>';
+        trHead.append(
+            $('<th/>', {class: 'sorttable_numeric'})
+                .append($('<span/>').text(month))
+        );
     }
-    statsStr += '</thead>';
+    const monthlyMemberTbody = $('<tbody/>');
     const mids = memberIds.slice();
     mids.push('0');
-    let mid;
+    let mid, memberTr;
     for (let i = 0; i < mids.length; i++) {
         mid = mids[i];
         member = cospend.members[projectid][mid];
         if (parseInt(mid) === 0) {
             color = 'var(--color-border-dark)';
-            statsStr += '<tr>';
-            statsStr += '<td><b>' + t('cospend', 'All members') + '</b></td>';
         } else {
             color = '#' + member.color;
             imgurl = generateUrl('/apps/cospend/getAvatar?color=' + member.color + '&name=' + encodeURIComponent(member.name));
-            statsStr += '<tr>';
-            statsStr += '<td style="border: 2px solid ' + color + ';">' +
-                '<div class="owerAvatar' + (member.activated ? '' : ' owerAvatarDisabled') + '">' +
-                '   <div class="disabledMask"></div>' +
-                '<img src="' + imgurl + '"/>' +
-                '</div>' +
-                cospend.members[projectid][mid].name +
-                '</td>';
         }
+        memberTr = $('<tr/>').append(
+            (parseInt(mid) === 0) ?
+            $('<td/>').append($('<b/>').text(t('cospend', 'All members'))) :
+            $('<td/>', {style: 'border: 2px solid ' + color + ';'})
+                .append(
+                    $('<div/>', {class: 'owerAvatar' + (member.activated ? '' : ' owerAvatarDisabled')})
+                        .append($('<div/>', {class: 'disabledMask'}))
+                        .append($('<img/>', {src: imgurl}))
+                )
+                .append(cospend.members[projectid][mid].name)
+        )
         for (const month in monthlyStats) {
-            statsStr += '<td style="border: 2px solid ' + color + ';">';
-            statsStr += monthlyStats[month][mid].toFixed(2);
-            statsStr += '</td>';
+            memberTr.append(
+                $('<td/>', {style: 'border: 2px solid ' + color + ';'}).text(monthlyStats[month][mid].toFixed(2))
+            )
         }
-        statsStr += '</tr>';
+        monthlyMemberTbody.append(memberTr);
     }
-    statsStr += '</table>';
-    statsStr += '<canvas id="memberMonthlyChart"></canvas>';
+    monthlyMemberTable.append(monthlyMemberTbody);
+    container.append(monthlyMemberTable);
+
+    let statsStr = '<canvas id="memberMonthlyChart"></canvas>';
 
     // Get all months of the dataset:
     let months = [];
@@ -1063,7 +1077,8 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
         })
     }
 
-    if (monthlyStats.length > 0) {
+    console.log(monthlyStats);
+    if (Object.keys(monthlyStats).length > 0) {
         // First dataset fill should go down to x-axis:
         memberDatasets[0].fill = 'origin';
 
@@ -1188,7 +1203,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     if (memberIds.length > 0) {
         window.sorttable.makeSortable(document.getElementById('statsTable'));
     }
-    if (monthlyStats.length > 0) {
+    if (Object.keys(monthlyStats).length > 0) {
         window.sorttable.makeSortable(document.getElementById('monthlyTable'));
     }
     if (distinctMonths.length > 0) {

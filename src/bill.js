@@ -479,17 +479,18 @@ export function updateBillItem(projectid, billid, bill) {
     const imgurl = generateUrl('/apps/cospend/getAvatar?color=' +
         cospend.members[projectid][bill.payer_id].color +
         '&name=' + encodeURIComponent(memberName));
-    const item = '<a href="#" class="app-content-list-item billitem' + selectedClass + '" billid="' + bill.id + '" projectid="' + projectid + '" title="' + title + '">' +
-        '<div class="app-content-list-item-icon" style="background-image: url(' + imgurl + ');"> ' +
-        '   <div class="billItemDisabledMask' + (cospend.members[projectid][bill.payer_id].activated ? '' : ' disabled') + '"></div>' +
-        '   <div class="billItemRepeatMask' + (bill.repeat === 'n' ? '' : ' show') + '"></div>' +
-        '</div>' +
-        '<div class="app-content-list-item-line-one">' + whatFormatted + '</div>' +
-        '<div class="app-content-list-item-line-two">' + bill.amount.toFixed(2) + ' (' + memberName + ' → ' + owerNames + ')</div>' +
-        '<span class="app-content-list-item-details">' + billDate + '</span>' +
-        '<div class="icon-delete deleteBillIcon"></div>' +
-        '<div class="icon-history undoDeleteBill" style="' + undoDeleteBillStyle + '" title="Undo"></div>' +
-        '</a>';
+    const item = $('<a/>', {href: '#', class: 'app-content-list-item billitem' + selectedClass, billid: bill.id, projectid: projectid, title: title})
+        .append(
+            $('<div/>', {class: 'app-content-list-item-icon', style: 'background-image: url(' + imgurl + ');'})
+                .append($('<div/>', {class: 'billItemDisabledMask' + (cospend.members[projectid][bill.payer_id].activated ? '' : ' disabled')}))
+                .append($('<div/>', {class: 'billItemRepeatMask' + (bill.repeat === 'n' ? '' : ' show')}))
+        )
+        .append($('<div/>', {class: 'app-content-list-item-line-one'}).text(whatFormatted))
+        .append($('<div/>', {class: 'app-content-list-item-line-two'}).text(bill.amount.toFixed(2) + ' (' + memberName + ' → ' + owerNames + ')'))
+        .append($('<span/>', {class: 'app-content-list-item-details'}).text(billDate))
+        .append($('<div/>', {class: 'icon-delete deleteBillIcon'}))
+        .append($('<div/>', {class: 'icon-history undoDeleteBill', style: undoDeleteBillStyle, title: t('cospend', 'Undo')}))
+
     billItem.replaceWith(item);
     if (cospend.projects[projectid].myaccesslevel <= constants.ACCESS.VIEWER) {
         $('.billitem[billid=' + bill.id + '] .deleteBillIcon').hide();
@@ -987,17 +988,18 @@ export function addBill(projectid, bill) {
     } else {
         imgurl = generateUrl('/apps/cospend/getAvatar?name=' + encodeURIComponent(' '));
     }
-    const item = '<a href="#" class="app-content-list-item billitem" billid="' + bill.id + '" projectid="' + projectid + '" title="' + title + '">' +
-        '<div class="app-content-list-item-icon" style="background-image: url(' + imgurl + ');"> ' +
-        '   <div class="billItemDisabledMask' + disabled + '"></div>' +
-        '   <div class="billItemRepeatMask' + showRepeat + '"></div>' +
-        '</div>' +
-        '<div class="app-content-list-item-line-one">' + whatFormatted + '</div>' +
-        '<div class="app-content-list-item-line-two">' + bill.amount.toFixed(2) + ' (' + memberName + ' → ' + owerNames + ')</div>' +
-        '<span class="app-content-list-item-details">' + billDate + '</span>' +
-        '<div class="icon-delete deleteBillIcon"></div>' +
-        '<div class="icon-history undoDeleteBill" style="' + undoDeleteBillStyle + '" title="Undo"></div>' +
-        '</a>';
+    const item = $('<a/>', {href: '#', class: 'app-content-list-item billitem', billid: bill.id, projectid: projectid, title: title})
+        .append(
+            $('<div/>', {class: 'app-content-list-item-icon', style: 'background-image: url(' + imgurl + ');'})
+                .append($('<div/>', {class: 'billItemDisabledMask' + disabled}))
+                .append($('<div/>', {class: 'billItemRepeatMask' + showRepeat}))
+        )
+        .append($('<div/>', {class: 'app-content-list-item-line-one'}).text(whatFormatted))
+        .append($('<div/>', {class: 'app-content-list-item-line-two'}).text(bill.amount.toFixed(2) + ' (' + memberName + ' → ' + owerNames + ')'))
+        .append($('<span/>', {class: 'app-content-list-item-details'}).text(billDate))
+        .append($('<div/>', {class: 'icon-delete deleteBillIcon'}))
+        .append($('<div/>', {class: 'icon-history undoDeleteBill', style: undoDeleteBillStyle, title: t('cospend', 'Undo')}))
+
     $(item).prependTo('.app-content-list');
 
     $('#bill-list .nobill').remove();

@@ -321,68 +321,85 @@ export function addShare(projectid, elemId, elemName, id, type, accesslevel, tok
         iconClass = 'icon-public';
         deleteButtonClass = 'deletePublicShareButton';
     }
-    const tokenStr = (type === 'l') ? 'token="' + token + '"' : '';
-    let li =
-        '<li class="shareitem" shid="' + id + '" ' + tokenStr + ' elemid="' + escapeHTML(elemId) + '" elemname="' + escapeHTML(elemName) + '">' +
-        '    <a class="' + iconClass + '" href="#" title="' + projectid + '">' +
-        '        <span>' + displayString + '</span>' +
-        '    </a>' +
-        '    <div class="app-navigation-entry-utils">' +
-        '    <ul>';
+    const li = $('<li/>', {class: 'shareitem', shid: id, token: (type === 'l') ? token : null, elemid: elemId, elemname: elemName})
+        .append(
+            $('<a/>', {class: iconClass, href: '#', title: projectid})
+                .append($('<span/>').text(displayString))
+        )
+        .append(
+            $('<div/>', {class: 'app-navigation-entry-utils'})
+                .append(
+                    $('<ul/>')
+                        .append(
+                            $('<li/>', {class: 'app-navigation-entry-utils-menu-button projectMenuButton'})
+                                .append($('<button/>'))
+                        )
+                )
+        )
+        .append(
+            $('<div/>', {class: 'app-navigation-entry-menu'})
+                .append(
+                    $('<ul/>')
+                        .append(
+                            $('<li/>')
+                                .append(
+                                    $('<a/>', {href: '#', class: 'accesslevel accesslevelViewer'})
+                                        .append($('<span/>', {class: 'icon-toggle'}))
+                                        .append($('<input/>', {type: 'radio', checked: (accesslevel === constants.ACCESS.VIEWER)}))
+                                        .append($('<label/>').text(t('cospend', 'Viewer')))
+                                )
+                        )
+                        .append(
+                            $('<li/>')
+                                .append(
+                                    $('<a/>', {href: '#', class: 'accesslevel accesslevelParticipant', title: t('cospend', 'Participant: add/edit/delete bills + viewer permissions')})
+                                        .append($('<span/>', {class: 'icon-rename'}))
+                                        .append($('<input/>', {type: 'radio', checked: (accesslevel === constants.ACCESS.PARTICIPANT)}))
+                                        .append($('<label/>').text(t('cospend', 'Participant')))
+                                )
+                        )
+                        .append(
+                            $('<li/>')
+                                .append(
+                                    $('<a/>', {href: '#', class: 'accesslevel accesslevelMaintener', title: t('cospend', 'Maintener: add/edit members/categories/currencies + participant permissions')})
+                                        .append($('<span/>', {class: 'icon-category-customization'}))
+                                        .append($('<input/>', {type: 'radio', checked: (accesslevel === constants.ACCESS.MAINTENER)}))
+                                        .append($('<label/>').text(t('cospend', 'Maintener')))
+                                )
+                        )
+                        .append(
+                            $('<li/>')
+                                .append(
+                                    $('<a/>', {href: '#', class: 'accesslevel accesslevelAdmin', title: t('cospend', 'Admin: edit/delete project + maintener permissions')})
+                                        .append($('<span/>', {class: 'icon-user-admin'}))
+                                        .append($('<input/>', {type: 'radio', checked: (accesslevel === constants.ACCESS.ADMIN)}))
+                                        .append($('<label/>').text(t('cospend', 'Admin')))
+                                )
+                        )
+                        .append(
+                            $('<li/>')
+                                .append(
+                                    $('<a/>', {href: '#', class: deleteButtonClass})
+                                        .append($('<span/>', {class: 'icon-delete'}))
+                                        .append($('<label/>').text(t('cospend', 'Delete')))
+                                )
+                        )
+                )
+        )
+        .append(
+            $('<div/>', {class: 'app-navigation-entry-deleted'})
+                .append($('<div/>', {class: 'app-navigation-entry-deleted-description'}).text(t('cospend', 'Shared access deleted')))
+                .append($('<button/>', {class: 'app-navigation-entry-deleted-button icon-history undoDeleteShare', title: t('cospend', 'Undo')}))
+        )
+
     if (type === 'l') {
-        li +=
-            '        <li class="app-navigation-entry-utils-menu-button copyPublicShareButton">' +
-            '            <button class="icon-clippy"></button>' +
-            '        </li>';
+        li.find('div.app-navigation-entry-utils > ul')
+            .prepend(
+                $('<li/>', {class: 'app-navigation-entry-utils-menu-button copyPublicShareButton'})
+                    .append($('<button/>', {class: 'icon-clippy'}))
+            )
     }
-    li +=
-        '        <li class="app-navigation-entry-utils-menu-button projectMenuButton">' +
-        '            <button></button>' +
-        '        </li>' +
-        '     </ul>' +
-        '    </div>' +
-        '    <div class="app-navigation-entry-menu">' +
-        '        <ul>' +
-        '            <li>' +
-        '                <a href="#" class="accesslevel accesslevelViewer">' +
-        '                    <span class="icon-toggle"></span>' +
-        '                    <input type="radio" ' + (accesslevel === constants.ACCESS.VIEWER ? 'checked' : '') + '/>' +
-        '                    <label>' + t('cospend', 'Viewer') + '</label>' +
-        '                </a>' +
-        '            </li><li>' +
-        '            <li>' +
-        '                <a href="#" class="accesslevel accesslevelParticipant" title="' + t('cospend', 'Participant: add/edit/delete bills + viewer permissions') + '">' +
-        '                    <span class="icon-rename"></span>' +
-        '                    <input type="radio" ' + (accesslevel === constants.ACCESS.PARTICIPANT ? 'checked' : '') + '/>' +
-        '                    <label>' + t('cospend', 'Participant') + '</label>' +
-        '                </a>' +
-        '            </li><li>' +
-        '            <li>' +
-        '                <a href="#" class="accesslevel accesslevelMaintener" title="' + t('cospend', 'Maintener: add/edit members/categories/currencies + participant permissions') + '">' +
-        '                    <span class="icon-category-customization"></span>' +
-        '                    <input type="radio" ' + (accesslevel === constants.ACCESS.MAINTENER ? 'checked' : '') + '/>' +
-        '                    <label>' + t('cospend', 'Maintener') + '</label>' +
-        '                </a>' +
-        '            </li><li>' +
-        '            <li>' +
-        '                <a href="#" class="accesslevel accesslevelAdmin" title="' + t('cospend', 'Admin: edit/delete project + maintener permissions') + '">' +
-        '                    <span class="icon-user-admin"></span>' +
-        '                    <input type="radio" ' + (accesslevel === constants.ACCESS.ADMIN ? 'checked' : '') + '/>' +
-        '                    <label>' + t('cospend', 'Admin') + '</label>' +
-        '                </a>' +
-        '            </li><li>' +
-        '                <a href="#" class="' + deleteButtonClass + '">' +
-        '                    <span class="icon-delete"></span>' +
-        '                    <span>' + t('cospend', 'Delete') + '</span>' +
-        '                </a>' +
-        '            </li>' +
-        '       </ul>' +
-        '   </div>' +
-        '   <div class="app-navigation-entry-deleted">' +
-        '       <div class="app-navigation-entry-deleted-description">' + t('cospend', 'Shared access deleted') + '</div>' +
-        '       <button class="app-navigation-entry-deleted-button icon-history undoDeleteShare" title="Undo"></button>' +
-        '   </div>' +
-        '</li>';
+
     $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share').append(li);
     $('.projectitem[projectid="' + projectid + '"] .shareinput').val('');
 }
@@ -539,9 +556,13 @@ export function addUserAutocompletion(input, projectid) {
             } else if (item.type === 'l') {
                 iconClass = 'icon-public';
             }
-            return $('<li></li>')
+            return $('<li/>')
                 .data('item.autocomplete', item)
-                .append('<a class="shareCompleteLink"><button class="shareCompleteIcon ' + iconClass + '"></button> ' + item.label + '</a>')
+                .append(
+                    $('<a/>', {class: 'shareCompleteLink'})
+                        .append($('<button/>', {class: 'shareCompleteIcon ' + iconClass}))
+                        .append(' ' + item.label)
+                )
                 .appendTo(ul);
         };
         //console.log(ii.data('ui-autocomplete'));

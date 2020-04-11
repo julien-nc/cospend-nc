@@ -650,44 +650,11 @@ export function displayBill(projectid, billid) {
         if (member.activated || member.id === bill.payer_id) {
             payerOptions = payerOptions + '<option value="' + member.id + '"' + selected + '>' + member.name + '</option>';
         }
-        // owers
-        checked = '';
-        if (owerIds.indexOf(member.id) !== -1) {
-            checked = ' checked';
-        }
-        readonly = '';
-        if (!member.activated) {
-            readonly = ' disabled';
-        }
-        // show member if it's an ower or if it's activated
-        if (member.activated || owerIds.indexOf(member.id) !== -1) {
-            color = cospend.members[projectid][member.id].color;
-            imgurl = generateUrl('/apps/cospend/getAvatar?color=' + color + '&name=' + encodeURIComponent(member.name));
-            owerCheckboxes = owerCheckboxes +
-                '<div class="owerEntry">' +
-                '<div class="owerAvatar' + (cospend.members[projectid][member.id].activated ? '' : ' owerAvatarDisabled') + '">' +
-                '   <div class="disabledMask"></div>' +
-                '<img src="' + imgurl + '"/>' +
-                '</div>' +
-                '<input id="' + projectid + member.id + '" owerid="' + member.id + '" class="checkbox" type="checkbox"' + checked + readonly + '/>' +
-                '<label for="' + projectid + member.id + '" class="checkboxlabel">' + member.name + '</label> ' +
-                '<input id="amount' + projectid + member.id + '" owerid="' + member.id + '" class="amountinput" type="number" value="" step="0.01" min="0"/>' +
-                '<label for="amount' + projectid + member.id + '" class="numberlabel">' + member.name + '</label>' +
-                '<label class="spentlabel"></label>' +
-                '</div>';
-        }
     }
-    let payerDisabled = '';
     if (billid !== 0) {
-        // disable payer select if bill is not new
-        if (!cospend.members[projectid][bill.payer_id].activated) {
-            payerDisabled = ' disabled';
-        }
         const memberPayer = cospend.members[projectid][bill.payer_id];
         c = '#' + (memberPayer.color || '888888');
     }
-    $('#billdetail').html('');
-    $('.app-content-list').addClass('showdetails');
     const whatStr = t('cospend', 'What?');
     const amountStr = t('cospend', 'How much?');
     const payerStr = t('cospend', 'Who payed?');
@@ -730,170 +697,433 @@ export function displayBill(projectid, billid) {
     const currencyConvertStr = t('cospend', 'Convert to');
     const timeStr = t('cospend', 'What time?');
 
-    let addFileHtml = '';
-    if (!cospend.pageIsPublic) {
-        addFileHtml = '<button id="addFileLinkButton"><span class="icon-public"></span>' + addFileLinkText + '</button>';
+    $('.app-content-list').addClass('showdetails');
+    const container = $('#billdetail');
+    container.html('');
+
+    const payerSelect = $('<select/>', {id: 'payer', class: 'input-bill-payer',
+        disabled: (billid !== 0 && !cospend.members[projectid][bill.payer_id].activated) ? 'disabled' : null
+    });
+    for (const memberid in cospend.members[projectid]) {
+        member = cospend.members[projectid][memberid];
+        // show member if it's the payer or if it's activated
+        if (member.activated || member.id === bill.payer_id) {
+            payerSelect.append($('<option/>', {value: member.id, selected: (member.id === bill.payer_id) ? 'selected' : null}).text(member.name))
+            //payerOptions = payerOptions + '<option value="' + member.id + '"' + selected + '>' + member.name + '</option>';
+        }
     }
 
-    let currenciesStr = '';
+
+    //let addFileHtml = '';
+    //if (!cospend.pageIsPublic) {
+    //    addFileHtml = '<button id="addFileLinkButton"><span class="icon-public"></span>' + addFileLinkText + '</button>';
+    //}
+
+    let currenciesDiv = null;
     if (cospend.projects[projectid].currencyname && cospend.projects[projectid].currencies.length > 0) {
-        currenciesStr =
-            '<div class="bill-currency-convert">' +
-            '<label for="bill-currency">' +
-            '    <a class="icon icon-currencies"></a>' +
-            '    ' + currencyConvertStr +
-            '</label>' +
-            '<select id="bill-currency">' +
-            '    <option value="">' + cospend.projects[projectid].currencyname + '</option>';
+        currenciesDiv = $('<div/>', {class: 'bill-currency-convert'})
+            .append(
+                $('<label/>', {for: 'bill-currency'})
+                    .append($('<a/>', {class: 'icon icon-currencies'}))
+                    .append(currencyConvertStr)
+            )
+            .append(
+                $('<select/>', {id: 'bill-currency'})
+                    .append($('<option/>', {value: ''}).text(cospend.projects[projectid].currencyname))
+            )
+        const curSelect = currenciesDiv.find('select');
+        //currenciesStr =
+        //    '<div class="bill-currency-convert">' +
+        //    '<label for="bill-currency">' +
+        //    '    <a class="icon icon-currencies"></a>' +
+        //    '    ' + currencyConvertStr +
+        //    '</label>' +
+        //    '<select id="bill-currency">' +
+        //    '    <option value="">' + cospend.projects[projectid].currencyname + '</option>';
         let currency;
         for (let i = 0; i < cospend.projects[projectid].currencies.length; i++) {
             currency = cospend.projects[projectid].currencies[i];
-            currenciesStr += '<option value="' + currency.id + '">' +
-                currency.name + ' ⇒ ' + cospend.projects[projectid].currencyname + ' (x' + currency.exchange_rate + ')' +
-                '</option>';
+            curSelect.append(
+                $('<option/>', {value: currency.id})
+                    .text(currency.name + ' ⇒ ' + cospend.projects[projectid].currencyname + ' (x' + currency.exchange_rate + ')')
+            )
+            //currenciesStr += '<option value="' + currency.id + '">' +
+            //    currency.name + ' ⇒ ' + cospend.projects[projectid].currencyname + ' (x' + currency.exchange_rate + ')' +
+            //    '</option>';
         }
-        currenciesStr += '</select></div>';
+        //currenciesStr += '</select></div>';
     }
 
-    let detail =
-        '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
-        '<h2 class="bill-title" projectid="' + projectid + '" billid="' + bill.id + '" style="background-color: ' + c + ';">' +
-        '    <span class="loading-bill"></span>' +
-        '    <span class="icon-edit-white"></span>' + titleStr + ' ' + formattedLinks +
-        '    <button id="owerValidate"><span class="icon-confirm"></span> <span id="owerValidateText">' + owerValidateStr + '</span></button>' +
-        '</h2>' +
-        '<div class="bill-form">' +
-        '    <div class="bill-left">' +
-        '        <div class="bill-what">' +
-        '            <label for="what">' +
-        '                <a class="icon icon-tag"></a>' +
-        '                ' + whatStr +
-        '            </label>' +
-        '            <input type="text" id="what" maxlength="300" class="input-bill-what" value="' + bill.what + '"/>' +
-        '        </div>' + addFileHtml +
-        '        <div class="bill-amount">' +
-        '            <label for="amount">' +
-        '                <a class="icon icon-cospend"></a>' +
-        '                ' + amountStr +
-        '            </label>' +
-        '            <input type="number" id="amount" class="input-bill-amount" value="' + bill.amount + '" step="any"/>' +
-        '        </div>' +
-        '        ' + currenciesStr +
-        '        <div class="bill-payer">' +
-        '            <label for="payer">' +
-        '                <a class="icon icon-user"></a>' +
-        '                ' + payerStr +
-        '            </label>' +
-        '            <select id="payer" class="input-bill-payer"' + payerDisabled + '>' +
-        '                ' + payerOptions +
-        '            </select>' +
-        '        </div>' +
-        '        <div class="bill-date">' +
-        '            <label for="date">' +
-        '                <a class="icon icon-calendar-dark"></a>' +
-        '                ' + dateStr +
-        '            </label>' +
-        '            <input type="date" id="date" class="input-bill-date" value="' + billDate + '"/>' +
-        '        </div>' +
-        '        <div class="bill-time">' +
-        '            <label for="time">' +
-        '                <a class="icon icon-time"></a>' +
-        '                ' + timeStr +
-        '            </label>' +
-        '            <input type="time" id="time" class="input-bill-time" value="' + billTime + '"/>' +
-        '        </div>' +
-        '        <div class="bill-repeat">' +
-        '            <label for="repeatbill">' +
-        '                <a class="icon icon-play-next"></a>' +
-        '                ' + t('cospend', 'Repeat') +
-        '            </label>' +
-        '            <select id="repeatbill">' +
-        '               <option value="n" selected>' + t('cospend', 'No') + '</option>' +
-        '               <option value="d">' + t('cospend', 'Daily') + '</option>' +
-        '               <option value="w">' + t('cospend', 'Weekly') + '</option>' +
-        '               <option value="m">' + t('cospend', 'Monthly') + '</option>' +
-        '               <option value="y">' + t('cospend', 'Yearly') + '</option>' +
-        '            </select>' +
-        '        </div>' +
-        '        <div class="bill-repeat-extra">' +
-        '            <div class="bill-repeat-include">' +
-        '               <input id="repeatallactive" class="checkbox" type="checkbox"/>' +
-        '               <label for="repeatallactive" class="checkboxlabel">' +
-        '                   ' + t('cospend', 'Include all active member on repeat') +
-        '               </label><br/>' +
-        '            </div>' +
-        '            <div class="bill-repeat-until">' +
-        '               <label for="repeatuntil">' +
-        '                    <a class="icon icon-pause"></a>' +
-        '                   ' + t('cospend', 'Repeat until') +
-        '               </label> ' +
-        '               <input type="date" id="repeatuntil" class="input-bill-repeatuntil" value="' + bill.repeatuntil + '"/>' +
-        '            </div>' +
-        '        </div>' +
-        '        <div class="bill-payment-mode">' +
-        '            <label for="payment-mode">' +
-        '                <a class="icon icon-tag"></a>' +
-        '                ' + paymentModeStr +
-        '            </label>' +
-        '            <select id="payment-mode">' +
-        '               <option value="n" selected>' + t('cospend', 'None') + '</option>';
+    container.append($('<div/>', {id: 'app-details-toggle', tabindex: 0, class: 'icon-confirm'}))
+        .append(
+            $('<h2/>', {class: 'bill-title', projectid: projectid, billid: bill.id, style: 'background-color: ' + c + ';'})
+                .append($('<span/>', {class: 'loading-bill'}))
+                .append($('<span/>', {class: 'icon-edit-white'}))
+                .append(titleStr + ' ' + formattedLinks)
+                .append(
+                    $('<button/>', {id: 'owerValidate'})
+                        .append($('<span/> ', {class: 'icon-confirm'}))
+                        .append($('<span/>', {id: 'owerValidateText'}).text(owerValidateStr))
+                )
+
+        )
+        .append(
+            $('<div/>', {class: 'bill-form'})
+                .append(
+                    $('<div/>', {class: 'bill-left'})
+                    .append(
+                        $('<div/>', {class: 'bill-what'})
+                            .append(
+                                $('<label/>', {for: 'what'})
+                                    .append($('<a/>', {class: 'icon icon-tag'}))
+                                    .append(document.createTextNode(whatStr))
+                            )
+                            .append($('<input/>', {type: 'text', id: 'what', maxlength: 300, class: 'input-bill-what', value: bill.what}))
+                    )
+                    .append(cospend.pageIsPublic ?
+                        null :
+                        $('<button/>', {id: 'addFileLinkButton'})
+                            .append($('<span/>', {class: 'icon-public'}))
+                            .append(document.createTextNode(addFileLinkText))
+                    )
+                    .append(
+                        $('<div/>', {class: 'bill-amount'})
+                            .append(
+                                $('<label/>', {for: 'amount'})
+                                    .append($('<a/>', {class: 'icon icon-cospend'}))
+                                    .append(document.createTextNode(amountStr))
+                            )
+                            .append($('<input/>', {type: 'number', id: 'amount', class: 'input-bill-amount', value: bill.amount, step: 'any'}))
+                    )
+                    .append(
+                        $('<div/>', {class: 'bill-payer'})
+                            .append(
+                                $('<label/>', {for: 'payer'})
+                                    .append($('<a/>', {class: 'icon icon-user'}))
+                                    .append(document.createTextNode(payerStr))
+                            )
+                            .append(payerSelect)
+                    )
+                    .append(
+                        $('<div/>', {class: 'bill-date'})
+                            .append(
+                                $('<label/>', {for: 'date'})
+                                    .append($('<a/>', {class: 'icon icon-calendar-dark'}))
+                                    .append(document.createTextNode(dateStr))
+                            )
+                            .append($('<input/>', {type: 'date', id: 'date', class: 'input-bill-date', value: billDate}))
+                    )
+                    .append(
+                        $('<div/>', {class: 'bill-time'})
+                            .append(
+                                $('<label/>', {for: 'time'})
+                                    .append($('<a/>', {class: 'icon icon-time'}))
+                                    .append(document.createTextNode(timeStr))
+                            )
+                            .append($('<input/>', {type: 'time', id: 'time', class: 'input-bill-time', value: billTime}))
+                    )
+                    .append(
+                        $('<div/>', {class: 'bill-repeat'})
+                            .append(
+                                $('<label/>', {for: 'repeatbill'})
+                                    .append($('<a/>', {class: 'icon icon-play-next'}))
+                                    .append(document.createTextNode(t('cospend', 'Repeat')))
+                            )
+                            .append($('<select/>', {id: 'repeatbill'})
+                                .append($('<option/>', {value: 'n', selected: 'selected'}).text(t('cospend', 'No')))
+                                .append($('<option/>', {value: 'd'}).text(t('cospend', 'Daily')))
+                                .append($('<option/>', {value: 'w'}).text(t('cospend', 'Weekly')))
+                                .append($('<option/>', {value: 'm'}).text(t('cospend', 'Monthly')))
+                                .append($('<option/>', {value: 'y'}).text(t('cospend', 'Yearly')))
+                            )
+                    )
+                    .append(
+                        $('<div/>', {class: 'bill-repeat-extra'})
+                            .append(
+                                $('<div/>', {class: 'bill-repeat-include'})
+                                    .append($('<input/>', {id: 'repeatallactive', class: 'checkbox', type: 'checkbox'}))
+                                    .append($('<label/>', {for: 'repeatallactive', class: 'checkboxlabel'})
+                                        .text(t('cospend', 'Include all active member on repeat')))
+                                    .append($('<br/>'))
+                            )
+                        .append(
+                            $('<div/>', {class: 'bill-repeat-until'})
+                                .append(
+                                    $('<label/>', {for: 'repeatuntil'})
+                                        .append($('<a/>', {class: 'icon icon-pause'}))
+                                        .append(document.createTextNode(t('cospend', 'Repeat until')))
+                                )
+                                .append($('<input/>', {type: 'date', id: 'repeatuntil', class: 'input-bill-repeatuntil', value: bill.repeatuntil}))
+                        )
+                    )
+                    .append(
+                        $('<div/>', {class: 'bill-payment-mode'})
+                            .append(
+                                $('<label/>', {for: 'payment-mode'})
+                                    .append($('<a/>', {class: 'icon icon-tag'}))
+                                    .append(document.createTextNode(paymentModeStr))
+                            )
+                            .append($('<select/>', {id: 'payment-mode'})
+                                .append($('<option/>', {value: 'n', selected: 'selected'}).text(t('cospend', 'None')))
+                            )
+                    )
+                    .append(
+                        $('<div/>', {class: 'bill-category'})
+                            .append(
+                                $('<label/>', {for: 'category'})
+                                    .append($('<a/>', {class: 'icon icon-category-app-bundles'}))
+                                    .append(document.createTextNode(categoryStr))
+                            )
+                            .append($('<select/>', {id: 'category'})
+                                .append($('<option/>', {value: '0', selected: 'selected'}).text(t('cospend', 'None')))
+                            )
+                    )
+                )
+                .append(
+                    $('<div/>', {class: 'bill-right'})
+                        .append(
+                            $('<div/>', {class: 'bill-type'})
+                                .append(
+                                    $('<label/>', {class: 'bill-owers-label'})
+                                        .append($('<a/>', {class: 'icon icon-toggle-filelist'}))
+                                        .append($('<span/>').text(billTypeStr))
+                                )
+                                .append(
+                                    $('<select/>', {id: 'billtype'})
+                                        .append($('<option/>', {value: 'normal', selected: 'selected'}).text(normalBillOption))
+                                        .append($('<option/>', {value: 'perso'}).text(personalShareBillOption))
+                                        .append($('<option/>', {value: 'custom'}).text(customBillOption))
+                                )
+                                .append(
+                                    $('<button/>', {id: 'modehintbutton'})
+                                        .append($('<span/>', {class: 'icon-details'}))
+                                )
+                                .append($('<div/>', {class: 'modehint modenormal'}).text(normalBillHint))
+                                .append($('<div/>', {class: 'modehint modeperso'}).text(personalShareBillHint))
+                                .append($('<div/>', {class: 'modehint modecustom'}).text(customBillHint))
+                        )
+                        .append(
+                            $('<div/>', {class: 'bill-owers'})
+                                .append(
+                                    $('<label/>', {class: 'bill-owers-label'})
+                                        .append($('<a/>', {class: 'icon icon-group'}))
+                                        .append($('<span/>').text(owersStr))
+                                )
+                                .append(
+                                    $('<div/>', {class: 'owerAllNoneDiv'})
+                                        .append(
+                                            $('<button/>', {id: 'owerAll'})
+                                                .append($('<span/>', {class: 'icon-group'}))
+                                                .append(allStr)
+                                        )
+                                        .append(
+                                            $('<button/>', {id: 'owerNone'})
+                                                .append($('<span/>', {class: 'icon-disabled-users'}))
+                                                .append(noneStr)
+                                        )
+                                )
+                                .append()
+                        )
+                )
+        );
+
+    // owers
+    const billOwersDiv = container.find('div.bill-owers');
+    for (const memberid in cospend.members[projectid]) {
+        member = cospend.members[projectid][memberid];
+        //checked = '';
+        //if (owerIds.indexOf(member.id) !== -1) {
+        //    checked = ' checked';
+        //}
+        //readonly = '';
+        //if (!member.activated) {
+        //    readonly = ' disabled';
+        //}
+        // show member if it's an ower or if it's activated
+        if (member.activated || owerIds.indexOf(member.id) !== -1) {
+            color = cospend.members[projectid][member.id].color;
+            imgurl = generateUrl('/apps/cospend/getAvatar?color=' + color + '&name=' + encodeURIComponent(member.name));
+            billOwersDiv.append(
+                $('<div/>', {class: 'owerEntry'})
+                    .append(
+                        $('<div/>', {class: 'owerAvatar' + (cospend.members[projectid][member.id].activated ? '' : ' owerAvatarDisabled')})
+                            .append($('<div/>', {class: 'disabledMask'}))
+                            .append($('<img/>', {src: imgurl}))
+                    )
+                    .append($('<input/>', {
+                        id: projectid + member.id, owerid: member.id, class: 'checkbox', type: 'checkbox',
+                        checked: (owerIds.indexOf(member.id) !== -1) ? 'checked' : null,
+                        disabled: (member.activated) ? null: 'disabled'
+                    }))
+                    .append($('<label/>', {for: projectid + member.id, class: 'checkboxlabel'}).text(member.name))
+                    .append($('<input/>', {
+                        id: 'amount' + projectid + member.id, owerid: member.id,
+                        class: 'amountinput', type: 'number', value: '', step: 0.01, min: 0
+                    }))
+                    .append($('<label/>', {for: 'amount' + projectid + member.id, class: 'numberlabel'}).text(member.name))
+                    .append($('<label/>', {class: 'spentlabel'}))
+            )
+            //owerCheckboxes = owerCheckboxes +
+            //    '<div class="owerEntry">' +
+            //    '<div class="owerAvatar' + (cospend.members[projectid][member.id].activated ? '' : ' owerAvatarDisabled') + '">' +
+            //    '   <div class="disabledMask"></div>' +
+            //    '<img src="' + imgurl + '"/>' +
+            //    '</div>' +
+            //    '<input id="' + projectid + member.id + '" owerid="' + member.id + '" class="checkbox" type="checkbox"' + checked + readonly + '/>' +
+            //    '<label for="' + projectid + member.id + '" class="checkboxlabel">' + member.name + '</label> ' +
+            //    '<input id="amount' + projectid + member.id + '" owerid="' + member.id + '" class="amountinput" type="number" value="" step="0.01" min="0"/>' +
+            //    '<label for="amount' + projectid + member.id + '" class="numberlabel">' + member.name + '</label>' +
+            //    '<label class="spentlabel"></label>' +
+            //    '</div>';
+        }
+    }
+
+        //'    <div class="bill-right">' +
+        //'        <div class="bill-type">' +
+        //'            <label class="bill-owers-label">' +
+        //'                <a class="icon icon-toggle-filelist"></a><span>' + billTypeStr + '</span>' +
+        //'            </label>' +
+        //'            <select id="billtype">' +
+        //'               <option value="normal" selected>' + normalBillOption + '</option>' +
+        //'               <option value="perso">' + personalShareBillOption + '</option>' +
+        //'               <option value="custom">' + customBillOption + '</option>' +
+        //'            </select>' +
+        //'            <button id="modehintbutton"><span class="icon-details"></span></button>' +
+        //'            <div class="modehint modenormal">' + normalBillHint + '</div>' +
+        //'            <div class="modehint modeperso">' + personalShareBillHint + '</div>' +
+        //'            <div class="modehint modecustom">' + customBillHint + '</div>' +
+        //'        </div>' +
+        //'        <div class="bill-owers">' +
+        //'            <label class="bill-owers-label">' +
+        //'                <a class="icon icon-group"></a><span>' + owersStr + '</span>' +
+        //'            </label>' +
+        //'            <div class="owerAllNoneDiv">' +
+        //'            <button id="owerAll"><span class="icon-group"></span> ' + allStr + '</button>' +
+        //'            <button id="owerNone"><span class="icon-disabled-users"></span> ' + noneStr + '</button>' +
+        //'            </div>' +
+        //'            ' + owerCheckboxes +
+        //'        </div>' +
+        //'    </div>' +
+        //'</div>';
+    const payModeSelect = container.find('#payment-mode');
     let pm;
     for (const pmId in cospend.paymentModes) {
         pm = cospend.paymentModes[pmId];
-        detail += '       <option value="' + pmId + '">' + pm.icon + ' ' + pm.name + '</option>';
+        payModeSelect.append($('<option/>', {value: pmId}).text(pm.icon + ' ' + pm.name));
+        //detail += '       <option value="' + pmId + '">' + pm.icon + ' ' + pm.name + '</option>';
     }
-    detail +=
-        '            </select>' +
-        '        </div>' +
-        '        <div class="bill-category">' +
-        '            <label for="category">' +
-        '                <a class="icon icon-category-app-bundles"></a>' +
-        '                ' + categoryStr +
-        '            </label>' +
-        '            <select id="category">' +
-        '               <option value="0" selected>' + t('cospend', 'None') + '</option>';
+    // category
+    const categorySelect = container.find('#category');
     let cat;
     for (const catId in cospend.projects[projectid].categories) {
         cat = cospend.projects[projectid].categories[catId];
-        detail += '       <option value="' + catId + '">' + (cat.icon || '') + ' ' + cat.name + '</option>';
+        categorySelect.append($('<option/>', {value: catId}).text((cat.icon || '') + ' ' + cat.name));
+        //detail += '       <option value="' + catId + '">' + (cat.icon || '') + ' ' + cat.name + '</option>';
     }
     for (const catId in cospend.hardCodedCategories) {
         cat = cospend.hardCodedCategories[catId];
-        detail += '       <option value="' + catId + '">' + cat.icon + ' ' + cat.name + '</option>';
+        categorySelect.append($('<option/>', {value: catId}).text(cat.icon + ' ' + cat.name));
+        //detail += '       <option value="' + catId + '">' + cat.icon + ' ' + cat.name + '</option>';
     }
-    detail +=
-        '            </select>' +
-        '        </div>' +
-        '    </div>' +
-        '    <div class="bill-right">' +
-        '        <div class="bill-type">' +
-        '            <label class="bill-owers-label">' +
-        '                <a class="icon icon-toggle-filelist"></a><span>' + billTypeStr + '</span>' +
-        '            </label>' +
-        '            <select id="billtype">' +
-        '               <option value="normal" selected>' + normalBillOption + '</option>' +
-        '               <option value="perso">' + personalShareBillOption + '</option>' +
-        '               <option value="custom">' + customBillOption + '</option>' +
-        '            </select>' +
-        '            <button id="modehintbutton"><span class="icon-details"></span></button>' +
-        '            <div class="modehint modenormal">' + normalBillHint + '</div>' +
-        '            <div class="modehint modeperso">' + personalShareBillHint + '</div>' +
-        '            <div class="modehint modecustom">' + customBillHint + '</div>' +
-        '        </div>' +
-        '        <div class="bill-owers">' +
-        '            <label class="bill-owers-label">' +
-        '                <a class="icon icon-group"></a><span>' + owersStr + '</span>' +
-        '            </label>' +
-        '            <div class="owerAllNoneDiv">' +
-        '            <button id="owerAll"><span class="icon-group"></span> ' + allStr + '</button>' +
-        '            <button id="owerNone"><span class="icon-disabled-users"></span> ' + noneStr + '</button>' +
-        '            </div>' +
-        '            ' + owerCheckboxes +
-        '        </div>' +
-        '    </div>' +
-        '</div>';
 
-    $(detail).appendTo('#billdetail');
+    //    '        <div class="bill-payment-mode">' +
+    //    '            <label for="payment-mode">' +
+    //    '                <a class="icon icon-tag"></a>' +
+    //    '                ' + paymentModeStr +
+    //    '            </label>' +
+    //    '            <select id="payment-mode">' +
+    //    '               <option value="n" selected>' + t('cospend', 'None') + '</option>';
+    //detail +=
+    //    '            </select>' +
+    //    '        </div>' +
+    //    '        <div class="bill-category">' +
+    //    '            <label for="category">' +
+    //    '                <a class="icon icon-category-app-bundles"></a>' +
+    //    '                ' + categoryStr +
+    //    '            </label>' +
+    //    '            <select id="category">' +
+    //    '               <option value="0" selected>' + t('cospend', 'None') + '</option>';
+    //detail +=
+    //    '            </select>' +
+    //    '        </div>' +
+    //    '    </div>' +
+        //'        <div class="bill-repeat">' +
+        //'            <label for="repeatbill">' +
+        //'                <a class="icon icon-play-next"></a>' +
+        //'                ' + t('cospend', 'Repeat') +
+        //'            </label>' +
+        //'            <select id="repeatbill">' +
+        //'               <option value="n" selected>' + t('cospend', 'No') + '</option>' +
+        //'               <option value="d">' + t('cospend', 'Daily') + '</option>' +
+        //'               <option value="w">' + t('cospend', 'Weekly') + '</option>' +
+        //'               <option value="m">' + t('cospend', 'Monthly') + '</option>' +
+        //'               <option value="y">' + t('cospend', 'Yearly') + '</option>' +
+        //'            </select>' +
+        //'        </div>' +
+        //'        <div class="bill-repeat-extra">' +
+        //'            <div class="bill-repeat-include">' +
+        //'               <input id="repeatallactive" class="checkbox" type="checkbox"/>' +
+        //'               <label for="repeatallactive" class="checkboxlabel">' +
+        //'                   ' + t('cospend', 'Include all active member on repeat') +
+        //'               </label><br/>' +
+        //'            </div>' +
+        //'            <div class="bill-repeat-until">' +
+        //'               <label for="repeatuntil">' +
+        //'                    <a class="icon icon-pause"></a>' +
+        //'                   ' + t('cospend', 'Repeat until') +
+        //'               </label> ' +
+        //'               <input type="date" id="repeatuntil" class="input-bill-repeatuntil" value="' + bill.repeatuntil + '"/>' +
+        //'            </div>' +
+        //'        </div>' +
+    //let detail =
+        //'<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
+        //'<h2 class="bill-title" projectid="' + projectid + '" billid="' + bill.id + '" style="background-color: ' + c + ';">' +
+        //'    <span class="loading-bill"></span>' +
+        //'    <span class="icon-edit-white"></span>' + titleStr + ' ' + formattedLinks +
+        //'    <button id="owerValidate"><span class="icon-confirm"></span> <span id="owerValidateText">' + owerValidateStr + '</span></button>' +
+        //'</h2>' +
+        //'<div class="bill-form">' +
+        //'    <div class="bill-left">' +
+        //'        <div class="bill-what">' +
+        //'            <label for="what">' +
+        //'                <a class="icon icon-tag"></a>' +
+        //'                ' + whatStr +
+        //'            </label>' +
+        //'            <input type="text" id="what" maxlength="300" class="input-bill-what" value="' + bill.what + '"/>' +
+        //'        </div>' + addFileHtml +
+        //'        <div class="bill-amount">' +
+        //'            <label for="amount">' +
+        //'                <a class="icon icon-cospend"></a>' +
+        //'                ' + amountStr +
+        //'            </label>' +
+        //'            <input type="number" id="amount" class="input-bill-amount" value="' + bill.amount + '" step="any"/>' +
+        //'        </div>' +
+        //'        ' + currenciesStr +
+        //'        <div class="bill-payer">' +
+        //'            <label for="payer">' +
+        //'                <a class="icon icon-user"></a>' +
+        //'                ' + payerStr +
+        //'            </label>' +
+        //'            <select id="payer" class="input-bill-payer"' + payerDisabled + '>' +
+        //'                ' + payerOptions +
+        //'            </select>' +
+        //'        </div>' +
+        //'        <div class="bill-date">' +
+        //'            <label for="date">' +
+        //'                <a class="icon icon-calendar-dark"></a>' +
+        //'                ' + dateStr +
+        //'            </label>' +
+        //'            <input type="date" id="date" class="input-bill-date" value="' + billDate + '"/>' +
+        //'        </div>' +
+        //'        <div class="bill-time">' +
+        //'            <label for="time">' +
+        //'                <a class="icon icon-time"></a>' +
+        //'                ' + timeStr +
+        //'            </label>' +
+        //'            <input type="time" id="time" class="input-bill-time" value="' + billTime + '"/>' +
+        //'        </div>' +
+
+    //$(detail).appendTo('#billdetail');
     $('#billdetail .input-bill-what').focus().select();
     if (billid !== 0) {
         $('#repeatbill').val(bill.repeat);

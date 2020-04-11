@@ -606,12 +606,14 @@ export function updateDisplayedBill(projectid, billid, what, payer_id, repeat,
         categoryChar = (cospend.projects[projectid].categories[categoryid].icon || '') + ' ';
     }
     const whatFormatted = paymentmodeChar + categoryChar + what.replace(/https?:\/\/[^\s]+/gi, '');
-    $('.bill-title').html(
-        '<span class="loading-bill"></span>' +
-        '<span class="icon-edit-white"></span>' +
-        t('cospend', 'Bill : {what}', {what: whatFormatted}) +
-        ' ' + formattedLinks
-    );
+    $('.bill-title').html('');
+    $('.bill-title')
+        .append($('<span/>', {class: 'loading-bill'}))
+        .append($('<span/>', {class: 'icon-edit-white'}))
+        .append(
+            t('cospend', 'Bill : {what}', {what: whatFormatted}) +
+            ' ' + formattedLinks
+        )
     $('.bill-title').attr('style', 'background-color: ' + c + ';');
     updateAmountEach(projectid);
 }

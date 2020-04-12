@@ -119,7 +119,7 @@ export function billEvents() {
             $(this).parent().fadeOut('normal', function () {
                 $(this).remove();
                 if ($('.billitem').length === 0) {
-                    $('#bill-list').html('<h2 class="nobill">' + t('cospend', 'No bill yet') + '</h2>');
+                    $('#bill-list').html('').append($('<h2/>', {class: 'nobill'}).text(t('cospend', 'No bill yet')));
                 }
             });
         }
@@ -522,7 +522,7 @@ export function deleteBill(projectid, billid) {
         $('.billitem[billid=' + billid + ']').fadeOut('normal', function() {
             $(this).remove();
             if ($('.billitem').length === 0) {
-                $('#bill-list').html('<h2 class="nobill">' + t('cospend', 'No bill yet') + '</h2>');
+                $('#bill-list').html('').append($('<h2/>', {class: 'nobill'}).text(t('cospend', 'No bill yet')));
             }
         });
         delete cospend.bills[projectid][billid];
@@ -568,7 +568,7 @@ export function getBills(projectid) {
                 addBill(projectid, bill);
             }
         } else {
-            $('#bill-list').html('<h2 class="nobill">' + t('cospend', 'No bill yet') + '</h2>');
+            $('#bill-list').html('').append($('<h2/>', {class: 'nobill'}).text(t('cospend', 'No bill yet')));
         }
     }).always(function() {
     }).fail(function() {
@@ -1348,7 +1348,7 @@ export function createEquiPersoBill() {
         $('.billitem[billid=0]').fadeOut('normal', function() {
             $(this).remove();
             if ($('.billitem').length === 0) {
-                $('#bill-list').html('<h2 class="nobill">' + t('cospend', 'No bill yet') + '</h2>');
+                $('#bill-list').html('').append($('<h2/>', {class: 'nobill'}).text(t('cospend', 'No bill yet')));
             }
         });
         $('.app-content-list').removeClass('showdetails');
@@ -1417,7 +1417,7 @@ export function createCustomAmountBill() {
             $('.billitem[billid=0]').fadeOut('normal', function() {
                 $(this).remove();
                 if ($('.billitem').length === 0) {
-                    $('#bill-list').html('<h2 class="nobill">' + t('cospend', 'No bill yet') + '</h2>');
+                    $('#bill-list').html('').append($('<h2/>', {class: 'nobill'}).text(t('cospend', 'No bill yet')));
                 }
             });
             $('.app-content-list').removeClass('showdetails');

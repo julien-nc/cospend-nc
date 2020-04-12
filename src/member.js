@@ -315,66 +315,82 @@ export function addMember(projectid, member, balance) {
     const renameStr = t('cospend', 'Rename');
     const changeWeightStr = t('cospend', 'Change weight');
     const changeColorStr = t('cospend', 'Change color');
-    const li =
-        '<li memberid="' + member.id + '" class="memberitem' + invisibleClass + '">' +
-        '    <div class="memberAvatar' + (member.activated ? '' : ' memberAvatarDisabled') + '">' +
-        '       <div class="disabledMask"></div>' +
-        '       <img src="' + imgurl + '"/>' +
-        '    </div>' +
-        '    <a class="member-list-icon" href="#">' +
-        '        <span class="memberNameBalance">' +
-        '            <b class="memberName" title="' + member.name + ' (x' + member.weight + ')">' +
-        member.name + ((parseFloat(member.weight) !== 1.0) ? (' (x' + member.weight + ')') : '') +
-        '</b>' +
-        balanceStr +
-        '        </span>' +
-        '    </a>' +
-        '    <div class="app-navigation-entry-utils">' +
-        '        <ul>' +
-        '            <!--li class="app-navigation-entry-utils-counter">1</li-->' +
-        '            <li class="app-navigation-entry-utils-menu-button memberMenuButton">' +
-        '                <button></button>' +
-        '            </li>' +
-        '        </ul>' +
-        '    </div>' +
-        '    <div class="app-navigation-entry-menu">' +
-        '        <ul>' +
-        '            <li>' +
-        '                <a href="#" class="renameMember">' +
-        '                    <span class="icon-rename"></span>' +
-        '                    <span>' + renameStr + '</span>' +
-        '                </a>' +
-        '            </li>' +
-        '            <li>' +
-        '                <a href="#" class="editWeightMember">' +
-        '                    <span class="icon-quota"></span>' +
-        '                    <span>' + changeWeightStr + '</span>' +
-        '                </a>' +
-        '            </li>' +
-        '            <li>' +
-        '                <a href="#" class="editColorMember">' +
-        '                    <span class="icon-palette"></span>' +
-        '                    <span>' + changeColorStr + '</span>' +
-        '                </a>' +
-        '            </li>' +
-        '            <li>' +
-        '                <a href="#" class="toggleMember">' +
-        '                    <span class="' + iconToggleStr + '"></span>' +
-        '                    <span>' + toggleStr + '</span>' +
-        '                </a>' +
-        '            </li>' +
-        '        </ul>' +
-        '    </div>' +
-        '    <div class="app-navigation-entry-edit">' +
-        '        <div>' +
-        '            <input type="text" value="' + member.name + '" class="editMemberInput">' +
-        '            <input type="submit" value="" class="icon-close editMemberClose">' +
-        '            <input type="submit" value="" class="icon-checkmark editMemberOk">' +
-        '        </div>' +
-        '    </div>' +
-        '</li>';
 
-    $(li).appendTo('#projectlist li.projectitem[projectid="' + projectid + '"] .memberlist');
+    const container = $('#projectlist li.projectitem[projectid="' + projectid + '"] .memberlist');
+    container.append(
+        $('<li/>', {memberid: member.id, class: 'memberitem' + invisibleClass})
+            .append(
+                $('<div/>', {class: 'memberAvatar' + (member.activated ? '' : ' memberAvatarDisabled')})
+                    .append($('<div/>', {class: 'disabledMask'}))
+                    .append($('<img/>', {src: imgurl}))
+            )
+            .append(
+                $('<a/>', {class: 'member-list-icon', href: '#'})
+                    .append(
+                        $('<span/>', {class: 'memberNameBalance'})
+                            .append($('<b/>', {class: 'memberName', title: member.name + ' (x' + member.weight + ')'})
+                                .text(member.name + ((parseFloat(member.weight) !== 1.0) ? (' (x' + member.weight + ')') : ''))
+                            )
+                    )
+            )
+            .append(
+                $('<div/>', {class: 'app-navigation-entry-utils'})
+                    .append(
+                        $('<ul/>')
+                            .append(
+                                $('<li/>', {class: 'app-navigation-entry-utils-menu-button memberMenuButton'})
+                                    .append($('<button/>'))
+                            )
+                    )
+            )
+            .append(
+                $('<div/>', {class: 'app-navigation-entry-menu'})
+                    .append(
+                        $('<ul/>')
+                            .append(
+                                $('<li/>')
+                                    .append(
+                                        $('<a/>', {href: '#', class: 'renameMember'})
+                                            .append($('<span/>', {class: 'icon-rename'}))
+                                            .append($('<span/>').text(renameStr))
+                                    )
+                            )
+                            .append(
+                                $('<li/>')
+                                    .append(
+                                        $('<a/>', {href: '#', class: 'editWeightMember'})
+                                            .append($('<span/>', {class: 'icon-quota'}))
+                                            .append($('<span/>').text(changeWeightStr))
+                                    )
+                            )
+                            .append(
+                                $('<li/>')
+                                    .append(
+                                        $('<a/>', {href: '#', class: 'editColorMember'})
+                                            .append($('<span/>', {class: 'icon-palette'}))
+                                            .append($('<span/>').text(changeColorStr))
+                                    )
+                            )
+                            .append(
+                                $('<li/>')
+                                    .append(
+                                        $('<a/>', {href: '#', class: 'toggleMember'})
+                                            .append($('<span/>', {class: iconToggleStr}))
+                                            .append($('<span/>').text(toggleStr))
+                                    )
+                            )
+                    )
+            )
+            .append(
+                $('<div/>', {class: 'app-navigation-entry-edit'})
+                    .append(
+                        $('<div/>')
+                            .append($('<input/>', {type: 'text', value: member.name, class: 'editMemberInput'}))
+                            .append($('<input/>', {type: 'submit', value: '', class: 'icon-close editMemberClose'}))
+                            .append($('<input/>', {type: 'submit', value: '', class: 'icon-checkmark editMemberOk'}))
+                    )
+            )
+    );
 
     if (cospend.projects[projectid].myaccesslevel < constants.ACCESS.MAINTENER) {
         $('li.projectitem[projectid="' + projectid + '"] .renameMember').hide();

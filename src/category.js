@@ -170,41 +170,56 @@ export function displayCategories(projectid, projectInfo) {
     $('.app-content-list').addClass('showdetails');
     const titleStr = t('cospend', 'Categories of project {name}', {name: projectName});
 
-    const catStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
-        '<h2 id="catTitle" projectid="' + projectid + '"><span class="icon-category-app-bundles"></span>' + titleStr + '</h2>' +
-        '<div id="manage-categories">' +
-        '    <div id="categories-div">' +
-        '        <div id="add-category-div">' +
-        '            <label>' +
-        '                <a class="icon icon-add"></a>' +
-        '                ' + t('cospend', 'Add category') +
-        '            </label>' +
-        '            <div id="add-category">' +
-        '                <label for="addCategoryIconInput">' + t('cospend', 'Icon') + '</label>'+
-        '                <div id="add-icon-input-div">' +
-        '                    <input type="text" value="" maxlength="3" id="addCategoryIconInput">' +
-        '                    <button id="add-icon-button">🙂</button>' +
-        '                </div>' +
-        '                <label for="addCategoryNameInput">' + t('cospend', 'Name') + '</label>' +
-        '                <input type="text" value="" maxlength="300" id="addCategoryNameInput">' +
-        '                <label for="addCategoryColorInput">' + t('cospend', 'Color') + '</label>' +
-        '                <input type="color" value="" id="addCategoryColorInput">' +
-        '                <button class="addCategoryOk">' +
-        '                    <span class="icon-add"></span> <span>' + t('cospend', 'Add this category') + '</span>' +
-        '                </button>' +
-        '            </div>' +
-        '            <hr/>' +
-        '        </div><br/>' +
-        '        <label>' +
-        '            <a class="icon icon-category-app-bundles"></a>' +
-        '            ' + t('cospend', 'Category list') +
-        '        </label><br/><br/>' +
-        '        <div id="category-list">' +
-        '        </div>' +
-        '    </div>' +
-        '</div>';
+    $('#billdetail').html('');
+    $('#billdetail').append($('<div/>', {id: 'app-details-toggle', tabindex: 0, class: 'icon-confirm'}))
+        .append(
+            $('<h2/>', {id: 'catTitle', projectid: projectid})
+                .append($('<span/>', {class: 'icon-category-app-bundles'}))
+                .append(titleStr)
+        )
+        .append(
+            $('<div/>', {id: 'manage-categories'})
+                .append(
+                    $('<div/>', {id: 'categories-div'})
+                        .append(
+                            $('<div/>', {id: 'add-category-div'})
+                                .append(
+                                    $('<label/>')
+                                        .append($('<a/>', {class: 'icon icon-add'}))
+                                        .append(t('cospend', 'Add category'))
+                                )
+                                .append(
+                                    $('<div/>', {id: 'add-category'})
+                                        .append($('<label/>', {for: 'addCategoryIconInput'}).text(t('cospend', 'Icon')))
+                                        .append(
+                                            $('<div/>', {id: 'add-icon-input-div'})
+                                                .append($('<input/>', {type: 'text', value: '', maxlength: 3, id: 'addCategoryIconInput'}))
+                                                .append($('<button/>', {id: 'add-icon-button'}).text('🙂'))
+                                        )
+                                        .append($('<label/>', {for: 'addCategoryNameInput'}).text(t('cospend', 'Name')))
+                                        .append($('<input/>', {type: 'text', value: '', maxlength: 300, id: 'addCategoryNameInput'}))
+                                        .append($('<label/>', {for: 'addCategoryColorInput'}).text(t('cospend', 'Color')))
+                                        .append($('<input/>', {type: 'color', value: '', maxlength: 300, id: 'addCategoryColorInput'}))
+                                        .append(
+                                            $('<button/>', {class: 'addCategoryOk'})
+                                                .append($('<span/>', {class: 'icon-add'}))
+                                                .append($('<span/>').text(t('cospend', 'Add this category')))
+                                        )
+                                )
+                                .append($('<hr/>'))
+                        )
+                        .append($('<br/>'))
+                        .append(
+                            $('<label/>')
+                                .append($('<a/>', {class: 'icon icon-category-app-bundles'}))
+                                .append(t('cospend', 'Category list'))
+                        )
+                        .append($('<br/>'))
+                        .append($('<br/>'))
+                        .append($('<div/>', {id: 'category-list'}))
+                )
+        );
 
-    $('#billdetail').html(catStr);
     for (const catId in categories) {
         addCategory(projectid, catId, categories[catId]);
     }
@@ -262,35 +277,71 @@ export function addCategoryDb(projectid, name, icon, color) {
 }
 
 export function addCategory(projectid, catId, category) {
-    const catStr = '<div class="one-category" projectid="' + projectid + '" categoryid="' + catId + '">' +
-        '    <div class="one-category-label">' +
-        '        <label class="one-category-label-icon">' + (category.icon || '') + '</label>' +
-        '        <label class="one-category-label-label">' + category.name + '</label>' +
-        '        <input class="one-category-label-color" type="color" value="' + category.color + '" readonly/>' +
-        '        <input type="submit" value="" class="icon-rename editOneCategory">' +
-        '        <input type="submit" value="" class="icon-delete deleteOneCategory">' +
-        '    </div>' +
-        '    <div class="one-category-edit">' +
-        '        <label>' + t('cospend', 'Icon') + '</label>' +
-        '        <div class="edit-icon-input-div">' +
-        '            <input type="text" value="' + (category.icon || '') + '" maxlength="3" class="editCategoryIconInput" readonly>' +
-        '            <button class="edit-icon-button">🙂</button>' +
-        '        </div>' +
-        '        <label>' + t('cospend', 'Name') + '</label>' +
-        '        <input type="text" value="' + category.name + '" maxlength="300" class="editCategoryNameInput">' +
-        '        <label>' + t('cospend', 'Color') + '</label>' +
-        '        <input type="color" value="' + category.color + '" class="editCategoryColorInput">' +
-        '        <div>' +
-        '           <button class="editCategoryClose">' +
-        '               <span class="icon-close"></span> <span>' + t('cospend', 'Cancel') + '</span>' +
-        '           </button>' +
-        '           <button class="editCategoryOk">' +
-        '               <span class="icon-checkmark"></span> <span>' + t('cospend', 'Save') + '</span>' +
-        '           </button>' +
-        '        </div>' +
-        '    </div>' +
-        '</div>';
-    $('#category-list').append(catStr);
+    $('#category-list').append(
+        $('<div/>', {class: 'one-category', projectid: projectid, categoryid: catId})
+            .append(
+                $('<div/>', {class: 'one-category-label'})
+                    .append($('<label/>', {class: 'one-category-label-icon'}).text((category.icon || '')))
+                    .append($('<label/>', {class: 'one-category-label-label'}).text(category.name))
+                    .append($('<input/>', {class: 'one-category-label-color', type: 'color', value: category.color, readonly: true}))
+                    .append($('<input/>', {type: 'submit', value: '', class: 'icon-rename editOneCategory'}))
+                    .append($('<input/>', {type: 'submit', value: '', class: 'icon-delete deleteOneCategory'}))
+            )
+            .append(
+                $('<div/>', {class: 'one-category-edit'})
+                    .append($('<label/>').text(t('cospend', 'Icon')))
+                    .append(
+                        $('<div/>', {class: 'edit-icon-input-div'})
+                            .append($('<input/>', {type: 'text', value: (category.icon || ''), maxlength: 3, class: 'editCategoryIconInput', readonly: true}))
+                            .append($('<button/>', {class: 'edit-icon-button'}).text('🙂'))
+                    )
+                    .append($('<label/>').text(t('cospend', 'Name')))
+                    .append($('<input/>', {type: 'text', value: category.name, maxlength: 300, class: 'editCategoryNameInput'}))
+                    .append($('<label/>').text(t('cospend', 'Color')))
+                    .append($('<input/>', {type: 'color', value: category.color, class: 'editCategoryColorInput'}))
+                    .append(
+                        $('<div/>')
+                            .append(
+                                $('<button/>', {class: 'editCategoryClose'})
+                                    .append($('<span/>', {class: 'icon-close'}))
+                                    .append($('<span/>').text(t('cospend', 'Cancel')))
+                            )
+                            .append(
+                                $('<button/>', {class: 'editCategoryOk'})
+                                    .append($('<span/>', {class: 'icon-checkmark'}))
+                                    .append($('<span/>').text(t('cospend', 'Save')))
+                            )
+                    )
+            )
+    );
+    //const catStr = '<div class="one-category" projectid="' + projectid + '" categoryid="' + catId + '">' +
+    //    '    <div class="one-category-label">' +
+    //    '        <label class="one-category-label-icon">' + (category.icon || '') + '</label>' +
+    //    '        <label class="one-category-label-label">' + category.name + '</label>' +
+    //    '        <input class="one-category-label-color" type="color" value="' + category.color + '" readonly/>' +
+    //    '        <input type="submit" value="" class="icon-rename editOneCategory">' +
+    //    '        <input type="submit" value="" class="icon-delete deleteOneCategory">' +
+    //    '    </div>' +
+    //    '    <div class="one-category-edit">' +
+    //    '        <label>' + t('cospend', 'Icon') + '</label>' +
+    //    '        <div class="edit-icon-input-div">' +
+    //    '            <input type="text" value="' + (category.icon || '') + '" maxlength="3" class="editCategoryIconInput" readonly>' +
+    //    '            <button class="edit-icon-button">🙂</button>' +
+    //    '        </div>' +
+    //    '        <label>' + t('cospend', 'Name') + '</label>' +
+    //    '        <input type="text" value="' + category.name + '" maxlength="300" class="editCategoryNameInput">' +
+    //    '        <label>' + t('cospend', 'Color') + '</label>' +
+    //    '        <input type="color" value="' + category.color + '" class="editCategoryColorInput">' +
+    //    '        <div>' +
+    //    '           <button class="editCategoryClose">' +
+    //    '               <span class="icon-close"></span> <span>' + t('cospend', 'Cancel') + '</span>' +
+    //    '           </button>' +
+    //    '           <button class="editCategoryOk">' +
+    //    '               <span class="icon-checkmark"></span> <span>' + t('cospend', 'Save') + '</span>' +
+    //    '           </button>' +
+    //    '        </div>' +
+    //    '    </div>' +
+    //    '</div>';
     // emoji management
     const button = $('.one-category[categoryid='+catId+'] .edit-icon-button')[0];
     const picker = new EmojiButton({position: 'auto', zIndex: 9999999});

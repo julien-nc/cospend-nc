@@ -178,54 +178,73 @@ export function displayCurrencies(projectid, projectInfo) {
     $('.app-content-list').addClass('showdetails');
     const titleStr = t('cospend', 'Currencies of project {name}', {name: projectName});
 
-    const curStr = '<div id="app-details-toggle" tabindex="0" class="icon-confirm"></div>' +
-        '<h2 id="curTitle" projectid="' + projectid + '"><span class="icon-currencies"></span>' + titleStr + '</h2>' +
-        '<div id="manage-currencies">' +
-        '    <div id="main-currency-div">' +
-        '        <label>' +
-        '            <a class="icon icon-tag"></a>' +
-        '            ' + t('cospend', 'Main currency') +
-        '        </label>' +
-        '        <div id="main-currency-label">' +
-        '            <label id="main-currency-label-label">' +
-        (mainCurrencyName || t('cospend', 'None')) + '</label>' +
-        '            <input type="submit" value="" class="icon-rename editMainCurrency">' +
-        '        </div>' +
-        '        <div id="main-currency-edit">' +
-        '            <input type="text" maxlength="64" value="' + (mainCurrencyName || t('cospend', 'Potatoe')) + '" class="editMainCurrencyInput">' +
-        '            <input type="submit" value="" class="icon-close editMainCurrencyClose">' +
-        '            <input type="submit" value="" class="icon-checkmark editMainCurrencyOk">' +
-        '        </div>' +
-        '    </div><hr/>' +
-        '    <div id="currencies-div">' +
-        '        <div id="add-currency-div">' +
-        '            <label>' +
-        '                <a class="icon icon-add"></a>' +
-        '                ' + t('cospend', 'Add currency') +
-        '            </label>' +
-        '            <div id="add-currency">' +
-        '                <label for="addCurrencyNameInput">' + t('cospend', 'Name') + '</label>' +
-        '                <input type="text" value="" maxlength="64" id="addCurrencyNameInput">' +
-        '                <label for="addCurrencyRateInput"> ' + t('cospend', 'Exchange rate to main currency') +
-        '                </label>' +
-        '                <input type="number" value="1" id="addCurrencyRateInput" step="0.0001" min="0">' +
-        '                <label class="addCurrencyRateHint">' + t('cospend', '(1 of this currency = X of main currency)') + '</label>' +
-        '                <button class="addCurrencyOk">' +
-        '                    <span class="icon-add"></span> <span>' + t('cospend', 'Add this currency') + '</span>' +
-        '                </button>' +
-        '            </div><hr/>' +
-        '        </div>' +
-        '        <br/>' +
-        '        <label>' +
-        '            <a class="icon icon-currencies"></a>' +
-        '            ' + t('cospend', 'Currency list') +
-        '        </label><br/><br/>' +
-        '        <div id="currency-list">' +
-        '        </div>' +
-        '    </div>' +
-        '</div>';
+    $('#billdetail')
+        .append($('<div/>', {id: 'app-details-toggle', tabindex: 0, class: 'icon-confirm'}))
+        .append(
+            $('<h2/>', {id: 'curTitle', projectid: projectid})
+                .append($('<span/>', {class: 'icon-currencies'}))
+                .append(titleStr)
+        )
+        .append(
+            $('<div/>', {id: 'manage-currencies'})
+                .append(
+                    $('<div/>', {id: 'main-currency-div'})
+                        .append(
+                            $('<label/>')
+                                .append($('<a/>', {class: 'icon icon-tag'}))
+                                .append(t('cospend', 'Main currency'))
+                        )
+                        .append(
+                            $('<div/>', {id: 'main-currency-label'})
+                                .append($('<label/>', {id: 'main-currency-label-label'}).text((mainCurrencyName || t('cospend', 'None'))))
+                                .append($('<input/>', {type: 'submit', value: '', class: 'icon-rename editMainCurrency'}))
+                        )
+                        .append(
+                            $('<div/>', {id: 'main-currency-edit'})
+                                .append($('<input/>', {
+                                    type: 'text', maxlength: 64,
+                                    value: (mainCurrencyName || t('cospend', 'Potatoe')),
+                                    class: 'editMainCurrencyInput'
+                                }))
+                                .append($('<input/>', {type: 'submit', value: '', class: 'icon-close editMainCurrencyClose'}))
+                                .append($('<input/>', {type: 'submit', value: '', class: 'icon-checkmark editMainCurrencyOk'}))
+                        )
+                )
+                .append($('<hr/>'))
+                .append(
+                    $('<div/>', {id: 'currencies-div'})
+                        .append(
+                            $('<div/>', {id: 'add-currency-div'})
+                                .append(
+                                    $('<label/>')
+                                        .append($('<a/>', {class: 'icon icon-add'}))
+                                        .append(t('cospend', 'Add currency'))
+                                )
+                                .append(
+                                    $('<div/>', {id: 'add-currency'})
+                                        .append($('<label/>', {for: 'addCurrencyNameInput'}).text(t('cospend', 'Name')))
+                                        .append($('<input/>', {type: 'text', value: '', maxlength: 64, id: 'addCurrencyNameInput'}))
+                                        .append($('<label/>', {for: 'addCurrencyRateInput'}).text(t('cospend', 'Exchange rate to main currency')))
+                                        .append($('<input/>', {type: 'number', value: 1, id: 'addCurrencyRateInput', step: 0.0001, min: 0}))
+                                        .append($('<label/>', {class: 'addCurrencyRateHint'}).text(t('cospend', '(1 of this currency = X of main currency)')))
+                                        .append(
+                                            $('<button/>', {class: 'addCurrencyOk'})
+                                                .append($('<span/>', {class: 'icon-add'}))
+                                                .append($('<span/>').text(t('cospend', 'Add this currency')))
+                                        )
+                                )
+                                .append($('<hr/>'))
+                        )
+                        .append($('<br/>'))
+                        .append(
+                            $('<label/>')
+                                .append($('<a/>', {class: 'icon icon-currencies'}))
+                                .append(t('cospend', 'Currency list'))
+                        )
+                        .append($('<div/>', {id: 'currency-list'}))
+                )
+        );
 
-    $('#billdetail').html(curStr);
     for (let i = 0; i < currencies.length; i++) {
         addCurrency(projectid, currencies[i]);
     }

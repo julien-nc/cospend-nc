@@ -287,30 +287,18 @@ export function addMember(projectid, member, balance) {
     };
 
     let invisibleClass = '';
-    let balanceStr;
+    let balanceClass = '';
     if (balance >= 0.01) {
-        balanceStr = '<b class="balance balancePositive">+' + balance.toFixed(2) + '</b>';
+        balanceClass = ' balancePositive';
     } else if (balance <= -0.01) {
-        balanceStr = '<b class="balance balanceNegative">' + balance.toFixed(2) + '</b>';
+        balanceClass = ' balanceNegative';
     } else {
-        balanceStr = '<b class="balance">0.00</b>';
         if (!member.activated) {
             invisibleClass = ' invisibleMember';
         }
     }
-    let iconToggleStr, toggleStr, imgurl;
-    let lockSpan = '';
-    if (member.activated) {
-        iconToggleStr = 'icon-delete';
-        toggleStr = t('cospend', 'Deactivate');
-    } else {
-        lockSpan = '<div class="member-list-disabled-icon icon-disabled-user"> </div>';
-        iconToggleStr = 'icon-history';
-        toggleStr = t('cospend', 'Reactivate');
-    }
     const color = cospend.members[projectid][member.id].color;
-    imgurl = generateUrl('/apps/cospend/getAvatar?color=' + color + '&name=' + encodeURIComponent(member.name));
-
+    let imgurl = generateUrl('/apps/cospend/getAvatar?color=' + color + '&name=' + encodeURIComponent(member.name));
 
     const renameStr = t('cospend', 'Rename');
     const changeWeightStr = t('cospend', 'Change weight');
@@ -331,6 +319,7 @@ export function addMember(projectid, member, balance) {
                             .append($('<b/>', {class: 'memberName', title: member.name + ' (x' + member.weight + ')'})
                                 .text(member.name + ((parseFloat(member.weight) !== 1.0) ? (' (x' + member.weight + ')') : ''))
                             )
+                            .append($('<b/>', {class: 'balance' + balanceClass}).text(balance.toFixed(2)))
                     )
             )
             .append(
@@ -375,8 +364,8 @@ export function addMember(projectid, member, balance) {
                                 $('<li/>')
                                     .append(
                                         $('<a/>', {href: '#', class: 'toggleMember'})
-                                            .append($('<span/>', {class: iconToggleStr}))
-                                            .append($('<span/>').text(toggleStr))
+                                            .append($('<span/>', {class: member.activated ? 'icon-delete' : 'icon-history'}))
+                                            .append($('<span/>').text(member.activated ? t('cospend', 'Deactivate') : t('cospend', 'Reactivate')))
                                     )
                             )
                     )

@@ -314,34 +314,6 @@ export function addCategory(projectid, catId, category) {
                     )
             )
     );
-    //const catStr = '<div class="one-category" projectid="' + projectid + '" categoryid="' + catId + '">' +
-    //    '    <div class="one-category-label">' +
-    //    '        <label class="one-category-label-icon">' + (category.icon || '') + '</label>' +
-    //    '        <label class="one-category-label-label">' + category.name + '</label>' +
-    //    '        <input class="one-category-label-color" type="color" value="' + category.color + '" readonly/>' +
-    //    '        <input type="submit" value="" class="icon-rename editOneCategory">' +
-    //    '        <input type="submit" value="" class="icon-delete deleteOneCategory">' +
-    //    '    </div>' +
-    //    '    <div class="one-category-edit">' +
-    //    '        <label>' + t('cospend', 'Icon') + '</label>' +
-    //    '        <div class="edit-icon-input-div">' +
-    //    '            <input type="text" value="' + (category.icon || '') + '" maxlength="3" class="editCategoryIconInput" readonly>' +
-    //    '            <button class="edit-icon-button">🙂</button>' +
-    //    '        </div>' +
-    //    '        <label>' + t('cospend', 'Name') + '</label>' +
-    //    '        <input type="text" value="' + category.name + '" maxlength="300" class="editCategoryNameInput">' +
-    //    '        <label>' + t('cospend', 'Color') + '</label>' +
-    //    '        <input type="color" value="' + category.color + '" class="editCategoryColorInput">' +
-    //    '        <div>' +
-    //    '           <button class="editCategoryClose">' +
-    //    '               <span class="icon-close"></span> <span>' + t('cospend', 'Cancel') + '</span>' +
-    //    '           </button>' +
-    //    '           <button class="editCategoryOk">' +
-    //    '               <span class="icon-checkmark"></span> <span>' + t('cospend', 'Save') + '</span>' +
-    //    '           </button>' +
-    //    '        </div>' +
-    //    '    </div>' +
-    //    '</div>';
     // emoji management
     const button = $('.one-category[categoryid='+catId+'] .edit-icon-button')[0];
     const picker = new EmojiButton({position: 'auto', zIndex: 9999999});

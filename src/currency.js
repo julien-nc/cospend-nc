@@ -294,31 +294,39 @@ export function addCurrencyDb(projectid, name, rate) {
 }
 
 export function addCurrency(projectid, currency) {
-    const curStr = '<div class="one-currency" projectid="' + projectid + '" currencyid="' + currency.id + '">' +
-        '    <div class="one-currency-label">' +
-        '        <label class="one-currency-label-label">' +
-        currency.name + ' (x' + currency.exchange_rate + ')</label>' +
-        '        <input type="submit" value="" class="icon-rename editOneCurrency">' +
-        '        <input type="submit" value="" class="icon-delete deleteOneCurrency">' +
-        '    </div>' +
-        '    <div class="one-currency-edit">' +
-        '        <label>' + t('cospend', 'Name') + '</label>' +
-        '        <input type="text" value="' + currency.name + '" maxlength="64" class="editCurrencyNameInput">' +
-        '        <label> ' + t('cospend', 'Exchange rate to main currency') +
-        '           <br/>' + t('cospend', '(1 of this currency = X of main currency)') +
-        '        </label>' +
-        '        <input type="number" value="' + currency.exchange_rate + '" class="editCurrencyRateInput" step="0.0001" min="0">' +
-        '        <div>' +
-        '           <button class="editCurrencyClose">' +
-        '               <span class="icon-close"></span> <span>' + t('cospend', 'Cancel') + '</span>' +
-        '           </button>' +
-        '           <button class="editCurrencyOk">' +
-        '               <span class="icon-checkmark"></span> <span>' + t('cospend', 'Save') + '</span>' +
-        '           </button>' +
-        '        </div>' +
-        '    </div>' +
-        '</div>';
-    $('#currency-list').append(curStr);
+    const currDiv = $('<div/>', {class: 'one-currency', projectid: projectid, currencyid: currency.id})
+        .append(
+            $('<div/>', {class: 'one-currency-label'})
+                .append($('<label/>', {class: 'one-currency-label-label'}).text(currency.name + ' (x' + currency.exchange_rate + ')'))
+                .append($('<input/>', {type: 'submit', value: '', class: 'icon-rename editOneCurrency'}))
+                .append($('<input/>', {type: 'submit', value: '', class: 'icon-delete deleteOneCurrency'}))
+        )
+        .append(
+            $('<div/>', {class: 'one-currency-edit'})
+                .append($('<label/>').text(t('cospend', 'Name')))
+                .append($('<input/>', {type: 'text', value: currency.name, maxlength: 64, class: 'editCurrencyNameInput'}))
+                .append(
+                    $('<label/>')
+                        .append(t('cospend', 'Exchange rate to main currency'))
+                        .append($('<br/>'))
+                        .append(t('cospend', '(1 of this currency = X of main currency)'))
+                )
+                .append($('<input/>', {type: 'number', value: currency.exchange_rate, class: 'editCurrencyRateInput', step: 0.0001, min: 0}))
+                .append(
+                    $('<div/>')
+                        .append(
+                            $('<button/>', {class: 'editCurrencyClose'})
+                                .append($('<span/>', {class: 'icon-close'}))
+                                .append($('<span/>').text(t('cospend', 'Cancel')))
+                        )
+                        .append(
+                            $('<button/>', {class: 'editCurrencyOk'})
+                                .append($('<span/>', {class: 'icon-checkmark'}))
+                                .append($('<span/>').text(t('cospend', 'Save')))
+                        )
+                )
+        )
+    $('#currency-list').append(currDiv);
 }
 
 export function deleteCurrencyDb(projectid, currencyId) {

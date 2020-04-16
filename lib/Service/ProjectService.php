@@ -2548,7 +2548,8 @@ class ProjectService {
                     'what' => $what,
                     'repeat' => $repeat,
                     'repeatallactive' => $repeatallactive,
-                    'projectid' => $projectid
+                    'projectid' => $projectid,
+                    'timestamp' => $timestamp
                 ]);
             }
             $req->closeCursor();
@@ -2557,7 +2558,7 @@ class ProjectService {
             foreach ($bills as $bill) {
                 // Use DateTimeImmutable instead of DateTime so that $billDate->add() returns a
                 // new instance instead of modifying $billDate
-                $billDate = \DateTimeImmutable::createFromFormat('U', $timestamp);
+                $billDate = \DateTimeImmutable::createFromFormat('U', $bill['timestamp']);
 
                 $nextDate = null;
                 switch($bill['repeat']) {

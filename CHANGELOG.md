@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.4.6 – 2020-04-16
+### Changed
+- no more dirty html string generation, use jquery instead
+
+### Fixed
+- bug in bill repetition
+
 ## 0.4.5 – 2020-04-07
 ### Added
 - monthly stats per category and per member (table and chart)

@@ -1022,7 +1022,7 @@ class ProjectService {
         $member = null;
 
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('id', 'name', 'weight', 'color', 'activated')
+        $qb->select('id', 'userid', 'name', 'weight', 'color', 'activated')
            ->from('cospend_members', 'm')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -1035,6 +1035,7 @@ class ProjectService {
         while ($row = $req->fetch()) {
             $dbMemberId = intval($row['id']);
             $dbWeight = floatval($row['weight']);
+            $dbUserid = $row['userid'];
             $dbName = $row['name'];
             $dbActivated = intval($row['activated']);
             $dbColor = $row['color'];
@@ -1048,6 +1049,7 @@ class ProjectService {
 
             $member = [
                     'activated' => ($dbActivated === 1),
+                    'userid' => $dbUserid,
                     'name' => $dbName,
                     'id' => $dbMemberId,
                     'weight' => $dbWeight,
@@ -1309,7 +1311,7 @@ class ProjectService {
         return $res;
     }
 
-    public function editMember($projectid, $memberid, $name, $weight, $activated, $color=null) {
+    public function editMember($projectid, $memberid, $name, $userid, $weight, $activated, $color=null) {
         if ($name !== null && $name !== '') {
             if ($this->getMemberById($projectid, $memberid) !== null) {
                 $qb = $this->dbconnection->getQueryBuilder();
@@ -1340,6 +1342,13 @@ class ProjectService {
                     }
                     else {
                         $qb->set('color', $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR));
+                    }
+                }
+                if ($userid !== null) {
+                    if ($userid === '') {
+                        $qb->set('userid', $qb->createNamedParameter(null, IQueryBuilder::PARAM_STR));
+                    } else {
+                        $qb->set('userid', $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR));
                     }
                 }
                 $qb->where(
@@ -1413,9 +1422,9 @@ class ProjectService {
         }
     }
 
-    public function addMember($projectid, $name, $weight, $active=1, $color=null) {
+    public function addMember($projectid, $name, $userid, $weight, $active=1, $color=null) {
         if ($name !== null && $name !== '') {
-            if ($this->getMemberByName($projectid, $name) === null) {
+            if ($this->getMemberByName($projectid, $name) === null && $this->getMemberByUserid($projectid, $userid) === null) {
                 if (strpos($name, '/') !== false or strpos($name, ',') !== false) {
                     return $this->trans->t('Invalid member name');
                 }
@@ -1438,6 +1447,7 @@ class ProjectService {
                 $qb->insert('cospend_members')
                     ->values([
                         'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
+                        'userid' => $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR),
                         'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
                         'weight' => $qb->createNamedParameter($weightToInsert, IQueryBuilder::PARAM_STR),
                         'activated' => $qb->createNamedParameter($active, IQueryBuilder::PARAM_INT),
@@ -1683,8 +1693,8 @@ class ProjectService {
         }
 
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('id', 'name', 'weight', 'color', 'activated', 'lastchanged')
-           ->from('cospend_members', 'm')
+        $qb->select('id', 'userid', 'name', 'weight', 'color', 'activated', 'lastchanged')
+                ->from('cospend_members', 'm')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
            );
@@ -1700,6 +1710,7 @@ class ProjectService {
             while ($row = $req->fetch()){
                 $dbMemberId = intval($row['id']);
                 $dbWeight = floatval($row['weight']);
+                $dbUserid = $row['userid'];
                 $dbName = $row['name'];
                 $dbActivated = intval($row['activated']);
                 $dbLastchanged = intval($row['lastchanged']);
@@ -1724,6 +1735,7 @@ class ProjectService {
                     0,
                     [[
                         'activated' => ($dbActivated === 1),
+                        'userid' => $dbUserid,
                         'name' => $dbName,
                         'id' => $dbMemberId,
                         'weight' => $dbWeight,
@@ -1737,6 +1749,7 @@ class ProjectService {
             while ($row = $req->fetch()){
                 $dbMemberId = intval($row['id']);
                 $dbWeight = floatval($row['weight']);
+                $dbUserid = $row['userid'];
                 $dbName = $row['name'];
                 $dbActivated = intval($row['activated']);
                 $dbLastchanged = intval($row['lastchanged']);
@@ -1753,6 +1766,7 @@ class ProjectService {
                     $members,
                     [
                         'activated' => ($dbActivated === 1),
+                        'userid' => $dbUserid,
                         'name' => $dbName,
                         'id' => $dbMemberId,
                         'weight' => $dbWeight,
@@ -2357,7 +2371,7 @@ class ProjectService {
     public function getMemberByName($projectId, $name) {
         $member = null;
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('id', 'name', 'weight', 'color', 'activated')
+        $qb->select('id', 'userid', 'name', 'weight', 'color', 'activated')
            ->from('cospend_members', 'm')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -2370,6 +2384,7 @@ class ProjectService {
         while ($row = $req->fetch()){
             $dbMemberId = intval($row['id']);
             $dbWeight = floatval($row['weight']);
+            $dbUserid = $row['userid'];
             $dbName = $row['name'];
             $dbActivated= intval($row['activated']);
             $dbColor = $row['color'];
@@ -2382,6 +2397,7 @@ class ProjectService {
             }
             $member = [
                     'activated' => ($dbActivated === 1),
+                    'userid' => $dbUserid,
                     'name' => $dbName,
                     'id' => $dbMemberId,
                     'weight' => $dbWeight,
@@ -2391,6 +2407,50 @@ class ProjectService {
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();
+        return $member;
+    }
+
+    public function getMemberByUserid($projectId, $userid) {
+        $member = null;
+        if ($userid !== null) {
+            $qb = $this->dbconnection->getQueryBuilder();
+            $qb->select('id', 'userid', 'name', 'weight', 'color', 'activated')
+               ->from('cospend_members', 'm')
+               ->where(
+                   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+               )
+               ->andWhere(
+                   $qb->expr()->eq('userid', $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR))
+               );
+            $req = $qb->execute();
+
+            while ($row = $req->fetch()){
+                $dbMemberId = intval($row['id']);
+                $dbWeight = floatval($row['weight']);
+                $dbUserid = $row['userid'];
+                $dbName = $row['name'];
+                $dbActivated= intval($row['activated']);
+                $dbColor = $row['color'];
+                if ($dbColor === null) {
+                    $av = $this->avatarManager->getGuestAvatar($dbName);
+                    $dbColor = $av->avatarBackgroundColor($dbName);
+                }
+                else {
+                    $dbColor = $this->hexToRgb($dbColor);
+                }
+                $member = [
+                        'activated' => ($dbActivated === 1),
+                        'userid' => $dbUserid,
+                        'name' => $dbName,
+                        'id' => $dbMemberId,
+                        'weight' => $dbWeight,
+                        'color' => $dbColor
+                ];
+                break;
+            }
+            $req->closeCursor();
+            $qb = $qb->resetQueryParts();
+        }
         return $member;
     }
 

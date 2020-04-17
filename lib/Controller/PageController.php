@@ -535,9 +535,9 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webEditMember($projectid, $memberid, $name, $weight, $activated, $color=null) {
+    public function webEditMember($projectid, $memberid, $name, $weight, $activated, $color=null, $userid=null) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
-            $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated, $color);
+            $result = $this->projectService->editMember($projectid, $memberid, $name, $userid, $weight, $activated, $color);
             if (is_array($result) and array_key_exists('activated', $result)) {
                 return new DataResponse($result);
             }
@@ -653,9 +653,9 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webAddMember($projectid, $name, $weight=1, $active=1, $color=null) {
+    public function webAddMember($projectid, $name, $userid=null, $weight=1, $active=1, $color=null) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
-            $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color);
+            $result = $this->projectService->addMember($projectid, $name, $userid, $weight, $active, $color);
             if (is_array($result)) {
                 return new DataResponse($result);
             }
@@ -996,7 +996,7 @@ class PageController extends ApiController {
             ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
             or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
         ) {
-            $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color);
+            $result = $this->projectService->addMember($projectid, $name, null, $weight, $active, $color);
             if (is_array($result)) {
                 return new DataResponse($result['id']);
             }
@@ -1025,7 +1025,7 @@ class PageController extends ApiController {
             ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
             or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
         ) {
-            $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color);
+            $result = $this->projectService->addMember($projectid, $name, null, $weight, $active, $color);
             if (is_array($result)) {
                 return new DataResponse($result);
             }
@@ -1049,7 +1049,7 @@ class PageController extends ApiController {
      */
     public function apiPrivAddMember($projectid, $name, $weight, $active=1, $color=null) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
-            $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color);
+            $result = $this->projectService->addMember($projectid, $name, null, $weight, $active, $color);
             if (is_array($result)) {
                 return new DataResponse($result['id']);
             }
@@ -1403,7 +1403,7 @@ class PageController extends ApiController {
             ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
             or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
         ) {
-            $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated, $color);
+            $result = $this->projectService->editMember($projectid, $memberid, $name, null, $weight, $activated, $color);
             if (is_array($result) and array_key_exists('activated', $result)) {
                 return new DataResponse($result);
             }
@@ -1427,7 +1427,7 @@ class PageController extends ApiController {
      */
     public function apiPrivEditMember($projectid, $memberid, $name, $weight, $activated, $color=null) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
-            $result = $this->projectService->editMember($projectid, $memberid, $name, $weight, $activated, $color);
+            $result = $this->projectService->editMember($projectid, $memberid, $name, null, $weight, $activated, $color);
             if (is_array($result) and array_key_exists('activated', $result)) {
                 return new DataResponse($result);
             }
@@ -1625,16 +1625,48 @@ class PageController extends ApiController {
             }
         }
         $response = new DataResponse(
-            [
-                'users' => $userNames,
-                'groups' => $groupNames,
-                'circles' => $circleNames
-            ]
+                [
+            'users' => $userNames,
+            'groups' => $groupNames,
+            'circles' => $circleNames
+                ]
         );
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedImageDomain('*')
-            ->addAllowedMediaDomain('*')
-            ->addAllowedConnectDomain('*');
+                ->addAllowedMediaDomain('*')
+                ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function getMemberSuggestions($projectid) {
+        $userNames = [];
+        foreach ($this->userManager->search('') as $u) {
+            if ($u->isEnabled()) {
+                $userNames[$u->getUID()] = $u->getDisplayName();
+            }
+        }
+        foreach ($this->projectService->getMembers($projectid) as $member) {
+            unset($userNames[$member['userid']]);
+        }
+
+        $groupNames = [];
+        $circleNames = [];
+
+        $response = new DataResponse(
+                [
+            'users' => $userNames,
+            'groups' => $groupNames,
+            'circles' => $circleNames
+                ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+                ->addAllowedMediaDomain('*')
+                ->addAllowedConnectDomain('*');
         $response->setContentSecurityPolicy($csp);
         return $response;
     }

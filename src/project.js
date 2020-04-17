@@ -16,6 +16,7 @@ import {
 } from './utils';
 import {
     addMember,
+    getMemberAvatar,
 } from './member';
 import {addShare} from './share';
 import cospend from './state';
@@ -570,8 +571,8 @@ export function displaySettlement(projectid, transactionList) {
         amount = transactionList[i].amount.toFixed(2);
         memberFrom = cospend.members[projectid][transactionList[i].from];
         memberTo = cospend.members[projectid][transactionList[i].to];
-        imgurlFrom = generateUrl('/apps/cospend/getAvatar?color=' + memberFrom.color + '&name=' + encodeURIComponent(memberFrom.name));
-        imgurlTo = generateUrl('/apps/cospend/getAvatar?color=' + memberTo.color + '&name=' + encodeURIComponent(memberTo.name));
+        imgurlFrom = getMemberAvatar(projectid, transactionList[i].from);
+        imgurlTo = getMemberAvatar(projectid, transactionList[i].to);
         if (amount !== '0.00') {
             tbody.append(
                 $('<tr/>')
@@ -853,7 +854,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
         filteredBalance = statList[i].filtered_balance.toFixed(2);
         name = statList[i].member.name;
         color = '#' + member.color;
-        imgurl = generateUrl('/apps/cospend/getAvatar?color=' + member.color + '&name=' + encodeURIComponent(member.name));
+        imgurl = getMemberAvatar(projectid, statList[i].member.id);
         tbody.append(
             $('<tr/>')
                 .append(
@@ -903,7 +904,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
             color = 'var(--color-border-dark)';
         } else {
             color = '#' + member.color;
-            imgurl = generateUrl('/apps/cospend/getAvatar?color=' + member.color + '&name=' + encodeURIComponent(member.name));
+            imgurl = getMemberAvatar(projectid, mid);
         }
         memberTr = $('<tr/>').append(
             (parseInt(mid) === 0) ?

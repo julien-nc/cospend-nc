@@ -2,11 +2,12 @@
 
 import * as Notification from './notification';
 import {generateUrl} from '@nextcloud/router';
+import {getCurrentUser} from '@nextcloud/auth';
 import * as constants from './constants';
 import cospend from './state';
 import {updateProjectBalances} from './project';
 import {getUrlParameter, reload} from './utils';
-import {getMemberName} from './member';
+import {getMemberName, getMemberAvatar} from './member';
 import {
     delay,
     Timer,
@@ -476,9 +477,7 @@ export function updateBillItem(projectid, billid, bill) {
 
     const title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
         billDate + ' ' + billTime + '\n' + memberName + ' -> ' + owerNames;
-    const imgurl = generateUrl('/apps/cospend/getAvatar?color=' +
-        cospend.members[projectid][bill.payer_id].color +
-        '&name=' + encodeURIComponent(memberName));
+    const imgurl = getMemberAvatar(projectid, bill.payer_id);
     const item = $('<a/>', {href: '#', class: 'app-content-list-item billitem' + selectedClass, billid: bill.id, projectid: projectid, title: title})
         .append(
             $('<div/>', {class: 'app-content-list-item-icon', style: 'background-image: url(' + imgurl + ');'})
@@ -640,7 +639,7 @@ export function displayBill(projectid, billid) {
     let payerOptions = '';
     let member;
     let selected, checked, readonly;
-    let color, imgurl;
+    let imgurl;
     if (billid !== 0) {
         const memberPayer = cospend.members[projectid][bill.payer_id];
         c = '#' + (memberPayer.color || '888888');
@@ -699,7 +698,9 @@ export function displayBill(projectid, billid) {
         member = cospend.members[projectid][memberid];
         // show member if it's the payer or if it's activated
         if (member.activated || member.id === bill.payer_id) {
-            payerSelect.append($('<option/>', {value: member.id, selected: (member.id === bill.payer_id) ? 'selected' : null}).text(member.name))
+            selected = member.id === bill.payer_id ||
+                    (billid === 0 && member.userid === getCurrentUser().uid);
+            payerSelect.append($('<option/>', {value: member.id, selected: selected ? 'selected' : null}).text(member.name))
         }
     }
 
@@ -905,8 +906,7 @@ export function displayBill(projectid, billid) {
         member = cospend.members[projectid][memberid];
         // show member if it's an ower or if it's activated
         if (member.activated || owerIds.indexOf(member.id) !== -1) {
-            color = cospend.members[projectid][member.id].color;
-            imgurl = generateUrl('/apps/cospend/getAvatar?color=' + color + '&name=' + encodeURIComponent(member.name));
+            imgurl = getMemberAvatar(projectid, member.id);
             billOwersDiv.append(
                 $('<div/>', {class: 'owerEntry'})
                     .append(
@@ -1021,7 +1021,7 @@ export function addBill(projectid, bill) {
     }
     const whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars;
 
-    let imgurl, color;
+    let imgurl;
     let disabled = '';
     let showRepeat = '';
     if (bill.id !== 0) {
@@ -1034,8 +1034,7 @@ export function addBill(projectid, bill) {
         title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
             billDate + ' ' + billTime + '\n' + memberName + ' → ' + owerNames;
 
-        color = cospend.members[projectid][bill.payer_id].color;
-        imgurl = generateUrl('/apps/cospend/getAvatar?color=' + color + '&name=' + encodeURIComponent(memberName));
+        imgurl = getMemberAvatar(projectid, bill.payer_id);
         // disabled
         disabled = cospend.members[projectid][bill.payer_id].activated ? '' : ' disabled';
         showRepeat = bill.repeat === 'n' ? '' : ' show';

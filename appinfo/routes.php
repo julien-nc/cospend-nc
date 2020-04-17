@@ -85,6 +85,7 @@ return [
         ['name' => 'utils#saveOptionValue', 'url' => '/saveOptionValue', 'verb' => 'POST'],
         ['name' => 'utils#setAllowAnonymousCreation', 'url' => '/setAllowAnonymousCreation', 'verb' => 'POST'],
         ['name' => 'page#getUserList', 'url' => '/getUserList', 'verb' => 'POST'],
+        ['name' => 'page#getMemberSuggestions', 'url' => '/getMemberSuggestions', 'verb' => 'POST'],
         ['name' => 'page#addCurrency', 'url' => '/addCurrency', 'verb' => 'POST'],
         ['name' => 'page#editCurrency', 'url' => '/editCurrency', 'verb' => 'POST'],
         ['name' => 'page#deleteCurrency', 'url' => '/deleteCurrency', 'verb' => 'POST'],

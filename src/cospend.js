@@ -99,8 +99,12 @@ import cospend from './state';
     // trick to always show public link item: replace default autocomplete filter function
     const origFilter = $.ui.autocomplete.filter;
     $.ui.autocomplete.filter = function(array, term) {
-        const result = [cospend.pubLinkData];
-        return result.concat(origFilter(array, term));
+        if (cospend.pubLinkData.projectid) {
+            const result = [cospend.pubLinkData];
+            return result.concat(origFilter(array, term));
+        } else {
+            return origFilter(array, term);
+        }
     };
 
     function restoreOptions() {

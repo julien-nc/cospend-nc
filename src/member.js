@@ -53,6 +53,8 @@ export function memberEvents() {
                     Notification.showTemporary(t('cospend', 'Invalid values'));
                 }
             }
+        } else if (e.key === 'Escape') {
+            $('.newmemberdiv').slideUp();
         }
     });
 
@@ -101,6 +103,8 @@ export function memberEvents() {
                     Notification.showTemporary(t('cospend', 'Invalid weight'));
                 }
             }
+        } else if (e.key === 'Escape') {
+            $(this).parent().parent().parent().removeClass('editing');
         }
     });
 

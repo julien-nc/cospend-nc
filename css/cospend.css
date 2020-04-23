@@ -552,6 +552,13 @@ input[type=number] {
 .memberitem > a {
     opacity: 1 !important;
 }
+.autocomplete-avatar-img {
+    width: 23px;
+    height: auto;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 5px;
+}
 .memberCompleteIcon,
 .shareCompleteIcon {
     background-color: inherit;

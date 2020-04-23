@@ -546,15 +546,28 @@ export function addMemberAutocompletion(input, projectid, memberid) {
                 }
             }
         }).data('ui-autocomplete')._renderItem = function(ul, item) {
-            let iconClass = 'icon-user';
-            if (item.type === 'g') {
-                iconClass = 'icon-group';
-            } else if (item.type === 'c') {
-                iconClass = 'share-icon-circle';
+            let button = null;
+            let img = null;
+            if (item.type === 'u') {
+                const imgsrc = generateUrl('/avatar/' + encodeURIComponent(item.id) + '/64?v=2');
+                img = $('<img/>', {src: imgsrc, class: 'autocomplete-avatar-img'});
+            } else {
+                let iconClass = '';
+                if (item.type === 'g') {
+                    iconClass = 'icon-group';
+                } else if (item.type === 'c') {
+                    iconClass = 'share-icon-circle';
+                }
+                button = $('<button/>', {class: 'shareCompleteIcon ' + iconClass, style: style});
             }
             return $('<li></li>')
                 .data('item.autocomplete', item)
-                .append('<a class="shareCompleteLink"><button class="memberCompleteIcon ' + iconClass + '"></button> ' + item.label + '</a>')
+                .append(
+                    $('<a/>', {class: 'shareCompleteLink'})
+                        .append(button)
+                        .append(img)
+                        .append(' ' + item.label)
+                )
                 .appendTo(ul);
         };
         //console.log(ii.data('ui-autocomplete'));

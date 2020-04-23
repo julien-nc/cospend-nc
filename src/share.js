@@ -548,19 +548,28 @@ export function addUserAutocompletion(input, projectid) {
                 }
             }
         }).data('ui-autocomplete')._renderItem = function(ul, item) {
-            let iconClass = 'icon-user';
-            if (item.type === 'g') {
-                iconClass = 'icon-group';
-            } else if (item.type === 'c') {
-                iconClass = 'share-icon-circle';
-            } else if (item.type === 'l') {
-                iconClass = 'icon-public';
+            let button = null;
+            let img = null;
+            if (item.type === 'u') {
+                const imgsrc = generateUrl('/avatar/' + encodeURIComponent(item.id) + '/64?v=2');
+                img = $('<img/>', {src: imgsrc, class: 'autocomplete-avatar-img'});
+            } else {
+                let iconClass = '';
+                if (item.type === 'g') {
+                    iconClass = 'icon-group';
+                } else if (item.type === 'c') {
+                    iconClass = 'share-icon-circle';
+                } else if (item.type === 'l') {
+                    iconClass = 'icon-public';
+                }
+                button = $('<button/>', {class: 'shareCompleteIcon ' + iconClass});
             }
             return $('<li/>')
                 .data('item.autocomplete', item)
                 .append(
                     $('<a/>', {class: 'shareCompleteLink'})
-                        .append($('<button/>', {class: 'shareCompleteIcon ' + iconClass}))
+                        .append(button)
+                        .append(img)
                         .append(' ' + item.label)
                 )
                 .appendTo(ul);

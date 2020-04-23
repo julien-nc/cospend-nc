@@ -559,6 +559,13 @@ input[type=number] {
     vertical-align: middle;
     margin-right: 5px;
 }
+.share-avatar-img {
+    width: 23px !important;
+    height: auto !important;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-left: -35px !important;
+}
 .memberCompleteIcon,
 .shareCompleteIcon {
     background-color: inherit;

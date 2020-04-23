@@ -308,11 +308,14 @@ export function addShare(projectid, elemId, elemName, id, type, accesslevel, tok
         displayString = elemName + ' (' + elemId + ')';
     }
     let iconClass, deleteButtonClass;
+    let img = null;
     if (type === 'g') {
         iconClass = 'icon-group';
         deleteButtonClass = 'deleteGroupShareButton';
     } else if (type === 'u') {
-        iconClass = 'icon-user';
+        iconClass = '';
+        const imgsrc = generateUrl('/avatar/' + encodeURIComponent(elemId) + '/64?v=2');
+        img = $('<img/>', {src: imgsrc, class: 'share-avatar-img'});
         deleteButtonClass = 'deleteUserShareButton';
     } else if (type === 'c') {
         iconClass = 'share-icon-circle';
@@ -324,6 +327,7 @@ export function addShare(projectid, elemId, elemName, id, type, accesslevel, tok
     const li = $('<li/>', {class: 'shareitem', shid: id, token: (type === 'l') ? token : null, elemid: elemId, elemname: elemName})
         .append(
             $('<a/>', {class: iconClass, href: '#', title: projectid})
+                .append(img)
                 .append($('<span/>').text(displayString))
         )
         .append(

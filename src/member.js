@@ -86,8 +86,12 @@ export function memberEvents() {
             const projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
             let newName;
             if (cospend.memberEditionMode === constants.MEMBER_NAME_EDITION) {
-                newName = $(this).val();
-                editMember(projectid, memberid, newName, null, null);
+                if (cospend.autoCompletePrevent) {
+                    cospend.autoCompletePrevent = false;
+                } else {
+                    newName = $(this).val();
+                    editMember(projectid, memberid, newName, null, null, null, '');
+                }
             } else if (cospend.memberEditionMode === constants.MEMBER_WEIGHT_EDITION) {
                 const newWeight = parseFloat($(this).val());
                 if (!isNaN(newWeight)) {
@@ -106,7 +110,7 @@ export function memberEvents() {
         let newName;
         if (cospend.memberEditionMode === constants.MEMBER_NAME_EDITION) {
             newName = $(this).parent().find('.editMemberInput').val();
-            editMember(projectid, memberid, newName, null, null);
+            editMember(projectid, memberid, newName, null, null, null, '');
         } else if (cospend.memberEditionMode === constants.MEMBER_WEIGHT_EDITION) {
             const newWeight = parseFloat($(this).parent().find('.editMemberInput').val());
             if (!isNaN(newWeight)) {
@@ -252,19 +256,19 @@ export function okMemberColor() {
     );
 }
 
-export function editMember(projectid, memberid, newName, newWeight, newActivated, color = null, userid = null) {
+export function editMember(projectid, memberid, newName, newWeight=null, newActivated=null, color=null, userid=null) {
     $('.projectitem[projectid="' + projectid + '"] ul.memberlist > li[memberid=' + memberid + ']')
         .addClass('icon-loading-small')
         .removeClass('editing');
     const req = {
         name: newName,
         weight: newWeight,
-        activated: newActivated
+        activated: newActivated,
     };
     if (color) {
         req.color = color;
     }
-    if (userid) {
+    if (userid !== null) {
         req.userid = userid;
     }
     let url, type;
@@ -308,7 +312,7 @@ export function editMember(projectid, memberid, newName, newWeight, newActivated
             memberLine.find('.toggleMember span').eq(1).text(t('cospend', 'Deactivate'));
             cospend.members[projectid][memberid].activated = newActivated;
         }
-        if (userid) {
+        if (userid !== null) {
             cospend.members[projectid][memberid].userid = userid;
         }
         // update icon

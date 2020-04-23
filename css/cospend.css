@@ -552,6 +552,7 @@ input[type=number] {
 .memberitem > a {
     opacity: 1 !important;
 }
+.memberCompleteIcon,
 .shareCompleteIcon {
     background-color: inherit;
     border: 0px;

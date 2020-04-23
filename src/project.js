@@ -969,7 +969,7 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
                     .text(
                         (typeof categoryMonthlyStats[catId][month] === 'undefined') ?
                         '0' :
-                        categoryMonthlyStats[catId][month]
+                        categoryMonthlyStats[catId][month].toFixed(2)
                     )
             );
         }

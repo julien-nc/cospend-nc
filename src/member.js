@@ -42,12 +42,16 @@ export function memberEvents() {
 
     $('body').on('keyup', '.newmembername', function (e) {
         if (e.key === 'Enter') {
-            const name = $(this).val();
-            const projectid = $(this).parent().parent().attr('projectid');
-            if (projectid && name) {
-                createMember(projectid, name);
+            if (cospend.autoCompletePrevent) {
+                cospend.autoCompletePrevent = false;
             } else {
-                Notification.showTemporary(t('cospend', 'Invalid values'));
+                const name = $(this).val();
+                const projectid = $(this).parent().parent().attr('projectid');
+                if (projectid && name) {
+                    createMember(projectid, name);
+                } else {
+                    Notification.showTemporary(t('cospend', 'Invalid values'));
+                }
             }
         }
     });
@@ -516,8 +520,11 @@ export function addMemberAutocompletion(input, projectid, memberid) {
 
         input.autocomplete({
             source: data,
-            select: function(e, ui) {
+            select: function(event, ui) {
                 const it = ui.item;
+                if (event.key === 'Enter') {
+                    cospend.autoCompletePrevent = true;
+                }
                 if (it.type === 'g') {
                     createMembersFromGroup(it.projectid, it.id, it.name);
                 } else if (it.type === 'u') {

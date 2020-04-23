@@ -36,6 +36,7 @@ class Version000406Date20200417185442 extends SimpleMigrationStep {
         $table->addColumn('userid', 'string', [
             'notnull' => false,
             'length' => 64,
+			'default' => null
         ]);
 
         return $schema;

@@ -1694,7 +1694,7 @@ class ProjectService {
 
         $qb = $this->dbconnection->getQueryBuilder();
         $qb->select('id', 'userid', 'name', 'weight', 'color', 'activated', 'lastchanged')
-                ->from('cospend_members', 'm')
+           ->from('cospend_members', 'm')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
            );

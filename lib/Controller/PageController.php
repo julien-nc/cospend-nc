@@ -1019,13 +1019,13 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiv2AddMember($projectid, $password, $name, $weight, $active=1, $color=null) {
+    public function apiv2AddMember($projectid, $password, $name, $weight, $active=1, $color=null, $userid=null) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
             ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
             or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
         ) {
-            $result = $this->projectService->addMember($projectid, $name, null, $weight, $active, $color);
+            $result = $this->projectService->addMember($projectid, $name, $userid, $weight, $active, $color);
             if (is_array($result)) {
                 return new DataResponse($result);
             }
@@ -1047,9 +1047,9 @@ class PageController extends ApiController {
      * @NoCSRFRequired
      * @CORS
      */
-    public function apiPrivAddMember($projectid, $name, $weight, $active=1, $color=null) {
+    public function apiPrivAddMember($projectid, $name, $weight, $active=1, $color=null, $userid=null) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
-            $result = $this->projectService->addMember($projectid, $name, null, $weight, $active, $color);
+            $result = $this->projectService->addMember($projectid, $name, $userid, $weight, $active, $color);
             if (is_array($result)) {
                 return new DataResponse($result['id']);
             }
@@ -1397,13 +1397,13 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiEditMember($projectid, $password, $memberid, $name, $weight, $activated, $color=null) {
+    public function apiEditMember($projectid, $password, $memberid, $name, $weight, $activated, $color=null, $userid=null) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
             ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
             or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
         ) {
-            $result = $this->projectService->editMember($projectid, $memberid, $name, null, $weight, $activated, $color);
+            $result = $this->projectService->editMember($projectid, $memberid, $name, $userid, $weight, $activated, $color);
             if (is_array($result) and array_key_exists('activated', $result)) {
                 return new DataResponse($result);
             }
@@ -1425,9 +1425,9 @@ class PageController extends ApiController {
      * @NoCSRFRequired
      * @CORS
      */
-    public function apiPrivEditMember($projectid, $memberid, $name, $weight, $activated, $color=null) {
+    public function apiPrivEditMember($projectid, $memberid, $name, $weight, $activated, $color=null, $userid=null) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
-            $result = $this->projectService->editMember($projectid, $memberid, $name, null, $weight, $activated, $color);
+            $result = $this->projectService->editMember($projectid, $memberid, $name, $userid, $weight, $activated, $color);
             if (is_array($result) and array_key_exists('activated', $result)) {
                 return new DataResponse($result);
             }
@@ -1624,13 +1624,11 @@ class PageController extends ApiController {
                 }
             }
         }
-        $response = new DataResponse(
-                [
+        $response = new DataResponse([
             'users' => $userNames,
             'groups' => $groupNames,
             'circles' => $circleNames
-                ]
-        );
+        ]);
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedImageDomain('*')
                 ->addAllowedMediaDomain('*')
@@ -1656,13 +1654,11 @@ class PageController extends ApiController {
         $groupNames = [];
         $circleNames = [];
 
-        $response = new DataResponse(
-                [
+        $response = new DataResponse([
             'users' => $userNames,
             'groups' => $groupNames,
             'circles' => $circleNames
-                ]
-        );
+        ]);
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedImageDomain('*')
                 ->addAllowedMediaDomain('*')

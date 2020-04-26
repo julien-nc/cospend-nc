@@ -516,12 +516,12 @@ class ProjectService {
 
             // create default categories
             foreach ($this->defaultCategoryNames as $strId => $name) {
-                $icon = $this->defaultCategoryIcons[$strId];
+                $icon = urlencode($this->defaultCategoryIcons[$strId]);
                 $color = $this->defaultCategoryColors[$strId];
                 $qb->insert('cospend_project_categories')
                     ->values([
                         'projectid' => $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR),
-                        'icon' => $qb->createNamedParameter($icon, IQueryBuilder::PARAM_STR),
+                        'encoded_icon' => $qb->createNamedParameter($icon, IQueryBuilder::PARAM_STR),
                         'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
                         'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR)
                     ]);
@@ -2115,7 +2115,7 @@ class ProjectService {
         $categories = [];
 
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('name', 'id', 'icon', 'color')
+        $qb->select('name', 'id', 'encoded_icon', 'color')
            ->from('cospend_project_categories', 'c')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -2123,7 +2123,7 @@ class ProjectService {
         $req = $qb->execute();
         while ($row = $req->fetch()){
             $dbName = $row['name'];
-            $dbIcon = $row['icon'];
+            $dbIcon = urldecode($row['encoded_icon']);
             $dbColor = $row['color'];
             $dbId = intval($row['id']);
             $categories[$dbId] = [
@@ -2782,10 +2782,14 @@ class ProjectService {
         $qb = $this->dbconnection->getQueryBuilder();
         $projectInfo = $this->getProjectInfo($projectid);
 
+        $encIcon = $icon;
+        if ($icon !== null and $icon !== '') {
+            $encIcon = urlencode($icon);
+        }
         $qb->insert('cospend_project_categories')
             ->values([
                 'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
-                'icon' => $qb->createNamedParameter($icon, IQueryBuilder::PARAM_STR),
+                'encoded_icon' => $qb->createNamedParameter($encIcon, IQueryBuilder::PARAM_STR),
                 'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
                 'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR)
             ]);
@@ -2802,7 +2806,7 @@ class ProjectService {
         $category = null;
 
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('id', 'name', 'projectid', 'icon', 'color')
+        $qb->select('id', 'name', 'projectid', 'encoded_icon', 'color')
            ->from('cospend_project_categories', 'c')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -2815,7 +2819,7 @@ class ProjectService {
         while ($row = $req->fetch()) {
             $dbCategoryId = intval($row['id']);
             $dbName = $row['name'];
-            $dbIcon = $row['icon'];
+            $dbIcon = urldecode($row['encoded_icon']);
             $dbColor = $row['color'];
             $category = [
                     'name' => $dbName,
@@ -2867,11 +2871,15 @@ class ProjectService {
 
     public function editCategory($projectid, $categoryid, $name, $icon, $color) {
         if ($name !== null && $name !== '') {
+            $encIcon = $icon;
+            if ($icon !== null and $icon !== '') {
+                $encIcon = urlencode($icon);
+            }
             if ($this->getCategory($projectid, $categoryid) !== null) {
                 $qb = $this->dbconnection->getQueryBuilder();
                 $qb->update('cospend_project_categories');
                 $qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
-                $qb->set('icon', $qb->createNamedParameter($icon, IQueryBuilder::PARAM_STR));
+                $qb->set('encoded_icon', $qb->createNamedParameter($encIcon, IQueryBuilder::PARAM_STR));
                 $qb->set('color', $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR));
                 $qb->where(
                     $qb->expr()->eq('id', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT))

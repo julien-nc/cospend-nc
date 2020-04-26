@@ -1455,7 +1455,7 @@ function updateAmountEach(projectid) {
 
 function basicBillValueCheck(what, date, time, amount, payer_id) {
     let valid = true;
-    if (what === null || what === '' || what.match(',')) {
+    if (what === null || what === '') {
         valid = false;
     }
     if (date === null || date === '' || date.match(/^\d\d\d\d-\d\d-\d\d$/g) === null) {

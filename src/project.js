@@ -264,8 +264,8 @@ export function projectEvents() {
 }
 
 export function createProject(id, name, password) {
-    if (!name || name.match(',') || name.match('/') ||
-        !id || id.match(',') || id.match('/')
+    if (!name || name.match('/') ||
+        !id || id.match('/')
     ) {
         Notification.showTemporary(t('cospend', 'Invalid values'));
         return;

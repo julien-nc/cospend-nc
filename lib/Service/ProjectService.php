@@ -491,7 +491,7 @@ class ProjectService {
         $qb = $qb->resetQueryParts();
         if ($dbid === null) {
             // check if id is valid
-            if (strpos($id, '/') !== false or strpos($id, ',') !== false) {
+            if (strpos($id, '/') !== false) {
                 return ['message' => $this->trans->t('Invalid project id')];
             }
             $dbPassword = '';
@@ -931,7 +931,7 @@ class ProjectService {
         else {
             $dateTs = intval($timestamp);
         }
-        if ($what === null || $what === '' || strpos($what, ',') !== false) {
+        if ($what === null || $what === '') {
             return ['what' => $this->trans->t('This field is invalid')];
         }
         if ($amount === null || $amount === '' || !is_numeric($amount)) {
@@ -1316,7 +1316,7 @@ class ProjectService {
             if ($this->getMemberById($projectid, $memberid) !== null) {
                 $qb = $this->dbconnection->getQueryBuilder();
                 $qb->update('cospend_members');
-                if (strpos($name, '/') !== false or strpos($name, ',') !== false) {
+                if (strpos($name, '/') !== false) {
                     return ['name' => $this->trans->t('Invalid member name')];
                 }
                 if ($weight !== null && $weight !== '') {
@@ -2465,7 +2465,7 @@ class ProjectService {
             return ['message' => $this->trans->t('There is no such bill')];
         }
         // then edit the hell of it
-        if ($what === null || $what === '' || strpos($what, ',') !== false) {
+        if ($what === null || $what === '') {
             return ['what' => $this->trans->t('"What" field is invalid')];
         }
         $qb->set('what', $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR));

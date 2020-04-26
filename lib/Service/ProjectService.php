@@ -1422,10 +1422,10 @@ class ProjectService {
         }
     }
 
-    public function addMember($projectid, $name, $userid, $weight, $active=1, $color=null) {
+    public function addMember($projectid, $name, $weight, $active=1, $color=null, $userid=null) {
         if ($name !== null && $name !== '') {
             if ($this->getMemberByName($projectid, $name) === null && $this->getMemberByUserid($projectid, $userid) === null) {
-                if (strpos($name, '/') !== false or strpos($name, ',') !== false) {
+                if (strpos($name, '/') !== false) {
                     return $this->trans->t('Invalid member name');
                 }
                 $weightToInsert = 1;

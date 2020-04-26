@@ -655,7 +655,7 @@ class PageController extends ApiController {
      */
     public function webAddMember($projectid, $name, $userid=null, $weight=1, $active=1, $color=null) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
-            $result = $this->projectService->addMember($projectid, $name, $userid, $weight, $active, $color);
+            $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color, $userid);
             if (is_array($result)) {
                 return new DataResponse($result);
             }
@@ -996,7 +996,7 @@ class PageController extends ApiController {
             ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
             or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
         ) {
-            $result = $this->projectService->addMember($projectid, $name, null, $weight, $active, $color);
+            $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color, null);
             if (is_array($result)) {
                 return new DataResponse($result['id']);
             }
@@ -1025,7 +1025,7 @@ class PageController extends ApiController {
             ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
             or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
         ) {
-            $result = $this->projectService->addMember($projectid, $name, $userid, $weight, $active, $color);
+            $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color, $userid);
             if (is_array($result)) {
                 return new DataResponse($result);
             }
@@ -1049,7 +1049,7 @@ class PageController extends ApiController {
      */
     public function apiPrivAddMember($projectid, $name, $weight, $active=1, $color=null, $userid=null) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
-            $result = $this->projectService->addMember($projectid, $name, $userid, $weight, $active, $color);
+            $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color, $userid);
             if (is_array($result)) {
                 return new DataResponse($result['id']);
             }

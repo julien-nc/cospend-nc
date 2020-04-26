@@ -33,13 +33,13 @@ export function exportProject(projectid) {
     });
 }
 
-export function exportStatistics(projectid, dateMin = null, dateMax = null, paymentMode = null, category = null,
-                                  amountMin = null, amountMax = null, showDisabled = true, currencyId = null) {
+export function exportStatistics(projectid, tsMin=null, tsMax=null, paymentMode=null, category=null,
+                                  amountMin=null, amountMax=null, showDisabled=true, currencyId=null) {
     $('.exportStats[projectid="' + projectid + '"] span').addClass('icon-loading-small');
     const req = {
         projectid: projectid,
-        dateMin: dateMin,
-        dateMax: dateMax,
+        tsMin: tsMin,
+        tsMax: tsMax,
         paymentMode: paymentMode,
         category: category,
         amountMin: amountMin,

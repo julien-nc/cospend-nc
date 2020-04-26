@@ -169,13 +169,15 @@ export function projectEvents() {
             const projectid = cospend.currentProjectId;
             const dateMin = $('#date-min-stats').val();
             const dateMax = $('#date-max-stats').val();
+            const tsMin = (dateMin !== '') ? moment(dateMin).unix() : null;
+            const tsMax = (dateMax !== '') ? moment(dateMax).unix() + 24*60*60 - 1 : null;
             const paymentMode = $('#payment-mode-stats').val();
             const category = $('#category-stats').val();
             const amountMin = $('#amount-min-stats').val();
             const amountMax = $('#amount-max-stats').val();
             const showDisabled = $('#showDisabled').is(':checked');
             const currencyId = $('#currency-stats').val();
-            getProjectStatistics(projectid, dateMin, dateMax, paymentMode, category, amountMin, amountMax, showDisabled, currencyId);
+            getProjectStatistics(projectid, tsMin, tsMax, paymentMode, category, amountMin, amountMax, showDisabled, currencyId, dateMin, dateMax);
         });
 
     $('body').on('click', '.getProjectSettlement', function () {
@@ -225,6 +227,8 @@ export function projectEvents() {
 
         const dateMin = $('#date-min-stats').val();
         const dateMax = $('#date-max-stats').val();
+        const tsMin = (dateMin !== '') ? moment(dateMin).unix() : null;
+        const tsMax = (dateMax !== '') ? moment(dateMax).unix() + 24*60*60 - 1 : null;
         const paymentMode = $('#payment-mode-stats').val();
         const category = $('#category-stats').val();
         const amountMin = $('#amount-min-stats').val();
@@ -232,7 +236,7 @@ export function projectEvents() {
         const showDisabled = $('#showDisabled').is(':checked');
         const currencyId = $('#currency-stats').val();
 
-        exportStatistics(projectid, dateMin, dateMax, paymentMode, category, amountMin, amountMax, showDisabled, currencyId);
+        exportStatistics(projectid, tsMin, tsMax, paymentMode, category, amountMin, amountMax, showDisabled, currencyId);
     });
 
     $('body').on('click', '.exportSettlement', function() {
@@ -452,12 +456,12 @@ export function getProjects() {
     });
 }
 
-export function getProjectStatistics(projectid, dateMin = null, dateMax = null, paymentMode = null, category = null,
-                                      amountMin = null, amountMax = null, showDisabled = true, currencyId = null) {
+export function getProjectStatistics(projectid, tsMin=null, tsMax=null, paymentMode=null, category=null,
+                                      amountMin=null, amountMax=null, showDisabled=true, currencyId=null, dateMin=null, dateMax=null) {
     $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
     const req = {
-        dateMin: dateMin,
-        dateMax: dateMax,
+        tsMin: tsMin,
+        tsMax: tsMax,
         paymentMode: paymentMode,
         category: category,
         amountMin: amountMin,

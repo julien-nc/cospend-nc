@@ -660,7 +660,7 @@ class ProjectService {
         return $projectInfo;
     }
 
-    public function getProjectStatistics($projectId, $memberOrder=null, $dateMin=null, $dateMax=null,
+    public function getProjectStatistics($projectId, $memberOrder=null, $tsMin=null, $tsMax=null,
                                           $paymentMode=null, $category=null, $amountMin=null, $amountMax=null,
                                           $showDisabled='1', $currencyId=null) {
         $membersWeight = [];
@@ -706,7 +706,7 @@ class ProjectService {
         }
 
         // compute stats
-        $bills = $this->getBills($projectId, $dateMin, $dateMax, $paymentMode, $category, $amountMin, $amountMax);
+        $bills = $this->getBills($projectId, $tsMin, $tsMax, $paymentMode, $category, $amountMin, $amountMax);
         // compute classic stats
         foreach ($bills as $bill) {
             $payerId = $bill['payer_id'];
@@ -1470,7 +1470,7 @@ class ProjectService {
         }
     }
 
-    public function getBills($projectId, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null,
+    public function getBills($projectId, $tsMin=null, $tsMax=null, $paymentMode=null, $category=null,
                               $amountMin=null, $amountMax=null, $lastchanged=null) {
         $bills = [];
 
@@ -1488,16 +1488,14 @@ class ProjectService {
                 $qb->expr()->gt('lastchanged', $qb->createNamedParameter(intval($lastchanged), IQueryBuilder::PARAM_INT))
             );
         }
-        if ($dateMin !== null and $dateMin !== '') {
-            $dateMinTs = strtotime($dateMin);
+        if (is_numeric($tsMin)) {
             $qb->andWhere(
-                $qb->expr()->gte('timestamp', $qb->createNamedParameter($dateMinTs, IQueryBuilder::PARAM_INT))
+                $qb->expr()->gte('timestamp', $qb->createNamedParameter($tsMin, IQueryBuilder::PARAM_INT))
             );
         }
-        if ($dateMax !== null and $dateMax !== '') {
-            $dateMaxTs = strtotime($dateMax);
+        if (is_numeric($tsMax)) {
             $qb->andWhere(
-                $qb->expr()->lte('timestamp', $qb->createNamedParameter($dateMaxTs, IQueryBuilder::PARAM_INT))
+                $qb->expr()->lte('timestamp', $qb->createNamedParameter($tsMax, IQueryBuilder::PARAM_INT))
             );
         }
         if ($paymentMode !== null and $paymentMode !== '' and $paymentMode !== 'n') {
@@ -1580,16 +1578,14 @@ class ProjectService {
                $qb->expr()->gt('lastchanged', $qb->createNamedParameter(intval($lastchanged), IQueryBuilder::PARAM_INT))
            );
         }
-        if ($dateMin !== null and $dateMin !== '') {
-            $dateMinTs = strtotime($dateMin);
+        if (is_numeric($tsMin)) {
             $qb->andWhere(
-                $qb->expr()->gte('timestamp', $qb->createNamedParameter($dateMinTs, IQueryBuilder::PARAM_INT))
+                $qb->expr()->gte('timestamp', $qb->createNamedParameter($tsMin, IQueryBuilder::PARAM_INT))
             );
         }
-        if ($dateMax !== null and $dateMax !== '') {
-            $dateMaxTs = strtotime($dateMax);
+        if (is_numeric($tsMax)) {
             $qb->andWhere(
-                $qb->expr()->lte('timestamp', $qb->createNamedParameter($dateMaxTs, IQueryBuilder::PARAM_INT))
+                $qb->expr()->lte('timestamp', $qb->createNamedParameter($tsMax, IQueryBuilder::PARAM_INT))
             );
         }
         if ($paymentMode !== null and $paymentMode !== '' and $paymentMode !== 'n') {
@@ -3678,7 +3674,7 @@ class ProjectService {
         }
     }
 
-    public function exportCsvStatistics($projectid, $userId, $dateMin=null, $dateMax=null, $paymentMode=null, $category=null,
+    public function exportCsvStatistics($projectid, $userId, $tsMin=null, $tsMax=null, $paymentMode=null, $category=null,
                                         $amountMin=null, $amountMax=null, $showDisabled='1', $currencyId=null) {
         // create export directory if needed
         $outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
@@ -3697,7 +3693,7 @@ class ProjectService {
         $file = $folder->newFile($projectid.'-stats.csv');
         $handler = $file->fopen('w');
         fwrite($handler, $this->trans->t('Member name').','. $this->trans->t('Paid').','. $this->trans->t('Spent').','. $this->trans->t('Balance')."\n");
-        $allStats = $this->getProjectStatistics($projectid, 'lowername', $dateMin, $dateMax, $paymentMode,
+        $allStats = $this->getProjectStatistics($projectid, 'lowername', $tsMin, $tsMax, $paymentMode,
                                                 $category, $amountMin, $amountMax, $showDisabled, $currencyId);
         $stats = $allStats['stats'];
         if (!is_array($stats)) {

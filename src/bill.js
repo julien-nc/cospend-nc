@@ -17,7 +17,26 @@ import {
 
 const undoDeleteBillStyle = 'opacity:1; background-image: url(' + generateUrl('/svg/core/actions/history?color=2AB4FF') + ');';
 
+function searchBills(qs) {
+    const pid = cospend.currentProjectId;
+    let billItem;
+    for (let bid in cospend.bills[pid]) {
+        billItem = $('#bill-list .billitem[billid='+bid+']');
+        if (cospend.bills[pid][bid].what.match(qs)) {
+            billItem.show();
+        } else {
+            billItem.hide();
+        }
+    }
+}
+
+function resetSearchBills() {
+    $('.billitem').show();
+}
+
 export function billEvents() {
+    cospend.search = new OCA.Search(searchBills, resetSearchBills);
+
     $('body').on('click', '.billitem', function (e) {
         if (!$(e.target).hasClass('deleteBillIcon') && !$(e.target).hasClass('undoDeleteBill')) {
             const billid = parseInt($(this).attr('billid'));

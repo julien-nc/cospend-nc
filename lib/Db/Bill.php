@@ -17,6 +17,7 @@ use OCP\AppFramework\Db\Entity;
 class Bill extends Entity {
 
     protected $what;
+    protected $comment;
     protected $payerid;
     protected $timestamp;
     protected $repeat;
@@ -31,6 +32,7 @@ class Bill extends Entity {
     public function __construct() {
         $this->addType('id', 'integer');
         $this->addType('what', 'string');
+        $this->addType('comment', 'string');
         $this->addType('payerid', 'integer');
         $this->addType('timestamp', 'integer');
         $this->addType('amount', 'float');

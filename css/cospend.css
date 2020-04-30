@@ -161,6 +161,7 @@ b.memberName, b.memberWeight {
 
 
 .bill-left select,
+.bill-left textarea,
 .bill-left input {
     /*margin: 0 12px 0 12px;*/
     width: 100%;
@@ -771,6 +772,7 @@ a.billitem .app-content-list-item-icon {
 .bill-payer,
 .bill-amount,
 .bill-currency-convert,
+.bill-comment,
 .bill-what {
     display: grid;
     grid-template: 1fr / 5fr 7fr;

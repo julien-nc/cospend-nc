@@ -903,7 +903,8 @@ class ProjectService {
 
     public function addBill($projectid, $date, $what, $payer, $payed_for,
                             $amount, $repeat, $paymentmode=null, $categoryid=null,
-                            $repeatallactive=0, $repeatuntil=null, $timestamp=null) {
+                            $repeatallactive=0, $repeatuntil=null, $timestamp=null,
+                            $comment=null) {
         if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
             return ['repeat' => $this->trans->t('Invalid value')];
         }
@@ -966,6 +967,7 @@ class ProjectService {
             ->values([
                 'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
                 'what' => $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR),
+                'comment' => $qb->createNamedParameter($comment, IQueryBuilder::PARAM_STR),
                 'timestamp' => $qb->createNamedParameter($dateTs, IQueryBuilder::PARAM_INT),
                 'amount' => $qb->createNamedParameter($amount, IQueryBuilder::PARAM_STR),
                 'payerid' => $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT),
@@ -1135,7 +1137,7 @@ class ProjectService {
         $qb = $qb->resetQueryParts();
 
         // get the bill
-        $qb->select('id', 'what', 'timestamp', 'amount', 'payerid', 'repeat',
+        $qb->select('id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
                     'repeatallactive', 'paymentmode', 'categoryid', 'repeatuntil')
            ->from('cospend_bills', 'b')
            ->where(
@@ -1149,6 +1151,7 @@ class ProjectService {
             $dbBillId = intval($row['id']);
             $dbAmount = floatval($row['amount']);
             $dbWhat = $row['what'];
+            $dbComment = $row['comment'];
             $dbTimestamp = $row['timestamp'];
             $dbDate = \DateTime::createFromFormat('U', $dbTimestamp);
             $dbRepeat = $row['repeat'];
@@ -1161,6 +1164,7 @@ class ProjectService {
                 'id' => $dbBillId,
                 'amount' => $dbAmount,
                 'what' => $dbWhat,
+                'comment' => $dbComment,
                 'date' => $dbDate->format('Y-m-d'),
                 'timestamp' => $dbTimestamp,
                 'payer_id' => $dbPayerId,
@@ -1566,7 +1570,7 @@ class ProjectService {
             $billOwersByBill[$billId] = $billOwers;
         }
 
-        $qb->select('id', 'what', 'timestamp', 'amount', 'payerid', 'repeat',
+        $qb->select('id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
                     'paymentmode', 'categoryid', 'lastchanged', 'repeatallactive', 'repeatuntil')
            ->from('cospend_bills', 'b')
            ->where(
@@ -1622,6 +1626,7 @@ class ProjectService {
             $dbBillId = intval($row['id']);
             $dbAmount = floatval($row['amount']);
             $dbWhat = $row['what'];
+            $dbComment = $row['comment'];
             $dbTimestamp = $row['timestamp'];
             $dbDate = \DateTime::createFromFormat('U', $dbTimestamp);
             $dbRepeat = $row['repeat'];
@@ -1637,6 +1642,7 @@ class ProjectService {
                     'id' => $dbBillId,
                     'amount' => $dbAmount,
                     'what' => $dbWhat,
+                    'comment' => $dbComment,
                     'timestamp' => $dbTimestamp,
                     'date' => $dbDate->format('Y-m-d'),
                     'payer_id' => $dbPayerId,
@@ -2452,7 +2458,8 @@ class ProjectService {
 
     public function editBill($projectid, $billid, $date, $what, $payer, $payed_for,
                               $amount, $repeat, $paymentmode=null, $categoryid=null,
-                              $repeatallactive=null, $repeatuntil=null, $timestamp=null) {
+                              $repeatallactive=null, $repeatuntil=null, $timestamp=null,
+                              $comment=null) {
         $qb = $this->dbconnection->getQueryBuilder();
         $qb->update('cospend_bills');
 
@@ -2469,6 +2476,10 @@ class ProjectService {
             return ['what' => $this->trans->t('"What" field is invalid')];
         }
         $qb->set('what', $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR));
+
+        if ($comment !== null and is_string($comment)) {
+            $qb->set('comment', $qb->createNamedParameter($comment, IQueryBuilder::PARAM_STR));
+        }
 
         if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
             return ['repeat' => $this->trans->t('Invalid value')];
@@ -2710,6 +2721,12 @@ class ProjectService {
             }
         }
         $owerIdsStr = implode(',', $owerIds);
+        // if all owers are disabled, don't try to repeat the bill and remove repeat flag
+        if (count($owerIds) === 0) {
+            $this->editBill($projectid, $billid, null, $bill['what'], $bill['payer_id'], null,
+                            $bill['amount'], 'n', null, null, 0, null);
+            return;
+        }
 
         // if bill should be repeated until...
         if ($bill['repeatuntil'] !== null && $bill['repeatuntil'] !== '') {
@@ -2764,7 +2781,7 @@ class ProjectService {
         $newBillId = $this->addBill($projectid, null, $bill['what'], $bill['payer_id'],
                                     $owerIdsStr, $bill['amount'], $bill['repeat'], $bill['paymentmode'],
                                     $bill['categoryid'], $bill['repeatallactive'], $bill['repeatuntil'],
-                                    $datetime->getTimestamp());
+                                    $datetime->getTimestamp(), $bill['comment']);
 
         $billObj = $this->billMapper->find($newBillId);
         $this->activityManager->triggerEvent(

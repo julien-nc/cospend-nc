@@ -46,7 +46,7 @@ export function billEvents() {
     });
 
     // what and amount : delay on edition
-    $('body').on('keyup paste change', '.input-bill-what', delay(function () {
+    $('body').on('keyup paste change', '.input-bill-what, .input-bill-comment', delay(function () {
         onBillEdited();
     }, 2000));
     $('body').on('keyup paste change', '.input-bill-amount', delay(function () {
@@ -312,10 +312,12 @@ function cleanStringFromCurrency(projectid, str) {
 }
 
 export function createBill(projectid, what, amount, payer_id, timestamp, owerIds, repeat,
-                            custom = false, paymentmode = null, categoryid = null, repeatallactive = 0, repeatuntil = null) {
+                            custom=false, paymentmode=null, categoryid=null, repeatallactive=0,
+                            repeatuntil=null, comment=null) {
     $('.loading-bill').addClass('icon-loading-small');
     const req = {
         what: what,
+        comment: comment,
         timestamp: timestamp,
         payer: payer_id,
         payed_for: owerIds.join(','),
@@ -344,6 +346,7 @@ export function createBill(projectid, what, amount, payer_id, timestamp, owerIds
         cospend.bills[projectid][billid] = {
             id: billid,
             what: what,
+            comment: comment,
             timestamp: timestamp,
             amount: amount,
             payer_id: payer_id,
@@ -364,7 +367,7 @@ export function createBill(projectid, what, amount, payer_id, timestamp, owerIds
         if (!custom) {
             updateBillItem(projectid, 0, bill);
             updateDisplayedBill(projectid, billid, what, payer_id, repeat,
-                paymentmode, categoryid, repeatallactive, repeatuntil);
+                paymentmode, categoryid, repeatallactive, repeatuntil, comment);
         } else {
             addBill(projectid, bill);
         }
@@ -383,10 +386,12 @@ export function createBill(projectid, what, amount, payer_id, timestamp, owerIds
 }
 
 export function saveBill(projectid, billid, what, amount, payer_id, timestamp, owerIds, repeat,
-                          paymentmode = null, categoryid = null, repeatallactive = null, repeatuntil = null) {
+                          paymentmode=null, categoryid=null, repeatallactive=null, repeatuntil=null,
+                          comment=null) {
     $('.loading-bill').addClass('icon-loading-small');
     const req = {
         what: what,
+        comment: comment,
         timestamp: timestamp,
         payer: payer_id,
         payed_for: owerIds.join(','),
@@ -415,6 +420,7 @@ export function saveBill(projectid, billid, what, amount, payer_id, timestamp, o
     }).done(function() {
         // update dict
         cospend.bills[projectid][billid].what = what;
+        cospend.bills[projectid][billid].comment = comment;
         cospend.bills[projectid][billid].timestamp = timestamp;
         cospend.bills[projectid][billid].amount = amount;
         cospend.bills[projectid][billid].payer_id = payer_id;
@@ -436,7 +442,7 @@ export function saveBill(projectid, billid, what, amount, payer_id, timestamp, o
         if (parseInt(displayedBillTitle.attr('billid')) === parseInt(billid) &&
             displayedBillTitle.attr('projectid') === projectid) {
             updateDisplayedBill(projectid, billid, what, payer_id, repeat,
-                paymentmode, categoryid, repeatallactive, repeatuntil);
+                paymentmode, categoryid, repeatallactive, repeatuntil, comment);
         }
 
         updateProjectBalances(projectid);
@@ -596,8 +602,8 @@ export function getBills(projectid) {
 }
 
 export function updateDisplayedBill(projectid, billid, what, payer_id, repeat,
-                                     paymentmode = null, categoryid = null, repeatallactive = 0,
-                                     repeatuntil = null) {
+                                     paymentmode=null, categoryid=null, repeatallactive=0,
+                                     repeatuntil=null, comment=null) {
     $('.bill-title').attr('billid', billid);
     let c = '#888888';
     if (billid !== 0) {
@@ -664,6 +670,7 @@ export function displayBill(projectid, billid) {
         c = '#' + (memberPayer.color || '888888');
     }
     const whatStr = t('cospend', 'What?');
+    const commentStr = t('cospend', 'Comment');
     const amountStr = t('cospend', 'How much?');
     const payerStr = t('cospend', 'Who payed?');
     const dateStr = t('cospend', 'When?');
@@ -869,6 +876,15 @@ export function displayBill(projectid, billid) {
                             .append($('<select/>', {id: 'category'})
                                 .append($('<option/>', {value: '0', selected: 'selected'}).text(t('cospend', 'None')))
                             )
+                    )
+                    .append(
+                        $('<div/>', {class: 'bill-comment'})
+                            .append(
+                                $('<label/>', {for: 'comment'})
+                                    .append($('<a/>', {class: 'icon icon-comment'}))
+                                    .append(document.createTextNode(commentStr))
+                            )
+                            .append($('<textarea/>', {id: 'comment', maxlength: 300, class: 'input-bill-comment', value: bill.comment}))
                     )
                 )
                 .append(
@@ -1089,6 +1105,7 @@ export function createNormalBill() {
     const projectid = $('.bill-title').attr('projectid');
 
     let what = $('.input-bill-what').val();
+    const comment = $('.input-bill-comment').val();
     const date = $('.input-bill-date').val();
     let time = $('.input-bill-time').val();
     if (!time || time === '') {
@@ -1146,13 +1163,13 @@ export function createNormalBill() {
         // get timestamp
         const timestamp = moment(date + ' ' + time).unix();
         createBill(projectid, what, amount, payer_id, timestamp, owerIds, repeat, false,
-            paymentmode, categoryid, repeatallactive, repeatuntil);
+            paymentmode, categoryid, repeatallactive, repeatuntil, comment);
     } else {
         Notification.showTemporary(t('cospend', 'Bill values are not valid'));
     }
 }
 
-export function onBillEdited(amountChanged = false) {
+export function onBillEdited(amountChanged=false) {
     // get bill info
     const billid = $('.bill-title').attr('billid');
     const projectid = $('.bill-title').attr('projectid');
@@ -1164,6 +1181,7 @@ export function onBillEdited(amountChanged = false) {
     }
 
     let what = $('.input-bill-what').val();
+    const comment = $('.input-bill-comment').val();
     const date = $('.input-bill-date').val();
     let time = $('.input-bill-time').val();
     if (!time || time === '') {
@@ -1250,7 +1268,7 @@ export function onBillEdited(amountChanged = false) {
             owersChanged
         ) {
             saveBill(projectid, billid, what, amount, payer_id, timestamp, owerIds, repeat,
-                paymentmode, categoryid, repeatallactive, repeatuntil);
+                paymentmode, categoryid, repeatallactive, repeatuntil, comment);
         }
     } else {
         Notification.showTemporary(t('cospend', 'Bill values are not valid'));
@@ -1262,6 +1280,7 @@ export function createEquiPersoBill() {
     const projectid = $('.bill-title').attr('projectid');
 
     let what = $('.input-bill-what').val();
+    const comment = $('.input-bill-comment').val();
     const date = $('.input-bill-date').val();
     let time = $('.input-bill-time').val();
     if (!time || time === '') {
@@ -1345,7 +1364,7 @@ export function createEquiPersoBill() {
                     oneWhat += ' (' + initAmount.toFixed(2) + ' ' + currency.name + ')';
                 }
                 createBill(projectid, oneWhat, amountVal, payer_id, timestamp, [owerId], repeat, true,
-                    paymentmode, categoryid, repeatallactive, repeatuntil);
+                    paymentmode, categoryid, repeatallactive, repeatuntil, comment);
             }
         });
         // currency conversion for main amount
@@ -1359,7 +1378,7 @@ export function createEquiPersoBill() {
         }
         // create equitable bill with the rest
         createBill(projectid, what, tmpAmount, payer_id, timestamp, owerIds, repeat, true,
-            paymentmode, categoryid, repeatallactive, repeatuntil);
+            paymentmode, categoryid, repeatallactive, repeatuntil, comment);
         // empty bill detail
         $('#billdetail').html('');
         // remove new bill line
@@ -1379,6 +1398,7 @@ export function createCustomAmountBill() {
     const projectid = $('.bill-title').attr('projectid');
 
     const what = $('.input-bill-what').val();
+    const comment = $('.input-bill-comment').val();
     const date = $('.input-bill-date').val();
     let time = $('.input-bill-time').val();
     if (!time || time === '') {
@@ -1424,7 +1444,7 @@ export function createCustomAmountBill() {
                     oneWhat += ' (' + initAmount.toFixed(2) + ' ' + currency.name + ')';
                 }
                 createBill(projectid, oneWhat, amountVal, payer_id, timestamp, [owerId], repeat, true,
-                    paymentmode, categoryid, repeatallactive, repeatuntil);
+                    paymentmode, categoryid, repeatallactive, repeatuntil, comment);
             }
         });
         // if something was actually created, clean up

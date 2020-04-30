@@ -3760,7 +3760,7 @@ class ProjectService {
         }
         $file = $folder->newFile($filename);
         $handler = $file->fopen('w');
-        fwrite($handler, "what,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,repeatallactive,repeatuntil,categoryid,paymentmode\n");
+        fwrite($handler, "what,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,repeatallactive,repeatuntil,categoryid,paymentmode,comment\n");
         $members = $projectInfo['members'];
         $memberIdToName = [];
         $memberIdToWeight = [];
@@ -3770,7 +3770,7 @@ class ProjectService {
             $memberIdToWeight[$member['id']] = $member['weight'];
             $memberIdToActive[$member['id']] = intval($member['activated']);
             fwrite($handler, 'deleteMeIfYouWant,1,1970-01-01,0,"'.$member['name'].'",'.floatval($member['weight']).','.
-                              intval($member['activated']).',"'.$member['name'].'",n,,,,'."\n");;
+                              intval($member['activated']).',"'.$member['name'].'",n,,,,,'."\n");;
         }
         $bills = $this->getBills($projectid);
         foreach ($bills as $bill) {
@@ -3790,7 +3790,8 @@ class ProjectService {
                              ',"'.$payer_name.'",'.
                              floatval($payer_weight).','.$payer_active.',"'.$owersTxt.'",'.$bill['repeat'].
                              ','.$bill['repeatallactive'].','.
-                             $bill['repeatuntil'].','.$bill['categoryid'].','.$bill['paymentmode']."\n");
+                             $bill['repeatuntil'].','.$bill['categoryid'].','.$bill['paymentmode'].
+                             ',"'.urlencode($bill['comment']).'"'."\n");
         }
 
         // write categories
@@ -3925,6 +3926,7 @@ class ProjectService {
                                 $paymentmode = array_key_exists('paymentmode', $columns) ? $data[$columns['paymentmode']] : null;
                                 $repeatallactive = array_key_exists('repeatallactive', $columns) ? $data[$columns['repeatallactive']] : 0;
                                 $repeatuntil = array_key_exists('repeatuntil', $columns) ? $data[$columns['repeatuntil']] : null;
+                                $comment = array_key_exists('comment', $columns) ? urldecode($data[$columns['comment']]) : null;
 
                                 // manage members
                                 $membersActive[$payer_name] = intval($payer_active);
@@ -3956,6 +3958,7 @@ class ProjectService {
                                     }
                                     array_push($bills, [
                                         'what' => $what,
+                                        'comment' => $comment,
                                         'timestamp' => $timestamp,
                                         'amount' => $amount,
                                         'payer_name' => $payer_name,
@@ -4029,9 +4032,8 @@ class ProjectService {
                         $owerIdsStr = implode(',', $owerIds);
                         $addBillResult = $this->addBill($projectid, null, $bill['what'], $payerId,
                                                         $owerIdsStr, $bill['amount'], $bill['repeat'],
-                                                        $bill['paymentmode'],
-                                                        $catId, $bill['repeatallactive'],
-                                                        $bill['repeatuntil'], $bill['timestamp']);
+                                                        $bill['paymentmode'], $catId, $bill['repeatallactive'],
+                                                        $bill['repeatuntil'], $bill['timestamp'], $bill['comment']);
                         if (!is_numeric($addBillResult)) {
                             $this->deleteProject($projectid);
                             return ['message' => $this->trans->t('Error when adding bill %1$s', [$bill['what']])];

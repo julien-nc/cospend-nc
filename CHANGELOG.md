@@ -5,6 +5,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.4.9 – 2020-05-02
+### Added
+- now possible to link Nextcloud user with project member
+[!166](https://gitlab.com/eneiluj/cospend-nc/-/merge_requests/166) @Plunts
+- basic search in bill list with Nextcloud search field
+- new "comment" field for bills
+
+### Changed
+- escape key closes some edition areas
+- use avatars in every possible place (stats, shared access, balance, bill item...)
+- simpler translation updates management
+
+### Fixed
+- number formatting in category stats
+[!167](https://gitlab.com/eneiluj/cospend-nc/-/merge_requests/167) @Plunts
+- use timestamp for date filters, make filter bounds inclusive
+- always encode utf-8 symbols to avoid database problems
+[#92](https://gitlab.com/eneiluj/cospend-nc/issues/92) @loetermann @lenalebt @fperget
+- allow comas in fields, fix export/import accordingly
 
 ## 0.4.6 – 2020-04-16
 ### Changed

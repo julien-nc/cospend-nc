@@ -796,6 +796,7 @@ export function displayBill(projectid, billid) {
                             )
                             .append($('<input/>', {type: 'number', id: 'amount', class: 'input-bill-amount', value: bill.amount, step: 'any'}))
                     )
+                    .append(currenciesDiv)
                     .append(
                         $('<div/>', {class: 'bill-payer'})
                             .append(

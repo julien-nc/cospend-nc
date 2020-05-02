@@ -1,6 +1,8 @@
 OC.L10N.register(
     "cospend",
     {
+    "Cospend" : "Cospend",
+    "You have created a new bill {bill} in project {project}" : "Készítettél egy új számlát {bill} a {project} projektben",
     "Bad password or public link" : "Hibás jelszó vagy publikus link",
     "Unauthorized action" : "Jogtalan művelet",
     "You are not allowed to give such shared access level" : "Nem vagy jogosult, hogy ilyen megosztási szintet adj",

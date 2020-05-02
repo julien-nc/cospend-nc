@@ -19,10 +19,12 @@ const undoDeleteBillStyle = 'opacity:1; background-image: url(' + generateUrl('/
 
 function searchBills(qs) {
     const pid = cospend.currentProjectId;
+    // Make sure to escape user input before creating regex from it:
+    var regex = new RegExp(qs.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), "i");
     let billItem;
     for (let bid in cospend.bills[pid]) {
         billItem = $('#bill-list .billitem[billid='+bid+']');
-        if (cospend.bills[pid][bid].what.match(qs)) {
+        if (regex.test(cospend.bills[pid][bid].what)) {
             billItem.show();
         } else {
             billItem.hide();

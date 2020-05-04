@@ -4138,15 +4138,13 @@ class ProjectService {
                                 fclose($handle);
                                 return ['message' => $this->trans->t('Malformed CSV, bad amount on line %1$s', [$row])];
                             }
-                            array_push($bills,
-                                [
-                                    'what' => $what,
-                                    'timestamp' => $timestamp,
-                                    'amount' => $amount,
-                                    'payer_name' => $payer_name,
-                                    'owers' => $owersList,
-                                ]
-                            );
+                            array_push($bills, [
+                                'what' => $what,
+                                'timestamp' => $timestamp,
+                                'amount' => $amount,
+                                'payer_name' => $payer_name,
+                                'owers' => $owersList,
+                            ]);
                         }
                         $row++;
                     }
@@ -4181,7 +4179,7 @@ class ProjectService {
                         }
                         $owerIdsStr = implode(',', $owerIds);
                         $addBillResult = $this->addBill($projectid, null, $bill['what'], $payerId, $owerIdsStr, $bill['amount'], 'n',
-                                                        null, null, 0, null, $timestamp);
+                                                        null, null, 0, null, $bill['timestamp']);
                         if (!is_numeric($addBillResult)) {
                             $this->deleteProject($projectid);
                             return ['message' => $this->trans->t('Error when adding bill %1$s', [$bill['what']])];

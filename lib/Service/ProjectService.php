@@ -472,7 +472,8 @@ class ProjectService {
         return $result;
     }
 
-    public function createProject($name, $id, $password, $contact_email, $userid='') {
+    public function createProject($name, $id, $password, $contact_email, $userid='',
+                                  $createDefaultCategories=true) {
         $qb = $this->dbconnection->getQueryBuilder();
 
         $qb->select('id')
@@ -515,18 +516,20 @@ class ProjectService {
             $qb = $qb->resetQueryParts();
 
             // create default categories
-            foreach ($this->defaultCategoryNames as $strId => $name) {
-                $icon = urlencode($this->defaultCategoryIcons[$strId]);
-                $color = $this->defaultCategoryColors[$strId];
-                $qb->insert('cospend_project_categories')
-                    ->values([
-                        'projectid' => $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR),
-                        'encoded_icon' => $qb->createNamedParameter($icon, IQueryBuilder::PARAM_STR),
-                        'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
-                        'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR)
-                    ]);
-                $req = $qb->execute();
-                $qb = $qb->resetQueryParts();
+            if ($createDefaultCategories) {
+                foreach ($this->defaultCategoryNames as $strId => $name) {
+                    $icon = urlencode($this->defaultCategoryIcons[$strId]);
+                    $color = $this->defaultCategoryColors[$strId];
+                    $qb->insert('cospend_project_categories')
+                        ->values([
+                            'projectid' => $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR),
+                            'encoded_icon' => $qb->createNamedParameter($icon, IQueryBuilder::PARAM_STR),
+                            'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
+                            'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR)
+                        ]);
+                    $req = $qb->execute();
+                    $qb = $qb->resetQueryParts();
+                }
             }
 
             return $id;
@@ -4102,7 +4105,10 @@ class ProjectService {
                     $userEmail = $user->getEMailAddress();
                     $projectName = str_replace('.csv', '', $file->getName());
                     $projectid = slugify($projectName);
-                    $projResult = $this->createProject($projectName, $projectid, '', $userEmail, $userId);
+                    // create default categories only if none are found in the CSV
+                    $createDefaultCategories = (count($categoryNames) === 0);
+                    $projResult = $this->createProject($projectName, $projectid, '', $userEmail,
+                                                       $userId, $createDefaultCategories);
                     if (!is_string($projResult)) {
                         return ['message' => $this->trans->t('Error in project creation, %1$s', [$projResult['message']])];
                     }

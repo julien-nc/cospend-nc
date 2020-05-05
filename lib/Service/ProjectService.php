@@ -3919,7 +3919,9 @@ class ProjectService {
                     $userEmail = $user->getEMailAddress();
                     $projectName = str_replace('.csv', '', $file->getName());
                     $projectid = slugify($projectName);
-                    $projResult = $this->createProject($projectName, $projectid, '', $userEmail, $userId);
+                    $createDefaultCategories = (count($categories) === 0);
+                    $projResult = $this->createProject($projectName, $projectid, '', $userEmail, $userId,
+                                                       $createDefaultCategories);
                     if (!is_string($projResult)) {
                         return ['message' => $this->trans->t('Error in project creation, %1$s', [$projResult['message']])];
                     }

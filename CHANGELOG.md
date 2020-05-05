@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 0.5.0 – 2020-05-05
+### Changed
+- improve search
+[!169](https://gitlab.com/eneiluj/cospend-nc/-/merge_requests/169) @simonspa
+- improve splitwise import: import categories
+[#95](https://gitlab.com/eneiluj/cospend-nc/issues/95) @madevr
+- optimize SQL queries when getting bill list
+[#95](https://gitlab.com/eneiluj/cospend-nc/issues/95) @madevr
+
+### Fixed
+- missing currency selection field
+[!170](https://gitlab.com/eneiluj/cospend-nc/-/merge_requests/170) @simonspa
+- splitwise import wrong timestamp
+[#95](https://gitlab.com/eneiluj/cospend-nc/issues/95) @madevr
+
 ## 0.4.9 – 2020-05-02
 ### Added
 - now possible to link Nextcloud user with project member

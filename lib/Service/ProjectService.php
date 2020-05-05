@@ -4055,7 +4055,7 @@ class ProjectService {
         }
     }
 
-       /**
+    /**
      * @NoAdminRequired
      */
     public function importSWProject($path, $userId) {
@@ -4069,6 +4069,7 @@ class ProjectService {
                     $membersWeight = [];
                     $bills = [];
                     $owersArray = [];
+                    $categoryNames = [];
                     $row = 0;
                     while (($data = fgetcsv($handle, 1000, ',')) !== false) {
                         $owersList = [];
@@ -4138,13 +4139,24 @@ class ProjectService {
                                 fclose($handle);
                                 return ['message' => $this->trans->t('Malformed CSV, bad amount on line %1$s', [$row])];
                             }
-                            array_push($bills, [
+                            $bill = [
                                 'what' => $what,
                                 'timestamp' => $timestamp,
                                 'amount' => $amount,
                                 'payer_name' => $payer_name,
-                                'owers' => $owersList,
-                            ]);
+                                'owers' => $owersList
+                            ];
+                            // manage categories
+                            if (array_key_exists('Category', $columns) and
+                                $data[$columns['Category']] !== null and
+                                $data[$columns['Category']] !== '') {
+                                $catName = $data[$columns['Category']];
+                                if (!in_array($catName, $categoryNames)) {
+                                    array_push($categoryNames, $catName);
+                                }
+                                $bill['category_name'] = $catName;
+                            }
+                            array_push($bills, $bill);
                         }
                         $row++;
                     }
@@ -4160,6 +4172,16 @@ class ProjectService {
                     $projResult = $this->createProject($projectName, $projectid, '', $userEmail, $userId);
                     if (!is_string($projResult)) {
                         return ['message' => $this->trans->t('Error in project creation, %1$s', [$projResult['message']])];
+                    }
+                    // add categories
+                    $catIdToName = [];
+                    foreach ($categoryNames as $catName) {
+                        $insertedCatId = $this->addCategory($projectid, $catName, null, '#000000');
+                        if (!is_numeric($insertedCatId)) {
+                            $this->deleteProject($projectid);
+                            return ['message' => $this->trans->t('Error when adding category %1$s', [$catName])];
+                        }
+                        $catNameToId[$catName] = $insertedCatId;
                     }
                     // add members
                     foreach ($membersWeight as $memberName => $weight) {
@@ -4178,8 +4200,14 @@ class ProjectService {
                             array_push($owerIds, $memberNameToId[$owerName]);
                         }
                         $owerIdsStr = implode(',', $owerIds);
+                        // category
+                        $catId = null;
+                        if (array_key_exists('category_name', $bill) and
+                            array_key_exists($bill['category_name'], $catNameToId)) {
+                            $catId = $catNameToId[$bill['category_name']];
+                        }
                         $addBillResult = $this->addBill($projectid, null, $bill['what'], $payerId, $owerIdsStr, $bill['amount'], 'n',
-                                                        null, null, 0, null, $bill['timestamp']);
+                                                        null, $catId, 0, null, $bill['timestamp']);
                         if (!is_numeric($addBillResult)) {
                             $this->deleteProject($projectid);
                             return ['message' => $this->trans->t('Error when adding bill %1$s', [$bill['what']])];

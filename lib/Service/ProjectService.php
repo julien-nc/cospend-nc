@@ -1476,15 +1476,15 @@ class ProjectService {
 
     public function getBills($projectId, $tsMin=null, $tsMax=null, $paymentMode=null, $category=null,
                               $amountMin=null, $amountMax=null, $lastchanged=null) {
-        $bills = [];
-
-        // first get all bill ids
-        $billIds = [];
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('id')
-           ->from('cospend_bills', 'b')
+        $qb->select('bi.id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
+                    'paymentmode', 'categoryid', 'bi.lastchanged', 'repeatallactive', 'repeatuntil',
+                    'memberid', 'm.name', 'm.weight', 'm.activated')
+           ->from('cospend_bill_owers', 'bo')
+           ->innerJoin('bo', 'cospend_bills', 'bi', $qb->expr()->eq('bo.billid', 'bi.id'))
+           ->innerJoin('bo', 'cospend_members', 'm', $qb->expr()->eq('bo.memberid', 'm.id'))
            ->where(
-               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+               $qb->expr()->eq('bi.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
            );
         // take bills that have changed after $lastchanged
         if ($lastchanged !== null and is_numeric($lastchanged)) {
@@ -1530,115 +1530,30 @@ class ProjectService {
                $qb->expr()->lte('amount', $qb->createNamedParameter(floatval($amountMax), IQueryBuilder::PARAM_STR))
            );
         }
-        $req = $qb->execute();
-
-        while ($row = $req->fetch()){
-            array_push($billIds, $row['id']);
-        }
-        $req->closeCursor();
-        $qb = $qb->resetQueryParts();
-
-        // get bill owers
-        $billOwersByBill = [];
-        foreach ($billIds as $billId) {
-            $billOwers = [];
-
-            $qb->select('memberid', 'm.name', 'm.weight', 'm.activated')
-               ->from('cospend_bill_owers', 'bo')
-               ->innerJoin('bo', 'cospend_members', 'm', $qb->expr()->eq('bo.memberid', 'm.id'))
-               ->where(
-                   $qb->expr()->eq('bo.billid', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
-               );
-            $req = $qb->execute();
-            while ($row = $req->fetch()){
-                $dbWeight = floatval($row['weight']);
-                $dbName = $row['name'];
-                $dbActivated = (intval($row['activated']) === 1);
-                $dbOwerId= intval($row['memberid']);
-                array_push(
-                    $billOwers,
-                    [
-                        'id' => $dbOwerId,
-                        'weight' => $dbWeight,
-                        'name' => $dbName,
-                        'activated' => $dbActivated
-                    ]
-                );
-            }
-            $req->closeCursor();
-            $qb = $qb->resetQueryParts();
-            $billOwersByBill[$billId] = $billOwers;
-        }
-
-        $qb->select('id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
-                    'paymentmode', 'categoryid', 'lastchanged', 'repeatallactive', 'repeatuntil')
-           ->from('cospend_bills', 'b')
-           ->where(
-               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-           );
-        // take bills that have changed after $lastchanged
-        if ($lastchanged !== null and is_numeric($lastchanged)) {
-           $qb->andWhere(
-               $qb->expr()->gt('lastchanged', $qb->createNamedParameter(intval($lastchanged), IQueryBuilder::PARAM_INT))
-           );
-        }
-        if (is_numeric($tsMin)) {
-            $qb->andWhere(
-                $qb->expr()->gte('timestamp', $qb->createNamedParameter($tsMin, IQueryBuilder::PARAM_INT))
-            );
-        }
-        if (is_numeric($tsMax)) {
-            $qb->andWhere(
-                $qb->expr()->lte('timestamp', $qb->createNamedParameter($tsMax, IQueryBuilder::PARAM_INT))
-            );
-        }
-        if ($paymentMode !== null and $paymentMode !== '' and $paymentMode !== 'n') {
-           $qb->andWhere(
-               $qb->expr()->eq('paymentmode', $qb->createNamedParameter($paymentMode, IQueryBuilder::PARAM_STR))
-           );
-        }
-        if ($category !== null and $category !== '' and intval($category) !== 0) {
-            if (intval($category) === -100) {
-                $or = $qb->expr()->orx();
-                $or->add($qb->expr()->isNull('categoryid'));
-                $or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(CAT_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
-                $qb->andWhere($or);
-            }
-            else {
-                $qb->andWhere(
-                    $qb->expr()->eq('categoryid', $qb->createNamedParameter(intval($category), IQueryBuilder::PARAM_INT))
-                );
-            }
-        }
-        if ($amountMin !== null and is_numeric($amountMin)) {
-           $qb->andWhere(
-               $qb->expr()->gte('amount', $qb->createNamedParameter(floatval($amountMin), IQueryBuilder::PARAM_STR))
-           );
-        }
-        if ($amountMax !== null and is_numeric($amountMax)) {
-           $qb->andWhere(
-               $qb->expr()->lte('amount', $qb->createNamedParameter(floatval($amountMax), IQueryBuilder::PARAM_STR))
-           );
-        }
         $qb->orderBy('timestamp', 'ASC');
         $req = $qb->execute();
+
+        // bills by id
+        $billDict = [];
+        // ordered list of bill ids
+        $orderedBillIds = [];
         while ($row = $req->fetch()){
             $dbBillId = intval($row['id']);
-            $dbAmount = floatval($row['amount']);
-            $dbWhat = $row['what'];
-            $dbComment = $row['comment'];
-            $dbTimestamp = $row['timestamp'];
-            $dbDate = \DateTime::createFromFormat('U', $dbTimestamp);
-            $dbRepeat = $row['repeat'];
-            $dbPayerId = intval($row['payerid']);
-            $dbPaymentMode = $row['paymentmode'];
-            $dbCategoryId = intval($row['categoryid']);
-            $dbLastchanged = intval($row['lastchanged']);
-            $dbRepeatAllActive = intval($row['repeatallactive']);
-            $dbRepeatUntil = $row['repeatuntil'];
-            array_push(
-                $bills,
-                [
+            // if first time we see the bill : add it to bill list
+            if (!array_key_exists($dbBillId, $billDict)) {
+                $dbAmount = floatval($row['amount']);
+                $dbWhat = $row['what'];
+                $dbComment = $row['comment'];
+                $dbTimestamp = $row['timestamp'];
+                $dbDate = \DateTime::createFromFormat('U', $dbTimestamp);
+                $dbRepeat = $row['repeat'];
+                $dbPayerId = intval($row['payerid']);
+                $dbPaymentMode = $row['paymentmode'];
+                $dbCategoryId = intval($row['categoryid']);
+                $dbLastchanged = intval($row['lastchanged']);
+                $dbRepeatAllActive = intval($row['repeatallactive']);
+                $dbRepeatUntil = $row['repeatuntil'];
+                $billDict[$dbBillId] = [
                     'id' => $dbBillId,
                     'amount' => $dbAmount,
                     'what' => $dbWhat,
@@ -1646,20 +1561,38 @@ class ProjectService {
                     'timestamp' => $dbTimestamp,
                     'date' => $dbDate->format('Y-m-d'),
                     'payer_id' => $dbPayerId,
-                    'owers' => $billOwersByBill[$row['id']],
+                    'owers' => [],
                     'repeat' => $dbRepeat,
                     'paymentmode' => $dbPaymentMode,
                     'categoryid' => $dbCategoryId,
                     'lastchanged' => $dbLastchanged,
                     'repeatallactive' => $dbRepeatAllActive,
                     'repeatuntil' => $dbRepeatUntil
-                ]
-            );
+                ];
+                // keep order of bills
+                array_push($orderedBillIds, $dbBillId);
+            }
+            // anyway add an ower
+            $dbWeight = floatval($row['weight']);
+            $dbName = $row['name'];
+            $dbActivated = (intval($row['activated']) === 1);
+            $dbOwerId= intval($row['memberid']);
+            array_push($billDict[$dbBillId]['owers'], [
+                'id' => $dbOwerId,
+                'weight' => $dbWeight,
+                'name' => $dbName,
+                'activated' => $dbActivated
+            ]);
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();
 
-        return $bills;
+        $resultBills = [];
+        foreach ($orderedBillIds as $bid) {
+            array_push($resultBills, $billDict[$bid]);
+        }
+
+        return $resultBills;
     }
 
     public function getAllBillIds($projectId) {
@@ -3770,7 +3703,7 @@ class ProjectService {
             $memberIdToWeight[$member['id']] = $member['weight'];
             $memberIdToActive[$member['id']] = intval($member['activated']);
             fwrite($handler, 'deleteMeIfYouWant,1,1970-01-01,0,"'.$member['name'].'",'.floatval($member['weight']).','.
-                              intval($member['activated']).',"'.$member['name'].'",n,,,,,'."\n");;
+                              intval($member['activated']).',"'.$member['name'].'",n,,,,,'."\n");
         }
         $bills = $this->getBills($projectid);
         foreach ($bills as $bill) {

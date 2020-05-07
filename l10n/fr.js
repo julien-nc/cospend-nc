@@ -194,6 +194,7 @@ OC.L10N.register(
     "Cash" : "Liquide",
     "Check" : "Chèque",
     "Transfer" : "Virement",
+    "Online service" : "Service en ligne",
     "Failed to restore options values" : "Échec de la restauration des options",
     "Guest link copied to clipboard" : "Lien invité copié dans le presse-papier",
     "Choose csv project file" : "Choisissez un fichier de projet csv",

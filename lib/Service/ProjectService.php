@@ -1195,8 +1195,8 @@ class ProjectService {
         $qb = $qb->resetQueryParts();
     }
 
-    public function autoSettlement($projectid) {
-        $transactions = $this->getProjectSettlement($projectid);
+    public function autoSettlement($projectid, $centeredOn=null) {
+        $transactions = $this->getProjectSettlement($projectid, $centeredOn);
         if (!is_array($transactions)) {
             return ['message' => $this->trans->t('Error when getting project settlement transactions')];
         }
@@ -1222,9 +1222,35 @@ class ProjectService {
         return 'OK';
     }
 
-    public function getProjectSettlement($projectId) {
+    public function getProjectSettlement($projectId, $centeredOn=null) {
         $balances = $this->getBalance($projectId);
-        $transactions = $this->settle($balances);
+        if ($centeredOn === null || $centeredOn === '') {
+            $transactions = $this->settle($balances);
+        } else {
+            $transactions = $this->centeredSettle($balances, intval($centeredOn));
+        }
+        return $transactions;
+    }
+
+    private function centeredSettle($balances, $centeredOn) {
+        $transactions = [];
+        foreach ($balances as $memberId => $balance) {
+            if ($memberId !== $centeredOn) {
+                if ($balance > 0.0) {
+                    array_push($transactions, [
+                        'from' => $centeredOn,
+                        'to' => $memberId,
+                        'amount' => $balance
+                    ]);
+                } else if ($balance < 0.0) {
+                    array_push($transactions, [
+                        'from' => $memberId,
+                        'to' => $centeredOn,
+                        'amount' => -$balance
+                    ]);
+                }
+            }
+        }
         return $transactions;
     }
 
@@ -3578,7 +3604,7 @@ class ProjectService {
         return $response;
     }
 
-    public function exportCsvSettlement($projectid, $userId) {
+    public function exportCsvSettlement($projectid, $userId, $centeredOn=null) {
         // create export directory if needed
         $outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
         $userFolder = \OC::$server->getUserFolder($userId);
@@ -3596,7 +3622,7 @@ class ProjectService {
         $file = $folder->newFile($projectid.'-settlement.csv');
         $handler = $file->fopen('w');
         fwrite($handler, $this->trans->t('Who pays?').','. $this->trans->t('To whom?').','. $this->trans->t('How much?')."\n");
-        $transactions = $this->getProjectSettlement($projectid);
+        $transactions = $this->getProjectSettlement($projectid, $centeredOn);
 
         $members = $this->getMembers($projectid);
         $memberIdToName = [];

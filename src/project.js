@@ -180,9 +180,17 @@ export function projectEvents() {
             getProjectStatistics(projectid, tsMin, tsMax, paymentMode, category, amountMin, amountMax, showDisabled, currencyId, dateMin, dateMax);
         });
 
-    $('body').on('click', '.getProjectSettlement', function () {
+    $('body').on('click', '.getProjectSettlement', function() {
         const projectid = $(this).parent().parent().parent().parent().attr('projectid');
         getProjectSettlement(projectid);
+    });
+
+    $('body').on('change', '#settle-member-center', function() {
+        let centeredOn = parseInt($(this).val());
+        if (centeredOn === 0) {
+            centeredOn = null;
+        }
+        getProjectSettlement(cospend.currentProjectId, centeredOn);
     });
 
     $('body').on('click', '.copyProjectGuestLink', function() {
@@ -241,12 +249,20 @@ export function projectEvents() {
 
     $('body').on('click', '.exportSettlement', function() {
         const projectid = $(this).attr('projectid');
-        exportSettlement(projectid);
+        let centeredOn = parseInt($('#settle-member-center').val());
+        if (centeredOn === 0) {
+            centeredOn = null;
+        }
+        exportSettlement(projectid, centeredOn);
     });
 
     $('body').on('click', '.autoSettlement', function() {
         const projectid = $(this).attr('projectid');
-        autoSettlement(projectid);
+        let centeredOn = parseInt($('#settle-member-center').val());
+        if (centeredOn === 0) {
+            centeredOn = null;
+        }
+        autoSettlement(projectid, centeredOn);
     });
 
     $('body').on('change', '#categoryMemberSelect', function() {
@@ -504,9 +520,11 @@ export function getProjectStatistics(projectid, tsMin=null, tsMax=null, paymentM
     });
 }
 
-export function getProjectSettlement(projectid) {
+export function getProjectSettlement(projectid, centeredOn=null) {
     $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
-    const req = {};
+    const req = {
+        centeredOn: centeredOn
+    };
     let url, type;
     if (!cospend.pageIsPublic) {
         req.projectid = projectid;
@@ -525,7 +543,7 @@ export function getProjectSettlement(projectid) {
         if (cospend.currentProjectId !== projectid) {
             selectProject($('.projectitem[projectid="' + projectid + '"]'));
         }
-        displaySettlement(projectid, response);
+        displaySettlement(projectid, response, centeredOn);
     }).always(function() {
     }).fail(function() {
         Notification.showTemporary(t('cospend', 'Failed to get settlement'));
@@ -533,7 +551,7 @@ export function getProjectSettlement(projectid) {
     });
 }
 
-export function displaySettlement(projectid, transactionList) {
+export function displaySettlement(projectid, transactionList, centeredOn=null) {
     // unselect bill
     $('.billitem').removeClass('selectedbill');
 
@@ -561,7 +579,28 @@ export function displaySettlement(projectid, transactionList) {
             .append(titleStr)
             .append(exportButton)
             .append(autoSettleButton)
-    )
+    );
+    // select a member to get centered settlement
+    const memberSelect = $('<select/>', {id: 'settle-member-center'});
+    memberSelect.append(
+        $('<option/>', {value: 0}).text(t('cospend', 'Nobody (optimal)'))
+    );
+    for (const mid in cospend.members[projectid]) {
+        memberSelect.append(
+            $('<option/>', {value: mid}).text(cospend.members[projectid][mid].name)
+        );
+    }
+    if (centeredOn !== null) {
+        memberSelect.find('option[value='+centeredOn+']').prop('selected', true);
+    }
+    container.append(
+        $('<div/>', {id: 'center-settle-div'})
+            .append(
+                $('<label/>', {for: 'settle-member-center'}).text(t('cospend', 'Center settlement on'))
+            )
+            .append(memberSelect)
+    );
+    // settlement table
     const table = $('<table/>', {id: 'settlementTable', class: 'sortable'})
         .append(
             $('<thead/>')
@@ -1676,9 +1715,11 @@ export function applyGuestAccessLevel(projectid, accesslevel) {
     }
 }
 
-export function autoSettlement(projectid) {
+export function autoSettlement(projectid, centeredOn=null) {
     $('.autoSettlement[projectid="' + projectid + '"] span').addClass('icon-loading-small');
-    const req = {};
+    const req = {
+        centeredOn: centeredOn
+    };
     let url, type;
     if (!cospend.pageIsPublic) {
         req.projectid = projectid;

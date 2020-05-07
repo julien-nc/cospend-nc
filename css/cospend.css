@@ -822,3 +822,11 @@ a.billitem .app-content-list-item-icon {
     width: 50px;
     text-align: center;
 }
+#center-settle-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#center-settle-div label {
+    margin-right: 5px;
+}

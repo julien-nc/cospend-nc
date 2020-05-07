@@ -65,10 +65,11 @@ export function exportStatistics(projectid, tsMin=null, tsMax=null, paymentMode=
     });
 }
 
-export function exportSettlement(projectid) {
+export function exportSettlement(projectid, centeredOn=null) {
     $('.exportSettlement[projectid="' + projectid + '"] span').addClass('icon-loading-small');
     const req = {
-        projectid: projectid
+        projectid: projectid,
+        centeredOn: centeredOn
     };
     const url = generateUrl('/apps/cospend/exportCsvSettlement');
     $.ajax({

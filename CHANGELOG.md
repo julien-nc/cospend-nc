@@ -6,7 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 0.5.0 – 2020-05-05
+## 0.5.0 – 2020-05-07
+### Added
+- new payment mode: online service
+
 ### Changed
 - improve search
 [!169](https://gitlab.com/eneiluj/cospend-nc/-/merge_requests/169) @simonspa

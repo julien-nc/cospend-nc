@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.5.1 – 2020-05-07
+### Fixed
+- mistake in getBills when using 'lastchanged'
+[#96](https://gitlab.com/eneiluj/cospend-nc/issues/96) @simonspa
+
 ## 0.5.0 – 2020-05-07
 ### Added
 - new payment mode: online service

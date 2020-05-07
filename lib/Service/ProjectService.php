@@ -1492,7 +1492,7 @@ class ProjectService {
         // take bills that have changed after $lastchanged
         if ($lastchanged !== null and is_numeric($lastchanged)) {
             $qb->andWhere(
-                $qb->expr()->gt('lastchanged', $qb->createNamedParameter(intval($lastchanged), IQueryBuilder::PARAM_INT))
+                $qb->expr()->gt('bi.lastchanged', $qb->createNamedParameter(intval($lastchanged), IQueryBuilder::PARAM_INT))
             );
         }
         if (is_numeric($tsMin)) {

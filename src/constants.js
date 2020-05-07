@@ -38,7 +38,7 @@ export const paymentModes = {
         name: t('cospend', 'Transfer'),
         icon: '⇄'
     },
-    t: {
+    o: {
         name: t('cospend', 'Online service'),
         icon: '🌎'
     },

@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.5.2 – 2020-05-09
+### Added
+- now able to center settlement on one member
+[MB#28](https://gitlab.com/eneiluj/moneybuster/issues/28) @patxiku
+
+### Fixed
+- online service payment mode mistake
+
 ## 0.5.1 – 2020-05-07
 ### Fixed
 - mistake in getBills when using 'lastchanged'

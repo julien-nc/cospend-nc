@@ -39,7 +39,13 @@ function resetSearchBills() {
 export function billEvents() {
     cospend.search = new OCA.Search(searchBills, resetSearchBills);
 
-    $('body').on('click', '.billitem', function (e) {
+    $(document).on('keypress', function(e) {
+        if (e.key === 'Enter' && e.shiftKey) {
+            $('#owerValidate').click();
+        }
+    });
+
+    $('body').on('click', '.billitem', function(e) {
         if (!$(e.target).hasClass('deleteBillIcon') && !$(e.target).hasClass('undoDeleteBill')) {
             const billid = parseInt($(this).attr('billid'));
             const projectid = $(this).attr('projectid');
@@ -48,10 +54,10 @@ export function billEvents() {
     });
 
     // what and amount : delay on edition
-    $('body').on('keyup paste change', '.input-bill-what, .input-bill-comment', delay(function () {
+    $('body').on('keyup paste change', '.input-bill-what, .input-bill-comment', delay(function() {
         onBillEdited();
     }, 2000));
-    $('body').on('keyup paste change', '.input-bill-amount', delay(function () {
+    $('body').on('keyup paste change', '.input-bill-amount', delay(function() {
         onBillEdited(true);
     }, 2000));
 
@@ -59,12 +65,12 @@ export function billEvents() {
     $('body').on('change', '.input-bill-date, .input-bill-time, .input-bill-repeatuntil, #billdetail .bill-form select', function () {
         onBillEdited();
     });
-    $('body').on('click', '#repeatallactive', function () {
+    $('body').on('click', '#repeatallactive', function() {
         onBillEdited();
     });
 
     // show/hide repeatallactive
-    $('body').on('change', '#repeatbill', function () {
+    $('body').on('change', '#repeatbill', function() {
         if ($(this).val() === 'n') {
             $('.bill-repeat-extra').slideUp();
         } else {
@@ -72,7 +78,7 @@ export function billEvents() {
         }
     });
 
-    $('body').on('change', '#billdetail .bill-form .bill-owers input[type=checkbox]', function () {
+    $('body').on('change', '#billdetail .bill-form .bill-owers input[type=checkbox]', function() {
         const billtype = $('#billtype').val();
         if (billtype === 'perso') {
             if ($(this).is(':checked')) {
@@ -85,7 +91,7 @@ export function billEvents() {
         }
     });
 
-    $('body').on('click', '#owerAll', function () {
+    $('body').on('click', '#owerAll', function() {
         const billtype = $('#billtype').val();
         const projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
         for (const memberid in cospend.members[projectid]) {
@@ -100,7 +106,7 @@ export function billEvents() {
         onBillEdited();
     });
 
-    $('body').on('click', '#owerNone', function () {
+    $('body').on('click', '#owerNone', function() {
         const billtype = $('#billtype').val();
         const projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
         for (const memberid in cospend.members[projectid]) {
@@ -115,7 +121,7 @@ export function billEvents() {
         onBillEdited();
     });
 
-    $('body').on('click', '.undoDeleteBill', function () {
+    $('body').on('click', '.undoDeleteBill', function() {
         const billid = $(this).parent().attr('billid');
         cospend.billDeletionTimer[billid].pause();
         delete cospend.billDeletionTimer[billid];
@@ -124,7 +130,7 @@ export function billEvents() {
         $(this).hide();
     });
 
-    $('body').on('click', '.deleteBillIcon', function () {
+    $('body').on('click', '.deleteBillIcon', function() {
         const billid = $(this).parent().attr('billid');
         if (billid !== '0') {
             const projectid = $(this).parent().attr('projectid');
@@ -138,7 +144,7 @@ export function billEvents() {
             if ($('.bill-title').length > 0 && $('.bill-title').attr('billid') === billid) {
                 $('#billdetail').html('');
             }
-            $(this).parent().fadeOut('normal', function () {
+            $(this).parent().fadeOut('normal', function() {
                 $(this).remove();
                 if ($('.billitem').length === 0) {
                     $('#bill-list').html('').append($('<h2/>', {class: 'nobill'}).text(t('cospend', 'No bill yet')));
@@ -147,7 +153,7 @@ export function billEvents() {
         }
     });
 
-    $('body').on('click', '#newBillButton', function () {
+    $('body').on('click', '#newBillButton', function() {
         const projectid = cospend.currentProjectId;
         const activatedMembers = [];
         for (const mid in cospend.members[projectid]) {
@@ -701,6 +707,7 @@ export function displayBill(projectid, billid) {
     const allStr = t('cospend', 'All');
     const noneStr = t('cospend', 'None');
     const owerValidateStr = t('cospend', 'Create the bill');
+    const owerValidateTitleStr = t('cospend', 'Press SHIFT+ENTER to validate');
     const addFileLinkText = t('cospend', 'Attach public link to personal file');
     const normalBillOption = t('cospend', 'Classic, even split');
     const normalBillHint = t('cospend', 'Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost.');
@@ -762,7 +769,7 @@ export function displayBill(projectid, billid) {
                 .append($('<span/>', {class: 'icon-edit-white'}))
                 .append(titleStr + ' ' + formattedLinks)
                 .append(
-                    $('<button/>', {id: 'owerValidate'})
+                    $('<button/>', {id: 'owerValidate', title: owerValidateTitleStr})
                         .append($('<span/> ', {class: 'icon-confirm'}))
                         .append($('<span/>', {id: 'owerValidateText'}).text(owerValidateStr))
                 )
@@ -964,7 +971,7 @@ export function displayBill(projectid, billid) {
                     }))
                     .append($('<label/>', {for: 'amount' + projectid + member.id, class: 'numberlabel'}).text(member.name))
                     .append($('<label/>', {class: 'spentlabel'}))
-            )
+            );
         }
     }
 

@@ -709,7 +709,7 @@ export function displayBill(projectid, billid) {
     const allStr = t('cospend', 'All');
     const noneStr = t('cospend', 'None');
     const owerValidateStr = t('cospend', 'Create the bill');
-    const owerValidateTitleStr = t('cospend', 'Press SHIFT+ENTER to validate');
+    const owerValidateTitleStr = t('cospend', 'Press Shift+Enter to validate');
     const addFileLinkText = t('cospend', 'Attach public link to personal file');
     const normalBillOption = t('cospend', 'Classic, even split');
     const normalBillHint = t('cospend', 'Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost.');

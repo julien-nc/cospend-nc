@@ -37,7 +37,9 @@ function resetSearchBills() {
 }
 
 export function billEvents() {
-    cospend.search = new OCA.Search(searchBills, resetSearchBills);
+    if (!cospend.pageIsPublic) {
+        cospend.search = new OCA.Search(searchBills, resetSearchBills);
+    }
 
     $(document).on('keypress', function(e) {
         if (e.key === 'Enter' && e.shiftKey) {

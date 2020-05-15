@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-05-09 13:38+0200\n"
-"PO-Revision-Date: 2020-05-09 11:41\n"
+"POT-Creation-Date: 2020-05-15 16:29+0200\n"
+"PO-Revision-Date: 2020-05-15 14:31\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: English, United States\n"
 "Language: en_US\n"
@@ -528,7 +528,7 @@ msgid "To whom?"
 msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3624
-#: /var/www/html/n18/apps/cospend/src/bill.js:676
+#: /var/www/html/n18/apps/cospend/src/bill.js:684
 #: /var/www/html/n18/apps/cospend/src/project.js:565
 msgid "How much?"
 msgstr ""
@@ -656,218 +656,222 @@ msgstr ""
 msgid "Failed to save Cospend setting"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:144
-#: /var/www/html/n18/apps/cospend/src/bill.js:551
-#: /var/www/html/n18/apps/cospend/src/bill.js:597
-#: /var/www/html/n18/apps/cospend/src/bill.js:1391
-#: /var/www/html/n18/apps/cospend/src/bill.js:1461
+#: /var/www/html/n18/apps/cospend/src/bill.js:152
+#: /var/www/html/n18/apps/cospend/src/bill.js:559
+#: /var/www/html/n18/apps/cospend/src/bill.js:605
+#: /var/www/html/n18/apps/cospend/src/bill.js:1400
+#: /var/www/html/n18/apps/cospend/src/bill.js:1470
 msgid "No bill yet"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:162
+#: /var/www/html/n18/apps/cospend/src/bill.js:170
 msgid "New Bill"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:173
+#: /var/www/html/n18/apps/cospend/src/bill.js:181
 msgid "2 active members are required to create a bill"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:179
+#: /var/www/html/n18/apps/cospend/src/bill.js:187
 msgid "Choose file"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:218
+#: /var/www/html/n18/apps/cospend/src/bill.js:226
 msgid "Create the bills"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:221
-#: /var/www/html/n18/apps/cospend/src/bill.js:703
+#: /var/www/html/n18/apps/cospend/src/bill.js:229
+#: /var/www/html/n18/apps/cospend/src/bill.js:711
 msgid "Create the bill"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:379
+#: /var/www/html/n18/apps/cospend/src/bill.js:387
 msgid "Bill created"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:384
+#: /var/www/html/n18/apps/cospend/src/bill.js:392
 msgid "Failed to create bill"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:452
+#: /var/www/html/n18/apps/cospend/src/bill.js:460
 msgid "Bill saved"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:457
+#: /var/www/html/n18/apps/cospend/src/bill.js:465
 msgid "Failed to save bill"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:484
-#: /var/www/html/n18/apps/cospend/src/bill.js:621
-#: /var/www/html/n18/apps/cospend/src/bill.js:684
-#: /var/www/html/n18/apps/cospend/src/bill.js:1045
+#: /var/www/html/n18/apps/cospend/src/bill.js:492
+#: /var/www/html/n18/apps/cospend/src/bill.js:629
+#: /var/www/html/n18/apps/cospend/src/bill.js:692
+#: /var/www/html/n18/apps/cospend/src/bill.js:1054
 msgid "link"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:518
-#: /var/www/html/n18/apps/cospend/src/bill.js:1092
+#: /var/www/html/n18/apps/cospend/src/bill.js:526
+#: /var/www/html/n18/apps/cospend/src/bill.js:1101
 #: /var/www/html/n18/apps/cospend/src/project.js:1561
 #: /var/www/html/n18/apps/cospend/src/share.js:396
 msgid "Undo"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:556
+#: /var/www/html/n18/apps/cospend/src/bill.js:564
 msgid "Deleted bill"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:560
+#: /var/www/html/n18/apps/cospend/src/bill.js:568
 msgid "Failed to delete bill"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:601
+#: /var/www/html/n18/apps/cospend/src/bill.js:609
 msgid "Failed to get bills"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:640
-#: /var/www/html/n18/apps/cospend/src/bill.js:699
+#: /var/www/html/n18/apps/cospend/src/bill.js:648
+#: /var/www/html/n18/apps/cospend/src/bill.js:707
 msgid "Bill : {what}"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:674
+#: /var/www/html/n18/apps/cospend/src/bill.js:682
 msgid "What?"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:675
+#: /var/www/html/n18/apps/cospend/src/bill.js:683
 msgid "Comment"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:677
+#: /var/www/html/n18/apps/cospend/src/bill.js:685
 msgid "Who payed?"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:678
+#: /var/www/html/n18/apps/cospend/src/bill.js:686
 msgid "When?"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:679
+#: /var/www/html/n18/apps/cospend/src/bill.js:687
 msgid "For whom?"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:701
+#: /var/www/html/n18/apps/cospend/src/bill.js:709
 #: /var/www/html/n18/apps/cospend/src/project.js:799
 #: /var/www/html/n18/apps/cospend/src/project.js:807
 msgid "All"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:702
-#: /var/www/html/n18/apps/cospend/src/bill.js:869
-#: /var/www/html/n18/apps/cospend/src/bill.js:880
+#: /var/www/html/n18/apps/cospend/src/bill.js:710
+#: /var/www/html/n18/apps/cospend/src/bill.js:878
+#: /var/www/html/n18/apps/cospend/src/bill.js:889
 #: /var/www/html/n18/apps/cospend/src/currency.js:199
 #: /var/www/html/n18/apps/cospend/src/project.js:369
 msgid "None"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:704
+#: /var/www/html/n18/apps/cospend/src/bill.js:712
+msgid "Press Shift+Enter to validate"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/src/bill.js:713
 msgid "Attach public link to personal file"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:705
+#: /var/www/html/n18/apps/cospend/src/bill.js:714
 msgid "Classic, even split"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:706
+#: /var/www/html/n18/apps/cospend/src/bill.js:715
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:707
+#: /var/www/html/n18/apps/cospend/src/bill.js:716
 msgid "Custom owed amount per member"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:708
+#: /var/www/html/n18/apps/cospend/src/bill.js:717
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:709
+#: /var/www/html/n18/apps/cospend/src/bill.js:718
 msgid "Even split with optional personal parts"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:710
+#: /var/www/html/n18/apps/cospend/src/bill.js:719
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:711
+#: /var/www/html/n18/apps/cospend/src/bill.js:720
 msgid "Bill type"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:712
+#: /var/www/html/n18/apps/cospend/src/bill.js:721
 #: /var/www/html/n18/apps/cospend/src/project.js:843
 msgid "Payment mode"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:713
+#: /var/www/html/n18/apps/cospend/src/bill.js:722
 #: /var/www/html/n18/apps/cospend/src/project.js:849
 msgid "Category"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:714
+#: /var/www/html/n18/apps/cospend/src/bill.js:723
 msgid "Convert to"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:715
+#: /var/www/html/n18/apps/cospend/src/bill.js:724
 msgid "What time?"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:832
+#: /var/www/html/n18/apps/cospend/src/bill.js:841
 msgid "Repeat"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:835
+#: /var/www/html/n18/apps/cospend/src/bill.js:844
 #: /var/www/html/n18/apps/cospend/src/project.js:1542
 msgid "No"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:836
+#: /var/www/html/n18/apps/cospend/src/bill.js:845
 #: /var/www/html/n18/apps/cospend/src/project.js:1543
 msgid "Daily"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:837
+#: /var/www/html/n18/apps/cospend/src/bill.js:846
 #: /var/www/html/n18/apps/cospend/src/project.js:1544
 msgid "Weekly"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:838
+#: /var/www/html/n18/apps/cospend/src/bill.js:847
 #: /var/www/html/n18/apps/cospend/src/project.js:1545
 msgid "Monthly"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:839
+#: /var/www/html/n18/apps/cospend/src/bill.js:848
 msgid "Yearly"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:848
+#: /var/www/html/n18/apps/cospend/src/bill.js:857
 msgid "Include all active member on repeat"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:856
+#: /var/www/html/n18/apps/cospend/src/bill.js:865
 msgid "Repeat until"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1032
-#: /var/www/html/n18/apps/cospend/src/bill.js:1067
+#: /var/www/html/n18/apps/cospend/src/bill.js:1041
+#: /var/www/html/n18/apps/cospend/src/bill.js:1076
 msgid "Member list is not up to date. Reloading in 5 sec."
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1171
-#: /var/www/html/n18/apps/cospend/src/bill.js:1277
+#: /var/www/html/n18/apps/cospend/src/bill.js:1180
+#: /var/www/html/n18/apps/cospend/src/bill.js:1286
 msgid "Bill values are not valid"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1330
+#: /var/www/html/n18/apps/cospend/src/bill.js:1339
 msgid "Personal parts are bigger than the paid amount"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1396
-#: /var/www/html/n18/apps/cospend/src/bill.js:1469
+#: /var/www/html/n18/apps/cospend/src/bill.js:1405
+#: /var/www/html/n18/apps/cospend/src/bill.js:1478
 #: /var/www/html/n18/apps/cospend/src/member.js:39
 #: /var/www/html/n18/apps/cospend/src/member.js:53
 #: /var/www/html/n18/apps/cospend/src/member.js:170
@@ -879,7 +883,7 @@ msgstr ""
 msgid "Invalid values"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1466
+#: /var/www/html/n18/apps/cospend/src/bill.js:1475
 msgid "There is no custom amount"
 msgstr ""
 

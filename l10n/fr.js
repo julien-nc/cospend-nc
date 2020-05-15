@@ -148,6 +148,7 @@ OC.L10N.register(
     "For whom?" : "Pour qui ?",
     "All" : "Tous",
     "None" : "Aucun",
+    "Press Shift+Enter to validate" : "Appuyez sur Maj+Entrée pour valider",
     "Attach public link to personal file" : "Joindre un lien public vers un fichier personnel",
     "Classic, even split" : "Classique, partage équitable",
     "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost." : "Mode classique : Choisissez un payeur, entrez un montant de facture et sélectionnez les membres concernés par la dépense toute entière. La facture est ensuite partagée équitablement entre les membres sélectionnés. Exemple dans la vie réelle : Une personne paye toute l'addition au restaurant et tout le monde est d'accord pour partager équitablement la dépense.",

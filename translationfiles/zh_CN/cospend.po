@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-05-09 13:38+0200\n"
-"PO-Revision-Date: 2020-05-09 11:41\n"
+"POT-Creation-Date: 2020-05-15 16:29+0200\n"
+"PO-Revision-Date: 2020-05-15 14:31\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -528,7 +528,7 @@ msgid "To whom?"
 msgstr "给谁"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3624
-#: /var/www/html/n18/apps/cospend/src/bill.js:676
+#: /var/www/html/n18/apps/cospend/src/bill.js:684
 #: /var/www/html/n18/apps/cospend/src/project.js:565
 msgid "How much?"
 msgstr "多少钱？"
@@ -656,218 +656,222 @@ msgstr "已保存Cospend设置"
 msgid "Failed to save Cospend setting"
 msgstr "保存失败"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:144
-#: /var/www/html/n18/apps/cospend/src/bill.js:551
-#: /var/www/html/n18/apps/cospend/src/bill.js:597
-#: /var/www/html/n18/apps/cospend/src/bill.js:1391
-#: /var/www/html/n18/apps/cospend/src/bill.js:1461
+#: /var/www/html/n18/apps/cospend/src/bill.js:152
+#: /var/www/html/n18/apps/cospend/src/bill.js:559
+#: /var/www/html/n18/apps/cospend/src/bill.js:605
+#: /var/www/html/n18/apps/cospend/src/bill.js:1400
+#: /var/www/html/n18/apps/cospend/src/bill.js:1470
 msgid "No bill yet"
 msgstr "尚未收到账单"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:162
+#: /var/www/html/n18/apps/cospend/src/bill.js:170
 msgid "New Bill"
 msgstr "新建账单"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:173
+#: /var/www/html/n18/apps/cospend/src/bill.js:181
 msgid "2 active members are required to create a bill"
 msgstr "至少需要2个活跃成员才可以创建账单"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:179
+#: /var/www/html/n18/apps/cospend/src/bill.js:187
 msgid "Choose file"
 msgstr "选择文件"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:218
+#: /var/www/html/n18/apps/cospend/src/bill.js:226
 msgid "Create the bills"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:221
-#: /var/www/html/n18/apps/cospend/src/bill.js:703
+#: /var/www/html/n18/apps/cospend/src/bill.js:229
+#: /var/www/html/n18/apps/cospend/src/bill.js:711
 msgid "Create the bill"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:379
+#: /var/www/html/n18/apps/cospend/src/bill.js:387
 msgid "Bill created"
 msgstr "已创建账单"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:384
+#: /var/www/html/n18/apps/cospend/src/bill.js:392
 msgid "Failed to create bill"
 msgstr "创建账单失败"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:452
+#: /var/www/html/n18/apps/cospend/src/bill.js:460
 msgid "Bill saved"
 msgstr "账单已保存"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:457
+#: /var/www/html/n18/apps/cospend/src/bill.js:465
 msgid "Failed to save bill"
 msgstr "保存账单失败"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:484
-#: /var/www/html/n18/apps/cospend/src/bill.js:621
-#: /var/www/html/n18/apps/cospend/src/bill.js:684
-#: /var/www/html/n18/apps/cospend/src/bill.js:1045
+#: /var/www/html/n18/apps/cospend/src/bill.js:492
+#: /var/www/html/n18/apps/cospend/src/bill.js:629
+#: /var/www/html/n18/apps/cospend/src/bill.js:692
+#: /var/www/html/n18/apps/cospend/src/bill.js:1054
 msgid "link"
 msgstr "链接"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:518
-#: /var/www/html/n18/apps/cospend/src/bill.js:1092
+#: /var/www/html/n18/apps/cospend/src/bill.js:526
+#: /var/www/html/n18/apps/cospend/src/bill.js:1101
 #: /var/www/html/n18/apps/cospend/src/project.js:1561
 #: /var/www/html/n18/apps/cospend/src/share.js:396
 msgid "Undo"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:556
+#: /var/www/html/n18/apps/cospend/src/bill.js:564
 msgid "Deleted bill"
 msgstr "已删除账单"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:560
+#: /var/www/html/n18/apps/cospend/src/bill.js:568
 msgid "Failed to delete bill"
 msgstr "删除账单失败"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:601
+#: /var/www/html/n18/apps/cospend/src/bill.js:609
 msgid "Failed to get bills"
 msgstr "获取账单失败"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:640
-#: /var/www/html/n18/apps/cospend/src/bill.js:699
+#: /var/www/html/n18/apps/cospend/src/bill.js:648
+#: /var/www/html/n18/apps/cospend/src/bill.js:707
 msgid "Bill : {what}"
 msgstr "账单 : {what}"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:674
+#: /var/www/html/n18/apps/cospend/src/bill.js:682
 msgid "What?"
 msgstr "内容？"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:675
+#: /var/www/html/n18/apps/cospend/src/bill.js:683
 msgid "Comment"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:677
+#: /var/www/html/n18/apps/cospend/src/bill.js:685
 msgid "Who payed?"
 msgstr "谁支付?"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:678
+#: /var/www/html/n18/apps/cospend/src/bill.js:686
 msgid "When?"
 msgstr "何时？"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:679
+#: /var/www/html/n18/apps/cospend/src/bill.js:687
 msgid "For whom?"
 msgstr "为谁购买？"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:701
+#: /var/www/html/n18/apps/cospend/src/bill.js:709
 #: /var/www/html/n18/apps/cospend/src/project.js:799
 #: /var/www/html/n18/apps/cospend/src/project.js:807
 msgid "All"
 msgstr "全部"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:702
-#: /var/www/html/n18/apps/cospend/src/bill.js:869
-#: /var/www/html/n18/apps/cospend/src/bill.js:880
+#: /var/www/html/n18/apps/cospend/src/bill.js:710
+#: /var/www/html/n18/apps/cospend/src/bill.js:878
+#: /var/www/html/n18/apps/cospend/src/bill.js:889
 #: /var/www/html/n18/apps/cospend/src/currency.js:199
 #: /var/www/html/n18/apps/cospend/src/project.js:369
 msgid "None"
 msgstr "未设置"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:704
+#: /var/www/html/n18/apps/cospend/src/bill.js:712
+msgid "Press Shift+Enter to validate"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/src/bill.js:713
 msgid "Attach public link to personal file"
 msgstr "将公开链接指向到个人文件"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:705
+#: /var/www/html/n18/apps/cospend/src/bill.js:714
 msgid "Classic, even split"
 msgstr "经典，平均摊分"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:706
+#: /var/www/html/n18/apps/cospend/src/bill.js:715
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
 msgstr "经典模式：选择一个支付人，输入账单的金额，选择这笔消费涉及的有关成员，然后账单会平均摊分到所选的成员上。实际生活例子：一个人支付整个餐厅账单，每个人都同意平均摊分这笔费用。"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:707
+#: /var/www/html/n18/apps/cospend/src/bill.js:716
 msgid "Custom owed amount per member"
 msgstr "自定义每个成员拖欠的金额"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:708
+#: /var/www/html/n18/apps/cospend/src/bill.js:717
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
 msgstr "自定义模式，不平均摊分：选择一个支付人，忽略账单金额（已禁止输入），输入每个相关成员的个性化欠款金额。然后按“创建账单”。多个对应的账单将会被创建。实际生活例子：一个人支付整个餐厅账单，但是每个人吃的套餐价格差异很大。"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:709
+#: /var/www/html/n18/apps/cospend/src/bill.js:718
 msgid "Even split with optional personal parts"
 msgstr "除了选定的成员以外，其他成员平均摊分"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:710
+#: /var/www/html/n18/apps/cospend/src/bill.js:719
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr "经典+个人模式：这个模式类似于典型模式。选择一个支付人，输入实际消费支出的金额。然后选择和此消费相关的成员。另外，可以设定属于某个成员的个人消费金额。多个账单将会被创建：一部分属于团队共同支出，另外一部分属于每个个人的支出。实际生活示例：我们在购物结账的时候，账单里其中一部分购买的物品是整个团队公用的，但也有掺杂了一些个人物品（例如单独一件衬衫），其他团队成员并不希望为此个人物品买单。"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:711
+#: /var/www/html/n18/apps/cospend/src/bill.js:720
 msgid "Bill type"
 msgstr "账单类型"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:712
+#: /var/www/html/n18/apps/cospend/src/bill.js:721
 #: /var/www/html/n18/apps/cospend/src/project.js:843
 msgid "Payment mode"
 msgstr "支付模式"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:713
+#: /var/www/html/n18/apps/cospend/src/bill.js:722
 #: /var/www/html/n18/apps/cospend/src/project.js:849
 msgid "Category"
 msgstr "类别"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:714
+#: /var/www/html/n18/apps/cospend/src/bill.js:723
 msgid "Convert to"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:715
+#: /var/www/html/n18/apps/cospend/src/bill.js:724
 msgid "What time?"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:832
+#: /var/www/html/n18/apps/cospend/src/bill.js:841
 msgid "Repeat"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:835
+#: /var/www/html/n18/apps/cospend/src/bill.js:844
 #: /var/www/html/n18/apps/cospend/src/project.js:1542
 msgid "No"
 msgstr "取消"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:836
+#: /var/www/html/n18/apps/cospend/src/bill.js:845
 #: /var/www/html/n18/apps/cospend/src/project.js:1543
 msgid "Daily"
 msgstr "每天"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:837
+#: /var/www/html/n18/apps/cospend/src/bill.js:846
 #: /var/www/html/n18/apps/cospend/src/project.js:1544
 msgid "Weekly"
 msgstr "每周"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:838
+#: /var/www/html/n18/apps/cospend/src/bill.js:847
 #: /var/www/html/n18/apps/cospend/src/project.js:1545
 msgid "Monthly"
 msgstr "每月"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:839
+#: /var/www/html/n18/apps/cospend/src/bill.js:848
 msgid "Yearly"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:848
+#: /var/www/html/n18/apps/cospend/src/bill.js:857
 msgid "Include all active member on repeat"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:856
+#: /var/www/html/n18/apps/cospend/src/bill.js:865
 msgid "Repeat until"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1032
-#: /var/www/html/n18/apps/cospend/src/bill.js:1067
+#: /var/www/html/n18/apps/cospend/src/bill.js:1041
+#: /var/www/html/n18/apps/cospend/src/bill.js:1076
 msgid "Member list is not up to date. Reloading in 5 sec."
 msgstr "成员列表尚未更新。5秒内重新加载。"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1171
-#: /var/www/html/n18/apps/cospend/src/bill.js:1277
+#: /var/www/html/n18/apps/cospend/src/bill.js:1180
+#: /var/www/html/n18/apps/cospend/src/bill.js:1286
 msgid "Bill values are not valid"
 msgstr "账单数据无效"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1330
+#: /var/www/html/n18/apps/cospend/src/bill.js:1339
 msgid "Personal parts are bigger than the paid amount"
 msgstr "个人部件大于总体支付金额"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1396
-#: /var/www/html/n18/apps/cospend/src/bill.js:1469
+#: /var/www/html/n18/apps/cospend/src/bill.js:1405
+#: /var/www/html/n18/apps/cospend/src/bill.js:1478
 #: /var/www/html/n18/apps/cospend/src/member.js:39
 #: /var/www/html/n18/apps/cospend/src/member.js:53
 #: /var/www/html/n18/apps/cospend/src/member.js:170
@@ -879,7 +883,7 @@ msgstr "个人部件大于总体支付金额"
 msgid "Invalid values"
 msgstr "数值无效"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1466
+#: /var/www/html/n18/apps/cospend/src/bill.js:1475
 msgid "There is no custom amount"
 msgstr "没有自定义金额"
 

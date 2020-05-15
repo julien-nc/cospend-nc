@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-05-09 13:38+0200\n"
-"PO-Revision-Date: 2020-05-09 11:40\n"
+"POT-Creation-Date: 2020-05-15 16:29+0200\n"
+"PO-Revision-Date: 2020-05-15 14:30\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Greek\n"
 "Language: el_GR\n"
@@ -528,7 +528,7 @@ msgid "To whom?"
 msgstr "Προς ποιον;"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3624
-#: /var/www/html/n18/apps/cospend/src/bill.js:676
+#: /var/www/html/n18/apps/cospend/src/bill.js:684
 #: /var/www/html/n18/apps/cospend/src/project.js:565
 msgid "How much?"
 msgstr "Πόσο;"
@@ -656,218 +656,222 @@ msgstr "Οι ρυθμίσεις του Cospend αποθηκεύτηκαν"
 msgid "Failed to save Cospend setting"
 msgstr "Αποτυχία αποθήκευσης ρυθμίσεων Cospend"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:144
-#: /var/www/html/n18/apps/cospend/src/bill.js:551
-#: /var/www/html/n18/apps/cospend/src/bill.js:597
-#: /var/www/html/n18/apps/cospend/src/bill.js:1391
-#: /var/www/html/n18/apps/cospend/src/bill.js:1461
+#: /var/www/html/n18/apps/cospend/src/bill.js:152
+#: /var/www/html/n18/apps/cospend/src/bill.js:559
+#: /var/www/html/n18/apps/cospend/src/bill.js:605
+#: /var/www/html/n18/apps/cospend/src/bill.js:1400
+#: /var/www/html/n18/apps/cospend/src/bill.js:1470
 msgid "No bill yet"
 msgstr "Δεν υπάρχει ακόμα λογαριασμός"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:162
+#: /var/www/html/n18/apps/cospend/src/bill.js:170
 msgid "New Bill"
 msgstr "Νέος Λογαριασμός"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:173
+#: /var/www/html/n18/apps/cospend/src/bill.js:181
 msgid "2 active members are required to create a bill"
 msgstr "2 ενεργοί χρήστες απαιτούνται για τη δημιουργία λογαριασμού"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:179
+#: /var/www/html/n18/apps/cospend/src/bill.js:187
 msgid "Choose file"
 msgstr "Επιλογή αρχείου"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:218
+#: /var/www/html/n18/apps/cospend/src/bill.js:226
 msgid "Create the bills"
 msgstr "Δημιουργία λογαριασμών"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:221
-#: /var/www/html/n18/apps/cospend/src/bill.js:703
+#: /var/www/html/n18/apps/cospend/src/bill.js:229
+#: /var/www/html/n18/apps/cospend/src/bill.js:711
 msgid "Create the bill"
 msgstr "Δημιουργία λογαριασμού"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:379
+#: /var/www/html/n18/apps/cospend/src/bill.js:387
 msgid "Bill created"
 msgstr "Ο λογαριασμός δημιουργήθηκε"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:384
+#: /var/www/html/n18/apps/cospend/src/bill.js:392
 msgid "Failed to create bill"
 msgstr "Αποτυχία δημιουργίας λογαριασμού"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:452
+#: /var/www/html/n18/apps/cospend/src/bill.js:460
 msgid "Bill saved"
 msgstr "Ο λογαριασμός αποθηκεύτηκε"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:457
+#: /var/www/html/n18/apps/cospend/src/bill.js:465
 msgid "Failed to save bill"
 msgstr "Αποτυχία αποθήκευσης λογαριασμού"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:484
-#: /var/www/html/n18/apps/cospend/src/bill.js:621
-#: /var/www/html/n18/apps/cospend/src/bill.js:684
-#: /var/www/html/n18/apps/cospend/src/bill.js:1045
+#: /var/www/html/n18/apps/cospend/src/bill.js:492
+#: /var/www/html/n18/apps/cospend/src/bill.js:629
+#: /var/www/html/n18/apps/cospend/src/bill.js:692
+#: /var/www/html/n18/apps/cospend/src/bill.js:1054
 msgid "link"
 msgstr "σύνδεσμος"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:518
-#: /var/www/html/n18/apps/cospend/src/bill.js:1092
+#: /var/www/html/n18/apps/cospend/src/bill.js:526
+#: /var/www/html/n18/apps/cospend/src/bill.js:1101
 #: /var/www/html/n18/apps/cospend/src/project.js:1561
 #: /var/www/html/n18/apps/cospend/src/share.js:396
 msgid "Undo"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:556
+#: /var/www/html/n18/apps/cospend/src/bill.js:564
 msgid "Deleted bill"
 msgstr "Ο λογαριασμός διαγράφηκε"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:560
+#: /var/www/html/n18/apps/cospend/src/bill.js:568
 msgid "Failed to delete bill"
 msgstr "Αποτυχία διαγραφής λογαριασμού"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:601
+#: /var/www/html/n18/apps/cospend/src/bill.js:609
 msgid "Failed to get bills"
 msgstr "Αποτυχία λήψης λογαριασμών"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:640
-#: /var/www/html/n18/apps/cospend/src/bill.js:699
+#: /var/www/html/n18/apps/cospend/src/bill.js:648
+#: /var/www/html/n18/apps/cospend/src/bill.js:707
 msgid "Bill : {what}"
 msgstr "Λογαριασμός : {what}"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:674
+#: /var/www/html/n18/apps/cospend/src/bill.js:682
 msgid "What?"
 msgstr "Τι;"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:675
+#: /var/www/html/n18/apps/cospend/src/bill.js:683
 msgid "Comment"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:677
+#: /var/www/html/n18/apps/cospend/src/bill.js:685
 msgid "Who payed?"
 msgstr "Ποιος πλήρωσε;"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:678
+#: /var/www/html/n18/apps/cospend/src/bill.js:686
 msgid "When?"
 msgstr "Πότε;"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:679
+#: /var/www/html/n18/apps/cospend/src/bill.js:687
 msgid "For whom?"
 msgstr "Προς ποιον;"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:701
+#: /var/www/html/n18/apps/cospend/src/bill.js:709
 #: /var/www/html/n18/apps/cospend/src/project.js:799
 #: /var/www/html/n18/apps/cospend/src/project.js:807
 msgid "All"
 msgstr "Όλα"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:702
-#: /var/www/html/n18/apps/cospend/src/bill.js:869
-#: /var/www/html/n18/apps/cospend/src/bill.js:880
+#: /var/www/html/n18/apps/cospend/src/bill.js:710
+#: /var/www/html/n18/apps/cospend/src/bill.js:878
+#: /var/www/html/n18/apps/cospend/src/bill.js:889
 #: /var/www/html/n18/apps/cospend/src/currency.js:199
 #: /var/www/html/n18/apps/cospend/src/project.js:369
 msgid "None"
 msgstr "Κανένα"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:704
+#: /var/www/html/n18/apps/cospend/src/bill.js:712
+msgid "Press Shift+Enter to validate"
+msgstr ""
+
+#: /var/www/html/n18/apps/cospend/src/bill.js:713
 msgid "Attach public link to personal file"
 msgstr "Επισύναψη δημόσιου συνδέσμου σε προσωπικό αρχείο"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:705
+#: /var/www/html/n18/apps/cospend/src/bill.js:714
 msgid "Classic, even split"
 msgstr "Κλασικό, ισότιμη κατανομή"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:706
+#: /var/www/html/n18/apps/cospend/src/bill.js:715
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
 msgstr "Κλασική λειτουργία: Επιλέξτε έναν πληρωτή, εισάγετε ένα ποσό λογαριασμού και επιλέξτε ποιος ενδιαφέρεται για το σύνολο των δαπανών, ο λογαριασμός κατανέμεται στη συνέχεια ισότιμα μεταξύ επιλεγμένων μελών. Παράδειγμα: Ένα άτομο πληρώνει ολόκληρο το λογαριασμό του εστιατορίου και όλοι συμφωνούν να κατανείμουν ομοιόμορφα το κόστος."
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:707
+#: /var/www/html/n18/apps/cospend/src/bill.js:716
 msgid "Custom owed amount per member"
 msgstr "Προσαρμοσμένο οφειλόμενο ποσό ανά μέλος"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:708
+#: /var/www/html/n18/apps/cospend/src/bill.js:717
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
 msgstr "Προσαρμοσμένη λειτουργία, άνιση κατανομή: Επιλέξτε έναν πληρωτή, αγνοήστε το ποσό του λογαριασμού (το οποίο είναι απενεργοποιημένο) και εισάγετε ένα οφειλόμενο ποσό για κάθε ενδιαφερόμενο μέλος. Στη συνέχεια πατήστε \"Δημιουργία λογαριασμών\". Θα δημιουργηθούν πολλαπλοί λογαριασμοί. Παράδειγμα: Το ένα άτομο πληρώνει ολόκληρο το λογαριασμό του εστιατορίου, αλλά υπάρχουν μεγάλες διαφορές τιμών μεταξύ του τι έφαγε κάθε άτομο."
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:709
+#: /var/www/html/n18/apps/cospend/src/bill.js:718
 msgid "Even split with optional personal parts"
 msgstr "Ισότιμη κατανομή με προαιρετικά προσωπικά μέρη"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:710
+#: /var/www/html/n18/apps/cospend/src/bill.js:719
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr "Κλασσική + προσωπική λειτουργία: Αυτή η λειτουργία είναι παρόμοια με την κλασική. Επιλέξτε έναν πληρωτή και εισάγετε ένα ποσό λογαριασμού που αντιστοιχεί σε αυτό που πραγματικά πληρώσατε. Στη συνέχεια επιλέξτε ποιος ενδιαφέρεται για το λογαριασμό και προαιρετικά ορίστε ένα ποσό που σχετίζεται με προσωπικά πράγματα για ορισμένα μέλη. Θα δημιουργηθούν πολλαπλοί λογαριασμοί: ένας για τις κοινές δαπάνες και ένας για κάθε προσωπικό κομμάτι. Παράδειγμα: Πηγαίνουμε για ψώνια, μέρος των αγαθών που αγοράσαμε αφορά την ομάδα, αλλά κάποιος πρόσθεσε επίσης κάτι προσωπικό (όπως ένα πουκάμισο) το οποίο οι άλλοι δεν θέλουν να πληρώσουν συλλογικά."
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:711
+#: /var/www/html/n18/apps/cospend/src/bill.js:720
 msgid "Bill type"
 msgstr "Τύπος λογαριασμού"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:712
+#: /var/www/html/n18/apps/cospend/src/bill.js:721
 #: /var/www/html/n18/apps/cospend/src/project.js:843
 msgid "Payment mode"
 msgstr "Τρόπος πληρωμής"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:713
+#: /var/www/html/n18/apps/cospend/src/bill.js:722
 #: /var/www/html/n18/apps/cospend/src/project.js:849
 msgid "Category"
 msgstr "Κατηγορία"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:714
+#: /var/www/html/n18/apps/cospend/src/bill.js:723
 msgid "Convert to"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:715
+#: /var/www/html/n18/apps/cospend/src/bill.js:724
 msgid "What time?"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:832
+#: /var/www/html/n18/apps/cospend/src/bill.js:841
 msgid "Repeat"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:835
+#: /var/www/html/n18/apps/cospend/src/bill.js:844
 #: /var/www/html/n18/apps/cospend/src/project.js:1542
 msgid "No"
 msgstr "Όχι"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:836
+#: /var/www/html/n18/apps/cospend/src/bill.js:845
 #: /var/www/html/n18/apps/cospend/src/project.js:1543
 msgid "Daily"
 msgstr "Καθημερινά"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:837
+#: /var/www/html/n18/apps/cospend/src/bill.js:846
 #: /var/www/html/n18/apps/cospend/src/project.js:1544
 msgid "Weekly"
 msgstr "Εβδομαδιαία"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:838
+#: /var/www/html/n18/apps/cospend/src/bill.js:847
 #: /var/www/html/n18/apps/cospend/src/project.js:1545
 msgid "Monthly"
 msgstr "Μηνιαία"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:839
+#: /var/www/html/n18/apps/cospend/src/bill.js:848
 msgid "Yearly"
 msgstr ""
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:848
+#: /var/www/html/n18/apps/cospend/src/bill.js:857
 msgid "Include all active member on repeat"
 msgstr "Συμπερίληψη όλων των ενεργών μελών στην επανάληψη"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:856
+#: /var/www/html/n18/apps/cospend/src/bill.js:865
 msgid "Repeat until"
 msgstr "Επανάληψη εώς"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1032
-#: /var/www/html/n18/apps/cospend/src/bill.js:1067
+#: /var/www/html/n18/apps/cospend/src/bill.js:1041
+#: /var/www/html/n18/apps/cospend/src/bill.js:1076
 msgid "Member list is not up to date. Reloading in 5 sec."
 msgstr "Η λίστα μελών δεν είναι ενημερωμένη. Ανανέωση σε 5 δευτ."
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1171
-#: /var/www/html/n18/apps/cospend/src/bill.js:1277
+#: /var/www/html/n18/apps/cospend/src/bill.js:1180
+#: /var/www/html/n18/apps/cospend/src/bill.js:1286
 msgid "Bill values are not valid"
 msgstr "Οι τιμές των λογαριασμών δεν είναι έγκυρες"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1330
+#: /var/www/html/n18/apps/cospend/src/bill.js:1339
 msgid "Personal parts are bigger than the paid amount"
 msgstr "Τα προσωπικά μέρη είναι μεγαλύτερα από το πληρωμένο ποσό"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1396
-#: /var/www/html/n18/apps/cospend/src/bill.js:1469
+#: /var/www/html/n18/apps/cospend/src/bill.js:1405
+#: /var/www/html/n18/apps/cospend/src/bill.js:1478
 #: /var/www/html/n18/apps/cospend/src/member.js:39
 #: /var/www/html/n18/apps/cospend/src/member.js:53
 #: /var/www/html/n18/apps/cospend/src/member.js:170
@@ -879,7 +883,7 @@ msgstr "Τα προσωπικά μέρη είναι μεγαλύτερα από 
 msgid "Invalid values"
 msgstr "Μη έγκυρες τιμές"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1466
+#: /var/www/html/n18/apps/cospend/src/bill.js:1475
 msgid "There is no custom amount"
 msgstr "Δεν υπάρχει προσαρμοσμένο ποσό"
 

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-05-15 16:29+0200\n"
-"PO-Revision-Date: 2020-05-15 14:30\n"
+"PO-Revision-Date: 2020-05-16 16:26\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Bulgarian\n"
 "Language: bg_BG\n"
@@ -65,7 +65,7 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Activity/ActivityManager.php:163
 msgid "A guest user"
-msgstr ""
+msgstr "Гостуващ потребител"
 
 #: /var/www/html/n18/apps/cospend/lib/Activity/BillSetting.php:42
 msgid "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted"
@@ -75,7 +75,7 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/lib/Activity/CospendProvider.php:245
 #, php-format
 msgid "circle %1$s"
-msgstr ""
+msgstr "кръг %1$s"
 
 #: /var/www/html/n18/apps/cospend/lib/Activity/Setting.php:54
 msgid "Changes in the <strong>Cospend app</strong>"
@@ -95,17 +95,17 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:198
 #, php-format
 msgid "Enter password of project %s"
-msgstr ""
+msgstr "Въведете парола на проекта %s"
 
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:226
 msgid "Enter project id and password"
-msgstr ""
+msgstr "Въведете ид.№ и парола на проекта"
 
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:257
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:309
 #, php-format
 msgid "Project %s"
-msgstr ""
+msgstr "Проект %s"
 
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:278
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:332
@@ -119,7 +119,7 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:4190
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:4194
 msgid "Access denied"
-msgstr ""
+msgstr "Достъпът е отказан"
 
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:413
 msgid "You are not allowed to delete this project"
@@ -185,11 +185,11 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:770
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:799
 msgid "Project not found"
-msgstr ""
+msgstr "Проектът не е намерен"
 
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:778
 msgid "Bad password or public link"
-msgstr ""
+msgstr "Лоша парола или публичен линк"
 
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:807
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:836
@@ -215,7 +215,7 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1559
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1583
 msgid "Unauthorized action"
-msgstr ""
+msgstr "Неупълномощено действие"
 
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1687
 msgid "You are not allowed to give such shared access level"
@@ -286,7 +286,7 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/lib/Migration/Version000406Date20200426154317.php:94
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:208
 msgid "Rent"
-msgstr ""
+msgstr "Наем"
 
 #: /var/www/html/n18/apps/cospend/lib/Migration/Version000406Date20200426154317.php:95
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:209
@@ -296,7 +296,7 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/lib/Migration/Version000406Date20200426154317.php:96
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:210
 msgid "Excursion/Culture"
-msgstr ""
+msgstr "Екскурзия/култура"
 
 #: /var/www/html/n18/apps/cospend/lib/Migration/Version000406Date20200426154317.php:97
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:211
@@ -379,24 +379,24 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:931
 msgid "Invalid date"
-msgstr ""
+msgstr "Недействителна дата"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:939
 msgid "This field is invalid"
-msgstr ""
+msgstr "Това поле е невалидно"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:942
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:945
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1405
 msgid "This field is required"
-msgstr ""
+msgstr "Това поле се изисква"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:948
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:960
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2492
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2512
 msgid "Not a valid choice"
-msgstr ""
+msgstr "Няма действителен избор"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1201
 msgid "Error when getting project settlement transactions"
@@ -409,7 +409,7 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1353
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1462
 msgid "Invalid member name"
-msgstr ""
+msgstr "Невалидно име на участник"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1361
 msgid "Not a valid decimal value"
@@ -417,20 +417,20 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1401
 msgid "This project have no such member"
-msgstr ""
+msgstr "Този проект няма такъв участник"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1411
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1502
 msgid "Name field is required"
-msgstr ""
+msgstr "Името на полето се изисква"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1423
 msgid "Invalid email address"
-msgstr ""
+msgstr "Недействителен адрес на електронна поща"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1454
 msgid "There is no such project"
-msgstr ""
+msgstr "Няма такъв проект"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1470
 msgid "Weight is not a valid decimal value"
@@ -459,16 +459,16 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2877
 msgid "This project have no such category"
-msgstr ""
+msgstr "Този проект няма такава категория"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2881
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2981
 msgid "Incorrect field values"
-msgstr ""
+msgstr "Неправилни стойности в полето"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2977
 msgid "This project have no such currency"
-msgstr ""
+msgstr "Този проект няма такава валута"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3066
 msgid "Already shared with this user"
@@ -480,14 +480,14 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3074
 msgid "No such user"
-msgstr ""
+msgstr "Няма такъв потребител"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3169
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3269
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3470
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3601
 msgid "No such share"
-msgstr ""
+msgstr "Няма такова споделяне"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3351
 msgid "No such shared access"
@@ -499,7 +499,7 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3413
 msgid "No such group"
-msgstr ""
+msgstr "Няма такава група"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3483
 msgid "Sharing with personal circles is not supported"
@@ -511,7 +511,7 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3542
 msgid "No such circle"
-msgstr ""
+msgstr "Няма такъв кръг"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3546
 msgid "Circles app is not enabled"
@@ -525,13 +525,13 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3624
 #: /var/www/html/n18/apps/cospend/src/project.js:564
 msgid "To whom?"
-msgstr ""
+msgstr "До кого?"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3624
 #: /var/www/html/n18/apps/cospend/src/bill.js:684
 #: /var/www/html/n18/apps/cospend/src/project.js:565
 msgid "How much?"
-msgstr ""
+msgstr "Колко?"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3650
 #, php-format
@@ -546,27 +546,27 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3660
 #, php-format
 msgid "Impossible to create %1$s"
-msgstr ""
+msgstr "Невъзможно да създаде %1$s"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3682
 #: /var/www/html/n18/apps/cospend/src/project.js:780
 msgid "Member name"
-msgstr ""
+msgstr "Име на участник"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3682
 #: /var/www/html/n18/apps/cospend/src/project.js:781
 msgid "Paid"
-msgstr ""
+msgstr "Платено"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3682
 #: /var/www/html/n18/apps/cospend/src/project.js:782
 msgid "Spent"
-msgstr ""
+msgstr "Изразходвано"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3682
 #: /var/www/html/n18/apps/cospend/src/project.js:783
 msgid "Balance"
-msgstr ""
+msgstr "Баланс"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3840
 #, php-format
@@ -713,7 +713,7 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/src/project.js:1561
 #: /var/www/html/n18/apps/cospend/src/share.js:396
 msgid "Undo"
-msgstr ""
+msgstr "Отмяна"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:564
 msgid "Deleted bill"
@@ -734,29 +734,29 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:682
 msgid "What?"
-msgstr ""
+msgstr "Какво?"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:683
 msgid "Comment"
-msgstr ""
+msgstr "Коментар"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:685
 msgid "Who payed?"
-msgstr ""
+msgstr "Кой е платил?"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:686
 msgid "When?"
-msgstr ""
+msgstr "Кога?"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:687
 msgid "For whom?"
-msgstr ""
+msgstr "За кого?"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:709
 #: /var/www/html/n18/apps/cospend/src/project.js:799
 #: /var/www/html/n18/apps/cospend/src/project.js:807
 msgid "All"
-msgstr ""
+msgstr "Всички"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:710
 #: /var/www/html/n18/apps/cospend/src/bill.js:878
@@ -764,7 +764,7 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/src/currency.js:199
 #: /var/www/html/n18/apps/cospend/src/project.js:369
 msgid "None"
-msgstr ""
+msgstr "Без"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:712
 msgid "Press Shift+Enter to validate"
@@ -810,7 +810,7 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/src/bill.js:722
 #: /var/www/html/n18/apps/cospend/src/project.js:849
 msgid "Category"
-msgstr ""
+msgstr "Категория"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:723
 msgid "Convert to"
@@ -827,26 +827,26 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/src/bill.js:844
 #: /var/www/html/n18/apps/cospend/src/project.js:1542
 msgid "No"
-msgstr ""
+msgstr "Не"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:845
 #: /var/www/html/n18/apps/cospend/src/project.js:1543
 msgid "Daily"
-msgstr ""
+msgstr "Ежедневно"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:846
 #: /var/www/html/n18/apps/cospend/src/project.js:1544
 msgid "Weekly"
-msgstr ""
+msgstr "Ежеседмично"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:847
 #: /var/www/html/n18/apps/cospend/src/project.js:1545
 msgid "Monthly"
-msgstr ""
+msgstr "Ежемесечно"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:848
 msgid "Yearly"
-msgstr ""
+msgstr "Ежегодно"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:857
 msgid "Include all active member on repeat"
@@ -918,32 +918,32 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/category.js:189
 msgid "Add category"
-msgstr ""
+msgstr "Добавяне на категория"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:193
 #: /var/www/html/n18/apps/cospend/src/category.js:292
 msgid "Icon"
-msgstr ""
+msgstr "Икона"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:199
 #: /var/www/html/n18/apps/cospend/src/category.js:298
 #: /var/www/html/n18/apps/cospend/src/currency.js:225
 #: /var/www/html/n18/apps/cospend/src/currency.js:306
 msgid "Name"
-msgstr ""
+msgstr "Име"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:201
 #: /var/www/html/n18/apps/cospend/src/category.js:300
 msgid "Color"
-msgstr ""
+msgstr "Цвят"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:206
 msgid "Add this category"
-msgstr ""
+msgstr "Добавяне на тази категория"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:215
 msgid "Category list"
-msgstr ""
+msgstr "Списък на категориите"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:268
 msgid "Category {n} added"
@@ -1043,7 +1043,7 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/currency.js:221
 msgid "Add currency"
-msgstr ""
+msgstr "Добавяне на валута"
 
 #: /var/www/html/n18/apps/cospend/src/currency.js:227
 #: /var/www/html/n18/apps/cospend/src/currency.js:310
@@ -1061,7 +1061,7 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/currency.js:242
 msgid "Currency list"
-msgstr ""
+msgstr "Списък с валути"
 
 #: /var/www/html/n18/apps/cospend/src/currency.js:285
 msgid "Currency {n} added"
@@ -1153,7 +1153,7 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/src/member.js:376
 #: /var/www/html/n18/apps/cospend/src/project.js:1358
 msgid "Rename"
-msgstr ""
+msgstr "Преименуване"
 
 #: /var/www/html/n18/apps/cospend/src/member.js:377
 msgid "Change weight"
@@ -1246,7 +1246,7 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/src/project.js:1785
 #: /var/www/html/n18/apps/cospend/src/project.js:1833
 msgid "No category"
-msgstr ""
+msgstr "Няма категория"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:779
 msgid "Statistics of project {name}"
@@ -1266,19 +1266,19 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/project.js:836
 msgid "Minimum date"
-msgstr ""
+msgstr "Минимална дата"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:838
 msgid "Maximum date"
-msgstr ""
+msgstr "Максимална дата"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:852
 msgid "Minimum amount"
-msgstr ""
+msgstr "Минимална сума"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:854
 msgid "Maximum amount"
-msgstr ""
+msgstr "Максимална сума"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:856
 msgid "Currency of statistic values"
@@ -1294,7 +1294,7 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/project.js:864
 msgid "Global stats"
-msgstr ""
+msgstr "Глобална статистика"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:921
 msgid "Monthly stats per member"
@@ -1302,11 +1302,11 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/project.js:929
 msgid "Member/Month"
-msgstr ""
+msgstr "Участник/месец"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:954
 msgid "All members"
-msgstr ""
+msgstr "Всички участници"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:974
 msgid "Monthly stats per category"
@@ -1314,7 +1314,7 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/project.js:991
 msgid "Category/Month"
-msgstr ""
+msgstr "Категория/месец"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1095
 msgid "Payments per category per month"
@@ -1338,20 +1338,20 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1356
 msgid "Add member"
-msgstr ""
+msgstr "Добавяне на участник"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1357
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:46
 msgid "Guest access link"
-msgstr ""
+msgstr "Връзка за достъп за гости"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1359
 msgid "Change password"
-msgstr ""
+msgstr "Промяна на паролата"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1360
 msgid "Display statistics"
-msgstr ""
+msgstr "Показване на статистиката"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1361
 msgid "Settle the project"
@@ -1367,16 +1367,16 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1364
 msgid "Manage currencies"
-msgstr ""
+msgstr "Управляване на валутите"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1365
 msgid "Manage categories"
-msgstr ""
+msgstr "Управляване на категориите"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1366
 #: /var/www/html/n18/apps/cospend/src/share.js:388
 msgid "Delete"
-msgstr ""
+msgstr "Изтриване"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1367
 msgid "Link/QRCode for MoneyBuster"
@@ -1413,7 +1413,7 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/src/project.js:1474
 #: /var/www/html/n18/apps/cospend/src/share.js:353
 msgid "Viewer"
-msgstr ""
+msgstr "Разглеждачка"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1621
 #: /var/www/html/n18/apps/cospend/src/share.js:176
@@ -1539,7 +1539,7 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/templates/logincontent.php:2
 msgid "Authentication"
-msgstr ""
+msgstr "Удостоверяване"
 
 #: /var/www/html/n18/apps/cospend/templates/logincontent.php:7
 msgid "Wrong project Id or password"
@@ -1555,15 +1555,15 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:6
 msgid "New project"
-msgstr ""
+msgstr "Нов проект"
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:11
 msgid "Project name"
-msgstr ""
+msgstr "Име на проекта"
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:12
 msgid "My project name"
-msgstr ""
+msgstr "Име на проекта ми"
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:14
 msgid "Password (optional, required for guest access)"
@@ -1571,7 +1571,7 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:17
 msgid "Add project"
-msgstr ""
+msgstr "Добавяне на проект"
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:23
 msgid "New bill"
@@ -1579,7 +1579,7 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:35
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:40
 msgid "Import csv project file"

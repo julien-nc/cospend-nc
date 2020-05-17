@@ -12,7 +12,7 @@ Project members are independent from Nextcloud users. Projects can be accessed a
 
 [PayForMe](https://github.com/mayflower/PayForMe) iOS client is currently being developped!
 
-## Features
+## Функции
 
 * ✎ create/edit/delete projects, members, bills, bill categories, currencies
 * ⚖ check member balances
@@ -44,7 +44,7 @@ Check [CHANGELOG](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md
 
 Check [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
 
-## Known issues
+## Известни проблеми
 
 * it does not make you rich
 

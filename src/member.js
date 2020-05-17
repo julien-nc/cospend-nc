@@ -158,7 +158,7 @@ export function getMemberName(projectid, memberid) {
 
 export function getMemberAvatar(projectid, memberid) {
     var member = cospend.members[projectid][memberid];
-    if (member.userid) {
+    if (member.userid && !cospend.pageIsPublic) {
         return generateUrl('/avatar/' + encodeURIComponent(member.userid) + '/64?v=2');
     } else {
         return generateUrl('/apps/cospend/getAvatar?color=' + member.color + '&name=' + encodeURIComponent(member.name));

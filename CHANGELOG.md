@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.5.3 – 2020-05-17
+### Changed
+- shift+enter keybinding to create bill
+[#97](https://gitlab.com/eneiluj/cospend-nc/issues/97) @nicoe
+
+### Fixed
+- fix public page, don't register search
+[#98](https://gitlab.com/eneiluj/cospend-nc/issues/98) @DavidMStraub
+- avoid getting member avatar in public pages
+
 ## 0.5.2 – 2020-05-09
 ### Added
 - now able to center settlement on one member

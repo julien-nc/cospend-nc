@@ -167,7 +167,7 @@ export function billEvents() {
             if (cospend.currentProjectId !== null && $('.billitem[billid=0]').length === 0) {
                 const bill = {
                     id: 0,
-                    what: t('cospend', 'New Bill'),
+                    what: '',
                     timestamp: moment().unix(),
                     amount: 0.0,
                     payer_id: 0,
@@ -788,7 +788,8 @@ export function displayBill(projectid, billid) {
                                     .append($('<a/>', {class: 'icon icon-tag'}))
                                     .append(document.createTextNode(whatStr))
                             )
-                            .append($('<input/>', {type: 'text', id: 'what', maxlength: 300, class: 'input-bill-what', value: bill.what}))
+                            .append($('<input/>', {type: 'text', id: 'what', maxlength: 300, class: 'input-bill-what',
+                                                   value: bill.what, placeholder: t('cospend', 'What is the bill about?')}))
                     )
                     .append(cospend.pageIsPublic ?
                         null :
@@ -896,7 +897,8 @@ export function displayBill(projectid, billid) {
                                     .append($('<a/>', {class: 'icon icon-comment'}))
                                     .append(document.createTextNode(commentStr))
                             )
-                            .append($('<textarea/>', {id: 'comment', maxlength: 300, class: 'input-bill-comment', value: bill.comment}))
+                            .append($('<textarea/>', {id: 'comment', maxlength: 300, class: 'input-bill-comment',
+                                                      value: bill.comment, placeholder: t('cospend', 'More details about the bill (300 char. max)')}))
                     )
                 )
                 .append(

@@ -197,7 +197,8 @@ export function displayCategories(projectid, projectInfo) {
                                                 .append($('<button/>', {id: 'add-icon-button'}).text('🙂'))
                                         )
                                         .append($('<label/>', {for: 'addCategoryNameInput'}).text(t('cospend', 'Name')))
-                                        .append($('<input/>', {type: 'text', value: '', maxlength: 300, id: 'addCategoryNameInput'}))
+                                        .append($('<input/>', {type: 'text', value: '', maxlength: 300, id: 'addCategoryNameInput',
+                                                               placeholder: t('cospend', 'New category name')}))
                                         .append($('<label/>', {for: 'addCategoryColorInput'}).text(t('cospend', 'Color')))
                                         .append($('<input/>', {type: 'color', value: '', maxlength: 300, id: 'addCategoryColorInput'}))
                                         .append(
@@ -296,7 +297,8 @@ export function addCategory(projectid, catId, category) {
                             .append($('<button/>', {class: 'edit-icon-button'}).text('🙂'))
                     )
                     .append($('<label/>').text(t('cospend', 'Name')))
-                    .append($('<input/>', {type: 'text', value: category.name, maxlength: 300, class: 'editCategoryNameInput'}))
+                    .append($('<input/>', {type: 'text', value: category.name, maxlength: 300, class: 'editCategoryNameInput',
+                                           placeholder: t('cospend', 'Category name')}))
                     .append($('<label/>').text(t('cospend', 'Color')))
                     .append($('<input/>', {type: 'color', value: category.color, class: 'editCategoryColorInput'}))
                     .append(

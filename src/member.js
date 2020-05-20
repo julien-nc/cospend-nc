@@ -26,8 +26,7 @@ export function memberEvents() {
 
         const newmemberdiv = $('.projectitem[projectid="' + projectid + '"] .newmemberdiv');
         newmemberdiv.show().attr('style', 'display: inline-flex;');
-        const defaultMemberName = t('cospend', 'newMemberName');
-        newmemberdiv.find('.newmembername').val(defaultMemberName).focus().select();
+        newmemberdiv.find('.newmembername').focus().select();
     });
 
     $('body').on('click', '.newmemberbutton', function () {
@@ -62,7 +61,7 @@ export function memberEvents() {
         const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
         const mid = $(this).parent().parent().parent().parent().attr('memberid');
         const name = cospend.members[projectid][mid].name;
-        $(this).parent().parent().parent().parent().find('.editMemberInput').val(name).focus().select();
+        $(this).parent().parent().parent().parent().find('.editMemberInput').val(name).focus().select().attr('placeholder', t('cospend', 'New name'));
         $('.memberlist li').removeClass('editing');
         $(this).parent().parent().parent().parent().addClass('editing');
         cospend.memberEditionMode = constants.MEMBER_NAME_EDITION;
@@ -72,7 +71,7 @@ export function memberEvents() {
         const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
         const mid = $(this).parent().parent().parent().parent().attr('memberid');
         const weight = cospend.members[projectid][mid].weight;
-        $(this).parent().parent().parent().parent().find('.editMemberInput').val(weight).focus().select();
+        $(this).parent().parent().parent().parent().find('.editMemberInput').val(weight).focus().select().attr('placeholder', t('cospend', 'New weight'));
         $('.memberlist li').removeClass('editing');
         $(this).parent().parent().parent().parent().addClass('editing');
         cospend.memberEditionMode = constants.MEMBER_WEIGHT_EDITION;

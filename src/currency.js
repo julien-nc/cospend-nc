@@ -203,8 +203,9 @@ export function displayCurrencies(projectid, projectInfo) {
                             $('<div/>', {id: 'main-currency-edit'})
                                 .append($('<input/>', {
                                     type: 'text', maxlength: 64,
-                                    value: (mainCurrencyName || t('cospend', 'Potatoe')),
-                                    class: 'editMainCurrencyInput'
+                                    value: (mainCurrencyName || ''),
+                                    class: 'editMainCurrencyInput',
+                                    placeholder: t('cospend', 'Main currency name')
                                 }))
                                 .append($('<input/>', {type: 'submit', value: '', class: 'icon-close editMainCurrencyClose'}))
                                 .append($('<input/>', {type: 'submit', value: '', class: 'icon-checkmark editMainCurrencyOk'}))
@@ -223,7 +224,8 @@ export function displayCurrencies(projectid, projectInfo) {
                                 .append(
                                     $('<div/>', {id: 'add-currency'})
                                         .append($('<label/>', {for: 'addCurrencyNameInput'}).text(t('cospend', 'Name')))
-                                        .append($('<input/>', {type: 'text', value: '', maxlength: 64, id: 'addCurrencyNameInput'}))
+                                        .append($('<input/>', {type: 'text', value: '', maxlength: 64, id: 'addCurrencyNameInput',
+                                                               placeholder: t('cospend', 'New currency name')}))
                                         .append($('<label/>', {for: 'addCurrencyRateInput'}).text(t('cospend', 'Exchange rate to main currency')))
                                         .append($('<input/>', {type: 'number', value: 1, id: 'addCurrencyRateInput', step: 0.0001, min: 0}))
                                         .append($('<label/>', {class: 'addCurrencyRateHint'}).text(t('cospend', '(1 of this currency = X of main currency)')))
@@ -304,7 +306,8 @@ export function addCurrency(projectid, currency) {
         .append(
             $('<div/>', {class: 'one-currency-edit'})
                 .append($('<label/>').text(t('cospend', 'Name')))
-                .append($('<input/>', {type: 'text', value: currency.name, maxlength: 64, class: 'editCurrencyNameInput'}))
+                .append($('<input/>', {type: 'text', value: currency.name, maxlength: 64, class: 'editCurrencyNameInput',
+                                       placeholder: t('cospend', 'Currency name')}))
                 .append(
                     $('<label/>')
                         .append(t('cospend', 'Exchange rate to main currency'))

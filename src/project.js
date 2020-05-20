@@ -1430,7 +1430,7 @@ export function addProject(project) {
         )
         .append(
             $('<div/>', {class: 'newmemberdiv'})
-                .append($('<input/>', {class: 'newmembername', maxlength: 300, type: 'text', value: ''}))
+                .append($('<input/>', {class: 'newmembername', maxlength: 300, type: 'text', value: '', placeholder: t('cospend', 'New member name')}))
                 .append($('<button/>', {class: 'newmemberbutton icon-add'}))
         )
         .append(

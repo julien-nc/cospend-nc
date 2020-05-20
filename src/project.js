@@ -277,6 +277,14 @@ export function projectEvents() {
         const projectid = $(this).parent().parent().parent().parent().attr('projectid');
         getProjectStatistics(projectid, null, null, null, -100);
     });
+
+    $('body').on('keyup', '#mbPasswordInput', function(e) {
+        if (e.key === 'Enter') {
+            const projectid = cospend.currentProjectId;
+            const password = $(this).val();
+            getProjectMoneyBusterLink(projectid, password);
+        }
+    });
 }
 
 export function createProject(id, name, password) {
@@ -650,7 +658,7 @@ export function displaySettlement(projectid, transactionList, centeredOn=null) {
     }
 }
 
-export function getProjectMoneyBusterLink(projectid) {
+export function getProjectMoneyBusterLink(projectid, password=null) {
     // unselect bill
     $('.billitem').removeClass('selectedbill');
 
@@ -658,7 +666,8 @@ export function getProjectMoneyBusterLink(projectid) {
         selectProject($('.projectitem[projectid="' + projectid + '"]'));
     }
 
-    const url = 'https://net.eneiluj.moneybuster.cospend/' + window.location.host + generateUrl('').replace('/index.php', '') + projectid + '/';
+    const url = 'https://net.eneiluj.moneybuster.cospend/' + window.location.host +
+        generateUrl('').replace('/index.php', '') + projectid + '/' + (password || '');
 
     const projectName = getProjectName(projectid);
     const container = $('#billdetail');
@@ -667,6 +676,8 @@ export function getProjectMoneyBusterLink(projectid) {
     const titleStr = t('cospend', 'MoneyBuster link/QRCode for project {name}', {name: projectName});
     const hint1 = t('cospend', 'Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone.');
     const hint2 = t('cospend', 'Android will know MoneyBuster can open such a link (based on the \'https://net.eneiluj.moneybuster.cospend\' part) and you will be able to add the project.');
+    const passwordLabel1 = t('cospend', 'As password is stored hashed (for security), it can\'t be automatically included in the QRCode. If you want to include it in the QRCode and make it super easy to add a project in MoneyBuster, you need to provide the password again, sorry.');
+    const passwordLabel2 = t('cospend', 'Type the project password and press Enter to generate another QRCode including the password.');
 
     container.append($('<div/>', {id: 'app-details-toggle', tabindex: 0, class: 'icon-confirm'}));
     const title = $('<h2/>', {id: 'mbTitle'})
@@ -677,7 +688,11 @@ export function getProjectMoneyBusterLink(projectid) {
         .append($('<label/>', {id: 'mbUrlLabel'}).text(url))
         .append('<br/>')
         .append($('<label/>', {id: 'mbUrlHintLabel'}).text(hint1))
-        .append($('<label/>', {id: 'mbUrlHintLabel'}).text(hint2));
+        .append($('<label/>', {id: 'mbUrlHintLabel'}).text(hint2))
+        .append('<br/><hr/><br/>')
+        .append($('<label/>', {id: 'mbPasswordLabel1'}).text(passwordLabel1))
+        .append($('<label/>', {id: 'mbPasswordLabel2'}).text(passwordLabel2))
+        .append($('<input/>', {id: 'mbPasswordInput', type: 'text', value: password, placeholder: t('cospend', 'Project password')}));
 
     const img = new Image();
     // wait for the image to be loaded to generate the QRcode

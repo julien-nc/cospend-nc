@@ -538,6 +538,13 @@ input[type=number] {
     display: none;
     content: url("images/cospend.png");
 }
+#mbPasswordInput {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+#mbPasswordLabel1,
+#mbPasswordLabel2,
 #mbUrlHintLabel,
 #mbUrlLabel {
     display: block;

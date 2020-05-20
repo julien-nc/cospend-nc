@@ -535,6 +535,23 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
+    public function webCheckPassword($projectid, $password) {
+        if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+            return new DataResponse($this->checkLogin($projectid, $password));
+        }
+        else {
+            $response = new DataResponse(
+                ['message' => $this->trans->t('You are not allowed to access this project')]
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     *
+     */
     public function webEditMember($projectid, $memberid, $name, $weight, $activated, $color=null, $userid=null) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->editMember($projectid, $memberid, $name, $userid, $weight, $activated, $color);

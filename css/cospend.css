@@ -546,10 +546,12 @@ input[type=number] {
 #mbPasswordLabel1,
 #mbPasswordLabel2,
 #mbUrlHintLabel,
+#mbUrlPasswordLabel,
 #mbUrlLabel {
     display: block;
     text-align: center;
 }
+#qrcode-password-div,
 #qrcodediv {
     width: 210px;
     margin: 0 auto;

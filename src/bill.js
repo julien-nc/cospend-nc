@@ -735,8 +735,9 @@ export function displayBill(projectid, billid) {
         member = cospend.members[projectid][memberid];
         // show member if it's the payer or if it's activated
         if (member.activated || member.id === bill.payer_id) {
+            const currentUser = getCurrentUser();
             selected = member.id === bill.payer_id ||
-                    (billid === 0 && member.userid === getCurrentUser().uid);
+                    (billid === 0 && currentUser && member.userid === currentUser.uid);
             payerSelect.append($('<option/>', {value: member.id, selected: selected ? 'selected' : null}).text(member.name))
         }
     }

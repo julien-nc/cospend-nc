@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.5.4 – 2020-05-23
+### Changed
+- use more placeholders
+- improve QRCode generation
+[#42](https://gitlab.com/eneiluj/cospend-nc/issues/42) @call-me-matt
+
+### Fixed
+- new bill in guest access page
+[#99](https://gitlab.com/eneiluj/cospend-nc/issues/99) @pflegende
 
 ## 0.5.3 – 2020-05-17
 ### Changed

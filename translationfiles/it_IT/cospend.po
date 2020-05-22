@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-05-15 16:29+0200\n"
-"PO-Revision-Date: 2020-05-15 14:30\n"
+"PO-Revision-Date: 2020-05-19 07:55\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Italian\n"
 "Language: it_IT\n"
@@ -65,7 +65,7 @@ msgstr "{user} ha aggiornato il conto {bill} del progetto {project}"
 
 #: /var/www/html/n18/apps/cospend/lib/Activity/ActivityManager.php:163
 msgid "A guest user"
-msgstr ""
+msgstr "Un utente ospite"
 
 #: /var/www/html/n18/apps/cospend/lib/Activity/BillSetting.php:42
 msgid "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted"
@@ -276,12 +276,12 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/lib/Migration/Version000406Date20200426154317.php:92
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:206
 msgid "Grocery"
-msgstr ""
+msgstr "Alimentari"
 
 #: /var/www/html/n18/apps/cospend/lib/Migration/Version000406Date20200426154317.php:93
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:207
 msgid "Bar/Party"
-msgstr ""
+msgstr "Bar/Festa"
 
 #: /var/www/html/n18/apps/cospend/lib/Migration/Version000406Date20200426154317.php:94
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:208
@@ -291,12 +291,12 @@ msgstr "Affitto"
 #: /var/www/html/n18/apps/cospend/lib/Migration/Version000406Date20200426154317.php:95
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:209
 msgid "Bill"
-msgstr ""
+msgstr "Spesa"
 
 #: /var/www/html/n18/apps/cospend/lib/Migration/Version000406Date20200426154317.php:96
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:210
 msgid "Excursion/Culture"
-msgstr ""
+msgstr "Escursione/Cultura"
 
 #: /var/www/html/n18/apps/cospend/lib/Migration/Version000406Date20200426154317.php:97
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:211
@@ -306,27 +306,27 @@ msgstr "Salute"
 #: /var/www/html/n18/apps/cospend/lib/Migration/Version000406Date20200426154317.php:98
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:212
 msgid "Shopping"
-msgstr ""
+msgstr "Shopping"
 
 #: /var/www/html/n18/apps/cospend/lib/Migration/Version000406Date20200426154317.php:100
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:213
 msgid "Restaurant"
-msgstr ""
+msgstr "Ristorante"
 
 #: /var/www/html/n18/apps/cospend/lib/Migration/Version000406Date20200426154317.php:101
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:214
 msgid "Accommodation"
-msgstr ""
+msgstr "Alloggio"
 
 #: /var/www/html/n18/apps/cospend/lib/Migration/Version000406Date20200426154317.php:102
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:215
 msgid "Transport"
-msgstr ""
+msgstr "Transporto"
 
 #: /var/www/html/n18/apps/cospend/lib/Migration/Version000406Date20200426154317.php:103
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:216
 msgid "Sport"
-msgstr ""
+msgstr "Sport"
 
 #: /var/www/html/n18/apps/cospend/lib/Notification/Notifier.php:86
 #, php-format
@@ -341,25 +341,25 @@ msgstr "L'utente \"%s\" ha smesso di condividere il progetto Cospend \"%s\" con 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:246
 #: /var/www/html/n18/apps/cospend/src/constants.js:18
 msgid "Reimbursement"
-msgstr ""
+msgstr "Rimborso"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:496
 msgid "Invalid project id"
-msgstr ""
+msgstr "Id progetto non valido"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:538
 #, php-format
 msgid "A project with id \"%1$s\" already exists"
-msgstr ""
+msgstr "Esiste già un progetto con id%1$s\""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:603
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:1022
 msgid "Not Found"
-msgstr ""
+msgstr "Non trovato"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:809
 msgid "Average per month"
-msgstr ""
+msgstr "Media per mese"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:912
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:915
@@ -371,15 +371,15 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2504
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2509
 msgid "Invalid value"
-msgstr ""
+msgstr "Valore non valido"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:926
 msgid "Timestamp (or date) field is required"
-msgstr ""
+msgstr "Il campo timestamp (o data) è obbligatorio"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:931
 msgid "Invalid date"
-msgstr ""
+msgstr "Data non valida"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:939
 msgid "This field is invalid"
@@ -459,47 +459,47 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2877
 msgid "This project have no such category"
-msgstr ""
+msgstr "Questo progetto non ha questa categoria"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2881
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2981
 msgid "Incorrect field values"
-msgstr ""
+msgstr "Valori campo errati"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:2977
 msgid "This project have no such currency"
-msgstr ""
+msgstr "Questo progetto non ha questa valuta"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3066
 msgid "Already shared with this user"
-msgstr ""
+msgstr "Già condiviso con questo utente"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3070
 msgid "Impossible to share the project with its owner"
-msgstr ""
+msgstr "Impossibile condividere il progetto con il suo proprietario"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3074
 msgid "No such user"
-msgstr ""
+msgstr "Nessun utente"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3169
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3269
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3470
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3601
 msgid "No such share"
-msgstr ""
+msgstr "Condivisione inesistente"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3351
 msgid "No such shared access"
-msgstr ""
+msgstr "Nessun accesso condiviso"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3409
 msgid "Already shared with this group"
-msgstr ""
+msgstr "Già condiviso con questo gruppo"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3413
 msgid "No such group"
-msgstr ""
+msgstr "Gruppo inesistente"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3483
 msgid "Sharing with personal circles is not supported"
@@ -515,7 +515,7 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3546
 msgid "Circles app is not enabled"
-msgstr ""
+msgstr "L'app Circles non è abilitata"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3624
 #: /var/www/html/n18/apps/cospend/src/project.js:563
@@ -536,17 +536,17 @@ msgstr "Quanto?"
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3650
 #, php-format
 msgid "%1$s is not a folder"
-msgstr ""
+msgstr "%1$s non è una cartella"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3653
 #, php-format
 msgid "%1$s is not writeable"
-msgstr ""
+msgstr "%1$s non è scrivibile"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3660
 #, php-format
 msgid "Impossible to create %1$s"
-msgstr ""
+msgstr "Impossibile creare %1$s"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3682
 #: /var/www/html/n18/apps/cospend/src/project.js:780
@@ -571,47 +571,47 @@ msgstr "Saldo"
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3840
 #, php-format
 msgid "Malformed CSV, bad column names at line %1$s"
-msgstr ""
+msgstr "CSV malformato, nomi di colonne errati alla riga %1$s"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3900
 #, php-format
 msgid "Malformed CSV, bad payer weight on line %1$s"
-msgstr ""
+msgstr "CSV malformato, peso pagatore errato alla linea %1$s"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3904
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3911
 #, php-format
 msgid "Malformed CSV, bad owers on line %1$s"
-msgstr ""
+msgstr "CSV malformato, debitori errati alla linea %1$s"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3919
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:4104
 #, php-format
 msgid "Malformed CSV, bad amount on line %1$s"
-msgstr ""
+msgstr "CSV malformato, importo errato alla linea %1$s"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3952
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:4141
 #, php-format
 msgid "Error in project creation, %1$s"
-msgstr ""
+msgstr "Errore nella creazione del progetto, %1$s"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3963
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:4149
 #, php-format
 msgid "Error when adding category %1$s"
-msgstr ""
+msgstr "Errore durante l'aggiunta della categoria %1$s"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3972
 #, php-format
 msgid "Error when adding currency %1$s"
-msgstr ""
+msgstr "Errore durante l'aggiunta della valuta %1$s"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3980
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:4158
 #, php-format
 msgid "Error when adding member %1$s"
-msgstr ""
+msgstr "Errore durante l'aggiunta del membro %1$s"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:4003
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:4180
@@ -621,16 +621,16 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:4054
 msgid "Malformed CSV, bad column names"
-msgstr ""
+msgstr "CSV malformato, nomi di colonne errati"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:4065
 msgid "Malformed CSV, cannot have an empty ower"
-msgstr ""
+msgstr "CSV malformato, non può avere un proprietario vuoto"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:4098
 #, php-format
 msgid "Malformed CSV, no payer on line %1$s"
-msgstr ""
+msgstr "CSV malformato, nessun pagatore alla linea %1$s"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:4219
 msgid "daily"
@@ -713,7 +713,7 @@ msgstr "collega"
 #: /var/www/html/n18/apps/cospend/src/project.js:1561
 #: /var/www/html/n18/apps/cospend/src/share.js:396
 msgid "Undo"
-msgstr ""
+msgstr "Annulla"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:564
 msgid "Deleted bill"
@@ -738,7 +738,7 @@ msgstr "Cosa?"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:683
 msgid "Comment"
-msgstr ""
+msgstr "Commento"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:685
 msgid "Who payed?"
@@ -768,7 +768,7 @@ msgstr "Nessuno"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:712
 msgid "Press Shift+Enter to validate"
-msgstr ""
+msgstr "Premere Maiusc+Invio per convalidare"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:713
 msgid "Attach public link to personal file"
@@ -814,15 +814,15 @@ msgstr "Categoria"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:723
 msgid "Convert to"
-msgstr ""
+msgstr "Converti in"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:724
 msgid "What time?"
-msgstr ""
+msgstr "A che ora?"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:841
 msgid "Repeat"
-msgstr ""
+msgstr "Ripeti"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:844
 #: /var/www/html/n18/apps/cospend/src/project.js:1542
@@ -846,15 +846,15 @@ msgstr "Mensile"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:848
 msgid "Yearly"
-msgstr ""
+msgstr "Annualmente"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:857
 msgid "Include all active member on repeat"
-msgstr ""
+msgstr "Includi tutti i membri attivi alla ripetizione"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:865
 msgid "Repeat until"
-msgstr ""
+msgstr "Ripeti fino a"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:1041
 #: /var/www/html/n18/apps/cospend/src/bill.js:1076
@@ -892,62 +892,62 @@ msgstr "Non c'è nessun importo personalizzato"
 #: /var/www/html/n18/apps/cospend/src/category.js:87
 #: /var/www/html/n18/apps/cospend/src/category.js:109
 msgid "Category name should not be empty"
-msgstr ""
+msgstr "Il nome della categoria non deve essere vuoto"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:27
 #: /var/www/html/n18/apps/cospend/src/category.js:48
 #: /var/www/html/n18/apps/cospend/src/category.js:92
 #: /var/www/html/n18/apps/cospend/src/category.js:114
 msgid "Category icon should not be empty"
-msgstr ""
+msgstr "L'icona della categoria non deve essere vuota"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:32
 #: /var/www/html/n18/apps/cospend/src/category.js:53
 #: /var/www/html/n18/apps/cospend/src/category.js:97
 #: /var/www/html/n18/apps/cospend/src/category.js:119
 msgid "Category color should not be empty"
-msgstr ""
+msgstr "La categoria non deve essere vuota"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:159
 msgid "Failed to get project categories"
-msgstr ""
+msgstr "Impossibile ottenere le categorie del progetto"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:171
 msgid "Categories of project {name}"
-msgstr ""
+msgstr "Categorie del progetto {name}"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:189
 msgid "Add category"
-msgstr ""
+msgstr "Aggiungi categoria"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:193
 #: /var/www/html/n18/apps/cospend/src/category.js:292
 msgid "Icon"
-msgstr ""
+msgstr "Icone"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:199
 #: /var/www/html/n18/apps/cospend/src/category.js:298
 #: /var/www/html/n18/apps/cospend/src/currency.js:225
 #: /var/www/html/n18/apps/cospend/src/currency.js:306
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:201
 #: /var/www/html/n18/apps/cospend/src/category.js:300
 msgid "Color"
-msgstr ""
+msgstr "Colore"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:206
 msgid "Add this category"
-msgstr ""
+msgstr "Aggiungi questa categoria"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:215
 msgid "Category list"
-msgstr ""
+msgstr "Elenco categorie"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:268
 msgid "Category {n} added"
-msgstr ""
+msgstr "Categoria {n} aggiunta"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:273
 msgid "Failed to add category"
@@ -1367,11 +1367,11 @@ msgstr "Esportazione automatica"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1364
 msgid "Manage currencies"
-msgstr ""
+msgstr "Gestisci valute"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1365
 msgid "Manage categories"
-msgstr ""
+msgstr "Gestisci categorie"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1366
 #: /var/www/html/n18/apps/cospend/src/share.js:388
@@ -1393,36 +1393,36 @@ msgstr ""
 #: /var/www/html/n18/apps/cospend/src/project.js:1417
 #: /var/www/html/n18/apps/cospend/src/state.js:23
 msgid "Add public link"
-msgstr ""
+msgstr "Aggiungi link pubblico"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1459
 #: /var/www/html/n18/apps/cospend/src/share.js:377
 msgid "Admin: edit/delete project + maintener permissions"
-msgstr ""
+msgstr "Admin: modifica/elimina progetto + autorizzazioni di manutentore"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1464
 #: /var/www/html/n18/apps/cospend/src/share.js:368
 msgid "Maintener: add/edit members/categories/currencies + participant permissions"
-msgstr ""
+msgstr "Manutentore: aggiungi/modifica membri/categorie/valute + permessi per i partecipanti"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1469
 #: /var/www/html/n18/apps/cospend/src/share.js:359
 msgid "Participant: add/edit/delete bills + viewer permissions"
-msgstr ""
+msgstr "Partecipante: aggiungi/modifica/elimina spese + permessi visualizzatore"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1474
 #: /var/www/html/n18/apps/cospend/src/share.js:353
 msgid "Viewer"
-msgstr ""
+msgstr "Visualizzatore"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1621
 #: /var/www/html/n18/apps/cospend/src/share.js:176
 msgid "Public share link"
-msgstr ""
+msgstr "Link di condivisione pubblica"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1698
 msgid "Failed to edit guest access level"
-msgstr ""
+msgstr "Impossibile modificare il livello di accesso ospite"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1740
 msgid "Project settlement bills added"
@@ -1434,19 +1434,19 @@ msgstr "Impossibile aggiungere i pagamenti di liquidazione del progetto"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1799
 msgid "What kind of member is \"{m}\"?"
-msgstr ""
+msgstr "Che tipo di membro è \"{m}\"?"
 
 #: /var/www/html/n18/apps/cospend/src/project.js:1859
 msgid "Who paid for category \"{c}\"?"
-msgstr ""
+msgstr "Chi ha pagato per la categoria \"{c}\"?"
 
 #: /var/www/html/n18/apps/cospend/src/share.js:67
 msgid "Public link copied to clipboard"
-msgstr ""
+msgstr "Link pubblico copiato negli appunti"
 
 #: /var/www/html/n18/apps/cospend/src/share.js:121
 msgid "Project {pname} is now shared with {uname}"
-msgstr ""
+msgstr "Il progetto {pname} è ora condiviso con {uname}"
 
 #: /var/www/html/n18/apps/cospend/src/share.js:129
 msgid "Failed to add user share"
@@ -1458,15 +1458,15 @@ msgstr "Impossibile eliminare la condivisione utente"
 
 #: /var/www/html/n18/apps/cospend/src/share.js:178
 msgid "Public access link added for project {pname}"
-msgstr ""
+msgstr "Link di accesso pubblico aggiunto per il progetto {pname}"
 
 #: /var/www/html/n18/apps/cospend/src/share.js:183
 msgid "Failed to add public share"
-msgstr ""
+msgstr "Impossibile aggiungere la condivisione pubblica"
 
 #: /var/www/html/n18/apps/cospend/src/share.js:212
 msgid "Failed to delete public share"
-msgstr ""
+msgstr "Impossibile eliminare la condivisione pubblica"
 
 #: /var/www/html/n18/apps/cospend/src/share.js:233
 msgid "Project {pname} is now shared with circle {cname}"
@@ -1482,7 +1482,7 @@ msgstr ""
 
 #: /var/www/html/n18/apps/cospend/src/share.js:289
 msgid "Project {pname} is now shared with group {gname}"
-msgstr ""
+msgstr "Il progetto {pname} è ora condiviso con il gruppo {gname}"
 
 #: /var/www/html/n18/apps/cospend/src/share.js:297
 msgid "Failed to add group share"
@@ -1490,19 +1490,19 @@ msgstr "Impossibile aggiungere la condivisione gruppo"
 
 #: /var/www/html/n18/apps/cospend/src/share.js:362
 msgid "Participant"
-msgstr ""
+msgstr "Partecipante"
 
 #: /var/www/html/n18/apps/cospend/src/share.js:371
 msgid "Maintener"
-msgstr ""
+msgstr "Manutentore"
 
 #: /var/www/html/n18/apps/cospend/src/share.js:380
 msgid "Admin"
-msgstr ""
+msgstr "Amministratore"
 
 #: /var/www/html/n18/apps/cospend/src/share.js:395
 msgid "Shared access deleted"
-msgstr ""
+msgstr "Accesso condiviso eliminato"
 
 #: /var/www/html/n18/apps/cospend/src/share.js:432
 msgid "Failed to delete group share"
@@ -1510,7 +1510,7 @@ msgstr "Impossibile eliminare la condivisione gruppo"
 
 #: /var/www/html/n18/apps/cospend/src/share.js:459
 msgid "Failed to edit share access level"
-msgstr ""
+msgstr "Impossibile modificare il livello di accesso condiviso"
 
 #: /var/www/html/n18/apps/cospend/src/utils.js:120
 msgid "Failed to save option values"
@@ -1547,7 +1547,7 @@ msgstr "Id progetto o password errati"
 
 #: /var/www/html/n18/apps/cospend/templates/logincontent.php:12
 msgid "Project ID/name"
-msgstr ""
+msgstr "ID progetto/nome"
 
 #: /var/www/html/n18/apps/cospend/templates/logincontent.php:21
 msgid "Project password (aka Access code)"
@@ -1559,7 +1559,7 @@ msgstr "Nuovo progetto"
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:11
 msgid "Project name"
-msgstr ""
+msgstr "Nome del progetto"
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:12
 msgid "My project name"
@@ -1567,7 +1567,7 @@ msgstr "Nome del mio progetto"
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:14
 msgid "Password (optional, required for guest access)"
-msgstr ""
+msgstr "Password (opzionale, richiesta per l'accesso degli ospiti)"
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:17
 msgid "Add project"
@@ -1587,9 +1587,9 @@ msgstr "Importa file di progetto csv"
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:43
 msgid "Import SplitWise project file"
-msgstr ""
+msgstr "Importa file di progetto SplitWise"
 
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:50
 msgid "Change output directory"
-msgstr ""
+msgstr "Cambia cartella di output"
 

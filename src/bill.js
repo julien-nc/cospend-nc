@@ -1509,7 +1509,7 @@ function updateAmountEach(projectid) {
     if (nbChecked > 0 &&
         (billId !== 0 || billType === 'normal') &&
         !isNaN(amount) &&
-        parseFloat(amount) > 0.0) {
+        parseFloat(amount) !== 0.0) {
         $('.owerEntry .checkbox:checked').each(function() {
             mid = $(this).attr('owerid');
             weightSum += cospend.members[projectid][mid].weight;

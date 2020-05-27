@@ -3903,7 +3903,7 @@ class ProjectService {
                                     fclose($handle);
                                     return ['message' => $this->trans->t('Malformed CSV, bad owers on line %1$s', [$row + 1])];
                                 }
-                                if ($payer_name !== $owers) {
+                                if ($what !== 'deleteMeIfYouWant') {
                                     $owersArray = explode(', ', $owers);
                                     foreach ($owersArray as $ower) {
                                         if (strlen($ower) === 0) {

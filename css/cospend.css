@@ -839,3 +839,8 @@ a.billitem .app-content-list-item-icon {
 #center-settle-div label {
     margin-right: 5px;
 }
+.bill-counter {
+    float: right;
+    font-size: 80%;
+    opacity: 0.5;
+}

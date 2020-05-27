@@ -151,6 +151,7 @@ export function billEvents() {
                 if ($('.billitem').length === 0) {
                     $('#bill-list').html('').append($('<h2/>', {class: 'nobill'}).text(t('cospend', 'No bill yet')));
                 }
+                updateBillCounters();
             });
         }
     });
@@ -175,6 +176,7 @@ export function billEvents() {
                     owers: []
                 };
                 addBill(projectid, bill);
+                updateBillCounters();
             }
             displayBill(projectid, 0);
         } else {
@@ -383,6 +385,7 @@ export function createBill(projectid, what, amount, payer_id, timestamp, owerIds
         }
 
         updateProjectBalances(projectid);
+        updateBillCounters();
 
         Notification.showTemporary(t('cospend', 'Bill created'));
     }).always(function() {
@@ -456,6 +459,7 @@ export function saveBill(projectid, billid, what, amount, payer_id, timestamp, o
         }
 
         updateProjectBalances(projectid);
+        updateBillCounters();
 
         Notification.showTemporary(t('cospend', 'Bill saved'));
     }).always(function() {
@@ -519,7 +523,7 @@ export function updateBillItem(projectid, billid, bill) {
                 .append($('<div/>', {class: 'billItemDisabledMask' + (cospend.members[projectid][bill.payer_id].activated ? '' : ' disabled')}))
                 .append($('<div/>', {class: 'billItemRepeatMask' + (bill.repeat === 'n' ? '' : ' show')}))
         )
-        .append($('<div/>', {class: 'app-content-list-item-line-one'}).text(whatFormatted))
+        .append($('<div/>', {class: 'app-content-list-item-line-one'}).text(whatFormatted).append($('<span/>', {class: 'bill-counter'})))
         .append($('<div/>', {class: 'app-content-list-item-line-two'}).text(bill.amount.toFixed(2) + ' (' + memberName + ' → ' + owerNames + ')'))
         .append($('<span/>', {class: 'app-content-list-item-details'}).text(billDate))
         .append($('<div/>', {class: 'icon-delete deleteBillIcon'}))
@@ -558,6 +562,7 @@ export function deleteBill(projectid, billid) {
             if ($('.billitem').length === 0) {
                 $('#bill-list').html('').append($('<h2/>', {class: 'nobill'}).text(t('cospend', 'No bill yet')));
             }
+            updateBillCounters();
         });
         delete cospend.bills[projectid][billid];
         updateProjectBalances(projectid);
@@ -601,6 +606,7 @@ export function getBills(projectid) {
                 bill = response[i];
                 addBill(projectid, bill);
             }
+            updateBillCounters();
         } else {
             $('#bill-list').html('').append($('<h2/>', {class: 'nobill'}).text(t('cospend', 'No bill yet')));
         }
@@ -608,6 +614,16 @@ export function getBills(projectid) {
     }).fail(function() {
         Notification.showTemporary(t('cospend', 'Failed to get bills'));
         $('#bill-list').html('');
+    });
+}
+
+export function updateBillCounters() {
+    const billCounters = $('.bill-counter');
+    const nbCounters = billCounters.length;
+    let i = nbCounters;
+    billCounters.each(function() {
+        $(this).text('[' + i + '/' + nbCounters + ']');
+        i--;
     });
 }
 
@@ -1097,7 +1113,7 @@ export function addBill(projectid, bill) {
                 .append($('<div/>', {class: 'billItemDisabledMask' + disabled}))
                 .append($('<div/>', {class: 'billItemRepeatMask' + showRepeat}))
         )
-        .append($('<div/>', {class: 'app-content-list-item-line-one'}).text(whatFormatted))
+        .append($('<div/>', {class: 'app-content-list-item-line-one'}).text(whatFormatted).append($('<span/>', {class: 'bill-counter'})))
         .append($('<div/>', {class: 'app-content-list-item-line-two'}).text(bill.amount.toFixed(2) + ' (' + memberName + ' → ' + owerNames + ')'))
         .append($('<span/>', {class: 'app-content-list-item-details'}).text(billDate))
         .append($('<div/>', {class: 'icon-delete deleteBillIcon'}))

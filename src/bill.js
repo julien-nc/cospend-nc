@@ -52,6 +52,7 @@ export function billEvents() {
             const billid = parseInt($(this).attr('billid'));
             const projectid = $(this).attr('projectid');
             displayBill(projectid, billid);
+            updateBillCounters();
         }
     });
 
@@ -176,9 +177,9 @@ export function billEvents() {
                     owers: []
                 };
                 addBill(projectid, bill);
-                updateBillCounters();
             }
             displayBill(projectid, 0);
+            updateBillCounters();
         } else {
             Notification.showTemporary(t('cospend', '2 active members are required to create a bill'));
         }
@@ -619,10 +620,14 @@ export function getBills(projectid) {
 
 export function updateBillCounters() {
     const billCounters = $('.bill-counter');
+    billCounters.text('');
     const nbCounters = billCounters.length;
     let i = nbCounters;
     billCounters.each(function() {
-        $(this).text('[' + i + '/' + nbCounters + ']');
+        if ($(this).parent().parent().hasClass('selectedbill')) {
+            $(this).text('[' + i + '/' + nbCounters + ']');
+            return false;
+        }
         i--;
     });
 }

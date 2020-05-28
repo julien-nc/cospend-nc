@@ -1118,9 +1118,14 @@ export function addBill(projectid, bill) {
                 .append($('<div/>', {class: 'billItemDisabledMask' + disabled}))
                 .append($('<div/>', {class: 'billItemRepeatMask' + showRepeat}))
         )
-        .append($('<div/>', {class: 'app-content-list-item-line-one'}).text(whatFormatted).append($('<span/>', {class: 'bill-counter'})))
+        .append($('<div/>', {class: 'app-content-list-item-line-one'}).text(whatFormatted))
         .append($('<div/>', {class: 'app-content-list-item-line-two'}).text(bill.amount.toFixed(2) + ' (' + memberName + ' → ' + owerNames + ')'))
-        .append($('<span/>', {class: 'app-content-list-item-details'}).text(billDate))
+        .append(
+            $('<span/>', {class: 'app-content-list-item-details'})
+                .append($('<span/>', {class: 'bill-counter'}))
+                .append($('<span/>').text(' ' + billDate)
+            )
+        )
         .append($('<div/>', {class: 'icon-delete deleteBillIcon'}))
         .append($('<div/>', {class: 'icon-history undoDeleteBill', style: undoDeleteBillStyle, title: t('cospend', 'Undo')}))
 

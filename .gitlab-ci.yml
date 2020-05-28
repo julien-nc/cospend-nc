@@ -3,6 +3,7 @@ image: ubuntu:19.10
 stages:
   - test
   - deploy
+  - build
 
 before_script:
 - bash ci/docker_install.sh
@@ -116,3 +117,17 @@ pages:
     - sleep 5
     - mkdir public
     - mv coverage public/
+
+build_nightly:
+  stage: build
+  only:
+    refs:
+      - build
+  artifacts:
+    paths:
+      - cospend-nightly.tar.gz
+  script:
+    - npm install -g npm
+    - make
+    - version=nightly make appstore
+    - mv /tmp/build/cospend-nightly.tar.gz ./

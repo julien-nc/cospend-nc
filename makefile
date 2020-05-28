@@ -1,6 +1,6 @@
 app_name=cospend
 app_version=$(version)
-project_dir=$(CURDIR)/../$(app_name)
+project_dir=.
 build_dir=/tmp/build
 sign_dir=/tmp/sign
 cert_dir=$(HOME)/.nextcloud/certificates
@@ -62,7 +62,7 @@ clean:
 appstore: clean
 	mkdir -p $(sign_dir)
 	mkdir -p $(build_dir)
-	rsync -a \
+	@rsync -a \
 	--exclude=.git \
 	--exclude=appinfo/signature.json \
 	--exclude=*.swp \
@@ -97,14 +97,19 @@ appstore: clean
 	--exclude=tests \
 	--exclude=ci \
 	--exclude=vendor/bin \
-	$(project_dir) $(sign_dir)
+	$(project_dir) $(sign_dir)/$(app_name)
 	# generate info.xml with translations
 	cd $(sign_dir)/$(app_name)/l10n/descriptions && ./gen_info.xml.sh && mv info.xml ../../appinfo/
-	# give the webserver user the right to create signature file
-	sudo chown $(webserveruser) $(sign_dir)/$(app_name)/appinfo
-	sudo -u $(webserveruser) php $(occ_dir)/occ integrity:sign-app --privateKey=$(cert_dir)/$(app_name).key --certificate=$(cert_dir)/$(app_name).crt --path=$(sign_dir)/$(app_name)/
-	sudo chown -R $(USER) $(sign_dir)/$(app_name)/appinfo
+	@if [ -f $(cert_dir)/$(app_name).key ]; then \
+		sudo chown $(webserveruser) $(sign_dir)/$(app_name)/appinfo ;\
+		sudo -u $(webserveruser) php $(occ_dir)/occ integrity:sign-app --privateKey=$(cert_dir)/$(app_name).key --certificate=$(cert_dir)/$(app_name).crt --path=$(sign_dir)/$(app_name)/ ;\
+		sudo chown -R $(USER) $(sign_dir)/$(app_name)/appinfo ;\
+	else \
+		echo "!!! WARNING signature key not found" ;\
+	fi
 	tar -czf $(build_dir)/$(app_name)-$(app_version).tar.gz \
 		-C $(sign_dir) $(app_name)
-	echo NEXTCLOUD------------------------------------------
-	openssl dgst -sha512 -sign $(cert_dir)/$(app_name).key $(build_dir)/$(app_name)-$(app_version).tar.gz | openssl base64
+	@if [ -f $(cert_dir)/$(app_name).key ]; then \
+		echo NEXTCLOUD------------------------------------------ ;\
+		openssl dgst -sha512 -sign $(cert_dir)/$(app_name).key $(build_dir)/$(app_name)-$(app_version).tar.gz | openssl base64 ;\
+	fi

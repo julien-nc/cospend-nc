@@ -1461,7 +1461,7 @@ export function addProject(project) {
     const defaultShareText = t('cospend', 'User, group or circle name...');
     let guestLink;
     guestLink = generateUrl('/apps/cospend/loginproject/' + projectid);
-    guestLink = window.location.protocol + '//' + window.location.hostname + guestLink;
+    guestLink = window.location.protocol + '//' + window.location.host + guestLink;
     const guestAccessLevel = parseInt(project.guestaccesslevel);
     const li = $('<li/>', {class: 'projectitem collapsible', projectid: projectid})
         .append(

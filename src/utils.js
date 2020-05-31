@@ -154,7 +154,7 @@ export function generatePublicLinkToFile(targetPath, successCallback) {
     }).done(function(response) {
         $('.loading-bill').removeClass('icon-loading-small');
 
-        const filePublicUrl = window.location.protocol + '//' + window.location.hostname + generateUrl('/s/' + response.token);
+        const filePublicUrl = window.location.protocol + '//' + window.location.host + generateUrl('/s/' + response.token);
 
         let what = $('#what').val();
         what = what + ' ' + filePublicUrl;

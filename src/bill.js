@@ -489,17 +489,7 @@ function generateBillItem(projectid, bill, selected=false) {
         selectedClass = ' selectedbill';
     }
 
-    let owerNames = '';
-    let ower;
-    for (let i = 0; i < bill.owers.length; i++) {
-        ower = bill.owers[i];
-        if (!cospend.members[projectid].hasOwnProperty(ower.id)) {
-            reload(t('cospend', 'Member list is not up to date. Reloading in 5 sec.'));
-            return;
-        }
-        owerNames = owerNames + getMemberName(projectid, ower.id) + ', ';
-    }
-    owerNames = owerNames.replace(/, $/, '');
+    const owerNames = getSmartOwerNames(projectid, bill);
 
     const billMom = moment.unix(bill.timestamp);
     const billDate = billMom.format('YYYY-MM-DD');
@@ -571,6 +561,49 @@ function generateBillItem(projectid, bill, selected=false) {
         .append($('<div/>', {class: 'icon-history undoDeleteBill', style: undoDeleteBillStyle, title: t('cospend', 'Undo')}))
 
     return item;
+}
+
+function getSmartOwerNames(projectid, bill) {
+    const owerIds = [];
+    for (let i = 0; i < bill.owers.length; i++) {
+        owerIds.push(bill.owers[i].id);
+    }
+    // get missing members
+    let nbMissingEnabledMembers = 0;
+    const missingEnabledMemberIds = [];
+    for (const memberid in cospend.members[projectid]) {
+        if (cospend.members[projectid][memberid].activated &&
+            !owerIds.includes(parseInt(memberid))) {
+            nbMissingEnabledMembers++;
+            missingEnabledMemberIds.push(memberid);
+        }
+    }
+
+    // 4 cases : all, all except 1, all except 2, custom
+    if (nbMissingEnabledMembers === 0) {
+        return t('cospend', 'Everyone');
+    } else if (nbMissingEnabledMembers === 1) {
+        const mName = cospend.members[projectid][missingEnabledMemberIds[0]].name;
+        return t('cospend', 'Everyone except {member}', {member: mName});
+    } else if (nbMissingEnabledMembers === 2) {
+        const mName1 = cospend.members[projectid][missingEnabledMemberIds[0]].name;
+        const mName2 = cospend.members[projectid][missingEnabledMemberIds[1]].name;
+        const mName = t('cospend', '{member1} and {member2}', {member1: mName1, member2: mName2})
+        return t('cospend', 'Everyone except {member}', {member: mName});
+    } else {
+        let owerNames = '';
+        let ower;
+        for (let i = 0; i < bill.owers.length; i++) {
+            ower = bill.owers[i];
+            if (!cospend.members[projectid].hasOwnProperty(ower.id)) {
+                reload(t('cospend', 'Member list is not up to date. Reloading in 5 sec.'));
+                return;
+            }
+            owerNames = owerNames + getMemberName(projectid, ower.id) + ', ';
+        }
+        owerNames = owerNames.replace(/, $/, '');
+        return owerNames;
+    }
 }
 
 export function deleteBill(projectid, billid) {

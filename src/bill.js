@@ -476,8 +476,16 @@ export function saveBill(projectid, billid, what, amount, payer_id, timestamp, o
 export function updateBillItem(projectid, billid, bill) {
     const billItem = $('.billitem[billid=' + billid + ']');
     const billSelected = billItem.hasClass('selectedbill');
+    const item = generateBillItem(projectid, bill, billSelected);
+    billItem.replaceWith(item);
+    if (cospend.projects[projectid].myaccesslevel <= constants.ACCESS.VIEWER) {
+        $('.billitem[billid=' + bill.id + '] .deleteBillIcon').hide();
+    }
+}
+
+function generateBillItem(projectid, bill, selected=false) {
     let selectedClass = '';
-    if (billSelected) {
+    if (selected) {
         selectedClass = ' selectedbill';
     }
 
@@ -485,15 +493,17 @@ export function updateBillItem(projectid, billid, bill) {
     let ower;
     for (let i = 0; i < bill.owers.length; i++) {
         ower = bill.owers[i];
+        if (!cospend.members[projectid].hasOwnProperty(ower.id)) {
+            reload(t('cospend', 'Member list is not up to date. Reloading in 5 sec.'));
+            return;
+        }
         owerNames = owerNames + getMemberName(projectid, ower.id) + ', ';
     }
     owerNames = owerNames.replace(/, $/, '');
-    let memberName;
-    if (!cospend.pageIsPublic && cospend.members[projectid][bill.payer_id].userid === getCurrentUser().uid) {
-        memberName = t('cospend', 'You');
-    } else {
-        memberName = getMemberName(projectid, bill.payer_id);
-    }
+
+    const billMom = moment.unix(bill.timestamp);
+    const billDate = billMom.format('YYYY-MM-DD');
+    const billTime = billMom.format('HH:mm');
 
     const links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
     let formattedLinks = '';
@@ -516,18 +526,38 @@ export function updateBillItem(projectid, billid, bill) {
     }
     const whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars;
 
-    const billMom = moment.unix(bill.timestamp);
-    const billDate = billMom.format('YYYY-MM-DD');
-    const billTime = billMom.format('HH:mm');
+    let title = '';
+    let memberName = '';
+    let imgurl;
+    let disabled = '';
+    let showRepeat = '';
+    if (bill.id !== 0) {
+        if (!cospend.members[projectid].hasOwnProperty(bill.payer_id)) {
+            reload(t('cospend', 'Member list is not up to date. Reloading in 5 sec.'));
+            return;
+        }
+        if (!cospend.pageIsPublic && cospend.members[projectid][bill.payer_id].userid === getCurrentUser().uid) {
+            memberName = t('cospend', 'You');
+        } else {
+            memberName = getMemberName(projectid, bill.payer_id);
+        }
 
-    const title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
-        billDate + ' ' + billTime + '\n' + memberName + ' -> ' + owerNames;
-    const imgurl = getMemberAvatar(projectid, bill.payer_id);
+        title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
+            billDate + ' ' + billTime + '\n' + memberName + ' → ' + owerNames;
+
+        imgurl = getMemberAvatar(projectid, bill.payer_id);
+        // disabled
+        disabled = cospend.members[projectid][bill.payer_id].activated ? '' : ' disabled';
+        showRepeat = bill.repeat === 'n' ? '' : ' show';
+    } else {
+        imgurl = generateUrl('/apps/cospend/getAvatar?name=' + encodeURIComponent(' '));
+    }
+
     const item = $('<a/>', {href: '#', class: 'app-content-list-item billitem' + selectedClass, billid: bill.id, projectid: projectid, title: title})
         .append(
             $('<div/>', {class: 'app-content-list-item-icon', style: 'background-image: url(' + imgurl + ');'})
-                .append($('<div/>', {class: 'billItemDisabledMask' + (cospend.members[projectid][bill.payer_id].activated ? '' : ' disabled')}))
-                .append($('<div/>', {class: 'billItemRepeatMask' + (bill.repeat === 'n' ? '' : ' show')}))
+                .append($('<div/>', {class: 'billItemDisabledMask' + disabled}))
+                .append($('<div/>', {class: 'billItemRepeatMask' + showRepeat}))
         )
         .append($('<div/>', {class: 'app-content-list-item-line-one'}).text(whatFormatted))
         .append($('<div/>', {class: 'app-content-list-item-line-two'}).text(bill.amount.toFixed(2) + ' (' + memberName + ' → ' + owerNames + ')'))
@@ -540,10 +570,7 @@ export function updateBillItem(projectid, billid, bill) {
         .append($('<div/>', {class: 'icon-delete deleteBillIcon'}))
         .append($('<div/>', {class: 'icon-history undoDeleteBill', style: undoDeleteBillStyle, title: t('cospend', 'Undo')}))
 
-    billItem.replaceWith(item);
-    if (cospend.projects[projectid].myaccesslevel <= constants.ACCESS.VIEWER) {
-        $('.billitem[billid=' + bill.id + '] .deleteBillIcon').hide();
-    }
+    return item;
 }
 
 export function deleteBill(projectid, billid) {
@@ -1063,86 +1090,7 @@ export function displayBill(projectid, billid) {
 
 export function addBill(projectid, bill) {
     cospend.bills[projectid][bill.id] = bill;
-
-    const billMom = moment.unix(bill.timestamp);
-    const billDate = billMom.format('YYYY-MM-DD');
-    const billTime = billMom.format('HH:mm');
-
-    let owerNames = '';
-    for (let i = 0; i < bill.owers.length; i++) {
-        const ower = bill.owers[i];
-        if (!cospend.members[projectid].hasOwnProperty(ower.id)) {
-            reload(t('cospend', 'Member list is not up to date. Reloading in 5 sec.'));
-            return;
-        }
-        owerNames = owerNames + getMemberName(projectid, ower.id) + ', ';
-    }
-    owerNames = owerNames.replace(/, $/, '');
-    let title = '';
-    let memberName = '';
-
-    const links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
-    let formattedLinks = '';
-    let linkChars = '';
-    for (let i = 0; i < links.length; i++) {
-        formattedLinks = formattedLinks + '<a href="' + links[i] + '" target="blank">[' + t('cospend', 'link') + ']</a> ';
-        linkChars = linkChars + '  🔗';
-    }
-    let paymentmodeChar = '';
-    // c b f card, cash, check
-    if (cospend.paymentModes.hasOwnProperty(bill.paymentmode)) {
-        paymentmodeChar = cospend.paymentModes[bill.paymentmode].icon + ' ';
-    }
-    let categoryChar = '';
-    if (cospend.hardCodedCategories.hasOwnProperty(bill.categoryid)) {
-        categoryChar = cospend.hardCodedCategories[bill.categoryid].icon + ' ';
-    }
-    if (cospend.projects[projectid].categories.hasOwnProperty(bill.categoryid)) {
-        categoryChar = (cospend.projects[projectid].categories[bill.categoryid].icon || '') + ' ';
-    }
-    const whatFormatted = paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars;
-
-    let imgurl;
-    let disabled = '';
-    let showRepeat = '';
-    if (bill.id !== 0) {
-        if (!cospend.members[projectid].hasOwnProperty(bill.payer_id)) {
-            reload(t('cospend', 'Member list is not up to date. Reloading in 5 sec.'));
-            return;
-        }
-        if (!cospend.pageIsPublic && cospend.members[projectid][bill.payer_id].userid === getCurrentUser().uid) {
-            memberName = t('cospend', 'You');
-        } else {
-            memberName = getMemberName(projectid, bill.payer_id);
-        }
-
-        title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
-            billDate + ' ' + billTime + '\n' + memberName + ' → ' + owerNames;
-
-        imgurl = getMemberAvatar(projectid, bill.payer_id);
-        // disabled
-        disabled = cospend.members[projectid][bill.payer_id].activated ? '' : ' disabled';
-        showRepeat = bill.repeat === 'n' ? '' : ' show';
-    } else {
-        imgurl = generateUrl('/apps/cospend/getAvatar?name=' + encodeURIComponent(' '));
-    }
-    const item = $('<a/>', {href: '#', class: 'app-content-list-item billitem', billid: bill.id, projectid: projectid, title: title})
-        .append(
-            $('<div/>', {class: 'app-content-list-item-icon', style: 'background-image: url(' + imgurl + ');'})
-                .append($('<div/>', {class: 'billItemDisabledMask' + disabled}))
-                .append($('<div/>', {class: 'billItemRepeatMask' + showRepeat}))
-        )
-        .append($('<div/>', {class: 'app-content-list-item-line-one'}).text(whatFormatted))
-        .append($('<div/>', {class: 'app-content-list-item-line-two'}).text(bill.amount.toFixed(2) + ' (' + memberName + ' → ' + owerNames + ')'))
-        .append(
-            $('<span/>', {class: 'app-content-list-item-details'})
-                .append($('<span/>', {class: 'bill-counter'}))
-                .append($('<span/>').text(' ' + billDate)
-            )
-        )
-        .append($('<div/>', {class: 'icon-delete deleteBillIcon'}))
-        .append($('<div/>', {class: 'icon-history undoDeleteBill', style: undoDeleteBillStyle, title: t('cospend', 'Undo')}))
-
+    const item = generateBillItem(projectid, bill);
     $(item).prependTo('.app-content-list');
 
     $('#bill-list .nobill').remove();

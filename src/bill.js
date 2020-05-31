@@ -488,7 +488,12 @@ export function updateBillItem(projectid, billid, bill) {
         owerNames = owerNames + getMemberName(projectid, ower.id) + ', ';
     }
     owerNames = owerNames.replace(/, $/, '');
-    const memberName = getMemberName(projectid, bill.payer_id);
+    let memberName;
+    if (!cospend.pageIsPublic && cospend.members[projectid][bill.payer_id].userid === getCurrentUser().uid) {
+        memberName = t('cospend', 'You');
+    } else {
+        memberName = getMemberName(projectid, bill.payer_id);
+    }
 
     const links = bill.what.match(/https?:\/\/[^\s]+/gi) || [];
     let formattedLinks = '';
@@ -524,9 +529,14 @@ export function updateBillItem(projectid, billid, bill) {
                 .append($('<div/>', {class: 'billItemDisabledMask' + (cospend.members[projectid][bill.payer_id].activated ? '' : ' disabled')}))
                 .append($('<div/>', {class: 'billItemRepeatMask' + (bill.repeat === 'n' ? '' : ' show')}))
         )
-        .append($('<div/>', {class: 'app-content-list-item-line-one'}).text(whatFormatted).append($('<span/>', {class: 'bill-counter'})))
+        .append($('<div/>', {class: 'app-content-list-item-line-one'}).text(whatFormatted))
         .append($('<div/>', {class: 'app-content-list-item-line-two'}).text(bill.amount.toFixed(2) + ' (' + memberName + ' → ' + owerNames + ')'))
-        .append($('<span/>', {class: 'app-content-list-item-details'}).text(billDate))
+        .append(
+            $('<span/>', {class: 'app-content-list-item-details'})
+                .append($('<span/>', {class: 'bill-counter'}))
+                .append($('<span/>').text(' ' + billDate)
+            )
+        )
         .append($('<div/>', {class: 'icon-delete deleteBillIcon'}))
         .append($('<div/>', {class: 'icon-history undoDeleteBill', style: undoDeleteBillStyle, title: t('cospend', 'Undo')}))
 
@@ -1100,7 +1110,11 @@ export function addBill(projectid, bill) {
             reload(t('cospend', 'Member list is not up to date. Reloading in 5 sec.'));
             return;
         }
-        memberName = getMemberName(projectid, bill.payer_id);
+        if (!cospend.pageIsPublic && cospend.members[projectid][bill.payer_id].userid === getCurrentUser().uid) {
+            memberName = t('cospend', 'You');
+        } else {
+            memberName = getMemberName(projectid, bill.payer_id);
+        }
 
         title = whatFormatted + '\n' + bill.amount.toFixed(2) + '\n' +
             billDate + ' ' + billTime + '\n' + memberName + ' → ' + owerNames;

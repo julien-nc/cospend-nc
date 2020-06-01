@@ -585,7 +585,7 @@ function getSmartOwerNames(projectid, bill) {
     } else if (nbMissingEnabledMembers === 1 && owerIds.length > 2) {
         const mName = getSmartMemberName(projectid, missingEnabledMemberIds[0]);
         return t('cospend', 'Everyone except {member}', {member: mName});
-    } else if (nbMissingEnabledMembers === 2 && owerIds.length > 3) {
+    } else if (nbMissingEnabledMembers === 2 && owerIds.length > 2) {
         const mName1 = getSmartMemberName(projectid, missingEnabledMemberIds[0]);
         const mName2 = getSmartMemberName(projectid, missingEnabledMemberIds[1]);
         const mName = t('cospend', '{member1} and {member2}', {member1: mName1, member2: mName2})

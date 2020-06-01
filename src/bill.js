@@ -7,7 +7,7 @@ import * as constants from './constants';
 import cospend from './state';
 import {updateProjectBalances} from './project';
 import {getUrlParameter, reload} from './utils';
-import {getMemberName, getMemberAvatar} from './member';
+import {getMemberName, getSmartMemberName, getMemberAvatar} from './member';
 import {
     delay,
     Timer,
@@ -583,11 +583,11 @@ function getSmartOwerNames(projectid, bill) {
     if (nbMissingEnabledMembers === 0) {
         return t('cospend', 'Everyone');
     } else if (nbMissingEnabledMembers === 1 && owerIds.length > 2) {
-        const mName = cospend.members[projectid][missingEnabledMemberIds[0]].name;
+        const mName = getSmartMemberName(projectid, missingEnabledMemberIds[0]);
         return t('cospend', 'Everyone except {member}', {member: mName});
     } else if (nbMissingEnabledMembers === 2 && owerIds.length > 3) {
-        const mName1 = cospend.members[projectid][missingEnabledMemberIds[0]].name;
-        const mName2 = cospend.members[projectid][missingEnabledMemberIds[1]].name;
+        const mName1 = getSmartMemberName(projectid, missingEnabledMemberIds[0]);
+        const mName2 = getSmartMemberName(projectid, missingEnabledMemberIds[1]);
         const mName = t('cospend', '{member1} and {member2}', {member1: mName1, member2: mName2})
         return t('cospend', 'Everyone except {member}', {member: mName});
     } else {
@@ -599,7 +599,7 @@ function getSmartOwerNames(projectid, bill) {
                 reload(t('cospend', 'Member list is not up to date. Reloading in 5 sec.'));
                 return;
             }
-            owerNames = owerNames + getMemberName(projectid, ower.id) + ', ';
+            owerNames = owerNames + getSmartMemberName(projectid, ower.id) + ', ';
         }
         owerNames = owerNames.replace(/, $/, '');
         return owerNames;

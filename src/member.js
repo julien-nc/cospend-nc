@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 
 import * as Notification from './notification';
+import {getCurrentUser} from '@nextcloud/auth';
 import {generateUrl} from '@nextcloud/router';
 import {rgbObjToHex} from './utils';
 import {updateProjectBalances} from './project';
@@ -151,8 +152,12 @@ export function memberEvents() {
 }
 
 export function getMemberName(projectid, memberid) {
-    //const memberName = $('.projectitem[projectid="'+projectid+'"] .memberlist > li[memberid='+memberid+'] b.memberName').text();
     return cospend.members[projectid][memberid].name;
+}
+
+export function getSmartMemberName(projectid, memberid) {
+    return (!cospend.pageIsPublic && cospend.members[projectid][memberid].userid === getCurrentUser().uid) ?
+        t('cospend', 'You') : getMemberName(projectid, memberid);
 }
 
 export function getMemberAvatar(projectid, memberid) {

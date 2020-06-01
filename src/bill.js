@@ -582,10 +582,10 @@ function getSmartOwerNames(projectid, bill) {
     // 4 cases : all, all except 1, all except 2, custom
     if (nbMissingEnabledMembers === 0) {
         return t('cospend', 'Everyone');
-    } else if (nbMissingEnabledMembers === 1) {
+    } else if (nbMissingEnabledMembers === 1 && owerIds.length > 2) {
         const mName = cospend.members[projectid][missingEnabledMemberIds[0]].name;
         return t('cospend', 'Everyone except {member}', {member: mName});
-    } else if (nbMissingEnabledMembers === 2) {
+    } else if (nbMissingEnabledMembers === 2 && owerIds.length > 3) {
         const mName1 = cospend.members[projectid][missingEnabledMemberIds[0]].name;
         const mName2 = cospend.members[projectid][missingEnabledMemberIds[1]].name;
         const mName = t('cospend', '{member1} and {member2}', {member1: mName1, member2: mName2})

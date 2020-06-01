@@ -4,7 +4,7 @@ Nextcloud Cospend ist ein Gruppen/geteilter Budget Manager. [IHateMoney](https:/
 
 Immer wenn du Geld mit anderen teilst, z. B. in einer WG oder im Urlaub mit Freunden, kannst du diese App verwenden.
 
-Es lässt dich Projekte mit Mitgliedern und Ausgaben erstellen. Anhand der Ausgaben im Projekt wird für jedes Mitglied eine Bilanz erstellt. Somit ist ersichtlich, wer wem etwas schuldet. Letzendlich kannst du dir dann in der Abrechnung anzeigen lassen, welche Zahlungen zu leisten sind, um die Bilanzen der Mitglieder auszugleichen.
+Es lässt dich Projekte mit Mitgliedern und Ausgaben erstellen. Anhand der Ausgaben im Projekt wird für jedes Mitglied eine Bilanz erstellt. Somit ist ersichtlich, wer wem etwas schuldet. Letztendlich kannst du dir dann in der Abrechnung anzeigen lassen, welche Zahlungen zu leisten sind, um die Bilanzen der Mitglieder auszugleichen.
 
 Projektmitglieder sind unabhängig von Nextcloud Benutzern. Projekte können von Personen ohne Nextcloud-Konto aufgerufen und geändert werden. Jedes Projekt hat eine ID und ein Passwort für den Gast-Zugriff.
 
@@ -14,14 +14,14 @@ Projektmitglieder sind unabhängig von Nextcloud Benutzern. Projekte können von
 
 ## Funktionen
 
-* ✎ Erstelle/bearbeite/lösche Projekte, Mitglieder, Rechnungen, Kategorien, Währungen
+* ✎ Erstelle/bearbeite/lösche Projekte, Mitglieder, Ausgaben, Kategorien, Währungen
 * ⚖ Mitglieder Bilanzen überprüfen
 * 🗠 Projektstatistik anzeigen
 * ♻ Abrechnungsplan anzeigen
 * 🎇 Erstelle Ausgleichszahlungen vom Abrechnungsplan (automatisch)
-* 🗓 Erstelle wiederkehrende Rechnungen (täglich/wöchentlich/monatlich/jährlich)
+* 🗓 Erstelle wiederkehrende Ausgaben (täglich/wöchentlich/monatlich/jährlich)
 * 📊 Gib bei neuen Ausgaben einen eigenen Betrag für jedes Mitglied an (optional)
-* 🔗 Rechnungen mit persönlichen Dateien zu verknüpfen (z.B. Bild der physischen Rechnung)
+* 🔗 Ausgaben mit persönlichen Dateien zu verknüpfen (z.B. Bild der physischen Ausgabe)
 * 👩 Gastzugang für Personen ohne Nextcloud-Konto
 * 👫 Projekte mit Nextcloud-Benutzern/Gruppen/Kreisen teilen
 * 🖫 Importiere/Exportieren ein Projekt als CSV (kompatibel mit CSV-Dateien von IHateMoney)

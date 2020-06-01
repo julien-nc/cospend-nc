@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-05-15 16:29+0200\n"
-"PO-Revision-Date: 2020-05-15 14:39\n"
+"POT-Creation-Date: 2020-06-01 19:27+0200\n"
+"PO-Revision-Date: 2020-06-01 18:00\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -109,9 +109,9 @@ msgstr "Projet %s"
 
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:278
 #: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:332
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2430
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2434
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2438
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2447
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2451
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2455
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:4010
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:4014
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:4018
@@ -145,131 +145,135 @@ msgstr "Vous n'êtes pas autorisé à obtenir le plan de remboursement de ce pro
 msgid "You are not allowed to settle this project automatically"
 msgstr "Vous n'êtes pas autorisé à appliquer le plan de remboursement de ce projet"
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:550
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:544
+msgid "You are not allowed to access this project"
+msgstr "Vous n'êtes pas autorisé à accéder à ce projet"
+
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:567
 msgid "You are not allowed to edit this member"
 msgstr "Vous n'êtes pas autorisé à éditer ce membre"
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:586
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1173
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:603
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1190
 msgid "You are not allowed to edit this bill"
 msgstr "Vous n'êtes pas autorisé à éditer cette facture"
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:609
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2226
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2319
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2366
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:626
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2243
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2336
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2383
 msgid "You are not allowed to edit this project"
 msgstr "Vous n'êtes pas autorisé à éditer ce projet"
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:643
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1099
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1133
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:660
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1116
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1150
 msgid "You are not allowed to add bills"
 msgstr "Vous n’êtes pas autorisé à ajouter des factures"
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:666
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1007
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1036
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1060
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:683
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1024
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1053
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1077
 msgid "You are not allowed to add members"
 msgstr "Vous n’êtes pas autorisé à ajouter des membres"
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:685
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:702
 msgid "You are not allowed to get the bill list"
 msgstr "Vous n'êtes pas autorisé à obtenir la liste des factures"
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:727
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:744
 msgid "Anonymous project creation is not allowed on this server"
 msgstr "La création anonyme de projet n'est pas autorisée sur ce serveur"
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:770
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:799
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:787
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:816
 msgid "Project not found"
 msgstr "Projet introuvable"
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:778
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:795
 msgid "Bad password or public link"
 msgstr "Mauvais mot de passe ou lien public"
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:807
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:836
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:860
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:882
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:902
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:924
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:950
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:978
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1208
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1246
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1279
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1308
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1332
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1361
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1385
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1414
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1438
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1464
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1488
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1510
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1530
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1559
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1583
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:824
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:853
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:877
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:899
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:919
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:941
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:967
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:995
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1225
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1263
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1296
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1325
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1349
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1378
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1402
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1431
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1455
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1481
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1505
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1527
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1547
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1576
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1600
 msgid "Unauthorized action"
 msgstr "Action non autorisée"
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1687
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1704
 msgid "You are not allowed to give such shared access level"
 msgstr "Vous n'êtes pas autorisé à donner ce niveau d'accès partagé"
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1710
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1725
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1727
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1742
 msgid "You are not allowed to edit guest access level"
 msgstr "Vous n'êtes pas autorisé à modifier le niveau d'accès des invités"
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1772
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1802
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1827
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1849
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1878
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1902
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1924
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1953
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1977
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1789
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1819
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1844
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1866
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1895
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1919
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1941
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1970
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1994
 msgid "You are not allowed to manage categories"
 msgstr "Vous n’êtes pas autorisé à gérer les catégories"
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:1999
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2029
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2054
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2076
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2105
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2129
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2151
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2180
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2204
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2016
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2046
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2071
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2093
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2122
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2146
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2168
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2197
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2221
 msgid "You are not allowed to manage currencies"
 msgstr "Vous n’êtes pas autorisé à gérer les devises"
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2251
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2297
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2344
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2391
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2268
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2314
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2361
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2408
 msgid "You are not allowed to remove this shared access"
 msgstr "Vous n'êtes pas autorisé à supprimer cet accès partagé"
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2273
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2290
 msgid "You are not allowed to add public shared accesses"
 msgstr "Vous n’êtes pas autorisé à ajouter un accès partagé"
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2458
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2475
 msgid "You are not allowed to export this project settlement"
 msgstr "Vous n'êtes pas autorisé à exporter le plan de remboursement de ce projet"
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2483
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2500
 msgid "You are not allowed to export this project statistics"
 msgstr "Vous n'êtes pas autorisé à exporter les statistiques de ce projet"
 
-#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2510
+#: /var/www/html/n18/apps/cospend/lib/Controller/PageController.php:2527
 msgid "You are not allowed to export this project"
 msgstr "Vous n'êtes pas autorisé à exporter ce projet"
 
@@ -518,18 +522,18 @@ msgid "Circles app is not enabled"
 msgstr "L'appli Cercles n'est pas activée"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3624
-#: /var/www/html/n18/apps/cospend/src/project.js:563
+#: /var/www/html/n18/apps/cospend/src/project.js:571
 msgid "Who pays?"
 msgstr "Qui doit payer ?"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3624
-#: /var/www/html/n18/apps/cospend/src/project.js:564
+#: /var/www/html/n18/apps/cospend/src/project.js:572
 msgid "To whom?"
 msgstr "À qui ?"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3624
-#: /var/www/html/n18/apps/cospend/src/bill.js:684
-#: /var/www/html/n18/apps/cospend/src/project.js:565
+#: /var/www/html/n18/apps/cospend/src/bill.js:775
+#: /var/www/html/n18/apps/cospend/src/project.js:573
 msgid "How much?"
 msgstr "Combien ?"
 
@@ -549,22 +553,22 @@ msgid "Impossible to create %1$s"
 msgstr "Impossible de créer %1$s"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3682
-#: /var/www/html/n18/apps/cospend/src/project.js:780
+#: /var/www/html/n18/apps/cospend/src/project.js:871
 msgid "Member name"
 msgstr "Nom du membre"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3682
-#: /var/www/html/n18/apps/cospend/src/project.js:781
+#: /var/www/html/n18/apps/cospend/src/project.js:872
 msgid "Paid"
 msgstr "A payé"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3682
-#: /var/www/html/n18/apps/cospend/src/project.js:782
+#: /var/www/html/n18/apps/cospend/src/project.js:873
 msgid "Spent"
 msgstr "A dépensé"
 
 #: /var/www/html/n18/apps/cospend/lib/Service/ProjectService.php:3682
-#: /var/www/html/n18/apps/cospend/src/project.js:783
+#: /var/www/html/n18/apps/cospend/src/project.js:874
 msgid "Balance"
 msgstr "Solde"
 
@@ -656,234 +660,254 @@ msgstr "Paramètres de Cospend sauvegardés"
 msgid "Failed to save Cospend setting"
 msgstr "Échec de l'enregistrement du réglage de Cospend"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:152
-#: /var/www/html/n18/apps/cospend/src/bill.js:559
-#: /var/www/html/n18/apps/cospend/src/bill.js:605
-#: /var/www/html/n18/apps/cospend/src/bill.js:1400
-#: /var/www/html/n18/apps/cospend/src/bill.js:1470
+#: /var/www/html/n18/apps/cospend/src/bill.js:153
+#: /var/www/html/n18/apps/cospend/src/bill.js:634
+#: /var/www/html/n18/apps/cospend/src/bill.js:682
+#: /var/www/html/n18/apps/cospend/src/bill.js:1424
+#: /var/www/html/n18/apps/cospend/src/bill.js:1494
 msgid "No bill yet"
 msgstr "Pas encore de facture"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:170
-msgid "New Bill"
-msgstr "Nouvelle facture"
-
-#: /var/www/html/n18/apps/cospend/src/bill.js:181
+#: /var/www/html/n18/apps/cospend/src/bill.js:184
 msgid "2 active members are required to create a bill"
 msgstr "2 membres actifs sont nécessaires pour créer une facture"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:187
+#: /var/www/html/n18/apps/cospend/src/bill.js:190
 msgid "Choose file"
 msgstr "Choisissez un fichier"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:226
+#: /var/www/html/n18/apps/cospend/src/bill.js:229
 msgid "Create the bills"
 msgstr "Créer les factures"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:229
-#: /var/www/html/n18/apps/cospend/src/bill.js:711
+#: /var/www/html/n18/apps/cospend/src/bill.js:232
+#: /var/www/html/n18/apps/cospend/src/bill.js:802
 msgid "Create the bill"
 msgstr "Créer la facture"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:387
+#: /var/www/html/n18/apps/cospend/src/bill.js:391
 msgid "Bill created"
 msgstr "Facture créée"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:392
+#: /var/www/html/n18/apps/cospend/src/bill.js:396
 msgid "Failed to create bill"
 msgstr "Échec de la création de la facture"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:460
+#: /var/www/html/n18/apps/cospend/src/bill.js:465
 msgid "Bill saved"
 msgstr "Facture enregistrée"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:465
+#: /var/www/html/n18/apps/cospend/src/bill.js:470
 msgid "Failed to save bill"
 msgstr "Échec de la sauvegarde de la facture"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:492
-#: /var/www/html/n18/apps/cospend/src/bill.js:629
-#: /var/www/html/n18/apps/cospend/src/bill.js:692
-#: /var/www/html/n18/apps/cospend/src/bill.js:1054
+#: /var/www/html/n18/apps/cospend/src/bill.js:502
+#: /var/www/html/n18/apps/cospend/src/bill.js:720
+#: /var/www/html/n18/apps/cospend/src/bill.js:783
 msgid "link"
 msgstr "lien"
 
 #: /var/www/html/n18/apps/cospend/src/bill.js:526
-#: /var/www/html/n18/apps/cospend/src/bill.js:1101
-#: /var/www/html/n18/apps/cospend/src/project.js:1561
+#: /var/www/html/n18/apps/cospend/src/bill.js:599
+msgid "Member list is not up to date. Reloading in 5 sec."
+msgstr "La liste des membres n’est pas à jour. Rechargement dans 5 sec."
+
+#: /var/www/html/n18/apps/cospend/src/bill.js:530
+#: /var/www/html/n18/apps/cospend/src/member.js:160
+msgid "You"
+msgstr "Vous"
+
+#: /var/www/html/n18/apps/cospend/src/bill.js:561
+#: /var/www/html/n18/apps/cospend/src/project.js:1652
 #: /var/www/html/n18/apps/cospend/src/share.js:396
 msgid "Undo"
 msgstr "Annuler"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:564
+#: /var/www/html/n18/apps/cospend/src/bill.js:584
+msgid "Everyone"
+msgstr "Tout le monde"
+
+#: /var/www/html/n18/apps/cospend/src/bill.js:587
+#: /var/www/html/n18/apps/cospend/src/bill.js:592
+msgid "Everyone except {member}"
+msgstr "Tout le monde sauf {member}"
+
+#: /var/www/html/n18/apps/cospend/src/bill.js:591
+msgid "{member1} and {member2}"
+msgstr "{member1} et {member2}"
+
+#: /var/www/html/n18/apps/cospend/src/bill.js:640
 msgid "Deleted bill"
 msgstr "Facture supprimée"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:568
+#: /var/www/html/n18/apps/cospend/src/bill.js:644
 msgid "Failed to delete bill"
 msgstr "Échec de la suppression de la facture"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:609
+#: /var/www/html/n18/apps/cospend/src/bill.js:686
 msgid "Failed to get bills"
 msgstr "Échec de la récupération des factures"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:648
-#: /var/www/html/n18/apps/cospend/src/bill.js:707
+#: /var/www/html/n18/apps/cospend/src/bill.js:739
+#: /var/www/html/n18/apps/cospend/src/bill.js:798
 msgid "Bill : {what}"
 msgstr "Facture : {what}"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:682
+#: /var/www/html/n18/apps/cospend/src/bill.js:773
 msgid "What?"
 msgstr "Quoi ?"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:683
+#: /var/www/html/n18/apps/cospend/src/bill.js:774
 msgid "Comment"
 msgstr "Commentaire"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:685
+#: /var/www/html/n18/apps/cospend/src/bill.js:776
 msgid "Who payed?"
 msgstr "Qui a payé ?"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:686
+#: /var/www/html/n18/apps/cospend/src/bill.js:777
 msgid "When?"
 msgstr "Quand ?"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:687
+#: /var/www/html/n18/apps/cospend/src/bill.js:778
 msgid "For whom?"
 msgstr "Pour qui ?"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:709
-#: /var/www/html/n18/apps/cospend/src/project.js:799
-#: /var/www/html/n18/apps/cospend/src/project.js:807
+#: /var/www/html/n18/apps/cospend/src/bill.js:800
+#: /var/www/html/n18/apps/cospend/src/project.js:890
+#: /var/www/html/n18/apps/cospend/src/project.js:898
 msgid "All"
 msgstr "Tous"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:710
-#: /var/www/html/n18/apps/cospend/src/bill.js:878
-#: /var/www/html/n18/apps/cospend/src/bill.js:889
+#: /var/www/html/n18/apps/cospend/src/bill.js:801
+#: /var/www/html/n18/apps/cospend/src/bill.js:971
+#: /var/www/html/n18/apps/cospend/src/bill.js:982
 #: /var/www/html/n18/apps/cospend/src/currency.js:199
-#: /var/www/html/n18/apps/cospend/src/project.js:369
+#: /var/www/html/n18/apps/cospend/src/project.js:377
 msgid "None"
 msgstr "Aucun"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:712
+#: /var/www/html/n18/apps/cospend/src/bill.js:803
 msgid "Press Shift+Enter to validate"
 msgstr "Appuyez sur Maj+Entrée pour valider"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:713
+#: /var/www/html/n18/apps/cospend/src/bill.js:804
 msgid "Attach public link to personal file"
 msgstr "Joindre un lien public vers un fichier personnel"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:714
+#: /var/www/html/n18/apps/cospend/src/bill.js:805
 msgid "Classic, even split"
 msgstr "Classique, partage équitable"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:715
+#: /var/www/html/n18/apps/cospend/src/bill.js:806
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
 msgstr "Mode classique : Choisissez un payeur, entrez un montant de facture et sélectionnez les membres concernés par la dépense toute entière. La facture est ensuite partagée équitablement entre les membres sélectionnés. Exemple dans la vie réelle : Une personne paye toute l'addition au restaurant et tout le monde est d'accord pour partager équitablement la dépense."
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:716
+#: /var/www/html/n18/apps/cospend/src/bill.js:807
 msgid "Custom owed amount per member"
 msgstr "Montants personnalisés par membre"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:717
+#: /var/www/html/n18/apps/cospend/src/bill.js:808
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
 msgstr "Mode personnalisé, partage non-équitable : Choisissez un payeur, ignorez le montant global de la facture (qui est grisé) et entrez le montant personnalisé dû par chaque membre concerné par la facture. Ensuite appuyez sur \"Créer les factures\". Plusieurs factures vont être créées. Exemple dans la vie réelle : Une personne paye l'addition au restaurant mais il y a de grosses différences de prix entre ce que chaque personne a consommé."
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:718
+#: /var/www/html/n18/apps/cospend/src/bill.js:809
 msgid "Even split with optional personal parts"
 msgstr "Partage équitable avec d'éventuelles parties personnelles"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:719
+#: /var/www/html/n18/apps/cospend/src/bill.js:810
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr "Mode classique+personnel : Ce mode est similaire au mode classique. Choisissez un payeur et entrez le montant effectivement payé par ce payeur. Ensuite sélectionnez les membres concernés par cette facture et entrez éventuellement le montant dépensé concernant ce membre uniquement. Plusieurs factures vont être créées : une pour la dépense partagée et une pour chaque part personnelle. Exemple dans la vie réelle : Nous allons faire des courses. Une partie de ce qui a été acheté concerne le groupe mais quelqu'un a aussi ajouté un article personnel (comme un vêtement) que les autres ne veulent pas payer collectivement."
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:720
+#: /var/www/html/n18/apps/cospend/src/bill.js:811
 msgid "Bill type"
 msgstr "Type de facture"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:721
-#: /var/www/html/n18/apps/cospend/src/project.js:843
+#: /var/www/html/n18/apps/cospend/src/bill.js:812
+#: /var/www/html/n18/apps/cospend/src/project.js:934
 msgid "Payment mode"
 msgstr "Mode de paiement"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:722
-#: /var/www/html/n18/apps/cospend/src/project.js:849
+#: /var/www/html/n18/apps/cospend/src/bill.js:813
+#: /var/www/html/n18/apps/cospend/src/project.js:940
 msgid "Category"
 msgstr "Catégorie"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:723
+#: /var/www/html/n18/apps/cospend/src/bill.js:814
 msgid "Convert to"
 msgstr "Convertir en"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:724
+#: /var/www/html/n18/apps/cospend/src/bill.js:815
 msgid "What time?"
 msgstr "À quelle heure ?"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:841
+#: /var/www/html/n18/apps/cospend/src/bill.js:884
+msgid "What is the bill about?"
+msgstr "De quoi traite la facture ?"
+
+#: /var/www/html/n18/apps/cospend/src/bill.js:934
 msgid "Repeat"
 msgstr "Répéter"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:844
-#: /var/www/html/n18/apps/cospend/src/project.js:1542
+#: /var/www/html/n18/apps/cospend/src/bill.js:937
+#: /var/www/html/n18/apps/cospend/src/project.js:1633
 msgid "No"
 msgstr "Non"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:845
-#: /var/www/html/n18/apps/cospend/src/project.js:1543
+#: /var/www/html/n18/apps/cospend/src/bill.js:938
+#: /var/www/html/n18/apps/cospend/src/project.js:1634
 msgid "Daily"
 msgstr "Quotidiennement"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:846
-#: /var/www/html/n18/apps/cospend/src/project.js:1544
+#: /var/www/html/n18/apps/cospend/src/bill.js:939
+#: /var/www/html/n18/apps/cospend/src/project.js:1635
 msgid "Weekly"
 msgstr "Toutes les semaines"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:847
-#: /var/www/html/n18/apps/cospend/src/project.js:1545
+#: /var/www/html/n18/apps/cospend/src/bill.js:940
+#: /var/www/html/n18/apps/cospend/src/project.js:1636
 msgid "Monthly"
 msgstr "Tous les mois"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:848
+#: /var/www/html/n18/apps/cospend/src/bill.js:941
 msgid "Yearly"
 msgstr "Tous les ans"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:857
+#: /var/www/html/n18/apps/cospend/src/bill.js:950
 msgid "Include all active member on repeat"
 msgstr "Inclure tous les membres actifs lors de la répétition"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:865
+#: /var/www/html/n18/apps/cospend/src/bill.js:958
 msgid "Repeat until"
 msgstr "Répéter jusqu'à"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1041
-#: /var/www/html/n18/apps/cospend/src/bill.js:1076
-msgid "Member list is not up to date. Reloading in 5 sec."
-msgstr "La liste des membres n’est pas à jour. Rechargement dans 5 sec."
+#: /var/www/html/n18/apps/cospend/src/bill.js:993
+msgid "More details about the bill (300 char. max)"
+msgstr "Plus de détails sur la facture (300 caractères max)"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1180
-#: /var/www/html/n18/apps/cospend/src/bill.js:1286
+#: /var/www/html/n18/apps/cospend/src/bill.js:1204
+#: /var/www/html/n18/apps/cospend/src/bill.js:1310
 msgid "Bill values are not valid"
 msgstr "Les valeurs de la facture sont invalides"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1339
+#: /var/www/html/n18/apps/cospend/src/bill.js:1363
 msgid "Personal parts are bigger than the paid amount"
 msgstr "Les parts personnelles sont plus grosses que le montant payé"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1405
-#: /var/www/html/n18/apps/cospend/src/bill.js:1478
+#: /var/www/html/n18/apps/cospend/src/bill.js:1429
+#: /var/www/html/n18/apps/cospend/src/bill.js:1502
 #: /var/www/html/n18/apps/cospend/src/member.js:39
 #: /var/www/html/n18/apps/cospend/src/member.js:53
-#: /var/www/html/n18/apps/cospend/src/member.js:170
-#: /var/www/html/n18/apps/cospend/src/member.js:209
+#: /var/www/html/n18/apps/cospend/src/member.js:174
+#: /var/www/html/n18/apps/cospend/src/member.js:213
 #: /var/www/html/n18/apps/cospend/src/project.js:65
 #: /var/www/html/n18/apps/cospend/src/project.js:77
 #: /var/www/html/n18/apps/cospend/src/project.js:89
-#: /var/www/html/n18/apps/cospend/src/project.js:286
+#: /var/www/html/n18/apps/cospend/src/project.js:294
 msgid "Invalid values"
 msgstr "Valeurs invalides"
 
-#: /var/www/html/n18/apps/cospend/src/bill.js:1475
+#: /var/www/html/n18/apps/cospend/src/bill.js:1499
 msgid "There is no custom amount"
 msgstr "Il n'y a pas de montant personnalisé"
 
@@ -921,53 +945,61 @@ msgid "Add category"
 msgstr "Ajouter une catégorie"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:193
-#: /var/www/html/n18/apps/cospend/src/category.js:292
+#: /var/www/html/n18/apps/cospend/src/category.js:293
 msgid "Icon"
 msgstr "Icône"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:199
-#: /var/www/html/n18/apps/cospend/src/category.js:298
-#: /var/www/html/n18/apps/cospend/src/currency.js:225
-#: /var/www/html/n18/apps/cospend/src/currency.js:306
+#: /var/www/html/n18/apps/cospend/src/category.js:299
+#: /var/www/html/n18/apps/cospend/src/currency.js:226
+#: /var/www/html/n18/apps/cospend/src/currency.js:308
 msgid "Name"
 msgstr "Nom"
 
 #: /var/www/html/n18/apps/cospend/src/category.js:201
-#: /var/www/html/n18/apps/cospend/src/category.js:300
+msgid "New category name"
+msgstr "Nom de la nouvelle catégorie"
+
+#: /var/www/html/n18/apps/cospend/src/category.js:202
+#: /var/www/html/n18/apps/cospend/src/category.js:302
 msgid "Color"
 msgstr "Couleur"
 
-#: /var/www/html/n18/apps/cospend/src/category.js:206
+#: /var/www/html/n18/apps/cospend/src/category.js:207
 msgid "Add this category"
 msgstr "Ajouter cette catégorie"
 
-#: /var/www/html/n18/apps/cospend/src/category.js:215
+#: /var/www/html/n18/apps/cospend/src/category.js:216
 msgid "Category list"
 msgstr "Liste des Catégories"
 
-#: /var/www/html/n18/apps/cospend/src/category.js:268
+#: /var/www/html/n18/apps/cospend/src/category.js:269
 msgid "Category {n} added"
 msgstr "Catégorie {n} ajoutée"
 
-#: /var/www/html/n18/apps/cospend/src/category.js:273
+#: /var/www/html/n18/apps/cospend/src/category.js:274
 msgid "Failed to add category"
 msgstr "Impossible d'ajouter la catégorie"
 
-#: /var/www/html/n18/apps/cospend/src/category.js:307
-#: /var/www/html/n18/apps/cospend/src/currency.js:320
+#: /var/www/html/n18/apps/cospend/src/category.js:301
+msgid "Category name"
+msgstr "Nom de la catégorie"
+
+#: /var/www/html/n18/apps/cospend/src/category.js:309
+#: /var/www/html/n18/apps/cospend/src/currency.js:323
 msgid "Cancel"
 msgstr "Annuler"
 
-#: /var/www/html/n18/apps/cospend/src/category.js:312
-#: /var/www/html/n18/apps/cospend/src/currency.js:325
+#: /var/www/html/n18/apps/cospend/src/category.js:314
+#: /var/www/html/n18/apps/cospend/src/currency.js:328
 msgid "Save"
 msgstr "Enregistrer"
 
-#: /var/www/html/n18/apps/cospend/src/category.js:357
+#: /var/www/html/n18/apps/cospend/src/category.js:359
 msgid "Failed to delete category"
 msgstr "Impossible de supprimer la catégorie"
 
-#: /var/www/html/n18/apps/cospend/src/category.js:399
+#: /var/www/html/n18/apps/cospend/src/category.js:401
 msgid "Failed to edit category"
 msgstr "Impossible d'éditer la catégorie"
 
@@ -1037,45 +1069,53 @@ msgstr "Devises du projet {name}"
 msgid "Main currency"
 msgstr "Devise principale"
 
-#: /var/www/html/n18/apps/cospend/src/currency.js:206
-msgid "Potatoe"
-msgstr "Patate"
+#: /var/www/html/n18/apps/cospend/src/currency.js:208
+msgid "Main currency name"
+msgstr "Nom de la devise principale"
 
-#: /var/www/html/n18/apps/cospend/src/currency.js:221
+#: /var/www/html/n18/apps/cospend/src/currency.js:222
 msgid "Add currency"
 msgstr "Ajouter une devise"
 
-#: /var/www/html/n18/apps/cospend/src/currency.js:227
-#: /var/www/html/n18/apps/cospend/src/currency.js:310
+#: /var/www/html/n18/apps/cospend/src/currency.js:228
+msgid "New currency name"
+msgstr "Nom de la nouvelle devise"
+
+#: /var/www/html/n18/apps/cospend/src/currency.js:229
+#: /var/www/html/n18/apps/cospend/src/currency.js:313
 msgid "Exchange rate to main currency"
 msgstr "Taux de change vers la devise principale"
 
-#: /var/www/html/n18/apps/cospend/src/currency.js:229
-#: /var/www/html/n18/apps/cospend/src/currency.js:312
+#: /var/www/html/n18/apps/cospend/src/currency.js:231
+#: /var/www/html/n18/apps/cospend/src/currency.js:315
 msgid "(1 of this currency = X of main currency)"
 msgstr "(1 de cette devise = X de la devise principale)"
 
-#: /var/www/html/n18/apps/cospend/src/currency.js:233
+#: /var/www/html/n18/apps/cospend/src/currency.js:235
 msgid "Add this currency"
 msgstr "Ajouter cette devise"
 
-#: /var/www/html/n18/apps/cospend/src/currency.js:242
+#: /var/www/html/n18/apps/cospend/src/currency.js:244
 msgid "Currency list"
 msgstr "Liste de devises"
 
-#: /var/www/html/n18/apps/cospend/src/currency.js:285
+#: /var/www/html/n18/apps/cospend/src/currency.js:287
 msgid "Currency {n} added"
 msgstr "Devise {n} ajoutée"
 
-#: /var/www/html/n18/apps/cospend/src/currency.js:290
+#: /var/www/html/n18/apps/cospend/src/currency.js:292
 msgid "Failed to add currency"
 msgstr "Impossible d'ajouter la devise"
 
-#: /var/www/html/n18/apps/cospend/src/currency.js:369
+#: /var/www/html/n18/apps/cospend/src/currency.js:310
+msgid "Currency name"
+msgstr "Nom de la devise"
+
+#: /var/www/html/n18/apps/cospend/src/currency.js:372
 msgid "Failed to delete currency"
 msgstr "Impossible de supprimer la devise"
 
-#: /var/www/html/n18/apps/cospend/src/currency.js:412
+#: /var/www/html/n18/apps/cospend/src/currency.js:415
 msgid "Failed to edit currency"
 msgstr "Impossible d'éditer la devise"
 
@@ -1113,57 +1153,61 @@ msgstr "Seuls les fichiers CSV peuvent être importés"
 msgid "Failed to import project file"
 msgstr "Impossible d'importer le fichier de projet"
 
-#: /var/www/html/n18/apps/cospend/src/member.js:29
-msgid "newMemberName"
-msgstr "nomNouveauMembre"
+#: /var/www/html/n18/apps/cospend/src/member.js:65
+msgid "New name"
+msgstr "Nouveau nom"
+
+#: /var/www/html/n18/apps/cospend/src/member.js:75
+msgid "New weight"
+msgstr "Nouveau poids"
 
 #: /var/www/html/n18/apps/cospend/src/member.js:103
 #: /var/www/html/n18/apps/cospend/src/member.js:124
 msgid "Invalid weight"
 msgstr "Poids invalide"
 
-#: /var/www/html/n18/apps/cospend/src/member.js:196
-#: /var/www/html/n18/apps/cospend/src/member.js:231
+#: /var/www/html/n18/apps/cospend/src/member.js:200
+#: /var/www/html/n18/apps/cospend/src/member.js:235
 msgid "Created member {name}"
 msgstr "Membre {name} créé"
 
-#: /var/www/html/n18/apps/cospend/src/member.js:201
-#: /var/www/html/n18/apps/cospend/src/member.js:236
+#: /var/www/html/n18/apps/cospend/src/member.js:205
+#: /var/www/html/n18/apps/cospend/src/member.js:240
 msgid "Failed to add member"
 msgstr "Échec de l'ajout du membre"
 
-#: /var/www/html/n18/apps/cospend/src/member.js:312
-#: /var/www/html/n18/apps/cospend/src/member.js:441
+#: /var/www/html/n18/apps/cospend/src/member.js:316
+#: /var/www/html/n18/apps/cospend/src/member.js:445
 msgid "Reactivate"
 msgstr "Réactiver"
 
-#: /var/www/html/n18/apps/cospend/src/member.js:316
-#: /var/www/html/n18/apps/cospend/src/member.js:441
+#: /var/www/html/n18/apps/cospend/src/member.js:320
+#: /var/www/html/n18/apps/cospend/src/member.js:445
 msgid "Deactivate"
 msgstr "Désactiver"
 
-#: /var/www/html/n18/apps/cospend/src/member.js:331
+#: /var/www/html/n18/apps/cospend/src/member.js:335
 msgid "Member saved"
 msgstr "Membre enregistré"
 
-#: /var/www/html/n18/apps/cospend/src/member.js:340
+#: /var/www/html/n18/apps/cospend/src/member.js:344
 msgid "Failed to save member"
 msgstr "Échec de la sauvegarde du membre"
 
-#: /var/www/html/n18/apps/cospend/src/member.js:376
-#: /var/www/html/n18/apps/cospend/src/project.js:1358
+#: /var/www/html/n18/apps/cospend/src/member.js:380
+#: /var/www/html/n18/apps/cospend/src/project.js:1449
 msgid "Rename"
 msgstr "Renommer"
 
-#: /var/www/html/n18/apps/cospend/src/member.js:377
+#: /var/www/html/n18/apps/cospend/src/member.js:381
 msgid "Change weight"
 msgstr "Changer le poids"
 
-#: /var/www/html/n18/apps/cospend/src/member.js:378
+#: /var/www/html/n18/apps/cospend/src/member.js:382
 msgid "Change color"
 msgstr "Modifier la couleur"
 
-#: /var/www/html/n18/apps/cospend/src/member.js:575
+#: /var/www/html/n18/apps/cospend/src/member.js:579
 #: /var/www/html/n18/apps/cospend/src/share.js:583
 msgid "Failed to get user list"
 msgstr "Impossible d'obtenir la liste des utilisateurs"
@@ -1172,271 +1216,291 @@ msgstr "Impossible d'obtenir la liste des utilisateurs"
 msgid "Guest link for '{pid}' copied to clipboard"
 msgstr "Lien invité pour '{pid}' copié dans le presse-papier"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:313
+#: /var/www/html/n18/apps/cospend/src/project.js:321
 msgid "Failed to create project"
 msgstr "Échec de la création du projet"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:361
-#: /var/www/html/n18/apps/cospend/src/project.js:1368
+#: /var/www/html/n18/apps/cospend/src/project.js:369
+#: /var/www/html/n18/apps/cospend/src/project.js:1459
 msgid "Deleted {name}"
 msgstr "{name} supprimé"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:373
+#: /var/www/html/n18/apps/cospend/src/project.js:381
 msgid "Project saved"
 msgstr "Projet sauvegardé"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:377
+#: /var/www/html/n18/apps/cospend/src/project.js:385
 msgid "Failed to edit project"
 msgstr "Échec de l'édition du projet"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:411
+#: /var/www/html/n18/apps/cospend/src/project.js:419
 msgid "Deleted project {id}"
 msgstr "Projet {id} supprimé"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:415
+#: /var/www/html/n18/apps/cospend/src/project.js:423
 msgid "Failed to delete project"
 msgstr "Échec de la suppression du projet"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:469
+#: /var/www/html/n18/apps/cospend/src/project.js:477
 msgid "Failed to get projects"
 msgstr "Échec de la récupération des projets"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:518
+#: /var/www/html/n18/apps/cospend/src/project.js:526
 msgid "Failed to get statistics"
 msgstr "Échec de la récupération des statistiques"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:549
+#: /var/www/html/n18/apps/cospend/src/project.js:557
 msgid "Failed to get settlement"
 msgstr "Échec de la récupération des remboursements"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:562
+#: /var/www/html/n18/apps/cospend/src/project.js:570
 msgid "Settlement of project {name}"
 msgstr "Remboursements du projet {name}"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:570
-#: /var/www/html/n18/apps/cospend/src/project.js:795
+#: /var/www/html/n18/apps/cospend/src/project.js:578
+#: /var/www/html/n18/apps/cospend/src/project.js:886
 msgid "Export"
 msgstr "Exporter"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:574
+#: /var/www/html/n18/apps/cospend/src/project.js:582
 msgid "Add these payments to project"
 msgstr "Ajouter ces paiements au projet"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:586
+#: /var/www/html/n18/apps/cospend/src/project.js:594
 msgid "Nobody (optimal)"
 msgstr "Personne (optimal)"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:599
+#: /var/www/html/n18/apps/cospend/src/project.js:607
 msgid "Center settlement on"
 msgstr "Centrer les remboursements sur"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:667
+#: /var/www/html/n18/apps/cospend/src/project.js:676
 msgid "MoneyBuster link/QRCode for project {name}"
 msgstr "Lien/QRCode MoneyBuster pour le projet {name}"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:668
+#: /var/www/html/n18/apps/cospend/src/project.js:677
 msgid "Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone."
 msgstr "Scannez ce QRCode avec un téléphone Android avec MoneyBuster installé et ouvrez le lien ou envoyez simplement le lien à un autre téléphone Android."
 
-#: /var/www/html/n18/apps/cospend/src/project.js:669
+#: /var/www/html/n18/apps/cospend/src/project.js:678
 msgid "Android will know MoneyBuster can open such a link (based on the 'https://net.eneiluj.moneybuster.cospend' part) and you will be able to add the project."
 msgstr "Android saura que MoneyBuster peut ouvrir un tel lien (basé sur la partie 'https://net.eneiluj.moneybuster.cospend') et vous pourrez ajouter le projet."
 
-#: /var/www/html/n18/apps/cospend/src/project.js:742
-#: /var/www/html/n18/apps/cospend/src/project.js:1785
-#: /var/www/html/n18/apps/cospend/src/project.js:1833
+#: /var/www/html/n18/apps/cospend/src/project.js:679
+msgid "As password is stored hashed (for security), it can't be automatically included in the QRCode. If you want to include it in the QRCode and make it easier to add a project in MoneyBuster, you can provide the password again."
+msgstr "Comme le mot de passe est stocké haché (pour la sécurité), il ne peut pas être automatiquement inclus dans le QRCode. Si vous voulez l'inclure dans le QRCode et faciliter l'ajout d'un projet dans MoneyBuster, vous pouvez fournir le mot de passe à nouveau."
+
+#: /var/www/html/n18/apps/cospend/src/project.js:680
+msgid "Type the project password and press Enter to generate another QRCode including the password."
+msgstr "Tapez le mot de passe du projet et appuyez sur Entrée pour générer un autre QRCode incluant le mot de passe."
+
+#: /var/www/html/n18/apps/cospend/src/project.js:695
+msgid "Project password"
+msgstr "Mot de passe du projet"
+
+#: /var/www/html/n18/apps/cospend/src/project.js:762
+msgid "Incorrect project password"
+msgstr "Mot de passe invalide"
+
+#: /var/www/html/n18/apps/cospend/src/project.js:833
+#: /var/www/html/n18/apps/cospend/src/project.js:1876
+#: /var/www/html/n18/apps/cospend/src/project.js:1924
 msgid "No category"
 msgstr "Pas de catégorie"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:779
+#: /var/www/html/n18/apps/cospend/src/project.js:870
 msgid "Statistics of project {name}"
 msgstr "Statistiques du projet {name}"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:784
+#: /var/www/html/n18/apps/cospend/src/project.js:875
 msgid "Filtered balance"
 msgstr "Solde filtré"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:808
+#: /var/www/html/n18/apps/cospend/src/project.js:899
 msgid "All except reimbursement"
 msgstr "Tout sauf remboursement"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:820
+#: /var/www/html/n18/apps/cospend/src/project.js:911
 msgid "Main project's currency"
 msgstr "Devise principale du projet"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:836
+#: /var/www/html/n18/apps/cospend/src/project.js:927
 msgid "Minimum date"
 msgstr "Date minimum"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:838
+#: /var/www/html/n18/apps/cospend/src/project.js:929
 msgid "Maximum date"
 msgstr "Date maximum"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:852
+#: /var/www/html/n18/apps/cospend/src/project.js:943
 msgid "Minimum amount"
 msgstr "Montant minimum"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:854
+#: /var/www/html/n18/apps/cospend/src/project.js:945
 msgid "Maximum amount"
 msgstr "Montant maximum"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:856
+#: /var/www/html/n18/apps/cospend/src/project.js:947
 msgid "Currency of statistic values"
 msgstr "Devise des valeurs des statistiques"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:859
+#: /var/www/html/n18/apps/cospend/src/project.js:950
 msgid "Show disabled members"
 msgstr "Montrer les membres désactivés"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:862
+#: /var/www/html/n18/apps/cospend/src/project.js:953
 msgid "Total payed by all the members: {t}"
 msgstr "Total payé par tous les membres : {t}"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:864
+#: /var/www/html/n18/apps/cospend/src/project.js:955
 msgid "Global stats"
 msgstr "Stats globales"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:921
+#: /var/www/html/n18/apps/cospend/src/project.js:1012
 msgid "Monthly stats per member"
 msgstr "Statistiques mensuelles par membre"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:929
+#: /var/www/html/n18/apps/cospend/src/project.js:1020
 msgid "Member/Month"
 msgstr "Membre/Mois"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:954
+#: /var/www/html/n18/apps/cospend/src/project.js:1045
 msgid "All members"
 msgstr "Tous les Membres"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:974
+#: /var/www/html/n18/apps/cospend/src/project.js:1065
 msgid "Monthly stats per category"
 msgstr "Statistiques mensuelles par catégorie"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:991
+#: /var/www/html/n18/apps/cospend/src/project.js:1082
 msgid "Category/Month"
 msgstr "Catégorie/Mois"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1095
+#: /var/www/html/n18/apps/cospend/src/project.js:1186
 msgid "Payments per category per month"
 msgstr "Paiements par catégorie par mois"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1157
+#: /var/www/html/n18/apps/cospend/src/project.js:1248
 msgid "Payments per member per month"
 msgstr "Paiements par membre par mois"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1215
+#: /var/www/html/n18/apps/cospend/src/project.js:1306
 msgid "Who paid (outside circle) and spent (inside pie)?"
 msgstr "Qui a payé (cercle extérieur) et dépensé (camembert intérieur) ?"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1249
+#: /var/www/html/n18/apps/cospend/src/project.js:1340
 msgid "What was paid per category?"
 msgstr "Qu'est-ce qui a été payé par catégorie?"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1346
+#: /var/www/html/n18/apps/cospend/src/project.js:1437
 msgid "Failed to update balances"
 msgstr "Échec de la mise à jour des balances"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1356
+#: /var/www/html/n18/apps/cospend/src/project.js:1447
 msgid "Add member"
 msgstr "Ajouter un membre"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1357
+#: /var/www/html/n18/apps/cospend/src/project.js:1448
 #: /var/www/html/n18/apps/cospend/templates/mainnavigation.php:46
 msgid "Guest access link"
 msgstr "Lien d'accès invité"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1359
+#: /var/www/html/n18/apps/cospend/src/project.js:1450
 msgid "Change password"
 msgstr "Changer le mot de passe"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1360
+#: /var/www/html/n18/apps/cospend/src/project.js:1451
 msgid "Display statistics"
 msgstr "Afficher les statistiques"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1361
+#: /var/www/html/n18/apps/cospend/src/project.js:1452
 msgid "Settle the project"
 msgstr "Remboursements du projet"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1362
+#: /var/www/html/n18/apps/cospend/src/project.js:1453
 msgid "Export to csv"
 msgstr "Exporter en csv"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1363
+#: /var/www/html/n18/apps/cospend/src/project.js:1454
 msgid "Auto export"
 msgstr "Export automatique"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1364
+#: /var/www/html/n18/apps/cospend/src/project.js:1455
 msgid "Manage currencies"
 msgstr "Gérer les devises"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1365
+#: /var/www/html/n18/apps/cospend/src/project.js:1456
 msgid "Manage categories"
 msgstr "Gérer les catégories"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1366
+#: /var/www/html/n18/apps/cospend/src/project.js:1457
 #: /var/www/html/n18/apps/cospend/src/share.js:388
 msgid "Delete"
 msgstr "Supprimer"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1367
+#: /var/www/html/n18/apps/cospend/src/project.js:1458
 msgid "Link/QRCode for MoneyBuster"
 msgstr "Lien/QRCode pour MoneyBuster"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1369
+#: /var/www/html/n18/apps/cospend/src/project.js:1460
 msgid "Press enter to validate"
 msgstr "Appuyez sur entrée pour valider"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1370
+#: /var/www/html/n18/apps/cospend/src/project.js:1461
 msgid "User, group or circle name..."
 msgstr "Nom d'utilisateur, de groupe ou de cercle..."
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1417
+#: /var/www/html/n18/apps/cospend/src/project.js:1508
 #: /var/www/html/n18/apps/cospend/src/state.js:23
 msgid "Add public link"
 msgstr "Ajouter un lien public"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1459
+#: /var/www/html/n18/apps/cospend/src/project.js:1524
+msgid "New member name"
+msgstr "Nom du nouveau membre"
+
+#: /var/www/html/n18/apps/cospend/src/project.js:1550
 #: /var/www/html/n18/apps/cospend/src/share.js:377
 msgid "Admin: edit/delete project + maintener permissions"
 msgstr "Admin: modifier/supprimer le projet + autorisations de mainteneur"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1464
+#: /var/www/html/n18/apps/cospend/src/project.js:1555
 #: /var/www/html/n18/apps/cospend/src/share.js:368
 msgid "Maintener: add/edit members/categories/currencies + participant permissions"
 msgstr "Mainteneur: ajouter/modifier des membres/catégories/devises + permissions des participants"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1469
+#: /var/www/html/n18/apps/cospend/src/project.js:1560
 #: /var/www/html/n18/apps/cospend/src/share.js:359
 msgid "Participant: add/edit/delete bills + viewer permissions"
 msgstr "Participant : ajouter/modifier/supprimer des factures + autorisations de spectateur"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1474
+#: /var/www/html/n18/apps/cospend/src/project.js:1565
 #: /var/www/html/n18/apps/cospend/src/share.js:353
 msgid "Viewer"
 msgstr "Spectateur"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1621
+#: /var/www/html/n18/apps/cospend/src/project.js:1712
 #: /var/www/html/n18/apps/cospend/src/share.js:176
 msgid "Public share link"
 msgstr "Lien de partage public"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1698
+#: /var/www/html/n18/apps/cospend/src/project.js:1789
 msgid "Failed to edit guest access level"
 msgstr "Impossible de modifier le niveau d'accès invité"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1740
+#: /var/www/html/n18/apps/cospend/src/project.js:1831
 msgid "Project settlement bills added"
 msgstr "Factures de remboursement ajoutées au projet"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1745
+#: /var/www/html/n18/apps/cospend/src/project.js:1836
 msgid "Failed to add project settlement bills"
 msgstr "Impossible d'ajouter les factures de remboursement du projet"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1799
+#: /var/www/html/n18/apps/cospend/src/project.js:1890
 msgid "What kind of member is \"{m}\"?"
 msgstr "Quel type de membre est \"{m}\"?"
 
-#: /var/www/html/n18/apps/cospend/src/project.js:1859
+#: /var/www/html/n18/apps/cospend/src/project.js:1950
 msgid "Who paid for category \"{c}\"?"
 msgstr "Qui a payé pour la catégorie \"{c} \" ?"
 

@@ -1,28 +1,22 @@
 <template>
-	<div id="currency-list" v-if="currencies.length">
-		<Currency
-			:deleteCurrency="deleteOneCurrency"
-			:editCurrency="editOneCurrency"
-			v-for="currency in currencies"
-			:key="currency.id"
-			v-bind:currency="currency"/>
-	</div>
-	<div v-else class="no-currencies">
-		{{ t('cospend', 'No currencies to display') }}
-	</div>
+	<CurrencyList
+		:currencies="currencies"
+		v-on:delete="onDeleteEvent"
+		v-on:edit="onEditEvent"
+	/>
 </template>
 
 <script>
-import cospend from '../state';
-import Currency from './Currency';
+import cospend from './state';
+import CurrencyList from './components/CurrencyList';
 import {generateUrl} from '@nextcloud/router';
-import * as Notification from '../notification';
+import * as Notification from './notification';
 
 export default {
 	name: 'CurrencyManagement',
 
 	components: {
-		Currency
+		CurrencyList
 	},
 
 	data: function() {
@@ -35,7 +29,7 @@ export default {
 	},
 
 	methods: {
-		deleteOneCurrency: function(currency) {
+		onDeleteEvent: function(currency) {
 			const that = this;
 			console.log('delete currency '+currency.id);
 			const req = {};
@@ -74,7 +68,7 @@ export default {
 			});
 		},
 
-		editOneCurrency: function(currency, backupCurrency) {
+		onEditEvent: function(currency, backupCurrency) {
 			if (currency.name === '') {
 				Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
 				currency.name = backupCurrency.name;
@@ -118,9 +112,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.no-currencies {
-    padding: 2em;
-    text-align: center;
-    color: var(--color-text-light);
-}
 </style>

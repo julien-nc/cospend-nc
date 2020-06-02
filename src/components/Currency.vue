@@ -39,7 +39,7 @@ export default {
 	components: {
 	},
 
-	props: ['currency', 'deleteCurrency', 'editCurrency'],
+	props: ['currency'],
 	data: function() {
 		return {
 			editMode: false,
@@ -75,13 +75,15 @@ export default {
 				this.timerOn = true;
 				const that = this;
 				this.timer = new Timer(function () {
-					that.deleteCurrency(that.currency);
+					//that.deleteCurrency(that.currency);
 					that.timerOn = false;
+					that.$emit('delete', that.currency);
 				}, 7000);
 			}
 		},
 		onClickEditOk: function() {
-			this.editCurrency(this.currency, this.currencyBackup);
+			//this.editCurrency(this.currency, this.currencyBackup);
+			this.$emit('edit', this.currency, this.currencyBackup);
 			this.editMode = false;
 		}
 	},

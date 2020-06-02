@@ -2,7 +2,7 @@
 
 import Vue from 'vue';
 import './bootstrap';
-import CurrencyManagement from './components/CurrencyManagement';
+import CurrencyManagement from './CurrencyManagement';
 import {generateUrl} from '@nextcloud/router';
 import {
     getProjectName,

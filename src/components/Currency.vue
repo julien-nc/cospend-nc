@@ -7,8 +7,8 @@
 		</div>
 		<div class="one-currency-edit" v-show="editMode">
 			<label>{{ t('cospend', 'Name') }}</label>
-			<input type="text" v-model="currency.name" maxlength="64"
-					class="editCurrencyNameInput" :placeholder="t('cospend', 'Currency name')"/>
+			<input type="text" v-model="currency.name" maxlength="64" @focus="$event.target.select()"
+					ref="cname" class="editCurrencyNameInput" :placeholder="t('cospend', 'Currency name')"/>
 			<label>
 				{{ t('cospend', 'Exchange rate to main currency') }}
 				<br/>
@@ -59,6 +59,7 @@ export default {
 				exchange_rate: this.currency.exchange_rate,
 				name: this.currency.name,
 			}
+			this.$nextTick(() => this.$refs.cname.focus())
 		},
 		onClickCancel: function() {
 			this.editMode = false;

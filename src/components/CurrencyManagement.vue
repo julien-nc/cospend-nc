@@ -8,7 +8,7 @@
 			v-bind:currency="currency"/>
 	</div>
 	<div v-else class="no-currencies">
-		{{ t("cospend", "No currencies to display") }}
+		{{ t('cospend', 'No currencies to display') }}
 	</div>
 </template>
 

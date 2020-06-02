@@ -1,5 +1,8 @@
 /*jshint esversion: 6 */
 
+import Vue from 'vue';
+import './bootstrap';
+import CurrencyManagement from './components/CurrencyManagement';
 import {generateUrl} from '@nextcloud/router';
 import {
     getProjectName,
@@ -9,7 +12,6 @@ import {
 import * as Notification from './notification';
 import * as constants from './constants';
 import cospend from './state';
-import {Timer} from "./utils";
 
 export function currencyEvents() {
     // main currency
@@ -72,67 +74,6 @@ export function currencyEvents() {
         }
     });
 
-    $('body').on('click', '.deleteOneCurrency', function () {
-        const projectid = $('#curTitle').attr('projectid');
-        const currencyId = $(this).parent().parent().attr('currencyid');
-        if ($(this).hasClass('icon-history')) {
-            $(this).removeClass('icon-history').addClass('icon-delete');
-            cospend.currencyDeletionTimer[currencyId].pause();
-            delete cospend.currencyDeletionTimer[currencyId];
-        } else {
-            $(this).addClass('icon-history').removeClass('icon-delete');
-            cospend.currencyDeletionTimer[currencyId] = new Timer(function () {
-                deleteCurrencyDb(projectid, currencyId);
-            }, 7000);
-        }
-    });
-
-    $('body').on('click', '.editOneCurrency', function () {
-        $(this).parent().hide();
-        $(this).parent().parent().find('.one-currency-edit').show()
-            .css('display', 'grid')
-            .find('.editCurrencyNameInput').focus().select();
-    });
-
-    $('body').on('click', '.editCurrencyOk', function () {
-        const projectid = $('#curTitle').attr('projectid');
-        const currencyId = $(this).parent().parent().parent().attr('currencyid');
-        const name = $(this).parent().parent().find('.editCurrencyNameInput').val();
-        if (name === null || name === '') {
-            Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
-            return;
-        }
-        const rate = parseFloat($(this).parent().parent().find('.editCurrencyRateInput').val());
-        if (isNaN(rate)) {
-            Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
-            return;
-        }
-        editCurrencyDb(projectid, currencyId, name, rate);
-    });
-
-    $('body').on('keyup', '.editCurrencyNameInput, .editCurrencyRateInput', function (e) {
-        if (e.key === 'Enter') {
-            const projectid = $('#curTitle').attr('projectid');
-            const currencyId = $(this).parent().parent().attr('currencyid');
-            const name = $(this).parent().find('.editCurrencyNameInput').val();
-            if (name === null || name === '') {
-                Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
-                return;
-            }
-            const rate = parseFloat($(this).parent().find('.editCurrencyRateInput').val());
-            if (isNaN(rate)) {
-                Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
-                return;
-            }
-            editCurrencyDb(projectid, currencyId, name, rate);
-        }
-    });
-
-    $('body').on('click', '.editCurrencyClose', function () {
-        $(this).parent().parent().hide();
-        $(this).parent().parent().parent().find('.one-currency-label').show();
-    });
-
     $('body').on('click', '.manageProjectCurrencies', function() {
         const projectid = $(this).parent().parent().parent().parent().attr('projectid');
         getProjectCurrencies(projectid);
@@ -160,6 +101,7 @@ export function getProjectCurrencies(projectid) {
         if (cospend.currentProjectId !== projectid) {
             selectProject($('.projectitem[projectid="' + projectid + '"]'));
         }
+        cospend.currencies = response.currencies;
         displayCurrencies(projectid, response);
     }).always(function() {
     }).fail(function() {
@@ -247,16 +189,16 @@ export function displayCurrencies(projectid, projectInfo) {
                 )
         );
 
-    for (let i = 0; i < currencies.length; i++) {
-        addCurrency(projectid, currencies[i]);
-    }
-
     if (cospend.projects[projectid].myaccesslevel < constants.ACCESS.MAINTENER) {
         $('.editMainCurrency').hide();
         $('.editOneCurrency').hide();
         $('.deleteOneCurrency').hide();
         $('#add-currency-div').hide();
     }
+    new Vue({
+        el: "#currency-list",
+        render: h => h(CurrencyManagement),
+    });
 }
 
 export function addCurrencyDb(projectid, name, rate) {
@@ -278,7 +220,6 @@ export function addCurrencyDb(projectid, name, rate) {
         data: req,
         async: true
     }).done(function(response) {
-        addCurrency(projectid, {name: name, exchange_rate: rate, id: response});
         cospend.projects[projectid].currencies.push({
             name: name,
             exchange_rate: rate,
@@ -291,129 +232,6 @@ export function addCurrencyDb(projectid, name, rate) {
         Notification.showTemporary(
             t('cospend', 'Failed to add currency') +
             ': ' + (response.responseJSON.message || response.responseText)
-        );
-    });
-}
-
-export function addCurrency(projectid, currency) {
-    const currDiv = $('<div/>', {class: 'one-currency', projectid: projectid, currencyid: currency.id})
-        .append(
-            $('<div/>', {class: 'one-currency-label'})
-                .append($('<label/>', {class: 'one-currency-label-label'}).text(currency.name + ' (x' + currency.exchange_rate + ')'))
-                .append($('<input/>', {type: 'submit', value: '', class: 'icon-rename editOneCurrency'}))
-                .append($('<input/>', {type: 'submit', value: '', class: 'icon-delete deleteOneCurrency'}))
-        )
-        .append(
-            $('<div/>', {class: 'one-currency-edit'})
-                .append($('<label/>').text(t('cospend', 'Name')))
-                .append($('<input/>', {type: 'text', value: currency.name, maxlength: 64, class: 'editCurrencyNameInput',
-                                       placeholder: t('cospend', 'Currency name')}))
-                .append(
-                    $('<label/>')
-                        .append(t('cospend', 'Exchange rate to main currency'))
-                        .append($('<br/>'))
-                        .append(t('cospend', '(1 of this currency = X of main currency)'))
-                )
-                .append($('<input/>', {type: 'number', value: currency.exchange_rate, class: 'editCurrencyRateInput', step: 0.0001, min: 0}))
-                .append(
-                    $('<div/>')
-                        .append(
-                            $('<button/>', {class: 'editCurrencyClose'})
-                                .append($('<span/>', {class: 'icon-close'}))
-                                .append($('<span/>').text(t('cospend', 'Cancel')))
-                        )
-                        .append(
-                            $('<button/>', {class: 'editCurrencyOk'})
-                                .append($('<span/>', {class: 'icon-checkmark'}))
-                                .append($('<span/>').text(t('cospend', 'Save')))
-                        )
-                )
-        )
-    $('#currency-list').append(currDiv);
-}
-
-export function deleteCurrencyDb(projectid, currencyId) {
-    $('.one-currency[currencyid=' + currencyId + '] .deleteOneCurrency').addClass('icon-loading-small');
-    const req = {};
-    let url, type;
-    if (!cospend.pageIsPublic) {
-        req.projectid = projectid;
-        req.currencyid = currencyId;
-        url = generateUrl('/apps/cospend/deleteCurrency');
-        type = 'POST';
-    } else {
-        type = 'DELETE';
-        url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/currency/' + currencyId);
-    }
-    $.ajax({
-        type: type,
-        url: url,
-        data: req,
-        async: true
-    }).done(function() {
-        $('.one-currency[currencyid=' + currencyId + ']').fadeOut('normal', function() {
-            $(this).remove();
-        });
-        const currencies = cospend.projects[projectid].currencies;
-        let iToDel = null;
-        for (let i = 0; i < currencies.length; i++) {
-            if (parseInt(currencies[i].id) === parseInt(currencyId)) {
-                iToDel = i;
-                break;
-            }
-        }
-        if (iToDel !== null) {
-            currencies.splice(iToDel, 1);
-        }
-    }).always(function() {
-        $('.one-currency[currencyid=' + currencyId + '] .deleteOneCurrency').removeClass('icon-loading-small');
-    }).fail(function(response) {
-        Notification.showTemporary(
-            t('cospend', 'Failed to delete currency') +
-            ': ' + response.responseJSON.message
-        );
-    });
-}
-
-export function editCurrencyDb(projectid, currencyId, name, rate) {
-    $('.one-currency[currencyid=' + currencyId + '] .editCurrencyOk').addClass('icon-loading-small');
-    const req = {
-        name: name,
-        rate: rate
-    };
-    let url, type;
-    if (!cospend.pageIsPublic) {
-        req.projectid = projectid;
-        req.currencyid = currencyId;
-        url = generateUrl('/apps/cospend/editCurrency');
-        type = 'POST';
-    } else {
-        url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/currency/' + currencyId);
-        type = 'PUT';
-    }
-    $.ajax({
-        type: type,
-        url: url,
-        data: req,
-        async: true
-    }).done(function() {
-        $('.one-currency[currencyid=' + currencyId + '] .one-currency-edit').hide();
-        $('.one-currency[currencyid=' + currencyId + '] .one-currency-label').show()
-            .find('.one-currency-label-label').text(name + ' (x' + rate + ')');
-        const currencies = cospend.projects[projectid].currencies;
-        for (let i = 0; i < currencies.length; i++) {
-            if (parseInt(currencies[i].id) === parseInt(currencyId)) {
-                currencies[i].name = name;
-                currencies[i].exchange_rate = rate;
-                break;
-            }
-        }
-    }).always(function() {
-        $('.one-currency[currencyid=' + currencyId + '] .editCurrencyOk').removeClass('icon-loading-small');
-    }).fail(function(response) {
-        Notification.showTemporary(
-            t('cospend', 'Failed to edit currency') +
-            '; ' + response.responseJSON.message
         );
     });
 }

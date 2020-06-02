@@ -689,8 +689,7 @@ a.billitem .app-content-list-item-icon {
     border: 0px;
 }
 #main-currency-edit,
-.one-category-edit,
-.one-currency-edit {
+.one-category-edit {
     display: none;
 }
 .one-category-edit,

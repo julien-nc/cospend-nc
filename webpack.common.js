@@ -1,5 +1,5 @@
 const path = require('path');
-//const webpack = require('webpack');
+const webpack = require('webpack');
 const { VueLoaderPlugin } = require('vue-loader');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
@@ -19,14 +19,14 @@ module.exports = {
 				test: /\.css$/,
 				use: ['vue-style-loader', 'css-loader'],
 			},
-			//{
-			//	test: /\.scss$/,
-			//	use: ['vue-style-loader', 'css-loader', 'sass-loader'],
-			//},
-			//{
-			//	test: /\.vue$/,
-			//	loader: 'vue-loader',
-			//},
+			{
+				test: /\.scss$/,
+				use: ['vue-style-loader', 'css-loader', 'sass-loader'],
+			},
+			{
+				test: /\.vue$/,
+				loader: 'vue-loader',
+			},
 			{
 				test: /\.js$/,
 				loader: 'babel-loader',
@@ -39,11 +39,11 @@ module.exports = {
 		],
 	},
 	plugins: [
-		//new VueLoaderPlugin(),
+		new VueLoaderPlugin(),
 		new CleanWebpackPlugin(),
 	],
 	resolve: {
-		//extensions: ['*', '.js', '.vue'],
-		extensions: ['*', '.js'],
+		extensions: ['*', '.js', '.vue'],
+		//extensions: ['*', '.js'],
 	},
 }

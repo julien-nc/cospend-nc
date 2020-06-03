@@ -58,7 +58,7 @@ See the [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc) for ins
 
 Check [CHANGELOG](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
 
-Check [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+Check [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors and contributors.
 
 ## Known issues
 
@@ -68,6 +68,7 @@ Any feedback will be appreciated.
 
 ## Screenshots
 
-![1](https://gitlab.com/eneiluj/cospend-nc/wikis/uploads/5e4d6f74e72560d9d7eeda3e3f62746f/1.png)
-![2](https://gitlab.com/eneiluj/cospend-nc/wikis/uploads/f4eef68a64dcbf89a59ea35a1cb21c79/2.png)
-![3](https://gitlab.com/eneiluj/cospend-nc/wikis/uploads/e36c1985a882b7d1b009735e5b8e71ae/3.png)
+![1](https://gitlab.com/eneiluj/cospend-nc/-/wikis/uploads/9d23713aaeaeaae6bb00d9686ac68573/cospend1.png)
+![2](https://gitlab.com/eneiluj/cospend-nc/-/wikis/uploads/0a7f7b475b19506c8804c5bb0157aa39/cospend2.png)
+![3](https://gitlab.com/eneiluj/cospend-nc/-/wikis/uploads/5ae6be5c78c660958ed55d4c4b172f83/cospend3.png)
+![4](https://gitlab.com/eneiluj/cospend-nc/-/wikis/uploads/96676ed7c5888bfeb20bde540a9c29b4/cospend4.png)

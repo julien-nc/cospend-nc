@@ -5,6 +5,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.5.5 – 2020-06-03
+### Added
+- bill counter
+[#100](https://gitlab.com/eneiluj/cospend-nc/issues/100) @miguelangel.caballerobracero
+
+### Changed
+- improve payer/ower naming (you -> all except A, B)
+[#101](https://gitlab.com/eneiluj/cospend-nc/issues/101) @call-me-matt
+- begin to use vue.js, currency management fully converted
+
+### Fixed
+- import project (some bills were missing)
+[#100](https://gitlab.com/eneiluj/cospend-nc/issues/100) @miguelangel.caballerobracero
+- amount preview with negative amount
+[#100](https://gitlab.com/eneiluj/cospend-nc/issues/100) @miguelangel.caballerobracero
+- include port number in guest link
+[#102](https://gitlab.com/eneiluj/cospend-nc/issues/102) @singulosta
+
 ## 0.5.4 – 2020-05-23
 ### Changed
 - use more placeholders

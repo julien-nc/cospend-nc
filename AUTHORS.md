@@ -3,12 +3,26 @@
 * Julien Veyssier <eneiluj@posteo.net> @eneiluj (Developer)
 * @simonspa (Developper, Tester)
 * @chiefbrain (Developper)
+* @archit3kt (test master)
+* @denics (splitwise master)
+* @call-me-matt
 * g--work
 * @poVoq (issue master)
 * @MrCustomizer
 * @swestersund
 * @jwsp1
-* @call-me-matt
+* @miguelangel.caballerobracero
+* @singulosta
+* @pflegende
+* @nicoe
+* @patxiku
+* @Plunts
+* @rexkani
+* @mikoladz
+* @jonfin
+* @schwerpunkt
+* @DavidMStraub
+* @sunjam1
 * @Dunkelschunkel
 * @redplanet
 * @Questlog
@@ -20,10 +34,8 @@
 * @llucax
 * @PL5bTStMZLduri
 * @quizilkend
-* @archit3kt (test master)
 * @mr-manuel
 * @eldiep
-* @denics (splitwise master)
 * @yward
 * @xsus95
 * @Helloha

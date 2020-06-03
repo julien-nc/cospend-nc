@@ -2,8 +2,10 @@
 	<div class="one-currency">
 		<div class="one-currency-label" v-show="!editMode">
 			<label class="one-currency-label-label">{{ currency.name }} (x{{ currency.exchange_rate }})</label>
-			<input type="submit" value="" class="icon-rename editOneCurrency" @click="onClickEdit"/>
-			<input type="submit" value="" :class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteOneCurrency'" @click="onClickDelete"/>
+			<input type="submit" value="" class="icon-rename editOneCurrency"
+				@click="onClickEdit" v-show="editionAccess"/>
+			<input type="submit" value="" :class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteOneCurrency'"
+				@click="onClickDelete" v-show="editionAccess"/>
 		</div>
 		<div class="one-currency-edit" v-show="editMode">
 			<label>{{ t('cospend', 'Name') }}</label>
@@ -39,7 +41,7 @@ export default {
 	components: {
 	},
 
-	props: ['currency'],
+	props: ['currency', 'editionAccess'],
 	data: function() {
 		return {
 			editMode: false,
@@ -59,7 +61,7 @@ export default {
 				exchange_rate: this.currency.exchange_rate,
 				name: this.currency.name,
 			}
-			this.$nextTick(() => this.$refs.cname.focus())
+			this.$nextTick(() => this.$refs.cname.focus());
 		},
 		onClickCancel: function() {
 			this.editMode = false;
@@ -91,4 +93,29 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.one-currency-edit {
+    grid-template: 1fr / 300px 100px;
+    padding: 10px 0px 10px 20px;
+    background-color: var(--color-background-dark);
+}
+.one-currency-edit label,
+.one-currency-label label {
+    line-height: 40px;
+}
+.one-currency-label input[type=submit] {
+    border-radius: 0 !important;
+    width: 36px !important;
+}
+.one-currency-label {
+    display: grid;
+    grid-template: 1fr / 150px 37px 37px;
+}
+.editCurrencyOk {
+    background-color: #46ba61;
+    color: white;
+}
+.editCurrencyClose {
+    background-color: #e9322d;
+    color: white;
+}
 </style>

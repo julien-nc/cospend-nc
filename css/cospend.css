@@ -200,13 +200,14 @@ b.memberName, b.memberWeight {
     display: none;
 }
 #createproject,
-.addCategoryOk, .addCurrencyOk,
-.editCurrencyOk, .editCategoryOk,
+.addCategoryOk,
+.addCurrencyOk,
+.editCategoryOk,
 #owerValidate {
     background-color: #46ba61;
     color: white;
 }
-.editCurrencyClose, .editCategoryClose {
+.editCategoryClose {
     background-color: #e9322d;
     color: white;
 }
@@ -688,12 +689,10 @@ a.billitem .app-content-list-item-icon {
     margin: 0px;
     border: 0px;
 }
-#main-currency-edit,
 .one-category-edit {
     display: none;
 }
-.one-category-edit,
-.one-currency-edit {
+.one-category-edit {
     padding: 10px 0px 10px 20px;
 }
 .one-category-label-icon {
@@ -701,7 +700,6 @@ a.billitem .app-content-list-item-icon {
 }
 #category-list,
 #add-category,
-#currency-list,
 #main-currency-edit,
 #add-currency,
 #main-currency-label {
@@ -726,10 +724,6 @@ a.billitem .app-content-list-item-icon {
 .one-category-edit {
     grid-template: 1fr / 200px 100px;
 }
-.one-currency-edit {
-    grid-template: 1fr / 300px 100px;
-}
-.one-currency-edit,
 .one-category-edit {
     background-color: var(--color-background-dark);
 }
@@ -737,13 +731,10 @@ a.billitem .app-content-list-item-icon {
 .one-category-edit label,
 #add-category label,
 .one-category-label label,
-.one-currency-edit label,
-#add-currency label,
-.one-currency-label label {
+#add-currency label {
     line-height: 40px;
 }
-.one-category-label input[type=submit],
-.one-currency-label input[type=submit] {
+.one-category-label input[type=submit] {
     border-radius: 0 !important;
     width: 36px !important;
 }
@@ -751,20 +742,8 @@ a.billitem .app-content-list-item-icon {
     display: grid;
     grid-template: 1fr / 30px 150px 150px 37px 37px;
 }
-#main-currency-edit {
-    grid-template: 1fr / 150px 37px 37px;
-}
 .editMainCurrencyInput {
     width: 96%;
-}
-.one-currency-label {
-    display: grid;
-    grid-template: 1fr / 150px 37px 37px;
-}
-#main-currency-edit input[type=submit] {
-    margin-left: -5px;
-    border-radius: 0;
-    width: 36px !important;
 }
 .guest-link-label {
     max-width: 45%;

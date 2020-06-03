@@ -1,6 +1,7 @@
 <template>
 	<div id="currency-list" v-if="currencies.length">
         <Currency
+            :editionAccess="editionAccess"
             v-on:delete="onDeleteEvent"
             v-on:edit="onEditEvent"
             v-for="currency in currencies"
@@ -14,11 +15,11 @@
 
 <script>
 import Currency from './Currency';
-import {generateUrl} from '@nextcloud/router';
+
 export default {
 	name: 'CurrencyList',
 
-	props: ['currencies'],
+	props: ['currencies', 'editionAccess'],
 	components: {
 		Currency
     },
@@ -38,5 +39,8 @@ export default {
     padding: 2em;
     text-align: center;
     color: var(--color-text-light);
+}
+#currency-list {
+    margin-left: 37px;
 }
 </style>

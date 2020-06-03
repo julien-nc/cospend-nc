@@ -28,11 +28,15 @@
 			</label>
 			<div id="add-currency">
 				<label for="addCurrencyNameInput">{{ t('cospend', 'Name') }}</label>
-				<input type="text" value="" maxlength="64" id="addCurrencyNameInput" :placeholder="t('cospend', 'New currency name')"/>
+				<input type="text" value="" maxlength="64" id="addCurrencyNameInput"
+					v-on:keyup.enter="onAddCurrency"
+					ref="newCurrencyName" :placeholder="t('cospend', 'New currency name')"/>
 				<label for="addCurrencyRateInput">{{ t('cospend', 'Exchange rate to main currency') }}</label>
-				<input type="number" value="1" id="addCurrencyRateInput" step="0.0001" min="0"/>
+				<input type="number" value="1" id="addCurrencyRateInput"
+					v-on:keyup.enter="onAddCurrency"
+					ref="newCurrencyRate" step="0.0001" min="0"/>
 				<label class="addCurrencyRateHint">{{ t('cospend', '(1 of this currency = X of main currency)') }}</label>
-				<button class="addCurrencyOk">
+				<button class="addCurrencyOk" @click="onAddCurrency">
 					<span class="icon-add"></span>
 					<span>{{ t('cospend', 'Add this currency') }}</span>
 				</button>
@@ -46,8 +50,8 @@
 		<CurrencyList
 			:currencies="currencies"
 			:editionAccess="project.myaccesslevel >= constants.ACCESS.MAINTENER"
-			v-on:delete="onDeleteEvent"
-			v-on:edit="onEditEvent"
+			v-on:delete="onDeleteCurrency"
+			v-on:edit="onEditCurrency"
 		/>
 	</div>
 </div>
@@ -83,7 +87,52 @@ export default {
 			editProject(this.project.id, this.project.name , null, null, null, newVal);
 			this.editMode = false;
 		},
-		onDeleteEvent: function(currency) {
+		onAddCurrency: function() {
+			const name = this.$refs.newCurrencyName.value;
+			const rate = parseFloat(this.$refs.newCurrencyRate.value);
+			if (name === null || name === '') {
+				Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
+				return;
+			}
+			if (isNaN(rate)) {
+				Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
+				return;
+			}
+			const req = {
+				name: name,
+				rate: rate
+			};
+			let url;
+			if (!cospend.pageIsPublic) {
+				req.projectid = this.project.id;
+				url = generateUrl('/apps/cospend/addCurrency');
+			} else {
+				url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/currency');
+			}
+			const that = this;
+			$.ajax({
+				type: 'POST',
+				url: url,
+				data: req,
+				async: true
+			}).done(function(response) {
+				that.project.currencies.push({
+					name: name,
+					exchange_rate: rate,
+					id: response
+				});
+				Notification.showTemporary(t('cospend', 'Currency {n} added', {n: name}));
+				that.$refs.newCurrencyName.value = '';
+				that.$refs.newCurrencyRate.value = 1;
+			}).always(function() {
+			}).fail(function(response) {
+				Notification.showTemporary(
+					t('cospend', 'Failed to add currency') +
+					': ' + (response.responseJSON.message || response.responseText)
+				);
+			});
+		},
+		onDeleteCurrency: function(currency) {
 			const that = this;
 			const req = {};
 			let url, type;
@@ -121,7 +170,7 @@ export default {
 			});
 		},
 
-		onEditEvent: function(currency, backupCurrency) {
+		onEditCurrency: function(currency, backupCurrency) {
 			if (currency.name === '') {
 				Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
 				currency.name = backupCurrency.name;
@@ -164,6 +213,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.editMainCurrency {
+    width: 36px !important;
+}
+.editMainCurrencyInput {
+    width: 96%;
+}
 #main-currency-edit {
 	display: grid;
     grid-template: 1fr / 150px 37px 37px;
@@ -172,5 +227,30 @@ export default {
     margin-left: -5px;
     border-radius: 0;
     width: 36px !important;
+}
+.addCurrencyOk {
+    background-color: #46ba61;
+    color: white;
+}
+#main-currency-edit,
+#add-currency,
+#main-currency-label {
+    margin-left: 37px;
+}
+#main-currency-label {
+    width: 160px;
+    display: grid;
+    grid-template: 1fr / 1fr 1fr;
+}
+#add-currency {
+    display: grid;
+    grid-template: 1fr / 300px 100px;
+}
+.addCurrencyRateHint {
+    grid-column: 1/3;
+}
+#main-currency-label-label,
+#add-currency label {
+    line-height: 40px;
 }
 </style>

@@ -1,5 +1,8 @@
 /*jshint esversion: 6 */
 
+import Vue from 'vue';
+import './bootstrap';
+import MoneyBusterLink from './MoneyBusterLink';
 import * as Notification from './notification';
 import {generateUrl} from '@nextcloud/router';
 import 'sorttable';
@@ -276,14 +279,6 @@ export function projectEvents() {
     $('body').on('click', '.getProjectStats', function() {
         const projectid = $(this).parent().parent().parent().parent().attr('projectid');
         getProjectStatistics(projectid, null, null, null, -100);
-    });
-
-    $('body').on('keyup', '#mbPasswordInput', function(e) {
-        if (e.key === 'Enter') {
-            const projectid = cospend.currentProjectId;
-            const password = $(this).val();
-            getProjectMoneyBusterLink(projectid, password);
-        }
     });
 }
 
@@ -651,7 +646,7 @@ export function displaySettlement(projectid, transactionList, centeredOn=null) {
     }
 }
 
-export function getProjectMoneyBusterLink(projectid, password=null) {
+export function getProjectMoneyBusterLink(projectid) {
     // unselect bill
     $('.billitem').removeClass('selectedbill');
 
@@ -659,158 +654,23 @@ export function getProjectMoneyBusterLink(projectid, password=null) {
         selectProject($('.projectitem[projectid="' + projectid + '"]'));
     }
 
-    const url = 'https://net.eneiluj.moneybuster.cospend/' + window.location.host +
-        generateUrl('').replace('/index.php', '') + projectid + '/';
-
     const projectName = getProjectName(projectid);
     const container = $('#billdetail');
     container.html('');
     $('.app-content-list').addClass('showdetails');
     const titleStr = t('cospend', 'MoneyBuster link/QRCode for project {name}', {name: projectName});
-    const hint1 = t('cospend', 'Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone.');
-    const hint2 = t('cospend', 'Android will know MoneyBuster can open such a link (based on the \'https://net.eneiluj.moneybuster.cospend\' part) and you will be able to add the project.');
-    const passwordLabel1 = t('cospend', 'As password is stored hashed (for security), it can\'t be automatically included in the QRCode. If you want to include it in the QRCode and make it easier to add a project in MoneyBuster, you can provide the password again.');
-    const passwordLabel2 = t('cospend', 'Type the project password and press Enter to generate another QRCode including the password.');
 
     container.append($('<div/>', {id: 'app-details-toggle', tabindex: 0, class: 'icon-confirm'}));
     const title = $('<h2/>', {id: 'mbTitle'})
         .text(titleStr)
         .prepend($('<span/>', {class: 'icon-phone'}));
     container.append(title)
-        .append($('<div/>', {id: 'qrcodediv'}))
-        .append($('<label/>', {id: 'mbUrlLabel'}).text(url))
-        .append('<br/>')
-        .append($('<label/>', {id: 'mbUrlHintLabel'}).text(hint1))
-        .append($('<label/>', {id: 'mbUrlHintLabel'}).text(hint2))
-        .append('<br/><hr/><br/>')
-        .append($('<label/>', {id: 'mbPasswordLabel1'}).text(passwordLabel1))
-        .append($('<label/>', {id: 'mbPasswordLabel2'}).text(passwordLabel2))
-        .append($('<input/>', {id: 'mbPasswordInput', type: 'text', value: password, placeholder: t('cospend', 'Project password')}));
+        .append($('<div/>', {id: 'mb-link'}))
 
-    if (password) {
-        checkPassword(projectid, password, displayPasswordQRCode);
-    }
-
-    const img = new Image();
-    // wait for the image to be loaded to generate the QRcode
-    img.onload = function() {
-        const qr = kjua({
-            text: url,
-            crisp: false,
-            render: 'canvas',
-            minVersion: 6,
-            ecLevel: 'H',
-            size: 210,
-            back: '#ffffff',
-            fill: cospend.themeColorDark,
-            rounded: 100,
-            quiet: 1,
-            mode: 'image',
-            mSize: 20,
-            mPosX: 50,
-            mPosY: 50,
-            image: img,
-            label: 'no label',
-        });
-        $('#qrcodediv').append(qr);
-    };
-    img.onerror = function() {
-        const qr = kjua({
-            text: url,
-            crisp: false,
-            render: 'canvas',
-            minVersion: 6,
-            ecLevel: 'H',
-            size: 210,
-            back: '#ffffff',
-            fill: cospend.themeColorDark,
-            rounded: 100,
-            quiet: 1,
-            mode: 'label',
-            mSize: 10,
-            mPosX: 50,
-            mPosY: 50,
-            image: img,
-            label: 'Cospend',
-            fontcolor: '#000000',
-        });
-        $('#qrcodediv').append(qr);
-    };
-
-    // dirty trick to get image URL from css url()... Anyone knows better ?
-    img.src = $('#dummylogo').css('content').replace('url("', '').replace('")', '');
-}
-
-function checkPassword(projectid, password, callback) {
-    const url = generateUrl('/apps/cospend/checkpassword/' + projectid + '/' + password);
-    cospend.currentGetProjectsAjax = $.ajax({
-        type: 'GET',
-        url: url,
-        data: null,
-        async: true,
-    }).done(function(response) {
-        if (response) {
-            callback(projectid, password);
-        } else {
-            Notification.showTemporary(t('cospend', 'Incorrect project password'));
-        }
+    new Vue({
+        el: "#mb-link",
+        render: h => h(MoneyBusterLink),
     });
-}
-
-function displayPasswordQRCode(projectid, password) {
-    const container = $('#billdetail');
-    const urlPassword = 'https://net.eneiluj.moneybuster.cospend/' + window.location.host +
-        generateUrl('').replace('/index.php', '') + projectid + '/' + encodeURIComponent(password);
-    container.append($('<div/>', {id: 'qrcode-password-div'}))
-        .append($('<label/>', {id: 'mbUrlPasswordLabel'}).text(urlPassword));
-
-    const imgPassword = new Image();
-    // wait for the image to be loaded to generate the QRcode
-    imgPassword.onload = function() {
-        const qrPassword = kjua({
-            text: urlPassword,
-            crisp: false,
-            render: 'canvas',
-            minVersion: 6,
-            ecLevel: 'H',
-            size: 210,
-            back: '#ffffff',
-            fill: cospend.themeColorDark,
-            rounded: 100,
-            quiet: 1,
-            mode: 'image',
-            mSize: 20,
-            mPosX: 50,
-            mPosY: 50,
-            image: imgPassword,
-            label: 'no label',
-        });
-        $('#qrcode-password-div').append(qrPassword);
-    };
-    imgPassword.onerror = function() {
-        const qrPassword = kjua({
-            text: urlPassword,
-            crisp: false,
-            render: 'canvas',
-            minVersion: 6,
-            ecLevel: 'H',
-            size: 210,
-            back: '#ffffff',
-            fill: cospend.themeColorDark,
-            rounded: 100,
-            quiet: 1,
-            mode: 'label',
-            mSize: 10,
-            mPosX: 50,
-            mPosY: 50,
-            image: imgPassword,
-            label: 'Cospend',
-            fontcolor: '#000000',
-        });
-        $('#qrcode-password-div').append(qrPassword);
-    };
-
-    imgPassword.src = $('#dummylogo').css('content').replace('url("', '').replace('")', '');
 }
 
 function getCategory(projectid, catId) {

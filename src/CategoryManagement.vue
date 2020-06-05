@@ -101,8 +101,7 @@ export default {
 			};
 			let url;
 			if (!cospend.pageIsPublic) {
-				req.projectid = this.project.id;
-				url = generateUrl('/apps/cospend/addCategory');
+				url = generateUrl('/apps/cospend/projects/' + this.project.id + '/category');
 			} else {
 				url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/category');
 			}
@@ -142,18 +141,14 @@ export default {
 		onDeleteCategory: function(category) {
 			const that = this;
 			const req = {};
-			let url, type;
+			let url;
 			if (!cospend.pageIsPublic) {
-				req.projectid = cospend.currentProjectId;
-				req.categoryid = category.id;
-				url = generateUrl('/apps/cospend/deleteCategory');
-				type = 'POST';
+				url = generateUrl('/apps/cospend/projects/' + this.project.id + '/category/' + category.id);
 			} else {
-				type = 'DELETE';
 				url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/category/' + category.id);
 			}
 			$.ajax({
-				type: type,
+				type: 'DELETE',
 				url: url,
 				data: req,
 				async: true
@@ -184,18 +179,14 @@ export default {
 				icon: category.icon,
 				color:category.color
 			};
-			let url, type;
+			let url;
 			if (!cospend.pageIsPublic) {
-				req.projectid = cospend.currentProjectId;
-				req.categoryid = category.id;
-				url = generateUrl('/apps/cospend/editCategory');
-				type = 'POST';
+				url = generateUrl('/apps/cospend/projects/' + this.project.id + '/category/' + category.id);
 			} else {
 				url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/category/' + category.id);
-				type = 'PUT';
 			}
 			$.ajax({
-				type: type,
+				type: 'PUT',
 				url: url,
 				data: req,
 				async: true

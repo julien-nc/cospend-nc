@@ -100,7 +100,6 @@ export default {
 			}
 		},
 		onClickEditOk: function() {
-			console.log(this.category);
 			this.$emit('edit', this.category, this.categoryBackup);
 			this.editMode = false;
 		}

@@ -105,7 +105,7 @@ export default {
 			let url;
 			if (!cospend.pageIsPublic) {
 				req.projectid = this.project.id;
-				url = generateUrl('/apps/cospend/addCurrency');
+				url = generateUrl('/apps/cospend/projects/' + this.project.id + '/currency');
 			} else {
 				url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/currency');
 			}
@@ -135,18 +135,14 @@ export default {
 		onDeleteCurrency: function(currency) {
 			const that = this;
 			const req = {};
-			let url, type;
+			let url;
 			if (!cospend.pageIsPublic) {
-				req.projectid = cospend.currentProjectId;
-				req.currencyid = currency.id;
-				url = generateUrl('/apps/cospend/deleteCurrency');
-				type = 'POST';
+				url = generateUrl('/apps/cospend/projects/' + this.project.id + '/currency/' + currency.id);
 			} else {
-				type = 'DELETE';
 				url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/currency/' + currency.id);
 			}
 			$.ajax({
-				type: type,
+				type: 'DELETE',
 				url: url,
 				data: req,
 				async: true
@@ -181,18 +177,14 @@ export default {
 				name: currency.name,
 				rate: currency.exchange_rate
 			};
-			let url, type;
+			let url;
 			if (!cospend.pageIsPublic) {
-				req.projectid = cospend.currentProjectId;
-				req.currencyid = currency.id;
-				url = generateUrl('/apps/cospend/editCurrency');
-				type = 'POST';
+				url = generateUrl('/apps/cospend/projects/' + this.project.id + '/currency/' + currency.id);
 			} else {
 				url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/currency/' + currency.id);
-				type = 'PUT';
 			}
 			$.ajax({
-				type: type,
+				type: 'PUT',
 				url: url,
 				data: req,
 				async: true

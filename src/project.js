@@ -300,7 +300,7 @@ export function createProject(id, name, password) {
         name: name,
         password: password
     };
-    const url = generateUrl('/apps/cospend/createProject');
+    const url = generateUrl('/apps/cospend/projects');
     $.ajax({
         type: 'POST',
         url: url,
@@ -330,18 +330,15 @@ export function editProject(projectid, newName, newEmail, newPassword, newAutoex
         autoexport: newAutoexport,
         currencyname: newcurrencyname
     };
-    let url, type;
+    let url;
     const project = cospend.projects[projectid];
     if (!cospend.pageIsPublic) {
-        req.projectid = projectid;
-        type = 'POST';
-        url = generateUrl('/apps/cospend/editProject');
+        url = generateUrl('/apps/cospend/projects/' + projectid);
     } else {
-        type = 'PUT';
         url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password);
     }
     $.ajax({
-        type: type,
+        type: 'PUT',
         url: url,
         data: req,
         async: true,
@@ -390,17 +387,15 @@ export function editProject(projectid, newName, newEmail, newPassword, newAutoex
 
 export function deleteProject(projectid) {
     const req = {};
-    let url, type;
+    let url;
     if (!cospend.pageIsPublic) {
         req.projectid = projectid;
-        url = generateUrl('/apps/cospend/deleteProject');
-        type = 'POST';
+        url = generateUrl('/apps/cospend/projects/' + projectid);
     } else {
-        type = 'DELETE';
         url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password);
     }
     $.ajax({
-        type: type,
+        type: 'DELETE',
         url: url,
         data: req,
         async: true,
@@ -428,16 +423,14 @@ export function deleteProject(projectid) {
 
 export function getProjects() {
     const req = {};
-    let url, type;
+    let url;
     if (!cospend.pageIsPublic) {
-        url = generateUrl('/apps/cospend/getProjects');
-        type = 'POST';
+        url = generateUrl('/apps/cospend/projects');
     } else {
         url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password);
-        type = 'GET';
     }
     cospend.currentGetProjectsAjax = $.ajax({
-        type: type,
+        type: 'GET',
         url: url,
         data: req,
         async: true,
@@ -1765,17 +1758,14 @@ export function editGuestAccessLevelDb(projectid, accesslevel) {
     const req = {
         accesslevel: accesslevel
     };
-    let method, url;
+    let url;
     if (!cospend.pageIsPublic) {
-        req.projectid = projectid;
-        url = generateUrl('/apps/cospend/editGuestAccessLevel');
-        method = 'POST';
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/guest-access-level');
     } else {
         url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/guest-access-level');
-        method = 'PUT';
     }
     $.ajax({
-        type: method,
+        type: 'PUT',
         url: url,
         data: req,
         async: true

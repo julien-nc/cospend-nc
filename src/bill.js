@@ -344,7 +344,7 @@ export function createBill(projectid, what, amount, payer_id, timestamp, owerIds
     let url;
     if (!cospend.pageIsPublic) {
         req.projectid = projectid;
-        url = generateUrl('/apps/cospend/addBill');
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/bills');
     } else {
         url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills');
     }
@@ -416,18 +416,14 @@ export function saveBill(projectid, billid, what, amount, payer_id, timestamp, o
         paymentmode: paymentmode,
         categoryid: categoryid
     };
-    let url, type;
+    let url;
     if (!cospend.pageIsPublic) {
-        req.projectid = projectid;
-        req.billid = billid;
-        type = 'POST';
-        url = generateUrl('/apps/cospend/editBill');
+        url = generateUrl('/apps/cospend/projects/' + projectid +'/bills/' + billid);
     } else {
-        type = 'PUT';
         url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills/' + billid);
     }
     $.ajax({
-        type: type,
+        type: 'PUT',
         url: url,
         data: req,
         async: true,
@@ -608,18 +604,14 @@ function getSmartOwerNames(projectid, bill) {
 
 export function deleteBill(projectid, billid) {
     const req = {};
-    let url, type;
+    let url;
     if (!cospend.pageIsPublic) {
-        req.projectid = projectid;
-        req.billid = billid;
-        type = 'POST';
-        url = generateUrl('/apps/cospend/deleteBill');
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/bills/' + billid);
     } else {
-        type = 'DELETE';
         url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills/' + billid);
     }
     $.ajax({
-        type: type,
+        type: 'DELETE',
         url: url,
         data: req,
         async: true,
@@ -654,17 +646,14 @@ export function deleteBill(projectid, billid) {
 export function getBills(projectid) {
     $('#bill-list').html('<h2 class="icon-loading-small"></h2>');
     const req = {};
-    let url, type;
+    let url;
     if (!cospend.pageIsPublic) {
-        url = generateUrl('/apps/cospend/getBills');
-        type = 'POST';
-        req.projectid = projectid;
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/bills');
     } else {
         url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills');
-        type = 'GET';
     }
     cospend.currentGetProjectsAjax = $.ajax({
-        type: type,
+        type: 'GET',
         url: url,
         data: req,
         async: true,

@@ -106,10 +106,9 @@ export function shareEvents() {
 export function addUserShareDb(projectid, userid, username) {
     $('.projectitem[projectid="' + projectid + '"]').addClass('icon-loading-small');
     const req = {
-        projectid: projectid,
         userid: userid
     };
-    const url = generateUrl('/apps/cospend/addUserShare');
+    const url = generateUrl('/apps/cospend/projects/' + projectid + '/user-share');
     $.ajax({
         type: 'POST',
         url: url,
@@ -135,13 +134,10 @@ export function addUserShareDb(projectid, userid, username) {
 export function deleteUserShareDb(projectid, shid) {
     $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] ' +
         '.deleteUserShareButton span:first').addClass('icon-loading-small');
-    const req = {
-        projectid: projectid,
-        shid: shid
-    };
-    const url = generateUrl('/apps/cospend/deleteUserShare');
+    const req = {};
+    const url = generateUrl('/apps/cospend/projects/' + projectid + '/user-share/' + shid);
     $.ajax({
-        type: 'POST',
+        type: 'DELETE',
         url: url,
         data: req,
         async: true
@@ -166,7 +162,7 @@ export function addPublicShareDb(projectid) {
     const req = {
         projectid: projectid,
     };
-    const url = generateUrl('/apps/cospend/addPublicShare');
+    const url = generateUrl('/apps/cospend/projects/' + projectid + '/public-share');
     $.ajax({
         type: 'POST',
         url: url,
@@ -190,12 +186,10 @@ export function deletePublicShareDb(projectid, shid) {
     $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] ' +
         '.deletePublicShareButton span:first').addClass('icon-loading-small');
     const req = {
-        projectid: projectid,
-        shid: shid
     };
-    const url = generateUrl('/apps/cospend/deletePublicShare');
+    const url = generateUrl('/apps/cospend/projects/' + projectid + '/public-share/' + shid);
     $.ajax({
-        type: 'POST',
+        type: 'DELETE',
         url: url,
         data: req,
         async: true
@@ -218,10 +212,9 @@ export function deletePublicShareDb(projectid, shid) {
 export function addCircleShareDb(projectid, circleId, circleName) {
     $('.projectitem[projectid="' + projectid + '"]').addClass('icon-loading-small');
     const req = {
-        projectid: projectid,
         circleid: circleId
     };
-    const url = generateUrl('/apps/cospend/addCircleShare');
+    const url = generateUrl('/apps/cospend/projects/' + projectid + '/circle-share');
     $.ajax({
         type: 'POST',
         url: url,
@@ -246,13 +239,10 @@ export function addCircleShareDb(projectid, circleId, circleName) {
 
 export function deleteCircleShareDb(projectid, shid) {
     $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteCircleShareButton').addClass('icon-loading-small');
-    const req = {
-        projectid: projectid,
-        shid: shid
-    };
-    const url = generateUrl('/apps/cospend/deleteCircleShare');
+    const req = {};
+    const url = generateUrl('/apps/cospend/projects/' + projectid + '/circle-share/' + shid);
     $.ajax({
-        type: 'POST',
+        type: 'DELETE',
         url: url,
         data: req,
         async: true
@@ -274,10 +264,9 @@ export function deleteCircleShareDb(projectid, shid) {
 export function addGroupShareDb(projectid, groupid, groupname) {
     $('.projectitem[projectid="' + projectid + '"]').addClass('icon-loading-small');
     const req = {
-        projectid: projectid,
         groupid: groupid
     };
-    const url = generateUrl('/apps/cospend/addGroupShare');
+    const url = generateUrl('/apps/cospend/projects/' + projectid + '/group-share');
     $.ajax({
         type: 'POST',
         url: url,
@@ -410,13 +399,10 @@ export function addShare(projectid, elemId, elemName, id, type, accesslevel, tok
 
 export function deleteGroupShareDb(projectid, shid) {
     $('.projectitem[projectid="' + projectid + '"] .app-navigation-entry-share li[shid=' + shid + '] .deleteGroupShareButton').addClass('icon-loading-small');
-    const req = {
-        projectid: projectid,
-        shid: shid
-    };
-    const url = generateUrl('/apps/cospend/deleteGroupShare');
+    const req = {};
+    const url = generateUrl('/apps/cospend/projects/' + projectid + '/group-share/' + shid);
     $.ajax({
-        type: 'POST',
+        type: 'DELETE',
         url: url,
         data: req,
         async: true
@@ -439,13 +425,11 @@ export function editShareAccessLevelDb(projectid, shid, accesslevel) {
     $('.projectitem[projectid="' + projectid + '"]').addClass('icon-loading-small');
     $('li[shid="' + shid + '"] .accesslevel span').addClass('icon-loading-small');
     const req = {
-        projectid: projectid,
-        shid: shid,
         accesslevel: accesslevel
     };
-    const url = generateUrl('/apps/cospend/editShareAccessLevel');
+    const url = generateUrl('/apps/cospend/projects/' + projectid + '/share-access-level/' + shid);
     $.ajax({
-        type: 'POST',
+        type: 'PUT',
         url: url,
         data: req,
         async: true
@@ -478,9 +462,9 @@ export function applyShareAccessLevel(projectid, shid, accesslevel) {
 
 export function addUserAutocompletion(input, projectid) {
     const req = {};
-    const url = generateUrl('/apps/cospend/getUserList');
+    const url = generateUrl('/apps/cospend/user-list');
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: url,
         data: req,
         async: true

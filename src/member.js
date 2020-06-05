@@ -180,8 +180,7 @@ export function createMember(projectid, name) {
     };
     let url;
     if (!cospend.pageIsPublic) {
-        req.projectid = projectid;
-        url = generateUrl('/apps/cospend/addMember');
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/members');
     } else {
         url = generateUrl('/apps/cospend/apiv2/projects/' + cospend.projectid + '/' + cospend.password + '/members');
     }
@@ -215,11 +214,10 @@ export function createMemberFromUser(projectid, userid, name) {
     }
     $('.projectitem[projectid="' + projectid + '"]').addClass('icon-loading-small');
     const req = {
-        projectid: projectid,
         userid: userid,
         name: name
     };
-    let url = generateUrl('/apps/cospend/addMember');
+    const url = generateUrl('/apps/cospend/projects/' + projectid + '/members');
     $.ajax({
         type: 'POST',
         url: url,
@@ -279,18 +277,14 @@ export function editMember(projectid, memberid, newName, newWeight=null, newActi
     if (userid !== null) {
         req.userid = userid;
     }
-    let url, type;
+    let url;
     if (!cospend.pageIsPublic) {
-        req.projectid = projectid;
-        req.memberid = memberid;
-        url = generateUrl('/apps/cospend/editMember');
-        type = 'POST';
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/members/' + memberid);
     } else {
         url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/members/' + memberid);
-        type = 'PUT';
     }
     $.ajax({
-        type: type,
+        type: 'PUT',
         url: url,
         data: req,
         async: true,
@@ -467,10 +461,10 @@ export function addMember(projectid, member, balance) {
 }
 
 export function addMemberAutocompletion(input, projectid, memberid) {
-    const req = {projectid: projectid};
-    const url = generateUrl('/apps/cospend/getMemberSuggestions');
+    const req = {};
+    const url = generateUrl('/apps/cospend/projects/' + projectid + '/member-suggestions');
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: url,
         data: req,
         async: true

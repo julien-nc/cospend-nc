@@ -108,11 +108,11 @@ import cospend from './state';
     };
 
     function restoreOptions() {
-        const url = generateUrl('/apps/cospend/getOptionsValues');
+        const url = generateUrl('/apps/cospend/option-values');
         const req = {};
         let optionsValues = {};
         $.ajax({
-            type: 'POST',
+            type: 'GET',
             url: url,
             data: req,
             async: true

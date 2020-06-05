@@ -108,9 +108,9 @@ export function saveOptionValue(optionValues) {
         const req = {
             options: optionValues
         };
-        const url = generateUrl('/apps/cospend/saveOptionValue');
+        const url = generateUrl('/apps/cospend/option-value');
         $.ajax({
-            type: 'POST',
+            type: 'PUT',
             url: url,
             data: req,
             async: true

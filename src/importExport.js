@@ -12,12 +12,11 @@ export function exportProject(projectid) {
     const dateStr = moment(timeStamp).format('YYYY-MM-DD');
     const filename = projectid + '_' + dateStr + '.csv';
     const req = {
-        projectid: projectid,
         name: filename
     };
-    const url = generateUrl('/apps/cospend/exportCsvProject');
+    const url = generateUrl('/apps/cospend/export-csv-project/' + projectid);
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: url,
         data: req,
         async: true
@@ -37,7 +36,6 @@ export function exportStatistics(projectid, tsMin=null, tsMax=null, paymentMode=
                                   amountMin=null, amountMax=null, showDisabled=true, currencyId=null) {
     $('.exportStats[projectid="' + projectid + '"] span').addClass('icon-loading-small');
     const req = {
-        projectid: projectid,
         tsMin: tsMin,
         tsMax: tsMax,
         paymentMode: paymentMode,
@@ -47,9 +45,9 @@ export function exportStatistics(projectid, tsMin=null, tsMax=null, paymentMode=
         showDisabled: showDisabled ? '1' : '0',
         currencyId: currencyId
     };
-    const url = generateUrl('/apps/cospend/exportCsvStatistics');
+    const url = generateUrl('/apps/cospend/export-csv-statistics/'+ projectid);
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: url,
         data: req,
         async: true
@@ -68,12 +66,11 @@ export function exportStatistics(projectid, tsMin=null, tsMax=null, paymentMode=
 export function exportSettlement(projectid, centeredOn=null) {
     $('.exportSettlement[projectid="' + projectid + '"] span').addClass('icon-loading-small');
     const req = {
-        projectid: projectid,
         centeredOn: centeredOn
     };
-    const url = generateUrl('/apps/cospend/exportCsvSettlement');
+    const url = generateUrl('/apps/cospend/export-csv-settlement/' + projectid);
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: url,
         data: req,
         async: true
@@ -98,9 +95,9 @@ export function importProject(targetPath) {
     const req = {
         path: targetPath
     };
-    const url = generateUrl('/apps/cospend/importCsvProject');
+    const url = generateUrl('/apps/cospend/import-csv-project');
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: url,
         data: req,
         async: true
@@ -126,9 +123,9 @@ export function importSWProject(targetPath) {
     const req = {
         path: targetPath
     };
-    const url = generateUrl('/apps/cospend/importSWProject');
+    const url = generateUrl('/apps/cospend/import-sw-project');
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: url,
         data: req,
         async: true

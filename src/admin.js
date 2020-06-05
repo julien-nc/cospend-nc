@@ -10,12 +10,12 @@ import * as Notification from './notification';
 })();
 
 function setAllowAnonymousCreation(val) {
-    const url = generateUrl('/apps/cospend/setAllowAnonymousCreation');
+    const url = generateUrl('/apps/cospend/allow-anonymous-creation');
     const req = {
         allow: val
     };
     $.ajax({
-        type: 'POST',
+        type: 'PUT',
         url: url,
         data: req,
         async: true

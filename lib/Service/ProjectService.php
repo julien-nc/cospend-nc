@@ -2097,7 +2097,8 @@ class ProjectService {
             $categories[$dbId] = [
                 'name' => $dbName,
                 'icon' => $dbIcon,
-                'color' => $dbColor
+                'color' => $dbColor,
+                'id' => $dbId
             ];
         }
         $req->closeCursor();

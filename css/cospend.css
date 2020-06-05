@@ -200,14 +200,8 @@ b.memberName, b.memberWeight {
     display: none;
 }
 #createproject,
-.addCategoryOk,
-.editCategoryOk,
 #owerValidate {
     background-color: #46ba61;
-    color: white;
-}
-.editCategoryClose {
-    background-color: #e9322d;
     color: white;
 }
 .owerAllNoneDiv,
@@ -684,42 +678,6 @@ a.billitem .app-content-list-item-icon {
     padding: 0px;
     margin: 0px;
     border: 0px;
-}
-.one-category-edit {
-    display: none;
-}
-.one-category-edit {
-    padding: 10px 0px 10px 20px;
-}
-.one-category-label-icon {
-    font-size: 22px;
-}
-#category-list,
-#add-category {
-    margin-left: 37px;
-}
-#add-category {
-    display: grid;
-    grid-template: 1fr / 200px 130px;
-}
-.one-category-edit {
-    grid-template: 1fr / 200px 100px;
-}
-.one-category-edit {
-    background-color: var(--color-background-dark);
-}
-.one-category-edit label,
-#add-category label,
-.one-category-label label{
-    line-height: 40px;
-}
-.one-category-label input[type=submit] {
-    border-radius: 0 !important;
-    width: 36px !important;
-}
-.one-category-label {
-    display: grid;
-    grid-template: 1fr / 30px 150px 150px 37px 37px;
 }
 .guest-link-label {
     max-width: 45%;

@@ -47,19 +47,25 @@
 		<label>
 			<a class="icon icon-currencies"></a>{{ t('cospend', 'Currency list') }}
 		</label>
-		<CurrencyList
-			:currencies="currencies"
-			:editionAccess="project.myaccesslevel >= constants.ACCESS.MAINTENER"
-			v-on:delete="onDeleteCurrency"
-			v-on:edit="onEditCurrency"
-		/>
+		<div id="currency-list" v-if="currencies.length">
+			<Currency
+				:editionAccess="project.myaccesslevel >= constants.ACCESS.MAINTENER"
+				v-on:delete="onDeleteCurrency"
+				v-on:edit="onEditCurrency"
+				v-for="currency in currencies"
+				:key="currency.id"
+				v-bind:currency="currency"/>
+		</div>
+		<div v-else class="no-currencies">
+			{{ t('cospend', 'No currencies to display') }}
+		</div>
 	</div>
 </div>
 </template>
 
 <script>
 import cospend from './state';
-import CurrencyList from './components/CurrencyList';
+import Currency from './components/Currency';
 import {generateUrl} from '@nextcloud/router';
 import * as Notification from './notification';
 import * as constants from './constants';
@@ -69,7 +75,7 @@ export default {
 	name: 'CurrencyManagement',
 
 	components: {
-		CurrencyList
+		Currency
 	},
 
 	data: function() {
@@ -244,5 +250,13 @@ export default {
 #main-currency-label-label,
 #add-currency label {
     line-height: 40px;
+}
+.no-currencies {
+    padding: 2em;
+    text-align: center;
+    color: var(--color-text-light);
+}
+#currency-list {
+    margin-left: 37px;
 }
 </style>

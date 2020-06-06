@@ -30,7 +30,6 @@ export default {
 
 	methods: {
 		genQRCode: function() {
-            console.log('GEN qrcode for link '+this.link);
             const that = this;
             const img = new Image();
             // wait for the image to be loaded to generate the QRcode

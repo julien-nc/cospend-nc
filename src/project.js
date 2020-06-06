@@ -3,10 +3,10 @@
 import Vue from 'vue';
 import './bootstrap';
 import MoneyBusterLink from './MoneyBusterLink';
+import Settlement from './Settlement';
 import * as Notification from './notification';
 import {generateUrl} from '@nextcloud/router';
 import 'sorttable';
-import kjua from 'kjua';
 import * as Chart from 'chart.js';
 import * as constants from './constants';
 import {getBills} from './bill';
@@ -185,16 +185,16 @@ export function projectEvents() {
 
     $('body').on('click', '.getProjectSettlement', function() {
         const projectid = $(this).parent().parent().parent().parent().attr('projectid');
-        getProjectSettlement(projectid);
+        displaySettlement(projectid);
     });
 
-    $('body').on('change', '#settle-member-center', function() {
-        let centeredOn = parseInt($(this).val());
-        if (centeredOn === 0) {
-            centeredOn = null;
-        }
-        getProjectSettlement(cospend.currentProjectId, centeredOn);
-    });
+    //$('body').on('change', '#settle-member-center', function() {
+    //    let centeredOn = parseInt($(this).val());
+    //    if (centeredOn === 0) {
+    //        centeredOn = null;
+    //    }
+    //    getProjectSettlement(cospend.currentProjectId, centeredOn);
+    //});
 
     $('body').on('click', '.copyProjectGuestLink', function() {
         const projectid = $(this).parent().parent().parent().parent().attr('projectid');
@@ -516,38 +516,38 @@ export function getProjectStatistics(projectid, tsMin=null, tsMax=null, paymentM
     });
 }
 
-export function getProjectSettlement(projectid, centeredOn=null) {
-    $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
-    const req = {
-        centeredOn: centeredOn
-    };
-    let url, type;
-    if (!cospend.pageIsPublic) {
-        req.projectid = projectid;
-        type = 'POST';
-        url = generateUrl('/apps/cospend/getSettlement');
-    } else {
-        type = 'GET';
-        url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/settle');
-    }
-    cospend.currentGetProjectsAjax = $.ajax({
-        type: type,
-        url: url,
-        data: req,
-        async: true,
-    }).done(function(response) {
-        if (cospend.currentProjectId !== projectid) {
-            selectProject($('.projectitem[projectid="' + projectid + '"]'));
-        }
-        displaySettlement(projectid, response, centeredOn);
-    }).always(function() {
-    }).fail(function() {
-        Notification.showTemporary(t('cospend', 'Failed to get settlement'));
-        $('#billdetail').html('');
-    });
-}
+//export function getProjectSettlement(projectid, centeredOn=null) {
+//    $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
+//    const req = {
+//        centeredOn: centeredOn
+//    };
+//    let url, type;
+//    if (!cospend.pageIsPublic) {
+//        req.projectid = projectid;
+//        type = 'POST';
+//        url = generateUrl('/apps/cospend/getSettlement');
+//    } else {
+//        type = 'GET';
+//        url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/settle');
+//    }
+//    cospend.currentGetProjectsAjax = $.ajax({
+//        type: type,
+//        url: url,
+//        data: req,
+//        async: true,
+//    }).done(function(response) {
+//        if (cospend.currentProjectId !== projectid) {
+//            selectProject($('.projectitem[projectid="' + projectid + '"]'));
+//        }
+//        displaySettlement(projectid, response, centeredOn);
+//    }).always(function() {
+//    }).fail(function() {
+//        Notification.showTemporary(t('cospend', 'Failed to get settlement'));
+//        $('#billdetail').html('');
+//    });
+//}
 
-export function displaySettlement(projectid, transactionList, centeredOn=null) {
+export function displaySettlement(projectid) {
     // unselect bill
     $('.billitem').removeClass('selectedbill');
 
@@ -575,71 +575,78 @@ export function displaySettlement(projectid, transactionList, centeredOn=null) {
             .append(titleStr)
             .append(exportButton)
             .append(autoSettleButton)
-    );
-    // select a member to get centered settlement
-    const memberSelect = $('<select/>', {id: 'settle-member-center'});
-    memberSelect.append(
-        $('<option/>', {value: 0}).text(t('cospend', 'Nobody (optimal)'))
-    );
-    for (const mid in cospend.members[projectid]) {
-        memberSelect.append(
-            $('<option/>', {value: mid}).text(cospend.members[projectid][mid].name)
-        );
-    }
-    if (centeredOn !== null) {
-        memberSelect.find('option[value='+centeredOn+']').prop('selected', true);
-    }
-    container.append(
-        $('<div/>', {id: 'center-settle-div'})
-            .append(
-                $('<label/>', {for: 'settle-member-center'}).text(t('cospend', 'Center settlement on'))
-            )
-            .append(memberSelect)
-    );
-    // settlement table
-    const table = $('<table/>', {id: 'settlementTable', class: 'sortable'})
-        .append(
-            $('<thead/>')
-                .append($('<th/>').text(fromStr))
-                .append($('<th/>').text(toStr))
-                .append($('<th/>', {class: 'sorttable_numeric'}).text(howMuchStr))
-        );
-    const tbody = $('<tbody/>');
-    let amount, memberFrom, memberTo, imgurlFrom, imgurlTo;
-    for (let i = 0; i < transactionList.length; i++) {
-        amount = transactionList[i].amount.toFixed(2);
-        memberFrom = cospend.members[projectid][transactionList[i].from];
-        memberTo = cospend.members[projectid][transactionList[i].to];
-        imgurlFrom = getMemberAvatar(projectid, transactionList[i].from);
-        imgurlTo = getMemberAvatar(projectid, transactionList[i].to);
-        if (amount !== '0.00') {
-            tbody.append(
-                $('<tr/>')
-                    .append(
-                        $('<td/>', {style: 'border: 2px solid #' + memberFrom.color + ';'})
-                            .append(
-                                $('<div/>', {class: 'owerAvatar' + (memberFrom.activated ? '' : ' owerAvatarDisabled')})
-                                    .append($('<div/>', {class: 'disabledMask'}))
-                                    .append($('<img/>', {src: imgurlFrom}))
-                            )
-                            .append(memberFrom.name)
-                    )
-                    .append(
-                        $('<td/>', {style: 'border: 2px solid #' + memberTo.color + ';'})
-                            .append(
-                                $('<div/>', {class: 'owerAvatar' + (memberTo.activated ? '' : ' owerAvatarDisabled')})
-                                    .append($('<div/>', {class: 'disabledMask'}))
-                                    .append($('<img/>', {src: imgurlTo}))
-                            )
-                            .append(memberTo.name)
-                    )
-                    .append($('<td/>').text(amount))
-            );
-        }
-    }
-    table.append(tbody);
-    container.append(table);
-    window.sorttable.makeSortable(document.getElementById('settlementTable'));
+    )
+    .append($('<div/>', {id: 'settlement-div'}));
+
+    new Vue({
+        el: "#settlement-div",
+        render: h => h(Settlement),
+    });
+
+    //// select a member to get centered settlement
+    //const memberSelect = $('<select/>', {id: 'settle-member-center'});
+    //memberSelect.append(
+    //    $('<option/>', {value: 0}).text(t('cospend', 'Nobody (optimal)'))
+    //);
+    //for (const mid in cospend.members[projectid]) {
+    //    memberSelect.append(
+    //        $('<option/>', {value: mid}).text(cospend.members[projectid][mid].name)
+    //    );
+    //}
+    //if (centeredOn !== null) {
+    //    memberSelect.find('option[value='+centeredOn+']').prop('selected', true);
+    //}
+    //container.append(
+    //    $('<div/>', {id: 'center-settle-div'})
+    //        .append(
+    //            $('<label/>', {for: 'settle-member-center'}).text(t('cospend', 'Center settlement on'))
+    //        )
+    //        .append(memberSelect)
+    //);
+    //// settlement table
+    //const table = $('<table/>', {id: 'settlementTable', class: 'sortable'})
+    //    .append(
+    //        $('<thead/>')
+    //            .append($('<th/>').text(fromStr))
+    //            .append($('<th/>').text(toStr))
+    //            .append($('<th/>', {class: 'sorttable_numeric'}).text(howMuchStr))
+    //    );
+    //const tbody = $('<tbody/>');
+    //let amount, memberFrom, memberTo, imgurlFrom, imgurlTo;
+    //for (let i = 0; i < transactionList.length; i++) {
+    //    amount = transactionList[i].amount.toFixed(2);
+    //    memberFrom = cospend.members[projectid][transactionList[i].from];
+    //    memberTo = cospend.members[projectid][transactionList[i].to];
+    //    imgurlFrom = getMemberAvatar(projectid, transactionList[i].from);
+    //    imgurlTo = getMemberAvatar(projectid, transactionList[i].to);
+    //    if (amount !== '0.00') {
+    //        tbody.append(
+    //            $('<tr/>')
+    //                .append(
+    //                    $('<td/>', {style: 'border: 2px solid #' + memberFrom.color + ';'})
+    //                        .append(
+    //                            $('<div/>', {class: 'owerAvatar' + (memberFrom.activated ? '' : ' owerAvatarDisabled')})
+    //                                .append($('<div/>', {class: 'disabledMask'}))
+    //                                .append($('<img/>', {src: imgurlFrom}))
+    //                        )
+    //                        .append(memberFrom.name)
+    //                )
+    //                .append(
+    //                    $('<td/>', {style: 'border: 2px solid #' + memberTo.color + ';'})
+    //                        .append(
+    //                            $('<div/>', {class: 'owerAvatar' + (memberTo.activated ? '' : ' owerAvatarDisabled')})
+    //                                .append($('<div/>', {class: 'disabledMask'}))
+    //                                .append($('<img/>', {src: imgurlTo}))
+    //                        )
+    //                        .append(memberTo.name)
+    //                )
+    //                .append($('<td/>').text(amount))
+    //        );
+    //    }
+    //}
+    //table.append(tbody);
+    //container.append(table);
+    //window.sorttable.makeSortable(document.getElementById('settlementTable'));
 
     if (cospend.projects[projectid].myaccesslevel <= constants.ACCESS.VIEWER) {
         $('.autoSettlement').hide();

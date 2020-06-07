@@ -4,6 +4,7 @@ import Vue from 'vue';
 import './bootstrap';
 import MoneyBusterLink from './MoneyBusterLink';
 import Settlement from './Settlement';
+import Statistics from './Statistics';
 import * as Notification from './notification';
 import {generateUrl} from '@nextcloud/router';
 import 'sorttable';
@@ -278,7 +279,10 @@ export function projectEvents() {
 
     $('body').on('click', '.getProjectStats', function() {
         const projectid = $(this).parent().parent().parent().parent().attr('projectid');
-        getProjectStatistics(projectid, null, null, null, -100);
+        if (cospend.currentProjectId !== projectid) {
+            selectProject($('.projectitem[projectid="' + projectid + '"]'));
+        }
+        displayStatistics(projectid);
     });
 }
 
@@ -601,27 +605,28 @@ function getCategory(projectid, catId) {
     }
 }
 
-export function displayStatistics(projectid, allStats, dateMin = null, dateMax = null, paymentMode = null, category = null,
-                                   amountMin = null, amountMax = null, showDisabled = true, currencyId = null) {
+export function displayStatistics(projectid) {
+                                  //  , allStats, dateMin = null, dateMax = null, paymentMode = null, category = null,
+                                  // amountMin = null, amountMax = null, showDisabled = true, currencyId = null) {
     // deselect bill
     $('.billitem').removeClass('selectedbill');
 
-    const statList = allStats.stats;
-    const monthlyStats = allStats.monthlyStats;
-    const categoryStats = allStats.categoryStats;
-    const categoryMemberStats = allStats.categoryMemberStats;
-    const categoryMonthlyStats = allStats.categoryMonthlyStats;
-    const memberIds = allStats.memberIds;
-    cospend.currentStats = allStats;
+    //const statList = allStats.stats;
+    //const monthlyStats = allStats.monthlyStats;
+    //const categoryStats = allStats.categoryStats;
+    //const categoryMemberStats = allStats.categoryMemberStats;
+    //const categoryMonthlyStats = allStats.categoryMonthlyStats;
+    //const memberIds = allStats.memberIds;
+    //cospend.currentStats = allStats;
     cospend.currentStatsProjectId = projectid;
-    let color;
-    const isFiltered = ((dateMin !== null && dateMin !== '')
-        || (dateMax !== null && dateMax !== '')
-        || (paymentMode !== null && paymentMode !== 'n')
-        || (category !== null && parseInt(category) !== 0)
-        || (amountMin !== null && amountMin !== '')
-        || (amountMax !== null && amountMax !== '')
-    );
+    //let color;
+    //const isFiltered = ((dateMin !== null && dateMin !== '')
+    //    || (dateMax !== null && dateMax !== '')
+    //    || (paymentMode !== null && paymentMode !== 'n')
+    //    || (category !== null && parseInt(category) !== 0)
+    //    || (amountMin !== null && amountMin !== '')
+    //    || (amountMax !== null && amountMax !== '')
+    //);
 
     const project = cospend.projects[projectid];
     const projectName = getProjectName(projectid);
@@ -635,45 +640,11 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
     const balanceStr = t('cospend', 'Balance');
     const filteredBalanceStr = t('cospend', 'Filtered balance');
 
-    let totalPayed = 0.0;
-    for (let i = 0; i < statList.length; i++) {
-        totalPayed += statList[i].paid;
-    }
-
     let exportButton = null;
     if (!cospend.pageIsPublic) {
         exportButton = $('<button/>', {class: 'exportStats', projectid: projectid})
             .append($('<span/>', {class: 'icon-save'}))
             .append(t('cospend', 'Export'));
-    }
-
-    const paymentModeSelect = $('<select/>', {id: 'payment-mode-stats'})
-        .append($('<option/>', {value: 'n', selected: true}).text(t('cospend', 'All')));
-    let pm;
-    for (const pmId in cospend.paymentModes) {
-        pm = cospend.paymentModes[pmId];
-        paymentModeSelect.append($('<option/>', {value: pmId}).text(pm.icon + ' ' + pm.name));
-    }
-
-    const categorySelect = $('<select/>', {id: 'category-stats'})
-        .append($('<option/>', {value: 0}).text(t('cospend', 'All')))
-        .append($('<option/>', {value: -100, selected: true}).text(t('cospend', 'All except reimbursement')));
-    let cat;
-    for (const catId in cospend.projects[projectid].categories) {
-        cat = cospend.projects[projectid].categories[catId];
-        categorySelect.append($('<option/>', {value: catId}).text((cat.icon || '') + ' ' + cat.name));
-    }
-    for (const catId in cospend.hardCodedCategories) {
-        cat = cospend.hardCodedCategories[catId];
-        categorySelect.append($('<option/>', {value: catId}).text(cat.icon + ' ' + cat.name));
-    }
-
-    const currencySelect = $('<select/>', {id: 'currency-stats'})
-        .append($('<option/>', {value: 0}).text((project.currencyname || t('cospend', 'Main project\'s currency'))));
-    let currency;
-    for (let i = 0; i < project.currencies.length; i++) {
-        currency = project.currencies[i];
-        currencySelect.append($('<option/>', {value: currency.id}).text(currency.name + ' (x' + currency.exchange_rate + ')'));
     }
 
     container.append($('<div/>', {id: 'app-details-toggle', tabindex: 0, class: 'icon-confirm'}))
@@ -684,6 +655,16 @@ export function displayStatistics(projectid, allStats, dateMin = null, dateMax =
                 .append(exportButton)
         )
         .append(
+            $('<div/>', {id: 'stats-div'})
+        );
+
+    new Vue({
+        el: "#stats-div",
+        render: h => h(Statistics),
+    });
+
+    return;
+        container.append(
             $('<div/>', {id: 'stats-filters'})
                 .append($('<label/>', {for: 'date-min-stats'}).text(t('cospend', 'Minimum date') + ': '))
                 .append($('<input/>', {id: 'date-min-stats', type: 'date'}))

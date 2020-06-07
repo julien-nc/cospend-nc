@@ -12,32 +12,30 @@
                 </option>
             </select>
         </div>
-        <table id="settlementTable" class="sortable" v-if="transactions">
-            <thead>
-                <th>{{ t('cospend', 'Who pays?') }}</th>
-                <th>{{ t('cospend', 'To whom?') }}</th>
-                <th class="sorttable_numeric">{{ t('cospend', 'How much?') }}</th>
+        <v-table id="settlementTable" :data="transactions">
+            <thead slot="head">
+                <v-th sortKey="from">{{ t('cospend', 'Who pays?') }}</v-th>
+                <v-th sortKey="to">{{ t('cospend', 'To whom?') }}</v-th>
+                <v-th sortKey="amount">{{ t('cospend', 'How much?') }}</v-th>
             </thead>
-            <tbody>
-                <tr
-                    v-for="transaction in transactions"
-                    :key="transaction.from + transaction.to">
-                    <td :style="'border: 2px solid #' + myGetMemberColor(transaction.from) + ';'">
-                        <div :class="'owerAvatar' + myGetAvatarClass(transaction.from)">
-                            <div class="disabledMask"></div><img :src="myGetMemberAvatar(project.id, transaction.from)">
+            <tbody slot="body" slot-scope="{displayData}">
+                <tr v-for="value in displayData" :key="value.from + value.to">
+                    <td :style="'border: 2px solid #' + myGetMemberColor(value.from) + ';'">
+                        <div :class="'owerAvatar' + myGetAvatarClass(value.from)">
+                            <div class="disabledMask"></div><img :src="myGetMemberAvatar(project.id, value.from)">
                         </div>
-                        {{ myGetSmartMemberName(project.id, transaction.from) }}
+                        {{ myGetSmartMemberName(project.id, value.from) }}
                     </td>
-                    <td :style="'border: 2px solid #' + myGetMemberColor(transaction.to) + ';'">
-                        <div :class="'owerAvatar' + myGetAvatarClass(transaction.to)">
-                            <div class="disabledMask"></div><img :src="myGetMemberAvatar(project.id, transaction.to)">
+                    <td :style="'border: 2px solid #' + myGetMemberColor(value.to) + ';'">
+                        <div :class="'owerAvatar' + myGetAvatarClass(value.to)">
+                            <div class="disabledMask"></div><img :src="myGetMemberAvatar(project.id, value.to)">
                         </div>
-                        {{ myGetSmartMemberName(project.id, transaction.to) }}
+                        {{ myGetSmartMemberName(project.id, value.to) }}
                     </td>
-                    <td>{{ transaction.amount.toFixed(2) }}</td>
+                    <td>{{ value.amount.toFixed(2) }}</td>
                 </tr>
             </tbody>
-        </table>
+        </v-table>
     </div>
 </template>
 
@@ -48,16 +46,15 @@ import {getMemberName, getSmartMemberName, getMemberAvatar} from './member';
 import cospend from './state';
 
 export default {
-    name: 'Settlement.vue',
+    name: 'Settlement',
 
     components: {
-
     },
 
 	data: function() {
 		return {
             project: cospend.projects[cospend.currentProjectId],
-            transactions: null
+            transactions: []
 		};
     },
 
@@ -89,6 +86,9 @@ export default {
         },
         getSettlement: function(centeredOn=null) {
             const that = this;
+            if (parseInt(centeredOn) === 0) {
+                centeredOn = null;
+            }
             const req = {
                 centeredOn: centeredOn
             };
@@ -107,10 +107,6 @@ export default {
                 data: req,
                 async: true,
             }).done(function(response) {
-                //if (cospend.currentProjectId !== that.project.id) {
-                //    selectProject($('.projectitem[projectid="' + projectid + '"]'));
-                //}
-                //displaySettlement(projectid, response, centeredOn);
                 that.transactions = response;
             }).always(function() {
             }).fail(function() {

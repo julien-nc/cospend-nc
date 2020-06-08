@@ -2,15 +2,15 @@
     <div id="stats-div">
         <div id="stats-filters">
             <label for="date-min-stats">{{ t('cospend', 'Minimum date') }}: </label>
-            <input id="date-min-stats" type="date"/>
+            <input ref="dateMinFilter" id="date-min-stats" type="date" @change="getStats"/>
             <label for="date-max-stats">{{ t('cospend', 'Maximum date') }}: </label>
-            <input id="date-max-stats" type="date"/>
+            <input ref="dateMaxFilter" id="date-max-stats" type="date" @change="getStats"/>
             <label for="payment-mode-stats">
                 <a class="icon icon-tag"></a>
                 {{ t('cospend', 'Payment mode') }}
             </label>
-            <select id="payment-mode-stats">
-                <option value="n" selected="selected">{{ t('cospend', 'All') }}</option>
+            <select ref="paymentModeFilter" id="payment-mode-stats" @change="getStats">
+                <option value="n" :selected="true">{{ t('cospend', 'All') }}</option>
                 <option
                     v-for="(pm, id) in paymentModes"
                     :key="id"
@@ -22,9 +22,9 @@
                 <a class="icon icon-category-app-bundles"></a>
                 {{ t('cospend', 'Category') }}
             </label>
-            <select id="category-stats">
+            <select ref="categoryFilter" id="category-stats" @change="getStats">
                 <option value="0">{{ t('cospend', 'All') }}</option>
-                <option value="-100" selected="selected">{{ t('cospend', 'All except reimbursement') }}</option>
+                <option value="-100" :selected="true">{{ t('cospend', 'All except reimbursement') }}</option>
                 <option
                     v-for="category in categories"
                     :key="category.id"
@@ -32,18 +32,18 @@
                     {{ category.icon + ' ' + category.name }}
                 </option>
                 <option
-                    v-for="category in hardCodedCategories"
-                    :key="category.id"
-                    :value="category.id">
+                    v-for="(category, catid) in hardCodedCategories"
+                    :key="catid"
+                    :value="catid">
                     {{ category.icon + ' ' + category.name }}
                 </option>
             </select>
             <label for="amount-min-stats">{{ t('cospend', 'Minimum amount') }}: </label>
-            <input id="amount-min-stats" type="number"/>
+            <input ref="amountMinFilter" id="amount-min-stats" type="number" @change="getStats"/>
             <label for="amount-max-stats">{{ t('cospend', 'Maximum amount') }}: </label>
-            <input id="amount-max-stats" type="number"/>
+            <input ref="amountMaxFilter" id="amount-max-stats" type="number" @change="getStats"/>
             <label for="currency-stats">{{ t('cospend', 'Currency of statistic values') }}: </label>
-            <select id="currency-stats">
+            <select ref="currencySelect" id="currency-stats" @change="getStats">
                 <option value="0">{{ project.currencyname || t('cospend', 'Main project\'s currency') }}</option>
                 <option
                     v-for="currency in currencies"
@@ -52,7 +52,7 @@
                     {{ currency.name }}
                 </option>
             </select>
-            <input id="showDisabled" type="checkbox" class="checkbox"/>
+            <input ref="showDisabledFilter" id="showDisabled" type="checkbox" class="checkbox" @change="getStats"/>
             <label for="showDisabled" class="checkboxlabel">{{ t('cospend', 'Show disabled members') }}</label>
         </div>
         <br/>
@@ -206,7 +206,8 @@ export default {
             projectId: cospend.currentProjectId,
             stats: null,
             selectedCategoryId: 0,
-            selectedMemberId: 0
+            selectedMemberId: 0,
+            isFiltered: true
 		};
     },
 
@@ -235,9 +236,6 @@ export default {
                 totalPayed += this.stats.stats[i].paid;
             }
             return totalPayed;
-        },
-        isFiltered: function() {
-            return false;
         },
         monthlyMemberStats: function() {
             const rows = [];
@@ -601,17 +599,26 @@ export default {
         },
         getStats: function() {
             const that = this;
-            const req = {};
-            //const req = {
-            //    tsMin: tsMin,
-            //    tsMax: tsMax,
-            //    paymentMode: paymentMode,
-            //    category: category,
-            //    amountMin: amountMin,
-            //    amountMax: amountMax,
-            //    showDisabled: showDisabled ? '1' : '0',
-            //    currencyId: currencyId
-            //};
+            const dateMin = this.$refs.dateMinFilter.value;
+            const dateMax = this.$refs.dateMaxFilter.value;
+            const tsMin = (dateMin !== '') ? moment(dateMin).unix() : null;
+            const tsMax = (dateMax !== '') ? moment(dateMax).unix() + 24*60*60 - 1 : null;
+            const paymentMode = this.$refs.paymentModeFilter.value;
+            const category = this.$refs.categoryFilter.value;
+            const amountMin = this.$refs.amountMinFilter.value;
+            const amountMax = this.$refs.amountMaxFilter.value;
+            const showDisabled = this.$refs.showDisabledFilter.checked;
+            const currencyId = this.$refs.currencySelect.value;
+            const req = {
+                tsMin: tsMin,
+                tsMax: tsMax,
+                paymentMode: paymentMode,
+                category: category,
+                amountMin: amountMin,
+                amountMax: amountMax,
+                showDisabled: showDisabled ? '1' : '0',
+                currencyId: currencyId
+            };
             let url, type;
             if (!cospend.pageIsPublic) {
                 req.projectid = this.projectId;
@@ -628,6 +635,13 @@ export default {
                 async: true,
             }).done(function(response) {
                 that.stats = response;
+                that.isFiltered = ((dateMin !== null && dateMin !== '')
+                    || (dateMax !== null && dateMax !== '')
+                    || (paymentMode !== null && paymentMode !== 'n')
+                    || (category !== null && parseInt(category) !== 0)
+                    || (amountMin !== null && amountMin !== '')
+                    || (amountMax !== null && amountMax !== '')
+                );
             }).always(function() {
             }).fail(function() {
                 Notification.showTemporary(t('cospend', 'Failed to get statistics'));

@@ -172,22 +172,22 @@ export function projectEvents() {
         }
     });
 
-    $('body').on('change', '#date-min-stats, #date-max-stats, #payment-mode-stats, ' +
-        '#category-stats, #amount-min-stats, #amount-max-stats, ' +
-        '#showDisabled, #currency-stats', function () {
-            const projectid = cospend.currentProjectId;
-            const dateMin = $('#date-min-stats').val();
-            const dateMax = $('#date-max-stats').val();
-            const tsMin = (dateMin !== '') ? moment(dateMin).unix() : null;
-            const tsMax = (dateMax !== '') ? moment(dateMax).unix() + 24*60*60 - 1 : null;
-            const paymentMode = $('#payment-mode-stats').val();
-            const category = $('#category-stats').val();
-            const amountMin = $('#amount-min-stats').val();
-            const amountMax = $('#amount-max-stats').val();
-            const showDisabled = $('#showDisabled').is(':checked');
-            const currencyId = $('#currency-stats').val();
-            getProjectStatistics(projectid, tsMin, tsMax, paymentMode, category, amountMin, amountMax, showDisabled, currencyId, dateMin, dateMax);
-        });
+    //$('body').on('change', '#date-min-stats, #date-max-stats, #payment-mode-stats, ' +
+    //    '#category-stats, #amount-min-stats, #amount-max-stats, ' +
+    //    '#showDisabled, #currency-stats', function () {
+    //        const projectid = cospend.currentProjectId;
+    //        const dateMin = $('#date-min-stats').val();
+    //        const dateMax = $('#date-max-stats').val();
+    //        const tsMin = (dateMin !== '') ? moment(dateMin).unix() : null;
+    //        const tsMax = (dateMax !== '') ? moment(dateMax).unix() + 24*60*60 - 1 : null;
+    //        const paymentMode = $('#payment-mode-stats').val();
+    //        const category = $('#category-stats').val();
+    //        const amountMin = $('#amount-min-stats').val();
+    //        const amountMax = $('#amount-max-stats').val();
+    //        const showDisabled = $('#showDisabled').is(':checked');
+    //        const currencyId = $('#currency-stats').val();
+    //        getProjectStatistics(projectid, tsMin, tsMax, paymentMode, category, amountMin, amountMax, showDisabled, currencyId, dateMin, dateMax);
+    //    });
 
     $('body').on('click', '.getProjectSettlement', function() {
         const projectid = $(this).parent().parent().parent().parent().attr('projectid');

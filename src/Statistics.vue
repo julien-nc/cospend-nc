@@ -96,7 +96,7 @@
             <tbody slot="body" slot-scope="{displayData}">
                 <tr v-for="value in displayData" :key="value.member.id">
                     <td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
-                        <div v-if="value.member.id !== 0" class="owerAvatar">
+                        <div v-if="value.member.id !== 0" :class="'owerAvatar' + myGetAvatarClass(value.member.id)">
                             <div class="disabledMask"></div><img :src="myGetMemberAvatar(projectId, value.member.id)">
                         </div>{{ (value.member.id !== 0) ? myGetSmartMemberName(projectId, value.member.id) : value.member.name }}
                     </td>
@@ -108,6 +108,13 @@
                 </tr>
             </tbody>
         </v-table>
+        <div id="memberMonthlyChart">
+            <LineChartJs
+                v-if="stats"
+                :chartData="monthlyMemberChartData"
+                :options="monthlyMemberChartOptions"
+            />
+        </div>
         <hr/>
         <h2 class="statTableTitle">{{ t('cospend', 'Monthly stats per category') }}</h2>
         <v-table id="categoryTable" :data="monthlyCategoryStats" v-if="stats">
@@ -128,6 +135,13 @@
                 </tr>
             </tbody>
         </v-table>
+        <div id="categoryMonthlyChart">
+            <LineChartJs
+                v-if="stats"
+                :chartData="monthlyCategoryChartData"
+                :options="monthlyCategoryChartOptions"
+            />
+        </div>
     </div>
 </template>
 
@@ -136,11 +150,13 @@ import {generateUrl} from '@nextcloud/router';
 import * as Notification from './notification';
 import {getMemberName, getSmartMemberName, getMemberAvatar} from './member';
 import cospend from './state';
+import LineChartJs from './components/LineChartJs';
 
 export default {
     name: 'Statistics',
 
     components: {
+        LineChartJs
     },
 
 	data: function() {
@@ -225,6 +241,103 @@ export default {
                 data.push(elem);
             }
             return data;
+        },
+        monthlyMemberChartData: function() {
+            const memberDatasets = [];
+            let member;
+            for (const mid in this.members) {
+                member = this.members[mid];
+                let paid = [];
+                for (const month of this.categoryMonths) {
+                    paid.push(this.stats.monthlyStats[month][mid]);
+                }
+
+                memberDatasets.push({
+                    label: member.name,
+                    // FIXME hacky way to change alpha channel:
+                    backgroundColor: "#" + member.color + "4D",
+                    pointBackgroundColor: "#" + member.color,
+                    borderColor: "#" + member.color,
+                    pointHighlightStroke: "#" + member.color,
+                    fill: '-1',
+                    lineTension: 0,
+                    data: paid,
+                })
+            }
+            return {
+                labels: this.categoryMonths,
+                datasets: memberDatasets
+            };
+        },
+        monthlyMemberChartOptions: function() {
+            return {
+                scales: {
+                    yAxes: [{
+                        stacked: true
+                    }]
+                },
+                title: {
+                    display: true,
+                    text: t('cospend', 'Payments per member per month')
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+                showAllTooltips: false,
+                hover: {
+                    intersect: false,
+                    mode: 'index'
+                },
+                tooltips: {
+                    intersect: false,
+                    mode: 'nearest'
+                },
+                legend: {
+                    position: 'left'
+                }
+            };
+        },
+        monthlyCategoryChartData: function() {
+            let categoryDatasets = [];
+            let catIdInt, category;
+            for (const catId in this.stats.categoryMonthlyStats) {
+                catIdInt = parseInt(catId);
+                category = this.getCategory(catId);
+
+                // Build time series:
+                const paid = [];
+                for (const month of this.categoryMonths) {
+                    if (this.stats.categoryMonthlyStats[catId].hasOwnProperty(month)) {
+                        paid.push(this.stats.categoryMonthlyStats[catId][month]);
+                    } else {
+                        paid.push(0);
+                    }
+                }
+
+                categoryDatasets.push({
+                    label: category.name,
+                    // FIXME hacky way to change alpha channel:
+                    backgroundColor: category.color + '4D',
+                    pointBackgroundColor: category.color,
+                    borderColor: category.color,
+                    pointHighlightStroke: category.color,
+                    fill: '-1',
+                    lineTension: 0,
+                    data: paid,
+                })
+            }
+            return {
+                labels: this.categoryMonths,
+                datasets: categoryDatasets
+            };
+        },
+        monthlyCategoryChartOptions: function() {
+            return {
+                ...this.monthlyMemberChartOptions,
+                title: {
+                    display: true,
+                    text: t('cospend', 'Payments per category per month')
+                },
+            };
         }
     },
 

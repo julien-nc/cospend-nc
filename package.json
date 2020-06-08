@@ -35,6 +35,7 @@
     "sorttable": "^1.0.2",
     "@joeattardi/emoji-button": "^2.12.1",
     "chart.js": "^2.9.3",
+    "vue-chartjs": "^3.5.0",
     "vue": "^2.6.10",
     "vue-types": "^1.6.0",
     "vuex": "^3.1.1",

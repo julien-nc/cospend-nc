@@ -642,8 +642,8 @@ a.billitem .app-content-list-item-icon {
 }
 #categoryMonthlyChart,
 #memberMonthlyChart {
-    width: 90%;
-    max-width: 90%;
+    width: 800px !important;
+    height: 400px !important;
     margin: 0 auto 0 auto;
 }
 #categoryMemberSelect,

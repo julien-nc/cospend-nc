@@ -176,7 +176,7 @@
             <option v-for="mid in stats.memberIds" :key="mid" :value="mid">{{ myGetSmartMemberName(mid) }}</option>
         </select>
         <div id="memberPolarChart">
-            <PieChartJs
+            <PolarChartJs
                 v-if="stats && (selectedMemberId !== 0)"
                 :chartData="memberPolarPieData"
                 :options="memberPolarPieOptions"
@@ -452,14 +452,10 @@ export default {
         },
         categoryPieOptions: function() {
             return {
+                ...this.memberPieOptions,
                 title: {
                     display: true,
                     text: t('cospend', 'What was paid per category?')
-                },
-                responsive: true,
-                showAllTooltips: false,
-                legend: {
-                    position: 'left'
                 }
             }
         },
@@ -484,17 +480,13 @@ export default {
             }
             return categoryData;
         },
+        // keeping this computed in case vue-chartjs make options reactive...
         categoryMemberPieOptions: function() {
-            const catName = this.getCategory(this.selectedCategoryId).name;
             return {
+                ...this.memberPieOptions,
                 title: {
                     display: true,
-                    text: t('cospend', 'Who paid for category "{c}"?', {c: catName})
-                },
-                responsive: true,
-                showAllTooltips: false,
-                legend: {
-                    position: 'left'
+                    text: t('cospend', 'Who paid for this category?')
                 }
             };
         },
@@ -516,12 +508,12 @@ export default {
             }
             return memberData;
         },
+        // keeping this computed in case vue-chartjs make options reactive...
         memberPolarPieOptions: function() {
-            const memberName = this.myGetSmartMemberName(this.selectedMemberId);
             return {
                 title: {
                     display: true,
-                    text: t('cospend', 'What kind of member is "{m}"?', {m: memberName})
+                    text: t('cospend', 'What kind of member is she/he?')
                 },
                 responsive: true,
                 showAllTooltips: false,

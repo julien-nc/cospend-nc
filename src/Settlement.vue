@@ -94,7 +94,7 @@ export default {
             };
             let url;
             if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects/'+ this.project.id +'/settlement');
+                url = generateUrl('/apps/cospend/projects/' + this.project.id + '/settlement');
             } else {
                 url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/settle');
             }
@@ -116,5 +116,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+#center-settle-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#center-settle-div label {
+    margin-right: 5px;
+}
 </style>

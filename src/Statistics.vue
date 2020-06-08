@@ -621,7 +621,7 @@ export default {
             };
             let url;
             if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects/'+ this.projectId +'/statistics');
+                url = generateUrl('/apps/cospend/projects/' + this.projectId + '/statistics');
             } else {
                 url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/statistics');
             }
@@ -649,5 +649,35 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+#stats-filters {
+    max-width: 900px;
+    margin-left: 20px;
+    display: grid;
+    grid-template: 1fr / 1fr 1fr 1fr 1fr;
+}
+#stats-filters select {
+    width: 130px;
+}
+#stats-filters label {
+    line-height: 40px;
+}
+#memberPolarChart,
+#categoryMemberChart,
+#memberChart,
+#categoryChart {
+    max-width: 600px;
+    margin: 0 auto 0 auto;
+}
+#categoryMonthlyChart,
+#memberMonthlyChart {
+    width: 800px !important;
+    height: 400px !important;
+    margin: 0 auto 0 auto;
+}
+#categoryMemberSelect,
+#memberPolarSelect {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 </style>

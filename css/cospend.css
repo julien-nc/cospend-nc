@@ -592,31 +592,6 @@ a.billitem .app-content-list-item-icon {
     background-repeat: no-repeat;
     background-size: cover;
 }
-#manage-categories,
-#manage-currencies {
-    margin-left: 20px;
-}
-#manage-categories .icon,
-#manage-currencies .icon {
-    line-height: 44px;
-    padding: 0 12px 0 25px;
-}
-#manage-currencies .icon-currencies {
-    display: inline-block;
-    padding: 0 12px 0 25px !important;
-}
-#stats-filters {
-    max-width: 900px;
-    margin-left: 20px;
-    display: grid;
-    grid-template: 1fr / 1fr 1fr 1fr 1fr;
-}
-#stats-filters select {
-    width: 130px;
-}
-#stats-filters label {
-    line-height: 40px;
-}
 #billtype {
     max-width: 95%;
 }
@@ -632,25 +607,6 @@ a.billitem .app-content-list-item-icon {
 }
 #set-output-div button {
     width: 60%;
-}
-#memberPolarChart,
-#categoryMemberChart,
-#memberChart,
-#categoryChart {
-    max-width: 600px;
-    margin: 0 auto 0 auto;
-}
-#categoryMonthlyChart,
-#memberMonthlyChart {
-    width: 800px !important;
-    height: 400px !important;
-    margin: 0 auto 0 auto;
-}
-#categoryMemberSelect,
-#memberPolarSelect {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
 }
 #membercolorinput {
     opacity: 0;
@@ -724,12 +680,4 @@ a.billitem .app-content-list-item-icon {
     font-size: 20px;
     width: 50px;
     text-align: center;
-}
-#center-settle-div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-#center-settle-div label {
-    margin-right: 5px;
 }

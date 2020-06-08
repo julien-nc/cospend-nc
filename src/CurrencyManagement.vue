@@ -211,6 +211,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
+#manage-currencies {
+    margin-left: 20px;
+}
+#manage-currencies .icon {
+    line-height: 44px;
+    padding: 0 12px 0 25px;
+}
+#manage-currencies .icon-currencies {
+    display: inline-block;
+    padding: 0 12px 0 25px !important;
+}
 .editMainCurrency {
     width: 36px !important;
 }

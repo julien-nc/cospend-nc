@@ -209,6 +209,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+#manage-categories {
+    margin-left: 20px;
+}
+#manage-categories .icon {
+    line-height: 44px;
+    padding: 0 12px 0 25px;
+}
 .editMainCategory {
     width: 36px !important;
 }

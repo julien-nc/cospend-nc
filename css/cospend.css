@@ -636,8 +636,7 @@ a.billitem .app-content-list-item-icon {
 #categoryMemberChart,
 #memberChart,
 #categoryChart {
-    width: 60%;
-    max-width: 60%;
+    max-width: 600px;
     margin: 0 auto 0 auto;
 }
 #categoryMonthlyChart,

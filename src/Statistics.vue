@@ -74,7 +74,7 @@
                     <td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
                         <div :class="'owerAvatar' + myGetAvatarClass(value.member.id)">
                             <div class="disabledMask"></div><img :src="myGetMemberAvatar(projectId, value.member.id)">
-                        </div>{{ myGetSmartMemberName(projectId, value.member.id) }}
+                        </div>{{ myGetSmartMemberName(value.member.id) }}
                     </td>
                     <td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">{{ value.paid.toFixed(2) }}</td>
                     <td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) +';'">{{ value.spent.toFixed(2) }}</td>
@@ -98,7 +98,7 @@
                     <td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
                         <div v-if="value.member.id !== 0" :class="'owerAvatar' + myGetAvatarClass(value.member.id)">
                             <div class="disabledMask"></div><img :src="myGetMemberAvatar(projectId, value.member.id)">
-                        </div>{{ (value.member.id !== 0) ? myGetSmartMemberName(projectId, value.member.id) : value.member.name }}
+                        </div>{{ (value.member.id !== 0) ? myGetSmartMemberName(value.member.id) : value.member.name }}
                     </td>
                     <td v-for="(st, month) in stats.monthlyStats"
                         :key="month"
@@ -142,6 +142,46 @@
                 :options="monthlyCategoryChartOptions"
             />
         </div>
+        <hr/>
+        <div id="memberChart">
+            <PieChartJs
+                v-if="stats"
+                :chartData="memberPieData"
+                :options="memberPieOptions"
+            />
+        </div>
+        <hr/>
+        <div id="categoryChart">
+            <PieChartJs
+                v-if="stats"
+                :chartData="categoryPieData"
+                :options="categoryPieOptions"
+            />
+        </div>
+        <hr/>
+        <select v-if="stats" id="categoryMemberSelect" ref="categoryMemberSelect" @change="onCategoryMemberChange">
+            <option v-for="(val, catid) in stats.categoryMemberStats" :key="catid" :value="catid">{{ getCategory(catid).name }}</option>
+        </select>
+        <div id="categoryMemberChart">
+            <PieChartJs
+                v-if="stats"
+                :catid="selectedCategoryId"
+                :chartData="categoryMemberPieData"
+                :options="categoryMemberPieOptions"
+            />
+        </div>
+        <hr/>
+        <select v-if="stats" id="memberPolarSelect" ref="memberPolarSelect" v-model="selectedMemberId">
+            <option disabled value="0">{{ t('cospend', 'Select a member') }}</option>
+            <option v-for="mid in stats.memberIds" :key="mid" :value="mid">{{ myGetSmartMemberName(mid) }}</option>
+        </select>
+        <div id="memberPolarChart">
+            <PieChartJs
+                v-if="stats && (selectedMemberId !== 0)"
+                :chartData="memberPolarPieData"
+                :options="memberPolarPieOptions"
+            />
+        </div>
     </div>
 </template>
 
@@ -151,18 +191,22 @@ import * as Notification from './notification';
 import {getMemberName, getSmartMemberName, getMemberAvatar} from './member';
 import cospend from './state';
 import LineChartJs from './components/LineChartJs';
+import PieChartJs from './components/PieChartJs';
+import PolarChartJs from './components/PolarChartJs';
 
 export default {
     name: 'Statistics',
 
     components: {
-        LineChartJs
+        LineChartJs, PieChartJs, PolarChartJs
     },
 
 	data: function() {
 		return {
             projectId: cospend.currentProjectId,
             stats: null,
+            selectedCategoryId: 0,
+            selectedMemberId: 0
 		};
     },
 
@@ -338,6 +382,153 @@ export default {
                     text: t('cospend', 'Payments per category per month')
                 },
             };
+        },
+        memberPieData: function() {
+            const memberBackgroundColors = [];
+            const memberData = {
+                // 2 datasets: paid and spent
+                datasets: [{
+                    data: [],
+                    backgroundColor: []
+                }, {
+                    data: [],
+                    backgroundColor: []
+                }],
+                labels: []
+            };
+            let sumPaid = 0;
+            let sumSpent = 0;
+            let paid, spent, name, color;
+            for (let i = 0; i < this.stats.stats.length; i++) {
+                paid = this.stats.stats[i].paid.toFixed(2);
+                spent = this.stats.stats[i].spent.toFixed(2);
+                sumPaid += parseFloat(paid);
+                sumSpent += parseFloat(spent);
+                name = this.stats.stats[i].member.name;
+                color = '#' + this.members[this.stats.stats[i].member.id].color;
+                memberData.datasets[0].data.push(paid);
+                memberData.datasets[1].data.push(spent);
+
+                memberBackgroundColors.push(color);
+
+                memberData.labels.push(name);
+            }
+            memberData.datasets[0].backgroundColor = memberBackgroundColors;
+            memberData.datasets[1].backgroundColor = memberBackgroundColors;
+            return memberData;
+        },
+        memberPieOptions: function() {
+            return {
+                title: {
+                    display: true,
+                    text: t('cospend', 'Who paid (outside circle) and spent (inside pie)?')
+                },
+                responsive: true,
+                showAllTooltips: false,
+                legend: {
+                    position: 'left'
+                }
+            };
+        },
+        categoryPieData: function() {
+            const categoryData = {
+                datasets: [{
+                    data: [],
+                    backgroundColor: []
+                }],
+                labels: []
+            };
+            let paid, catIdInt, category;
+            for (const catId in this.stats.categoryStats) {
+                paid = this.stats.categoryStats[catId].toFixed(2);
+                catIdInt = parseInt(catId);
+                category = this.getCategory(catId);
+
+                categoryData.datasets[0].data.push(paid);
+                categoryData.datasets[0].backgroundColor.push(category.color);
+                categoryData.labels.push(category.name);
+            }
+            return categoryData;
+        },
+        categoryPieOptions: function() {
+            return {
+                title: {
+                    display: true,
+                    text: t('cospend', 'What was paid per category?')
+                },
+                responsive: true,
+                showAllTooltips: false,
+                legend: {
+                    position: 'left'
+                }
+            }
+        },
+        categoryMemberPieData: function() {
+            const catid = this.selectedCategoryId;
+            const categoryData = {
+                datasets: [{
+                    data: [],
+                    backgroundColor: []
+                }],
+                labels: []
+            };
+            const categoryStats = this.stats.categoryMemberStats[catid];
+            let memberName, paid, color;
+            for (const mid in categoryStats) {
+                memberName = this.members[mid].name;
+                color = '#' + this.members[mid].color;
+                paid = categoryStats[mid].toFixed(2);
+                categoryData.datasets[0].data.push(paid);
+                categoryData.datasets[0].backgroundColor.push(color);
+                categoryData.labels.push(memberName);
+            }
+            return categoryData;
+        },
+        categoryMemberPieOptions: function() {
+            const catName = this.getCategory(this.selectedCategoryId).name;
+            return {
+                title: {
+                    display: true,
+                    text: t('cospend', 'Who paid for category "{c}"?', {c: catName})
+                },
+                responsive: true,
+                showAllTooltips: false,
+                legend: {
+                    position: 'left'
+                }
+            };
+        },
+        memberPolarPieData: function() {
+            const memberData = {
+                datasets: [{
+                    data: [],
+                    backgroundColor: []
+                }],
+                labels: []
+            };
+            let category, paid;
+            for (const catId in this.stats.categoryMemberStats) {
+                category = this.getCategory(catId);
+                paid = this.stats.categoryMemberStats[catId][this.selectedMemberId].toFixed(2);
+                memberData.datasets[0].data.push(paid);
+                memberData.datasets[0].backgroundColor.push(category.color);
+                memberData.labels.push(category.name);
+            }
+            return memberData;
+        },
+        memberPolarPieOptions: function() {
+            const memberName = this.myGetSmartMemberName(this.selectedMemberId);
+            return {
+                title: {
+                    display: true,
+                    text: t('cospend', 'What kind of member is "{m}"?', {m: memberName})
+                },
+                responsive: true,
+                showAllTooltips: false,
+                legend: {
+                    position: 'left'
+                }
+            };
         }
     },
 
@@ -346,6 +537,14 @@ export default {
     },
 
     methods: {
+        onMemberPolarChange: function() {
+            const mid = this.$refs.memberPolarSelect.value;
+            this.selectedMemberId = mid;
+        },
+        onCategoryMemberChange: function() {
+            const catId = this.$refs.categoryMemberSelect.value;
+            this.selectedCategoryId = catId;
+        },
         getCategory: function(catId) {
             const projectid = this.projectId;
             let catName, catColor;
@@ -388,8 +587,8 @@ export default {
         myGetAvatarClass: function(mid) {
             return this.members[mid].activated ? '' : ' owerAvatarDisabled';
         },
-        myGetSmartMemberName: function(pid, mid) {
-            let smartName = getSmartMemberName(pid, mid);
+        myGetSmartMemberName: function(mid) {
+            let smartName = getSmartMemberName(this.projectId, mid);
             if (smartName === t('cospend', 'You')) {
                 smartName += ' (' + this.members[mid].name + ')';
             }

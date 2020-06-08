@@ -269,13 +269,13 @@ export function projectEvents() {
         autoSettlement(projectid, centeredOn);
     });
 
-    $('body').on('change', '#categoryMemberSelect', function() {
-        displayCategoryMemberChart();
-    });
+    //$('body').on('change', '#categoryMemberSelect', function() {
+    //    displayCategoryMemberChart();
+    //});
 
-    $('body').on('change', '#memberPolarSelect', function() {
-        displayMemberPolarChart();
-    });
+    //$('body').on('change', '#memberPolarSelect', function() {
+    //    displayMemberPolarChart();
+    //});
 
     $('body').on('click', '.getProjectStats', function() {
         const projectid = $(this).parent().parent().parent().parent().attr('projectid');

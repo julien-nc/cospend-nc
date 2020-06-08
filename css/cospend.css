@@ -606,6 +606,7 @@ a.billitem .app-content-list-item-icon {
     padding: 0 12px 0 25px !important;
 }
 #stats-filters {
+    max-width: 900px;
     margin-left: 20px;
     display: grid;
     grid-template: 1fr / 1fr 1fr 1fr 1fr;

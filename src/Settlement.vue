@@ -92,17 +92,14 @@ export default {
             const req = {
                 centeredOn: centeredOn
             };
-            let url, type;
+            let url;
             if (!cospend.pageIsPublic) {
-                req.projectid = this.project.id;
-                type = 'POST';
-                url = generateUrl('/apps/cospend/getSettlement');
+                url = generateUrl('/apps/cospend/projects/'+ this.project.id +'/settlement');
             } else {
-                type = 'GET';
                 url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/settle');
             }
             $.ajax({
-                type: type,
+                type: 'GET',
                 url: url,
                 data: req,
                 async: true,

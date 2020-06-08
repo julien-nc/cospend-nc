@@ -619,17 +619,14 @@ export default {
                 showDisabled: showDisabled ? '1' : '0',
                 currencyId: currencyId
             };
-            let url, type;
+            let url;
             if (!cospend.pageIsPublic) {
-                req.projectid = this.projectId;
-                type = 'POST';
-                url = generateUrl('/apps/cospend/getStatistics');
+                url = generateUrl('/apps/cospend/projects/'+ this.projectId +'/statistics');
             } else {
-                type = 'GET';
                 url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/statistics');
             }
             $.ajax({
-                type: type,
+                type: 'GET',
                 url: url,
                 data: req,
                 async: true,

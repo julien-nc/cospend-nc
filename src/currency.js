@@ -14,41 +14,11 @@ import cospend from './state';
 export function currencyEvents() {
     $('body').on('click', '.manageProjectCurrencies', function() {
         const projectid = $(this).parent().parent().parent().parent().attr('projectid');
-        getProjectCurrencies(projectid);
+        displayCurrencies(projectid);
     });
 }
 
-export function getProjectCurrencies(projectid) {
-    $('#billdetail').html('<h2 class="icon-loading-small"></h2>');
-    const req = {};
-    let url, type;
-    if (!cospend.pageIsPublic) {
-        req.projectid = projectid;
-        url = generateUrl('/apps/cospend/getProjectInfo');
-        type = 'POST';
-    } else {
-        url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password);
-        type = 'GET';
-    }
-    cospend.currentGetProjectsAjax = $.ajax({
-        type: type,
-        url: url,
-        data: req,
-        async: true,
-    }).done(function(response) {
-        if (cospend.currentProjectId !== projectid) {
-            selectProject($('.projectitem[projectid="' + projectid + '"]'));
-        }
-        cospend.currencies = response.currencies;
-        displayCurrencies(projectid, response);
-    }).always(function() {
-    }).fail(function() {
-        Notification.showTemporary(t('cospend', 'Failed to get project currencies'));
-        $('#billdetail').html('');
-    });
-}
-
-export function displayCurrencies(projectid, projectInfo) {
+export function displayCurrencies(projectid) {
     // deselect bill
     $('.billitem').removeClass('selectedbill');
     const projectName = getProjectName(projectid);

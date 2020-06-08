@@ -88,7 +88,7 @@
         </v-table>
         <hr/>
         <h2 class="statTableTitle">{{ t('cospend', 'Monthly stats per member') }}</h2>
-        <v-table id="monthlyTable" :data="monthlyStats" v-if="stats">
+        <v-table id="monthlyTable" :data="monthlyMemberStats" v-if="stats">
             <thead slot="head">
                 <v-th sortKey="member.name">{{ t('cospend', 'Member/Month') }}</v-th>
                 <v-th v-for="(st, month) in stats.monthlyStats" :key="month" :sortKey="month">{{ month }}</v-th>
@@ -104,6 +104,26 @@
                         :key="month"
                         :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
                         {{ value[month].toFixed(2) }}
+                    </td>
+                </tr>
+            </tbody>
+        </v-table>
+        <hr/>
+        <h2 class="statTableTitle">{{ t('cospend', 'Monthly stats per category') }}</h2>
+        <v-table id="categoryTable" :data="monthlyCategoryStats" v-if="stats">
+            <thead slot="head">
+                <v-th sortKey="name">{{ t('cospend', 'Category/Month') }}</v-th>
+                <v-th v-for="month in categoryMonths" :key="month" :sortKey="month">{{ month }}</v-th>
+                <th></th>
+            </thead>
+            <tbody slot="body" slot-scope="{displayData}">
+                <tr v-for="vals in displayData" :key="vals.catid">
+                    <td :style="'border: 2px solid ' + getCategory(vals.catid).color + ';'">
+                        {{ getCategory(vals.catid).name }}
+                    </td>
+                    <td v-for="month in categoryMonths" :key="month"
+                        :style="'border: 2px solid ' + getCategory(vals.catid).color + ';'">
+                        {{ (vals[month] || 0).toFixed(2) }}
                     </td>
                 </tr>
             </tbody>
@@ -127,8 +147,6 @@ export default {
 		return {
             projectId: cospend.currentProjectId,
             stats: null,
-            monthlyMemberStats: null,
-            monthlyCategoryStats: null
 		};
     },
 
@@ -161,7 +179,7 @@ export default {
         isFiltered: function() {
             return false;
         },
-        monthlyStats: function() {
+        monthlyMemberStats: function() {
             const rows = [];
             const memberIds = this.stats.memberIds;
             const mids = memberIds.slice();
@@ -181,6 +199,32 @@ export default {
                 rows.push(row);
             }
             return rows;
+        },
+        categoryMonths: function() {
+            let months = [];
+            for (const catId in this.stats.categoryMonthlyStats) {
+                for (const month in this.stats.categoryMonthlyStats[catId]) {
+                    months.push(month);
+                }
+            }
+            const distinctMonths = [...new Set(months)];
+            distinctMonths.sort();
+            return distinctMonths;
+        },
+        monthlyCategoryStats: function() {
+            const data = [];
+            let elem;
+            for (const catid in this.stats.categoryMonthlyStats) {
+                elem = {
+                    catid: catid,
+                    name: this.getCategoryPureName(catid)
+                };
+                for (const month in this.stats.categoryMonthlyStats[catid]) {
+                    elem[month] = this.stats.categoryMonthlyStats[catid][month];
+                }
+                data.push(elem);
+            }
+            return data;
         }
     },
 
@@ -189,6 +233,36 @@ export default {
     },
 
     methods: {
+        getCategory: function(catId) {
+            const projectid = this.projectId;
+            let catName, catColor;
+            if (cospend.hardCodedCategories.hasOwnProperty(catId)) {
+                catName = cospend.hardCodedCategories[catId].icon + ' ' + cospend.hardCodedCategories[catId].name;
+                catColor = cospend.hardCodedCategories[catId].color;
+            } else if (cospend.projects[projectid].categories.hasOwnProperty(catId)) {
+                catName = (cospend.projects[projectid].categories[catId].icon || '') +
+                    ' ' + cospend.projects[projectid].categories[catId].name;
+                catColor = cospend.projects[projectid].categories[catId].color || 'red';
+            } else {
+                catName = t('cospend', 'No category');
+                catColor = '#000000';
+            }
+
+            return {
+                name: catName,
+                color: catColor,
+            }
+        },
+        getCategoryPureName: function(catId) {
+            const projectid = this.projectId;
+            if (cospend.hardCodedCategories.hasOwnProperty(catId)) {
+                return cospend.hardCodedCategories[catId].name;
+            } else if (cospend.projects[projectid].categories.hasOwnProperty(catId)) {
+                return cospend.projects[projectid].categories[catId].name;
+            } else {
+                return t('cospend', 'No category');
+            }
+        },
         getBalanceClass: function(balance) {
             let balanceClass = '';
             if (balance > 0) {

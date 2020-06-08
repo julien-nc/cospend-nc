@@ -56,12 +56,12 @@
             <label for="showDisabled" class="checkboxlabel">{{ t('cospend', 'Show disabled members') }}</label>
         </div>
         <br/>
-        <p class="totalPayedText" v-if="globalStats">
+        <p class="totalPayedText" v-if="stats">
             {{ t('cospend', 'Total payed by all the members: {t}', {t: totalPayed.toFixed(2)}) }}
         </p>
         <br/><hr/>
         <h2 class="statTableTitle">{{ t('cospend', 'Global stats') }}</h2>
-        <v-table id="statsTable" :data="globalStats" v-if="globalStats">
+        <v-table id="statsTable" :data="stats.stats" v-if="stats">
             <thead slot="head">
                 <v-th sortKey="member.name">{{ t('cospend', 'Member name') }}</v-th>
                 <v-th sortKey="paid">{{ t('cospend', 'Paid') }}</v-th>
@@ -86,6 +86,28 @@
             </tbody>
             <tfoot></tfoot>
         </v-table>
+        <hr/>
+        <h2 class="statTableTitle">{{ t('cospend', 'Monthly stats per member') }}</h2>
+        <v-table id="monthlyTable" :data="monthlyStats" v-if="stats">
+            <thead slot="head">
+                <v-th sortKey="member.name">{{ t('cospend', 'Member/Month') }}</v-th>
+                <v-th v-for="(st, month) in stats.monthlyStats" :key="month" :sortKey="month">{{ month }}</v-th>
+            </thead>
+            <tbody slot="body" slot-scope="{displayData}">
+                <tr v-for="value in displayData" :key="value.member.id">
+                    <td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
+                        <div v-if="value.member.id !== 0" class="owerAvatar">
+                            <div class="disabledMask"></div><img :src="myGetMemberAvatar(projectId, value.member.id)">
+                        </div>{{ (value.member.id !== 0) ? myGetSmartMemberName(projectId, value.member.id) : value.member.name }}
+                    </td>
+                    <td v-for="(st, month) in stats.monthlyStats"
+                        :key="month"
+                        :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
+                        {{ value[month].toFixed(2) }}
+                    </td>
+                </tr>
+            </tbody>
+        </v-table>
     </div>
 </template>
 
@@ -104,7 +126,7 @@ export default {
 	data: function() {
 		return {
             projectId: cospend.currentProjectId,
-            globalStats: null,
+            stats: null,
             monthlyMemberStats: null,
             monthlyCategoryStats: null
 		};
@@ -131,13 +153,34 @@ export default {
         },
         totalPayed: function() {
             let totalPayed = 0.0;
-            for (let i = 0; i < this.globalStats.length; i++) {
-                totalPayed += this.globalStats[i].paid;
+            for (let i = 0; i < this.stats.stats.length; i++) {
+                totalPayed += this.stats.stats[i].paid;
             }
             return totalPayed;
         },
         isFiltered: function() {
             return false;
+        },
+        monthlyStats: function() {
+            const rows = [];
+            const memberIds = this.stats.memberIds;
+            const mids = memberIds.slice();
+            mids.push('0');
+            let mid, row;
+            for (let i = 0; i < mids.length; i++) {
+                mid = mids[i];
+                row = {};
+                if (mid === '0') {
+                    row.member = {name: t('cospend', 'All members'), id: 0}
+                } else {
+                    row.member = cospend.members[this.projectId][mid];
+                }
+                for (const month in this.stats.monthlyStats) {
+                    row[month] = this.stats.monthlyStats[month][mid];
+                }
+                rows.push(row);
+            }
+            return rows;
         }
     },
 
@@ -169,7 +212,11 @@ export default {
             return getMemberAvatar(pid, mid);
         },
         myGetMemberColor: function(mid) {
-            return this.members[mid].color;
+            if (mid === 0) {
+                return '999999';
+            } else {
+                return this.members[mid].color;
+            }
         },
         onChangeCenterMember: function(e) {
             this.getSettlement(e.target.value);
@@ -202,7 +249,7 @@ export default {
                 data: req,
                 async: true,
             }).done(function(response) {
-                that.globalStats = response.stats;
+                that.stats = response;
             }).always(function() {
             }).fail(function() {
                 Notification.showTemporary(t('cospend', 'Failed to get statistics'));

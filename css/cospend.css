@@ -194,11 +194,11 @@ b.memberName, b.memberWeight {
 .bill-owers input[type=number] {
     display: none;
 }
-.bill-type,
+/*.bill-type,
 .bill-owers .numberlabel,
 #owerValidate {
     display: none;
-}
+}*/
 #createproject,
 #owerValidate {
     background-color: #46ba61;

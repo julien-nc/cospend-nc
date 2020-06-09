@@ -111,48 +111,48 @@
                     <a class="icon icon-comment"></a>{{ t('cospend', 'Comment') }}
                 </label>
                 <textarea id="comment" maxlength="300" class="input-bill-comment" v-model="bill.comment"
-                    placeholder="Plus de détails sur la facture (300 caractères max)">
+                    :placeholder="t('cospend', 'More details about the bill (300 char. max)')">
                 </textarea>
             </div>
         </div>
-        <!--div class="bill-right">
-            <div class="bill-type" style="display: block;">
+        <div class="bill-right">
+            <div class="bill-type" v-if="isNewBill">
                 <label class="bill-owers-label">
-                    <a class="icon icon-toggle-filelist"></a><span>Type de facture</span>
+                    <a class="icon icon-toggle-filelist"></a><span>{{ t('cospend', 'Bill type') }}</span>
                 </label>
                 <select id="billtype">
-                    <option value="normal" selected="selected">Classique, partage équitable</option>
-                    <option value="perso">Partage équitable avec d'éventuelles parties personnelles</option>
-                    <option value="custom">Montants personnalisés par membre</option>
+                    <option value="normal" :selected="true">{{ t('cospend', 'Classic, even split') }}</option>
+                    <option value="perso">{{ t('cospend', 'Even split with optional personal parts') }}</option>
+                    <option value="custom">{{ t('cospend', 'Custom owed amount per member') }}</option>
                 </select>
                 <button id="modehintbutton">
                     <span class="icon-details"></span>
                 </button>
-                <div class="modehint modenormal">Mode classique : Choisissez un payeur, entrez un montant de facture et sélectionnez les membres concernés par la dépense toute entière. La facture est ensuite partagée équitablement entre les membres sélectionnés. Exemple dans la vie réelle : Une personne paye toute l'addition au restaurant et tout le monde est d'accord pour partager équitablement la dépense.</div>
-                <div class="modehint modeperso">Mode classique+personnel : Ce mode est similaire au mode classique. Choisissez un payeur et entrez le montant effectivement payé par ce payeur. Ensuite sélectionnez les membres concernés par cette facture et entrez éventuellement le montant dépensé concernant ce membre uniquement. Plusieurs factures vont être créées : une pour la dépense partagée et une pour chaque part personnelle. Exemple dans la vie réelle : Nous allons faire des courses. Une partie de ce qui a été acheté concerne le groupe mais quelqu'un a aussi ajouté un article personnel (comme un vêtement) que les autres ne veulent pas payer collectivement.</div>
-                <div class="modehint modecustom">Mode personnalisé, partage non-équitable : Choisissez un payeur, ignorez le montant global de la facture (qui est grisé) et entrez le montant personnalisé dû par chaque membre concerné par la facture. Ensuite appuyez sur "Créer les factures". Plusieurs factures vont être créées. Exemple dans la vie réelle : Une personne paye l'addition au restaurant mais il y a de grosses différences de prix entre ce que chaque personne a consommé.</div>
+                <div class="modehint modenormal">{{ t('cospend', 'Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost.') }}</div>
+                <div class="modehint modeperso">{{ t('cospend', 'Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don\'t want to collectively pay.') }}</div>
+                <div class="modehint modecustom">{{ t('cospend', 'Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press "Create the bills". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate.') }}</div>
             </div>
             <div class="bill-owers">
                 <label class="bill-owers-label">
-                    <a class="icon icon-group"></a><span>Pour qui ?</span>
+                    <a class="icon icon-group"></a><span>{{ t('cospend', 'For whom?') }}</span>
                 </label>
                 <div class="owerAllNoneDiv">
-                    <button id="owerAll"><span class="icon-group"></span>Tous</button>
-                    <button id="owerNone"><span class="icon-disabled-users"></span>Aucun</button>
+                    <button id="owerAll"><span class="icon-group"></span> {{ t('cospend', 'All') }}</button>
+                    <button id="owerNone"><span class="icon-disabled-users"></span> {{ t('cospend', 'None') }}</button>
                 </div>
-                <div class="owerEntry">
-                    <div class="owerAvatar">
+                <div v-for="ower in activatedOrOwer" :key="ower.id" class="owerEntry">
+                    <div :class="'owerAvatar' + myGetAvatarClass(ower.id)">
                         <div class="disabledMask"></div>
-                        <img src="/n19/index.php/apps/cospend/getAvatar?color=93b27b&amp;name=robi">
+                        <img :src="myGetMemberAvatar(ower.id)">
                     </div>
-                    <input id="dum1" owerid="1" class="checkbox" type="checkbox"/>
-                    <label for="dum1" class="checkboxlabel">robi</label>
-                    <input id="amountdum1" owerid="1" class="amountinput" type="number" value="" step="0.01" min="0">
-                    <label for="amountdum1" class="numberlabel">robi</label>
+                    <input :id="'dum' + ower.id" :owerid="ower.id" class="checkbox" type="checkbox"/>
+                    <label :for="'dum' + ower.id" class="checkboxlabel">{{ ower.name }}</label>
+                    <input :id="'amountdum' + ower.id" :owerid="ower.id" class="amountinput" type="number" value="" step="0.01" min="0">
+                    <label :for="'amountdum' + ower.id" class="numberlabel">{{ ower.name }}</label>
                     <label class="spentlabel"></label>
                 </div>
             </div>
-        </div-->
+        </div>
     </div>
 </template>
 
@@ -232,6 +232,22 @@ export default {
             }
             return mList;
         },
+        activatedOrOwer: function() {
+            const mList = [];
+            for (const mid in this.members) {
+                if (this.members[mid].activated || this.owerIds.indexOf(parseInt(mid)) !== -1) {
+                    mList.push(this.members[mid]);
+                }
+            }
+            return mList;
+        },
+        owerIds: function() {
+            const owerIds = [];
+            for (const i = 0; i < this.bill.owers.length; i++) {
+                owerIds.push(this.bill.owers[i].id);
+            }
+            return owerIds;
+        },
         categories: function() {
             return cospend.projects[this.projectId].categories;
         },
@@ -253,6 +269,12 @@ export default {
                 smartName += ' (' + this.members[mid].name + ')';
             }
             return smartName;
+        },
+        myGetAvatarClass: function(mid) {
+            return this.members[mid].activated ? '' : ' owerAvatarDisabled';
+        },
+        myGetMemberAvatar: function(mid) {
+            return getMemberAvatar(this.projectId, mid);
         },
 		onDateChanged: function() {
             console.log('dd '+this.bill.what);

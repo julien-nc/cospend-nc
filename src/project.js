@@ -7,7 +7,6 @@ import Settlement from './Settlement';
 import Statistics from './Statistics';
 import * as Notification from './notification';
 import {generateUrl} from '@nextcloud/router';
-import 'sorttable';
 import * as Chart from 'chart.js';
 import * as constants from './constants';
 import {getBills} from './bill';

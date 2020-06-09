@@ -1,5 +1,8 @@
 /*jshint esversion: 6 */
 
+import Vue from 'vue';
+import './bootstrap';
+import BillForm from './BillForm';
 import * as Notification from './notification';
 import {generateUrl} from '@nextcloud/router';
 import {getCurrentUser} from '@nextcloud/auth';
@@ -57,17 +60,17 @@ export function billEvents() {
     });
 
     // what and amount : delay on edition
-    $('body').on('keyup paste change', '.input-bill-what, .input-bill-comment', delay(function() {
-        onBillEdited();
-    }, 2000));
-    $('body').on('keyup paste change', '.input-bill-amount', delay(function() {
-        onBillEdited(true);
-    }, 2000));
+    //$('body').on('keyup paste change', '.input-bill-what, .input-bill-comment', delay(function() {
+    //    onBillEdited();
+    //}, 2000));
+    //$('body').on('keyup paste change', '.input-bill-amount', delay(function() {
+    //    onBillEdited(true);
+    //}, 2000));
 
     // other bill fields : direct on edition
-    $('body').on('change', '.input-bill-date, .input-bill-time, .input-bill-repeatuntil, #billdetail .bill-form select', function () {
-        onBillEdited();
-    });
+    //$('body').on('change', '.input-bill-date, .input-bill-time, .input-bill-repeatuntil, #billdetail .bill-form select', function () {
+    //    onBillEdited();
+    //});
     $('body').on('click', '#repeatallactive', function() {
         onBillEdited();
     });
@@ -178,8 +181,18 @@ export function billEvents() {
                 };
                 addBill(projectid, bill);
             }
-            displayBill(projectid, 0);
-            updateBillCounters();
+            ///////////////
+            cospend.currentBillId = 0;
+            const container = $('#billdetail');
+            container.html('')
+                .append($('<div/>', {id: 'bill-form'}));
+            new Vue({
+                el: "#bill-form",
+                render: h => h(BillForm),
+            });
+            //displayBill(projectid, 0);
+            //updateBillCounters();
+            ///////////////
         } else {
             Notification.showTemporary(t('cospend', '2 active members are required to create a bill'));
         }

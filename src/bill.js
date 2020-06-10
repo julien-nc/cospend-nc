@@ -185,15 +185,7 @@ export function billEvents() {
                 addBill(projectid, bill);
             }
             ///////////////
-            cospend.currentBillId = 0;
-            const container = $('#billdetail');
-            container.html('')
-                .append($('<div/>', {id: 'bill-form'}));
-            new Vue({
-                el: "#bill-form",
-                render: h => h(BillForm),
-            });
-            //displayBill(projectid, 0);
+            displayBill(projectid, 0);
             //updateBillCounters();
             ///////////////
         } else {
@@ -753,6 +745,17 @@ export function updateDisplayedBill(projectid, billid, what, payer_id, repeat,
 }
 
 export function displayBill(projectid, billid) {
+    cospend.currentBillId = billid;
+    const container = $('#billdetail');
+    container.html('')
+        .append($('<div/>', { id: 'bill-form' }));
+    new Vue({
+        el: "#bill-form",
+        render: h => h(BillForm),
+    });
+}
+
+export function displayBillOld(projectid, billid) {
     // select bill item
     $('.billitem').removeClass('selectedbill');
     $('.billitem[billid=' + billid + ']').addClass('selectedbill');

@@ -340,7 +340,7 @@ input[type=number] {
 #billdetail {
     max-width: 100%;
 }
-#billdetail > h2 {
+#billdetail .bill-title {
     padding: 20px 0px 20px 0px;
 }
 .selectedproject {

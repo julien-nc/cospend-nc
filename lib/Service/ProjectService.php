@@ -1110,6 +1110,7 @@ class ProjectService {
         $bill = null;
         // get bill owers
         $billOwers = [];
+        $billOwerIds = [];
 
         $qb = $this->dbconnection->getQueryBuilder();
 
@@ -1126,15 +1127,13 @@ class ProjectService {
             $dbName = $row['name'];
             $dbActivated = (intval($row['activated']) === 1);
             $dbOwerId= intval($row['memberid']);
-            array_push(
-                $billOwers,
-                [
-                    'id' => $dbOwerId,
-                    'weight' => $dbWeight,
-                    'name' => $dbName,
-                    'activated' => $dbActivated
-                ]
-            );
+            array_push($billOwers, [
+                'id' => $dbOwerId,
+                'weight' => $dbWeight,
+                'name' => $dbName,
+                'activated' => $dbActivated
+            ]);
+            array_push($billOwerIds, $dbOwerId);
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();
@@ -1172,6 +1171,7 @@ class ProjectService {
                 'timestamp' => $dbTimestamp,
                 'payer_id' => $dbPayerId,
                 'owers' => $billOwers,
+                'owerIds' => $billOwerIds,
                 'repeat' => $dbRepeat,
                 'repeatallactive' => $dbRepeatAllActive,
                 'repeatuntil' => $dbRepeatUntil,
@@ -1591,6 +1591,7 @@ class ProjectService {
                     'date' => $dbDate->format('Y-m-d'),
                     'payer_id' => $dbPayerId,
                     'owers' => [],
+                    'owerIds' => [],
                     'repeat' => $dbRepeat,
                     'paymentmode' => $dbPaymentMode,
                     'categoryid' => $dbCategoryId,
@@ -1612,6 +1613,7 @@ class ProjectService {
                 'name' => $dbName,
                 'activated' => $dbActivated
             ]);
+            array_push($billDict[$dbBillId]['owerIds'], $dbOwerId);
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();

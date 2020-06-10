@@ -745,7 +745,23 @@ export function updateDisplayedBill(projectid, billid, what, payer_id, repeat,
 }
 
 export function displayBill(projectid, billid) {
-    cospend.currentBillId = billid;
+    if (billid === 0) {
+        cospend.currentBill = {
+            id: 0,
+            what: '',
+            timestamp: moment().unix(),
+            amount: 0.0,
+            payer_id: 0,
+            repeat: 'n',
+            owers: [],
+            owerIds: [],
+            paymentmode: 'n',
+            categoryid: 0,
+            comment: ''
+        };
+    } else {
+        cospend.currentBill = cospend.bills[projectid][billid];
+    }
     const container = $('#billdetail');
     container.html('')
         .append($('<div/>', { id: 'bill-form' }));

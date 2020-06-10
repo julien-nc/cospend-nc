@@ -151,12 +151,12 @@
                     <div v-if="newBillMode === 'normal'">
                         <div v-for="ower in activatedOrOwer" :key="ower.id" class="owerEntry">
                             <div :class="'owerAvatar' + myGetAvatarClass(ower.id)">
-                                <div class="disabledMask"></div>
-                                <img :src="myGetMemberAvatar(ower.id)">
+                                <div class="disabledMask"></div><img :src="myGetMemberAvatar(ower.id)">
                             </div>
                             <input :id="'dum' + ower.id" :owerid="ower.id"
                                 class="checkbox" type="checkbox"
-                                v-model="checkedOwers" :value="ower.id" number/>
+                                :disabled="!members[ower.id].activated"
+                                v-model="bill.owerIds" :value="ower.id" number/>
                             <label :for="'dum' + ower.id" class="checkboxlabel">{{ ower.name }}</label>
                             <label class="spentlabel"></label>
                         </div>
@@ -164,14 +164,13 @@
                     <div v-else-if="newBillMode === 'perso'">
                         <div v-for="ower in activatedOrOwer" :key="ower.id" class="owerEntry">
                             <div :class="'owerAvatar' + myGetAvatarClass(ower.id)">
-                                <div class="disabledMask"></div>
-                                <img :src="myGetMemberAvatar(ower.id)">
+                                <div class="disabledMask"></div><img :src="myGetMemberAvatar(ower.id)">
                             </div>
                             <input :id="'dum' + ower.id" :owerid="ower.id"
                                 class="checkbox" type="checkbox"
-                                v-model="checkedOwers" :value="ower.id" number/>
+                                v-model="bill.owerIds" :value="ower.id" number/>
                             <label :for="'dum' + ower.id" class="checkboxlabel">{{ ower.name }}</label>
-                            <input v-show="checkedOwers.includes(ower.id)"
+                            <input v-show="bill.owerIds.includes(ower.id)"
                                 :ref="'amountdum' + ower.id"
                                 class="amountinput" type="number" value="" step="0.01" min="0"/>
                         </div>
@@ -179,8 +178,7 @@
                     <div v-else>
                         <div v-for="ower in activatedOrOwer" :key="ower.id" class="owerEntry">
                             <div :class="'owerAvatar' + myGetAvatarClass(ower.id)">
-                                <div class="disabledMask"></div>
-                                <img :src="myGetMemberAvatar(ower.id)">
+                                <div class="disabledMask"></div><img :src="myGetMemberAvatar(ower.id)">
                             </div>
                             <label :for="'amountdum' + ower.id" class="numberlabel">{{ ower.name }}</label>
                             <input :id="'amountdum' + ower.id"
@@ -211,10 +209,9 @@ export default {
     data: function() {
         return {
             projectId: cospend.currentProjectId,
-            billId: cospend.currentBillId,
+            bill: cospend.currentBill,
             currentUser: getCurrentUser(),
             newBillMode: 'normal',
-            checkedOwers: [],
             billLoading: true
         };
     },
@@ -222,43 +219,35 @@ export default {
     computed: {
         selectAllNoneOwers: {
             get: function () {
-                return this.activatedOrOwer ? this.checkedOwers.length === this.activatedOrOwer.length : false;
+                return this.activatedOrOwer ? this.bill.owerIds.length === this.activatedOrOwer.length : false;
             },
             set: function (value) {
-                var selected = [];
+                const that = this;
+                const selected = [];
 
                 if (value) {
+                    // select all members
                     this.activatedOrOwer.forEach(function (member) {
                         selected.push(member.id);
                     });
+                } else {
+                    // deselect all members
+                    // avoid deselecting disabled ones (add those who are not active and were selected)
+                    this.disabledMembers.forEach(function (member) {
+                        if (that.bill.owerIds.includes(member.id)) {
+                            selected.push(member.id);
+                        }
+                    });
                 }
 
-                this.checkedOwers = selected;
+                this.bill.owerIds = selected;
             }
         },
         isNewBill: function() {
-            return (this.billId === 0);
+            return (this.bill.id === 0);
         },
         project: function() {
             return cospend.projects[this.projectId];
-        },
-        bill: function() {
-            if (this.isNewBill) {
-                return {
-                    id: 0,
-                    what: '',
-                    timestamp: moment().unix(),
-                    amount: 0.0,
-                    payer_id: 0,
-                    repeat: 'n',
-                    owers: [],
-                    paymentmode: 'n',
-                    categoryid: 0,
-                    comment: ''
-                };
-            } else {
-                return cospend.bills[this.projectId][this.billId];
-            }
         },
         billLinks: function() {
             return ['https://plop.org', 'https://plaaa.org'];
@@ -289,6 +278,15 @@ export default {
             }
             return mList;
         },
+        disabledMembers: function() {
+            const mList = [];
+            for (const mid in this.members) {
+                if (!this.members[mid].activated) {
+                    mList.push(this.members[mid]);
+                }
+            }
+            return mList;
+        },
         activatedOrPayer: function() {
             const mList = [];
             for (const mid in this.members) {
@@ -301,19 +299,11 @@ export default {
         activatedOrOwer: function() {
             const mList = [];
             for (const mid in this.members) {
-                if (this.members[mid].activated || this.owerIds.indexOf(parseInt(mid)) !== -1) {
+                if (this.members[mid].activated || this.bill.owerIds.indexOf(parseInt(mid)) !== -1) {
                     mList.push(this.members[mid]);
                 }
             }
             return mList;
-        },
-        owerIds: function() {
-            const owerIds = [];
-            let i;
-            for (i = 0; i < this.bill.owers.length; i++) {
-                owerIds.push(this.bill.owers[i].id);
-            }
-            return owerIds;
         },
         categories: function() {
             return cospend.projects[this.projectId].categories;

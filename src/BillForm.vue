@@ -137,6 +137,7 @@
                     <a class="icon icon-group"></a><span>{{ t('cospend', 'For whom?') }}</span>
                 </label>
                 <div class="owerAllNoneDiv" v-if="newBillMode !== 'custom'">
+                    <input type="checkbox" v-model="selectAllNoneOwers">
                     <button id="owerAll"><span class="icon-group"></span> {{ t('cospend', 'All') }}</button>
                     <button id="owerNone"><span class="icon-disabled-users"></span> {{ t('cospend', 'None') }}</button>
                 </div>
@@ -147,9 +148,8 @@
                             <img :src="myGetMemberAvatar(ower.id)">
                         </div>
                         <input :id="'dum' + ower.id" :owerid="ower.id"
-                            @click="onNormalOwerCheck($event, ower.id)"
-                            :checked="checkedOwers[ower.id]"
-                            class="checkbox" type="checkbox"/>
+                            class="checkbox" type="checkbox"
+                            v-model="checkedOwers" :value="ower.id" number/>
                         <label :for="'dum' + ower.id" class="checkboxlabel">{{ ower.name }}</label>
                         <label class="spentlabel"></label>
                     </div>
@@ -161,14 +161,11 @@
                             <img :src="myGetMemberAvatar(ower.id)">
                         </div>
                         <input :id="'dum' + ower.id" :owerid="ower.id"
-                            @click="onPersoOwerCheck($event, ower.id)"
-                            :checked="checkedOwers[ower.id]"
-                            class="checkbox" type="checkbox"/>
+                            class="checkbox" type="checkbox"
+                            v-model="checkedOwers" :value="ower.id" number/>
                         <label :for="'dum' + ower.id" class="checkboxlabel">{{ ower.name }}</label>
-                        <input v-show="checkedOwers[ower.id]"
+                        <input v-show="checkedOwers.includes(ower.id)"
                             :ref="'amountdum' + ower.id"
-                            :id="'amountdum' + ower.id"
-                            :owerid="ower.id"
                             class="amountinput" type="number" value="" step="0.01" min="0"/>
                     </div>
                 </div>
@@ -179,7 +176,9 @@
                             <img :src="myGetMemberAvatar(ower.id)">
                         </div>
                         <label :for="'amountdum' + ower.id" class="numberlabel">{{ ower.name }}</label>
-                        <input :id="'amountdum' + ower.id" :owerid="ower.id" class="amountinput" type="number" value="" step="0.01" min="0"/>
+                        <input :id="'amountdum' + ower.id"
+                            :ref="'amountdum' + ower.id"
+                            class="amountinput" type="number" value="" step="0.01" min="0"/>
                     </div>
                 </div>
             </div>
@@ -207,12 +206,26 @@ export default {
             billId: cospend.currentBillId,
             currentUser: getCurrentUser(),
             newBillMode: 'normal',
+            checkedOwers: []
         };
     },
 
     computed: {
-        checkedOwers: function() {
-            return {};
+        selectAllNoneOwers: {
+            get: function () {
+                return this.activatedOrOwer ? this.checkedOwers.length === this.activatedOrOwer.length : false;
+            },
+            set: function (value) {
+                var selected = [];
+
+                if (value) {
+                    this.activatedOrOwer.forEach(function (member) {
+                        selected.push(member.id);
+                    });
+                }
+
+                this.checkedOwers = selected;
+            }
         },
         isNewBill: function() {
             return (this.billId === 0);
@@ -317,17 +330,6 @@ export default {
         },
         onTimeChanged: function() {
             // TODO set prop bill date
-        },
-        onNormalOwerCheck: function(e, owerId) {
-            this.checkedOwers[owerId] = e.target.checked;
-        },
-        onPersoOwerCheck: function(e, owerId) {
-            this.checkedOwers[owerId] = e.target.checked;
-            if (e.target.checked) {
-                this.$refs['amountdum' + owerId][0].style.removeProperty('display');
-            } else {
-                this.$refs['amountdum' + owerId][0].style.display = 'none';
-            }
         },
     }
 }

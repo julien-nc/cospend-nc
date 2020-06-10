@@ -120,7 +120,7 @@
                 <label class="bill-owers-label">
                     <a class="icon icon-toggle-filelist"></a><span>{{ t('cospend', 'Bill type') }}</span>
                 </label>
-                <select id="billtype">
+                <select id="billtype" v-model="newBillMode">
                     <option value="normal" :selected="true">{{ t('cospend', 'Classic, even split') }}</option>
                     <option value="perso">{{ t('cospend', 'Even split with optional personal parts') }}</option>
                     <option value="custom">{{ t('cospend', 'Custom owed amount per member') }}</option>
@@ -136,20 +136,42 @@
                 <label class="bill-owers-label">
                     <a class="icon icon-group"></a><span>{{ t('cospend', 'For whom?') }}</span>
                 </label>
-                <div class="owerAllNoneDiv">
+                <div class="owerAllNoneDiv" v-if="newBillMode !== 'custom'">
                     <button id="owerAll"><span class="icon-group"></span> {{ t('cospend', 'All') }}</button>
                     <button id="owerNone"><span class="icon-disabled-users"></span> {{ t('cospend', 'None') }}</button>
                 </div>
-                <div v-for="ower in activatedOrOwer" :key="ower.id" class="owerEntry">
-                    <div :class="'owerAvatar' + myGetAvatarClass(ower.id)">
-                        <div class="disabledMask"></div>
-                        <img :src="myGetMemberAvatar(ower.id)">
+                <div v-if="newBillMode === 'normal'">
+                    <div v-for="ower in activatedOrOwer" :key="ower.id" class="owerEntry">
+                        <div :class="'owerAvatar' + myGetAvatarClass(ower.id)">
+                            <div class="disabledMask"></div>
+                            <img :src="myGetMemberAvatar(ower.id)">
+                        </div>
+                        <input :id="'dum' + ower.id" :owerid="ower.id" class="checkbox" type="checkbox"/>
+                        <label :for="'dum' + ower.id" class="checkboxlabel">{{ ower.name }}</label>
+                        <label class="spentlabel"></label>
                     </div>
-                    <input :id="'dum' + ower.id" :owerid="ower.id" class="checkbox" type="checkbox"/>
-                    <label :for="'dum' + ower.id" class="checkboxlabel">{{ ower.name }}</label>
-                    <input :id="'amountdum' + ower.id" :owerid="ower.id" class="amountinput" type="number" value="" step="0.01" min="0">
-                    <label :for="'amountdum' + ower.id" class="numberlabel">{{ ower.name }}</label>
-                    <label class="spentlabel"></label>
+                </div>
+                <div v-else-if="newBillMode === 'perso'">
+                    <div v-for="ower in activatedOrOwer" :key="ower.id" class="owerEntry">
+                        <div :class="'owerAvatar' + myGetAvatarClass(ower.id)">
+                            <div class="disabledMask"></div>
+                            <img :src="myGetMemberAvatar(ower.id)">
+                        </div>
+                        <input :id="'dum' + ower.id" :owerid="ower.id" @click="onPersoOwerCheck($event)"
+                            class="checkbox" type="checkbox"/>
+                        <label :for="'dum' + ower.id" class="checkboxlabel">{{ ower.name }}</label>
+                        <input :id="'amountdum' + ower.id" :owerid="ower.id" class="amountinput" type="number" value="" step="0.01" min="0"/>
+                    </div>
+                </div>
+                <div v-else>
+                    <div v-for="ower in activatedOrOwer" :key="ower.id" class="owerEntry">
+                        <div :class="'owerAvatar' + myGetAvatarClass(ower.id)">
+                            <div class="disabledMask"></div>
+                            <img :src="myGetMemberAvatar(ower.id)">
+                        </div>
+                        <label :for="'amountdum' + ower.id" class="numberlabel">{{ ower.name }}</label>
+                        <input :id="'amountdum' + ower.id" :owerid="ower.id" class="amountinput" type="number" value="" step="0.01" min="0"/>
+                    </div>
                 </div>
             </div>
         </div>
@@ -174,7 +196,8 @@ export default {
 		return {
             projectId: cospend.currentProjectId,
             billId: cospend.currentBillId,
-            currentUser: getCurrentUser()
+            currentUser: getCurrentUser(),
+            newBillMode: 'normal'
 		};
     },
 
@@ -280,6 +303,9 @@ export default {
             console.log('dd '+this.bill.what);
         },
 		onTimeChanged: function() {
+        },
+        onPersoOwerCheck: function(e) {
+            console.log(e);
         },
     }
 }

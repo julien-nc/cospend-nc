@@ -191,10 +191,10 @@ b.memberName, b.memberWeight {
     padding: 5px;
     min-height: 0px;
 }
-.bill-owers input[type=number] {
+/*.bill-owers input[type=number] {
     display: none;
 }
-/*.bill-type,
+.bill-type,
 .bill-owers .numberlabel,
 #owerValidate {
     display: none;

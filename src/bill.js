@@ -85,6 +85,7 @@ export function billEvents() {
     });
 
     $('body').on('change', '#billdetail .bill-form .bill-owers input[type=checkbox]', function() {
+        return;
         const billtype = $('#billtype').val();
         if (billtype === 'perso') {
             if ($(this).is(':checked')) {
@@ -98,6 +99,7 @@ export function billEvents() {
     });
 
     $('body').on('click', '#owerAll', function() {
+        return;
         const billtype = $('#billtype').val();
         const projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
         for (const memberid in cospend.members[projectid]) {
@@ -113,6 +115,7 @@ export function billEvents() {
     });
 
     $('body').on('click', '#owerNone', function() {
+        return;
         const billtype = $('#billtype').val();
         const projectid = $(this).parent().parent().parent().parent().parent().find('.bill-title').attr('projectid');
         for (const memberid in cospend.members[projectid]) {
@@ -238,6 +241,7 @@ export function billEvents() {
     });
 
     $('body').on('change', '#billtype', function() {
+        return;
         $('.modehint').slideUp();
         let owerValidateStr = t('cospend', 'Create the bills');
         const billtype = $(this).val();
@@ -286,6 +290,7 @@ export function billEvents() {
     });
 
     $('body').on('paste change', '.amountinput', function() {
+        return;
         const billtype = $('#billtype').val();
         if (billtype === 'custom') {
             updateCustomAmount();
@@ -293,6 +298,7 @@ export function billEvents() {
     });
 
     $('body').on('keyup', '.amountinput', function(e) {
+        return;
         const billtype = $('#billtype').val();
         if (billtype === 'custom') {
             updateCustomAmount();
@@ -319,6 +325,7 @@ export function billEvents() {
     });
 
     $('body').on('click', '.owerEntry .owerAvatar', function() {
+        return;
         const billId = parseInt($('#billdetail .bill-title').attr('billid'));
         const billType = $('#billtype').val();
         if (billId !== 0 || billType === 'normal' || billType === 'perso') {

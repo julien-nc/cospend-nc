@@ -146,7 +146,10 @@
                             <div class="disabledMask"></div>
                             <img :src="myGetMemberAvatar(ower.id)">
                         </div>
-                        <input :id="'dum' + ower.id" :owerid="ower.id" class="checkbox" type="checkbox"/>
+                        <input :id="'dum' + ower.id" :owerid="ower.id"
+                            @click="onNormalOwerCheck($event, ower.id)"
+                            :checked="checkedOwers[ower.id]"
+                            class="checkbox" type="checkbox"/>
                         <label :for="'dum' + ower.id" class="checkboxlabel">{{ ower.name }}</label>
                         <label class="spentlabel"></label>
                     </div>
@@ -157,10 +160,16 @@
                             <div class="disabledMask"></div>
                             <img :src="myGetMemberAvatar(ower.id)">
                         </div>
-                        <input :id="'dum' + ower.id" :owerid="ower.id" @click="onPersoOwerCheck($event)"
+                        <input :id="'dum' + ower.id" :owerid="ower.id"
+                            @click="onPersoOwerCheck($event, ower.id)"
+                            :checked="checkedOwers[ower.id]"
                             class="checkbox" type="checkbox"/>
                         <label :for="'dum' + ower.id" class="checkboxlabel">{{ ower.name }}</label>
-                        <input :id="'amountdum' + ower.id" :owerid="ower.id" class="amountinput" type="number" value="" step="0.01" min="0"/>
+                        <input v-show="checkedOwers[ower.id]"
+                            :ref="'amountdum' + ower.id"
+                            :id="'amountdum' + ower.id"
+                            :owerid="ower.id"
+                            class="amountinput" type="number" value="" step="0.01" min="0"/>
                     </div>
                 </div>
                 <div v-else>
@@ -187,21 +196,24 @@ import * as constants from './constants';
 import {getMemberName, getSmartMemberName, getMemberAvatar} from './member';
 
 export default {
-	name: 'BillForm',
+    name: 'BillForm',
 
-	components: {
-	},
+    components: {
+    },
 
-	data: function() {
-		return {
+    data: function() {
+        return {
             projectId: cospend.currentProjectId,
             billId: cospend.currentBillId,
             currentUser: getCurrentUser(),
-            newBillMode: 'normal'
-		};
+            newBillMode: 'normal',
+        };
     },
 
     computed: {
+        checkedOwers: function() {
+            return {};
+        },
         isNewBill: function() {
             return (this.billId === 0);
         },
@@ -285,7 +297,7 @@ export default {
         },
     },
 
-	methods: {
+    methods: {
         myGetSmartMemberName: function(mid) {
             let smartName = getSmartMemberName(this.projectId, mid);
             if (smartName === t('cospend', 'You')) {
@@ -299,13 +311,23 @@ export default {
         myGetMemberAvatar: function(mid) {
             return getMemberAvatar(this.projectId, mid);
         },
-		onDateChanged: function() {
+        onDateChanged: function() {
             console.log('dd '+this.bill.what);
+            // TODO set prop bill date
         },
-		onTimeChanged: function() {
+        onTimeChanged: function() {
+            // TODO set prop bill date
         },
-        onPersoOwerCheck: function(e) {
-            console.log(e);
+        onNormalOwerCheck: function(e, owerId) {
+            this.checkedOwers[owerId] = e.target.checked;
+        },
+        onPersoOwerCheck: function(e, owerId) {
+            this.checkedOwers[owerId] = e.target.checked;
+            if (e.target.checked) {
+                this.$refs['amountdum' + owerId][0].style.removeProperty('display');
+            } else {
+                this.$refs['amountdum' + owerId][0].style.display = 'none';
+            }
         },
     }
 }

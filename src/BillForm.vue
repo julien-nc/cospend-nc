@@ -5,6 +5,11 @@
             <span class="icon-edit-white"></span>
             {{ billFormattedTitle }}
             <a v-for="link in billLinks" :key="link" :href="link" target="blank">[🔗 {{ t('cospend', 'link') }}]</a>
+            <button id="owerValidate" v-if="isNewBill" :title="t('cospend', 'Press Shift+Enter to validate')"
+                style="display: inline-block;">
+                <span class="icon-confirm"></span>
+                <span id="owerValidateText">{{ createBillButtonText }}</span>
+            </button>
         </h2>
         <div class="bill-form">
             <div class="bill-left">
@@ -39,6 +44,7 @@
                 <div class="bill-payer">
                     <label for="payer"><a class="icon icon-user"></a>{{ t('cospend', 'Who payed?') }}</label>
                     <select id="payer" class="input-bill-payer"
+                        v-model="bill.payer_id"
                         :disabled="!isNewBill && !members[bill.payer_id].activated">
                         <option v-for="member in activatedOrPayer" :key="member.id" :value="member.id"
                             :selected="member.id === bill.payer_id || (isNewBill && currentUser && member.userid === currentUser.uid)">
@@ -48,11 +54,11 @@
                 </div>
                 <div class="bill-date">
                     <label for="date"><a class="icon icon-calendar-dark"></a>{{ t('cospend', 'When?') }}</label>
-                    <input type="date" id="date" class="input-bill-date" :value="billDate" @change="onDateChanged"/>
+                    <input type="date" id="date" class="input-bill-date" :value="billDate" ref="dateInput" @change="onDateChanged"/>
                 </div>
                 <div class="bill-time">
                     <label for="time"><a class="icon icon-time"></a>{{ t('cospend', 'What time?') }}</label>
-                    <input type="time" id="time" class="input-bill-time" :value="billTime" @change="onTimeChanged"/>
+                    <input type="time" id="time" class="input-bill-time" :value="billTime" ref="timeInput" @change="onTimeChanged"/>
                 </div>
                 <div class="bill-repeat">
                     <label for="repeatbill">
@@ -68,7 +74,7 @@
                 </div>
                 <div class="bill-repeat-extra" v-if="bill.repeat !== 'n'">
                     <div class="bill-repeat-include">
-                        <input id="repeatallactive" class="checkbox" type="checkbox"/>
+                        <input id="repeatallactive" v-model="bill.repeatallactive" class="checkbox" type="checkbox"/>
                         <label for="repeatallactive" class="checkboxlabel">{{ t('cospend', 'Include all active members on repeat') }}</label>
                         <br>
                     </div>
@@ -76,7 +82,7 @@
                         <label for="repeatuntil">
                             <a class="icon icon-pause"></a>{{ t('cospend', 'Repeat until') }}
                         </label>
-                        <input type="date" id="repeatuntil" class="input-bill-repeatuntil">
+                        <input type="date" id="repeatuntil" v-model="bill.repeatuntil" class="input-bill-repeatuntil">
                     </div>
                 </div>
                 <div class="bill-payment-mode">
@@ -144,9 +150,9 @@
                         <a class="icon icon-group"></a><span>{{ t('cospend', 'For whom?') }}</span>
                     </label>
                     <div class="owerAllNoneDiv" v-if="newBillMode !== 'custom'">
+                        <div class="icon-group"></div>
                         <input type="checkbox" v-model="selectAllNoneOwers">
-                        <button id="owerAll"><span class="icon-group"></span> {{ t('cospend', 'All') }}</button>
-                        <button id="owerNone"><span class="icon-disabled-users"></span> {{ t('cospend', 'None') }}</button>
+                        <div>{{ t('cospend', 'All/None') }}</div>
                     </div>
                     <div v-if="newBillMode === 'normal'">
                         <div v-for="ower in activatedOrOwer" :key="ower.id" class="owerEntry">
@@ -199,6 +205,11 @@ import {getCurrentUser} from '@nextcloud/auth';
 import * as Notification from './notification';
 import * as constants from './constants';
 import {getMemberName, getSmartMemberName, getMemberAvatar} from './member';
+import {getCategory} from './category';
+import {
+    delay,
+    generatePublicLinkToFile,
+} from './utils';
 
 export default {
     name: 'BillForm',
@@ -212,8 +223,19 @@ export default {
             bill: cospend.currentBill,
             currentUser: getCurrentUser(),
             newBillMode: 'normal',
-            billLoading: true
+            billLoading: false
         };
+    },
+
+    watch: {
+        bill: {
+            handler(val){
+                if (!this.isNewBill) {
+                    this.onBillChanged();
+                }
+            },
+            deep: true
+        }
     },
 
     computed: {
@@ -250,12 +272,19 @@ export default {
             return cospend.projects[this.projectId];
         },
         billLinks: function() {
-            return ['https://plop.org', 'https://plaaa.org'];
+            return this.bill.what.match(/https?:\/\/[^\s]+/gi) || [];
         },
         billFormattedTitle: function() {
             // TODO
-            //return paymentmodeChar + categoryChar + bill.what.replace(/https?:\/\/[^\s]+/gi, '');
-            const whatFormatted = this.bill.what.replace(/https?:\/\/[^\s]+/gi, '');
+            let paymentmodeChar = '';
+            let categoryChar = '';
+            if (parseInt(this.bill.categoryid) !== 0) {
+                categoryChar = getCategory(this.projectId, this.bill.categoryid).icon + ' ';
+            }
+            if (this.bill.paymentmode !== 'n') {
+                paymentmodeChar = cospend.paymentModes[this.bill.paymentmode].icon + ' ';
+            }
+            const whatFormatted = paymentmodeChar + categoryChar + this.bill.what.replace(/https?:\/\/[^\s]+/gi, '');
             return t('cospend', 'Bill : {what}', {what: whatFormatted});
         },
         billDate: function() {
@@ -317,6 +346,9 @@ export default {
         paymentModes: function() {
             return cospend.paymentModes;
         },
+        createBillButtonText: function() {
+            return this.newBillMode === 'normal' ? t('cospend', 'Create the bill') : t('cospend', 'Create the bills');
+        },
     },
 
     methods: {
@@ -341,11 +373,92 @@ export default {
             }
         },
         onDateChanged: function() {
-            console.log('dd '+this.bill.what);
-            // TODO set prop bill date
+            this.updateTimestamp();
         },
         onTimeChanged: function() {
-            // TODO set prop bill date
+            this.updateTimestamp();
+        },
+        updateTimestamp() {
+            const date = this.$refs.dateInput.value;
+            let time = this.$refs.timeInput.value;
+            if (!time || time === '') {
+                time = '00:00';
+            }
+            const timestamp = moment(date + ' ' + time).unix();
+            this.bill.timestamp = timestamp;
+        },
+        onBillChanged: function() {
+            const that = this;
+            delay(function() {
+                that.saveBill();
+            }, 2000)();
+        },
+        isBillValidForSave: function() {
+            return this.basicBillValueCheck() && this.bill.owerIds.length > 0;
+        },
+        basicBillValueCheck: function() {
+            let valid = true;
+            const bill = this.bill;
+            if (bill.what === null || bill.what === '') {
+                return false;
+            }
+            const date = this.$refs.dateInput.value;
+            if (date === null || date === '' || date.match(/^\d\d\d\d-\d\d-\d\d$/g) === null) {
+                return false;
+            }
+            const time = this.$refs.timeInput.value;
+            if (time === null || time === '' || time.match(/^\d\d:\d\d$/g) === null) {
+                return false;
+            }
+            if (bill.amount === '' || isNaN(bill.amount) || isNaN(bill.payer_id)) {
+                return false;
+            }
+            return true;
+        },
+        saveBill: function() {
+            const that = this;
+            if (!this.isBillValidForSave()) {
+				Notification.showTemporary(t('cospend', 'Impossible to save bill, invalid values'));
+            } else {
+                this.billLoading = true;
+                const bill = this.bill;
+                const req = {
+                    what: bill.what,
+                    comment: bill.comment,
+                    timestamp: bill.timestamp,
+                    payer: bill.payer_id,
+                    payed_for: bill.owerIds.join(','),
+                    amount: bill.amount,
+                    repeat: bill.repeat,
+                    repeatallactive: bill.repeatallactive ? 1 : 0,
+                    repeatuntil: bill.repeatuntil,
+                    paymentmode: bill.paymentmode,
+                    categoryid: bill.categoryid
+                };
+                let url;
+                if (!cospend.pageIsPublic) {
+                    url = generateUrl('/apps/cospend/projects/' + this.projectId +'/bills/' + bill.id);
+                } else {
+                    url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills/' + bill.id);
+                }
+                $.ajax({
+                    type: 'PUT',
+                    url: url,
+                    data: req,
+                    async: true,
+                }).done(function() {
+                    //updateProjectBalances(projectid);
+                    //updateBillCounters();
+                    Notification.showTemporary(t('cospend', 'Bill saved'));
+                }).always(function() {
+                    that.billLoading = false;
+                }).fail(function(response) {
+                    Notification.showTemporary(
+                        t('cospend', 'Failed to save bill') +
+                        ' ' + (response.responseJSON)
+                    );
+                });
+            }
         },
     }
 }

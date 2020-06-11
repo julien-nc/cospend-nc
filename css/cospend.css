@@ -204,6 +204,10 @@ b.memberName, b.memberWeight {
     background-color: #46ba61;
     color: white;
 }
+.owerAllNoneDiv {
+    display: grid;
+    grid-template: 1fr / 22px 44px 1fr;
+}
 .owerAllNoneDiv,
 .owerEntry {
     margin-left: 26px;

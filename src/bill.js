@@ -71,18 +71,18 @@ export function billEvents() {
     //$('body').on('change', '.input-bill-date, .input-bill-time, .input-bill-repeatuntil, #billdetail .bill-form select', function () {
     //    onBillEdited();
     //});
-    $('body').on('click', '#repeatallactive', function() {
-        onBillEdited();
-    });
+    //$('body').on('click', '#repeatallactive', function() {
+    //    onBillEdited();
+    //});
 
     // show/hide repeatallactive
-    $('body').on('change', '#repeatbill', function() {
-        if ($(this).val() === 'n') {
-            $('.bill-repeat-extra').slideUp();
-        } else {
-            $('.bill-repeat-extra').slideDown();
-        }
-    });
+    //$('body').on('change', '#repeatbill', function() {
+    //    if ($(this).val() === 'n') {
+    //        $('.bill-repeat-extra').slideUp();
+    //    } else {
+    //        $('.bill-repeat-extra').slideDown();
+    //    }
+    //});
 
     $('body').on('change', '#billdetail .bill-form .bill-owers input[type=checkbox]', function() {
         return;

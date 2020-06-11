@@ -28,13 +28,14 @@
                     <label for="amount">
                         <a class="icon icon-cospend"></a>{{ t('cospend', 'How much?') }}
                     </label>
-                    <input type="number" id="amount" class="input-bill-amount" v-model="bill.amount" step="any"/>
+                    <input type="number" id="amount" class="input-bill-amount" step="any"
+                        v-model="bill.amount"/>
                 </div>
                 <div class="bill-currency-convert" v-if="project.currencyname && project.currencies.length > 0">
                     <label for="bill-currency">
                         <a class="icon icon-currencies"></a>{{ t('cospend', 'Convert to') }}
                     </label>
-                    <select id="bill-currency">
+                    <select id="bill-currency" ref="currencySelect" @change="onCurrencyConvert">
                         <option value="">{{ project.currencyname }}</option>
                         <option v-for="currency in project.currencies" :key="currency.id" :value="currency.id">
                             {{ currency.name }} ⇒ {{ project.currencyname }} (x{{ currency.exchange_rate }})
@@ -226,13 +227,20 @@ export default {
             bill: cospend.currentBill,
             currentUser: getCurrentUser(),
             newBillMode: 'normal',
-            billLoading: false
+            billLoading: false,
+            progAmountChange: false
         };
     },
 
     watch: {
+        'bill.amount': function(val, oldVal) {
+            if (!this.progAmountChange) {
+                this.onAmountChanged();
+            }
+            this.progAmountChange = false;
+        },
         bill: {
-            handler(val){
+            handler(val) {
                 if (!this.isNewBill) {
                     this.onBillChanged();
                 }
@@ -485,6 +493,36 @@ export default {
                 });
             }
         },
+        onCurrencyConvert: function() {
+            let currencyId = this.$refs.currencySelect.value;
+            if (currencyId !== '') {
+                const userAmount = parseFloat(this.bill.amount);
+                currencyId = parseInt(currencyId);
+                let currency = null;
+                for (let i = 0; i < this.currencies.length; i++) {
+                    if (parseInt(this.currencies[i].id) === currencyId) {
+                        currency = this.currencies[i];
+                        break;
+                    }
+                }
+                this.progAmountChange = true;
+                this.bill.amount = parseFloat(this.bill.amount) * currency.exchange_rate;
+                this.bill.what = this.cleanStringFromCurrency(this.bill.what) + ' (' + userAmount.toFixed(2) + ' ' + currency.name + ')';
+                this.$refs.currencySelect.value = '';
+            }
+        },
+        cleanStringFromCurrency: function(str) {
+            let currency, re;
+            for (let i = 0; i < this.currencies.length; i++) {
+                currency = this.currencies[i];
+                re = new RegExp(' \\(\\d+\\.?\\d* ' + currency.name + '\\)', 'g');
+                str = str.replace(re, '');
+            }
+            return str;
+        },
+        onAmountChanged: function() {
+            this.bill.what = this.cleanStringFromCurrency(this.bill.what);
+        }
     }
 }
 </script>

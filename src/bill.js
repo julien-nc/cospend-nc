@@ -299,6 +299,7 @@ export function billEvents() {
 }
 
 function cleanStringFromCurrency(projectid, str) {
+    return;
     let currency, re;
     for (let i = 0; i < cospend.projects[projectid].currencies.length; i++) {
         currency = cospend.projects[projectid].currencies[i];

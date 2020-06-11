@@ -537,11 +537,49 @@ export default {
         onCreateClick: function() {
             if (this.newBillMode === 'normal') {
                 this.createNormalBill();
+            } else if (this.newBillMode === 'perso') {
+                this.createEquiPersoBill();
+            } else if (this.newBillMode === 'custom') {
+                this.createCustomAmountBill();
             }
         },
         createNormalBill: function() {
             if (this.isBillValidForSaveOrNormal()) {
                 this.createBill();
+            } else {
+                Notification.showTemporary(t('cospend', 'Bill values are not valid'));
+            }
+        },
+        createEquiPersoBill: function() {
+            if (this.isBillValidForSaveOrNormal()) {
+                const bill = this.bill;
+                // check if personal parts are valid
+                let tmpAmount = parseFloat(this.bill.amount);
+                const persoParts = this.getPersonalParts();
+                let part;
+                for (const mid in persoParts) {
+                    part = persoParts[mid];
+                    if (!isNaN(part) && part > 0.0) {
+                        tmpAmount -= part;
+                    }
+                }
+                if (tmpAmount < 0.0) {
+                    Notification.showTemporary(t('cospend', 'Personal parts are bigger than the paid amount'));
+                    return;
+                }
+
+                // create bills for perso parts
+                for (const mid in persoParts) {
+                    part = persoParts[mid];
+                    if (!isNaN(part) && part > 0.0) {
+                        this.createBill(bill.what, part, bill.payer_id, bill.timestamp, [mid], bill.repeat,
+                            bill.paymentmode, bill.categoryid, bill.repeatallactive, bill.repeatuntil, bill.comment);
+                    }
+                }
+
+                // create main bill
+                this.createBill(bill.what, tmpAmount, bill.payer_id, bill.timestamp, bill.owerIds, bill.repeat,
+                    bill.paymentmode, bill.categoryid, bill.repeatallactive, bill.repeatuntil, bill.comment);
             } else {
                 Notification.showTemporary(t('cospend', 'Bill values are not valid'));
             }
@@ -625,7 +663,29 @@ export default {
                     ': ' + (response.responseJSON.message || response.responseText)
                 );
             });
-        }
+        },
+        getPersonalParts: function() {
+            const result = {};
+            const that = this;
+            let oneWeight, owerVal;
+            this.bill.owerIds.forEach(function(mid) {
+                result[mid] = parseFloat(that.$refs['amountdum' + mid][0].value) || 0;
+            });
+            console.log('persoparts');
+            console.log(result);
+            return result;
+        },
+        getCustomAmounts: function() {
+            const result = {};
+            const that = this;
+            let oneWeight, owerVal;
+            this.activatedOrOwer.forEach(function(member) {
+                result[member.id] = parseFloat(that.$refs['amountdum' + member.id][0].value) || 0;
+            });
+            console.log('custom amounts');
+            console.log(result);
+            return result;
+        },
     }
 }
 </script>

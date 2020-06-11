@@ -159,68 +159,8 @@ b.memberName, b.memberWeight {
     left: 25px;
 }
 
-
-.bill-left select,
-.bill-left textarea,
-.bill-left input {
-    /*margin: 0 12px 0 12px;*/
-    width: 100%;
-}
-.bill-form a.icon {
-    justify-content: space-between;
-    line-height: 44px;
-    min-height: 44px;
-    padding: 0 12px 0 25px;
-}
-.bill-left {
-    padding: 0px 10px 0px 15px;
-    float: left;
-    width: 49%;
-}
-.bill-right {
-    float: right;
-    width: 49%;
-}
-.bill-owers label {
-    margin-left: 5px;
-}
-.bill-owers input {
-    cursor: pointer;
-    /*height: 16px;
-    min-height: 16px;*/
-    padding: 5px;
-    min-height: 0px;
-}
-/*.bill-owers input[type=number] {
-    display: none;
-}
-.bill-type,
-.bill-owers .numberlabel,
-#owerValidate {
-    display: none;
-}*/
-#createproject,
-#owerValidate {
+#createproject {
     background-color: #46ba61;
-    color: white;
-}
-.owerAllNoneDiv {
-    display: grid;
-    grid-template: 1fr / 22px 44px 1fr;
-}
-.owerAllNoneDiv,
-.owerEntry {
-    margin-left: 26px;
-    margin-right: 00px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-.amountinput {
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
-}
-.bill-title {
-    text-align: center;
     color: white;
 }
 input[type=number] {

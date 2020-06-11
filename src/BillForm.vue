@@ -160,8 +160,8 @@
                     </label>
                     <div class="owerAllNoneDiv" v-if="newBillMode !== 'custom'">
                         <div class="icon-group"></div>
-                        <input type="checkbox" v-model="selectAllNoneOwers">
-                        <div>{{ t('cospend', 'All/None') }}</div>
+                        <input id="checkAllNone" type="checkbox" class="checkbox" v-model="selectAllNoneOwers">
+                        <label for="checkAllNone" class="checkboxlabel">{{ t('cospend', 'All/None') }}</label>
                     </div>
                     <div v-if="newBillMode === 'normal'">
                         <div v-for="ower in activatedOrOwer" :key="ower.id" class="owerEntry">
@@ -746,5 +746,55 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.bill-left select,
+.bill-left textarea,
+.bill-left input {
+    width: 100%;
+}
+.bill-form a.icon {
+    justify-content: space-between;
+    line-height: 44px;
+    min-height: 44px;
+    padding: 0 12px 0 25px;
+}
+.bill-left {
+    padding: 0px 10px 0px 15px;
+    float: left;
+    width: 49%;
+}
+.bill-right {
+    float: right;
+    width: 49%;
+}
+.bill-owers label {
+    margin-left: 5px;
+}
+.bill-owers input {
+    cursor: pointer;
+    padding: 5px;
+    min-height: 0px;
+}
+#owerValidate {
+    background-color: #46ba61;
+    color: white;
+}
+.owerAllNoneDiv div {
+    display: inline-block;
+    width: 24px;
+}
+.owerAllNoneDiv,
+.owerEntry {
+    margin-left: 26px;
+    margin-right: 00px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.amountinput {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+.bill-title {
+    text-align: center;
+    color: white;
+}
 </style>

@@ -170,17 +170,6 @@ export function generatePublicLinkToFile(targetPath, successCallback) {
     });
 }
 
-export function updateCustomAmount() {
-    let tot = 0;
-    $('.amountinput').each(function() {
-        const val = parseFloat($(this).val());
-        if (!isNaN(val) && val > 0.0) {
-            tot = tot + val;
-        }
-    });
-    $('#amount').val(tot);
-}
-
 export function copyToClipboard(text) {
     const dummy = $('<input id="dummycopy">').val(text).appendTo('body').select();
     document.execCommand('copy');

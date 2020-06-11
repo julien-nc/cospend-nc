@@ -517,6 +517,17 @@ export default {
                 this.bill.amount = parseFloat(this.bill.amount) * currency.exchange_rate;
                 this.bill.what = this.cleanStringFromCurrency(this.bill.what) + ' (' + userAmount.toFixed(2) + ' ' + currency.name + ')';
                 this.$refs.currencySelect.value = '';
+                // convert personal amounts
+                if (this.isNewBill && this.newBillMode === 'perso') {
+                    const persoParts = this.getPersonalParts();
+                    let part;
+                    for (const mid in persoParts) {
+                        part = persoParts[mid];
+                        if (part > 0.0) {
+                            this.$refs['amountdum' + mid][0].value = part * currency.exchange_rate;
+                        }
+                    }
+                }
             }
         },
         cleanStringFromCurrency: function(str) {

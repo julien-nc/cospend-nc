@@ -5,7 +5,8 @@
             <span class="icon-edit-white"></span>
             {{ billFormattedTitle }}
             <a v-for="link in billLinks" :key="link" :href="link" target="blank">[🔗 {{ t('cospend', 'link') }}]</a>
-            <button id="owerValidate" v-if="isNewBill" :title="t('cospend', 'Press Shift+Enter to validate')"
+            <button id="owerValidate" v-if="isNewBill" @click="onCreateClick"
+                :title="t('cospend', 'Press Shift+Enter to validate')"
                 style="display: inline-block;">
                 <span class="icon-confirm"></span>
                 <span id="owerValidateText">{{ createBillButtonText }}</span>
@@ -139,12 +140,18 @@
                         <option value="perso">{{ t('cospend', 'Even split with optional personal parts') }}</option>
                         <option value="custom">{{ t('cospend', 'Custom owed amount per member') }}</option>
                     </select>
-                    <button id="modehintbutton">
+                    <button id="modehintbutton" @click="onHintClick">
                         <span class="icon-details"></span>
                     </button>
-                    <div class="modehint modenormal">{{ t('cospend', 'Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost.') }}</div>
-                    <div class="modehint modeperso">{{ t('cospend', 'Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don\'t want to collectively pay.') }}</div>
-                    <div class="modehint modecustom">{{ t('cospend', 'Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press "Create the bills". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate.') }}</div>
+                    <div class="modehint modenormal" v-if="newBillMode === 'normal' && showHint">
+                        {{ t('cospend', 'Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost.') }}
+                    </div>
+                    <div class="modehint modeperso" v-else-if="newBillMode === 'perso' && showHint">
+                        {{ t('cospend', 'Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don\'t want to collectively pay.') }}
+                    </div>
+                    <div class="modehint modecustom" v-else-if="newBillMode === 'custom' && showHint">
+                        {{ t('cospend', 'Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press "Create the bills". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate.') }}
+                    </div>
                 </div>
                 <div class="bill-owers">
                     <label class="bill-owers-label">
@@ -228,7 +235,8 @@ export default {
             currentUser: getCurrentUser(),
             newBillMode: 'normal',
             billLoading: false,
-            progAmountChange: false
+            progAmountChange: false,
+            showHint: false
         };
     },
 
@@ -425,7 +433,7 @@ export default {
                 that.saveBill();
             }, 2000)();
         },
-        isBillValidForSave: function() {
+        isBillValidForSaveOrNormal: function() {
             return this.basicBillValueCheck() && this.bill.owerIds.length > 0;
         },
         basicBillValueCheck: function() {
@@ -449,7 +457,7 @@ export default {
         },
         saveBill: function() {
             const that = this;
-            if (!this.isBillValidForSave()) {
+            if (!this.isBillValidForSaveOrNormal()) {
 				Notification.showTemporary(t('cospend', 'Impossible to save bill, invalid values'));
             } else {
                 this.billLoading = true;
@@ -522,6 +530,101 @@ export default {
         },
         onAmountChanged: function() {
             this.bill.what = this.cleanStringFromCurrency(this.bill.what);
+        },
+        onHintClick: function() {
+            this.showHint = !this.showHint;
+        },
+        onCreateClick: function() {
+            if (this.newBillMode === 'normal') {
+                this.createNormalBill();
+            }
+        },
+        createNormalBill: function() {
+            if (this.isBillValidForSaveOrNormal()) {
+                this.createBill();
+            } else {
+                Notification.showTemporary(t('cospend', 'Bill values are not valid'));
+            }
+        },
+        createBill: function(what=null, amount=null, payer_id=null, timestamp=null, owerIds=null, repeat=null,
+                            paymentmode=null, categoryid=null, repeatallactive=null,
+                            repeatuntil=null, comment=null) {
+            const bill = this.bill;
+            const that = this;
+            if (this.newBillMode === 'normal') {
+                what = bill.what;
+                amount = bill.amount;
+                payer_id = bill.payer_id;
+                timestamp = bill.timestamp;
+                owerIds = bill.owerIds,
+                repeat = bill.repeat;
+                paymentmode = bill.paymentmode;
+                categoryid = bill.categoryid;
+                repeatallactive = bill.repeatallactive ? 1 : 0;
+                repeatuntil = bill.repeatuntil;
+                comment = bill.comment;
+            }
+
+            const req = {
+                what: what,
+                comment: comment,
+                timestamp: timestamp,
+                payer: payer_id,
+                payed_for: owerIds.join(','),
+                amount: amount,
+                repeat: repeat,
+                repeatallactive: repeatallactive,
+                repeatuntil: repeatuntil,
+                paymentmode: paymentmode,
+                categoryid: categoryid
+            };
+            this.billLoading = true;
+            let url;
+            if (!cospend.pageIsPublic) {
+                url = generateUrl('/apps/cospend/projects/' + this.projectId + '/bills');
+            } else {
+                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills');
+            }
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: req,
+                async: true,
+            }).done(function(response) {
+                const billid = response;
+                // update dict
+                // TODO use $set
+                //that.$set(cospend.bills[this.projectId], billid, {
+                cospend.bills[that.projectId][billid] = {
+                    id: billid,
+                    what: what,
+                    comment: comment,
+                    timestamp: timestamp,
+                    amount: amount,
+                    payer_id: payer_id,
+                    owerIds: owerIds,
+                    repeat: repeat,
+                    repeatallactive: repeatallactive,
+                    repeatuntil: repeatuntil,
+                    paymentmode: paymentmode,
+                    categoryid: categoryid
+                };
+
+                if (this.newBillMode === 'normal') {
+                    bill.id = billid;
+                } else {
+                    // if multiple bills were created, just don't change anything
+                }
+                that.$emit('billCreated', billid);
+                Notification.showTemporary(t('cospend', 'Bill created'));
+            }).always(function() {
+                that.billLoading = false;
+            }).fail(function(response) {
+                Notification.showTemporary(
+                    t('cospend', 'Failed to create bill') +
+                    ': ' + (response.responseJSON.message || response.responseText)
+                );
+            });
         }
     }
 }

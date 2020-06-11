@@ -164,7 +164,10 @@
                                 :disabled="!members[ower.id].activated"
                                 v-model="bill.owerIds" :value="ower.id" number/>
                             <label :for="'dum' + ower.id" class="checkboxlabel">{{ ower.name }}</label>
-                            <label class="spentlabel"></label>
+                            <label class="spentlabel"
+                                v-if="bill.owerIds.includes(ower.id)">
+                                ({{ owerAmount[ower.id] }})
+                            </label>
                         </div>
                     </div>
                     <div v-else-if="newBillMode === 'perso'">
@@ -264,6 +267,27 @@ export default {
 
                 this.bill.owerIds = selected;
             }
+        },
+        owerAmount: function() {
+            const result = {};
+            const that = this;
+            const amount = parseFloat(this.bill.amount);
+            const nbOwers = this.bill.owerIds.length;
+            let weightSum = 0;
+            let oneWeight, owerVal;
+            if (nbOwers > 0 &&
+                !isNaN(amount) &&
+                amount !== 0.0) {
+                this.bill.owerIds.forEach(function(mid) {
+                    weightSum += that.members[mid].weight;
+                });
+                oneWeight = amount / weightSum;
+                this.bill.owerIds.forEach(function(mid) {
+                    owerVal = oneWeight * that.members[mid].weight;
+                    result[mid] = owerVal.toFixed(2);
+                });
+            }
+            return result;
         },
         isNewBill: function() {
             return (this.bill.id === 0);
@@ -448,7 +472,8 @@ export default {
                     async: true,
                 }).done(function() {
                     //updateProjectBalances(projectid);
-                    //updateBillCounters();
+                    // to update balances
+                    that.$emit('billSaved', that.bill);
                     Notification.showTemporary(t('cospend', 'Bill saved'));
                 }).always(function() {
                     that.billLoading = false;

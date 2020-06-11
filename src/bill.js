@@ -193,44 +193,15 @@ export function billEvents() {
         }
     });
 
-    $('body').on('click', '#addFileLinkButton', function() {
-        OC.dialogs.filepicker(
-            t('cospend', 'Choose file'),
-            function(targetPath) {
-                generatePublicLinkToFile(targetPath, onBillEdited);
-            },
-            false, null, true
-        );
-    });
-
-    $('body').on('click', '#modehintbutton', function() {
-        const billtype = $('#billtype').val();
-        if (billtype === 'normal') {
-            if ($('.modenormal').is(':visible')) {
-                $('.modenormal').slideUp();
-            } else {
-                $('.modenormal').slideDown();
-            }
-            $('.modecustom').slideUp();
-            $('.modeperso').slideUp();
-        } else if (billtype === 'perso') {
-            if ($('.modeperso').is(':visible')) {
-                $('.modeperso').slideUp();
-            } else {
-                $('.modeperso').slideDown();
-            }
-            $('.modecustom').slideUp();
-            $('.modenormal').slideUp();
-        } else if (billtype === 'custom') {
-            if ($('.modecustom').is(':visible')) {
-                $('.modecustom').slideUp();
-            } else {
-                $('.modecustom').slideDown();
-            }
-            $('.modenormal').slideUp();
-            $('.modeperso').slideUp();
-        }
-    });
+    //$('body').on('click', '#addFileLinkButton', function() {
+    //    OC.dialogs.filepicker(
+    //        t('cospend', 'Choose file'),
+    //        function(targetPath) {
+    //            generatePublicLinkToFile(targetPath, onBillEdited);
+    //        },
+    //        false, null, true
+    //    );
+    //});
 
     $('body').on('change', '#billtype', function() {
         return;
@@ -305,6 +276,7 @@ export function billEvents() {
     });
 
     $('body').on('click', '#owerValidate', function() {
+        return;
         const billtype = $('#billtype').val();
         if (billtype === 'custom') {
             updateCustomAmount();
@@ -407,76 +379,6 @@ export function createBill(projectid, what, amount, payer_id, timestamp, owerIds
         Notification.showTemporary(
             t('cospend', 'Failed to create bill') +
             ': ' + (response.responseJSON.message || response.responseText)
-        );
-    });
-}
-
-export function saveBill(projectid, billid, what, amount, payer_id, timestamp, owerIds, repeat,
-                          paymentmode=null, categoryid=null, repeatallactive=null, repeatuntil=null,
-                          comment=null) {
-    $('.loading-bill').addClass('icon-loading-small');
-    const req = {
-        what: what,
-        comment: comment,
-        timestamp: timestamp,
-        payer: payer_id,
-        payed_for: owerIds.join(','),
-        amount: amount,
-        repeat: repeat,
-        repeatallactive: repeatallactive,
-        repeatuntil: repeatuntil,
-        paymentmode: paymentmode,
-        categoryid: categoryid
-    };
-    let url;
-    if (!cospend.pageIsPublic) {
-        url = generateUrl('/apps/cospend/projects/' + projectid +'/bills/' + billid);
-    } else {
-        url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills/' + billid);
-    }
-    $.ajax({
-        type: 'PUT',
-        url: url,
-        data: req,
-        async: true,
-    }).done(function() {
-        // update dict
-        cospend.bills[projectid][billid].what = what;
-        cospend.bills[projectid][billid].comment = comment;
-        cospend.bills[projectid][billid].timestamp = timestamp;
-        cospend.bills[projectid][billid].amount = amount;
-        cospend.bills[projectid][billid].payer_id = payer_id;
-        cospend.bills[projectid][billid].repeat = repeat;
-        cospend.bills[projectid][billid].repeatallactive = repeatallactive;
-        cospend.bills[projectid][billid].repeatuntil = repeatuntil;
-        cospend.bills[projectid][billid].paymentmode = paymentmode;
-        cospend.bills[projectid][billid].categoryid = categoryid;
-        const billOwers = [];
-        for (let i = 0; i < owerIds.length; i++) {
-            billOwers.push({id: owerIds[i]});
-        }
-        cospend.bills[projectid][billid].owers = billOwers;
-
-        // update ui
-        const bill = cospend.bills[projectid][billid];
-        updateBillItem(projectid, billid, bill);
-        const displayedBillTitle = $('#billdetail .bill-title');
-        if (parseInt(displayedBillTitle.attr('billid')) === parseInt(billid) &&
-            displayedBillTitle.attr('projectid') === projectid) {
-            updateDisplayedBill(projectid, billid, what, payer_id, repeat,
-                paymentmode, categoryid, repeatallactive, repeatuntil, comment);
-        }
-
-        updateProjectBalances(projectid);
-        updateBillCounters();
-
-        Notification.showTemporary(t('cospend', 'Bill saved'));
-    }).always(function() {
-        $('.loading-bill').removeClass('icon-loading-small');
-    }).fail(function(response) {
-        Notification.showTemporary(
-            t('cospend', 'Failed to save bill') +
-            ' ' + (response.responseJSON.message || response.responseJSON)
         );
     });
 }
@@ -1532,6 +1434,7 @@ export function createCustomAmountBill() {
 }
 
 function updateAmountEach(projectid) {
+    return;
     const amount = $('#amount').val();
     const nbChecked = $('.owerEntry .checkbox:checked').length;
     let weightSum = 0;

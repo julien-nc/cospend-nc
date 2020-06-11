@@ -30,6 +30,7 @@
                         <a class="icon icon-cospend"></a>{{ t('cospend', 'How much?') }}
                     </label>
                     <input type="number" id="amount" class="input-bill-amount" step="any"
+                        :disabled="isNewBill && newBillMode === 'custom'"
                         v-model="bill.amount"/>
                 </div>
                 <div class="bill-currency-convert" v-if="project.currencyname && project.currencies.length > 0">
@@ -200,6 +201,7 @@
                             <label :for="'amountdum' + ower.id" class="numberlabel">{{ ower.name }}</label>
                             <input :id="'amountdum' + ower.id"
                                 :ref="'amountdum' + ower.id"
+                                @change="onCustomAmountChange"
                                 class="amountinput" type="number" value="" step="0.01" min="0"/>
                         </div>
                     </div>
@@ -523,8 +525,18 @@ export default {
                     let part;
                     for (const mid in persoParts) {
                         part = persoParts[mid];
-                        if (part > 0.0) {
+                        if (part !== 0.0) {
                             this.$refs['amountdum' + mid][0].value = part * currency.exchange_rate;
+                        }
+                    }
+                }
+                if (this.isNewBill && this.newBillMode === 'custom') {
+                    const customAmounts = this.getCustomAmounts();
+                    let am;
+                    for (const mid in customAmounts) {
+                        am = customAmounts[mid];
+                        if (am !== 0.0) {
+                            this.$refs['amountdum' + mid][0].value = am * currency.exchange_rate;
                         }
                     }
                 }
@@ -582,7 +594,7 @@ export default {
                 // create bills for perso parts
                 for (const mid in persoParts) {
                     part = persoParts[mid];
-                    if (!isNaN(part) && part > 0.0) {
+                    if (!isNaN(part) && part !== 0.0) {
                         this.createBill(bill.what, part, bill.payer_id, bill.timestamp, [mid], bill.repeat,
                             bill.paymentmode, bill.categoryid, bill.repeatallactive, bill.repeatuntil, bill.comment);
                     }
@@ -591,6 +603,32 @@ export default {
                 // create main bill
                 this.createBill(bill.what, tmpAmount, bill.payer_id, bill.timestamp, bill.owerIds, bill.repeat,
                     bill.paymentmode, bill.categoryid, bill.repeatallactive, bill.repeatuntil, bill.comment);
+            } else {
+                Notification.showTemporary(t('cospend', 'Bill values are not valid'));
+            }
+        },
+        createCustomAmountBill: function() {
+            if (this.basicBillValueCheck()) {
+                const bill = this.bill;
+                // check if custom amounts are valid
+                const customAmounts = this.getCustomAmounts();
+                let total = 0.0;
+                for (const mid in customAmounts) {
+                    total += customAmounts[mid];
+                }
+                if (total === 0.0) {
+                    Notification.showTemporary(t('cospend', 'There is no custom amount'));
+                    return;
+                } else {
+                    let am;
+                    for (const mid in customAmounts) {
+                        am = customAmounts[mid];
+                        if (am !== 0.0) {
+                            this.createBill(bill.what, am, bill.payer_id, bill.timestamp, [mid], bill.repeat,
+                                bill.paymentmode, bill.categoryid, bill.repeatallactive, bill.repeatuntil, bill.comment);
+                        }
+                    }
+                }
             } else {
                 Notification.showTemporary(t('cospend', 'Bill values are not valid'));
             }
@@ -622,7 +660,7 @@ export default {
                 payed_for: owerIds.join(','),
                 amount: amount,
                 repeat: repeat,
-                repeatallactive: repeatallactive,
+                repeatallactive: repeatallactive ? 1 : 0,
                 repeatuntil: repeatuntil,
                 paymentmode: paymentmode,
                 categoryid: categoryid
@@ -682,8 +720,6 @@ export default {
             this.bill.owerIds.forEach(function(mid) {
                 result[mid] = parseFloat(that.$refs['amountdum' + mid][0].value) || 0;
             });
-            console.log('persoparts');
-            console.log(result);
             return result;
         },
         getCustomAmounts: function() {
@@ -693,9 +729,17 @@ export default {
             this.activatedOrOwer.forEach(function(member) {
                 result[member.id] = parseFloat(that.$refs['amountdum' + member.id][0].value) || 0;
             });
-            console.log('custom amounts');
-            console.log(result);
             return result;
+        },
+        onCustomAmountChange: function() {
+            const customAmounts = this.getCustomAmounts();
+            let am;
+            let sum = 0;
+            for (const mid in customAmounts) {
+                am = customAmounts[mid];
+                sum += am;
+            }
+            this.bill.amount = sum;
         },
     }
 }

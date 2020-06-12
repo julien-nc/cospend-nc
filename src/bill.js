@@ -417,7 +417,7 @@ export function displayBill(projectid, billid) {
             comment: ''
         };
         billList.push(cospend.currentBill);
-        // this does not work, it should select the new bill in the list
+        // select new bill in case it was not selected yet
         cospend.selectedBillId = billid;
     } else {
         cospend.currentBill = cospend.bills[projectid][billid];

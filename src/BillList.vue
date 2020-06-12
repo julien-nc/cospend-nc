@@ -8,7 +8,7 @@
             :projectId="projectId"
             :index="nbBills - index"
             :nbbills="nbBills"
-            :selected="bill.id === selectedBillId"
+            :selected="bill.id === cospend.selectedBillId"
             :editionAccess="editionAccess"
             v-on:clicked="onItemClicked"
             v-on:delete="onItemDeleted"/>
@@ -36,8 +36,14 @@ export default {
             bills: cospend.billLists[cospend.currentProjectId],
             editionAccess: (cospend.projects[cospend.currentProjectId].myaccesslevel > constants.ACCESS.VIEWER),
             loading: true,
-            selectedBillId: cospend.selectedBillId
-		};
+            //selectedBillId: -1
+            cospend: cospend
+        };
+    },
+
+    mounted() {
+        // once this is done, it becomes reactive...
+        this.$set(this.cospend, 'selectedBillId', -1);
     },
 
 	computed: {
@@ -51,7 +57,7 @@ export default {
 
     methods: {
         onItemClicked: function(bill) {
-            this.selectedBillId = bill.id;
+            this.cospend.selectedBillId = bill.id;
             displayBill(this.projectId, bill.id);
         },
         onItemDeleted: function(bill) {

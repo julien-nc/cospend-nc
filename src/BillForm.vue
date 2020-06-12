@@ -1,5 +1,5 @@
 <template>
-    <div id="bill-div">
+    <div id="bill-div" v-show="!noBill">
         <h2 class="bill-title" :style="'background-color: #' + myGetMemberColor(bill.payer_id) + ';'">
             <span v-show="billLoading" class="loading-bill icon-loading-small"></span>
             <span class="icon-edit-white"></span>
@@ -220,6 +220,7 @@ import * as constants from './constants';
 import {getMemberName, getSmartMemberName, getMemberAvatar} from './member';
 import {getCategory} from './category';
 import {getBills} from './bill';
+import {updateProjectBalances} from './project';
 import {
     delay,
     generatePublicLinkToFile,
@@ -252,7 +253,7 @@ export default {
         },
         bill: {
             handler(val) {
-                if (!this.isNewBill) {
+                if (!this.isNewBill && !this.noBill) {
                     this.onBillChanged();
                 }
             },
@@ -310,6 +311,9 @@ export default {
         },
         isNewBill: function() {
             return (this.bill.id === 0);
+        },
+        noBill: function() {
+            return (this.bill.id === -1);
         },
         project: function() {
             return cospend.projects[this.projectId];
@@ -489,7 +493,7 @@ export default {
                     data: req,
                     async: true,
                 }).done(function() {
-                    //updateProjectBalances(projectid);
+                    updateProjectBalances(that.projectId);
                     // to update balances
                     that.$emit('billSaved', that.bill);
                     Notification.showTemporary(t('cospend', 'Bill saved'));
@@ -703,7 +707,11 @@ export default {
                 } else {
                     // if multiple bills were created, just don't change anything but reload bill list
                     getBills(that.projectId);
+                    console.log('ccc raz');
+                    //that.$set(cospend, 'currentBill', null);
+                    that.bill.id = -1;
                 }
+                updateProjectBalances(that.projectId);
                 that.$emit('billCreated', billid);
                 Notification.showTemporary(t('cospend', 'Bill created'));
             }).always(function() {

@@ -146,12 +146,16 @@ export default {
 				this.timer.pause();
 				delete this.timer;
 			} else {
-				this.timerOn = true;
-				const that = this;
-				this.timer = new Timer(function () {
-					that.timerOn = false;
-					that.$emit('delete', that.bill);
-				}, 3000);
+                if (this.bill.id === 0) {
+                    this.$emit('delete', this.bill);
+                } else {
+                    this.timerOn = true;
+                    const that = this;
+                    this.timer = new Timer(function () {
+                        that.timerOn = false;
+                        that.$emit('delete', that.bill);
+                    }, 3000);
+                }
 			}
 		},
     }

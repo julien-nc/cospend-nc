@@ -3,6 +3,7 @@
 import Vue from 'vue';
 import './bootstrap';
 import BillForm from './BillForm';
+import BillList from './BillList';
 import * as Notification from './notification';
 import {generateUrl} from '@nextcloud/router';
 import {getCurrentUser} from '@nextcloud/auth';
@@ -49,44 +50,12 @@ export function billEvents() {
     });
 
     $('body').on('click', '.billitem', function(e) {
+        return;
         if (!$(e.target).hasClass('deleteBillIcon') && !$(e.target).hasClass('undoDeleteBill')) {
             const billid = parseInt($(this).attr('billid'));
             const projectid = $(this).attr('projectid');
             displayBill(projectid, billid);
             updateBillCounters();
-        }
-    });
-
-    $('body').on('click', '.undoDeleteBill', function() {
-        const billid = $(this).parent().attr('billid');
-        cospend.billDeletionTimer[billid].pause();
-        delete cospend.billDeletionTimer[billid];
-        $(this).parent().find('.deleteBillIcon').show();
-        $(this).parent().removeClass('deleted');
-        $(this).hide();
-    });
-
-    $('body').on('click', '.deleteBillIcon', function() {
-        const billid = $(this).parent().attr('billid');
-        if (billid !== '0') {
-            const projectid = $(this).parent().attr('projectid');
-            $(this).parent().find('.undoDeleteBill').show();
-            $(this).parent().addClass('deleted');
-            $(this).hide();
-            cospend.billDeletionTimer[billid] = new Timer(function () {
-                deleteBill(projectid, billid);
-            }, 7000);
-        } else {
-            if ($('.bill-title').length > 0 && $('.bill-title').attr('billid') === billid) {
-                $('#billdetail').html('');
-            }
-            $(this).parent().fadeOut('normal', function() {
-                $(this).remove();
-                if ($('.billitem').length === 0) {
-                    $('#bill-list').html('').append($('<h2/>', {class: 'nobill'}).text(t('cospend', 'No bill yet')));
-                }
-                updateBillCounters();
-            });
         }
     });
 
@@ -100,16 +69,6 @@ export function billEvents() {
         }
         if (activatedMembers.length > 1) {
             if (cospend.currentProjectId !== null && $('.billitem[billid=0]').length === 0) {
-                const bill = {
-                    id: 0,
-                    what: '',
-                    timestamp: moment().unix(),
-                    amount: 0.0,
-                    payer_id: 0,
-                    repeat: 'n',
-                    owers: []
-                };
-                addBill(projectid, bill);
             }
             ///////////////
             displayBill(projectid, 0);
@@ -296,7 +255,7 @@ function generateBillItem(projectid, bill, selected=false) {
     return item;
 }
 
-function getSmartOwerNames(projectid, bill) {
+export function getSmartOwerNames(projectid, bill) {
     const owerIds = [];
     for (let i = 0; i < bill.owers.length; i++) {
         owerIds.push(bill.owers[i].id);
@@ -397,16 +356,22 @@ export function getBills(projectid) {
     }).done(function(response) {
         $('#bill-list').html('');
         cospend.bills[projectid] = {};
-        if (response.length > 0) {
+        cospend.billLists[projectid] = response;
+        //if (response.length > 0) {
             let bill;
             for (let i = 0; i < response.length; i++) {
                 bill = response[i];
-                addBill(projectid, bill);
+                cospend.bills[projectid][bill.id] = bill;
+                //addBill(projectid, bill);
             }
-            updateBillCounters();
-        } else {
-            $('#bill-list').html('').append($('<h2/>', {class: 'nobill'}).text(t('cospend', 'No bill yet')));
-        }
+            //updateBillCounters();
+        //} else {
+        //    $('#bill-list').html('').append($('<h2/>', {class: 'nobill'}).text(t('cospend', 'No bill yet')));
+        //}
+        new Vue({
+            el: "#bill-list",
+            render: h => h(BillList),
+        });
     }).always(function() {
     }).fail(function() {
         Notification.showTemporary(t('cospend', 'Failed to get bills'));
@@ -430,6 +395,14 @@ export function updateBillCounters() {
 
 export function displayBill(projectid, billid) {
     if (billid === 0) {
+        const billList = cospend.billLists[projectid];
+        // remove potentially existing new bill
+        for (let i = 0; i < billList.length; i++) {
+            if (billList[i].id === 0) {
+                billList.splice(i, 1);
+                break;
+            }
+        }
         cospend.currentBill = {
             id: 0,
             what: '',
@@ -443,6 +416,9 @@ export function displayBill(projectid, billid) {
             categoryid: 0,
             comment: ''
         };
+        billList.push(cospend.currentBill);
+        // this does not work, it should select the new bill in the list
+        cospend.selectedBillId = billid;
     } else {
         cospend.currentBill = cospend.bills[projectid][billid];
     }

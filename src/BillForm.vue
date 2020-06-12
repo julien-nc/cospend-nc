@@ -219,6 +219,7 @@ import * as Notification from './notification';
 import * as constants from './constants';
 import {getMemberName, getSmartMemberName, getMemberAvatar} from './member';
 import {getCategory} from './category';
+import {getBills} from './bill';
 import {
     delay,
     generatePublicLinkToFile,
@@ -317,7 +318,6 @@ export default {
             return this.bill.what.match(/https?:\/\/[^\s]+/gi) || [];
         },
         billFormattedTitle: function() {
-            // TODO
             let paymentmodeChar = '';
             let categoryChar = '';
             if (parseInt(this.bill.categoryid) !== 0) {
@@ -697,10 +697,12 @@ export default {
                     categoryid: categoryid
                 };
 
-                if (this.newBillMode === 'normal') {
-                    bill.id = billid;
+                if (that.newBillMode === 'normal') {
+                    // just set the id to make current bill not new anymore
+                    that.bill.id = billid;
                 } else {
-                    // if multiple bills were created, just don't change anything
+                    // if multiple bills were created, just don't change anything but reload bill list
+                    getBills(that.projectId);
                 }
                 that.$emit('billCreated', billid);
                 Notification.showTemporary(t('cospend', 'Bill created'));

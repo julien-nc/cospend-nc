@@ -448,6 +448,7 @@ export function getProjects() {
             $('.projectitem').remove();
             $('#bill-list').html('');
             cospend.bills = {};
+            cospend.billLists = {};
             cospend.members = {};
             cospend.projects = {};
             for (let i = 0; i < response.length; i++) {

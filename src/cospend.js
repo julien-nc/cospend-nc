@@ -11,6 +11,9 @@
  * @copyright Julien Veyssier 2019
  */
 
+import Vue from 'vue';
+import './bootstrap';
+import App from './App';
 import * as Notification from './notification';
 import * as Chart from 'chart.js/dist/Chart';
 import 'chart.js/dist/Chart.css';
@@ -121,7 +124,7 @@ import cospend from './state';
             if (optionsValues) {
                 for (const k in optionsValues) {
                     if (k === 'selectedProject') {
-                        cospend.restoredSelectedProjectId = optionsValues[k];
+                        cospend.restoredCurrentProjectId = optionsValues[k];
                     } else if (k === 'outputDirectory') {
                         $('#outputDirectory').text(optionsValues[k]);
                     }
@@ -147,7 +150,7 @@ import cospend from './state';
             $('#importSWProjectButton').hide();
             cospend.projectid = $('#projectid').text();
             cospend.password = $('#password').text();
-            cospend.restoredSelectedProjectId = cospend.projectid;
+            cospend.restoredCurrentProjectId = cospend.projectid;
             $('#projectid').html('');
             $('#password').html('');
             main();
@@ -155,6 +158,13 @@ import cospend from './state';
     });
 
     function main() {
+        new Vue({
+            el: "#content",
+            render: h => h(App),
+        });
+    }
+
+    function mainOld() {
         // get key events
         document.onkeydown = checkKey;
 

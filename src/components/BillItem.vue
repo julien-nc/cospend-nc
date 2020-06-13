@@ -62,7 +62,7 @@ export default {
             if (parseInt(this.bill.categoryid) !== 0) {
                 categoryChar = getCategory(this.projectId, this.bill.categoryid).icon + ' ';
             }
-            if (this.bill.paymentmode !== 'n') {
+            if (this.bill.paymentmode && this.bill.paymentmode !== 'n') {
                 paymentmodeChar = cospend.paymentModes[this.bill.paymentmode].icon + ' ';
             }
             return paymentmodeChar + categoryChar + this.bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars;

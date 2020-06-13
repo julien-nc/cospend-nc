@@ -3,7 +3,9 @@
 import * as constants from './constants';
 
 const cospend = {
-    restoredSelectedProjectId: null,
+    restoredCurrentProjectId: null,
+    currentProjectId: null,
+    currentBill: null,
     memberEditionMode: null,
     projectEditionMode: null,
     projectDeletionTimer: {},
@@ -13,6 +15,7 @@ const cospend = {
     categoryDeletionTimer: {},
     // indexed by projectid, then by billid
     bills: {},
+    billLists: {},
     // indexed by projectid, then by memberid
     members: {},
     projects: {},

@@ -1,6 +1,6 @@
 <template>
     <div id="bill-list" class="app-content-list">
-        <h2 class="icon-loading-small" v-show="false"></h2>
+        <h2 class="icon-loading-small" v-show="loading"></h2>
         <BillItem
             v-for="(bill, index) in reverseBills"
             :key="bill.id"
@@ -30,15 +30,16 @@ export default {
         BillItem
     },
 
-    //TODO props: ['projectId'],
+    //TODO
+    props: ['projectId', 'bills', 'editionAccess', 'loading'],
 	data: function() {
 		return {
             // TODEL
-            projectId: cospend.currentProjectId,
-            editionAccess: (cospend.projects[cospend.currentProjectId].myaccesslevel > constants.ACCESS.VIEWER),
-            loading: true,
+            //projectId: cospend.currentProjectId,
+            //editionAccess: (cospend.projects[cospend.currentProjectId].myaccesslevel > constants.ACCESS.VIEWER),
             //selectedBillId: -1
-            cospend: cospend
+            cospend: cospend,
+            //billLists: cospend.billLists
         };
     },
 
@@ -48,9 +49,6 @@ export default {
     },
 
 	computed: {
-        bills: function() {
-            return cospend.billLists[this.projectId];
-        },
         nbBills: function() {
             return this.bills.length;
         },
@@ -61,8 +59,9 @@ export default {
 
     methods: {
         onItemClicked: function(bill) {
-            this.cospend.selectedBillId = bill.id;
-            displayBill(this.projectId, bill.id);
+            //this.cospend.selectedBillId = bill.id;
+            //displayBill(this.projectId, bill.id);
+            this.$emit('itemClicked', bill.id);
         },
         onItemDeleted: function(bill) {
             if (bill.id === 0) {

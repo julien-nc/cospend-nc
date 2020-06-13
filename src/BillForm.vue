@@ -1,5 +1,6 @@
 <template>
-    <div id="bill-div" v-show="!noBill">
+    <div id="billdetail" class="app-content-details">
+        <div class="bill-form">
         <h2 class="bill-title" :style="'background-color: #' + myGetMemberColor(bill.payer_id) + ';'">
             <span v-show="billLoading" class="loading-bill icon-loading-small"></span>
             <span class="icon-edit-white"></span>
@@ -12,7 +13,6 @@
                 <span id="owerValidateText">{{ createBillButtonText }}</span>
             </button>
         </h2>
-        <div class="bill-form">
             <div class="bill-left">
                 <div class="bill-what">
                     <label for="what">
@@ -232,10 +232,11 @@ export default {
     components: {
     },
 
+    props: ['bill'],
     data: function() {
         return {
             projectId: cospend.currentProjectId,
-            bill: cospend.currentBill,
+            //bill: cospend.currentBill,
             currentUser: getCurrentUser(),
             newBillMode: 'normal',
             billLoading: false,
@@ -313,7 +314,9 @@ export default {
             return (this.bill.id === 0);
         },
         noBill: function() {
-            return (this.bill.id === -1);
+            const aa = (this.bill && this.bill.id === -1);
+            console.log('AAA '+aa);
+            return (this.bill && this.bill.id === -1);
         },
         project: function() {
             return cospend.projects[this.projectId];

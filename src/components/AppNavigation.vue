@@ -4,7 +4,11 @@
 			<ul>
 				<AppNavigationItem
                     :title="t('cospend', 'New project')"
-		            icon="icon-add"
+                    icon="icon-add"
+                    />
+                <AppNavigationItem
+                    :title="t('cospend', 'New bill')"
+                    icon="icon-edit"
                     />
                 <AppNavigationItem
                     v-for="(project, id) in projects"

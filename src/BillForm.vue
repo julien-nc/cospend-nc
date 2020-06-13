@@ -1,10 +1,9 @@
 <template>
     <div id="billdetail" class="app-content-details">
-        <div class="bill-form">
         <h2 class="bill-title" :style="'background-color: #' + myGetMemberColor(bill.payer_id) + ';'">
             <span v-show="billLoading" class="loading-bill icon-loading-small"></span>
             <span class="icon-edit-white"></span>
-            {{ billFormattedTitle }}
+            <span>{{ billFormattedTitle }}</span>
             <a v-for="link in billLinks" :key="link" :href="link" target="blank">[🔗 {{ t('cospend', 'link') }}]</a>
             <button id="owerValidate" v-if="isNewBill" @click="onCreateClick"
                 :title="t('cospend', 'Press Shift+Enter to validate')"
@@ -13,6 +12,7 @@
                 <span id="owerValidateText">{{ createBillButtonText }}</span>
             </button>
         </h2>
+        <div class="bill-form">
             <div class="bill-left">
                 <div class="bill-what">
                     <label for="what">
@@ -20,6 +20,7 @@
                     </label>
                     <input type="text" id="what" maxlength="300" class="input-bill-what"
                         v-model="bill.what"
+                        @input="onBillEdited"
                         :placeholder="t('cospend', 'What is the bill about?')"/>
                 </div>
                 <button id="addFileLinkButton">
@@ -31,6 +32,8 @@
                     </label>
                     <input type="number" id="amount" class="input-bill-amount" step="any"
                         :disabled="isNewBill && newBillMode === 'custom'"
+                        @input="onBillEdited"
+                        ref="amountInput"
                         v-model="bill.amount"/>
                 </div>
                 <div class="bill-currency-convert" v-if="project.currencyname && project.currencies.length > 0">
@@ -48,6 +51,7 @@
                     <label for="payer"><a class="icon icon-user"></a>{{ t('cospend', 'Who payed?') }}</label>
                     <select id="payer" class="input-bill-payer"
                         v-model="bill.payer_id"
+                        @input="onBillEdited"
                         :disabled="!isNewBill && !members[bill.payer_id].activated">
                         <option v-for="member in activatedOrPayer" :key="member.id" :value="member.id"
                             :selected="member.id === bill.payer_id || (isNewBill && currentUser && member.userid === currentUser.uid)">
@@ -57,17 +61,19 @@
                 </div>
                 <div class="bill-date">
                     <label for="date"><a class="icon icon-calendar-dark"></a>{{ t('cospend', 'When?') }}</label>
-                    <input type="date" id="date" class="input-bill-date" :value="billDate" ref="dateInput" @change="onDateChanged"/>
+                    <input type="date" id="date" class="input-bill-date" :value="billDate" ref="dateInput" @input="onDateChanged"/>
                 </div>
                 <div class="bill-time">
                     <label for="time"><a class="icon icon-time"></a>{{ t('cospend', 'What time?') }}</label>
-                    <input type="time" id="time" class="input-bill-time" :value="billTime" ref="timeInput" @change="onTimeChanged"/>
+                    <input type="time" id="time" class="input-bill-time" :value="billTime" ref="timeInput" @input="onTimeChanged"/>
                 </div>
                 <div class="bill-repeat">
                     <label for="repeatbill">
                         <a class="icon icon-play-next"></a>{{ t('cospend', 'Repeat') }}
                     </label>
-                    <select id="repeatbill" v-model="bill.repeat">
+                    <select id="repeatbill"
+                        @input="onBillEdited"
+                        v-model="bill.repeat">
                         <option value="n" selected="selected">{{ t('cospend', 'No') }}</option>
                         <option value="d">{{ t('cospend', 'Daily') }}</option>
                         <option value="w">{{ t('cospend', 'Weekly') }}</option>
@@ -77,7 +83,9 @@
                 </div>
                 <div class="bill-repeat-extra" v-if="bill.repeat !== 'n'">
                     <div class="bill-repeat-include">
-                        <input id="repeatallactive" v-model="bill.repeatallactive" class="checkbox" type="checkbox"/>
+                        <input id="repeatallactive"
+                            @input="onBillEdited"
+                            v-model="bill.repeatallactive" class="checkbox" type="checkbox"/>
                         <label for="repeatallactive" class="checkboxlabel">{{ t('cospend', 'Include all active members on repeat') }}</label>
                         <br>
                     </div>
@@ -85,14 +93,18 @@
                         <label for="repeatuntil">
                             <a class="icon icon-pause"></a>{{ t('cospend', 'Repeat until') }}
                         </label>
-                        <input type="date" id="repeatuntil" v-model="bill.repeatuntil" class="input-bill-repeatuntil">
+                        <input type="date" id="repeatuntil"
+                            @input="onBillEdited"
+                            v-model="bill.repeatuntil" class="input-bill-repeatuntil">
                     </div>
                 </div>
                 <div class="bill-payment-mode">
                     <label for="payment-mode">
                         <a class="icon icon-tag"></a>{{ t('cospend', 'Payment mode') }}
                     </label>
-                    <select id="payment-mode" v-model="bill.paymentmode">
+                    <select id="payment-mode"
+                        @input="onBillEdited"
+                        v-model="bill.paymentmode">
                         <option value="n">{{ t('cospend', 'None') }}</option>
                         <option
                             v-for="(pm, id) in paymentModes"
@@ -106,7 +118,9 @@
                     <label for="category">
                         <a class="icon icon-category-app-bundles"></a>{{ t('cospend', 'Category') }}
                     </label>
-                    <select id="category" v-model="bill.categoryid">
+                    <select id="category"
+                        @input="onBillEdited"
+                        v-model="bill.categoryid">
                         <option value="0">{{ t('cospend', 'All') }}</option>
                         <option
                             v-for="category in categories"
@@ -127,6 +141,7 @@
                         <a class="icon icon-comment"></a>{{ t('cospend', 'Comment') }}
                     </label>
                     <textarea id="comment" maxlength="300" class="input-bill-comment" v-model="bill.comment"
+                        @input="onBillEdited"
                         :placeholder="t('cospend', 'More details about the bill (300 char. max)')">
                     </textarea>
                 </div>
@@ -171,6 +186,7 @@
                             <input :id="'dum' + ower.id" :owerid="ower.id"
                                 class="checkbox" type="checkbox"
                                 :disabled="!members[ower.id].activated"
+                                @input="onBillEdited"
                                 v-model="bill.owerIds" :value="ower.id" number/>
                             <label :for="'dum' + ower.id" class="checkboxlabel">{{ ower.name }}</label>
                             <label class="spentlabel"
@@ -246,20 +262,20 @@ export default {
     },
 
     watch: {
-        'bill.amount': function(val, oldVal) {
-            if (!this.progAmountChange) {
-                this.onAmountChanged();
-            }
-            this.progAmountChange = false;
-        },
-        bill: {
-            handler(val) {
-                if (!this.isNewBill && !this.noBill) {
-                    this.onBillChanged();
-                }
-            },
-            deep: true
-        }
+        //'bill.amount': function(val, oldVal) {
+        //    if (!this.progAmountChange) {
+        //        this.onAmountChanged();
+        //    }
+        //    this.progAmountChange = false;
+        //},
+        //bill: {
+        //    handler(val) {
+        //        if (!this.isNewBill && !this.noBill) {
+        //            this.onBillChanged();
+        //        }
+        //    },
+        //    deep: true
+        //}
     },
 
     computed: {
@@ -314,8 +330,6 @@ export default {
             return (this.bill.id === 0);
         },
         noBill: function() {
-            const aa = (this.bill && this.bill.id === -1);
-            console.log('AAA '+aa);
             return (this.bill && this.bill.id === -1);
         },
         project: function() {
@@ -435,12 +449,18 @@ export default {
             }
             const timestamp = moment(date + ' ' + time).unix();
             this.bill.timestamp = timestamp;
+            this.onBillEdited();
         },
-        onBillChanged: function() {
+        onBillEdited: function(e) {
+            if (e && e.target === this.$refs.amountInput) {
+                this.onAmountChanged();
+            }
             const that = this;
-            delay(function() {
-                that.saveBill();
-            }, 2000)();
+            if (!this.isNewBill && !this.noBill) {
+                delay(function() {
+                    that.saveBill();
+                }, 2000)();
+            }
         },
         isBillValidForSaveOrNormal: function() {
             return this.basicBillValueCheck() && this.bill.owerIds.length > 0;
@@ -547,6 +567,7 @@ export default {
                         }
                     }
                 }
+                this.onBillEdited();
             }
         },
         cleanStringFromCurrency: function(str) {

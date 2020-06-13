@@ -91,9 +91,6 @@ b.memberName, b.memberWeight {
 .member-list-icon {
     padding: 0 12px 0 5px !important;
 }
-.billItemDisabledMask {
-    display: none;
-}
 .billItemDisabledMask.disabled {
     display: block;
     width: 105%;
@@ -101,9 +98,6 @@ b.memberName, b.memberWeight {
     background-image: url(images/forbidden.svg);
     margin: -1px 0 0 -1px;
     position: absolute;
-}
-.billItemRepeatMask {
-    display: none;
 }
 .billItemRepeatMask.show {
     display: block;

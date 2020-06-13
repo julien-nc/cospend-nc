@@ -5,8 +5,8 @@
         :title="itemTitle">
         <div class="app-content-list-item-icon"
             :style="'background-image: url(' + myGetMemberAvatar(bill.payer_id) + ');'">
-            <div class="billItemDisabledMask"></div>
-            <div class="billItemRepeatMask"></div>
+            <div class="billItemDisabledMask disabled" v-if="payerDisabled"></div>
+            <div class="billItemRepeatMask show" v-if="bill.repeat !== 'n'"></div>
         </div>
         <div class="app-content-list-item-line-one">{{ billFormattedTitle }}</div>
         <div class="app-content-list-item-line-two">{{ parseFloat(bill.amount).toFixed(2) }} ({{ smartPayerName }} → {{ smartOwerNames }})</div>
@@ -47,6 +47,9 @@ export default {
         },
 		members: function() {
             return cospend.members[this.projectId];
+        },
+        payerDisabled: function() {
+            return !this.bill.id === 0 && !this.members[this.bill.payer_id].activated;
         },
         billFormattedTitle: function() {
             const links = this.bill.what.match(/https?:\/\/[^\s]+/gi) || [];

@@ -30,10 +30,11 @@ export default {
         BillItem
     },
 
+    //TODO props: ['projectId'],
 	data: function() {
 		return {
+            // TODEL
             projectId: cospend.currentProjectId,
-            bills: cospend.billLists[cospend.currentProjectId],
             editionAccess: (cospend.projects[cospend.currentProjectId].myaccesslevel > constants.ACCESS.VIEWER),
             loading: true,
             //selectedBillId: -1
@@ -47,6 +48,9 @@ export default {
     },
 
 	computed: {
+        bills: function() {
+            return cospend.billLists[this.projectId];
+        },
         nbBills: function() {
             return this.bills.length;
         },

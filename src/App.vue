@@ -2,6 +2,7 @@
 	<div id="content" :class="{ 'nav-hidden': false, 'sidebar-hidden': false }">
 		<AppNavigation
             :projects="projects"
+            :selectedProjectId="currentProjectId"
             @projectClicked="onProjectClicked"
             @newBillClicked="onNewBillClicked"
             @qrcodeClicked="onQrcodeClicked"
@@ -22,6 +23,7 @@
                     v-if="currentBill !== null && mode === 'edition'"
                     :bill="currentBill"
                     @billCreated="onBillCreated"
+                    @billSaved="onBillSaved"
                 />
                 <MoneyBusterLink
                     v-if="mode === 'qrcode'"
@@ -134,6 +136,10 @@ export default {
             if (select) {
                 this.currentBill = bill;
             }
+            this.updateBalances(cospend.currentProjectId);
+        },
+        onBillSaved: function(bill) {
+            this.updateBalances(cospend.currentProjectId);
         },
         onBillDeleted: function(bill) {
             const billList = this.billLists[cospend.currentProjectId];
@@ -141,6 +147,7 @@ export default {
             if (bill.id === this.selectedBillId) {
                 this.currentBill = null;
             }
+            this.updateBalances(cospend.currentProjectId);
         },
         onProjectClicked: function(projectid) {
             this.selectProject(projectid);
@@ -157,9 +164,11 @@ export default {
             }
             this.mode = 'stats';
         },
-        selectProject: function(projectid) {
+        selectProject: function(projectid, save=true) {
             this.getBills(projectid);
-            saveOptionValue({selectedProject: projectid});
+            if (save) {
+                saveOptionValue({selectedProject: projectid});
+            }
             this.currentBill = null;
             cospend.currentProjectId = projectid;
         },
@@ -243,9 +252,12 @@ export default {
                         cospend.members[proj.id] = {};
                         that.$set(that.members, proj.id, cospend.members[proj.id]);
                         for (let i = 0; i < proj.members.length; i++) {
-                            proj.members[i].color = rgbObjToHex(proj.members[i].color).replace('#', '');
                             cospend.members[proj.id][proj.members[i].id] = proj.members[i];
                             that.$set(that.members[proj.id], proj.members[i].id, proj.members[i]);
+                            //proj.members[i].balance = proj.balance[proj.members[i].id];
+                            that.$set(that.members[proj.id][proj.members[i].id], 'balance', proj.balance[proj.members[i].id]);
+                            //proj.members[i].color = rgbObjToHex(proj.members[i].color).replace('#', '');
+                            that.$set(that.members[proj.id][proj.members[i].id], 'color', rgbObjToHex(proj.members[i].color).replace('#', ''));
                         }
 
                         cospend.bills[proj.id] = {};
@@ -255,11 +267,8 @@ export default {
                         that.$set(that.billLists, proj.id, cospend.billLists[proj.id]);
                         //that.$set(cospend.projects, proj.id, proj);
                     }
-                    console.log('zzz')
-                    console.log(cospend.restoredCurrentProjectId)
                     if (cospend.restoredCurrentProjectId !== null) {
-                        cospend.currentProjectId = cospend.restoredCurrentProjectId;
-                        that.getBills(cospend.currentProjectId);
+                        that.selectProject(cospend.restoredCurrentProjectId, false);
                     }
                 } else {
                     if (!response.myaccesslevel) {
@@ -306,6 +315,34 @@ export default {
             }).fail(function() {
                 Notification.showTemporary(t('cospend', 'Failed to get bills'));
             });
+        },
+        updateBalances: function(projectid) {
+            const that = this;
+            const req = {};
+            let url;
+            if (!cospend.pageIsPublic) {
+                url = generateUrl('/apps/cospend/projects/' + projectid);
+            } else {
+                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password);
+            }
+            cospend.currentGetProjectsAjax = $.ajax({
+                type: 'GET',
+                url: url,
+                data: req,
+                async: true,
+            }).done(function(response) {
+                let balance;
+                for (const memberid in response.balance) {
+                    balance = response.balance[memberid];
+                    //that.members[projectid][memberid].balance = balance;
+                    console.log('update '+that.members[projectid][memberid].name+' to '+balance)
+                    that.$set(that.members[projectid][memberid], 'balance', balance);
+                }
+            }).always(function() {
+            }).fail(function() {
+                Notification.showTemporary(t('cospend', 'Failed to update balances'));
+            });
+
         },
     }
 }

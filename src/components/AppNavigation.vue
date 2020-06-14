@@ -17,7 +17,7 @@
                     :title="project.name"
                     icon="icon-folder"
                     :allow-collapse="true"
-                    :open="true"
+                    :open="id === selectedProjectId"
                     @click="onProjectClick(id)"
                     :forceMenu="true"
                     >
@@ -33,12 +33,12 @@
 						</ActionButton>
 					</template>
                     <template>
-						<AppNavigationItem title="AppNavigationItemChild1">
-							<AppNavigationIconBullet slot="icon" color="0082c9" />
-						</AppNavigationItem>
-						<AppNavigationItem title="AppNavigationItemChild2" icon="icon-category-enabled" />
-						<AppNavigationItem title="AppNavigationItemChild3" icon="icon-category-enabled" />
-						<AppNavigationItem title="AppNavigationItemChild4" icon="icon-category-enabled" />
+						<AppNavigationMemberItem
+                            v-for="member in project.members"
+                            :key="member.id"
+                            :member="member"
+                            :projectId="project.id"
+                            />
 					</template>
                 </AppNavigationItem>
 			</ul>
@@ -63,22 +63,30 @@
 
 <script>
 import ClickOutside from 'vue-click-outside'
-import { ActionButton, AppNavigation as AppNavigationVue, AppNavigationIconBullet, AppNavigationSettings, AppNavigationItem } from '@nextcloud/vue'
+import AppNavigationMemberItem from './AppNavigationMemberItem';
+import {
+    ActionButton, AppNavigation as AppNavigationVue, AppNavigationIconBullet,
+    AppNavigationSettings, AppNavigationItem, ActionInput
+} from '@nextcloud/vue'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import cospend from '../state';
+import {getMemberName, getSmartMemberName, getMemberAvatar} from '../member';
+
 export default {
 	name: 'AppNavigation',
 	components: {
+		AppNavigationMemberItem,
 		AppNavigationVue,
 		AppNavigationItem,
         AppNavigationSettings,
         AppNavigationIconBullet,
-        ActionButton
+        ActionButton,
+        ActionInput
 	},
 	directives: {
 		ClickOutside,
 	},
-	props: ['projects'],
+	props: ['projects', 'selectedProjectId'],
 	data() {
 		return {
             opened: false,
@@ -112,11 +120,11 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-	#app-settings-content {
-		p {
-			margin-top: 20px;
-			margin-bottom: 20px;
-			color: var(--color-text-light);
-		}
-	}
+#app-settings-content {
+    p {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        color: var(--color-text-light);
+    }
+}
 </style>

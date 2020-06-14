@@ -70,9 +70,6 @@ b.memberName, b.memberWeight {
     margin: 10px 6px 10px 0px;
     cursor: pointer;
 }
-.memberAvatar .disabledMask {
-    display: none;
-}
 .memberAvatarDisabled .disabledMask {
     display: block;
 }
@@ -82,7 +79,7 @@ b.memberName, b.memberWeight {
     background-image: url(images/forbidden.svg);
     position: absolute;
     top: 9px;
-    left: 43px;
+    left: 38px;
 }
 .memberAvatar {
     width: 26px;

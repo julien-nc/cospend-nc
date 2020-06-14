@@ -154,7 +154,9 @@ export default {
             this.updateBalances(cospend.currentProjectId);
         },
         onProjectClicked: function(projectid) {
-            this.selectProject(projectid);
+            if (cospend.currentProjectId !== projectid) {
+                this.selectProject(projectid);
+            }
         },
         onDeleteProjectClicked: function(projectid) {
             this.deleteProject(projectid);

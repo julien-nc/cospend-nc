@@ -135,8 +135,8 @@ export default {
 
     methods: {
         myGetMemberAvatar: function(mid) {
-            return (this.bill.payer_id === 0) ?
-                generateUrl('/apps/cospend/getAvatar?name=' + encodeURIComponent(' '))
+            return (this.bill.payer_id === 0 || this.bill.id === 0) ?
+                generateUrl('/apps/cospend/getAvatar?name=' + encodeURIComponent('*'))
                 : getMemberAvatar(this.projectId, mid);
         },
         onItemClick: function() {

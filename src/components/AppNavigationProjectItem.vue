@@ -4,6 +4,7 @@
         icon="icon-folder"
         :allow-collapse="true"
         :open="selected"
+        :class="{'selectedproject': selected}"
         @click="onProjectClick"
         :forceMenu="true"
         >

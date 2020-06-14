@@ -32,8 +32,8 @@ export default {
 
     //TODO
     props: ['projectId', 'bills', 'selectedBillId', 'editionAccess', 'loading'],
-	data: function() {
-		return {
+    data: function() {
+        return {
             // TODEL
             //projectId: cospend.currentProjectId,
             //editionAccess: (cospend.projects[cospend.currentProjectId].myaccesslevel > constants.ACCESS.VIEWER),
@@ -48,7 +48,7 @@ export default {
         //this.$set(this.cospend, 'selectedBillId', -1);
     },
 
-	computed: {
+    computed: {
         nbBills: function() {
             return this.bills.length;
         },

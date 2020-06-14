@@ -40,24 +40,24 @@ import cospend from '../state';
 import {getMemberName, getSmartMemberName, getMemberAvatar} from '../member';
 
 export default {
-	name: 'AppNavigationMemberItem',
-	components: {
-		AppNavigationVue,
-		AppNavigationItem,
+    name: 'AppNavigationMemberItem',
+    components: {
+        AppNavigationVue,
+        AppNavigationItem,
         AppNavigationSettings,
         AppNavigationIconBullet,
         ActionButton,
         ActionInput
-	},
-	directives: {
-		ClickOutside,
-	},
-	props: ['member', 'projectId'],
-	data() {
-		return {
-		}
-	},
-	computed: {
+    },
+    directives: {
+        ClickOutside,
+    },
+    props: ['member', 'projectId'],
+    data() {
+        return {
+        }
+    },
+    computed: {
         balance: function() {
             return this.member.balance;
         },

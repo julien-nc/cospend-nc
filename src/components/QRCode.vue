@@ -7,20 +7,20 @@
 import kjua from 'kjua';
 
 export default {
-	name: 'QRCode',
+    name: 'QRCode',
 
     props: ['link', 'color'],
-	components: {
+    components: {
     },
 
     mounted() {
         this.genQRCode();
     },
 
-	data: function() {
-		return {
-		};
-	},
+    data: function() {
+        return {
+        };
+    },
 
     watch: {
         link: function(val) {
@@ -28,8 +28,8 @@ export default {
         }
     },
 
-	methods: {
-		genQRCode: function() {
+    methods: {
+        genQRCode: function() {
             console.log('gen QR for '+this.link)
             console.log(this.color)
             const that = this;

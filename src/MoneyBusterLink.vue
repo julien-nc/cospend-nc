@@ -37,23 +37,23 @@ import * as Notification from './notification';
 import cospend from './state';
 
 export default {
-	name: 'MoneyBusterLink',
+    name: 'MoneyBusterLink',
 
-	components: {
-		QRCode
-	},
+    components: {
+        QRCode
+    },
 
     props: ['project'],
-	data: function() {
-		return {
+    data: function() {
+        return {
             //project: cospend.projects[cospend.currentProjectId],
             validPassword: null,
             color: cospend.themeColorDark
-		};
+        };
     },
 
-	computed: {
-		noPassLink: function() {
+    computed: {
+        noPassLink: function() {
             return 'https://net.eneiluj.moneybuster.cospend/' + window.location.host +
                 generateUrl('').replace('/index.php', '') + this.project.id + '/';
         },
@@ -65,9 +65,9 @@ export default {
             }
             return url;
         }
-	},
+    },
 
-	methods: {
+    methods: {
         onPasswordPressEnter: function() {
             const that = this;
             const password = this.$refs.passInput.value;
@@ -91,7 +91,7 @@ export default {
 
 <style scoped lang="scss">
 #mbTitle {
-	padding: 20px 0px 20px 0px;
+    padding: 20px 0px 20px 0px;
 }
 #qrcode-div-pass,
 #qrcode-div-nopass {

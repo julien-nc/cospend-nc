@@ -51,15 +51,15 @@ export default {
     components: {
     },
 
-	data: function() {
-		return {
+    data: function() {
+        return {
             project: cospend.projects[cospend.currentProjectId],
             transactions: []
-		};
+        };
     },
 
-	computed: {
-		members: function() {
+    computed: {
+        members: function() {
             return cospend.members[this.project.id];
         }
     },

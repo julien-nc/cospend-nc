@@ -1,6 +1,6 @@
 <template>
-	<div id="content" :class="{ 'nav-hidden': false, 'sidebar-hidden': false }">
-		<AppNavigation
+    <div id="content" :class="{ 'nav-hidden': false, 'sidebar-hidden': false }">
+        <AppNavigation
             :projects="projects"
             :selectedProjectId="currentProjectId"
             @projectClicked="onProjectClicked"
@@ -8,7 +8,7 @@
             @qrcodeClicked="onQrcodeClicked"
             @statsClicked="onStatsClicked"
         />
-		<div id="app-content">
+        <div id="app-content">
             <div id="app-content-wrapper">
                 <BillList
                     :loading="billsLoading"
@@ -34,10 +34,10 @@
                     :projectId="currentProjectId"
                 />
             </div>
-		</div>
-		<!--router-view name="sidebar" /-->
+        </div>
+        <!--router-view name="sidebar" /-->
         <img id="dummylogo"/>
-	</div>
+    </div>
 </template>
 
 <script>
@@ -54,16 +54,16 @@ import * as constants from './constants';
 import {rgbObjToHex, saveOptionValue} from './utils';
 
 export default {
-	name: 'App',
-	components: {
+    name: 'App',
+    components: {
         AppNavigation,
         BillList,
         BillForm,
         MoneyBusterLink,
         Statistics
-	},
-	data: function() {
-		return {
+    },
+    data: function() {
+        return {
             mode: 'edition',
             cospend: cospend,
             projects: {},
@@ -72,9 +72,9 @@ export default {
             members: {},
             billsLoading: false,
             currentBill: null
-		}
-	},
-	computed: {
+        }
+    },
+    computed: {
         currentProjectId: function() {
             return this.cospend.currentProjectId;
         },
@@ -107,12 +107,12 @@ export default {
             }
             return payerId;
         },
-	},
-	provide: function() {
-		return {
-		}
-	},
-	created: function() {
+    },
+    provide: function() {
+        return {
+        }
+    },
+    created: function() {
         this.getProjects();
     },
     mounted() {
@@ -349,32 +349,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	#content {
-		#app-content {
-			transition: margin-left 100ms ease;
-			position: relative;
-			overflow-x: hidden;
-			align-items: stretch;
-		}
-		#app-sidebar {
-			transition: max-width 100ms ease;
-		}
-		&.nav-hidden {
-			#app-content {
-				margin-left: 0;
-			}
-		}
-		&.sidebar-hidden {
-			#app-sidebar {
-				max-width: 0;
-				min-width: 0;
-			}
-		}
-	}
+    #content {
+        #app-content {
+            transition: margin-left 100ms ease;
+            position: relative;
+            overflow-x: hidden;
+            align-items: stretch;
+        }
+        #app-sidebar {
+            transition: max-width 100ms ease;
+        }
+        &.nav-hidden {
+            #app-content {
+                margin-left: 0;
+            }
+        }
+        &.sidebar-hidden {
+            #app-sidebar {
+                max-width: 0;
+                min-width: 0;
+            }
+        }
+    }
 </style>
 
 <style>
-	#content * {
-		box-sizing: border-box;
-	}
+    #content * {
+        box-sizing: border-box;
+    }
 </style>

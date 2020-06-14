@@ -212,8 +212,8 @@ export default {
     },
 
     props: ['projectId'],
-	data: function() {
-		return {
+    data: function() {
+        return {
             //projectId: cospend.currentProjectId,
             stats: null,
             selectedCategoryId: 0,
@@ -221,14 +221,14 @@ export default {
             isFiltered: true,
             cospend: cospend,
             loading: false
-		};
+        };
     },
 
-	computed: {
+    computed: {
         project: function() {
             return cospend.projects[this.projectId];
         },
-		members: function() {
+        members: function() {
             return cospend.members[this.projectId];
         },
         categories: function() {
@@ -703,7 +703,7 @@ export default {
 
 <style scoped lang="scss">
 #statsTitle {
-	padding: 20px 0px 20px 0px;
+    padding: 20px 0px 20px 0px;
 }
 #stats-filters {
     max-width: 900px;

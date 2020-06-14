@@ -1,8 +1,8 @@
 <template>
-	<div id="app-navigation" :class="{'icon-loading': loading}">
-		<AppNavigationVue>
-			<ul>
-				<AppNavigationItem
+    <div id="app-navigation" :class="{'icon-loading': loading}">
+        <AppNavigationVue>
+            <ul>
+                <AppNavigationItem
                     :title="t('cospend', 'New project')"
                     icon="icon-add"
                     />
@@ -22,43 +22,43 @@
                     :forceMenu="true"
                     >
                     <template slot="actions">
-						<ActionButton icon="icon-category-monitoring" @click="onStatsClick(id)">
-							{{ t('cospend', 'Statistics') }}
-						</ActionButton>
-						<ActionButton icon="icon-phone" @click="onQrcodeClick(id)">
-							{{ t('cospend', 'Link/QRCode for MoneyBuster') }}
-						</ActionButton>
-						<ActionButton icon="icon-delete" @click="alert('Delete')">
-							{{ t('cospend', 'Delete') }}
-						</ActionButton>
-					</template>
+                        <ActionButton icon="icon-category-monitoring" @click="onStatsClick(id)">
+                            {{ t('cospend', 'Statistics') }}
+                        </ActionButton>
+                        <ActionButton icon="icon-phone" @click="onQrcodeClick(id)">
+                            {{ t('cospend', 'Link/QRCode for MoneyBuster') }}
+                        </ActionButton>
+                        <ActionButton icon="icon-delete" @click="alert('Delete')">
+                            {{ t('cospend', 'Delete') }}
+                        </ActionButton>
+                    </template>
                     <template>
-						<AppNavigationMemberItem
+                        <AppNavigationMemberItem
                             v-for="member in project.members"
                             :key="member.id"
                             :member="member"
                             :projectId="project.id"
                             />
-					</template>
+                    </template>
                 </AppNavigationItem>
-			</ul>
-			<AppNavigationSettings>
-				<div>
+            </ul>
+            <AppNavigationSettings>
+                <div>
                     SETTINGS !!!<br/>PLOP
-				</div>
-			</AppNavigationSettings>
-		</AppNavigationVue>
+                </div>
+            </AppNavigationSettings>
+        </AppNavigationVue>
 
-		<div
-			id="app-settings"
-			:class="{open: opened}">
-			<div id="app-settings-header">
-				<button class="settings-button" @click="toggleMenu">
-					{{ t('cospend', 'Settings') }}
-				</button>
-			</div>
-		</div>
-	</div>
+        <div
+            id="app-settings"
+            :class="{open: opened}">
+            <div id="app-settings-header">
+                <button class="settings-button" @click="toggleMenu">
+                    {{ t('cospend', 'Settings') }}
+                </button>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -73,36 +73,36 @@ import cospend from '../state';
 import {getMemberName, getSmartMemberName, getMemberAvatar} from '../member';
 
 export default {
-	name: 'AppNavigation',
-	components: {
-		AppNavigationMemberItem,
-		AppNavigationVue,
-		AppNavigationItem,
+    name: 'AppNavigation',
+    components: {
+        AppNavigationMemberItem,
+        AppNavigationVue,
+        AppNavigationItem,
         AppNavigationSettings,
         AppNavigationIconBullet,
         ActionButton,
         ActionInput
-	},
-	directives: {
-		ClickOutside,
-	},
-	props: ['projects', 'selectedProjectId'],
-	data() {
-		return {
+    },
+    directives: {
+        ClickOutside,
+    },
+    props: ['projects', 'selectedProjectId'],
+    data() {
+        return {
             opened: false,
             loading: false
-		}
-	},
-	computed: {
-	},
-	beforeMount() {
-	},
-	methods: {
-		toggleMenu() {
-			this.opened = !this.opened
-		},
-		closeMenu() {
-			this.opened = false
+        }
+    },
+    computed: {
+    },
+    beforeMount() {
+    },
+    methods: {
+        toggleMenu() {
+            this.opened = !this.opened
+        },
+        closeMenu() {
+            this.opened = false
         },
         onProjectClick: function(projectid) {
             this.$emit('projectClicked', projectid);
@@ -116,7 +116,7 @@ export default {
         onStatsClick: function(projectid) {
             this.$emit('statsClicked', projectid);
         },
-	},
+    },
 }
 </script>
 <style scoped lang="scss">

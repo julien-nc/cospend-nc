@@ -487,7 +487,7 @@ export default {
         saveBill: function() {
             const that = this;
             if (!this.isBillValidForSaveOrNormal()) {
-				Notification.showTemporary(t('cospend', 'Impossible to save bill, invalid values'));
+                Notification.showTemporary(t('cospend', 'Impossible to save bill, invalid values'));
             } else {
                 this.billLoading = true;
                 const bill = this.bill;

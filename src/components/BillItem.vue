@@ -34,18 +34,18 @@ export default {
     },
 
     props: ['bill', 'projectId', 'editionAccess', 'index', 'nbbills', 'selected'],
-	data: function() {
-		return {
-			timerOn: false,
-			timer: null,
-		};
+    data: function() {
+        return {
+            timerOn: false,
+            timer: null,
+        };
     },
 
-	computed: {
+    computed: {
         undoDeleteBillStyle: function() {
             return 'opacity:1; background-image: url(' + generateUrl('/svg/core/actions/history?color=2AB4FF') + ');';
         },
-		members: function() {
+        members: function() {
             return cospend.members[this.projectId];
         },
         payerDisabled: function() {
@@ -142,13 +142,13 @@ export default {
         onItemClick: function() {
             this.$emit('clicked', this.bill);
         },
-		onDeleteClick: function(e) {
+        onDeleteClick: function(e) {
             e.stopPropagation();
-			if (this.timerOn) {
-				this.timerOn = false;
-				this.timer.pause();
-				delete this.timer;
-			} else {
+            if (this.timerOn) {
+                this.timerOn = false;
+                this.timer.pause();
+                delete this.timer;
+            } else {
                 if (this.bill.id === 0) {
                     this.$emit('delete', this.bill);
                 } else {
@@ -159,8 +159,8 @@ export default {
                         that.$emit('delete', that.bill);
                     }, 3000);
                 }
-			}
-		},
+            }
+        },
     }
 }
 </script>

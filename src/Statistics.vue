@@ -201,9 +201,10 @@ export default {
         LineChartJs, PieChartJs, PolarChartJs
     },
 
+    props: ['projectId'],
 	data: function() {
 		return {
-            projectId: cospend.currentProjectId,
+            //projectId: cospend.currentProjectId,
             stats: null,
             selectedCategoryId: 0,
             selectedMemberId: 0,

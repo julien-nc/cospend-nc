@@ -5,6 +5,7 @@
             @projectClicked="onProjectClicked"
             @newBillClicked="onNewBillClicked"
             @qrcodeClicked="onQrcodeClicked"
+            @statsClicked="onStatsClicked"
         />
 		<div id="app-content">
             <div id="app-content-wrapper">
@@ -26,6 +27,10 @@
                     v-if="mode === 'qrcode'"
                     :project="currentProject"
                 />
+                <Statistics
+                    v-if="mode === 'stats'"
+                    :projectId="currentProjectId"
+                />
             </div>
 		</div>
 		<!--router-view name="sidebar" /-->
@@ -38,6 +43,7 @@ import AppNavigation from './components/AppNavigation'
 import BillForm from './BillForm';
 import BillList from './BillList';
 import MoneyBusterLink from './MoneyBusterLink';
+import Statistics from './Statistics';
 import cospend from './state';
 import {generateUrl} from '@nextcloud/router';
 import {getCurrentUser} from '@nextcloud/auth';
@@ -51,7 +57,8 @@ export default {
         AppNavigation,
         BillList,
         BillForm,
-        MoneyBusterLink
+        MoneyBusterLink,
+        Statistics
 	},
 	data: function() {
 		return {
@@ -139,11 +146,16 @@ export default {
             this.selectProject(projectid);
         },
         onQrcodeClicked: function(projectid) {
-            console.log('QRQR '+projectid)
             if (cospend.currentProjectId !== projectid) {
                 this.selectProject(projectid);
             }
             this.mode = 'qrcode';
+        },
+        onStatsClicked: function(projectid) {
+            if (cospend.currentProjectId !== projectid) {
+                this.selectProject(projectid);
+            }
+            this.mode = 'stats';
         },
         selectProject: function(projectid) {
             this.getBills(projectid);

@@ -22,8 +22,8 @@
                     :forceMenu="true"
                     >
                     <template slot="actions">
-						<ActionButton icon="icon-add" @click="alert('ll')">
-							{{ t('cospend', 'Add member') }}
+						<ActionButton icon="icon-add" @click="onStatsClick(id)">
+							{{ t('cospend', 'Statistics') }}
 						</ActionButton>
 						<ActionButton icon="icon-phone" @click="onQrcodeClick(id)">
 							{{ t('cospend', 'Link/QRCode for MoneyBuster') }}
@@ -104,6 +104,9 @@ export default {
         },
         onQrcodeClick: function(projectid) {
             this.$emit('qrcodeClicked', projectid);
+        },
+        onStatsClick: function(projectid) {
+            this.$emit('statsClicked', projectid);
         },
 	},
 }

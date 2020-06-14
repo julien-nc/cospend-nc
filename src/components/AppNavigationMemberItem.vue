@@ -2,22 +2,21 @@
     <AppNavigationItem
         class="memberItem"
         :title="nameTitle"
-        :editable="true"
         :forceMenu="true"
         v-show="memberVisible"
-        :editLabel="t('cospend', 'Rename')"
-        ref="nameInput"
-        @update:title="onMemberRename"
         >
         <div class="memberAvatar" slot="icon">
             <div class="disabledMask" v-show="!member.activated"></div>
             <img :src="memberAvatar"/>
         </div>
-        <!--AppNavigationIconBullet slot="icon" color="0082c9" /-->
         <template slot="counter">
             <span :class="balanceClass">{{ member.balance.toFixed(2) }}</span>
         </template>
         <template slot="actions">
+            <ActionInput :disabled="false" icon="icon-edit" type="text" :value="member.name"
+                ref="nameInput" @submit="onNameSubmit"
+                >
+            </ActionInput>
             <ActionInput :disabled="false" icon="icon-quota" type="number" step="0.1" :value="''"
                 ref="weightInput" @submit="onWeightSubmit"
                 >
@@ -103,7 +102,7 @@ export default {
             this.member.activated = !this.member.activated;
             this.$emit('memberEdited', this.projectId, this.member.id);
         },
-        onMemberRename: function() {
+        onNameSubmit: function() {
             const newName = this.$refs.nameInput.$el.querySelector('input[type="text"]').value;
             this.member.name = newName;
             this.$emit('memberEdited', this.projectId, this.member.id);

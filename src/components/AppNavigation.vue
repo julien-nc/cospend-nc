@@ -22,14 +22,14 @@
                     :forceMenu="true"
                     >
                     <template slot="actions">
-						<ActionButton icon="icon-add" @click="onStatsClick(id)">
+						<ActionButton icon="icon-category-monitoring" @click="onStatsClick(id)">
 							{{ t('cospend', 'Statistics') }}
 						</ActionButton>
 						<ActionButton icon="icon-phone" @click="onQrcodeClick(id)">
 							{{ t('cospend', 'Link/QRCode for MoneyBuster') }}
 						</ActionButton>
 						<ActionButton icon="icon-delete" @click="alert('Delete')">
-							Delete
+							{{ t('cospend', 'Delete') }}
 						</ActionButton>
 					</template>
                     <template>

@@ -1,5 +1,15 @@
 <template>
-    <div id="stats-div">
+    <div id="billdetail" class="app-content-details">
+        <h2 id="statsTitle">
+            <span :class="{'icon-loading-small': loading, 'icon-category-monitoring': !loading}"></span>
+            {{ t('cospend', 'Statistics of project {name}', {name: project.name}) }}
+            <button v-if="!cospend.pageIsPublic"
+                @click="onExportClick"
+                class="exportStats" projectid="dum">
+                <span class="icon-save"></span>
+                {{ t('cospend', 'Export') }}
+            </button>
+        </h2>
         <div id="stats-filters">
             <label for="date-min-stats">{{ t('cospend', 'Minimum date') }}: </label>
             <input ref="dateMinFilter" id="date-min-stats" type="date" @change="getStats"/>
@@ -208,7 +218,9 @@ export default {
             stats: null,
             selectedCategoryId: 0,
             selectedMemberId: 0,
-            isFiltered: true
+            isFiltered: true,
+            cospend: cospend,
+            loading: false
 		};
     },
 
@@ -644,12 +656,55 @@ export default {
             }).fail(function() {
                 Notification.showTemporary(t('cospend', 'Failed to get statistics'));
             });
-        }
+        },
+        onExportClick: function() {
+            this.loading = true;
+            const that = this;
+            const dateMin = this.$refs.dateMinFilter.value;
+            const dateMax = this.$refs.dateMaxFilter.value;
+            const tsMin = (dateMin !== '') ? moment(dateMin).unix() : null;
+            const tsMax = (dateMax !== '') ? moment(dateMax).unix() + 24*60*60 - 1 : null;
+            const paymentMode = this.$refs.paymentModeFilter.value;
+            const category = this.$refs.categoryFilter.value;
+            const amountMin = this.$refs.amountMinFilter.value;
+            const amountMax = this.$refs.amountMaxFilter.value;
+            const showDisabled = this.$refs.showDisabledFilter.checked;
+            const currencyId = this.$refs.currencySelect.value;
+            const req = {
+                tsMin: tsMin,
+                tsMax: tsMax,
+                paymentMode: paymentMode,
+                category: category,
+                amountMin: amountMin,
+                amountMax: amountMax,
+                showDisabled: showDisabled ? '1' : '0',
+                currencyId: currencyId
+            };
+            const url = generateUrl('/apps/cospend/export-csv-statistics/'+ this.projectId);
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: req,
+                async: true
+            }).done(function(response) {
+                Notification.showTemporary(t('cospend', 'Project statistics exported in {path}', {path: response.path}));
+            }).always(function() {
+                that.loading = false;
+            }).fail(function(response) {
+                Notification.showTemporary(
+                    t('cospend', 'Failed to export project statistics') +
+                    ': ' + response.responseJSON.message
+                );
+            });
+        },
     }
 }
 </script>
 
 <style scoped lang="scss">
+#statsTitle {
+	padding: 20px 0px 20px 0px;
+}
 #stats-filters {
     max-width: 900px;
     margin-left: 20px;

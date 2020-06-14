@@ -127,7 +127,4 @@ export default {
 .memberItem {
     padding-left: 30px !important;
 }
-.memberColorPicker .trigger {
-    height: 25px !important;
-}
 </style>

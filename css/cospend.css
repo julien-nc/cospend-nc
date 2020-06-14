@@ -613,3 +613,7 @@ a.billitem .app-content-list-item-icon {
     width: 50px;
     text-align: center;
 }
+/* this is not applied if done in a vue component */
+.memberColorPicker .trigger {
+    height: 25px !important;
+}

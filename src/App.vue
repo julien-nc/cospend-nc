@@ -8,6 +8,7 @@
             @newBillClicked="onNewBillClicked"
             @qrcodeClicked="onQrcodeClicked"
             @statsClicked="onStatsClicked"
+            @categoryClicked="onCategoryClicked"
             @newMember="onNewMember"
             @memberEdited="onMemberEdited"
             @createProject="onCreateProject"
@@ -37,6 +38,11 @@
                     v-if="mode === 'stats'"
                     :projectId="currentProjectId"
                 />
+                <CategoryManagement
+                    v-if="mode === 'category'"
+                    :projectId="currentProjectId"
+                    @categoryDeleted="onCategoryDeleted"
+                />
             </div>
         </div>
         <!--router-view name="sidebar" /-->
@@ -48,6 +54,7 @@
 import AppNavigation from './components/AppNavigation'
 import BillForm from './BillForm';
 import BillList from './BillList';
+import CategoryManagement from './CategoryManagement';
 import MoneyBusterLink from './MoneyBusterLink';
 import Statistics from './Statistics';
 import cospend from './state';
@@ -65,7 +72,8 @@ export default {
         BillList,
         BillForm,
         MoneyBusterLink,
-        Statistics
+        Statistics,
+        CategoryManagement
     },
     data() {
         return {
@@ -173,6 +181,12 @@ export default {
                 this.selectProject(projectid);
             }
             this.mode = 'stats';
+        },
+        onCategoryClicked(projectid) {
+            if (cospend.currentProjectId !== projectid) {
+                this.selectProject(projectid);
+            }
+            this.mode = 'category';
         },
         onNewMember(projectid, name) {
             if (this.getMemberNames(projectid).includes(name)) {
@@ -493,6 +507,15 @@ export default {
                     ': ' + (response.responseJSON.message)
                 );
             });
+        },
+        onCategoryDeleted(catid) {
+            let bill;
+            for (const bid in this.bills[this.currentProjectId]) {
+                bill = this.bills[this.currentProjectId][bid];
+                if (bill.categoryid === catid) {
+                    bill.categoryid = 0;
+                }
+            }
         },
     }
 }

@@ -26,6 +26,9 @@
             <ActionInput :disabled="false" icon="icon-user" ref="newMemberInput" @submit="onAddMember">
                 {{ t('cospend', 'Add member') }}
             </ActionInput>
+            <ActionButton icon="icon-category-app-bundles" @click="onCategoryClick">
+                {{ t('cospend', 'Manage categories') }}
+            </ActionButton>
             <ActionButton icon="icon-category-monitoring" @click="onStatsClick">
                 {{ t('cospend', 'Statistics') }}
             </ActionButton>
@@ -109,6 +112,9 @@ export default {
         },
         onStatsClick() {
             this.$emit('statsClicked', this.project.id);
+        },
+        onCategoryClick() {
+            this.$emit('categoryClicked', this.project.id);
         },
         onAddMember() {
             const newName = this.$refs.newMemberInput.$el.querySelector('input[type="text"]').value;

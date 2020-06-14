@@ -51,7 +51,6 @@ import {generateUrl} from '@nextcloud/router';
 import * as Notification from './notification';
 import * as constants from './constants';
 import {editProject} from './project';
-import {getBills} from './bill';
 import EmojiButton from '@joeattardi/emoji-button';
 
 export default {
@@ -61,13 +60,11 @@ export default {
         Category
     },
 
+	props: ['projectId'],
     data() {
         return {
-            categories: cospend.projects[cospend.currentProjectId].categories,
-            project: cospend.projects[cospend.currentProjectId],
             constants: constants,
             editMode: false,
-            editionAccess: (cospend.projects[cospend.currentProjectId].myaccesslevel >= constants.ACCESS.MAINTENER),
             picker: new EmojiButton({position: 'auto', zIndex: 9999999})
         };
     },
@@ -77,6 +74,15 @@ export default {
         });
     },
     computed: {
+		project() {
+			return cospend.projects[this.projectId];
+		},
+		categories() {
+			return this.project.categories;
+		},
+		editionAccess() {
+			return (this.project.myaccesslevel >= constants.ACCESS.MAINTENER);
+		},
         categoryList() {
             return Object.values(this.categories);
         }
@@ -119,13 +125,6 @@ export default {
                     color: color,
                     id: response
                 });
-                // this works but the vue is not updated
-                //that.project.categories[response] = {
-                //    name: name,
-                //    icon: icon,
-                //    color: color,
-                //    id: response
-                //};
                 Notification.showTemporary(t('cospend', 'Category {n} added', {n: name}));
                 that.$refs.newCategoryName.value = '';
                 that.$refs.newCategoryColor.value = '';
@@ -153,10 +152,8 @@ export default {
                 data: req,
                 async: true
             }).done(function() {
-                //delete that.categories[category.id];
-                that.$delete(that.categories, category.id);
-                // reload bill list
-                getBills(cospend.currentProjectId);
+				that.$delete(that.categories, category.id);
+				that.$emit('categoryDeleted', category.id);
             }).always(function() {
             }).fail(function(response) {
                 Notification.showTemporary(
@@ -164,8 +161,7 @@ export default {
                     ': ' + response.responseJSON.message
                 );
             });
-        },
-
+		},
         onEditCategory(category, backupCategory) {
             if (category.name === null || category.name === '') {
                 Notification.showTemporary(t('cospend', 'Category name should not be empty'));
@@ -192,7 +188,7 @@ export default {
                 async: true
             }).done(function() {
                 // reload bill list
-                getBills(cospend.currentProjectId);
+                //getBills(cospend.currentProjectId);
             }).always(function() {
             }).fail(function(response) {
                 // backup

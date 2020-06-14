@@ -28,6 +28,7 @@
                     @deleteProject="onDeleteProject"
                     @qrcodeClicked="onQrcodeClicked"
                     @statsClicked="onStatsClicked"
+                    @categoryClicked="onCategoryClicked"
                     @newMember="onNewMember"
                     @memberEdited="onMemberEdited"
                     />
@@ -110,6 +111,9 @@ export default {
         },
         onStatsClicked(projectid) {
             this.$emit('statsClicked', projectid);
+        },
+        onCategoryClicked(projectid) {
+            this.$emit('categoryClicked', projectid);
         },
         onNewMember(projectid, name) {
             this.$emit('newMember', projectid, name);

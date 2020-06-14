@@ -121,7 +121,7 @@
                     <select id="category"
                         @input="onBillEdited"
                         v-model="bill.categoryid">
-                        <option value="0">{{ t('cospend', 'All') }}</option>
+                        <option value="0">{{ t('cospend', 'None') }}</option>
                         <option
                             v-for="category in categories"
                             :key="category.id"

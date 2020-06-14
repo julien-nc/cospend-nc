@@ -1,7 +1,18 @@
 <template>
-    <AppNavigationItem v-if="deleting" title="Are you sure you want to delete?" :undo="true"
+    <AppNavigationItem v-if="deleting" title="Are you sure?" :undo="true"
         @undo="cancelDeletion"
-     />
+     >
+    <template slot="counter">
+        <vac :end-time="new Date().getTime() + (7000)">
+            <template v-slot:process="{ timeObj }">
+                <span>{{ `${timeObj.s}` }}</span>
+            </template>
+            <!--template v-slot:finish>
+                <span>Done!</span>
+            </template-->
+        </vac>
+    </template>
+    </AppNavigationItem>
     <AppNavigationItem v-else
         :title="project.name"
         icon="icon-folder"
@@ -48,6 +59,7 @@ import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import cospend from '../state';
 import {Timer} from "../utils";
 import {getMemberName, getSmartMemberName, getMemberAvatar} from '../member';
+import {vueAwesomeCountdown} from 'vue-awesome-countdown'
 
 export default {
     name: 'AppNavigation',
@@ -58,7 +70,8 @@ export default {
         AppNavigationSettings,
         AppNavigationIconBullet,
         ActionButton,
-        ActionInput
+        ActionInput,
+        vueAwesomeCountdown
     },
     directives: {
         ClickOutside,

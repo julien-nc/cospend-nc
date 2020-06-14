@@ -14,6 +14,7 @@
 import Vue from 'vue';
 import './bootstrap';
 import App from './App';
+import vueAwesomeCountdown from 'vue-awesome-countdown';
 import * as Notification from './notification';
 import * as Chart from 'chart.js/dist/Chart';
 import 'chart.js/dist/Chart.css';
@@ -176,6 +177,7 @@ import cospend from './state';
     });
 
     function main() {
+        Vue.use(vueAwesomeCountdown, 'vac');
         new Vue({
             el: "#content",
             render: h => h(App),

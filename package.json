@@ -39,7 +39,8 @@
     "vue-types": "^1.6.0",
     "vuex": "^3.1.1",
     "vue-click-outside": "1.1.0",
-    "vuejs-smart-table": "^0.0.5"
+    "vuejs-smart-table": "^0.0.5",
+    "vue-awesome-countdown": "^1.0.26"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",

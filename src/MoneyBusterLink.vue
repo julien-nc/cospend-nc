@@ -1,5 +1,9 @@
 <template>
-    <div id="mbLinkDiv">
+    <div id="billdetail" class="app-content-details">
+        <h2 id="mbTitle">
+            <span class="icon-phone"></span>
+            {{ t('cospend', 'MoneyBuster link/QRCode for project {name}', {name: project.name}) }}
+        </h2>
         <div id="qrcode-div-nopass">
             <QRCode
                 :link="noPassLink"
@@ -39,9 +43,10 @@ export default {
 		QRCode
 	},
 
+    props: ['project'],
 	data: function() {
 		return {
-            project: cospend.projects[cospend.currentProjectId],
+            //project: cospend.projects[cospend.currentProjectId],
             validPassword: null,
             color: cospend.themeColorDark
 		};
@@ -85,6 +90,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+#mbTitle {
+	padding: 20px 0px 20px 0px;
+}
 #qrcode-div-pass,
 #qrcode-div-nopass {
     width: 210px;

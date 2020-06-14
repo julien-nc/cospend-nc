@@ -4,6 +4,7 @@
             :projects="projects"
             @projectClicked="onProjectClicked"
             @newBillClicked="onNewBillClicked"
+            @qrcodeClicked="onQrcodeClicked"
         />
 		<div id="app-content">
             <div id="app-content-wrapper">
@@ -21,9 +22,14 @@
                     :bill="currentBill"
                     @billCreated="onBillCreated"
                 />
+                <MoneyBusterLink
+                    v-if="mode === 'qrcode'"
+                    :project="currentProject"
+                />
             </div>
 		</div>
 		<!--router-view name="sidebar" /-->
+        <img id="dummylogo"/>
 	</div>
 </template>
 
@@ -31,6 +37,7 @@
 import AppNavigation from './components/AppNavigation'
 import BillForm from './BillForm';
 import BillList from './BillList';
+import MoneyBusterLink from './MoneyBusterLink';
 import cospend from './state';
 import {generateUrl} from '@nextcloud/router';
 import {getCurrentUser} from '@nextcloud/auth';
@@ -43,7 +50,8 @@ export default {
 	components: {
         AppNavigation,
         BillList,
-        BillForm
+        BillForm,
+        MoneyBusterLink
 	},
 	data: function() {
 		return {
@@ -60,6 +68,9 @@ export default {
 	computed: {
         currentProjectId: function() {
             return this.cospend.currentProjectId;
+        },
+        currentProject: function() {
+            return this.projects[this.currentProjectId];
         },
         selectedBillId: function() {
             return (this.currentBill !== null) ? this.currentBill.id : -1;
@@ -125,6 +136,16 @@ export default {
             }
         },
         onProjectClicked: function(projectid) {
+            this.selectProject(projectid);
+        },
+        onQrcodeClicked: function(projectid) {
+            console.log('QRQR '+projectid)
+            if (cospend.currentProjectId !== projectid) {
+                this.selectProject(projectid);
+            }
+            this.mode = 'qrcode';
+        },
+        selectProject: function(projectid) {
             this.getBills(projectid);
             saveOptionValue({selectedProject: projectid});
             this.currentBill = null;
@@ -161,6 +182,7 @@ export default {
             }
             // select new bill in case it was not selected yet
             //this.selectedBillId = billid;
+            this.mode = 'edition';
         },
         onBillClicked: function(billid) {
             const billList = this.billLists[cospend.currentProjectId];
@@ -176,6 +198,7 @@ export default {
             } else {
                 this.currentBill = this.bills[cospend.currentProjectId][billid];
             }
+            this.mode = 'edition';
         },
         getProjects: function() {
             const that = this;

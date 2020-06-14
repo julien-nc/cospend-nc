@@ -155,6 +155,24 @@ import cospend from './state';
             $('#password').html('');
             main();
         }
+        if (OCA.Theming) {
+            const c = OCA.Theming.color;
+            // invalid color
+            if (!c || (c.length !== 4 && c.length !== 7)) {
+                cospend.themeColor = '#0082C9';
+            }
+            // compact
+            else if (c.length === 4) {
+                cospend.themeColor = '#' + c[1] + c[1] + c[2] + c[2] + c[3] + c[3];
+            }
+            // normal
+            else if (c.length === 7) {
+                cospend.themeColor = c;
+            }
+        } else {
+            cospend.themeColor = '#0082C9';
+        }
+        cospend.themeColorDark = hexToDarkerHex(cospend.themeColor);
     });
 
     function main() {
@@ -287,24 +305,6 @@ import cospend from './state';
             }
         });
 
-        if (OCA.Theming) {
-            const c = OCA.Theming.color;
-            // invalid color
-            if (!c || (c.length !== 4 && c.length !== 7)) {
-                cospend.themeColor = '#0082C9';
-            }
-            // compact
-            else if (c.length === 4) {
-                cospend.themeColor = '#' + c[1] + c[1] + c[2] + c[2] + c[3] + c[3];
-            }
-            // normal
-            else if (c.length === 7) {
-                cospend.themeColor = c;
-            }
-        } else {
-            cospend.themeColor = '#0082C9';
-        }
-        cospend.themeColorDark = hexToDarkerHex(cospend.themeColor);
 
         // last thing to do : get the projects
         getProjects();

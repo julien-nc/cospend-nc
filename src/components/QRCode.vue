@@ -30,6 +30,8 @@ export default {
 
 	methods: {
 		genQRCode: function() {
+            console.log('gen QR for '+this.link)
+            console.log(this.color)
             const that = this;
             const img = new Image();
             // wait for the image to be loaded to generate the QRcode
@@ -54,6 +56,7 @@ export default {
                 });
                 that.$refs.qrcodediv.innerHTML = '';
                 that.$refs.qrcodediv.appendChild(qr);
+                console.log('ssssucc')
             };
             img.onerror = function() {
                 const qr = kjua({

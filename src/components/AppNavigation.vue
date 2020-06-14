@@ -19,7 +19,27 @@
                     :allow-collapse="true"
                     :open="true"
                     @click="onProjectClick(id)"
+                    :forceMenu="true"
                     >
+                    <template slot="actions">
+						<ActionButton icon="icon-add" @click="alert('ll')">
+							{{ t('cospend', 'Add member') }}
+						</ActionButton>
+						<ActionButton icon="icon-phone" @click="onQrcodeClick(id)">
+							{{ t('cospend', 'Link/QRCode for MoneyBuster') }}
+						</ActionButton>
+						<ActionButton icon="icon-delete" @click="alert('Delete')">
+							Delete
+						</ActionButton>
+					</template>
+                    <template>
+						<AppNavigationItem title="AppNavigationItemChild1">
+							<AppNavigationIconBullet slot="icon" color="0082c9" />
+						</AppNavigationItem>
+						<AppNavigationItem title="AppNavigationItemChild2" icon="icon-category-enabled" />
+						<AppNavigationItem title="AppNavigationItemChild3" icon="icon-category-enabled" />
+						<AppNavigationItem title="AppNavigationItemChild4" icon="icon-category-enabled" />
+					</template>
                 </AppNavigationItem>
 			</ul>
 			<AppNavigationSettings>
@@ -43,7 +63,7 @@
 
 <script>
 import ClickOutside from 'vue-click-outside'
-import { AppNavigation as AppNavigationVue, AppNavigationSettings, AppNavigationItem } from '@nextcloud/vue'
+import { ActionButton, AppNavigation as AppNavigationVue, AppNavigationIconBullet, AppNavigationSettings, AppNavigationItem } from '@nextcloud/vue'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import cospend from '../state';
 export default {
@@ -51,7 +71,9 @@ export default {
 	components: {
 		AppNavigationVue,
 		AppNavigationItem,
-		AppNavigationSettings,
+        AppNavigationSettings,
+        AppNavigationIconBullet,
+        ActionButton
 	},
 	directives: {
 		ClickOutside,
@@ -79,6 +101,9 @@ export default {
         },
         onNewBillClick: function() {
             this.$emit('newBillClicked');
+        },
+        onQrcodeClick: function(projectid) {
+            this.$emit('qrcodeClicked', projectid);
         },
 	},
 }

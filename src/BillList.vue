@@ -32,7 +32,7 @@ export default {
 
     //TODO
     props: ['projectId', 'bills', 'selectedBillId', 'editionAccess', 'loading'],
-    data: function() {
+    data() {
         return {
             // TODEL
             //projectId: cospend.currentProjectId,
@@ -49,26 +49,26 @@ export default {
     },
 
     computed: {
-        nbBills: function() {
+        nbBills() {
             return this.bills.length;
         },
-        reverseBills: function() {
+        reverseBills() {
             return this.bills.slice().reverse();
         }
     },
 
     methods: {
-        onItemClicked: function(bill) {
+        onItemClicked(bill) {
             this.$emit('itemClicked', bill.id);
         },
-        onItemDeleted: function(bill) {
+        onItemDeleted(bill) {
             if (bill.id === 0) {
                 this.$emit('itemDeleted', bill);
             } else {
                 this.deleteBill(bill);
             }
         },
-        deleteBill: function(bill) {
+        deleteBill(bill) {
             const that = this;
             const req = {};
             let url;

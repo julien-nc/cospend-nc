@@ -34,7 +34,7 @@ export default {
     },
 
     props: ['bill', 'projectId', 'editionAccess', 'index', 'nbbills', 'selected'],
-    data: function() {
+    data() {
         return {
             timerOn: false,
             timer: null,
@@ -42,16 +42,16 @@ export default {
     },
 
     computed: {
-        undoDeleteBillStyle: function() {
+        undoDeleteBillStyle() {
             return 'opacity:1; background-image: url(' + generateUrl('/svg/core/actions/history?color=2AB4FF') + ');';
         },
-        members: function() {
+        members() {
             return cospend.members[this.projectId];
         },
-        payerDisabled: function() {
+        payerDisabled() {
             return !this.bill.id === 0 && !this.members[this.bill.payer_id].activated;
         },
-        billFormattedTitle: function() {
+        billFormattedTitle() {
             const links = this.bill.what.match(/https?:\/\/[^\s]+/gi) || [];
             let linkChars = '';
             for (let i = 0; i < links.length; i++) {
@@ -67,14 +67,14 @@ export default {
             }
             return paymentmodeChar + categoryChar + this.bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars;
         },
-        smartPayerName: function() {
+        smartPayerName() {
             let memberName = '';
             if (this.bill.payer_id !== 0) {
                 memberName = getSmartMemberName(this.projectId, this.bill.payer_id);
             }
             return memberName;
         },
-        smartOwerNames: function() {
+        smartOwerNames() {
             const owerIds = this.bill.owerIds;
             // get missing members
             let nbMissingEnabledMembers = 0;
@@ -113,19 +113,19 @@ export default {
                 return owerNames;
             }
         },
-        billDate: function() {
+        billDate() {
             const billMom = moment.unix(this.bill.timestamp);
             return billMom.format('YYYY-MM-DD');
         },
-        billTime: function() {
+        billTime() {
             const billMom = moment.unix(this.bill.timestamp);
             return billMom.format('HH:mm');
         },
-        itemTitle: function() {
+        itemTitle() {
             return this.billFormattedTitle + '\n' + parseFloat(this.bill.amount).toFixed(2) + '\n' +
                 this.billDate + ' ' + this.billTime + '\n' + this.smartPayerName + ' → ' + this.smartOwerNames;
         },
-        counter: function() {
+        counter() {
             return '[' + this.index + '/' + this.nbbills + ']';
         },
     },
@@ -134,15 +134,15 @@ export default {
     },
 
     methods: {
-        myGetMemberAvatar: function(mid) {
+        myGetMemberAvatar(mid) {
             return (this.bill.payer_id === 0 || this.bill.id === 0) ?
                 generateUrl('/apps/cospend/getAvatar?name=' + encodeURIComponent('*'))
                 : getMemberAvatar(this.projectId, mid);
         },
-        onItemClick: function() {
+        onItemClick() {
             this.$emit('clicked', this.bill);
         },
-        onDeleteClick: function(e) {
+        onDeleteClick(e) {
             e.stopPropagation();
             if (this.timerOn) {
                 this.timerOn = false;

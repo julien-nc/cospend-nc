@@ -78,7 +78,7 @@ export default {
         Currency
     },
 
-    data: function() {
+    data() {
         return {
             currencies: cospend.projects[cospend.currentProjectId].currencies,
             project: cospend.projects[cospend.currentProjectId],
@@ -88,12 +88,12 @@ export default {
     },
 
     methods: {
-        onEditMainOkClick: function() {
+        onEditMainOkClick() {
             const newVal = this.$refs.mainCurrencyEdit.value;
             editProject(this.project.id, this.project.name , null, null, null, newVal);
             this.editMode = false;
         },
-        onAddCurrency: function() {
+        onAddCurrency() {
             const name = this.$refs.newCurrencyName.value;
             const rate = parseFloat(this.$refs.newCurrencyRate.value);
             if (name === null || name === '') {
@@ -138,7 +138,7 @@ export default {
                 );
             });
         },
-        onDeleteCurrency: function(currency) {
+        onDeleteCurrency(currency) {
             const that = this;
             const req = {};
             let url;
@@ -172,7 +172,7 @@ export default {
             });
         },
 
-        onEditCurrency: function(currency, backupCurrency) {
+        onEditCurrency(currency, backupCurrency) {
             if (currency.name === '') {
                 Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
                 currency.name = backupCurrency.name;

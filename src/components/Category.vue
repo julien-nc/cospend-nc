@@ -46,7 +46,7 @@ export default {
     },
 
     props: ['category', 'editionAccess'],
-    data: function() {
+    data() {
         return {
             editMode: false,
             timerOn: false,
@@ -67,10 +67,10 @@ export default {
     },
 
     methods: {
-        onIconButtonClick: function() {
+        onIconButtonClick() {
             this.picker.togglePicker(this.$refs.iconButton);
         },
-        onClickEdit: function() {
+        onClickEdit() {
             this.editMode = true;
             this.categoryBackup = {
                 color: this.category.color,
@@ -79,13 +79,13 @@ export default {
             }
             this.$nextTick(() => this.$refs.cname.focus());
         },
-        onClickCancel: function() {
+        onClickCancel() {
             this.editMode = false;
             this.category.name = this.categoryBackup.name;
             this.category.color = this.categoryBackup.color;
             this.category.icon = this.categoryBackup.icon;
         },
-        onClickDelete: function() {
+        onClickDelete() {
             if (this.timerOn) {
                 this.timerOn = false;
                 this.timer.pause();
@@ -99,7 +99,7 @@ export default {
                 }, 7000);
             }
         },
-        onClickEditOk: function() {
+        onClickEditOk() {
             this.$emit('edit', this.category, this.categoryBackup);
             this.editMode = false;
         }

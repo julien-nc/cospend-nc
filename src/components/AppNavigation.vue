@@ -96,25 +96,25 @@ export default {
         closeMenu() {
             this.opened = false
         },
-        onNewBillClick: function() {
+        onNewBillClick() {
             this.$emit('newBillClicked');
         },
-        onProjectClicked: function(projectid) {
+        onProjectClicked(projectid) {
             this.$emit('projectClicked', projectid);
         },
-        onDeleteProject: function(projectid) {
+        onDeleteProject(projectid) {
             this.$emit('deleteProject', projectid);
         },
-        onQrcodeClicked: function(projectid) {
+        onQrcodeClicked(projectid) {
             this.$emit('qrcodeClicked', projectid);
         },
-        onStatsClicked: function(projectid) {
+        onStatsClicked(projectid) {
             this.$emit('statsClicked', projectid);
         },
-        onNewMember: function(projectid, name) {
+        onNewMember(projectid, name) {
             this.$emit('newMember', projectid, name);
         },
-        onMemberEdited: function(projectid, memberid) {
+        onMemberEdited(projectid, memberid) {
             this.$emit('memberEdited', projectid, memberid);
         },
         startCreateProject(e) {

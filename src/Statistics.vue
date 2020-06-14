@@ -212,7 +212,7 @@ export default {
     },
 
     props: ['projectId'],
-    data: function() {
+    data() {
         return {
             //projectId: cospend.currentProjectId,
             stats: null,
@@ -225,32 +225,32 @@ export default {
     },
 
     computed: {
-        project: function() {
+        project() {
             return cospend.projects[this.projectId];
         },
-        members: function() {
+        members() {
             return cospend.members[this.projectId];
         },
-        categories: function() {
+        categories() {
             return cospend.projects[this.projectId].categories;
         },
-        hardCodedCategories: function() {
+        hardCodedCategories() {
             return cospend.hardCodedCategories;
         },
-        currencies: function() {
+        currencies() {
             return cospend.projects[this.projectId].currencies;
         },
-        paymentModes: function() {
+        paymentModes() {
             return cospend.paymentModes;
         },
-        totalPayed: function() {
+        totalPayed() {
             let totalPayed = 0.0;
             for (let i = 0; i < this.stats.stats.length; i++) {
                 totalPayed += this.stats.stats[i].paid;
             }
             return totalPayed;
         },
-        monthlyMemberStats: function() {
+        monthlyMemberStats() {
             const rows = [];
             const memberIds = this.stats.memberIds;
             const mids = memberIds.slice();
@@ -271,7 +271,7 @@ export default {
             }
             return rows;
         },
-        categoryMonths: function() {
+        categoryMonths() {
             let months = [];
             for (const catId in this.stats.categoryMonthlyStats) {
                 for (const month in this.stats.categoryMonthlyStats[catId]) {
@@ -282,7 +282,7 @@ export default {
             distinctMonths.sort();
             return distinctMonths;
         },
-        monthlyCategoryStats: function() {
+        monthlyCategoryStats() {
             const data = [];
             let elem;
             for (const catid in this.stats.categoryMonthlyStats) {
@@ -297,7 +297,7 @@ export default {
             }
             return data;
         },
-        monthlyMemberChartData: function() {
+        monthlyMemberChartData() {
             const memberDatasets = [];
             let member;
             for (const mid in this.members) {
@@ -324,7 +324,7 @@ export default {
                 datasets: memberDatasets
             };
         },
-        monthlyMemberChartOptions: function() {
+        monthlyMemberChartOptions() {
             return {
                 scales: {
                     yAxes: [{
@@ -351,7 +351,7 @@ export default {
                 }
             };
         },
-        monthlyCategoryChartData: function() {
+        monthlyCategoryChartData() {
             let categoryDatasets = [];
             let catIdInt, category;
             for (const catId in this.stats.categoryMonthlyStats) {
@@ -385,7 +385,7 @@ export default {
                 datasets: categoryDatasets
             };
         },
-        monthlyCategoryChartOptions: function() {
+        monthlyCategoryChartOptions() {
             return {
                 ...this.monthlyMemberChartOptions,
                 title: {
@@ -394,7 +394,7 @@ export default {
                 },
             };
         },
-        memberPieData: function() {
+        memberPieData() {
             const memberBackgroundColors = [];
             const memberData = {
                 // 2 datasets: paid and spent
@@ -428,7 +428,7 @@ export default {
             memberData.datasets[1].backgroundColor = memberBackgroundColors;
             return memberData;
         },
-        memberPieOptions: function() {
+        memberPieOptions() {
             return {
                 title: {
                     display: true,
@@ -441,7 +441,7 @@ export default {
                 }
             };
         },
-        categoryPieData: function() {
+        categoryPieData() {
             const categoryData = {
                 datasets: [{
                     data: [],
@@ -461,7 +461,7 @@ export default {
             }
             return categoryData;
         },
-        categoryPieOptions: function() {
+        categoryPieOptions() {
             return {
                 ...this.memberPieOptions,
                 title: {
@@ -470,7 +470,7 @@ export default {
                 }
             }
         },
-        categoryMemberPieData: function() {
+        categoryMemberPieData() {
             const catid = this.selectedCategoryId;
             const categoryData = {
                 datasets: [{
@@ -492,7 +492,7 @@ export default {
             return categoryData;
         },
         // keeping this computed in case vue-chartjs make options reactive...
-        categoryMemberPieOptions: function() {
+        categoryMemberPieOptions() {
             return {
                 ...this.memberPieOptions,
                 title: {
@@ -501,7 +501,7 @@ export default {
                 }
             };
         },
-        memberPolarPieData: function() {
+        memberPolarPieData() {
             const memberData = {
                 datasets: [{
                     data: [],
@@ -520,7 +520,7 @@ export default {
             return memberData;
         },
         // keeping this computed in case vue-chartjs make options reactive...
-        memberPolarPieOptions: function() {
+        memberPolarPieOptions() {
             return {
                 title: {
                     display: true,
@@ -540,15 +540,15 @@ export default {
     },
 
     methods: {
-        onMemberPolarChange: function() {
+        onMemberPolarChange() {
             const mid = this.$refs.memberPolarSelect.value;
             this.selectedMemberId = mid;
         },
-        onCategoryMemberChange: function() {
+        onCategoryMemberChange() {
             const catId = this.$refs.categoryMemberSelect.value;
             this.selectedCategoryId = catId;
         },
-        getCategory: function(catId) {
+        getCategory(catId) {
             const projectid = this.projectId;
             let catName, catColor;
             if (cospend.hardCodedCategories.hasOwnProperty(catId)) {
@@ -568,7 +568,7 @@ export default {
                 color: catColor,
             }
         },
-        getCategoryPureName: function(catId) {
+        getCategoryPureName(catId) {
             const projectid = this.projectId;
             if (cospend.hardCodedCategories.hasOwnProperty(catId)) {
                 return cospend.hardCodedCategories[catId].name;
@@ -578,7 +578,7 @@ export default {
                 return t('cospend', 'No category');
             }
         },
-        getBalanceClass: function(balance) {
+        getBalanceClass(balance) {
             let balanceClass = '';
             if (balance > 0) {
                 balanceClass = 'balancePositive';
@@ -587,30 +587,30 @@ export default {
             }
             return balanceClass;
         },
-        myGetAvatarClass: function(mid) {
+        myGetAvatarClass(mid) {
             return this.members[mid].activated ? '' : ' owerAvatarDisabled';
         },
-        myGetSmartMemberName: function(mid) {
+        myGetSmartMemberName(mid) {
             let smartName = getSmartMemberName(this.projectId, mid);
             if (smartName === t('cospend', 'You')) {
                 smartName += ' (' + this.members[mid].name + ')';
             }
             return smartName;
         },
-        myGetMemberAvatar: function(pid, mid) {
+        myGetMemberAvatar(pid, mid) {
             return getMemberAvatar(pid, mid);
         },
-        myGetMemberColor: function(mid) {
+        myGetMemberColor(mid) {
             if (mid === 0) {
                 return '999999';
             } else {
                 return this.members[mid].color;
             }
         },
-        onChangeCenterMember: function(e) {
+        onChangeCenterMember(e) {
             this.getSettlement(e.target.value);
         },
-        getStats: function() {
+        getStats() {
             const that = this;
             const dateMin = this.$refs.dateMinFilter.value;
             const dateMax = this.$refs.dateMaxFilter.value;
@@ -657,7 +657,7 @@ export default {
                 Notification.showTemporary(t('cospend', 'Failed to get statistics'));
             });
         },
-        onExportClick: function() {
+        onExportClick() {
             this.loading = true;
             const that = this;
             const dateMin = this.$refs.dateMinFilter.value;

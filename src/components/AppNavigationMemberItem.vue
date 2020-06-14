@@ -63,22 +63,22 @@ export default {
         }
     },
     computed: {
-        nameTitle: function() {
+        nameTitle() {
             return this.member.name + ((this.member.weight !== 1.0) ? (' (x' + this.member.weight + ')') : '');
         },
-        balance: function() {
+        balance() {
             return this.member.balance;
         },
-        color: function() {
+        color() {
             return '#' + this.member.color;
         },
-        memberAvatar: function() {
+        memberAvatar() {
             return getMemberAvatar(this.projectId, this.member.id);
         },
-        smartMemberName: function() {
+        smartMemberName() {
             return getSmartMemberName(this.projectId, this.member.id);
         },
-        balanceClass: function() {
+        balanceClass() {
             let balanceClass = '';
             if (this.member.balance >= 0.01) {
                 balanceClass = ' balancePositive';
@@ -87,33 +87,33 @@ export default {
             }
             return 'balance ' + balanceClass;
         },
-        memberVisible: function() {
+        memberVisible() {
             const balance = this.member.balance;
             return (balance >= 0.01 || balance <= -0.01 || this.member.activated);
         },
     },
 
     methods: {
-        onDeleteMemberClick: function() {
+        onDeleteMemberClick() {
             this.member.activated = !this.member.activated;
             this.$emit('memberEdited', this.projectId, this.member.id);
         },
-        onNameSubmit: function() {
+        onNameSubmit() {
             const newName = this.$refs.nameInput.$el.querySelector('input[type="text"]').value;
             this.member.name = newName;
             this.$emit('memberEdited', this.projectId, this.member.id);
         },
-        onWeightSubmit: function() {
+        onWeightSubmit() {
             const newWeight = this.$refs.weightInput.$el.querySelector('input[type="number"]').value;
             this.member.weight = parseFloat(newWeight);
             this.$emit('memberEdited', this.projectId, this.member.id);
         },
-        updateColor: function(color) {
+        updateColor(color) {
             console.log('uiiii '+color)
             this.member.color = color.replace('#', '');
             this.$emit('memberEdited', this.projectId, this.member.id);
         },
-        onMenuColorClick: function() {
+        onMenuColorClick() {
             console.log('ccc')
             this.$refs.col.$el.querySelector('.trigger').click();
         },

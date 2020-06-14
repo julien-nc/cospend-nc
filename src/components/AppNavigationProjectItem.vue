@@ -88,10 +88,10 @@ export default {
     beforeMount() {
     },
     methods: {
-        onProjectClick: function() {
+        onProjectClick() {
             this.$emit('projectClicked', this.project.id);
         },
-        onDeleteProjectClick: function() {
+        onDeleteProjectClick() {
             this.deleting = true;
             const that = this;
             this.deletionTimer = new Timer(function () {
@@ -99,22 +99,22 @@ export default {
                 that.$emit('deleteProject', that.project.id);
             }, 7000);
         },
-        cancelDeletion: function() {
+        cancelDeletion() {
             this.deleting = false;
             this.deletionTimer.pause();
             delete this.deletionTimer;
         },
-        onQrcodeClick: function() {
+        onQrcodeClick() {
             this.$emit('qrcodeClicked', this.project.id);
         },
-        onStatsClick: function() {
+        onStatsClick() {
             this.$emit('statsClicked', this.project.id);
         },
-        onAddMember: function() {
+        onAddMember() {
             const newName = this.$refs.newMemberInput.$el.querySelector('input[type="text"]').value;
             this.$emit('newMember', this.project.id, newName);
         },
-        onMemberEdited: function(projectid, memberid) {
+        onMemberEdited(projectid, memberid) {
             this.$emit('memberEdited', projectid, memberid);
         },
     },

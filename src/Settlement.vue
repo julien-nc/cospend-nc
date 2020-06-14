@@ -51,7 +51,7 @@ export default {
     components: {
     },
 
-    data: function() {
+    data() {
         return {
             project: cospend.projects[cospend.currentProjectId],
             transactions: []
@@ -59,7 +59,7 @@ export default {
     },
 
     computed: {
-        members: function() {
+        members() {
             return cospend.members[this.project.id];
         }
     },
@@ -72,19 +72,19 @@ export default {
         myGetAvatarClass(mid) {
             return this.members[mid].activated ? '' : ' owerAvatarDisabled';
         },
-        myGetSmartMemberName: function(pid, mid) {
+        myGetSmartMemberName(pid, mid) {
             return getSmartMemberName(pid, mid);
         },
-        myGetMemberAvatar: function(pid, mid) {
+        myGetMemberAvatar(pid, mid) {
             return getMemberAvatar(pid, mid);
         },
-        myGetMemberColor: function(mid) {
+        myGetMemberColor(mid) {
             return this.members[mid].color;
         },
-        onChangeCenterMember: function(e) {
+        onChangeCenterMember(e) {
             this.getSettlement(e.target.value);
         },
-        getSettlement: function(centeredOn=null) {
+        getSettlement(centeredOn=null) {
             const that = this;
             if (parseInt(centeredOn) === 0) {
                 centeredOn = null;

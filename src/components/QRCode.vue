@@ -17,21 +17,19 @@ export default {
         this.genQRCode();
     },
 
-    data: function() {
+    data() {
         return {
         };
     },
 
     watch: {
-        link: function(val) {
+        link(val) {
             this.genQRCode();
         }
     },
 
     methods: {
-        genQRCode: function() {
-            console.log('gen QR for '+this.link)
-            console.log(this.color)
+        genQRCode() {
             const that = this;
             const img = new Image();
             // wait for the image to be loaded to generate the QRcode

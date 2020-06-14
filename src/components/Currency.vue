@@ -42,7 +42,7 @@ export default {
     },
 
     props: ['currency', 'editionAccess'],
-    data: function() {
+    data() {
         return {
             editMode: false,
             timerOn: false,
@@ -55,7 +55,7 @@ export default {
     },
 
     methods: {
-        onClickEdit: function() {
+        onClickEdit() {
             this.editMode = true;
             this.currencyBackup = {
                 exchange_rate: this.currency.exchange_rate,
@@ -63,12 +63,12 @@ export default {
             }
             this.$nextTick(() => this.$refs.cname.focus());
         },
-        onClickCancel: function() {
+        onClickCancel() {
             this.editMode = false;
             this.currency.name = this.currencyBackup.name;
             this.currency.exchange_rate = this.currencyBackup.exchange_rate;
         },
-        onClickDelete: function() {
+        onClickDelete() {
             if (this.timerOn) {
                 this.timerOn = false;
                 this.timer.pause();
@@ -83,7 +83,7 @@ export default {
                 }, 7000);
             }
         },
-        onClickEditOk: function() {
+        onClickEditOk() {
             //this.editCurrency(this.currency, this.currencyBackup);
             this.$emit('edit', this.currency, this.currencyBackup);
             this.editMode = false;

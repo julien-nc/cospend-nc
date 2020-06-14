@@ -249,7 +249,7 @@ export default {
     },
 
     props: ['bill'],
-    data: function() {
+    data() {
         return {
             projectId: cospend.currentProjectId,
             //bill: cospend.currentBill,
@@ -262,7 +262,7 @@ export default {
     },
 
     watch: {
-        //'bill.amount': function(val, oldVal) {
+        //'bill.amount'(val, oldVal) {
         //    if (!this.progAmountChange) {
         //        this.onAmountChanged();
         //    }
@@ -280,10 +280,10 @@ export default {
 
     computed: {
         selectAllNoneOwers: {
-            get: function () {
+            get() {
                 return this.activatedOrOwer ? this.bill.owerIds.length === this.activatedOrOwer.length : false;
             },
-            set: function (value) {
+            set(value) {
                 const that = this;
                 const selected = [];
 
@@ -305,7 +305,7 @@ export default {
                 this.bill.owerIds = selected;
             }
         },
-        owerAmount: function() {
+        owerAmount() {
             const result = {};
             const that = this;
             const amount = parseFloat(this.bill.amount);
@@ -326,19 +326,19 @@ export default {
             }
             return result;
         },
-        isNewBill: function() {
+        isNewBill() {
             return (this.bill.id === 0);
         },
-        noBill: function() {
+        noBill() {
             return (this.bill && this.bill.id === -1);
         },
-        project: function() {
+        project() {
             return cospend.projects[this.projectId];
         },
-        billLinks: function() {
+        billLinks() {
             return this.bill.what.match(/https?:\/\/[^\s]+/gi) || [];
         },
-        billFormattedTitle: function() {
+        billFormattedTitle() {
             let paymentmodeChar = '';
             let categoryChar = '';
             if (parseInt(this.bill.categoryid) !== 0) {
@@ -350,18 +350,18 @@ export default {
             const whatFormatted = paymentmodeChar + categoryChar + this.bill.what.replace(/https?:\/\/[^\s]+/gi, '');
             return t('cospend', 'Bill : {what}', {what: whatFormatted});
         },
-        billDate: function() {
+        billDate() {
             const billMom = moment.unix(this.bill.timestamp);
             return billMom.format('YYYY-MM-DD');
         },
-        billTime: function() {
+        billTime() {
             const billMom = moment.unix(this.bill.timestamp);
             return billMom.format('HH:mm');
         },
-        members: function() {
+        members() {
             return cospend.members[this.projectId];
         },
-        activatedMembers: function() {
+        activatedMembers() {
             const mList = [];
             for (const mid in this.members) {
                 if (this.members[mid].activated) {
@@ -370,7 +370,7 @@ export default {
             }
             return mList;
         },
-        disabledMembers: function() {
+        disabledMembers() {
             const mList = [];
             for (const mid in this.members) {
                 if (!this.members[mid].activated) {
@@ -379,7 +379,7 @@ export default {
             }
             return mList;
         },
-        activatedOrPayer: function() {
+        activatedOrPayer() {
             const mList = [];
             for (const mid in this.members) {
                 if (this.members[mid].activated || parseInt(mid) === this.bill.payer_id) {
@@ -388,7 +388,7 @@ export default {
             }
             return mList;
         },
-        activatedOrOwer: function() {
+        activatedOrOwer() {
             const mList = [];
             for (const mid in this.members) {
                 if (this.members[mid].activated || this.bill.owerIds.indexOf(parseInt(mid)) !== -1) {
@@ -397,48 +397,48 @@ export default {
             }
             return mList;
         },
-        categories: function() {
+        categories() {
             return cospend.projects[this.projectId].categories;
         },
-        hardCodedCategories: function() {
+        hardCodedCategories() {
             return cospend.hardCodedCategories;
         },
-        currencies: function() {
+        currencies() {
             return cospend.projects[this.projectId].currencies;
         },
-        paymentModes: function() {
+        paymentModes() {
             return cospend.paymentModes;
         },
-        createBillButtonText: function() {
+        createBillButtonText() {
             return this.newBillMode === 'normal' ? t('cospend', 'Create the bill') : t('cospend', 'Create the bills');
         },
     },
 
     methods: {
-        myGetSmartMemberName: function(mid) {
+        myGetSmartMemberName(mid) {
             let smartName = getSmartMemberName(this.projectId, mid);
             if (smartName === t('cospend', 'You')) {
                 smartName += ' (' + this.members[mid].name + ')';
             }
             return smartName;
         },
-        myGetAvatarClass: function(mid) {
+        myGetAvatarClass(mid) {
             return this.members[mid].activated ? '' : ' owerAvatarDisabled';
         },
-        myGetMemberAvatar: function(mid) {
+        myGetMemberAvatar(mid) {
             return getMemberAvatar(this.projectId, mid);
         },
-        myGetMemberColor: function(mid) {
+        myGetMemberColor(mid) {
             if (mid === 0) {
                 return '888888';
             } else {
                 return this.members[mid].color;
             }
         },
-        onDateChanged: function() {
+        onDateChanged() {
             this.updateTimestamp();
         },
-        onTimeChanged: function() {
+        onTimeChanged() {
             this.updateTimestamp();
         },
         updateTimestamp() {
@@ -451,7 +451,7 @@ export default {
             this.bill.timestamp = timestamp;
             this.onBillEdited();
         },
-        onBillEdited: function(e) {
+        onBillEdited(e) {
             if (e && e.target === this.$refs.amountInput) {
                 this.onAmountChanged();
             }
@@ -462,10 +462,10 @@ export default {
                 }, 2000)();
             }
         },
-        isBillValidForSaveOrNormal: function() {
+        isBillValidForSaveOrNormal() {
             return this.basicBillValueCheck() && this.bill.owerIds.length > 0;
         },
-        basicBillValueCheck: function() {
+        basicBillValueCheck() {
             let valid = true;
             const bill = this.bill;
             if (bill.what === null || bill.what === '') {
@@ -484,7 +484,7 @@ export default {
             }
             return true;
         },
-        saveBill: function() {
+        saveBill() {
             const that = this;
             if (!this.isBillValidForSaveOrNormal()) {
                 Notification.showTemporary(t('cospend', 'Impossible to save bill, invalid values'));
@@ -530,7 +530,7 @@ export default {
                 });
             }
         },
-        onCurrencyConvert: function() {
+        onCurrencyConvert() {
             let currencyId = this.$refs.currencySelect.value;
             if (currencyId !== '') {
                 const userAmount = parseFloat(this.bill.amount);
@@ -570,7 +570,7 @@ export default {
                 this.onBillEdited();
             }
         },
-        cleanStringFromCurrency: function(str) {
+        cleanStringFromCurrency(str) {
             let currency, re;
             for (let i = 0; i < this.currencies.length; i++) {
                 currency = this.currencies[i];
@@ -579,13 +579,13 @@ export default {
             }
             return str;
         },
-        onAmountChanged: function() {
+        onAmountChanged() {
             this.bill.what = this.cleanStringFromCurrency(this.bill.what);
         },
-        onHintClick: function() {
+        onHintClick() {
             this.showHint = !this.showHint;
         },
-        onCreateClick: function() {
+        onCreateClick() {
             if (this.newBillMode === 'normal') {
                 this.createNormalBill();
             } else if (this.newBillMode === 'perso') {
@@ -594,7 +594,7 @@ export default {
                 this.createCustomAmountBill();
             }
         },
-        createNormalBill: function() {
+        createNormalBill() {
             if (this.isBillValidForSaveOrNormal()) {
                 const bill = this.bill;
                 this.createBill('normal', bill.what, bill.amount, bill.payer_id, bill.timestamp, bill.owerIds, bill.repeat,
@@ -603,7 +603,7 @@ export default {
                 Notification.showTemporary(t('cospend', 'Bill values are not valid'));
             }
         },
-        createEquiPersoBill: function() {
+        createEquiPersoBill() {
             if (this.isBillValidForSaveOrNormal()) {
                 const bill = this.bill;
                 // check if personal parts are valid
@@ -640,7 +640,7 @@ export default {
                 Notification.showTemporary(t('cospend', 'Bill values are not valid'));
             }
         },
-        createCustomAmountBill: function() {
+        createCustomAmountBill() {
             if (this.basicBillValueCheck()) {
                 const bill = this.bill;
                 // check if custom amounts are valid
@@ -667,7 +667,7 @@ export default {
                 Notification.showTemporary(t('cospend', 'Bill values are not valid'));
             }
         },
-        createBill: function(mode=null, what=null, amount=null, payer_id=null, timestamp=null, owerIds=null, repeat=null,
+        createBill(mode=null, what=null, amount=null, payer_id=null, timestamp=null, owerIds=null, repeat=null,
                             paymentmode=null, categoryid=null, repeatallactive=null,
                             repeatuntil=null, comment=null) {
             const that = this;
@@ -732,7 +732,7 @@ export default {
                 );
             });
         },
-        getPersonalParts: function() {
+        getPersonalParts() {
             const result = {};
             const that = this;
             let oneWeight, owerVal;
@@ -741,7 +741,7 @@ export default {
             });
             return result;
         },
-        getCustomAmounts: function() {
+        getCustomAmounts() {
             const result = {};
             const that = this;
             let oneWeight, owerVal;
@@ -750,7 +750,7 @@ export default {
             });
             return result;
         },
-        onCustomAmountChange: function() {
+        onCustomAmountChange() {
             const customAmounts = this.getCustomAmounts();
             let am;
             let sum = 0;

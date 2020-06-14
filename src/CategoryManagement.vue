@@ -61,7 +61,7 @@ export default {
         Category
     },
 
-    data: function() {
+    data() {
         return {
             categories: cospend.projects[cospend.currentProjectId].categories,
             project: cospend.projects[cospend.currentProjectId],
@@ -83,10 +83,10 @@ export default {
     },
 
     methods: {
-        onIconButtonClick: function() {
+        onIconButtonClick() {
             this.picker.togglePicker(this.$refs.iconButton);
         },
-        onAddCategory: function() {
+        onAddCategory() {
             const name = this.$refs.newCategoryName.value;
             const icon = this.$refs.newCategoryIcon.value;
             const color = this.$refs.newCategoryColor.value;
@@ -138,7 +138,7 @@ export default {
                 );
             });
         },
-        onDeleteCategory: function(category) {
+        onDeleteCategory(category) {
             const that = this;
             const req = {};
             let url;
@@ -166,7 +166,7 @@ export default {
             });
         },
 
-        onEditCategory: function(category, backupCategory) {
+        onEditCategory(category, backupCategory) {
             if (category.name === null || category.name === '') {
                 Notification.showTemporary(t('cospend', 'Category name should not be empty'));
                 category.name = backupCategory.name;

@@ -67,7 +67,7 @@ export default {
         MoneyBusterLink,
         Statistics
     },
-    data: function() {
+    data() {
         return {
             mode: 'edition',
             cospend: cospend,
@@ -80,20 +80,20 @@ export default {
         }
     },
     computed: {
-        currentProjectId: function() {
+        currentProjectId() {
             return this.cospend.currentProjectId;
         },
-        currentProject: function() {
+        currentProject() {
             return this.projects[this.currentProjectId];
         },
-        selectedBillId: function() {
+        selectedBillId() {
             return (this.currentBill !== null) ? this.currentBill.id : -1;
         },
-        currentBills: function() {
+        currentBills() {
             console.log('[APP] get current bill list '+this.currentProjectId)
             return (this.currentProjectId && this.billLists.hasOwnProperty(this.currentProjectId)) ? this.billLists[this.currentProjectId] : [];
         },
-        defaultPayerId: function() {
+        defaultPayerId() {
             let payerId = -1;
             const members = this.members[this.currentProjectId];
             if (members && Object.keys(members).length > 0) {
@@ -113,11 +113,11 @@ export default {
             return payerId;
         },
     },
-    provide: function() {
+    provide() {
         return {
         }
     },
-    created: function() {
+    created() {
         this.getProjects();
     },
     mounted() {
@@ -125,7 +125,7 @@ export default {
         //this.$set(this.cospend, 'selectedBillId', -1);
     },
     methods: {
-        cleanupBills: function() {
+        cleanupBills() {
             const billList = this.billLists[cospend.currentProjectId];
             for (let i = 0; i < billList.length; i++) {
                 if (billList[i].id === 0) {
@@ -134,7 +134,7 @@ export default {
                 }
             }
         },
-        onBillCreated: function(bill, select) {
+        onBillCreated(bill, select) {
             this.bills[cospend.currentProjectId][bill.id] = bill;
             this.billLists[cospend.currentProjectId].push(bill);
             this.cleanupBills();
@@ -143,10 +143,10 @@ export default {
             }
             this.updateBalances(cospend.currentProjectId);
         },
-        onBillSaved: function(bill) {
+        onBillSaved(bill) {
             this.updateBalances(cospend.currentProjectId);
         },
-        onBillDeleted: function(bill) {
+        onBillDeleted(bill) {
             const billList = this.billLists[cospend.currentProjectId];
             billList.splice(billList.indexOf(bill), 1);
             if (bill.id === this.selectedBillId) {
@@ -154,44 +154,44 @@ export default {
             }
             this.updateBalances(cospend.currentProjectId);
         },
-        onProjectClicked: function(projectid) {
+        onProjectClicked(projectid) {
             if (cospend.currentProjectId !== projectid) {
                 this.selectProject(projectid);
             }
         },
-        onDeleteProject: function(projectid) {
+        onDeleteProject(projectid) {
             this.deleteProject(projectid);
         },
-        onQrcodeClicked: function(projectid) {
+        onQrcodeClicked(projectid) {
             if (cospend.currentProjectId !== projectid) {
                 this.selectProject(projectid);
             }
             this.mode = 'qrcode';
         },
-        onStatsClicked: function(projectid) {
+        onStatsClicked(projectid) {
             if (cospend.currentProjectId !== projectid) {
                 this.selectProject(projectid);
             }
             this.mode = 'stats';
         },
-        onNewMember: function(projectid, name) {
+        onNewMember(projectid, name) {
             if (this.getMemberNames(projectid).includes(name)) {
                 Notification.showTemporary(t('cospend', 'Member {name} already exists', {name: name}));
             } else {
                 this.createMember(projectid, name);
             }
         },
-        onMemberEdited: function(projectid, memberid) {
+        onMemberEdited(projectid, memberid) {
             this.editMember(projectid, memberid);
         },
-        getMemberNames: function(projectid) {
+        getMemberNames(projectid) {
             const res = [];
             for (const mid in this.members[projectid]) {
                 res.push(this.members[projectid][mid].name);
             }
             return res;
         },
-        selectProject: function(projectid, save=true) {
+        selectProject(projectid, save=true) {
             this.mode = 'edition';
             this.currentBill = null;
             this.getBills(projectid);
@@ -200,7 +200,7 @@ export default {
             }
             cospend.currentProjectId = projectid;
         },
-        onNewBillClicked: function() {
+        onNewBillClicked() {
             // find potentially existing new bill
             const billList = this.billLists[cospend.currentProjectId];
             let found = -1;
@@ -233,7 +233,7 @@ export default {
             //this.selectedBillId = billid;
             this.mode = 'edition';
         },
-        onBillClicked: function(billid) {
+        onBillClicked(billid) {
             const billList = this.billLists[cospend.currentProjectId];
             if (billid === 0) {
                 let found = -1;
@@ -249,7 +249,7 @@ export default {
             }
             this.mode = 'edition';
         },
-        getProjects: function() {
+        getProjects() {
             const that = this;
             const req = {};
             let url;
@@ -264,14 +264,13 @@ export default {
                 data: req,
                 async: true
             }).done(function(response) {
-                console.log('public ? '+cospend.pageIsPublic)
                 if (!cospend.pageIsPublic) {
                     let proj;
                     for (let i = 0; i < response.length; i++) {
                         proj = response[i];
                         that.addProject(proj);
                     }
-                    if (cospend.restoredCurrentProjectId !== null) {
+                    if (cospend.restoredCurrentProjectId !== null && cospend.restoredCurrentProjectId in that.projects) {
                         that.selectProject(cospend.restoredCurrentProjectId, false);
                     }
                 } else {
@@ -291,7 +290,7 @@ export default {
                 );
             });
         },
-        getBills: function(projectid) {
+        getBills(projectid) {
             this.billsLoading = true;
             const that = this;
             const req = {};
@@ -321,7 +320,7 @@ export default {
                 Notification.showTemporary(t('cospend', 'Failed to get bills'));
             });
         },
-        addProject: function(proj) {
+        addProject(proj) {
             cospend.projects[proj.id] = proj;
             this.$set(this.projects, proj.id, proj);
 
@@ -343,7 +342,7 @@ export default {
             this.$set(this.billLists, proj.id, cospend.billLists[proj.id]);
             //this.$set(cospend.projects, proj.id, proj);
         },
-        onCreateProject: function(name) {
+        onCreateProject(name) {
             console.log('create "'+name+'"')
             if (!name) {
                 Notification.showTemporary(t('cospend', 'Invalid project name'));
@@ -352,7 +351,7 @@ export default {
                 this.createProject(name, id);
             }
         },
-        createProject: function(name, id) {
+        createProject(name, id) {
             const that = this;
             const req = {
                 id: id,
@@ -374,7 +373,7 @@ export default {
                 Notification.showTemporary(t('cospend', 'Failed to create project') + ': ' + response.responseJSON.message);
             });
         },
-        deleteProject: function(projectid) {
+        deleteProject(projectid) {
             const that = this;
             const req = {};
             let url;
@@ -408,7 +407,7 @@ export default {
                 );
             });
         },
-        updateBalances: function(projectid) {
+        updateBalances(projectid) {
             const that = this;
             const req = {};
             let url;
@@ -434,7 +433,7 @@ export default {
                 Notification.showTemporary(t('cospend', 'Failed to update balances'));
             });
         },
-        createMember: function(projectid, name) {
+        createMember(projectid, name) {
             const that = this;
             const req = {
                 name: name
@@ -464,7 +463,7 @@ export default {
                 );
             });
         },
-        editMember: function(projectid, memberid) {
+        editMember(projectid, memberid) {
             const that = this;
             const member = this.members[projectid][memberid];
             const req = {

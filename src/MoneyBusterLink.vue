@@ -44,7 +44,7 @@ export default {
     },
 
     props: ['project'],
-    data: function() {
+    data() {
         return {
             //project: cospend.projects[cospend.currentProjectId],
             validPassword: null,
@@ -53,11 +53,11 @@ export default {
     },
 
     computed: {
-        noPassLink: function() {
+        noPassLink() {
             return 'https://net.eneiluj.moneybuster.cospend/' + window.location.host +
                 generateUrl('').replace('/index.php', '') + this.project.id + '/';
         },
-        passLink: function() {
+        passLink() {
             let url = null;
             if (this.validPassword) {
                 url = 'https://net.eneiluj.moneybuster.cospend/' + window.location.host +
@@ -68,7 +68,7 @@ export default {
     },
 
     methods: {
-        onPasswordPressEnter: function() {
+        onPasswordPressEnter() {
             const that = this;
             const password = this.$refs.passInput.value;
             const url = generateUrl('/apps/cospend/checkpassword/' + this.project.id + '/' + password);

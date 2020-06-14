@@ -6,14 +6,16 @@
         v-show="memberVisible"
         >
         <div class="memberAvatar" slot="icon">
-            <div class="disabledMask" v-show="!member.activated"></div>
-            <img :src="memberAvatar"/>
+            <ColorPicker class="app-navigation-entry-bullet-wrapper memberColorPicker" :value="`#${member.color}`" @input="updateColor" ref="col">
+                <div class="disabledMask" v-show="!member.activated"></div>
+                <img :src="memberAvatar"/>
+            </ColorPicker>
         </div>
         <template slot="counter">
             <span :class="balanceClass">{{ member.balance.toFixed(2) }}</span>
         </template>
         <template slot="actions">
-            <ActionInput :disabled="false" icon="icon-edit" type="text" :value="member.name"
+            <ActionInput :disabled="false" icon="icon-rename" type="text" :value="member.name"
                 ref="nameInput" @submit="onNameSubmit"
                 >
             </ActionInput>
@@ -22,10 +24,9 @@
                 >
                 {{ t('cospend', 'Weight') }} ({{ member.weight }})
             </ActionInput>
-            <ActionInput :disabled="false" icon="icon-palette" type="color"
-                :value="color" ref="colorInput" @submit="onColorSubmit"
-                >
-            </ActionInput>
+            <ActionButton icon="icon-palette" @click="onMenuColorClick">
+                {{ t('cospend', 'Change color') }}
+            </ActionButton>
             <ActionButton :icon="member.activated ? 'icon-delete' : 'icon-history'" @click="onDeleteMemberClick">
                 {{ member.activated ? t('cospend', 'Deactivate') : t('cospend', 'Reactivate') }}
             </ActionButton>
@@ -37,7 +38,7 @@
 import ClickOutside from 'vue-click-outside'
 import {
     ActionButton, AppNavigation as AppNavigationVue, AppNavigationIconBullet,
-    AppNavigationSettings, AppNavigationItem, ActionInput
+    AppNavigationSettings, AppNavigationItem, ActionInput, ColorPicker
 } from '@nextcloud/vue'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import cospend from '../state';
@@ -51,7 +52,7 @@ export default {
         AppNavigationSettings,
         AppNavigationIconBullet,
         ActionButton,
-        ActionInput
+        ActionInput, ColorPicker
     },
     directives: {
         ClickOutside,
@@ -93,11 +94,6 @@ export default {
     },
 
     methods: {
-        onColorSubmit: function() {
-            const newColor = this.$refs.colorInput.$el.querySelector('input[type="color"]').value;
-            this.member.color = newColor.replace('#', '');
-            this.$emit('memberEdited', this.projectId, this.member.id);
-        },
         onDeleteMemberClick: function() {
             this.member.activated = !this.member.activated;
             this.$emit('memberEdited', this.projectId, this.member.id);
@@ -111,7 +107,16 @@ export default {
             const newWeight = this.$refs.weightInput.$el.querySelector('input[type="number"]').value;
             this.member.weight = parseFloat(newWeight);
             this.$emit('memberEdited', this.projectId, this.member.id);
-        }
+        },
+        updateColor: function(color) {
+            console.log('uiiii '+color)
+            this.member.color = color.replace('#', '');
+            this.$emit('memberEdited', this.projectId, this.member.id);
+        },
+        onMenuColorClick: function() {
+            console.log('ccc')
+            this.$refs.col.$el.querySelector('.trigger').click();
+        },
     },
 
 }
@@ -121,5 +126,8 @@ export default {
 
 .memberItem {
     padding-left: 30px !important;
+}
+.memberColorPicker .trigger {
+    height: 25px !important;
 }
 </style>

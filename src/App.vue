@@ -3,6 +3,7 @@
 		<AppNavigation
             :projects="projects"
             @projectClicked="onProjectClicked"
+            @newBillClicked="onNewBillClicked"
         />
 		<div id="app-content">
             <div id="app-content-wrapper">
@@ -10,12 +11,14 @@
                     :loading="billsLoading"
                     :projectId="currentProjectId"
                     :bills="currentBills"
+                    :selectedBillId="selectedBillId"
                     :editionAccess="true"
                     @itemClicked="onBillClicked"
                 />
                 <BillForm
                     v-if="currentBill !== null && mode === 'edition'"
                     :bill="currentBill"
+                    @billCreated="onBillCreated"
                 />
             </div>
 		</div>
@@ -54,15 +57,12 @@ export default {
 		}
 	},
 	computed: {
-        //projects: function() {
-        //    return this.cospend.projects;
-        //},
         currentProjectId: function() {
             return this.cospend.currentProjectId;
         },
-        //currentBill: function() {
-        //    return this.cospend.currentBill;
-        //},
+        selectedBillId: function() {
+            return (this.currentBill !== null) ? this.currentBill.id : -1;
+        },
         currentBills: function() {
             console.log('[APP] get current bill list '+this.currentProjectId)
             return (this.currentProjectId && this.billLists.hasOwnProperty(this.currentProjectId)) ? this.billLists[this.currentProjectId] : [];
@@ -73,9 +73,6 @@ export default {
 		}
 	},
 	created: function() {
-        // TODO load preferences, when finished =>
-        // restore selected (set currentmachin)
-        // get projects
         this.getProjects();
     },
     mounted() {
@@ -83,6 +80,23 @@ export default {
         //this.$set(this.cospend, 'selectedBillId', -1);
     },
     methods: {
+        cleanupBills: function() {
+            const billList = this.billLists[cospend.currentProjectId];
+            for (let i = 0; i < billList.length; i++) {
+                if (billList[i].id === 0) {
+                    billList.splice(i, 1);
+                    break;
+                }
+            }
+        },
+        onBillCreated: function(bill, select) {
+            this.bills[cospend.currentProjectId][bill.id] = bill;
+            this.billLists[cospend.currentProjectId].push(bill);
+            this.cleanupBills();
+            if (select) {
+                this.currentBill = bill;
+            }
+        },
         onProjectClicked: function(projectid) {
             console.log('[APP] on project clicked')
             this.getBills(projectid);
@@ -90,8 +104,51 @@ export default {
             this.currentBill = null;
             cospend.currentProjectId = projectid;
         },
+        onNewBillClicked: function() {
+            // find potentially existing new bill
+            const billList = this.billLists[cospend.currentProjectId];
+            let found = -1;
+            for (let i = 0; i < billList.length; i++) {
+                if (billList[i].id === 0) {
+                    found = i;
+                    break;
+                }
+            }
+            if (found === -1) {
+                this.currentBill = {
+                    id: 0,
+                    what: '',
+                    timestamp: moment().unix(),
+                    amount: 0.0,
+                    payer_id: 0,
+                    repeat: 'n',
+                    owers: [],
+                    owerIds: [],
+                    paymentmode: 'n',
+                    categoryid: 0,
+                    comment: ''
+                };
+                this.billLists[cospend.currentProjectId].push(this.currentBill);
+            } else {
+                this.currentBill = billList[found];
+            }
+            // select new bill in case it was not selected yet
+            //this.selectedBillId = billid;
+        },
         onBillClicked: function(billid) {
-            this.currentBill = this.bills[cospend.currentProjectId][billid];
+            const billList = this.billLists[cospend.currentProjectId];
+            if (billid === 0) {
+                let found = -1;
+                for (let i = 0; i < billList.length; i++) {
+                    if (billList[i].id === 0) {
+                        found = i;
+                        break;
+                    }
+                }
+                this.currentBill = billList[found];
+            } else {
+                this.currentBill = this.bills[cospend.currentProjectId][billid];
+            }
         },
         getProjects: function() {
             const that = this;

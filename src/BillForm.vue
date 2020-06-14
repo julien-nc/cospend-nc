@@ -596,7 +596,9 @@ export default {
         },
         createNormalBill: function() {
             if (this.isBillValidForSaveOrNormal()) {
-                this.createBill();
+                const bill = this.bill;
+                this.createBill('normal', bill.what, bill.amount, bill.payer_id, bill.timestamp, bill.owerIds, bill.repeat,
+                    bill.paymentmode, bill.categoryid, bill.repeatallactive, bill.repeatuntil, bill.comment);
             } else {
                 Notification.showTemporary(t('cospend', 'Bill values are not valid'));
             }
@@ -623,14 +625,17 @@ export default {
                 for (const mid in persoParts) {
                     part = persoParts[mid];
                     if (!isNaN(part) && part !== 0.0) {
-                        this.createBill(bill.what, part, bill.payer_id, bill.timestamp, [mid], bill.repeat,
+                        this.createBill('perso', bill.what, part, bill.payer_id, bill.timestamp, [mid], bill.repeat,
                             bill.paymentmode, bill.categoryid, bill.repeatallactive, bill.repeatuntil, bill.comment);
                     }
                 }
 
                 // create main bill
-                this.createBill(bill.what, tmpAmount, bill.payer_id, bill.timestamp, bill.owerIds, bill.repeat,
-                    bill.paymentmode, bill.categoryid, bill.repeatallactive, bill.repeatuntil, bill.comment);
+                if (tmpAmount > 0.0) {
+                    this.createBill('mainPerso', bill.what, tmpAmount, bill.payer_id, bill.timestamp, bill.owerIds, bill.repeat,
+                        bill.paymentmode, bill.categoryid, bill.repeatallactive, bill.repeatuntil, bill.comment);
+                }
+                this.newBillMode = 'normal';
             } else {
                 Notification.showTemporary(t('cospend', 'Bill values are not valid'));
             }
@@ -652,34 +657,37 @@ export default {
                     for (const mid in customAmounts) {
                         am = customAmounts[mid];
                         if (am !== 0.0) {
-                            this.createBill(bill.what, am, bill.payer_id, bill.timestamp, [mid], bill.repeat,
+                            this.createBill('custom', bill.what, am, bill.payer_id, bill.timestamp, [mid], bill.repeat,
                                 bill.paymentmode, bill.categoryid, bill.repeatallactive, bill.repeatuntil, bill.comment);
                         }
                     }
                 }
+                this.newBillMode = 'normal';
             } else {
                 Notification.showTemporary(t('cospend', 'Bill values are not valid'));
             }
         },
-        createBill: function(what=null, amount=null, payer_id=null, timestamp=null, owerIds=null, repeat=null,
+        createBill: function(mode=null, what=null, amount=null, payer_id=null, timestamp=null, owerIds=null, repeat=null,
                             paymentmode=null, categoryid=null, repeatallactive=null,
                             repeatuntil=null, comment=null) {
-            const bill = this.bill;
             const that = this;
-            if (this.newBillMode === 'normal') {
-                what = bill.what;
-                amount = bill.amount;
-                payer_id = bill.payer_id;
-                timestamp = bill.timestamp;
-                owerIds = bill.owerIds,
-                repeat = bill.repeat;
-                paymentmode = bill.paymentmode;
-                categoryid = bill.categoryid;
-                repeatallactive = bill.repeatallactive ? 1 : 0;
-                repeatuntil = bill.repeatuntil;
-                comment = bill.comment;
+            if (mode === null) {
+                mode = that.newBillMode;
             }
-
+            const bill = this.bill;
+            const billToCreate = {
+                what: what,
+                comment: comment,
+                timestamp: timestamp,
+                payer_id: payer_id,
+                owerIds: owerIds,
+                amount: amount,
+                repeat: repeat,
+                repeatallactive: repeatallactive,
+                repeatuntil: repeatuntil,
+                paymentmode: paymentmode,
+                categoryid: categoryid
+            };
             const req = {
                 what: what,
                 comment: comment,
@@ -710,33 +718,10 @@ export default {
                 // update dict
                 // TODO use $set
                 //that.$set(cospend.bills[this.projectId], billid, {
-                cospend.bills[that.projectId][billid] = {
-                    id: billid,
-                    what: what,
-                    comment: comment,
-                    timestamp: timestamp,
-                    amount: amount,
-                    payer_id: payer_id,
-                    owerIds: owerIds,
-                    repeat: repeat,
-                    repeatallactive: repeatallactive,
-                    repeatuntil: repeatuntil,
-                    paymentmode: paymentmode,
-                    categoryid: categoryid
-                };
 
-                if (that.newBillMode === 'normal') {
-                    // just set the id to make current bill not new anymore
-                    that.bill.id = billid;
-                } else {
-                    // if multiple bills were created, just don't change anything but reload bill list
-                    getBills(that.projectId);
-                    console.log('ccc raz');
-                    //that.$set(cospend, 'currentBill', null);
-                    that.bill.id = -1;
-                }
-                updateProjectBalances(that.projectId);
-                that.$emit('billCreated', billid);
+                billToCreate.id = billid;
+                that.$emit('billCreated', billToCreate, (mode === 'normal' || mode === 'mainPerso'));
+                //updateProjectBalances(that.projectId);
                 Notification.showTemporary(t('cospend', 'Bill created'));
             }).always(function() {
                 that.billLoading = false;

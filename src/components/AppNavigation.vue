@@ -8,6 +8,7 @@
                     />
                 <AppNavigationItem
                     :title="t('cospend', 'New bill')"
+                    @click="onNewBillClick"
                     icon="icon-edit"
                     />
                 <AppNavigationItem
@@ -75,7 +76,10 @@ export default {
         },
         onProjectClick: function(projectid) {
             this.$emit('projectClicked', projectid);
-        }
+        },
+        onNewBillClick: function() {
+            this.$emit('newBillClicked');
+        },
 	},
 }
 </script>

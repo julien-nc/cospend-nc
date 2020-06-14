@@ -8,7 +8,7 @@
             :projectId="projectId"
             :index="nbBills - index"
             :nbbills="nbBills"
-            :selected="bill.id === cospend.selectedBillId"
+            :selected="bill.id === selectedBillId"
             :editionAccess="editionAccess"
             v-on:clicked="onItemClicked"
             v-on:delete="onItemDeleted"/>
@@ -31,7 +31,7 @@ export default {
     },
 
     //TODO
-    props: ['projectId', 'bills', 'editionAccess', 'loading'],
+    props: ['projectId', 'bills', 'selectedBillId', 'editionAccess', 'loading'],
 	data: function() {
 		return {
             // TODEL
@@ -45,7 +45,7 @@ export default {
 
     mounted() {
         // once this is done, it becomes reactive...
-        this.$set(this.cospend, 'selectedBillId', -1);
+        //this.$set(this.cospend, 'selectedBillId', -1);
     },
 
 	computed: {

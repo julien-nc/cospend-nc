@@ -11,36 +11,19 @@
                     @click="onNewBillClick"
                     icon="icon-edit"
                     />
-                <AppNavigationItem
+                <AppNavigationProjectItem
                     v-for="(project, id) in projects"
                     :key="id"
-                    :title="project.name"
-                    icon="icon-folder"
-                    :allow-collapse="true"
-                    :open="id === selectedProjectId"
-                    @click="onProjectClick(id)"
-                    :forceMenu="true"
-                    >
-                    <template slot="actions">
-                        <ActionButton icon="icon-category-monitoring" @click="onStatsClick(id)">
-                            {{ t('cospend', 'Statistics') }}
-                        </ActionButton>
-                        <ActionButton icon="icon-phone" @click="onQrcodeClick(id)">
-                            {{ t('cospend', 'Link/QRCode for MoneyBuster') }}
-                        </ActionButton>
-                        <ActionButton icon="icon-delete" @click="alert('Delete')">
-                            {{ t('cospend', 'Delete') }}
-                        </ActionButton>
-                    </template>
-                    <template>
-                        <AppNavigationMemberItem
-                            v-for="member in project.members"
-                            :key="member.id"
-                            :member="member"
-                            :projectId="project.id"
-                            />
-                    </template>
-                </AppNavigationItem>
+                    :project="project"
+                    :members="project.members"
+                    :selected="id === selectedProjectId"
+                    @projectClicked="onProjectClicked"
+                    @deleteProjectClicked="onDeleteProjectClicked"
+                    @qrcodeClicked="onQrcodeClicked"
+                    @statsClicked="onStatsClicked"
+                    @newMember="onNewMember"
+                    @memberEdited="onMemberEdited"
+                    />
             </ul>
             <AppNavigationSettings>
                 <div>
@@ -63,7 +46,7 @@
 
 <script>
 import ClickOutside from 'vue-click-outside'
-import AppNavigationMemberItem from './AppNavigationMemberItem';
+import AppNavigationProjectItem from './AppNavigationProjectItem';
 import {
     ActionButton, AppNavigation as AppNavigationVue, AppNavigationIconBullet,
     AppNavigationSettings, AppNavigationItem, ActionInput
@@ -75,7 +58,7 @@ import {getMemberName, getSmartMemberName, getMemberAvatar} from '../member';
 export default {
     name: 'AppNavigation',
     components: {
-        AppNavigationMemberItem,
+        AppNavigationProjectItem,
         AppNavigationVue,
         AppNavigationItem,
         AppNavigationSettings,
@@ -90,7 +73,7 @@ export default {
     data() {
         return {
             opened: false,
-            loading: false
+            loading: false,
         }
     },
     computed: {
@@ -104,17 +87,26 @@ export default {
         closeMenu() {
             this.opened = false
         },
-        onProjectClick: function(projectid) {
-            this.$emit('projectClicked', projectid);
-        },
         onNewBillClick: function() {
             this.$emit('newBillClicked');
         },
-        onQrcodeClick: function(projectid) {
+        onProjectClicked: function(projectid) {
+            this.$emit('projectClicked', projectid);
+        },
+        onDeleteProjectClicked: function(projectid) {
+            this.$emit('deleteProjectClicked', projectid);
+        },
+        onQrcodeClicked: function(projectid) {
             this.$emit('qrcodeClicked', projectid);
         },
-        onStatsClick: function(projectid) {
+        onStatsClicked: function(projectid) {
             this.$emit('statsClicked', projectid);
+        },
+        onNewMember: function(projectid, name) {
+            this.$emit('newMember', projectid, name);
+        },
+        onMemberEdited: function(projectid, memberid) {
+            this.$emit('memberEdited', projectid, memberid);
         },
     },
 }

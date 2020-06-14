@@ -4,9 +4,12 @@
             :projects="projects"
             :selectedProjectId="currentProjectId"
             @projectClicked="onProjectClicked"
+            @deleteProjectClicked="onDeleteProjectClicked"
             @newBillClicked="onNewBillClicked"
             @qrcodeClicked="onQrcodeClicked"
             @statsClicked="onStatsClicked"
+            @newMember="onNewMember"
+            @memberEdited="onMemberEdited"
         />
         <div id="app-content">
             <div id="app-content-wrapper">
@@ -52,6 +55,7 @@ import {getCurrentUser} from '@nextcloud/auth';
 import * as Notification from './notification';
 import * as constants from './constants';
 import {rgbObjToHex, saveOptionValue} from './utils';
+import { getMemberName } from './member';
 
 export default {
     name: 'App',
@@ -152,6 +156,9 @@ export default {
         onProjectClicked: function(projectid) {
             this.selectProject(projectid);
         },
+        onDeleteProjectClicked: function(projectid) {
+            this.deleteProject(projectid);
+        },
         onQrcodeClicked: function(projectid) {
             if (cospend.currentProjectId !== projectid) {
                 this.selectProject(projectid);
@@ -164,12 +171,30 @@ export default {
             }
             this.mode = 'stats';
         },
+        onNewMember: function(projectid, name) {
+            if (this.getMemberNames(projectid).includes(name)) {
+                Notification.showTemporary(t('cospend', 'Member {name} already exists', {name: name}));
+            } else {
+                this.createMember(projectid, name);
+            }
+        },
+        onMemberEdited: function(projectid, memberid) {
+            this.editMember(projectid, memberid);
+        },
+        getMemberNames: function(projectid) {
+            const res = [];
+            for (const mid in this.members[projectid]) {
+                res.push(this.members[projectid][mid].name);
+            }
+            return res;
+        },
         selectProject: function(projectid, save=true) {
+            this.mode = 'edition';
+            this.currentBill = null;
             this.getBills(projectid);
             if (save) {
                 saveOptionValue({selectedProject: projectid});
             }
-            this.currentBill = null;
             cospend.currentProjectId = projectid;
         },
         onNewBillClicked: function() {
@@ -316,6 +341,40 @@ export default {
                 Notification.showTemporary(t('cospend', 'Failed to get bills'));
             });
         },
+        deleteProject: function(projectid) {
+            const that = this;
+            const req = {};
+            let url;
+            if (!cospend.pageIsPublic) {
+                url = generateUrl('/apps/cospend/projects/' + projectid);
+            } else {
+                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password);
+            }
+            $.ajax({
+                type: 'DELETE',
+                url: url,
+                data: req,
+                async: true,
+            }).done(function() {
+                that.currentBill = null;
+                delete projects[projectid];
+                delete bills[projectid];
+                delete billLists[projectid];
+                delete members[projectid];
+
+                if (cospend.pageIsPublic) {
+                    const redirectUrl = generateUrl('/apps/cospend/login');
+                    window.location.replace(redirectUrl);
+                }
+                Notification.showTemporary(t('cospend', 'Deleted project {id}', {id: projectid}));
+            }).always(function() {
+            }).fail(function(response) {
+                Notification.showTemporary(
+                    t('cospend', 'Failed to delete project') +
+                    ': ' + (response.responseJSON)
+                );
+            });
+        },
         updateBalances: function(projectid) {
             const that = this;
             const req = {};
@@ -342,7 +401,67 @@ export default {
             }).fail(function() {
                 Notification.showTemporary(t('cospend', 'Failed to update balances'));
             });
-
+        },
+        createMember: function(projectid, name) {
+            const that = this;
+            const req = {
+                name: name
+            };
+            let url;
+            if (!cospend.pageIsPublic) {
+                url = generateUrl('/apps/cospend/projects/' + projectid + '/members');
+            } else {
+                url = generateUrl('/apps/cospend/apiv2/projects/' + cospend.projectid + '/' + cospend.password + '/members');
+            }
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: req,
+                async: true,
+            }).done(function(response) {
+                response.balance = 0;
+                response.color = rgbObjToHex(response.color).replace('#', '');
+                that.$set(that.members[projectid], response.id, response);
+                that.projects[projectid].members.unshift(response);
+                Notification.showTemporary(t('cospend', 'Created member {name}', {name: name}));
+            }).always(function() {
+            }).fail(function(response) {
+                Notification.showTemporary(
+                    t('cospend', 'Failed to add member') +
+                    ': ' + (response.responseJSON.message)
+                );
+            });
+        },
+        editMember: function(projectid, memberid) {
+            const that = this;
+            const member = this.members[projectid][memberid];
+            const req = {
+                name: member.name,
+                weight: member.weight,
+                activated: member.activated,
+                color: member.color,
+                userid: member.userid
+            };
+            let url;
+            if (!cospend.pageIsPublic) {
+                url = generateUrl('/apps/cospend/projects/' + projectid + '/members/' + memberid);
+            } else {
+                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/members/' + memberid);
+            }
+            $.ajax({
+                type: 'PUT',
+                url: url,
+                data: req,
+                async: true,
+            }).done(function(response) {
+                Notification.showTemporary(t('cospend', 'Member saved'));
+            }).always(function() {
+            }).fail(function(response) {
+                Notification.showTemporary(
+                    t('cospend', 'Failed to save member') +
+                    ': ' + (response.responseJSON.message)
+                );
+            });
         },
     }
 }

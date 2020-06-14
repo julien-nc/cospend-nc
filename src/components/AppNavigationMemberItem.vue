@@ -1,11 +1,13 @@
 <template>
     <AppNavigationItem
         class="memberItem"
-        :title="member.name"
+        :title="nameTitle"
         :editable="true"
         :forceMenu="true"
         v-show="memberVisible"
         :editLabel="t('cospend', 'Rename')"
+        ref="nameInput"
+        @update:title="onMemberRename"
         >
         <div class="memberAvatar" slot="icon">
             <div class="disabledMask" v-show="!member.activated"></div>
@@ -16,12 +18,15 @@
             <span :class="balanceClass">{{ member.balance.toFixed(2) }}</span>
         </template>
         <template slot="actions">
-            <ActionInput :disabled="false" icon="icon-quota">
-                {{ t('cospend', 'Weight') }}
+            <ActionInput :disabled="false" icon="icon-quota" type="number" step="0.1" :value="''"
+                ref="weightInput" @submit="onWeightSubmit"
+                >
+                {{ t('cospend', 'Weight') }} ({{ member.weight }})
             </ActionInput>
-            <ActionButton icon="icon-palette" @click="onChangeColorClick">
-                {{ t('cospend', 'Change color') }}
-            </ActionButton>
+            <ActionInput :disabled="false" icon="icon-palette" type="color"
+                :value="color" ref="colorInput" @submit="onColorSubmit"
+                >
+            </ActionInput>
             <ActionButton :icon="member.activated ? 'icon-delete' : 'icon-history'" @click="onDeleteMemberClick">
                 {{ member.activated ? t('cospend', 'Deactivate') : t('cospend', 'Reactivate') }}
             </ActionButton>
@@ -58,8 +63,14 @@ export default {
         }
     },
     computed: {
+        nameTitle: function() {
+            return this.member.name + ((this.member.weight !== 1.0) ? (' (x' + this.member.weight + ')') : '');
+        },
         balance: function() {
             return this.member.balance;
+        },
+        color: function() {
+            return '#' + this.member.color;
         },
         memberAvatar: function() {
             return getMemberAvatar(this.projectId, this.member.id);
@@ -83,13 +94,24 @@ export default {
     },
 
     methods: {
-        onChangeColorClick: function() {
-            console.log(this.member.balance)
-            console.log(this.balance)
-
+        onColorSubmit: function() {
+            const newColor = this.$refs.colorInput.$el.querySelector('input[type="color"]').value;
+            this.member.color = newColor.replace('#', '');
+            this.$emit('memberEdited', this.projectId, this.member.id);
         },
         onDeleteMemberClick: function() {
-
+            this.member.activated = !this.member.activated;
+            this.$emit('memberEdited', this.projectId, this.member.id);
+        },
+        onMemberRename: function() {
+            const newName = this.$refs.nameInput.$el.querySelector('input[type="text"]').value;
+            this.member.name = newName;
+            this.$emit('memberEdited', this.projectId, this.member.id);
+        },
+        onWeightSubmit: function() {
+            const newWeight = this.$refs.weightInput.$el.querySelector('input[type="number"]').value;
+            this.member.weight = parseFloat(newWeight);
+            this.$emit('memberEdited', this.projectId, this.member.id);
         }
     },
 

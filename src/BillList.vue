@@ -59,13 +59,11 @@ export default {
 
     methods: {
         onItemClicked: function(bill) {
-            //this.cospend.selectedBillId = bill.id;
-            //displayBill(this.projectId, bill.id);
             this.$emit('itemClicked', bill.id);
         },
         onItemDeleted: function(bill) {
             if (bill.id === 0) {
-                this.bills.splice(this.bills.indexOf(bill), 1);
+                this.$emit('itemDeleted', bill);
             } else {
                 this.deleteBill(bill);
             }
@@ -85,8 +83,7 @@ export default {
                 data: req,
                 async: true,
             }).done(function() {
-                that.bills.splice(that.bills.indexOf(bill), 1);
-                delete cospend.bills[that.projectId][bill.id];
+                that.$emit('itemDeleted', bill);
                 //updateProjectBalances(projectid);
                 Notification.showTemporary(t('cospend', 'Bill deleted'));
             }).always(function() {

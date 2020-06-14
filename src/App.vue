@@ -14,6 +14,7 @@
                     :selectedBillId="selectedBillId"
                     :editionAccess="true"
                     @itemClicked="onBillClicked"
+                    @itemDeleted="onBillDeleted"
                 />
                 <BillForm
                     v-if="currentBill !== null && mode === 'edition'"
@@ -67,6 +68,25 @@ export default {
             console.log('[APP] get current bill list '+this.currentProjectId)
             return (this.currentProjectId && this.billLists.hasOwnProperty(this.currentProjectId)) ? this.billLists[this.currentProjectId] : [];
         },
+        defaultPayerId: function() {
+            let payerId = -1;
+            const members = this.members[this.currentProjectId];
+            if (members && Object.keys(members).length > 0) {
+                if (cospend.pageIsPublic) {
+                    payerId = Object.keys(members)[0];
+                } else {
+                    payerId = Object.keys(members)[0];
+                    let member;
+                    for (const mid in members) {
+                        member = members[mid];
+                        if (member.userid === getCurrentUser().uid) {
+                            payerId = member.id;
+                        }
+                    }
+                }
+            }
+            return payerId;
+        },
 	},
 	provide: function() {
 		return {
@@ -97,8 +117,14 @@ export default {
                 this.currentBill = bill;
             }
         },
+        onBillDeleted: function(bill) {
+            const billList = this.billLists[cospend.currentProjectId];
+            billList.splice(billList.indexOf(bill), 1);
+            if (bill.id === this.selectedBillId) {
+                this.currentBill = null;
+            }
+        },
         onProjectClicked: function(projectid) {
-            console.log('[APP] on project clicked')
             this.getBills(projectid);
             saveOptionValue({selectedProject: projectid});
             this.currentBill = null;
@@ -115,12 +141,13 @@ export default {
                 }
             }
             if (found === -1) {
+                const payer_id = this.defaultPayerId;
                 this.currentBill = {
                     id: 0,
                     what: '',
                     timestamp: moment().unix(),
                     amount: 0.0,
-                    payer_id: 0,
+                    payer_id: payer_id,
                     repeat: 'n',
                     owers: [],
                     owerIds: [],

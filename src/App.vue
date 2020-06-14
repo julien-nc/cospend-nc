@@ -4,7 +4,7 @@
             :projects="projects"
             :selectedProjectId="currentProjectId"
             @projectClicked="onProjectClicked"
-            @deleteProjectClicked="onDeleteProjectClicked"
+            @deleteProject="onDeleteProject"
             @newBillClicked="onNewBillClicked"
             @qrcodeClicked="onQrcodeClicked"
             @statsClicked="onStatsClicked"
@@ -159,7 +159,7 @@ export default {
                 this.selectProject(projectid);
             }
         },
-        onDeleteProjectClicked: function(projectid) {
+        onDeleteProject: function(projectid) {
             this.deleteProject(projectid);
         },
         onQrcodeClicked: function(projectid) {

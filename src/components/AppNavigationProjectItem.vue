@@ -1,12 +1,15 @@
 <template>
-    <AppNavigationItem
+    <AppNavigationItem v-if="deleting" title="Are you sure you want to delete?" :undo="true"
+        @undo="cancelDeletion"
+     />
+    <AppNavigationItem v-else
         :title="project.name"
         icon="icon-folder"
         :allow-collapse="true"
         :open="selected"
         :class="{'selectedproject': selected}"
         @click="onProjectClick"
-        :forceMenu="true"
+        :forceMenu="false"
         >
         <template slot="actions">
             <ActionInput :disabled="false" icon="icon-user" ref="newMemberInput" @submit="onAddMember">
@@ -43,6 +46,7 @@ import {
 } from '@nextcloud/vue'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import cospend from '../state';
+import {Timer} from "../utils";
 import {getMemberName, getSmartMemberName, getMemberAvatar} from '../member';
 
 export default {
@@ -62,6 +66,8 @@ export default {
     props: ['project', 'members', 'selected'],
     data() {
         return {
+            deleting: false,
+            deletionTimer: null
         }
     },
     computed: {
@@ -73,7 +79,17 @@ export default {
             this.$emit('projectClicked', this.project.id);
         },
         onDeleteProjectClick: function() {
-            this.$emit('deleteProjectClicked', this.project.id);
+            this.deleting = true;
+            const that = this;
+            this.deletionTimer = new Timer(function () {
+                //that.deleting = false;
+                that.$emit('deleteProject', that.project.id);
+            }, 7000);
+        },
+        cancelDeletion: function() {
+            this.deleting = false;
+            this.deletionTimer.pause();
+            delete this.deletionTimer;
         },
         onQrcodeClick: function() {
             this.$emit('qrcodeClicked', this.project.id);

@@ -25,7 +25,7 @@
                     :members="project.members"
                     :selected="id === selectedProjectId"
                     @projectClicked="onProjectClicked"
-                    @deleteProjectClicked="onDeleteProjectClicked"
+                    @deleteProject="onDeleteProject"
                     @qrcodeClicked="onQrcodeClicked"
                     @statsClicked="onStatsClicked"
                     @newMember="onNewMember"
@@ -102,8 +102,8 @@ export default {
         onProjectClicked: function(projectid) {
             this.$emit('projectClicked', projectid);
         },
-        onDeleteProjectClicked: function(projectid) {
-            this.$emit('deleteProjectClicked', projectid);
+        onDeleteProject: function(projectid) {
+            this.$emit('deleteProject', projectid);
         },
         onQrcodeClicked: function(projectid) {
             this.$emit('qrcodeClicked', projectid);

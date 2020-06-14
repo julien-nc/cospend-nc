@@ -2,10 +2,17 @@
     <div id="app-navigation" :class="{'icon-loading': loading}">
         <AppNavigationVue>
             <ul>
-                <AppNavigationItem
-                    :title="t('cospend', 'New project')"
+                <AppNavigationItem v-if="!creating"
+                    :title="t('deck', 'New project')"
                     icon="icon-add"
-                    />
+                    @click.prevent.stop="startCreateProject" />
+                <div v-else class="project-create">
+                    <form @submit.prevent.stop="createProject">
+                        <input :placeholder="t('cospend', 'New project name')" type="text" required>
+                        <input type="submit" value="" class="icon-confirm">
+                        <Actions><ActionButton icon="icon-close" @click.stop.prevent="cancelCreate" /></Actions>
+                    </form>
+                </div>
                 <AppNavigationItem
                     :title="t('cospend', 'New bill')"
                     @click="onNewBillClick"
@@ -49,7 +56,7 @@ import ClickOutside from 'vue-click-outside'
 import AppNavigationProjectItem from './AppNavigationProjectItem';
 import {
     ActionButton, AppNavigation as AppNavigationVue, AppNavigationIconBullet,
-    AppNavigationSettings, AppNavigationItem, ActionInput
+    AppNavigationSettings, AppNavigationItem, ActionInput, Actions
 } from '@nextcloud/vue'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import cospend from '../state';
@@ -64,7 +71,8 @@ export default {
         AppNavigationSettings,
         AppNavigationIconBullet,
         ActionButton,
-        ActionInput
+        ActionInput,
+        Actions
     },
     directives: {
         ClickOutside,
@@ -74,6 +82,7 @@ export default {
         return {
             opened: false,
             loading: false,
+            creating: false
         }
     },
     computed: {
@@ -108,6 +117,17 @@ export default {
         onMemberEdited: function(projectid, memberid) {
             this.$emit('memberEdited', projectid, memberid);
         },
+        startCreateProject(e) {
+            this.creating = true;
+        },
+        createProject(e) {
+            const name = e.currentTarget.childNodes[0].value;
+            this.$emit('createProject', name);
+            this.creating = false;
+        },
+        cancelCreate(e) {
+            this.creating = false;
+        },
     },
 }
 </script>
@@ -117,6 +137,18 @@ export default {
         margin-top: 20px;
         margin-bottom: 20px;
         color: var(--color-text-light);
+    }
+}
+.project-create {
+    order: 1;
+    display: flex;
+    height: 44px;
+    form {
+        display: flex;
+        flex-grow: 1;
+        input[type="text"] {
+            flex-grow: 1;
+        }
     }
 }
 </style>

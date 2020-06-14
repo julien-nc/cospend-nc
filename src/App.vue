@@ -10,6 +10,7 @@
             @statsClicked="onStatsClicked"
             @newMember="onNewMember"
             @memberEdited="onMemberEdited"
+            @createProject="onCreateProject"
         />
         <div id="app-content">
             <div id="app-content-wrapper">
@@ -54,7 +55,7 @@ import {generateUrl} from '@nextcloud/router';
 import {getCurrentUser} from '@nextcloud/auth';
 import * as Notification from './notification';
 import * as constants from './constants';
-import {rgbObjToHex, saveOptionValue} from './utils';
+import {rgbObjToHex, saveOptionValue, slugify} from './utils';
 import { getMemberName } from './member';
 
 export default {
@@ -265,34 +266,10 @@ export default {
             }).done(function(response) {
                 console.log('public ? '+cospend.pageIsPublic)
                 if (!cospend.pageIsPublic) {
-                    //cospend.bills = {};
-                    //cospend.billLists = {};
-                    //cospend.members = {};
-                    //cospend.projects = {};
                     let proj;
                     for (let i = 0; i < response.length; i++) {
                         proj = response[i];
-
-                        cospend.projects[proj.id] = proj;
-                        that.$set(that.projects, proj.id, proj);
-
-                        cospend.members[proj.id] = {};
-                        that.$set(that.members, proj.id, cospend.members[proj.id]);
-                        for (let i = 0; i < proj.members.length; i++) {
-                            cospend.members[proj.id][proj.members[i].id] = proj.members[i];
-                            that.$set(that.members[proj.id], proj.members[i].id, proj.members[i]);
-                            //proj.members[i].balance = proj.balance[proj.members[i].id];
-                            that.$set(that.members[proj.id][proj.members[i].id], 'balance', proj.balance[proj.members[i].id]);
-                            //proj.members[i].color = rgbObjToHex(proj.members[i].color).replace('#', '');
-                            that.$set(that.members[proj.id][proj.members[i].id], 'color', rgbObjToHex(proj.members[i].color).replace('#', ''));
-                        }
-
-                        cospend.bills[proj.id] = {};
-                        that.$set(that.bills, proj.id, cospend.bills[proj.id]);
-
-                        cospend.billLists[proj.id] = [];
-                        that.$set(that.billLists, proj.id, cospend.billLists[proj.id]);
-                        //that.$set(cospend.projects, proj.id, proj);
+                        that.addProject(proj);
                     }
                     if (cospend.restoredCurrentProjectId !== null) {
                         that.selectProject(cospend.restoredCurrentProjectId, false);
@@ -301,10 +278,11 @@ export default {
                     if (!response.myaccesslevel) {
                         response.myaccesslevel = response.guestaccesslevel;
                     }
-                    //addProject(response);
-                    that.projects[response.id] = response;
+                    that.addProject(response);
+                    that.selectProject(response.id, false);
+                    //that.projects[response.id] = response;
                     //that.$set(cospend.projects, response.id, response);
-                    cospend.currentProjectId = cospend.projectid;
+                    //cospend.currentProjectId = cospend.projectid;
                 }
             }).always(function() {
             }).fail(function(response) {
@@ -343,6 +321,59 @@ export default {
                 Notification.showTemporary(t('cospend', 'Failed to get bills'));
             });
         },
+        addProject: function(proj) {
+            cospend.projects[proj.id] = proj;
+            this.$set(this.projects, proj.id, proj);
+
+            cospend.members[proj.id] = {};
+            this.$set(this.members, proj.id, cospend.members[proj.id]);
+            for (let i = 0; i < proj.members.length; i++) {
+                cospend.members[proj.id][proj.members[i].id] = proj.members[i];
+                this.$set(this.members[proj.id], proj.members[i].id, proj.members[i]);
+                //proj.members[i].balance = proj.balance[proj.members[i].id];
+                this.$set(this.members[proj.id][proj.members[i].id], 'balance', proj.balance[proj.members[i].id]);
+                //proj.members[i].color = rgbObjToHex(proj.members[i].color).replace('#', '');
+                this.$set(this.members[proj.id][proj.members[i].id], 'color', rgbObjToHex(proj.members[i].color).replace('#', ''));
+            }
+
+            cospend.bills[proj.id] = {};
+            this.$set(this.bills, proj.id, cospend.bills[proj.id]);
+
+            cospend.billLists[proj.id] = [];
+            this.$set(this.billLists, proj.id, cospend.billLists[proj.id]);
+            //this.$set(cospend.projects, proj.id, proj);
+        },
+        onCreateProject: function(name) {
+            console.log('create "'+name+'"')
+            if (!name) {
+                Notification.showTemporary(t('cospend', 'Invalid project name'));
+            } else {
+                const id = slugify(name);
+                this.createProject(name, id);
+            }
+        },
+        createProject: function(name, id) {
+            const that = this;
+            const req = {
+                id: id,
+                name: name,
+                password: null
+            };
+            const url = generateUrl('/apps/cospend/projects');
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: req,
+                async: true,
+            }).done(function(response) {
+                that.addProject(response);
+                that.selectProject(response.id);
+            }).always(function() {
+                $('#createproject').removeClass('icon-loading-small');
+            }).fail(function(response) {
+                Notification.showTemporary(t('cospend', 'Failed to create project') + ': ' + response.responseJSON.message);
+            });
+        },
         deleteProject: function(projectid) {
             const that = this;
             const req = {};
@@ -359,10 +390,10 @@ export default {
                 async: true,
             }).done(function() {
                 that.currentBill = null;
-                delete projects[projectid];
-                delete bills[projectid];
-                delete billLists[projectid];
-                delete members[projectid];
+                that.$delete(that.projects, projectid);
+                that.$delete(that.bills, projectid);
+                that.$delete(that.billLists, projectid);
+                that.$delete(that.members, projectid);
 
                 if (cospend.pageIsPublic) {
                     const redirectUrl = generateUrl('/apps/cospend/login');
@@ -396,7 +427,6 @@ export default {
                 for (const memberid in response.balance) {
                     balance = response.balance[memberid];
                     //that.members[projectid][memberid].balance = balance;
-                    console.log('update '+that.members[projectid][memberid].name+' to '+balance)
                     that.$set(that.members[projectid][memberid], 'balance', balance);
                 }
             }).always(function() {

@@ -1,64 +1,69 @@
 <template>
-<div id="manage-currencies">
-    <div id="main-currency-div">
-        <label>
-            <a class="icon icon-tag"></a>{{ t('cospend', 'Main currency') }}
-        </label>
-        <div id="main-currency-label" v-show="!editMode">
-            <label id="main-currency-label-label">{{ project.currencyname || t('cospend', 'None') }}</label>
-            <input type="submit" value="" class="icon-rename editMainCurrency"
-                v-show="project.myaccesslevel >= constants.ACCESS.MAINTENER"
-                v-on:click="editMode=true; $nextTick(() => $refs.mainCurrencyEdit.focus());"/>
-        </div>
-        <div id="main-currency-edit" v-show="editMode">
-            <input type="text" maxlength="64" :value="project.currencyname || ''"
-                class="editMainCurrencyInput" :placeholder="t('cospend', 'Main currency name')"
-                ref="mainCurrencyEdit"
-                v-on:keyup.enter="onEditMainOkClick"
-                @focus="$event.target.select()"/>
-            <input type="submit" value="" class="icon-close editMainCurrencyClose" v-on:click="editMode=false"/>
-            <input type="submit" value="" class="icon-checkmark editMainCurrencyOk" @click="onEditMainOkClick"/>
-        </div>
-    </div>
-    <hr>
-    <div id="currencies-div">
-        <div id="add-currency-div" v-show="project.myaccesslevel >= constants.ACCESS.MAINTENER">
-            <label>
-                <a class="icon icon-add"></a>{{ t('cospend', 'Add currency') }}
-            </label>
-            <div id="add-currency">
-                <label for="addCurrencyNameInput">{{ t('cospend', 'Name') }}</label>
-                <input type="text" value="" maxlength="64" id="addCurrencyNameInput"
-                    v-on:keyup.enter="onAddCurrency"
-                    ref="newCurrencyName" :placeholder="t('cospend', 'New currency name')"/>
-                <label for="addCurrencyRateInput">{{ t('cospend', 'Exchange rate to main currency') }}</label>
-                <input type="number" value="1" id="addCurrencyRateInput"
-                    v-on:keyup.enter="onAddCurrency"
-                    ref="newCurrencyRate" step="0.0001" min="0"/>
-                <label class="addCurrencyRateHint">{{ t('cospend', '(1 of this currency = X of main currency)') }}</label>
-                <button class="addCurrencyOk" @click="onAddCurrency">
-                    <span class="icon-add"></span>
-                    <span>{{ t('cospend', 'Add this currency') }}</span>
-                </button>
-            </div>
-            <hr>
-        </div>
-        <br>
-        <label>
-            <a class="icon icon-currencies"></a>{{ t('cospend', 'Currency list') }}
-        </label>
-        <div id="currency-list" v-if="currencies.length">
-            <Currency
-                :editionAccess="project.myaccesslevel >= constants.ACCESS.MAINTENER"
-                v-on:delete="onDeleteCurrency"
-                v-on:edit="onEditCurrency"
-                v-for="currency in currencies"
-                :key="currency.id"
-                v-bind:currency="currency"/>
-        </div>
-        <div v-else class="no-currencies">
-            {{ t('cospend', 'No currencies to display') }}
-        </div>
+<div id="billdetail" class="app-content-details">
+	<h2 id="curTitle"><span class="icon-currencies"></span>
+		{{ t('cospend', 'Currencies of project {name}', {name: project.name}) }}
+	</h2>
+    <div id="manage-currencies">
+		<div id="main-currency-div">
+			<label>
+				<a class="icon icon-tag"></a>{{ t('cospend', 'Main currency') }}
+			</label>
+			<div id="main-currency-label" v-show="!editMode">
+				<label id="main-currency-label-label">{{ project.currencyname || t('cospend', 'None') }}</label>
+				<input type="submit" value="" class="icon-rename editMainCurrency"
+					v-show="project.myaccesslevel >= constants.ACCESS.MAINTENER"
+					v-on:click="editMode=true; $nextTick(() => $refs.mainCurrencyEdit.focus());"/>
+			</div>
+			<div id="main-currency-edit" v-show="editMode">
+				<input type="text" maxlength="64" :value="project.currencyname || ''"
+					class="editMainCurrencyInput" :placeholder="t('cospend', 'Main currency name')"
+					ref="mainCurrencyEdit"
+					v-on:keyup.enter="onEditMainOkClick"
+					@focus="$event.target.select()"/>
+				<input type="submit" value="" class="icon-close editMainCurrencyClose" v-on:click="editMode=false"/>
+				<input type="submit" value="" class="icon-checkmark editMainCurrencyOk" @click="onEditMainOkClick"/>
+			</div>
+		</div>
+		<hr>
+		<div id="currencies-div">
+			<div id="add-currency-div" v-show="project.myaccesslevel >= constants.ACCESS.MAINTENER">
+				<label>
+					<a class="icon icon-add"></a>{{ t('cospend', 'Add currency') }}
+				</label>
+				<div id="add-currency">
+					<label for="addCurrencyNameInput">{{ t('cospend', 'Name') }}</label>
+					<input type="text" value="" maxlength="64" id="addCurrencyNameInput"
+						v-on:keyup.enter="onAddCurrency"
+						ref="newCurrencyName" :placeholder="t('cospend', 'New currency name')"/>
+					<label for="addCurrencyRateInput">{{ t('cospend', 'Exchange rate to main currency') }}</label>
+					<input type="number" value="1" id="addCurrencyRateInput"
+						v-on:keyup.enter="onAddCurrency"
+						ref="newCurrencyRate" step="0.0001" min="0"/>
+					<label class="addCurrencyRateHint">{{ t('cospend', '(1 of this currency = X of main currency)') }}</label>
+					<button class="addCurrencyOk" @click="onAddCurrency">
+						<span class="icon-add"></span>
+						<span>{{ t('cospend', 'Add this currency') }}</span>
+					</button>
+				</div>
+				<hr>
+			</div>
+			<br>
+			<label>
+				<a class="icon icon-currencies"></a>{{ t('cospend', 'Currency list') }}
+			</label>
+			<div id="currency-list" v-if="currencies.length">
+				<Currency
+					:editionAccess="project.myaccesslevel >= constants.ACCESS.MAINTENER"
+					v-on:delete="onDeleteCurrency"
+					v-on:edit="onEditCurrency"
+					v-for="currency in currencies"
+					:key="currency.id"
+					v-bind:currency="currency"/>
+			</div>
+			<div v-else class="no-currencies">
+				{{ t('cospend', 'No currencies to display') }}
+			</div>
+		</div>
     </div>
 </div>
 </template>
@@ -78,14 +83,22 @@ export default {
         Currency
     },
 
+	props: ['projectId'],
     data() {
         return {
-            currencies: cospend.projects[cospend.currentProjectId].currencies,
-            project: cospend.projects[cospend.currentProjectId],
             constants: constants,
             editMode: false
         };
-    },
+	},
+
+	computed: {
+		currencies() {
+			return cospend.projects[cospend.currentProjectId].currencies;
+		},
+		project() {
+			return cospend.projects[cospend.currentProjectId];
+		},
+	},
 
     methods: {
         onEditMainOkClick() {
@@ -269,5 +282,8 @@ export default {
 }
 #currency-list {
     margin-left: 37px;
+}
+#curTitle {
+    padding: 20px 0px 20px 0px;
 }
 </style>

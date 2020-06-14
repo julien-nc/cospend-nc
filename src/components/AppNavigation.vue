@@ -29,6 +29,7 @@
                     @qrcodeClicked="onQrcodeClicked"
                     @statsClicked="onStatsClicked"
                     @categoryClicked="onCategoryClicked"
+                    @currencyClicked="onCurrencyClicked"
                     @newMember="onNewMember"
                     @memberEdited="onMemberEdited"
                     />
@@ -114,6 +115,9 @@ export default {
         },
         onCategoryClicked(projectid) {
             this.$emit('categoryClicked', projectid);
+        },
+        onCurrencyClicked(projectid) {
+            this.$emit('currencyClicked', projectid);
         },
         onNewMember(projectid, name) {
             this.$emit('newMember', projectid, name);

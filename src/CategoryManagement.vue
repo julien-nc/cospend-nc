@@ -1,46 +1,51 @@
 <template>
-<div id="manage-categories">
-    <div id="categories-div">
-        <div id="add-category-div" v-show="editionAccess">
-            <label>
-                <a class="icon icon-add"></a>{{ t('cospend', 'Add category') }}
-            </label>
-            <div id="add-category">
-                <label for="addCategoryIconInput">{{ t('cospend', 'Icon') }}</label>
-                <div id="add-icon-input-div">
-                    <input type="text" value="" maxlength="3" id="addCategoryIconInput" ref="newCategoryIcon"/>
-                    <button class="add-icon-button" @click="onIconButtonClick" ref="iconButton">🙂</button>
-                </div>
-                <label for="addCategoryNameInput">{{ t('cospend', 'Name') }}</label>
-                <input type="text" value="" maxlength="300" id="addCategoryNameInput"
-                    v-on:keyup.enter="onAddCategory"
-                    ref="newCategoryName" :placeholder="t('cospend', 'New category name')"/>
-                <label for="addCategoryColorInput">{{ t('cospend', 'Color') }}</label>
-                <input type="color" value="" id="addCategoryColorInput" ref="newCategoryColor"/>
-                <button class="addCategoryOk" @click="onAddCategory">
-                    <span class="icon-add"></span>
-                    <span>{{ t('cospend', 'Add this category') }}</span>
-                </button>
-            </div>
-            <hr>
-        </div>
-        <br>
-        <label>
-            <a class="icon icon-category-app-bundles"></a>{{ t('cospend', 'Category list') }}
-        </label>
-        <div id="category-list" v-if="categories">
-            <Category
-                :editionAccess="editionAccess"
-                v-on:delete="onDeleteCategory"
-                v-on:edit="onEditCategory"
-                v-for="category in categories"
-                :key="category.id"
-                v-bind:category="category"/>
-        </div>
-        <div v-else class="no-categories">
-            {{ t('cospend', 'No categories to display') }}
-        </div>
-    </div>
+<div id="billdetail" class="app-content-details">
+	<h2 id="catTitle"><span class="icon-category-app-bundles"></span>
+		{{ t('cospend', 'Categories of project {name}', {name: project.name}) }}
+	</h2>
+    <div id="manage-categories">
+		<div id="categories-div">
+			<div id="add-category-div" v-show="editionAccess">
+				<label>
+					<a class="icon icon-add"></a>{{ t('cospend', 'Add category') }}
+				</label>
+				<div id="add-category">
+					<label for="addCategoryIconInput">{{ t('cospend', 'Icon') }}</label>
+					<div id="add-icon-input-div">
+						<input type="text" value="" maxlength="3" id="addCategoryIconInput" ref="newCategoryIcon"/>
+						<button class="add-icon-button" @click="onIconButtonClick" ref="iconButton">🙂</button>
+					</div>
+					<label for="addCategoryNameInput">{{ t('cospend', 'Name') }}</label>
+					<input type="text" value="" maxlength="300" id="addCategoryNameInput"
+						v-on:keyup.enter="onAddCategory"
+						ref="newCategoryName" :placeholder="t('cospend', 'New category name')"/>
+					<label for="addCategoryColorInput">{{ t('cospend', 'Color') }}</label>
+					<input type="color" value="" id="addCategoryColorInput" ref="newCategoryColor"/>
+					<button class="addCategoryOk" @click="onAddCategory">
+						<span class="icon-add"></span>
+						<span>{{ t('cospend', 'Add this category') }}</span>
+					</button>
+				</div>
+				<hr>
+			</div>
+			<br>
+			<label>
+				<a class="icon icon-category-app-bundles"></a>{{ t('cospend', 'Category list') }}
+			</label>
+			<div id="category-list" v-if="categories">
+				<Category
+					:editionAccess="editionAccess"
+					v-on:delete="onDeleteCategory"
+					v-on:edit="onEditCategory"
+					v-for="category in categories"
+					:key="category.id"
+					v-bind:category="category"/>
+			</div>
+			<div v-else class="no-categories">
+				{{ t('cospend', 'No categories to display') }}
+			</div>
+		</div>
+	</div>
 </div>
 </template>
 
@@ -252,5 +257,8 @@ export default {
 #main-category-label-label,
 #add-category label {
     line-height: 40px;
+}
+#catTitle {
+    padding: 20px 0px 20px 0px;
 }
 </style>

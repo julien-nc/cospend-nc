@@ -9,6 +9,7 @@
             @qrcodeClicked="onQrcodeClicked"
             @statsClicked="onStatsClicked"
             @categoryClicked="onCategoryClicked"
+            @currencyClicked="onCurrencyClicked"
             @newMember="onNewMember"
             @memberEdited="onMemberEdited"
             @createProject="onCreateProject"
@@ -43,6 +44,10 @@
                     :projectId="currentProjectId"
                     @categoryDeleted="onCategoryDeleted"
                 />
+                <CurrencyManagement
+                    v-if="mode === 'currency'"
+                    :projectId="currentProjectId"
+                />
             </div>
         </div>
         <!--router-view name="sidebar" /-->
@@ -55,6 +60,7 @@ import AppNavigation from './components/AppNavigation'
 import BillForm from './BillForm';
 import BillList from './BillList';
 import CategoryManagement from './CategoryManagement';
+import CurrencyManagement from './CurrencyManagement';
 import MoneyBusterLink from './MoneyBusterLink';
 import Statistics from './Statistics';
 import cospend from './state';
@@ -73,7 +79,8 @@ export default {
         BillForm,
         MoneyBusterLink,
         Statistics,
-        CategoryManagement
+        CategoryManagement,
+        CurrencyManagement
     },
     data() {
         return {
@@ -187,6 +194,12 @@ export default {
                 this.selectProject(projectid);
             }
             this.mode = 'category';
+        },
+        onCurrencyClicked(projectid) {
+            if (cospend.currentProjectId !== projectid) {
+                this.selectProject(projectid);
+            }
+            this.mode = 'currency';
         },
         onNewMember(projectid, name) {
             if (this.getMemberNames(projectid).includes(name)) {
@@ -500,6 +513,7 @@ export default {
                 async: true,
             }).done(function(response) {
                 Notification.showTemporary(t('cospend', 'Member saved'));
+                that.updateBalances(cospend.currentProjectId);
             }).always(function() {
             }).fail(function(response) {
                 Notification.showTemporary(

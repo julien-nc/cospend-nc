@@ -29,6 +29,9 @@
             <ActionButton icon="icon-category-app-bundles" @click="onCategoryClick">
                 {{ t('cospend', 'Manage categories') }}
             </ActionButton>
+            <ActionButton icon="icon-currencies" @click="onCurrencyClick">
+                {{ t('cospend', 'Manage currencies') }}
+            </ActionButton>
             <ActionButton icon="icon-category-monitoring" @click="onStatsClick">
                 {{ t('cospend', 'Statistics') }}
             </ActionButton>
@@ -115,6 +118,9 @@ export default {
         },
         onCategoryClick() {
             this.$emit('categoryClicked', this.project.id);
+        },
+        onCurrencyClick() {
+            this.$emit('currencyClicked', this.project.id);
         },
         onAddMember() {
             const newName = this.$refs.newMemberInput.$el.querySelector('input[type="text"]').value;

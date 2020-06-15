@@ -231,7 +231,10 @@
 import cospend from './state';
 import {generateUrl} from '@nextcloud/router';
 import {getCurrentUser} from '@nextcloud/auth';
-import * as Notification from './notification';
+import {
+    showSuccess,
+    showError,
+} from '@nextcloud/dialogs'
 import * as constants from './constants';
 import {getMemberName, getSmartMemberName, getMemberAvatar} from './member';
 import {getCategory} from './category';
@@ -487,7 +490,7 @@ export default {
         saveBill() {
             const that = this;
             if (!this.isBillValidForSaveOrNormal()) {
-                Notification.showTemporary(t('cospend', 'Impossible to save bill, invalid values'));
+                showError(t('cospend', 'Impossible to save bill, invalid values.'));
             } else {
                 this.billLoading = true;
                 const bill = this.bill;
@@ -519,11 +522,11 @@ export default {
                     updateProjectBalances(that.projectId);
                     // to update balances
                     that.$emit('billSaved', that.bill);
-                    Notification.showTemporary(t('cospend', 'Bill saved'));
+                    showSuccess(t('cospend', 'Bill saved.'));
                 }).always(function() {
                     that.billLoading = false;
                 }).fail(function(response) {
-                    Notification.showTemporary(
+                    showError(
                         t('cospend', 'Failed to save bill') +
                         ' ' + (response.responseJSON.message)
                     );
@@ -600,7 +603,7 @@ export default {
                 this.createBill('normal', bill.what, bill.amount, bill.payer_id, bill.timestamp, bill.owerIds, bill.repeat,
                     bill.paymentmode, bill.categoryid, bill.repeatallactive, bill.repeatuntil, bill.comment);
             } else {
-                Notification.showTemporary(t('cospend', 'Bill values are not valid'));
+                showError(t('cospend', 'Bill values are not valid.'));
             }
         },
         createEquiPersoBill() {
@@ -617,7 +620,7 @@ export default {
                     }
                 }
                 if (tmpAmount < 0.0) {
-                    Notification.showTemporary(t('cospend', 'Personal parts are bigger than the paid amount'));
+                    showError(t('cospend', 'Personal parts are bigger than the paid amount.'));
                     return;
                 }
 
@@ -637,7 +640,7 @@ export default {
                 }
                 this.newBillMode = 'normal';
             } else {
-                Notification.showTemporary(t('cospend', 'Bill values are not valid'));
+                showError(t('cospend', 'Bill values are not valid.'));
             }
         },
         createCustomAmountBill() {
@@ -650,7 +653,7 @@ export default {
                     total += customAmounts[mid];
                 }
                 if (total === 0.0) {
-                    Notification.showTemporary(t('cospend', 'There is no custom amount'));
+                    showError(t('cospend', 'There is no custom amount.'));
                     return;
                 } else {
                     let am;
@@ -664,7 +667,7 @@ export default {
                 }
                 this.newBillMode = 'normal';
             } else {
-                Notification.showTemporary(t('cospend', 'Bill values are not valid'));
+                showError(t('cospend', 'Bill values are not valid.'));
             }
         },
         createBill(mode=null, what=null, amount=null, payer_id=null, timestamp=null, owerIds=null, repeat=null,
@@ -722,11 +725,11 @@ export default {
                 billToCreate.id = billid;
                 that.$emit('billCreated', billToCreate, (mode === 'normal' || mode === 'mainPerso'));
                 //updateProjectBalances(that.projectId);
-                Notification.showTemporary(t('cospend', 'Bill created'));
+                showSuccess(t('cospend', 'Bill created.'));
             }).always(function() {
                 that.billLoading = false;
             }).fail(function(response) {
-                Notification.showTemporary(
+                showError(
                     t('cospend', 'Failed to create bill') +
                     ': ' + (response.responseJSON.message || response.responseText)
                 );

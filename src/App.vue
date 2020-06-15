@@ -84,7 +84,10 @@ import Sidebar from './components/Sidebar';
 import cospend from './state';
 import {generateUrl} from '@nextcloud/router';
 import {getCurrentUser} from '@nextcloud/auth';
-import * as Notification from './notification';
+import {
+    showSuccess,
+    showError,
+} from '@nextcloud/dialogs'
 import * as constants from './constants';
 import {rgbObjToHex, saveOptionValue, slugify} from './utils';
 import { getMemberName } from './member';
@@ -275,7 +278,7 @@ export default {
         },
         onNewMember(projectid, name) {
             if (this.getMemberNames(projectid).includes(name)) {
-                Notification.showTemporary(t('cospend', 'Member {name} already exists', {name: name}));
+                showError(t('cospend', 'Member {name} already exists', {name: name}));
             } else {
                 this.createMember(projectid, name);
             }
@@ -397,7 +400,7 @@ export default {
                 }
             }).always(function() {
             }).fail(function(response) {
-                Notification.showTemporary(t('cospend', 'Failed to get projects') +
+                showError(t('cospend', 'Failed to get projects') +
                     ': ' + (response.responseJSON)
                 );
             });
@@ -430,7 +433,7 @@ export default {
             }).always(function() {
                 that.billsLoading = false;
             }).fail(function() {
-                Notification.showTemporary(t('cospend', 'Failed to get bills'));
+                showError(t('cospend', 'Failed to get bills'));
             });
         },
         addProject(proj) {
@@ -461,7 +464,7 @@ export default {
         },
         onCreateProject(name) {
             if (!name) {
-                Notification.showTemporary(t('cospend', 'Invalid project name'));
+                showError(t('cospend', 'Invalid project name'));
             } else {
                 const id = slugify(name);
                 this.createProject(name, id);
@@ -486,7 +489,7 @@ export default {
             }).always(function() {
                 $('#createproject').removeClass('icon-loading-small');
             }).fail(function(response) {
-                Notification.showTemporary(t('cospend', 'Failed to create project') + ': ' + response.responseJSON.message);
+                showError(t('cospend', 'Failed to create project') + ': ' + response.responseJSON.message);
             });
         },
         deleteProject(projectid) {
@@ -514,11 +517,11 @@ export default {
                     const redirectUrl = generateUrl('/apps/cospend/login');
                     window.location.replace(redirectUrl);
                 }
-                Notification.showTemporary(t('cospend', 'Deleted project {id}', {id: projectid}));
+                showSuccess(t('cospend', 'Deleted project {id}', {id: projectid}));
                 that.deselectProject();
             }).always(function() {
             }).fail(function(response) {
-                Notification.showTemporary(
+                showError(
                     t('cospend', 'Failed to delete project') +
                     ': ' + (response.responseJSON)
                 );
@@ -547,7 +550,7 @@ export default {
                 }
             }).always(function() {
             }).fail(function() {
-                Notification.showTemporary(t('cospend', 'Failed to update balances'));
+                showError(t('cospend', 'Failed to update balances'));
             });
         },
         createMember(projectid, name) {
@@ -571,10 +574,10 @@ export default {
                 response.color = rgbObjToHex(response.color).replace('#', '');
                 that.$set(that.members[projectid], response.id, response);
                 that.projects[projectid].members.unshift(response);
-                Notification.showTemporary(t('cospend', 'Created member {name}', {name: name}));
+                showSuccess(t('cospend', 'Created member {name}', {name: name}));
             }).always(function() {
             }).fail(function(response) {
-                Notification.showTemporary(
+                showError(
                     t('cospend', 'Failed to add member') +
                     ': ' + (response.responseJSON.message)
                 );
@@ -602,12 +605,12 @@ export default {
                 data: req,
                 async: true,
             }).done(function(response) {
-                Notification.showTemporary(t('cospend', 'Member saved'));
+                showSuccess(t('cospend', 'Member saved.'));
                 that.updateBalances(cospend.currentProjectId);
             }).always(function() {
             }).fail(function(response) {
-                Notification.showTemporary(
-                    t('cospend', 'Failed to save member') +
+                showError(
+                    t('cospend', 'Failed to save member.') +
                     ': ' + (response.responseJSON.message)
                 );
             });

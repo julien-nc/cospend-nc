@@ -160,7 +160,7 @@ export default {
                 showSuccess(t('cospend', 'Project imported.'))
             }).always(function() {
             }).fail(function(response) {
-                Notification.showTemporary(
+                showError(
                     t('cospend', 'Failed to import project file') +
                     ': ' + response.responseJSON.message
                 );

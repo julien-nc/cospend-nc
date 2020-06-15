@@ -197,7 +197,10 @@
 
 <script>
 import {generateUrl} from '@nextcloud/router';
-import * as Notification from './notification';
+import {
+    showSuccess,
+    showError,
+} from '@nextcloud/dialogs'
 import {getMemberName, getSmartMemberName, getMemberAvatar} from './member';
 import cospend from './state';
 import LineChartJs from './components/LineChartJs';
@@ -660,7 +663,7 @@ export default {
                 );
             }).always(function() {
             }).fail(function() {
-                Notification.showTemporary(t('cospend', 'Failed to get statistics'));
+                showError(t('cospend', 'Failed to get statistics.'));
             });
         },
         onExportClick() {
@@ -693,11 +696,11 @@ export default {
                 data: req,
                 async: true
             }).done(function(response) {
-                Notification.showTemporary(t('cospend', 'Project statistics exported in {path}', {path: response.path}));
+                showSuccess(t('cospend', 'Project statistics exported in {path}', {path: response.path}));
             }).always(function() {
                 that.loading = false;
             }).fail(function(response) {
-                Notification.showTemporary(
+                showError(
                     t('cospend', 'Failed to export project statistics') +
                     ': ' + response.responseJSON.message
                 );

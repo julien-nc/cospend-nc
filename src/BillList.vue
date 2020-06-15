@@ -18,7 +18,10 @@
 <script>
 import BillItem from './components/BillItem';
 import {generateUrl} from '@nextcloud/router';
-import * as Notification from './notification';
+import {
+    showSuccess,
+    showError,
+} from '@nextcloud/dialogs'
 import cospend from './state';
 import * as constants from './constants';
 import {displayBill} from './bill';
@@ -78,10 +81,10 @@ export default {
             }).done(function() {
                 that.$emit('itemDeleted', bill);
                 //updateProjectBalances(projectid);
-                Notification.showTemporary(t('cospend', 'Bill deleted'));
+                showSuccess(t('cospend', 'Bill deleted.'));
             }).always(function() {
             }).fail(function(response) {
-                Notification.showTemporary(
+                showError(
                     t('cospend', 'Failed to delete bill') +
                     ': ' + response.responseJSON
                 );

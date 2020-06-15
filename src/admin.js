@@ -1,7 +1,11 @@
 /*jshint esversion: 6 */
 
 import {generateUrl} from '@nextcloud/router';
-import * as Notification from './notification';
+import {
+    showSuccess,
+    showInfo,
+    showError,
+} from '@nextcloud/dialogs'
 
 (function() {
     if (!OCA.Cospend) {
@@ -20,11 +24,11 @@ function setAllowAnonymousCreation(val) {
         data: req,
         async: true
     }).done(function() {
-        Notification.showTemporary(
-            t('cospend', 'Cospend setting saved')
+        showSuccess(
+            t('cospend', 'Cospend setting saved.')
         );
     }).fail(function() {
-        Notification.showTemporary(
+        showError(
             t('cospend', 'Failed to save Cospend setting')
         );
     });

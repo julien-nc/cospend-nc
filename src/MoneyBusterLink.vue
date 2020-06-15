@@ -33,7 +33,10 @@
 <script>
 import QRCode from './components/QRCode';
 import {generateUrl} from '@nextcloud/router';
-import * as Notification from './notification';
+import {
+    showSuccess,
+    showError,
+} from '@nextcloud/dialogs'
 import cospend from './state';
 
 export default {
@@ -81,7 +84,7 @@ export default {
                 if (response) {
                     that.validPassword = password;
                 } else {
-                    Notification.showTemporary(t('cospend', 'Incorrect project password'));
+                    showError(t('cospend', 'Incorrect project password.'));
                 }
             });
         }

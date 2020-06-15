@@ -53,7 +53,10 @@
 
 <script>
 import {generateUrl} from '@nextcloud/router';
-import * as Notification from './notification';
+import {
+    showSuccess,
+    showError,
+} from '@nextcloud/dialogs'
 import {getMemberName, getSmartMemberName, getMemberAvatar} from './member';
 import cospend from './state';
 import * as constants from './constants';
@@ -137,7 +140,7 @@ export default {
             }).always(function() {
             }).fail(function() {
                 that.transactions = null;
-                Notification.showTemporary(t('cospend', 'Failed to get settlement'));
+                showError(t('cospend', 'Failed to get settlement.'));
             });
         },
         onExportClick() {
@@ -164,12 +167,12 @@ export default {
                 async: true
             }).done(function() {
                 that.$emit('autoSettled', that.projectId)
-                Notification.showTemporary(t('cospend', 'Project settlement bills added'));
+                showSuccess(t('cospend', 'Project settlement bills added.'));
                 that.transactions = [];
                 that.centeredOn = 0;
             }).always(function() {
             }).fail(function(response) {
-                Notification.showTemporary(
+                showError(
                     t('cospend', 'Failed to add project settlement bills') +
                     ': ' + response.responseJSON.message
                 );
@@ -187,10 +190,10 @@ export default {
                 data: req,
                 async: true
             }).done(function(response) {
-                Notification.showTemporary(t('cospend', 'Project settlement exported in {path}', {path: response.path}));
+                showSuccess(t('cospend', 'Project settlement exported in {path}', {path: response.path}));
             }).always(function() {
             }).fail(function(response) {
-                Notification.showTemporary(
+                showError(
                     t('cospend', 'Failed to export project settlement') +
                     ': ' + response.responseJSON.message
                 );

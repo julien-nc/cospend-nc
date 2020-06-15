@@ -72,7 +72,10 @@
 import cospend from './state';
 import Currency from './components/Currency';
 import {generateUrl} from '@nextcloud/router';
-import * as Notification from './notification';
+import {
+    showSuccess,
+    showError,
+} from '@nextcloud/dialogs'
 import * as constants from './constants';
 import {editProject} from './project';
 
@@ -110,11 +113,11 @@ export default {
             const name = this.$refs.newCurrencyName.value;
             const rate = parseFloat(this.$refs.newCurrencyRate.value);
             if (name === null || name === '') {
-                Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
+                showError(t('cospend', 'Currency name should not be empty.'));
                 return;
             }
             if (isNaN(rate)) {
-                Notification.showTemporary(t('cospend', 'Exchange rate should be a number'));
+                showError(t('cospend', 'Exchange rate should be a number.'));
                 return;
             }
             const req = {
@@ -140,12 +143,12 @@ export default {
                     exchange_rate: rate,
                     id: response
                 });
-                Notification.showTemporary(t('cospend', 'Currency {n} added', {n: name}));
+                showSuccess(t('cospend', 'Currency {n} added.', {n: name}));
                 that.$refs.newCurrencyName.value = '';
                 that.$refs.newCurrencyRate.value = 1;
             }).always(function() {
             }).fail(function(response) {
-                Notification.showTemporary(
+                showError(
                     t('cospend', 'Failed to add currency') +
                     ': ' + (response.responseJSON.message || response.responseText)
                 );
@@ -178,7 +181,7 @@ export default {
                 }
             }).always(function() {
             }).fail(function(response) {
-                Notification.showTemporary(
+                showError(
                     t('cospend', 'Failed to delete currency') +
                     ': ' + response.responseJSON.message
                 );
@@ -187,7 +190,7 @@ export default {
 
         onEditCurrency(currency, backupCurrency) {
             if (currency.name === '') {
-                Notification.showTemporary(t('cospend', 'Currency name should not be empty'));
+                showError(t('cospend', 'Currency name should not be empty.'));
                 currency.name = backupCurrency.name;
                 currency.exchange_rate = backupCurrency.exchange_rate;
                 return;
@@ -213,7 +216,7 @@ export default {
                 // backup
                 currency.name = backupCurrency.name;
                 currency.exchange_rate = backupCurrency.exchange_rate;
-                Notification.showTemporary(
+                showError(
                     t('cospend', 'Failed to edit currency') +
                     '; ' + response.responseJSON.message || response.responseJSON
                 );

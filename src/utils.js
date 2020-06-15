@@ -2,7 +2,11 @@
 
 import cospend from './state';
 import {generateUrl} from '@nextcloud/router';
-import * as Notification from './notification';
+import {
+    showSuccess,
+    showInfo,
+    showError,
+} from '@nextcloud/dialogs'
 
 function hexToRgb(hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -116,8 +120,8 @@ export function saveOptionValue(optionValues) {
             async: true
         }).done(function() {
         }).fail(function() {
-            Notification.showTemporary(
-                t('cospend', 'Failed to save option values')
+            showError(
+                t('cospend', 'Failed to save option values.')
             );
         });
     }
@@ -163,7 +167,7 @@ export function generatePublicLinkToFile(targetPath, successCallback) {
     }).always(function() {
     }).fail(function(response) {
         $('.loading-bill').removeClass('icon-loading-small');
-        Notification.showTemporary(
+        showError(
             t('cospend', 'Failed to generate public link to file') +
             ': ' + response.responseJSON.message
         );
@@ -177,7 +181,7 @@ export function copyToClipboard(text) {
 }
 
 export function reload(msg) {
-    Notification.showTemporary(msg);
+    showInfo(msg);
     new Timer(function() {
         location.reload();
     }, 5000);

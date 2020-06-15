@@ -16,7 +16,11 @@ import './bootstrap';
 import App from './App';
 import vueAwesomeCountdown from 'vue-awesome-countdown';
 import VueClipboard from 'vue-clipboard2'
-import * as Notification from './notification';
+import {
+    showSuccess,
+    showInfo,
+    showError,
+} from '@nextcloud/dialogs'
 import * as Chart from 'chart.js/dist/Chart';
 import 'chart.js/dist/Chart.css';
 import {generateUrl} from '@nextcloud/router';
@@ -134,8 +138,8 @@ import cospend from './state';
             }
             main();
         }).fail(function() {
-            Notification.showTemporary(
-                t('cospend', 'Failed to restore options values')
+            showError(
+                t('cospend', 'Failed to restore options values.')
             );
         });
     }
@@ -233,7 +237,7 @@ import cospend from './state';
             $('<input id="dummycopy">').val(guestLink).appendTo('body').select();
             document.execCommand('copy');
             $('#dummycopy').remove();
-            Notification.showTemporary(t('cospend', 'Guest link copied to clipboard'));
+            showSuccess(t('cospend', 'Guest link copied to clipboard.'));
         });
 
         $('body').on('click', '#app-details-toggle', function() {

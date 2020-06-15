@@ -53,7 +53,10 @@
 import cospend from './state';
 import Category from './components/Category';
 import {generateUrl} from '@nextcloud/router';
-import * as Notification from './notification';
+import {
+    showSuccess,
+    showError,
+} from '@nextcloud/dialogs'
 import * as constants from './constants';
 import {editProject} from './project';
 import EmojiButton from '@joeattardi/emoji-button';
@@ -102,7 +105,7 @@ export default {
             const icon = this.$refs.newCategoryIcon.value;
             const color = this.$refs.newCategoryColor.value;
             if (name === null || name === '') {
-                Notification.showTemporary(t('cospend', 'Category name should not be empty'));
+                showError(t('cospend', 'Category name should not be empty.'));
                 return;
             }
             const req = {
@@ -130,13 +133,13 @@ export default {
                     color: color,
                     id: response
                 });
-                Notification.showTemporary(t('cospend', 'Category {n} added', {n: name}));
+                showSuccess(t('cospend', 'Category {n} added.', {n: name}));
                 that.$refs.newCategoryName.value = '';
                 that.$refs.newCategoryColor.value = '';
                 that.$refs.newCategoryIcon.value = '';
             }).always(function() {
             }).fail(function(response) {
-                Notification.showTemporary(
+                showError(
                     t('cospend', 'Failed to add category') +
                     ': ' + (response.responseJSON.message || response.responseText)
                 );
@@ -161,7 +164,7 @@ export default {
 				that.$emit('categoryDeleted', category.id);
             }).always(function() {
             }).fail(function(response) {
-                Notification.showTemporary(
+                showError(
                     t('cospend', 'Failed to delete category') +
                     ': ' + response.responseJSON.message
                 );
@@ -169,7 +172,7 @@ export default {
 		},
         onEditCategory(category, backupCategory) {
             if (category.name === null || category.name === '') {
-                Notification.showTemporary(t('cospend', 'Category name should not be empty'));
+                showError(t('cospend', 'Category name should not be empty.'));
                 category.name = backupCategory.name;
                 category.icon = backupCategory.icon;
                 category.color = backupCategory.color;
@@ -199,7 +202,7 @@ export default {
                 // backup
                 category.name = backupCategory.name;
                 category.exchange_rate = backupCategory.exchange_rate;
-                Notification.showTemporary(
+                showError(
                     t('cospend', 'Failed to edit category') +
                     '; ' + response.responseJSON.message || response.responseJSON
                 );

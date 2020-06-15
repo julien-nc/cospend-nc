@@ -8,6 +8,13 @@
                 @click="onClickEdit" v-show="editionAccess"/>
             <input type="submit" value="" :class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteOneCategory'"
                 @click="onClickDelete" v-show="editionAccess"/>
+            <label class="one-category-label-label" v-if="timerOn">
+                <vac :end-time="new Date().getTime() + (7000)">
+                    <template v-slot:process="{ timeObj }">
+                        <span>{{ `${timeObj.s}` }}</span>
+                    </template>
+                </vac>
+			</label>
         </div>
         <div class="one-category-edit" v-show="editMode">
             <label>{{ t('cospend', 'Icon') }}</label>
@@ -38,11 +45,13 @@
 <script>
 import {Timer} from "../utils";
 import EmojiButton from '@joeattardi/emoji-button';
+import {vueAwesomeCountdown} from 'vue-awesome-countdown'
 
 export default {
     name: 'Category',
 
     components: {
+        vueAwesomeCountdown
     },
 
     props: ['category', 'editionAccess'],
@@ -125,7 +134,7 @@ export default {
 }
 .one-category-label {
     display: grid;
-    grid-template: 1fr / 30px 150px 150px 37px 37px;
+    grid-template: 1fr / 30px 150px 150px 37px 37px 37px;
 }
 .editCategoryOk {
     background-color: #46ba61;

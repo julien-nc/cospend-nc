@@ -6,6 +6,13 @@
                 @click="onClickEdit" v-show="editionAccess"/>
             <input type="submit" value="" :class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteOneCurrency'"
                 @click="onClickDelete" v-show="editionAccess"/>
+            <label class="one-currency-label-label" v-if="timerOn">
+                <vac :end-time="new Date().getTime() + (7000)">
+                    <template v-slot:process="{ timeObj }">
+                        <span>{{ `${timeObj.s}` }}</span>
+                    </template>
+                </vac>
+			</label>
         </div>
         <div class="one-currency-edit" v-show="editMode">
             <label>{{ t('cospend', 'Name') }}</label>
@@ -34,11 +41,13 @@
 
 <script>
 import {Timer} from "../utils";
+import {vueAwesomeCountdown} from 'vue-awesome-countdown'
 
 export default {
     name: 'Currency',
 
     components: {
+		vueAwesomeCountdown
     },
 
     props: ['currency', 'editionAccess'],
@@ -108,7 +117,7 @@ export default {
 }
 .one-currency-label {
     display: grid;
-    grid-template: 1fr / 150px 37px 37px;
+    grid-template: 1fr / 150px 37px 37px 37px;
 }
 .editCurrencyOk {
     background-color: #46ba61;

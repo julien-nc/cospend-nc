@@ -133,6 +133,38 @@ export default {
             this.opened = false
         },
         onImportClick() {
+            const that = this;
+            OC.dialogs.filepicker(
+                t('cospend', 'Choose csv project file'),
+                function(targetPath) {
+                    that.importProject(targetPath);
+                },
+                false,
+                ['text/csv'],
+                true
+            );
+        },
+        importProject(targetPath) {
+            const that = this;
+            const req = {
+                path: targetPath
+            };
+            const url = generateUrl('/apps/cospend/import-csv-project');
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: req,
+                async: true
+            }).done(function(response) {
+                that.$emit('projectImported', response)
+                showSuccess(t('cospend', 'Project imported.'))
+            }).always(function() {
+            }).fail(function(response) {
+                Notification.showTemporary(
+                    t('cospend', 'Failed to import project file') +
+                    ': ' + response.responseJSON.message
+                );
+            });
         },
         onImportSWClick() {
         },

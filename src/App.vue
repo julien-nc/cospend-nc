@@ -16,6 +16,7 @@
             @newMember="onNewMember"
             @memberEdited="onMemberEdited"
             @createProject="onCreateProject"
+            @projectImported="onProjectImported"
             @saveOption="onSaveOption"
         />
         <AppContent>
@@ -453,6 +454,10 @@ export default {
             cospend.billLists[proj.id] = [];
             this.$set(this.billLists, proj.id, cospend.billLists[proj.id]);
             //this.$set(cospend.projects, proj.id, proj);
+        },
+        onProjectImported(project) {
+            this.addProject(project);
+            this.selectProject(project.id);
         },
         onCreateProject(name) {
             if (!name) {

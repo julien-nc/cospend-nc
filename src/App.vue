@@ -163,7 +163,9 @@ export default {
         }
     },
     created() {
-        new OCA.Search(this.filter, this.cleanSearch);
+        if (!cospend.pageIsPublic) {
+            new OCA.Search(this.filter, this.cleanSearch);
+        }
         this.getProjects();
     },
     mounted() {

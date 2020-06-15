@@ -1,9 +1,9 @@
 <template>
     <AppSidebar v-show="show"
         :title="title"
-        subtitle="4,3 MB, last edited 41 days ago"
+        :subtitle="subtitle"
         @close="$emit('close')">
-        <template #primary-actions>
+        <!--template #primary-actions>
             <button class="primary">
                 Button 1
             </button>
@@ -21,20 +21,27 @@
                 Delete
             </ActionButton>
             <ActionLink icon="icon-external" title="Link" href="https://nextcloud.com" />
-        </template>
-        <AppSidebarTab id="vueexample" name="Vueexample" icon="icon-vueexample">
-            this is the vueexample tab
+        </template-->
+        <AppSidebarTab id="sharing" name="Sharing" icon="icon-shared"
+            :order="1"
+            >
+            <SharingTabSidebar :projectId="projectId" />
         </AppSidebarTab>
-        <AppSidebarTab id="activity" name="Activity" icon="icon-activity">
-            this is the activity tab
+        <AppSidebarTab :id="'activity'" :name="'Activity'" :icon="'icon-calendar-dark'"
+            :order="2"
+            >
+            this is the activity tabbbaaaa
         </AppSidebarTab>
-        <AppSidebarTab id="comments" name="Comments" icon="icon-comment">
+        <AppSidebarTab :id="'comments'" :name="'Comments'" :icon="'icon-comment'"
+            :order="3"
+            v-if="false"
+            >
             this is the comments tab
         </AppSidebarTab>
-        <AppSidebarTab id="sharing" name="Sharing" icon="icon-shared">
-            this is the sharing tab
-        </AppSidebarTab>
-        <AppSidebarTab id="versions" name="Versions" icon="icon-history">
+        <AppSidebarTab id="versions" name="Versions" icon="icon-history"
+            :order="3"
+            v-if="false"
+            >
             this is the versions tab
         </AppSidebarTab>
     </AppSidebar>
@@ -44,14 +51,15 @@
 import {
     ActionButton, AppSidebar, AppSidebarTab, ActionLink
 } from '@nextcloud/vue'
+import SharingTabSidebar from './SharingTabSidebar'
 import cospend from '../state';
 
 export default {
     name: 'Sidebar',
     components: {
-        ActionButton, AppSidebar, AppSidebarTab, ActionLink
+        ActionButton, AppSidebar, AppSidebarTab, ActionLink, SharingTabSidebar
     },
-    props: ['show', 'projectId'],
+    props: ['show', 'projectId', 'bills'],
     data() {
         return {
         };
@@ -62,11 +70,29 @@ export default {
         },
         title() {
             return this.project.name;
+        },
+        members() {
+            return (this.bills.length > 0) ? cospend.members[this.projectId] : [];
+        },
+        subtitle() {
+            const nbBills = this.bills.length;
+            let spent = 0;
+            this.bills.forEach(function(bill) {
+                spent += bill.amount;
+            });
+            let nbActiveMembers = 0;
+            let member;
+            for (const mid in this.members) {
+                member = this.members[mid];
+                if (member.activated) {
+                    nbActiveMembers++;
+                }
+            }
+            return t('cospend', '{nb} bills, {nm} active members, {ns} spent', {nb: nbBills, nm: nbActiveMembers, ns: spent.toFixed(2)})
         }
     }
 }
 </script>
 
 <style scoped lang="scss">
-
 </style>

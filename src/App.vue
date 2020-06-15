@@ -63,6 +63,7 @@
         <Sidebar
             v-if="currentProjectId"
             :projectId="currentProjectId"
+            :bills="currentBills"
             :show="showSidebar"
             @close="showSidebar = false"
             />
@@ -437,9 +438,6 @@ export default {
             });
         },
         addProject(proj) {
-            cospend.projects[proj.id] = proj;
-            this.$set(this.projects, proj.id, proj);
-
             cospend.members[proj.id] = {};
             this.$set(this.members, proj.id, cospend.members[proj.id]);
             for (let i = 0; i < proj.members.length; i++) {
@@ -457,6 +455,9 @@ export default {
             cospend.billLists[proj.id] = [];
             this.$set(this.billLists, proj.id, cospend.billLists[proj.id]);
             //this.$set(cospend.projects, proj.id, proj);
+
+            cospend.projects[proj.id] = proj;
+            this.$set(this.projects, proj.id, proj);
         },
         onProjectImported(project) {
             this.addProject(project);

@@ -99,7 +99,8 @@ export default {
             billLists: {},
             members: {},
             billsLoading: false,
-            currentBill: null
+            currentBill: null,
+            filterQuery: null
         }
     },
     computed: {
@@ -113,7 +114,13 @@ export default {
             return (this.currentBill !== null) ? this.currentBill.id : -1;
         },
         currentBills() {
-            return (this.currentProjectId && this.billLists.hasOwnProperty(this.currentProjectId)) ? this.billLists[this.currentProjectId] : [];
+            return (this.currentProjectId && this.billLists.hasOwnProperty(this.currentProjectId)) ?
+                (
+                    this.filterQuery ?
+                        this.getFilteredBills(this.billLists[this.currentProjectId])
+                        : this.billLists[this.currentProjectId]
+                )
+                : [];
         },
         defaultPayerId() {
             let payerId = -1;
@@ -140,6 +147,7 @@ export default {
         }
     },
     created() {
+        new OCA.Search(this.filter, this.cleanSearch);
         this.getProjects();
     },
     mounted() {
@@ -147,6 +155,25 @@ export default {
         //this.$set(this.cospend, 'selectedBillId', -1);
     },
     methods: {
+        filter(qs) {
+            this.filterQuery = qs;
+        },
+        cleanSearch() {
+            this.filterQuery = null;
+        },
+        getFilteredBills(billList) {
+            const filteredBills = []
+            // Make sure to escape user input before creating regex from it:
+            var regex = new RegExp(this.filterQuery.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), "i");
+            let bill;
+            for (let i = 0; i < billList.length; i++) {
+                bill = billList[i];
+                if (regex.test(bill.what)) {
+                    filteredBills.push(bill);
+                }
+            }
+            return filteredBills;
+        },
         cleanupBills() {
             const billList = this.billLists[cospend.currentProjectId];
             for (let i = 0; i < billList.length; i++) {

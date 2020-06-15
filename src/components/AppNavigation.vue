@@ -144,12 +144,29 @@ export default {
                 true
             );
         },
-        importProject(targetPath) {
+        onImportSWClick() {
+            const that = this;
+            OC.dialogs.filepicker(
+                t('cospend', 'Choose SplitWise project file'),
+                function(targetPath) {
+                    that.importProject(targetPath, true);
+                },
+                false,
+                ['text/csv'],
+                true
+            );
+        },
+        importProject(targetPath, isSplitWise=false) {
             const that = this;
             const req = {
                 path: targetPath
             };
-            const url = generateUrl('/apps/cospend/import-csv-project');
+            let url;
+            if (isSplitWise) {
+                url = generateUrl('/apps/cospend/import-sw-project');
+            } else {
+                url = generateUrl('/apps/cospend/import-csv-project');
+            }
             $.ajax({
                 type: 'GET',
                 url: url,
@@ -165,8 +182,6 @@ export default {
                     ': ' + response.responseJSON.message
                 );
             });
-        },
-        onImportSWClick() {
         },
         async onGuestLinkClick() {
             try {

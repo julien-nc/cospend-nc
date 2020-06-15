@@ -2551,7 +2551,8 @@ class PageController extends ApiController {
     public function importSWProject($path) {
         $result = $this->projectService->importSWProject($path, $this->userId);
         if (!is_array($result) and is_string($result)) {
-            return new DataResponse($result);
+            $projInfo = $this->projectService->getProjectInfo($result);
+            return new DataResponse($projInfo);
         }
         else {
             return new DataResponse($result, 400);

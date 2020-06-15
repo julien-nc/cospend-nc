@@ -238,30 +238,35 @@ export default {
             if (cospend.currentProjectId !== projectid) {
                 this.selectProject(projectid);
             }
+            this.currentBill = null;
             this.mode = 'qrcode';
         },
         onStatsClicked(projectid) {
             if (cospend.currentProjectId !== projectid) {
                 this.selectProject(projectid);
             }
+            this.currentBill = null;
             this.mode = 'stats';
         },
         onSettleClicked(projectid) {
             if (cospend.currentProjectId !== projectid) {
                 this.selectProject(projectid);
             }
+            this.currentBill = null;
             this.mode = 'settle';
         },
         onCategoryClicked(projectid) {
             if (cospend.currentProjectId !== projectid) {
                 this.selectProject(projectid);
             }
+            this.currentBill = null;
             this.mode = 'category';
         },
         onCurrencyClicked(projectid) {
             if (cospend.currentProjectId !== projectid) {
                 this.selectProject(projectid);
             }
+            this.currentBill = null;
             this.mode = 'currency';
         },
         onNewMember(projectid, name) {

@@ -1,5 +1,6 @@
 <template>
-    <div id="content" :class="{ 'nav-hidden': false, 'sidebar-hidden': false }">
+    <!--div id="content" :class="{ 'nav-hidden': false, 'sidebar-hidden': false }"-->
+    <Content app-name="Cospend">
         <AppNavigation
             :projects="projects"
             :selectedProjectId="currentProjectId"
@@ -16,7 +17,7 @@
             @memberEdited="onMemberEdited"
             @createProject="onCreateProject"
         />
-        <div id="app-content">
+        <AppContent>
             <div id="app-content-wrapper">
                 <BillList
                     :loading="billsLoading"
@@ -56,7 +57,7 @@
                     :projectId="currentProjectId"
                 />
             </div>
-        </div>
+        </AppContent>
         <Sidebar
             v-if="currentProjectId"
             :projectId="currentProjectId"
@@ -65,7 +66,7 @@
             />
         <!--router-view name="sidebar" /-->
         <img id="dummylogo"/>
-    </div>
+    </Content>
 </template>
 
 <script>
@@ -85,6 +86,9 @@ import * as Notification from './notification';
 import * as constants from './constants';
 import {rgbObjToHex, saveOptionValue, slugify} from './utils';
 import { getMemberName } from './member';
+import {
+    Content, AppContent
+} from '@nextcloud/vue'
 
 
 export default {
@@ -98,7 +102,8 @@ export default {
         Settlement,
         CategoryManagement,
         CurrencyManagement,
-        Sidebar
+        Sidebar,
+        Content, AppContent
     },
     data() {
         return {
@@ -603,7 +608,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    #content {
+    /*#content {
         #app-content {
             transition: margin-left 100ms ease;
             position: relative;
@@ -624,7 +629,7 @@ export default {
                 min-width: 0;
             }
         }
-    }
+    }*/
 </style>
 
 <style>

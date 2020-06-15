@@ -525,7 +525,7 @@ export default {
                 }).fail(function(response) {
                     Notification.showTemporary(
                         t('cospend', 'Failed to save bill') +
-                        ' ' + (response.responseJSON)
+                        ' ' + (response.responseJSON.message)
                     );
                 });
             }

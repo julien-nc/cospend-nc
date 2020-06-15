@@ -40,8 +40,32 @@
                     />
             </ul>
             <AppNavigationSettings>
-                <div>
-                    SETTINGS !!!<br/>PLOP
+                <AppNavigationItem
+                    :title="t('cospend', 'Import csv project')"
+                    @click="onImportClick"
+                    icon="icon-download"
+                    class="buttonItem"
+                    v-show="true"
+                    />
+                <AppNavigationItem
+                    :title="t('cospend', 'Import SplitWise project')"
+                    @click="onImportSWClick"
+                    icon="icon-download"
+                    class="buttonItem"
+                    v-show="true"
+                    />
+                <AppNavigationItem
+                    :title="t('cospend', 'Guest access link')"
+                    @click="onGuestLinkClick"
+                    icon="icon-clippy"
+                    class="buttonItem"
+                    v-show="true"
+                    />
+                <div class="output-dir">
+                    <button class="icon-folder" @click="onOutputDirClick">
+                        {{ t('cospend', 'Change output directory') }}
+                    </button>
+                    <input v-model="outputDir" :placeholder="t('cospend', '/Anywhere')" type="text" readonly @click="onOutputDirClick"/>
                 </div>
             </AppNavigationSettings>
         </AppNavigationVue>
@@ -62,12 +86,16 @@
 import ClickOutside from 'vue-click-outside'
 import AppNavigationProjectItem from './AppNavigationProjectItem';
 import {
-    ActionButton, AppNavigation as AppNavigationVue, AppNavigationIconBullet,
+    ActionButton, ActionText, AppNavigation as AppNavigationVue, AppNavigationIconBullet,
     AppNavigationSettings, AppNavigationItem, ActionInput, Actions
 } from '@nextcloud/vue'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import cospend from '../state';
 import {getMemberName, getSmartMemberName, getMemberAvatar} from '../member';
+import {
+    showSuccess,
+    showError,
+} from '@nextcloud/dialogs'
 
 export default {
     name: 'AppNavigation',
@@ -77,7 +105,7 @@ export default {
         AppNavigationItem,
         AppNavigationSettings,
         AppNavigationIconBullet,
-        ActionButton,
+        ActionButton, ActionText,
         ActionInput,
         Actions
     },
@@ -89,7 +117,8 @@ export default {
         return {
             opened: false,
             loading: false,
-            creating: false
+            creating: false,
+            outputDir: cospend.outputDirectory
         }
     },
     computed: {
@@ -102,6 +131,36 @@ export default {
         },
         closeMenu() {
             this.opened = false
+        },
+        onImportClick() {
+        },
+        onImportSWClick() {
+        },
+        async onGuestLinkClick() {
+            try {
+                const guestLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/login');
+                await this.$copyText(guestLink)
+                showSuccess(t('cospend', 'Guest link copied to clipboard.'))
+            } catch (error) {
+                console.debug(error)
+                showError(t('cospend', 'Guest link could not be copied to clipboard.'))
+            }
+        },
+        onOutputDirClick() {
+            const that = this;
+            OC.dialogs.filepicker(
+                t('maps', 'Choose where to write output files (stats, settlement, export)'),
+                function(targetPath) {
+                    if (targetPath === '') {
+                        targetPath = '/';
+                    }
+                    that.outputDir = targetPath;
+                    that.$emit('saveOption', 'outputDirectory', targetPath)
+                },
+                false,
+                'httpd/unix-directory',
+                true
+            );
         },
         onNewBillClick() {
             this.$emit('newBillClicked');
@@ -158,6 +217,17 @@ export default {
         color: var(--color-text-light);
     }
 }
+.output-dir {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.output-dir button {
+    width: 59% !important;
+}
+.output-dir input {
+    width: 39% !important;
+}
 .project-create {
     order: 1;
     display: flex;
@@ -171,6 +241,6 @@ export default {
     }
 }
 .buttonItem {
-    border-bottom: solid 1px var(--color-main-text);
+    border-bottom: solid 1px var(--color-border);
 }
 </style>

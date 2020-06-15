@@ -16,6 +16,7 @@
             @newMember="onNewMember"
             @memberEdited="onMemberEdited"
             @createProject="onCreateProject"
+            @saveOption="onSaveOption"
         />
         <AppContent>
             <div id="app-content-wrapper">
@@ -280,6 +281,11 @@ export default {
         },
         onMemberEdited(projectid, memberid) {
             this.editMember(projectid, memberid);
+        },
+        onSaveOption(key, value) {
+            const ov = {};
+            ov[key] = value;
+            saveOptionValue(ov);
         },
         getMemberNames(projectid) {
             const res = [];

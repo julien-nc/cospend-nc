@@ -15,6 +15,7 @@ import Vue from 'vue';
 import './bootstrap';
 import App from './App';
 import vueAwesomeCountdown from 'vue-awesome-countdown';
+import VueClipboard from 'vue-clipboard2'
 import * as Notification from './notification';
 import * as Chart from 'chart.js/dist/Chart';
 import 'chart.js/dist/Chart.css';
@@ -127,7 +128,7 @@ import cospend from './state';
                     if (k === 'selectedProject') {
                         cospend.restoredCurrentProjectId = optionsValues[k];
                     } else if (k === 'outputDirectory') {
-                        $('#outputDirectory').text(optionsValues[k]);
+                        cospend.outputDirectory = optionsValues[k];
                     }
                 }
             }
@@ -178,6 +179,7 @@ import cospend from './state';
 
     function main() {
         Vue.use(vueAwesomeCountdown, 'vac');
+        Vue.use(VueClipboard);
         new Vue({
             el: "#content",
             render: h => h(App),

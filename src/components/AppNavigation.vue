@@ -28,6 +28,7 @@
                     @deleteProject="onDeleteProject"
                     @qrcodeClicked="onQrcodeClicked"
                     @statsClicked="onStatsClicked"
+                    @settleClicked="onSettleClicked"
                     @categoryClicked="onCategoryClicked"
                     @currencyClicked="onCurrencyClicked"
                     @newMember="onNewMember"
@@ -112,6 +113,9 @@ export default {
         },
         onStatsClicked(projectid) {
             this.$emit('statsClicked', projectid);
+        },
+        onSettleClicked(projectid) {
+            this.$emit('settleClicked', projectid);
         },
         onCategoryClicked(projectid) {
             this.$emit('categoryClicked', projectid);

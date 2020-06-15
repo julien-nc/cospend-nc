@@ -8,6 +8,7 @@
             @newBillClicked="onNewBillClicked"
             @qrcodeClicked="onQrcodeClicked"
             @statsClicked="onStatsClicked"
+            @settleClicked="onSettleClicked"
             @categoryClicked="onCategoryClicked"
             @currencyClicked="onCurrencyClicked"
             @newMember="onNewMember"
@@ -39,6 +40,11 @@
                     v-if="mode === 'stats'"
                     :projectId="currentProjectId"
                 />
+                <Settlement
+                    v-if="mode === 'settle'"
+                    :projectId="currentProjectId"
+                    @autoSettled="onAutoSettled"
+                />
                 <CategoryManagement
                     v-if="mode === 'category'"
                     :projectId="currentProjectId"
@@ -63,6 +69,7 @@ import CategoryManagement from './CategoryManagement';
 import CurrencyManagement from './CurrencyManagement';
 import MoneyBusterLink from './MoneyBusterLink';
 import Statistics from './Statistics';
+import Settlement from './Settlement';
 import cospend from './state';
 import {generateUrl} from '@nextcloud/router';
 import {getCurrentUser} from '@nextcloud/auth';
@@ -79,6 +86,7 @@ export default {
         BillForm,
         MoneyBusterLink,
         Statistics,
+        Settlement,
         CategoryManagement,
         CurrencyManagement
     },
@@ -189,6 +197,12 @@ export default {
             }
             this.mode = 'stats';
         },
+        onSettleClicked(projectid) {
+            if (cospend.currentProjectId !== projectid) {
+                this.selectProject(projectid);
+            }
+            this.mode = 'settle';
+        },
         onCategoryClicked(projectid) {
             if (cospend.currentProjectId !== projectid) {
                 this.selectProject(projectid);
@@ -226,6 +240,9 @@ export default {
                 saveOptionValue({selectedProject: projectid});
             }
             cospend.currentProjectId = projectid;
+        },
+        onAutoSettled(projectid) {
+            this.getBills(projectid);
         },
         onNewBillClicked() {
             // find potentially existing new bill
@@ -341,6 +358,7 @@ export default {
                     bill = response[i];
                     that.bills[projectid][bill.id] = bill;
                 }
+                that.updateBalances(projectid);
             }).always(function() {
                 that.billsLoading = false;
             }).fail(function() {

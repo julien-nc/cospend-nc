@@ -214,7 +214,6 @@ export default {
     props: ['projectId'],
     data() {
         return {
-            //projectId: cospend.currentProjectId,
             stats: null,
             selectedCategoryId: 0,
             selectedMemberId: 0,
@@ -222,6 +221,17 @@ export default {
             cospend: cospend,
             loading: false
         };
+    },
+
+    mounted() {
+        this.getStats();
+    },
+
+    watch: {
+        projectId() {
+            this.stats = null;
+            this.getStats();
+        }
     },
 
     computed: {
@@ -533,10 +543,6 @@ export default {
                 }
             };
         }
-    },
-
-    mounted() {
-        this.getStats();
     },
 
     methods: {

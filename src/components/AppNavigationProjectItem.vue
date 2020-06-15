@@ -35,6 +35,9 @@
             <ActionButton icon="icon-category-monitoring" @click="onStatsClick">
                 {{ t('cospend', 'Statistics') }}
             </ActionButton>
+            <ActionButton icon="icon-reimburse" @click="onSettleClick">
+                {{ t('cospend', 'Project settlement') }}
+            </ActionButton>
             <ActionButton icon="icon-phone" @click="onQrcodeClick">
                 {{ t('cospend', 'Link/QRCode for MoneyBuster') }}
             </ActionButton>
@@ -115,6 +118,9 @@ export default {
         },
         onStatsClick() {
             this.$emit('statsClicked', this.project.id);
+        },
+        onSettleClick() {
+            this.$emit('settleClicked', this.project.id);
         },
         onCategoryClick() {
             this.$emit('categoryClicked', this.project.id);

@@ -617,3 +617,6 @@ a.billitem .app-content-list-item-icon {
 .memberColorPicker .trigger {
     height: 25px !important;
 }
+.detailButton button {
+    padding-right: 0 !important;
+}

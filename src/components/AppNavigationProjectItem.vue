@@ -22,6 +22,10 @@
         @click="onProjectClick"
         :forceMenu="false"
         >
+        <template slot="counter">
+            <ActionButton icon="icon-details" class="detailButton" @click="onDetailClick">
+            </ActionButton>
+        </template>
         <template slot="actions">
             <ActionInput :disabled="false" icon="icon-user" ref="newMemberInput" @submit="onAddMember">
                 {{ t('cospend', 'Add member') }}
@@ -127,6 +131,9 @@ export default {
         },
         onCurrencyClick() {
             this.$emit('currencyClicked', this.project.id);
+        },
+        onDetailClick() {
+            this.$emit('detailClicked', this.project.id);
         },
         onAddMember() {
             const newName = this.$refs.newMemberInput.$el.querySelector('input[type="text"]').value;

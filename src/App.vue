@@ -11,6 +11,7 @@
             @settleClicked="onSettleClicked"
             @categoryClicked="onCategoryClicked"
             @currencyClicked="onCurrencyClicked"
+            @detailClicked="onDetailClicked"
             @newMember="onNewMember"
             @memberEdited="onMemberEdited"
             @createProject="onCreateProject"
@@ -56,6 +57,12 @@
                 />
             </div>
         </div>
+        <Sidebar
+            v-if="currentProjectId"
+            :projectId="currentProjectId"
+            :show="showSidebar"
+            @close="showSidebar = false"
+            />
         <!--router-view name="sidebar" /-->
         <img id="dummylogo"/>
     </div>
@@ -70,6 +77,7 @@ import CurrencyManagement from './CurrencyManagement';
 import MoneyBusterLink from './MoneyBusterLink';
 import Statistics from './Statistics';
 import Settlement from './Settlement';
+import Sidebar from './components/Sidebar';
 import cospend from './state';
 import {generateUrl} from '@nextcloud/router';
 import {getCurrentUser} from '@nextcloud/auth';
@@ -77,6 +85,7 @@ import * as Notification from './notification';
 import * as constants from './constants';
 import {rgbObjToHex, saveOptionValue, slugify} from './utils';
 import { getMemberName } from './member';
+
 
 export default {
     name: 'App',
@@ -88,7 +97,8 @@ export default {
         Statistics,
         Settlement,
         CategoryManagement,
-        CurrencyManagement
+        CurrencyManagement,
+        Sidebar
     },
     data() {
         return {
@@ -100,7 +110,8 @@ export default {
             members: {},
             billsLoading: false,
             currentBill: null,
-            filterQuery: null
+            filterQuery: null,
+            showSidebar: false
         }
     },
     computed: {
@@ -155,6 +166,13 @@ export default {
         //this.$set(this.cospend, 'selectedBillId', -1);
     },
     methods: {
+        onDetailClicked(projectid) {
+            const sameProj = cospend.currentProjectId === projectid;
+            if (cospend.currentProjectId !== projectid) {
+                this.selectProject(projectid);
+            }
+            this.showSidebar = sameProj ? !this.showSidebar : true;
+        },
         filter(qs) {
             this.filterQuery = qs;
         },

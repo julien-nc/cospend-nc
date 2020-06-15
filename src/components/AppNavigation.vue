@@ -34,6 +34,7 @@
                     @settleClicked="onSettleClicked"
                     @categoryClicked="onCategoryClicked"
                     @currencyClicked="onCurrencyClicked"
+                    @detailClicked="onDetailClicked"
                     @newMember="onNewMember"
                     @memberEdited="onMemberEdited"
                     />
@@ -125,6 +126,9 @@ export default {
         },
         onCurrencyClicked(projectid) {
             this.$emit('currencyClicked', projectid);
+        },
+        onDetailClicked(projectid) {
+            this.$emit('detailClicked', projectid);
         },
         onNewMember(projectid, name) {
             this.$emit('newMember', projectid, name);

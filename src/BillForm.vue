@@ -175,7 +175,9 @@
                     </label>
                     <div class="owerAllNoneDiv" v-if="newBillMode !== 'custom'">
                         <div class="icon-group"></div>
-                        <input id="checkAllNone" type="checkbox" class="checkbox" v-model="selectAllNoneOwers">
+                        <input id="checkAllNone" type="checkbox" class="checkbox"
+                            @input="onBillEdited"
+                            v-model="selectAllNoneOwers">
                         <label for="checkAllNone" class="checkboxlabel">{{ t('cospend', 'All/None') }}</label>
                     </div>
                     <div v-if="newBillMode === 'normal'">

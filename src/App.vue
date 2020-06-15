@@ -113,7 +113,6 @@ export default {
             return (this.currentBill !== null) ? this.currentBill.id : -1;
         },
         currentBills() {
-            console.log('[APP] get current bill list '+this.currentProjectId)
             return (this.currentProjectId && this.billLists.hasOwnProperty(this.currentProjectId)) ? this.billLists[this.currentProjectId] : [];
         },
         defaultPayerId() {
@@ -240,6 +239,11 @@ export default {
                 saveOptionValue({selectedProject: projectid});
             }
             cospend.currentProjectId = projectid;
+        },
+        deselectProject() {
+            this.mode = 'edition';
+            this.currentBill = null;
+            cospend.currentProjectId = null;
         },
         onAutoSettled(projectid) {
             this.getBills(projectid);
@@ -388,7 +392,6 @@ export default {
             //this.$set(cospend.projects, proj.id, proj);
         },
         onCreateProject(name) {
-            console.log('create "'+name+'"')
             if (!name) {
                 Notification.showTemporary(t('cospend', 'Invalid project name'));
             } else {
@@ -444,6 +447,7 @@ export default {
                     window.location.replace(redirectUrl);
                 }
                 Notification.showTemporary(t('cospend', 'Deleted project {id}', {id: projectid}));
+                that.deselectProject();
             }).always(function() {
             }).fail(function(response) {
                 Notification.showTemporary(

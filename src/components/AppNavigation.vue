@@ -3,8 +3,9 @@
         <AppNavigationVue>
             <ul>
                 <AppNavigationItem v-if="!creating"
-                    :title="t('deck', 'New project')"
+                    :title="t('cospend', 'New project')"
                     icon="icon-add"
+                    class="buttonItem"
                     @click.prevent.stop="startCreateProject" />
                 <div v-else class="project-create">
                     <form @submit.prevent.stop="createProject">
@@ -17,6 +18,8 @@
                     :title="t('cospend', 'New bill')"
                     @click="onNewBillClick"
                     icon="icon-edit"
+                    class="buttonItem"
+                    v-show="selectedProjectId"
                     />
                 <AppNavigationProjectItem
                     v-for="(project, id) in projects"
@@ -162,5 +165,8 @@ export default {
             flex-grow: 1;
         }
     }
+}
+.buttonItem {
+    border-bottom: solid 1px var(--color-main-text);
 }
 </style>

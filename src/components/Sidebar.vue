@@ -25,7 +25,7 @@
         <AppSidebarTab id="sharing" name="Sharing" icon="icon-shared"
             :order="1"
             >
-            <SharingTabSidebar :projectId="projectId" />
+            <SharingTabSidebar :project="project" />
         </AppSidebarTab>
         <AppSidebarTab :id="'activity'" :name="'Activity'" :icon="'icon-calendar-dark'"
             :order="2"

@@ -13,29 +13,33 @@
 			@input="clickShareeItem"
             />
 
-		<!--ul
+		<ul
 			id="shareWithList"
 			class="shareWithList">
 			<li>
-				<Avatar :user="board.owner.uid" />
+				<Avatar :user="project.userid" />
 				<span class="has-tooltip username">
-					{{ board.owner.displayname }}
-					<span v-if="!isCurrentUser(board.owner.uid)" class="board-owner-label">
-						{{ t('deck', 'Board owner') }}
+					{{ project.userid }}
+					<span v-if="!isCurrentUser(project.userid)" class="board-owner-label">
+						{{ t('cospend', 'Project owner') }}
 					</span>
 				</span>
 			</li>
-			<li v-for="acl in board.acl" :key="acl.id">
-				<Avatar v-if="acl.type===0" :user="acl.participant.uid" />
-				<div v-if="acl.type===1" class="avatardiv icon icon-group" />
-				<div v-if="acl.type===7" class="avatardiv icon icon-circles" />
+			<li v-for="access in sharedAccesses" :key="access.id">
+				<Avatar v-if="access.type==='u'" :user="access.userid" />
+				<div v-if="acl.type==='g'" class="avatardiv icon icon-group" />
+				<div v-if="acl.type==='c'" class="avatardiv icon icon-circles" />
 				<span class="has-tooltip username">
-					{{ acl.participant.displayname }}
-					<span v-if="acl.type===1">{{ t('deck', '(Group)') }}</span>
-					<span v-if="acl.type===7">{{ t('deck', '(Circle)') }}</span>
+					{{ access.userid }}
+					<span v-if="access.type==='g'">{{ t('cospend', '(Group)') }}</span>
+					<span v-if="access.type==='c'">{{ t('cospend', '(Circle)') }}</span>
 				</span>
 
-				<ActionCheckbox v-if="!(isCurrentUser(acl.participant.uid) && acl.type === 0) && (canManage || (canEdit && canShare))" :checked="acl.permissionEdit" @change="clickEditAcl(acl)">
+                <!-- TODO make controller return one list with all accesses (or build it when getting/adding project)
+                    TODO many things ;-)
+                -->
+				<!--ActionCheckbox
+                    v-if="!(isCurrentUser(access.userid) && access.type === 0) && (canManage || (canEdit && canShare))" :checked="acl.permissionEdit" @change="clickEditAcl(acl)">
 					{{ t('deck', 'Can edit') }}
 				</ActionCheckbox>
 				<Actions v-if="!(isCurrentUser(acl.participant.uid) && acl.type === 0)" :force-menu="true">
@@ -48,11 +52,11 @@
 					<ActionButton v-if="canManage" icon="icon-delete" @click="clickDeleteAcl(acl)">
 						{{ t('deck', 'Delete') }}
 					</ActionButton>
-				</Actions>
+				</Actions-->
 			</li>
 		</ul>
 
-		<CollectionList v-if="board.id"
+		<!--CollectionList v-if="board.id"
 			:id="`${board.id}`"
 			:name="board.title"
 			type="deck" /-->
@@ -80,7 +84,7 @@ export default {
 		ActionCheckbox,
 		Multiselect,
 	},
-	props: ['projectId'],
+	props: ['project'],
 	data() {
 		return {
 			isLoading: false,
@@ -90,6 +94,10 @@ export default {
 		}
 	},
 	computed: {
+
+        projectId() {
+            return this.project.id;
+        },
 		isCurrentUser() {
 			return (uid) => uid === getCurrentUser().uid
 		},

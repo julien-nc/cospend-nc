@@ -15,7 +15,15 @@
             <span> {{ billDate }}</span>
         </span>
         <div :class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteBillIcon'"
-            v-show="editionAccess" @click="onDeleteClick"></div>
+            v-show="editionAccess" @click="onDeleteClick">
+            <span v-if="timerOn" class="countdown">
+                <vac :end-time="new Date().getTime() + (7000)">
+                    <template v-slot:process="{ timeObj }">
+                        <span>{{ `${timeObj.s}` }}</span>
+                    </template>
+                </vac>
+            </span>
+        </div>
     </a>
 </template>
 
@@ -26,11 +34,13 @@ import {getCategory} from '../category';
 import {getSmartOwerNames} from '../bill';
 import {getSmartMemberName, getMemberAvatar} from '../member';
 import {reload, Timer} from '../utils';
+import {vueAwesomeCountdown} from 'vue-awesome-countdown'
 
 export default {
     name: 'BillItem',
 
     components: {
+        vueAwesomeCountdown
     },
 
     props: ['bill', 'projectId', 'editionAccess', 'index', 'nbbills', 'selected'],
@@ -157,7 +167,7 @@ export default {
                     this.timer = new Timer(function () {
                         that.timerOn = false;
                         that.$emit('delete', that.bill);
-                    }, 3000);
+                    }, 7000);
                 }
             }
         },
@@ -166,5 +176,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.countdown {
+    position: relative;
+    left: -30px;
+    top: -12px;
+}
 </style>

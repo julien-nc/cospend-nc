@@ -12,7 +12,7 @@
             </ColorPicker>
         </div>
         <template slot="counter">
-            <span :class="balanceClass">{{ member.balance.toFixed(2) }}</span>
+            <span :class="balanceClass">{{ balanceCounter }}</span>
         </template>
         <template slot="actions">
             <ActionInput :disabled="false" icon="icon-rename" type="text" :value="member.name"
@@ -66,8 +66,12 @@ export default {
         nameTitle() {
             return this.member.name + ((this.member.weight !== 1.0) ? (' (x' + this.member.weight + ')') : '');
         },
-        balance() {
-            return this.member.balance;
+        balanceCounter() {
+            if (this.member.balance < 0.01 && this.member.balance > -0.01) {
+                return '0.00';
+            } else {
+                return this.member.balance.toFixed(2);
+            }
         },
         color() {
             return '#' + this.member.color;

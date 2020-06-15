@@ -34,18 +34,11 @@ export default {
     props: ['projectId', 'bills', 'selectedBillId', 'editionAccess', 'loading'],
     data() {
         return {
-            // TODEL
-            //projectId: cospend.currentProjectId,
-            //editionAccess: (cospend.projects[cospend.currentProjectId].myaccesslevel > constants.ACCESS.VIEWER),
-            //selectedBillId: -1
             cospend: cospend,
-            //billLists: cospend.billLists
         };
     },
 
     mounted() {
-        // once this is done, it becomes reactive...
-        //this.$set(this.cospend, 'selectedBillId', -1);
     },
 
     computed: {

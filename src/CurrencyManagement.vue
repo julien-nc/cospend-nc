@@ -106,7 +106,8 @@ export default {
     methods: {
         onEditMainOkClick() {
             const newVal = this.$refs.mainCurrencyEdit.value;
-            editProject(this.project.id, this.project.name , null, null, null, newVal);
+            this.project.currencyname = newVal;
+            this.$emit('projectEdited', this.project.id);
             this.editMode = false;
         },
         onAddCurrency() {

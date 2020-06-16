@@ -8,6 +8,7 @@
             @deleteProject="onDeleteProject"
             @newBillClicked="onNewBillClicked"
             @qrcodeClicked="onQrcodeClicked"
+            @exportClicked="onExportClicked"
             @statsClicked="onStatsClicked"
             @settleClicked="onSettleClicked"
             @categoryClicked="onCategoryClicked"
@@ -15,6 +16,7 @@
             @detailClicked="onDetailClicked"
             @newMember="onNewMember"
             @memberEdited="onMemberEdited"
+            @projectEdited="onProjectEdited"
             @createProject="onCreateProject"
             @projectImported="onProjectImported"
             @saveOption="onSaveOption"
@@ -57,6 +59,7 @@
                 <CurrencyManagement
                     v-if="mode === 'currency'"
                     :projectId="currentProjectId"
+                    @projectEdited="onProjectEdited"
                 />
             </div>
         </AppContent>
@@ -242,6 +245,30 @@ export default {
         onDeleteProject(projectid) {
             this.deleteProject(projectid);
         },
+        onExportClicked(projectid) {
+            const projectName = this.projects[projectid].name;
+            const timeStamp = Math.floor(Date.now());
+            const dateStr = moment(timeStamp).format('YYYY-MM-DD');
+            const filename = projectid + '_' + dateStr + '.csv';
+            const req = {
+                name: filename
+            };
+            const url = generateUrl('/apps/cospend/export-csv-project/' + projectid);
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: req,
+                async: true
+            }).done(function(response) {
+                showSuccess(t('cospend', 'Project {name} exported in {path}', {name: projectName, path: response.path}));
+            }).always(function() {
+            }).fail(function(response) {
+                showError(
+                    t('cospend', 'Failed to export project') +
+                    ': ' + response.responseJSON.message
+                );
+            });
+        },
         onQrcodeClicked(projectid) {
             if (cospend.currentProjectId !== projectid) {
                 this.selectProject(projectid);
@@ -286,6 +313,9 @@ export default {
         },
         onMemberEdited(projectid, memberid) {
             this.editMember(projectid, memberid);
+        },
+        onProjectEdited(projectid) {
+            this.editProject(projectid);
         },
         onSaveOption(key, value) {
             const ov = {};
@@ -613,6 +643,43 @@ export default {
                 showError(
                     t('cospend', 'Failed to save member.') +
                     ': ' + (response.responseJSON.message)
+                );
+            });
+        },
+        editProject(projectid, password=null) {
+            const proj = this.projects[projectid];
+            const req = {
+                name: proj.name,
+                contact_email: null,
+                password: password,
+                autoexport: proj.autoexport,
+                currencyname: proj.currencyname
+            };
+            let url;
+            if (!cospend.pageIsPublic) {
+                url = generateUrl('/apps/cospend/projects/' + projectid);
+            } else {
+                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password);
+            }
+            $.ajax({
+                type: 'PUT',
+                url: url,
+                data: req,
+                async: true,
+            }).done(function() {
+                if (password) {
+                    if (cospend.pageIsPublic) {
+                        cospend.password = newPassword;
+                    } else {
+                        cospend.projects[projectid].password = newPassword;
+                    }
+                }
+                showSuccess(t('cospend', 'Project saved'));
+            }).always(function() {
+            }).fail(function(response) {
+                showError(
+                    t('cospend', 'Failed to edit project') +
+                    ': ' + (response.responseText)
                 );
             });
         },

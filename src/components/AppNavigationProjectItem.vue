@@ -27,6 +27,9 @@
             </ActionButton>
         </template>
         <template slot="actions">
+            <ActionInput :disabled="false" icon="icon-rename" type="text" :value="project.name"
+                ref="projNameInput" @submit="onNameSubmit">
+            </ActionInput>
             <ActionInput :disabled="false" icon="icon-user" ref="newMemberInput" @submit="onAddMember">
                 {{ t('cospend', 'Add member') }}
             </ActionInput>
@@ -44,6 +47,9 @@
             </ActionButton>
             <ActionButton icon="icon-phone" @click="onQrcodeClick">
                 {{ t('cospend', 'Link/QRCode for MoneyBuster') }}
+            </ActionButton>
+            <ActionButton icon="icon-save" @click="onExportClick">
+                {{ t('cospend', 'Export project') }}
             </ActionButton>
             <ActionButton icon="icon-delete" @click="onDeleteProjectClick">
                 {{ t('cospend', 'Delete') }}
@@ -120,6 +126,9 @@ export default {
         onQrcodeClick() {
             this.$emit('qrcodeClicked', this.project.id);
         },
+        onExportClick() {
+            this.$emit('exportClicked', this.project.id);
+        },
         onStatsClick() {
             this.$emit('statsClicked', this.project.id);
         },
@@ -141,6 +150,11 @@ export default {
         },
         onMemberEdited(projectid, memberid) {
             this.$emit('memberEdited', projectid, memberid);
+        },
+        onNameSubmit() {
+            const newName = this.$refs.projNameInput.$el.querySelector('input[type="text"]').value;
+            this.project.name = newName;
+            this.$emit('projectEdited', this.project.id);
         },
     },
 }

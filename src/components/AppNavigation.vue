@@ -30,6 +30,7 @@
                     @projectClicked="onProjectClicked"
                     @deleteProject="onDeleteProject"
                     @qrcodeClicked="onQrcodeClicked"
+                    @exportClicked="onExportClicked"
                     @statsClicked="onStatsClicked"
                     @settleClicked="onSettleClicked"
                     @categoryClicked="onCategoryClicked"
@@ -37,6 +38,7 @@
                     @detailClicked="onDetailClicked"
                     @newMember="onNewMember"
                     @memberEdited="onMemberEdited"
+                    @projectEdited="onProjectEdited"
                     />
             </ul>
             <AppNavigationSettings>
@@ -221,6 +223,9 @@ export default {
         onQrcodeClicked(projectid) {
             this.$emit('qrcodeClicked', projectid);
         },
+        onExportClicked(projectid) {
+            this.$emit('exportClicked', projectid);
+        },
         onStatsClicked(projectid) {
             this.$emit('statsClicked', projectid);
         },
@@ -241,6 +246,9 @@ export default {
         },
         onMemberEdited(projectid, memberid) {
             this.$emit('memberEdited', projectid, memberid);
+        },
+        onProjectEdited(projectid) {
+            this.$emit('projectEdited', projectid);
         },
         startCreateProject(e) {
             this.creating = true;

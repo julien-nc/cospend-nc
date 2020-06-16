@@ -57,7 +57,7 @@ import {
     showSuccess,
     showError,
 } from '@nextcloud/dialogs'
-import {getMemberName, getSmartMemberName, getMemberAvatar} from './member';
+import {getMemberName, getSmartMemberName, getMemberAvatar} from './utils';
 import cospend from './state';
 import * as constants from './constants';
 import { exportSettlement } from './importExport';

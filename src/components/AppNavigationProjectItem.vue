@@ -78,7 +78,6 @@ import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import cospend from '../state';
 import * as constants from '../constants';
 import {Timer} from "../utils";
-import {getMemberName, getSmartMemberName, getMemberAvatar} from '../member';
 import {vueAwesomeCountdown} from 'vue-awesome-countdown'
 
 export default {

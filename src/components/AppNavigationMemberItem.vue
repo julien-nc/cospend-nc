@@ -47,7 +47,7 @@ import {
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import cospend from '../state';
 import * as constants from '../constants';
-import {getMemberName, getSmartMemberName, getMemberAvatar} from '../member';
+import {getMemberName, getSmartMemberName, getMemberAvatar} from '../utils';
 
 export default {
     name: 'AppNavigationMemberItem',

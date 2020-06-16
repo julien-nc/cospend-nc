@@ -2,11 +2,30 @@
 
 import cospend from './state';
 import {generateUrl} from '@nextcloud/router';
+import {getCurrentUser} from '@nextcloud/auth';
 import {
     showSuccess,
     showInfo,
     showError,
 } from '@nextcloud/dialogs'
+
+export function getMemberName(projectid, memberid) {
+    return cospend.members[projectid][memberid].name;
+}
+
+export function getSmartMemberName(projectid, memberid) {
+    return (!cospend.pageIsPublic && cospend.members[projectid][memberid].userid === getCurrentUser().uid) ?
+        t('cospend', 'You') : getMemberName(projectid, memberid);
+}
+
+export function getMemberAvatar(projectid, memberid) {
+    var member = cospend.members[projectid][memberid];
+    if (member.userid && !cospend.pageIsPublic) {
+        return generateUrl('/avatar/' + encodeURIComponent(member.userid) + '/64?v=2');
+    } else {
+        return generateUrl('/apps/cospend/getAvatar?color=' + member.color + '&name=' + encodeURIComponent(member.name));
+    }
+}
 
 export function getCategory(projectid, catId) {
     let icon, name, color;

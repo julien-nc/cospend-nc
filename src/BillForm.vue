@@ -251,10 +251,13 @@ import {
     showError,
 } from '@nextcloud/dialogs'
 import * as constants from './constants';
-import {getMemberName, getSmartMemberName, getMemberAvatar} from './member';
+import {} from './utils';
 import {getBills} from './bill';
 import {updateProjectBalances} from './project';
-import { delay, generatePublicLinkToFile, getCategory } from './utils';
+import {
+    delay, generatePublicLinkToFile, getCategory,
+    getMemberName, getSmartMemberName, getMemberAvatar
+} from './utils';
 
 export default {
     name: 'BillForm',
@@ -533,7 +536,6 @@ export default {
                     data: req,
                     async: true,
                 }).done(function() {
-                    updateProjectBalances(that.projectId);
                     // to update balances
                     that.$emit('billSaved', that.bill);
                     showSuccess(t('cospend', 'Bill saved.'));

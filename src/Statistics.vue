@@ -201,9 +201,8 @@ import {
     showSuccess,
     showError,
 } from '@nextcloud/dialogs'
-import {getMemberName, getSmartMemberName, getMemberAvatar} from './member';
+import { getCategory, getMemberName, getSmartMemberName, getMemberAvatar } from './utils';
 import cospend from './state';
-import { getCategory } from './utils';
 import LineChartJs from './components/LineChartJs';
 import PieChartJs from './components/PieChartJs';
 import PolarChartJs from './components/PolarChartJs';

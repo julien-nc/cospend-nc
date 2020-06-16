@@ -1,2 +1,0 @@
-/*jshint esversion: 6 */
-

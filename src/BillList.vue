@@ -24,7 +24,6 @@ import {
 } from '@nextcloud/dialogs'
 import cospend from './state';
 import * as constants from './constants';
-import {displayBill} from './bill';
 
 export default {
     name: 'BillList',

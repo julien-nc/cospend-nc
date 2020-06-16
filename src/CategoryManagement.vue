@@ -58,7 +58,6 @@ import {
     showError,
 } from '@nextcloud/dialogs'
 import * as constants from './constants';
-import {editProject} from './project';
 import EmojiButton from '@joeattardi/emoji-button';
 
 export default {

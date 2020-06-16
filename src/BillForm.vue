@@ -252,8 +252,6 @@ import {
 } from '@nextcloud/dialogs'
 import * as constants from './constants';
 import {} from './utils';
-import {getBills} from './bill';
-import {updateProjectBalances} from './project';
 import {
     delay, generatePublicLinkToFile, getCategory,
     getMemberName, getSmartMemberName, getMemberAvatar

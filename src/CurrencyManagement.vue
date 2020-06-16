@@ -77,7 +77,6 @@ import {
     showError,
 } from '@nextcloud/dialogs'
 import * as constants from './constants';
-import {editProject} from './project';
 
 export default {
     name: 'CurrencyManagement',

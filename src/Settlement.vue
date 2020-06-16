@@ -60,7 +60,6 @@ import {
 import {getMemberName, getSmartMemberName, getMemberAvatar} from './utils';
 import cospend from './state';
 import * as constants from './constants';
-import { exportSettlement } from './importExport';
 
 export default {
     name: 'Settlement',

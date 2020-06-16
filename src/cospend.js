@@ -29,34 +29,8 @@ import * as Chart from 'chart.js/dist/Chart';
 import 'chart.js/dist/Chart.css';
 import {generateUrl} from '@nextcloud/router';
 import {
-    checkKey,
     hexToDarkerHex,
-    saveOptionValue,
 } from './utils';
-import {
-    getProjectMoneyBusterLink,
-    getProjects,
-    projectEvents
-} from './project';
-import {
-    categoryEvents
-} from './category';
-import {
-    currencyEvents
-} from './currency';
-import {
-    memberEvents
-} from './member';
-import {
-    shareEvents
-} from './share';
-import {
-    billEvents
-} from './bill';
-import {
-    importProject,
-    importSWProject
-} from './importExport';
 import cospend from './state';
 
 

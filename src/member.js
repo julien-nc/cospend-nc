@@ -1,13 +1,5 @@
 /*jshint esversion: 6 */
 
-import * as Notification from './notification';
-import {getCurrentUser} from '@nextcloud/auth';
-import {generateUrl} from '@nextcloud/router';
-import {rgbObjToHex} from './utils';
-import {updateProjectBalances} from './project';
-import {getBills} from './bill';
-import * as constants from './constants';
-import cospend from './state';
 
 export function memberEvents() {
     $('body').on('focus', '.newmembername', function () {

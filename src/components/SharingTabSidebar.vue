@@ -133,14 +133,24 @@ export default {
         // those with which the project is not shared yet
         unallocatedSharees() {
             return this.sharees.filter((sharee) => {
-                return true;
-                //const foundIndex = this.board.acl.findIndex((acl) => {
-                //    return acl.participant.uid === sharee.value.shareWith && acl.participant.type === sharee.value.shareType
-                //})
-                //if (foundIndex === -1) {
-                //    return true
-                //}
-                //return false
+				let foundIndex;
+				if (sharee.type === 'u') {
+                	foundIndex = this.shares.findIndex((access) => {
+						return access.userid === sharee.id && access.type === 'u'
+					})
+				} else if (sharee.type === 'g') {
+                	foundIndex = this.shares.findIndex((access) => {
+						return access.groupid === sharee.id && access.type === 'g'
+					})
+				} else if (sharee.type === 'c') {
+                	foundIndex = this.shares.findIndex((access) => {
+						return access.circleid === sharee.id && access.type === 'c'
+					})
+				}
+                if (foundIndex === -1) {
+                    return true
+                }
+                return false
             })
         },
     },

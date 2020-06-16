@@ -3,17 +3,23 @@
         :title="title"
         :subtitle="subtitle"
         @close="$emit('close')">
-        <!--template #primary-actions>
-            <button class="primary">
-                Button 1
-            </button>
-            <input id="link-checkbox"
-                name="link-checkbox"
-                class="checkbox link-checkbox"
-                type="checkbox">
-            <label for="link-checkbox" class="link-checkbox-label">Do something</label>
+        <template slot="primary-actions">
+            <div id="autoExport">
+                <label for="autoExportSelect">
+                    <span class="icon icon-schedule"></span>
+                    <span>{{ t('cospend', 'Automatic export') }}</span>
+                </label>
+                <select id="autoExportSelect"
+                    :disabled="!adminAccess"
+                    :value="project.autoexport" @input="onAutoExportSet">
+                    <option value="n">{{ t('cospend', 'No') }}</option>
+                    <option value="d">{{ t('cospend', 'Daily') }}</option>
+                    <option value="w">{{ t('cospend', 'Weekly') }}</option>
+                    <option value="m">{{ t('cospend', 'Monthly') }}</option>
+                </select>
+            </div>
         </template>
-        <template #secondary-actions>
+        <template v-if="false" slot="secondary-actions">
             <ActionButton icon="icon-edit" @click="alert('Edit')">
                 Edit
             </ActionButton>
@@ -21,7 +27,7 @@
                 Delete
             </ActionButton>
             <ActionLink icon="icon-external" title="Link" href="https://nextcloud.com" />
-        </template-->
+        </template>
         <AppSidebarTab id="sharing" name="Sharing" icon="icon-shared"
             v-if="!pageIsPublic"
             :order="1"
@@ -56,6 +62,7 @@ import {
 } from '@nextcloud/vue'
 import SharingTabSidebar from './SharingTabSidebar'
 import cospend from '../state';
+import * as constants from '../constants';
 
 export default {
     name: 'Sidebar',
@@ -95,15 +102,38 @@ export default {
                 }
             }
             return t('cospend', '{nb} bills, {nm} active members, {ns} spent', {nb: nbBills, nm: nbActiveMembers, ns: spent.toFixed(2)})
-        }
+        },
+        adminAccess() {
+            return this.project.myaccesslevel >= constants.ACCESS.ADMIN;
+        },
     },
     methods: {
         onProjectEdited(projectid, password=null) {
             this.$emit('projectEdited', projectid, password);
+        },
+        onAutoExportSet(e) {
+            this.project.autoexport = e.target.value;
+            this.onProjectEdited(this.projectId);
         }
     }
 }
 </script>
 
 <style scoped lang="scss">
+#autoExport {
+    width: 100%;
+}
+#autoExport span.icon {
+    display: inline-block;
+    min-width: 30px !important;
+    min-height: 18px !important;
+    width: 30px;
+    height: 18px;
+    vertical-align: sub;
+}
+#autoExport label,
+#autoExport select {
+    display: inline-block;
+    width: 49%;
+}
 </style>

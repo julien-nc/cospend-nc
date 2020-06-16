@@ -1,7 +1,7 @@
 <template>
     <div>
         <Multiselect
-            v-if="true"
+            v-if="editionAccess"
             v-model="selectedSharee"
             class="shareInput"
             :placeholder="t('cospend', 'Share project with a user, group or circle …')"
@@ -16,15 +16,15 @@
         <ul
             id="shareWithList"
             class="shareWithList">
-            <li @click="addLink">
-                <div v-if="true" class="avatardiv icon icon-public" />
+            <li @click="addLink" v-if="editionAccess">
+                <div class="avatardiv icon icon-public" />
                 <span class="username">
                     {{ t('cospend', 'Add public link') }}
                 </span>
                 <ActionButton class="addLinkButton" icon="icon-add" :ariaLabel="t('cospend', 'Add link')"/>
             </li>
             <li>
-                <Avatar :user="project.userid" />
+                <Avatar :disableMenu="true" :disableTooltip="true" :user="project.userid" />
                 <span class="has-tooltip username">
                     {{ project.userid }}
                     <span v-if="!isCurrentUser(project.userid)" class="board-owner-label">
@@ -33,7 +33,9 @@
                 </span>
             </li>
             <li v-for="access in shares" :key="access.id">
-                <Avatar v-if="access.type==='u'" :user="access.userid" />
+                <Avatar
+                    v-if="access.type==='u'" :user="access.userid"
+                    :disableMenu="true" :disableTooltip="true" />
                 <div v-if="access.type==='g'" class="avatardiv icon icon-group" />
                 <div v-if="access.type==='c'" class="avatardiv icon icon-circles" />
                 <div v-if="access.type==='l'" class="avatardiv icon icon-public" />
@@ -48,21 +50,29 @@
                     :icon="(linkCopied[access.id]) ? 'icon-checkmark-color' : 'icon-clippy'"
                     :ariaLabel="t('cospend', 'Copy link')" @click="copyLink(access)"/>
 
-                <!-- TODO if enough permissions -->
-                <Actions v-if="true" :force-menu="true">
-                    <ActionRadio name="accessLevel" v-if="true" :checked="access.accesslevel === 1" @change="clickAccessLevel(access, 1)">
+                <Actions :force-menu="true">
+                    <ActionRadio name="accessLevel" :disabled="!editionAccess || isCurrentUser(access.userid)"
+                        :checked="access.accesslevel === 1"
+                        @change="clickAccessLevel(access, 1)">
                         {{ t('cospend', 'Viewer') }}
                     </ActionRadio>
-                    <ActionRadio name="accessLevel" v-if="true" :checked="access.accesslevel === 2" @change="clickAccessLevel(access, 2)">
+                    <ActionRadio name="accessLevel" :disabled="!editionAccess || isCurrentUser(access.userid)"
+                        :checked="access.accesslevel === 2"
+                        @change="clickAccessLevel(access, 2)">
                         {{ t('cospend', 'Participant') }}
                     </ActionRadio>
-                    <ActionRadio name="accessLevel" v-if="true" :checked="access.accesslevel === 3" @change="clickAccessLevel(access, 3)">
+                    <ActionRadio name="accessLevel" :disabled="myAccessLevel < 3 || isCurrentUser(access.userid)"
+                        :checked="access.accesslevel === 3"
+                        @change="clickAccessLevel(access, 3)">
                         {{ t('cospend', 'Maintener') }}
                     </ActionRadio>
-                    <ActionRadio name="accessLevel" v-if="true" :checked="access.accesslevel === 4" @change="clickAccessLevel(access, 4)">
+                    <ActionRadio name="accessLevel" :disabled="myAccessLevel < 4 || isCurrentUser(access.userid)"
+                        :checked="access.accesslevel === 4"
+                        @change="clickAccessLevel(access, 4)">
                         {{ t('cospend', 'Admin') }}
                     </ActionRadio>
-                    <ActionButton v-if="true" icon="icon-delete" @click="clickDeleteAccess(access)">
+                    <ActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
+                        icon="icon-delete" @click="clickDeleteAccess(access)">
                         {{ t('cospend', 'Delete') }}
                     </ActionButton>
                 </Actions>
@@ -81,24 +91,31 @@
 				<ActionButton class="copyLinkButton" :icon="guestLinkCopied ? 'icon-checkmark-color' : 'icon-clippy'"
 					:ariaLabel="t('cospend', 'Copy link')" @click="copyPasswordLink"/>
 
-				<!-- TODO if enough permissions -->
 				<Actions v-if="true" :force-menu="true">
-					<ActionRadio name="guestAccessLevel" v-if="true" :checked="project.guestaccesslevel === 1" @change="clickGuestAccessLevel(1)">
+					<ActionRadio name="guestAccessLevel"
+                        :disabled="myAccessLevel < 4"
+                        :checked="project.guestaccesslevel === 1" @change="clickGuestAccessLevel(1)">
 						{{ t('cospend', 'Viewer') }}
 					</ActionRadio>
-					<ActionRadio name="guestAccessLevel" v-if="true" :checked="project.guestaccesslevel === 2" @change="clickGuestAccessLevel(2)">
+					<ActionRadio name="guestAccessLevel"
+                        :disabled="myAccessLevel < 4"
+                        :checked="project.guestaccesslevel === 2" @change="clickGuestAccessLevel(2)">
 						{{ t('cospend', 'Participant') }}
 					</ActionRadio>
-					<ActionRadio name="guestAccessLevel" v-if="true" :checked="project.guestaccesslevel === 3" @change="clickGuestAccessLevel(3)">
+					<ActionRadio name="guestAccessLevel"
+                        :disabled="myAccessLevel < 4"
+                        :checked="project.guestaccesslevel === 3" @change="clickGuestAccessLevel(3)">
 						{{ t('cospend', 'Maintener') }}
 					</ActionRadio>
-					<ActionRadio name="guestAccessLevel" v-if="true" :checked="project.guestaccesslevel === 4" @change="clickGuestAccessLevel(4)">
+					<ActionRadio name="guestAccessLevel"
+                        :disabled="myAccessLevel < 4"
+                        :checked="project.guestaccesslevel === 4" @change="clickGuestAccessLevel(4)">
 						{{ t('cospend', 'Admin') }}
 					</ActionRadio>
 				</Actions>
 			</li>
         </ul>
-		<form id="newPasswordForm" @submit.prevent.stop="setPassword">
+		<form id="newPasswordForm" @submit.prevent.stop="setPassword" v-if="myAccessLevel === 4">
 			<label for="newPasswordInput">{{ t('cospend', 'New project password') }}</label>
 			<div>
 				<input id="newPasswordInput" ref="newPasswordInput" value="" type="password"
@@ -142,6 +159,12 @@ export default {
         }
     },
     computed: {
+        editionAccess() {
+            return this.project.myaccesslevel >= constants.ACCESS.PARTICIPANT;
+        },
+        myAccessLevel() {
+            return this.project.myaccesslevel;
+        },
         shares() {
             return this.project.shares;
         },

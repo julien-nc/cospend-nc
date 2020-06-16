@@ -28,13 +28,14 @@
                     :projectId="currentProjectId"
                     :bills="currentBills"
                     :selectedBillId="selectedBillId"
-                    :editionAccess="true"
+                    :editionAccess="editionAccess"
                     @itemClicked="onBillClicked"
                     @itemDeleted="onBillDeleted"
                 />
                 <BillForm
                     v-if="currentBill !== null && mode === 'edition'"
                     :bill="currentBill"
+                    :editionAccess="editionAccess"
                     @billCreated="onBillCreated"
                     @billSaved="onBillSaved"
                 />
@@ -147,6 +148,9 @@ export default {
                         : this.billLists[this.currentProjectId]
                 )
                 : [];
+        },
+        editionAccess() {
+            return this.currentProjectId && this.projects[this.currentProjectId].myaccesslevel >= constants.ACCESS.PARTICIPANT;
         },
         defaultPayerId() {
             let payerId = -1;

@@ -30,7 +30,7 @@
             <ActionInput :disabled="false" icon="icon-rename" type="text" :value="project.name"
                 ref="projNameInput" @submit="onNameSubmit">
             </ActionInput>
-            <ActionInput :disabled="false" icon="icon-user" ref="newMemberInput" @submit="onAddMember">
+            <ActionInput v-if="maintenerAccess" :disabled="false" icon="icon-user" ref="newMemberInput" @submit="onAddMember">
                 {{ t('cospend', 'Add member') }}
             </ActionInput>
             <ActionButton icon="icon-category-app-bundles" @click="onCategoryClick">
@@ -48,7 +48,7 @@
             <ActionButton icon="icon-phone" @click="onQrcodeClick">
                 {{ t('cospend', 'Link/QRCode for MoneyBuster') }}
             </ActionButton>
-            <ActionButton icon="icon-save" @click="onExportClick">
+            <ActionButton v-if="!pageIsPublic" icon="icon-save" @click="onExportClick">
                 {{ t('cospend', 'Export project') }}
             </ActionButton>
             <ActionButton icon="icon-delete" @click="onDeleteProjectClick">
@@ -76,6 +76,7 @@ import {
 } from '@nextcloud/vue'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import cospend from '../state';
+import * as constants from '../constants';
 import {Timer} from "../utils";
 import {getMemberName, getSmartMemberName, getMemberAvatar} from '../member';
 import {vueAwesomeCountdown} from 'vue-awesome-countdown'
@@ -103,6 +104,12 @@ export default {
         }
     },
     computed: {
+        pageIsPublic() {
+            return cospend.pageIsPublic;
+        },
+        maintenerAccess() {
+            return this.project.myaccesslevel >= constants.ACCESS.MAINTENER;
+        }
     },
     beforeMount() {
     },

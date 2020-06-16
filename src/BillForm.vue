@@ -20,10 +20,11 @@
                     </label>
                     <input type="text" id="what" maxlength="300" class="input-bill-what"
                         v-model="bill.what"
+                        :readonly="!editionAccess"
                         @input="onBillEdited"
                         :placeholder="t('cospend', 'What is the bill about?')"/>
                 </div>
-                <button id="addFileLinkButton">
+                <button id="addFileLinkButton" v-if="!pageIsPublic">
                     <span class="icon-public"></span>{{ t('cospend', 'Attach public link to personal file') }}
                 </button>
                 <div class="bill-amount">
@@ -32,11 +33,12 @@
                     </label>
                     <input type="number" id="amount" class="input-bill-amount" step="any"
                         :disabled="isNewBill && newBillMode === 'custom'"
+                        :readonly="!editionAccess"
                         @input="onBillEdited"
                         ref="amountInput"
                         v-model.number="bill.amount"/>
                 </div>
-                <div class="bill-currency-convert" v-if="project.currencyname && project.currencies.length > 0">
+                <div class="bill-currency-convert" v-if="project.currencyname && project.currencies.length > 0 && editionAccess">
                     <label for="bill-currency">
                         <a class="icon icon-currencies"></a>{{ t('cospend', 'Convert to') }}
                     </label>
@@ -52,7 +54,7 @@
                     <select id="payer" class="input-bill-payer"
                         v-model="bill.payer_id"
                         @input="onBillEdited"
-                        :disabled="!isNewBill && !members[bill.payer_id].activated">
+                        :disabled="!editionAccess || (!isNewBill && !members[bill.payer_id].activated)">
                         <option v-for="member in activatedOrPayer" :key="member.id" :value="member.id"
                             :selected="member.id === bill.payer_id || (isNewBill && currentUser && member.userid === currentUser.uid)">
                             {{ myGetSmartMemberName(member.id) }}
@@ -61,17 +63,22 @@
                 </div>
                 <div class="bill-date">
                     <label for="date"><a class="icon icon-calendar-dark"></a>{{ t('cospend', 'When?') }}</label>
-                    <input type="date" id="date" class="input-bill-date" :value="billDate" ref="dateInput" @input="onDateChanged"/>
+                    <input type="date" id="date" class="input-bill-date"
+                        :readonly="!editionAccess"
+                        :value="billDate" ref="dateInput" @input="onDateChanged"/>
                 </div>
                 <div class="bill-time">
                     <label for="time"><a class="icon icon-time"></a>{{ t('cospend', 'What time?') }}</label>
-                    <input type="time" id="time" class="input-bill-time" :value="billTime" ref="timeInput" @input="onTimeChanged"/>
+                    <input type="time" id="time" class="input-bill-time"
+                        :readonly="!editionAccess"
+                        :value="billTime" ref="timeInput" @input="onTimeChanged"/>
                 </div>
                 <div class="bill-repeat">
                     <label for="repeatbill">
                         <a class="icon icon-play-next"></a>{{ t('cospend', 'Repeat') }}
                     </label>
                     <select id="repeatbill"
+                        :disabled="!editionAccess"
                         @input="onBillEdited"
                         v-model="bill.repeat">
                         <option value="n" selected="selected">{{ t('cospend', 'No') }}</option>
@@ -84,6 +91,7 @@
                 <div class="bill-repeat-extra" v-if="bill.repeat !== 'n'">
                     <div class="bill-repeat-include">
                         <input id="repeatallactive"
+                            :disabled="!editionAccess"
                             @input="onBillEdited"
                             v-model="bill.repeatallactive" class="checkbox" type="checkbox"/>
                         <label for="repeatallactive" class="checkboxlabel">{{ t('cospend', 'Include all active members on repeat') }}</label>
@@ -95,6 +103,7 @@
                         </label>
                         <input type="date" id="repeatuntil"
                             @input="onBillEdited"
+                            :readonly="!editionAccess"
                             v-model="bill.repeatuntil" class="input-bill-repeatuntil">
                     </div>
                 </div>
@@ -103,6 +112,7 @@
                         <a class="icon icon-tag"></a>{{ t('cospend', 'Payment mode') }}
                     </label>
                     <select id="payment-mode"
+                        :disabled="!editionAccess"
                         @input="onBillEdited"
                         v-model="bill.paymentmode">
                         <option value="n">{{ t('cospend', 'None') }}</option>
@@ -119,6 +129,7 @@
                         <a class="icon icon-category-app-bundles"></a>{{ t('cospend', 'Category') }}
                     </label>
                     <select id="category"
+                        :disabled="!editionAccess"
                         @input="onBillEdited"
                         v-model="bill.categoryid">
                         <option value="0">{{ t('cospend', 'None') }}</option>
@@ -142,6 +153,7 @@
                     </label>
                     <textarea id="comment" maxlength="300" class="input-bill-comment" v-model="bill.comment"
                         @input="onBillEdited"
+                        :readonly="!editionAccess"
                         :placeholder="t('cospend', 'More details about the bill (300 char. max)')">
                     </textarea>
                 </div>
@@ -176,6 +188,7 @@
                     <div class="owerAllNoneDiv" v-if="newBillMode !== 'custom'">
                         <div class="icon-group"></div>
                         <input id="checkAllNone" type="checkbox" class="checkbox"
+                            :disabled="!editionAccess"
                             @input="onBillEdited"
                             v-model="selectAllNoneOwers">
                         <label for="checkAllNone" class="checkboxlabel">{{ t('cospend', 'All/None') }}</label>
@@ -187,7 +200,7 @@
                             </div>
                             <input :id="'dum' + ower.id" :owerid="ower.id"
                                 class="checkbox" type="checkbox"
-                                :disabled="!members[ower.id].activated"
+                                :disabled="!editionAccess || !members[ower.id].activated"
                                 @input="onBillEdited"
                                 v-model="bill.owerIds" :value="ower.id" number/>
                             <label :for="'dum' + ower.id" class="checkboxlabel">{{ ower.name }}</label>
@@ -253,7 +266,7 @@ export default {
     components: {
     },
 
-    props: ['bill'],
+    props: ['bill', 'editionAccess'],
     data() {
         return {
             projectId: cospend.currentProjectId,
@@ -330,6 +343,9 @@ export default {
                 });
             }
             return result;
+        },
+        pageIsPublic() {
+            return cospend.pageIsPublic;
         },
         isNewBill() {
             return (this.bill.id === 0);

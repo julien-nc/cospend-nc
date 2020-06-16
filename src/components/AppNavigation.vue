@@ -2,19 +2,22 @@
     <div id="app-navigation" :class="{'icon-loading': loading}">
         <AppNavigationVue>
             <ul>
-                <AppNavigationItem v-if="!creating"
-                    :title="t('cospend', 'New project')"
-                    icon="icon-add"
-                    class="buttonItem"
-                    @click.prevent.stop="startCreateProject" />
-                <div v-else class="project-create">
-                    <form @submit.prevent.stop="createProject">
-                        <input :placeholder="t('cospend', 'New project name')" type="text" required>
-                        <input type="submit" value="" class="icon-confirm">
-                        <Actions><ActionButton icon="icon-close" @click.stop.prevent="cancelCreate" /></Actions>
-                    </form>
+                <div v-if="!pageIsPublic">
+                    <AppNavigationItem v-if="!creating"
+                        :title="t('cospend', 'New project')"
+                        icon="icon-add"
+                        class="buttonItem"
+                        @click.prevent.stop="startCreateProject" />
+                    <div v-else class="project-create">
+                        <form @submit.prevent.stop="createProject">
+                            <input :placeholder="t('cospend', 'New project name')" type="text" required>
+                            <input type="submit" value="" class="icon-confirm">
+                            <Actions><ActionButton icon="icon-close" @click.stop.prevent="cancelCreate" /></Actions>
+                        </form>
+                    </div>
                 </div>
                 <AppNavigationItem
+                    v-if="editionAccess"
                     :title="t('cospend', 'New bill')"
                     @click="onNewBillClick"
                     icon="icon-edit"
@@ -43,6 +46,7 @@
             </ul>
             <AppNavigationSettings>
                 <AppNavigationItem
+                    v-if="!pageIsPublic"
                     :title="t('cospend', 'Import csv project')"
                     @click="onImportClick"
                     icon="icon-download"
@@ -50,6 +54,7 @@
                     v-show="true"
                     />
                 <AppNavigationItem
+                    v-if="!pageIsPublic"
                     :title="t('cospend', 'Import SplitWise project')"
                     @click="onImportSWClick"
                     icon="icon-download"
@@ -63,7 +68,8 @@
                     class="buttonItem"
                     v-show="true"
                     />
-                <div class="output-dir">
+                <div class="output-dir"
+                    v-if="!pageIsPublic">
                     <button class="icon-folder" @click="onOutputDirClick">
                         {{ t('cospend', 'Change output directory') }}
                     </button>
@@ -93,6 +99,7 @@ import {
 } from '@nextcloud/vue'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import cospend from '../state';
+import * as constants from '../constants';
 import {getMemberName, getSmartMemberName, getMemberAvatar} from '../member';
 import {
     showSuccess,
@@ -120,10 +127,14 @@ export default {
             opened: false,
             loading: false,
             creating: false,
-            outputDir: cospend.outputDirectory
+            outputDir: cospend.outputDirectory,
+            pageIsPublic: cospend.pageIsPublic
         }
     },
     computed: {
+        editionAccess() {
+            return this.selectedProjectId && this.projects[this.selectedProjectId].myaccesslevel >= constants.ACCESS.PARTICIPANT;
+        }
     },
     beforeMount() {
     },

@@ -69,6 +69,7 @@
             :bills="currentBills"
             :show="showSidebar"
             @close="showSidebar = false"
+            @projectEdited="onProjectEdited"
             />
         <!--router-view name="sidebar" /-->
         <img id="dummylogo"/>
@@ -314,8 +315,8 @@ export default {
         onMemberEdited(projectid, memberid) {
             this.editMember(projectid, memberid);
         },
-        onProjectEdited(projectid) {
-            this.editProject(projectid);
+        onProjectEdited(projectid, password=null) {
+            this.editProject(projectid, password);
         },
         onSaveOption(key, value) {
             const ov = {};
@@ -667,12 +668,8 @@ export default {
                 data: req,
                 async: true,
             }).done(function() {
-                if (password) {
-                    if (cospend.pageIsPublic) {
-                        cospend.password = newPassword;
-                    } else {
-                        cospend.projects[projectid].password = newPassword;
-                    }
+                if (password && cospend.pageIsPublic) {
+                    cospend.password = newPassword;
                 }
                 showSuccess(t('cospend', 'Project saved'));
             }).always(function() {

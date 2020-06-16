@@ -67,11 +67,49 @@
                 </Actions>
             </li>
         </ul>
+		<hr/><br/>
+        <ul
+            id="guestList"
+            class="shareWithList">
+			<li>
+				<div class="avatardiv icon icon-password" />
+				<span class="username">
+					<span>{{ t('cospend', 'Password protected access') }}</span>
+				</span>
+
+				<ActionButton class="copyLinkButton" icon="icon-clippy"
+					:ariaLabel="t('cospend', 'Copy link')" @click="copyPasswordLink"/>
+
+				<!-- TODO if enough permissions -->
+				<Actions v-if="true" :force-menu="true">
+					<ActionRadio name="guestAccessLevel" v-if="true" :checked="project.guestaccesslevel === 1" @change="clickGuestAccessLevel(1)">
+						{{ t('cospend', 'Viewer') }}
+					</ActionRadio>
+					<ActionRadio name="guestAccessLevel" v-if="true" :checked="project.guestaccesslevel === 2" @change="clickGuestAccessLevel(2)">
+						{{ t('cospend', 'Participant') }}
+					</ActionRadio>
+					<ActionRadio name="guestAccessLevel" v-if="true" :checked="project.guestaccesslevel === 3" @change="clickGuestAccessLevel(3)">
+						{{ t('cospend', 'Maintener') }}
+					</ActionRadio>
+					<ActionRadio name="guestAccessLevel" v-if="true" :checked="project.guestaccesslevel === 4" @change="clickGuestAccessLevel(4)">
+						{{ t('cospend', 'Admin') }}
+					</ActionRadio>
+				</Actions>
+			</li>
+        </ul>
+		<form id="newPasswordForm" @submit.prevent.stop="setPassword">
+			<label for="newPasswordInput">{{ t('cospend', 'New project password') }}</label>
+			<div>
+				<input id="newPasswordInput" ref="newPasswordInput" value="" type="password"
+						@focus="$event.target.select()"/>
+				<input type="submit" value="" class="icon-confirm">
+			</div>
+		</form>
     </div>
 </template>
 
 <script>
-import { Avatar, Multiselect, Actions, ActionButton, ActionCheckbox, ActionRadio } from '@nextcloud/vue'
+import { Avatar, Multiselect, Actions, ActionButton, ActionCheckbox, ActionRadio, ActionSeparator } from '@nextcloud/vue'
 import { mapGetters, mapState } from 'vuex'
 import { getCurrentUser } from '@nextcloud/auth'
 import {generateUrl} from '@nextcloud/router';
@@ -88,7 +126,7 @@ export default {
         Avatar,
         Actions,
         ActionButton,
-        ActionCheckbox, ActionRadio,
+        ActionCheckbox, ActionRadio, ActionSeparator,
         Multiselect,
     },
     props: ['project'],
@@ -337,7 +375,52 @@ export default {
         },
         addLink() {
             this.addSharedAccess({type: 'l'});
-        }
+		},
+		setPassword() {
+			const password = this.$refs.newPasswordInput.value;
+			if (password) {
+				this.$emit('projectEdited', this.projectId, password);
+			} else {
+				showError(t('cospend', 'Password should not be empty.'));
+			}
+		},
+        async copyPasswordLink() {
+			const guestLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/loginproject/' + this.projectId);
+            try {
+                await this.$copyText(guestLink)
+                showSuccess(t('cospend', 'Guest link copied to clipboard.'))
+            } catch (error) {
+                console.debug(error)
+                showError(t('cospend', 'Guest link could not be copied to clipboard.'))
+            }
+        },
+        clickGuestAccessLevel(level) {
+			const that = this;
+			const req = {
+				accesslevel: level
+			};
+			let url;
+			if (!cospend.pageIsPublic) {
+				url = generateUrl('/apps/cospend/projects/' + this.projectId + '/guest-access-level');
+			} else {
+				url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/guest-access-level');
+			}
+			$.ajax({
+				type: 'PUT',
+				url: url,
+				data: req,
+				async: true
+			}).done(function() {
+				that.project.guestaccesslevel = level;
+                showSuccess(t('cospend', 'Guest access level changed.'))
+			}).always(function() {
+			}).fail(function(response) {
+				showError(
+					t('cospend', 'Failed to edit guest access level') +
+					': ' + response.responseText
+				);
+			});
+		}
     },
 }
 </script>
@@ -345,10 +428,10 @@ export default {
     .shareInput {
         width: 100%;
     }
-    #shareWithList {
+    .shareWithList {
         margin-bottom: 20px;
     }
-    #shareWithList li {
+    .shareWithList li {
         display: flex;
         align-items: center;
     }
@@ -367,5 +450,14 @@ export default {
         border-radius: 16px;
         width: 32px;
         height: 32px;
-    }
+	}
+	#newPasswordForm div {
+		width: 48%;
+		display: inline-block;
+	}
+	#newPasswordForm label {
+		text-align: center;
+		display: inline-block;
+		width: 48%;
+	}
 </style>

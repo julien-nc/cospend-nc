@@ -25,7 +25,9 @@
         <AppSidebarTab id="sharing" name="Sharing" icon="icon-shared"
             :order="1"
             >
-            <SharingTabSidebar :project="project" />
+            <SharingTabSidebar :project="project"
+                @projectEdited="onProjectEdited"
+                />
         </AppSidebarTab>
         <AppSidebarTab :id="'activity'" :name="'Activity'" :icon="'icon-calendar-dark'"
             :order="2"
@@ -69,7 +71,7 @@ export default {
             return cospend.projects[this.projectId];
         },
         title() {
-            return this.project.name;
+            return t('cospend', 'Project {name}', {name: this.project.name});
         },
         members() {
             return (this.bills.length > 0) ? cospend.members[this.projectId] : [];
@@ -89,6 +91,11 @@ export default {
                 }
             }
             return t('cospend', '{nb} bills, {nm} active members, {ns} spent', {nb: nbBills, nm: nbActiveMembers, ns: spent.toFixed(2)})
+        }
+    },
+    methods: {
+        onProjectEdited(projectid, password=null) {
+            this.$emit('projectEdited', projectid, password);
         }
     }
 }

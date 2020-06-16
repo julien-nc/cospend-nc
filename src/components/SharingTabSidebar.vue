@@ -44,7 +44,8 @@
                     <span v-if="access.type==='c'">{{ t('cospend', '(Circle)') }}</span>
                 </span>
 
-                <ActionButton v-if="access.type==='l'" class="copyLinkButton" icon="icon-clippy"
+                <ActionButton v-if="access.type==='l'" class="copyLinkButton"
+                    :icon="(linkCopied[access.id]) ? 'icon-checkmark-color' : 'icon-clippy'"
                     :ariaLabel="t('cospend', 'Copy link')" @click="copyLink(access)"/>
 
                 <!-- TODO if enough permissions -->
@@ -77,7 +78,7 @@
 					<span>{{ t('cospend', 'Password protected access') }}</span>
 				</span>
 
-				<ActionButton class="copyLinkButton" icon="icon-clippy"
+				<ActionButton class="copyLinkButton" :icon="guestLinkCopied ? 'icon-checkmark-color' : 'icon-clippy'"
 					:ariaLabel="t('cospend', 'Copy link')" @click="copyPasswordLink"/>
 
 				<!-- TODO if enough permissions -->
@@ -119,6 +120,7 @@ import {
 } from '@nextcloud/dialogs'
 import cospend from '../state';
 import * as constants from '../constants';
+import { Timer } from '../utils';
 
 export default {
     name: 'SharingTabSidebar',
@@ -135,6 +137,8 @@ export default {
             isLoading: false,
             selectedSharee: null,
             sharees: [],
+            guestLinkCopied: false,
+            linkCopied: {}
         }
     },
     computed: {
@@ -368,6 +372,11 @@ export default {
             try {
                 await this.$copyText(publicLink)
                 showSuccess(t('cospend', 'Public link copied to clipboard.'))
+                this.$set(this.linkCopied, access.id, true);
+                const that = this;
+                new Timer(function () {
+                    that.$set(that.linkCopied, access.id, false);
+                }, 5000);
             } catch (error) {
                 console.debug(error)
                 showError(t('cospend', 'Public link could not be copied to clipboard.'))
@@ -389,6 +398,11 @@ export default {
             try {
                 await this.$copyText(guestLink)
                 showSuccess(t('cospend', 'Guest link copied to clipboard.'))
+                this.guestLinkCopied = true;
+                const that = this;
+                new Timer(function () {
+                    that.guestLinkCopied = false;
+                }, 5000);
             } catch (error) {
                 console.debug(error)
                 showError(t('cospend', 'Guest link could not be copied to clipboard.'))

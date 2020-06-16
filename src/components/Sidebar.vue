@@ -23,6 +23,7 @@
             <ActionLink icon="icon-external" title="Link" href="https://nextcloud.com" />
         </template-->
         <AppSidebarTab id="sharing" name="Sharing" icon="icon-shared"
+            v-if="!pageIsPublic"
             :order="1"
             >
             <SharingTabSidebar :project="project"
@@ -67,6 +68,9 @@ export default {
         };
     },
     computed: {
+        pageIsPublic() {
+            return cospend.pageIsPublic;
+        },
         project() {
             return cospend.projects[this.projectId];
         },

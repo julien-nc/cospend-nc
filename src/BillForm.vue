@@ -34,7 +34,7 @@
                         :disabled="isNewBill && newBillMode === 'custom'"
                         @input="onBillEdited"
                         ref="amountInput"
-                        v-model="bill.amount"/>
+                        v-model.number="bill.amount"/>
                 </div>
                 <div class="bill-currency-convert" v-if="project.currencyname && project.currencies.length > 0">
                     <label for="bill-currency">

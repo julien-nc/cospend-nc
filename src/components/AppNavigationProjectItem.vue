@@ -27,7 +27,7 @@
             </ActionButton>
         </template>
         <template slot="actions">
-            <ActionInput :disabled="false" icon="icon-rename" type="text" :value="project.name"
+            <ActionInput v-if="adminAccess" :disabled="false" icon="icon-rename" type="text" :value="project.name"
                 ref="projNameInput" @submit="onNameSubmit">
             </ActionInput>
             <ActionInput v-if="maintenerAccess" :disabled="false" icon="icon-user" ref="newMemberInput" @submit="onAddMember">
@@ -109,6 +109,9 @@ export default {
         },
         maintenerAccess() {
             return this.project.myaccesslevel >= constants.ACCESS.MAINTENER;
+        },
+        adminAccess() {
+            return this.project.myaccesslevel >= constants.ACCESS.ADMIN;
         }
     },
     beforeMount() {

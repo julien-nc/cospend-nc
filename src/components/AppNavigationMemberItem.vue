@@ -5,16 +5,20 @@
         :forceMenu="true"
         v-show="memberVisible"
         >
-        <div class="memberAvatar" slot="icon">
+        <div v-if="maintenerAccess" class="memberAvatar" slot="icon">
             <ColorPicker class="app-navigation-entry-bullet-wrapper memberColorPicker" :value="`#${member.color}`" @input="updateColor" ref="col">
                 <div class="disabledMask" v-show="!member.activated"></div>
                 <img :src="memberAvatar"/>
             </ColorPicker>
         </div>
+        <div v-else class="memberAvatar" slot="icon">
+            <div class="disabledMask" v-show="!member.activated"></div>
+            <img :src="memberAvatar"/>
+        </div>
         <template slot="counter">
             <span :class="balanceClass">{{ balanceCounter }}</span>
         </template>
-        <template slot="actions">
+        <template slot="actions" v-if="maintenerAccess">
             <ActionInput :disabled="false" icon="icon-rename" type="text" :value="member.name"
                 ref="nameInput" @submit="onNameSubmit"
                 >
@@ -42,6 +46,7 @@ import {
 } from '@nextcloud/vue'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import cospend from '../state';
+import * as constants from '../constants';
 import {getMemberName, getSmartMemberName, getMemberAvatar} from '../member';
 
 export default {
@@ -63,6 +68,9 @@ export default {
         }
     },
     computed: {
+        maintenerAccess() {
+            return this.projectId && cospend.projects[this.projectId].myaccesslevel >= constants.ACCESS.MAINTENER;
+        },
         nameTitle() {
             return this.member.name + ((this.member.weight !== 1.0) ? (' (x' + this.member.weight + ')') : '');
         },

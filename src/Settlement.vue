@@ -84,7 +84,7 @@ export default {
             return cospend.members[this.projectId];
         },
         editionAccess() {
-            return (this.project.myaccesslevel > constants.ACCESS.VIEWER);
+            return (this.project.myaccesslevel >= constants.ACCESS.PARTICIPANT);
         },
     },
 

@@ -592,8 +592,8 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         // share the project with second user
         $resp = $this->pageController->addUserShare('projtodel', 'test2');
         $status = $resp->getStatus();
-        $shareId2 = $resp->getData();
         $this->assertEquals(200, $status);
+        $shareId2 = $resp->getData()['id'];
 
         // get projects of second user
         $resp = $this->pageController2->webGetProjects();

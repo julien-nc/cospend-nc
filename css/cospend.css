@@ -617,6 +617,8 @@ a.billitem .app-content-list-item-icon {
 .memberColorPicker .trigger {
     height: 25px !important;
 }
+.copyLinkButton button,
+.addLinkButton button,
 .detailButton button {
     padding-right: 0 !important;
 }

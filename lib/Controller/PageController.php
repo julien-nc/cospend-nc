@@ -2231,7 +2231,7 @@ class PageController extends ApiController {
     public function addUserShare($projectid, $userid) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
             $result = $this->projectService->addUserShare($projectid, $userid, $this->userId);
-            if (is_numeric($result)) {
+            if (is_array($result)) {
                 return new DataResponse($result);
             }
             else {
@@ -2324,7 +2324,7 @@ class PageController extends ApiController {
     public function addGroupShare($projectid, $groupid) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
             $result = $this->projectService->addGroupShare($projectid, $groupid, $this->userId);
-            if (is_numeric($result)) {
+            if (is_array($result)) {
                 return new DataResponse($result);
             }
             else {
@@ -2371,7 +2371,7 @@ class PageController extends ApiController {
     public function addCircleShare($projectid, $circleid) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
             $result = $this->projectService->addCircleShare($projectid, $circleid, $this->userId);
-            if (is_numeric($result)) {
+            if (is_array($result)) {
                 return new DataResponse($result);
             }
             else {

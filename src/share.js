@@ -160,7 +160,6 @@ export function deleteUserShareDb(projectid, shid) {
 export function addPublicShareDb(projectid) {
     $('.projectitem[projectid="' + projectid + '"]').addClass('icon-loading-small');
     const req = {
-        projectid: projectid,
     };
     const url = generateUrl('/apps/cospend/projects/' + projectid + '/public-share');
     $.ajax({

@@ -2052,10 +2052,11 @@ class ProjectService {
         for ($i = 0; $i < count($projects); $i++) {
             $dbProjectId = $projects[$i]['id'];
             $members = $this->getMembers($dbProjectId, 'lowername');
-            $shares = $this->getUserShares($dbProjectId);
+            $userShares = $this->getUserShares($dbProjectId);
             $groupShares = $this->getGroupShares($dbProjectId);
             $circleShares = $this->getCircleShares($dbProjectId);
             $publicShares = $this->getPublicShares($dbProjectId);
+            $shares = array_merge($userShares, $groupShares, $circleShares, $publicShares);
             $currencies = $this->getCurrencies($dbProjectId);
             $categories = $this->getCategories($dbProjectId);
             $myAccessLevel = $this->getUserMaxAccessLevel($userId, $dbProjectId);
@@ -2070,9 +2071,6 @@ class ProjectService {
             $projects[$i]['members'] = $members;
             $projects[$i]['balance'] = $balance;
             $projects[$i]['shares'] = $shares;
-            $projects[$i]['group_shares'] = $groupShares;
-            $projects[$i]['circle_shares'] = $circleShares;
-            $projects[$i]['public_shares'] = $publicShares;
             $projects[$i]['currencies'] = $currencies;
             $projects[$i]['categories'] = $categories;
             $projects[$i]['myaccesslevel'] = $myAccessLevel;
@@ -2163,7 +2161,8 @@ class ProjectService {
                     'userid' => $dbuserId,
                     'name' => $userIdToName[$dbuserId],
                     'id' => $dbId,
-                    'accesslevel' => $dbAccessLevel
+                    'accesslevel' => $dbAccessLevel,
+                    'type' => 'u'
                 ]);
             }
         }
@@ -2194,7 +2193,8 @@ class ProjectService {
             array_push($shares, [
                 'token' => $dbToken,
                 'id' => $dbId,
-                'accesslevel' => $dbAccessLevel
+                'accesslevel' => $dbAccessLevel,
+                'type' => 'l'
             ]);
         }
         $req->closeCursor();
@@ -2259,7 +2259,8 @@ class ProjectService {
                     'groupid' => $dbGroupId,
                     'name' => $groupIdToName[$dbGroupId],
                     'id' => $dbId,
-                    'accesslevel' => $dbAccessLevel
+                    'accesslevel' => $dbAccessLevel,
+                    'type' => 'g'
                 ]);
             }
         }
@@ -2302,7 +2303,8 @@ class ProjectService {
                         'circleid' => $dbCircleId,
                         'name' => $circleIdToName[$dbCircleId],
                         'id' => $dbId,
-                        'accesslevel' => $dbAccessLevel
+                        'accesslevel' => $dbAccessLevel,
+                        'type' => 'c'
                     ]);
                 }
             }
@@ -2994,6 +2996,7 @@ class ProjectService {
             }
         }
         if ($userid !== '' and in_array($userid, $userIds)) {
+            $name = $this->userManager->get($userid)->getDisplayName();
             $qb = $this->dbconnection->getQueryBuilder();
             $projectInfo = $this->getProjectInfo($projectid);
             // check if someone tries to share the project with its owner
@@ -3030,7 +3033,10 @@ class ProjectService {
                     $qb = $qb->resetQueryParts();
 
                     $insertedShareId = intval($qb->getLastInsertId());
-                    $response = $insertedShareId;
+                    $response = [
+                        'id' => $insertedShareId,
+                        'name' => $name
+                    ];
 
                     // activity
                     $projectObj = $this->projectMapper->find($projectid);
@@ -3066,15 +3072,15 @@ class ProjectService {
                     return $response;
                 }
                 else {
-                    return ['message' => $this->trans->t('Already shared with this user')];
+                    return $this->trans->t('Already shared with this user');
                 }
             }
             else {
-                return ['message' => $this->trans->t('Impossible to share the project with its owner')];
+                return $this->trans->t('Impossible to share the project with its owner');
             }
         }
         else {
-            return ['message' => $this->trans->t('No such user')];
+            return $this->trans->t('No such user');
         }
     }
 
@@ -3362,6 +3368,7 @@ class ProjectService {
             array_push($groupIds, $g->getGID());
         }
         if ($groupid !== '' and in_array($groupid, $groupIds)) {
+            $name = $this->groupManager->get($groupid)->getDisplayName();
             $qb = $this->dbconnection->getQueryBuilder();
             $projectInfo = $this->getProjectInfo($projectid);
             // check if user share exists
@@ -3396,7 +3403,10 @@ class ProjectService {
                 $qb = $qb->resetQueryParts();
 
                 $insertedShareId = intval($qb->getLastInsertId());
-                $response = $insertedShareId;
+                $response = [
+                    'id' => $insertedShareId,
+                    'name' => $name
+                ];
 
                 // activity
                 $projectObj = $this->projectMapper->find($projectid);
@@ -3409,11 +3419,11 @@ class ProjectService {
                 return $response;
             }
             else {
-                return ['message' => $this->trans->t('Already shared with this group')];
+                return $this->trans->t('Already shared with this group');
             }
         }
         else {
-            return ['message' => $this->trans->t('No such group')];
+            return $this->trans->t('No such group');
         }
     }
 
@@ -3477,6 +3487,7 @@ class ProjectService {
     public function addCircleShare($projectid, $circleid, $fromUserId) {
         // check if circleId exists
         $circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
+        $circleName = '';
         if ($circlesEnabled) {
             $cs = \OCA\Circles\Api\v1\Circles::listCircles(\OCA\Circles\Model\Circle::CIRCLES_ALL, '', 0);
             $exists = false;
@@ -3487,6 +3498,7 @@ class ProjectService {
                     }
                     else {
                         $exists = true;
+                        $circleName = $c->getName();
                     }
                 }
             }
@@ -3525,7 +3537,10 @@ class ProjectService {
                     $qb = $qb->resetQueryParts();
 
                     $insertedShareId = intval($qb->getLastInsertId());
-                    $response = $insertedShareId;
+                    $response = [
+                        'id' => $insertedShareId,
+                        'name' => $circleName
+                    ];
 
                     // activity
                     $projectObj = $this->projectMapper->find($projectid);
@@ -3538,15 +3553,15 @@ class ProjectService {
                     return $response;
                 }
                 else {
-                    return ['message' => $this->trans->t('Already shared with this circle')];
+                    return $this->trans->t('Already shared with this circle');
                 }
             }
             else {
-                return ['message' => $this->trans->t('No such circle')];
+                return $this->trans->t('No such circle');
             }
         }
         else {
-            return ['message' => $this->trans->t('Circles app is not enabled')];
+            return $this->trans->t('Circles app is not enabled');
         }
     }
 

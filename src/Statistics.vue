@@ -135,11 +135,11 @@
             </thead>
             <tbody slot="body" slot-scope="{displayData}">
                 <tr v-for="vals in displayData" :key="vals.catid">
-                    <td :style="'border: 2px solid ' + getCategory(vals.catid).color + ';'">
-                        {{ getCategory(vals.catid).name }}
+                    <td :style="'border: 2px solid ' + myGetCategory(vals.catid).color + ';'">
+                        {{ getCategoryNameIcon(vals.catid) }}
                     </td>
                     <td v-for="month in categoryMonths" :key="month"
-                        :style="'border: 2px solid ' + getCategory(vals.catid).color + ';'">
+                        :style="'border: 2px solid ' + myGetCategory(vals.catid).color + ';'">
                         {{ (vals[month] || 0).toFixed(2) }}
                     </td>
                 </tr>
@@ -170,7 +170,7 @@
         </div>
         <hr/>
         <select v-if="stats" id="categoryMemberSelect" ref="categoryMemberSelect" @change="onCategoryMemberChange">
-            <option v-for="(val, catid) in stats.categoryMemberStats" :key="catid" :value="catid">{{ getCategory(catid).name }}</option>
+            <option v-for="(val, catid) in stats.categoryMemberStats" :key="catid" :value="catid">{{ getCategoryNameIcon(catid) }}</option>
         </select>
         <div id="categoryMemberChart">
             <PieChartJs
@@ -203,6 +203,7 @@ import {
 } from '@nextcloud/dialogs'
 import {getMemberName, getSmartMemberName, getMemberAvatar} from './member';
 import cospend from './state';
+import { getCategory } from './utils';
 import LineChartJs from './components/LineChartJs';
 import PieChartJs from './components/PieChartJs';
 import PolarChartJs from './components/PolarChartJs';
@@ -301,7 +302,7 @@ export default {
             for (const catid in this.stats.categoryMonthlyStats) {
                 elem = {
                     catid: catid,
-                    name: this.getCategoryPureName(catid)
+                    name: this.getCategoryNameIcon(catid)
                 };
                 for (const month in this.stats.categoryMonthlyStats[catid]) {
                     elem[month] = this.stats.categoryMonthlyStats[catid][month];
@@ -369,7 +370,7 @@ export default {
             let catIdInt, category;
             for (const catId in this.stats.categoryMonthlyStats) {
                 catIdInt = parseInt(catId);
-                category = this.getCategory(catId);
+                category = this.myGetCategory(catId);
 
                 // Build time series:
                 const paid = [];
@@ -382,7 +383,7 @@ export default {
                 }
 
                 categoryDatasets.push({
-                    label: category.name,
+                    label: category.icon + ' ' + category.name,
                     // FIXME hacky way to change alpha channel:
                     backgroundColor: category.color + '4D',
                     pointBackgroundColor: category.color,
@@ -466,11 +467,11 @@ export default {
             for (const catId in this.stats.categoryStats) {
                 paid = this.stats.categoryStats[catId].toFixed(2);
                 catIdInt = parseInt(catId);
-                category = this.getCategory(catId);
+                category = this.myGetCategory(catId);
 
                 categoryData.datasets[0].data.push(paid);
                 categoryData.datasets[0].backgroundColor.push(category.color);
-                categoryData.labels.push(category.name);
+                categoryData.labels.push(category.icon + ' ' + category.name);
             }
             return categoryData;
         },
@@ -524,11 +525,11 @@ export default {
             };
             let category, paid;
             for (const catId in this.stats.categoryMemberStats) {
-                category = this.getCategory(catId);
+                category = this.myGetCategory(catId);
                 paid = this.stats.categoryMemberStats[catId][this.selectedMemberId].toFixed(2);
                 memberData.datasets[0].data.push(paid);
                 memberData.datasets[0].backgroundColor.push(category.color);
-                memberData.labels.push(category.name);
+                memberData.labels.push(category.icon + ' ' + category.name);
             }
             return memberData;
         },
@@ -549,6 +550,13 @@ export default {
     },
 
     methods: {
+        myGetCategory(catid) {
+            return getCategory(this.projectId, catid);
+        },
+        getCategoryNameIcon(catid) {
+            const category = this.myGetCategory(catid);
+            return category.icon + ' ' + category.name;
+        },
         onMemberPolarChange() {
             const mid = this.$refs.memberPolarSelect.value;
             this.selectedMemberId = mid;
@@ -556,36 +564,6 @@ export default {
         onCategoryMemberChange() {
             const catId = this.$refs.categoryMemberSelect.value;
             this.selectedCategoryId = catId;
-        },
-        getCategory(catId) {
-            const projectid = this.projectId;
-            let catName, catColor;
-            if (cospend.hardCodedCategories.hasOwnProperty(catId)) {
-                catName = cospend.hardCodedCategories[catId].icon + ' ' + cospend.hardCodedCategories[catId].name;
-                catColor = cospend.hardCodedCategories[catId].color;
-            } else if (cospend.projects[projectid].categories.hasOwnProperty(catId)) {
-                catName = (cospend.projects[projectid].categories[catId].icon || '') +
-                    ' ' + cospend.projects[projectid].categories[catId].name;
-                catColor = cospend.projects[projectid].categories[catId].color || 'red';
-            } else {
-                catName = t('cospend', 'No category');
-                catColor = '#000000';
-            }
-
-            return {
-                name: catName,
-                color: catColor,
-            }
-        },
-        getCategoryPureName(catId) {
-            const projectid = this.projectId;
-            if (cospend.hardCodedCategories.hasOwnProperty(catId)) {
-                return cospend.hardCodedCategories[catId].name;
-            } else if (cospend.projects[projectid].categories.hasOwnProperty(catId)) {
-                return cospend.projects[projectid].categories[catId].name;
-            } else {
-                return t('cospend', 'No category');
-            }
         },
         getBalanceClass(balance) {
             let balanceClass = '';

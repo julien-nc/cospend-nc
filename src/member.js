@@ -22,133 +22,6 @@ export function memberEvents() {
         addMemberAutocompletion($(this), projectid, memberid);
     });
 
-    $('body').on('click', '.addMember', function () {
-        const projectid = $(this).parent().parent().parent().parent().attr('projectid');
-
-        const newmemberdiv = $('.projectitem[projectid="' + projectid + '"] .newmemberdiv');
-        newmemberdiv.show().attr('style', 'display: inline-flex;');
-        newmemberdiv.find('.newmembername').focus().select();
-    });
-
-    $('body').on('click', '.newmemberbutton', function () {
-        const projectid = $(this).parent().parent().attr('projectid');
-        const name = $(this).parent().find('input').val();
-        if (projectid && name) {
-            createMember(projectid, name);
-        } else {
-            Notification.showTemporary(t('cospend', 'Invalid values'));
-        }
-    });
-
-    $('body').on('keyup', '.newmembername', function (e) {
-        if (e.key === 'Enter') {
-            if (cospend.autoCompletePrevent) {
-                cospend.autoCompletePrevent = false;
-            } else {
-                const name = $(this).val();
-                const projectid = $(this).parent().parent().attr('projectid');
-                if (projectid && name) {
-                    createMember(projectid, name);
-                } else {
-                    Notification.showTemporary(t('cospend', 'Invalid values'));
-                }
-            }
-        } else if (e.key === 'Escape') {
-            $('.newmemberdiv').slideUp();
-        }
-    });
-
-    $('body').on('click', '.renameMember', function () {
-        const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
-        const mid = $(this).parent().parent().parent().parent().attr('memberid');
-        const name = cospend.members[projectid][mid].name;
-        $(this).parent().parent().parent().parent().find('.editMemberInput').val(name).focus().select().attr('placeholder', t('cospend', 'New name'));
-        $('.memberlist li').removeClass('editing');
-        $(this).parent().parent().parent().parent().addClass('editing');
-        cospend.memberEditionMode = constants.MEMBER_NAME_EDITION;
-    });
-
-    $('body').on('click', '.editWeightMember', function () {
-        const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
-        const mid = $(this).parent().parent().parent().parent().attr('memberid');
-        const weight = cospend.members[projectid][mid].weight;
-        $(this).parent().parent().parent().parent().find('.editMemberInput').val(weight).focus().select().attr('placeholder', t('cospend', 'New weight'));
-        $('.memberlist li').removeClass('editing');
-        $(this).parent().parent().parent().parent().addClass('editing');
-        cospend.memberEditionMode = constants.MEMBER_WEIGHT_EDITION;
-    });
-
-    $('body').on('click', '.editMemberClose', function () {
-        $(this).parent().parent().parent().removeClass('editing');
-    });
-
-    $('body').on('keyup', '.editMemberInput', function (e) {
-        if (e.key === 'Enter') {
-            const memberid = $(this).parent().parent().parent().attr('memberid');
-            const projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
-            let newName;
-            if (cospend.memberEditionMode === constants.MEMBER_NAME_EDITION) {
-                if (cospend.autoCompletePrevent) {
-                    cospend.autoCompletePrevent = false;
-                } else {
-                    newName = $(this).val();
-                    editMember(projectid, memberid, newName, null, null, null, '');
-                }
-            } else if (cospend.memberEditionMode === constants.MEMBER_WEIGHT_EDITION) {
-                const newWeight = parseFloat($(this).val());
-                if (!isNaN(newWeight)) {
-                    newName = cospend.members[projectid][memberid].name;
-                    editMember(projectid, memberid, newName, newWeight, null);
-                } else {
-                    Notification.showTemporary(t('cospend', 'Invalid weight'));
-                }
-            }
-        } else if (e.key === 'Escape') {
-            $(this).parent().parent().parent().removeClass('editing');
-        }
-    });
-
-    $('body').on('click', '.editMemberOk', function () {
-        const memberid = $(this).parent().parent().parent().attr('memberid');
-        const projectid = $(this).parent().parent().parent().parent().parent().attr('projectid');
-        let newName;
-        if (cospend.memberEditionMode === constants.MEMBER_NAME_EDITION) {
-            newName = $(this).parent().find('.editMemberInput').val();
-            editMember(projectid, memberid, newName, null, null, null, '');
-        } else if (cospend.memberEditionMode === constants.MEMBER_WEIGHT_EDITION) {
-            const newWeight = parseFloat($(this).parent().find('.editMemberInput').val());
-            if (!isNaN(newWeight)) {
-                newName = cospend.members[projectid][memberid].name;
-                editMember(projectid, memberid, newName, newWeight, null);
-            } else {
-                Notification.showTemporary(t('cospend', 'Invalid weight'));
-            }
-        }
-    });
-
-    $('body').on('click', '.toggleMember', function () {
-        const memberid = $(this).parent().parent().parent().parent().attr('memberid');
-        const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
-        const newName = $(this).parent().parent().parent().parent().find('>a span b.memberName').text();
-        const activated = $(this).find('span').first().hasClass('icon-history');
-        editMember(projectid, memberid, newName, null, activated);
-    });
-
-    $('body').on('click', '.memberAvatar', function() {
-        const projectid = $(this).parent().parent().parent().attr('projectid');
-        const memberid = $(this).parent().attr('memberid');
-        askChangeMemberColor(projectid, memberid);
-    });
-
-    $('body').on('click', '.editColorMember', function() {
-        const projectid = $(this).parent().parent().parent().parent().parent().parent().attr('projectid');
-        const memberid = $(this).parent().parent().parent().parent().attr('memberid');
-        askChangeMemberColor(projectid, memberid);
-    });
-
-    $('body').on('change', '#membercolorinput', function() {
-        okMemberColor();
-    });
 }
 
 export function getMemberName(projectid, memberid) {
@@ -169,45 +42,8 @@ export function getMemberAvatar(projectid, memberid) {
     }
 }
 
-export function createMember(projectid, name) {
-    if (!name || name.match(',')) {
-        Notification.showTemporary(t('cospend', 'Invalid values'));
-        return;
-    }
-    $('.projectitem[projectid="' + projectid + '"]').addClass('icon-loading-small');
-    const req = {
-        name: name
-    };
-    let url;
-    if (!cospend.pageIsPublic) {
-        url = generateUrl('/apps/cospend/projects/' + projectid + '/members');
-    } else {
-        url = generateUrl('/apps/cospend/apiv2/projects/' + cospend.projectid + '/' + cospend.password + '/members');
-    }
-    $.ajax({
-        type: 'POST',
-        url: url,
-        data: req,
-        async: true,
-    }).done(function(response) {
-        // add member to UI
-        addMember(projectid, response, 0);
-        // fold new member form
-        $('.newmemberdiv').slideUp();
-        updateNumberOfMember(projectid);
-        $('#billdetail').html('');
-        Notification.showTemporary(t('cospend', 'Created member {name}', {name: name}));
-    }).always(function() {
-        $('.projectitem[projectid="' + projectid + '"]').removeClass('icon-loading-small');
-    }).fail(function(response) {
-        Notification.showTemporary(
-            t('cospend', 'Failed to add member') +
-            ': ' + (response.responseJSON.message || response.responseText)
-        );
-    });
-}
 
-export function createMemberFromUser(projectid, userid, name) {
+/*export function createMemberFromUser(projectid, userid, name) {
     if (!name|| name.match(',')) {
         Notification.showTemporary(t('cospend', 'Invalid values'));
         return;
@@ -241,26 +77,6 @@ export function createMemberFromUser(projectid, userid, name) {
     });
 }
 
-export function askChangeMemberColor(projectid, memberid) {
-    cospend.changingColorProjectId = projectid;
-    cospend.changingColorMemberId = memberid;
-    const currentColor = '#' + cospend.members[projectid][memberid].color;
-    $('#membercolorinput').val(currentColor);
-    $('#membercolorinput').click();
-}
-
-export function okMemberColor() {
-    const color = $('#membercolorinput').val();
-    const projectid = cospend.changingColorProjectId;
-    const memberid = cospend.changingColorMemberId;
-    editMember(
-        projectid, memberid,
-        cospend.members[projectid][memberid].name,
-        cospend.members[projectid][memberid].weight,
-        cospend.members[projectid][memberid].activated,
-        color.replace('#', '')
-    );
-}
 
 export function editMember(projectid, memberid, newName, newWeight=null, newActivated=null, color=null, userid=null) {
     $('.projectitem[projectid="' + projectid + '"] ul.memberlist > li[memberid=' + memberid + ']')
@@ -339,125 +155,6 @@ export function editMember(projectid, memberid, newName, newWeight=null, newActi
             ': ' + (response.responseJSON.message || response.responseText)
         );
     });
-}
-
-export function updateNumberOfMember(projectid) {
-    const nbMembers = $('li.projectitem[projectid="' + projectid + '"] ul.memberlist > li').length;
-    $('li.projectitem[projectid="' + projectid + '"] .app-navigation-entry-utils-counter span').text(nbMembers);
-}
-
-export function addMember(projectid, member, balance) {
-    // add member to dict
-    cospend.members[projectid][member.id] = {
-        id: member.id,
-        name: member.name,
-        userid: member.userid,
-        activated: member.activated,
-        weight: member.weight,
-        color: rgbObjToHex(member.color).replace('#', '')
-    };
-
-    let invisibleClass = '';
-    let balanceClass = '';
-    if (balance >= 0.01) {
-        balanceClass = ' balancePositive';
-    } else if (balance <= -0.01) {
-        balanceClass = ' balanceNegative';
-    } else {
-        if (!member.activated) {
-            invisibleClass = ' invisibleMember';
-        }
-    }
-    const color = cospend.members[projectid][member.id].color;
-    let imgurl = getMemberAvatar(projectid, member.id);
-
-    const renameStr = t('cospend', 'Rename');
-    const changeWeightStr = t('cospend', 'Change weight');
-    const changeColorStr = t('cospend', 'Change color');
-
-    const container = $('#projectlist li.projectitem[projectid="' + projectid + '"] .memberlist');
-    container.append(
-        $('<li/>', {memberid: member.id, class: 'memberitem' + invisibleClass})
-            .append(
-                $('<div/>', {class: 'memberAvatar' + (member.activated ? '' : ' memberAvatarDisabled')})
-                    .append($('<div/>', {class: 'disabledMask'}))
-                    .append($('<img/>', {src: imgurl}))
-            )
-            .append(
-                $('<a/>', {class: 'member-list-icon', href: '#'})
-                    .append(
-                        $('<span/>', {class: 'memberNameBalance'})
-                            .append($('<b/>', {class: 'memberName', title: member.name + ' (x' + member.weight + ')'})
-                                .text(member.name + ((parseFloat(member.weight) !== 1.0) ? (' (x' + member.weight + ')') : ''))
-                            )
-                            .append($('<b/>', {class: 'balance' + balanceClass}).text(balance.toFixed(2)))
-                    )
-            )
-            .append(
-                $('<div/>', {class: 'app-navigation-entry-utils'})
-                    .append(
-                        $('<ul/>')
-                            .append(
-                                $('<li/>', {class: 'app-navigation-entry-utils-menu-button memberMenuButton'})
-                                    .append($('<button/>'))
-                            )
-                    )
-            )
-            .append(
-                $('<div/>', {class: 'app-navigation-entry-menu'})
-                    .append(
-                        $('<ul/>')
-                            .append(
-                                $('<li/>')
-                                    .append(
-                                        $('<a/>', {href: '#', class: 'renameMember'})
-                                            .append($('<span/>', {class: 'icon-rename'}))
-                                            .append($('<span/>').text(renameStr))
-                                    )
-                            )
-                            .append(
-                                $('<li/>')
-                                    .append(
-                                        $('<a/>', {href: '#', class: 'editWeightMember'})
-                                            .append($('<span/>', {class: 'icon-quota'}))
-                                            .append($('<span/>').text(changeWeightStr))
-                                    )
-                            )
-                            .append(
-                                $('<li/>')
-                                    .append(
-                                        $('<a/>', {href: '#', class: 'editColorMember'})
-                                            .append($('<span/>', {class: 'icon-palette'}))
-                                            .append($('<span/>').text(changeColorStr))
-                                    )
-                            )
-                            .append(
-                                $('<li/>')
-                                    .append(
-                                        $('<a/>', {href: '#', class: 'toggleMember'})
-                                            .append($('<span/>', {class: member.activated ? 'icon-delete' : 'icon-history'}))
-                                            .append($('<span/>').text(member.activated ? t('cospend', 'Deactivate') : t('cospend', 'Reactivate')))
-                                    )
-                            )
-                    )
-            )
-            .append(
-                $('<div/>', {class: 'app-navigation-entry-edit'})
-                    .append(
-                        $('<div/>')
-                            .append($('<input/>', {type: 'text', value: member.name, class: 'editMemberInput'}))
-                            .append($('<input/>', {type: 'submit', value: '', class: 'icon-close editMemberClose'}))
-                            .append($('<input/>', {type: 'submit', value: '', class: 'icon-checkmark editMemberOk'}))
-                    )
-            )
-    );
-
-    if (cospend.projects[projectid].myaccesslevel < constants.ACCESS.MAINTENER) {
-        $('li.projectitem[projectid="' + projectid + '"] .renameMember').hide();
-        $('li.projectitem[projectid="' + projectid + '"] .editWeightMember').hide();
-        $('li.projectitem[projectid="' + projectid + '"] .editColorMember').hide();
-        $('li.projectitem[projectid="' + projectid + '"] .toggleMember').hide();
-    }
 }
 
 export function addMemberAutocompletion(input, projectid, memberid) {
@@ -572,4 +269,4 @@ export function addMemberAutocompletion(input, projectid, memberid) {
     }).fail(function() {
         Notification.showTemporary(t('cospend', 'Failed to get user list'));
     });
-}
+}*/

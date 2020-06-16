@@ -96,7 +96,6 @@ import {
 } from '@nextcloud/dialogs'
 import * as constants from './constants';
 import {rgbObjToHex, saveOptionValue, slugify} from './utils';
-import { getMemberName } from './member';
 import {
     Content, AppContent
 } from '@nextcloud/vue'

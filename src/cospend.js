@@ -15,7 +15,11 @@ import Vue from 'vue';
 import './bootstrap';
 import App from './App';
 import vueAwesomeCountdown from 'vue-awesome-countdown';
+Vue.use(vueAwesomeCountdown, 'vac');
 import VueClipboard from 'vue-clipboard2'
+Vue.use(VueClipboard);
+import SmartTable from 'vuejs-smart-table'
+Vue.use(SmartTable)
 import {
     showSuccess,
     showInfo,
@@ -182,8 +186,6 @@ import cospend from './state';
     });
 
     function main() {
-        Vue.use(vueAwesomeCountdown, 'vac');
-        Vue.use(VueClipboard);
         new Vue({
             el: "#content",
             render: h => h(App),
@@ -191,131 +193,6 @@ import cospend from './state';
     }
 
     function mainOld() {
-        // get key events
-        document.onkeydown = checkKey;
-
-        window.onclick = function(event) {
-            if (!event.target.matches('.app-navigation-entry-utils-menu-button button')) {
-                $('.app-navigation-entry-menu.open').removeClass('open');
-            }
-            if (!event.target.matches('.newmemberdiv, .newmemberdiv input, .newmemberdiv .newmemberbutton, .addMember, .addMember span')) {
-                $('.newmemberdiv').slideUp();
-            }
-        };
-
-        $('body').on('click', '.projectMenuButton, .memberMenuButton', function() {
-            const wasOpen = $(this).parent().parent().parent().find('>.app-navigation-entry-menu').hasClass('open');
-            $('.app-navigation-entry-menu.open').removeClass('open');
-            if (!wasOpen) {
-                $(this).parent().parent().parent().find('>.app-navigation-entry-menu').addClass('open');
-            }
-        });
-
-        $('body').on('focus', '.input-bill-what, .input-bill-amount, #projectnameinput, #projectpasswordinput', function() {
-            $(this).select();
-        });
-
-        $('body').on('click', '.moneyBusterProjectUrl', function() {
-            const projectid = $(this).parent().parent().parent().parent().attr('projectid');
-            getProjectMoneyBusterLink(projectid);
-        });
-
-        categoryEvents();
-        currencyEvents();
-        billEvents();
-        memberEvents();
-        projectEvents();
-        shareEvents();
-
-        let guestLink = generateUrl('/apps/cospend/login');
-        guestLink = window.location.protocol + '//' + window.location.host + guestLink;
-        $('#generalGuestLinkButton').attr('title', guestLink);
-
-        $('body').on('click', '#generalGuestLinkButton', function() {
-            let guestLink = generateUrl('/apps/cospend/login');
-            guestLink = window.location.protocol + '//' + window.location.host + guestLink;
-            $('<input id="dummycopy">').val(guestLink).appendTo('body').select();
-            document.execCommand('copy');
-            $('#dummycopy').remove();
-            showSuccess(t('cospend', 'Guest link copied to clipboard.'));
-        });
-
-        $('body').on('click', '#app-details-toggle', function() {
-            $('.app-content-list').removeClass('showdetails');
-        });
-
-        $('body').on('click', '#importProjectButton', function() {
-            OC.dialogs.filepicker(
-                t('cospend', 'Choose csv project file'),
-                function(targetPath) {
-                    importProject(targetPath);
-                },
-                false,
-                ['text/csv'],
-                true
-            );
-        });
-
-        $('body').on('click', '#importSWProjectButton', function() {
-            OC.dialogs.filepicker(
-                t('cospend', 'Choose SplitWise project file'),
-                function(targetPath) {
-                    importSWProject(targetPath);
-                },
-                false,
-                ['text/csv'],
-                true
-            );
-        });
-
-        $('body').on('click', '#changeOutputButton', function() {
-            OC.dialogs.filepicker(
-                t('maps', 'Choose where to write output files (stats, settlement, export)'),
-                function(targetPath) {
-                    if (targetPath === '') {
-                        targetPath = '/';
-                    }
-                    saveOptionValue({outputDirectory: targetPath});
-                    $('#outputDirectory').text(targetPath);
-                },
-                false,
-                'httpd/unix-directory',
-                true
-            );
-        });
-
-        // context menu (right click)
-        $('body').on('contextmenu',
-            '.memberitem > .app-navigation-entry-utils, .memberitem > a, .memberitem .memberAvatar, ' +
-            '.shareitem > .app-navigation-entry-utils, .shareitem > a, ' +
-            '.projectitem > .app-navigation-entry-utils, .projectitem > a ',
-            function() {
-                const menu = $(this).parent().find('> .app-navigation-entry-menu');
-                const wasOpen = menu.hasClass('open');
-                $('.app-navigation-entry-menu.open').removeClass('open');
-                if (!wasOpen) {
-                    menu.addClass('open');
-                }
-                return false;
-            }
-        );
-
-        // right click on expand icon
-        $('body').on('contextmenu', '.projectitem', function(e) {
-            if (e.target.tagName === 'LI' && $(e.target).hasClass('projectitem')) {
-                const menu = $(this).find('> .app-navigation-entry-menu');
-                const wasOpen = menu.hasClass('open');
-                $('.app-navigation-entry-menu.open').removeClass('open');
-                if (!wasOpen) {
-                    menu.addClass('open');
-                }
-                return false;
-            }
-        });
-
-
-        // last thing to do : get the projects
-        getProjects();
     }
 
 })(jQuery, OC);

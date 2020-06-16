@@ -8,6 +8,29 @@ import {
     showError,
 } from '@nextcloud/dialogs'
 
+export function getCategory(projectid, catId) {
+    let icon, name, color;
+    if (cospend.hardCodedCategories.hasOwnProperty(catId)) {
+        name = cospend.hardCodedCategories[catId].name;
+        icon = cospend.hardCodedCategories[catId].icon;
+        color = cospend.hardCodedCategories[catId].color;
+    } else if (cospend.projects[projectid].categories.hasOwnProperty(catId)) {
+        name = cospend.projects[projectid].categories[catId].name || '';
+        icon = cospend.projects[projectid].categories[catId].icon || '';
+        color = cospend.projects[projectid].categories[catId].color || 'red';
+    } else {
+        name = t('cospend', 'No category');
+        icon = '';
+        color = '#000000';
+    }
+
+    return {
+        name: name,
+        icon: icon,
+        color: color,
+    }
+}
+
 function hexToRgb(hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {

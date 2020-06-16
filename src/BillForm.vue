@@ -252,13 +252,9 @@ import {
 } from '@nextcloud/dialogs'
 import * as constants from './constants';
 import {getMemberName, getSmartMemberName, getMemberAvatar} from './member';
-import {getCategory} from './category';
 import {getBills} from './bill';
 import {updateProjectBalances} from './project';
-import {
-    delay,
-    generatePublicLinkToFile,
-} from './utils';
+import { delay, generatePublicLinkToFile, getCategory } from './utils';
 
 export default {
     name: 'BillForm',

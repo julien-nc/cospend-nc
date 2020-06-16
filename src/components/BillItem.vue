@@ -30,10 +30,8 @@
 <script>
 import cospend from '../state';
 import {generateUrl} from '@nextcloud/router';
-import {getCategory} from '../category';
-import {getSmartOwerNames} from '../bill';
 import {getSmartMemberName, getMemberAvatar} from '../member';
-import {reload, Timer} from '../utils';
+import {reload, Timer, getCategory} from '../utils';
 import {vueAwesomeCountdown} from 'vue-awesome-countdown'
 
 export default {

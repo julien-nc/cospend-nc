@@ -626,8 +626,8 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         // add a group share
         $resp = $this->pageController->addGroupShare('projtodel', 'group2test');
         $status = $resp->getStatus();
-        $groupShareId = $resp->getData();
         $this->assertEquals(200, $status);
+        $groupShareId = $resp->getData()['id'];
 
         $resp = $this->pageController->addGroupShare('projtodel', 'group2test');
         $status = $resp->getStatus();

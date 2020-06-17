@@ -21,12 +21,8 @@ Vue.use(VueClipboard);
 import SmartTable from 'vuejs-smart-table'
 Vue.use(SmartTable)
 import {
-    showSuccess,
-    showInfo,
     showError,
 } from '@nextcloud/dialogs'
-import * as Chart from 'chart.js/dist/Chart';
-import 'chart.js/dist/Chart.css';
 import {generateUrl} from '@nextcloud/router';
 import {
     hexToDarkerHex,
@@ -36,63 +32,6 @@ import cospend from './state';
 
 (function($, OC) {
     'use strict';
-
-    Chart.plugins.register({
-        beforeRender: function(chart) {
-            if (chart.config.options.showAllTooltips) {
-                // create an array of tooltips
-                // we can't use the chart tooltip because there is only one tooltip per chart
-                chart.pluginTooltips = [];
-                chart.config.data.datasets.forEach(function(dataset, i) {
-                    chart.getDatasetMeta(i).data.forEach(function(sector, j) {
-                        chart.pluginTooltips.push(new Chart.Tooltip({
-                            _chart: chart.chart,
-                            _chartInstance: chart,
-                            _data: chart.data,
-                            _options: chart.options.tooltips,
-                            _active: [sector]
-                        }, chart));
-                    });
-                });
-
-                // turn off normal tooltips
-                chart.options.tooltips.enabled = false;
-            }
-        },
-        afterDraw: function(chart, easing) {
-            if (chart.config.options.showAllTooltips) {
-                // we don't want the permanent tooltips to animate, so don't do anything till the animation runs atleast once
-                if (!chart.allTooltipsOnce) {
-                    if (easing !== 1) {
-                        return;
-                    }
-                    chart.allTooltipsOnce = true;
-                }
-
-                // turn on tooltips
-                chart.options.tooltips.enabled = true;
-                Chart.helpers.each(chart.pluginTooltips, function(tooltip) {
-                    tooltip.initialize();
-                    tooltip.update();
-                    // we don't actually need this since we are not animating tooltips
-                    tooltip.pivot();
-                    tooltip.transition(easing).draw();
-                });
-                chart.options.tooltips.enabled = false;
-            }
-        }
-    });
-
-    // trick to always show public link item: replace default autocomplete filter function
-    const origFilter = $.ui.autocomplete.filter;
-    $.ui.autocomplete.filter = function(array, term) {
-        if (cospend.pubLinkData.projectid) {
-            const result = [cospend.pubLinkData];
-            return result.concat(origFilter(array, term));
-        } else {
-            return origFilter(array, term);
-        }
-    };
 
     function restoreOptions() {
         const url = generateUrl('/apps/cospend/option-values');
@@ -127,11 +66,6 @@ import cospend from './state';
         if (!cospend.pageIsPublic) {
             restoreOptions();
         } else {
-            //restoreOptionsFromUrlParams();
-            $('#newprojectbutton').hide();
-            $('#set-output-div').hide();
-            $('#importProjectButton').hide();
-            $('#importSWProjectButton').hide();
             cospend.projectid = $('#projectid').text();
             cospend.password = $('#password').text();
             cospend.restoredCurrentProjectId = cospend.projectid;
@@ -164,9 +98,6 @@ import cospend from './state';
             el: "#content",
             render: h => h(App),
         });
-    }
-
-    function mainOld() {
     }
 
 })(jQuery, OC);

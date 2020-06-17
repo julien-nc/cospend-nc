@@ -49,7 +49,6 @@ export default {
     props: ['project'],
     data() {
         return {
-            //project: cospend.projects[cospend.currentProjectId],
             validPassword: null,
             color: cospend.themeColorDark
         };

@@ -15,50 +15,51 @@
                 <option value="m">{{ t('cospend', 'Monthly') }}</option>
             </select>
         </div>
-        <br/><hr/><br/>
-        <p class="label">
-            <span class="labelIcon icon-user"></span>
-            {{ t('cospend', 'Choose a Nextcloud user to create a project member.')}}
-        </p>
-        <Multiselect
-            v-if="maintenerAccess"
-            v-model="selectedAddUser"
-            class="addUserInput"
-            :placeholder="t('cospend', 'Add a Nextcloud user as a member')"
-            :options="formatedUsers"
-            :user-select="true"
-            label="displayName"
-            track-by="multiselectKey"
-            :internal-search="true"
-            @input="clickAddUserItem"
-            />
-        <br/><br/><hr/><br/>
-        <p class="label">
-            <span class="labelIcon icon-user"></span>
-            {{ t('cospend', 'Choose a project member, then a Nextcloud user to associate with.')}}
-        </p>
-        <div id="affectDiv">
-            <select v-model="selectedMember">
-                <option v-for="member in activatedMembers" :key="member.id"
-                    :value="member.id">
-                    {{ member.name }}
-                </option>
-            </select>
+        <div v-if="!pageIsPublic">
+            <br/><hr/><br/>
+            <p class="label">
+                <span class="labelIcon icon-user"></span>
+                {{ t('cospend', 'Choose a Nextcloud user to create a project member.')}}
+            </p>
             <Multiselect
-                :disabled="!selectedMember"
                 v-if="maintenerAccess"
-                v-model="selectedAffectUser"
-                class="affectUserInput"
-                :placeholder="t('cospend', 'Choose a Nextcloud user')"
+                v-model="selectedAddUser"
+                class="addUserInput"
+                :placeholder="t('cospend', 'Add a Nextcloud user as a member')"
                 :options="formatedUsers"
                 :user-select="true"
                 label="displayName"
                 track-by="multiselectKey"
                 :internal-search="true"
-                @input="clickAffectUserItem"
+                @input="clickAddUserItem"
                 />
+            <br/><br/><hr/><br/>
+            <p class="label">
+                <span class="labelIcon icon-user"></span>
+                {{ t('cospend', 'Choose a project member, then a Nextcloud user to associate with.')}}
+            </p>
+            <div id="affectDiv">
+                <select v-model="selectedMember">
+                    <option v-for="member in activatedMembers" :key="member.id"
+                        :value="member.id">
+                        {{ member.name }}
+                    </option>
+                </select>
+                <Multiselect
+                    :disabled="!selectedMember"
+                    v-if="maintenerAccess"
+                    v-model="selectedAffectUser"
+                    class="affectUserInput"
+                    :placeholder="t('cospend', 'Choose a Nextcloud user')"
+                    :options="formatedUsers"
+                    :user-select="true"
+                    label="displayName"
+                    track-by="multiselectKey"
+                    :internal-search="true"
+                    @input="clickAffectUserItem"
+                    />
+            </div>
         </div>
-
     </div>
 </template>
 
@@ -90,7 +91,9 @@ export default {
         }
     },
     mounted() {
-        this.asyncFind()
+        if (!this.pageIsPublic) {
+            this.asyncFind()
+        }
     },
     computed: {
         maintenerAccess() {
@@ -125,6 +128,9 @@ export default {
         },
         isCurrentUser() {
             return (uid) => uid === getCurrentUser().uid
+        },
+        pageIsPublic() {
+            return cospend.pageIsPublic;
         },
         formatedUsers() {
             return this.unallocatedUsers.map(item => {

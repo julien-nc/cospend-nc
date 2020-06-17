@@ -113,6 +113,7 @@ export default {
         onNameSubmit() {
             const newName = this.$refs.nameInput.$el.querySelector('input[type="text"]').value;
             this.member.name = newName;
+            this.member.userid = null;
             this.$emit('memberEdited', this.projectId, this.member.id);
         },
         onWeightSubmit() {

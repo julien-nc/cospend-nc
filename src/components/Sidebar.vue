@@ -4,20 +4,6 @@
         :subtitle="subtitle"
         @close="$emit('close')">
         <template slot="primary-actions">
-            <div id="autoExport">
-                <label for="autoExportSelect">
-                    <span class="icon icon-schedule"></span>
-                    <span>{{ t('cospend', 'Automatic export') }}</span>
-                </label>
-                <select id="autoExportSelect"
-                    :disabled="!adminAccess"
-                    :value="project.autoexport" @input="onAutoExportSet">
-                    <option value="n">{{ t('cospend', 'No') }}</option>
-                    <option value="d">{{ t('cospend', 'Daily') }}</option>
-                    <option value="w">{{ t('cospend', 'Weekly') }}</option>
-                    <option value="m">{{ t('cospend', 'Monthly') }}</option>
-                </select>
-            </div>
         </template>
         <template v-if="false" slot="secondary-actions">
             <ActionButton icon="icon-edit" @click="alert('Edit')">
@@ -28,7 +14,7 @@
             </ActionButton>
             <ActionLink icon="icon-external" title="Link" href="https://nextcloud.com" />
         </template>
-        <AppSidebarTab id="sharing" name="Sharing" icon="icon-shared"
+        <AppSidebarTab id="sharing" :name="t('cospend', 'Sharing')" icon="icon-shared"
             v-if="!pageIsPublic"
             :order="1"
             >
@@ -36,7 +22,7 @@
                 @projectEdited="onProjectEdited"
                 />
         </AppSidebarTab>
-        <AppSidebarTab :id="'activity'" :name="'Activity'" :icon="'icon-calendar-dark'"
+        <!--AppSidebarTab :id="'activity'" :name="'Activity'" :icon="'icon-calendar-dark'"
             :order="2"
             >
             this is the activity tabbbaaaa
@@ -46,12 +32,16 @@
             v-if="false"
             >
             this is the comments tab
-        </AppSidebarTab>
-        <AppSidebarTab id="versions" name="Versions" icon="icon-history"
-            :order="3"
-            v-if="false"
+        </AppSidebarTab-->
+        <AppSidebarTab id="settings" :name="t('cospend', 'Settings')" icon="icon-settings-dark"
+            :order="2"
+            v-if="editionAccess"
             >
-            this is the versions tab
+            <SettingsTabSidebar :project="project"
+                @projectEdited="onProjectEdited"
+                @userAdded="onUserAdded"
+                @memberEdited="onMemberEdited"
+                />
         </AppSidebarTab>
     </AppSidebar>
 </template>
@@ -61,13 +51,14 @@ import {
     ActionButton, AppSidebar, AppSidebarTab, ActionLink
 } from '@nextcloud/vue'
 import SharingTabSidebar from './SharingTabSidebar'
+import SettingsTabSidebar from './SettingsTabSidebar'
 import cospend from '../state';
 import * as constants from '../constants';
 
 export default {
     name: 'Sidebar',
     components: {
-        ActionButton, AppSidebar, AppSidebarTab, ActionLink, SharingTabSidebar
+        ActionButton, AppSidebar, AppSidebarTab, ActionLink, SharingTabSidebar, SettingsTabSidebar
     },
     props: ['show', 'projectId', 'bills'],
     data() {
@@ -103,37 +94,23 @@ export default {
             }
             return t('cospend', '{nb} bills, {nm} active members, {ns} spent', {nb: nbBills, nm: nbActiveMembers, ns: spent.toFixed(2)})
         },
-        adminAccess() {
-            return this.project.myaccesslevel >= constants.ACCESS.ADMIN;
+        editionAccess() {
+            return this.project.myaccesslevel >= constants.ACCESS.MAINTENER;
         },
     },
     methods: {
         onProjectEdited(projectid, password=null) {
             this.$emit('projectEdited', projectid, password);
         },
-        onAutoExportSet(e) {
-            this.project.autoexport = e.target.value;
-            this.onProjectEdited(this.projectId);
+        onUserAdded(projectid, name, userid) {
+            this.$emit('userAdded', projectid, name, userid);
+        },
+        onMemberEdited(projectid, memberid, userid, name) {
+            this.$emit('memberEdited', projectid, memberid, userid, name);
         }
     }
 }
 </script>
 
 <style scoped lang="scss">
-#autoExport {
-    width: 100%;
-}
-#autoExport span.icon {
-    display: inline-block;
-    min-width: 30px !important;
-    min-height: 18px !important;
-    width: 30px;
-    height: 18px;
-    vertical-align: sub;
-}
-#autoExport label,
-#autoExport select {
-    display: inline-block;
-    width: 49%;
-}
 </style>

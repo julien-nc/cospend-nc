@@ -158,6 +158,9 @@ export default {
             linkCopied: {}
         }
     },
+    mounted() {
+        this.asyncFind()
+    },
     computed: {
         editionAccess() {
             return this.project.myaccesslevel >= constants.ACCESS.PARTICIPANT;
@@ -219,13 +222,10 @@ export default {
             })
         },
     },
-    mounted() {
-        this.asyncFind('')
-    },
     methods: {
-        asyncFind(query) {
+        asyncFind() {
             this.isLoading = true
-            this.loadSharees(query);
+            this.loadSharees();
         },
         loadSharees() {
             const that = this;
@@ -457,7 +457,7 @@ export default {
 					': ' + response.responseText
 				);
 			});
-		}
+        },
     },
 }
 </script>

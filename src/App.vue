@@ -71,6 +71,8 @@
             :show="showSidebar"
             @close="showSidebar = false"
             @projectEdited="onProjectEdited"
+            @userAdded="onNewMember"
+            @memberEdited="onMemberEdited"
             />
         <!--router-view name="sidebar" /-->
         <img id="dummylogo"/>
@@ -308,11 +310,11 @@ export default {
             this.currentBill = null;
             this.mode = 'currency';
         },
-        onNewMember(projectid, name) {
+        onNewMember(projectid, name, userid=null) {
             if (this.getMemberNames(projectid).includes(name)) {
                 showError(t('cospend', 'Member {name} already exists', {name: name}));
             } else {
-                this.createMember(projectid, name);
+                this.createMember(projectid, name, userid);
             }
         },
         onMemberEdited(projectid, memberid) {
@@ -588,10 +590,11 @@ export default {
                 showError(t('cospend', 'Failed to update balances'));
             });
         },
-        createMember(projectid, name) {
+        createMember(projectid, name, userid=null) {
             const that = this;
             const req = {
-                name: name
+                name: name,
+                userid: userid
             };
             let url;
             if (!cospend.pageIsPublic) {

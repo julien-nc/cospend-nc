@@ -593,9 +593,11 @@ export default {
         createMember(projectid, name, userid=null) {
             const that = this;
             const req = {
-                name: name,
-                userid: userid
+                name: name
             };
+            if (userid !== null) {
+                req.userid = userid;
+            }
             let url;
             if (!cospend.pageIsPublic) {
                 url = generateUrl('/apps/cospend/projects/' + projectid + '/members');
@@ -617,7 +619,7 @@ export default {
             }).fail(function(response) {
                 showError(
                     t('cospend', 'Failed to add member') +
-                    ': ' + (response.responseJSON.message)
+                    ': ' + (response.responseText)
                 );
             });
         },

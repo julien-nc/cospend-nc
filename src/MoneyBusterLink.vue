@@ -14,19 +14,21 @@
         <br/>
         <label id="mbUrlHintLabel1">{{ t('cospend', 'Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone.') }}</label>
         <label id="mbUrlHintLabel2">{{ t('cospend', 'Android will know MoneyBuster can open such a link (based on the \'https://net.eneiluj.moneybuster.cospend\' part) and you will be able to add the project.') }}</label>
-        <br/><hr/><br/>
-        <label id="mbPasswordLabel1">{{ t('cospend', 'As password is stored hashed (for security), it can\'t be automatically included in the QRCode. If you want to include it in the QRCode and make it easier to add a project in MoneyBuster, you can provide the password again.') }}</label>
-        <label id="mbPasswordLabel2">{{ t('cospend', 'Type the project password and press Enter to generate another QRCode including the password.') }}</label>
-        <input id="mbPasswordInput" ref="passInput" type="text" v-on:keyup.enter="onPasswordPressEnter"
-            value="" :placeholder="t('cospend', 'Project password')"/>
-        <div id="qrcode-div-pass">
-            <QRCode
-                v-if="validPassword"
-                :link="passLink"
-                :color="color"
-            />
+        <div v-if="!pageIsPublic">
+            <br/><hr/><br/>
+            <label id="mbPasswordLabel1">{{ t('cospend', 'As password is stored hashed (for security), it can\'t be automatically included in the QRCode. If you want to include it in the QRCode and make it easier to add a project in MoneyBuster, you can provide the password again.') }}</label>
+            <label id="mbPasswordLabel2">{{ t('cospend', 'Type the project password and press Enter to generate another QRCode including the password.') }}</label>
+            <input id="mbPasswordInput" ref="passInput" type="text" v-on:keyup.enter="onPasswordPressEnter"
+                value="" :placeholder="t('cospend', 'Project password')"/>
+            <div id="qrcode-div-pass">
+                <QRCode
+                    v-if="validPassword"
+                    :link="passLink"
+                    :color="color"
+                />
+            </div>
+            <label id="mbPassUrlLabel">{{ passLink }}</label>
         </div>
-        <label id="mbPassUrlLabel">{{ passLink }}</label>
     </div>
 </template>
 
@@ -55,6 +57,9 @@ export default {
     },
 
     computed: {
+        pageIsPublic() {
+            return cospend.pageIsPublic;
+        },
         noPassLink() {
             return 'https://net.eneiluj.moneybuster.cospend/' + window.location.host +
                 generateUrl('').replace('/index.php', '') + this.project.id + '/';

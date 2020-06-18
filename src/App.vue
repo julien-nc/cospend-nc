@@ -73,6 +73,7 @@
             @projectEdited="onProjectEdited"
             @userAdded="onNewMember"
             @memberEdited="onMemberEdited"
+            @mbLinkClicked="onQrcodeClicked"
             />
         <!--router-view name="sidebar" /-->
         <img id="dummylogo"/>
@@ -275,12 +276,12 @@ export default {
                 );
             });
         },
-        onQrcodeClicked(projectid) {
-            if (cospend.currentProjectId !== projectid) {
-                this.selectProject(projectid);
+        onQrcodeClicked() {
+            if (cospend.currentProjectId !== null) {
+                this.currentBill = null;
+                this.mode = 'qrcode';
+                this.showSidebar = false;
             }
-            this.currentBill = null;
-            this.mode = 'qrcode';
         },
         onStatsClicked(projectid) {
             if (cospend.currentProjectId !== projectid) {

@@ -45,9 +45,6 @@
             <ActionButton icon="icon-reimburse" @click="onSettleClick">
                 {{ t('cospend', 'Project settlement') }}
             </ActionButton>
-            <ActionButton icon="icon-phone" @click="onQrcodeClick">
-                {{ t('cospend', 'Link/QRCode for MoneyBuster') }}
-            </ActionButton>
             <ActionButton v-if="!pageIsPublic" icon="icon-save" @click="onExportClick">
                 {{ t('cospend', 'Export project') }}
             </ActionButton>

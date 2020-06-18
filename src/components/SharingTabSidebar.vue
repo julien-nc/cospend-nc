@@ -123,11 +123,19 @@
 				<input type="submit" value="" class="icon-confirm">
 			</div>
 		</form>
+		<hr/><br/>
+        <AppNavigationItem icon="icon-phone" @click="onMBLinkClick"
+            :title="t('cospend', 'Link/QRCode for MoneyBuster')"
+        />
     </div>
 </template>
 
 <script>
-import { Avatar, Multiselect, Actions, ActionButton, ActionCheckbox, ActionRadio, ActionSeparator } from '@nextcloud/vue'
+import {
+    Avatar, Multiselect, Actions, ActionButton,
+    ActionCheckbox, ActionRadio, ActionSeparator,
+    AppNavigationItem
+} from '@nextcloud/vue'
 import { mapGetters, mapState } from 'vuex'
 import { getCurrentUser } from '@nextcloud/auth'
 import {generateUrl} from '@nextcloud/router';
@@ -146,7 +154,7 @@ export default {
         Actions,
         ActionButton,
         ActionCheckbox, ActionRadio, ActionSeparator,
-        Multiselect,
+        Multiselect, AppNavigationItem
     },
     props: ['project'],
     data() {
@@ -457,6 +465,9 @@ export default {
 					': ' + response.responseText
 				);
 			});
+        },
+        onMBLinkClick() {
+            this.$emit('mbLinkClicked');
         },
     },
 }

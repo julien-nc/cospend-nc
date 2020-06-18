@@ -20,6 +20,7 @@
             >
             <SharingTabSidebar :project="project"
                 @projectEdited="onProjectEdited"
+                @mbLinkClicked="onMBLinkClicked"
                 />
         </AppSidebarTab>
         <!--AppSidebarTab :id="'activity'" :name="'Activity'" :icon="'icon-calendar-dark'"
@@ -107,7 +108,10 @@ export default {
         },
         onMemberEdited(projectid, memberid, userid, name) {
             this.$emit('memberEdited', projectid, memberid, userid, name);
-        }
+        },
+        onMBLinkClicked() {
+            this.$emit('mbLinkClicked');
+        },
     }
 }
 </script>

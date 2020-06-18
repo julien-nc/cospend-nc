@@ -387,6 +387,7 @@ class PageController extends ApiController {
         $result = $this->projectService->createProject($name, $id, $password, $userEmail, $this->userId);
         if (is_string($result) and !is_array($result)) {
             $projInfo = $this->projectService->getProjectInfo($result);
+            $projInfo['myaccesslevel'] = ACCESS_ADMIN;
             return new DataResponse($projInfo);
         }
         else {
@@ -2538,6 +2539,7 @@ class PageController extends ApiController {
         $result = $this->projectService->importCsvProject($path, $this->userId);
         if (!is_array($result) and is_string($result)) {
             $projInfo = $this->projectService->getProjectInfo($result);
+            $projInfo['myaccesslevel'] = ACCESS_ADMIN;
             return new DataResponse($projInfo);
         }
         else {
@@ -2552,6 +2554,7 @@ class PageController extends ApiController {
         $result = $this->projectService->importSWProject($path, $this->userId);
         if (!is_array($result) and is_string($result)) {
             $projInfo = $this->projectService->getProjectInfo($result);
+            $projInfo['myaccesslevel'] = ACCESS_ADMIN;
             return new DataResponse($projInfo);
         }
         else {

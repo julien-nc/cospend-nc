@@ -51,7 +51,7 @@
             <ActionButton v-if="!pageIsPublic" icon="icon-save" @click="onExportClick">
                 {{ t('cospend', 'Export project') }}
             </ActionButton>
-            <ActionButton icon="icon-delete" @click="onDeleteProjectClick">
+            <ActionButton v-if="adminAccess" icon="icon-delete" @click="onDeleteProjectClick">
                 {{ t('cospend', 'Delete') }}
             </ActionButton>
         </template>

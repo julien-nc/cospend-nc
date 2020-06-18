@@ -69,6 +69,8 @@
             :projectId="currentProjectId"
             :bills="currentBills"
             :show="showSidebar"
+            :activeTab="activeSidebarTab"
+            @activeChanged="onActiveSidebarTabChanged"
             @close="showSidebar = false"
             @projectEdited="onProjectEdited"
             @userAdded="onNewMember"
@@ -130,7 +132,8 @@ export default {
             billsLoading: false,
             currentBill: null,
             filterQuery: null,
-            showSidebar: false
+            showSidebar: false,
+            activeSidebarTab: 'sharing'
         }
     },
     computed: {
@@ -190,12 +193,16 @@ export default {
         //this.$set(this.cospend, 'selectedBillId', -1);
     },
     methods: {
+        onActiveSidebarTabChanged(newActive) {
+            this.activeSidebarTab = newActive;
+        },
         onDetailClicked(projectid) {
             const sameProj = cospend.currentProjectId === projectid;
             if (cospend.currentProjectId !== projectid) {
                 this.selectProject(projectid);
             }
             this.showSidebar = sameProj ? !this.showSidebar : true;
+            this.activeSidebarTab = 'sharing';
         },
         filter(qs) {
             this.filterQuery = qs;
@@ -317,6 +324,7 @@ export default {
                 this.selectProject(projectid);
             }
             this.currentBill = null;
+            this.activeSidebarTab = 'settings';
             this.showSidebar = true;
         },
         onNewMember(projectid, name, userid=null) {

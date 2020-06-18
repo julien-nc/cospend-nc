@@ -2,6 +2,8 @@
     <AppSidebar v-show="show"
         :title="title"
         :subtitle="subtitle"
+        :active="activeTab"
+        @update:active="onActiveChanged"
         @close="$emit('close')">
         <template slot="primary-actions">
         </template>
@@ -16,7 +18,7 @@
         </template>
         <AppSidebarTab id="sharing" :name="t('cospend', 'Sharing')" icon="icon-shared"
             v-if="!pageIsPublic"
-            :order="2"
+            :order="1"
             >
             <SharingTabSidebar :project="project"
                 @projectEdited="onProjectEdited"
@@ -35,7 +37,7 @@
             this is the comments tab
         </AppSidebarTab-->
         <AppSidebarTab id="settings" :name="t('cospend', 'Settings')" icon="icon-settings-dark"
-            :order="1"
+            :order="2"
             v-if="editionAccess"
             >
             <SettingsTabSidebar :project="project"
@@ -62,7 +64,7 @@ export default {
     components: {
         ActionButton, AppSidebar, AppSidebarTab, ActionLink, SharingTabSidebar, SettingsTabSidebar
     },
-    props: ['show', 'projectId', 'bills'],
+    props: ['show', 'activeTab', 'projectId', 'bills'],
     data() {
         return {
         };
@@ -101,6 +103,9 @@ export default {
         },
     },
     methods: {
+        onActiveChanged(newActive) {
+            this.$emit('activeChanged', newActive);
+        },
         onProjectEdited(projectid, password=null) {
             this.$emit('projectEdited', projectid, password);
         },

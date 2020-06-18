@@ -643,6 +643,13 @@ class ProjectService {
             $balance = $this->getBalance($dbProjectId);
             $currencies = $this->getCurrencies($dbProjectId);
             $categories = $this->getCategories($dbProjectId);
+            // get all shares
+            $userShares = $this->getUserShares($dbProjectId);
+            $groupShares = $this->getGroupShares($dbProjectId);
+            $circleShares = $this->getCircleShares($dbProjectId);
+            $publicShares = $this->getPublicShares($dbProjectId);
+            $shares = array_merge($userShares, $groupShares, $circleShares, $publicShares);
+
             $projectInfo = [
                 'userid' => $dbUserId,
                 'name' => $dbName,
@@ -655,6 +662,7 @@ class ProjectService {
                 'categories' => $categories,
                 'active_members' => $activeMembers,
                 'members' => $members,
+                'shares' => $shares,
                 'balance' => $balance,
                 'lastchanged' => $dbLastchanged
             ];

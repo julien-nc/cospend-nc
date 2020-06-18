@@ -16,7 +16,7 @@
     <AppNavigationItem v-else
         :title="project.name"
         icon="icon-folder"
-        :allow-collapse="true"
+        :allowCollapse="true"
         :open="selected"
         :class="{'selectedproject': selected}"
         @click="onProjectClick"
@@ -53,6 +53,10 @@
             </ActionButton>
         </template>
         <template>
+            <AppNavigationItem
+                v-if="Object.keys(members).length === 0"
+                :title="t('cospend', 'No members yet')"
+                icon="icon-category-disabled"/>
             <AppNavigationMemberItem
                 v-for="member in members"
                 :key="member.id"

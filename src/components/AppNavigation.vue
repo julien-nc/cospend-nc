@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <AppNavigationItem
-                    v-if="editionAccess"
+                    v-if="editionAccess && twoActiveMembers"
                     :title="t('cospend', 'New bill')"
                     @click="onNewBillClick"
                     icon="icon-edit"
@@ -133,7 +133,18 @@ export default {
     computed: {
         editionAccess() {
             return this.selectedProjectId && this.projects[this.selectedProjectId].myaccesslevel >= constants.ACCESS.PARTICIPANT;
-        }
+        },
+        twoActiveMembers() {
+            let c = 0;
+            const members = this.projects[this.selectedProjectId].members;
+            for (const mid in members) {
+                if (members[mid].activated) {
+                    c++;
+                }
+            }
+            console.log('2 activeuuuu ? '+c)
+            return (c >= 2);
+        },
     },
     beforeMount() {
     },

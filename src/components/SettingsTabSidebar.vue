@@ -17,6 +17,12 @@
         </div>
         <div v-if="!pageIsPublic">
             <br/><hr/><br/>
+            <div class="newMember">
+                <form v-if="maintenerAccess" @submit.prevent.stop="onAddMember">
+                    <input v-model="newMemberName" :placeholder="t('cospend', 'Add a simple member')" type="text">
+                    <input type="submit" value="" class="icon-confirm">
+                </form>
+            </div><br/>
             <p class="label">
                 <span class="labelIcon icon-user"></span>
                 {{ t('cospend', 'Choose a Nextcloud user to create a project member.')}}
@@ -59,12 +65,16 @@
                     @input="clickAffectUserItem"
                     />
             </div>
+            <p>
+                <span class="labelIcon icon-details"></span>
+                {{ t('cospend', 'You can cut the link with a Nextcloud user by renaming the member.') }}
+            </p>
         </div>
     </div>
 </template>
 
 <script>
-import { Multiselect} from '@nextcloud/vue'
+import { Multiselect, ActionInput } from '@nextcloud/vue'
 import { mapGetters, mapState } from 'vuex'
 import { getCurrentUser } from '@nextcloud/auth'
 import {generateUrl} from '@nextcloud/router';
@@ -79,7 +89,7 @@ import { Timer } from '../utils';
 export default {
     name: 'SharingTabSidebar',
     components: {
-        Multiselect,
+        Multiselect, ActionInput
     },
     props: ['project'],
     data() {
@@ -87,7 +97,8 @@ export default {
             selectedAddUser: null,
             selectedAffectUser: null,
             users: [],
-            selectedMember: null
+            selectedMember: null,
+            newMemberName: ''
         }
     },
     mounted() {
@@ -214,6 +225,10 @@ export default {
             this.$set(member, 'name', this.selectedAffectUser.name);
             this.$emit('memberEdited', this.projectId, this.selectedMember);
         },
+        onAddMember() {
+            this.$emit('newSimpleMember', this.projectId, this.newMemberName);
+            this.newMemberName = '';
+        },
     },
 }
 </script>
@@ -250,5 +265,17 @@ export default {
 }
 .label {
     margin-bottom: 10px;
+}
+.newMember {
+    order: 1;
+    display: flex;
+    height: 44px;
+    form {
+        display: flex;
+        flex-grow: 1;
+        input[type="text"] {
+            flex-grow: 1;
+        }
+    }
 }
 </style>

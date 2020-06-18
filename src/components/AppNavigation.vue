@@ -39,7 +39,7 @@
                     @categoryClicked="onCategoryClicked"
                     @currencyClicked="onCurrencyClicked"
                     @detailClicked="onDetailClicked"
-                    @newMember="onNewMember"
+                    @newMemberClicked="onNewMemberClicked"
                     @memberEdited="onMemberEdited"
                     @projectEdited="onProjectEdited"
                     />
@@ -251,8 +251,8 @@ export default {
         onDetailClicked(projectid) {
             this.$emit('detailClicked', projectid);
         },
-        onNewMember(projectid, name) {
-            this.$emit('newMember', projectid, name);
+        onNewMemberClicked(projectid) {
+            this.$emit('newMemberClicked', projectid);
         },
         onMemberEdited(projectid, memberid) {
             this.$emit('memberEdited', projectid, memberid);

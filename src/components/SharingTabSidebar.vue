@@ -123,7 +123,7 @@
 				<input type="submit" value="" class="icon-confirm">
 			</div>
 		</form>
-		<hr/><br/>
+		<br/><hr/><br/>
         <AppNavigationItem icon="icon-phone" @click="onMBLinkClick"
             :title="t('cospend', 'Link/QRCode for MoneyBuster')"
         />

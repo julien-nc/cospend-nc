@@ -14,7 +14,7 @@
             @categoryClicked="onCategoryClicked"
             @currencyClicked="onCurrencyClicked"
             @detailClicked="onDetailClicked"
-            @newMember="onNewMember"
+            @newMemberClicked="onNewMemberClicked"
             @memberEdited="onMemberEdited"
             @projectEdited="onProjectEdited"
             @createProject="onCreateProject"
@@ -74,6 +74,7 @@
             @userAdded="onNewMember"
             @memberEdited="onMemberEdited"
             @mbLinkClicked="onQrcodeClicked"
+            @newMember="onNewMember"
             />
         <!--router-view name="sidebar" /-->
         <img id="dummylogo"/>
@@ -310,6 +311,13 @@ export default {
             }
             this.currentBill = null;
             this.mode = 'currency';
+        },
+        onNewMemberClicked(projectid) {
+            if (cospend.currentProjectId !== projectid) {
+                this.selectProject(projectid);
+            }
+            this.currentBill = null;
+            this.showSidebar = true;
         },
         onNewMember(projectid, name, userid=null) {
             if (this.getMemberNames(projectid).includes(name)) {

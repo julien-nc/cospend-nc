@@ -16,7 +16,7 @@
         </template>
         <AppSidebarTab id="sharing" :name="t('cospend', 'Sharing')" icon="icon-shared"
             v-if="!pageIsPublic"
-            :order="1"
+            :order="2"
             >
             <SharingTabSidebar :project="project"
                 @projectEdited="onProjectEdited"
@@ -35,13 +35,14 @@
             this is the comments tab
         </AppSidebarTab-->
         <AppSidebarTab id="settings" :name="t('cospend', 'Settings')" icon="icon-settings-dark"
-            :order="2"
+            :order="1"
             v-if="editionAccess"
             >
             <SettingsTabSidebar :project="project"
                 @projectEdited="onProjectEdited"
                 @userAdded="onUserAdded"
                 @memberEdited="onMemberEdited"
+                @newSimpleMember="onNewSimpleMember"
                 />
         </AppSidebarTab>
     </AppSidebar>
@@ -111,6 +112,9 @@ export default {
         },
         onMBLinkClicked() {
             this.$emit('mbLinkClicked');
+        },
+        onNewSimpleMember(projectid, name) {
+            this.$emit('newMember', projectid, name);
         },
     }
 }

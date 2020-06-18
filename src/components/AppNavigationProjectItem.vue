@@ -30,9 +30,9 @@
             <ActionInput v-if="adminAccess" :disabled="false" icon="icon-rename" type="text" :value="project.name"
                 ref="projNameInput" @submit="onNameSubmit">
             </ActionInput>
-            <ActionInput v-if="maintenerAccess" :disabled="false" icon="icon-user" ref="newMemberInput" @submit="onAddMember">
+            <ActionButton v-if="maintenerAccess" icon="icon-user" @click="onAddMemberClick">
                 {{ t('cospend', 'Add member') }}
-            </ActionInput>
+            </ActionButton>
             <ActionButton icon="icon-category-app-bundles" @click="onCategoryClick">
                 {{ t('cospend', 'Manage categories') }}
             </ActionButton>
@@ -150,9 +150,8 @@ export default {
         onDetailClick() {
             this.$emit('detailClicked', this.project.id);
         },
-        onAddMember() {
-            const newName = this.$refs.newMemberInput.$el.querySelector('input[type="text"]').value;
-            this.$emit('newMember', this.project.id, newName);
+        onAddMemberClick() {
+            this.$emit('newMemberClicked', this.project.id);
         },
         onMemberEdited(projectid, memberid) {
             this.$emit('memberEdited', projectid, memberid);

@@ -111,14 +111,18 @@ export default {
         members() {
             return cospend.members[this.projectId];
         },
+        memberList() {
+            return this.project.members;
+        },
         activatedMembers() {
-            const mList = [];
-            for (const mid in this.members) {
-                if (this.members[mid].activated) {
-                    mList.push(this.members[mid]);
+            const mList = this.memberList;
+            const actList = [];
+            for (let i = 0; i < mList.length; i++) {
+                if (mList[i].activated) {
+                    actList.push(mList[i]);
                 }
             }
-            return mList;
+            return actList;
         },
         firstMid() {
             return this.activatedMembers[0].id;

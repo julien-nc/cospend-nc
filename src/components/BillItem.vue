@@ -1,6 +1,8 @@
 <template>
     <a href="#" :billid="bill.id" :projectid="projectId"
-        :class="'app-content-list-item billitem' + (selected ? ' selectedbill' : '')"
+        :class="{
+            'app-content-list-item': true, billitem: true,
+            selectedbill: selected, newBill: bill.id === 0}"
         @click="onItemClick"
         :title="itemTitle">
         <div class="app-content-list-item-icon"
@@ -177,5 +179,8 @@ export default {
     position: relative;
     left: -30px;
     top: -12px;
+}
+.newBill {
+    font-style: italic;
 }
 </style>

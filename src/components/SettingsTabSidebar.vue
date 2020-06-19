@@ -27,27 +27,29 @@
         </div>
         <div v-if="!pageIsPublic">
             <br/><hr/><br/>
-            <div class="newMember">
+            <!-- let's keep this just in case the combined one is not efficient... -->
+            <!--div class="newMember">
                 <form v-if="maintenerAccess" @submit.prevent.stop="onAddMember">
                     <input v-model="newMemberName" :placeholder="t('cospend', 'Add a simple member')" type="text">
                     <input type="submit" value="" class="icon-confirm">
                 </form>
-            </div><br/>
+            </div><br/-->
             <p class="label">
                 <span class="labelIcon icon-user"></span>
-                {{ t('cospend', 'Choose a Nextcloud user to create a project member.')}}
+                {{ t('cospend', 'Add a project member.')}}
             </p>
             <Multiselect
                 v-if="maintenerAccess"
                 v-model="selectedAddUser"
                 class="addUserInput"
-                :placeholder="t('cospend', 'Add a Nextcloud user as a member')"
+                :placeholder="t('cospend', 'New member (or Nextcloud user) name')"
                 :options="formatedUsers"
                 :user-select="true"
                 label="displayName"
                 track-by="multiselectKey"
                 :internal-search="true"
                 @input="clickAddUserItem"
+                ref="userMultiselect"
                 />
             <br/><br/><hr/><br/>
             <p class="label">
@@ -67,7 +69,7 @@
                     v-model="selectedAffectUser"
                     class="affectUserInput"
                     :placeholder="t('cospend', 'Choose a Nextcloud user')"
-                    :options="formatedUsers"
+                    :options="formatedUsersAffect"
                     :user-select="true"
                     label="displayName"
                     track-by="multiselectKey"
@@ -109,13 +111,22 @@ export default {
             users: [],
             selectedMember: null,
             newMemberName: '',
-            newProjectName: ''
+            newProjectName: '',
         }
     },
     mounted() {
         if (!this.pageIsPublic) {
             this.asyncFind()
         }
+        // trick to add member when pressing enter on NC user multiselect
+        const input = this.$refs.userMultiselect.$el.querySelector('input');
+        input.addEventListener('keyup', e => {
+            if (e.key === 'Enter') {
+                this.onMultiselectEnterPressed(e.target);
+            } else {
+                this.updateSimpleUser(e.target.value);
+            }
+        });
     },
     computed: {
         maintenerAccess() {
@@ -158,13 +169,40 @@ export default {
         pageIsPublic() {
             return cospend.pageIsPublic;
         },
+        formatedUsersAffect() {
+            // avoid simple member here
+            return this.unallocatedUsersAffect.map(item => {
+                return {
+                    user: item.id,
+                    name: item.name,
+                    displayName: item.label,
+                    icon: 'icon-user',
+                    type: item.type,
+                    value: item.value,
+                    multiselectKey: item.type + ':' + item.id,
+                };
+            })
+        },
+        unallocatedUsersAffect() {
+            const memberList = Object.values(this.members);
+            return this.users.filter((user) => {
+                let foundIndex;
+                foundIndex = memberList.findIndex((member) => {
+                    return member.userid === user.id
+                })
+                if (foundIndex === -1 && user.type === 'u') {
+                    return true
+                }
+                return false
+            })
+        },
         formatedUsers() {
             return this.unallocatedUsers.map(item => {
                 return {
                     user: item.id,
                     name: item.name,
                     displayName: item.label,
-                    icon: 'icon-user',
+                    icon: item.type === 'u' ? 'icon-user' : '',
                     type: item.type,
                     value: item.value,
                     multiselectKey: item.type + ':' + item.id,
@@ -236,7 +274,11 @@ export default {
             });
         },
         clickAddUserItem() {
-            this.$emit('userAdded', this.projectId, this.selectedAddUser.name, this.selectedAddUser.user);
+            if (this.selectedAddUser.type === 'u') {
+                this.$emit('userAdded', this.projectId, this.selectedAddUser.name, this.selectedAddUser.user);
+            } else {
+                this.$emit('newSimpleMember', this.projectId, this.selectedAddUser.name);
+            }
             this.asyncFind();
         },
         clickAffectUserItem() {
@@ -254,6 +296,31 @@ export default {
             this.project.name = this.newProjectName;
             this.$emit('projectEdited', this.projectId);
             this.newProjectName = '';
+        },
+        onMultiselectEnterPressed(elem) {
+            // this is most likely never triggered because of the fake user
+            // we add that will make the multiselect catch the event
+            const name = elem.value;
+            this.$emit('newSimpleMember', this.projectId, name);
+            elem.value = '';
+        },
+        updateSimpleUser(name) {
+            // delete existing simple user
+            for (let i = 0; i < this.users.length; i++) {
+                if (this.users[i].type === 's') {
+                    this.users.splice(i, 1);
+                    break;
+                }
+            }
+            // add one
+            if (name) {
+                this.users.unshift({
+                    id: '',
+                    name: name,
+                    label: name + ' (' + t('cospend', 'Simple user') + ')',
+                    type: 's'
+                });
+            }
         },
     },
 }

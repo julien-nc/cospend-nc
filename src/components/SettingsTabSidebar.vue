@@ -211,6 +211,14 @@ export default {
                     }
                     data.push(d);
                 }
+                // add current user
+                const cu = getCurrentUser();
+                data.push({
+                    id: cu.uid,
+                    name: cu.displayName,
+                    label: (cu.uid !== cu.displayName) ? (cu.displayName + ' (' + cu.uid + ')') : cu.uid,
+                    type: 'u',
+                });
                 that.users = data;
             }).fail(function() {
                 showError(t('cospend', 'Failed to get user list.'));

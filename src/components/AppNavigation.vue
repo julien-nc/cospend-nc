@@ -39,9 +39,9 @@
                     @categoryClicked="onCategoryClicked"
                     @currencyClicked="onCurrencyClicked"
                     @detailClicked="onDetailClicked"
+                    @shareClicked="onShareClicked"
                     @newMemberClicked="onNewMemberClicked"
                     @memberEdited="onMemberEdited"
-                    @projectEdited="onProjectEdited"
                     />
             </ul>
             <AppNavigationSettings>
@@ -142,7 +142,6 @@ export default {
                     c++;
                 }
             }
-            console.log('2 activeuuuu ? '+c)
             return (c >= 2);
         },
     },
@@ -262,14 +261,14 @@ export default {
         onDetailClicked(projectid) {
             this.$emit('detailClicked', projectid);
         },
+        onShareClicked(projectid) {
+            this.$emit('shareClicked', projectid);
+        },
         onNewMemberClicked(projectid) {
             this.$emit('newMemberClicked', projectid);
         },
         onMemberEdited(projectid, memberid) {
             this.$emit('memberEdited', projectid, memberid);
-        },
-        onProjectEdited(projectid) {
-            this.$emit('projectEdited', projectid);
         },
         startCreateProject(e) {
             this.creating = true;

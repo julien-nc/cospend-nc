@@ -23,13 +23,12 @@
         :forceMenu="false"
         >
         <template slot="counter">
-            <ActionButton icon="icon-details" class="detailButton" @click="onDetailClick">
+            <ActionButton icon="icon-shared" class="detailButton" @click="onShareClick">
+            </ActionButton>
+            <ActionButton icon="icon-settings-dark" class="detailButton" @click="onDetailClick">
             </ActionButton>
         </template>
         <template slot="actions">
-            <ActionInput v-if="adminAccess" :disabled="false" icon="icon-rename" type="text" :value="project.name"
-                ref="projNameInput" @submit="onNameSubmit">
-            </ActionInput>
             <ActionButton v-if="maintenerAccess" icon="icon-user" @click="onAddMemberClick">
                 {{ t('cospend', 'Add member') }}
             </ActionButton>
@@ -154,16 +153,14 @@ export default {
         onDetailClick() {
             this.$emit('detailClicked', this.project.id);
         },
+        onShareClick() {
+            this.$emit('shareClicked', this.project.id);
+        },
         onAddMemberClick() {
             this.$emit('newMemberClicked', this.project.id);
         },
         onMemberEdited(projectid, memberid) {
             this.$emit('memberEdited', projectid, memberid);
-        },
-        onNameSubmit() {
-            const newName = this.$refs.projNameInput.$el.querySelector('input[type="text"]').value;
-            this.project.name = newName;
-            this.$emit('projectEdited', this.project.id);
         },
     },
 }

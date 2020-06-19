@@ -14,6 +14,7 @@
             @categoryClicked="onCategoryClicked"
             @currencyClicked="onCurrencyClicked"
             @detailClicked="onDetailClicked"
+            @shareClicked="onShareClicked"
             @newMemberClicked="onNewMemberClicked"
             @memberEdited="onMemberEdited"
             @projectEdited="onProjectEdited"
@@ -201,7 +202,17 @@ export default {
             if (cospend.currentProjectId !== projectid) {
                 this.selectProject(projectid);
             }
-            this.showSidebar = sameProj ? !this.showSidebar : true;
+            const sameTab = this.activeSidebarTab === 'settings';
+            this.showSidebar = (sameProj && sameTab) ? !this.showSidebar : true;
+            this.activeSidebarTab = 'settings';
+        },
+        onShareClicked(projectid) {
+            const sameProj = cospend.currentProjectId === projectid;
+            if (cospend.currentProjectId !== projectid) {
+                this.selectProject(projectid);
+            }
+            const sameTab = this.activeSidebarTab === 'sharing';
+            this.showSidebar = (sameProj && sameTab) ? !this.showSidebar : true;
             this.activeSidebarTab = 'sharing';
         },
         filter(qs) {

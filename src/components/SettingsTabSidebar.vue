@@ -1,6 +1,16 @@
 <template>
     <div>
         <br/>
+        <div class="renameProject">
+            <form v-if="adminAccess" @submit.prevent.stop="onRenameProject">
+                <input
+                    v-model="newProjectName"
+                    :placeholder="t('cospend', 'Rename project {n}', {n: project.name})"
+                    type="text"/>
+                <input type="submit" value="" class="icon-confirm"/>
+            </form>
+            <br/>
+        </div>
         <div id="autoExport">
             <label for="autoExportSelect">
                 <span class="icon icon-schedule"></span>
@@ -98,7 +108,8 @@ export default {
             selectedAffectUser: null,
             users: [],
             selectedMember: null,
-            newMemberName: ''
+            newMemberName: '',
+            newProjectName: ''
         }
     },
     mounted() {
@@ -239,6 +250,11 @@ export default {
             this.$emit('newSimpleMember', this.projectId, this.newMemberName);
             this.newMemberName = '';
         },
+        onRenameProject() {
+            this.project.name = this.newProjectName;
+            this.$emit('projectEdited', this.projectId);
+            this.newProjectName = '';
+        },
     },
 }
 </script>
@@ -276,6 +292,7 @@ export default {
 .label {
     margin-bottom: 10px;
 }
+.renameProject,
 .newMember {
     order: 1;
     display: flex;

@@ -24,7 +24,8 @@
                 </option>
             </select>
         </div>
-        <v-table id="settlementTable" :data="transactions">
+        <v-table id="settlementTable" v-if="transactions"
+            :data="transactions">
             <thead slot="head">
                 <v-th sortKey="from">{{ t('cospend', 'Who pays?') }}</v-th>
                 <v-th sortKey="to">{{ t('cospend', 'To whom?') }}</v-th>
@@ -135,6 +136,9 @@ export default {
                 data: req,
                 async: true,
             }).done(function(response) {
+                if (Array.isArray(response) && response.length === 0) {
+                    response = null;
+                }
                 that.transactions = response;
             }).always(function() {
             }).fail(function() {

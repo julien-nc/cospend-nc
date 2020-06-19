@@ -274,6 +274,10 @@ export default {
             });
         },
         clickAddUserItem() {
+            if (this.selectedAddUser === null) {
+                showError(t('cospend', 'Failed to add member.'))
+                return;
+            }
             if (this.selectedAddUser.type === 'u') {
                 this.$emit('userAdded', this.projectId, this.selectedAddUser.name, this.selectedAddUser.user);
             } else {
@@ -317,7 +321,7 @@ export default {
                 this.users.unshift({
                     id: '',
                     name: name,
-                    label: name + ' (' + t('cospend', 'Simple user') + ')',
+                    label: name + ' (' + t('cospend', 'Simple member') + ')',
                     type: 's'
                 });
             }

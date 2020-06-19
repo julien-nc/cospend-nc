@@ -226,12 +226,14 @@ export default {
         },
         clickAddUserItem() {
             this.$emit('userAdded', this.projectId, this.selectedAddUser.name, this.selectedAddUser.user);
+            this.asyncFind();
         },
         clickAffectUserItem() {
             const member = this.members[this.selectedMember];
             this.$set(member, 'userid', this.selectedAffectUser.user);
             this.$set(member, 'name', this.selectedAffectUser.name);
             this.$emit('memberEdited', this.projectId, this.selectedMember);
+            this.asyncFind();
         },
         onAddMember() {
             this.$emit('newSimpleMember', this.projectId, this.newMemberName);

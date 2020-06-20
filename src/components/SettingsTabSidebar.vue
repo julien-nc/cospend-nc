@@ -118,14 +118,19 @@ export default {
         if (!this.pageIsPublic) {
             this.asyncFind()
         }
-        // trick to add member when pressing enter on NC user multiselect
         const input = this.$refs.userMultiselect.$el.querySelector('input');
         input.addEventListener('keyup', e => {
             if (e.key === 'Enter') {
+                // trick to add member when pressing enter on NC user multiselect
                 this.onMultiselectEnterPressed(e.target);
             } else {
+                // add a simple user entry in multiselect when typing
                 this.updateSimpleUser(e.target.value);
             }
+        });
+        // remove simple user when loosing focus
+        input.addEventListener('blur', e => {
+            this.updateSimpleUser(null);
         });
     },
     computed: {

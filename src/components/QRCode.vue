@@ -54,7 +54,6 @@ export default {
                 });
                 that.$refs.qrcodediv.innerHTML = '';
                 that.$refs.qrcodediv.appendChild(qr);
-                console.log('ssssucc')
             };
             img.onerror = function() {
                 const qr = kjua({

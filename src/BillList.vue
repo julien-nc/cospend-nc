@@ -1,6 +1,9 @@
 <template>
     <div id="bill-list" class="app-content-list showdetails">
         <h2 class="icon-loading-small" v-show="loading"></h2>
+        <h2 v-if="bills.length === 0" class="nobill">
+            {{ t('cospend', 'No bill yet') }}
+        </h2>
         <BillItem
             v-for="(bill, index) in reverseBills"
             :key="bill.id"

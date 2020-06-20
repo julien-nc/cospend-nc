@@ -69,6 +69,7 @@
             v-if="currentProjectId"
             :projectId="currentProjectId"
             :bills="currentBills"
+            :members="currentMembers"
             :show="showSidebar"
             :activeTab="activeSidebarTab"
             @activeChanged="onActiveSidebarTabChanged"
@@ -155,6 +156,11 @@ export default {
                         : this.billLists[this.currentProjectId]
                 )
                 : [];
+        },
+        currentMembers() {
+            return (this.currentProjectId && this.members.hasOwnProperty(this.currentProjectId)) ?
+                this.members[this.currentProjectId]
+                : {};
         },
         editionAccess() {
             return this.currentProjectId && this.projects[this.currentProjectId].myaccesslevel >= constants.ACCESS.PARTICIPANT;

@@ -64,7 +64,7 @@ export default {
     components: {
         ActionButton, AppSidebar, AppSidebarTab, ActionLink, SharingTabSidebar, SettingsTabSidebar
     },
-    props: ['show', 'activeTab', 'projectId', 'bills'],
+    props: ['show', 'activeTab', 'projectId', 'bills', 'members'],
     data() {
         return {
         };
@@ -78,9 +78,6 @@ export default {
         },
         title() {
             return t('cospend', 'Project {name}', {name: this.project.name});
-        },
-        members() {
-            return (this.bills.length > 0) ? cospend.members[this.projectId] : [];
         },
         subtitle() {
             const nbBills = this.bills.length;

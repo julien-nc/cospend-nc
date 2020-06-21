@@ -27,8 +27,8 @@
                 <Avatar :disableMenu="true" :disableTooltip="true" :user="project.userid" />
                 <span class="has-tooltip username">
                     {{ project.userid }}
-                    <span v-if="!isCurrentUser(project.userid)" class="board-owner-label">
-                        {{ t('cospend', 'Project owner') }}
+                    <span class="project-owner-label">
+                        ({{ t('cospend', 'Project owner') }})
                     </span>
                 </span>
             </li>
@@ -496,7 +496,7 @@ export default {
         padding: 12px 9px;
         flex-grow: 1;
     }
-    .board-owner-label {
+    .project-owner-label {
         opacity: .7;
     }
     .avatarLabel {

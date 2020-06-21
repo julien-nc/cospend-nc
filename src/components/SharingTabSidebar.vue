@@ -42,8 +42,8 @@
                 <span class="username">
                     <span v-if="access.type==='l'">{{ t('cospend', 'Public link') }}</span>
                     <span v-else>{{ access.name }}</span>
-                    <span v-if="access.type==='g'">{{ t('cospend', '(Group)') }}</span>
-                    <span v-if="access.type==='c'">{{ t('cospend', '(Circle)') }}</span>
+                    <span v-if="access.type==='g'">({{ t('cospend', 'Group') }})</span>
+                    <span v-if="access.type==='c'">({{ t('cospend', 'Circle') }})</span>
                 </span>
 
                 <Popover>

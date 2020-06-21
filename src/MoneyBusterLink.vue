@@ -18,8 +18,16 @@
             <br/><hr/><br/>
             <label id="mbPasswordLabel1">{{ t('cospend', 'As password is stored hashed (for security), it can\'t be automatically included in the QRCode. If you want to include it in the QRCode and make it easier to add a project in MoneyBuster, you can provide the password again.') }}</label>
             <label id="mbPasswordLabel2">{{ t('cospend', 'Type the project password and press Enter to generate another QRCode including the password.') }}</label>
-            <input id="mbPasswordInput" ref="passInput" type="text" v-on:keyup.enter="onPasswordPressEnter"
-                value="" :placeholder="t('cospend', 'Project password')"/>
+            <div class="enterPassword">
+                <form autocomplete="off" @submit.prevent.stop="onPasswordPressEnter">
+                    <input
+                        v-model="password"
+                        :placeholder="t('cospend', 'Project password')"
+                        autocomplete="off"
+                        type="password"/>
+                    <input type="submit" value="" class="icon-confirm"/>
+                </form>
+            </div>
             <div id="qrcode-div-pass">
                 <QRCode
                     v-if="validPassword"
@@ -51,6 +59,7 @@ export default {
     props: ['project'],
     data() {
         return {
+            password: '',
             validPassword: null,
             color: cospend.themeColorDark
         };
@@ -77,8 +86,7 @@ export default {
     methods: {
         onPasswordPressEnter() {
             const that = this;
-            const password = this.$refs.passInput.value;
-            const url = generateUrl('/apps/cospend/checkpassword/' + this.project.id + '/' + password);
+            const url = generateUrl('/apps/cospend/checkpassword/' + this.project.id + '/' + this.password);
             $.ajax({
                 type: 'GET',
                 url: url,
@@ -86,7 +94,7 @@ export default {
                 async: true,
             }).done(function(response) {
                 if (response) {
-                    that.validPassword = password;
+                    that.validPassword = that.password;
                 } else {
                     showError(t('cospend', 'Incorrect project password.'));
                 }
@@ -105,10 +113,20 @@ export default {
     width: 210px;
     margin: 0 auto;
 }
-#mbPasswordInput {
-    display: block;
+.enterPassword {
+    order: 1;
+    display: flex;
     margin-left: auto;
     margin-right: auto;
+    height: 44px;
+    width: 250px;
+    form {
+        display: flex;
+        flex-grow: 1;
+        input[type="password"] {
+            flex-grow: 1;
+        }
+    }
 }
 #mbPasswordLabel1,
 #mbPasswordLabel2,

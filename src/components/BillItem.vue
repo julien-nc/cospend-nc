@@ -58,7 +58,7 @@ export default {
             return cospend.members[this.projectId];
         },
         payerDisabled() {
-            return !this.bill.id === 0 && !this.members[this.bill.payer_id].activated;
+            return this.bill.id !== 0 && !this.members[this.bill.payer_id].activated;
         },
         billFormattedTitle() {
             const links = this.bill.what.match(/https?:\/\/[^\s]+/gi) || [];

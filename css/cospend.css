@@ -221,7 +221,8 @@ input[type=number] {
 #catTitle,
 #statsTitle {
     text-align: center;
-    background-color: var(--color-background-dark);
+    padding: 20px 0px 20px 0px;
+    border-bottom: solid var(--color-border-dark) 1px;
 }
 .statTableTitle {
     padding: 0px 0px 0px 20px !important;

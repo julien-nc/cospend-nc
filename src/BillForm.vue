@@ -1,8 +1,10 @@
 <template>
     <div id="billdetail" class="app-content-details">
-        <h2 class="bill-title" :style="'background-color: #' + myGetMemberColor(bill.payer_id) + ';'">
+        <h2 class="bill-title">
             <span v-show="billLoading" class="loading-bill icon-loading-small"></span>
-            <span class="icon-edit-white"></span>
+            <div :class="'billFormAvatar owerAvatar' + myGetAvatarClass(bill.payer_id)">
+                <div class="disabledMask"></div><img :src="myGetMemberAvatar(bill.payer_id)">
+            </div>
             <span>{{ billFormattedTitle }}</span>
             <a v-for="link in billLinks" :key="link" :href="link" target="blank">[🔗 {{ t('cospend', 'link') }}]</a>
             <button id="owerValidate" v-if="isNewBill" @click="onCreateClick"
@@ -842,9 +844,18 @@ export default {
 }
 .bill-title {
     text-align: center;
-    color: white;
+    border-bottom: solid var(--color-border-dark) 1px;
+    margin-bottom: 25px;
 }
 #billtype {
     max-width: 80%;
+}
+.billFormAvatar img {
+    width: 50px;
+}
+.billFormAvatar .disabledMask {
+    width: 52px;
+    height: 52px;
+    left: 51px;
 }
 </style>

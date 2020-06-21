@@ -215,7 +215,4 @@ export default {
 #center-settle-div label {
     margin-right: 5px;
 }
-#settlementTitle {
-    padding: 20px 0px 20px 0px;
-}
 </style>

@@ -46,9 +46,14 @@
                     <span v-if="access.type==='c'">{{ t('cospend', '(Circle)') }}</span>
                 </span>
 
-                <ActionButton v-if="access.type==='l'" class="copyLinkButton"
-                    :icon="(linkCopied[access.id]) ? 'icon-checkmark-color' : 'icon-clippy'"
-                    :ariaLabel="t('cospend', 'Copy link')" @click="copyLink(access)"/>
+                <Popover>
+                    <ActionButton slot="trigger" v-if="access.type==='l'" class="copyLinkButton"
+                        :icon="(linkCopied[access.id]) ? 'icon-checkmark-color' : 'icon-clippy'"
+                        :ariaLabel="t('cospend', 'Copy link')" @click="copyLink(access)"/>
+                    <template>
+                        {{ t('cospend', 'Copied!') }}
+                    </template>
+                </Popover>
 
                 <Actions :force-menu="true">
                     <ActionRadio name="accessLevel" :disabled="!editionAccess || isCurrentUser(access.userid)"
@@ -78,52 +83,58 @@
                 </Actions>
             </li>
         </ul>
-		<hr/><br/>
+        <hr/><br/>
         <ul
             id="guestList"
             class="shareWithList">
-			<li>
-				<div class="avatardiv icon icon-password" />
-				<span class="username">
-					<span>{{ t('cospend', 'Password protected access') }}</span>
-				</span>
+            <li>
+                <div class="avatardiv icon icon-password" />
+                <span class="username">
+                    <span>{{ t('cospend', 'Password protected access') }}</span>
+                </span>
 
-				<ActionButton class="copyLinkButton" :icon="guestLinkCopied ? 'icon-checkmark-color' : 'icon-clippy'"
-					:ariaLabel="t('cospend', 'Copy link')" @click="copyPasswordLink"/>
+                <Popover>
+                    <ActionButton slot="trigger" class="copyLinkButton"
+                        :icon="guestLinkCopied ? 'icon-checkmark-color' : 'icon-clippy'"
+                        :ariaLabel="t('cospend', 'Copy link')" @click="copyPasswordLink"/>
+                    <template>
+                        {{ t('cospend', 'Copied!') }}
+                    </template>
+                </Popover>
 
-				<Actions v-if="true" :force-menu="true">
-					<ActionRadio name="guestAccessLevel"
+                <Actions v-if="true" :force-menu="true">
+                    <ActionRadio name="guestAccessLevel"
                         :disabled="myAccessLevel < 4"
                         :checked="project.guestaccesslevel === 1" @change="clickGuestAccessLevel(1)">
-						{{ t('cospend', 'Viewer') }}
-					</ActionRadio>
-					<ActionRadio name="guestAccessLevel"
+                        {{ t('cospend', 'Viewer') }}
+                    </ActionRadio>
+                    <ActionRadio name="guestAccessLevel"
                         :disabled="myAccessLevel < 4"
                         :checked="project.guestaccesslevel === 2" @change="clickGuestAccessLevel(2)">
-						{{ t('cospend', 'Participant') }}
-					</ActionRadio>
-					<ActionRadio name="guestAccessLevel"
+                        {{ t('cospend', 'Participant') }}
+                    </ActionRadio>
+                    <ActionRadio name="guestAccessLevel"
                         :disabled="myAccessLevel < 4"
                         :checked="project.guestaccesslevel === 3" @change="clickGuestAccessLevel(3)">
-						{{ t('cospend', 'Maintener') }}
-					</ActionRadio>
-					<ActionRadio name="guestAccessLevel"
+                        {{ t('cospend', 'Maintener') }}
+                    </ActionRadio>
+                    <ActionRadio name="guestAccessLevel"
                         :disabled="myAccessLevel < 4"
                         :checked="project.guestaccesslevel === 4" @change="clickGuestAccessLevel(4)">
-						{{ t('cospend', 'Admin') }}
-					</ActionRadio>
-				</Actions>
-			</li>
+                        {{ t('cospend', 'Admin') }}
+                    </ActionRadio>
+                </Actions>
+            </li>
         </ul>
-		<form id="newPasswordForm" @submit.prevent.stop="setPassword" v-if="myAccessLevel === 4">
-			<label for="newPasswordInput">{{ t('cospend', 'New project password') }}</label>
-			<div>
-				<input id="newPasswordInput" ref="newPasswordInput" value="" type="password"
-						@focus="$event.target.select()"/>
-				<input type="submit" value="" class="icon-confirm">
-			</div>
-		</form>
-		<br/><hr/><br/>
+        <form id="newPasswordForm" @submit.prevent.stop="setPassword" v-if="myAccessLevel === 4">
+            <label for="newPasswordInput">{{ t('cospend', 'New project password') }}</label>
+            <div>
+                <input id="newPasswordInput" ref="newPasswordInput" value="" type="password"
+                        @focus="$event.target.select()"/>
+                <input type="submit" value="" class="icon-confirm">
+            </div>
+        </form>
+        <br/><hr/><br/>
         <AppNavigationItem icon="icon-phone" @click="onMBLinkClick"
             :title="t('cospend', 'Link/QRCode for MoneyBuster')"
         />
@@ -134,7 +145,7 @@
 import {
     Avatar, Multiselect, Actions, ActionButton,
     ActionCheckbox, ActionRadio, ActionSeparator,
-    AppNavigationItem
+    AppNavigationItem, Popover
 } from '@nextcloud/vue'
 import { mapGetters, mapState } from 'vuex'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -154,7 +165,7 @@ export default {
         Actions,
         ActionButton,
         ActionCheckbox, ActionRadio, ActionSeparator,
-        Multiselect, AppNavigationItem
+        Multiselect, AppNavigationItem, Popover
     },
     props: ['project'],
     data() {
@@ -209,20 +220,20 @@ export default {
         // those with which the project is not shared yet
         unallocatedSharees() {
             return this.sharees.filter((sharee) => {
-				let foundIndex;
-				if (sharee.type === 'u') {
-                	foundIndex = this.shares.findIndex((access) => {
-						return access.userid === sharee.id && access.type === 'u'
-					})
-				} else if (sharee.type === 'g') {
-                	foundIndex = this.shares.findIndex((access) => {
-						return access.groupid === sharee.id && access.type === 'g'
-					})
-				} else if (sharee.type === 'c') {
-                	foundIndex = this.shares.findIndex((access) => {
-						return access.circleid === sharee.id && access.type === 'c'
-					})
-				}
+                let foundIndex;
+                if (sharee.type === 'u') {
+                    foundIndex = this.shares.findIndex((access) => {
+                        return access.userid === sharee.id && access.type === 'u'
+                    })
+                } else if (sharee.type === 'g') {
+                    foundIndex = this.shares.findIndex((access) => {
+                        return access.groupid === sharee.id && access.type === 'g'
+                    })
+                } else if (sharee.type === 'c') {
+                    foundIndex = this.shares.findIndex((access) => {
+                        return access.circleid === sharee.id && access.type === 'c'
+                    })
+                }
                 if (foundIndex === -1) {
                     return true
                 }
@@ -402,7 +413,6 @@ export default {
             const publicLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/s/' + access.token);
             try {
                 await this.$copyText(publicLink)
-                showSuccess(t('cospend', 'Public link copied to clipboard.'))
                 this.$set(this.linkCopied, access.id, true);
                 const that = this;
                 new Timer(function () {
@@ -410,25 +420,24 @@ export default {
                 }, 5000);
             } catch (error) {
                 console.debug(error)
-                showError(t('cospend', 'Public link could not be copied to clipboard.'))
+                showError(t('cospend', 'Link could not be copied to clipboard.'))
             }
         },
         addLink() {
             this.addSharedAccess({type: 'l'});
-		},
-		setPassword() {
-			const password = this.$refs.newPasswordInput.value;
-			if (password) {
-				this.$emit('projectEdited', this.projectId, password);
-			} else {
-				showError(t('cospend', 'Password should not be empty.'));
-			}
-		},
+        },
+        setPassword() {
+            const password = this.$refs.newPasswordInput.value;
+            if (password) {
+                this.$emit('projectEdited', this.projectId, password);
+            } else {
+                showError(t('cospend', 'Password should not be empty.'));
+            }
+        },
         async copyPasswordLink() {
-			const guestLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/loginproject/' + this.projectId);
+            const guestLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/loginproject/' + this.projectId);
             try {
                 await this.$copyText(guestLink)
-                showSuccess(t('cospend', 'Guest link copied to clipboard.'))
                 this.guestLinkCopied = true;
                 const that = this;
                 new Timer(function () {
@@ -436,35 +445,35 @@ export default {
                 }, 5000);
             } catch (error) {
                 console.debug(error)
-                showError(t('cospend', 'Guest link could not be copied to clipboard.'))
+                showError(t('cospend', 'Link could not be copied to clipboard.'))
             }
         },
         clickGuestAccessLevel(level) {
-			const that = this;
-			const req = {
-				accesslevel: level
-			};
-			let url;
-			if (!cospend.pageIsPublic) {
-				url = generateUrl('/apps/cospend/projects/' + this.projectId + '/guest-access-level');
-			} else {
-				url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/guest-access-level');
-			}
-			$.ajax({
-				type: 'PUT',
-				url: url,
-				data: req,
-				async: true
-			}).done(function() {
-				that.project.guestaccesslevel = level;
+            const that = this;
+            const req = {
+                accesslevel: level
+            };
+            let url;
+            if (!cospend.pageIsPublic) {
+                url = generateUrl('/apps/cospend/projects/' + this.projectId + '/guest-access-level');
+            } else {
+                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/guest-access-level');
+            }
+            $.ajax({
+                type: 'PUT',
+                url: url,
+                data: req,
+                async: true
+            }).done(function() {
+                that.project.guestaccesslevel = level;
                 showSuccess(t('cospend', 'Guest access level changed.'))
-			}).always(function() {
-			}).fail(function(response) {
-				showError(
-					t('cospend', 'Failed to edit guest access level') +
-					': ' + response.responseText
-				);
-			});
+            }).always(function() {
+            }).fail(function(response) {
+                showError(
+                    t('cospend', 'Failed to edit guest access level') +
+                    ': ' + response.responseText
+                );
+            });
         },
         onMBLinkClick() {
             this.$emit('mbLinkClicked');
@@ -498,14 +507,14 @@ export default {
         border-radius: 16px;
         width: 32px;
         height: 32px;
-	}
-	#newPasswordForm div {
-		width: 48%;
-		display: inline-block;
-	}
-	#newPasswordForm label {
-		text-align: center;
-		display: inline-block;
-		width: 48%;
-	}
+    }
+    #newPasswordForm div {
+        width: 48%;
+        display: inline-block;
+    }
+    #newPasswordForm label {
+        text-align: center;
+        display: inline-block;
+        width: 48%;
+    }
 </style>

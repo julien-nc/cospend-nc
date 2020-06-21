@@ -237,6 +237,11 @@
                         </div>
                     </div>
                 </div>
+                <button id="owerValidate2" v-if="isNewBill" @click="onCreateClick"
+                    :title="t('cospend', 'Press Shift+Enter to validate')">
+                    <span class="icon-confirm"></span>
+                    <span id="owerValidateText">{{ createBillButtonText }}</span>
+                </button>
             </div>
         </div>
     </div>
@@ -810,9 +815,15 @@ export default {
     padding: 5px;
     min-height: 0px;
 }
-#owerValidate {
+#owerValidate,
+#owerValidate2 {
     background-color: #46ba61;
     color: white;
+}
+#owerValidate2 {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 .owerAllNoneDiv div {
     display: inline-block;
@@ -832,5 +843,8 @@ export default {
 .bill-title {
     text-align: center;
     color: white;
+}
+#billtype {
+    max-width: 80%;
 }
 </style>

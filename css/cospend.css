@@ -524,9 +524,6 @@ a.billitem .app-content-list-item-icon {
     background-repeat: no-repeat;
     background-size: cover;
 }
-#billtype {
-    max-width: 95%;
-}
 #set-output-div {
     display: flex;
     align-items: center;

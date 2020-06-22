@@ -61,7 +61,17 @@ export default {
             timerOn: false,
             timer: null,
             categoryBackup: null,
-            picker: new EmojiButton({position: 'auto', zIndex: 9999999})
+            picker: new EmojiButton({position: 'auto', zIndex: 9999999, categories: [
+                'objects',
+                'symbols',
+                'flags',
+                'smileys',
+                'people',
+                'animals',
+                'food',
+                'activities',
+                'travel'
+            ]})
         };
     },
 

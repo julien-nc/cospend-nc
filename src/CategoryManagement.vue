@@ -72,7 +72,17 @@ export default {
         return {
             constants: constants,
             editMode: false,
-            picker: new EmojiButton({position: 'auto', zIndex: 9999999})
+            picker: new EmojiButton({position: 'auto', zIndex: 9999999, categories: [
+                'objects',
+                'symbols',
+                'flags',
+                'smileys',
+                'people',
+                'animals',
+                'food',
+                'activities',
+                'travel'
+            ]})
         };
     },
     mounted() {
@@ -194,8 +204,6 @@ export default {
                 data: req,
                 async: true
             }).done(function() {
-                // reload bill list
-                //getBills(cospend.currentProjectId);
             }).always(function() {
             }).fail(function(response) {
                 // backup

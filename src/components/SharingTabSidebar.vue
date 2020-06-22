@@ -69,7 +69,7 @@
                     <ActionRadio name="accessLevel" :disabled="myAccessLevel < 3 || isCurrentUser(access.userid)"
                         :checked="access.accesslevel === 3"
                         @change="clickAccessLevel(access, 3)">
-                        {{ t('cospend', 'Maintener') }}
+                        {{ t('cospend', 'Maintainer') }}
                     </ActionRadio>
                     <ActionRadio name="accessLevel" :disabled="myAccessLevel < 4 || isCurrentUser(access.userid)"
                         :checked="access.accesslevel === 4"
@@ -116,7 +116,7 @@
                     <ActionRadio name="guestAccessLevel"
                         :disabled="myAccessLevel < 4"
                         :checked="project.guestaccesslevel === 3" @change="clickGuestAccessLevel(3)">
-                        {{ t('cospend', 'Maintener') }}
+                        {{ t('cospend', 'Maintainer') }}
                     </ActionRadio>
                     <ActionRadio name="guestAccessLevel"
                         :disabled="myAccessLevel < 4"

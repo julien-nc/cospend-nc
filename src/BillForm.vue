@@ -270,7 +270,7 @@ export default {
     components: {
     },
 
-    props: ['bill', 'editionAccess'],
+    props: ['bill', 'members', 'editionAccess'],
     data() {
         return {
             projectId: cospend.currentProjectId,
@@ -382,9 +382,6 @@ export default {
         billTime() {
             const billMom = moment.unix(this.bill.timestamp);
             return billMom.format('HH:mm');
-        },
-        members() {
-            return cospend.members[this.projectId];
         },
         activatedMembers() {
             const mList = [];

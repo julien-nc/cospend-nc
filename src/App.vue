@@ -36,6 +36,7 @@
                 <BillForm
                     v-if="currentBill !== null && mode === 'edition'"
                     :bill="currentBill"
+                    :members="currentMembers"
                     :editionAccess="editionAccess"
                     @billCreated="onBillCreated"
                     @billSaved="onBillSaved"

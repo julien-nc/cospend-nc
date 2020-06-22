@@ -45,6 +45,7 @@
                 @userAdded="onUserAdded"
                 @memberEdited="onMemberEdited"
                 @newSimpleMember="onNewSimpleMember"
+                @exportClicked="onExportClicked"
                 />
         </AppSidebarTab>
     </AppSidebar>
@@ -117,6 +118,9 @@ export default {
         },
         onNewSimpleMember(projectid, name) {
             this.$emit('newMember', projectid, name);
+        },
+        onExportClicked(projectid) {
+            this.$emit('exportClicked', projectid);
         },
     }
 }

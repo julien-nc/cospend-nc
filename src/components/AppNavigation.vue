@@ -33,7 +33,6 @@
                     @projectClicked="onProjectClicked"
                     @deleteProject="onDeleteProject"
                     @qrcodeClicked="onQrcodeClicked"
-                    @exportClicked="onExportClicked"
                     @statsClicked="onStatsClicked"
                     @settleClicked="onSettleClicked"
                     @categoryClicked="onCategoryClicked"
@@ -242,9 +241,6 @@ export default {
         },
         onQrcodeClicked(projectid) {
             this.$emit('qrcodeClicked', projectid);
-        },
-        onExportClicked(projectid) {
-            this.$emit('exportClicked', projectid);
         },
         onStatsClicked(projectid) {
             this.$emit('statsClicked', projectid);

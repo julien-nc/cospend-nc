@@ -44,9 +44,6 @@
             <ActionButton icon="icon-reimburse" @click="onSettleClick">
                 {{ t('cospend', 'Project settlement') }}
             </ActionButton>
-            <ActionButton v-if="!pageIsPublic" icon="icon-save" @click="onExportClick">
-                {{ t('cospend', 'Export project') }}
-            </ActionButton>
             <ActionButton v-if="adminAccess" icon="icon-delete" @click="onDeleteProjectClick">
                 {{ t('cospend', 'Delete') }}
             </ActionButton>
@@ -134,9 +131,6 @@ export default {
         },
         onQrcodeClick() {
             this.$emit('qrcodeClicked', this.project.id);
-        },
-        onExportClick() {
-            this.$emit('exportClicked', this.project.id);
         },
         onStatsClick() {
             this.$emit('statsClicked', this.project.id);

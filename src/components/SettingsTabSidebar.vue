@@ -25,6 +25,9 @@
                 <option value="m">{{ t('cospend', 'Monthly') }}</option>
             </select>
         </div>
+        <AppNavigationItem v-if="!pageIsPublic" icon="icon-save" @click="onExportClick"
+            :title="t('cospend', 'Export project')"
+        />
         <div v-if="!pageIsPublic">
             <br/><hr/><br/>
             <p class="label">
@@ -79,7 +82,7 @@
 </template>
 
 <script>
-import { Multiselect, ActionInput } from '@nextcloud/vue'
+import { Multiselect, ActionInput, AppNavigationItem } from '@nextcloud/vue'
 import { mapGetters, mapState } from 'vuex'
 import { getCurrentUser } from '@nextcloud/auth'
 import {generateUrl} from '@nextcloud/router';
@@ -94,7 +97,7 @@ import { Timer } from '../utils';
 export default {
     name: 'SharingTabSidebar',
     components: {
-        Multiselect, ActionInput
+        Multiselect, ActionInput, AppNavigationItem
     },
     props: ['project'],
     data() {
@@ -321,6 +324,9 @@ export default {
                 });
             }
         },
+        onExportClick() {
+            this.$emit('exportClicked', this.projectId);
+        },
     },
 }
 </script>
@@ -333,7 +339,7 @@ export default {
     display: inline-block;
     min-width: 30px !important;
     min-height: 18px !important;
-    width: 30px;
+    width: 41px;
     height: 18px;
     vertical-align: sub;
 }

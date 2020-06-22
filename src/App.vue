@@ -8,7 +8,6 @@
             @deleteProject="onDeleteProject"
             @newBillClicked="onNewBillClicked"
             @qrcodeClicked="onQrcodeClicked"
-            @exportClicked="onExportClicked"
             @statsClicked="onStatsClicked"
             @settleClicked="onSettleClicked"
             @categoryClicked="onCategoryClicked"
@@ -80,6 +79,7 @@
             @memberEdited="onMemberEdited"
             @mbLinkClicked="onQrcodeClicked"
             @newMember="onNewMember"
+            @exportClicked="onExportClicked"
             />
         <!--router-view name="sidebar" /-->
         <img id="dummylogo"/>

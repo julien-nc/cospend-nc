@@ -75,40 +75,6 @@
                         :readonly="!editionAccess"
                         :value="billTime" ref="timeInput" @input="onTimeChanged"/>
                 </div>
-                <div class="bill-repeat">
-                    <label for="repeatbill">
-                        <a class="icon icon-play-next"></a>{{ t('cospend', 'Repeat') }}
-                    </label>
-                    <select id="repeatbill"
-                        :disabled="!editionAccess"
-                        @input="onBillEdited"
-                        v-model="bill.repeat">
-                        <option value="n" selected="selected">{{ t('cospend', 'No') }}</option>
-                        <option value="d">{{ t('cospend', 'Daily') }}</option>
-                        <option value="w">{{ t('cospend', 'Weekly') }}</option>
-                        <option value="m">{{ t('cospend', 'Monthly') }}</option>
-                        <option value="y">{{ t('cospend', 'Yearly') }}</option>
-                    </select>
-                </div>
-                <div class="bill-repeat-extra" v-if="bill.repeat !== 'n'">
-                    <div class="bill-repeat-include">
-                        <input id="repeatallactive"
-                            :disabled="!editionAccess"
-                            @input="onBillEdited"
-                            v-model="bill.repeatallactive" class="checkbox" type="checkbox"/>
-                        <label for="repeatallactive" class="checkboxlabel">{{ t('cospend', 'Include all active members on repeat') }}</label>
-                        <br>
-                    </div>
-                    <div class="bill-repeat-until">
-                        <label for="repeatuntil">
-                            <a class="icon icon-pause"></a>{{ t('cospend', 'Repeat until') }}
-                        </label>
-                        <input type="date" id="repeatuntil"
-                            @input="onBillEdited"
-                            :readonly="!editionAccess"
-                            v-model="bill.repeatuntil" class="input-bill-repeatuntil">
-                    </div>
-                </div>
                 <div class="bill-payment-mode">
                     <label for="payment-mode">
                         <a class="icon icon-tag"></a>{{ t('cospend', 'Payment mode') }}
@@ -158,6 +124,40 @@
                         :readonly="!editionAccess"
                         :placeholder="t('cospend', 'More details about the bill (300 char. max)')">
                     </textarea>
+                </div>
+                <div class="bill-repeat">
+                    <label for="repeatbill">
+                        <a class="icon icon-play-next"></a>{{ t('cospend', 'Repeat') }}
+                    </label>
+                    <select id="repeatbill"
+                        :disabled="!editionAccess"
+                        @input="onBillEdited"
+                        v-model="bill.repeat">
+                        <option value="n" selected="selected">{{ t('cospend', 'No') }}</option>
+                        <option value="d">{{ t('cospend', 'Daily') }}</option>
+                        <option value="w">{{ t('cospend', 'Weekly') }}</option>
+                        <option value="m">{{ t('cospend', 'Monthly') }}</option>
+                        <option value="y">{{ t('cospend', 'Yearly') }}</option>
+                    </select>
+                </div>
+                <div class="bill-repeat-extra" v-if="bill.repeat !== 'n'">
+                    <div class="bill-repeat-include">
+                        <input id="repeatallactive"
+                            :disabled="!editionAccess"
+                            @input="onBillEdited"
+                            v-model="bill.repeatallactive" class="checkbox" type="checkbox"/>
+                        <label for="repeatallactive" class="checkboxlabel">{{ t('cospend', 'Include all active members on repeat') }}</label>
+                        <br>
+                    </div>
+                    <div class="bill-repeat-until">
+                        <label for="repeatuntil">
+                            <a class="icon icon-pause"></a>{{ t('cospend', 'Repeat until') }}
+                        </label>
+                        <input type="date" id="repeatuntil"
+                            @input="onBillEdited"
+                            :readonly="!editionAccess"
+                            v-model="bill.repeatuntil" class="input-bill-repeatuntil">
+                    </div>
                 </div>
             </div>
             <div class="bill-right">

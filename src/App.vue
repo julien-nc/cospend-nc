@@ -306,7 +306,6 @@ export default {
             if (cospend.currentProjectId !== null) {
                 this.currentBill = null;
                 this.mode = 'qrcode';
-                this.showSidebar = false;
             }
         },
         onStatsClicked(projectid) {

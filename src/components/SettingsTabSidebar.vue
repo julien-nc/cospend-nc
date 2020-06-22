@@ -27,13 +27,6 @@
         </div>
         <div v-if="!pageIsPublic">
             <br/><hr/><br/>
-            <!-- let's keep this just in case the combined one is not efficient... -->
-            <!--div class="newMember">
-                <form v-if="maintenerAccess" @submit.prevent.stop="onAddMember">
-                    <input v-model="newMemberName" :placeholder="t('cospend', 'Add a simple member')" type="text">
-                    <input type="submit" value="" class="icon-confirm">
-                </form>
-            </div><br/-->
             <p class="label">
                 <span class="labelIcon icon-user"></span>
                 {{ t('cospend', 'Add a project member.')}}
@@ -110,7 +103,6 @@ export default {
             selectedAffectUser: null,
             users: [],
             selectedMember: null,
-            newMemberName: '',
             newProjectName: '',
         }
     },
@@ -122,7 +114,7 @@ export default {
         input.addEventListener('keyup', e => {
             if (e.key === 'Enter') {
                 // trick to add member when pressing enter on NC user multiselect
-                this.onMultiselectEnterPressed(e.target);
+                //this.onMultiselectEnterPressed(e.target);
             } else {
                 // add a simple user entry in multiselect when typing
                 this.updateSimpleUser(e.target.value);
@@ -297,10 +289,6 @@ export default {
             this.$emit('memberEdited', this.projectId, this.selectedMember);
             this.asyncFind();
         },
-        onAddMember() {
-            this.$emit('newSimpleMember', this.projectId, this.newMemberName);
-            this.newMemberName = '';
-        },
         onRenameProject() {
             this.project.name = this.newProjectName;
             this.$emit('projectEdited', this.projectId);
@@ -321,8 +309,10 @@ export default {
                     break;
                 }
             }
+            // without this, simple member creation works once every two tries
+            this.selectedAddUser = null;
             // add one
-            if (name) {
+            if (name !== null && name !== '') {
                 this.users.unshift({
                     id: '',
                     name: name,

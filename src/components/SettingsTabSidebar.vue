@@ -290,6 +290,7 @@ export default {
             this.$set(member, 'userid', this.selectedAffectUser.user);
             this.$set(member, 'name', this.selectedAffectUser.name);
             this.$emit('memberEdited', this.projectId, this.selectedMember);
+            this.selectedAffectUser = null;
             this.asyncFind();
         },
         onRenameProject() {

@@ -28,7 +28,7 @@
         <AppNavigationItem v-if="!pageIsPublic" icon="icon-save" @click="onExportClick"
             :title="t('cospend', 'Export project')"
         />
-        <div v-if="!pageIsPublic">
+        <div>
             <br/><hr/><br/>
             <p class="label">
                 <span class="labelIcon icon-user"></span>
@@ -38,7 +38,7 @@
                 v-if="maintenerAccess"
                 v-model="selectedAddUser"
                 class="addUserInput"
-                :placeholder="t('cospend', 'New member (or Nextcloud user) name')"
+                :placeholder="newMemberPlaceholder"
                 :options="formatedUsers"
                 :user-select="true"
                 label="displayName"
@@ -47,36 +47,38 @@
                 @input="clickAddUserItem"
                 ref="userMultiselect"
                 />
-            <br/><br/><hr/><br/>
-            <p class="label">
-                <span class="labelIcon icon-user"></span>
-                {{ t('cospend', 'Choose a project member, then a Nextcloud user to associate with.')}}
-            </p>
-            <div id="affectDiv">
-                <select v-model="selectedMember">
-                    <option v-for="member in activatedMembers" :key="member.id"
-                        :value="member.id">
-                        {{ member.name }}
-                    </option>
-                </select>
-                <Multiselect
-                    :disabled="!selectedMember"
-                    v-if="maintenerAccess"
-                    v-model="selectedAffectUser"
-                    class="affectUserInput"
-                    :placeholder="t('cospend', 'Choose a Nextcloud user')"
-                    :options="formatedUsersAffect"
-                    :user-select="true"
-                    label="displayName"
-                    track-by="multiselectKey"
-                    :internal-search="true"
-                    @input="clickAffectUserItem"
-                    />
+            <div v-if="!pageIsPublic">
+                <br/><hr/><br/>
+                <p class="label">
+                    <span class="labelIcon icon-user"></span>
+                    {{ t('cospend', 'Choose a project member, then a Nextcloud user to associate with.')}}
+                </p>
+                <div id="affectDiv">
+                    <select v-model="selectedMember">
+                        <option v-for="member in activatedMembers" :key="member.id"
+                            :value="member.id">
+                            {{ member.name }}
+                        </option>
+                    </select>
+                    <Multiselect
+                        :disabled="!selectedMember"
+                        v-if="maintenerAccess"
+                        v-model="selectedAffectUser"
+                        class="affectUserInput"
+                        :placeholder="t('cospend', 'Choose a Nextcloud user')"
+                        :options="formatedUsersAffect"
+                        :user-select="true"
+                        label="displayName"
+                        track-by="multiselectKey"
+                        :internal-search="true"
+                        @input="clickAffectUserItem"
+                        />
+                </div>
+                <p>
+                    <span class="labelIcon icon-details"></span>
+                    {{ t('cospend', 'You can cut the link with a Nextcloud user by renaming the member.') }}
+                </p>
             </div>
-            <p>
-                <span class="labelIcon icon-details"></span>
-                {{ t('cospend', 'You can cut the link with a Nextcloud user by renaming the member.') }}
-            </p>
         </div>
     </div>
 </template>
@@ -110,9 +112,8 @@ export default {
         }
     },
     mounted() {
-        if (!this.pageIsPublic) {
-            this.asyncFind()
-        }
+        this.asyncFind()
+
         const input = this.$refs.userMultiselect.$el.querySelector('input');
         input.addEventListener('keyup', e => {
             if (e.key === 'Enter') {
@@ -168,6 +169,11 @@ export default {
         },
         pageIsPublic() {
             return cospend.pageIsPublic;
+        },
+        newMemberPlaceholder() {
+            return this.pageIsPublic ?
+                t('cospend', 'New member name') :
+                t('cospend', 'New member (or Nextcloud user) name');
         },
         formatedUsersAffect() {
             // avoid simple member here
@@ -230,8 +236,10 @@ export default {
             this.$emit('projectEdited', this.projectId);
         },
         asyncFind() {
-            this.isLoading = true
-            this.loadUsers();
+            if (!this.pageIsPublic) {
+                this.isLoading = true;
+                this.loadUsers();
+            }
         },
         loadUsers() {
             const that = this;

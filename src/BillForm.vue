@@ -164,7 +164,7 @@
                 <div class="bill-type" v-if="isNewBill">
                     <label class="bill-owers-label">
                         <a class="icon icon-toggle-filelist"></a><span>{{ t('cospend', 'Bill type') }}</span>
-                    </label>
+                    </label><br/>
                     <select id="billtype" v-model="newBillMode">
                         <option value="normal" :selected="true">{{ t('cospend', 'Classic, even split') }}</option>
                         <option value="perso">{{ t('cospend', 'Even split with optional personal parts') }}</option>

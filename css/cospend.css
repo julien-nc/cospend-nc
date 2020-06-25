@@ -8,6 +8,9 @@
     #bill-list {
         max-width: 400px;
     }
+    #app-content {
+        transform: none !important;
+    }
 }
 #newBillButton {
     margin-top: 10px !important;

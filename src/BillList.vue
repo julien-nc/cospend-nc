@@ -1,5 +1,5 @@
 <template>
-    <div id="bill-list" class="app-content-list showdetails">
+    <div id="bill-list" :class="{'app-content-list': true, 'showdetails': shouldShowDetails}">
         <h2 class="icon-loading-small" v-show="loading"></h2>
         <h2 v-if="bills.length === 0" class="nobill">
             {{ t('cospend', 'No bill yet') }}
@@ -36,7 +36,7 @@ export default {
     },
 
     //TODO
-    props: ['projectId', 'bills', 'selectedBillId', 'editionAccess', 'loading'],
+    props: ['projectId', 'bills', 'selectedBillId', 'editionAccess', 'loading', 'mode'],
     data() {
         return {
             cospend: cospend,
@@ -52,6 +52,9 @@ export default {
         },
         reverseBills() {
             return this.bills.slice().reverse();
+        },
+        shouldShowDetails() {
+            return (this.mode !== 'edition' || this.selectedBillId !== -1);
         }
     },
 

@@ -22,6 +22,11 @@
             @saveOption="onSaveOption"
         />
         <AppContent>
+            <div v-if="shouldShowDetailsToggle"
+				id="app-details-toggle"
+				class="icon-confirm"
+				tabindex="0"
+				@click="showList" />
             <div id="app-content-wrapper">
                 <BillList
                     :loading="billsLoading"
@@ -29,6 +34,7 @@
                     :bills="currentBills"
                     :selectedBillId="selectedBillId"
                     :editionAccess="editionAccess"
+                    :mode="mode"
                     @itemClicked="onBillClicked"
                     @itemDeleted="onBillDeleted"
                 />
@@ -140,6 +146,9 @@ export default {
         }
     },
     computed: {
+        shouldShowDetailsToggle() {
+            return (this.currentBill || this.mode !== 'edition');
+        },
         currentProjectId() {
             return this.cospend.currentProjectId;
         },
@@ -731,6 +740,10 @@ export default {
                 }
             }
         },
+        showList() {
+            this.currentBill = null;
+            this.mode = 'edition';
+		},
     }
 }
 </script>

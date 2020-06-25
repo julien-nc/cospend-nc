@@ -1,13 +1,10 @@
 #app {
     width: 100%;
 }
-#projectid, #password {
-    display: none;
-}
 @media only screen and (min-width:768px) {
-    #app-details-toggle {
+    /*#app-details-toggle {
         display: none !important;
-    }
+    }*/
     #bill-list {
         max-width: 400px;
     }
@@ -24,44 +21,6 @@
 .balance {
     float: right;
     font-weight: bold;
-}
-.newmemberbutton {
-    float: right;
-    width: 40px;
-}
-.newmemberdiv input {
-    width: 100%;
-}
-.newmemberdiv {
-    width: 100%;
-    padding: 5px 10px 5px 10px;
-}
-.newmemberdiv,
-#addextprojectdiv,
-#newprojectdiv {
-    display: none;
-}
-#newprojectdiv label {
-    margin: 3px 3px 3px 3px;
-    line-height: 32px;
-    width: 45%;
-    text-align: right;
-    float: left;
-}
-#newprojectdiv input {
-    width: 45%;
-    float: right;
-}
-b.memberName, b.memberWeight {
-    font-weight: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 104px;
-    display: inline-block;
-}
-.memberNameBalance {
-    display: block;
-    height: 30px;
 }
 .memberAvatar img {
     width: 24px;
@@ -84,9 +43,6 @@ b.memberName, b.memberWeight {
 .memberAvatar {
     width: 26px;
     height: 44px;
-}
-.member-list-icon {
-    padding: 0 12px 0 5px !important;
 }
 .billItemDisabledMask.disabled {
     display: block;
@@ -150,10 +106,6 @@ b.memberName, b.memberWeight {
     left: 25px;
 }
 
-#createproject {
-    background-color: #46ba61;
-    color: white;
-}
 input[type=number] {
     -moz-appearance: number-input !important;
     -webkit-appearance: initial !important;
@@ -230,9 +182,6 @@ input[type=number] {
 .undoDeleteBill {
     display: none;
 }
-#app-settings-content input {
-    width: 100%;
-}
 #app-settings-content button {
     padding: 10px;
     padding-left: 34px;
@@ -241,11 +190,7 @@ input[type=number] {
     text-align: left;
 }
 #bill-list > .deleted {
-    /*background-color: var(--color-warning);*/
     background-color: var(--color-background-darker);
-}
-.invisibleMember {
-    display: none !important;
 }
 #app-details-toggle:hover {
     opacity: 1;
@@ -287,20 +232,6 @@ input[type=number] {
 }
 .app-navigation-entry-share {
     display: none;
-}
-.shareitem .app-navigation-entry-deleted {
-    background-color: var(--color-background-darker) !important;
-}
-.shareitem input[type=radio] {
-    cursor: pointer;
-    min-width: 0px;
-    min-height: 0px;
-    flex: initial;
-    margin-left: 0px !important;
-    margin-right: 5px;
-    margin-top: auto;
-    margin-bottom: auto;
-    pointer-events:none;
 }
 .shareinput {
     width: 100%;
@@ -406,43 +337,6 @@ input[type=number] {
     -webkit-mask-size: 16px 16px;
     -webkit-mask-position: center;
 }
-.accesslevelActive {
-    background-color: var(--color-success);
-}
-.deleteGroupShareButton,
-.deleteCircleShareButton,
-.deleteUserShareButton,
-.accesslevel, .accesslevelguest {
-    height: 25px;
-}
-.accesslevel, .accesslevelguest {
-    margin-left: 1px;
-    margin-right: 1px;
-    border-radius: 20%;
-    cursor: pointer;
-}
-.accesslevel, .accesslevelguest,
-.deleteGroupShareButton,
-.deleteCircleShareButton,
-.deleteUserShareButton {
-    float: right;
-    padding-left: 12px;
-    padding-right: 12px;
-}
-.deleteUserShareButton {
-    border: 1px solid var(--color-text-lighter);
-    border-radius: 20%;
-}
-.guestaccesslevel {
-    margin-top: auto;
-    margin-bottom: auto;
-}
-.share-icon-circle {
-    background-image: var(--icon-circles-circles-000);
-    background-size: 20px 20px;
-    background-repeat: no-repeat;
-    background-position: 0px 8px;
-}
 .loading-bill {
     margin-left: 10px;
     margin-right: 10px;
@@ -471,36 +365,6 @@ input[type=number] {
 .memberitem > a {
     opacity: 1 !important;
 }
-.autocomplete-avatar-img {
-    width: 23px;
-    height: auto;
-    border-radius: 50%;
-    vertical-align: middle;
-    margin-right: 5px;
-}
-.share-avatar-img {
-    width: 23px !important;
-    height: auto !important;
-    border-radius: 50%;
-    vertical-align: middle;
-    margin-left: -35px !important;
-}
-.memberCompleteIcon,
-.shareCompleteIcon {
-    background-color: inherit;
-    border: 0px;
-    height: 35px;
-    padding-top: 13px;
-}
-.shareCompleteLink {
-    line-height: 35px;
-}
-.ui-autocomplete {
-    z-index: 9999 !important;
-}
-.app-navigation-entry-share {
-    background-color: var(--color-background-darker);
-}
 .totalPayedText {
     margin: 0px 20px 0px 20px;
 }
@@ -516,41 +380,10 @@ input[type=number] {
     display: flex !important;
     align-items: center !important;
 }
-.member-list-disabled-icon {
-    display: inline-block;
-    height: 44px;
-}
 a.billitem .app-content-list-item-icon {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-}
-#set-output-div {
-    display: flex;
-    align-items: center;
-    /*height: 50px;*/
-}
-#set-output-div label {
-    word-wrap: anywhere;
-    text-align: center;
-    width: 40%;
-}
-#set-output-div button {
-    width: 60%;
-}
-#membercolorinput {
-    opacity: 0;
-    width: 0px;
-    height: 0px;
-    min-height: 0px;
-    padding: 0px;
-    margin: 0px;
-    border: 0px;
-}
-.guest-link-label {
-    max-width: 45%;
-    text-overflow: ellipsis;
-    overflow: hidden;
 }
 .bill-date,
 .bill-payment-mode,

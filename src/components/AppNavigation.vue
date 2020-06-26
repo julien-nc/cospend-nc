@@ -15,14 +15,6 @@
                     </form>
                 </div>
             </div>
-            <AppNavigationItem
-                v-if="editionAccess && twoActiveMembers"
-                :title="t('cospend', 'New bill')"
-                @click="onNewBillClick"
-                icon="icon-edit"
-                class="buttonItem"
-                v-show="selectedProjectId"
-                />
             <AppNavigationProjectItem
                 v-for="(project, id) in projects"
                 :key="id"
@@ -121,16 +113,6 @@ export default {
         editionAccess() {
             return this.selectedProjectId && this.projects[this.selectedProjectId].myaccesslevel >= constants.ACCESS.PARTICIPANT;
         },
-        twoActiveMembers() {
-            let c = 0;
-            const members = this.projects[this.selectedProjectId].members;
-            for (const mid in members) {
-                if (members[mid].activated) {
-                    c++;
-                }
-            }
-            return (c >= 2);
-        },
     },
     beforeMount() {
     },
@@ -217,9 +199,6 @@ export default {
                 'httpd/unix-directory',
                 true
             );
-        },
-        onNewBillClick() {
-            this.$emit('newBillClicked');
         },
         onProjectClicked(projectid) {
             this.$emit('projectClicked', projectid);

@@ -1,6 +1,13 @@
 <template>
     <div id="bill-list" :class="{'app-content-list': true, 'showdetails': shouldShowDetails}">
         <h2 class="icon-loading-small" v-show="loading"></h2>
+        <div>
+            <AppNavigationItem
+                v-if="editionAccess && twoActiveMembers"
+                v-show="!loading" icon="icon-add" @click="onAddBillClicked"
+                :title="t('cospend', 'New bill')"
+            />
+        </div>
         <h2 v-if="bills.length === 0" class="nobill">
             {{ t('cospend', 'No bill yet') }}
         </h2>
@@ -19,6 +26,7 @@
 </template>
 
 <script>
+import { AppNavigationItem } from '@nextcloud/vue'
 import BillItem from './components/BillItem';
 import {generateUrl} from '@nextcloud/router';
 import {
@@ -32,7 +40,7 @@ export default {
     name: 'BillList',
 
     components: {
-        BillItem
+        BillItem, AppNavigationItem
     },
 
     //TODO
@@ -55,10 +63,23 @@ export default {
         },
         shouldShowDetails() {
             return (this.mode !== 'edition' || this.selectedBillId !== -1);
-        }
+        },
+        twoActiveMembers() {
+            let c = 0;
+            const members = this.cospend.projects[this.projectId].members;
+            for (const mid in members) {
+                if (members[mid].activated) {
+                    c++;
+                }
+            }
+            return (c >= 2);
+        },
     },
 
     methods: {
+        onAddBillClicked() {
+            this.$emit('newBillClicked');
+        },
         onItemClicked(bill) {
             this.$emit('itemClicked', bill.id);
         },

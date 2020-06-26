@@ -6,7 +6,6 @@
             :selectedProjectId="currentProjectId"
             @projectClicked="onProjectClicked"
             @deleteProject="onDeleteProject"
-            @newBillClicked="onNewBillClicked"
             @qrcodeClicked="onQrcodeClicked"
             @statsClicked="onStatsClicked"
             @settleClicked="onSettleClicked"
@@ -37,6 +36,7 @@
                     :mode="mode"
                     @itemClicked="onBillClicked"
                     @itemDeleted="onBillDeleted"
+                    @newBillClicked="onNewBillClicked"
                 />
                 <BillForm
                     v-if="currentBill !== null && mode === 'edition'"

@@ -79,7 +79,7 @@
                     v-if="access.type==='u'" :user="access.userid"
                     :disableMenu="true" :disableTooltip="true" />
                 <div v-if="access.type==='g'" class="avatardiv icon icon-group" />
-                <div v-if="access.type==='c'" class="avatardiv icon icon-circles" />
+                <div v-if="access.type==='c'" class="avatardiv icon share-icon-circle" />
                 <span class="username">
                     <span>{{ access.name }}</span>
                     <span v-if="access.type==='g'">({{ t('cospend', 'Group') }})</span>
@@ -260,7 +260,7 @@ export default {
                     sharee.isNoUser = true
                 }
                 if (item.type === 'c') {
-                    sharee.icon = 'icon-circles'
+                    sharee.icon = 'share-icon-circle'
                     sharee.isNoUser = true
                 }
                 return sharee

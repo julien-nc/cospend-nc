@@ -17,11 +17,53 @@
             id="shareWithList"
             class="shareWithList">
             <li @click="addLink" v-if="editionAccess">
-                <div class="avatardiv icon icon-public" />
+                <div class="avatardiv icon icon-public-white" />
                 <span class="username">
                     {{ t('cospend', 'Add public link') }}
                 </span>
                 <ActionButton class="addLinkButton" icon="icon-add" :ariaLabel="t('cospend', 'Add link')"/>
+            </li>
+            <li v-for="access in linkShares" :key="access.id">
+                <div class="avatardiv icon icon-public-white" />
+                <span class="username">
+                    <span>{{ t('cospend', 'Public link') }}</span>
+                </span>
+
+                <Popover>
+                    <ActionButton slot="trigger" class="copyLinkButton"
+                        :icon="(linkCopied[access.id]) ? 'icon-checkmark-color' : 'icon-clippy'"
+                        :ariaLabel="t('cospend', 'Copy link')" @click="copyLink(access)"/>
+                    <template>
+                        {{ t('cospend', 'Copied!') }}
+                    </template>
+                </Popover>
+
+                <Actions :force-menu="true">
+                    <ActionRadio name="accessLevel" :disabled="!editionAccess || isCurrentUser(access.userid)"
+                        :checked="access.accesslevel === 1"
+                        @change="clickAccessLevel(access, 1)">
+                        {{ t('cospend', 'Viewer') }}
+                    </ActionRadio>
+                    <ActionRadio name="accessLevel" :disabled="!editionAccess || isCurrentUser(access.userid)"
+                        :checked="access.accesslevel === 2"
+                        @change="clickAccessLevel(access, 2)">
+                        {{ t('cospend', 'Participant') }}
+                    </ActionRadio>
+                    <ActionRadio name="accessLevel" :disabled="myAccessLevel < 3 || isCurrentUser(access.userid)"
+                        :checked="access.accesslevel === 3"
+                        @change="clickAccessLevel(access, 3)">
+                        {{ t('cospend', 'Maintainer') }}
+                    </ActionRadio>
+                    <ActionRadio name="accessLevel" :disabled="myAccessLevel < 4 || isCurrentUser(access.userid)"
+                        :checked="access.accesslevel === 4"
+                        @change="clickAccessLevel(access, 4)">
+                        {{ t('cospend', 'Admin') }}
+                    </ActionRadio>
+                    <ActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
+                        icon="icon-delete" @click="clickDeleteAccess(access)">
+                        {{ t('cospend', 'Delete') }}
+                    </ActionButton>
+                </Actions>
             </li>
             <li>
                 <Avatar :disableMenu="true" :disableTooltip="true" :user="project.userid" />
@@ -32,28 +74,17 @@
                     </span>
                 </span>
             </li>
-            <li v-for="access in shares" :key="access.id">
+            <li v-for="access in ugcShares" :key="access.id">
                 <Avatar
                     v-if="access.type==='u'" :user="access.userid"
                     :disableMenu="true" :disableTooltip="true" />
                 <div v-if="access.type==='g'" class="avatardiv icon icon-group" />
                 <div v-if="access.type==='c'" class="avatardiv icon icon-circles" />
-                <div v-if="access.type==='l'" class="avatardiv icon icon-public" />
                 <span class="username">
-                    <span v-if="access.type==='l'">{{ t('cospend', 'Public link') }}</span>
-                    <span v-else>{{ access.name }}</span>
+                    <span>{{ access.name }}</span>
                     <span v-if="access.type==='g'">({{ t('cospend', 'Group') }})</span>
                     <span v-if="access.type==='c'">({{ t('cospend', 'Circle') }})</span>
                 </span>
-
-                <Popover>
-                    <ActionButton slot="trigger" v-if="access.type==='l'" class="copyLinkButton"
-                        :icon="(linkCopied[access.id]) ? 'icon-checkmark-color' : 'icon-clippy'"
-                        :ariaLabel="t('cospend', 'Copy link')" @click="copyLink(access)"/>
-                    <template>
-                        {{ t('cospend', 'Copied!') }}
-                    </template>
-                </Popover>
 
                 <Actions :force-menu="true">
                     <ActionRadio name="accessLevel" :disabled="!editionAccess || isCurrentUser(access.userid)"
@@ -189,6 +220,24 @@ export default {
         },
         shares() {
             return this.project.shares;
+        },
+        linkShares() {
+            const ls = [];
+            for (let i = 0; i < this.shares.length; i++) {
+                if (this.shares[i].type === 'l') {
+                    ls.push(this.shares[i]);
+                }
+            }
+            return ls;
+        },
+        ugcShares() {
+            const ls = [];
+            for (let i = 0; i < this.shares.length; i++) {
+                if (this.shares[i].type !== 'l') {
+                    ls.push(this.shares[i]);
+                }
+            }
+            return ls;
         },
         projectId() {
             return this.project.id;
@@ -516,5 +565,8 @@ export default {
         text-align: center;
         display: inline-block;
         width: 48%;
+    }
+    .avatardiv.icon-public-white {
+        background-color: var(--color-primary);
     }
 </style>

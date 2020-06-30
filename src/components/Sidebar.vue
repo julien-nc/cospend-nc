@@ -1,6 +1,8 @@
 <template>
     <AppSidebar v-show="show"
         :title="title"
+        :compact="true"
+        :background="backgroundImageUrl"
         :subtitle="subtitle"
         :active="activeTab"
         @update:active="onActiveChanged"
@@ -55,6 +57,7 @@
 import {
     ActionButton, AppSidebar, AppSidebarTab, ActionLink
 } from '@nextcloud/vue'
+import {generateUrl} from '@nextcloud/router';
 import SharingTabSidebar from './SharingTabSidebar'
 import SettingsTabSidebar from './SettingsTabSidebar'
 import cospend from '../state';
@@ -68,6 +71,7 @@ export default {
     props: ['show', 'activeTab', 'projectId', 'bills', 'members'],
     data() {
         return {
+            backgroundImageUrl: generateUrl('/apps/theming/img/core/filetypes/folder.svg?v=0')
         };
     },
     computed: {
@@ -78,7 +82,7 @@ export default {
             return cospend.projects[this.projectId];
         },
         title() {
-            return t('cospend', 'Project {name}', {name: this.project.name});
+            return this.project.name;
         },
         subtitle() {
             const nbBills = this.bills.length;

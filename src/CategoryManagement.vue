@@ -1,8 +1,4 @@
 <template>
-<div id="billdetail" class="app-content-details">
-	<h2 id="catTitle"><span class="icon-category-app-bundles"></span>
-		{{ t('cospend', 'Categories of project {name}', {name: project.name}) }}
-	</h2>
     <div id="manage-categories">
 		<div id="categories-div">
 			<div id="add-category-div" v-show="editionAccess">
@@ -18,7 +14,7 @@
 					<label for="addCategoryNameInput">{{ t('cospend', 'Name') }}</label>
 					<input type="text" value="" maxlength="300" id="addCategoryNameInput"
 						v-on:keyup.enter="onAddCategory"
-						ref="newCategoryName" :placeholder="t('cospend', 'New category name')"/>
+						ref="newCategoryName" :placeholder="t('cospend', 'Category name')"/>
 					<label for="addCategoryColorInput">{{ t('cospend', 'Color') }}</label>
 					<input type="color" value="" id="addCategoryColorInput" ref="newCategoryColor"/>
 					<button class="addCategoryOk" @click="onAddCategory">
@@ -46,7 +42,6 @@
 			</div>
 		</div>
 	</div>
-</div>
 </template>
 
 <script>

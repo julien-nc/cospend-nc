@@ -139,12 +139,12 @@ export default {
     line-height: 40px;
 }
 .one-category-label input[type=submit] {
-    border-radius: 0 !important;
+    border-radius: 50% !important;
     width: 36px !important;
 }
 .one-category-label {
     display: grid;
-    grid-template: 1fr / 30px 150px 150px 37px 37px 37px;
+    grid-template: 1fr / 1fr 4fr 4fr 37px 37px 37px;
 }
 .editCategoryOk {
     background-color: #46ba61;

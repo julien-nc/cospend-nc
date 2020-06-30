@@ -26,8 +26,6 @@
                 @qrcodeClicked="onQrcodeClicked"
                 @statsClicked="onStatsClicked"
                 @settleClicked="onSettleClicked"
-                @categoryClicked="onCategoryClicked"
-                @currencyClicked="onCurrencyClicked"
                 @detailClicked="onDetailClicked"
                 @shareClicked="onShareClicked"
                 @newMemberClicked="onNewMemberClicked"
@@ -214,12 +212,6 @@ export default {
         },
         onSettleClicked(projectid) {
             this.$emit('settleClicked', projectid);
-        },
-        onCategoryClicked(projectid) {
-            this.$emit('categoryClicked', projectid);
-        },
-        onCurrencyClicked(projectid) {
-            this.$emit('currencyClicked', projectid);
         },
         onDetailClicked(projectid) {
             this.$emit('detailClicked', projectid);

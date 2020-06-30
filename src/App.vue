@@ -9,8 +9,6 @@
             @qrcodeClicked="onQrcodeClicked"
             @statsClicked="onStatsClicked"
             @settleClicked="onSettleClicked"
-            @categoryClicked="onCategoryClicked"
-            @currencyClicked="onCurrencyClicked"
             @detailClicked="onDetailClicked"
             @shareClicked="onShareClicked"
             @newMemberClicked="onNewMemberClicked"
@@ -59,16 +57,6 @@
                     :projectId="currentProjectId"
                     @autoSettled="onAutoSettled"
                 />
-                <CategoryManagement
-                    v-if="mode === 'category'"
-                    :projectId="currentProjectId"
-                    @categoryDeleted="onCategoryDeleted"
-                />
-                <CurrencyManagement
-                    v-if="mode === 'currency'"
-                    :projectId="currentProjectId"
-                    @projectEdited="onProjectEdited"
-                />
             </div>
         </AppContent>
         <Sidebar
@@ -86,6 +74,7 @@
             @mbLinkClicked="onQrcodeClicked"
             @newMember="onNewMember"
             @exportClicked="onExportClicked"
+            @categoryDeleted="onCategoryDeleted"
             />
         <!--router-view name="sidebar" /-->
         <img id="dummylogo"/>
@@ -330,20 +319,6 @@ export default {
             }
             this.currentBill = null;
             this.mode = 'settle';
-        },
-        onCategoryClicked(projectid) {
-            if (cospend.currentProjectId !== projectid) {
-                this.selectProject(projectid);
-            }
-            this.currentBill = null;
-            this.mode = 'category';
-        },
-        onCurrencyClicked(projectid) {
-            if (cospend.currentProjectId !== projectid) {
-                this.selectProject(projectid);
-            }
-            this.currentBill = null;
-            this.mode = 'currency';
         },
         onNewMemberClicked(projectid) {
             if (cospend.currentProjectId !== projectid) {

@@ -27,12 +27,23 @@
                 @mbLinkClicked="onMBLinkClicked"
                 />
         </AppSidebarTab>
-        <!--AppSidebarTab :id="'activity'" :name="'Activity'" :icon="'icon-calendar-dark'"
-            :order="2"
+        <AppSidebarTab id="categories" :name="t('cospend', 'Categories')" :icon="'icon-category-app-bundles'"
+            :order="3"
             >
-            this is the activity tabbbaaaa
+            <CategoryManagement
+                :projectId="projectId"
+                @categoryDeleted="onCategoryDeleted"
+            />
         </AppSidebarTab>
-        <AppSidebarTab :id="'comments'" :name="'Comments'" :icon="'icon-comment'"
+        <AppSidebarTab id="currencies" :name="t('cospend', 'Currencies')" :icon="'icon-currencies'"
+            :order="4"
+            >
+            <CurrencyManagement
+                :projectId="projectId"
+                @projectEdited="onProjectEdited"
+            />
+        </AppSidebarTab>
+        <!--AppSidebarTab :id="'comments'" :name="'Comments'" :icon="'icon-comment'"
             :order="3"
             v-if="false"
             >
@@ -60,13 +71,16 @@ import {
 import {generateUrl} from '@nextcloud/router';
 import SharingTabSidebar from './SharingTabSidebar'
 import SettingsTabSidebar from './SettingsTabSidebar'
+import CategoryManagement from '../CategoryManagement'
+import CurrencyManagement from '../CurrencyManagement'
 import cospend from '../state';
 import * as constants from '../constants';
 
 export default {
     name: 'Sidebar',
     components: {
-        ActionButton, AppSidebar, AppSidebarTab, ActionLink, SharingTabSidebar, SettingsTabSidebar
+        ActionButton, AppSidebar, AppSidebarTab, ActionLink, SharingTabSidebar, SettingsTabSidebar,
+        CategoryManagement, CurrencyManagement
     },
     props: ['show', 'activeTab', 'projectId', 'bills', 'members'],
     data() {
@@ -125,6 +139,9 @@ export default {
         },
         onExportClicked(projectid) {
             this.$emit('exportClicked', projectid);
+        },
+        onCategoryDeleted(catid) {
+            this.$emit('categoryDeleted', catid);
         },
     }
 }

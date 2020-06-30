@@ -32,12 +32,6 @@
             <ActionButton v-if="maintenerAccess" icon="icon-user" @click="onAddMemberClick">
                 {{ t('cospend', 'Add member') }}
             </ActionButton>
-            <ActionButton icon="icon-category-app-bundles" @click="onCategoryClick">
-                {{ t('cospend', 'Manage categories') }}
-            </ActionButton>
-            <ActionButton icon="icon-currencies" @click="onCurrencyClick">
-                {{ t('cospend', 'Manage currencies') }}
-            </ActionButton>
             <ActionButton icon="icon-category-monitoring" @click="onStatsClick">
                 {{ t('cospend', 'Statistics') }}
             </ActionButton>
@@ -137,12 +131,6 @@ export default {
         },
         onSettleClick() {
             this.$emit('settleClicked', this.project.id);
-        },
-        onCategoryClick() {
-            this.$emit('categoryClicked', this.project.id);
-        },
-        onCurrencyClick() {
-            this.$emit('currencyClicked', this.project.id);
         },
         onDetailClick() {
             this.$emit('detailClicked', this.project.id);

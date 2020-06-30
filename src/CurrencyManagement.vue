@@ -1,8 +1,4 @@
 <template>
-<div id="billdetail" class="app-content-details">
-	<h2 id="curTitle"><span class="icon-currencies"></span>
-		{{ t('cospend', 'Currencies of project {name}', {name: project.name}) }}
-	</h2>
     <div id="manage-currencies">
 		<div id="main-currency-div">
 			<label>
@@ -34,7 +30,7 @@
 					<label for="addCurrencyNameInput">{{ t('cospend', 'Name') }}</label>
 					<input type="text" value="" maxlength="64" id="addCurrencyNameInput"
 						v-on:keyup.enter="onAddCurrency"
-						ref="newCurrencyName" :placeholder="t('cospend', 'New currency name')"/>
+						ref="newCurrencyName" :placeholder="t('cospend', 'Currency name')"/>
 					<label for="addCurrencyRateInput">{{ t('cospend', 'Exchange rate to main currency') }}</label>
 					<input type="number" value="1" id="addCurrencyRateInput"
 						v-on:keyup.enter="onAddCurrency"
@@ -65,7 +61,6 @@
 			</div>
 		</div>
     </div>
-</div>
 </template>
 
 <script>
@@ -269,7 +264,7 @@ export default {
 }
 #add-currency {
     display: grid;
-    grid-template: 1fr / 300px 100px;
+    grid-template: 1fr / 2fr 1fr;
 }
 .addCurrencyRateHint {
     grid-column: 1/3;

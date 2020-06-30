@@ -112,12 +112,12 @@ export default {
     line-height: 40px;
 }
 .one-currency-label input[type=submit] {
-    border-radius: 0 !important;
+    border-radius: 50% !important;
     width: 36px !important;
 }
 .one-currency-label {
     display: grid;
-    grid-template: 1fr / 150px 37px 37px 37px;
+    grid-template: 1fr / 1fr 37px 37px 37px;
 }
 .editCurrencyOk {
     background-color: #46ba61;

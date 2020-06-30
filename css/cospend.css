@@ -222,7 +222,8 @@ input[type=number] {
 #billdetail .bill-title {
     padding: 20px 0px 20px 0px;
 }
-.selectedproject {
+.selectedproject > a ,
+.selectedproject > div {
     background: var(--color-background-dark, lightgrey);
 }
 .selectedproject > a {

@@ -45,8 +45,6 @@ OC.L10N.register(
     "Deactivate" : "Devre dışı bırak",
     "Reactivate" : "Yeniden aktive et",
     "Add member" : "Üye ekle",
-    "Manage categories" : "Kategorileri yönet",
-    "Manage currencies" : "Dövizleri yönet",
     "Delete" : "Sil",
     "Failed to save Cospend setting" : "Cospend ayarı kayıt edilemedi",
     "Credit card" : "Kredi kartı",

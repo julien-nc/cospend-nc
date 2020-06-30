@@ -65,6 +65,9 @@ OC.L10N.register(
     "Who payed?" : "Ki fizetett?",
     "When?" : "Mikor?",
     "What time?" : "Mikor?",
+    "Payment mode" : "Fizetési mód",
+    "None" : "Egyik sem",
+    "Category" : "Kategória",
     "Repeat" : "Ismétlés",
     "No" : "Nem",
     "Daily" : "Naponta",
@@ -72,9 +75,6 @@ OC.L10N.register(
     "Monthly" : "Havonta",
     "Yearly" : "Évente",
     "Repeat until" : "Ismétlés eddig",
-    "Payment mode" : "Fizetési mód",
-    "None" : "Egyik sem",
-    "Category" : "Kategória",
     "Bill type" : "Számla típusa",
     "Classic, even split" : "Klasszikus, egyenlő elosztás",
     "Even split with optional personal parts" : "Egyenlő elosztás opcionális egyéni résszel",
@@ -84,7 +84,6 @@ OC.L10N.register(
     "For whom?" : "Kinek?",
     "Bill : {what}" : "Számla: {what}",
     "Failed to delete bill" : "Nem sikerült törölni a számlát",
-    "Categories of project {name}" : "Projekt kategóriák {name}",
     "Add category" : "Kategória hozzáadása",
     "Icon" : "Ikon",
     "Name" : "Név",
@@ -96,8 +95,6 @@ OC.L10N.register(
     "Export" : "Exportálás",
     "Add these payments to project" : "Fizetések hozzáadása a projekthez",
     "All" : "Összes",
-    "Member list is not up to date. Reloading in 5 sec." : "Taglista elavult. Újratöltés 5 másodpercen belül.",
-    "Cancel" : "Mégse",
-    "Save" : "Mentés"
+    "Member list is not up to date. Reloading in 5 sec." : "Taglista elavult. Újratöltés 5 másodpercen belül."
 },
 "nplurals=2; plural=(n != 1);");

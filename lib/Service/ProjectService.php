@@ -1810,10 +1810,12 @@ class ProjectService {
                 return true;
             }
             else {
-                foreach ($circleDetails->getMembers() as $m) {
-                    // is member of this circle
-                    if ($m->getUserId() === $userId) {
-                        return true;
+                if ($circleDetails->getMembers() !== null) {
+                    foreach ($circleDetails->getMembers() as $m) {
+                        // is member of this circle
+                        if ($m->getUserId() === $userId) {
+                            return true;
+                        }
                     }
                 }
             }

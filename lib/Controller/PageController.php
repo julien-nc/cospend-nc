@@ -1632,10 +1632,12 @@ class PageController extends ApiController {
                     continue;
                 }
                 $circleDetails = \OCA\Circles\Api\v1\Circles::detailsCircle($c->getUniqueId());
-                foreach ($circleDetails->getMembers() as $m) {
-                    if ($m->getUserId() === $this->userId) {
-                        $circleNames[$circleUniqueId] = $circleName;
-                        break;
+                if ($circleDetails->getMembers() !== null) {
+                    foreach ($circleDetails->getMembers() as $m) {
+                        if ($m->getUserId() === $this->userId) {
+                            $circleNames[$circleUniqueId] = $circleName;
+                            break;
+                        }
                     }
                 }
             }

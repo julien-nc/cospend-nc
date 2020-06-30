@@ -24,7 +24,9 @@
             </div>
             <input type="text" v-model="category.name" maxlength="300" @focus="$event.target.select()"
                     ref="cname" class="editCategoryNameInput" :placeholder="t('cospend', 'Category name')"/>
-            <input type="color" v-model="category.color" class="editCategoryColorInput"/>
+            <ColorPicker class="app-navigation-entry-bullet-wrapper" value="" @input="updateColor" ref="col">
+                <input type="color" v-on:click.prevent :readonly="true" v-model="category.color" class="editCategoryColorInput" ref="colorInput"/>
+            </ColorPicker>
             <button class="editCategoryClose" @click="onClickCancel">
                 <span class="icon-history"></span>
             </button>
@@ -39,12 +41,13 @@
 import {Timer} from "../utils";
 import EmojiButton from '@joeattardi/emoji-button';
 import {vueAwesomeCountdown} from 'vue-awesome-countdown'
+import { ColorPicker } from '@nextcloud/vue'
 
 export default {
     name: 'Category',
 
     components: {
-        vueAwesomeCountdown
+        vueAwesomeCountdown, ColorPicker
     },
 
     props: ['category', 'editionAccess'],
@@ -79,6 +82,9 @@ export default {
     },
 
     methods: {
+        updateColor(color) {
+            this.category.color = color;
+        },
         onIconButtonClick() {
             this.picker.togglePicker(this.$refs.iconButton);
         },

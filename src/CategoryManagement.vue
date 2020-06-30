@@ -1,52 +1,55 @@
 <template>
     <div id="manage-categories">
-		<div id="categories-div">
-			<div id="add-category-div" v-show="editionAccess">
-				<label>
-					<a class="icon icon-add"></a>{{ t('cospend', 'Add category') }}
-				</label>
-				<div id="add-category">
-					<label for="addCategoryIconInput">{{ t('cospend', 'Icon') }}</label>
-					<div id="add-icon-input-div">
-						<input type="text" value="" maxlength="3" id="addCategoryIconInput" ref="newCategoryIcon"/>
-						<button class="add-icon-button" @click="onIconButtonClick" ref="iconButton">🙂</button>
-					</div>
-					<label for="addCategoryNameInput">{{ t('cospend', 'Name') }}</label>
-					<input type="text" value="" maxlength="300" id="addCategoryNameInput"
-						v-on:keyup.enter="onAddCategory"
-						ref="newCategoryName" :placeholder="t('cospend', 'Category name')"/>
-					<label for="addCategoryColorInput">{{ t('cospend', 'Color') }}</label>
-					<input type="color" value="" id="addCategoryColorInput" ref="newCategoryColor"/>
-					<button class="addCategoryOk" @click="onAddCategory">
-						<span class="icon-add"></span>
-						<span>{{ t('cospend', 'Add this category') }}</span>
-					</button>
-				</div>
-				<hr>
-			</div>
-			<br>
-			<label>
-				<a class="icon icon-category-app-bundles"></a>{{ t('cospend', 'Category list') }}
-			</label>
-			<div id="category-list" v-if="categories">
-				<Category
-					:editionAccess="editionAccess"
-					v-on:delete="onDeleteCategory"
-					v-on:edit="onEditCategory"
-					v-for="category in categories"
-					:key="category.id"
-					v-bind:category="category"/>
-			</div>
-			<div v-else class="no-categories">
-				{{ t('cospend', 'No categories to display') }}
-			</div>
-		</div>
-	</div>
+        <div id="categories-div">
+            <div id="add-category-div" v-show="editionAccess">
+                <label>
+                    <a class="icon icon-add"></a>{{ t('cospend', 'Add category') }}
+                </label>
+                <div id="add-category">
+                    <label for="addCategoryIconInput">{{ t('cospend', 'Icon') }}</label>
+                    <div id="add-icon-input-div">
+                        <input type="text" value="" maxlength="3" id="addCategoryIconInput" ref="newCategoryIcon"/>
+                        <button class="add-icon-button" @click="onIconButtonClick" ref="iconButton">🙂</button>
+                    </div>
+                    <label for="addCategoryNameInput">{{ t('cospend', 'Name') }}</label>
+                    <input type="text" value="" maxlength="300" id="addCategoryNameInput"
+                        v-on:keyup.enter="onAddCategory"
+                        ref="newCategoryName" :placeholder="t('cospend', 'Category name')"/>
+                    <label for="addCategoryColorInput">{{ t('cospend', 'Color') }}</label>
+                    <ColorPicker class="app-navigation-entry-bullet-wrapper" value="" @input="updateAddColor" ref="addcol">
+                        <input type="color" value="" v-on:click.prevent :readonly="true" id="addCategoryColorInput" ref="newCategoryColor"/>
+                    </ColorPicker>
+                    <button class="addCategoryOk" @click="onAddCategory">
+                        <span class="icon-add"></span>
+                        <span>{{ t('cospend', 'Add this category') }}</span>
+                    </button>
+                </div>
+                <hr>
+            </div>
+            <br>
+            <label>
+                <a class="icon icon-category-app-bundles"></a>{{ t('cospend', 'Category list') }}
+            </label>
+            <div id="category-list" v-if="categories">
+                <Category
+                    :editionAccess="editionAccess"
+                    v-on:delete="onDeleteCategory"
+                    v-on:edit="onEditCategory"
+                    v-for="category in categories"
+                    :key="category.id"
+                    v-bind:category="category"/>
+            </div>
+            <div v-else class="no-categories">
+                {{ t('cospend', 'No categories to display') }}
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
 import cospend from './state';
 import Category from './components/Category';
+import { ColorPicker } from '@nextcloud/vue'
 import {generateUrl} from '@nextcloud/router';
 import {
     showSuccess,
@@ -59,10 +62,10 @@ export default {
     name: 'CategoryManagement',
 
     components: {
-        Category
+        Category, ColorPicker
     },
 
-	props: ['projectId'],
+    props: ['projectId'],
     data() {
         return {
             constants: constants,
@@ -86,21 +89,24 @@ export default {
         });
     },
     computed: {
-		project() {
-			return cospend.projects[this.projectId];
-		},
-		categories() {
-			return this.project.categories;
-		},
-		editionAccess() {
-			return (this.project.myaccesslevel >= constants.ACCESS.MAINTENER);
-		},
+        project() {
+            return cospend.projects[this.projectId];
+        },
+        categories() {
+            return this.project.categories;
+        },
+        editionAccess() {
+            return (this.project.myaccesslevel >= constants.ACCESS.MAINTENER);
+        },
         categoryList() {
             return Object.values(this.categories);
         }
     },
 
     methods: {
+        updateAddColor(color) {
+            this.$refs.newCategoryColor.value = color;
+        },
         onIconButtonClick() {
             this.picker.togglePicker(this.$refs.iconButton);
         },
@@ -164,8 +170,8 @@ export default {
                 data: req,
                 async: true
             }).done(function() {
-				that.$delete(that.categories, category.id);
-				that.$emit('categoryDeleted', category.id);
+                that.$delete(that.categories, category.id);
+                that.$emit('categoryDeleted', category.id);
             }).always(function() {
             }).fail(function(response) {
                 showError(
@@ -173,7 +179,7 @@ export default {
                     ': ' + response.responseJSON.message
                 );
             });
-		},
+        },
         onEditCategory(category, backupCategory) {
             if (category.name === null || category.name === '') {
                 showError(t('cospend', 'Category name should not be empty.'));

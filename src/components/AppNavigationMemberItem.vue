@@ -122,12 +122,10 @@ export default {
             this.$emit('memberEdited', this.projectId, this.member.id);
         },
         updateColor(color) {
-            console.log('uiiii '+color)
             this.member.color = color.replace('#', '');
             this.$emit('memberEdited', this.projectId, this.member.id);
         },
         onMenuColorClick() {
-            console.log('ccc')
             this.$refs.col.$el.querySelector('.trigger').click();
         },
     },

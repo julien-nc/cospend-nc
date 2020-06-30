@@ -12,6 +12,9 @@
         transform: none !important;
     }
 }
+#projectid, #password {
+    display: none;
+}
 #newBillButton {
     margin-top: 10px !important;
 }

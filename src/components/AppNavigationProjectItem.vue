@@ -23,7 +23,7 @@
         :forceMenu="false"
         >
         <template slot="counter">
-            <ActionButton icon="icon-shared" class="detailButton" @click="onShareClick">
+            <ActionButton v-if="!pageIsPublic" icon="icon-shared" class="detailButton" @click="onShareClick">
             </ActionButton>
             <ActionButton icon="icon-settings-dark" class="detailButton" @click="onDetailClick">
             </ActionButton>

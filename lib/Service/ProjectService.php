@@ -2283,41 +2283,45 @@ class ProjectService {
 
         $circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
         if ($circlesEnabled) {
-            $circleIdToName = [];
-            $cs = \OCA\Circles\Api\v1\Circles::listCircles(\OCA\Circles\Model\Circle::CIRCLES_ALL, '', 0);
-            foreach ($cs as $c) {
-                $circleUniqueId = $c->getUniqueId();
-                $circleName = $c->getName();
-                $circleIdToName[$circleUniqueId] = $circleName;
-            }
-
-            $qb = $this->dbconnection->getQueryBuilder();
-            $qb->select('projectid', 'userid', 'id', 'accesslevel')
-            ->from('cospend_shares', 'sh')
-            ->where(
-                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
-            )
-            ->andWhere(
-                $qb->expr()->eq('type', $qb->createNamedParameter('c', IQueryBuilder::PARAM_STR))
-            );
-            $req = $qb->execute();
-            while ($row = $req->fetch()){
-                $dbCircleId = $row['userid'];
-                $dbprojectId = $row['projectid'];
-                $dbId = $row['id'];
-                $dbAccessLevel = intval($row['accesslevel']);
-                if (array_key_exists($dbCircleId, $circleIdToName)) {
-                    array_push($shares, [
-                        'circleid' => $dbCircleId,
-                        'name' => $circleIdToName[$dbCircleId],
-                        'id' => $dbId,
-                        'accesslevel' => $dbAccessLevel,
-                        'type' => 'c'
-                    ]);
+            try {
+                $circleIdToName = [];
+                $cs = \OCA\Circles\Api\v1\Circles::listCircles(\OCA\Circles\Model\Circle::CIRCLES_ALL, '', 0);
+                foreach ($cs as $c) {
+                    $circleUniqueId = $c->getUniqueId();
+                    $circleName = $c->getName();
+                    $circleIdToName[$circleUniqueId] = $circleName;
                 }
+
+                $qb = $this->dbconnection->getQueryBuilder();
+                $qb->select('projectid', 'userid', 'id', 'accesslevel')
+                ->from('cospend_shares', 'sh')
+                ->where(
+                    $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+                )
+                ->andWhere(
+                    $qb->expr()->eq('type', $qb->createNamedParameter('c', IQueryBuilder::PARAM_STR))
+                );
+                $req = $qb->execute();
+                while ($row = $req->fetch()){
+                    $dbCircleId = $row['userid'];
+                    $dbprojectId = $row['projectid'];
+                    $dbId = $row['id'];
+                    $dbAccessLevel = intval($row['accesslevel']);
+                    if (array_key_exists($dbCircleId, $circleIdToName)) {
+                        array_push($shares, [
+                            'circleid' => $dbCircleId,
+                            'name' => $circleIdToName[$dbCircleId],
+                            'id' => $dbId,
+                            'accesslevel' => $dbAccessLevel,
+                            'type' => 'c'
+                        ]);
+                    }
+                }
+                $req->closeCursor();
+                $qb = $qb->resetQueryParts();
+            } catch (\Throwable $e) {
+                return [];
             }
-            $req->closeCursor();
-            $qb = $qb->resetQueryParts();
         }
         return $shares;
     }

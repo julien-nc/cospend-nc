@@ -17,27 +17,20 @@
 			</label>
         </div>
         <div class="one-category-edit" v-show="editMode">
-            <label>{{ t('cospend', 'Icon') }}</label>
             <div class="edit-icon-input-div">
                 <input type="text" v-model="category.icon" maxlength="3" class="editCategoryIconInput"
                     ref="editIconInput"/>
                 <button class="edit-icon-button" @click="onIconButtonClick" ref="iconButton">🙂</button>
             </div>
-            <label>{{ t('cospend', 'Name') }}</label>
             <input type="text" v-model="category.name" maxlength="300" @focus="$event.target.select()"
                     ref="cname" class="editCategoryNameInput" :placeholder="t('cospend', 'Category name')"/>
-            <label>{{ t('cospend', 'Color') }}</label>
             <input type="color" v-model="category.color" class="editCategoryColorInput"/>
-            <div>
-                <button class="editCategoryClose" @click="onClickCancel">
-                    <span class="icon-close"></span>
-                    <span>{{ t('cospend', 'Cancel') }}</span>
-                </button>
-                <button class="editCategoryOk" @click="onClickEditOk">
-                    <span class="icon-checkmark"></span>
-                    <span>{{ t('cospend', 'Save') }}</span>
-                </button>
-            </div>
+            <button class="editCategoryClose" @click="onClickCancel">
+                <span class="icon-history"></span>
+            </button>
+            <button class="editCategoryOk" @click="onClickEditOk">
+                <span class="icon-checkmark"></span>
+            </button>
         </div>
     </div>
 </template>
@@ -129,8 +122,8 @@ export default {
 <style scoped lang="scss">
 .one-category-edit {
     display: grid;
-    grid-template: 1fr / 200px 100px;
-    padding: 10px 0px 10px 20px;
+    grid-template: 1fr / 2fr 3fr 1fr 44px 44px;
+    padding: 10px 10px 10px 20px;
     background-color: var(--color-background-dark);
 }
 .one-category-edit label,
@@ -148,10 +141,6 @@ export default {
 }
 .editCategoryOk {
     background-color: #46ba61;
-    color: white;
-}
-.editCategoryClose {
-    background-color: #e9322d;
     color: white;
 }
 .one-category-label-icon {

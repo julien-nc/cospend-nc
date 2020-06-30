@@ -254,7 +254,7 @@ export default {
 }
 #add-category {
     display: grid;
-    grid-template: 1fr / 200px 130px;
+    grid-template: 1fr / 1fr 1fr;
 }
 .addCategoryRateHint {
     grid-column: 1/3;
@@ -265,5 +265,8 @@ export default {
 }
 #catTitle {
     padding: 20px 0px 20px 0px;
+}
+#addCategoryNameInput {
+    width: 100%;
 }
 </style>

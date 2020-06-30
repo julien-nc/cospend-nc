@@ -230,6 +230,7 @@ export default {
     padding: 0 12px 0 25px;
 }
 #manage-currencies .icon-currencies {
+    min-height: 18px !important;
     display: inline-block;
     padding: 0 12px 0 25px !important;
 }
@@ -241,10 +242,10 @@ export default {
 }
 #main-currency-edit {
     display: grid;
-    grid-template: 1fr / 150px 37px 37px;
+    grid-template: 1fr / 84% 1fr 1fr;
 }
 #main-currency-edit input[type=submit] {
-    margin-left: -5px;
+    margin-left: -15px;
     border-radius: 0;
     width: 36px !important;
 }
@@ -258,9 +259,8 @@ export default {
     margin-left: 37px;
 }
 #main-currency-label {
-    width: 160px;
     display: grid;
-    grid-template: 1fr / 1fr 1fr;
+    grid-template: 1fr / 90% 1fr;
 }
 #add-currency {
     display: grid;

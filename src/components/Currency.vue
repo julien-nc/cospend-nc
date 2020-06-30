@@ -15,26 +15,16 @@
 			</label>
         </div>
         <div class="one-currency-edit" v-show="editMode">
-            <label>{{ t('cospend', 'Name') }}</label>
             <input type="text" v-model="currency.name" maxlength="64" @focus="$event.target.select()"
                     ref="cname" class="editCurrencyNameInput" :placeholder="t('cospend', 'Currency name')"/>
-            <label>
-                {{ t('cospend', 'Exchange rate to main currency') }}
-                <br/>
-                {{ t('cospend', '(1 of this currency = X of main currency)') }}
-            </label>
             <input type="number" v-model="currency.exchange_rate"
                    class="editCurrencyRateInput" step="0.0001" min="0"/>
-            <div>
-                <button class="editCurrencyClose" @click="onClickCancel">
-                    <span class="icon-close"></span>
-                    <span>{{ t('cospend', 'Cancel') }}</span>
-                </button>
-                <button class="editCurrencyOk" @click="onClickEditOk">
-                    <span class="icon-checkmark"></span>
-                    <span>{{ t('cospend', 'Save') }}</span>
-                </button>
-            </div>
+            <button class="editCurrencyClose" @click="onClickCancel">
+                <span class="icon-history"></span>
+            </button>
+            <button class="editCurrencyOk" @click="onClickEditOk">
+                <span class="icon-checkmark"></span>
+            </button>
         </div>
     </div>
 </template>
@@ -103,8 +93,9 @@ export default {
 
 <style scoped lang="scss">
 .one-currency-edit {
-    grid-template: 1fr / 300px 100px;
-    padding: 10px 0px 10px 20px;
+    display: grid;
+    grid-template: 1fr / 1fr 1fr 44px 44px;
+    padding: 10px 10px 10px 20px;
     background-color: var(--color-background-dark);
 }
 .one-currency-edit label,
@@ -121,10 +112,6 @@ export default {
 }
 .editCurrencyOk {
     background-color: #46ba61;
-    color: white;
-}
-.editCurrencyClose {
-    background-color: #e9322d;
     color: white;
 }
 </style>

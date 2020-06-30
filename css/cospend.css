@@ -195,14 +195,10 @@ input[type=number] {
 #bill-list > .deleted {
     background-color: var(--color-background-darker);
 }
-#app-details-toggle:hover {
-    opacity: 1;
-}
-#app-navigation-toggle:focus {
-    opacity: 0.6;
-}
 #app-navigation-toggle {
 	border-radius: 50%;
+    background-color: var(--color-background-darker);
+    opacity: 1 !important;
 }
 #app-navigation-toggle:hover {
     background-color: var(--color-background-darker);

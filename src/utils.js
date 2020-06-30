@@ -216,12 +216,6 @@ export function generatePublicLinkToFile(targetPath, successCallback) {
     });
 }
 
-export function copyToClipboard(text) {
-    const dummy = $('<input id="dummycopy">').val(text).appendTo('body').select();
-    document.execCommand('copy');
-    $('#dummycopy').remove();
-}
-
 export function reload(msg) {
     showInfo(msg);
     new Timer(function() {

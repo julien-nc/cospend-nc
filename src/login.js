@@ -12,28 +12,32 @@
 
 import {generateUrl} from '@nextcloud/router';
 
-(function($, OC) {
-    'use strict';
+'use strict';
 
-    $(document).ready(function() {
-        const pageUrlWithProjectid = (document.URL.indexOf('/loginproject') !== -1);
-        if (!pageUrlWithProjectid) {
-            $('#passwordInput').val('');
-            $('#projectidInput').val('');
-            $('#projectidInput').focus().select();
-        } else {
-            $('#passwordInput').focus().select();
-        }
-        main();
-    });
+document.addEventListener('DOMContentLoaded', function(event) {
+    const pageUrlWithProjectid = (document.URL.indexOf('/loginproject') !== -1);
+    const pidInput = document.getElementById('projectidInput');
+    const pwdInput = document.getElementById('passwordInput');
 
-    function main() {
-        const url = generateUrl('/apps/cospend/project');
-        $('#loginform').attr('action', url);
-
-        if ($('#passwordInput').val().length > 0) {
-            $('#loginform').submit();
-        }
+    if (!pageUrlWithProjectid) {
+        pwdInput.value = '';
+        pidInput.value = '';
+        pidInput.focus();
+        pidInput.select();
+    } else {
+        pwdInput.focus();
+        pwdInput.select();
     }
+    main();
+});
 
-})(jQuery, OC);
+function main() {
+    const url = generateUrl('/apps/cospend/project');
+    const form = document.getElementById('loginform');
+    const pwdInput = document.getElementById('passwordInput');
+
+    form.setAttribute('action', url);
+    if (pwdInput.value.length > 0) {
+        form.submit();
+    }
+}

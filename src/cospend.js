@@ -30,74 +30,69 @@ import {
 import cospend from './state';
 
 
-(function($, OC) {
-    'use strict';
+'use strict';
 
-    function restoreOptions() {
-        const url = generateUrl('/apps/cospend/option-values');
-        const req = {};
-        let optionsValues = {};
-        $.ajax({
-            type: 'GET',
-            url: url,
-            data: req,
-            async: true
-        }).done(function(response) {
-            optionsValues = response.values;
-            if (optionsValues) {
-                for (const k in optionsValues) {
-                    if (k === 'selectedProject') {
-                        cospend.restoredCurrentProjectId = optionsValues[k];
-                    } else if (k === 'outputDirectory') {
-                        cospend.outputDirectory = optionsValues[k];
-                    }
+function restoreOptions() {
+    const url = generateUrl('/apps/cospend/option-values');
+    const req = {};
+    let optionsValues = {};
+    $.ajax({
+        type: 'GET',
+        url: url,
+        data: req,
+        async: true
+    }).done(function(response) {
+        optionsValues = response.values;
+        if (optionsValues) {
+            for (const k in optionsValues) {
+                if (k === 'selectedProject') {
+                    cospend.restoredCurrentProjectId = optionsValues[k];
+                } else if (k === 'outputDirectory') {
+                    cospend.outputDirectory = optionsValues[k];
                 }
             }
-            main();
-        }).fail(function() {
-            showError(
-                t('cospend', 'Failed to restore options values.')
-            );
-        });
-    }
-
-    $(document).ready(function() {
-        cospend.pageIsPublic = (document.URL.indexOf('/cospend/project') !== -1 || document.URL.indexOf('/cospend/s/') !== -1);
-        if (!cospend.pageIsPublic) {
-            restoreOptions();
-        } else {
-            cospend.projectid = $('#projectid').text();
-            cospend.password = $('#password').text();
-            cospend.restoredCurrentProjectId = cospend.projectid;
-            $('#projectid').html('');
-            $('#password').html('');
-            main();
         }
-        if (OCA.Theming) {
-            const c = OCA.Theming.color;
-            // invalid color
-            if (!c || (c.length !== 4 && c.length !== 7)) {
-                cospend.themeColor = '#0082C9';
-            }
-            // compact
-            else if (c.length === 4) {
-                cospend.themeColor = '#' + c[1] + c[1] + c[2] + c[2] + c[3] + c[3];
-            }
-            // normal
-            else if (c.length === 7) {
-                cospend.themeColor = c;
-            }
-        } else {
+        main();
+    }).fail(function() {
+        showError(
+            t('cospend', 'Failed to restore options values.')
+        );
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function(event) {
+    cospend.pageIsPublic = (document.URL.indexOf('/cospend/project') !== -1 || document.URL.indexOf('/cospend/s/') !== -1);
+    if (!cospend.pageIsPublic) {
+        restoreOptions();
+    } else {
+        cospend.projectid = document.getElementById('projectid').textContent;
+        cospend.password = document.getElementById('password').textContent;
+        cospend.restoredCurrentProjectId = cospend.projectid;
+        main();
+    }
+    if (OCA.Theming) {
+        const c = OCA.Theming.color;
+        // invalid color
+        if (!c || (c.length !== 4 && c.length !== 7)) {
             cospend.themeColor = '#0082C9';
         }
-        cospend.themeColorDark = hexToDarkerHex(cospend.themeColor);
-    });
-
-    function main() {
-        new Vue({
-            el: "#content",
-            render: h => h(App),
-        });
+        // compact
+        else if (c.length === 4) {
+            cospend.themeColor = '#' + c[1] + c[1] + c[2] + c[2] + c[3] + c[3];
+        }
+        // normal
+        else if (c.length === 7) {
+            cospend.themeColor = c;
+        }
+    } else {
+        cospend.themeColor = '#0082C9';
     }
+    cospend.themeColorDark = hexToDarkerHex(cospend.themeColor);
+});
 
-})(jQuery, OC);
+function main() {
+    new Vue({
+        el: "#content",
+        render: h => h(App),
+    });
+}

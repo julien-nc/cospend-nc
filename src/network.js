@@ -8,6 +8,42 @@ import {
     showError,
 } from '@nextcloud/dialogs'
 
+export function getOptionValues(successCB) {
+    const url = generateUrl('/apps/cospend/option-values');
+    const req = {};
+    axios.get(url, req)
+        .then(function (response) {
+            successCB(response.data);
+        })
+        .catch(function (error) {
+            showError(
+                t('cospend', 'Failed to restore options values.')
+            );
+        })
+        .then(function () {
+        });
+}
+
+export function setAllowAnonymousCreation(val) {
+    const url = generateUrl('/apps/cospend/allow-anonymous-creation');
+    const req = {
+        allow: val
+    };
+    axios.put(url, req)
+        .then(function (response) {
+            showSuccess(
+                t('cospend', 'Cospend setting saveddd.')
+            );
+        })
+        .catch(function (error) {
+            showError(
+                t('cospend', 'Failed to save Cospend setting.')
+            );
+        })
+        .then(function () {
+        });
+}
+
 export function exportProject(filename, projectid, projectName) {
     const req = {
         name: filename
@@ -211,5 +247,39 @@ export function editProject(project, password, successCB) {
             );
         })
         .then(function () {
+        });
+}
+
+export function saveBill(projectid, bill, successCB, doneCB) {
+    const req = {
+        what: bill.what,
+        comment: bill.comment,
+        timestamp: bill.timestamp,
+        payer: bill.payer_id,
+        payed_for: bill.owerIds.join(','),
+        amount: bill.amount,
+        repeat: bill.repeat,
+        repeatallactive: bill.repeatallactive ? 1 : 0,
+        repeatuntil: bill.repeatuntil,
+        paymentmode: bill.paymentmode,
+        categoryid: bill.categoryid
+    };
+    let url;
+    if (!cospend.pageIsPublic) {
+        url = generateUrl('/apps/cospend/projects/' + projectid +'/bills/' + bill.id);
+    } else {
+        url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills/' + bill.id);
+    }
+    axios.put(url, req)
+        .then(function (response) {
+            successCB();
+        })
+        .catch(function (error) {
+            showError(t('cospend', 'Failed to save bill') +
+                ': ' + error.response.request.responseText
+            );
+        })
+        .then(function () {
+            doneCB();
         });
 }

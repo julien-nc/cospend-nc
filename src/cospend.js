@@ -24,40 +24,30 @@ import {
     showError,
 } from '@nextcloud/dialogs'
 import {generateUrl} from '@nextcloud/router';
-import {
-    hexToDarkerHex,
-} from './utils';
+import {hexToDarkerHex} from './utils';
+import * as network from './network';
 import cospend from './state';
 
 
 'use strict';
 
 function restoreOptions() {
-    const url = generateUrl('/apps/cospend/option-values');
-    const req = {};
+    network.getOptionValues(getOptionValuesSuccess);
+}
+
+function getOptionValuesSuccess(response) {
     let optionsValues = {};
-    $.ajax({
-        type: 'GET',
-        url: url,
-        data: req,
-        async: true
-    }).done(function(response) {
-        optionsValues = response.values;
-        if (optionsValues) {
-            for (const k in optionsValues) {
-                if (k === 'selectedProject') {
-                    cospend.restoredCurrentProjectId = optionsValues[k];
-                } else if (k === 'outputDirectory') {
-                    cospend.outputDirectory = optionsValues[k];
-                }
+    optionsValues = response.values;
+    if (optionsValues) {
+        for (const k in optionsValues) {
+            if (k === 'selectedProject') {
+                cospend.restoredCurrentProjectId = optionsValues[k];
+            } else if (k === 'outputDirectory') {
+                cospend.outputDirectory = optionsValues[k];
             }
         }
-        main();
-    }).fail(function() {
-        showError(
-            t('cospend', 'Failed to restore options values.')
-        );
-    });
+    }
+    main();
 }
 
 document.addEventListener('DOMContentLoaded', function(event) {

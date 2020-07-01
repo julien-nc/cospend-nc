@@ -263,6 +263,7 @@ import {
     delay, getCategory,
     getMemberName, getSmartMemberName, getMemberAvatar
 } from './utils';
+import * as network from './network';
 
 export default {
     name: 'BillForm',
@@ -513,43 +514,16 @@ export default {
             } else {
                 this.billLoading = true;
                 const bill = this.bill;
-                const req = {
-                    what: bill.what,
-                    comment: bill.comment,
-                    timestamp: bill.timestamp,
-                    payer: bill.payer_id,
-                    payed_for: bill.owerIds.join(','),
-                    amount: bill.amount,
-                    repeat: bill.repeat,
-                    repeatallactive: bill.repeatallactive ? 1 : 0,
-                    repeatuntil: bill.repeatuntil,
-                    paymentmode: bill.paymentmode,
-                    categoryid: bill.categoryid
-                };
-                let url;
-                if (!cospend.pageIsPublic) {
-                    url = generateUrl('/apps/cospend/projects/' + this.projectId +'/bills/' + bill.id);
-                } else {
-                    url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills/' + bill.id);
-                }
-                $.ajax({
-                    type: 'PUT',
-                    url: url,
-                    data: req,
-                    async: true,
-                }).done(function() {
-                    // to update balances
-                    that.$emit('billSaved', that.bill);
-                    showSuccess(t('cospend', 'Bill saved.'));
-                }).always(function() {
-                    that.billLoading = false;
-                }).fail(function(response) {
-                    showError(
-                        t('cospend', 'Failed to save bill') +
-                        ' ' + (response.responseJSON.message)
-                    );
-                });
+                network.saveBill(this.projectId, bill, this.saveBillSuccess, this.saveBillDone);
             }
+        },
+        saveBillSuccess() {
+            // to update balances
+            this.$emit('billSaved', this.bill);
+            showSuccess(t('cospend', 'Bill saved.'));
+        },
+        saveBillDone() {
+            this.billLoading = false;
         },
         onCurrencyConvert() {
             let currencyId = this.$refs.currencySelect.value;

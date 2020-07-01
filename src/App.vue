@@ -520,69 +520,22 @@ export default {
             showSuccess(t('cospend', 'Created member {name}', {name: name}));
         },
         editMember(projectid, memberid) {
-            const that = this;
             const member = this.members[projectid][memberid];
-            const req = {
-                name: member.name,
-                weight: member.weight,
-                activated: member.activated,
-                color: member.color,
-                userid: member.userid
-            };
-            let url;
-            if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects/' + projectid + '/members/' + memberid);
-            } else {
-                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/members/' + memberid);
-            }
-            $.ajax({
-                type: 'PUT',
-                url: url,
-                data: req,
-                async: true,
-            }).done(function(response) {
-                showSuccess(t('cospend', 'Member saved.'));
-                that.updateBalances(cospend.currentProjectId);
-            }).always(function() {
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to save member.') +
-                    ': ' + (response.responseJSON.message)
-                );
-            });
+            network.editMember(projectid, member, this.editMemberSuccess);
+        },
+        editMemberSuccess() {
+            showSuccess(t('cospend', 'Member saved.'));
+            this.updateBalances(cospend.currentProjectId);
         },
         editProject(projectid, password=null) {
-            const proj = this.projects[projectid];
-            const req = {
-                name: proj.name,
-                contact_email: null,
-                password: password,
-                autoexport: proj.autoexport,
-                currencyname: proj.currencyname
-            };
-            let url;
-            if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects/' + projectid);
-            } else {
-                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password);
+            const project = this.projects[projectid];
+            network.editProject(project, password, this.editProjectSuccess);
+        },
+        editProjectSuccess(password) {
+            if (password && cospend.pageIsPublic) {
+                cospend.password = newPassword;
             }
-            $.ajax({
-                type: 'PUT',
-                url: url,
-                data: req,
-                async: true,
-            }).done(function() {
-                if (password && cospend.pageIsPublic) {
-                    cospend.password = newPassword;
-                }
-                showSuccess(t('cospend', 'Project saved'));
-            }).always(function() {
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to edit project') +
-                    ': ' + (response.responseText)
-                );
-            });
+            showSuccess(t('cospend', 'Project saved'));
         },
         onCategoryDeleted(catid) {
             let bill;

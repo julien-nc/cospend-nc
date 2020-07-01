@@ -25,7 +25,7 @@
                 <option value="m">{{ t('cospend', 'Monthly') }}</option>
             </select>
         </div>
-        <AppNavigationItem v-if="!pageIsPublic" icon="icon-save" @click="onExportClick"
+        <AppNavigationItem v-if="!pageIsPublic" icon="icon-save" class="exportItem" @click="onExportClick"
             :title="t('cospend', 'Export project')"
         />
         <div>
@@ -385,5 +385,8 @@ export default {
             flex-grow: 1;
         }
     }
+}
+.exportItem {
+    z-index: 0;
 }
 </style>

@@ -109,6 +109,7 @@ return [
         ['name' => 'page#exportCsvStatistics', 'url' => '/export-csv-statistics/{projectid}', 'verb' => 'GET'],
         ['name' => 'page#exportCsvSettlement', 'url' => '/export-csv-settlement/{projectid}', 'verb' => 'GET'],
         ['name' => 'page#webGetProjects', 'url' => '/projects', 'verb' => 'GET'],
+        ['name' => 'page#webGetProjects', 'url' => '/getProjects', 'verb' => 'POST'],
         ['name' => 'page#webCreateProject', 'url' => '/projects', 'verb' => 'POST'],
         ['name' => 'page#webEditProject', 'url' => '/projects/{projectid}', 'verb' => 'PUT'],
         ['name' => 'page#webDeleteProject', 'url' => '/projects/{projectid}', 'verb' => 'DELETE'],

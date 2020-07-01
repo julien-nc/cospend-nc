@@ -386,3 +386,142 @@ export function importProject(targetPath, isSplitWise, successCB) {
         .then(function () {
         });
 }
+
+export function addCategory(projectid, name, icon, color, successCB) {
+    const req = {
+        name: name,
+        icon: icon,
+        color: color
+    };
+    let url;
+    if (!cospend.pageIsPublic) {
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/category');
+    } else {
+        url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/category');
+    }
+    axios.post(url, req)
+        .then(function (response) {
+            successCB(response.data, name, icon, color);
+        })
+        .catch(function (error) {
+            showError(t('cospend', 'Failed to add category') +
+                ': ' + error.response.request.responseText
+            );
+        })
+        .then(function () {
+            doneCB();
+        });
+}
+ export function deleteCategory(projectid, categoryid, successCB) {
+    let url;
+    if (!cospend.pageIsPublic) {
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/category/' + categoryid);
+    } else {
+        url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/category/' + categoryid);
+    }
+    axios.delete(url)
+        .then(function (response) {
+            successCB(categoryid);
+        })
+        .catch(function (error) {
+            showError(t('cospend', 'Failed to delete category') +
+                ': ' + error.response.request.responseText
+            );
+        })
+        .then(function () {
+        });
+ }
+
+export function editCategory(projectid, category, backupCategory, failCB) {
+    const req = {
+        name: category.name,
+        icon: category.icon,
+        color:category.color
+    };
+    let url;
+    if (!cospend.pageIsPublic) {
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/category/' + category.id);
+    } else {
+        url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/category/' + category.id);
+    }
+    axios.put(url, req)
+        .then(function (response) {
+        })
+        .catch(function (error) {
+            failCB(category, backupCategory);
+            showError(t('cospend', 'Failed to edit category') +
+                ': ' + error.response.request.responseText
+            );
+        })
+        .then(function () {
+        });
+}
+
+export function addCurrency(projectid, name, rate, successCB) {
+    const req = {
+        name: name,
+        rate: rate
+    };
+    let url;
+    if (!cospend.pageIsPublic) {
+        req.projectid = projectid;
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/currency');
+    } else {
+        url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/currency');
+    }
+    axios.post(url, req)
+        .then(function (response) {
+            successCB(response.data, name, rate);
+        })
+        .catch(function (error) {
+            showError(t('cospend', 'Failed to add currency') +
+                ': ' + error.response.request.responseText
+            );
+        })
+        .then(function () {
+        });
+}
+
+export function deleteCurrency(projectid, currency, successCB) {
+    let url;
+    if (!cospend.pageIsPublic) {
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/currency/' + currency.id);
+    } else {
+        url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/currency/' + currency.id);
+    }
+    axios.delete(url)
+        .then(function (response) {
+            successCB(currency);
+        })
+        .catch(function (error) {
+            showError(t('cospend', 'Failed to delete currency') +
+                ': ' + error.response.request.responseText
+            );
+        })
+        .then(function () {
+        });
+}
+
+export function editCurrency(projectid, currency, backupCurrency, failCB) {
+    const req = {
+        name: currency.name,
+        rate: currency.exchange_rate
+    };
+    let url;
+    if (!cospend.pageIsPublic) {
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/currency/' + currency.id);
+    } else {
+        url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/currency/' + currency.id);
+    }
+    axios.put(url, req)
+        .then(function (response) {
+        })
+        .catch(function (error) {
+            failCB(currency, backupCurrency);
+            showError(t('cospend', 'Failed to edit currency') +
+                ': ' + error.response.request.responseText
+            );
+        })
+        .then(function () {
+        });
+}

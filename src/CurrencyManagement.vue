@@ -72,6 +72,7 @@ import {
     showError,
 } from '@nextcloud/dialogs'
 import * as constants from './constants';
+import * as network from './network';
 
 export default {
     name: 'CurrencyManagement',
@@ -115,74 +116,33 @@ export default {
                 showError(t('cospend', 'Exchange rate should be a number.'));
                 return;
             }
-            const req = {
+            network.addCurrency(this.project.id, name, rate, this.addCurrencySuccess);
+        },
+        addCurrencySuccess(response, name, rate) {
+            this.project.currencies.push({
                 name: name,
-                rate: rate
-            };
-            let url;
-            if (!cospend.pageIsPublic) {
-                req.projectid = this.project.id;
-                url = generateUrl('/apps/cospend/projects/' + this.project.id + '/currency');
-            } else {
-                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/currency');
-            }
-            const that = this;
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: req,
-                async: true
-            }).done(function(response) {
-                that.project.currencies.push({
-                    name: name,
-                    exchange_rate: rate,
-                    id: response
-                });
-                showSuccess(t('cospend', 'Currency {n} added.', {n: name}));
-                that.$refs.newCurrencyName.value = '';
-                that.$refs.newCurrencyRate.value = 1;
-            }).always(function() {
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to add currency') +
-                    ': ' + (response.responseJSON.message || response.responseText)
-                );
+                exchange_rate: rate,
+                id: response
             });
+            showSuccess(t('cospend', 'Currency {n} added.', {n: name}));
+            this.$refs.newCurrencyName.value = '';
+            this.$refs.newCurrencyRate.value = 1;
         },
         onDeleteCurrency(currency) {
-            const that = this;
-            const req = {};
-            let url;
-            if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects/' + this.project.id + '/currency/' + currency.id);
-            } else {
-                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/currency/' + currency.id);
-            }
-            $.ajax({
-                type: 'DELETE',
-                url: url,
-                data: req,
-                async: true
-            }).done(function() {
-                let iToDel = null;
-                for (let i = 0; i < that.currencies.length; i++) {
-                    if (parseInt(that.currencies[i].id) === parseInt(currency.id)) {
-                        iToDel = i;
-                        break;
-                    }
-                }
-                if (iToDel !== null) {
-                    that.currencies.splice(iToDel, 1);
-                }
-            }).always(function() {
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to delete currency') +
-                    ': ' + response.responseJSON.message
-                );
-            });
+            network.deleteCurrency(this.project.id, currency, this.deleteCurrencySuccess);
         },
-
+        deleteCurrencySuccess(currency) {
+            let iToDel = null;
+            for (let i = 0; i < this.currencies.length; i++) {
+                if (parseInt(this.currencies[i].id) === parseInt(currency.id)) {
+                    iToDel = i;
+                    break;
+                }
+            }
+            if (iToDel !== null) {
+                this.currencies.splice(iToDel, 1);
+            }
+        },
         onEditCurrency(currency, backupCurrency) {
             if (currency.name === '') {
                 showError(t('cospend', 'Currency name should not be empty.'));
@@ -190,32 +150,12 @@ export default {
                 currency.exchange_rate = backupCurrency.exchange_rate;
                 return;
             }
-            const req = {
-                name: currency.name,
-                rate: currency.exchange_rate
-            };
-            let url;
-            if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects/' + this.project.id + '/currency/' + currency.id);
-            } else {
-                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/currency/' + currency.id);
-            }
-            $.ajax({
-                type: 'PUT',
-                url: url,
-                data: req,
-                async: true
-            }).done(function() {
-            }).always(function() {
-            }).fail(function(response) {
-                // backup
-                currency.name = backupCurrency.name;
-                currency.exchange_rate = backupCurrency.exchange_rate;
-                showError(
-                    t('cospend', 'Failed to edit currency') +
-                    '; ' + response.responseJSON.message || response.responseJSON
-                );
-            });
+            network.editCurrency(this.project.id, currency, backupCurrency, this.editCurrencyFail);
+        },
+        editCurrencyFail(currency, backupCurrency) {
+            // backup
+            currency.name = backupCurrency.name;
+            currency.exchange_rate = backupCurrency.exchange_rate;
         },
     },
 }

@@ -57,6 +57,7 @@ import {
 } from '@nextcloud/dialogs'
 import * as constants from './constants';
 import EmojiButton from '@joeattardi/emoji-button';
+import * as network from './network';
 
 export default {
     name: 'CategoryManagement',
@@ -118,67 +119,27 @@ export default {
                 showError(t('cospend', 'Category name should not be empty.'));
                 return;
             }
-            const req = {
+            network.addCategory(this.project.id, name, icon, color, this.addCategorySuccess);
+        },
+        addCategorySuccess(response, name, icon, color) {
+            // make sure to update vue
+            this.$set(this.categories, response, {
                 name: name,
                 icon: icon,
-                color: color
-            };
-            let url;
-            if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects/' + this.project.id + '/category');
-            } else {
-                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/category');
-            }
-            const that = this;
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: req,
-                async: true
-            }).done(function(response) {
-                // make sure to update vue
-                that.$set(that.categories, response, {
-                    name: name,
-                    icon: icon,
-                    color: color,
-                    id: response
-                });
-                showSuccess(t('cospend', 'Category {n} added.', {n: name}));
-                that.$refs.newCategoryName.value = '';
-                that.$refs.newCategoryColor.value = '';
-                that.$refs.newCategoryIcon.value = '';
-            }).always(function() {
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to add category') +
-                    ': ' + (response.responseJSON.message || response.responseText)
-                );
+                color: color,
+                id: response
             });
+            showSuccess(t('cospend', 'Category {n} added.', {n: name}));
+            this.$refs.newCategoryName.value = '';
+            this.$refs.newCategoryColor.value = '';
+            this.$refs.newCategoryIcon.value = '';
         },
         onDeleteCategory(category) {
-            const that = this;
-            const req = {};
-            let url;
-            if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects/' + this.project.id + '/category/' + category.id);
-            } else {
-                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/category/' + category.id);
-            }
-            $.ajax({
-                type: 'DELETE',
-                url: url,
-                data: req,
-                async: true
-            }).done(function() {
-                that.$delete(that.categories, category.id);
-                that.$emit('categoryDeleted', category.id);
-            }).always(function() {
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to delete category') +
-                    ': ' + response.responseJSON.message
-                );
-            });
+            network.deleteCategory(this.project.id, category.id, this.deleteCategorySuccess);
+        },
+        deleteCategorySuccess(categoryid) {
+            this.$delete(this.categories, categoryid);
+            this.$emit('categoryDeleted', categoryid);
         },
         onEditCategory(category, backupCategory) {
             if (category.name === null || category.name === '') {
@@ -188,33 +149,12 @@ export default {
                 category.color = backupCategory.color;
                 return;
             }
-            const req = {
-                name: category.name,
-                icon: category.icon,
-                color:category.color
-            };
-            let url;
-            if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects/' + this.project.id + '/category/' + category.id);
-            } else {
-                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/category/' + category.id);
-            }
-            $.ajax({
-                type: 'PUT',
-                url: url,
-                data: req,
-                async: true
-            }).done(function() {
-            }).always(function() {
-            }).fail(function(response) {
-                // backup
-                category.name = backupCategory.name;
-                category.exchange_rate = backupCategory.exchange_rate;
-                showError(
-                    t('cospend', 'Failed to edit category') +
-                    '; ' + response.responseJSON.message || response.responseJSON
-                );
-            });
+            network.editCategory(this.project.id, category, backupCategory, this.editCategoryFail);
+        },
+        editCategoryFail(category, backupCategory) {
+            // backup
+            category.name = backupCategory.name;
+            category.exchange_rate = backupCategory.exchange_rate;
         },
     },
 }

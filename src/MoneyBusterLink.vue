@@ -48,6 +48,7 @@ import {
     showError,
 } from '@nextcloud/dialogs'
 import cospend from './state';
+import * as network from './network';
 
 export default {
     name: 'MoneyBusterLink',
@@ -85,21 +86,15 @@ export default {
 
     methods: {
         onPasswordPressEnter() {
-            const that = this;
-            const url = generateUrl('/apps/cospend/checkpassword/' + this.project.id + '/' + this.password);
-            $.ajax({
-                type: 'GET',
-                url: url,
-                data: null,
-                async: true,
-            }).done(function(response) {
-                if (response) {
-                    that.validPassword = that.password;
-                } else {
-                    showError(t('cospend', 'Incorrect project password.'));
-                }
-            });
-        }
+            network.checkPassword(this.project.id, this.password, this.checkPasswordSuccess);
+        },
+        checkPasswordSuccess(response) {
+            if (response) {
+                this.validPassword = this.password;
+            } else {
+                showError(t('cospend', 'Incorrect project password.'));
+            }
+        },
     }
 }
 </script>

@@ -46,7 +46,9 @@ export function setAllowAnonymousCreation(val) {
 
 export function exportProject(filename, projectid, projectName) {
     const req = {
-        name: filename
+        params: {
+            name: filename
+        }
     };
     const url = generateUrl('/apps/cospend/export-csv-project/' + projectid);
 
@@ -281,5 +283,106 @@ export function saveBill(projectid, bill, successCB, doneCB) {
         })
         .then(function () {
             doneCB();
+        });
+}
+
+export function createBill(projectid, mode, req, billToCreate, successCB, doneCB) {
+    let url;
+    if (!cospend.pageIsPublic) {
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/bills');
+    } else {
+        url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills');
+    }
+    axios.post(url, req)
+        .then(function (response) {
+            successCB(response.data, billToCreate, mode);
+        })
+        .catch(function (error) {
+            showError(t('cospend', 'Failed to create bill') +
+                ': ' + error.response.request.responseText
+            );
+        })
+        .then(function () {
+            doneCB();
+        });
+}
+
+export function generatePublicLinkToFile(targetPath, successCB) {
+    const req = {
+        path: targetPath
+    };
+    const url = generateUrl('/apps/cospend/getPublicFileShare');
+    axios.post(url, req)
+        .then(function (response) {
+            successCB(response.data);
+        })
+        .catch(function (error) {
+            showError(t('cospend', 'Failed to generate public link to file') +
+                ': ' + error.response.request.responseText
+            );
+        })
+        .then(function () {
+        });
+}
+
+export function deleteBill(projectid, bill, successCB) {
+    const req = {};
+    let url;
+    if (!cospend.pageIsPublic) {
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/bills/' + bill.id);
+    } else {
+        url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills/' + bill.id);
+    }
+    axios.delete(url)
+        .then(function (response) {
+            successCB(bill);
+        })
+        .catch(function (error) {
+            showError(t('cospend', 'Failed to delete bill') +
+                ': ' + error.response.request.responseText
+            );
+        })
+        .then(function () {
+        });
+}
+
+export function checkPassword(projectid, password, successCB) {
+    const url = generateUrl('/apps/cospend/checkpassword/' + projectid + '/' + password);
+    axios.get(url)
+        .then(function (response) {
+            successCB(response.data);
+        })
+        .catch(function (error) {
+            showError(
+                t('cospend', 'Failed to check password.')
+            );
+        })
+        .then(function () {
+        });
+}
+
+export function importProject(targetPath, isSplitWise, successCB) {
+    const req = {
+        params: {
+            path: targetPath
+        }
+    };
+    let url;
+    if (isSplitWise) {
+        url = generateUrl('/apps/cospend/import-sw-project');
+    } else {
+        url = generateUrl('/apps/cospend/import-csv-project');
+    }
+    axios.get(url, req)
+        .then(function (response) {
+            successCB(response.data);
+        })
+        .catch(function (error) {
+            showError(t('cospend', 'Failed to import project file.' +
+                ': ' + error.response.request.responseText
+                )
+            );
+        })
+        .then(function () {
         });
 }

@@ -81,6 +81,7 @@ import {
     showSuccess,
     showError,
 } from '@nextcloud/dialogs'
+import * as network from '../network';
 
 export default {
     name: 'AppNavigation',
@@ -146,31 +147,11 @@ export default {
             );
         },
         importProject(targetPath, isSplitWise=false) {
-            const that = this;
-            const req = {
-                path: targetPath
-            };
-            let url;
-            if (isSplitWise) {
-                url = generateUrl('/apps/cospend/import-sw-project');
-            } else {
-                url = generateUrl('/apps/cospend/import-csv-project');
-            }
-            $.ajax({
-                type: 'GET',
-                url: url,
-                data: req,
-                async: true
-            }).done(function(response) {
-                that.$emit('projectImported', response)
-                showSuccess(t('cospend', 'Project imported.'))
-            }).always(function() {
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to import project file') +
-                    ': ' + response.responseJSON.message
-                );
-            });
+            network.importProject(targetPath, isSplitWise, this.importProjectSuccess);
+        },
+        importProjectSuccess(response) {
+            this.$emit('projectImported', response)
+            showSuccess(t('cospend', 'Project imported.'))
         },
         async onGuestLinkClick() {
             try {

@@ -35,6 +35,7 @@ import {
 } from '@nextcloud/dialogs'
 import cospend from './state';
 import * as constants from './constants';
+import * as network from './network';
 
 export default {
     name: 'BillList',
@@ -91,31 +92,13 @@ export default {
             }
         },
         deleteBill(bill) {
-            const that = this;
-            const req = {};
-            let url;
-            if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects/' + this.projectId + '/bills/' + bill.id);
-            } else {
-                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills/' + bill.id);
-            }
-            $.ajax({
-                type: 'DELETE',
-                url: url,
-                data: req,
-                async: true,
-            }).done(function() {
-                that.$emit('itemDeleted', bill);
-                //updateProjectBalances(projectid);
-                showSuccess(t('cospend', 'Bill deleted.'));
-            }).always(function() {
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to delete bill') +
-                    ': ' + response.responseJSON
-                );
-            });
-        }
+            network.deleteBill(this.projectId, bill, this.deleteBillSuccess);
+        },
+        deleteBillSuccess(bill) {
+            this.$emit('itemDeleted', bill);
+            //updateProjectBalances(projectid);
+            showSuccess(t('cospend', 'Bill deleted.'));
+        },
     }
 }
 </script>

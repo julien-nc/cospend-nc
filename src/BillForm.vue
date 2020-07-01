@@ -697,35 +697,21 @@ export default {
                 categoryid: categoryid
             };
             this.billLoading = true;
-            let url;
-            if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects/' + this.projectId + '/bills');
-            } else {
-                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills');
-            }
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: req,
-                async: true,
-            }).done(function(response) {
-                const billid = response;
-                // update dict
-                // TODO use $set
-                //that.$set(cospend.bills[this.projectId], billid, {
+            network.createBill(this.projectId, mode, req, billToCreate, this.createBillSuccess, this.createBillDone);
+        },
+        createBillSuccess(response, billToCreate, mode) {
+            const billid = response;
+            // update dict
+            // TODO use $set
+            //that.$set(cospend.bills[this.projectId], billid, {
 
-                billToCreate.id = billid;
-                that.$emit('billCreated', billToCreate, (mode === 'normal' || mode === 'mainPerso'));
-                //updateProjectBalances(that.projectId);
-                showSuccess(t('cospend', 'Bill created.'));
-            }).always(function() {
-                that.billLoading = false;
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to create bill') +
-                    ': ' + (response.responseJSON.message || response.responseText)
-                );
-            });
+            billToCreate.id = billid;
+            this.$emit('billCreated', billToCreate, (mode === 'normal' || mode === 'mainPerso'));
+            //updateProjectBalances(that.projectId);
+            showSuccess(t('cospend', 'Bill created.'));
+        },
+        createBillDone() {
+            this.billLoading = false;
         },
         getPersonalParts() {
             const result = {};
@@ -766,32 +752,16 @@ export default {
             );
         },
         generatePublicLinkToFile(targetPath) {
-            const that = this;
-            const req = {
-                path: targetPath
-            };
-            const url = generateUrl('/apps/cospend/getPublicFileShare');
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: req,
-                async: true
-            }).done(function(response) {
-                const filePublicUrl = window.location.protocol + '//' + window.location.host + generateUrl('/s/' + response.token);
+            network.generatePublicLinkToFile(targetPath, this.genSuccess);
+        },
+        genSuccess(response) {
+            const filePublicUrl = window.location.protocol + '//' + window.location.host + generateUrl('/s/' + response.token);
 
-                let what = that.bill.what;
-                what = what + ' ' + filePublicUrl;
-                that.bill.what = what;
-                that.onBillEdited();
-            }).always(function() {
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to generate public link to file') +
-                    ': ' + response.responseText
-                );
-            });
-        }
-
+            let what = this.bill.what;
+            what = what + ' ' + filePublicUrl;
+            this.bill.what = what;
+            this.onBillEdited();
+        },
     }
 }
 </script>

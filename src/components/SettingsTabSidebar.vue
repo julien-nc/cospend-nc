@@ -94,6 +94,7 @@ import {
 } from '@nextcloud/dialogs'
 import cospend from '../state';
 import * as constants from '../constants';
+import * as network from '../network';
 import { Timer } from '../utils';
 
 export default {
@@ -242,44 +243,36 @@ export default {
             }
         },
         loadUsers() {
-            const that = this;
-            const url = generateUrl('/apps/cospend/user-list');
-            $.ajax({
-                type: 'GET',
-                url: url,
-                data: {},
-                async: true
-            }).done(function(response) {
-                const data = [];
-                let d, name, id;
-                for (id in response.users) {
-                    name = response.users[id];
-                    d = {
-                        id: id,
-                        name: name,
-                        type: 'u',
-                    };
-                    if (id !== name) {
-                        d.label = name + ' (' + id + ')';
-                        d.value = name + ' (' + id + ')';
-                    } else {
-                        d.label = name;
-                        d.value = name;
-                    }
-                    data.push(d);
-                }
-                // add current user
-                const cu = getCurrentUser();
-                data.push({
-                    id: cu.uid,
-                    name: cu.displayName,
-                    label: (cu.uid !== cu.displayName) ? (cu.displayName + ' (' + cu.uid + ')') : cu.uid,
+            network.loadUsers(this.loadUsersSuccess);
+        },
+        loadUsersSuccess(response) {
+            const data = [];
+            let d, name, id;
+            for (id in response.users) {
+                name = response.users[id];
+                d = {
+                    id: id,
+                    name: name,
                     type: 'u',
-                });
-                that.users = data;
-            }).fail(function() {
-                showError(t('cospend', 'Failed to get user list.'));
+                };
+                if (id !== name) {
+                    d.label = name + ' (' + id + ')';
+                    d.value = name + ' (' + id + ')';
+                } else {
+                    d.label = name;
+                    d.value = name;
+                }
+                data.push(d);
+            }
+            // add current user
+            const cu = getCurrentUser();
+            data.push({
+                id: cu.uid,
+                name: cu.displayName,
+                label: (cu.uid !== cu.displayName) ? (cu.displayName + ' (' + cu.uid + ')') : cu.uid,
+                type: 'u',
             });
+            this.users = data;
         },
         clickAddUserItem() {
             if (this.selectedAddUser === null) {

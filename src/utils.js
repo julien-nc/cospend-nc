@@ -149,26 +149,6 @@ export function getUrlParameter(sParam) {
     }
 }
 
-export function saveOptionValue(optionValues) {
-    if (!cospend.pageIsPublic) {
-        const req = {
-            options: optionValues
-        };
-        const url = generateUrl('/apps/cospend/option-value');
-        $.ajax({
-            type: 'PUT',
-            url: url,
-            data: req,
-            async: true
-        }).done(function() {
-        }).fail(function() {
-            showError(
-                t('cospend', 'Failed to save option values.')
-            );
-        });
-    }
-}
-
 /*
  * get key events
  */

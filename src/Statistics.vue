@@ -203,6 +203,7 @@ import {
 } from '@nextcloud/dialogs'
 import { getCategory, getMemberName, getSmartMemberName, getMemberAvatar } from './utils';
 import cospend from './state';
+import * as network from './network';
 import LineChartJs from './components/LineChartJs';
 import PieChartJs from './components/PieChartJs';
 import PolarChartJs from './components/PolarChartJs';
@@ -618,30 +619,19 @@ export default {
                 showDisabled: showDisabled ? '1' : '0',
                 currencyId: currencyId
             };
-            let url;
-            if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects/' + this.projectId + '/statistics');
-            } else {
-                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/statistics');
-            }
-            $.ajax({
-                type: 'GET',
-                url: url,
-                data: req,
-                async: true,
-            }).done(function(response) {
-                that.stats = response;
-                that.isFiltered = ((dateMin !== null && dateMin !== '')
-                    || (dateMax !== null && dateMax !== '')
-                    || (paymentMode !== null && paymentMode !== 'n')
-                    || (category !== null && parseInt(category) !== 0)
-                    || (amountMin !== null && amountMin !== '')
-                    || (amountMax !== null && amountMax !== '')
-                );
-            }).always(function() {
-            }).fail(function() {
-                showError(t('cospend', 'Failed to get statistics.'));
-            });
+            const isFiltered = (
+                   (dateMin !== null && dateMin !== '')
+                || (dateMax !== null && dateMax !== '')
+                || (paymentMode !== null && paymentMode !== 'n')
+                || (category !== null && parseInt(category) !== 0)
+                || (amountMin !== null && amountMin !== '')
+                || (amountMax !== null && amountMax !== '')
+            );
+            network.getStats(this.projectId, req, isFiltered, this.getStatsSuccess);
+        },
+        getStatsSuccess(response, isFiltered) {
+            this.stats = response;
+            this.isFiltered = isFiltered;
         },
         onExportClick() {
             this.loading = true;
@@ -666,22 +656,10 @@ export default {
                 showDisabled: showDisabled ? '1' : '0',
                 currencyId: currencyId
             };
-            const url = generateUrl('/apps/cospend/export-csv-statistics/'+ this.projectId);
-            $.ajax({
-                type: 'GET',
-                url: url,
-                data: req,
-                async: true
-            }).done(function(response) {
-                showSuccess(t('cospend', 'Project statistics exported in {path}', {path: response.path}));
-            }).always(function() {
-                that.loading = false;
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to export project statistics') +
-                    ': ' + response.responseJSON.message
-                );
-            });
+            network.exportStats(this.projectId, req, this.exportStatsDone);
+        },
+        exportStatsDone() {
+            this.loading = false;
         },
     }
 }

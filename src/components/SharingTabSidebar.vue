@@ -187,6 +187,7 @@ import {
 } from '@nextcloud/dialogs'
 import cospend from '../state';
 import * as constants from '../constants';
+import * as network from '../network';
 import { Timer } from '../utils';
 
 export default {
@@ -296,167 +297,97 @@ export default {
             this.loadSharees();
         },
         loadSharees() {
-            const that = this;
-            const url = generateUrl('/apps/cospend/user-list');
-            $.ajax({
-                type: 'GET',
-                url: url,
-                data: {},
-                async: true
-            }).done(function(response) {
-                cospend.userIdName = response.users;
-                cospend.groupIdName = response.groups;
-                cospend.circleIdName = response.circles;
-                const data = [];
-                let d, name, id;
-                for (id in response.users) {
-                    name = response.users[id];
-                    d = {
-                        id: id,
-                        name: name,
-                        type: 'u',
-                    };
-                    if (id !== name) {
-                        d.label = name + ' (' + id + ')';
-                        d.value = name + ' (' + id + ')';
-                    } else {
-                        d.label = name;
-                        d.value = name;
-                    }
-                    data.push(d);
-                }
-                for (id in response.groups) {
-                    name = response.groups[id];
-                    d = {
-                        id: id,
-                        name: name,
-                        type: 'g',
-                    };
-                    if (id !== name) {
-                        d.label = name + ' (' + id + ')';
-                        d.value = name + ' (' + id + ')';
-                    } else {
-                        d.label = name;
-                        d.value = name;
-                    }
-                    data.push(d);
-                }
-                for (id in response.circles) {
-                    name = response.circles[id];
-                    d = {
-                        id: id,
-                        name: name,
-                        type: 'c',
-                    };
+            network.loadUsers(this.loadShareesSuccess);
+        },
+        loadShareesSuccess(response) {
+            cospend.userIdName = response.users;
+            cospend.groupIdName = response.groups;
+            cospend.circleIdName = response.circles;
+            const data = [];
+            let d, name, id;
+            for (id in response.users) {
+                name = response.users[id];
+                d = {
+                    id: id,
+                    name: name,
+                    type: 'u',
+                };
+                if (id !== name) {
+                    d.label = name + ' (' + id + ')';
+                    d.value = name + ' (' + id + ')';
+                } else {
                     d.label = name;
                     d.value = name;
-                    data.push(d);
                 }
-                that.sharees = data;
-            }).fail(function() {
-                showError(t('cospend', 'Failed to get user list.'));
-            });
+                data.push(d);
+            }
+            for (id in response.groups) {
+                name = response.groups[id];
+                d = {
+                    id: id,
+                    name: name,
+                    type: 'g',
+                };
+                if (id !== name) {
+                    d.label = name + ' (' + id + ')';
+                    d.value = name + ' (' + id + ')';
+                } else {
+                    d.label = name;
+                    d.value = name;
+                }
+                data.push(d);
+            }
+            for (id in response.circles) {
+                name = response.circles[id];
+                d = {
+                    id: id,
+                    name: name,
+                    type: 'c',
+                };
+                d.label = name;
+                d.value = name;
+                data.push(d);
+            }
+            this.sharees = data;
         },
         clickShareeItem() {
             this.addSharedAccess(this.selectedSharee);
         },
         addSharedAccess(sh) {
-            const that = this;
-            const req = {};
-            let url;
-            if (sh.type === 'u') {
-                req.userid = sh.user;
-                url = generateUrl('/apps/cospend/projects/' + this.projectId + '/user-share');
-            } else if (sh.type === 'g') {
-                req.groupid = sh.user;
-                url = generateUrl('/apps/cospend/projects/' + this.projectId + '/group-share');
-            } else if (sh.type === 'c') {
-                req.circleid = sh.user;
-                url = generateUrl('/apps/cospend/projects/' + this.projectId + '/circle-share');
-            } else if (sh.type === 'l') {
-                url = generateUrl('/apps/cospend/projects/' + this.projectId + '/public-share');
-            }
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: req,
-                async: true
-            }).done(function(response) {
-                const newShAccess = {
-                    accesslevel: constants.ACCESS.PARTICIPANT,
-                    type: sh.type
-                };
-                newShAccess.id = response.id;
-                if (sh.type === 'l') {
-                    newShAccess.token = response.token;
-                } else {
-                    newShAccess.name = response.name;
-                    if (sh.type === 'u') {
-                        newShAccess.userid = sh.user;
-                    } else if (sh.type === 'g') {
-                        newShAccess.groupid = sh.user;
-                    } else if (sh.type === 'c') {
-                        newShAccess.circleid = sh.user;
-                    }
+            network.addSharedAccess(this.projectId, sh, this.addSharedAccessSuccess);
+        },
+        addSharedAccessSuccess(response, sh) {
+            const newShAccess = {
+                accesslevel: constants.ACCESS.PARTICIPANT,
+                type: sh.type
+            };
+            newShAccess.id = response.id;
+            if (sh.type === 'l') {
+                newShAccess.token = response.token;
+            } else {
+                newShAccess.name = response.name;
+                if (sh.type === 'u') {
+                    newShAccess.userid = sh.user;
+                } else if (sh.type === 'g') {
+                    newShAccess.groupid = sh.user;
+                } else if (sh.type === 'c') {
+                    newShAccess.circleid = sh.user;
                 }
-                that.project.shares.push(newShAccess);
-            }).always(function() {
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to add shared access') +
-                    ': ' + response.responseText
-                );
-            });
+            }
+            this.project.shares.push(newShAccess);
         },
         clickAccessLevel(access, level) {
-            const req = {
-                accesslevel: level
-            };
-            const url = generateUrl('/apps/cospend/projects/' + this.projectId + '/share-access-level/' + access.id);
-            $.ajax({
-                type: 'PUT',
-                url: url,
-                data: req,
-                async: true
-            }).done(function() {
-                access.accesslevel = level;
-            }).always(function() {
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to edit shared access level') +
-                    ': ' + response.responseText
-                );
-            });
+            network.setAccessLevel(this.projectId, access, level, this.setAccessLevelSuccess);
+        },
+        setAccessLevelSuccess(access, level) {
+            access.accesslevel = level;
         },
         clickDeleteAccess(access) {
-            const that = this;
-            const shid = access.id;
-            const req = {};
-            let url;
-            if (access.type === 'u') {
-                url = generateUrl('/apps/cospend/projects/' + this.projectId + '/user-share/' + shid);
-            } else if (access.type === 'g') {
-                url = generateUrl('/apps/cospend/projects/' + this.projectId + '/group-share/' + shid);
-            } else if (access.type === 'c') {
-                url = generateUrl('/apps/cospend/projects/' + this.projectId + '/circle-share/' + shid);
-            } else if (access.type === 'l') {
-                url = generateUrl('/apps/cospend/projects/' + this.projectId + '/public-share/' + shid);
-            }
-            $.ajax({
-                type: 'DELETE',
-                url: url,
-                data: req,
-                async: true
-            }).done(function() {
-                const index = that.shares.indexOf(access);
-                that.shares.splice(index, 1);
-            }).always(function() {
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to delete shared access') +
-                    ': ' + response.responseJSON.message
-                );
-            });
+            network.deleteAccess(this.projectId, access, this.deleteAccessSuccess);
+        },
+        deleteAccessSuccess(access) {
+            const index = this.shares.indexOf(access);
+            this.shares.splice(index, 1);
         },
         async copyLink(access) {
             const publicLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/s/' + access.token);
@@ -498,31 +429,11 @@ export default {
             }
         },
         clickGuestAccessLevel(level) {
-            const that = this;
-            const req = {
-                accesslevel: level
-            };
-            let url;
-            if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects/' + this.projectId + '/guest-access-level');
-            } else {
-                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/guest-access-level');
-            }
-            $.ajax({
-                type: 'PUT',
-                url: url,
-                data: req,
-                async: true
-            }).done(function() {
-                that.project.guestaccesslevel = level;
-                showSuccess(t('cospend', 'Guest access level changed.'))
-            }).always(function() {
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to edit guest access level') +
-                    ': ' + response.responseText
-                );
-            });
+            network.setGuestAccessLevel(this.projectId, level, this.setGuestAccessLevelSuccess);
+        },
+        setGuestAccessLevelSuccess(level) {
+            this.project.guestaccesslevel = level;
+            showSuccess(t('cospend', 'Guest access level changed.'))
         },
         onMBLinkClick() {
             this.$emit('mbLinkClicked');

@@ -99,7 +99,7 @@ import {
     showError,
 } from '@nextcloud/dialogs'
 import * as constants from './constants';
-import {rgbObjToHex, saveOptionValue, slugify} from './utils';
+import {rgbObjToHex, slugify} from './utils';
 import {
     Content, AppContent
 } from '@nextcloud/vue'
@@ -327,7 +327,7 @@ export default {
         onSaveOption(key, value) {
             const ov = {};
             ov[key] = value;
-            saveOptionValue(ov);
+            network.saveOptionValue(ov);
         },
         getMemberNames(projectid) {
             const res = [];
@@ -341,7 +341,7 @@ export default {
             this.currentBill = null;
             this.getBills(projectid);
             if (save) {
-                saveOptionValue({selectedProject: projectid});
+                network.saveOptionValue({selectedProject: projectid});
             }
             cospend.currentProjectId = projectid;
         },

@@ -32,7 +32,7 @@
                 <v-th sortKey="amount">{{ t('cospend', 'How much?') }}</v-th>
             </thead>
             <tbody slot="body" slot-scope="{displayData}">
-                <tr v-for="value in displayData" :key="value.from + value.to">
+                <tr v-for="value in displayData" :key="value.from + ':' + value.to">
                     <td :style="'border: 2px solid #' + myGetMemberColor(value.from) + ';'">
                         <div :class="'owerAvatar' + myGetAvatarClass(value.from)">
                             <div class="disabledMask"></div><img :src="myGetMemberAvatar(project.id, value.from)">
@@ -61,6 +61,7 @@ import {
 import {getMemberName, getSmartMemberName, getMemberAvatar} from './utils';
 import cospend from './state';
 import * as constants from './constants';
+import * as network from './network';
 
 export default {
     name: 'Settlement',
@@ -117,34 +118,16 @@ export default {
             this.getSettlement(e.target.value);
         },
         getSettlement(centeredOn=null) {
-            const that = this;
-            if (parseInt(centeredOn) === 0) {
-                centeredOn = null;
+            network.getSettlement(this.project.id, centeredOn, this.getSettlementSuccess, this.getSettlementFail);
+        },
+        getSettlementSuccess(response) {
+            if (Array.isArray(response) && response.length === 0) {
+                response = null;
             }
-            const req = {
-                centeredOn: centeredOn
-            };
-            let url;
-            if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects/' + this.project.id + '/settlement');
-            } else {
-                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/settle');
-            }
-            $.ajax({
-                type: 'GET',
-                url: url,
-                data: req,
-                async: true,
-            }).done(function(response) {
-                if (Array.isArray(response) && response.length === 0) {
-                    response = null;
-                }
-                that.transactions = response;
-            }).always(function() {
-            }).fail(function() {
-                that.transactions = null;
-                showError(t('cospend', 'Failed to get settlement.'));
-            });
+            this.transactions = response;
+        },
+        getSettlementFail() {
+            this.transactions = null;
         },
         onExportClick() {
             this.exportSettlement();
@@ -153,54 +136,19 @@ export default {
             this.autoSettlement();
         },
         autoSettlement() {
-            const that = this;
-            const req = {
-                centeredOn: (parseInt(this.centeredOn) === 0) ? null : this.centeredOn
-            };
-            let url, type;
-            if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects/'+ this.projectId +'/auto-settlement');
-            } else {
-                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/autosettlement');
-            }
-            $.ajax({
-                type: 'GET',
-                url: url,
-                data: req,
-                async: true
-            }).done(function() {
-                that.$emit('autoSettled', that.projectId)
-                showSuccess(t('cospend', 'Project settlement bills added.'));
-                that.transactions = [];
-                that.centeredOn = 0;
-            }).always(function() {
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to add project settlement bills') +
-                    ': ' + response.responseJSON.message
-                );
-            });
+            network.autoSettlement(this.projectId, this.centeredOn, this.autoSettlementSuccess);
+        },
+        autoSettlementSuccess() {
+            this.$emit('autoSettled', this.projectId)
+            showSuccess(t('cospend', 'Project settlement bills added.'));
+            this.transactions = [];
+            this.centeredOn = 0;
         },
         exportSettlement() {
-            const that = this;
-            const req = {
-                centeredOn: (parseInt(this.centeredOn) === 0) ? null : this.centeredOn
-            };
-            const url = generateUrl('/apps/cospend/export-csv-settlement/' + this.projectId);
-            $.ajax({
-                type: 'GET',
-                url: url,
-                data: req,
-                async: true
-            }).done(function(response) {
-                showSuccess(t('cospend', 'Project settlement exported in {path}', {path: response.path}));
-            }).always(function() {
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to export project settlement') +
-                    ': ' + response.responseJSON.message
-                );
-            });
+            network.exportSettlement(this.projectId, this.centeredOn, this.exportSettlementSuccess);
+        },
+        exportSettlementSuccess(response) {
+            showSuccess(t('cospend', 'Project settlement exported in {path}', {path: response.path}));
         },
     }
 }

@@ -24,6 +24,25 @@ export function getOptionValues(successCB) {
         });
 }
 
+export function saveOptionValue(optionValues) {
+    if (!cospend.pageIsPublic) {
+        const req = {
+            options: optionValues
+        };
+        const url = generateUrl('/apps/cospend/option-value');
+        axios.put(url, req)
+            .then(function (response) {
+            })
+            .catch(function (error) {
+                showError(t('cospend', 'Failed to save option values') +
+                    ': ' + error.response.request.responseText
+                );
+            })
+            .then(function () {
+            });
+    }
+}
+
 export function setAllowAnonymousCreation(val) {
     const url = generateUrl('/apps/cospend/allow-anonymous-creation');
     const req = {
@@ -32,7 +51,7 @@ export function setAllowAnonymousCreation(val) {
     axios.put(url, req)
         .then(function (response) {
             showSuccess(
-                t('cospend', 'Cospend setting saveddd.')
+                t('cospend', 'Cospend setting saved.')
             );
         })
         .catch(function (error) {
@@ -519,6 +538,232 @@ export function editCurrency(projectid, currency, backupCurrency, failCB) {
         .catch(function (error) {
             failCB(currency, backupCurrency);
             showError(t('cospend', 'Failed to edit currency') +
+                ': ' + error.response.request.responseText
+            );
+        })
+        .then(function () {
+        });
+}
+
+export function getStats(projectid, params, isFiltered, successCB) {
+    const req = {
+        params: params
+    }
+    let url;
+    if (!cospend.pageIsPublic) {
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/statistics');
+    } else {
+        url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/statistics');
+    }
+    axios.get(url, req)
+        .then(function (response) {
+            successCB(response.data, isFiltered);
+        })
+        .catch(function (error) {
+            showError(
+                t('cospend', 'Failed to get statistics.')
+            );
+        })
+        .then(function () {
+        });
+}
+
+export function exportStats(projectid, params, doneCB) {
+    const req = {
+        params: params
+    }
+    const url = generateUrl('/apps/cospend/export-csv-statistics/'+ projectid);
+    axios.get(url, req)
+        .then(function (response) {
+            showSuccess(t('cospend', 'Project statistics exported in {path}', {path: response.data.path}));
+        })
+        .catch(function (error) {
+            showError(t('cospend', 'Failed to export project statistics') +
+                ': ' + error.response.request.responseText
+            );
+        })
+        .then(function () {
+            doneCB();
+        });
+}
+
+export function getSettlement(projectid, centeredOn, successCB, failCB) {
+    if (parseInt(centeredOn) === 0) {
+        centeredOn = null;
+    }
+    const req = {
+        params: {
+            centeredOn: centeredOn
+        }
+    };
+    let url;
+    if (!cospend.pageIsPublic) {
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/settlement');
+    } else {
+        url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/settle');
+    }
+    axios.get(url, req)
+        .then(function (response) {
+            successCB(response.data);
+        })
+        .catch(function (error) {
+            failCB();
+            showError(t('cospend', 'Failed to get settlement') +
+                ': ' + error.response.request.responseText
+            );
+        })
+        .then(function () {
+        });
+}
+
+export function autoSettlement(projectid, centeredOn, successCB) {
+    const req = {
+        params: {
+            centeredOn: (parseInt(centeredOn) === 0) ? null : centeredOn
+        }
+    };
+    let url;
+    if (!cospend.pageIsPublic) {
+        url = generateUrl('/apps/cospend/projects/'+ projectid +'/auto-settlement');
+    } else {
+        url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/autosettlement');
+    }
+    axios.get(url, req)
+        .then(function (response) {
+            successCB();
+        })
+        .catch(function (error) {
+            showError(t('cospend', 'Failed to add project settlement bills') +
+                ': ' + error.response.request.responseText
+            );
+        })
+        .then(function () {
+        });
+}
+
+export function exportSettlement(projectid, centeredOn, successCB) {
+    const req = {
+        params: {
+            centeredOn: (parseInt(centeredOn) === 0) ? null : centeredOn
+        }
+    };
+    const url = generateUrl('/apps/cospend/export-csv-settlement/' + projectid);
+    axios.get(url, req)
+        .then(function (response) {
+            successCB(response.data);
+        })
+        .catch(function (error) {
+            showError(t('cospend', 'Failed to export project settlement') +
+                ': ' + error.response.request.responseText
+            );
+        })
+        .then(function () {
+        });
+}
+
+export function loadUsers(successCB) {
+    const url = generateUrl('/apps/cospend/user-list');
+    axios.get(url)
+        .then(function (response) {
+            successCB(response.data);
+        })
+        .catch(function (error) {
+            showError(t('cospend', 'Failed to get user list') +
+                ': ' + error.response.request.responseText
+            );
+        })
+        .then(function () {
+        });
+}
+
+export function addSharedAccess(projectid, sh, successCB) {
+    const req = {};
+    let url;
+    if (sh.type === 'u') {
+        req.userid = sh.user;
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/user-share');
+    } else if (sh.type === 'g') {
+        req.groupid = sh.user;
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/group-share');
+    } else if (sh.type === 'c') {
+        req.circleid = sh.user;
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/circle-share');
+    } else if (sh.type === 'l') {
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/public-share');
+    }
+    axios.post(url, req)
+        .then(function (response) {
+            successCB(response.data, sh);
+        })
+        .catch(function (error) {
+            showError(t('cospend', 'Failed to add shared access') +
+                ': ' + error.response.request.responseText
+            );
+        })
+        .then(function () {
+        });
+}
+
+export function setAccessLevel(projectid, access, level, successCB) {
+    const req = {
+        accesslevel: level
+    };
+    const url = generateUrl('/apps/cospend/projects/' + projectid + '/share-access-level/' + access.id);
+    axios.put(url, req)
+        .then(function (response) {
+            successCB(access, level);
+        })
+        .catch(function (error) {
+            showError(t('cospend', 'Failed to edit shared access level') +
+                ': ' + error.response.request.responseText
+            );
+        })
+        .then(function () {
+        });
+}
+
+export function deleteAccess(projectid, access, successCB) {
+    const shid = access.id;
+    const req = {};
+    let url;
+    if (access.type === 'u') {
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/user-share/' + shid);
+    } else if (access.type === 'g') {
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/group-share/' + shid);
+    } else if (access.type === 'c') {
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/circle-share/' + shid);
+    } else if (access.type === 'l') {
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/public-share/' + shid);
+    }
+    axios.delete(url)
+        .then(function (response) {
+            successCB(access);
+        })
+        .catch(function (error) {
+            showError(t('cospend', 'Failed to delete shared access') +
+                ': ' + error.response.request.responseText
+            );
+        })
+        .then(function () {
+        });
+}
+
+export function setGuestAccessLevel(projectid, level, successCB) {
+    const req = {
+        accesslevel: level
+    };
+    let url;
+    if (!cospend.pageIsPublic) {
+        url = generateUrl('/apps/cospend/projects/' + projectid + '/guest-access-level');
+    } else {
+        url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/guest-access-level');
+    }
+    axios.put(url, req)
+        .then(function (response) {
+            successCB(level);
+        })
+        .catch(function (error) {
+            showError(t('cospend', 'Failed to edit guest access level') +
                 ': ' + error.response.request.responseText
             );
         })

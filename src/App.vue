@@ -91,6 +91,7 @@ import Statistics from './Statistics';
 import Settlement from './Settlement';
 import Sidebar from './components/Sidebar';
 import cospend from './state';
+import * as network from './network';
 import {generateUrl} from '@nextcloud/router';
 import {getCurrentUser} from '@nextcloud/auth';
 import {
@@ -280,24 +281,7 @@ export default {
             const timeStamp = Math.floor(Date.now());
             const dateStr = moment(timeStamp).format('YYYY-MM-DD');
             const filename = projectid + '_' + dateStr + '.csv';
-            const req = {
-                name: filename
-            };
-            const url = generateUrl('/apps/cospend/export-csv-project/' + projectid);
-            $.ajax({
-                type: 'GET',
-                url: url,
-                data: req,
-                async: true
-            }).done(function(response) {
-                showSuccess(t('cospend', 'Project {name} exported in {path}', {name: projectName, path: response.path}));
-            }).always(function() {
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to export project') +
-                    ': ' + response.responseJSON.message
-                );
-            });
+            network.exportProject(filename, projectid, projectName);
         },
         onQrcodeClicked() {
             if (cospend.currentProjectId !== null) {
@@ -419,45 +403,25 @@ export default {
             this.mode = 'edition';
         },
         getProjects() {
-            const that = this;
-            const req = {};
-            let url;
+            network.getProjects(this.getProjectsSuccess);
+        },
+        getProjectsSuccess(response) {
             if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects');
-            } else {
-                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password);
-            }
-            $.ajax({
-                type: 'GET',
-                url: url,
-                data: req,
-                async: true
-            }).done(function(response) {
-                if (!cospend.pageIsPublic) {
-                    let proj;
-                    for (let i = 0; i < response.length; i++) {
-                        proj = response[i];
-                        that.addProject(proj);
-                    }
-                    if (cospend.restoredCurrentProjectId !== null && cospend.restoredCurrentProjectId in that.projects) {
-                        that.selectProject(cospend.restoredCurrentProjectId, false);
-                    }
-                } else {
-                    if (!response.myaccesslevel) {
-                        response.myaccesslevel = response.guestaccesslevel;
-                    }
-                    that.addProject(response);
-                    that.selectProject(response.id, false);
-                    //that.projects[response.id] = response;
-                    //that.$set(cospend.projects, response.id, response);
-                    //cospend.currentProjectId = cospend.projectid;
+                let proj;
+                for (let i = 0; i < response.length; i++) {
+                    proj = response[i];
+                    this.addProject(proj);
                 }
-            }).always(function() {
-            }).fail(function(response) {
-                showError(t('cospend', 'Failed to get projects') +
-                    ': ' + (response.responseJSON)
-                );
-            });
+                if (cospend.restoredCurrentProjectId !== null && cospend.restoredCurrentProjectId in this.projects) {
+                    this.selectProject(cospend.restoredCurrentProjectId, false);
+                }
+            } else {
+                if (!response.myaccesslevel) {
+                    response.myaccesslevel = response.guestaccesslevel;
+                }
+                this.addProject(response);
+                this.selectProject(response.id, false);
+            }
         },
         getBills(projectid) {
             this.billsLoading = true;

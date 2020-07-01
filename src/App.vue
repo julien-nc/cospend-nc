@@ -77,7 +77,6 @@
             @categoryDeleted="onCategoryDeleted"
             />
         <!--router-view name="sidebar" /-->
-        <img id="dummylogo"/>
     </Content>
 </template>
 
@@ -542,7 +541,6 @@ export default {
                 that.addProject(response);
                 that.selectProject(response.id);
             }).always(function() {
-                $('#createproject').removeClass('icon-loading-small');
             }).fail(function(response) {
                 showError(t('cospend', 'Failed to create project') + ': ' + response.responseJSON.message);
             });

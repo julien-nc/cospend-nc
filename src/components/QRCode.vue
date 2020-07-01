@@ -5,6 +5,7 @@
 
 <script>
 import kjua from 'kjua';
+import { imagePath } from '@nextcloud/router';
 
 export default {
     name: 'QRCode',
@@ -79,8 +80,7 @@ export default {
                 that.$refs.qrcodediv.appendChild(qr);
             };
 
-            // dirty trick to get image URL from css url()... Anyone knows better ?
-            img.src = $('#dummylogo').css('content').replace('url("', '').replace('")', '');
+            img.src = imagePath('cospend', 'cospend.png');
         }
     }
 }

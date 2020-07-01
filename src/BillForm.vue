@@ -26,7 +26,7 @@
                         @input="onBillEdited"
                         :placeholder="t('cospend', 'What is the bill about?')"/>
                 </div>
-                <button id="addFileLinkButton" v-if="!pageIsPublic">
+                <button id="addFileLinkButton" v-if="!pageIsPublic" @click="onGeneratePubLinkClick">
                     <span class="icon-public"></span>{{ t('cospend', 'Attach public link to personal file') }}
                 </button>
                 <div class="bill-amount">
@@ -260,7 +260,7 @@ import {
 import * as constants from './constants';
 import {} from './utils';
 import {
-    delay, generatePublicLinkToFile, getCategory,
+    delay, getCategory,
     getMemberName, getSmartMemberName, getMemberAvatar
 } from './utils';
 
@@ -781,6 +781,43 @@ export default {
             }
             this.bill.amount = sum;
         },
+        onGeneratePubLinkClick() {
+            const that = this;
+            OC.dialogs.filepicker(
+                t('cospend', 'Choose file'),
+                function(targetPath) {
+                    that.generatePublicLinkToFile(targetPath);
+                },
+                false, null, true
+            );
+        },
+        generatePublicLinkToFile(targetPath) {
+            const that = this;
+            const req = {
+                path: targetPath
+            };
+            const url = generateUrl('/apps/cospend/getPublicFileShare');
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: req,
+                async: true
+            }).done(function(response) {
+                const filePublicUrl = window.location.protocol + '//' + window.location.host + generateUrl('/s/' + response.token);
+
+                let what = that.bill.what;
+                what = what + ' ' + filePublicUrl;
+                that.bill.what = what;
+                that.onBillEdited();
+            }).always(function() {
+            }).fail(function(response) {
+                showError(
+                    t('cospend', 'Failed to generate public link to file') +
+                    ': ' + response.responseText
+                );
+            });
+        }
+
     }
 }
 </script>

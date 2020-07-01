@@ -34,8 +34,9 @@ function setAllowAnonymousCreation(val) {
     });
 }
 
-$(document).ready(function() {
-    $('body').on('change', 'input#allowAnonymousCreation', function() {
-        setAllowAnonymousCreation($(this).is(':checked') ? '1' : '0');
+document.addEventListener('DOMContentLoaded', function(event) {
+    const anonyCheck = document.getElementById('allowAnonymousCreation');
+    anonyCheck.addEventListener('change', (event) => {
+        setAllowAnonymousCreation(event.target.checked ? '1' : '0');
     });
 });

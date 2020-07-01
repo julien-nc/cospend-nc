@@ -186,36 +186,6 @@ export function checkKey(e) {
     }
 }
 
-export function generatePublicLinkToFile(targetPath, successCallback) {
-    $('.loading-bill').addClass('icon-loading-small');
-    const req = {
-        path: targetPath
-    };
-    const url = generateUrl('/apps/cospend/getPublicFileShare');
-    $.ajax({
-        type: 'POST',
-        url: url,
-        data: req,
-        async: true
-    }).done(function(response) {
-        $('.loading-bill').removeClass('icon-loading-small');
-
-        const filePublicUrl = window.location.protocol + '//' + window.location.host + generateUrl('/s/' + response.token);
-
-        let what = $('#what').val();
-        what = what + ' ' + filePublicUrl;
-        $('#what').val(what);
-        successCallback();
-    }).always(function() {
-    }).fail(function(response) {
-        $('.loading-bill').removeClass('icon-loading-small');
-        showError(
-            t('cospend', 'Failed to generate public link to file') +
-            ': ' + response.responseJSON.message
-        );
-    });
-}
-
 export function reload(msg) {
     showInfo(msg);
     new Timer(function() {

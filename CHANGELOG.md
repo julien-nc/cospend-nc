@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.0.1 – 2020-07-01
+### Fixed
+- restore old route to allow MoneyBuster getting project list
+
 ## 1.0.0 – 2020-07-01
 ### Changed
 - complete UI rewrite in Vue.js

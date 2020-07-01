@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.0.2 – 2020-07-01
+### Fixed
+- duplicated route problem
+
 ## 1.0.1 – 2020-07-01
 ### Fixed
 - restore old route to allow MoneyBuster getting project list

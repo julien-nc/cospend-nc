@@ -720,6 +720,18 @@ class PageController extends ApiController {
     }
 
     /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     *
+     */
+    public function webGetProjects2() {
+        $response = new DataResponse(
+            $this->projectService->getProjects($this->userId)
+        );
+        return $response;
+    }
+
+    /**
      * curl -X POST https://ihatemoney.org/api/projects \
      *   -d 'name=yay&id=yay&password=yay&contact_email=yay@notmyidea.org'
      *   "yay"

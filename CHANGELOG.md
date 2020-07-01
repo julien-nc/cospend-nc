@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 1.0.0 – 2020-07-01
+### Changed
+- complete UI rewrite in Vue.js
+[#103](https://gitlab.com/eneiluj/cospend-nc/issues/103) @call-me-matt @archit3kt @simonspa @newhinton
+
+### Fixed
+- avoid some backend crashes related to circles
+
 ## 0.5.5 – 2020-06-03
 ### Added
 - bill counter

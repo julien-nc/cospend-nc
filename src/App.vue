@@ -426,33 +426,20 @@ export default {
         getBills(projectid) {
             this.billsLoading = true;
             const that = this;
-            const req = {};
-            let url;
-            if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects/' + projectid + '/bills');
-            } else {
-                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills');
+            network.getBills(projectid, this.getBillsSuccess, this.getBillsDone);
+        },
+        getBillsSuccess(projectid, response) {
+            this.bills[projectid] = {};
+            this.$set(this.billLists, projectid, response);
+            let bill;
+            for (let i = 0; i < response.length; i++) {
+                bill = response[i];
+                this.bills[projectid][bill.id] = bill;
             }
-            cospend.currentGetProjectsAjax = $.ajax({
-                type: 'GET',
-                url: url,
-                data: req,
-                async: true,
-            }).done(function(response) {
-                that.bills[projectid] = {};
-                //that.billLists[projectid] = response;
-                that.$set(that.billLists, projectid, response);
-                let bill;
-                for (let i = 0; i < response.length; i++) {
-                    bill = response[i];
-                    that.bills[projectid][bill.id] = bill;
-                }
-                that.updateBalances(projectid);
-            }).always(function() {
-                that.billsLoading = false;
-            }).fail(function() {
-                showError(t('cospend', 'Failed to get bills'));
-            });
+            this.updateBalances(projectid);
+        },
+        getBillsDone() {
+            this.billsLoading = false;
         },
         addProject(proj) {
             cospend.members[proj.id] = {};
@@ -489,119 +476,48 @@ export default {
             }
         },
         createProject(name, id) {
-            const that = this;
-            const req = {
-                id: id,
-                name: name,
-                password: null
-            };
-            const url = generateUrl('/apps/cospend/projects');
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: req,
-                async: true,
-            }).done(function(response) {
-                that.addProject(response);
-                that.selectProject(response.id);
-            }).always(function() {
-            }).fail(function(response) {
-                showError(t('cospend', 'Failed to create project') + ': ' + response.responseJSON.message);
-            });
+            network.createProject(name, id, this.createProjectSuccess);
+        },
+        createProjectSuccess(response) {
+            this.addProject(response);
+            this.selectProject(response.id);
         },
         deleteProject(projectid) {
-            const that = this;
-            const req = {};
-            let url;
-            if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects/' + projectid);
-            } else {
-                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password);
-            }
-            $.ajax({
-                type: 'DELETE',
-                url: url,
-                data: req,
-                async: true,
-            }).done(function() {
-                that.currentBill = null;
-                that.$delete(that.projects, projectid);
-                that.$delete(that.bills, projectid);
-                that.$delete(that.billLists, projectid);
-                that.$delete(that.members, projectid);
+            network.deleteProject(projectid, this.deleteProjectSuccess);
+        },
+        deleteProjectSuccess(projectid, response) {
+            this.currentBill = null;
+            this.$delete(this.projects, projectid);
+            this.$delete(this.bills, projectid);
+            this.$delete(this.billLists, projectid);
+            this.$delete(this.members, projectid);
 
-                if (cospend.pageIsPublic) {
-                    const redirectUrl = generateUrl('/apps/cospend/login');
-                    window.location.replace(redirectUrl);
-                }
-                showSuccess(t('cospend', 'Deleted project {id}', {id: projectid}));
-                that.deselectProject();
-            }).always(function() {
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to delete project') +
-                    ': ' + (response.responseJSON)
-                );
-            });
+            if (cospend.pageIsPublic) {
+                const redirectUrl = generateUrl('/apps/cospend/login');
+                window.location.replace(redirectUrl);
+            }
+            showSuccess(t('cospend', 'Deleted project {id}', {id: projectid}));
+            this.deselectProject();
         },
         updateBalances(projectid) {
-            const that = this;
-            const req = {};
-            let url;
-            if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects/' + projectid);
-            } else {
-                url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password);
+            network.updateBalances(projectid, this.updateBalancesSuccess);
+        },
+        updateBalancesSuccess(projectid, response) {
+            let balance;
+            for (const memberid in response.balance) {
+                balance = response.balance[memberid];
+                this.$set(this.members[projectid][memberid], 'balance', balance);
             }
-            cospend.currentGetProjectsAjax = $.ajax({
-                type: 'GET',
-                url: url,
-                data: req,
-                async: true,
-            }).done(function(response) {
-                let balance;
-                for (const memberid in response.balance) {
-                    balance = response.balance[memberid];
-                    //that.members[projectid][memberid].balance = balance;
-                    that.$set(that.members[projectid][memberid], 'balance', balance);
-                }
-            }).always(function() {
-            }).fail(function() {
-                showError(t('cospend', 'Failed to update balances'));
-            });
         },
         createMember(projectid, name, userid=null) {
-            const that = this;
-            const req = {
-                name: name
-            };
-            if (userid !== null) {
-                req.userid = userid;
-            }
-            let url;
-            if (!cospend.pageIsPublic) {
-                url = generateUrl('/apps/cospend/projects/' + projectid + '/members');
-            } else {
-                url = generateUrl('/apps/cospend/apiv2/projects/' + cospend.projectid + '/' + cospend.password + '/members');
-            }
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: req,
-                async: true,
-            }).done(function(response) {
-                response.balance = 0;
-                response.color = rgbObjToHex(response.color).replace('#', '');
-                that.$set(that.members[projectid], response.id, response);
-                that.projects[projectid].members.unshift(response);
-                showSuccess(t('cospend', 'Created member {name}', {name: name}));
-            }).always(function() {
-            }).fail(function(response) {
-                showError(
-                    t('cospend', 'Failed to add member') +
-                    ': ' + (response.responseText)
-                );
-            });
+            network.createMember(projectid, name, userid, this.createMemberSuccess);
+        },
+        createMemberSuccess(projectid, name, response) {
+            response.balance = 0;
+            response.color = rgbObjToHex(response.color).replace('#', '');
+            this.$set(this.members[projectid], response.id, response);
+            this.projects[projectid].members.unshift(response);
+            showSuccess(t('cospend', 'Created member {name}', {name: name}));
         },
         editMember(projectid, memberid) {
             const that = this;

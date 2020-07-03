@@ -24,6 +24,7 @@ use OCP\IAvatarManager;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\IServerContainer;
+use OCP\IDBConnection;
 
 use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\Db\ProjectMapper;
@@ -188,12 +189,13 @@ class ProjectService {
                                 IAvatarManager $avatarManager,
                                 IManager $shareManager,
                                 IUserManager $userManager,
-                                IGroupManager $groupManager) {
+                                IGroupManager $groupManager,
+                                IDBConnection $dbconnection) {
         $this->trans = $l10n;
         $this->config = $config;
         $this->logger = $logger;
-        $this->qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-        $this->dbconnection = \OC::$server->getDatabaseConnection();
+        $this->dbconnection = $dbconnection;
+        $this->qb = $dbconnection->getQueryBuilder();
         $this->projectMapper = $projectMapper;
         $this->billMapper = $billMapper;
         $this->activityManager = $activityManager;
@@ -246,10 +248,6 @@ class ProjectService {
             '-11' => $this->trans->t('Reimbursement'),
         ];
 
-    }
-
-    private function db_quote_escape_string($str){
-        return $this->dbconnection->quote($str);
     }
 
     /**

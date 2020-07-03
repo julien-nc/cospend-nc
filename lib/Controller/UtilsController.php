@@ -26,6 +26,7 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 
 use OCP\IRequest;
+use OCP\IDBConnection;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
 
@@ -44,6 +45,7 @@ class UtilsController extends Controller {
                                 IAppManager $appManager,
                                 IAvatarManager $avatarManager,
                                 IAppData $appData,
+                                IDBConnection $dbconnection,
                                 $UserId) {
         parent::__construct($AppName, $request);
         $this->userId = $UserId;
@@ -59,14 +61,7 @@ class UtilsController extends Controller {
         }
         // IConfig object
         $this->config = $config;
-        $this->dbconnection = \OC::$server->getDatabaseConnection();
-    }
-
-    /*
-     * quote and choose string escape function depending on database used
-     */
-    private function db_quote_escape_string($str){
-        return $this->dbconnection->quote($str);
+        $this->dbconnection = $dbconnection;
     }
 
     /**

@@ -36,6 +36,7 @@ use OCP\Share\IManager;
 use OCP\IServerContainer;
 use OCP\IGroupManager;
 use OCP\ILogger;
+use OCP\IDBConnection;
 use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Service\ProjectService;
@@ -81,6 +82,7 @@ class PageController extends ApiController {
                                 ProjectMapper $projectMapper,
                                 ProjectService $projectService,
                                 ActivityManager $activityManager,
+                                IDBConnection $dbconnection,
                                 $UserId){
         parent::__construct($AppName, $request,
                             'PUT, POST, GET, DELETE, PATCH, OPTIONS',
@@ -107,7 +109,7 @@ class PageController extends ApiController {
         else{
             $this->dbdblquotes = '`';
         }
-        $this->dbconnection = \OC::$server->getDatabaseConnection();
+        $this->dbconnection = $dbconnection;
         if ($UserId !== null and $UserId !== '' and $serverContainer !== null){
             // path of user files folder relative to DATA folder
             $this->userfolder = $serverContainer->getUserFolder($UserId);

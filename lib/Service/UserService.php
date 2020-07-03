@@ -20,6 +20,7 @@ use OCP\IGroupManager;
 
 use OCP\IUserManager;
 use OCP\Share\IManager;
+use OCP\IDBConnection;
 
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Db\BillMapper;
@@ -37,12 +38,13 @@ class UserService {
         BillMapper $billMapper,
         IManager $shareManager,
         IUserManager $userManager,
-        IGroupManager $groupManager
+        IGroupManager $groupManager,
+        IDBConnection $dbconnection
     ) {
         $this->trans = $l10n;
         $this->logger = $logger;
-        $this->qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-        $this->dbconnection = \OC::$server->getDatabaseConnection();
+        $this->dbconnection = $dbconnection;
+        $this->qb = $dbconnection->getQueryBuilder();
         $this->projectMapper = $projectMapper;
         $this->billMapper = $billMapper;
         $this->groupManager = $groupManager;

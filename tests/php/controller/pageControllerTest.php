@@ -161,7 +161,8 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
                 $c->query('ServerContainer')->getAvatarManager(),
                 $c->getServer()->getShareManager(),
                 $c->getServer()->getUserManager(),
-                $c->getServer()->getGroupManager()
+                $c->getServer()->getGroupManager(),
+                $c->query('ServerContainer')->getDatabaseConnection()
             ),
             $this->activityManager,
             $c->query('ServerContainer')->getDatabaseConnection(),
@@ -199,7 +200,8 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
                 $c->query('ServerContainer')->getAvatarManager(),
                 $c->getServer()->getShareManager(),
                 $c->getServer()->getUserManager(),
-                $c->getServer()->getGroupManager()
+                $c->getServer()->getGroupManager(),
+                $c->query('ServerContainer')->getDatabaseConnection()
             ),
             $this->activityManager2,
             $c->query('ServerContainer')->getDatabaseConnection(),

@@ -89,7 +89,8 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
                 ),
                 $c->getServer()->getShareManager(),
                 $c->getServer()->getUserManager(),
-                $c->getServer()->getGroupManager()
+                $c->getServer()->getGroupManager(),
+                $c->query('ServerContainer')->getDatabaseConnection()
             ),
             new \OCA\Cospend\Db\ProjectMapper(
                 $c->query('ServerContainer')->getDatabaseConnection()
@@ -115,7 +116,8 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
                 ),
                 $c->getServer()->getShareManager(),
                 $c->getServer()->getUserManager(),
-                $c->getServer()->getGroupManager()
+                $c->getServer()->getGroupManager(),
+                $c->query('ServerContainer')->getDatabaseConnection()
             ),
             new \OCA\Cospend\Db\ProjectMapper(
                 $c->query('ServerContainer')->getDatabaseConnection()
@@ -162,6 +164,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
                 $c->getServer()->getGroupManager()
             ),
             $this->activityManager,
+            $c->query('ServerContainer')->getDatabaseConnection()
             'test'
         );
 
@@ -199,6 +202,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
                 $c->getServer()->getGroupManager()
             ),
             $this->activityManager2,
+            $c->query('ServerContainer')->getDatabaseConnection()
             'test2'
         );
 
@@ -210,6 +214,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getAppManager(),
             $c->query('ServerContainer')->getAvatarManager(),
             $c->getServer()->getAppDataDir('cospend'),
+            $c->query('ServerContainer')->getDatabaseConnection()
             'test'
         );
     }

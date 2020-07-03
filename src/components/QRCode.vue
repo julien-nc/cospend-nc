@@ -5,12 +5,11 @@
 
 <script>
 import kjua from 'kjua';
-import { imagePath } from '@nextcloud/router';
 
 export default {
     name: 'QRCode',
 
-    props: ['link', 'color'],
+    props: ['link', 'color', 'imageUrl'],
     components: {
     },
 
@@ -80,7 +79,7 @@ export default {
                 that.$refs.qrcodediv.appendChild(qr);
             };
 
-            img.src = imagePath('cospend', 'cospend.png');
+            img.src = this.imageUrl;
         }
     }
 }

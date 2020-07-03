@@ -8,6 +8,7 @@
             <QRCode
                 :link="noPassLink"
                 :color="color"
+                :imageUrl="qrcodeImageUrl"
             />
         </div>
         <label id="mbUrlLabel">{{ noPassLink }}</label>
@@ -33,6 +34,7 @@
                     v-if="validPassword"
                     :link="passLink"
                     :color="color"
+                    :imageUrl="qrcodeImageUrl"
                 />
             </div>
             <label id="mbPassUrlLabel">{{ passLink }}</label>
@@ -42,7 +44,7 @@
 
 <script>
 import QRCode from './components/QRCode';
-import {generateUrl} from '@nextcloud/router';
+import {generateUrl, imagePath} from '@nextcloud/router';
 import {
     showSuccess,
     showError,
@@ -62,7 +64,8 @@ export default {
         return {
             password: '',
             validPassword: null,
-            color: cospend.themeColorDark
+            color: cospend.themeColorDark,
+            qrcodeImageUrl: imagePath('cospend', 'cospend.png')
         };
     },
 

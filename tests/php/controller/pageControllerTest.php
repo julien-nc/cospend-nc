@@ -74,58 +74,59 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $this->app = new Application();
         $this->container = $this->app->getContainer();
         $c = $this->container;
-        $this->config = $c->query('ServerContainer')->getConfig();
+        $sc = $c->query(\OCP\IServerContainer::class);
+        $this->config = $sc->getConfig();
 
         $this->activityManager = new \OCA\Cospend\Activity\ActivityManager(
-            $c->query('ServerContainer')->getActivityManager(),
+            $sc->getActivityManager(),
             new \OCA\Cospend\Service\UserService(
-                $c->query('ServerContainer')->getLogger(),
-                $c->query('ServerContainer')->getL10N($c->query('AppName')),
+                $sc->getLogger(),
+                $sc->getL10N($c->query('AppName')),
                 new \OCA\Cospend\Db\ProjectMapper(
-                    $c->query('ServerContainer')->getDatabaseConnection()
+                    $sc->getDatabaseConnection()
                 ),
                 new \OCA\Cospend\Db\BillMapper(
-                    $c->query('ServerContainer')->getDatabaseConnection()
+                    $sc->getDatabaseConnection()
                 ),
                 $c->getServer()->getShareManager(),
                 $c->getServer()->getUserManager(),
                 $c->getServer()->getGroupManager(),
-                $c->query('ServerContainer')->getDatabaseConnection()
+                $sc->getDatabaseConnection()
             ),
             new \OCA\Cospend\Db\ProjectMapper(
-                $c->query('ServerContainer')->getDatabaseConnection()
+                $sc->getDatabaseConnection()
             ),
             new \OCA\Cospend\Db\BillMapper(
-                $c->query('ServerContainer')->getDatabaseConnection()
+                $sc->getDatabaseConnection()
             ),
-            $c->query('ServerContainer')->getL10N($c->query('AppName')),
+            $sc->getL10N($c->query('AppName')),
             $c->getServer()->getUserManager(),
             'test'
         );
 
         $this->activityManager2 = new \OCA\Cospend\Activity\ActivityManager(
-            $c->query('ServerContainer')->getActivityManager(),
+            $sc->getActivityManager(),
             new \OCA\Cospend\Service\UserService(
-                $c->query('ServerContainer')->getLogger(),
-                $c->query('ServerContainer')->getL10N($c->query('AppName')),
+                $sc->getLogger(),
+                $sc->getL10N($c->query('AppName')),
                 new \OCA\Cospend\Db\ProjectMapper(
-                    $c->query('ServerContainer')->getDatabaseConnection()
+                    $sc->getDatabaseConnection()
                 ),
                 new \OCA\Cospend\Db\BillMapper(
-                    $c->query('ServerContainer')->getDatabaseConnection()
+                    $sc->getDatabaseConnection()
                 ),
                 $c->getServer()->getShareManager(),
                 $c->getServer()->getUserManager(),
                 $c->getServer()->getGroupManager(),
-                $c->query('ServerContainer')->getDatabaseConnection()
+                $sc->getDatabaseConnection()
             ),
             new \OCA\Cospend\Db\ProjectMapper(
-                $c->query('ServerContainer')->getDatabaseConnection()
+                $sc->getDatabaseConnection()
             ),
             new \OCA\Cospend\Db\BillMapper(
-                $c->query('ServerContainer')->getDatabaseConnection()
+                $sc->getDatabaseConnection()
             ),
-            $c->query('ServerContainer')->getL10N($c->query('AppName')),
+            $sc->getL10N($c->query('AppName')),
             $c->getServer()->getUserManager(),
             'test2'
         );
@@ -133,90 +134,90 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $this->pageController = new PageController(
             $this->appName,
             $this->request,
-            $c->query('ServerContainer'),
-            $c->query('ServerContainer')->getConfig(),
+            $sc,
+            $sc->getConfig(),
             $c->getServer()->getShareManager(),
             $c->getServer()->getAppManager(),
             $c->getServer()->getUserManager(),
             $c->getServer()->getGroupManager(),
-            $c->query('ServerContainer')->getL10N($c->query('AppName')),
-            $c->query('ServerContainer')->getLogger(),
+            $sc->getL10N($c->query('AppName')),
+            $sc->getLogger(),
             new \OCA\Cospend\Db\BillMapper(
-                $c->query('ServerContainer')->getDatabaseConnection()
+                $sc->getDatabaseConnection()
             ),
             new \OCA\Cospend\Db\ProjectMapper(
-                $c->query('ServerContainer')->getDatabaseConnection()
+                $sc->getDatabaseConnection()
             ),
             new \OCA\Cospend\Service\ProjectService(
-                $c->query('ServerContainer')->getLogger(),
-                $c->query('ServerContainer')->getL10N($c->query('AppName')),
-                $c->query('ServerContainer')->getConfig(),
+                $sc->getLogger(),
+                $sc->getL10N($c->query('AppName')),
+                $sc->getConfig(),
                 new \OCA\Cospend\Db\ProjectMapper(
-                    $c->query('ServerContainer')->getDatabaseConnection()
+                    $sc->getDatabaseConnection()
                 ),
                 new \OCA\Cospend\Db\BillMapper(
-                    $c->query('ServerContainer')->getDatabaseConnection()
+                    $sc->getDatabaseConnection()
                 ),
                 $this->activityManager,
-                $c->query('ServerContainer')->getAvatarManager(),
+                $sc->getAvatarManager(),
                 $c->getServer()->getShareManager(),
                 $c->getServer()->getUserManager(),
                 $c->getServer()->getGroupManager(),
-                $c->query('ServerContainer')->getDatabaseConnection()
+                $sc->getDatabaseConnection()
             ),
             $this->activityManager,
-            $c->query('ServerContainer')->getDatabaseConnection(),
+            $sc->getDatabaseConnection(),
             'test'
         );
 
         $this->pageController2 = new PageController(
             $this->appName,
             $this->request,
-            $c->query('ServerContainer'),
-            $c->query('ServerContainer')->getConfig(),
+            $sc,
+            $sc->getConfig(),
             $c->getServer()->getShareManager(),
             $c->getServer()->getAppManager(),
             $c->getServer()->getUserManager(),
             $c->getServer()->getGroupManager(),
-            $c->query('ServerContainer')->getL10N($c->query('AppName')),
-            $c->query('ServerContainer')->getLogger(),
+            $sc->getL10N($c->query('AppName')),
+            $sc->getLogger(),
             new \OCA\Cospend\Db\BillMapper(
-                $c->query('ServerContainer')->getDatabaseConnection()
+                $sc->getDatabaseConnection()
             ),
             new \OCA\Cospend\Db\ProjectMapper(
-                $c->query('ServerContainer')->getDatabaseConnection()
+                $sc->getDatabaseConnection()
             ),
             new \OCA\Cospend\Service\ProjectService(
-                $c->query('ServerContainer')->getLogger(),
-                $c->query('ServerContainer')->getL10N($c->query('AppName')),
-                $c->query('ServerContainer')->getConfig(),
+                $sc->getLogger(),
+                $sc->getL10N($c->query('AppName')),
+                $sc->getConfig(),
                 new \OCA\Cospend\Db\ProjectMapper(
-                    $c->query('ServerContainer')->getDatabaseConnection()
+                    $sc->getDatabaseConnection()
                 ),
                 new \OCA\Cospend\Db\BillMapper(
-                    $c->query('ServerContainer')->getDatabaseConnection()
+                    $sc->getDatabaseConnection()
                 ),
                 $this->activityManager2,
-                $c->query('ServerContainer')->getAvatarManager(),
+                $sc->getAvatarManager(),
                 $c->getServer()->getShareManager(),
                 $c->getServer()->getUserManager(),
                 $c->getServer()->getGroupManager(),
-                $c->query('ServerContainer')->getDatabaseConnection()
+                $sc->getDatabaseConnection()
             ),
             $this->activityManager2,
-            $c->query('ServerContainer')->getDatabaseConnection(),
+            $sc->getDatabaseConnection(),
             'test2'
         );
 
         $this->utilsController = new UtilsController(
             $this->appName,
             $this->request,
-            $c->query('ServerContainer'),
-            $c->query('ServerContainer')->getConfig(),
+            $sc,
+            $sc->getConfig(),
             $c->getServer()->getAppManager(),
-            $c->query('ServerContainer')->getAvatarManager(),
+            $sc->getAvatarManager(),
             $c->getServer()->getAppDataDir('cospend'),
-            $c->query('ServerContainer')->getDatabaseConnection(),
+            $sc->getDatabaseConnection(),
             'test'
         );
     }

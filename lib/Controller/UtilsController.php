@@ -163,10 +163,6 @@ class UtilsController extends Controller {
         if (is_null($color)) {
             $av = $this->avatarManager->getGuestAvatar($name);
             $avatarContent = $av->getFile(64)->getContent();
-            foreach ($this->serverContainer->getAppFolder()->getDirectoryListing() as $f) {
-                error_log($f->getPath());
-            }
-            //error_log($this->serverContainer->getAppFolder()->getFullPath('.'));
             return new DataDisplayResponse($avatarContent);
         }
         else {

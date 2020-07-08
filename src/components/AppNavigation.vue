@@ -23,7 +23,6 @@
                 :selected="id === selectedProjectId"
                 @projectClicked="onProjectClicked"
                 @deleteProject="onDeleteProject"
-                @qrcodeClicked="onQrcodeClicked"
                 @statsClicked="onStatsClicked"
                 @settleClicked="onSettleClicked"
                 @detailClicked="onDetailClicked"
@@ -184,9 +183,6 @@ export default {
         },
         onDeleteProject(projectid) {
             this.$emit('deleteProject', projectid);
-        },
-        onQrcodeClicked(projectid) {
-            this.$emit('qrcodeClicked', projectid);
         },
         onStatsClicked(projectid) {
             this.$emit('statsClicked', projectid);

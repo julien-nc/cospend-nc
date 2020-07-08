@@ -6,7 +6,6 @@
             :selectedProjectId="currentProjectId"
             @projectClicked="onProjectClicked"
             @deleteProject="onDeleteProject"
-            @qrcodeClicked="onQrcodeClicked"
             @statsClicked="onStatsClicked"
             @settleClicked="onSettleClicked"
             @detailClicked="onDetailClicked"
@@ -44,10 +43,6 @@
                     @billCreated="onBillCreated"
                     @billSaved="onBillSaved"
                 />
-                <MoneyBusterLink
-                    v-if="mode === 'qrcode'"
-                    :project="currentProject"
-                />
                 <Statistics
                     v-if="mode === 'stats'"
                     :projectId="currentProjectId"
@@ -71,7 +66,6 @@
             @projectEdited="onProjectEdited"
             @userAdded="onNewMember"
             @memberEdited="onMemberEdited"
-            @mbLinkClicked="onQrcodeClicked"
             @newMember="onNewMember"
             @exportClicked="onExportClicked"
             @categoryDeleted="onCategoryDeleted"
@@ -86,7 +80,6 @@ import BillForm from './BillForm';
 import BillList from './BillList';
 import CategoryManagement from './CategoryManagement';
 import CurrencyManagement from './CurrencyManagement';
-import MoneyBusterLink from './MoneyBusterLink';
 import Statistics from './Statistics';
 import Settlement from './Settlement';
 import Sidebar from './components/Sidebar';
@@ -111,7 +104,6 @@ export default {
         AppNavigation,
         BillList,
         BillForm,
-        MoneyBusterLink,
         Statistics,
         Settlement,
         CategoryManagement,
@@ -282,12 +274,6 @@ export default {
             const dateStr = moment(timeStamp).format('YYYY-MM-DD');
             const filename = projectid + '_' + dateStr + '.csv';
             network.exportProject(filename, projectid, projectName);
-        },
-        onQrcodeClicked() {
-            if (cospend.currentProjectId !== null) {
-                this.currentBill = null;
-                this.mode = 'qrcode';
-            }
         },
         onStatsClicked(projectid) {
             if (cospend.currentProjectId !== projectid) {

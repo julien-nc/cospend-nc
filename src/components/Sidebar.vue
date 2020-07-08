@@ -24,7 +24,6 @@
             >
             <SharingTabSidebar :project="project"
                 @projectEdited="onProjectEdited"
-                @mbLinkClicked="onMBLinkClicked"
                 />
         </AppSidebarTab>
         <AppSidebarTab id="categories" :name="t('cospend', 'Categories')" :icon="'icon-category-app-bundles'"
@@ -130,9 +129,6 @@ export default {
         },
         onMemberEdited(projectid, memberid, userid, name) {
             this.$emit('memberEdited', projectid, memberid, userid, name);
-        },
-        onMBLinkClicked() {
-            this.$emit('mbLinkClicked');
         },
         onNewSimpleMember(projectid, name) {
             this.$emit('newMember', projectid, name);

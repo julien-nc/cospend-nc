@@ -166,8 +166,8 @@
             </div>
         </form>
         <br/><hr/><br/>
-        <AppNavigationItem icon="icon-phone" @click="onMBLinkClick"
-            :title="t('cospend', 'Link/QRCode for MoneyBuster')"
+        <MoneyBusterLink
+            :project="project"
         />
     </div>
 </template>
@@ -185,6 +185,7 @@ import {
     showSuccess,
     showError,
 } from '@nextcloud/dialogs'
+import MoneyBusterLink from '../MoneyBusterLink';
 import cospend from '../state';
 import * as constants from '../constants';
 import * as network from '../network';
@@ -193,6 +194,7 @@ import { Timer } from '../utils';
 export default {
     name: 'SharingTabSidebar',
     components: {
+        MoneyBusterLink,
         Avatar,
         Actions,
         ActionButton,
@@ -434,9 +436,6 @@ export default {
         setGuestAccessLevelSuccess(level) {
             this.project.guestaccesslevel = level;
             showSuccess(t('cospend', 'Guest access level changed.'))
-        },
-        onMBLinkClick() {
-            this.$emit('mbLinkClicked');
         },
     },
 }

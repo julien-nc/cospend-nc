@@ -123,9 +123,6 @@ export default {
             this.deletionTimer.pause();
             delete this.deletionTimer;
         },
-        onQrcodeClick() {
-            this.$emit('qrcodeClicked', this.project.id);
-        },
         onStatsClick() {
             this.$emit('statsClicked', this.project.id);
         },

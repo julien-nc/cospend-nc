@@ -209,9 +209,6 @@ export default {
 #add-category label {
     line-height: 40px;
 }
-#catTitle {
-    padding: 20px 0px 20px 0px;
-}
 #addCategoryNameInput {
     width: 100%;
 }

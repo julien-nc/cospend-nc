@@ -24,6 +24,7 @@
                         v-model="bill.what"
                         :readonly="!editionAccess"
                         @input="onBillEdited"
+                        @focus="$event.target.select()"
                         :placeholder="t('cospend', 'What is the bill about?')"/>
                 </div>
                 <button id="addFileLinkButton" v-if="!pageIsPublic" @click="onGeneratePubLinkClick">
@@ -37,6 +38,7 @@
                         :disabled="isNewBill && newBillMode === 'custom'"
                         :readonly="!editionAccess"
                         @input="onBillEdited"
+                        @focus="$event.target.select()"
                         ref="amountInput"
                         v-model.number="bill.amount"/>
                 </div>

@@ -174,8 +174,6 @@ input[type=number] {
     white-space: normal;
 }
 #settlementTitle,
-#curTitle,
-#catTitle,
 #statsTitle {
     text-align: center;
     padding: 20px 0px 20px 0px;

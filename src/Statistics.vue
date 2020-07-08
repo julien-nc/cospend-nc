@@ -700,4 +700,7 @@ export default {
     margin-left: auto;
     margin-right: auto;
 }
+.checkboxlabel {
+    grid-column: 3 / 5;
+}
 </style>

@@ -428,7 +428,6 @@ export function addCategory(projectid, name, icon, color, successCB) {
             );
         })
         .then(function () {
-            doneCB();
         });
 }
  export function deleteCategory(projectid, categoryid, successCB) {

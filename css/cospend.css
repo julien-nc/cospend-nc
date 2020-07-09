@@ -238,6 +238,9 @@ input[type=number] {
 .shareinput {
     width: 100%;
 }
+.icon-colorpicker {
+	background-image: url('../img/color_picker.svg');
+}
 .icon-cospend {
     background-color: var(--color-main-text);
     padding: 0 !important;

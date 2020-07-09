@@ -16,8 +16,8 @@
                         v-on:keyup.enter="onAddCategory"
                         ref="newCategoryName" :placeholder="t('cospend', 'Category name')"/>
                     <label for="addCategoryColorInput">{{ t('cospend', 'Color') }}</label>
-                    <ColorPicker class="app-navigation-entry-bullet-wrapper" value="" @input="updateAddColor" ref="addcol">
-                        <input type="color" value="" v-on:click.prevent :readonly="true" id="addCategoryColorInput" ref="newCategoryColor"/>
+                    <ColorPicker class="app-navigation-entry-bullet-wrapper" value="" @input="updateAddColor">
+                        <div :style="{ backgroundColor: newCategoryColor }" class="color0 icon-colorpicker" />
                     </ColorPicker>
                     <button class="addCategoryOk" @click="onAddCategory">
                         <span class="icon-add"></span>
@@ -81,7 +81,8 @@ export default {
                 'food',
                 'activities',
                 'travel'
-            ]})
+            ]}),
+            newCategoryColor: '#000000'
         };
     },
     mounted() {
@@ -106,7 +107,7 @@ export default {
 
     methods: {
         updateAddColor(color) {
-            this.$refs.newCategoryColor.value = color;
+            this.newCategoryColor = color;
         },
         onIconButtonClick() {
             this.picker.togglePicker(this.$refs.iconButton);
@@ -114,7 +115,7 @@ export default {
         onAddCategory() {
             const name = this.$refs.newCategoryName.value;
             const icon = this.$refs.newCategoryIcon.value;
-            const color = this.$refs.newCategoryColor.value;
+            const color = this.newCategoryColor;
             if (name === null || name === '') {
                 showError(t('cospend', 'Category name should not be empty.'));
                 return;
@@ -131,7 +132,7 @@ export default {
             });
             showSuccess(t('cospend', 'Category {n} added.', {n: name}));
             this.$refs.newCategoryName.value = '';
-            this.$refs.newCategoryColor.value = '';
+            this.newCategoryColor = '#000000';
             this.$refs.newCategoryIcon.value = '';
         },
         onDeleteCategory(category) {
@@ -211,5 +212,12 @@ export default {
 }
 #addCategoryNameInput {
     width: 100%;
+}
+$clickable-area: 44px;
+.color0 {
+    width: calc(#{$clickable-area} - 6px);
+    height: calc(#{$clickable-area} - 6px);
+    background-size: 14px;
+    border-radius: 50%;
 }
 </style>

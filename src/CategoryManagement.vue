@@ -5,23 +5,20 @@
                 <label>
                     <a class="icon icon-add"></a>{{ t('cospend', 'Add category') }}
                 </label>
-                <div id="add-category">
-                    <label for="addCategoryIconInput">{{ t('cospend', 'Icon') }}</label>
-                    <div id="add-icon-input-div">
-                        <input type="text" value="" maxlength="3" id="addCategoryIconInput" ref="newCategoryIcon"/>
-                        <button class="add-icon-button" @click="onIconButtonClick" ref="iconButton">🙂</button>
-                    </div>
-                    <label for="addCategoryNameInput">{{ t('cospend', 'Name') }}</label>
-                    <input type="text" value="" maxlength="300" id="addCategoryNameInput"
-                        v-on:keyup.enter="onAddCategory"
-                        ref="newCategoryName" :placeholder="t('cospend', 'Category name')"/>
-                    <label for="addCategoryColorInput">{{ t('cospend', 'Color') }}</label>
+                <div class="add-category-2">
                     <ColorPicker class="app-navigation-entry-bullet-wrapper" value="" @input="updateAddColor">
                         <div :style="{ backgroundColor: newCategoryColor }" class="color0 icon-colorpicker" />
                     </ColorPicker>
-                    <button class="addCategoryOk" @click="onAddCategory">
+                    <div class="edit-icon-input-div">
+                        <input type="text" value="" maxlength="3" class="addCategoryIconInput" ref="newCategoryIcon"/>
+                        <button class="add-icon-button" @click="onIconButtonClick" ref="iconButton">🙂</button>
+                    </div>
+                    <input type="text" value="" maxlength="300" @focus="$event.target.select()"
+                            v-on:keyup.enter="onAddCategory"
+                            class="new-category-name"
+                            ref="newCategoryName" :placeholder="t('cospend', 'Category name')"/>
+                    <button class="editCategoryOk" @click="onAddCategory">
                         <span class="icon-add"></span>
-                        <span>{{ t('cospend', 'Add this category') }}</span>
                     </button>
                 </div>
                 <hr>
@@ -219,5 +216,19 @@ $clickable-area: 44px;
     height: calc(#{$clickable-area} - 6px);
     background-size: 14px;
     border-radius: 50%;
+}
+.add-category-2 {
+    display: grid;
+    grid-template: 1fr / 1fr 2fr 3fr 44px;
+    padding: 10px 10px 10px 20px;
+}
+.add-category-2 label {
+    line-height: 40px;
+}
+.add-icon-button {
+    height: 34px;
+}
+.new-category-name {
+    width: 90%;
 }
 </style>

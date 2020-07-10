@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-07-09 17:15+0200\n"
+"POT-Creation-Date: 2020-07-10 18:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -710,11 +710,8 @@ msgid "Who payed?"
 msgstr ""
 
 #: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:15
-msgid "When?"
-msgstr ""
-
 #: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:16
-msgid "What time?"
+msgid "When?"
 msgstr ""
 
 #: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:17
@@ -879,41 +876,45 @@ msgid "Choose file"
 msgstr ""
 
 #: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:53
-msgid "New bill"
+msgid ""
+"This is just a currency converter. Bill amount can be entered in another "
+"currency and then converted to \"{maincur}\". Value is always stored in "
+"\"{maincur}\"."
 msgstr ""
 
 #: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:54
-msgid "No bill yet"
+#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:88
+#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:91
+msgid "Info"
 msgstr ""
 
 #: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:55
-msgid "Bill deleted."
+msgid "New bill"
 msgstr ""
 
 #: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:56
-msgid "Add category"
+msgid "No bill yet"
 msgstr ""
 
 #: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:57
-msgid "Icon"
+msgid "Bill deleted."
 msgstr ""
 
 #: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:58
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:71
-msgid "Name"
+msgid "Add category"
 msgstr ""
 
 #: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:59
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:162
-msgid "Category name"
-msgstr ""
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:60
 msgid "Color"
 msgstr ""
 
+#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:60
+msgid "Icon"
+msgstr ""
+
 #: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:61
-msgid "Add this category"
+#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:162
+msgid "Category name"
 msgstr ""
 
 #: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:62
@@ -943,6 +944,10 @@ msgstr ""
 
 #: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:70
 msgid "Add currency"
+msgstr ""
+
+#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:71
+msgid "Name"
 msgstr ""
 
 #: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:72
@@ -1010,11 +1015,6 @@ msgid ""
 "Android will know MoneyBuster can open such a link (based on the 'https://"
 "net.eneiluj.moneybuster.cospend' part) and you will be able to add the "
 "project."
-msgstr ""
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:88
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:91
-msgid "Info"
 msgstr ""
 
 #: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:89
@@ -1516,67 +1516,67 @@ msgstr ""
 msgid "Failed to add category"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:446
+#: /var/www/html/n19/apps/cospend/src/network.js:445
 msgid "Failed to delete category"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:471
+#: /var/www/html/n19/apps/cospend/src/network.js:470
 msgid "Failed to edit category"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:496
+#: /var/www/html/n19/apps/cospend/src/network.js:495
 msgid "Failed to add currency"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:516
+#: /var/www/html/n19/apps/cospend/src/network.js:515
 msgid "Failed to delete currency"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:540
+#: /var/www/html/n19/apps/cospend/src/network.js:539
 msgid "Failed to edit currency"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:564
+#: /var/www/html/n19/apps/cospend/src/network.js:563
 msgid "Failed to get statistics."
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:578
+#: /var/www/html/n19/apps/cospend/src/network.js:577
 msgid "Project statistics exported in {path}"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:581
+#: /var/www/html/n19/apps/cospend/src/network.js:580
 msgid "Failed to export project statistics"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:611
+#: /var/www/html/n19/apps/cospend/src/network.js:610
 msgid "Failed to get settlement"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:636
+#: /var/www/html/n19/apps/cospend/src/network.js:635
 msgid "Failed to add project settlement bills"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:656
+#: /var/www/html/n19/apps/cospend/src/network.js:655
 msgid "Failed to export project settlement"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:671
+#: /var/www/html/n19/apps/cospend/src/network.js:670
 msgid "Failed to get user list"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:699
+#: /var/www/html/n19/apps/cospend/src/network.js:698
 msgid "Failed to add shared access"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:717
+#: /var/www/html/n19/apps/cospend/src/network.js:716
 msgid "Failed to edit shared access level"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:743
+#: /var/www/html/n19/apps/cospend/src/network.js:742
 msgid "Failed to delete shared access"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:766
+#: /var/www/html/n19/apps/cospend/src/network.js:765
 msgid "Failed to edit guest access level"
 msgstr ""
 

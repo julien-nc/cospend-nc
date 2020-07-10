@@ -32,6 +32,7 @@
 <script>
 import cospend from '../state';
 import {generateUrl} from '@nextcloud/router';
+import moment from '@nextcloud/moment'
 import {reload, Timer, getCategory, getSmartMemberName, getMemberAvatar} from '../utils';
 import {vueAwesomeCountdown} from 'vue-awesome-countdown'
 
@@ -124,11 +125,11 @@ export default {
         },
         billDate() {
             const billMom = moment.unix(this.bill.timestamp);
-            return billMom.format('YYYY-MM-DD');
+            return billMom.format('L');
         },
         billTime() {
             const billMom = moment.unix(this.bill.timestamp);
-            return billMom.format('HH:mm');
+            return billMom.format('LT');
         },
         itemTitle() {
             return this.billFormattedTitle + '\n' + parseFloat(this.bill.amount).toFixed(2) + '\n' +

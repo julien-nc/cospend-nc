@@ -104,11 +104,19 @@ export default {
 }
 .one-currency-label input[type=submit] {
     border-radius: 50% !important;
-    width: 36px !important;
+    width: 40px !important;
+    height: 40px;
+    margin-top: 0px;
 }
 .one-currency-label {
     display: grid;
-    grid-template: 1fr / 1fr 37px 37px 37px;
+    grid-template: 1fr / 1fr 42px 42px 37px;
+}
+.editCurrencyOk,
+.editCurrencyClose {
+    width: 40px !important;
+    height: 40px;
+    margin-top: 0px;
 }
 .editCurrencyOk {
     background-color: #46ba61;

@@ -175,7 +175,9 @@ export default {
     padding: 0 12px 0 25px !important;
 }
 .editMainCurrency {
-    width: 36px !important;
+    width: 40px !important;
+    height: 40px;
+    margin-top: 0px;
 }
 .editMainCurrencyInput {
     width: 96%;

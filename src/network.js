@@ -397,9 +397,8 @@ export function importProject(targetPath, isSplitWise, successCB) {
             successCB(response.data);
         })
         .catch(function (error) {
-            showError(t('cospend', 'Failed to import project file.' +
+            showError(t('cospend', 'Failed to import project file') +
                 ': ' + error.response.request.responseText
-                )
             );
         })
         .then(function () {

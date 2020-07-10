@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-07-10 18:53+0200\n"
+"POT-Creation-Date: 2020-07-10 19:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1509,74 +1509,74 @@ msgid "Failed to check password."
 msgstr ""
 
 #: /var/www/html/n19/apps/cospend/src/network.js:400
-msgid "Failed to import project file.: "
+msgid "Failed to import project file"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:426
+#: /var/www/html/n19/apps/cospend/src/network.js:425
 msgid "Failed to add category"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:445
+#: /var/www/html/n19/apps/cospend/src/network.js:444
 msgid "Failed to delete category"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:470
+#: /var/www/html/n19/apps/cospend/src/network.js:469
 msgid "Failed to edit category"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:495
+#: /var/www/html/n19/apps/cospend/src/network.js:494
 msgid "Failed to add currency"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:515
+#: /var/www/html/n19/apps/cospend/src/network.js:514
 msgid "Failed to delete currency"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:539
+#: /var/www/html/n19/apps/cospend/src/network.js:538
 msgid "Failed to edit currency"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:563
+#: /var/www/html/n19/apps/cospend/src/network.js:562
 msgid "Failed to get statistics."
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:577
+#: /var/www/html/n19/apps/cospend/src/network.js:576
 msgid "Project statistics exported in {path}"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:580
+#: /var/www/html/n19/apps/cospend/src/network.js:579
 msgid "Failed to export project statistics"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:610
+#: /var/www/html/n19/apps/cospend/src/network.js:609
 msgid "Failed to get settlement"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:635
+#: /var/www/html/n19/apps/cospend/src/network.js:634
 msgid "Failed to add project settlement bills"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:655
+#: /var/www/html/n19/apps/cospend/src/network.js:654
 msgid "Failed to export project settlement"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:670
+#: /var/www/html/n19/apps/cospend/src/network.js:669
 msgid "Failed to get user list"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:698
+#: /var/www/html/n19/apps/cospend/src/network.js:697
 msgid "Failed to add shared access"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:716
+#: /var/www/html/n19/apps/cospend/src/network.js:715
 msgid "Failed to edit shared access level"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:742
+#: /var/www/html/n19/apps/cospend/src/network.js:741
 msgid "Failed to delete shared access"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/src/network.js:765
+#: /var/www/html/n19/apps/cospend/src/network.js:764
 msgid "Failed to edit guest access level"
 msgstr ""
 

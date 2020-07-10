@@ -3,7 +3,7 @@
         <h2 class="bill-title">
             <span v-show="billLoading" class="loading-bill icon-loading-small"></span>
             <div :class="'billFormAvatar owerAvatar' + myGetAvatarClass(bill.payer_id)">
-                <div class="disabledMask"></div><img :src="myGetMemberAvatar(bill.payer_id)">
+                <div class="disabledMask"></div><img :src="myGetTitleAvatar(bill.payer_id)">
             </div>
             <span>{{ billFormattedTitle }}</span>
             <a v-for="link in billLinks" :key="link" :href="link" target="blank">[🔗 {{ t('cospend', 'link') }}]</a>
@@ -43,9 +43,12 @@
                         v-model.number="bill.amount"/>
                 </div>
                 <div class="bill-currency-convert" v-if="project.currencyname && project.currencies.length > 0 && editionAccess">
-                    <label for="bill-currency">
-                        <a class="icon icon-currencies"></a>{{ t('cospend', 'Convert to') }}
-                    </label>
+                    <div>
+                        <label for="bill-currency">
+                            <a class="icon icon-currencies"></a>{{ t('cospend', 'Convert to') }}
+                        </label>
+                        <button class="icon-info infoButton" @click="onConvertInfoClicked"></button>
+                    </div>
                     <select id="bill-currency" ref="currencySelect" @change="onCurrencyConvert">
                         <option value="">{{ project.currencyname }}</option>
                         <option v-for="currency in project.currencies" :key="currency.id" :value="currency.id">
@@ -450,6 +453,11 @@ export default {
         myGetAvatarClass(mid) {
             return this.members[mid].activated ? '' : ' owerAvatarDisabled';
         },
+        myGetTitleAvatar(mid) {
+            return (this.bill.id === 0) ?
+                generateUrl('/apps/cospend/getAvatar?name=' + encodeURIComponent('*'))
+                : this.myGetMemberAvatar(mid);
+        },
         myGetMemberAvatar(mid) {
             return getMemberAvatar(this.projectId, mid);
         },
@@ -764,6 +772,12 @@ export default {
             this.bill.what = what;
             this.onBillEdited();
         },
+        onConvertInfoClicked() {
+            OC.dialogs.alert(
+                t('cospend', 'This is just a currency converter. Bill amount can be entered in another currency and then converted to "{maincur}". Value is always stored in "{maincur}".', {maincur: this.project.currencyname}),
+                t('cospend', 'Info')
+            );
+        },
     }
 }
 </script>
@@ -837,5 +851,13 @@ export default {
     width: 52px;
     height: 52px;
     left: 51px;
+}
+label[for=bill-currency] {
+    line-height: 40px;
+}
+.infoButton {
+    height: 34px;
+    width: 34px;
+    float: right;
 }
 </style>

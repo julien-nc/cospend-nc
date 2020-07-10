@@ -139,11 +139,18 @@ export default {
 }
 .one-category-label input[type=submit] {
     border-radius: 50% !important;
-    width: 36px !important;
+    width: 40px !important;
+    height: 40px;
+    margin-top: 0px;
 }
 .one-category-label {
     display: grid;
-    grid-template: 1fr / 1fr 1fr 6fr 37px 37px 37px;
+    grid-template: 1fr / 1fr 1fr 6fr 42px 42px 40px;
+}
+.editCategoryOk,
+.editCategoryClose {
+    margin-top: 0px;
+    height: 40px;
 }
 .editCategoryOk {
     background-color: #46ba61;

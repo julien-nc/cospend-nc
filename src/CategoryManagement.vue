@@ -7,17 +7,17 @@
                 </label>
                 <div class="add-category-2">
                     <ColorPicker class="app-navigation-entry-bullet-wrapper" value="" @input="updateAddColor">
-                        <div :style="{ backgroundColor: newCategoryColor }" class="color0 icon-colorpicker" />
+                        <div :style="{ backgroundColor: newCategoryColor }" class="color0 icon-colorpicker" :title="t('cospend', 'Color')"/>
                     </ColorPicker>
-                    <div class="edit-icon-input-div">
-                        <input type="text" value="" maxlength="3" class="addCategoryIconInput" ref="newCategoryIcon"/>
-                        <button class="add-icon-button" @click="onIconButtonClick" ref="iconButton">🙂</button>
-                    </div>
+                    <button class="add-icon-button" :title="t('cospend', 'Icon')"
+                        @click="onIconButtonClick" ref="iconButton">
+                        {{ newCategoryIcon }}
+                    </button>
                     <input type="text" value="" maxlength="300" @focus="$event.target.select()"
                             v-on:keyup.enter="onAddCategory"
                             class="new-category-name"
                             ref="newCategoryName" :placeholder="t('cospend', 'Category name')"/>
-                    <button class="editCategoryOk" @click="onAddCategory">
+                    <button class="addCategoryOk" @click="onAddCategory">
                         <span class="icon-add"></span>
                     </button>
                 </div>
@@ -79,12 +79,13 @@ export default {
                 'activities',
                 'travel'
             ]}),
-            newCategoryColor: '#000000'
+            newCategoryColor: '#000000',
+            newCategoryIcon: '🙂'
         };
     },
     mounted() {
         this.picker.on('emoji', emoji => {
-            this.$refs.newCategoryIcon.value = emoji;
+            this.newCategoryIcon = emoji;
         });
     },
     computed: {
@@ -111,7 +112,7 @@ export default {
         },
         onAddCategory() {
             const name = this.$refs.newCategoryName.value;
-            const icon = this.$refs.newCategoryIcon.value;
+            const icon = this.newCategoryIcon;
             const color = this.newCategoryColor;
             if (name === null || name === '') {
                 showError(t('cospend', 'Category name should not be empty.'));
@@ -130,7 +131,7 @@ export default {
             showSuccess(t('cospend', 'Category {n} added.', {n: name}));
             this.$refs.newCategoryName.value = '';
             this.newCategoryColor = '#000000';
-            this.$refs.newCategoryIcon.value = '';
+            this.newCategoryIcon = '🙂';
         },
         onDeleteCategory(category) {
             network.deleteCategory(this.project.id, category.id, this.deleteCategorySuccess);
@@ -166,26 +167,9 @@ export default {
     line-height: 44px;
     padding: 0 12px 0 25px;
 }
-.editMainCategory {
-    width: 36px !important;
-}
-.editMainCategoryInput {
-    width: 96%;
-}
-#main-category-edit {
-    display: grid;
-    grid-template: 1fr / 150px 37px 37px;
-}
-#main-category-edit input[type=submit] {
-    margin-left: -5px;
-    border-radius: 0;
-    width: 36px !important;
-}
 .addCategoryOk {
-    background-color: #46ba61;
-    color: white;
+    margin-top: 0px;
 }
-#main-category-edit,
 #add-category,
 #category-list,
 #main-category-label {
@@ -219,14 +203,16 @@ $clickable-area: 44px;
 }
 .add-category-2 {
     display: grid;
-    grid-template: 1fr / 1fr 2fr 3fr 44px;
+    grid-template: 1fr / 1fr 1fr 4fr 44px;
     padding: 10px 10px 10px 20px;
 }
 .add-category-2 label {
     line-height: 40px;
 }
 .add-icon-button {
-    height: 34px;
+    margin-top: 0px;
+    border-radius: 50%;
+    width: 40px;
 }
 .new-category-name {
     width: 90%;

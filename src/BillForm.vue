@@ -27,9 +27,12 @@
                         @focus="$event.target.select()"
                         :placeholder="t('cospend', 'What is the bill about?')"/>
                 </div>
-                <button id="addFileLinkButton" v-if="!pageIsPublic" @click="onGeneratePubLinkClick">
-                    <span class="icon-public"></span>{{ t('cospend', 'Attach public link to personal file') }}
-                </button>
+                <div class="bill-link-button" v-if="!pageIsPublic">
+                    <div></div>
+                    <button id="addFileLinkButton" @click="onGeneratePubLinkClick">
+                        <span class="icon-public"></span>{{ t('cospend', 'Attach public link to personal file') }}
+                    </button>
+                </div>
                 <div class="bill-amount">
                     <label for="amount">
                         <a class="icon icon-cospend"></a>{{ t('cospend', 'How much?') }}
@@ -855,5 +858,39 @@ label[for=bill-currency] {
 }
 .datetime-picker {
     width: 100%;
+}
+.bill-date,
+.bill-payment-mode,
+.bill-category,
+.bill-repeat,
+.bill-repeat-until,
+.bill-payer,
+.bill-amount,
+.bill-currency-convert,
+.bill-comment,
+.bill-link-button,
+.bill-what {
+    display: grid;
+    grid-template: 1fr / 5fr 7fr;
+}
+.bill-repeat,
+.bill-payer,
+.bill-amount {
+    margin-top: 25px;
+}
+.bill-amount .icon-cospend,
+.bill-currency-convert .icon-currencies {
+    display: inline-block;
+    padding-left: 34px !important;
+}
+.bill-amount label,
+.bill-currency-convert label {
+    padding-top: 10px;
+}
+.bill-repeat-include {
+    text-align: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-left: 8px;
 }
 </style>

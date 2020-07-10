@@ -354,11 +354,6 @@ input[type=number] {
     display: inline-block;
     width: 30px;
 }
-#addFileLinkButton {
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-}
 
 .activeButton {
     background: var(--color-background-darker);
@@ -385,42 +380,6 @@ a.billitem .app-content-list-item-icon {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-}
-.bill-date,
-.bill-payment-mode,
-.bill-category,
-.bill-time,
-.bill-repeat,
-.bill-repeat-until,
-.bill-payer,
-.bill-amount,
-.bill-currency-convert,
-.bill-comment,
-.bill-what {
-    display: grid;
-    grid-template: 1fr / 5fr 7fr;
-}
-.bill-repeat,
-.bill-payer,
-.bill-amount {
-    margin-top: 25px;
-}
-.bill-amount .icon-cospend,
-.bill-time .icon-time,
-.bill-currency-convert .icon-currencies {
-    display: inline-block;
-    padding-left: 34px !important;
-}
-.bill-amount label,
-.bill-time label,
-.bill-currency-convert label {
-    padding-top: 10px;
-}
-.bill-repeat-include {
-    text-align: left;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding-left: 8px;
 }
 .exportStats span,
 .exportSettlement span {

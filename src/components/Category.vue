@@ -1,9 +1,9 @@
 <template>
     <div class="one-category">
         <div class="one-category-label" v-show="!editMode">
+            <div :style="{ backgroundColor: category.color }" class="colorDot" />
             <label class="one-category-label-label">{{ category.icon || '' }}</label>
             <label class="one-category-label-label">{{ category.name }}</label>
-            <input class="one-category-label-color" type="color" :value="category.color" v-on:click.prevent readonly="readonly"/>
             <input type="submit" value="" class="icon-rename editOneCategory"
                 @click="onClickEdit" v-show="editionAccess"/>
             <input type="submit" value="" :class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteOneCategory'"
@@ -17,6 +17,9 @@
 			</label>
         </div>
         <div class="one-category-edit" v-show="editMode">
+            <ColorPicker class="app-navigation-entry-bullet-wrapper" value="" @input="updateColor" ref="col">
+                <div :style="{ backgroundColor: category.color }" class="color0 icon-colorpicker" />
+            </ColorPicker>
             <div class="edit-icon-input-div">
                 <input type="text" v-model="category.icon" maxlength="3" class="editCategoryIconInput"
                     ref="editIconInput"/>
@@ -24,9 +27,6 @@
             </div>
             <input type="text" v-model="category.name" maxlength="300" @focus="$event.target.select()"
                     ref="cname" class="editCategoryNameInput" :placeholder="t('cospend', 'Category name')"/>
-            <ColorPicker class="app-navigation-entry-bullet-wrapper" value="" @input="updateColor" ref="col">
-                <input type="color" v-on:click.prevent :readonly="true" v-model="category.color" class="editCategoryColorInput" ref="colorInput"/>
-            </ColorPicker>
             <button class="editCategoryClose" @click="onClickCancel">
                 <span class="icon-history"></span>
             </button>
@@ -128,7 +128,7 @@ export default {
 <style scoped lang="scss">
 .one-category-edit {
     display: grid;
-    grid-template: 1fr / 2fr 3fr 1fr 44px 44px;
+    grid-template: 1fr / 1fr 2fr 3fr 44px 44px;
     padding: 10px 10px 10px 20px;
     background-color: var(--color-background-dark);
 }
@@ -143,7 +143,7 @@ export default {
 }
 .one-category-label {
     display: grid;
-    grid-template: 1fr / 1fr 4fr 4fr 37px 37px 37px;
+    grid-template: 1fr / 1fr 1fr 6fr 37px 37px 37px;
 }
 .editCategoryOk {
     background-color: #46ba61;
@@ -151,5 +151,21 @@ export default {
 }
 .one-category-label-icon {
     font-size: 22px;
+}
+$clickable-area: 44px;
+.color0 {
+    width: calc(#{$clickable-area} - 6px);
+    height: calc(#{$clickable-area} - 6px);
+    background-size: 14px;
+    border-radius: 50%;
+}
+.colorDot {
+    width: calc(#{$clickable-area} - 20px);
+    height: calc(#{$clickable-area} - 20px);
+    border-radius: 50%;
+    margin-top: 8px;
+}
+.edit-icon-button {
+    height: 34px;
 }
 </style>

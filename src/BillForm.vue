@@ -70,15 +70,15 @@
                 </div>
                 <div class="bill-date">
                     <label for="date"><a class="icon icon-calendar-dark"></a>{{ t('cospend', 'When?') }}</label>
-                    <input type="date" id="date" class="input-bill-date"
-                        :readonly="!editionAccess"
-                        :value="billDate" ref="dateInput" @input="onDateChanged"/>
-                </div>
-                <div class="bill-time">
-                    <label for="time"><a class="icon icon-time"></a>{{ t('cospend', 'What time?') }}</label>
-                    <input type="time" id="time" class="input-bill-time"
-                        :readonly="!editionAccess"
-                        :value="billTime" ref="timeInput" @input="onTimeChanged"/>
+                    <DatetimePicker v-model="billDatetime"
+                            class="datetime-picker"
+                            :placeholder="t('cospend', 'When?')"
+                            type="datetime"
+                            :minute-step="5"
+                            :show-second="false"
+                            :format="format"
+                            :disabled="!editionAccess"
+                            confirm />
                 </div>
                 <div class="bill-payment-mode">
                     <label for="payment-mode">
@@ -256,8 +256,10 @@
 
 <script>
 import cospend from './state';
-import {generateUrl} from '@nextcloud/router';
-import {getCurrentUser} from '@nextcloud/auth';
+import { generateUrl } from '@nextcloud/router';
+import { getCurrentUser } from '@nextcloud/auth';
+import { getLocale } from '@nextcloud/l10n';
+import { DatetimePicker } from '@nextcloud/vue';
 import {
     showSuccess,
     showError,
@@ -274,18 +276,23 @@ export default {
     name: 'BillForm',
 
     components: {
+        DatetimePicker
     },
 
     props: ['bill', 'members', 'editionAccess'],
     data() {
         return {
             projectId: cospend.currentProjectId,
-            //bill: cospend.currentBill,
             currentUser: getCurrentUser(),
             newBillMode: 'normal',
             billLoading: false,
             progAmountChange: false,
-            showHint: false
+            showHint: false,
+            locale: getLocale(),
+            format: {
+                stringify: this.stringify,
+                parse: this.parse,
+            },
         };
     },
 
@@ -381,13 +388,17 @@ export default {
             const whatFormatted = paymentmodeChar + categoryChar + this.bill.what.replace(/https?:\/\/[^\s]+/gi, '');
             return t('cospend', 'Bill : {what}', {what: whatFormatted});
         },
-        billDate() {
-            const billMom = moment.unix(this.bill.timestamp);
-            return billMom.format('YYYY-MM-DD');
+        billDateObject() {
+            return moment.unix(this.bill.timestamp).toDate();
         },
-        billTime() {
-            const billMom = moment.unix(this.bill.timestamp);
-            return billMom.format('HH:mm');
+        billDatetime: {
+            get() {
+                return this.billDateObject;
+            },
+            set(value) {
+                this.bill.timestamp = moment(value).unix();
+                this.onBillEdited();
+            }
         },
         activatedMembers() {
             const mList = [];
@@ -443,6 +454,12 @@ export default {
     },
 
     methods: {
+        stringify(date) {
+            return moment(date).locale(this.locale).format('LLL')
+        },
+        parse(value) {
+            return moment(value, 'LLL', this.locale).toDate()
+        },
         myGetSmartMemberName(mid) {
             let smartName = getSmartMemberName(this.projectId, mid);
             if (smartName === t('cospend', 'You')) {
@@ -468,22 +485,6 @@ export default {
                 return this.members[mid].color;
             }
         },
-        onDateChanged() {
-            this.updateTimestamp();
-        },
-        onTimeChanged() {
-            this.updateTimestamp();
-        },
-        updateTimestamp() {
-            const date = this.$refs.dateInput.value;
-            let time = this.$refs.timeInput.value;
-            if (!time || time === '') {
-                time = '00:00';
-            }
-            const timestamp = moment(date + ' ' + time).unix();
-            this.bill.timestamp = timestamp;
-            this.onBillEdited();
-        },
         onBillEdited(e) {
             if (e && e.target === this.$refs.amountInput) {
                 this.onAmountChanged();
@@ -502,14 +503,6 @@ export default {
             let valid = true;
             const bill = this.bill;
             if (bill.what === null || bill.what === '') {
-                return false;
-            }
-            const date = this.$refs.dateInput.value;
-            if (date === null || date === '' || date.match(/^\d\d\d\d-\d\d-\d\d$/g) === null) {
-                return false;
-            }
-            const time = this.$refs.timeInput.value;
-            if (time === null || time === '' || time.match(/^\d\d:\d\d$/g) === null) {
                 return false;
             }
             if (bill.amount === '' || isNaN(bill.amount) || isNaN(bill.payer_id)) {
@@ -859,5 +852,8 @@ label[for=bill-currency] {
     height: 34px;
     width: 34px;
     float: right;
+}
+.datetime-picker {
+    width: 100%;
 }
 </style>

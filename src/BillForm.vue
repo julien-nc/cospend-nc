@@ -41,6 +41,7 @@
                         :disabled="isNewBill && newBillMode === 'custom'"
                         :readonly="!editionAccess"
                         @input="onAmountChanged"
+                        v-on:keyup.enter="onAmountEnterPressed"
                         @focus="$event.target.select()"
                         v-model="uiAmount"/>
                 </div>
@@ -295,23 +296,32 @@ export default {
                 stringify: this.stringify,
                 parse: this.parse,
             },
+            currentFormula: null,
         };
     },
 
     watch: {
+        bill() {
+            // reset formula when changing bill
+            this.currentFormula = null;
+        }
     },
 
     computed: {
-        // proxy to safely manipulate bill.amount
+        // amount field proxy to safely manipulate bill.amount
         uiAmount: {
             get() {
                 return this.bill.amount;
             },
             set(value) {
-                const val = parseFloat(value.replace(',', '.'));
-                const finalVal = isNaN(val) ? 0 : val;
-                this.bill.amount = finalVal;
-                return finalVal;
+                const val = value.replace(',', '.');
+                // only change bill amount if we're not typing a formula
+                if (val !== '' && !val.endsWith('.') && !isNaN(val)) {
+                    this.bill.amount = parseFloat(val);
+                    this.currentFormula = null;
+                } else {
+                    this.currentFormula = val;
+                }
             }
         },
         selectAllNoneOwers: {
@@ -485,12 +495,16 @@ export default {
                 return this.members[mid].color;
             }
         },
-        onBillEdited(e) {
+        onBillEdited(e, delayed=true) {
             const that = this;
             if (!this.isNewBill && !this.noBill) {
-                delay(function() {
-                    that.saveBill();
-                }, 2000)();
+                if (delayed) {
+                    delay(function() {
+                        that.saveBill();
+                    }, 2000)();
+                } else {
+                    this.saveBill();
+                }
             }
         },
         isBillValidForSaveOrNormal() {
@@ -508,6 +522,10 @@ export default {
             return true;
         },
         saveBill() {
+            // don't save the bill if we are typing a formula
+            if (this.currentFormula !== null) {
+                return;
+            }
             const that = this;
             if (!this.isBillValidForSaveOrNormal()) {
                 showError(t('cospend', 'Impossible to save bill, invalid values.'));
@@ -576,7 +594,23 @@ export default {
         },
         onAmountChanged() {
             this.bill.what = this.cleanStringFromCurrency(this.bill.what);
-            this.onBillEdited();
+            // here, do nothing if we are typing a formula or if
+            if (this.currentFormula === null) {
+                this.onBillEdited();
+            }
+        },
+        onAmountEnterPressed() {
+            // try to evaluate the current algebric formula
+            if (isNaN(this.currentFormula)) {
+                let calc = 'a';
+                try {
+                    calc = eval(this.currentFormula);
+                } catch (err) {
+                }
+                this.bill.amount = isNaN(calc) ? 0 : calc;
+                this.currentFormula = null;
+                this.onBillEdited(null, false);
+            }
         },
         onHintClick() {
             this.showHint = !this.showHint;

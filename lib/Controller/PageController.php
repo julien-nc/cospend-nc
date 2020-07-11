@@ -145,7 +145,7 @@ class PageController extends ApiController {
             ->addAllowedFrameDomain('*')
             ->addAllowedWorkerSrcDomain('*')
             //->allowInlineScript(true)
-            //->allowEvalScript(true)
+            ->allowEvalScript(true)
             ->addAllowedObjectDomain('*')
             ->addAllowedScriptDomain('*')
             ->addAllowedConnectDomain('*');
@@ -264,6 +264,7 @@ class PageController extends ApiController {
                 //->addAllowedChildSrcDomain('*')
                 ->addAllowedFrameDomain('*')
                 ->addAllowedWorkerSrcDomain('*')
+                ->allowEvalScript(true)
                 ->addAllowedObjectDomain('*')
                 ->addAllowedScriptDomain('*')
                 ->addAllowedConnectDomain('*');
@@ -316,6 +317,7 @@ class PageController extends ApiController {
                 //->addAllowedChildSrcDomain('*')
                 ->addAllowedFrameDomain('*')
                 ->addAllowedWorkerSrcDomain('*')
+                ->allowEvalScript(true)
                 ->addAllowedObjectDomain('*')
                 ->addAllowedScriptDomain('*')
                 ->addAllowedConnectDomain('*');

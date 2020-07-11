@@ -415,7 +415,7 @@ export default {
             },
             set(value) {
                 this.bill.timestamp = moment(value).unix();
-                this.onBillEdited();
+                this.onBillEdited(null, false);
             }
         },
         activatedMembers() {

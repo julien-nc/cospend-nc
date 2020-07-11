@@ -37,27 +37,30 @@
                     <label for="amount">
                         <a class="icon icon-cospend"></a>{{ t('cospend', 'How much?') }}
                     </label>
-                    <input type="text" id="amount" class="input-bill-amount"
-                        :disabled="isNewBill && newBillMode === 'custom'"
-                        :readonly="!editionAccess"
-                        @input="onAmountChanged"
-                        v-on:keyup.enter="onAmountEnterPressed"
-                        @focus="$event.target.select()"
-                        v-model="uiAmount"/>
+                    <div class="field-with-info">
+                        <input type="text" id="amount" class="input-bill-amount"
+                            :disabled="isNewBill && newBillMode === 'custom'"
+                            :readonly="!editionAccess"
+                            @input="onAmountChanged"
+                            v-on:keyup.enter="onAmountEnterPressed"
+                            @focus="$event.target.select()"
+                            v-model="uiAmount"/>
+                        <button class="icon-info infoButton" @click="onAmountInfoClicked"></button>
+                    </div>
                 </div>
                 <div class="bill-currency-convert" v-if="project.currencyname && project.currencies.length > 0 && editionAccess">
-                    <div>
-                        <label for="bill-currency">
-                            <a class="icon icon-currencies"></a>{{ t('cospend', 'Convert to') }}
-                        </label>
+                    <label for="bill-currency">
+                        <a class="icon icon-currencies"></a>{{ t('cospend', 'Convert to') }}
+                    </label>
+                    <div class="field-with-info">
+                        <select id="bill-currency" ref="currencySelect" @change="onCurrencyConvert">
+                            <option value="">{{ project.currencyname }}</option>
+                            <option v-for="currency in project.currencies" :key="currency.id" :value="currency.id">
+                                {{ currency.name }} ⇒ {{ project.currencyname }} (x{{ currency.exchange_rate }})
+                            </option>
+                        </select>
                         <button class="icon-info infoButton" @click="onConvertInfoClicked"></button>
                     </div>
-                    <select id="bill-currency" ref="currencySelect" @change="onCurrencyConvert">
-                        <option value="">{{ project.currencyname }}</option>
-                        <option v-for="currency in project.currencies" :key="currency.id" :value="currency.id">
-                            {{ currency.name }} ⇒ {{ project.currencyname }} (x{{ currency.exchange_rate }})
-                        </option>
-                    </select>
                 </div>
                 <div class="bill-payer">
                     <label for="payer"><a class="icon icon-user"></a>{{ t('cospend', 'Who payed?') }}</label>
@@ -803,6 +806,12 @@ export default {
                 t('cospend', 'Info')
             );
         },
+        onAmountInfoClicked() {
+            OC.dialogs.alert(
+                t('cospend', 'You can type simple math operations and validate by pressing Enter key.'),
+                t('cospend', 'Info')
+            );
+        },
     }
 }
 </script>
@@ -877,13 +886,17 @@ export default {
     height: 52px;
     left: 51px;
 }
-label[for=bill-currency] {
-    line-height: 40px;
-}
 .infoButton {
     height: 34px;
     width: 34px;
     float: right;
+}
+.field-with-info {
+    display: flex;
+}
+.field-with-info select,
+.field-with-info input {
+    flex-grow: 100;
 }
 .datetime-picker {
     width: 100%;

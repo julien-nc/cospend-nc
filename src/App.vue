@@ -42,6 +42,7 @@
                     :editionAccess="editionAccess"
                     @billCreated="onBillCreated"
                     @billSaved="onBillSaved"
+                    @customBillsCreated="onCustomBillsCreated"
                 />
                 <Statistics
                     v-if="mode === 'stats'"
@@ -240,16 +241,22 @@ export default {
                 }
             }
         },
-        onBillCreated(bill, select) {
+        onBillCreated(bill, select, mode) {
             this.bills[cospend.currentProjectId][bill.id] = bill;
             this.billLists[cospend.currentProjectId].push(bill);
             this.cleanupBills();
             if (select) {
                 this.currentBill = bill;
             }
-            this.updateBalances(cospend.currentProjectId);
+            if (mode !== 'custom') {
+                this.updateBalances(cospend.currentProjectId);
+            }
         },
         onBillSaved(bill) {
+            this.updateBalances(cospend.currentProjectId);
+        },
+        onCustomBillsCreated() {
+            this.currentBill = null;
             this.updateBalances(cospend.currentProjectId);
         },
         onBillDeleted(bill) {

@@ -304,6 +304,7 @@ export default {
                 parse: this.parse,
             },
             currentFormula: null,
+            customBillsLeft: 0,
         };
     },
 
@@ -710,13 +711,19 @@ export default {
                 // check if custom amounts are valid
                 const customAmounts = this.getCustomAmounts();
                 let total = 0.0;
+                let nbBills = 0
                 for (const mid in customAmounts) {
                     total += customAmounts[mid];
+                    // count how many bills are going to be created
+                    if (customAmounts[mid] !== 0.0) {
+                        nbBills++;
+                    }
                 }
                 if (total === 0.0) {
                     showError(t('cospend', 'There is no custom amount.'));
                     return;
                 } else {
+                    this.customBillsLeft = nbBills;
                     let am;
                     for (const mid in customAmounts) {
                         am = customAmounts[mid];
@@ -770,14 +777,16 @@ export default {
         },
         createBillSuccess(response, billToCreate, mode) {
             const billid = response;
-            // update dict
-            // TODO use $set
-            //that.$set(cospend.bills[this.projectId], billid, {
-
             billToCreate.id = billid;
-            this.$emit('billCreated', billToCreate, (mode === 'normal' || mode === 'mainPerso'));
-            //updateProjectBalances(that.projectId);
+            this.$emit('billCreated', billToCreate, (mode === 'normal' || mode === 'mainPerso'), mode);
             showSuccess(t('cospend', 'Bill created.'));
+            // manage custom
+            if (mode === 'custom') {
+                this.customBillsLeft--;
+                if (this.customBillsLeft === 0) {
+                    this.$emit('customBillsCreated');
+                }
+            }
         },
         createBillDone() {
             this.billLoading = false;

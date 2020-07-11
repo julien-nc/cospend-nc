@@ -37,13 +37,12 @@
                     <label for="amount">
                         <a class="icon icon-cospend"></a>{{ t('cospend', 'How much?') }}
                     </label>
-                    <input type="number" id="amount" class="input-bill-amount" step="any"
+                    <input type="text" id="amount" class="input-bill-amount"
                         :disabled="isNewBill && newBillMode === 'custom'"
                         :readonly="!editionAccess"
-                        @input="onBillEdited"
+                        @input="onAmountChanged"
                         @focus="$event.target.select()"
-                        ref="amountInput"
-                        v-model.number="bill.amount"/>
+                        v-model="uiAmount"/>
                 </div>
                 <div class="bill-currency-convert" v-if="project.currencyname && project.currencies.length > 0 && editionAccess">
                     <div>
@@ -300,23 +299,21 @@ export default {
     },
 
     watch: {
-        //'bill.amount'(val, oldVal) {
-        //    if (!this.progAmountChange) {
-        //        this.onAmountChanged();
-        //    }
-        //    this.progAmountChange = false;
-        //},
-        //bill: {
-        //    handler(val) {
-        //        if (!this.isNewBill && !this.noBill) {
-        //            this.onBillChanged();
-        //        }
-        //    },
-        //    deep: true
-        //}
     },
 
     computed: {
+        // proxy to safely manipulate bill.amount
+        uiAmount: {
+            get() {
+                return this.bill.amount;
+            },
+            set(value) {
+                const val = parseFloat(value.replace(',', '.'));
+                const finalVal = isNaN(val) ? 0 : val;
+                this.bill.amount = finalVal;
+                return finalVal;
+            }
+        },
         selectAllNoneOwers: {
             get() {
                 return this.activatedOrOwer ? this.bill.owerIds.length === this.activatedOrOwer.length : false;
@@ -489,9 +486,6 @@ export default {
             }
         },
         onBillEdited(e) {
-            if (e && e.target === this.$refs.amountInput) {
-                this.onAmountChanged();
-            }
             const that = this;
             if (!this.isNewBill && !this.noBill) {
                 delay(function() {
@@ -582,6 +576,7 @@ export default {
         },
         onAmountChanged() {
             this.bill.what = this.cleanStringFromCurrency(this.bill.what);
+            this.onBillEdited();
         },
         onHintClick() {
             this.showHint = !this.showHint;

@@ -583,7 +583,7 @@ export default {
                         }
                     }
                 }
-                this.onBillEdited();
+                this.onBillEdited(null, false);
             }
         },
         cleanStringFromCurrency(str) {

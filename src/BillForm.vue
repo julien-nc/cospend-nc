@@ -233,8 +233,10 @@
                                 v-model="bill.owerIds" :value="ower.id" number/>
                             <label :for="'dum' + ower.id" class="checkboxlabel">{{ ower.name }}</label>
                             <input v-show="bill.owerIds.includes(ower.id)"
+                                :placeholder="t('cospend', 'Personal amount')"
                                 :ref="'amountdum' + ower.id"
-                                class="amountinput" type="number" value="" step="0.01" min="0"/>
+                                v-on:keyup.enter="onPersoAmountEnterPressed"
+                                class="amountinput" type="text" value=""/>
                         </div>
                     </div>
                     <div v-else>
@@ -244,9 +246,11 @@
                             </div>
                             <label :for="'amountdum' + ower.id" class="numberlabel">{{ ower.name }}</label>
                             <input :id="'amountdum' + ower.id"
+                                :placeholder="t('cospend', 'Custom amount')"
                                 :ref="'amountdum' + ower.id"
-                                @change="onCustomAmountChange"
-                                class="amountinput" type="number" value="" step="0.01" min="0"/>
+                                @input="onCustomAmountChange"
+                                v-on:keyup.enter="onCustomAmountEnterPressed"
+                                class="amountinput" type="text" value=""/>
                         </div>
                     </div>
                 </div>
@@ -613,6 +617,33 @@ export default {
                 this.bill.amount = isNaN(calc) ? 0 : calc;
                 this.currentFormula = null;
                 this.onBillEdited(null, false);
+            }
+        },
+        onPersoAmountEnterPressed(e) {
+            const val = e.target.value.replace(',', '.');
+            if (isNaN(val)) {
+                let calc = 'a';
+                try {
+                    calc = eval(val);
+                } catch (err) {
+                }
+                if (!isNaN(calc)) {
+                    e.target.value = calc
+                }
+            }
+        },
+        onCustomAmountEnterPressed(e) {
+            const val = e.target.value.replace(',', '.');
+            if (isNaN(val)) {
+                let calc = 'a';
+                try {
+                    calc = eval(val);
+                } catch (err) {
+                }
+                if (!isNaN(calc)) {
+                    e.target.value = calc
+                    this.onCustomAmountChange();
+                }
             }
         },
         onHintClick() {

@@ -43,6 +43,7 @@
                     @billCreated="onBillCreated"
                     @billSaved="onBillSaved"
                     @customBillsCreated="onCustomBillsCreated"
+                    @persoBillsCreated="onPersoBillsCreated"
                 />
                 <Statistics
                     v-if="mode === 'stats'"
@@ -248,7 +249,7 @@ export default {
             if (select) {
                 this.currentBill = bill;
             }
-            if (mode !== 'custom') {
+            if (mode === 'normal') {
                 this.updateBalances(cospend.currentProjectId);
             }
         },
@@ -257,6 +258,9 @@ export default {
         },
         onCustomBillsCreated() {
             this.currentBill = null;
+            this.updateBalances(cospend.currentProjectId);
+        },
+        onPersoBillsCreated() {
             this.updateBalances(cospend.currentProjectId);
         },
         onBillDeleted(bill) {

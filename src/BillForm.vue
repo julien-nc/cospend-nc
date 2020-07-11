@@ -304,7 +304,7 @@ export default {
                 parse: this.parse,
             },
             currentFormula: null,
-            customBillsLeft: 0,
+            nbBillsLeftToCreate: 0,
         };
     },
 
@@ -686,6 +686,19 @@ export default {
                     return;
                 }
 
+                // count how many bills are going to be created
+                let nbBills = 0
+                for (const mid in persoParts) {
+                    part = persoParts[mid];
+                    if (!isNaN(part) && part !== 0.0) {
+                        nbBills++;
+                    }
+                }
+                if (tmpAmount > 0.0) {
+                    nbBills++;
+                }
+                this.nbBillsLeftToCreate = nbBills;
+
                 // create bills for perso parts
                 for (const mid in persoParts) {
                     part = persoParts[mid];
@@ -723,7 +736,7 @@ export default {
                     showError(t('cospend', 'There is no custom amount.'));
                     return;
                 } else {
-                    this.customBillsLeft = nbBills;
+                    this.nbBillsLeftToCreate = nbBills;
                     let am;
                     for (const mid in customAmounts) {
                         am = customAmounts[mid];
@@ -778,13 +791,19 @@ export default {
         createBillSuccess(response, billToCreate, mode) {
             const billid = response;
             billToCreate.id = billid;
-            this.$emit('billCreated', billToCreate, (mode === 'normal' || mode === 'mainPerso'), mode);
+            // only select the bill if it's a normal one or the main one in perso mode
+            const select = (mode === 'normal' || mode === 'mainPerso');
+            this.$emit('billCreated', billToCreate, select, mode);
             showSuccess(t('cospend', 'Bill created.'));
-            // manage custom
-            if (mode === 'custom') {
-                this.customBillsLeft--;
-                if (this.customBillsLeft === 0) {
-                    this.$emit('customBillsCreated');
+            // manage multiple creation
+            if (mode !== 'normal') {
+                this.nbBillsLeftToCreate--;
+                if (this.nbBillsLeftToCreate === 0) {
+                    if (mode === 'custom') {
+                        this.$emit('customBillsCreated');
+                    } else {
+                        this.$emit('persoBillsCreated');
+                    }
                 }
             }
         },

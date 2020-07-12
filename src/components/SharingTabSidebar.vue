@@ -15,6 +15,7 @@
 
         <ul
             id="shareWithList"
+            ref="shareWithList"
             class="shareWithList">
             <li @click="addLink" v-if="editionAccess">
                 <div class="avatardiv icon icon-public-white" />
@@ -392,6 +393,8 @@ export default {
             access.accesslevel = level;
         },
         clickDeleteAccess(access) {
+            // to make sure the menu disappears
+            this.$refs.shareWithList.click();
             network.deleteAccess(this.projectId, access, this.deleteAccessSuccess);
         },
         deleteAccessSuccess(access) {

@@ -383,6 +383,7 @@ export default {
                 }
             }
             this.project.shares.push(newShAccess);
+            this.selectedSharee = null;
         },
         clickAccessLevel(access, level) {
             network.setAccessLevel(this.projectId, access, level, this.setAccessLevelSuccess);

@@ -11,7 +11,7 @@
         <h2 v-if="bills.length === 0" class="nobill">
             {{ t('cospend', 'No bill yet') }}
         </h2>
-        <slide-x-right-transition group>
+        <slide-x-right-transition group :duration="{enter: 300, leave: 0}">
             <BillItem
                 v-for="(bill, index) in reverseBills"
                 :key="bill.id"

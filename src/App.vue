@@ -55,6 +55,9 @@
                     @autoSettled="onAutoSettled"
                 />
             </div>
+            <Actions :title="t('cospend', 'Details')" class="content-buttons">
+                <ActionButton icon="icon-menu-sidebar" @click="onMainDetailClicked" />
+            </Actions>
         </AppContent>
         <Sidebar
             v-if="currentProjectId"
@@ -96,7 +99,8 @@ import {
 import * as constants from './constants';
 import {rgbObjToHex, slugify} from './utils';
 import {
-    Content, AppContent
+    Content, AppContent,
+    Actions, ActionButton
 } from '@nextcloud/vue'
 
 
@@ -111,7 +115,7 @@ export default {
         CategoryManagement,
         CurrencyManagement,
         Sidebar,
-        Content, AppContent
+        Content, AppContent, Actions, ActionButton
     },
     data() {
         return {
@@ -195,6 +199,10 @@ export default {
     methods: {
         onActiveSidebarTabChanged(newActive) {
             this.activeSidebarTab = newActive;
+        },
+        onMainDetailClicked() {
+            this.showSidebar = !this.showSidebar;
+            this.activeSidebarTab = 'settings';
         },
         onDetailClicked(projectid) {
             const sameProj = cospend.currentProjectId === projectid;
@@ -574,6 +582,11 @@ export default {
             }
         }
     }*/
+.content-buttons {
+    position: absolute;
+    top: 0px;
+    right: 8px;
+}
 </style>
 
 <style>

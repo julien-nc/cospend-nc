@@ -48,13 +48,15 @@
 				<a class="icon icon-currencies"></a>{{ t('cospend', 'Currency list') }}
 			</label>
 			<div id="currency-list" v-if="currencies.length">
-				<Currency
-					:editionAccess="project.myaccesslevel >= constants.ACCESS.MAINTENER"
-					v-on:delete="onDeleteCurrency"
-					v-on:edit="onEditCurrency"
-					v-for="currency in currencies"
-					:key="currency.id"
-					v-bind:currency="currency"/>
+                <slide-x-right-transition group>
+                    <Currency
+                        :editionAccess="project.myaccesslevel >= constants.ACCESS.MAINTENER"
+                        v-on:delete="onDeleteCurrency"
+                        v-on:edit="onEditCurrency"
+                        v-for="currency in currencies"
+                        :key="currency.id"
+                        v-bind:currency="currency"/>
+                </slide-x-right-transition>
 			</div>
 			<div v-else class="no-currencies">
 				{{ t('cospend', 'No currencies to display') }}
@@ -73,12 +75,13 @@ import {
 } from '@nextcloud/dialogs'
 import * as constants from './constants';
 import * as network from './network';
+import { SlideXRightTransition } from 'vue2-transitions'
 
 export default {
     name: 'CurrencyManagement',
 
     components: {
-        Currency
+        Currency, SlideXRightTransition
     },
 
 	props: ['projectId'],

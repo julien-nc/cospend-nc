@@ -11,17 +11,19 @@
         <h2 v-if="bills.length === 0" class="nobill">
             {{ t('cospend', 'No bill yet') }}
         </h2>
-        <BillItem
-            v-for="(bill, index) in reverseBills"
-            :key="bill.id"
-            :bill="bill"
-            :projectId="projectId"
-            :index="nbBills - index"
-            :nbbills="nbBills"
-            :selected="bill.id === selectedBillId"
-            :editionAccess="editionAccess"
-            v-on:clicked="onItemClicked"
-            v-on:delete="onItemDeleted"/>
+        <slide-x-right-transition group>
+            <BillItem
+                v-for="(bill, index) in reverseBills"
+                :key="bill.id"
+                :bill="bill"
+                :projectId="projectId"
+                :index="nbBills - index"
+                :nbbills="nbBills"
+                :selected="bill.id === selectedBillId"
+                :editionAccess="editionAccess"
+                v-on:clicked="onItemClicked"
+                v-on:delete="onItemDeleted"/>
+        </slide-x-right-transition>
     </div>
 </template>
 
@@ -36,12 +38,13 @@ import {
 import cospend from './state';
 import * as constants from './constants';
 import * as network from './network';
+import { SlideXRightTransition } from 'vue2-transitions'
 
 export default {
     name: 'BillList',
 
     components: {
-        BillItem, AppNavigationItem
+        BillItem, AppNavigationItem, SlideXRightTransition
     },
 
     //TODO

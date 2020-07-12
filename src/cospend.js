@@ -20,6 +20,8 @@ import VueClipboard from 'vue-clipboard2'
 Vue.use(VueClipboard);
 import SmartTable from 'vuejs-smart-table'
 Vue.use(SmartTable)
+import Transitions from 'vue2-transitions'
+Vue.use(Transitions)
 import {
     showError,
 } from '@nextcloud/dialogs'

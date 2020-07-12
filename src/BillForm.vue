@@ -184,15 +184,17 @@
                     <button id="modehintbutton" @click="onHintClick">
                         <span class="icon-details"></span>
                     </button>
-                    <div class="modehint modenormal" v-if="newBillMode === 'normal' && showHint">
-                        {{ t('cospend', 'Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost.') }}
-                    </div>
-                    <div class="modehint modeperso" v-else-if="newBillMode === 'perso' && showHint">
-                        {{ t('cospend', 'Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don\'t want to collectively pay.') }}
-                    </div>
-                    <div class="modehint modecustom" v-else-if="newBillMode === 'custom' && showHint">
-                        {{ t('cospend', 'Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press "Create the bills". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate.') }}
-                    </div>
+                    <collapse-transition>
+                        <div class="modehint modenormal" v-if="newBillMode === 'normal' && showHint">
+                            {{ t('cospend', 'Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost.') }}
+                        </div>
+                        <div class="modehint modeperso" v-else-if="newBillMode === 'perso' && showHint">
+                            {{ t('cospend', 'Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don\'t want to collectively pay.') }}
+                        </div>
+                        <div class="modehint modecustom" v-else-if="newBillMode === 'custom' && showHint">
+                            {{ t('cospend', 'Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press "Create the bills". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate.') }}
+                        </div>
+                    </collapse-transition>
                 </div>
                 <div class="bill-owers">
                     <label class="bill-owers-label">
@@ -265,6 +267,7 @@
 </template>
 
 <script>
+import { CollapseTransition } from 'vue2-transitions'
 import cospend from './state';
 import { generateUrl } from '@nextcloud/router';
 import { getCurrentUser } from '@nextcloud/auth';
@@ -286,7 +289,7 @@ export default {
     name: 'BillForm',
 
     components: {
-        DatetimePicker
+        DatetimePicker, CollapseTransition
     },
 
     props: ['bill', 'members', 'editionAccess'],

@@ -28,13 +28,15 @@
                 <a class="icon icon-category-app-bundles"></a>{{ t('cospend', 'Category list') }}
             </label>
             <div id="category-list" v-if="categories">
-                <Category
-                    :editionAccess="editionAccess"
-                    v-on:delete="onDeleteCategory"
-                    v-on:edit="onEditCategory"
-                    v-for="category in categories"
-                    :key="category.id"
-                    v-bind:category="category"/>
+                <slide-x-right-transition group>
+                    <Category
+                        :editionAccess="editionAccess"
+                        v-on:delete="onDeleteCategory"
+                        v-on:edit="onEditCategory"
+                        v-for="category in categories"
+                        :key="category.id"
+                        v-bind:category="category"/>
+                </slide-x-right-transition>
             </div>
             <div v-else class="no-categories">
                 {{ t('cospend', 'No categories to display') }}
@@ -55,12 +57,13 @@ import {
 import * as constants from './constants';
 import EmojiButton from '@joeattardi/emoji-button';
 import * as network from './network';
+import { SlideXRightTransition } from 'vue2-transitions'
 
 export default {
     name: 'CategoryManagement',
 
     components: {
-        Category, ColorPicker
+        Category, ColorPicker, SlideXRightTransition
     },
 
     props: ['projectId'],

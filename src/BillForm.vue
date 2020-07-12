@@ -414,8 +414,11 @@ export default {
                 return this.billDateObject;
             },
             set(value) {
-                this.bill.timestamp = moment(value).unix();
-                this.onBillEdited(null, false);
+                const ts = moment(value).unix();
+                if (!isNaN(ts)) {
+                    this.bill.timestamp = ts;
+                    this.onBillEdited(null, false);
+                }
             }
         },
         activatedMembers() {

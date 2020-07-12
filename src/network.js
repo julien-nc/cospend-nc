@@ -220,7 +220,7 @@ export function editMember(projectid, member, successCB) {
     const req = {
         name: member.name,
         weight: member.weight,
-        activated: member.activated,
+        activated: member.activated ? 'true' : 'false',
         color: member.color,
         userid: (member.userid === null) ? '' : member.userid
     };

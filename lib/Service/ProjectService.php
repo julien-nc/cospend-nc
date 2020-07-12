@@ -1222,7 +1222,7 @@ class ProjectService {
             $billTitle = $memberIdToName[$fromId].' → '.$memberIdToName[$toId];
             $addBillResult = $this->addBill($projectid, null, $billTitle, $fromId, $toId, $amount, 'n', null, CAT_REIMBURSEMENT, 0, null, $ts);
             if (!is_numeric($addBillResult)) {
-                return ['message' => $this->trans->t('Error when addind a bill')];
+                return ['message' => $this->trans->t('Error when adding a bill')];
             }
         }
         return 'OK';

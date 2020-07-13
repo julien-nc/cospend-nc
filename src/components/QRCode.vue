@@ -16,7 +16,10 @@ export default {
         },
         render: {
             type: String,
-            default: 'image'
+            default: 'image',
+            validator(value) {
+                return ['image', 'canvas', 'svg'].indexOf(value) !== -1
+            }
         },
         fgcolor: {
             type: String,
@@ -28,7 +31,10 @@ export default {
         },
         rounded: {
             type: Number,
-            default: 0
+            default: 0,
+            validator(value) {
+                return (value >= 0 && value <= 100)
+            }
         },
         size: {
             type: Number,

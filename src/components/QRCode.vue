@@ -9,7 +9,40 @@ import kjua from 'kjua';
 export default {
     name: 'QRCode',
 
-    props: ['link', 'color', 'imageUrl'],
+    props: {
+        link: {
+            type: String,
+            required: true
+        },
+        render: {
+            type: String,
+            default: 'image'
+        },
+        fgcolor: {
+            type: String,
+            default: 'black'
+        },
+        bgcolor: {
+            type: String,
+            default: 'white'
+        },
+        rounded: {
+            type: Number,
+            default: 0
+        },
+        pixels: {
+            type: Number,
+            default: 200
+        },
+        imageUrl: {
+            type: String,
+            default: null
+        },
+        label: {
+            type: String,
+            default: null
+        },
+    },
     components: {
     },
 
@@ -30,6 +63,34 @@ export default {
 
     methods: {
         genQRCode() {
+            if (this.imageUrl) {
+                this.genQRCodeWithImage();
+            } else {
+                this.genPlainQRCode();
+            }
+        },
+        genPlainQRCode() {
+            const qr = kjua({
+                text: this.link,
+                crisp: false,
+                render: this.render,
+                minVersion: 6,
+                ecLevel: 'H',
+                size: this.pixels,
+                back: this.bgcolor,
+                fill: this.fgcolor,
+                rounded: this.rounded,
+                quiet: 1,
+                mode: this.label ? 'label' : 'plain',
+                mSize: 20,
+                mPosX: 50,
+                mPosY: 50,
+                label: this.label,
+            });
+            this.$refs.qrcodediv.innerHTML = '';
+            this.$refs.qrcodediv.appendChild(qr);
+        },
+        genQRCodeWithImage() {
             const that = this;
             const img = new Image();
             // wait for the image to be loaded to generate the QRcode
@@ -37,20 +98,20 @@ export default {
                 const qr = kjua({
                     text: that.link,
                     crisp: false,
-                    render: 'canvas',
+                    render: that.render,
                     minVersion: 6,
                     ecLevel: 'H',
-                    size: 210,
-                    back: '#ffffff',
-                    fill: that.color,
-                    rounded: 100,
+                    size: that.pixels,
+                    back: that.bgcolor,
+                    fill: that.fgcolor,
+                    rounded: that.rounded,
                     quiet: 1,
                     mode: 'image',
                     mSize: 20,
                     mPosX: 50,
                     mPosY: 50,
                     image: img,
-                    label: 'no label',
+                    label: '',
                 });
                 that.$refs.qrcodediv.innerHTML = '';
                 that.$refs.qrcodediv.appendChild(qr);
@@ -59,21 +120,21 @@ export default {
                 const qr = kjua({
                     text: that.link,
                     crisp: false,
-                    render: 'canvas',
+                    render: that.render,
                     minVersion: 6,
                     ecLevel: 'H',
-                    size: 210,
-                    back: '#ffffff',
-                    fill: that.color,
-                    rounded: 100,
+                    size: that.pixels,
+                    back: that.bgcolor,
+                    fill: that.fgcolor,
+                    rounded: that.rounded,
                     quiet: 1,
                     mode: 'label',
                     mSize: 10,
                     mPosX: 50,
                     mPosY: 50,
-                    image: img,
+                    image: null,
                     label: 'Cospend',
-                    fontcolor: '#000000',
+                    fontcolor: that.fgcolor,
                 });
                 that.$refs.qrcodediv.innerHTML = '';
                 that.$refs.qrcodediv.appendChild(qr);

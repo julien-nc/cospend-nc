@@ -8,8 +8,10 @@
         <div id="qrcode-div-nopass">
             <QRCode
                 :link="noPassLink"
-                :color="color"
+                :fgcolor="qrcodeColor"
                 :imageUrl="qrcodeImageUrl"
+                render="canvas"
+                :rounded="100"
             />
         </div>
         <label id="mbUrlLabel">{{ noPassLink }}</label>
@@ -33,8 +35,10 @@
                 <QRCode
                     v-if="validPassword"
                     :link="passLink"
-                    :color="color"
+                    :fgcolor="qrcodeColor"
                     :imageUrl="qrcodeImageUrl"
+                    render="canvas"
+                    :rounded="100"
                 />
             </div>
             <label id="mbPassUrlLabel">{{ passLink }}</label>
@@ -64,7 +68,7 @@ export default {
         return {
             password: '',
             validPassword: null,
-            color: cospend.themeColorDark,
+            qrcodeColor: cospend.themeColorDark,
             qrcodeImageUrl: imagePath('cospend', 'cospend.png')
         };
     },

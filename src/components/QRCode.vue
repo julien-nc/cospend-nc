@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import kjua from 'kjua';
+import kjua from 'kjua-svg';
 
 export default {
     name: 'QRCode',
@@ -30,7 +30,7 @@ export default {
             type: Number,
             default: 0
         },
-        pixels: {
+        size: {
             type: Number,
             default: 200
         },
@@ -76,7 +76,7 @@ export default {
                 render: this.render,
                 minVersion: 6,
                 ecLevel: 'H',
-                size: this.pixels,
+                size: this.size,
                 back: this.bgcolor,
                 fill: this.fgcolor,
                 rounded: this.rounded,
@@ -101,7 +101,7 @@ export default {
                     render: that.render,
                     minVersion: 6,
                     ecLevel: 'H',
-                    size: that.pixels,
+                    size: that.size,
                     back: that.bgcolor,
                     fill: that.fgcolor,
                     rounded: that.rounded,
@@ -123,7 +123,7 @@ export default {
                     render: that.render,
                     minVersion: 6,
                     ecLevel: 'H',
-                    size: that.pixels,
+                    size: that.size,
                     back: that.bgcolor,
                     fill: that.fgcolor,
                     rounded: that.rounded,

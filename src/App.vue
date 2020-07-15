@@ -370,6 +370,13 @@ export default {
             }
             if (found === -1) {
                 const payer_id = this.defaultPayerId;
+                // select all owers
+                const owerIds = [];
+                for (const mid in this.currentMembers) {
+                    if (this.currentMembers[mid].activated) {
+                        owerIds.push(this.currentMembers[mid].id);
+                    }
+                }
                 this.currentBill = {
                     id: 0,
                     what: '',
@@ -378,7 +385,7 @@ export default {
                     payer_id: payer_id,
                     repeat: 'n',
                     owers: [],
-                    owerIds: [],
+                    owerIds: owerIds,
                     paymentmode: 'n',
                     categoryid: 0,
                     comment: ''

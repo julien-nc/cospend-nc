@@ -221,7 +221,7 @@
                             <label :for="'dum' + ower.id" class="checkboxlabel">{{ ower.name }}</label>
                             <label class="spentlabel"
                                 v-if="bill.owerIds.includes(ower.id)">
-                                ({{ owerAmount[ower.id] }})
+                                ({{ owerAmount[ower.id] || 0 }})
                             </label>
                         </div>
                     </div>
@@ -327,7 +327,10 @@ export default {
             set(value) {
                 const val = value.replace(',', '.');
                 // only change bill amount if we're not typing a formula
-                if (val !== '' && !val.endsWith('.') && !isNaN(val)) {
+                if (val === '') {
+                    this.bill.amount = 0;
+                    this.currentFormula = null;
+                } else if (!val.endsWith('.') && !isNaN(val)) {
                     this.bill.amount = parseFloat(val);
                     this.currentFormula = null;
                 } else {
@@ -911,11 +914,6 @@ export default {
 #owerValidate2 {
     background-color: #46ba61;
     color: white;
-}
-#owerValidate2 {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
 }
 .owerAllNoneDiv div {
     display: inline-block;

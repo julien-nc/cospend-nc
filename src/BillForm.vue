@@ -893,16 +893,13 @@ export default {
     min-height: 44px;
     padding: 0 12px 0 25px;
 }
-.bill-left {
+.bill-left,
+.bill-right {
     padding: 0px 10px 0px 15px;
     float: left;
-    width: 49%;
 }
-.bill-right {
-    float: right;
-    width: 49%;
-}
-.bill-owers label {
+.owerAllNoneDiv label,
+.owerEntry label {
     margin-left: 5px;
 }
 .bill-owers input {

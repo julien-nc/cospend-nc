@@ -1,6 +1,6 @@
 <template>
     <AppNavigationVue>
-        <ul>
+        <template slot="list">
             <div v-if="!pageIsPublic">
                 <AppNavigationItem v-if="!creating"
                     :title="t('cospend', 'New project')"
@@ -30,39 +30,41 @@
                 @newMemberClicked="onNewMemberClicked"
                 @memberEdited="onMemberEdited"
                 />
-        </ul>
-        <AppNavigationSettings>
-            <AppNavigationItem
-                v-if="!pageIsPublic"
-                :title="t('cospend', 'Import csv project')"
-                @click="onImportClick"
-                icon="icon-download"
-                class="buttonItem"
-                v-show="true"
-                />
-            <AppNavigationItem
-                v-if="!pageIsPublic"
-                :title="t('cospend', 'Import SplitWise project')"
-                @click="onImportSWClick"
-                icon="icon-download"
-                class="buttonItem"
-                v-show="true"
-                />
-            <AppNavigationItem
-                :title="t('cospend', 'Guest access link')"
-                @click="onGuestLinkClick"
-                icon="icon-clippy"
-                class="buttonItem"
-                v-show="true"
-                />
-            <div class="output-dir"
-                v-if="!pageIsPublic">
-                <button class="icon-folder" @click="onOutputDirClick">
-                    {{ t('cospend', 'Change output directory') }}
-                </button>
-                <input v-model="outputDir" :placeholder="t('cospend', '/Anywhere')" type="text" readonly @click="onOutputDirClick"/>
-            </div>
-        </AppNavigationSettings>
+        </template>
+        <template slot="footer">
+            <AppNavigationSettings>
+                <AppNavigationItem
+                    v-if="!pageIsPublic"
+                    :title="t('cospend', 'Import csv project')"
+                    @click="onImportClick"
+                    icon="icon-download"
+                    class="buttonItem"
+                    v-show="true"
+                    />
+                <AppNavigationItem
+                    v-if="!pageIsPublic"
+                    :title="t('cospend', 'Import SplitWise project')"
+                    @click="onImportSWClick"
+                    icon="icon-download"
+                    class="buttonItem"
+                    v-show="true"
+                    />
+                <AppNavigationItem
+                    :title="t('cospend', 'Guest access link')"
+                    @click="onGuestLinkClick"
+                    icon="icon-clippy"
+                    class="buttonItem"
+                    v-show="true"
+                    />
+                <div class="output-dir"
+                    v-if="!pageIsPublic">
+                    <button class="icon-folder" @click="onOutputDirClick">
+                        {{ t('cospend', 'Change output directory') }}
+                    </button>
+                    <input v-model="outputDir" :placeholder="t('cospend', '/Anywhere')" type="text" readonly @click="onOutputDirClick"/>
+                </div>
+            </AppNavigationSettings>
+        </template>
     </AppNavigationVue>
 </template>
 
@@ -217,9 +219,6 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-/*.app-navigation__list {
-    height: 0px !important;
-}*/
 #app-settings-content {
     p {
         margin-top: 20px;

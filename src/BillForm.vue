@@ -931,9 +931,8 @@ export default {
     margin-bottom: 0px !important;
 }
 .bill-title {
-    text-align: center;
-    border-bottom: solid var(--color-border-dark) 1px;
-    margin-bottom: 25px;
+    text-align: left;
+    margin-left: 50px;
 }
 #billtype {
     max-width: 80%;

@@ -594,6 +594,9 @@ export default {
     top: 0px;
     right: 8px;
 }
+#app-content-wrapper {
+    display: flex;
+}
 </style>
 
 <style>

@@ -4,7 +4,10 @@
         <div>
             <AppNavigationItem
                 v-if="editionAccess && twoActiveMembers"
-                v-show="!loading" icon="icon-add" @click="onAddBillClicked"
+                v-show="!loading"
+                class="addBillItem"
+                icon="icon-add"
+                @click="onAddBillClicked"
                 :title="t('cospend', 'New bill')"
             />
         </div>
@@ -107,5 +110,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.addBillItem {
+    padding-left: 40px;
+}
 </style>

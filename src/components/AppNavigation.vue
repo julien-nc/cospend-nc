@@ -217,6 +217,9 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+/*.app-navigation__list {
+    height: 0px !important;
+}*/
 #app-settings-content {
     p {
         margin-top: 20px;

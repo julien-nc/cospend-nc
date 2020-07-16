@@ -163,4 +163,8 @@ export default {
 #center-settle-div label {
     margin-right: 5px;
 }
+#billdetail {
+    margin-left: auto;
+    margin-right: auto;
+}
 </style>

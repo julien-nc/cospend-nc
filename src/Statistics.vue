@@ -131,7 +131,6 @@
             <thead slot="head">
                 <v-th sortKey="name">{{ t('cospend', 'Category/Month') }}</v-th>
                 <v-th v-for="month in categoryMonths" :key="month" :sortKey="month">{{ month }}</v-th>
-                <th></th>
             </thead>
             <tbody slot="body" slot-scope="{displayData}">
                 <tr v-for="vals in displayData" :key="vals.catid">
@@ -703,4 +702,18 @@ export default {
 .checkboxlabel {
     grid-column: 3 / 5;
 }
+#billdetail > p,
+#billdetail h2 {
+    text-align: center;
+}
+#billdetail > * {
+    margin-left: auto;
+    margin-right: auto;
+}
+/* TODO find a solution to limit stats width and still be able to scroll-x
+#monthlyTable, #categoryTable {
+    display: inline-block;
+    width: 100%;
+}
+*/
 </style>

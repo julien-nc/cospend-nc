@@ -1,6 +1,5 @@
 <template>
     <div id="bill-list" :class="{'app-content-list': true, 'showdetails': shouldShowDetails}">
-        <h2 class="icon-loading-small" v-show="loading"></h2>
         <div>
             <AppNavigationItem
                 v-if="editionAccess && twoActiveMembers"
@@ -14,6 +13,7 @@
         <h2 v-if="bills.length === 0" class="nobill">
             {{ t('cospend', 'No bill yet') }}
         </h2>
+        <h2 class="icon-loading-small loading-icon" v-show="loading"></h2>
         <slide-x-right-transition group :duration="{enter: 300, leave: 0}">
             <BillItem
                 v-for="(bill, index) in reverseBills"
@@ -112,5 +112,13 @@ export default {
 <style scoped lang="scss">
 .addBillItem {
     padding-left: 40px;
+}
+.nobill {
+    text-align: center;
+    color: var(--color-text-lighter);
+    margin-top: 8px;
+}
+.loading-icon {
+    margin-top: 16px;
 }
 </style>

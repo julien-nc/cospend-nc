@@ -175,9 +175,8 @@ input[type=number] {
 }
 #settlementTitle,
 #statsTitle {
-    text-align: center;
+    text-align: left;
     padding: 20px 0px 20px 0px;
-    border-bottom: solid var(--color-border-dark) 1px;
 }
 .statTableTitle {
     padding: 0px 0px 0px 20px !important;
@@ -215,9 +214,6 @@ input[type=number] {
     opacity: 0.6;
     transform: rotate(180deg);
 	border-radius: 50%;
-}
-#billdetail {
-    max-width: 100%;
 }
 #billdetail .bill-title {
     padding: 20px 0px 20px 0px;
@@ -345,10 +341,6 @@ input[type=number] {
 .loading-bill {
     margin-left: 10px;
     margin-right: 10px;
-}
-.nobill {
-    text-align: center;
-    color: var(--color-text-lighter);
 }
 #billdetail h2 span[class^=icon-] {
     display: inline-block;

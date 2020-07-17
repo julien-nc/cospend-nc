@@ -994,4 +994,7 @@ export default {
     margin-bottom: 5px;
     padding-left: 8px;
 }
+.modehint {
+    max-width: 500px;
+}
 </style>

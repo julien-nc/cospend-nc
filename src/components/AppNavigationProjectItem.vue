@@ -52,6 +52,8 @@
                 :key="member.id"
                 :member="member"
                 :projectId="project.id"
+                class="memberItem"
+                :padded="true"
                 @memberEdited="onMemberEdited"
                 />
         </template>
@@ -146,4 +148,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.memberItem {
+    padding-left: 30px !important;
+}
 </style>

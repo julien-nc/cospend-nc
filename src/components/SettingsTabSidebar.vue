@@ -47,6 +47,14 @@
                 @input="clickAddUserItem"
                 ref="userMultiselect"
                 />
+            <AppNavigationMemberItem
+                v-for="member in project.members"
+                :key="member.id"
+                :member="member"
+                :projectId="project.id"
+                :padded="false"
+                @memberEdited="onMemberEdited(member.id)"
+                />
             <div v-if="!pageIsPublic">
                 <br/><hr/><br/>
                 <p class="label">
@@ -96,11 +104,12 @@ import cospend from '../state';
 import * as constants from '../constants';
 import * as network from '../network';
 import { Timer } from '../utils';
+import AppNavigationMemberItem from './AppNavigationMemberItem';
 
 export default {
     name: 'SharingTabSidebar',
     components: {
-        Multiselect, ActionInput, AppNavigationItem
+        Multiselect, ActionInput, AppNavigationItem, AppNavigationMemberItem
     },
     props: ['project'],
     data() {
@@ -294,6 +303,9 @@ export default {
             this.selectedAffectUser = null;
             this.asyncFind();
         },
+        onMemberEdited(memberid) {
+            this.$emit('memberEdited', this.projectId, memberid);
+        },
         onRenameProject() {
             this.project.name = this.newProjectName;
             this.$emit('projectEdited', this.projectId);
@@ -352,6 +364,7 @@ export default {
 }
 .addUserInput {
     width: 100%;
+    z-index: 200;
 }
 #affectDiv {
     display: flex;

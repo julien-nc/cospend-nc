@@ -7,7 +7,7 @@
         >
         <div v-if="maintenerAccess" class="memberAvatar" slot="icon">
             <ColorPicker class="app-navigation-entry-bullet-wrapper memberColorPicker" :value="`#${member.color}`" @input="updateColor" ref="col">
-                <div class="disabledMask" v-show="!member.activated"></div>
+                <div :class="{ 'disabledMask': true, 'nopad': !padded }" v-show="!member.activated"></div>
                 <img :src="memberAvatar"/>
             </ColorPicker>
         </div>
@@ -62,7 +62,7 @@ export default {
     directives: {
         ClickOutside,
     },
-    props: ['member', 'projectId'],
+    props: ['member', 'projectId', 'padded'],
     data() {
         return {
         }
@@ -134,8 +134,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
-.memberItem {
-    padding-left: 30px !important;
+.nopad {
+    left: 9px;
 }
 </style>

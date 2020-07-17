@@ -127,8 +127,8 @@ export default {
         onUserAdded(projectid, name, userid) {
             this.$emit('userAdded', projectid, name, userid);
         },
-        onMemberEdited(projectid, memberid, userid, name) {
-            this.$emit('memberEdited', projectid, memberid, userid, name);
+        onMemberEdited(projectid, memberid) {
+            this.$emit('memberEdited', projectid, memberid);
         },
         onNewSimpleMember(projectid, name) {
             this.$emit('newMember', projectid, name);

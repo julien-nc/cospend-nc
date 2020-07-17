@@ -34,6 +34,32 @@
             <ActionButton :icon="member.activated ? 'icon-delete' : 'icon-history'" @click="onDeleteMemberClick">
                 {{ member.activated ? t('cospend', 'Deactivate') : t('cospend', 'Reactivate') }}
             </ActionButton>
+
+            <ActionRadio name="accessLevel" v-if="showShareEdition"
+                :checked="!access"
+                @change="clickAccessLevel(0)">
+                {{ t('cospend', 'No access') }}
+            </ActionRadio>
+            <ActionRadio name="accessLevel" v-if="showShareEdition"
+                :checked="access && access.accesslevel === 1"
+                @change="clickAccessLevel(1)">
+                {{ t('cospend', 'Viewer') }}
+            </ActionRadio>
+            <ActionRadio name="accessLevel" v-if="showShareEdition"
+                :checked="access && access.accesslevel === 2"
+                @change="clickAccessLevel(2)">
+                {{ t('cospend', 'Participant') }}
+            </ActionRadio>
+            <ActionRadio name="accessLevel" v-if="showShareEdition"
+                :checked="access && access.accesslevel === 3"
+                @change="clickAccessLevel(3)">
+                {{ t('cospend', 'Maintainer') }}
+            </ActionRadio>
+            <ActionRadio name="accessLevel" v-if="showShareEdition"
+                :checked="access && access.accesslevel === 4"
+                @change="clickAccessLevel(4)">
+                {{ t('cospend', 'Admin') }}
+            </ActionRadio>
         </template>
     </AppNavigationItem>
 </template>
@@ -42,11 +68,13 @@
 import ClickOutside from 'vue-click-outside'
 import {
     ActionButton, AppNavigation as AppNavigationVue, AppNavigationIconBullet,
-    AppNavigationSettings, AppNavigationItem, ActionInput, ColorPicker
+    AppNavigationSettings, AppNavigationItem, ActionInput, ActionRadio, ColorPicker
 } from '@nextcloud/vue'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
 import cospend from '../state';
 import * as constants from '../constants';
+import * as network from '../network';
 import {getMemberName, getSmartMemberName, getMemberAvatar} from '../utils';
 
 export default {
@@ -56,7 +84,7 @@ export default {
         AppNavigationItem,
         AppNavigationSettings,
         AppNavigationIconBullet,
-        ActionButton,
+        ActionButton, ActionRadio,
         ActionInput, ColorPicker
     },
     directives: {
@@ -68,8 +96,28 @@ export default {
         }
     },
     computed: {
+        project() {
+			return cospend.projects[this.projectId];
+        },
         maintenerAccess() {
             return this.projectId && cospend.projects[this.projectId].myaccesslevel >= constants.ACCESS.MAINTENER;
+        },
+        editionAccess() {
+            return this.projectId && cospend.projects[this.projectId].myaccesslevel >= constants.ACCESS.PARTICIPANT;
+        },
+        isCurrentUser() {
+            return (uid) => uid === getCurrentUser().uid
+        },
+        showShareEdition() {
+            return (this.editionAccess && this.member.userid && !this.isCurrentUser(this.member.userid))
+        },
+        access() {
+            for (let i = 0; i < this.project.shares.length; i++) {
+                if (this.project.shares[i].type === 'u' && this.project.shares[i].userid === this.member.userid) {
+                    return this.project.shares[i]
+                }
+            }
+            return null;
         },
         nameTitle() {
             return this.member.name + ((this.member.weight !== 1.0) ? (' (x' + this.member.weight + ')') : '');
@@ -127,6 +175,41 @@ export default {
         },
         onMenuColorClick() {
             this.$refs.col.$el.querySelector('.trigger').click();
+        },
+        clickAccessLevel(level) {
+            if (this.access === null && level !== 0) {
+                // add a shared access
+                const sh = {
+                    user: this.member.userid,
+                    type: 'u'
+                }
+                network.addSharedAccess(this.projectId, sh, this.addSharedAccessSuccess);
+            } else if (this.access !== null && level === 0) {
+                // delete shared access
+                network.deleteAccess(this.projectId, this.access, this.deleteAccessSuccess);
+            } else if (this.access !== null) {
+                // edit shared access
+                network.setAccessLevel(this.projectId, this.access, level, this.setAccessLevelSuccess);
+            }
+            // TODO disable access levels > mine
+            // TODO allow adding share access with specific level instead of always 2
+        },
+        addSharedAccessSuccess(response, sh) {
+            const newShAccess = {
+                accesslevel: constants.ACCESS.PARTICIPANT,
+                type: sh.type,
+                name: response.name,
+                userid: sh.user,
+                id: response.id
+            };
+            this.project.shares.push(newShAccess);
+        },
+        setAccessLevelSuccess(access, level) {
+            access.accesslevel = level;
+        },
+        deleteAccessSuccess(access) {
+            const index = this.project.shares.indexOf(access);
+            this.project.shares.splice(index, 1);
         },
     },
 

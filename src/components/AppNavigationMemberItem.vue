@@ -50,12 +50,12 @@
                 @change="clickAccessLevel(2)">
                 {{ t('cospend', 'Participant') }}
             </ActionRadio>
-            <ActionRadio name="accessLevel" v-if="showShareEdition"
+            <ActionRadio name="accessLevel" v-if="showShareEdition" :disabled="myAccessLevel < 3"
                 :checked="access && access.accesslevel === 3"
                 @change="clickAccessLevel(3)">
                 {{ t('cospend', 'Maintainer') }}
             </ActionRadio>
-            <ActionRadio name="accessLevel" v-if="showShareEdition"
+            <ActionRadio name="accessLevel" v-if="showShareEdition" :disabled="myAccessLevel < 4"
                 :checked="access && access.accesslevel === 4"
                 @change="clickAccessLevel(4)">
                 {{ t('cospend', 'Admin') }}
@@ -99,6 +99,9 @@ export default {
         project() {
 			return cospend.projects[this.projectId];
         },
+        myAccessLevel() {
+            return this.project.myaccesslevel;
+        },
         maintenerAccess() {
             return this.projectId && cospend.projects[this.projectId].myaccesslevel >= constants.ACCESS.MAINTENER;
         },
@@ -109,7 +112,7 @@ export default {
             return (uid) => uid === getCurrentUser().uid
         },
         showShareEdition() {
-            return (this.editionAccess && this.member.userid && !this.isCurrentUser(this.member.userid))
+            return (this.editionAccess && this.member.userid && getCurrentUser() && !this.isCurrentUser(this.member.userid))
         },
         access() {
             for (let i = 0; i < this.project.shares.length; i++) {

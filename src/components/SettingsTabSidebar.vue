@@ -344,7 +344,7 @@ export default {
         },
         onInfoAddClicked() {
             OC.dialogs.alert(
-                t('cospend', 'You can add a simple member or a Nextcloud user to the project. For Nextcloud users, you can give them access to the project in the context menu. You can also give access to Nextcloud users that are not project members in the Sharing tab.'),
+                t('cospend', 'You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab.'),
                 t('cospend', 'Info')
             );
         },

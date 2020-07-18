@@ -52,7 +52,7 @@
                 :key="member.id"
                 :member="member"
                 :projectId="project.id"
-                :padded="false"
+                :inNavigation="false"
                 class="sidebarMemberItem"
                 @memberEdited="onMemberEdited(member.id)"
                 />

@@ -53,7 +53,7 @@
                 :member="member"
                 :projectId="project.id"
                 class="memberItem"
-                :padded="true"
+                :inNavigation="true"
                 @memberEdited="onMemberEdited"
                 />
         </template>

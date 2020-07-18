@@ -7,7 +7,7 @@
         >
         <div v-if="maintenerAccess" class="memberAvatar" slot="icon">
             <ColorPicker class="app-navigation-entry-bullet-wrapper memberColorPicker" :value="`#${member.color}`" @input="updateColor" ref="col">
-                <div :class="{ 'disabledMask': true, 'nopad': !padded }" v-show="!member.activated"></div>
+                <div :class="{ 'disabledMask': true, 'nopad': !inNavigation }" v-show="!member.activated"></div>
                 <img :src="memberAvatar"/>
             </ColorPicker>
         </div>
@@ -15,7 +15,7 @@
             <div class="disabledMask" v-show="!member.activated"></div>
             <img :src="memberAvatar"/>
         </div>
-        <template slot="counter">
+        <template slot="counter" v-if="inNavigation">
             <span :class="balanceClass">{{ balanceCounter }}</span>
         </template>
         <template slot="actions" v-if="maintenerAccess">
@@ -92,7 +92,7 @@ export default {
     directives: {
         ClickOutside,
     },
-    props: ['member', 'projectId', 'padded'],
+    props: ['member', 'projectId', 'inNavigation'],
     data() {
         return {
         }

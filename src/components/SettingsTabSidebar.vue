@@ -33,6 +33,7 @@
             <p class="label">
                 <span class="labelIcon icon-user"></span>
                 {{ t('cospend', 'Add a project member.')}}
+                <button class="icon-info infoButton" @click="onInfoAddClicked"></button>
             </p>
             <Multiselect
                 v-if="maintenerAccess"
@@ -341,6 +342,12 @@ export default {
         onExportClick() {
             this.$emit('exportClicked', this.projectId);
         },
+        onInfoAddClicked() {
+            OC.dialogs.alert(
+                t('cospend', 'You can add a simple member or a Nextcloud user to the project. Once the member is added, you can give him/her access to the project in the context menu.'),
+                t('cospend', 'Info')
+            );
+        },
     },
 }
 </script>
@@ -393,5 +400,12 @@ export default {
 }
 .exportItem {
     z-index: 0;
+}
+.infoButton {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    position: relative;
+    top: -4px;
 }
 </style>

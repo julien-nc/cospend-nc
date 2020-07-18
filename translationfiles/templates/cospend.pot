@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-07-18 13:43+0200\n"
+"POT-Creation-Date: 2020-07-18 13:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1365,9 +1365,10 @@ msgstr ""
 
 #: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:189
 msgid ""
-"You can add a simple member or a Nextcloud user to the project. Once the "
-"member is added, you can give him/her access to the project in the context "
-"menu."
+"You can add a simple member or a Nextcloud user to the project. For "
+"Nextcloud users, you can give them access to the project in the context "
+"menu. You can also do that in the Sharing tab even for Nextcloud users that "
+"are not added as members."
 msgstr ""
 
 #: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:191

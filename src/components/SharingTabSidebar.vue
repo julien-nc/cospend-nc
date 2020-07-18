@@ -63,7 +63,7 @@
                         </ActionRadio>
                         <ActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
                             icon="icon-delete" @click="clickDeleteAccess(access)">
-                            {{ t('cospend', 'Delete') }}
+                            {{ t('cospend', 'Delete link') }}
                         </ActionButton>
                     </Actions>
                 </li>
@@ -113,7 +113,7 @@
                         </ActionRadio>
                         <ActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
                             icon="icon-delete" @click="clickDeleteAccess(access)">
-                            {{ t('cospend', 'Delete') }}
+                            {{ t('cospend', 'Delete access') }}
                         </ActionButton>
                     </Actions>
                 </li>

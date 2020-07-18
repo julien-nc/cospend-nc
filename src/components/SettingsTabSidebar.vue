@@ -53,6 +53,7 @@
                 :member="member"
                 :projectId="project.id"
                 :padded="false"
+                class="sidebarMemberItem"
                 @memberEdited="onMemberEdited(member.id)"
                 />
             <div v-if="!pageIsPublic">
@@ -364,7 +365,6 @@ export default {
 }
 .addUserInput {
     width: 100%;
-    z-index: 200;
 }
 #affectDiv {
     display: flex;
@@ -392,6 +392,7 @@ export default {
         }
     }
 }
+.sidebarMemberItem,
 .exportItem {
     z-index: 0;
 }

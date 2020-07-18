@@ -35,7 +35,7 @@
                 {{ member.activated ? t('cospend', 'Deactivate') : t('cospend', 'Reactivate') }}
             </ActionButton>
 
-            <ActionSeparator />
+            <ActionSeparator v-if="showShareEdition" />
             <ActionRadio name="accessLevel" v-if="showShareEdition"
                 :checked="!access"
                 @change="clickAccessLevel(0)">

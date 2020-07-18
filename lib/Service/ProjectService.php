@@ -2999,10 +2999,10 @@ class ProjectService {
         }
     }
 
-    public function addUserShare($projectid, $userid, $fromUserId) {
+    public function addUserShare($projectid, $userid, $fromUserId, $accesslevel=ACCESS_PARTICIPANT) {
         // check if userId exists
         $userIds = [];
-        foreach($this->userManager->search('') as $u) {
+        foreach ($this->userManager->search('') as $u) {
             if ($u->getUID() !== $fromUserId) {
                 array_push($userIds, $u->getUID());
             }
@@ -3035,63 +3035,65 @@ class ProjectService {
                 $qb = $qb->resetQueryParts();
 
                 if ($dbuserId === null) {
-                    $qb->insert('cospend_shares')
-                        ->values([
-                            'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
-                            'userid' => $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR),
-                            'type' => $qb->createNamedParameter('u', IQueryBuilder::PARAM_STR)
-                        ]);
-                    $req = $qb->execute();
-                    $qb = $qb->resetQueryParts();
+                    if ($this->getUserMaxAccessLevel($fromUserId, $projectid) >= $accesslevel) {
+                        $qb->insert('cospend_shares')
+                            ->values([
+                                'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
+                                'userid' => $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR),
+                                'type' => $qb->createNamedParameter('u', IQueryBuilder::PARAM_STR),
+                                'accesslevel' => $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT)
+                            ]);
+                        $req = $qb->execute();
+                        $qb = $qb->resetQueryParts();
 
-                    $insertedShareId = intval($qb->getLastInsertId());
-                    $response = [
-                        'id' => $insertedShareId,
-                        'name' => $name
-                    ];
+                        $insertedShareId = intval($qb->getLastInsertId());
+                        $response = [
+                            'id' => $insertedShareId,
+                            'name' => $name
+                        ];
 
-                    // activity
-                    $projectObj = $this->projectMapper->find($projectid);
-                    $this->activityManager->triggerEvent(
-                        ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
-                        ActivityManager::SUBJECT_PROJECT_SHARE,
-                        ['who' => $userid, 'type' => 'u']
-                    );
+                        // activity
+                        $projectObj = $this->projectMapper->find($projectid);
+                        $this->activityManager->triggerEvent(
+                            ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
+                            ActivityManager::SUBJECT_PROJECT_SHARE,
+                            ['who' => $userid, 'type' => 'u']
+                        );
 
-                    // SEND NOTIFICATION
-                    $manager = \OC::$server->getNotificationManager();
-                    $notification = $manager->createNotification();
+                        // SEND NOTIFICATION
+                        $manager = \OC::$server->getNotificationManager();
+                        $notification = $manager->createNotification();
 
-                    $acceptAction = $notification->createAction();
-                    $acceptAction->setLabel('accept')
-                        ->setLink('/apps/cospend', 'GET');
+                        $acceptAction = $notification->createAction();
+                        $acceptAction->setLabel('accept')
+                            ->setLink('/apps/cospend', 'GET');
 
-                    $declineAction = $notification->createAction();
-                    $declineAction->setLabel('decline')
-                        ->setLink('/apps/cospend', 'GET');
+                        $declineAction = $notification->createAction();
+                        $declineAction->setLabel('decline')
+                            ->setLink('/apps/cospend', 'GET');
 
-                    $notification->setApp('cospend')
-                        ->setUser($userid)
-                        ->setDateTime(new \DateTime())
-                        ->setObject('addusershare', $projectid)
-                        ->setSubject('add_user_share', [$fromUserId, $projectInfo['name']])
-                        ->addAction($acceptAction)
-                        ->addAction($declineAction)
-                        ;
+                        $notification->setApp('cospend')
+                            ->setUser($userid)
+                            ->setDateTime(new \DateTime())
+                            ->setObject('addusershare', $projectid)
+                            ->setSubject('add_user_share', [$fromUserId, $projectInfo['name']])
+                            ->addAction($acceptAction)
+                            ->addAction($declineAction)
+                            ;
 
-                    $manager->notify($notification);
+                        $manager->notify($notification);
 
-                    return $response;
-                }
-                else {
+                        return $response;
+                    } else {
+                        return $this->trans->t('You are not authorized to give such access level');
+                    }
+                } else {
                     return $this->trans->t('Already shared with this user');
                 }
-            }
-            else {
+            } else {
                 return $this->trans->t('Impossible to share the project with its owner');
             }
-        }
-        else {
+        } else {
             return $this->trans->t('No such user');
         }
     }

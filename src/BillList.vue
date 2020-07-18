@@ -50,7 +50,6 @@ export default {
         BillItem, AppNavigationItem, SlideXRightTransition
     },
 
-    //TODO
     props: ['projectId', 'bills', 'selectedBillId', 'editionAccess', 'loading', 'mode'],
     data() {
         return {

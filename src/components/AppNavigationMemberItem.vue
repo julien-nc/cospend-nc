@@ -35,6 +35,7 @@
                 {{ member.activated ? t('cospend', 'Deactivate') : t('cospend', 'Reactivate') }}
             </ActionButton>
 
+            <ActionSeparator />
             <ActionRadio name="accessLevel" v-if="showShareEdition"
                 :checked="!access"
                 @change="clickAccessLevel(0)">
@@ -68,7 +69,8 @@
 import ClickOutside from 'vue-click-outside'
 import {
     ActionButton, AppNavigation as AppNavigationVue, AppNavigationIconBullet,
-    AppNavigationSettings, AppNavigationItem, ActionInput, ActionRadio, ColorPicker
+    AppNavigationSettings, AppNavigationItem, ActionInput, ActionRadio, ActionSeparator,
+    ColorPicker
 } from '@nextcloud/vue'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -84,7 +86,7 @@ export default {
         AppNavigationItem,
         AppNavigationSettings,
         AppNavigationIconBullet,
-        ActionButton, ActionRadio,
+        ActionButton, ActionRadio, ActionSeparator,
         ActionInput, ColorPicker
     },
     directives: {
@@ -184,7 +186,8 @@ export default {
                 // add a shared access
                 const sh = {
                     user: this.member.userid,
-                    type: 'u'
+                    type: 'u',
+                    accesslevel: level
                 }
                 network.addSharedAccess(this.projectId, sh, this.addSharedAccessSuccess);
             } else if (this.access !== null && level === 0) {
@@ -194,12 +197,10 @@ export default {
                 // edit shared access
                 network.setAccessLevel(this.projectId, this.access, level, this.setAccessLevelSuccess);
             }
-            // TODO disable access levels > mine
-            // TODO allow adding share access with specific level instead of always 2
         },
         addSharedAccessSuccess(response, sh) {
             const newShAccess = {
-                accesslevel: constants.ACCESS.PARTICIPANT,
+                accesslevel: sh.accesslevel,
                 type: sh.type,
                 name: response.name,
                 userid: sh.user,

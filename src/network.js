@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 
 import cospend from './state';
+import * as constants from './constants';
 import {generateUrl} from '@nextcloud/router';
 import axios from '@nextcloud/axios';
 import {
@@ -675,7 +676,9 @@ export function loadUsers(successCB) {
 }
 
 export function addSharedAccess(projectid, sh, successCB) {
-    const req = {};
+    const req = {
+        accesslevel: sh.accesslevel || constants.ACCESS.PARTICIPANT
+    };
     let url;
     if (sh.type === 'u') {
         req.userid = sh.user;

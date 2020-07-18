@@ -53,7 +53,6 @@
                 :member="member"
                 :projectId="project.id"
                 :inNavigation="false"
-                class="sidebarMemberItem"
                 @memberEdited="onMemberEdited(member.id)"
                 />
             <div v-if="!pageIsPublic">
@@ -392,7 +391,6 @@ export default {
         }
     }
 }
-.sidebarMemberItem,
 .exportItem {
     z-index: 0;
 }

@@ -409,3 +409,7 @@ a.billitem .app-content-list-item-icon {
     background-repeat: no-repeat;
     background-position: center;
 }
+/* dirty hack to make things right in settings sidebar */
+.multiselect__content-wrapper {
+    z-index: 10000 !important;
+}

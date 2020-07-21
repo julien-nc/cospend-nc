@@ -69,7 +69,6 @@
     "This field is required" : "Это поле является обязательным",
     "Not a valid choice" : "Недопустимый выбор",
     "Error when getting project settlement transactions" : "Ошибка при формировании транзакций окончательного расчета проекта",
-    "Error when addind a bill" : "Ошибка при добавлении счета",
     "Invalid member name" : "Неверное имя участника",
     "Not a valid decimal value" : "Не десятичное число",
     "This project have no such member" : "В этом проекте нет такого участника",

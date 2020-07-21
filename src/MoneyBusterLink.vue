@@ -26,7 +26,8 @@
                         v-model="password"
                         :placeholder="t('cospend', 'Project password')"
                         autocomplete="off"
-                        @focus="$event.target.select()"
+                        :readonly="readonly"
+                        @focus="readonly = false; $event.target.select()"
                         type="password"/>
                     <input type="submit" value="" class="icon-confirm"/>
                 </form>
@@ -69,7 +70,8 @@ export default {
             password: '',
             validPassword: null,
             qrcodeColor: cospend.themeColorDark,
-            qrcodeImageUrl: imagePath('cospend', 'cospend.png')
+            qrcodeImageUrl: imagePath('cospend', 'cospend.png'),
+            readonly: true,
         };
     },
 
@@ -103,14 +105,14 @@ export default {
             }
         },
         onInfo1Clicked() {
-            OC.dialogs.alert(
+            OC.dialogs.info(
                 t('cospend', 'Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone.') + ' ' +
                     t('cospend', 'Android will know MoneyBuster can open such a link (based on the \'https://net.eneiluj.moneybuster.cospend\' part) and you will be able to add the project.'),
                 t('cospend', 'Info')
             );
         },
         onInfo2Clicked() {
-            OC.dialogs.alert(
+            OC.dialogs.info(
                 t('cospend', 'As password is stored hashed (for security), it can\'t be automatically included in the QRCode. If you want to include it in the QRCode and make it easier to add a project in MoneyBuster, you can provide the password again.') + ' ' +
                     t('cospend', 'Type the project password and press Enter to generate another QRCode including the password.'),
                 t('cospend', 'Info')

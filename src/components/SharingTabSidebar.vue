@@ -166,7 +166,9 @@
             <label for="newPasswordInput">{{ t('cospend', 'New project password') }}</label>
             <div>
                 <input id="newPasswordInput" ref="newPasswordInput" value="" type="password"
-                        @focus="$event.target.select()"/>
+                    autocomplete="off"
+                    :readonly="newPasswordReadonly"
+                    @focus="newPasswordReadonly = false; $event.target.select()"/>
                 <input type="submit" value="" class="icon-confirm">
             </div>
         </form>
@@ -215,7 +217,8 @@ export default {
             selectedSharee: null,
             sharees: [],
             guestLinkCopied: false,
-            linkCopied: {}
+            linkCopied: {},
+            newPasswordReadonly: true
         }
     },
     mounted() {

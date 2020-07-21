@@ -869,13 +869,13 @@ export default {
             this.onBillEdited();
         },
         onConvertInfoClicked() {
-            OC.dialogs.alert(
+            OC.dialogs.info(
                 t('cospend', 'This is just a currency converter. Bill amount can be entered in another currency and then converted to "{maincur}". Value is always stored in "{maincur}".', {maincur: this.project.currencyname}),
                 t('cospend', 'Info')
             );
         },
         onAmountInfoClicked() {
-            OC.dialogs.alert(
+            OC.dialogs.info(
                 t('cospend', 'You can type simple math operations and validate by pressing Enter key.'),
                 t('cospend', 'Info')
             );

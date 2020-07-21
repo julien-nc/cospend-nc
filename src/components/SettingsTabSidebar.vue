@@ -343,7 +343,7 @@ export default {
             this.$emit('exportClicked', this.projectId);
         },
         onInfoAddClicked() {
-            OC.dialogs.alert(
+            OC.dialogs.info(
                 t('cospend', 'You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab.'),
                 t('cospend', 'Info')
             );

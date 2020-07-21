@@ -37,7 +37,6 @@
     "This field is required" : "Ez egy kötelező mező",
     "Not a valid choice" : "Érvénytelen választás",
     "Error when getting project settlement transactions" : "Hiba a projekt megszilárdítási tranzakciók beszerzésekor",
-    "Error when addind a bill" : "Hiba számla létrehozásakor",
     "Invalid member name" : "Érvénytelen tag név",
     "Not a valid decimal value" : "Érvénytelen decimális érték",
     "This project have no such member" : "Ennek a projektnek nincs ilyen tagja",

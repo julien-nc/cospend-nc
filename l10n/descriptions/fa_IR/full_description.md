@@ -1,12 +1,12 @@
 # Nextcloud Cospend 💰
 
-Nextcloud Cospend is a group/shared budget manager. It was inspired by the great [IHateMoney](https://github.com/spiral-project/ihatemoney/).
+Nextcloud Cospend یک مدیر بودجه گروهی/ اشتراکی است. این از [IHateMoney](https://github.com/spiral-project/ihatemoney/) بزرگ الهام گرفته شده است.
 
-You can use it when you share a house, when you go on vacation with friends, whenever you share money with others.
+می‌توانید هنگام اشتراک خانه، هنگام تعطیلات با دوستان، هر زمان که با دیگران مبلغی به اشتراک بگذارید، از آن استفاده کنید.
 
-It lets you create projects with members and bills. Each member has a balance computed from the project bills. This way you can see who owes the group and who the group owes. Ultimately you can ask for a settlement plan telling you which payments to make to reset members balances.
+این امکان را به شما می‌دهد تا پروژه‌ها را با اعضا و رسیدها ایجاد کنید. هر عضو دارای موجودی محاسبه شده از رسیدهای پروژه است. با این روش می توانید ببینید چه کسی به گروه بدهکار است و گروه به چه کسی بدهکار است. درنهایت می توانید یک طرح تسویه حساب بخواهید که به شما بگوید کدام پرداخت را برای بازنشانی موجودی اعضای خود انجام دهید.
 
-Project members are independent from Nextcloud users. Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
+اعضای پروژه از کاربران Nextcloud مستقل هستند. افراد می‌توانند بدون داشتن حساب Nextcloud به پروژه‌ها دسترسی یافته و آن‌ها را ویرایش کنند. هر پروژه دارای یک شناسه و گذرواژه برای دسترسی مهمان است.
 
 کارخواه اندروید [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) [ در F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) و روی [ فروشگاه play](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster) در دسترس است.
 
@@ -14,27 +14,27 @@ Project members are independent from Nextcloud users. Projects can be accessed a
 
 ## ویژگی‌ها
 
-* ✎ create/edit/delete projects, members, bills, bill categories, currencies
-* ⚖ check member balances
-* 🗠 display project statistics
-* ♻ display settlement plan
-* 🎇 automatically create reimbursement bills from settlement plan
-* 🗓 create recurring bills (daily/weekly/monthly/yearly)
-* 📊 optionally provide custom amount for each member in new bills
-* 🔗 link bills with personal files (picture of physical bill for example)
-* 👩 guest access for people outside Nextcloud
-* 👫 share projects with Nextcloud users/groups/circles
-* 🖫 import/export projects as csv (compatible with csv files from IHateMoney)
-* 🔗 generate link/QRCode to easily import projects in MoneyBuster
-* 🗲 implement Nextcloud notifications and activity stream
+* ✎ ساخت/ویرایش/حذف پروژه‌ها, اعضا, رسیدها, دسته‌بندی‌های رسید, واحدهای پولی
+* ⚖ بررسی موجودی اعضا
+* 🗠 نمایش آمار پروژه
+* ♻ نمایش طرح تسویه حساب
+* 🎇 رسیدهای بازپرداخت را خودکار از طرح تسویه حساب ایجاد کنید
+* رسیدهای مکرر ایجاد کنید (روزانه/ هفتگی/ ماهانه/ سال)
+* 📊 به شیوه اختیاری مبلغ سفارشی برای هر عضو را در رسیدهای جدید ارائه کنید
+* 🔗 رسیدها را به پرونده‌های شخصی پیوند بزنید (برای نمونه تصویر فیزیکی رسید)
+* 👩 دسترسی مهمان برای افراد بیرون از Nextcloud
+* 👫 پروژه‌ها را با کاربران/ گروه‌ها و حلقه‌های Nextcloud هم‌رسانی کنید
+* واردکردن‌/برون‌بری پروژه‌ها در قالب csv (سازگار با پرونده‌های CSV از IHateMoney)
+* پیوند/ کدQR ایجاد کنید تا پروژه‌ها به راحتی در MoneyBuster وارد شوند
+* 🗲 اعلان‌های Nextcloud و جریان فعالیت را پیاده سازی کنید
 
-This app is tested on Nextcloud 18 with Firefox 57+ and Chromium.
+این برنامه روی Nextcloud 18 با فایرفاکس 57+ و کرومیوم آزمایش شده است.
 
 این برنامه در حال توسعه است.
 
-🌍 به ما در ترجمه این برنامه کمک کنید روی[Nextcloud-Cospend/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
+🌍 به ما در ترجمه این برنامه کمک کنید روی [Nextcloud-Cospend/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
+⚒ راه‌های دیگر برای کمک را در [دستورالعمل‌های مشارکت](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md) ببینید.
 
 ## نصب
 
@@ -42,7 +42,7 @@ This app is tested on Nextcloud 18 with Firefox 57+ and Chromium.
 
 پرونده [ CHANGELOG ](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) را بررسی کنید تا ببینید چه چیزی تازه است و چه چیزی در نگارش بعدی می‌آید.
 
-Check [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+برای مشاهده فهرست کامل سازندگان [نویسندگان](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) را بررسی کنید.
 
 ## مشکلات شناخته شده
 

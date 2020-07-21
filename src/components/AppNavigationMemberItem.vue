@@ -77,7 +77,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import cospend from '../state';
 import * as constants from '../constants';
 import * as network from '../network';
-import {getMemberName, getSmartMemberName, getMemberAvatar} from '../utils';
+import { getMemberName, getSmartMemberName, getMemberAvatar, delay } from '../utils';
 
 export default {
     name: 'AppNavigationMemberItem',
@@ -175,6 +175,11 @@ export default {
             this.$emit('memberEdited', this.projectId, this.member.id);
         },
         updateColor(color) {
+            delay(() => {
+                this.applyUpdateColor(color);
+            }, 2000)();
+        },
+        applyUpdateColor(color) {
             this.member.color = color.replace('#', '');
             this.$emit('memberEdited', this.projectId, this.member.id);
         },

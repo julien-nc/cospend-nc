@@ -1,8 +1,8 @@
 # Nextcloud Cospend 💰
 
-A Próxima Cospend é um gerenciador de orçamento compartilhado/de grupo. Foi inspirado pelo ótimo [IHateMoney](https://github.com/spiral-project/ihatemoney/).
+Nextcloud Cospend é um gerenciador de orçamento compartilhado/de grupo. Foi inspirado pelo ótimo [IHateMoney](https://github.com/spiral-project/ihatemoney/).
 
-Você pode usá-lo quando você compartilha uma casa, quando você vai de férias com amigos, ou sempre que você compartilha despesas com outras pessoas.
+Você pode usá-lo quando você compartilha uma casa com outras pessoas, quando você sai de férias com amigos, ou sempre que você compartilha despesas com outras pessoas.
 
 Ele permite criar projetos com membros e despesas. Cada membro tem um saldo calculado a partir das faturas do projeto. Desta forma você pode ver quem deve ao grupo e a quem o grupo deve. Em última análise pode pedir um plano de quitação que lhe diga quais os pagamentos a fazer para saldar as dívidas dos membros.
 
@@ -10,42 +10,42 @@ Os membros do projeto são independentes dos usuários do Nextcloud. Projetos po
 
 [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) é um cliente Android que está [disponível no F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) e na [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
-[PayForMe](https://github.com/mayflower/PayForMe) iOS client is currently being developped!
+[PayForMe](https://github.com/mayflower/PayForMe) é um cliente iOS que ainda esta em desenvolvimento!
 
 ## Funcionalidades
 
-* ✎ create/edit/delete projects, members, bills, bill categories, currencies
+* crie/edite/remova projetos, membros, despesas, categorias de desepesas, moedas
 * ⚖ verificar os saldos dos membros
 * 🗠 exibir estatísticas do projeto
 * ♻ exibir plano de quitação
 * 🎇 criar automaticamente reembolsos a partir do plano de quitação
 * 🗓 criar despesas recorrentes (diárias/semanais/mensais/anuais)
 * 📊 fornecer, opcionalmente, um valor personalizado para cada membro em despesas novas
-* 🔗 link bills with personal files (picture of physical bill for example)
+* vincule despesas com arquivos pessoais (fotos de comprovantes físicos por exemplo)
 * 👩 acesso de convidado para pessoas fora do Nextcloud
-* 👫 share projects with Nextcloud users/groups/circles
+* compartilhe projetos com usuários/grupos/circles do Nextcloud
 * 🖫 importar/exportar projetos no formato CSV (compatível com aquivos CSV do IHateMoney)
-* 🔗 generate link/QRCode to easily import projects in MoneyBuster
-* 🗲 implement Nextcloud notifications and activity stream
+* gere link/QRCode para importar facilmente projetos no MoneyBuster
+* 🗲 implemente notificações e fluxo de atividades do Nextcloud
 
-This app is tested on Nextcloud 18 with Firefox 57+ and Chromium.
+Este aplicativo foi testado no Nextcloud 18 com Firefox 57+ e Chromium.
 
-This app is under development.
+Este aplicativo está em desenvolvimento.
 
-🌍 Help us to translate this app on [Nextcloud-Cospend/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
+🌍 Ajude-nos a traduzir esta aplicação no [Nextcloud-Cospend/MoneyBuster Crowdin](https://crowdin.com/project/moneybuster).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
+⚒ Veja outras formas de ajudar nos [guias de contribuição](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
-## Instalar
+## Instalação
 
-See the [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc) for installation details.
+Consulte o [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc) para obter detalhes de instalação.
 
-Check [CHANGELOG](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
+Consulte o arquivo [CHANGELOG](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) para ver o que há de novo e o que está por vir na próxima versão.
 
-Check [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+Consulte o arquivo [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) para ver a lista completa dos autores.
 
 ## Problemas conhecidos
 
 * ele não te torna rico
 
-Any feedback will be appreciated.
+Qualquer feedback será apreciado.

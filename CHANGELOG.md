@@ -6,9 +6,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 1.0.2 – 2020-07-01
+## 1.0.3 – 2020-07-24
+### Added
+- simple math for amount fields in bill form
+[#15](https://gitlab.com/eneiluj/cospend-nc/issues/15) @rouvenV
+- a few animations with vue2-transitions
+- member (and access) management in settings sidebar tab
+
+### Changed
+- no more JQuery, using axios for ajax requests
+- improve QRCode component
+- move QRCode to sharing sidebar tab
+- improve category management style
+- improve date display and use nc-vue datetimepicker
+- improve bill form design
+- select all owers by default in new bill
+- update nv-vue components
+
 ### Fixed
 - duplicated route problem
+- bug when doing repetitive shared access add/del
+- disabled flag was not sent in member edition request
+- bill form display on mobile view
+[#109](https://gitlab.com/eneiluj/cospend-nc/issues/109) @Joniator
+- delay member color edition to avoid many requests
 
 ## 1.0.1 – 2020-07-01
 ### Fixed

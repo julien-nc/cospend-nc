@@ -325,7 +325,7 @@ export default {
                 return this.bill.amount;
             },
             set(value) {
-                const val = value.replace(',', '.');
+                const val = value.replaceAll(',', '.');
                 // only change bill amount if we're not typing a formula
                 if (val === '') {
                     this.bill.amount = 0;
@@ -630,7 +630,7 @@ export default {
             }
         },
         onPersoAmountEnterPressed(e) {
-            const val = e.target.value.replace(',', '.');
+            const val = e.target.value.replaceAll(',', '.');
             if (isNaN(val)) {
                 let calc = 'a';
                 try {
@@ -643,7 +643,7 @@ export default {
             }
         },
         onCustomAmountEnterPressed(e) {
-            const val = e.target.value.replace(',', '.');
+            const val = e.target.value.replaceAll(',', '.');
             if (isNaN(val)) {
                 let calc = 'a';
                 try {

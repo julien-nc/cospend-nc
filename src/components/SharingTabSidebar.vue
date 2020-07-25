@@ -41,22 +41,22 @@
                     </Popover>
 
                     <Actions :force-menu="true">
-                        <ActionRadio name="accessLevel" :disabled="!editionAccess || isCurrentUser(access.userid)"
+                        <ActionRadio name="accessLevel" :disabled="!canSetAccessLevel(1, access)"
                             :checked="access.accesslevel === 1"
                             @change="clickAccessLevel(access, 1)">
                             {{ t('cospend', 'Viewer') }}
                         </ActionRadio>
-                        <ActionRadio name="accessLevel" :disabled="!editionAccess || isCurrentUser(access.userid)"
+                        <ActionRadio name="accessLevel" :disabled="!canSetAccessLevel(2, access)"
                             :checked="access.accesslevel === 2"
                             @change="clickAccessLevel(access, 2)">
                             {{ t('cospend', 'Participant') }}
                         </ActionRadio>
-                        <ActionRadio name="accessLevel" :disabled="myAccessLevel < 3 || isCurrentUser(access.userid)"
+                        <ActionRadio name="accessLevel" :disabled="!canSetAccessLevel(3, access)"
                             :checked="access.accesslevel === 3"
                             @change="clickAccessLevel(access, 3)">
                             {{ t('cospend', 'Maintainer') }}
                         </ActionRadio>
-                        <ActionRadio name="accessLevel" :disabled="myAccessLevel < 4 || isCurrentUser(access.userid)"
+                        <ActionRadio name="accessLevel" :disabled="!canSetAccessLevel(4, access)"
                             :checked="access.accesslevel === 4"
                             @change="clickAccessLevel(access, 4)">
                             {{ t('cospend', 'Admin') }}
@@ -91,22 +91,22 @@
                     </span>
 
                     <Actions :force-menu="true">
-                        <ActionRadio name="accessLevel" :disabled="!editionAccess || isCurrentUser(access.userid)"
+                        <ActionRadio name="accessLevel" :disabled="!canSetAccessLevel(1, access)"
                             :checked="access.accesslevel === 1"
                             @change="clickAccessLevel(access, 1)">
                             {{ t('cospend', 'Viewer') }}
                         </ActionRadio>
-                        <ActionRadio name="accessLevel" :disabled="!editionAccess || isCurrentUser(access.userid)"
+                        <ActionRadio name="accessLevel" :disabled="!canSetAccessLevel(2, access)"
                             :checked="access.accesslevel === 2"
                             @change="clickAccessLevel(access, 2)">
                             {{ t('cospend', 'Participant') }}
                         </ActionRadio>
-                        <ActionRadio name="accessLevel" :disabled="myAccessLevel < 3 || isCurrentUser(access.userid)"
+                        <ActionRadio name="accessLevel" :disabled="!canSetAccessLevel(3, access)"
                             :checked="access.accesslevel === 3"
                             @change="clickAccessLevel(access, 3)">
                             {{ t('cospend', 'Maintainer') }}
                         </ActionRadio>
-                        <ActionRadio name="accessLevel" :disabled="myAccessLevel < 4 || isCurrentUser(access.userid)"
+                        <ActionRadio name="accessLevel" :disabled="!canSetAccessLevel(4, access)"
                             :checked="access.accesslevel === 4"
                             @change="clickAccessLevel(access, 4)">
                             {{ t('cospend', 'Admin') }}
@@ -304,6 +304,12 @@ export default {
         },
     },
     methods: {
+        canSetAccessLevel(level, access) {
+            // i must be able to edit, have more perms than the access, have at least same perms as what i want to set
+            // and i can't edit myself
+            return this.editionAccess && this.myAccessLevel > access.accesslevel && this.myAccessLevel >= level &&
+                (access.type !== 'u' || !this.isCurrentUser(access.userid))
+        },
         asyncFind() {
             this.isLoading = true
             this.loadSharees();

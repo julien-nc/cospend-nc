@@ -2060,14 +2060,14 @@ class ProjectService {
         for ($i = 0; $i < count($projects); $i++) {
             $dbProjectId = $projects[$i]['id'];
             $members = $this->getMembers($dbProjectId, 'lowername');
+            $myAccessLevel = $this->getUserMaxAccessLevel($userId, $dbProjectId);
             $userShares = $this->getUserShares($dbProjectId);
             $groupShares = $this->getGroupShares($dbProjectId);
             $circleShares = $this->getCircleShares($dbProjectId);
-            $publicShares = $this->getPublicShares($dbProjectId);
+            $publicShares = $this->getPublicShares($dbProjectId, $myAccessLevel);
             $shares = array_merge($userShares, $groupShares, $circleShares, $publicShares);
             $currencies = $this->getCurrencies($dbProjectId);
             $categories = $this->getCategories($dbProjectId);
-            $myAccessLevel = $this->getUserMaxAccessLevel($userId, $dbProjectId);
             $activeMembers = [];
             foreach ($members as $member) {
                 if ($member['activated']) {
@@ -2180,7 +2180,7 @@ class ProjectService {
         return $shares;
     }
 
-    private function getPublicShares($projectid) {
+    private function getPublicShares($projectid, $maxAccessLevel=null) {
         $shares = [];
 
         $qb = $this->dbconnection->getQueryBuilder();
@@ -2192,6 +2192,11 @@ class ProjectService {
            ->andWhere(
                $qb->expr()->eq('type', $qb->createNamedParameter('l', IQueryBuilder::PARAM_STR))
            );
+        if (!is_null($maxAccessLevel)) {
+           $qb->andWhere(
+               $qb->expr()->lte('accesslevel', $qb->createNamedParameter($maxAccessLevel, IQueryBuilder::PARAM_INT))
+           );
+        }
         $req = $qb->execute();
         while ($row = $req->fetch()){
             $dbToken = $row['userid'];
@@ -2776,7 +2781,6 @@ class ProjectService {
 
     public function addCategory($projectid, $name, $icon, $color) {
         $qb = $this->dbconnection->getQueryBuilder();
-        $projectInfo = $this->getProjectInfo($projectid);
 
         $encIcon = $icon;
         if ($icon !== null and $icon !== '') {
@@ -2901,7 +2905,6 @@ class ProjectService {
 
     public function addCurrency($projectid, $name, $rate) {
         $qb = $this->dbconnection->getQueryBuilder();
-        $projectInfo = $this->getProjectInfo($projectid);
 
         $qb->insert('cospend_currencies')
             ->values([
@@ -3100,7 +3103,6 @@ class ProjectService {
 
     public function addPublicShare($projectid) {
         $qb = $this->dbconnection->getQueryBuilder();
-        $projectInfo = $this->getProjectInfo($projectid);
         // generate token
         $token = md5($projectid.rand());
 
@@ -3128,6 +3130,7 @@ class ProjectService {
         //);
 
         //// SEND NOTIFICATION
+        //$projectInfo = $this->getProjectInfo($projectid);
         //$manager = \OC::$server->getNotificationManager();
         //$notification = $manager->createNotification();
 
@@ -3384,7 +3387,6 @@ class ProjectService {
         if ($groupid !== '' and in_array($groupid, $groupIds)) {
             $name = $this->groupManager->get($groupid)->getDisplayName();
             $qb = $this->dbconnection->getQueryBuilder();
-            $projectInfo = $this->getProjectInfo($projectid);
             // check if user share exists
             $qb->select('userid', 'projectid')
                 ->from('cospend_shares', 's')
@@ -3518,7 +3520,6 @@ class ProjectService {
             }
             if ($circleid !== '' and $exists) {
                 $qb = $this->dbconnection->getQueryBuilder();
-                $projectInfo = $this->getProjectInfo($projectid);
                 // check if circle share exists
                 $qb->select('userid', 'projectid')
                     ->from('cospend_shares', 's')

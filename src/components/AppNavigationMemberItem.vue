@@ -36,27 +36,27 @@
             </ActionButton>
 
             <ActionSeparator v-if="showShareEdition" />
-            <ActionRadio name="accessLevel" v-if="showShareEdition"
+            <ActionRadio name="accessLevel" v-if="showShareEdition" :disabled="!canSetAccessLevel(0, access)"
                 :checked="!access"
                 @change="clickAccessLevel(0)">
                 {{ t('cospend', 'No access') }}
             </ActionRadio>
-            <ActionRadio name="accessLevel" v-if="showShareEdition"
+            <ActionRadio name="accessLevel" v-if="showShareEdition" :disabled="!canSetAccessLevel(1, access)"
                 :checked="access && access.accesslevel === 1"
                 @change="clickAccessLevel(1)">
                 {{ t('cospend', 'Viewer') }}
             </ActionRadio>
-            <ActionRadio name="accessLevel" v-if="showShareEdition"
+            <ActionRadio name="accessLevel" v-if="showShareEdition" :disabled="!canSetAccessLevel(2, access)"
                 :checked="access && access.accesslevel === 2"
                 @change="clickAccessLevel(2)">
                 {{ t('cospend', 'Participant') }}
             </ActionRadio>
-            <ActionRadio name="accessLevel" v-if="showShareEdition" :disabled="myAccessLevel < 3"
+            <ActionRadio name="accessLevel" v-if="showShareEdition" :disabled="!canSetAccessLevel(3, access)"
                 :checked="access && access.accesslevel === 3"
                 @change="clickAccessLevel(3)">
                 {{ t('cospend', 'Maintainer') }}
             </ActionRadio>
-            <ActionRadio name="accessLevel" v-if="showShareEdition" :disabled="myAccessLevel < 4"
+            <ActionRadio name="accessLevel" v-if="showShareEdition" :disabled="!canSetAccessLevel(4, access)"
                 :checked="access && access.accesslevel === 4"
                 @change="clickAccessLevel(4)">
                 {{ t('cospend', 'Admin') }}
@@ -159,6 +159,12 @@ export default {
     },
 
     methods: {
+        canSetAccessLevel(level, access) {
+            // i must be able to edit, have at least perms of the access, have at least same perms as what i want to set
+            // and i can't edit myself
+            return this.editionAccess && (access === null || this.myAccessLevel >= access.accesslevel) && this.myAccessLevel >= level &&
+                (access === null || !this.isCurrentUser(access.userid))
+        },
         onDeleteMemberClick() {
             this.member.activated = !this.member.activated;
             this.$emit('memberEdited', this.projectId, this.member.id);

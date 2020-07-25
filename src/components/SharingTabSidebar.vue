@@ -305,9 +305,9 @@ export default {
     },
     methods: {
         canSetAccessLevel(level, access) {
-            // i must be able to edit, have more perms than the access, have at least same perms as what i want to set
+            // i must be able to edit, have at least perms of the access, have at least same perms as what i want to set
             // and i can't edit myself
-            return this.editionAccess && this.myAccessLevel > access.accesslevel && this.myAccessLevel >= level &&
+            return this.editionAccess && this.myAccessLevel >= access.accesslevel && this.myAccessLevel >= level &&
                 (access.type !== 'u' || !this.isCurrentUser(access.userid))
         },
         asyncFind() {

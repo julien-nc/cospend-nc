@@ -32,7 +32,7 @@
                 {{ t('cospend', 'Change color') }}
             </ActionButton>
             <ActionButton :icon="member.activated ? 'icon-delete' : 'icon-history'" @click="onDeleteMemberClick">
-                {{ member.activated ? t('cospend', 'Deactivate') : t('cospend', 'Reactivate') }}
+                {{ getDeletionText() }}
             </ActionButton>
 
             <ActionSeparator v-if="showShareEdition" />
@@ -159,6 +159,13 @@ export default {
     },
 
     methods: {
+        getDeletionText() {
+            const balance = this.member.balance;
+            const closeToZero = (balance < 0.01 && balance > -0.01)
+            return this.member.activated ?
+                (closeToZero ? t('cospend', 'Delete') : t('cospend', 'Deactivate'))
+                : t('cospend', 'Reactivate')
+        },
         canSetAccessLevel(level, access) {
             // i must be able to edit, have at least perms of the access, have at least same perms as what i want to set
             // and i can't edit myself

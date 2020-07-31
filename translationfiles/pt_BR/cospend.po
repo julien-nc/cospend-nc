@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-07-18 14:13+0200\n"
-"PO-Revision-Date: 2020-07-22 04:54\n"
+"PO-Revision-Date: 2020-07-31 10:58\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -1337,7 +1337,7 @@ msgstr ""
 
 #: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:191
 msgid "Share project with a user, group or circle …"
-msgstr "Compartilhar projeto com um usuário, grupu ou circle …"
+msgstr "Compartilhar projeto com um usuário, grupo ou circle …"
 
 #: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:192
 #: /var/www/html/n19/apps/cospend/src/state.js:26

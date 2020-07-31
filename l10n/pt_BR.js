@@ -204,7 +204,7 @@ OC.L10N.register(
     "You can cut the link with a Nextcloud user by renaming the member." : "Você pode copiar o link com um usuário da Nextcloud renomeando o membro.",
     "New member name" : "Nome do novo membro",
     "New member (or Nextcloud user) name" : "Novo membro (ou usuário do Nextcloud)",
-    "Share project with a user, group or circle …" : "Compartilhar projeto com um usuário, grupu ou circle …",
+    "Share project with a user, group or circle …" : "Compartilhar projeto com um usuário, grupo ou circle …",
     "Add public link" : "Criar link público",
     "Public link" : "Link público",
     "Project owner" : "Dono do projeto",

@@ -14,7 +14,7 @@ Os membros do projeto são independentes dos usuários do Nextcloud. Projetos po
 
 ## Funcionalidades
 
-* crie/edite/remova projetos, membros, despesas, categorias de desepesas, moedas
+* crie/edite/remova projetos, membros, despesas, categorias de despesas, moedas
 * ⚖ verificar os saldos dos membros
 * 🗠 exibir estatísticas do projeto
 * ♻ exibir plano de quitação

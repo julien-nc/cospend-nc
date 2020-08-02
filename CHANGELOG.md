@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.0.4 – 2020-08-02
+### Changed
+- show 'delete' for members with balance close to 0
+
+### Fixed
+- fix comma replacement in simple math
+[#15](https://gitlab.com/eneiluj/cospend-nc/issues/15) @simonspa
+- sharing access level disabled conditions
+- don't show public links with more permissions than the current user
+- settlement bills payment mode was not set
+[#112](https://gitlab.com/eneiluj/cospend-nc/issues/112) @simonspa
+
 ## 1.0.3 – 2020-07-24
 ### Added
 - simple math for amount fields in bill form

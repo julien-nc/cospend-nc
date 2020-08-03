@@ -4349,4 +4349,45 @@ class ProjectService {
         return ['r' => $r, 'g' => $g, 'b' => $b];
     }
 
+    public function searchBills($projectId, $term) {
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('id', 'what', 'comment', 'amount', 'timestamp',
+                    'paymentmode', 'categoryid')
+           ->from('cospend_bills', 'b')
+           ->where(
+               $qb->expr()->eq('b.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+           )
+           ->andWhere(
+               $qb->expr()->like('b.what', $qb->createNamedParameter('%'.$term.'%', IQueryBuilder::PARAM_STR))
+           );
+        $qb->orderBy('timestamp', 'ASC');
+        $req = $qb->execute();
+
+        // bills by id
+        $bills = [];
+        while ($row = $req->fetch()){
+            $dbBillId = intval($row['id']);
+            $dbAmount = floatval($row['amount']);
+            $dbWhat = $row['what'];
+            $dbTimestamp = intval($row['timestamp']);
+            $dbComment = $row['comment'];
+            $dbPaymentMode = $row['paymentmode'];
+            $dbCategoryId = intval($row['categoryid']);
+            array_push($bills, [
+                'id' => $dbBillId,
+                'projectId' => $projectId,
+                'amount' => $dbAmount,
+                'what' => $dbWhat,
+                'timestamp' => $timestamp,
+                'comment' => $dbComment,
+                'paymentmode' => $dbPaymentMode,
+                'categoryid' => $dbCategoryId
+            ]);
+        }
+        $req->closeCursor();
+        $qb = $qb->resetQueryParts();
+
+        return $bills;
+    }
+
 }

@@ -57,12 +57,10 @@ class CospendSearchProvider implements IProvider {
                                 IL10N $l10n,
                                 IConfig $config,
 								IURLGenerator $urlGenerator,
-                                ProjectService $projectService,
-                                $userId) {
+                                ProjectService $projectService) {
 		$this->appManager = $appManager;
 		$this->l10n = $l10n;
 		$this->config = $config;
-		$this->userId = $userId;
 		$this->urlGenerator = $urlGenerator;
 		$this->projectService = $projectService;
 	}
@@ -93,21 +91,62 @@ class CospendSearchProvider implements IProvider {
         $term = $query->getTerm();
         $offset = $query->getCursor();
 
-        $theme = $this->config->getUserValue($this->userId, 'accessibility', 'theme', '');
+        $theme = $this->config->getUserValue($user->getUID(), 'accessibility', 'theme', '');
         $thumbnailUrl = ($theme === 'dark') ?
             $this->urlGenerator->imagePath('cospend', 'app.svg') :
             $this->urlGenerator->imagePath('cospend', 'app_black.svg');
 
-        $formattedResults = [
-            new CospendSearchResultEntry($thumbnailUrl, 'title1', 'sub1', $this->getDeepLinkToCospendApp('proj1'), '', true),
-            new CospendSearchResultEntry($thumbnailUrl, 'title2', 'sub2', $this->getDeepLinkToCospendApp('projEEEE'), '', true)
-        ];
+        $resultBills = [];
+
+        // get user's projects
+        $projects = $this->projectService->getProjects($user->getUID());
+        $projectsById = [];
+        foreach ($projects as $project) {
+            $projectsById[$project['id']] = $project;
+        }
+
+        // search bills for each project
+        foreach ($projects as $project) {
+            $searchResults = $this->projectService->searchBills($project['id'], $term);
+            $resultBills = array_merge($resultBills, $searchResults);
+        }
+
+        // sort by timestamp
+        $a = usort($resultBills, function($a, $b) {
+            $ta = $a['timestamp'];
+            $tb = $b['timestamp'];
+            return ($ta > $tb) ? -1 : 1;
+        });
+
+        // build formatted
+        $formattedResults = \array_map(function (array $bill) use ($projectsById, $thumbnailUrl):CospendSearchResultEntry {
+            $projectId = $bill['projectId'];
+            $projectName = $projectsById[$projectId]['name'];
+            return new CospendSearchResultEntry(
+                $thumbnailUrl, $this->getMainText($bill), $this->getSubline($projectsById[$projectId]),
+                $this->getDeepLinkToCospendApp($projectId), '', true
+            );
+        }, $resultBills);
 
 		return SearchResult::paginated(
 			$this->getName(),
 			$formattedResults,
 			$query->getCursor() + count($formattedResults)
         );
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getMainText(array $bill): string {
+        return $bill['what']. ' ('. $bill['amount'] . ')';
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getSubline(array $project): string {
+        return $this->l10n->t('In project %1$s', [$project['name']]);
 	}
 
 	/**

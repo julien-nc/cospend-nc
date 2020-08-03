@@ -188,7 +188,7 @@ export default {
     },
     created() {
         if (!cospend.pageIsPublic) {
-            new OCA.Search(this.filter, this.cleanSearch);
+            //new OCA.Search(this.filter, this.cleanSearch);
         }
         this.getProjects();
     },

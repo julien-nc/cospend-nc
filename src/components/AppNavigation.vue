@@ -16,10 +16,10 @@
                 </div>
             </div>
             <AppNavigationProjectItem
-                v-for="(project, id) in projects"
+                v-for="id in sortedProjectIds"
                 :key="id"
-                :project="project"
-                :members="project.members"
+                :project="projects[id]"
+                :members="projects[id].members"
                 :selected="id === selectedProjectId"
                 @projectClicked="onProjectClicked"
                 @deleteProject="onDeleteProject"
@@ -99,7 +99,16 @@ export default {
     directives: {
         ClickOutside,
     },
-    props: ['projects', 'selectedProjectId'],
+    props: {
+        projects: {
+            type: Object,
+            required: true,
+        },
+        selectedProjectId: {
+            type: String,
+            default: '',
+        },
+    },
     data() {
         return {
             opened: false,
@@ -110,6 +119,11 @@ export default {
         }
     },
     computed: {
+        sortedProjectIds() {
+            return Object.keys(this.projects).sort((a, b) => {
+                return this.projects[a].name.toLowerCase() > this.projects[b].name.toLowerCase()
+            })
+        },
         editionAccess() {
             return this.selectedProjectId && this.projects[this.selectedProjectId].myaccesslevel >= constants.ACCESS.PARTICIPANT;
         },

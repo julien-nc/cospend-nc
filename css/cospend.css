@@ -413,3 +413,8 @@ a.billitem .app-content-list-item-icon {
 .multiselect__content-wrapper {
     z-index: 10000 !important;
 }
+
+.popover__wrapper {
+    position: relative;
+    top: -10px;
+}

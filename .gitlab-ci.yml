@@ -50,7 +50,7 @@ test_nc_pgsql:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: "toto"
   script:
-    - DEBIAN_FRONTEND=noninteractive apt-get install php7.3-pgsql postgresql-client -yqq > /dev/null 2>&1
+    - DEBIAN_FRONTEND=noninteractive apt-get install php7.4-pgsql postgresql-client -yqq > /dev/null 2>&1
     # copy local copy that has been cloned already
     - cp -r . /tmp/cospend
     - mkdir -p /var/www/html ; pushd /var/www/html
@@ -77,7 +77,7 @@ test_nc_mysql:
       - test
   script:
     # DB
-    - DEBIAN_FRONTEND=noninteractive apt-get install mariadb-server php7.3-mysql -yqq > /dev/null 2>&1
+    - DEBIAN_FRONTEND=noninteractive apt-get install mariadb-server php7.4-mysql -yqq > /dev/null 2>&1
     - service mysql start
     - mysql -u root -e 'create database oc_autotest;'
     - mysql -u root -e "CREATE USER 'oc_autotest'@'localhost' IDENTIFIED BY '';"

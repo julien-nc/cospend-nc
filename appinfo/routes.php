@@ -13,6 +13,8 @@ return [
     'routes' => [
         ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
 
+        ['name' => 'page#getBillActivity', 'url' => '/bill-activity', 'verb' => 'GET'],
+
         // api for client using guest access (password)
         [
             'name'         => 'page#preflighted_cors',

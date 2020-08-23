@@ -3,9 +3,9 @@
 
 <?php
 if ($_['wrong']) {
-    echo '<p id="wrongcredentials">';
-    p($l->t('Wrong project Id or password'));
-    echo '</p>';
+	echo '<p id="wrongcredentials">';
+	p($l->t('Wrong project Id or password'));
+	echo '</p>';
 }
 ?>
 
@@ -13,7 +13,7 @@ if ($_['wrong']) {
 <br/>
 <input id="projectidInput" name="projectid" type="text" maxlength="64" value="<?php
 if (array_key_exists('projectid', $_)) {
-    p($_['projectid']);
+	p($_['projectid']);
 }
 ?>"/>
 
@@ -22,7 +22,7 @@ if (array_key_exists('projectid', $_)) {
 <br/>
 <input id="passwordInput" name="password" type="password" value="<?php
 if (array_key_exists('password', $_)) {
-    p($_['password']);
+	p($_['password']);
 }
 ?>"/>
 

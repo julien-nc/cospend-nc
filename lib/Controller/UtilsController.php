@@ -192,7 +192,6 @@ class UtilsController extends Controller {
                 //$dataFile->delete();
             }
             if ($avatarFolder === null || !$avatarFolder->fileExists($filename)) {
-                error_log('generate '.$filename);
                 $size = 64;
                 $backgroundColor = $this->hexToRgb($color);
 

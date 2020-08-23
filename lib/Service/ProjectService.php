@@ -1509,8 +1509,9 @@ class ProjectService {
         }
     }
 
-    public function getBills($projectId, $tsMin=null, $tsMax=null, $paymentMode=null, $category=null,
-                              $amountMin=null, $amountMax=null, $lastchanged=null) {
+    public function getBills($projectId, ?int $tsMin=null, ?int $tsMax=null, ?string $paymentMode=null, ?int $category=null,
+                              ?float $amountMin=null, ?float $amountMax=null, ?int $lastchanged=null, ?int $limit=null,
+                              ?bool $reverse = false) {
         $qb = $this->dbconnection->getQueryBuilder();
         $qb->select('bi.id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
                     'paymentmode', 'categoryid', 'bi.lastchanged', 'repeatallactive', 'repeatuntil',
@@ -1565,7 +1566,14 @@ class ProjectService {
                $qb->expr()->lte('amount', $qb->createNamedParameter(floatval($amountMax), IQueryBuilder::PARAM_STR))
            );
         }
-        $qb->orderBy('timestamp', 'ASC');
+        if ($reverse) {
+            $qb->orderBy('timestamp', 'DESC');
+        } else {
+            $qb->orderBy('timestamp', 'ASC');
+        }
+        if ($limit) {
+            $qb->setMaxResults($limit);
+        }
         $req = $qb->execute();
 
         // bills by id
@@ -4390,4 +4398,40 @@ class ProjectService {
         return $bills;
     }
 
+    public function getBillActivity(string $userId, ?int $since): array {
+        // get projects
+        $projects = $this->getProjects($userId);
+
+        // get bills (7 max)
+        $bills = [];
+        foreach ($projects as $project) {
+            $pid = $project['id'];
+            $bl = $this->getBills($pid, null, null, null, null, null, null, $since, 20, true);
+
+            // get members by id
+            $membersById = [];
+            foreach ($project['members'] as $m) {
+                $membersById[$m['id']] = $m;
+            }
+            // add information
+            foreach ($bl as $i => $bill) {
+                $payerId = $bill['payer_id'];
+                $bl[$i]['payer'] = $membersById[$payerId];
+                $bl[$i]['project_id'] = $pid;
+                $bl[$i]['project_name'] = $project['name'];
+            }
+
+            $bills = array_merge($bills, $bl);
+        }
+
+        // sort bills by date
+        $a = usort($bills, function($a, $b) {
+            $ta = $a['timestamp'];
+            $tb = $b['timestamp'];
+            return ($ta > $tb) ? -1 : 1;
+        });
+
+        // take 7 firsts
+        return array_slice($bills, 0, 7);
+    }
 }

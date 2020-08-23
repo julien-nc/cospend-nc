@@ -23,7 +23,7 @@ Vue.use(SmartTable)
 import Transitions from 'vue2-transitions'
 Vue.use(Transitions)
 import {
-    showError,
+	showError,
 } from '@nextcloud/dialogs'
 import {generateUrl} from '@nextcloud/router';
 import {hexToDarkerHex} from './utils';
@@ -34,57 +34,57 @@ import cospend from './state';
 'use strict';
 
 function restoreOptions() {
-    network.getOptionValues(getOptionValuesSuccess);
+	network.getOptionValues(getOptionValuesSuccess);
 }
 
 function getOptionValuesSuccess(response) {
-    let optionsValues = {};
-    optionsValues = response.values;
-    if (optionsValues) {
-        for (const k in optionsValues) {
-            if (k === 'selectedProject') {
-                cospend.restoredCurrentProjectId = optionsValues[k];
-            } else if (k === 'outputDirectory') {
-                cospend.outputDirectory = optionsValues[k];
-            }
-        }
-    }
-    main();
+	let optionsValues = {};
+	optionsValues = response.values;
+	if (optionsValues) {
+		for (const k in optionsValues) {
+			if (k === 'selectedProject') {
+				cospend.restoredCurrentProjectId = optionsValues[k];
+			} else if (k === 'outputDirectory') {
+				cospend.outputDirectory = optionsValues[k];
+			}
+		}
+	}
+	main();
 }
 
 document.addEventListener('DOMContentLoaded', function(event) {
-    cospend.pageIsPublic = (document.URL.indexOf('/cospend/project') !== -1 || document.URL.indexOf('/cospend/s/') !== -1);
-    if (!cospend.pageIsPublic) {
-        restoreOptions();
-    } else {
-        cospend.projectid = document.getElementById('projectid').textContent;
-        cospend.password = document.getElementById('password').textContent;
-        cospend.restoredCurrentProjectId = cospend.projectid;
-        main();
-    }
-    if (OCA.Theming) {
-        const c = OCA.Theming.color;
-        // invalid color
-        if (!c || (c.length !== 4 && c.length !== 7)) {
-            cospend.themeColor = '#0082C9';
-        }
-        // compact
-        else if (c.length === 4) {
-            cospend.themeColor = '#' + c[1] + c[1] + c[2] + c[2] + c[3] + c[3];
-        }
-        // normal
-        else if (c.length === 7) {
-            cospend.themeColor = c;
-        }
-    } else {
-        cospend.themeColor = '#0082C9';
-    }
-    cospend.themeColorDark = hexToDarkerHex(cospend.themeColor);
+	cospend.pageIsPublic = (document.URL.indexOf('/cospend/project') !== -1 || document.URL.indexOf('/cospend/s/') !== -1);
+	if (!cospend.pageIsPublic) {
+		restoreOptions();
+	} else {
+		cospend.projectid = document.getElementById('projectid').textContent;
+		cospend.password = document.getElementById('password').textContent;
+		cospend.restoredCurrentProjectId = cospend.projectid;
+		main();
+	}
+	if (OCA.Theming) {
+		const c = OCA.Theming.color;
+		// invalid color
+		if (!c || (c.length !== 4 && c.length !== 7)) {
+			cospend.themeColor = '#0082C9';
+		}
+		// compact
+		else if (c.length === 4) {
+			cospend.themeColor = '#' + c[1] + c[1] + c[2] + c[2] + c[3] + c[3];
+		}
+		// normal
+		else if (c.length === 7) {
+			cospend.themeColor = c;
+		}
+	} else {
+		cospend.themeColor = '#0082C9';
+	}
+	cospend.themeColorDark = hexToDarkerHex(cospend.themeColor);
 });
 
 function main() {
-    new Vue({
-        el: "#content",
-        render: h => h(App),
-    });
+	new Vue({
+		el: "#content",
+		render: h => h(App),
+	});
 }

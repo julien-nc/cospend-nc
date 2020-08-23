@@ -1,5 +1,5 @@
 <template>
-    <div id="manage-currencies">
+	<div id="manage-currencies">
 		<div id="main-currency-div">
 			<label>
 				<a class="icon icon-tag"></a>{{ t('cospend', 'Main currency') }}
@@ -48,21 +48,21 @@
 				<a class="icon icon-currencies"></a>{{ t('cospend', 'Currency list') }}
 			</label>
 			<div id="currency-list" v-if="currencies.length">
-                <slide-x-right-transition group>
-                    <Currency
-                        :editionAccess="project.myaccesslevel >= constants.ACCESS.MAINTENER"
-                        v-on:delete="onDeleteCurrency"
-                        v-on:edit="onEditCurrency"
-                        v-for="currency in currencies"
-                        :key="currency.id"
-                        v-bind:currency="currency"/>
-                </slide-x-right-transition>
+				<slide-x-right-transition group>
+					<Currency
+						:editionAccess="project.myaccesslevel >= constants.ACCESS.MAINTENER"
+						v-on:delete="onDeleteCurrency"
+						v-on:edit="onEditCurrency"
+						v-for="currency in currencies"
+						:key="currency.id"
+						v-bind:currency="currency"/>
+				</slide-x-right-transition>
 			</div>
 			<div v-else class="no-currencies">
 				{{ t('cospend', 'No currencies to display') }}
 			</div>
 		</div>
-    </div>
+	</div>
 </template>
 
 <script>
@@ -70,26 +70,26 @@ import cospend from './state';
 import Currency from './components/Currency';
 import {generateUrl} from '@nextcloud/router';
 import {
-    showSuccess,
-    showError,
+	showSuccess,
+	showError,
 } from '@nextcloud/dialogs'
 import * as constants from './constants';
 import * as network from './network';
 import { SlideXRightTransition } from 'vue2-transitions'
 
 export default {
-    name: 'CurrencyManagement',
+	name: 'CurrencyManagement',
 
-    components: {
-        Currency, SlideXRightTransition
-    },
+	components: {
+		Currency, SlideXRightTransition
+	},
 
 	props: ['projectId'],
-    data() {
-        return {
-            constants: constants,
-            editMode: false
-        };
+	data() {
+		return {
+			constants: constants,
+			editMode: false
+		};
 	},
 
 	computed: {
@@ -101,129 +101,129 @@ export default {
 		},
 	},
 
-    methods: {
-        onEditMainOkClick() {
-            const newVal = this.$refs.mainCurrencyEdit.value;
-            this.project.currencyname = newVal;
-            this.$emit('projectEdited', this.project.id);
-            this.editMode = false;
-        },
-        onAddCurrency() {
-            const name = this.$refs.newCurrencyName.value;
-            const rate = parseFloat(this.$refs.newCurrencyRate.value);
-            if (name === null || name === '') {
-                showError(t('cospend', 'Currency name should not be empty.'));
-                return;
-            }
-            if (isNaN(rate)) {
-                showError(t('cospend', 'Exchange rate should be a number.'));
-                return;
-            }
-            network.addCurrency(this.project.id, name, rate, this.addCurrencySuccess);
-        },
-        addCurrencySuccess(response, name, rate) {
-            this.project.currencies.push({
-                name: name,
-                exchange_rate: rate,
-                id: response
-            });
-            showSuccess(t('cospend', 'Currency {n} added.', {n: name}));
-            this.$refs.newCurrencyName.value = '';
-            this.$refs.newCurrencyRate.value = 1;
-        },
-        onDeleteCurrency(currency) {
-            network.deleteCurrency(this.project.id, currency, this.deleteCurrencySuccess);
-        },
-        deleteCurrencySuccess(currency) {
-            let iToDel = null;
-            for (let i = 0; i < this.currencies.length; i++) {
-                if (parseInt(this.currencies[i].id) === parseInt(currency.id)) {
-                    iToDel = i;
-                    break;
-                }
-            }
-            if (iToDel !== null) {
-                this.currencies.splice(iToDel, 1);
-            }
-        },
-        onEditCurrency(currency, backupCurrency) {
-            if (currency.name === '') {
-                showError(t('cospend', 'Currency name should not be empty.'));
-                currency.name = backupCurrency.name;
-                currency.exchange_rate = backupCurrency.exchange_rate;
-                return;
-            }
-            network.editCurrency(this.project.id, currency, backupCurrency, this.editCurrencyFail);
-        },
-        editCurrencyFail(currency, backupCurrency) {
-            // backup
-            currency.name = backupCurrency.name;
-            currency.exchange_rate = backupCurrency.exchange_rate;
-        },
-    },
+	methods: {
+		onEditMainOkClick() {
+			const newVal = this.$refs.mainCurrencyEdit.value;
+			this.project.currencyname = newVal;
+			this.$emit('projectEdited', this.project.id);
+			this.editMode = false;
+		},
+		onAddCurrency() {
+			const name = this.$refs.newCurrencyName.value;
+			const rate = parseFloat(this.$refs.newCurrencyRate.value);
+			if (name === null || name === '') {
+				showError(t('cospend', 'Currency name should not be empty.'));
+				return;
+			}
+			if (isNaN(rate)) {
+				showError(t('cospend', 'Exchange rate should be a number.'));
+				return;
+			}
+			network.addCurrency(this.project.id, name, rate, this.addCurrencySuccess);
+		},
+		addCurrencySuccess(response, name, rate) {
+			this.project.currencies.push({
+				name: name,
+				exchange_rate: rate,
+				id: response
+			});
+			showSuccess(t('cospend', 'Currency {n} added.', {n: name}));
+			this.$refs.newCurrencyName.value = '';
+			this.$refs.newCurrencyRate.value = 1;
+		},
+		onDeleteCurrency(currency) {
+			network.deleteCurrency(this.project.id, currency, this.deleteCurrencySuccess);
+		},
+		deleteCurrencySuccess(currency) {
+			let iToDel = null;
+			for (let i = 0; i < this.currencies.length; i++) {
+				if (parseInt(this.currencies[i].id) === parseInt(currency.id)) {
+					iToDel = i;
+					break;
+				}
+			}
+			if (iToDel !== null) {
+				this.currencies.splice(iToDel, 1);
+			}
+		},
+		onEditCurrency(currency, backupCurrency) {
+			if (currency.name === '') {
+				showError(t('cospend', 'Currency name should not be empty.'));
+				currency.name = backupCurrency.name;
+				currency.exchange_rate = backupCurrency.exchange_rate;
+				return;
+			}
+			network.editCurrency(this.project.id, currency, backupCurrency, this.editCurrencyFail);
+		},
+		editCurrencyFail(currency, backupCurrency) {
+			// backup
+			currency.name = backupCurrency.name;
+			currency.exchange_rate = backupCurrency.exchange_rate;
+		},
+	},
 }
 </script>
 
 <style scoped lang="scss">
 #manage-currencies {
-    margin-left: 20px;
+	margin-left: 20px;
 }
 #manage-currencies .icon {
-    line-height: 44px;
-    padding: 0 12px 0 25px;
+	line-height: 44px;
+	padding: 0 12px 0 25px;
 }
 #manage-currencies .icon-currencies {
-    min-height: 18px !important;
-    display: inline-block;
-    padding: 0 12px 0 25px !important;
+	min-height: 18px !important;
+	display: inline-block;
+	padding: 0 12px 0 25px !important;
 }
 .editMainCurrency {
-    width: 40px !important;
-    height: 40px;
-    margin-top: 0px;
+	width: 40px !important;
+	height: 40px;
+	margin-top: 0px;
 }
 .editMainCurrencyInput {
-    width: 96%;
+	width: 96%;
 }
 #main-currency-edit {
-    display: grid;
-    grid-template: 1fr / 84% 1fr 1fr;
+	display: grid;
+	grid-template: 1fr / 84% 1fr 1fr;
 }
 #main-currency-edit input[type=submit] {
-    margin-left: -15px;
-    border-radius: 0;
-    width: 36px !important;
+	margin-left: -15px;
+	border-radius: 0;
+	width: 36px !important;
 }
 .addCurrencyOk {
-    background-color: #46ba61;
-    color: white;
+	background-color: #46ba61;
+	color: white;
 }
 #main-currency-edit,
 #add-currency,
 #main-currency-label {
-    margin-left: 37px;
+	margin-left: 37px;
 }
 #main-currency-label {
-    display: grid;
-    grid-template: 1fr / 90% 1fr;
+	display: grid;
+	grid-template: 1fr / 90% 1fr;
 }
 #add-currency {
-    display: grid;
-    grid-template: 1fr / 2fr 1fr;
+	display: grid;
+	grid-template: 1fr / 2fr 1fr;
 }
 .addCurrencyRateHint {
-    grid-column: 1/3;
+	grid-column: 1/3;
 }
 #main-currency-label-label,
 #add-currency label {
-    line-height: 40px;
+	line-height: 40px;
 }
 .no-currencies {
-    padding: 2em;
-    text-align: center;
-    color: var(--color-text-light);
+	padding: 2em;
+	text-align: center;
+	color: var(--color-text-light);
 }
 #currency-list {
-    margin-left: 37px;
+	margin-left: 37px;
 }
 </style>

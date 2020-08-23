@@ -1,6 +1,5 @@
 <?php
 script('cospend', 'cospend');
-
 style('cospend', 'cospend');
 
 ?>

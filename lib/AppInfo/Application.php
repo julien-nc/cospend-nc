@@ -20,6 +20,7 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 
 use OCA\Cospend\Search\CospendSearchProvider;
+use OCA\Cospend\Dashboard\CospendWidget;
 
 /**
  * Class Application
@@ -28,13 +29,15 @@ use OCA\Cospend\Search\CospendSearchProvider;
  */
 class Application extends App implements IBootstrap {
 
+    public const APP_ID = 'cospend';
+
     /**
      * Constructor
      *
      * @param array $urlParams
      */
     public function __construct(array $urlParams = []) {
-        parent::__construct('cospend', $urlParams);
+        parent::__construct(self::APP_ID, $urlParams);
 
         $container = $this->getContainer();
 
@@ -46,7 +49,7 @@ class Application extends App implements IBootstrap {
             $urlGenerator = $container->query(\OCP\IURLGenerator::class);
             $l10n = $container->query(\OCP\IL10N::class);
             return [
-                'id' => 'cospend',
+                'id' => self::APP_ID,
 
                 'order' => 10,
 
@@ -55,7 +58,7 @@ class Application extends App implements IBootstrap {
 
                 // the icon that will be shown in the navigation
                 // this file needs to exist in img/
-                'icon' => $urlGenerator->imagePath('cospend', 'app.svg'),
+                'icon' => $urlGenerator->imagePath(self::APP_ID, 'app.svg'),
 
                 // the title of your application. This will be used in the
                 // navigation or on the settings page of your app
@@ -66,6 +69,7 @@ class Application extends App implements IBootstrap {
 
     public function register(IRegistrationContext $context): void {
         $context->registerSearchProvider(CospendSearchProvider::class);
+        $context->registerDashboardWidget(CospendWidget::class);
     }
 
     public function boot(IBootContext $context): void {

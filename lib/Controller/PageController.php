@@ -2597,4 +2597,16 @@ class PageController extends ApiController {
         return $response;
     }
 
+    /**
+     * @NoAdminRequired
+     */
+    public function getBillActivity(?int $since) {
+        $result = $this->projectService->getBillActivity($this->userId, $since);
+        if (isset($result['error'])) {
+            return new DataResponse($result, 400);
+        }
+        else {
+            return new DataResponse($result);
+        }
+    }
 }

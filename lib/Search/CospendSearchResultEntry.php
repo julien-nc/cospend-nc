@@ -24,7 +24,7 @@ declare(strict_types=1);
  */
 namespace OCA\Cospend\Search;
 
-use OCP\Search\ASearchResultEntry;
+use OCP\Search\SearchResultEntry;
 
-class CospendSearchResultEntry extends ASearchResultEntry {
+class CospendSearchResultEntry extends SearchResultEntry {
 }

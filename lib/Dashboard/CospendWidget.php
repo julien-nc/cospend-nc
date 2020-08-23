@@ -77,7 +77,7 @@ class CospendWidget implements IWidget {
 	 * @inheritDoc
 	 */
 	public function load(): void {
-		\OC_Util::addScript(Application::APP_ID, 'dashboard');
-		\OC_Util::addStyle(Application::APP_ID, 'dashboard');
+		\OCP\Util::addScript(Application::APP_ID, 'dashboard');
+		\OCP\Util::addStyle(Application::APP_ID, 'dashboard');
 	}
 }

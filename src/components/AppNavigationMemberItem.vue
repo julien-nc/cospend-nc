@@ -36,12 +36,10 @@
         </template>
         <template slot="actions" v-if="maintenerAccess">
             <ActionInput :disabled="false" icon="icon-rename" type="text" :value="member.name"
-                ref="nameInput" @submit="onNameSubmit"
-                >
+                ref="nameInput" @submit="onNameSubmit">
             </ActionInput>
             <ActionInput :disabled="false" icon="icon-quota" type="number" step="0.1" :value="''"
-                ref="weightInput" @submit="onWeightSubmit"
-                >
+                ref="weightInput" @submit="onWeightSubmit">
                 {{ t('cospend', 'Weight') }} ({{ member.weight }})
             </ActionInput>
             <ActionButton icon="icon-palette" @click="onMenuColorClick">
@@ -272,5 +270,10 @@ export default {
 .itemAvatar {
     margin-top: 16px;
     margin-right: 2px;
+}
+::v-deep .action-input__label {
+    width: 34px;
+    height: 34px;
+    padding: 0;
 }
 </style>

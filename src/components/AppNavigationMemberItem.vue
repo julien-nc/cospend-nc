@@ -5,15 +5,31 @@
         :forceMenu="true"
         v-show="memberVisible"
         >
-        <div v-if="maintenerAccess" class="memberAvatar" slot="icon">
+        <div v-if="maintenerAccess" class="memberItemAvatar" slot="icon">
             <ColorPicker class="app-navigation-entry-bullet-wrapper memberColorPicker" :value="`#${member.color}`" @input="updateColor" ref="col">
-                <div :class="{ 'disabledMask': true, 'nopad': !inNavigation }" v-show="!member.activated"></div>
-                <img :src="memberAvatar"/>
+                <div :class="{ disabledMask: true, nopad: !inNavigation }" v-show="!member.activated"></div>
+                <!--img :src="memberAvatar"/-->
+                <Avatar
+                    class="itemAvatar"
+                    :size="24"
+                    :disableMenu="true"
+                    :disableTooltip="true"
+                    :user="member.userid || ''"
+                    :isNoUser="!isUser"
+                    :url="memberAvatar" />
             </ColorPicker>
         </div>
-        <div v-else class="memberAvatar" slot="icon">
+        <div v-else class="memberItemAvatar" slot="icon">
             <div class="disabledMask" v-show="!member.activated"></div>
-            <img :src="memberAvatar"/>
+            <!--img :src="memberAvatar"/-->
+            <Avatar
+                class="itemAvatar"
+                :size="24"
+                :disableMenu="true"
+                :disableTooltip="true"
+                :user="member.userid"
+                :isNoUser="!isUser"
+                :url="memberAvatar" />
         </div>
         <template slot="counter" v-if="inNavigation">
             <span :class="balanceClass">{{ balanceCounter }}</span>
@@ -70,7 +86,7 @@ import ClickOutside from 'vue-click-outside'
 import {
     ActionButton, AppNavigation as AppNavigationVue, AppNavigationIconBullet,
     AppNavigationSettings, AppNavigationItem, ActionInput, ActionRadio, ActionSeparator,
-    ColorPicker
+    ColorPicker, Avatar
 } from '@nextcloud/vue'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -87,7 +103,7 @@ export default {
         AppNavigationSettings,
         AppNavigationIconBullet,
         ActionButton, ActionRadio, ActionSeparator,
-        ActionInput, ColorPicker
+        ActionInput, ColorPicker, Avatar,
     },
     directives: {
         ClickOutside,
@@ -138,7 +154,15 @@ export default {
             return '#' + this.member.color;
         },
         memberAvatar() {
-            return getMemberAvatar(this.projectId, this.member.id);
+            return this.isUser
+                ? undefined
+                : getMemberAvatar(this.projectId, this.member.id)
+        },
+        isUser() {
+            if (this.member.userid) {
+                return true
+            }
+            return false
         },
         smartMemberName() {
             return getSmartMemberName(this.projectId, this.member.id);
@@ -240,6 +264,13 @@ export default {
 
 <style scoped lang="scss">
 .nopad {
-    left: 9px;
+    left: 8px;
+}
+.disabledMask {
+    z-index: 99;
+}
+.itemAvatar {
+    margin-top: 16px;
+    margin-right: 2px;
 }
 </style>

@@ -7,8 +7,7 @@
 		:active="activeTab"
 		@update:active="onActiveChanged"
 		@close="$emit('close')">
-		<template slot="primary-actions">
-		</template>
+		<template slot="primary-actions" />
 		<template v-if="false" slot="secondary-actions">
 			<ActionButton icon="icon-edit" @click="alert('Edit')">
 				Edit
@@ -69,7 +68,7 @@
 
 <script>
 import {
-	ActionButton, AppSidebar, AppSidebarTab, ActionLink
+	ActionButton, AppSidebar, AppSidebarTab, ActionLink,
 } from '@nextcloud/vue'
 import { generateUrl } from '@nextcloud/router'
 import SharingTabSidebar from './SharingTabSidebar'
@@ -108,7 +107,7 @@ export default {
 	},
 	data() {
 		return {
-			backgroundImageUrl: generateUrl('/apps/theming/img/core/filetypes/folder.svg?v=0')
+			backgroundImageUrl: generateUrl('/apps/theming/img/core/filetypes/folder.svg?v=0'),
 		}
 	},
 	computed: {

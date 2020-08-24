@@ -2,61 +2,96 @@
 	<div id="manage-currencies">
 		<div id="main-currency-div">
 			<label>
-				<a class="icon icon-tag"></a>{{ t('cospend', 'Main currency') }}
+				<a class="icon icon-tag" />{{ t('cospend', 'Main currency') }}
 			</label>
-			<div id="main-currency-label" v-show="!editMode">
+			<div v-show="!editMode"
+				id="main-currency-label">
 				<label id="main-currency-label-label">{{ project.currencyname || t('cospend', 'None') }}</label>
-				<input type="submit" value="" class="icon-rename editMainCurrency"
-					v-show="project.myaccesslevel >= constants.ACCESS.MAINTENER"
-					v-on:click="editMode=true; $nextTick(() => $refs.mainCurrencyEdit.focus());"/>
+				<input v-show="project.myaccesslevel >= constants.ACCESS.MAINTENER"
+					type="submit"
+					value=""
+					class="icon-rename editMainCurrency"
+					@click="editMode=true; $nextTick(() => $refs.mainCurrencyEdit.focus());">
 			</div>
-			<div id="main-currency-edit" v-show="editMode">
-				<input type="text" maxlength="64" :value="project.currencyname || ''"
-					class="editMainCurrencyInput" :placeholder="t('cospend', 'Main currency name')"
-					ref="mainCurrencyEdit"
-					v-on:keyup.enter="onEditMainOkClick"
-					@focus="$event.target.select()"/>
-				<input type="submit" value="" class="icon-close editMainCurrencyClose" v-on:click="editMode=false"/>
-				<input type="submit" value="" class="icon-checkmark editMainCurrencyOk" @click="onEditMainOkClick"/>
+			<div v-show="editMode"
+				id="main-currency-edit">
+				<input ref="mainCurrencyEdit"
+					type="text"
+					maxlength="64"
+					class="editMainCurrencyInput"
+					:placeholder="t('cospend', 'Main currency name')"
+					:value="project.currencyname || ''"
+					@keyup.enter="onEditMainOkClick"
+					@focus="$event.target.select()">
+				<input
+					type="submit"
+					value=""
+					class="icon-close editMainCurrencyClose"
+					@click="editMode=false">
+				<input
+					type="submit"
+					value=""
+					class="icon-checkmark editMainCurrencyOk"
+					@click="onEditMainOkClick">
 			</div>
 		</div>
 		<hr>
 		<div id="currencies-div">
-			<div id="add-currency-div" v-show="project.myaccesslevel >= constants.ACCESS.MAINTENER">
+			<div v-show="project.myaccesslevel >= constants.ACCESS.MAINTENER"
+				id="add-currency-div">
 				<label>
-					<a class="icon icon-add"></a>{{ t('cospend', 'Add currency') }}
+					<a class="icon icon-add" />{{ t('cospend', 'Add currency') }}
 				</label>
 				<div id="add-currency">
-					<label for="addCurrencyNameInput">{{ t('cospend', 'Name') }}</label>
-					<input type="text" value="" maxlength="64" id="addCurrencyNameInput"
-						v-on:keyup.enter="onAddCurrency"
-						ref="newCurrencyName" :placeholder="t('cospend', 'Currency name')"/>
-					<label for="addCurrencyRateInput">{{ t('cospend', 'Exchange rate to main currency') }}</label>
-					<input type="number" value="1" id="addCurrencyRateInput"
-						v-on:keyup.enter="onAddCurrency"
-						ref="newCurrencyRate" step="0.0001" min="0"/>
-					<label class="addCurrencyRateHint">{{ t('cospend', '(1 of this currency = X of main currency)') }}</label>
+					<label for="addCurrencyNameInput">
+						{{ t('cospend', 'Name') }}
+					</label>
+					<input
+						id="addCurrencyNameInput"
+						ref="newCurrencyName"
+						type="text"
+						value=""
+						maxlength="64"
+						:placeholder="t('cospend', 'Currency name')"
+						@keyup.enter="onAddCurrency">
+					<label for="addCurrencyRateInput">
+						{{ t('cospend', 'Exchange rate to main currency') }}
+					</label>
+					<input
+						id="addCurrencyRateInput"
+						ref="newCurrencyRate"
+						type="number"
+						value="1"
+						step="0.0001"
+						min="0"
+						@keyup.enter="onAddCurrency">
+					<label class="addCurrencyRateHint">
+						{{ t('cospend', '(1 of this currency = X of main currency)') }}
+					</label>
 					<button class="addCurrencyOk" @click="onAddCurrency">
-						<span class="icon-add"></span>
-						<span>{{ t('cospend', 'Add this currency') }}</span>
+						<span class="icon-add" />
+						<span>
+							{{ t('cospend', 'Add this currency') }}
+						</span>
 					</button>
 				</div>
 				<hr>
 			</div>
 			<br>
 			<label>
-				<a class="icon icon-currencies"></a>{{ t('cospend', 'Currency list') }}
+				<a class="icon icon-currencies" />{{ t('cospend', 'Currency list') }}
 			</label>
-			<div id="currency-list" v-if="currencies.length">
-				<slide-x-right-transition group>
+			<div v-if="currencies.length"
+				id="currency-list">
+				<SlideXRightTransition group>
 					<Currency
-						:editionAccess="project.myaccesslevel >= constants.ACCESS.MAINTENER"
-						v-on:delete="onDeleteCurrency"
-						v-on:edit="onEditCurrency"
 						v-for="currency in currencies"
 						:key="currency.id"
-						v-bind:currency="currency"/>
-				</slide-x-right-transition>
+						:currency="currency"
+						:editionAccess="project.myaccesslevel >= constants.ACCESS.MAINTENER"
+						@delete="onDeleteCurrency"
+						@edit="onEditCurrency" />
+				</SlideXRightTransition>
 			</div>
 			<div v-else class="no-currencies">
 				{{ t('cospend', 'No currencies to display') }}
@@ -66,99 +101,103 @@
 </template>
 
 <script>
-import cospend from './state';
-import Currency from './components/Currency';
-import {generateUrl} from '@nextcloud/router';
+import cospend from './state'
+import Currency from './components/Currency'
 import {
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
-import * as constants from './constants';
-import * as network from './network';
+import * as constants from './constants'
+import * as network from './network'
 import { SlideXRightTransition } from 'vue2-transitions'
 
 export default {
 	name: 'CurrencyManagement',
 
 	components: {
-		Currency, SlideXRightTransition
+		Currency, SlideXRightTransition,
 	},
 
-	props: ['projectId'],
+	props: {
+		projectId: {
+			type: String,
+			required: true,
+		},
+	},
 	data() {
 		return {
-			constants: constants,
-			editMode: false
-		};
+			constants,
+			editMode: false,
+		}
 	},
 
 	computed: {
 		currencies() {
-			return cospend.projects[cospend.currentProjectId].currencies;
+			return cospend.projects[cospend.currentProjectId].currencies
 		},
 		project() {
-			return cospend.projects[cospend.currentProjectId];
+			return cospend.projects[cospend.currentProjectId]
 		},
 	},
 
 	methods: {
 		onEditMainOkClick() {
-			const newVal = this.$refs.mainCurrencyEdit.value;
-			this.project.currencyname = newVal;
-			this.$emit('projectEdited', this.project.id);
-			this.editMode = false;
+			const newVal = this.$refs.mainCurrencyEdit.value
+			this.project.currencyname = newVal
+			this.$emit('projectEdited', this.project.id)
+			this.editMode = false
 		},
 		onAddCurrency() {
-			const name = this.$refs.newCurrencyName.value;
-			const rate = parseFloat(this.$refs.newCurrencyRate.value);
+			const name = this.$refs.newCurrencyName.value
+			const rate = parseFloat(this.$refs.newCurrencyRate.value)
 			if (name === null || name === '') {
-				showError(t('cospend', 'Currency name should not be empty.'));
-				return;
+				showError(t('cospend', 'Currency name should not be empty.'))
+				return
 			}
 			if (isNaN(rate)) {
-				showError(t('cospend', 'Exchange rate should be a number.'));
-				return;
+				showError(t('cospend', 'Exchange rate should be a number.'))
+				return
 			}
-			network.addCurrency(this.project.id, name, rate, this.addCurrencySuccess);
+			network.addCurrency(this.project.id, name, rate, this.addCurrencySuccess)
 		},
 		addCurrencySuccess(response, name, rate) {
 			this.project.currencies.push({
-				name: name,
+				name,
 				exchange_rate: rate,
-				id: response
-			});
-			showSuccess(t('cospend', 'Currency {n} added.', {n: name}));
-			this.$refs.newCurrencyName.value = '';
-			this.$refs.newCurrencyRate.value = 1;
+				id: response,
+			})
+			showSuccess(t('cospend', 'Currency {n} added.', { n: name }))
+			this.$refs.newCurrencyName.value = ''
+			this.$refs.newCurrencyRate.value = 1
 		},
 		onDeleteCurrency(currency) {
-			network.deleteCurrency(this.project.id, currency, this.deleteCurrencySuccess);
+			network.deleteCurrency(this.project.id, currency, this.deleteCurrencySuccess)
 		},
 		deleteCurrencySuccess(currency) {
-			let iToDel = null;
+			let iToDel = null
 			for (let i = 0; i < this.currencies.length; i++) {
 				if (parseInt(this.currencies[i].id) === parseInt(currency.id)) {
-					iToDel = i;
-					break;
+					iToDel = i
+					break
 				}
 			}
 			if (iToDel !== null) {
-				this.currencies.splice(iToDel, 1);
+				this.currencies.splice(iToDel, 1)
 			}
 		},
 		onEditCurrency(currency, backupCurrency) {
 			if (currency.name === '') {
-				showError(t('cospend', 'Currency name should not be empty.'));
-				currency.name = backupCurrency.name;
-				currency.exchange_rate = backupCurrency.exchange_rate;
-				return;
+				showError(t('cospend', 'Currency name should not be empty.'))
+				currency.name = backupCurrency.name
+				currency.exchange_rate = backupCurrency.exchange_rate
+				return
 			}
-			network.editCurrency(this.project.id, currency, backupCurrency, this.editCurrencyFail);
+			network.editCurrency(this.project.id, currency, backupCurrency, this.editCurrencyFail)
 		},
 		editCurrencyFail(currency, backupCurrency) {
 			// backup
-			currency.name = backupCurrency.name;
-			currency.exchange_rate = backupCurrency.exchange_rate;
+			currency.name = backupCurrency.name
+			currency.exchange_rate = backupCurrency.exchange_rate
 		},
 	},
 }

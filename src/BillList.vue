@@ -1,20 +1,21 @@
 <template>
-	<div id="bill-list" :class="{'app-content-list': true, 'showdetails': shouldShowDetails}">
+	<div id="bill-list"
+		:class="{ 'app-content-list': true, 'showdetails': shouldShowDetails }">
 		<div>
 			<AppNavigationItem
 				v-if="editionAccess && twoActiveMembers"
 				v-show="!loading"
 				class="addBillItem"
 				icon="icon-add"
-				@click="onAddBillClicked"
 				:title="t('cospend', 'New bill')"
-			/>
+				@click="onAddBillClicked" />
 		</div>
 		<h2 v-if="bills.length === 0" class="nobill">
 			{{ t('cospend', 'No bill yet') }}
 		</h2>
-		<h2 class="icon-loading-small loading-icon" v-show="loading"></h2>
-		<slide-x-right-transition group :duration="{enter: 300, leave: 0}">
+		<h2 v-show="loading"
+			class="icon-loading-small loading-icon" />
+		<SlideXRightTransition group :duration="{ enter: 300, leave: 0 }">
 			<BillItem
 				v-for="(bill, index) in reverseBills"
 				:key="bill.id"
@@ -24,87 +25,105 @@
 				:nbbills="nbBills"
 				:selected="bill.id === selectedBillId"
 				:editionAccess="editionAccess"
-				v-on:clicked="onItemClicked"
-				v-on:delete="onItemDeleted"/>
-		</slide-x-right-transition>
+				@clicked="onItemClicked"
+				@delete="onItemDeleted" />
+		</SlideXRightTransition>
 	</div>
 </template>
 
 <script>
 import { AppNavigationItem } from '@nextcloud/vue'
-import BillItem from './components/BillItem';
-import {generateUrl} from '@nextcloud/router';
-import {
-	showSuccess,
-	showError,
-} from '@nextcloud/dialogs'
-import cospend from './state';
-import * as constants from './constants';
-import * as network from './network';
+import BillItem from './components/BillItem'
+import { showSuccess } from '@nextcloud/dialogs'
+import cospend from './state'
+import * as network from './network'
 import { SlideXRightTransition } from 'vue2-transitions'
 
 export default {
 	name: 'BillList',
 
 	components: {
-		BillItem, AppNavigationItem, SlideXRightTransition
+		BillItem, AppNavigationItem, SlideXRightTransition,
 	},
 
-	props: ['projectId', 'bills', 'selectedBillId', 'editionAccess', 'loading', 'mode'],
+	props: {
+		projectId: {
+			type: String,
+			required: true,
+		},
+		bills: {
+			type: Array,
+			required: true,
+		},
+		selectedBillId: {
+			type: Number,
+			required: true,
+		},
+		editionAccess: {
+			type: Boolean,
+			required: true,
+		},
+		loading: {
+			type: Boolean,
+			required: true,
+		},
+		mode: {
+			type: String,
+			required: true,
+		},
+	},
+
 	data() {
 		return {
-			cospend: cospend,
-		};
-	},
-
-	mounted() {
+			cospend,
+		}
 	},
 
 	computed: {
 		nbBills() {
-			return this.bills.length;
+			return this.bills.length
 		},
 		reverseBills() {
-			return this.bills.slice().reverse();
+			return this.bills.slice().reverse()
 		},
 		shouldShowDetails() {
-			return (this.mode !== 'edition' || this.selectedBillId !== -1);
+			return (this.mode !== 'edition' || this.selectedBillId !== -1)
 		},
 		twoActiveMembers() {
-			let c = 0;
-			const members = this.cospend.projects[this.projectId].members;
+			let c = 0
+			const members = this.cospend.projects[this.projectId].members
 			for (const mid in members) {
 				if (members[mid].activated) {
-					c++;
+					c++
 				}
 			}
-			return (c >= 2);
+			return (c >= 2)
 		},
 	},
 
 	methods: {
 		onAddBillClicked() {
-			this.$emit('newBillClicked');
+			this.$emit('newBillClicked')
 		},
 		onItemClicked(bill) {
-			this.$emit('itemClicked', bill.id);
+			this.$emit('itemClicked', bill.id)
 		},
 		onItemDeleted(bill) {
 			if (bill.id === 0) {
-				this.$emit('itemDeleted', bill);
+				this.$emit('itemDeleted', bill)
 			} else {
-				this.deleteBill(bill);
+				this.deleteBill(bill)
 			}
 		},
 		deleteBill(bill) {
-			network.deleteBill(this.projectId, bill, this.deleteBillSuccess);
+			network.deleteBill(this.projectId, bill, this.deleteBillSuccess)
 		},
 		deleteBillSuccess(bill) {
-			this.$emit('itemDeleted', bill);
-			//updateProjectBalances(projectid);
-			showSuccess(t('cospend', 'Bill deleted.'));
+			this.$emit('itemDeleted', bill)
+			// updateProjectBalances(projectid)
+			showSuccess(t('cospend', 'Bill deleted.'))
 		},
-	}
+	},
 }
 </script>
 

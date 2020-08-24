@@ -23,6 +23,7 @@
 				@click="showList" />
 			<div id="app-content-wrapper">
 				<BillList
+					v-if="currentProjectId"
 					:loading="billsLoading"
 					:projectId="currentProjectId"
 					:bills="currentBills"

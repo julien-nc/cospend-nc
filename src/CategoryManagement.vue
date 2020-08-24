@@ -1,42 +1,53 @@
 <template>
 	<div id="manage-categories">
 		<div id="categories-div">
-			<div id="add-category-div" v-show="editionAccess">
+			<div v-show="editionAccess"
+				id="add-category-div">
 				<label>
-					<a class="icon icon-add"></a>{{ t('cospend', 'Add category') }}
+					<a class="icon icon-add" />{{ t('cospend', 'Add category') }}
 				</label>
 				<div class="add-category-2">
 					<ColorPicker class="app-navigation-entry-bullet-wrapper" value="" @input="updateAddColor">
-						<div :style="{ backgroundColor: newCategoryColor }" class="color0 icon-colorpicker" :title="t('cospend', 'Color')"/>
+						<div class="color0 icon-colorpicker"
+							:style="{ backgroundColor: newCategoryColor }"
+							:title="t('cospend', 'Color')" />
 					</ColorPicker>
-					<button class="add-icon-button" :title="t('cospend', 'Icon')"
-						@click="onIconButtonClick" ref="iconButton">
+					<button
+						ref="iconButton"
+						class="add-icon-button"
+						:title="t('cospend', 'Icon')"
+						@click="onIconButtonClick">
 						{{ newCategoryIcon }}
 					</button>
-					<input type="text" value="" maxlength="300" @focus="$event.target.select()"
-							v-on:keyup.enter="onAddCategory"
-							class="new-category-name"
-							ref="newCategoryName" :placeholder="t('cospend', 'Category name')"/>
+					<input ref="newCategoryName"
+						type="text"
+						value=""
+						maxlength="300"
+						class="new-category-name"
+						:placeholder="t('cospend', 'Category name')"
+						@focus="$event.target.select()"
+						@keyup.enter="onAddCategory">
 					<button class="addCategoryOk" @click="onAddCategory">
-						<span class="icon-add"></span>
+						<span class="icon-add" />
 					</button>
 				</div>
 				<hr>
 			</div>
 			<br>
 			<label>
-				<a class="icon icon-category-app-bundles"></a>{{ t('cospend', 'Category list') }}
+				<a class="icon icon-category-app-bundles" />{{ t('cospend', 'Category list') }}
 			</label>
-			<div id="category-list" v-if="categories">
-				<slide-x-right-transition group>
+			<div v-if="categories"
+				id="category-list">
+				<SlideXRightTransition group>
 					<Category
-						:editionAccess="editionAccess"
-						v-on:delete="onDeleteCategory"
-						v-on:edit="onEditCategory"
 						v-for="category in categories"
 						:key="category.id"
-						v-bind:category="category"/>
-				</slide-x-right-transition>
+						:category="category"
+						:editionAccess="editionAccess"
+						@delete="onDeleteCategory"
+						@edit="onEditCategory" />
+				</SlideXRightTransition>
 			</div>
 			<div v-else class="no-categories">
 				{{ t('cospend', 'No categories to display') }}
@@ -46,117 +57,128 @@
 </template>
 
 <script>
-import cospend from './state';
-import Category from './components/Category';
+import cospend from './state'
+import Category from './components/Category'
 import { ColorPicker } from '@nextcloud/vue'
-import {generateUrl} from '@nextcloud/router';
 import {
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
-import * as constants from './constants';
-import EmojiButton from '@joeattardi/emoji-button';
-import * as network from './network';
+import * as constants from './constants'
+import EmojiButton from '@joeattardi/emoji-button'
+import * as network from './network'
 import { SlideXRightTransition } from 'vue2-transitions'
 
 export default {
 	name: 'CategoryManagement',
 
 	components: {
-		Category, ColorPicker, SlideXRightTransition
+		Category, ColorPicker, SlideXRightTransition,
 	},
 
-	props: ['projectId'],
+	props: {
+		projectId: {
+			type: String,
+			required: true,
+		},
+	},
+
 	data() {
 		return {
-			constants: constants,
+			constants,
 			editMode: false,
-			picker: new EmojiButton({position: 'auto', zIndex: 9999999, categories: [
-				'objects',
-				'symbols',
-				'flags',
-				'smileys',
-				'people',
-				'animals',
-				'food',
-				'activities',
-				'travel'
-			]}),
+			picker: new EmojiButton({
+				position: 'auto',
+				zIndex: 9999999,
+				categories: [
+					'objects',
+					'symbols',
+					'flags',
+					'smileys',
+					'people',
+					'animals',
+					'food',
+					'activities',
+					'travel',
+				],
+			}),
 			newCategoryColor: '#000000',
-			newCategoryIcon: '🙂'
-		};
+			newCategoryIcon: '🙂',
+		}
 	},
-	mounted() {
-		this.picker.on('emoji', emoji => {
-			this.newCategoryIcon = emoji;
-		});
-	},
+
 	computed: {
 		project() {
-			return cospend.projects[this.projectId];
+			return cospend.projects[this.projectId]
 		},
 		categories() {
-			return this.project.categories;
+			return this.project.categories
 		},
 		editionAccess() {
-			return (this.project.myaccesslevel >= constants.ACCESS.MAINTENER);
+			return (this.project.myaccesslevel >= constants.ACCESS.MAINTENER)
 		},
 		categoryList() {
-			return Object.values(this.categories);
-		}
+			return Object.values(this.categories)
+		},
+	},
+
+	mounted() {
+		this.picker.on('emoji', emoji => {
+			this.newCategoryIcon = emoji
+		})
 	},
 
 	methods: {
 		updateAddColor(color) {
-			this.newCategoryColor = color;
+			this.newCategoryColor = color
 		},
 		onIconButtonClick() {
-			this.picker.togglePicker(this.$refs.iconButton);
+			this.picker.togglePicker(this.$refs.iconButton)
 		},
 		onAddCategory() {
-			const name = this.$refs.newCategoryName.value;
-			const icon = this.newCategoryIcon;
-			const color = this.newCategoryColor;
+			const name = this.$refs.newCategoryName.value
+			const icon = this.newCategoryIcon
+			const color = this.newCategoryColor
 			if (name === null || name === '') {
-				showError(t('cospend', 'Category name should not be empty.'));
-				return;
+				showError(t('cospend', 'Category name should not be empty.'))
+				return
 			}
-			network.addCategory(this.project.id, name, icon, color, this.addCategorySuccess);
+			network.addCategory(this.project.id, name, icon, color, this.addCategorySuccess)
 		},
 		addCategorySuccess(response, name, icon, color) {
 			// make sure to update vue
 			this.$set(this.categories, response, {
-				name: name,
-				icon: icon,
-				color: color,
-				id: response
-			});
-			showSuccess(t('cospend', 'Category {n} added.', {n: name}));
-			this.$refs.newCategoryName.value = '';
-			this.newCategoryColor = '#000000';
-			this.newCategoryIcon = '🙂';
+				name,
+				icon,
+				color,
+				id: response,
+			})
+			showSuccess(t('cospend', 'Category {n} added.', { n: name }))
+			this.$refs.newCategoryName.value = ''
+			this.newCategoryColor = '#000000'
+			this.newCategoryIcon = '🙂'
 		},
 		onDeleteCategory(category) {
-			network.deleteCategory(this.project.id, category.id, this.deleteCategorySuccess);
+			network.deleteCategory(this.project.id, category.id, this.deleteCategorySuccess)
 		},
 		deleteCategorySuccess(categoryid) {
-			this.$delete(this.categories, categoryid);
-			this.$emit('categoryDeleted', categoryid);
+			this.$delete(this.categories, categoryid)
+			this.$emit('categoryDeleted', categoryid)
 		},
 		onEditCategory(category, backupCategory) {
 			if (category.name === null || category.name === '') {
-				showError(t('cospend', 'Category name should not be empty.'));
-				category.name = backupCategory.name;
-				category.icon = backupCategory.icon;
-				category.color = backupCategory.color;
-				return;
+				showError(t('cospend', 'Category name should not be empty.'))
+				category.name = backupCategory.name
+				category.icon = backupCategory.icon
+				category.color = backupCategory.color
+				return
 			}
-			network.editCategory(this.project.id, category, backupCategory, this.editCategoryFail);
+			network.editCategory(this.project.id, category, backupCategory, this.editCategoryFail)
 		},
 		editCategoryFail(category, backupCategory) {
 			// backup
-			category.name = backupCategory.name;
-			category.exchange_rate = backupCategory.exchange_rate;
+			category.name = backupCategory.name
+			category.exchange_rate = backupCategory.exchange_rate
 		},
 	},
 }

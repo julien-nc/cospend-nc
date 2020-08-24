@@ -16,7 +16,8 @@
 			id="shareWithList"
 			ref="shareWithList"
 			class="shareWithList">
-			<li @click="addLink" v-if="editionAccess">
+			<li v-if="editionAccess"
+				@click="addLink">
 				<div class="avatardiv icon icon-public-white" />
 				<span class="username">
 					{{ t('cospend', 'Add public link') }}

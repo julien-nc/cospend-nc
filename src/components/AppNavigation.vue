@@ -3,15 +3,23 @@
 		<template slot="list">
 			<div v-if="!pageIsPublic">
 				<AppNavigationItem v-if="!creating"
-					:title="t('cospend', 'New project')"
-					icon="icon-add"
 					class="buttonItem"
+					icon="icon-add"
+					:title="t('cospend', 'New project')"
 					@click.prevent.stop="startCreateProject" />
-				<div v-else class="project-create">
+				<div v-else
+					class="project-create">
 					<form @submit.prevent.stop="createProject">
-						<input :placeholder="t('cospend', 'New project name')" type="text" required>
-						<input type="submit" value="" class="icon-confirm">
-						<Actions><ActionButton icon="icon-close" @click.stop.prevent="cancelCreate" /></Actions>
+						<input type="text"
+							:placeholder="t('cospend', 'New project name')"
+							required>
+						<input type="submit"
+							value=""
+							class="icon-confirm">
+						<Actions>
+							<ActionButton icon="icon-close"
+								@click.stop.prevent="cancelCreate" />
+						</Actions>
 					</form>
 				</div>
 			</div>
@@ -28,40 +36,41 @@
 				@detailClicked="onDetailClicked"
 				@shareClicked="onShareClicked"
 				@newMemberClicked="onNewMemberClicked"
-				@memberEdited="onMemberEdited"
-				/>
+				@memberEdited="onMemberEdited" />
 		</template>
 		<template slot="footer">
 			<AppNavigationSettings>
 				<AppNavigationItem
 					v-if="!pageIsPublic"
+					v-show="true"
 					:title="t('cospend', 'Import csv project')"
-					@click="onImportClick"
 					icon="icon-download"
 					class="buttonItem"
-					v-show="true"
-					/>
+					@click="onImportClick" />
 				<AppNavigationItem
 					v-if="!pageIsPublic"
-					:title="t('cospend', 'Import SplitWise project')"
-					@click="onImportSWClick"
+					v-show="true"
 					icon="icon-download"
 					class="buttonItem"
-					v-show="true"
-					/>
+					:title="t('cospend', 'Import SplitWise project')"
+					@click="onImportSWClick" />
 				<AppNavigationItem
-					:title="t('cospend', 'Guest access link')"
-					@click="onGuestLinkClick"
+					v-show="true"
 					icon="icon-clippy"
 					class="buttonItem"
-					v-show="true"
-					/>
-				<div class="output-dir"
-					v-if="!pageIsPublic">
-					<button class="icon-folder" @click="onOutputDirClick">
+					:title="t('cospend', 'Guest access link')"
+					@click="onGuestLinkClick" />
+				<div v-if="!pageIsPublic"
+					class="output-dir">
+					<button class="icon-folder"
+						@click="onOutputDirClick">
 						{{ t('cospend', 'Change output directory') }}
 					</button>
-					<input v-model="outputDir" :placeholder="t('cospend', '/Anywhere')" type="text" readonly @click="onOutputDirClick"/>
+					<input v-model="outputDir"
+						:placeholder="t('cospend', '/Anywhere')"
+						type="text"
+						readonly
+						@click="onOutputDirClick">
 				</div>
 			</AppNavigationSettings>
 		</template>
@@ -70,19 +79,19 @@
 
 <script>
 import ClickOutside from 'vue-click-outside'
-import AppNavigationProjectItem from './AppNavigationProjectItem';
+import AppNavigationProjectItem from './AppNavigationProjectItem'
 import {
-	ActionButton, ActionText, AppNavigation as AppNavigationVue, AppNavigationIconBullet,
-	AppNavigationSettings, AppNavigationItem, ActionInput, Actions
+	ActionButton, AppNavigation as AppNavigationVue,
+	AppNavigationSettings, AppNavigationItem, Actions,
 } from '@nextcloud/vue'
-import { generateUrl, generateOcsUrl } from '@nextcloud/router'
-import cospend from '../state';
-import * as constants from '../constants';
+import { generateUrl } from '@nextcloud/router'
+import cospend from '../state'
+import * as constants from '../constants'
 import {
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
-import * as network from '../network';
+import * as network from '../network'
 
 export default {
 	name: 'AppNavigation',
@@ -91,10 +100,8 @@ export default {
 		AppNavigationVue,
 		AppNavigationItem,
 		AppNavigationSettings,
-		AppNavigationIconBullet,
-		ActionButton, ActionText,
-		ActionInput,
-		Actions
+		ActionButton,
+		Actions,
 	},
 	directives: {
 		ClickOutside,
@@ -115,7 +122,7 @@ export default {
 			loading: false,
 			creating: false,
 			outputDir: cospend.outputDirectory,
-			pageIsPublic: cospend.pageIsPublic
+			pageIsPublic: cospend.pageIsPublic,
 		}
 	},
 	computed: {
@@ -125,7 +132,7 @@ export default {
 			})
 		},
 		editionAccess() {
-			return this.selectedProjectId && this.projects[this.selectedProjectId].myaccesslevel >= constants.ACCESS.PARTICIPANT;
+			return this.selectedProjectId && this.projects[this.selectedProjectId].myaccesslevel >= constants.ACCESS.PARTICIPANT
 		},
 	},
 	beforeMount() {
@@ -138,31 +145,31 @@ export default {
 			this.opened = false
 		},
 		onImportClick() {
-			const that = this;
+			const that = this
 			OC.dialogs.filepicker(
 				t('cospend', 'Choose csv project file'),
 				function(targetPath) {
-					that.importProject(targetPath);
+					that.importProject(targetPath)
 				},
 				false,
 				['text/csv'],
 				true
-			);
+			)
 		},
 		onImportSWClick() {
-			const that = this;
+			const that = this
 			OC.dialogs.filepicker(
 				t('cospend', 'Choose SplitWise project file'),
 				function(targetPath) {
-					that.importProject(targetPath, true);
+					that.importProject(targetPath, true)
 				},
 				false,
 				['text/csv'],
 				true
-			);
+			)
 		},
-		importProject(targetPath, isSplitWise=false) {
-			network.importProject(targetPath, isSplitWise, this.importProjectSuccess);
+		importProject(targetPath, isSplitWise = false) {
+			network.importProject(targetPath, isSplitWise, this.importProjectSuccess)
 		},
 		importProjectSuccess(response) {
 			this.$emit('projectImported', response)
@@ -170,7 +177,7 @@ export default {
 		},
 		async onGuestLinkClick() {
 			try {
-				const guestLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/login');
+				const guestLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/login')
 				await this.$copyText(guestLink)
 				showSuccess(t('cospend', 'Guest link copied to clipboard.'))
 			} catch (error) {
@@ -179,55 +186,55 @@ export default {
 			}
 		},
 		onOutputDirClick() {
-			const that = this;
+			const that = this
 			OC.dialogs.filepicker(
 				t('maps', 'Choose where to write output files (stats, settlement, export)'),
 				function(targetPath) {
 					if (targetPath === '') {
-						targetPath = '/';
+						targetPath = '/'
 					}
-					that.outputDir = targetPath;
+					that.outputDir = targetPath
 					that.$emit('saveOption', 'outputDirectory', targetPath)
 				},
 				false,
 				'httpd/unix-directory',
 				true
-			);
+			)
 		},
 		onProjectClicked(projectid) {
-			this.$emit('projectClicked', projectid);
+			this.$emit('projectClicked', projectid)
 		},
 		onDeleteProject(projectid) {
-			this.$emit('deleteProject', projectid);
+			this.$emit('deleteProject', projectid)
 		},
 		onStatsClicked(projectid) {
-			this.$emit('statsClicked', projectid);
+			this.$emit('statsClicked', projectid)
 		},
 		onSettleClicked(projectid) {
-			this.$emit('settleClicked', projectid);
+			this.$emit('settleClicked', projectid)
 		},
 		onDetailClicked(projectid) {
-			this.$emit('detailClicked', projectid);
+			this.$emit('detailClicked', projectid)
 		},
 		onShareClicked(projectid) {
-			this.$emit('shareClicked', projectid);
+			this.$emit('shareClicked', projectid)
 		},
 		onNewMemberClicked(projectid) {
-			this.$emit('newMemberClicked', projectid);
+			this.$emit('newMemberClicked', projectid)
 		},
 		onMemberEdited(projectid, memberid) {
-			this.$emit('memberEdited', projectid, memberid);
+			this.$emit('memberEdited', projectid, memberid)
 		},
 		startCreateProject(e) {
-			this.creating = true;
+			this.creating = true
 		},
 		createProject(e) {
-			const name = e.currentTarget.childNodes[0].value;
-			this.$emit('createProject', name);
-			this.creating = false;
+			const name = e.currentTarget.childNodes[0].value
+			this.$emit('createProject', name)
+			this.creating = false
 		},
 		cancelCreate(e) {
-			this.creating = false;
+			this.creating = false
 		},
 	},
 }

@@ -55,7 +55,7 @@
 			</ActionButton>
 		</template>
 		<template>
-			<AppNavigationItem v-if="Object.keys(members).length === 0"
+			<AppNavigationItem v-if="members.length === 0"
 				icon="icon-category-disabled"
 				:title="t('cospend', 'No members yet')" />
 			<AppNavigationMemberItem v-for="member in members"
@@ -78,7 +78,6 @@ import {
 import cospend from '../state'
 import * as constants from '../constants'
 import { Timer } from '../utils'
-import { vueAwesomeCountdown } from 'vue-awesome-countdown'
 
 export default {
 	name: 'AppNavigationProjectItem',
@@ -90,21 +89,20 @@ export default {
 	directives: {
 		ClickOutside,
 	},
-	props: ['project', 'members', 'selected'],
-	// props: {
-	// 	project: {
-	// 		type: Object,
-	// 		required: true,
-	// 	},
-	// 	members: {
-	// 		type: Object,
-	// 		required: true,
-	// 	},
-	// 	selected: {
-	// 		type: Boolean,
-	// 		required: true,
-	// 	},
-	// },
+	props: {
+		project: {
+			type: Object,
+			required: true,
+		},
+		members: {
+			type: Array,
+			required: true,
+		},
+		selected: {
+			type: Boolean,
+			required: true,
+		},
+	},
 	data() {
 		return {
 			deleting: false,

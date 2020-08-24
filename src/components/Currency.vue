@@ -1,12 +1,20 @@
 <template>
 	<div class="one-currency">
-		<div class="one-currency-label" v-show="!editMode">
+		<div v-show="!editMode"
+			class="one-currency-label">
 			<label class="one-currency-label-label">{{ currency.name }} (x{{ currency.exchange_rate }})</label>
-			<input type="submit" value="" class="icon-rename editOneCurrency"
-				@click="onClickEdit" v-show="editionAccess"/>
-			<input type="submit" value="" :class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteOneCurrency'"
-				@click="onClickDelete" v-show="editionAccess"/>
-			<label class="one-currency-label-label" v-if="timerOn">
+			<input v-show="editionAccess"
+				type="submit"
+				value=""
+				class="icon-rename editOneCurrency"
+				@click="onClickEdit">
+			<input v-show="editionAccess"
+				type="submit"
+				value=""
+				:class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteOneCurrency'"
+				@click="onClickDelete">
+			<label v-if="timerOn"
+				class="one-currency-label-label">
 				<vac :end-time="new Date().getTime() + (7000)">
 					<template v-slot:process="{ timeObj }">
 						<span>{{ `${timeObj.s}` }}</span>
@@ -14,40 +22,56 @@
 				</vac>
 			</label>
 		</div>
-		<div class="one-currency-edit" v-show="editMode">
-			<input type="text" v-model="currency.name" maxlength="64" @focus="$event.target.select()"
-					ref="cname" class="editCurrencyNameInput" :placeholder="t('cospend', 'Currency name')"/>
-			<input type="number" v-model="currency.exchange_rate"
-				   class="editCurrencyRateInput" step="0.0001" min="0"/>
+		<div v-show="editMode"
+			class="one-currency-edit">
+			<input
+				ref="cname"
+				v-model="currency.name"
+				type="text"
+				maxlength="64"
+				class="editCurrencyNameInput"
+				:placeholder="t('cospend', 'Currency name')"
+				@focus="$event.target.select()">
+			<input v-model="currency.exchange_rate"
+				type="number"
+				class="editCurrencyRateInput"
+				step="0.0001"
+				min="0">
 			<button class="editCurrencyClose" @click="onClickCancel">
-				<span class="icon-history"></span>
+				<span class="icon-history" />
 			</button>
 			<button class="editCurrencyOk" @click="onClickEditOk">
-				<span class="icon-checkmark"></span>
+				<span class="icon-checkmark" />
 			</button>
 		</div>
 	</div>
 </template>
 
 <script>
-import {Timer} from "../utils";
-import {vueAwesomeCountdown} from 'vue-awesome-countdown'
+import { Timer } from '../utils'
 
 export default {
 	name: 'Currency',
 
-	components: {
-		vueAwesomeCountdown
-	},
+	components: {},
 
-	props: ['currency', 'editionAccess'],
+	props: {
+		currency: {
+			type: Object,
+			required: true,
+		},
+		editionAccess: {
+			type: Boolean,
+			required: true,
+		},
+	},
 	data() {
 		return {
 			editMode: false,
 			timerOn: false,
 			timer: null,
-			currencyBackup: null
-		};
+			currencyBackup: null,
+		}
 	},
 
 	computed: {
@@ -55,38 +79,38 @@ export default {
 
 	methods: {
 		onClickEdit() {
-			this.editMode = true;
+			this.editMode = true
 			this.currencyBackup = {
 				exchange_rate: this.currency.exchange_rate,
 				name: this.currency.name,
 			}
-			this.$nextTick(() => this.$refs.cname.focus());
+			this.$nextTick(() => this.$refs.cname.focus())
 		},
 		onClickCancel() {
-			this.editMode = false;
-			this.currency.name = this.currencyBackup.name;
-			this.currency.exchange_rate = this.currencyBackup.exchange_rate;
+			this.editMode = false
+			this.currency.name = this.currencyBackup.name
+			this.currency.exchange_rate = this.currencyBackup.exchange_rate
 		},
 		onClickDelete() {
 			if (this.timerOn) {
-				this.timerOn = false;
-				this.timer.pause();
-				delete this.timer;
+				this.timerOn = false
+				this.timer.pause()
+				delete this.timer
 			} else {
-				this.timerOn = true;
-				const that = this;
-				this.timer = new Timer(function () {
-					//that.deleteCurrency(that.currency);
-					that.timerOn = false;
-					that.$emit('delete', that.currency);
-				}, 7000);
+				this.timerOn = true
+				const that = this
+				this.timer = new Timer(() => {
+					// that.deleteCurrency(that.currency)
+					that.timerOn = false
+					that.$emit('delete', that.currency)
+				}, 7000)
 			}
 		},
 		onClickEditOk() {
-			//this.editCurrency(this.currency, this.currencyBackup);
-			this.$emit('edit', this.currency, this.currencyBackup);
-			this.editMode = false;
-		}
+			// this.editCurrency(this.currency, this.currencyBackup)
+			this.$emit('edit', this.currency, this.currencyBackup)
+			this.editMode = false
+		},
 	},
 }
 </script>

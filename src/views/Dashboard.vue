@@ -58,7 +58,7 @@ export default {
 		},
 		lastDate() {
 			const nbItems = this.notifications.length
-            return (nbItems > 0) ? this.notifications[0].timestamp : null
+			return (nbItems > 0) ? this.notifications[0].timestamp : null
 		},
 		lastMoment() {
 			return moment.unix(this.lastDate)

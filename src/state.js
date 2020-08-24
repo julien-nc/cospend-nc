@@ -1,6 +1,6 @@
-/*jshint esversion: 6 */
+/* jshint esversion: 6 */
 
-import * as constants from './constants';
+import * as constants from './constants'
 
 const cospend = {
 	restoredCurrentProjectId: null,
@@ -19,15 +19,14 @@ const cospend = {
 	// indexed by projectid, then by memberid
 	members: {},
 	projects: {},
-	currentProjectId: null,
 	pubLinkData: {
 		type: 'l',
 		name: null,
 		label: t('cospend', 'Add public link'),
-		value: ''
+		value: '',
 	},
 	hardCodedCategories: constants.hardCodedCategories,
-	paymentModes: constants.paymentModes
-};
+	paymentModes: constants.paymentModes,
+}
 
-export default cospend;
+export default cospend

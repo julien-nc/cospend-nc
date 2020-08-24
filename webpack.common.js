@@ -5,8 +5,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
        entry: {
-               admin: path.join(__dirname, 'src', 'admin.js'),
-               cospend: path.join(__dirname, 'src', 'cospend.js'),
+               adminSettings: path.join(__dirname, 'src', 'adminSettings.js'),
+               main: path.join(__dirname, 'src', 'main.js'),
                login: path.join(__dirname, 'src', 'login.js'),
                dashboard: path.join(__dirname, 'src', 'dashboard.js'),
        },
@@ -24,6 +24,12 @@ module.exports = {
                                test: /\.scss$/,
                                use: ['vue-style-loader', 'css-loader', 'sass-loader'],
                        },
+                       {
+                                test: /\.(js|vue)$/,
+                                use: 'eslint-loader',
+                                exclude: /node_modules/,
+                                enforce: 'pre',
+                        },
                        {
                                test: /\.vue$/,
                                loader: 'vue-loader',
@@ -45,6 +51,5 @@ module.exports = {
        ],
        resolve: {
                extensions: ['*', '.js', '.vue'],
-               //extensions: ['*', '.js'],
        },
 }

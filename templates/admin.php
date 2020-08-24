@@ -1,5 +1,5 @@
 <?php
-OCP\Util::addscript('cospend', 'admin');
+OCP\Util::addscript('cospend', 'adminSettings');
 OCP\Util::addstyle('cospend', 'admin');
 ?>
 

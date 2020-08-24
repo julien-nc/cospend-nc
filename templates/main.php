@@ -1,5 +1,5 @@
 <?php
-script('cospend', 'cospend');
+script('cospend', 'main');
 style('cospend', 'cospend');
 
 ?>

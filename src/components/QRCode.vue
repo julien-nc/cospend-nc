@@ -1,78 +1,77 @@
 <template>
-	<div ref="qrcodediv">
-	</div>
+	<div ref="qrcodediv" />
 </template>
 
 <script>
-import kjua from 'kjua-svg';
+import kjua from 'kjua-svg'
 
 export default {
 	name: 'QRCode',
 
+	components: {
+	},
 	props: {
 		link: {
 			type: String,
-			required: true
+			required: true,
 		},
 		render: {
 			type: String,
 			default: 'image',
 			validator(value) {
 				return ['image', 'canvas', 'svg'].indexOf(value) !== -1
-			}
+			},
 		},
 		fgcolor: {
 			type: String,
-			default: 'black'
+			default: 'black',
 		},
 		bgcolor: {
 			type: String,
-			default: 'white'
+			default: 'white',
 		},
 		rounded: {
 			type: Number,
 			default: 0,
 			validator(value) {
 				return (value >= 0 && value <= 100)
-			}
+			},
 		},
 		size: {
 			type: Number,
-			default: 200
+			default: 200,
 		},
 		imageUrl: {
 			type: String,
-			default: null
+			default: null,
 		},
 		label: {
 			type: String,
-			default: null
+			default: null,
 		},
-	},
-	components: {
-	},
-
-	mounted() {
-		this.genQRCode();
 	},
 
 	data() {
 		return {
-		};
+		}
 	},
 
 	watch: {
 		link(val) {
-			this.genQRCode();
-		}
+			this.genQRCode()
+		},
+	},
+
+	mounted() {
+		this.genQRCode()
 	},
 
 	methods: {
 		genQRCode() {
 			if (this.imageUrl) {
-				this.genQRCodeWithImage();
+				this.genQRCodeWithImage()
 			} else {
-				this.genPlainQRCode();
+				this.genPlainQRCode()
 			}
 		},
 		genPlainQRCode() {
@@ -92,13 +91,13 @@ export default {
 				mPosX: 50,
 				mPosY: 50,
 				label: this.label,
-			});
-			this.$refs.qrcodediv.innerHTML = '';
-			this.$refs.qrcodediv.appendChild(qr);
+			})
+			this.$refs.qrcodediv.innerHTML = ''
+			this.$refs.qrcodediv.appendChild(qr)
 		},
 		genQRCodeWithImage() {
-			const that = this;
-			const img = new Image();
+			const that = this
+			const img = new Image()
 			// wait for the image to be loaded to generate the QRcode
 			img.onload = function() {
 				const qr = kjua({
@@ -118,10 +117,10 @@ export default {
 					mPosY: 50,
 					image: img,
 					label: '',
-				});
-				that.$refs.qrcodediv.innerHTML = '';
-				that.$refs.qrcodediv.appendChild(qr);
-			};
+				})
+				that.$refs.qrcodediv.innerHTML = ''
+				that.$refs.qrcodediv.appendChild(qr)
+			}
 			img.onerror = function() {
 				const qr = kjua({
 					text: that.link,
@@ -141,13 +140,13 @@ export default {
 					image: null,
 					label: 'Cospend',
 					fontcolor: that.fgcolor,
-				});
-				that.$refs.qrcodediv.innerHTML = '';
-				that.$refs.qrcodediv.appendChild(qr);
-			};
+				})
+				that.$refs.qrcodediv.innerHTML = ''
+				that.$refs.qrcodediv.appendChild(qr)
+			}
 
-			img.src = this.imageUrl;
-		}
-	}
+			img.src = this.imageUrl
+		},
+	},
 }
 </script>

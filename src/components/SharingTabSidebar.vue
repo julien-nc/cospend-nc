@@ -10,8 +10,7 @@
 			label="displayName"
 			track-by="multiselectKey"
 			:internal-search="true"
-			@input="clickShareeItem"
-			/>
+			@input="clickShareeItem" />
 
 		<ul
 			id="shareWithList"
@@ -22,9 +21,9 @@
 				<span class="username">
 					{{ t('cospend', 'Add public link') }}
 				</span>
-				<ActionButton class="addLinkButton" icon="icon-add" :ariaLabel="t('cospend', 'Add link')"/>
+				<ActionButton class="addLinkButton" icon="icon-add" :ariaLabel="t('cospend', 'Add link')" />
 			</li>
-			<slide-x-right-transition group>
+			<SlideXRightTransition group>
 				<li v-for="access in linkShares" :key="access.id">
 					<div class="avatardiv icon icon-public-white" />
 					<span class="username">
@@ -32,42 +31,49 @@
 					</span>
 
 					<Popover>
-						<ActionButton slot="trigger" class="copyLinkButton"
+						<ActionButton slot="trigger"
+							class="copyLinkButton"
 							:icon="(linkCopied[access.id]) ? 'icon-checkmark-color' : 'icon-clippy'"
-							:ariaLabel="t('cospend', 'Copy link')" @click="copyLink(access)"/>
+							:ariaLabel="t('cospend', 'Copy link')"
+							@click="copyLink(access)" />
 						<template>
 							{{ t('cospend', 'Copied!') }}
 						</template>
 					</Popover>
 
 					<Actions :force-menu="true">
-						<ActionRadio name="accessLevel" :disabled="!canSetAccessLevel(1, access)"
+						<ActionRadio name="accessLevel"
+							:disabled="!canSetAccessLevel(1, access)"
 							:checked="access.accesslevel === 1"
 							@change="clickAccessLevel(access, 1)">
 							{{ t('cospend', 'Viewer') }}
 						</ActionRadio>
-						<ActionRadio name="accessLevel" :disabled="!canSetAccessLevel(2, access)"
+						<ActionRadio name="accessLevel"
+							:disabled="!canSetAccessLevel(2, access)"
 							:checked="access.accesslevel === 2"
 							@change="clickAccessLevel(access, 2)">
 							{{ t('cospend', 'Participant') }}
 						</ActionRadio>
-						<ActionRadio name="accessLevel" :disabled="!canSetAccessLevel(3, access)"
+						<ActionRadio name="accessLevel"
+							:disabled="!canSetAccessLevel(3, access)"
 							:checked="access.accesslevel === 3"
 							@change="clickAccessLevel(access, 3)">
 							{{ t('cospend', 'Maintainer') }}
 						</ActionRadio>
-						<ActionRadio name="accessLevel" :disabled="!canSetAccessLevel(4, access)"
+						<ActionRadio name="accessLevel"
+							:disabled="!canSetAccessLevel(4, access)"
 							:checked="access.accesslevel === 4"
 							@change="clickAccessLevel(access, 4)">
 							{{ t('cospend', 'Admin') }}
 						</ActionRadio>
 						<ActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
-							icon="icon-delete" @click="clickDeleteAccess(access)">
+							icon="icon-delete"
+							@click="clickDeleteAccess(access)">
 							{{ t('cospend', 'Delete link') }}
 						</ActionButton>
 					</Actions>
 				</li>
-			</slide-x-right-transition>
+			</SlideXRightTransition>
 			<li>
 				<Avatar :disableMenu="true" :disableTooltip="true" :user="project.userid" />
 				<span class="has-tooltip username">
@@ -77,11 +83,13 @@
 					</span>
 				</span>
 			</li>
-			<slide-x-right-transition group>
+			<SlideXRightTransition group>
 				<li v-for="access in ugcShares" :key="access.id">
 					<Avatar
-						v-if="access.type==='u'" :user="access.userid"
-						:disableMenu="true" :disableTooltip="true" />
+						v-if="access.type==='u'"
+						:user="access.userid"
+						:disableMenu="true"
+						:disableTooltip="true" />
 					<div v-if="access.type==='g'" class="avatardiv icon icon-group" />
 					<div v-if="access.type==='c'" class="avatardiv icon share-icon-circle" />
 					<span class="username">
@@ -91,35 +99,40 @@
 					</span>
 
 					<Actions :force-menu="true">
-						<ActionRadio name="accessLevel" :disabled="!canSetAccessLevel(1, access)"
+						<ActionRadio name="accessLevel"
+							:disabled="!canSetAccessLevel(1, access)"
 							:checked="access.accesslevel === 1"
 							@change="clickAccessLevel(access, 1)">
 							{{ t('cospend', 'Viewer') }}
 						</ActionRadio>
-						<ActionRadio name="accessLevel" :disabled="!canSetAccessLevel(2, access)"
+						<ActionRadio name="accessLevel"
+							:disabled="!canSetAccessLevel(2, access)"
 							:checked="access.accesslevel === 2"
 							@change="clickAccessLevel(access, 2)">
 							{{ t('cospend', 'Participant') }}
 						</ActionRadio>
-						<ActionRadio name="accessLevel" :disabled="!canSetAccessLevel(3, access)"
+						<ActionRadio name="accessLevel"
+							:disabled="!canSetAccessLevel(3, access)"
 							:checked="access.accesslevel === 3"
 							@change="clickAccessLevel(access, 3)">
 							{{ t('cospend', 'Maintainer') }}
 						</ActionRadio>
-						<ActionRadio name="accessLevel" :disabled="!canSetAccessLevel(4, access)"
+						<ActionRadio name="accessLevel"
+							:disabled="!canSetAccessLevel(4, access)"
 							:checked="access.accesslevel === 4"
 							@change="clickAccessLevel(access, 4)">
 							{{ t('cospend', 'Admin') }}
 						</ActionRadio>
 						<ActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
-							icon="icon-delete" @click="clickDeleteAccess(access)">
+							icon="icon-delete"
+							@click="clickDeleteAccess(access)">
 							{{ t('cospend', 'Delete access') }}
 						</ActionButton>
 					</Actions>
 				</li>
-			</slide-x-right-transition>
+			</SlideXRightTransition>
 		</ul>
-		<hr/><br/>
+		<hr><br>
 		<ul
 			id="guestList"
 			class="shareWithList">
@@ -130,9 +143,11 @@
 				</span>
 
 				<Popover>
-					<ActionButton slot="trigger" class="copyLinkButton"
+					<ActionButton slot="trigger"
+						class="copyLinkButton"
 						:icon="guestLinkCopied ? 'icon-checkmark-color' : 'icon-clippy'"
-						:ariaLabel="t('cospend', 'Copy link')" @click="copyPasswordLink"/>
+						:ariaLabel="t('cospend', 'Copy link')"
+						@click="copyPasswordLink" />
 					<template>
 						{{ t('cospend', 'Copied!') }}
 					</template>
@@ -141,62 +156,67 @@
 				<Actions v-if="true" :force-menu="true">
 					<ActionRadio name="guestAccessLevel"
 						:disabled="myAccessLevel < 4"
-						:checked="project.guestaccesslevel === 1" @change="clickGuestAccessLevel(1)">
+						:checked="project.guestaccesslevel === 1"
+						@change="clickGuestAccessLevel(1)">
 						{{ t('cospend', 'Viewer') }}
 					</ActionRadio>
 					<ActionRadio name="guestAccessLevel"
 						:disabled="myAccessLevel < 4"
-						:checked="project.guestaccesslevel === 2" @change="clickGuestAccessLevel(2)">
+						:checked="project.guestaccesslevel === 2"
+						@change="clickGuestAccessLevel(2)">
 						{{ t('cospend', 'Participant') }}
 					</ActionRadio>
 					<ActionRadio name="guestAccessLevel"
 						:disabled="myAccessLevel < 4"
-						:checked="project.guestaccesslevel === 3" @change="clickGuestAccessLevel(3)">
+						:checked="project.guestaccesslevel === 3"
+						@change="clickGuestAccessLevel(3)">
 						{{ t('cospend', 'Maintainer') }}
 					</ActionRadio>
 					<ActionRadio name="guestAccessLevel"
 						:disabled="myAccessLevel < 4"
-						:checked="project.guestaccesslevel === 4" @change="clickGuestAccessLevel(4)">
+						:checked="project.guestaccesslevel === 4"
+						@change="clickGuestAccessLevel(4)">
 						{{ t('cospend', 'Admin') }}
 					</ActionRadio>
 				</Actions>
 			</li>
 		</ul>
-		<form id="newPasswordForm" @submit.prevent.stop="setPassword" v-if="myAccessLevel === 4">
+		<form v-if="myAccessLevel === 4"
+			id="newPasswordForm"
+			@submit.prevent.stop="setPassword">
 			<label for="newPasswordInput">{{ t('cospend', 'New project password') }}</label>
 			<div>
-				<input id="newPasswordInput" ref="newPasswordInput" value="" type="password"
+				<input id="newPasswordInput"
+					ref="newPasswordInput"
+					value=""
+					type="password"
 					autocomplete="off"
 					:readonly="newPasswordReadonly"
-					@focus="newPasswordReadonly = false; $event.target.select()"/>
+					@focus="newPasswordReadonly = false; $event.target.select()">
 				<input type="submit" value="" class="icon-confirm">
 			</div>
 		</form>
-		<br/><hr/><br/>
+		<br><hr><br>
 		<MoneyBusterLink
-			:project="project"
-		/>
+			:project="project" />
 	</div>
 </template>
 
 <script>
 import {
-	Avatar, Multiselect, Actions, ActionButton,
-	ActionCheckbox, ActionRadio, ActionSeparator,
-	AppNavigationItem, Popover
+	Avatar, Multiselect, Actions, ActionButton, ActionRadio, Popover,
 } from '@nextcloud/vue'
-import { mapGetters, mapState } from 'vuex'
 import { getCurrentUser } from '@nextcloud/auth'
-import {generateUrl} from '@nextcloud/router';
+import { generateUrl } from '@nextcloud/router'
 import {
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
-import MoneyBusterLink from '../MoneyBusterLink';
-import cospend from '../state';
-import * as constants from '../constants';
-import * as network from '../network';
-import { Timer } from '../utils';
+import MoneyBusterLink from '../MoneyBusterLink'
+import cospend from '../state'
+import * as constants from '../constants'
+import * as network from '../network'
+import { Timer } from '../utils'
 import { SlideXRightTransition } from 'vue2-transitions'
 
 export default {
@@ -206,11 +226,17 @@ export default {
 		Avatar,
 		Actions,
 		ActionButton,
-		ActionCheckbox, ActionRadio, ActionSeparator,
-		Multiselect, AppNavigationItem, Popover,
-		SlideXRightTransition
+		ActionRadio,
+		Multiselect,
+		Popover,
+		SlideXRightTransition,
 	},
-	props: ['project'],
+	props: {
+		project: {
+			type: Object,
+			required: true,
+		},
+	},
 	data() {
 		return {
 			isLoading: false,
@@ -218,42 +244,39 @@ export default {
 			sharees: [],
 			guestLinkCopied: false,
 			linkCopied: {},
-			newPasswordReadonly: true
+			newPasswordReadonly: true,
 		}
-	},
-	mounted() {
-		this.asyncFind()
 	},
 	computed: {
 		editionAccess() {
-			return this.project.myaccesslevel >= constants.ACCESS.PARTICIPANT;
+			return this.project.myaccesslevel >= constants.ACCESS.PARTICIPANT
 		},
 		myAccessLevel() {
-			return this.project.myaccesslevel;
+			return this.project.myaccesslevel
 		},
 		shares() {
-			return this.project.shares;
+			return this.project.shares
 		},
 		linkShares() {
-			const ls = [];
+			const ls = []
 			for (let i = 0; i < this.shares.length; i++) {
 				if (this.shares[i].type === 'l') {
-					ls.push(this.shares[i]);
+					ls.push(this.shares[i])
 				}
 			}
-			return ls;
+			return ls
 		},
 		ugcShares() {
-			const ls = [];
+			const ls = []
 			for (let i = 0; i < this.shares.length; i++) {
 				if (this.shares[i].type !== 'l') {
-					ls.push(this.shares[i]);
+					ls.push(this.shares[i])
 				}
 			}
-			return ls;
+			return ls
 		},
 		projectId() {
-			return this.project.id;
+			return this.project.id
 		},
 		isCurrentUser() {
 			return (uid) => uid === getCurrentUser().uid
@@ -282,7 +305,7 @@ export default {
 		// those with which the project is not shared yet
 		unallocatedSharees() {
 			return this.sharees.filter((sharee) => {
-				let foundIndex;
+				let foundIndex
 				if (sharee.type === 'u') {
 					foundIndex = this.shares.findIndex((access) => {
 						return access.userid === sharee.id && access.type === 'u'
@@ -303,157 +326,164 @@ export default {
 			})
 		},
 	},
+
+	mounted() {
+		this.asyncFind()
+	},
+
 	methods: {
 		canSetAccessLevel(level, access) {
 			// i must be able to edit, have at least perms of the access, have at least same perms as what i want to set
 			// and i can't edit myself
-			return this.editionAccess && this.myAccessLevel >= access.accesslevel && this.myAccessLevel >= level &&
-				(access.type !== 'u' || !this.isCurrentUser(access.userid))
+			return this.editionAccess && this.myAccessLevel >= access.accesslevel && this.myAccessLevel >= level
+				&& (access.type !== 'u' || !this.isCurrentUser(access.userid))
 		},
 		asyncFind() {
 			this.isLoading = true
-			this.loadSharees();
+			this.loadSharees()
 		},
 		loadSharees() {
-			network.loadUsers(this.loadShareesSuccess);
+			network.loadUsers(this.loadShareesSuccess)
 		},
 		loadShareesSuccess(response) {
-			cospend.userIdName = response.users;
-			cospend.groupIdName = response.groups;
-			cospend.circleIdName = response.circles;
-			const data = [];
-			let d, name, id;
+			cospend.userIdName = response.users
+			cospend.groupIdName = response.groups
+			cospend.circleIdName = response.circles
+			const data = []
+			let d, name, id
 			for (id in response.users) {
-				name = response.users[id];
+				name = response.users[id]
 				d = {
-					id: id,
-					name: name,
+					id,
+					name,
 					type: 'u',
-				};
-				if (id !== name) {
-					d.label = name + ' (' + id + ')';
-					d.value = name + ' (' + id + ')';
-				} else {
-					d.label = name;
-					d.value = name;
 				}
-				data.push(d);
+				if (id !== name) {
+					d.label = name + ' (' + id + ')'
+					d.value = name + ' (' + id + ')'
+				} else {
+					d.label = name
+					d.value = name
+				}
+				data.push(d)
 			}
 			for (id in response.groups) {
-				name = response.groups[id];
+				name = response.groups[id]
 				d = {
-					id: id,
-					name: name,
+					id,
+					name,
 					type: 'g',
-				};
-				if (id !== name) {
-					d.label = name + ' (' + id + ')';
-					d.value = name + ' (' + id + ')';
-				} else {
-					d.label = name;
-					d.value = name;
 				}
-				data.push(d);
+				if (id !== name) {
+					d.label = name + ' (' + id + ')'
+					d.value = name + ' (' + id + ')'
+				} else {
+					d.label = name
+					d.value = name
+				}
+				data.push(d)
 			}
 			for (id in response.circles) {
-				name = response.circles[id];
+				name = response.circles[id]
 				d = {
-					id: id,
-					name: name,
+					id,
+					name,
 					type: 'c',
-				};
-				d.label = name;
-				d.value = name;
-				data.push(d);
+				}
+				d.label = name
+				d.value = name
+				data.push(d)
 			}
-			this.sharees = data;
+			this.sharees = data
 		},
 		clickShareeItem() {
-			this.addSharedAccess(this.selectedSharee);
+			this.addSharedAccess(this.selectedSharee)
 		},
 		addSharedAccess(sh) {
-			network.addSharedAccess(this.projectId, sh, this.addSharedAccessSuccess);
+			network.addSharedAccess(this.projectId, sh, this.addSharedAccessSuccess)
 		},
 		addSharedAccessSuccess(response, sh) {
 			const newShAccess = {
 				accesslevel: constants.ACCESS.PARTICIPANT,
-				type: sh.type
-			};
-			newShAccess.id = response.id;
+				type: sh.type,
+			}
+			newShAccess.id = response.id
 			if (sh.type === 'l') {
-				newShAccess.token = response.token;
+				newShAccess.token = response.token
 			} else {
-				newShAccess.name = response.name;
+				newShAccess.name = response.name
 				if (sh.type === 'u') {
-					newShAccess.userid = sh.user;
+					newShAccess.userid = sh.user
 				} else if (sh.type === 'g') {
-					newShAccess.groupid = sh.user;
+					newShAccess.groupid = sh.user
 				} else if (sh.type === 'c') {
-					newShAccess.circleid = sh.user;
+					newShAccess.circleid = sh.user
 				}
 			}
-			this.project.shares.push(newShAccess);
-			this.selectedSharee = null;
+			this.project.shares.push(newShAccess)
+			this.selectedSharee = null
 		},
 		clickAccessLevel(access, level) {
-			network.setAccessLevel(this.projectId, access, level, this.setAccessLevelSuccess);
+			network.setAccessLevel(this.projectId, access, level, this.setAccessLevelSuccess)
 		},
 		setAccessLevelSuccess(access, level) {
-			access.accesslevel = level;
+			access.accesslevel = level
 		},
 		clickDeleteAccess(access) {
 			// to make sure the menu disappears
-			this.$refs.shareWithList.click();
-			network.deleteAccess(this.projectId, access, this.deleteAccessSuccess);
+			this.$refs.shareWithList.click()
+			network.deleteAccess(this.projectId, access, this.deleteAccessSuccess)
 		},
 		deleteAccessSuccess(access) {
-			const index = this.shares.indexOf(access);
-			this.shares.splice(index, 1);
+			const index = this.shares.indexOf(access)
+			this.shares.splice(index, 1)
 		},
 		async copyLink(access) {
-			const publicLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/s/' + access.token);
+			const publicLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/s/' + access.token)
 			try {
 				await this.$copyText(publicLink)
-				this.$set(this.linkCopied, access.id, true);
-				const that = this;
-				new Timer(function () {
-					that.$set(that.linkCopied, access.id, false);
-				}, 5000);
+				this.$set(this.linkCopied, access.id, true)
+				const that = this
+				// eslint-disable-next-line
+				new Timer(() => {
+					that.$set(that.linkCopied, access.id, false)
+				}, 5000)
 			} catch (error) {
 				console.debug(error)
 				showError(t('cospend', 'Link could not be copied to clipboard.'))
 			}
 		},
 		addLink() {
-			this.addSharedAccess({type: 'l'});
+			this.addSharedAccess({ type: 'l' })
 		},
 		setPassword() {
-			const password = this.$refs.newPasswordInput.value;
+			const password = this.$refs.newPasswordInput.value
 			if (password) {
-				this.$emit('projectEdited', this.projectId, password);
+				this.$emit('projectEdited', this.projectId, password)
 			} else {
-				showError(t('cospend', 'Password should not be empty.'));
+				showError(t('cospend', 'Password should not be empty.'))
 			}
 		},
 		async copyPasswordLink() {
-			const guestLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/loginproject/' + this.projectId);
+			const guestLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/loginproject/' + this.projectId)
 			try {
 				await this.$copyText(guestLink)
-				this.guestLinkCopied = true;
-				const that = this;
-				new Timer(function () {
-					that.guestLinkCopied = false;
-				}, 5000);
+				this.guestLinkCopied = true
+				const that = this
+				// eslint-disable-next-line
+				new Timer(() => {
+					that.guestLinkCopied = false
+				}, 5000)
 			} catch (error) {
 				console.debug(error)
 				showError(t('cospend', 'Link could not be copied to clipboard.'))
 			}
 		},
 		clickGuestAccessLevel(level) {
-			network.setGuestAccessLevel(this.projectId, level, this.setGuestAccessLevelSuccess);
+			network.setGuestAccessLevel(this.projectId, level, this.setGuestAccessLevelSuccess)
 		},
 		setGuestAccessLevelSuccess(level) {
-			this.project.guestaccesslevel = level;
+			this.project.guestaccesslevel = level
 			showSuccess(t('cospend', 'Guest access level changed.'))
 		},
 	},

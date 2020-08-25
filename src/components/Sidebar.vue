@@ -7,7 +7,7 @@
 		:active="activeTab"
 		@update:active="onActiveChanged"
 		@close="$emit('close')">
-		<template slot="primary-actions" />
+		<!--template slot="primary-actions" /-->
 		<template v-if="false" slot="secondary-actions">
 			<ActionButton icon="icon-edit" @click="alert('Edit')">
 				Edit
@@ -25,6 +25,19 @@
 			<SharingTabSidebar
 				:project="project"
 				@projectEdited="onProjectEdited" />
+		</AppSidebarTab>
+		<AppSidebarTab
+			id="project-settings"
+			icon="icon-settings-dark"
+			:name="t('cospend', 'Settings')"
+			:order="2">
+			<SettingsTabSidebar
+				:project="project"
+				@projectEdited="onProjectEdited"
+				@userAdded="onUserAdded"
+				@memberEdited="onMemberEdited"
+				@newSimpleMember="onNewSimpleMember"
+				@exportClicked="onExportClicked" />
 		</AppSidebarTab>
 		<AppSidebarTab
 			id="categories"
@@ -50,19 +63,6 @@
 			>
 			this is the comments tab
 		</AppSidebarTab-->
-		<AppSidebarTab v-if="editionAccess"
-			id="settings"
-			icon="icon-settings-dark"
-			:name="t('cospend', 'Settings')"
-			:order="2">
-			<SettingsTabSidebar
-				:project="project"
-				@projectEdited="onProjectEdited"
-				@userAdded="onUserAdded"
-				@memberEdited="onMemberEdited"
-				@newSimpleMember="onNewSimpleMember"
-				@exportClicked="onExportClicked" />
-		</AppSidebarTab>
 	</AppSidebar>
 </template>
 

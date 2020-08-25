@@ -197,16 +197,16 @@ export default {
 		},
 		onMainDetailClicked() {
 			this.showSidebar = !this.showSidebar
-			this.activeSidebarTab = 'settings'
+			this.activeSidebarTab = 'project-settings'
 		},
 		onDetailClicked(projectid) {
 			const sameProj = cospend.currentProjectId === projectid
 			if (cospend.currentProjectId !== projectid) {
 				this.selectProject(projectid)
 			}
-			const sameTab = this.activeSidebarTab === 'settings'
+			const sameTab = this.activeSidebarTab === 'project-settings'
 			this.showSidebar = (sameProj && sameTab) ? !this.showSidebar : true
-			this.activeSidebarTab = 'settings'
+			this.activeSidebarTab = 'project-settings'
 		},
 		onShareClicked(projectid) {
 			const sameProj = cospend.currentProjectId === projectid
@@ -308,7 +308,7 @@ export default {
 				this.selectProject(projectid)
 			}
 			this.currentBill = null
-			this.activeSidebarTab = 'settings'
+			this.activeSidebarTab = 'project-settings'
 			this.showSidebar = true
 		},
 		onNewMember(projectid, name, userid = null) {

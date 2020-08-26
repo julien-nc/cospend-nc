@@ -42,7 +42,9 @@
 						</template>
 					</Popover>
 
-					<Actions :force-menu="true">
+					<Actions
+						:force-menu="true"
+						placement="left">
 						<ActionRadio name="accessLevel"
 							:disabled="!canSetAccessLevel(1, access)"
 							:checked="access.accesslevel === 1"
@@ -99,7 +101,9 @@
 						<span v-if="access.type==='c'">({{ t('cospend', 'Circle') }})</span>
 					</span>
 
-					<Actions :force-menu="true">
+					<Actions
+						:force-menu="true"
+						placement="left">
 						<ActionRadio name="accessLevel"
 							:disabled="!canSetAccessLevel(1, access)"
 							:checked="access.accesslevel === 1"
@@ -154,7 +158,9 @@
 					</template>
 				</Popover>
 
-				<Actions v-if="true" :force-menu="true">
+				<Actions
+					:force-menu="true"
+					placement="left">
 					<ActionRadio name="guestAccessLevel"
 						:disabled="myAccessLevel < 4"
 						:checked="project.guestaccesslevel === 1"

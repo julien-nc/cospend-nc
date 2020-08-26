@@ -3,7 +3,7 @@
 		<h3>
 			<span class="icon-phone" />
 			<span class="tcontent">{{ t('cospend', 'MoneyBuster link/QRCode for project {name}', {name: project.name}) }}</span>
-			<button class="icon icon-info infoButton"
+			<button class="icon icon-info"
 				@click="onInfo1Clicked" />
 		</h3>
 		<div id="qrcode-div-nopass">
@@ -22,7 +22,7 @@
 				<span class="tcontent">
 					{{ t('cospend', 'Confirm project password to get a QRCode including the password.') }}
 				</span>
-				<button class="icon icon-info infoButton"
+				<button class="icon icon-info"
 					@click="onInfo2Clicked" />
 			</h3>
 			<div class="enterPassword">

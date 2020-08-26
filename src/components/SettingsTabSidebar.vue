@@ -40,12 +40,14 @@
 			:title="t('cospend', 'Export project')"
 			@click="onExportClick" />
 		<div>
-			<br><hr><br>
-			<p class="label">
-				<span class="labelIcon icon-user" />
-				{{ t('cospend', 'Add a project member.') }}
-				<button class="icon-info infoButton" @click="onInfoAddClicked" />
-			</p>
+			<br><hr>
+			<h3>
+				<span class="icon-user" />
+				<span class="tcontent">
+					{{ t('cospend', 'Member list') }}
+				</span>
+				<button class="icon icon-info" @click="onInfoAddClicked" />
+			</h3>
 			<Multiselect
 				v-if="maintenerAccess"
 				ref="userMultiselect"
@@ -66,11 +68,14 @@
 				:inNavigation="false"
 				@memberEdited="onMemberEdited(member.id)" />
 			<div v-if="!pageIsPublic">
-				<br><hr><br>
-				<p class="label">
-					<span class="labelIcon icon-user" />
-					{{ t('cospend', 'Choose a project member, then a Nextcloud user to associate with.') }}
-				</p>
+				<br><hr>
+				<h3>
+					<span class="icon-user" />
+					<span class="tcontent">
+						{{ t('cospend', 'Associate a simple member with a Nextcloud user') }}
+					</span>
+					<button class="icon icon-info" @click="onInfoAssociateClicked" />
+				</h3>
 				<div id="affectDiv">
 					<select v-model="selectedMember">
 						<option v-for="member in activatedMembers"
@@ -92,10 +97,6 @@
 						:internal-search="true"
 						@input="clickAffectUserItem" />
 				</div>
-				<p>
-					<span class="labelIcon icon-details" />
-					{{ t('cospend', 'You can cut the link with a Nextcloud user by renaming the member.') }}
-				</p>
 			</div>
 		</div>
 	</div>
@@ -356,6 +357,13 @@ export default {
 				t('cospend', 'Info')
 			)
 		},
+		onInfoAssociateClicked() {
+			OC.dialogs.info(
+				t('cospend', 'Choose a project member, then a Nextcloud user to associate with.')
+				+ ' ' + t('cospend', 'You can cut the link with a Nextcloud user by renaming the member.'),
+				t('cospend', 'Info')
+			)
+		},
 	},
 }
 </script>
@@ -363,7 +371,6 @@ export default {
 #autoExport {
 	width: 100%;
 }
-.labelIcon,
 #autoExport span.icon {
 	display: inline-block;
 	min-width: 30px !important;
@@ -390,9 +397,6 @@ export default {
 .affectUserInput {
 	width: 49%;
 }
-.label {
-	margin-bottom: 10px;
-}
 .renameProject,
 .newMember {
 	order: 1;
@@ -409,11 +413,38 @@ export default {
 .exportItem {
 	z-index: 0;
 }
-.infoButton {
-	display: inline-block;
-	width: 30px;
-	height: 30px;
-	position: relative;
-	top: -4px;
+h3 {
+	display: flex;
+	margin-bottom: 20px;
+
+	> .tcontent {
+		flex-grow: 1;
+		padding-top: 12px;
+	}
+
+	> span.icon-user {
+		display: inline-block;
+		min-width: 40px;
+	}
+
+	.icon {
+		display: inline-block;
+		width: 44px;
+		height: 44px;
+		border-radius: var(--border-radius-pill);
+		opacity: .5;
+
+		&.icon-info {
+			background-color: transparent;
+			border: none;
+			margin: 0;
+		}
+
+		&:hover,
+		&:focus {
+			opacity: 1;
+			background-color: var(--color-background-hover);
+		}
+	}
 }
 </style>

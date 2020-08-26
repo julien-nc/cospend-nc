@@ -10,7 +10,7 @@
 				<input v-show="project.myaccesslevel >= constants.ACCESS.MAINTENER"
 					type="submit"
 					value=""
-					class="icon-rename editMainCurrency"
+					class="icon icon-rename editMainCurrency"
 					@click="editMode=true; $nextTick(() => $refs.mainCurrencyEdit.focus());">
 			</div>
 			<div v-show="editMode"
@@ -26,12 +26,12 @@
 				<input
 					type="submit"
 					value=""
-					class="icon-close editMainCurrencyClose"
+					class="icon icon-close editMainCurrencyClose"
 					@click="editMode=false">
 				<input
 					type="submit"
 					value=""
-					class="icon-checkmark editMainCurrencyOk"
+					class="icon icon-checkmark editMainCurrencyOk"
 					@click="onEditMainOkClick">
 			</div>
 		</div>
@@ -216,22 +216,33 @@ export default {
 	display: inline-block;
 	padding: 0 12px 0 25px !important;
 }
+.editMainCurrencyOk,
+.editMainCurrencyClose,
 .editMainCurrency {
 	width: 40px !important;
 	height: 40px;
 	margin-top: 0px;
+	border-radius: var(--border-radius-pill);
+	opacity: .5;
+
+	&.icon-rename {
+		background-color: transparent;
+		border: none;
+		margin: 0;
+	}
+
+	&:hover,
+	&:focus {
+		opacity: 1;
+		background-color: var(--color-background-hover);
+	}
 }
 .editMainCurrencyInput {
 	width: 96%;
 }
 #main-currency-edit {
 	display: grid;
-	grid-template: 1fr / 84% 1fr 1fr;
-}
-#main-currency-edit input[type=submit] {
-	margin-left: -15px;
-	border-radius: 0;
-	width: 36px !important;
+	grid-template: 1fr / 80% 1fr 1fr;
 }
 .addCurrencyOk {
 	background-color: #46ba61;

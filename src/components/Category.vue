@@ -33,18 +33,6 @@
 				@input="updateColor">
 				<div :style="{ backgroundColor: category.color }" class="color0 icon-colorpicker" />
 			</ColorPicker>
-			<!--div class="edit-icon-input-div">
-				<input ref="editIconInput"
-					v-model="category.icon"
-					type="text"
-					maxlength="3"
-					class="editCategoryIconInput">
-				<button ref="iconButton"
-					class="edit-icon-button"
-					@click="onIconButtonClick">
-					🙂
-				</button>
-			</div-->
 			<button
 				ref="iconButton"
 				class="edit-icon-button"
@@ -60,11 +48,9 @@
 				:placeholder="t('cospend', 'Category name')"
 				@focus="$event.target.select()">
 			<button class="editCategoryClose icon-history icon"
-				@click="onClickCancel">
-			</button>
+				@click="onClickCancel" />
 			<button class="editCategoryOk icon-checkmark icon"
-				@click="onClickEditOk">
-			</button>
+				@click="onClickEditOk" />
 		</div>
 	</div>
 </template>

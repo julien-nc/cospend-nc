@@ -2,16 +2,17 @@
 	<div class="one-currency">
 		<div v-show="!editMode"
 			class="one-currency-label">
-			<label class="one-currency-label-label">{{ currency.name }} (x{{ currency.exchange_rate }})</label>
+			<label class="one-currency-label-label">{{ currency.name }}</label>
+			<label class="one-currency-label-label">(x{{ currency.exchange_rate }})</label>
 			<input v-show="editionAccess"
 				type="submit"
 				value=""
-				class="icon-rename editOneCurrency"
+				class="icon-rename editOneCurrency icon"
 				@click="onClickEdit">
 			<input v-show="editionAccess"
 				type="submit"
 				value=""
-				:class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteOneCurrency'"
+				:class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteOneCurrency icon'"
 				@click="onClickDelete">
 			<label v-if="timerOn"
 				class="one-currency-label-label">
@@ -37,12 +38,8 @@
 				class="editCurrencyRateInput"
 				step="0.0001"
 				min="0">
-			<button class="editCurrencyClose" @click="onClickCancel">
-				<span class="icon-history" />
-			</button>
-			<button class="editCurrencyOk" @click="onClickEditOk">
-				<span class="icon-checkmark" />
-			</button>
+			<button class="editCurrencyClose icon-history icon" @click="onClickCancel" />
+			<button class="editCurrencyOk icon-checkmark icon" @click="onClickEditOk" />
 		</div>
 	</div>
 </template>
@@ -118,8 +115,9 @@ export default {
 <style scoped lang="scss">
 .one-currency-edit {
 	display: grid;
-	grid-template: 1fr / 1fr 1fr 44px 44px;
-	padding: 10px 10px 10px 20px;
+	grid-template: 1fr / 1fr 1fr 40px 40px;
+	height: 40px;
+	border-radius: 15px;
 	background-color: var(--color-background-dark);
 }
 .one-currency-edit label,
@@ -134,7 +132,7 @@ export default {
 }
 .one-currency-label {
 	display: grid;
-	grid-template: 1fr / 1fr 42px 42px 37px;
+	grid-template: 1fr / 1fr 1fr 40px 40px;
 }
 .editCurrencyOk,
 .editCurrencyClose {
@@ -145,5 +143,23 @@ export default {
 .editCurrencyOk {
 	background-color: #46ba61;
 	color: white;
+}
+.icon {
+	border-radius: var(--border-radius-pill);
+	opacity: .5;
+
+	&.icon-rename,
+	&.icon-delete,
+	&.icon-history {
+		background-color: transparent;
+		border: none;
+		margin: 0;
+	}
+
+	&:hover,
+	&:focus {
+		opacity: 1;
+		background-color: var(--color-background-hover);
+	}
 }
 </style>

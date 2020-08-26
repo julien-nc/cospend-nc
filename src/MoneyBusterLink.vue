@@ -1,10 +1,11 @@
 <template>
 	<div id="mbLink">
-		<div id="mbTitle">
+		<h3>
 			<span class="icon-phone" />
-			{{ t('cospend', 'MoneyBuster link/QRCode for project {name}', {name: project.name}) }}
-		</div>
-		<button class="icon-info infoButton" @click="onInfo1Clicked" />
+			<span class="tcontent">{{ t('cospend', 'MoneyBuster link/QRCode for project {name}', {name: project.name}) }}</span>
+			<button class="icon icon-info infoButton"
+				@click="onInfo1Clicked" />
+		</h3>
 		<div id="qrcode-div-nopass">
 			<QRCode render="canvas"
 				:link="noPassLink"
@@ -16,8 +17,14 @@
 		<br>
 		<div v-if="!pageIsPublic">
 			<br><hr><br>
-			<label id="mbPasswordLabel">{{ t('cospend', 'Confirm project password to get a QRCode including the password.') }}</label>
-			<button class="icon-info infoButton" @click="onInfo2Clicked" />
+			<h3>
+				<span class="icon-phone" />
+				<span class="tcontent">
+					{{ t('cospend', 'Confirm project password to get a QRCode including the password.') }}
+				</span>
+				<button class="icon icon-info infoButton"
+					@click="onInfo2Clicked" />
+			</h3>
 			<div class="enterPassword">
 				<form autocomplete="off" @submit.prevent.stop="onPasswordPressEnter">
 					<input v-model="password"
@@ -126,10 +133,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-#mbTitle span {
-	display: inline-block;
-	width: 40px;
-}
 #qrcode-div-pass,
 #qrcode-div-nopass {
 	width: 210px;
@@ -160,17 +163,38 @@ export default {
 	display: block;
 	text-align: center;
 }
-.infoButton {
-	width: 30px;
-	height: 30px;
-}
-#mbPasswordLabel {
-	text-align: center;
-}
-#mbPasswordLabel,
-.infoButton {
-	margin-left: auto;
-	margin-right: auto;
-	display: block;
+h3 {
+	display: flex;
+	margin-bottom: 20px;
+
+	> .tcontent {
+		flex-grow: 1;
+		padding-top: 12px;
+	}
+
+	> span.icon-phone {
+		display: inline-block;
+		min-width: 40px;
+	}
+
+	.icon {
+		display: inline-block;
+		width: 44px;
+		height: 44px;
+		border-radius: var(--border-radius-pill);
+		opacity: .5;
+
+		&.icon-info {
+			background-color: transparent;
+			border: none;
+			margin: 0;
+		}
+
+		&:hover,
+		&:focus {
+			opacity: 1;
+			background-color: var(--color-background-hover);
+		}
+	}
 }
 </style>

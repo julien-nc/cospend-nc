@@ -378,22 +378,6 @@ a.billitem .app-content-list-item-icon {
     min-height: 16px !important;
     min-width: 16px !important;
 }
-#add-icon-input-div,
-.edit-icon-input-div {
-    display: inline-flex;
-}
-.edit-icon-input-div button,
-#add-icon-input-div button {
-    width: 40px;
-    border-radius: 0;
-    margin-left: -3px;
-}
-.edit-icon-input-div input,
-#add-icon-input-div input {
-    font-size: 20px;
-    width: 50px;
-    text-align: center;
-}
 /* this is not applied if done in a vue component */
 .memberColorPicker .trigger {
     height: 25px !important;

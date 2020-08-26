@@ -27,9 +27,7 @@
 						:placeholder="t('cospend', 'Category name')"
 						@focus="$event.target.select()"
 						@keyup.enter="onAddCategory">
-					<button class="addCategoryOk" @click="onAddCategory">
-						<span class="icon-add" />
-					</button>
+					<button class="icon icon-add addCategoryOk" @click="onAddCategory" />
 				</div>
 				<hr>
 			</div>
@@ -194,6 +192,21 @@ export default {
 }
 .addCategoryOk {
 	margin-top: 0px;
+
+	border-radius: var(--border-radius-pill);
+	opacity: .5;
+
+	&.icon-add {
+		background-color: transparent;
+		border: none;
+		margin: 0;
+	}
+
+	&:hover,
+	&:focus {
+		opacity: 1;
+		background-color: var(--color-background-hover);
+	}
 }
 #add-category,
 #category-list,

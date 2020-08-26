@@ -9,12 +9,12 @@
 			<input v-show="editionAccess"
 				type="submit"
 				value=""
-				class="icon-rename editOneCategory"
+				class="icon-rename editOneCategory icon"
 				@click="onClickEdit">
 			<input v-show="editionAccess"
 				type="submit"
 				value=""
-				:class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteOneCategory'"
+				:class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteOneCategory icon'"
 				@click="onClickDelete">
 			<label v-if="timerOn"
 				class="one-category-label-label">
@@ -33,7 +33,7 @@
 				@input="updateColor">
 				<div :style="{ backgroundColor: category.color }" class="color0 icon-colorpicker" />
 			</ColorPicker>
-			<div class="edit-icon-input-div">
+			<!--div class="edit-icon-input-div">
 				<input ref="editIconInput"
 					v-model="category.icon"
 					type="text"
@@ -44,7 +44,14 @@
 					@click="onIconButtonClick">
 					🙂
 				</button>
-			</div>
+			</div-->
+			<button
+				ref="iconButton"
+				class="edit-icon-button"
+				:title="t('cospend', 'Icon')"
+				@click="onIconButtonClick">
+				{{ category.icon }}
+			</button>
 			<input ref="cname"
 				v-model="category.name"
 				type="text"
@@ -52,13 +59,11 @@
 				class="editCategoryNameInput"
 				:placeholder="t('cospend', 'Category name')"
 				@focus="$event.target.select()">
-			<button class="editCategoryClose"
+			<button class="editCategoryClose icon-history icon"
 				@click="onClickCancel">
-				<span class="icon-history" />
 			</button>
-			<button class="editCategoryOk"
+			<button class="editCategoryOk icon-checkmark icon"
 				@click="onClickEditOk">
-				<span class="icon-checkmark" />
 			</button>
 		</div>
 	</div>
@@ -116,8 +121,6 @@ export default {
 
 	mounted() {
 		this.picker.on('emoji', emoji => {
-			// avoid setting value of input with v-model, prefer modifying v-model target instead
-			// this.$refs.editIconInput.value = emoji
 			this.category.icon = emoji
 		})
 	},
@@ -169,8 +172,9 @@ export default {
 <style scoped lang="scss">
 .one-category-edit {
 	display: grid;
-	grid-template: 1fr / 1fr 2fr 3fr 44px 44px;
-	padding: 10px 10px 10px 20px;
+	grid-template: 1fr / 44px 44px 3fr 40px 40px;
+	height: 40px;
+	border-radius: 15px;
 	background-color: var(--color-background-dark);
 }
 .one-category-edit label,
@@ -186,7 +190,7 @@ export default {
 }
 .one-category-label {
 	display: grid;
-	grid-template: 1fr / 1fr 1fr 6fr 42px 42px 40px;
+	grid-template: 1fr / 1fr 1fr 6fr 42px 42px;
 }
 .editCategoryOk,
 .editCategoryClose {
@@ -214,6 +218,27 @@ $clickable-area: 44px;
 	margin-top: 8px;
 }
 .edit-icon-button {
-	height: 34px;
+	border-radius: var(--border-radius-pill);
+	height: 40px;
+	width: 40px;
+	margin: 0;
+}
+.icon {
+	border-radius: var(--border-radius-pill);
+	opacity: .5;
+
+	&.icon-delete,
+	&.icon-rename,
+	&.icon-history {
+		background-color: transparent;
+		border: none;
+		margin: 0;
+	}
+
+	&:hover,
+	&:focus {
+		opacity: 1;
+		background-color: var(--color-background-hover);
+	}
 }
 </style>

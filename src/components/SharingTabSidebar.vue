@@ -44,7 +44,7 @@
 
 					<Actions
 						:force-menu="true"
-						placement="left">
+						placement="bottom">
 						<ActionRadio name="accessLevel"
 							:disabled="!canSetAccessLevel(1, access)"
 							:checked="access.accesslevel === 1"
@@ -103,7 +103,7 @@
 
 					<Actions
 						:force-menu="true"
-						placement="left">
+						placement="bottom">
 						<ActionRadio name="accessLevel"
 							:disabled="!canSetAccessLevel(1, access)"
 							:checked="access.accesslevel === 1"
@@ -160,7 +160,7 @@
 
 				<Actions
 					:force-menu="true"
-					placement="left">
+					placement="bottom">
 					<ActionRadio name="guestAccessLevel"
 						:disabled="myAccessLevel < 4"
 						:checked="project.guestaccesslevel === 1"

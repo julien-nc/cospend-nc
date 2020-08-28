@@ -241,7 +241,7 @@ $clickable-area: 44px;
 }
 .add-category-2 {
 	display: grid;
-	grid-template: 1fr / 1fr 1fr 4fr 44px;
+	grid-template: 1fr / 44px 44px 4fr 44px;
 	padding: 10px 10px 10px 20px;
 }
 .add-category-2 label {

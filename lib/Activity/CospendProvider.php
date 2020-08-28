@@ -145,6 +145,8 @@ class CospendProvider implements IProvider {
 		$params = $this->parseParamForBill('bill', $subjectParams, $params);
 		$params = $this->parseParamForWho($subjectParams, $params);
 
+		$event->setLink($subjectIdentifier);
+
 		try {
 			$subject = $this->activityManager->getActivityFormat($subjectIdentifier, $subjectParams, $ownActivity);
 			$this->setSubjects($event, $subject, $params);
@@ -194,7 +196,7 @@ class CospendProvider implements IProvider {
 			$params[$paramName] = [
 				'type' => 'highlight',
 				'id' => $subjectParams[$paramName]['id'],
-				'name' => $subjectParams[$paramName]['name'].' ('.$subjectParams[$paramName]['id'].')',
+				'name' => $subjectParams[$paramName]['name'],
 				'link' => $this->cospendUrl('?project=' . $subjectParams[$paramName]['id']),
 			];
 		}

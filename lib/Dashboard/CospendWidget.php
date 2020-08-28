@@ -42,14 +42,14 @@ class CospendWidget implements IWidget {
 	 * @inheritDoc
 	 */
 	public function getId(): string {
-		return 'cospend_bills';
+		return 'cospend_activity';
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function getTitle(): string {
-		return $this->l10n->t('Cospend bill activity');
+		return $this->l10n->t('Cospend activity');
 	}
 
 	/**

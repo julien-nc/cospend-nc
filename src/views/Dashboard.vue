@@ -5,7 +5,7 @@
 		:loading="state === 'loading'">
 		<template v-slot:empty-content>
 			<a :href="showMoreUrl">
-				{{ t('cospend', 'There has been no bills in the last 2 weeks.') }}
+				{{ t('cospend', 'No recent activity') }}
 			</a>
 		</template>
 	</DashboardWidget>
@@ -13,11 +13,10 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
-import { showError } from '@nextcloud/dialogs'
+import { generateUrl, generateOcsUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
 import moment from '@nextcloud/moment'
 import { DashboardWidget } from '@nextcloud/vue-dashboard'
-import { rgbObjToHex } from '../utils'
 
 export default {
 	name: 'Dashboard',
@@ -35,8 +34,8 @@ export default {
 
 	data() {
 		return {
-			notifications: [],
-			showMoreUrl: generateUrl('/apps/cospend'),
+			activities: [],
+			showMoreUrl: generateUrl('/apps/activity') + '?filter=cospend',
 			loop: null,
 			state: 'loading',
 			darkThemeColor: OCA.Accessibility.theme === 'dark' ? '181818' : 'ffffff',
@@ -45,92 +44,120 @@ export default {
 
 	computed: {
 		items() {
-			return this.notifications.map((n) => {
+			return this.activities.map((a) => {
 				return {
-					id: n.id,
-					targetUrl: this.getBillTarget(n),
-					avatarUrl: this.getSimpleAvatarUrl(n),
-					avatarUsername: this.getUserId(n),
-					mainText: n.what,
-					subText: this.getSubline(n),
+					id: a.activity_id,
+					targetUrl: this.getTarget(a),
+					// avatarUrl: this.getSimpleAvatarUrl(n),
+					avatarUsername: this.getUserId(a),
+					mainText: this.getMainText(a),
+					subText: this.getSubline(a),
+					// overlayIconUrl: a.icon,
 				}
 			})
 		},
 		lastDate() {
-			const nbItems = this.notifications.length
-			return (nbItems > 0) ? this.notifications[0].timestamp : null
+			const nbItems = this.activities.length
+			return (nbItems > 0) ? this.activities[0].datetime : null
 		},
 		lastMoment() {
-			return moment.unix(this.lastDate)
+			return moment(this.lastDate)
+		},
+		lastActivityId() {
+			const nbItems = this.activities.length
+			return (nbItems > 0) ? this.activities[0].activity_id : 0
 		},
 	},
 
 	beforeMount() {
-		this.fetchNotifications()
-		this.loop = setInterval(() => this.fetchNotifications(), 60000)
+		this.loadActivity()
+		this.loop = setInterval(() => this.loadActivity(), 60000)
 	},
 
 	mounted() {
 	},
 
 	methods: {
-		fetchNotifications() {
-			const req = {}
-			if (this.lastDate) {
-				req.params = {
-					since: this.lastDate,
-				}
-			}
-			axios.get(generateUrl('/apps/cospend/bill-activity'), req).then((response) => {
-				this.processNotifications(response.data)
+		async loadActivity() {
+			// eslint-disable-next-line
+			const params = new URLSearchParams()
+			params.append('format', 'json')
+			params.append('limit', 50)
+
+			try {
+				const response = await axios.get(generateOcsUrl('apps/activity/api/v2/activity') + 'cospend' + '?' + params)
+				this.processActivities(response.data.ocs.data)
 				this.state = 'ok'
-			}).catch((error) => {
-				clearInterval(this.loop)
-				showError(t('cospend', 'Failed to get Cospend activity.'))
+			} catch (error) {
 				this.state = 'error'
-				console.debug(error)
-			})
+			}
 		},
-		processNotifications(newNotifications) {
-			if (this.lastDate) {
+		processActivities(newActivities) {
+			if (this.lastActivityId) {
 				// just add those which are more recent than our most recent one
 				let i = 0
-				while (i < newNotifications.length && this.lastDate < newNotifications[i].timestamp) {
+				while (i < newActivities.length && this.lastActivityId < newActivities[i].activity_id) {
 					i++
 				}
 				if (i > 0) {
-					const toAdd = this.filter(newNotifications.slice(0, i))
-					this.notifications = toAdd.concat(this.notifications)
+					const toAdd = this.filterActivities(newActivities.slice(0, i))
+					this.activities = toAdd.concat(this.activities)
 				}
 			} else {
 				// first time we don't check the date
-				this.notifications = this.filter(newNotifications)
+				this.activities = this.filterActivities(newActivities)
 			}
 		},
-		filter(notifications) {
-			return notifications
+		filterActivities(activities) {
+			return activities.filter((a) => {
+				return a.user !== getCurrentUser().uid
+			})
 		},
-		getSimpleAvatarUrl(n) {
-			if (n.payer.userid) {
-				return undefined
+		getUserId(a) {
+			return a.user
+		},
+		getTarget(a) {
+			const projectId = a.subject_rich[1].project.id
+			return generateUrl('/apps/cospend?project=' + projectId)
+		},
+		getSubline(a) {
+			const projectName = a.subject_rich[1].project.name
+			let char
+			if (a.link === 'project_share') {
+				char = '🔗'
+			} else if (a.link === 'project_unshare') {
+				char = '🛇'
+			} else if (a.link === 'bill_create') {
+				char = '➕'
+			} else if (a.link === 'bill_delete') {
+				char = '🗑️'
+			} else if (a.link === 'bill_update') {
+				char = '️✏️'
 			}
-			const color = rgbObjToHex(n.payer.color).replace('#', '')
-			return generateUrl('/apps/cospend/getAvatar?color=' + color + '&name=' + encodeURIComponent(n.payer.name))
+			return char + ' ' + projectName
 		},
-		getUserId(n) {
-			if (n.payer.userid) {
-				return n.payer.userid
+		getMainText(a) {
+			if (a.link === 'project_share') {
+				const projectName = a.subject_rich[1].project.name
+				const userName = a.subject_rich[1].user.name
+				const whoName = a.subject_rich[1].who.name
+				return t('cospend', '{user} shared {project} with {who}', { user: userName, project: projectName, who: whoName })
+			} else if (a.link === 'project_unshare') {
+				const projectName = a.subject_rich[1].project.name
+				const userName = a.subject_rich[1].user.name
+				const whoName = a.subject_rich[1].who.name
+				return t('cospend', '{user} unshared {project} with {who}', { user: userName, project: projectName, who: whoName })
+			} else if (['bill_create', 'bill_delete', 'bill_update'].includes(a.link)) {
+				const userName = a.subject_rich[1].user.name
+				const billName = a.subject_rich[1].bill.name
+				if (a.link === 'bill_create') {
+					return t('cospend', '{user} created {bill}', { user: userName, bill: billName })
+				} else if (a.link === 'bill_delete') {
+					return t('cospend', '{user} deleted {bill}', { user: userName, bill: billName })
+				} else if (a.link === 'bill_update') {
+					return t('cospend', '{user} edited {bill}', { user: userName, bill: billName })
+				}
 			}
-			return undefined
-		},
-		getBillTarget(n) {
-			return generateUrl('/apps/cospend?project=' + n.project_id)
-		},
-		getSubline(n) {
-			return '[' + n.project_name + '] ' + n.payer.name
-		},
-		getFormattedDate(n) {
-			return moment(n.updated_at).format('LLL')
 		},
 	},
 }

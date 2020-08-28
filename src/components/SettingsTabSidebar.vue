@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<br>
-		<div class="renameProject">
-			<form v-if="adminAccess" @submit.prevent.stop="onRenameProject">
+		<div v-if="adminAccess" class="renameProject">
+			<form @submit.prevent.stop="onRenameProject">
 				<input
 					v-model="newProjectName"
 					:placeholder="t('cospend', 'Rename project {n}', { n: project.name })"
@@ -67,7 +67,7 @@
 				:projectId="project.id"
 				:inNavigation="false"
 				@memberEdited="onMemberEdited(member.id)" />
-			<div v-if="!pageIsPublic">
+			<div v-if="!pageIsPublic && maintenerAccess">
 				<br><hr>
 				<h3>
 					<span class="icon-user" />
@@ -232,22 +232,24 @@ export default {
 	},
 
 	mounted() {
-		this.asyncFind()
+		if (this.maintenerAccess) {
+			this.asyncFind()
 
-		const input = this.$refs.userMultiselect.$el.querySelector('input')
-		input.addEventListener('keyup', e => {
-			if (e.key === 'Enter') {
-				// trick to add member when pressing enter on NC user multiselect
-				// this.onMultiselectEnterPressed(e.target)
-			} else {
-				// add a simple user entry in multiselect when typing
-				this.updateSimpleUser(e.target.value)
-			}
-		})
-		// remove simple user when loosing focus
-		input.addEventListener('blur', e => {
-			this.updateSimpleUser(null)
-		})
+			const input = this.$refs.userMultiselect.$el.querySelector('input')
+			input.addEventListener('keyup', e => {
+				if (e.key === 'Enter') {
+					// trick to add member when pressing enter on NC user multiselect
+					// this.onMultiselectEnterPressed(e.target)
+				} else {
+					// add a simple user entry in multiselect when typing
+					this.updateSimpleUser(e.target.value)
+				}
+			})
+			// remove simple user when loosing focus
+			input.addEventListener('blur', e => {
+				this.updateSimpleUser(null)
+			})
+		}
 	},
 
 	methods: {

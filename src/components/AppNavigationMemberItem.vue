@@ -35,7 +35,7 @@
 				:size="24"
 				:disableMenu="true"
 				:disableTooltip="true"
-				:user="member.userid"
+				:user="member.userid || ''"
 				:isNoUser="!isUser"
 				:url="memberAvatar" />
 		</div>

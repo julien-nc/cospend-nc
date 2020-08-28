@@ -1003,6 +1003,8 @@ class ProjectService {
             $qb = $qb->resetQueryParts();
         }
 
+        $this->updateProjectLastChanged($projectid, $ts);
+
         return $insertedBillId;
     }
 
@@ -1021,6 +1023,9 @@ class ProjectService {
                );
             $req = $qb->execute();
             $qb = $qb->resetQueryParts();
+
+            $ts = (new \DateTime())->getTimestamp();
+            $this->updateProjectLastChanged($projectid, $ts);
 
             return 'OK';
         }
@@ -2570,6 +2575,8 @@ class ProjectService {
                 $qb = $qb->resetQueryParts();
             }
         }
+
+        $this->updateProjectLastChanged($projectid, $ts);
 
         return intval($billid);
     }
@@ -4433,5 +4440,16 @@ class ProjectService {
 
         // take 7 firsts
         return array_slice($bills, 0, 7);
+    }
+
+    private function updateProjectLastChanged(string $projectId, int $timestamp) {
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->update('cospend_projects');
+        $qb->set('lastchanged', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT));
+        $qb->where(
+            $qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+        );
+        $req = $qb->execute();
+        $qb = $qb->resetQueryParts();
     }
 }

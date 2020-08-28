@@ -43,6 +43,8 @@ function getOptionValuesSuccess(response) {
 				cospend.restoredCurrentProjectId = optionsValues[k]
 			} else if (k === 'outputDirectory') {
 				cospend.outputDirectory = optionsValues[k]
+			} else if (k === 'sortOrder') {
+				cospend.sortOrder = optionsValues[k]
 			}
 		}
 	}

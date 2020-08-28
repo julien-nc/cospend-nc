@@ -72,6 +72,15 @@
 						readonly
 						@click="onOutputDirClick">
 				</div>
+				<div id="sort-order">
+					<label for="sort-select">
+						{{ t('cospend', 'Sort projects by') }}
+					</label>
+					<select id="sort-select" v-model="sortOrder" @change="onSortOrderChange">
+						<option value="name">{{ t('cospend', 'Name') }}</option>
+						<option value="change">{{ t('cospend', 'Last activity') }}</option>
+					</select>
+				</div>
 			</AppNavigationSettings>
 		</template>
 	</AppNavigationVue>
@@ -123,13 +132,22 @@ export default {
 			creating: false,
 			outputDir: cospend.outputDirectory,
 			pageIsPublic: cospend.pageIsPublic,
+			sortOrder: cospend.sortOrder || 'name',
 		}
 	},
 	computed: {
 		sortedProjectIds() {
-			return Object.keys(this.projects).sort((a, b) => {
-				return this.projects[a].name.toLowerCase() > this.projects[b].name.toLowerCase()
-			})
+			if (this.sortOrder === 'name') {
+				return Object.keys(this.projects).sort((a, b) => {
+					return this.projects[a].name.toLowerCase() > this.projects[b].name.toLowerCase()
+				})
+			} else if (this.sortOrder === 'change') {
+				return Object.keys(this.projects).sort((a, b) => {
+					return this.projects[a].lastchanged < this.projects[b].lastchanged
+				})
+			} else {
+				return Object.keys(this.projects)
+			}
 		},
 		editionAccess() {
 			return this.selectedProjectId && this.projects[this.selectedProjectId].myaccesslevel >= constants.ACCESS.PARTICIPANT
@@ -200,6 +218,9 @@ export default {
 				'httpd/unix-directory',
 				true
 			)
+		},
+		onSortOrderChange() {
+			this.$emit('saveOption', 'sortOrder', this.sortOrder)
 		},
 		onProjectClicked(projectid) {
 			this.$emit('projectClicked', projectid)
@@ -272,5 +293,12 @@ export default {
 }
 .buttonItem {
 	border-bottom: solid 1px var(--color-border);
+}
+#sort-order label {
+	line-height: 38px;
+}
+#sort-order {
+	display: grid;
+	grid-template: 1fr / 1fr 1fr;
 }
 </style>

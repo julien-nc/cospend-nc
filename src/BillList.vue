@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { AppNavigationItem } from '@nextcloud/vue'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import BillItem from './components/BillItem'
 import { showSuccess } from '@nextcloud/dialogs'
 import cospend from './state'

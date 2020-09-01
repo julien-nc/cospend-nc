@@ -1,6 +1,6 @@
 <template>
 	<Content app-name="Cospend">
-		<AppNavigation
+		<CospendNavigation
 			:projects="projects"
 			:selectedProjectId="currentProjectId"
 			@projectClicked="onProjectClicked"
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import AppNavigation from './components/AppNavigation'
+import CospendNavigation from './components/CospendNavigation'
 import BillForm from './BillForm'
 import BillList from './BillList'
 import Statistics from './Statistics'
@@ -94,14 +94,15 @@ import {
 } from '@nextcloud/dialogs'
 import * as constants from './constants'
 import { rgbObjToHex, slugify } from './utils'
-import {
-	Content, AppContent, Actions, ActionButton,
-} from '@nextcloud/vue'
+import Content from '@nextcloud/vue/dist/Components/Content'
+import AppContent from '@nextcloud/vue/dist/Components/AppContent'
+import Actions from '@nextcloud/vue/dist/Components/Actions'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 
 export default {
 	name: 'App',
 	components: {
-		AppNavigation,
+		CospendNavigation,
 		BillList,
 		BillForm,
 		Statistics,

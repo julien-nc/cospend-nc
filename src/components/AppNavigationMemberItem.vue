@@ -119,9 +119,15 @@
 
 <script>
 import ClickOutside from 'vue-click-outside'
-import {
-	ActionButton, AppNavigationItem, ActionInput, ActionRadio, ActionSeparator, ColorPicker, Avatar,
-} from '@nextcloud/vue'
+
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
+import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
+import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator'
+import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
+import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+
 import { getCurrentUser } from '@nextcloud/auth'
 import cospend from '../state'
 import * as constants from '../constants'
@@ -313,10 +319,5 @@ export default {
 .itemAvatar {
 	margin-top: 16px;
 	margin-right: 2px;
-}
-::v-deep .action-input__label {
-	width: 34px;
-	height: 34px;
-	padding: 0;
 }
 </style>

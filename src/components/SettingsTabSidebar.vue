@@ -103,7 +103,9 @@
 </template>
 
 <script>
-import { Multiselect, AppNavigationItem } from '@nextcloud/vue'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
 import cospend from '../state'

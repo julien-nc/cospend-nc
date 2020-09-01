@@ -67,9 +67,11 @@
 </template>
 
 <script>
-import {
-	ActionButton, AppSidebar, AppSidebarTab, ActionLink,
-} from '@nextcloud/vue'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
+import AppSidebarTab from '@nextcloud/vue/dist/Components/AppSidebarTab'
+import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
+
 import { generateUrl } from '@nextcloud/router'
 import SharingTabSidebar from './SharingTabSidebar'
 import SettingsTabSidebar from './SettingsTabSidebar'

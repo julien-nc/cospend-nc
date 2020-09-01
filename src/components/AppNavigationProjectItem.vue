@@ -72,9 +72,10 @@
 <script>
 import ClickOutside from 'vue-click-outside'
 import AppNavigationMemberItem from './AppNavigationMemberItem'
-import {
-	ActionButton, AppNavigationItem,
-} from '@nextcloud/vue'
+
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+
 import cospend from '../state'
 import * as constants from '../constants'
 import { Timer } from '../utils'

@@ -210,9 +210,13 @@
 </template>
 
 <script>
-import {
-	Avatar, Multiselect, Actions, ActionButton, ActionRadio, Popover,
-} from '@nextcloud/vue'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import Actions from '@nextcloud/vue/dist/Components/Actions'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
+import Popover from '@nextcloud/vue/dist/Components/Popover'
+
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
 import {

@@ -58,7 +58,7 @@
 <script>
 import { Timer } from '../utils'
 import EmojiButton from '@joeattardi/emoji-button'
-import { ColorPicker } from '@nextcloud/vue'
+import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
 
 export default {
 	name: 'Category',

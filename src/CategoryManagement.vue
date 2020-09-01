@@ -57,7 +57,7 @@
 <script>
 import cospend from './state'
 import Category from './components/Category'
-import { ColorPicker } from '@nextcloud/vue'
+import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
 import {
 	showSuccess,
 	showError,

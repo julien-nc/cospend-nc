@@ -385,7 +385,7 @@ import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 // eslint-disable-next-line
 import { getLocale } from '@nextcloud/l10n'
-import { DatetimePicker } from '@nextcloud/vue'
+import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
 import {
 	showSuccess,
 	showError,

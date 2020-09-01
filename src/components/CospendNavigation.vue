@@ -1,5 +1,5 @@
 <template>
-	<AppNavigationVue>
+	<AppNavigation>
 		<template slot="list">
 			<div v-if="!pageIsPublic">
 				<AppNavigationItem v-if="!creating"
@@ -83,16 +83,19 @@
 				</div>
 			</AppNavigationSettings>
 		</template>
-	</AppNavigationVue>
+	</AppNavigation>
 </template>
 
 <script>
 import ClickOutside from 'vue-click-outside'
 import AppNavigationProjectItem from './AppNavigationProjectItem'
-import {
-	ActionButton, AppNavigation as AppNavigationVue,
-	AppNavigationSettings, AppNavigationItem, Actions,
-} from '@nextcloud/vue'
+
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
+import AppNavigationSettings from '@nextcloud/vue/dist/Components/AppNavigationSettings'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import Actions from '@nextcloud/vue/dist/Components/Actions'
+
 import { generateUrl } from '@nextcloud/router'
 import cospend from '../state'
 import * as constants from '../constants'
@@ -103,10 +106,10 @@ import {
 import * as network from '../network'
 
 export default {
-	name: 'AppNavigation',
+	name: 'CospendNavigation',
 	components: {
 		AppNavigationProjectItem,
-		AppNavigationVue,
+		AppNavigation,
 		AppNavigationItem,
 		AppNavigationSettings,
 		ActionButton,

@@ -1363,7 +1363,7 @@ class ProjectService {
                 // delete member if it has no bill and we are disabling it
                 if (count($this->getBillsOfMember($projectid, $memberid)) === 0
                     && $member['activated']
-                    && $activated !== 'true'
+                    && ($activated === 'false' || $activated === false)
                 ) {
                     $qb->delete('cospend_members')
                         ->where(

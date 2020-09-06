@@ -64,6 +64,7 @@
 				:member="member"
 				:projectId="project.id"
 				:inNavigation="true"
+				:precision="precision"
 				@memberEdited="onMemberEdited" />
 		</template>
 	</AppNavigationItem>
@@ -119,6 +120,10 @@ export default {
 		},
 		adminAccess() {
 			return this.project.myaccesslevel >= constants.ACCESS.ADMIN
+		},
+		precision() {
+			// here we determine how much precision is necessary to display correct balances (#117)
+			return this.project.precision
 		},
 	},
 	beforeMount() {

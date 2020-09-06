@@ -66,6 +66,7 @@
 				:member="member"
 				:projectId="project.id"
 				:inNavigation="false"
+				:precision="precision"
 				@memberEdited="onMemberEdited(member.id)" />
 			<div v-if="!pageIsPublic && maintenerAccess">
 				<br><hr>
@@ -167,6 +168,9 @@ export default {
 		},
 		projectId() {
 			return this.project.id
+		},
+		precision() {
+			return this.project.precision
 		},
 		isCurrentUser() {
 			return (uid) => uid === getCurrentUser().uid

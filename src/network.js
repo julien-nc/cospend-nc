@@ -175,9 +175,12 @@ export function updateBalances(projectid, successCB) {
 			successCB(projectid, response.data)
 		})
 		.catch((error) => {
+			const msg = (error.response && error.response.request && error.response.request.responseText)
+				? error.response.request.responseText
+				: error
 			showError(
 				t('cospend', 'Failed to update balances')
-				+ ': ' + error.response.request.responseText
+				+ ': ' + msg
 			)
 		})
 }

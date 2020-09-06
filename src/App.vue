@@ -515,6 +515,17 @@ export default {
 				balance = response.balance[memberid]
 				this.$set(this.members[projectid][memberid], 'balance', balance)
 			}
+			this.updateProjectPrecision(projectid, response.balance)
+		},
+		updateProjectPrecision(projectid, balances) {
+			const balanceArray = Object.values(balances)
+			let precision = 2
+			let sum = balanceArray.reduce((a, b) => parseFloat(a.toFixed(precision)) + parseFloat(b.toFixed(precision)), 0)
+			while (sum !== 0.0 && precision <= 4) {
+				precision++
+				sum = balanceArray.reduce((a, b) => parseFloat(a.toFixed(precision)) + parseFloat(b.toFixed(precision)), 0)
+			}
+			this.$set(this.projects[projectid], 'precision', precision)
 		},
 		createMember(projectid, name, userid = null) {
 			network.createMember(projectid, name, userid, this.createMemberSuccess)

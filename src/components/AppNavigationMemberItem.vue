@@ -155,6 +155,10 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+		precision: {
+			type: Number,
+			default: 2,
+		},
 	},
 	data() {
 		return {
@@ -191,11 +195,7 @@ export default {
 			return this.member.name + ((this.member.weight !== 1.0) ? (' (x' + this.member.weight + ')') : '')
 		},
 		balanceCounter() {
-			if (this.member.balance < 0.01 && this.member.balance > -0.01) {
-				return '0.00'
-			} else {
-				return this.member.balance.toFixed(2)
-			}
+			return this.member.balance.toFixed(this.precision)
 		},
 		color() {
 			return '#' + this.member.color

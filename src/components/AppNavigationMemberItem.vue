@@ -195,7 +195,10 @@ export default {
 			return this.member.name + ((this.member.weight !== 1.0) ? (' (x' + this.member.weight + ')') : '')
 		},
 		balanceCounter() {
-			return this.member.balance.toFixed(this.precision)
+			const strVal = this.member.balance.toFixed(this.precision)
+			return parseFloat(strVal) === 0.0
+				? '0.00'
+				: strVal
 		},
 		color() {
 			return '#' + this.member.color

@@ -1206,7 +1206,7 @@ class ProjectService {
         $qb = $qb->resetQueryParts();
     }
 
-    public function autoSettlement($projectid, $centeredOn=null) {
+    public function autoSettlement($projectid, $centeredOn = null, $precision = 2) {
         $transactions = $this->getProjectSettlement($projectid, $centeredOn);
         if (!is_array($transactions)) {
             return ['message' => $this->trans->t('Error when getting project settlement transactions')];
@@ -1223,7 +1223,7 @@ class ProjectService {
         foreach ($transactions as $transaction) {
             $fromId = $transaction['from'];
             $toId = $transaction['to'];
-            $amount = floatval($transaction['amount']);
+            $amount = round(floatval($transaction['amount']), $precision);
             $billTitle = $memberIdToName[$fromId].' → '.$memberIdToName[$toId];
             $addBillResult = $this->addBill($projectid, null, $billTitle, $fromId, $toId, $amount, 'n', 'n', CAT_REIMBURSEMENT, 0, null, $ts);
             if (!is_numeric($addBillResult)) {

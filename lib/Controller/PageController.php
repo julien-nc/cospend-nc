@@ -517,9 +517,9 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webAutoSettlement($projectid, $centeredOn=null) {
+    public function webAutoSettlement($projectid, $centeredOn = null, $precision = 2) {
         if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-            $result = $this->projectService->autoSettlement($projectid, $centeredOn);
+            $result = $this->projectService->autoSettlement($projectid, $centeredOn, $precision);
             if ($result === 'OK') {
                 return new DataResponse($result);
             }
@@ -1574,13 +1574,13 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiAutoSettlement($projectid, $password, $centeredOn=null) {
+    public function apiAutoSettlement($projectid, $password, $centeredOn = null, $precision = 2) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
             ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
             or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_PARTICIPANT)
         ) {
-            $result = $this->projectService->autoSettlement($projectid, $centeredOn);
+            $result = $this->projectService->autoSettlement($projectid, $centeredOn, $precision);
             if ($result === 'OK') {
                 return new DataResponse($result);
             }
@@ -1602,9 +1602,9 @@ class PageController extends ApiController {
      * @NoCSRFRequired
      * @CORS
      */
-    public function apiPrivAutoSettlement($projectid, $centeredOn=null) {
+    public function apiPrivAutoSettlement($projectid, $centeredOn = null, $precision = 2) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
-            $result = $this->projectService->autoSettlement($projectid, $centeredOn);
+            $result = $this->projectService->autoSettlement($projectid, $centeredOn, $precision);
             if ($result === 'OK') {
                 return new DataResponse($result);
             }

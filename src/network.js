@@ -594,10 +594,11 @@ export function getSettlement(projectid, centeredOn, successCB, failCB) {
 		})
 }
 
-export function autoSettlement(projectid, centeredOn, successCB) {
+export function autoSettlement(projectid, centeredOn, precision, successCB) {
 	const req = {
 		params: {
 			centeredOn: (parseInt(centeredOn) === 0) ? null : centeredOn,
+			precision,
 		},
 	}
 	let url

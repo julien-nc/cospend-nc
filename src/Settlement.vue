@@ -155,7 +155,7 @@ export default {
 			this.autoSettlement()
 		},
 		autoSettlement() {
-			network.autoSettlement(this.projectId, this.centeredOn, this.autoSettlementSuccess)
+			network.autoSettlement(this.projectId, this.centeredOn, this.precision, this.autoSettlementSuccess)
 		},
 		autoSettlementSuccess() {
 			this.$emit('autoSettled', this.projectId)

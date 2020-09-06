@@ -10,7 +10,7 @@
 			<QRCode render="canvas"
 				:link="noPassLink"
 				:fgcolor="qrcodeColor"
-				:imageUrl="qrcodeImageUrl"
+				:image-url="qrcodeImageUrl"
 				:rounded="100" />
 		</div>
 		<label id="mbUrlLabel">{{ noPassLink }}</label>
@@ -42,7 +42,7 @@
 					render="canvas"
 					:link="passLink"
 					:fgcolor="qrcodeColor"
-					:imageUrl="qrcodeImageUrl"
+					:image-url="qrcodeImageUrl"
 					:rounded="100" />
 			</div>
 			<label id="mbPassUrlLabel">{{ passLink }}</label>

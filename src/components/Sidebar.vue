@@ -45,7 +45,7 @@
 			:icon="'icon-category-app-bundles'"
 			:order="3">
 			<CategoryManagement
-				:projectId="projectId"
+				:project-id="projectId"
 				@categoryDeleted="onCategoryDeleted" />
 		</AppSidebarTab>
 		<AppSidebarTab
@@ -54,7 +54,7 @@
 			:icon="'icon-currencies'"
 			:order="4">
 			<CurrencyManagement
-				:projectId="projectId"
+				:project-id="projectId"
 				@projectEdited="onProjectEdited" />
 		</AppSidebarTab>
 		<!--AppSidebarTab :id="'comments'" :name="'Comments'" :icon="'icon-comment'"

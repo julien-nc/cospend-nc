@@ -109,20 +109,20 @@
 			id="statsTable"
 			:data="stats.stats">
 			<thead slot="head">
-				<v-th sortKey="member.name">
+				<v-th sort-key="member.name">
 					{{ t('cospend', 'Member name') }}
 				</v-th>
-				<v-th sortKey="paid">
+				<v-th sort-key="paid">
 					{{ t('cospend', 'Paid') }}
 				</v-th>
-				<v-th sortKey="spent">
+				<v-th sort-key="spent">
 					{{ t('cospend', 'Spent') }}
 				</v-th>
 				<v-th v-if="isFiltered"
-					sortKey="filtered_balance">
+					sort-key="filtered_balance">
 					{{ t('cospend', 'Filtered balance') }}
 				</v-th>
-				<v-th sortKey="balance">
+				<v-th sort-key="balance">
 					{{ t('cospend', 'Balance') }}
 				</v-th>
 			</thead>
@@ -161,12 +161,12 @@
 			id="monthlyTable"
 			:data="monthlyMemberStats">
 			<thead slot="head">
-				<v-th sortKey="member.name">
+				<v-th sort-key="member.name">
 					{{ t('cospend', 'Member/Month') }}
 				</v-th>
 				<v-th v-for="(st, month) in stats.monthlyStats"
 					:key="month"
-					:sortKey="month">
+					:sort-key="month">
 					{{ month }}
 				</v-th>
 			</thead>
@@ -189,7 +189,7 @@
 		</v-table>
 		<div id="memberMonthlyChart">
 			<LineChartJs v-if="stats"
-				:chartData="monthlyMemberChartData"
+				:chart-data="monthlyMemberChartData"
 				:options="monthlyMemberChartOptions" />
 		</div>
 		<hr>
@@ -200,12 +200,12 @@
 			id="categoryTable"
 			:data="monthlyCategoryStats">
 			<thead slot="head">
-				<v-th sortKey="name">
+				<v-th sort-key="name">
 					{{ t('cospend', 'Category/Month') }}
 				</v-th>
 				<v-th v-for="month in categoryMonths"
 					:key="month"
-					:sortKey="month">
+					:sort-key="month">
 					{{ month }}
 				</v-th>
 			</thead>
@@ -224,19 +224,19 @@
 		</v-table>
 		<div id="categoryMonthlyChart">
 			<LineChartJs v-if="stats"
-				:chartData="monthlyCategoryChartData"
+				:chart-data="monthlyCategoryChartData"
 				:options="monthlyCategoryChartOptions" />
 		</div>
 		<hr>
 		<div id="memberChart">
 			<PieChartJs v-if="stats"
-				:chartData="memberPieData"
+				:chart-data="memberPieData"
 				:options="memberPieOptions" />
 		</div>
 		<hr>
 		<div id="categoryChart">
 			<PieChartJs v-if="stats"
-				:chartData="categoryPieData"
+				:chart-data="categoryPieData"
 				:options="categoryPieOptions" />
 		</div>
 		<hr>
@@ -253,7 +253,7 @@
 		<div id="categoryMemberChart">
 			<PieChartJs v-if="stats"
 				:catid="selectedCategoryId"
-				:chartData="categoryMemberPieData"
+				:chart-data="categoryMemberPieData"
 				:options="categoryMemberPieOptions" />
 		</div>
 		<hr>
@@ -272,7 +272,7 @@
 		</select>
 		<div id="memberPolarChart">
 			<PolarChartJs v-if="stats && (selectedMemberId !== 0)"
-				:chartData="memberPolarPieData"
+				:chart-data="memberPolarPieData"
 				:options="memberPolarPieOptions" />
 		</div>
 	</div>

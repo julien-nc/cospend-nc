@@ -2,7 +2,7 @@
 	<AppNavigationItem v-show="memberVisible"
 		class="memberItem"
 		:title="nameTitle"
-		:forceMenu="true">
+		:force-menu="true">
 		<div v-if="maintenerAccess"
 			slot="icon"
 			class="memberItemAvatar">
@@ -17,10 +17,10 @@
 				<Avatar
 					class="itemAvatar"
 					:size="24"
-					:disableMenu="true"
-					:disableTooltip="true"
+					:disable-menu="true"
+					:disable-tooltip="true"
 					:user="member.userid || ''"
-					:isNoUser="!isUser"
+					:is-no-user="!isUser"
 					:url="memberAvatar" />
 			</ColorPicker>
 		</div>
@@ -33,10 +33,10 @@
 			<Avatar
 				class="itemAvatar"
 				:size="24"
-				:disableMenu="true"
-				:disableTooltip="true"
+				:disable-menu="true"
+				:disable-tooltip="true"
 				:user="member.userid || ''"
-				:isNoUser="!isUser"
+				:is-no-user="!isUser"
 				:url="memberAvatar" />
 		</div>
 		<template v-if="inNavigation"

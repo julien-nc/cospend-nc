@@ -18,9 +18,9 @@
 		icon="icon-folder"
 		:title="project.name"
 		:class="{'selectedproject': selected}"
-		:allowCollapse="true"
+		:allow-collapse="true"
 		:open="selected"
-		:forceMenu="false"
+		:force-menu="false"
 		@click="onProjectClick">
 		<template slot="counter">
 			<ActionButton v-if="!pageIsPublic"
@@ -62,8 +62,8 @@
 				:key="member.id"
 				class="memberItem"
 				:member="member"
-				:projectId="project.id"
-				:inNavigation="true"
+				:project-id="project.id"
+				:in-navigation="true"
 				:precision="precision"
 				@memberEdited="onMemberEdited" />
 		</template>

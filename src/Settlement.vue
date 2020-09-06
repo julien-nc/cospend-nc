@@ -33,13 +33,13 @@
 			id="settlementTable"
 			:data="transactions">
 			<thead slot="head">
-				<v-th sortKey="from">
+				<v-th sort-key="from">
 					{{ t('cospend', 'Who pays?') }}
 				</v-th>
-				<v-th sortKey="to">
+				<v-th sort-key="to">
 					{{ t('cospend', 'To whom?') }}
 				</v-th>
-				<v-th sortKey="amount">
+				<v-th sort-key="amount">
 					{{ t('cospend', 'How much?') }}
 				</v-th>
 			</thead>

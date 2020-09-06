@@ -64,8 +64,8 @@
 				v-for="member in project.members"
 				:key="member.id"
 				:member="member"
-				:projectId="project.id"
-				:inNavigation="false"
+				:project-id="project.id"
+				:in-navigation="false"
 				:precision="precision"
 				@memberEdited="onMemberEdited(member.id)" />
 			<div v-if="!pageIsPublic && maintenerAccess">

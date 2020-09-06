@@ -2,7 +2,7 @@
 	<Content app-name="Cospend">
 		<CospendNavigation
 			:projects="projects"
-			:selectedProjectId="currentProjectId"
+			:selected-project-id="currentProjectId"
 			@projectClicked="onProjectClicked"
 			@deleteProject="onDeleteProject"
 			@statsClicked="onStatsClicked"
@@ -25,10 +25,10 @@
 				<BillList
 					v-if="currentProjectId"
 					:loading="billsLoading"
-					:projectId="currentProjectId"
+					:project-id="currentProjectId"
 					:bills="currentBills"
-					:selectedBillId="selectedBillId"
-					:editionAccess="editionAccess"
+					:selected-bill-id="selectedBillId"
+					:edition-access="editionAccess"
 					:mode="mode"
 					@itemClicked="onBillClicked"
 					@itemDeleted="onBillDeleted"
@@ -37,17 +37,17 @@
 					v-if="currentBill !== null && mode === 'edition'"
 					:bill="currentBill"
 					:members="currentMembers"
-					:editionAccess="editionAccess"
+					:edition-access="editionAccess"
 					@billCreated="onBillCreated"
 					@billSaved="onBillSaved"
 					@customBillsCreated="onCustomBillsCreated"
 					@persoBillsCreated="onPersoBillsCreated" />
 				<Statistics
 					v-if="mode === 'stats'"
-					:projectId="currentProjectId" />
+					:project-id="currentProjectId" />
 				<Settlement
 					v-if="mode === 'settle'"
-					:projectId="currentProjectId"
+					:project-id="currentProjectId"
 					@autoSettled="onAutoSettled" />
 			</div>
 			<Actions
@@ -60,11 +60,11 @@
 		</AppContent>
 		<Sidebar
 			v-if="currentProjectId"
-			:projectId="currentProjectId"
+			:project-id="currentProjectId"
 			:bills="currentBills"
 			:members="currentMembers"
 			:show="showSidebar"
-			:activeTab="activeSidebarTab"
+			:active-tab="activeSidebarTab"
 			@activeChanged="onActiveSidebarTabChanged"
 			@close="showSidebar = false"
 			@projectEdited="onProjectEdited"

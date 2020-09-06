@@ -22,7 +22,9 @@
 				<span class="username">
 					{{ t('cospend', 'Add public link') }}
 				</span>
-				<ActionButton class="addLinkButton" icon="icon-add" :ariaLabel="t('cospend', 'Add link')" />
+				<ActionButton class="addLinkButton"
+					icon="icon-add"
+					:aria-label="t('cospend', 'Add link')" />
 			</li>
 			<SlideXRightTransition group>
 				<li v-for="access in linkShares" :key="access.id">
@@ -35,7 +37,7 @@
 						<ActionButton slot="trigger"
 							class="copyLinkButton"
 							:icon="(linkCopied[access.id]) ? 'icon-checkmark-color' : 'icon-clippy'"
-							:ariaLabel="t('cospend', 'Copy link')"
+							:aria-label="t('cospend', 'Copy link')"
 							@click="copyLink(access)" />
 						<template>
 							{{ t('cospend', 'Copied!') }}
@@ -78,7 +80,7 @@
 				</li>
 			</SlideXRightTransition>
 			<li>
-				<Avatar :disableMenu="true" :disableTooltip="true" :user="project.userid" />
+				<Avatar :disable-menu="true" :disable-tooltip="true" :user="project.userid" />
 				<span class="has-tooltip username">
 					{{ project.userid }}
 					<span class="project-owner-label">
@@ -91,8 +93,8 @@
 					<Avatar
 						v-if="access.type==='u'"
 						:user="access.userid"
-						:disableMenu="true"
-						:disableTooltip="true" />
+						:disable-menu="true"
+						:disable-tooltip="true" />
 					<div v-if="access.type==='g'" class="avatardiv icon icon-group" />
 					<div v-if="access.type==='c'" class="avatardiv icon share-icon-circle" />
 					<span class="username">
@@ -151,7 +153,7 @@
 					<ActionButton slot="trigger"
 						class="copyLinkButton"
 						:icon="guestLinkCopied ? 'icon-checkmark-color' : 'icon-clippy'"
-						:ariaLabel="t('cospend', 'Copy link')"
+						:aria-label="t('cospend', 'Copy link')"
 						@click="copyPasswordLink" />
 					<template>
 						{{ t('cospend', 'Copied!') }}

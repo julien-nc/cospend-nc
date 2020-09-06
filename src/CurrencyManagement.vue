@@ -88,7 +88,7 @@
 						v-for="currency in currencies"
 						:key="currency.id"
 						:currency="currency"
-						:editionAccess="project.myaccesslevel >= constants.ACCESS.MAINTENER"
+						:edition-access="project.myaccesslevel >= constants.ACCESS.MAINTENER"
 						@delete="onDeleteCurrency"
 						@edit="onEditCurrency" />
 				</SlideXRightTransition>

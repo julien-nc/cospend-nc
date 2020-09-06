@@ -42,7 +42,7 @@
 						v-for="category in categories"
 						:key="category.id"
 						:category="category"
-						:editionAccess="editionAccess"
+						:edition-access="editionAccess"
 						@delete="onDeleteCategory"
 						@edit="onEditCategory" />
 				</SlideXRightTransition>

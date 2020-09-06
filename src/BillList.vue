@@ -20,11 +20,11 @@
 				v-for="(bill, index) in reverseBills"
 				:key="bill.id"
 				:bill="bill"
-				:projectId="projectId"
+				:project-id="projectId"
 				:index="nbBills - index"
 				:nbbills="nbBills"
 				:selected="bill.id === selectedBillId"
-				:editionAccess="editionAccess"
+				:edition-access="editionAccess"
 				@clicked="onItemClicked"
 				@delete="onItemDeleted" />
 		</SlideXRightTransition>

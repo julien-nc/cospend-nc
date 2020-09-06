@@ -77,8 +77,12 @@
 						{{ t('cospend', 'Sort projects by') }}
 					</label>
 					<select id="sort-select" v-model="sortOrder" @change="onSortOrderChange">
-						<option value="name">{{ t('cospend', 'Name') }}</option>
-						<option value="change">{{ t('cospend', 'Last activity') }}</option>
+						<option value="name">
+							{{ t('cospend', 'Name') }}
+						</option>
+						<option value="change">
+							{{ t('cospend', 'Last activity') }}
+						</option>
 					</select>
 				</div>
 			</AppNavigationSettings>

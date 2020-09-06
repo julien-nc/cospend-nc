@@ -1373,10 +1373,14 @@ class ProjectService {
                     $qb = $qb->resetQueryParts();
                     return [];
                 }
-                $qb->update('cospend_members');
+                // get existing member with this name
+                $memberWithSameName = $this->getMemberByName($projectid, $name);
                 if (strpos($name, '/') !== false) {
                     return ['name' => $this->trans->t('Invalid member name')];
+                } elseif ($memberWithSameName && $memberWithSameName['id'] !== $memberid) {
+                    return ['name' => $this->trans->t('Name already exists')];
                 }
+                $qb->update('cospend_members');
                 if ($weight !== null && $weight !== '') {
                     if (is_numeric($weight) and floatval($weight) > 0.0) {
                         $newWeight = floatval($weight);

@@ -133,6 +133,7 @@ import cospend from '../state'
 import * as constants from '../constants'
 import * as network from '../network'
 import { getSmartMemberName, getMemberAvatar, delay } from '../utils'
+import { showError } from '@nextcloud/dialogs'
 
 export default {
 	name: 'AppNavigationMemberItem',
@@ -252,6 +253,15 @@ export default {
 		},
 		onNameSubmit() {
 			const newName = this.$refs.nameInput.$el.querySelector('input[type="text"]').value
+			// check if name already exists
+			const members = cospend.projects[this.projectId].members
+			for (const mid in members) {
+				if (members[mid].name === newName && parseInt(mid) !== this.member.id) {
+					showError(t('cospend', 'A member is already named like that.'))
+					return
+				}
+			}
+
 			this.member.name = newName
 			this.member.userid = null
 			this.$emit('memberEdited', this.projectId, this.member.id)

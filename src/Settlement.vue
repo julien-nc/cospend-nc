@@ -57,7 +57,7 @@
 						</div>
 						{{ myGetSmartMemberName(project.id, value.to) }}
 					</td>
-					<td>{{ value.amount.toFixed(2) }}</td>
+					<td>{{ value.amount.toFixed(precision) }}</td>
 				</tr>
 			</tbody>
 		</v-table>
@@ -102,6 +102,9 @@ export default {
 		},
 		editionAccess() {
 			return (this.project.myaccesslevel >= constants.ACCESS.PARTICIPANT)
+		},
+		precision() {
+			return this.project.precision || 2
 		},
 	},
 

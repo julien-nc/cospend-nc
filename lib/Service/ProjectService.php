@@ -1247,13 +1247,13 @@ class ProjectService {
         $transactions = [];
         foreach ($balances as $memberId => $balance) {
             if ($memberId !== $centeredOn) {
-                if ($balance >= 0.01) {
+                if ($balance > 0.0) {
                     array_push($transactions, [
                         'from' => $centeredOn,
                         'to' => $memberId,
                         'amount' => $balance
                     ]);
-                } else if ($balance <= -0.01) {
+                } else if ($balance < 0.0) {
                     array_push($transactions, [
                         'from' => $memberId,
                         'to' => $centeredOn,

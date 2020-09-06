@@ -596,7 +596,7 @@ export default {
 		}
 	}*/
 .content-buttons {
-	position: absolute;
+	position: absolute !important;
 	top: 0px;
 	right: 8px;
 }

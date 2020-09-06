@@ -1377,7 +1377,7 @@ class ProjectService {
                 $memberWithSameName = $this->getMemberByName($projectid, $name);
                 if (strpos($name, '/') !== false) {
                     return ['name' => $this->trans->t('Invalid member name')];
-                } elseif ($memberWithSameName && $memberWithSameName['id'] !== $memberid) {
+                } elseif ($memberWithSameName && $memberWithSameName['id'] !== intval($memberid)) {
                     return ['name' => $this->trans->t('Name already exists')];
                 }
                 $qb->update('cospend_members');

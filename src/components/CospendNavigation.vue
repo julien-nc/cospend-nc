@@ -85,6 +85,18 @@
 						</option>
 					</select>
 				</div>
+				<div id="max-precision">
+					<label for="precision">
+						{{ t('cospend', 'Maximum precision') }}
+					</label>
+					<input id="precision"
+						v-model.number="maxPrecision"
+						type="number"
+						min="2"
+						max="10"
+						step="1"
+						@input="onMaxPrecisionChange">
+				</div>
 			</AppNavigationSettings>
 		</template>
 	</AppNavigation>
@@ -140,6 +152,7 @@ export default {
 			outputDir: cospend.outputDirectory,
 			pageIsPublic: cospend.pageIsPublic,
 			sortOrder: cospend.sortOrder || 'name',
+			maxPrecision: cospend.maxPrecision || 2,
 		}
 	},
 	computed: {
@@ -229,6 +242,9 @@ export default {
 		onSortOrderChange() {
 			this.$emit('saveOption', 'sortOrder', this.sortOrder)
 		},
+		onMaxPrecisionChange() {
+			this.$emit('saveOption', 'maxPrecision', this.maxPrecision)
+		},
 		onProjectClicked(projectid) {
 			this.$emit('projectClicked', projectid)
 		},
@@ -301,9 +317,12 @@ export default {
 .buttonItem {
 	border-bottom: solid 1px var(--color-border);
 }
+#max-precision label,
 #sort-order label {
 	line-height: 38px;
+	padding-left: 15px;
 }
+#max-precision,
 #sort-order {
 	display: grid;
 	grid-template: 1fr / 1fr 1fr;

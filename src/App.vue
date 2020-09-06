@@ -519,12 +519,12 @@ export default {
 		},
 		updateProjectPrecision(projectid, balances) {
 			const balanceArray = Object.values(balances)
-			let precision = 2
-			let sum = balanceArray.reduce((a, b) => parseFloat(a.toFixed(precision)) + parseFloat(b.toFixed(precision)), 0)
-			while (sum !== 0.0 && precision <= 4) {
+			let precision = 1
+			let sum
+			do {
 				precision++
 				sum = balanceArray.reduce((a, b) => parseFloat(a.toFixed(precision)) + parseFloat(b.toFixed(precision)), 0)
-			}
+			} while (sum !== 0.0 && precision < cospend.maxPrecision)
 			this.$set(this.projects[projectid], 'precision', precision)
 		},
 		createMember(projectid, name, userid = null) {

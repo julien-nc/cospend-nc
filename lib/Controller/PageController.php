@@ -560,7 +560,9 @@ class PageController extends ApiController {
     public function webEditMember($projectid, $memberid, $name, $weight, $activated, $color=null, $userid=null) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->editMember($projectid, $memberid, $name, $userid, $weight, $activated, $color);
-            if (is_array($result) and array_key_exists('activated', $result)) {
+            if (count($result) === 0) {
+                return new DataResponse(null);
+            } elseif (array_key_exists('activated', $result)) {
                 return new DataResponse($result);
             }
             else {
@@ -1436,7 +1438,9 @@ class PageController extends ApiController {
             or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
         ) {
             $result = $this->projectService->editMember($projectid, $memberid, $name, $userid, $weight, $activated, $color);
-            if (is_array($result) and array_key_exists('activated', $result)) {
+            if (count($result) === 0) {
+                return new DataResponse(null);
+            } elseif (array_key_exists('activated', $result)) {
                 return new DataResponse($result);
             }
             else {
@@ -1460,7 +1464,9 @@ class PageController extends ApiController {
     public function apiPrivEditMember($projectid, $memberid, $name, $weight, $activated, $color=null, $userid=null) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->editMember($projectid, $memberid, $name, $userid, $weight, $activated, $color);
-            if (is_array($result) and array_key_exists('activated', $result)) {
+            if (count($result) === 0) {
+                return new DataResponse(null);
+            } elseif (array_key_exists('activated', $result)) {
                 return new DataResponse($result);
             }
             else {

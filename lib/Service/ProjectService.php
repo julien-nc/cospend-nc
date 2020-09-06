@@ -1355,10 +1355,24 @@ class ProjectService {
         return $res;
     }
 
-    public function editMember($projectid, $memberid, $name, $userid, $weight, $activated, $color=null) {
+    public function editMember($projectid, $memberid, $name, $userid, $weight, $activated, $color=null): array {
         if ($name !== null && $name !== '') {
-            if ($this->getMemberById($projectid, $memberid) !== null) {
+            $member = $this->getMemberById($projectid, $memberid);
+            if ($member !== null) {
                 $qb = $this->dbconnection->getQueryBuilder();
+                // delete member if it has no bill and we are disabling it
+                if (count($this->getBillsOfMember($projectid, $memberid)) === 0
+                    && $member['activated']
+                    && $activated !== 'true'
+                ) {
+                    $qb->delete('cospend_members')
+                        ->where(
+                            $qb->expr()->eq('id', $qb->createNamedParameter($memberid, IQueryBuilder::PARAM_INT))
+                        );
+                    $req = $qb->execute();
+                    $qb = $qb->resetQueryParts();
+                    return [];
+                }
                 $qb->update('cospend_members');
                 if (strpos($name, '/') !== false) {
                     return ['name' => $this->trans->t('Invalid member name')];
@@ -2347,8 +2361,15 @@ class ProjectService {
     public function deleteMember($projectid, $memberid) {
         $memberToDelete = $this->getMemberById($projectid, $memberid);
         if ($memberToDelete !== null) {
-            if ($memberToDelete['activated']) {
-                $qb = $this->dbconnection->getQueryBuilder();
+            $qb = $this->dbconnection->getQueryBuilder();
+            if (count($this->getBillsOfMember($projectid, $memberid)) === 0) {
+                $qb->delete('cospend_members')
+                    ->where(
+                        $qb->expr()->eq('id', $qb->createNamedParameter($memberid, IQueryBuilder::PARAM_INT))
+                    );
+                $req = $qb->execute();
+                $qb = $qb->resetQueryParts();
+            } elseif ($memberToDelete['activated']) {
                 $qb->update('cospend_members');
                 $qb->set('activated', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT));
                 $qb->where(
@@ -2365,6 +2386,27 @@ class ProjectService {
         else {
             return ['Not Found'];
         }
+    }
+
+    private function getBillsOfMember(string $projectid, int $memberid): array {
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select('bi.id')
+            ->from('cospend_bill_owers', 'bo')
+            ->innerJoin('bo', 'cospend_bills', 'bi', $qb->expr()->eq('bo.billid', 'bi.id'))
+            ->innerJoin('bo', 'cospend_members', 'm', $qb->expr()->eq('bo.memberid', 'm.id'))
+            ->where(
+                $qb->expr()->eq('bi.payerid', $qb->createNamedParameter($memberid, IQueryBuilder::PARAM_INT))
+            )
+            ->orWhere(
+                $qb->expr()->eq('bo.memberid', $qb->createNamedParameter($memberid, IQueryBuilder::PARAM_INT))
+            );
+        $req = $qb->execute();
+
+        $billIds = [];
+        while ($row = $req->fetch()) {
+            array_push($billIds, $row['id']);
+        }
+        return $billIds;
     }
 
     public function getMemberByName($projectId, $name) {

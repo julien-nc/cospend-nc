@@ -227,7 +227,7 @@ export function editMember(projectid, member, successCB) {
 	}
 	axios.put(url, req)
 		.then((response) => {
-			successCB()
+			successCB(projectid, memberid, response.data)
 		})
 		.catch((error) => {
 			showError(

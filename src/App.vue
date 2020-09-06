@@ -541,9 +541,19 @@ export default {
 			const member = this.members[projectid][memberid]
 			network.editMember(projectid, member, this.editMemberSuccess)
 		},
-		editMemberSuccess() {
-			showSuccess(t('cospend', 'Member saved.'))
-			this.updateBalances(cospend.currentProjectId)
+		editMemberSuccess(projectid, memberid, member) {
+			if (!member) {
+				// delete member
+				this.$delete(this.members[projectid], memberid)
+				const i = this.projects[projectid].members.findIndex((m) => m.id === memberid)
+				if (i !== -1) {
+					this.projects[projectid].members.splice(i, 1)
+				}
+				showSuccess(t('cospend', 'Member deleted.'))
+			} else {
+				showSuccess(t('cospend', 'Member saved.'))
+				this.updateBalances(cospend.currentProjectId)
+			}
 		},
 		editProject(projectid, password = null) {
 			const project = this.projects[projectid]

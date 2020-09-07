@@ -244,6 +244,7 @@ export default {
 		},
 		onMaxPrecisionChange() {
 			this.$emit('saveOption', 'maxPrecision', this.maxPrecision)
+			cospend.maxPrecision = this.maxPrecision
 		},
 		onProjectClicked(projectid) {
 			this.$emit('projectClicked', projectid)

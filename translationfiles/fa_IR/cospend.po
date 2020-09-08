@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-07-18 14:13+0200\n"
-"PO-Revision-Date: 2020-07-18 12:14\n"
+"POT-Creation-Date: 2020-09-06 18:52+0200\n"
+"PO-Revision-Date: 2020-09-06 16:56\n"
 "Last-Translator: \n"
 "Language-Team: Persian\n"
 "Language: fa_IR\n"
@@ -17,1611 +17,1661 @@ msgstr ""
 "X-Crowdin-File: /master/translationfiles/templates/cospend.pot\n"
 "X-Crowdin-File-ID: 60\n"
 
-#: /var/www/html/n19/apps/cospend/appinfo/app.php:40
-#: /var/www/html/n19/apps/cospend/lib/Activity/Filter.php:55
-#: /var/www/html/n19/apps/cospend/lib/Notification/Notifier.php:65
-#: /var/www/html/n19/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:2
-#: /var/www/html/n19/apps/cospend/templates/admin.php:7
-msgid "Cospend"
-msgstr "Cospend"
-
-#: /var/www/html/n19/apps/cospend/lib/Activity/ActivityManager.php:87
+#: /var/www/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:87
 msgid "You have created a new bill {bill} in project {project}"
 msgstr "شما یک رسید تازه {bill} در پروژه {project} ساختید"
 
-#: /var/www/html/n19/apps/cospend/lib/Activity/ActivityManager.php:87
+#: /var/www/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:87
 msgid "{user} has created a new bill {bill} in project {project}"
 msgstr "{user} یک رسید تازه {bill} در پروژه {project} ساخت"
 
-#: /var/www/html/n19/apps/cospend/lib/Activity/ActivityManager.php:90
+#: /var/www/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:90
 msgid "You have deleted the bill {bill} of project {project}"
 msgstr "شما رسید {bill} پروژه {project} را حذف کردید"
 
-#: /var/www/html/n19/apps/cospend/lib/Activity/ActivityManager.php:90
+#: /var/www/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:90
 msgid "{user} has deleted the bill {bill} of project {project}"
 msgstr "{user} رسید {bill} پروژه {project} را حذف کرد"
 
-#: /var/www/html/n19/apps/cospend/lib/Activity/ActivityManager.php:93
+#: /var/www/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:93
 msgid "You have shared the project {project} with {who}"
 msgstr "شما پروژه {project} را با {who} به اشتراک گذاشتید"
 
-#: /var/www/html/n19/apps/cospend/lib/Activity/ActivityManager.php:93
+#: /var/www/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:93
 msgid "{user} has shared the project {project} with {who}"
 msgstr "{user} پروژه {project} را با {who} به اشتراک گذاشت"
 
-#: /var/www/html/n19/apps/cospend/lib/Activity/ActivityManager.php:96
+#: /var/www/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:96
 msgid "You have removed {who} from the project {project}"
 msgstr "شما {who} را از پروژه {project} حذف کردید"
 
-#: /var/www/html/n19/apps/cospend/lib/Activity/ActivityManager.php:96
+#: /var/www/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:96
 msgid "{user} has removed {who} from the project {project}"
 msgstr "{user} ،{who} را از پروژه {project} حذف کرد"
 
-#: /var/www/html/n19/apps/cospend/lib/Activity/ActivityManager.php:99
+#: /var/www/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:99
 msgid "You have updated the bill {bill} of project {project}"
 msgstr "شما رسید {bill} پروژه {project} را به‌روز کردید"
 
-#: /var/www/html/n19/apps/cospend/lib/Activity/ActivityManager.php:99
+#: /var/www/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:99
 msgid "{user} has updated the bill {bill} of project {project}"
 msgstr "{user} رسید {bill} پروژه {project} را به‌روز کرد"
 
-#: /var/www/html/n19/apps/cospend/lib/Activity/ActivityManager.php:163
+#: /var/www/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:163
 msgid "A guest user"
 msgstr "کاربر مهمان"
 
-#: /var/www/html/n19/apps/cospend/lib/Activity/BillSetting.php:42
+#: /var/www/html/dev/server/apps/cospend/lib/Activity/BillSetting.php:42
 msgid "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted"
 msgstr "یک <strong>رسید</strong> درون برنامه Cospend به‎روز/ساخته/حذف شد"
 
-#: /var/www/html/n19/apps/cospend/lib/Activity/CospendProvider.php:234
-#: /var/www/html/n19/apps/cospend/lib/Activity/CospendProvider.php:245
+#: /var/www/html/dev/server/apps/cospend/lib/Activity/CospendProvider.php:236
+#: /var/www/html/dev/server/apps/cospend/lib/Activity/CospendProvider.php:247
 #, php-format
 msgid "circle %1$s"
 msgstr "حلقه %1$s"
 
-#: /var/www/html/n19/apps/cospend/lib/Activity/Setting.php:54
+#: /var/www/html/dev/server/apps/cospend/lib/Activity/Filter.php:55
+#: /var/www/html/dev/server/apps/cospend/lib/AppInfo/Application.php:65
+#: /var/www/html/dev/server/apps/cospend/lib/Notification/Notifier.php:65
+#: /var/www/html/dev/server/apps/cospend/lib/Search/CospendSearchProvider.php:80
+#: /var/www/html/dev/server/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:2
+#: /var/www/html/dev/server/apps/cospend/templates/admin.php:7
+msgid "Cospend"
+msgstr "Cospend"
+
+#: /var/www/html/dev/server/apps/cospend/lib/Activity/Setting.php:54
 msgid "Changes in the <strong>Cospend app</strong>"
 msgstr "تغییرات در <strong>Cospend app</strong>"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:170
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:199
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:227
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:258
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:280
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:311
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:335
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:170
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:199
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:227
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:258
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:280
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:311
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:335
 msgid "Cospend public access"
 msgstr "دسترسی عمومی Cospend"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:171
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:200
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:171
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:200
 #, php-format
 msgid "Enter password of project %s"
 msgstr "گذرواژه پروژه %s را وارد کنید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:228
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:228
 msgid "Enter project id and password"
 msgstr "شناسه پروژه و گذرواژه را وارد کنید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:259
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:312
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:259
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:312
 #, php-format
 msgid "Project %s"
 msgstr "پروژه %s"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:281
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:336
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2466
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2470
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2474
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4042
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4046
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4050
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4218
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4222
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4226
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:281
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:336
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2466
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2470
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2474
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4058
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4062
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4066
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4234
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4238
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4242
 msgid "Access denied"
 msgstr "دسترسی رد شد"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:418
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:418
 msgid "You are not allowed to delete this project"
 msgstr "شما مجاز به حذف این پروژه نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:450
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:450
 msgid "You are not allowed to delete this bill"
 msgstr "شما مجاز به حذف این رسید نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:469
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:469
 msgid "You are not allowed to get this project's info"
 msgstr "شما مجاز به دریافت اطلاعات این پروژه نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:491
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:491
 msgid "You are not allowed to get this project's statistics"
 msgstr "شما مجاز به دریافت آمار این پروژه نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:509
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:509
 msgid "You are not allowed to get this project's settlement"
 msgstr "شما مجاز به دریافت تسویه حساب این پروژه نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:532
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:532
 msgid "You are not allowed to settle this project automatically"
 msgstr "شما مجاز به تسویه حساب خودکار این پروژه نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:549
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:549
 msgid "You are not allowed to access this project"
 msgstr "شما مجاز به دسترسی به این پروژه نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:572
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:572
 msgid "You are not allowed to edit this member"
 msgstr "شما اجازه ویرایش این عضو را ندارید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:608
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1207
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:608
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1207
 msgid "You are not allowed to edit this bill"
 msgstr "شما مجاز به ویرایش این رسید نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:631
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2262
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2355
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2402
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:631
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2262
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2355
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2402
 msgid "You are not allowed to edit this project"
 msgstr "شما مجاز به ویرایش این پروژه نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:665
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1133
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1167
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:665
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1133
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1167
 msgid "You are not allowed to add bills"
 msgstr "شما مجاز به افزودن رسید نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:688
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1041
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1070
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1094
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:688
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1041
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1070
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1094
 msgid "You are not allowed to add members"
 msgstr "شما مجاز به افزودن اعضا نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:707
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:707
 msgid "You are not allowed to get the bill list"
 msgstr "شما مجاز به دریافت فهرست رسید نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:761
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:761
 msgid "Anonymous project creation is not allowed on this server"
 msgstr "ایجاد پروژه ناشناس در این سرور مجاز نیست"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:804
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:833
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:804
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:833
 msgid "Project not found"
 msgstr "پروژه یافت نشد"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:812
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:812
 msgid "Bad password or public link"
 msgstr "گذرواژه بد یا نشانی عمومی است"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:841
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:870
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:894
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:916
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:936
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:958
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:984
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1012
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1242
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1280
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1313
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1342
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1366
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1395
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1419
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1448
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1472
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1498
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1522
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1544
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1564
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1593
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1617
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:841
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:870
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:894
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:916
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:936
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:958
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:984
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1012
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1242
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1280
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1313
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1342
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1366
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1395
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1419
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1448
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1472
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1498
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1522
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1544
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1564
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1593
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1617
 msgid "Unauthorized action"
 msgstr "اقدام غیرمجاز"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1723
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1723
 msgid "You are not allowed to give such shared access level"
 msgstr "شما مجاز به دادن چنین سطح دسترسی اشتراکی نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1746
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1761
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1746
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1761
 msgid "You are not allowed to edit guest access level"
 msgstr "شما مجاز به ویرایش سطح دسترسی مهمان نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1808
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1838
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1863
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1885
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1914
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1938
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1960
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:1989
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2013
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1808
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1838
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1863
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1885
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1914
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1938
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1960
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1989
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2013
 msgid "You are not allowed to manage categories"
 msgstr "شما مجاز به مدیریت دسته‌بندی‌ها نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2035
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2065
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2090
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2112
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2141
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2165
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2187
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2216
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2240
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2035
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2065
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2090
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2112
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2141
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2165
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2187
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2216
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2240
 msgid "You are not allowed to manage currencies"
 msgstr "شما مجاز به مدیریت واحدهای پولی نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2287
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2333
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2380
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2427
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2287
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2333
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2380
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2427
 msgid "You are not allowed to remove this shared access"
 msgstr "شما مجاز به حذف این دسترسی مشترک نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2309
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2309
 msgid "You are not allowed to add public shared accesses"
 msgstr "شما مجاز به افزودن دسترسی‌های مشترک عمومی نیست"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2494
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2494
 msgid "You are not allowed to export this project settlement"
 msgstr "شما مجاز به برون‌بری تسویه حساب این پروژه نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2519
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2519
 msgid "You are not allowed to export this project statistics"
 msgstr "شما مجاز به برون‌بری آمار این پروژه نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Controller/PageController.php:2546
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2546
 msgid "You are not allowed to export this project"
 msgstr "شما مجاز به برون‌بری این پروژه نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Migration/Version000406Date20200426154317.php:92
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:208
+#: /var/www/html/dev/server/apps/cospend/lib/Dashboard/CospendWidget.php:52
+msgid "Cospend activity"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:92
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:208
 msgid "Grocery"
 msgstr "خواربار"
 
-#: /var/www/html/n19/apps/cospend/lib/Migration/Version000406Date20200426154317.php:93
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:209
+#: /var/www/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:93
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:209
 msgid "Bar/Party"
 msgstr "بار/مهمانی"
 
-#: /var/www/html/n19/apps/cospend/lib/Migration/Version000406Date20200426154317.php:94
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:210
+#: /var/www/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:94
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:210
 msgid "Rent"
 msgstr "اجاره"
 
-#: /var/www/html/n19/apps/cospend/lib/Migration/Version000406Date20200426154317.php:95
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:211
+#: /var/www/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:95
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:211
 msgid "Bill"
 msgstr "رسید"
 
-#: /var/www/html/n19/apps/cospend/lib/Migration/Version000406Date20200426154317.php:96
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:212
+#: /var/www/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:96
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:212
 msgid "Excursion/Culture"
 msgstr "گشت و گذار/ فرهنگ"
 
-#: /var/www/html/n19/apps/cospend/lib/Migration/Version000406Date20200426154317.php:97
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:213
+#: /var/www/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:97
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:213
 msgid "Health"
 msgstr "بهداشت و درمان"
 
-#: /var/www/html/n19/apps/cospend/lib/Migration/Version000406Date20200426154317.php:98
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:214
+#: /var/www/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:98
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:214
 msgid "Shopping"
 msgstr "خرید"
 
-#: /var/www/html/n19/apps/cospend/lib/Migration/Version000406Date20200426154317.php:100
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:215
+#: /var/www/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:100
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:215
 msgid "Restaurant"
 msgstr "رستوران"
 
-#: /var/www/html/n19/apps/cospend/lib/Migration/Version000406Date20200426154317.php:101
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:216
+#: /var/www/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:101
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:216
 msgid "Accommodation"
 msgstr "اسکان"
 
-#: /var/www/html/n19/apps/cospend/lib/Migration/Version000406Date20200426154317.php:102
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:217
+#: /var/www/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:102
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:217
 msgid "Transport"
 msgstr "حمل و نقل"
 
-#: /var/www/html/n19/apps/cospend/lib/Migration/Version000406Date20200426154317.php:103
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:218
+#: /var/www/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:103
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:218
 msgid "Sport"
 msgstr "ورزشی"
 
-#: /var/www/html/n19/apps/cospend/lib/Notification/Notifier.php:86
+#: /var/www/html/dev/server/apps/cospend/lib/Notification/Notifier.php:86
 #, php-format
 msgid "User \"%s\" shared Cospend project \"%s\" with you."
 msgstr "کاربر \"%s\" پروژه \"%s\" را با شما به اشتراک گذاشت."
 
-#: /var/www/html/n19/apps/cospend/lib/Notification/Notifier.php:94
+#: /var/www/html/dev/server/apps/cospend/lib/Notification/Notifier.php:94
 #, php-format
 msgid "User \"%s\" stopped sharing Cospend project \"%s\" with you."
 msgstr "کاربر \"%s\" هم‌رسانی پروژه \"%s\" با شما را متوقف کرد."
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:248
-#: /var/www/html/n19/apps/cospend/src/constants.js:18
+#: /var/www/html/dev/server/apps/cospend/lib/Search/CospendSearchProvider.php:162
+#, php-format
+msgid "In project %1$s"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:248
+#: /var/www/html/dev/server/apps/cospend/src/constants.js:18
 msgid "Reimbursement"
 msgstr "بازپرداخت"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:494
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:494
 msgid "Invalid project id"
 msgstr "شناسه پروژه نامعتبر است"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:536
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:536
 #, php-format
 msgid "A project with id \"%1$s\" already exists"
 msgstr "یک پروژه با شناسه \"%1$s\" از قبل وجود دارد"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:601
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:1028
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:601
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1033
 msgid "Not Found"
 msgstr "یافت نشد"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:815
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:815
 msgid "Average per month"
 msgstr "متوسط ​​در هر ماه"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:918
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:921
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:959
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:963
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:2464
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:2491
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:2500
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:2521
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:2526
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:918
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:921
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:959
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:963
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2482
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2509
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2518
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2539
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2544
 msgid "Invalid value"
 msgstr "مقدار نامعتبر است"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:932
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:932
 msgid "Timestamp (or date) field is required"
 msgstr "بخش زمان (یا تاریخ) الزامی است"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:937
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:937
 msgid "Invalid date"
 msgstr "تاریخ نامعتبر است"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:945
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:945
 msgid "This field is invalid"
 msgstr "این بخش نامعتبر است"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:948
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:951
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:1411
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:948
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:951
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1416
 msgid "This field is required"
 msgstr "این بخش الزامی است"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:954
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:966
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:2509
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:2529
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:954
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:966
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2527
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2547
 msgid "Not a valid choice"
 msgstr "انتخاب معتبری نمی‌باشد"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:1207
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1212
 msgid "Error when getting project settlement transactions"
 msgstr "خطا هنگام دریافت معاملات تسویه حساب پروژه"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:1225
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1230
 msgid "Error when adding a bill"
 msgstr "خطا هنگام افزودن رسید"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:1359
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:1468
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1364
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1473
 msgid "Invalid member name"
 msgstr "نام عضو نامعتبر است"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:1367
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1372
 msgid "Not a valid decimal value"
 msgstr "یک مقدار اعشاری معتبر نیست"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:1407
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1412
 msgid "This project have no such member"
 msgstr "این پروژه چنین عضوی ندارد"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:1417
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:1508
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1422
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1513
 msgid "Name field is required"
 msgstr "بخش نام الزامی است"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:1429
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1434
 msgid "Invalid email address"
 msgstr "نشانی ایمیل نامعتبر است"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:1460
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1465
 msgid "There is no such project"
 msgstr "چنین پروژه‌ای وجود ندارد"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:1476
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1481
 msgid "Weight is not a valid decimal value"
 msgstr "وزن یک مقدار اعشاری معتبر نیست"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:1480
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1485
 msgid "Active is not a valid integer value"
 msgstr "فعال یک مقدار عدد صحیح معتبر نیست"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:1504
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1509
 msgid "This project already has this member"
 msgstr "پروژه از قبل این عضو را دارد"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:2451
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2469
 msgid "There is no such bill"
 msgstr "چنین رسیدی وجود ندارد"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:2455
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2473
 msgid "\"What\" field is invalid"
 msgstr "بخش \"چه چیزی\" نامعتبر است"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:2864
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:2969
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2883
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2987
 msgid "Not found"
 msgstr "یافت نشد"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:2894
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2913
 msgid "This project have no such category"
 msgstr "این پروژه چنین دسته‌بندی ندارد"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:2898
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:2998
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2917
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3016
 msgid "Incorrect field values"
 msgstr "مقادیر بخش نادرست است"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:2994
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3012
 msgid "This project have no such currency"
 msgstr "این پروژه چنین واحد پولی ندارد"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3088
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3106
 msgid "You are not authorized to give such access level"
-msgstr ""
+msgstr "شما مجاز به اعطای چنین سطح دسترسی نیستید"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3091
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3109
 msgid "Already shared with this user"
 msgstr "قبلا با این کاربر هم‌رسانی شده است"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3094
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3112
 msgid "Impossible to share the project with its owner"
 msgstr "هم‌رسانی پروژه با صاحبش ناممکن است"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3097
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3115
 msgid "No such user"
 msgstr "چنین کاربری وجود ندارد"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3192
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3292
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3497
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3633
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3210
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3310
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3514
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3649
 msgid "No such share"
 msgstr "چنین هم‌رسانی وجود ندارد"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3374
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3392
 msgid "No such shared access"
 msgstr "چنین نشانی هم‌رسانی شده‌ای وجود ندارد"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3436
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3453
 msgid "Already shared with this group"
 msgstr "قبلا با این گروه هم‌رسانی شده است"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3440
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3457
 msgid "No such group"
 msgstr "چنین گروهی وجود ندارد"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3511
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3528
 msgid "Sharing with personal circles is not supported"
 msgstr "هم‌رسانی با حلقه‌های شخصی پشتیبانی نمی‌شود"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3570
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3586
 msgid "Already shared with this circle"
 msgstr "قبلا با این حلقه به اشتراک گذاشته شده است"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3574
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3590
 msgid "No such circle"
 msgstr "چنین حلقه‌ای وجود ندارد"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3578
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3594
 msgid "Circles app is not enabled"
 msgstr "برنامه حلقه فعال نیست"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3656
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:102
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3672
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:102
 msgid "Who pays?"
 msgstr "چه کسی پرداخت می‌کند؟"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3656
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:103
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3672
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:103
 msgid "To whom?"
 msgstr "به چه کسی؟"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3656
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:13
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:104
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3672
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:13
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:104
 msgid "How much?"
 msgstr "چقدر؟"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3682
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3698
 #, php-format
 msgid "%1$s is not a folder"
 msgstr "%1$s یک پوشه نیست"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3685
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3701
 #, php-format
 msgid "%1$s is not writeable"
 msgstr "%1$s قابل نوشتن نیست"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3692
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3708
 #, php-format
 msgid "Impossible to create %1$s"
 msgstr "ساختن %1$s ناممکن است"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3714
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:123
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3730
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:123
 msgid "Member name"
 msgstr "نام عضو"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3714
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:124
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3730
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:124
 msgid "Paid"
 msgstr "پرداخت شده"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3714
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:125
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3730
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:125
 msgid "Spent"
 msgstr "خرج شده"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3714
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:127
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3730
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:127
 msgid "Balance"
 msgstr "موجودی"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3872
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3888
 #, php-format
 msgid "Malformed CSV, bad column names at line %1$s"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3932
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3948
 #, php-format
 msgid "Malformed CSV, bad payer weight on line %1$s"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3936
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3943
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3952
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3959
 #, php-format
 msgid "Malformed CSV, bad owers on line %1$s"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3951
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4136
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3967
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4152
 #, php-format
 msgid "Malformed CSV, bad amount on line %1$s"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3984
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4173
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4000
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4189
 #, php-format
 msgid "Error in project creation, %1$s"
 msgstr "خطا در ساختن پروژه، %1$s"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:3995
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4181
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4011
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4197
 #, php-format
 msgid "Error when adding category %1$s"
 msgstr "خطا هنگام افزودن دسته‌بندی %1$s"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4004
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4020
 #, php-format
 msgid "Error when adding currency %1$s"
 msgstr "خطا هنگام افزودن واحد پولی %1$s"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4012
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4190
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4028
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4206
 #, php-format
 msgid "Error when adding member %1$s"
 msgstr "خطا هنگام افزودن عضو %1$s"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4035
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4212
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4051
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4228
 #, php-format
 msgid "Error when adding bill %1$s"
 msgstr "خطا هنگام افزودن رسید %1$s"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4086
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4102
 msgid "Malformed CSV, bad column names"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4097
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4113
 msgid "Malformed CSV, cannot have an empty ower"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4130
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4146
 #, php-format
 msgid "Malformed CSV, no payer on line %1$s"
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4251
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4267
 msgid "daily"
 msgstr "روزانه"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4266
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4282
 msgid "weekly"
 msgstr "هفتگی"
 
-#: /var/www/html/n19/apps/cospend/lib/Service/ProjectService.php:4287
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4303
 msgid "monthly"
 msgstr "ماهانه"
 
-#: /var/www/html/n19/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:3
+#: /var/www/html/dev/server/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:3
 msgid " "
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:1
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:1
 msgid "Details"
 msgstr "جزئیات"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:2
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "Member {name} already exists"
 msgstr "عضو {name} از قبل وجود دارد"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:3
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "Invalid project name"
 msgstr "نام پروژه نامعتبر است"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:4
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:4
 msgid "Deleted project {id}"
 msgstr "پروژه {id} حذف شد"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:5
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:5
 msgid "Created member {name}"
 msgstr "عضو ساخته شده {name}"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:6
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:6
 msgid "Member saved."
 msgstr "عضو ذخیره شد."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:7
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Project saved"
 msgstr "پروژه ذخیره شد"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:8
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:8
 msgid "link"
 msgstr "پیوند"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:9
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:43
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:9
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:43
 msgid "Press Shift+Enter to validate"
 msgstr "برای تایید اعتبار Shift+Enter را فشار دهید"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:10
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:10
 msgid "What?"
 msgstr "چه چیزی؟"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:11
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:11
 msgid "What is the bill about?"
 msgstr "رسید درباره چیست؟"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:12
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:12
 msgid "Attach public link to personal file"
 msgstr "پیوست نشانی عمومی به پرونده شخصی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:14
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:14
 msgid "Convert to"
 msgstr "تبدیل به"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:15
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:15
 msgid "Who payed?"
 msgstr "چه کسی پرداخت کرده؟"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:16
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:17
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:16
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:17
 msgid "When?"
 msgstr "چه زمانی؟"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:18
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:111
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:18
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:111
 msgid "Payment mode"
 msgstr "شیوه پرداخت"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:19
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:21
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:73
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:19
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:21
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:73
 msgid "None"
 msgstr "هیچ کدام"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:20
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:113
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:20
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:113
 msgid "Category"
 msgstr "دسته‌بندی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:22
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:22
 msgid "Comment"
 msgstr "توضیح"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:23
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:23
 msgid "More details about the bill (300 char. max)"
 msgstr "جزئیات بیشتر درباره رسید (بیشترین نویسه 300)"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:24
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:24
 msgid "Repeat"
 msgstr "تکرار"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:25
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:176
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:25
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:181
 msgid "No"
 msgstr "نه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:26
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:177
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:26
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:182
 msgid "Daily"
 msgstr "روزانه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:27
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:178
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:27
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Weekly"
 msgstr "هفتگی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:28
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:179
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:28
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "Monthly"
 msgstr "ماهانه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:29
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:29
 msgid "Yearly"
 msgstr "سالیانه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:30
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:30
 msgid "Include all active members on repeat"
 msgstr "شامل‌کردن همه اعضای فعال هنگام تکرار"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:31
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:31
 msgid "Repeat until"
 msgstr "تکرار تا زمانی که"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:32
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:32
 msgid "Bill type"
 msgstr "نوع رسید"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:33
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:33
 msgid "Classic, even split"
 msgstr "کلاسیک، حتی تقسیم شده است"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:34
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:34
 msgid "Even split with optional personal parts"
 msgstr "حتی با بخش‌های اختیاری شخصی تقسیم شود"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:35
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:35
 msgid "Custom owed amount per member"
 msgstr "مبلغ بدهکاری سفارشی برای هر عضو"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:36
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:36
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:37
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:37
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:38
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:38
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:39
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:39
 msgid "For whom?"
 msgstr "برای چه کسی؟"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:40
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:40
 msgid "All/None"
 msgstr "همه/هیچ کس"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:41
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:41
 msgid "Personal amount"
 msgstr "مبلغ شخصی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:42
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:42
 msgid "Custom amount"
 msgstr "مبلغ سفارشی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:44
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:44
 msgid "Bill : {what}"
 msgstr "رسید: {what}"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:45
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:45
 msgid "Create the bill"
 msgstr "ساختن رسید"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:45
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:45
 msgid "Create the bills"
 msgstr "ساختن رسیدها"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:46
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:140
-#: /var/www/html/n19/apps/cospend/src/utils.js:18
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:46
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:140
+#: /var/www/html/dev/server/apps/cospend/src/utils.js:16
 msgid "You"
 msgstr "شما"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:47
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:47
 msgid "Impossible to save bill, invalid values."
 msgstr "ذخیره رسید ناممکن است، مقادیر نامعتبرند."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:48
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:48
 msgid "Bill saved."
 msgstr "رسید ذخیره شد."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:49
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:51
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:53
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:49
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:51
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:53
 msgid "Bill values are not valid."
 msgstr "مقادیر رسید نامعتبرند."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:50
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:50
 msgid "Personal parts are bigger than the paid amount."
 msgstr "بخش‌های شخصی بزرگتر از مبلغ پرداخت شده است."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:52
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:52
 msgid "There is no custom amount."
 msgstr "مقدار سفارشی وجود ندارد."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:54
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:54
 msgid "Bill created."
 msgstr "رسید ساخته شد."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:55
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:55
 msgid "Choose file"
 msgstr "انتخاب پرونده"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:56
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:56
 msgid "This is just a currency converter. Bill amount can be entered in another currency and then converted to \"{maincur}\". Value is always stored in \"{maincur}\"."
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:57
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:59
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:93
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:96
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:190
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:57
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:59
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:93
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:96
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:194
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:197
 msgid "Info"
 msgstr "اطلاعات"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:58
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:58
 msgid "You can type simple math operations and validate by pressing Enter key."
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:60
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:60
 msgid "New bill"
 msgstr "رسید تازه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:61
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:61
 msgid "No bill yet"
 msgstr "هنوز هیچ رسیدی نیست"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:62
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:62
 msgid "Bill deleted."
 msgstr "رسید حذف شد."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:63
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:63
 msgid "Add category"
 msgstr "افزودن دسته‌بندی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:64
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:64
 msgid "Color"
 msgstr "رنگ"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:65
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:65
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:160
 msgid "Icon"
 msgstr "نماد"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:66
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:172
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:66
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:161
 msgid "Category name"
 msgstr "نام دسته‌بندی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:67
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:67
 msgid "Category list"
 msgstr "فهرست دسته‌بندی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:68
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:68
 msgid "No categories to display"
 msgstr "دسته‌بندی برای نمایش نیست"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:69
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:71
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:69
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:71
 msgid "Category name should not be empty."
 msgstr "نام دسته‌بندی نباید خالی باشد."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:70
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:70
 msgid "Category {n} added."
 msgstr "دسته‌بندی {n} افزوده شد."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:72
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:72
 msgid "Main currency"
 msgstr "واحد پول اصلی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:74
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:74
 msgid "Main currency name"
 msgstr "نام واحد پول اصلی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:75
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:75
 msgid "Add currency"
 msgstr "افزودن واحد پولی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:76
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:76
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:170
 msgid "Name"
 msgstr "نام"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:77
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:173
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:77
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:178
 msgid "Currency name"
 msgstr "نام واحد پولی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:78
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:78
 msgid "Exchange rate to main currency"
 msgstr "نرخ تبدیل به واحد پول اصلی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:79
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:79
 msgid "(1 of this currency = X of main currency)"
 msgstr "(۱ از این واحد پولی = X از واحد پولی اصلی)"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:80
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:80
 msgid "Add this currency"
 msgstr "افزودن این واحد پولی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:81
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:81
 msgid "Currency list"
 msgstr "فهرست ارزها"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:82
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:82
 msgid "No currencies to display"
 msgstr "واحد پولی برای نمایش نیست"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:83
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:86
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:83
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:86
 msgid "Currency name should not be empty."
 msgstr "نام واحد پولی نباید خالی باشد."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:84
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:84
 msgid "Exchange rate should be a number."
 msgstr "نرخ تبدیل باید یک شماره باشد."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:85
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:85
 msgid "Currency {n} added."
 msgstr "واحد پولی {n} افزوده شد."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:87
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:87
 msgid "MoneyBuster link/QRCode for project {name}"
 msgstr "نشانی/کدQR MoneyBuster برای پروژه {name}"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:88
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:88
 msgid "Confirm project password to get a QRCode including the password."
 msgstr "گذرواژه پروژه را برای دریافت کدQR شامل گذرواژه تایید کنید."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:89
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:89
 msgid "Project password"
 msgstr "گذرواژه پروژه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:90
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:90
 msgid "Incorrect project password."
 msgstr "گذرواژه پروژه نادرست است."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:91
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:91
 msgid "Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone."
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:92
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:92
 msgid "Android will know MoneyBuster can open such a link (based on the 'https://net.eneiluj.moneybuster.cospend' part) and you will be able to add the project."
 msgstr "Android می‌داند که MoneyBuster می‌تواند چنین پیوندی را باز کند (بر اساس بخش 'https://net.eneiluj.moneybuster.cospend') و شما قادر به افزودن پروژه خواهید بود."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:94
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:94
 msgid "As password is stored hashed (for security), it can't be automatically included in the QRCode. If you want to include it in the QRCode and make it easier to add a project in MoneyBuster, you can provide the password again."
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:95
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:95
 msgid "Type the project password and press Enter to generate another QRCode including the password."
 msgstr "گذرواژه پروژه را وارد کرده و Enter را فشار دهید تا QRCode دیگری شامل گذرواژه تولید شود."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:97
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:97
 msgid "Settlement of project {name}"
 msgstr "تسویه حساب پروژه {name}"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:98
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:108
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:98
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:108
 msgid "Export"
 msgstr "برون‌بری"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:99
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:99
 msgid "Add these payments to project"
 msgstr "افزودن این پرداخت‌ها به پروژه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:100
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:100
 msgid "Center settlement on"
 msgstr "مرکز تسویه حساب در"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:101
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:101
 msgid "Nobody (optimal)"
 msgstr "هیچ‌کس (بهینه)"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:105
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:105
 msgid "Project settlement bills added."
 msgstr "رسید تسویه حساب پروژه افزوده شد."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:106
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:106
 msgid "Project settlement exported in {path}"
 msgstr "تسویه حساب پروژه در {path} برون‌برده شده"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:107
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:107
 msgid "Statistics of project {name}"
 msgstr "آمار پروژه {name}"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:109
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:109
 msgid "Minimum date"
 msgstr "کمینه‌ تاریخ"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:110
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:110
 msgid "Maximum date"
 msgstr "بیشینۀ تاریخ"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:112
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:114
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:112
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:114
 msgid "All"
 msgstr "همه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:115
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:115
 msgid "All except reimbursement"
 msgstr "همه به‌جز بازپرداخت"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:116
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:116
 msgid "Minimum amount"
 msgstr "کم‌ترین مقدار"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:117
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:117
 msgid "Maximum amount"
 msgstr "بیشترین مقدار"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:118
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:118
 msgid "Currency of statistic values"
 msgstr "واحد پولی مقادیر آماری"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:119
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:119
 msgid "Main project's currency"
 msgstr "واحد پولی پروژه اصلی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:120
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:120
 msgid "Show disabled members"
 msgstr "نمایش اعضای غیرفعال شده"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:121
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:121
 msgid "Total payed by all the members: {t}"
 msgstr "کل پرداخت شده توسط همه اعضا: {t}"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:122
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:122
 msgid "Global stats"
 msgstr "آمار جهانی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:126
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:126
 msgid "Filtered balance"
 msgstr "موجودی پالایش شده"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:128
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:128
 msgid "Monthly stats per member"
 msgstr "آمار ماهانه برای هر عضو"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:129
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:129
 msgid "Member/Month"
 msgstr "عضو/ماه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:130
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:130
 msgid "Monthly stats per category"
 msgstr "آمار ماهانه برای هر دسته‌بندی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:131
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:131
 msgid "Category/Month"
 msgstr "دسته‌بندی/ماه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:132
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:132
 msgid "Select a member"
 msgstr "انتخاب یک عضو"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:133
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:133
 msgid "All members"
 msgstr "همه عضوها"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:134
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:134
 msgid "Payments per member per month"
 msgstr "پرداخت‌ها برای هر عضو در هر ماه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:135
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "Payments per category per month"
 msgstr "پرداخت‌ها برای هر دسته‌بندی در هر ماه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:136
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:136
 msgid "Who paid (outside circle) and spent (inside pie)?"
 msgstr "چه کسی پرداخت کرده ( بیرون از حلقه) و خرج کرده (درون pie)؟"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:137
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:137
 msgid "What was paid per category?"
 msgstr "برای چه چیزی در هر دسته‌بندی پرداخت شده؟"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:138
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:138
 msgid "Who paid for this category?"
 msgstr "چه کسی برای این دسته‌بندی پرداخته کرده؟"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:139
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:139
 msgid "What kind of member is she/he?"
 msgstr "او چه نوع عضوی است؟"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:141
-msgid "New project"
-msgstr "پروژه تازه"
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:142
-msgid "New project name"
-msgstr "نام تازه پروژه"
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:143
-msgid "Import csv project"
-msgstr "وارد کردن پروژه csv"
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:144
-msgid "Import SplitWise project"
-msgstr "واردکردن پروژه SplitWise"
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:145
-msgid "Guest access link"
-msgstr "پیوند دسترسی مهمان"
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:146
-msgid "Change output directory"
-msgstr "تغییر مسیر خروجی"
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:147
-msgid "/Anywhere"
-msgstr "/هرجایی"
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:148
-msgid "Choose csv project file"
-msgstr "انتخاب پرونده پروژه csv"
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:149
-msgid "Choose SplitWise project file"
-msgstr "انتخاب پرونده پروژه SplitWise"
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:150
-msgid "Project imported."
-msgstr "پروژه وارد شد."
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:151
-msgid "Guest link copied to clipboard."
-msgstr "نشانی مهمان به کلیپ بورد روگیری شد."
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:152
-msgid "Guest link could not be copied to clipboard."
-msgstr "نمی‌توان نشانی مهمان را به کلیپ بورد روگیری کرد."
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:153
-msgid "Choose where to write output files (stats, settlement, export)"
-msgstr "مکانی را برای نوشتن پرونده‌های خروجی انتخاب کنید (آمار، تسویه حساب، برون‌بری)"
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:154
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:141
 msgid "Weight"
 msgstr "وزن"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:155
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:142
 msgid "Change color"
 msgstr "تغییر رنگ"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:156
-msgid "Deactivate"
-msgstr "غیرفعال کردن"
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:156
-msgid "Reactivate"
-msgstr "فعال‌سازی دوباره"
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:157
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:143
 msgid "No access"
-msgstr ""
+msgstr "بدون دسترسی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:158
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:197
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:205
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:213
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:144
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:204
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:212
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:220
 msgid "Viewer"
 msgstr "بیننده"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:159
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:198
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:206
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:214
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:145
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:205
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:213
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:221
 msgid "Participant"
 msgstr "شرکت کننده"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:160
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:199
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:207
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:215
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:146
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:206
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:214
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:222
 msgid "Maintainer"
 msgstr "نگه‌دارنده"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:161
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:200
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:208
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:216
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:147
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:207
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:215
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:223
 msgid "Admin"
 msgstr "مدیر"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:162
-msgid "Add member"
-msgstr "افزودن عضو"
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:163
-msgid "Statistics"
-msgstr "آمار"
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:164
-msgid "Project settlement"
-msgstr "تسویه حساب پروژه"
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:165
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:148
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:153
 msgid "Delete"
 msgstr "حذف"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:166
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:148
+msgid "Deactivate"
+msgstr "غیرفعال کردن"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:149
+msgid "Reactivate"
+msgstr "فعال‌سازی دوباره"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:150
+msgid "Add member"
+msgstr "افزودن عضو"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:151
+msgid "Statistics"
+msgstr "آمار"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:152
+msgid "Project settlement"
+msgstr "تسویه حساب پروژه"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:154
 msgid "No members yet"
 msgstr "هنوز هیچ عضوی نیست"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:167
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:155
 msgid "Everyone"
 msgstr "همه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:168
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:170
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:156
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:158
 msgid "Everyone except {member}"
 msgstr "همه بجز {member}"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:169
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:157
 msgid "{member1} and {member2}"
 msgstr "{member1} و {member2}"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:171
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:159
 msgid "Member list is not up to date. Reloading in 5 sec."
 msgstr "فهرست اعضا به‌روز نیست. بارگیری مجدد در 5 ثانیه."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:174
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:162
+msgid "New project"
+msgstr "پروژه تازه"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:163
+msgid "New project name"
+msgstr "نام تازه پروژه"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:164
+msgid "Import csv project"
+msgstr "وارد کردن پروژه csv"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:165
+msgid "Import SplitWise project"
+msgstr "واردکردن پروژه SplitWise"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:166
+msgid "Guest access link"
+msgstr "پیوند دسترسی مهمان"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:167
+msgid "Change output directory"
+msgstr "تغییر مسیر خروجی"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:168
+msgid "/Anywhere"
+msgstr "/هرجایی"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:169
+msgid "Sort projects by"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:171
+msgid "Last activity"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:172
+msgid "Choose csv project file"
+msgstr "انتخاب پرونده پروژه csv"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:173
+msgid "Choose SplitWise project file"
+msgstr "انتخاب پرونده پروژه SplitWise"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:174
+msgid "Project imported."
+msgstr "پروژه وارد شد."
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:175
+msgid "Guest link copied to clipboard."
+msgstr "نشانی مهمان به کلیپ بورد روگیری شد."
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:176
+msgid "Guest link could not be copied to clipboard."
+msgstr "نمی‌توان نشانی مهمان را به کلیپ بورد روگیری کرد."
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:177
+msgid "Choose where to write output files (stats, settlement, export)"
+msgstr "مکانی را برای نوشتن پرونده‌های خروجی انتخاب کنید (آمار، تسویه حساب، برون‌بری)"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:179
 msgid "Rename project {n}"
 msgstr "تغییرنام پروژه {n}"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:175
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:180
 msgid "Automatic export"
 msgstr "برون‌بری خودکار"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:180
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:185
 msgid "Export project"
 msgstr "برون‌بری پروژه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:181
-msgid "Add a project member."
-msgstr "افزودن یک عضو پروژه."
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:186
+msgid "Member list"
+msgstr ""
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:182
-msgid "Choose a project member, then a Nextcloud user to associate with."
-msgstr "یک عضو پروژه، سپس یک کاربر Nextcloud را انتخاب کرده تا با آن پیوندبرقرار کند."
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:187
+msgid "Associate a simple member with a Nextcloud user"
+msgstr ""
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:183
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:188
 msgid "Choose a Nextcloud user"
 msgstr "یک کاربر Nextcloud انتخاب کنید"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:184
-msgid "You can cut the link with a Nextcloud user by renaming the member."
-msgstr ""
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:185
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:189
 msgid "New member name"
 msgstr "نام عضو تازه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:186
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:190
 msgid "New member (or Nextcloud user) name"
 msgstr "نام عضو تازه (یا کاربر Nextcloud)"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:187
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:191
 msgid "Failed to add member."
 msgstr "افزودن عضو ناموفق بود."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:188
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:192
 msgid "Simple member"
 msgstr "عضو ساده"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:189
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:193
 msgid "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab."
 msgstr ""
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:191
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:195
+msgid "Choose a project member, then a Nextcloud user to associate with."
+msgstr "یک عضو پروژه، سپس یک کاربر Nextcloud را انتخاب کرده تا با آن پیوندبرقرار کند."
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:196
+msgid "You can cut the link with a Nextcloud user by renaming the member."
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:198
 msgid "Share project with a user, group or circle …"
 msgstr "پروژه را با یک کاربر، گروه یا حلقه به اشتراک بگذارید…"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:192
-#: /var/www/html/n19/apps/cospend/src/state.js:26
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:199
+#: /var/www/html/dev/server/apps/cospend/src/state.js:25
 msgid "Add public link"
 msgstr "افزودن پیوند عمومی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:193
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:200
 msgid "Add link"
 msgstr "افزودن پیوند"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:194
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:201
 msgid "Public link"
 msgstr "پیوند عمومی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:195
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:211
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:202
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:218
 msgid "Copy link"
 msgstr "روگیری پیوند"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:196
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:212
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:203
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:219
 msgid "Copied!"
 msgstr "روگیری شد!"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:201
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:208
 msgid "Delete link"
-msgstr ""
+msgstr "حذف پیوند"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:202
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:209
 msgid "Project owner"
 msgstr "کارفرمای پروژه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:203
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:210
 msgid "Group"
 msgstr "گروه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:204
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:211
 msgid "Circle"
 msgstr "حلقه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:209
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:216
 msgid "Delete access"
-msgstr ""
+msgstr "حذف دسترسی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:210
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "Password protected access"
 msgstr "دسترسی محافظت شده به‌وسیله گذرواژه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:217
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:224
 msgid "New project password"
 msgstr "گذرواژه تازه پروژه"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:218
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:220
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:225
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "Link could not be copied to clipboard."
 msgstr "نمی‌توان نشانی را به کلیپ بورد روگیری کرد."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:219
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:226
 msgid "Password should not be empty."
 msgstr "گذرواژه نباید خالی باشد."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:221
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "Guest access level changed."
 msgstr "سطح دسترسی مهمان تغییر یافت."
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:222
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:229
 msgid "Sharing"
 msgstr "هم‌رسانی"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:223
-msgid "Categories"
-msgstr "دسته‌بندی‌ها"
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:224
-msgid "Currencies"
-msgstr "ارزها"
-
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:225
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:230
 msgid "Settings"
 msgstr "تنظیمات"
 
-#: /var/www/html/n19/apps/cospend/specialVueFakeDummyForL10nScript.js:226
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:231
+msgid "Categories"
+msgstr "دسته‌بندی‌ها"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:232
+msgid "Currencies"
+msgstr "ارزها"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:233
 msgid "{nb} bills, {nm} active members, {ns} spent"
 msgstr "{nb} رسید, {nm} عضو فعال, {ns} خرج شده"
 
-#: /var/www/html/n19/apps/cospend/src/constants.js:26
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:234
+msgid "No recent activity"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:235
+msgid "{user} shared {project} with {who}"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:236
+msgid "{user} unshared {project} with {who}"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:237
+msgid "{user} created {bill}"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:238
+msgid "{user} deleted {bill}"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:239
+msgid "{user} edited {bill}"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/src/constants.js:26
 msgid "Credit card"
 msgstr "کارت اعتباری"
 
-#: /var/www/html/n19/apps/cospend/src/constants.js:30
+#: /var/www/html/dev/server/apps/cospend/src/constants.js:30
 msgid "Cash"
 msgstr "پول نقد"
 
-#: /var/www/html/n19/apps/cospend/src/constants.js:34
+#: /var/www/html/dev/server/apps/cospend/src/constants.js:34
 msgid "Check"
 msgstr "بررسی"
 
-#: /var/www/html/n19/apps/cospend/src/constants.js:38
+#: /var/www/html/dev/server/apps/cospend/src/constants.js:38
 msgid "Transfer"
 msgstr "انتقال"
 
-#: /var/www/html/n19/apps/cospend/src/constants.js:42
+#: /var/www/html/dev/server/apps/cospend/src/constants.js:42
 msgid "Online service"
 msgstr "سرویس آنلاین"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:21
+#: /var/www/html/dev/server/apps/cospend/src/network.js:21
 msgid "Failed to restore options values."
 msgstr "بازگردانی مقادیر گزینه ناموفق بود."
 
-#: /var/www/html/n19/apps/cospend/src/network.js:38
+#: /var/www/html/dev/server/apps/cospend/src/network.js:38
 msgid "Failed to save option values"
 msgstr "ذخیره مقادیر گزینه ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:55
+#: /var/www/html/dev/server/apps/cospend/src/network.js:53
 msgid "Cospend setting saved."
 msgstr "تنظیمات Cospend ذخیره شد."
 
-#: /var/www/html/n19/apps/cospend/src/network.js:60
+#: /var/www/html/dev/server/apps/cospend/src/network.js:58
 msgid "Failed to save Cospend setting."
 msgstr "ذخیره تنظیمات Cospend شکست خورد."
 
-#: /var/www/html/n19/apps/cospend/src/network.js:77
+#: /var/www/html/dev/server/apps/cospend/src/network.js:74
 msgid "Project {name} exported in {path}"
 msgstr "پروژه {name} در {path} برون‌برده شده"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:81
+#: /var/www/html/dev/server/apps/cospend/src/network.js:78
 msgid "Failed to export project"
 msgstr "برون‌بری پروژه ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:102
-#: /var/www/html/n19/apps/cospend/src/network.js:123
+#: /var/www/html/dev/server/apps/cospend/src/network.js:98
+#: /var/www/html/dev/server/apps/cospend/src/network.js:118
 msgid "Failed to get projects"
 msgstr "دریافت پروژه ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:144
+#: /var/www/html/dev/server/apps/cospend/src/network.js:140
 msgid "Failed to create project"
 msgstr "ساختن پروژه ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:164
+#: /var/www/html/dev/server/apps/cospend/src/network.js:159
 msgid "Failed to delete project"
 msgstr "حذف پروژه ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:185
+#: /var/www/html/dev/server/apps/cospend/src/network.js:182
 msgid "Failed to update balances"
 msgstr "به‌روز رسانی موجودی‌ها ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:211
+#: /var/www/html/dev/server/apps/cospend/src/network.js:207
 msgid "Failed to add member"
 msgstr "افزودن عضو ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:239
+#: /var/www/html/dev/server/apps/cospend/src/network.js:234
 msgid "Failed to save member"
 msgstr "ذخیره عضو ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:267
+#: /var/www/html/dev/server/apps/cospend/src/network.js:261
 msgid "Failed to edit project"
 msgstr "ویرایش پروژه ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:300
+#: /var/www/html/dev/server/apps/cospend/src/network.js:293
 msgid "Failed to save bill"
 msgstr "ذخیره رسید ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:321
+#: /var/www/html/dev/server/apps/cospend/src/network.js:315
 msgid "Failed to create bill"
 msgstr "شکست در ساختن رسید."
 
-#: /var/www/html/n19/apps/cospend/src/network.js:340
+#: /var/www/html/dev/server/apps/cospend/src/network.js:335
 msgid "Failed to generate public link to file"
 msgstr "تولید نشانی عمومی به پرونده شکست خورد"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:361
+#: /var/www/html/dev/server/apps/cospend/src/network.js:354
 msgid "Failed to delete bill"
 msgstr "شکست در حذف رسید"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:377
+#: /var/www/html/dev/server/apps/cospend/src/network.js:367
 msgid "Failed to check password."
 msgstr "بررسی گذرواژه ناموفق بود."
 
-#: /var/www/html/n19/apps/cospend/src/network.js:401
+#: /var/www/html/dev/server/apps/cospend/src/network.js:390
 msgid "Failed to import project file"
 msgstr "واردکردن پرونده پروژه ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:426
+#: /var/www/html/dev/server/apps/cospend/src/network.js:414
 msgid "Failed to add category"
 msgstr "افزودن دسته‌بندی ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:445
+#: /var/www/html/dev/server/apps/cospend/src/network.js:433
 msgid "Failed to delete category"
 msgstr "حذف دسته‌بندی ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:470
+#: /var/www/html/dev/server/apps/cospend/src/network.js:457
 msgid "Failed to edit category"
 msgstr "ویرایش دسته‌بندی ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:495
+#: /var/www/html/dev/server/apps/cospend/src/network.js:481
 msgid "Failed to add currency"
 msgstr "افزودن واحد پولی ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:515
+#: /var/www/html/dev/server/apps/cospend/src/network.js:500
 msgid "Failed to delete currency"
 msgstr "حذف واحد پولی ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:539
+#: /var/www/html/dev/server/apps/cospend/src/network.js:523
 msgid "Failed to edit currency"
 msgstr "ویرایش واحد پولی ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:563
+#: /var/www/html/dev/server/apps/cospend/src/network.js:544
 msgid "Failed to get statistics."
 msgstr "دریافت آمار ناموفق بود."
 
-#: /var/www/html/n19/apps/cospend/src/network.js:577
+#: /var/www/html/dev/server/apps/cospend/src/network.js:556
 msgid "Project statistics exported in {path}"
 msgstr "آمار پروژه در {path} برون‌برده شد"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:580
+#: /var/www/html/dev/server/apps/cospend/src/network.js:560
 msgid "Failed to export project statistics"
 msgstr "برون‎بری آمار پروژه ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:610
+#: /var/www/html/dev/server/apps/cospend/src/network.js:591
 msgid "Failed to get settlement"
 msgstr "دریافت تسویه حساب ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:635
+#: /var/www/html/dev/server/apps/cospend/src/network.js:616
 msgid "Failed to add project settlement bills"
 msgstr "افزودن رسیدهای تسویه حساب پروژه ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:655
+#: /var/www/html/dev/server/apps/cospend/src/network.js:635
 msgid "Failed to export project settlement"
 msgstr "برون‎بری تسویه حساب پروژه ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:670
+#: /var/www/html/dev/server/apps/cospend/src/network.js:649
 msgid "Failed to get user list"
 msgstr "دریافت فهرست اعضا ناموفق بود"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:700
+#: /var/www/html/dev/server/apps/cospend/src/network.js:678
 msgid "Failed to add shared access"
 msgstr "افزودن دسترسی هم‌رسانی شده شکست خورد"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:718
+#: /var/www/html/dev/server/apps/cospend/src/network.js:695
 msgid "Failed to edit shared access level"
 msgstr "ویرایش سطح دسترسی هم‌رسانی شده شکست خورد"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:744
+#: /var/www/html/dev/server/apps/cospend/src/network.js:719
 msgid "Failed to delete shared access"
 msgstr "حذف دسترسی هم‌رسانی شده شکست خورد"
 
-#: /var/www/html/n19/apps/cospend/src/network.js:767
+#: /var/www/html/dev/server/apps/cospend/src/network.js:741
 msgid "Failed to edit guest access level"
 msgstr "ویرایش سطح دسترسی میهمان شکست خورد"
 
-#: /var/www/html/n19/apps/cospend/src/utils.js:41
+#: /var/www/html/dev/server/apps/cospend/src/utils.js:40
 msgid "No category"
 msgstr "بدون دسته بندی"
 
-#: /var/www/html/n19/apps/cospend/templates/admin.php:8
-#: /var/www/html/n19/apps/cospend/templates/admin.php:17
+#: /var/www/html/dev/server/apps/cospend/templates/admin.php:8
+#: /var/www/html/dev/server/apps/cospend/templates/admin.php:17
 msgid "Allow guests to create projects"
 msgstr "اجازه به مهمان‌ها برای ساختن پروژه‌ها"
 
-#: /var/www/html/n19/apps/cospend/templates/admin.php:9
+#: /var/www/html/dev/server/apps/cospend/templates/admin.php:9
 msgid "Enabling this option will allow any visitor to create a project without having to log in."
 msgstr "فعال کردن این گزینه به هر بازدید کننده‌ای امکان می‌دهد بدون نیاز به ورود به حساب، یک پروژه ایجاد کند."
 
-#: /var/www/html/n19/apps/cospend/templates/admin.php:10
+#: /var/www/html/dev/server/apps/cospend/templates/admin.php:10
 msgid "This can be useful if you are in a local network and want to let anybody create a project."
 msgstr "اگر در یک شبکه محلی هستید و می‌خواهید به هرکسی اجازه دهید یک پروژه ایجاد کند ، این می تواند مفید باشد."
 
-#: /var/www/html/n19/apps/cospend/templates/admin.php:11
+#: /var/www/html/dev/server/apps/cospend/templates/admin.php:11
 msgid "Or maybe you are very generous and want to allow the entire world to use Cospend without having an account on your Nextcloud instance."
 msgstr "یا شاید شما بسیار سخاوتمند هستید و می خواهید به کل دنیا اجازه دهید از Cospend بدون حساب کاربری روی نمونه Nextcloud شما استفاده کنند."
 
-#: /var/www/html/n19/apps/cospend/templates/logincontent.php:2
+#: /var/www/html/dev/server/apps/cospend/templates/logincontent.php:2
 msgid "Authentication"
 msgstr "شناسایی"
 
-#: /var/www/html/n19/apps/cospend/templates/logincontent.php:7
+#: /var/www/html/dev/server/apps/cospend/templates/logincontent.php:7
 msgid "Wrong project Id or password"
 msgstr "شناسه یا گذرواژه پروژه نادرست است"
 
-#: /var/www/html/n19/apps/cospend/templates/logincontent.php:12
+#: /var/www/html/dev/server/apps/cospend/templates/logincontent.php:12
 msgid "Project ID/name"
 msgstr "شناسه/نام پروژه"
 
-#: /var/www/html/n19/apps/cospend/templates/logincontent.php:21
+#: /var/www/html/dev/server/apps/cospend/templates/logincontent.php:21
 msgid "Project password (aka Access code)"
 msgstr "گذرواژه پروژه (موسوم به کد دسترسی)"
 

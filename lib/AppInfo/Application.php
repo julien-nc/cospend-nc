@@ -18,9 +18,11 @@ use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\Notification\IManager as INotificationManager;
 
 use OCA\Cospend\Search\CospendSearchProvider;
 use OCA\Cospend\Dashboard\CospendWidget;
+use OCA\Cospend\Notification\Notifier;
 
 /**
  * Class Application
@@ -42,7 +44,8 @@ class Application extends App implements IBootstrap {
         $container = $this->getContainer();
 
         // content of app.php
-        $manager = \OC::$server->getNotificationManager();
+        //$manager = \OC::$server->getNotificationManager();
+        $manager = $container->query(INotificationManager::class);
         $manager->registerNotifierService(Notifier::class);
 
         $container->query(\OCP\INavigationManager::class)->add(function () use ($container) {

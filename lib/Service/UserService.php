@@ -63,7 +63,7 @@ class UserService {
 		$qb->select('userid')
 			->from('cospend_shares', 's')
 			->where(
-				$qb->expr()->eq('isgroupshare', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('type', $qb->createNamedParameter('u', IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -81,7 +81,7 @@ class UserService {
 		$qb->select('userid')
 			->from('cospend_shares', 's')
 			->where(
-				$qb->expr()->eq('isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('type', $qb->createNamedParameter('g', IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))

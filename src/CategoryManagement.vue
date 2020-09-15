@@ -105,9 +105,6 @@ export default {
 		},
 	},
 
-	mounted() {
-	},
-
 	methods: {
 		selectEmoji(emoji) {
 			this.newCategoryIcon = emoji

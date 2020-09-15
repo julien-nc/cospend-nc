@@ -33,13 +33,13 @@
 				@input="updateColor">
 				<div :style="{ backgroundColor: category.color }" class="color0 icon-colorpicker" />
 			</ColorPicker>
-			<button
-				ref="iconButton"
-				class="edit-icon-button"
-				:title="t('cospend', 'Icon')"
-				@click="onIconButtonClick">
-				{{ category.icon }}
-			</button>
+			<EmojiPicker :show-preview="true"
+				@select="selectEmoji">
+				<button class="edit-icon-button"
+					:title="t('cospend', 'Icon')">
+					{{ category.icon }}
+				</button>
+			</EmojiPicker>
 			<input ref="cname"
 				v-model="category.name"
 				type="text"
@@ -57,14 +57,14 @@
 
 <script>
 import { Timer } from '../utils'
-import EmojiButton from '@joeattardi/emoji-button'
 import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
+import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker'
 
 export default {
 	name: 'Category',
 
 	components: {
-		ColorPicker,
+		ColorPicker, EmojiPicker,
 	},
 
 	props: {
@@ -84,39 +84,18 @@ export default {
 			timerOn: false,
 			timer: null,
 			categoryBackup: null,
-			picker: new EmojiButton({
-				position: 'auto',
-				zIndex: 9999999,
-				categories: [
-					'objects',
-					'symbols',
-					'flags',
-					'smileys',
-					'people',
-					'animals',
-					'food',
-					'activities',
-					'travel',
-				],
-			}),
 		}
 	},
 
 	computed: {
 	},
 
-	mounted() {
-		this.picker.on('emoji', emoji => {
-			this.category.icon = emoji
-		})
-	},
-
 	methods: {
+		selectEmoji(emoji) {
+			this.category.icon = emoji
+		},
 		updateColor(color) {
 			this.category.color = color
-		},
-		onIconButtonClick() {
-			this.picker.togglePicker(this.$refs.iconButton)
 		},
 		onClickEdit() {
 			this.editMode = true

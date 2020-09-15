@@ -37,7 +37,6 @@
     "@nextcloud/dialogs": "^1.4.0",
     "@nextcloud/moment": "^1.1.1",
     "kjua-svg": "^1.10.0",
-    "@joeattardi/emoji-button": "^2.12.1",
     "chart.js": "^2.9.3",
     "vue-chartjs": "^3.5.0",
     "vue-clipboard2": "^0.3.1",

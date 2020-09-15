@@ -12,13 +12,13 @@
 							:style="{ backgroundColor: newCategoryColor }"
 							:title="t('cospend', 'Color')" />
 					</ColorPicker>
-					<button
-						ref="iconButton"
-						class="add-icon-button"
-						:title="t('cospend', 'Icon')"
-						@click="onIconButtonClick">
-						{{ newCategoryIcon }}
-					</button>
+					<EmojiPicker :show-preview="true"
+						@select="selectEmoji">
+						<button class="add-icon-button"
+							:title="t('cospend', 'Icon')">
+							{{ newCategoryIcon }}
+						</button>
+					</EmojiPicker>
 					<input ref="newCategoryName"
 						type="text"
 						value=""
@@ -58,12 +58,12 @@
 import cospend from './state'
 import Category from './components/Category'
 import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
+import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker'
 import {
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
 import * as constants from './constants'
-import EmojiButton from '@joeattardi/emoji-button'
 import * as network from './network'
 import { SlideXRightTransition } from 'vue2-transitions'
 
@@ -71,7 +71,7 @@ export default {
 	name: 'CategoryManagement',
 
 	components: {
-		Category, ColorPicker, SlideXRightTransition,
+		Category, ColorPicker, SlideXRightTransition, EmojiPicker,
 	},
 
 	props: {
@@ -85,21 +85,6 @@ export default {
 		return {
 			constants,
 			editMode: false,
-			picker: new EmojiButton({
-				position: 'auto',
-				zIndex: 9999999,
-				categories: [
-					'objects',
-					'symbols',
-					'flags',
-					'smileys',
-					'people',
-					'animals',
-					'food',
-					'activities',
-					'travel',
-				],
-			}),
 			newCategoryColor: '#000000',
 			newCategoryIcon: '🙂',
 		}
@@ -121,17 +106,14 @@ export default {
 	},
 
 	mounted() {
-		this.picker.on('emoji', emoji => {
-			this.newCategoryIcon = emoji
-		})
 	},
 
 	methods: {
+		selectEmoji(emoji) {
+			this.newCategoryIcon = emoji
+		},
 		updateAddColor(color) {
 			this.newCategoryColor = color
-		},
-		onIconButtonClick() {
-			this.picker.togglePicker(this.$refs.iconButton)
 		},
 		onAddCategory() {
 			const name = this.$refs.newCategoryName.value
@@ -251,6 +233,7 @@ $clickable-area: 44px;
 	margin-top: 0px;
 	border-radius: 50%;
 	width: 40px;
+	height: 40px;
 }
 .new-category-name {
 	width: 90%;

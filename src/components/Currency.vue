@@ -115,10 +115,11 @@ export default {
 <style scoped lang="scss">
 .one-currency-edit {
 	display: grid;
-	grid-template: 1fr / 1fr 1fr 40px 40px;
+	grid-template: 1fr / 1fr 1fr 42px 42px;
 	height: 40px;
 	border-radius: 15px;
 	background-color: var(--color-background-dark);
+	margin-right: 15px;
 }
 .one-currency-edit label,
 .one-currency-label label {
@@ -132,7 +133,7 @@ export default {
 }
 .one-currency-label {
 	display: grid;
-	grid-template: 1fr / 1fr 1fr 40px 40px;
+	grid-template: 1fr / 1fr 1fr 42px 42px 15px;
 }
 .editCurrencyOk,
 .editCurrencyClose {

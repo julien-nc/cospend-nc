@@ -158,10 +158,11 @@ export default {
 <style scoped lang="scss">
 .one-category-edit {
 	display: grid;
-	grid-template: 1fr / 44px 44px 3fr 40px 40px;
+	grid-template: 1fr / 44px 44px 3fr 42px 42px;
 	height: 40px;
 	border-radius: 15px;
 	background-color: var(--color-background-dark);
+	margin-right: 15px;
 }
 .one-category-edit label,
 #add-category label,
@@ -176,7 +177,7 @@ export default {
 }
 .one-category-label {
 	display: grid;
-	grid-template: 1fr / 1fr 1fr 6fr 42px 42px;
+	grid-template: 1fr / 1fr 1fr 6fr 42px 42px 15px;
 }
 .editCategoryOk,
 .editCategoryClose {

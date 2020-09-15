@@ -10,7 +10,12 @@
 				:title="t('cospend', 'New bill')"
 				@click="onAddBillClicked" />
 		</div>
-		<h2 v-if="bills.length === 0" class="nobill">
+		<h3 v-if="!twoActiveMembers"
+			class="nomember">
+			{{ t('cospend', 'Add at least 2 members to start creating bills') }}
+		</h3>
+		<h2 v-else-if="bills.length === 0"
+			class="nobill">
 			{{ t('cospend', 'No bill yet') }}
 		</h2>
 		<h2 v-show="loading"
@@ -131,10 +136,14 @@ export default {
 .addBillItem {
 	padding-left: 40px;
 }
-.nobill {
+.nobill, .nomember {
 	text-align: center;
 	color: var(--color-text-lighter);
 	margin-top: 8px;
+	margin-left: 40px;
+}
+.nomember {
+	margin-top: 12px;
 }
 .loading-icon {
 	margin-top: 16px;

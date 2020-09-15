@@ -45,6 +45,10 @@
 		</template>
 		<template v-if="maintenerAccess"
 			slot="actions">
+			<ActionButton icon="icon-palette"
+				@click="onMenuColorClick">
+				{{ t('cospend', 'Change color') }}
+			</ActionButton>
 			<ActionInput
 				ref="nameInput"
 				type="text"
@@ -62,10 +66,6 @@
 				@submit="onWeightSubmit">
 				{{ t('cospend', 'Weight') }} ({{ member.weight }})
 			</ActionInput>
-			<ActionButton icon="icon-palette"
-				@click="onMenuColorClick">
-				{{ t('cospend', 'Change color') }}
-			</ActionButton>
 			<ActionButton
 				:icon="member.activated ? 'icon-delete' : 'icon-history'"
 				@click="onDeleteMemberClick">
@@ -333,4 +333,9 @@ export default {
 	margin-top: 16px;
 	margin-right: 2px;
 }
+/* first action-input child has margin...
+::v-deep .action-input {
+    margin-top: 0px !important;
+}
+*/
 </style>

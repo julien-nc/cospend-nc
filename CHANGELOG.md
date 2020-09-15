@@ -6,6 +6,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.1.0 – 2020-09-15
+### Added
+- option to choose project list sorting criteria
+[#114](https://gitlab.com/eneiluj/cospend-nc/issues/114) @ratte-rizzo
+- unified search for bills
+- dashboard widget showing activity
+- add 'max precision' setting to display correct precise balances
+[#117](https://gitlab.com/eneiluj/cospend-nc/issues/117) @ja-nko
+
+### Changed
+- use latest nc-vue 2.6.5
+- use nc-vue emoji picker instead of emoji-button
+- many design improvements in category/currency management, qrcode hints...
+
+### Fixed
+- clean UI code, now eslint-compliant
+- really delete members when possible
+[#116](https://gitlab.com/eneiluj/cospend-nc/issues/116) @mrbenjoi
+
 ## 1.0.5 – 2020-08-03
 ### Fixed
 - String.replaceAll does not exist in chrome based browsers

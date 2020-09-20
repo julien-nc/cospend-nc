@@ -1,6 +1,7 @@
 <template>
 	<AppNavigationItem v-show="memberVisible"
 		class="memberItem"
+		:menu-icon="maintenerAccess ? 'icon-more' : ''"
 		:title="nameTitle"
 		:force-menu="true">
 		<div v-if="maintenerAccess"

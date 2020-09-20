@@ -14,7 +14,6 @@
 				<div
 					v-show="!member.activated"
 					:class="{ disabledMask: true, nopad: !inNavigation }" />
-				<!--img :src="memberAvatar"/-->
 				<Avatar
 					class="itemAvatar"
 					:size="24"
@@ -29,8 +28,7 @@
 			slot="icon"
 			class="memberItemAvatar">
 			<div v-show="!member.activated"
-				class="disabledMask" />
-			<!--img :src="memberAvatar"/-->
+				:class="{ disabledMask: true, nopad: !inNavigation }" />
 			<Avatar
 				class="itemAvatar"
 				:size="24"
@@ -336,7 +334,7 @@ export default {
 }
 /* first action-input child has margin...
 ::v-deep .action-input {
-    margin-top: 0px !important;
+	margin-top: 0px !important;
 }
 */
 </style>

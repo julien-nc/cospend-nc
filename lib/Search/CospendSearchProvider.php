@@ -103,6 +103,7 @@ class CospendSearchProvider implements IProvider {
 		$limit = $query->getLimit();
 		$term = $query->getTerm();
 		$offset = $query->getCursor();
+		$offset = $offset ? intval($offset) : 0;
 
 		$theme = $this->config->getUserValue($user->getUID(), 'accessibility', 'theme', '');
 		$thumbnailUrl = ($theme === 'dark') ?
@@ -131,6 +132,8 @@ class CospendSearchProvider implements IProvider {
 			return ($ta > $tb) ? -1 : 1;
 		});
 
+		$resultBills = array_slice($resultBills, $offset, $limit);
+
 		// build formatted
 		$formattedResults = \array_map(function (array $bill) use ($projectsById, $thumbnailUrl):CospendSearchResultEntry {
 			$projectId = $bill['projectId'];
@@ -144,7 +147,7 @@ class CospendSearchProvider implements IProvider {
 		return SearchResult::paginated(
 			$this->getName(),
 			$formattedResults,
-			$query->getCursor() + count($formattedResults)
+			$offset + $limit
 		);
 	}
 

@@ -87,6 +87,7 @@ import cospend from './state'
 import * as network from './network'
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import moment from '@nextcloud/moment'
 import {
 	showSuccess,
@@ -183,14 +184,15 @@ export default {
 		}
 	},
 	created() {
-		if (!cospend.pageIsPublic) {
-			// new OCA.Search(this.filter, this.cleanSearch)
-		}
 		this.getProjects()
 	},
 	mounted() {
-		// once this is done, it becomes reactive...
-		// this.$set(this.cospend, 'selectedBillId', -1)
+		subscribe('nextcloud:unified-search:search', this.filter)
+		subscribe('nextcloud:unified-search:reset', this.cleanSearch)
+	},
+	beforeDestroy() {
+		unsubscribe('nextcloud:unified-search:search', this.filter)
+		unsubscribe('nextcloud:unified-search:reset', this.cleanSearch)
 	},
 	methods: {
 		onActiveSidebarTabChanged(newActive) {
@@ -218,8 +220,8 @@ export default {
 			this.showSidebar = (sameProj && sameTab) ? !this.showSidebar : true
 			this.activeSidebarTab = 'sharing'
 		},
-		filter(qs) {
-			this.filterQuery = qs
+		filter({ query }) {
+			this.filterQuery = query
 		},
 		cleanSearch() {
 			this.filterQuery = null

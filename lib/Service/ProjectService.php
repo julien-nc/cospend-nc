@@ -14,7 +14,7 @@ namespace OCA\Cospend\Service;
 
 use OCP\IL10N;
 use OCP\IConfig;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 use OC\Archive\ZIP;
@@ -180,7 +180,7 @@ class ProjectService {
     private $qb;
     private $dbconnection;
 
-    public function __construct (ILogger $logger,
+    public function __construct (LoggerInterface $logger,
                                 IL10N $l10n,
                                 IConfig $config,
                                 ProjectMapper $projectMapper,

@@ -35,7 +35,7 @@ use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\IServerContainer;
 use OCP\IGroupManager;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use OCP\IDBConnection;
 use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\ProjectMapper;
@@ -77,7 +77,7 @@ class PageController extends ApiController {
                                 IUserManager $userManager,
                                 IGroupManager $groupManager,
                                 IL10N $trans,
-                                ILogger $logger,
+                                LoggerInterface $logger,
                                 BillMapper $billMapper,
                                 ProjectMapper $projectMapper,
                                 ProjectService $projectService,

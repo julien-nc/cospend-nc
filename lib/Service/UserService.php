@@ -13,7 +13,7 @@
 namespace OCA\Cospend\Service;
 
 use OCP\IL10N;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 use OCP\IGroupManager;
@@ -33,7 +33,7 @@ class UserService {
 	private $dbconnection;
 
 	public function __construct (
-		ILogger $logger, IL10N $l10n,
+		LoggerInterface $logger, IL10N $l10n,
 		ProjectMapper $projectMapper,
 		BillMapper $billMapper,
 		IManager $shareManager,

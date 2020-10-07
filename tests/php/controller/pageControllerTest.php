@@ -17,6 +17,8 @@
  */
 namespace OCA\Cospend\Controller;
 
+use Psr\Log\LoggerInterface;
+
 use \OCA\Cospend\AppInfo\Application;
 
 class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
@@ -80,7 +82,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $this->activityManager = new \OCA\Cospend\Activity\ActivityManager(
             $sc->getActivityManager(),
             new \OCA\Cospend\Service\UserService(
-                $sc->getLogger(),
+                $this->createMock(LoggerInterface::class),
                 $sc->getL10N($c->query('AppName')),
                 new \OCA\Cospend\Db\ProjectMapper(
                     $sc->getDatabaseConnection()
@@ -107,7 +109,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $this->activityManager2 = new \OCA\Cospend\Activity\ActivityManager(
             $sc->getActivityManager(),
             new \OCA\Cospend\Service\UserService(
-                $sc->getLogger(),
+                $this->createMock(LoggerInterface::class),
                 $sc->getL10N($c->query('AppName')),
                 new \OCA\Cospend\Db\ProjectMapper(
                     $sc->getDatabaseConnection()
@@ -141,7 +143,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getUserManager(),
             $c->getServer()->getGroupManager(),
             $sc->getL10N($c->query('AppName')),
-            $sc->getLogger(),
+            $this->createMock(LoggerInterface::class),
             new \OCA\Cospend\Db\BillMapper(
                 $sc->getDatabaseConnection()
             ),
@@ -149,7 +151,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
                 $sc->getDatabaseConnection()
             ),
             new \OCA\Cospend\Service\ProjectService(
-                $sc->getLogger(),
+                $this->createMock(LoggerInterface::class),
                 $sc->getL10N($c->query('AppName')),
                 $sc->getConfig(),
                 new \OCA\Cospend\Db\ProjectMapper(
@@ -180,7 +182,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getUserManager(),
             $c->getServer()->getGroupManager(),
             $sc->getL10N($c->query('AppName')),
-            $sc->getLogger(),
+            $this->createMock(LoggerInterface::class),
             new \OCA\Cospend\Db\BillMapper(
                 $sc->getDatabaseConnection()
             ),
@@ -188,7 +190,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
                 $sc->getDatabaseConnection()
             ),
             new \OCA\Cospend\Service\ProjectService(
-                $sc->getLogger(),
+                $this->createMock(LoggerInterface::class),
                 $sc->getL10N($c->query('AppName')),
                 $sc->getConfig(),
                 new \OCA\Cospend\Db\ProjectMapper(

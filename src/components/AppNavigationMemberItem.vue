@@ -59,7 +59,7 @@
 				ref="weightInput"
 				icon="icon-quota"
 				type="number"
-				step="0.1"
+				step="0.01"
 				:value="''"
 				:disabled="false"
 				@submit="onWeightSubmit">

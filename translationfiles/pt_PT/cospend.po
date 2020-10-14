@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-09-15 12:12+0200\n"
-"PO-Revision-Date: 2020-09-15 10:14\n"
+"PO-Revision-Date: 2020-09-17 23:13\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -913,7 +913,7 @@ msgstr "Nova factura"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:62
 msgid "Add at least 2 members to start creating bills"
-msgstr ""
+msgstr "Adicione pelo menos 2 membros para começar a criar facturas"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:63
 msgid "No bill yet"

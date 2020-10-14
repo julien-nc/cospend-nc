@@ -183,6 +183,7 @@ OC.L10N.register(
     "Info" : "Informação",
     "You can type simple math operations and validate by pressing Enter key." : "Pode escrever operações matemáticas simples e validar com a tecla Enter.",
     "New bill" : "Nova factura",
+    "Add at least 2 members to start creating bills" : "Adicione pelo menos 2 membros para começar a criar facturas",
     "No bill yet" : "Ainda não há facturas",
     "Bill deleted." : "Factura eliminada.",
     "Add category" : "Adicionar categoria",

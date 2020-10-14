@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.1.1 – 2020-10-14
+### Changed
+- bump vue libs
+- use Psr logger
+
+### Fixed
+- hide member actions menu if user is not at least maintainer
+- fix padding of disabled mask in some cases
+- unified search now triggers internal search as well
+- fix paginated unified search
+- allow 2 digits member weight
+[#121](https://gitlab.com/eneiluj/cospend-nc/issues/121) @ratte-rizzo
+
 ## 1.1.0 – 2020-09-15
 ### Added
 - option to choose project list sorting criteria

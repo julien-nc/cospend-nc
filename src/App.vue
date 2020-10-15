@@ -585,33 +585,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	/*#content {
+/*#content {
+	#app-content {
+		transition: margin-left 100ms ease;
+		position: relative;
+		overflow-x: hidden;
+		align-items: stretch;
+	}
+	#app-sidebar {
+		transition: max-width 100ms ease;
+	}
+	&.nav-hidden {
 		#app-content {
-			transition: margin-left 100ms ease;
-			position: relative;
-			overflow-x: hidden;
-			align-items: stretch;
+			margin-left: 0;
 		}
+	}
+	&.sidebar-hidden {
 		#app-sidebar {
-			transition: max-width 100ms ease;
+			max-width: 0;
+			min-width: 0;
 		}
-		&.nav-hidden {
-			#app-content {
-				margin-left: 0;
-			}
-		}
-		&.sidebar-hidden {
-			#app-sidebar {
-				max-width: 0;
-				min-width: 0;
-			}
-		}
-	}*/
+	}
+}*/
 .content-buttons {
 	position: absolute !important;
 	top: 0px;
 	right: 8px;
 }
+
 #app-content-wrapper {
 	display: flex;
 }

@@ -292,17 +292,21 @@ export default {
 		color: var(--color-text-light);
 	}
 }
+
 .output-dir {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 }
+
 .output-dir button {
 	width: 59% !important;
 }
+
 .output-dir input {
 	width: 39% !important;
 }
+
 .project-create {
 	order: 1;
 	display: flex;
@@ -310,19 +314,22 @@ export default {
 	form {
 		display: flex;
 		flex-grow: 1;
-		input[type="text"] {
+		input[type='text'] {
 			flex-grow: 1;
 		}
 	}
 }
+
 .buttonItem {
 	border-bottom: solid 1px var(--color-border);
 }
+
 #max-precision label,
 #sort-order label {
 	line-height: 38px;
 	padding-left: 15px;
 }
+
 #max-precision,
 #sort-order {
 	display: grid;

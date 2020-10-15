@@ -325,13 +325,16 @@ export default {
 .nopad {
 	left: 8px;
 }
+
 .disabledMask {
 	z-index: 99;
 }
+
 .itemAvatar {
 	margin-top: 16px;
 	margin-right: 2px;
 }
+
 /* first action-input child has margin...
 ::v-deep .action-input {
 	margin-top: 0px !important;

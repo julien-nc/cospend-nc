@@ -136,15 +136,18 @@ export default {
 .addBillItem {
 	padding-left: 40px;
 }
+
 .nobill, .nomember {
 	text-align: center;
 	color: var(--color-text-lighter);
 	margin-top: 8px;
 	margin-left: 40px;
 }
+
 .nomember {
 	margin-top: 12px;
 }
+
 .loading-icon {
 	margin-top: 16px;
 }

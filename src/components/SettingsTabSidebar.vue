@@ -379,6 +379,7 @@ export default {
 #autoExport {
 	width: 100%;
 }
+
 #autoExport span.icon {
 	display: inline-block;
 	min-width: 30px !important;
@@ -387,24 +388,30 @@ export default {
 	height: 18px;
 	vertical-align: sub;
 }
+
 #autoExport label,
 #autoExport select {
 	display: inline-block;
 	width: 49%;
 }
+
 .addUserInput {
 	width: 100%;
 }
+
 #affectDiv {
 	display: flex;
 }
+
 #affectDiv select {
 	margin-top: 0px;
 }
+
 #affectDiv select,
 .affectUserInput {
 	width: 49%;
 }
+
 .renameProject,
 .newMember {
 	order: 1;
@@ -413,14 +420,16 @@ export default {
 	form {
 		display: flex;
 		flex-grow: 1;
-		input[type="text"] {
+		input[type='text'] {
 			flex-grow: 1;
 		}
 	}
 }
+
 .exportItem {
 	z-index: 0;
 }
+
 h3 {
 	display: flex;
 	margin-bottom: 20px;

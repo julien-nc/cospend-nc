@@ -165,10 +165,12 @@ export default {
 #manage-categories {
 	margin-left: 20px;
 }
+
 #manage-categories .icon {
 	line-height: 44px;
 	padding: 0 12px 0 25px;
 }
+
 .addCategoryOk {
 	margin-top: 0px;
 
@@ -187,51 +189,63 @@ export default {
 		background-color: var(--color-background-hover);
 	}
 }
+
 #add-category,
 #category-list,
 #main-category-label {
 	margin-left: 37px;
 }
+
 #main-category-label {
 	width: 160px;
 	display: grid;
 	grid-template: 1fr / 1fr 1fr;
 }
+
 #add-category {
 	display: grid;
 	grid-template: 1fr / 1fr 1fr;
 }
+
 .addCategoryRateHint {
 	grid-column: 1/3;
 }
+
 #main-category-label-label,
 #add-category label {
 	line-height: 40px;
 }
+
 #addCategoryNameInput {
 	width: 100%;
 }
+
 $clickable-area: 44px;
+
 .color0 {
 	width: calc(#{$clickable-area} - 6px);
 	height: calc(#{$clickable-area} - 6px);
 	background-size: 14px;
 	border-radius: 50%;
 }
+
 .add-category-2 {
 	display: grid;
 	grid-template: 1fr / 44px 44px 4fr 44px;
 	padding: 10px 10px 10px 20px;
 }
+
 .add-category-2 label {
 	line-height: 40px;
 }
+
 .add-icon-button {
 	margin-top: 0px;
 	border-radius: 50%;
 	width: 40px;
 	height: 40px;
 }
+
 .new-category-name {
 	width: 90%;
 }

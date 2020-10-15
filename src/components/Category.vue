@@ -143,52 +143,63 @@ export default {
 	background-color: var(--color-background-dark);
 	margin-right: 15px;
 }
+
 .one-category-edit label,
 #add-category label,
 .one-category-label label {
 	line-height: 40px;
 }
+
 .one-category-label input[type=submit] {
 	border-radius: 50% !important;
 	width: 40px !important;
 	height: 40px;
 	margin-top: 0px;
 }
+
 .one-category-label {
 	display: grid;
 	grid-template: 1fr / 1fr 1fr 6fr 42px 42px 15px;
 }
+
 .editCategoryOk,
 .editCategoryClose {
 	margin-top: 0px;
 	height: 40px;
 }
+
 .editCategoryOk {
 	background-color: #46ba61;
 	color: white;
 }
+
 .one-category-label-icon {
 	font-size: 22px;
 }
+
 $clickable-area: 44px;
+
 .color0 {
 	width: calc(#{$clickable-area} - 6px);
 	height: calc(#{$clickable-area} - 6px);
 	background-size: 14px;
 	border-radius: 50%;
 }
+
 .colorDot {
 	width: calc(#{$clickable-area} - 20px);
 	height: calc(#{$clickable-area} - 20px);
 	border-radius: 50%;
 	margin-top: 8px;
 }
+
 .edit-icon-button {
 	border-radius: var(--border-radius-pill);
 	height: 40px;
 	width: 40px;
 	margin: 0;
 }
+
 .icon {
 	border-radius: var(--border-radius-pill);
 	opacity: .5;

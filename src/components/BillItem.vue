@@ -208,6 +208,7 @@ export default {
 	left: -30px;
 	top: -12px;
 }
+
 .newBill {
 	font-style: italic;
 }

@@ -750,18 +750,22 @@ export default {
 #statsTitle {
 	padding: 20px 0px 20px 0px;
 }
+
 #stats-filters {
 	max-width: 900px;
 	margin-left: 20px;
 	display: grid;
 	grid-template: 1fr / 1fr 1fr 1fr 1fr;
 }
+
 #stats-filters select {
 	width: 130px;
 }
+
 #stats-filters label {
 	line-height: 40px;
 }
+
 #memberPolarChart,
 #categoryMemberChart,
 #memberChart,
@@ -769,29 +773,35 @@ export default {
 	max-width: 600px;
 	margin: 0 auto 0 auto;
 }
+
 #categoryMonthlyChart,
 #memberMonthlyChart {
 	width: 800px !important;
 	height: 400px !important;
 	margin: 0 auto 0 auto;
 }
+
 #categoryMemberSelect,
 #memberPolarSelect {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 }
+
 .checkboxlabel {
 	grid-column: 3 / 5;
 }
+
 #billdetail > p,
 #billdetail h2 {
 	text-align: center;
 }
+
 #billdetail > * {
 	margin-left: auto;
 	margin-right: auto;
 }
+
 /* TODO find a solution to limit stats width and still be able to scroll-x
 #monthlyTable, #categoryTable {
 	display: inline-block;

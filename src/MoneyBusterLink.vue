@@ -138,6 +138,7 @@ export default {
 	width: 210px;
 	margin: 0 auto;
 }
+
 .enterPassword {
 	order: 1;
 	display: flex;
@@ -148,11 +149,12 @@ export default {
 	form {
 		display: flex;
 		flex-grow: 1;
-		input[type="password"] {
+		input[type='password'] {
 			flex-grow: 1;
 		}
 	}
 }
+
 #mbPasswordLabel1,
 #mbPasswordLabel2,
 #mbUrlHintLabel1,
@@ -163,6 +165,7 @@ export default {
 	display: block;
 	text-align: center;
 }
+
 h3 {
 	display: flex;
 	margin-bottom: 20px;

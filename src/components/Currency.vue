@@ -121,30 +121,36 @@ export default {
 	background-color: var(--color-background-dark);
 	margin-right: 15px;
 }
+
 .one-currency-edit label,
 .one-currency-label label {
 	line-height: 40px;
 }
+
 .one-currency-label input[type=submit] {
 	border-radius: 50% !important;
 	width: 40px !important;
 	height: 40px;
 	margin-top: 0px;
 }
+
 .one-currency-label {
 	display: grid;
 	grid-template: 1fr / 1fr 1fr 42px 42px 15px;
 }
+
 .editCurrencyOk,
 .editCurrencyClose {
 	width: 40px !important;
 	height: 40px;
 	margin-top: 0px;
 }
+
 .editCurrencyOk {
 	background-color: #46ba61;
 	color: white;
 }
+
 .icon {
 	border-radius: var(--border-radius-pill);
 	opacity: .5;

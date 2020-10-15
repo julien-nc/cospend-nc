@@ -1015,35 +1015,42 @@ export default {
 .bill-left input {
 	width: 100%;
 }
+
 .bill-form a.icon {
 	justify-content: space-between;
 	line-height: 44px;
 	min-height: 44px;
 	padding: 0 12px 0 25px;
 }
+
 .bill-left,
 .bill-right {
 	padding: 0px 10px 0px 15px;
 	float: left;
 }
+
 .owerAllNoneDiv label,
 .owerEntry label {
 	margin-left: 5px;
 }
+
 .bill-owers input {
 	cursor: pointer;
 	padding: 5px;
 	min-height: 0px;
 }
+
 #owerValidate,
 #owerValidate2 {
 	background-color: #46ba61;
 	color: white;
 }
+
 .owerAllNoneDiv div {
 	display: inline-block;
 	width: 24px;
 }
+
 .owerAllNoneDiv,
 .owerEntry {
 	margin-left: 26px;
@@ -1051,40 +1058,50 @@ export default {
 	margin-top: 15px;
 	margin-bottom: 15px;
 }
+
 .amountinput {
 	margin-top: 0px !important;
 	margin-bottom: 0px !important;
 }
+
 .bill-title {
 	text-align: left;
 	margin-left: 50px;
 }
+
 #billtype {
 	max-width: 80%;
 }
+
 .billFormAvatar img {
 	width: 50px;
 }
+
 .billFormAvatar .disabledMask {
 	width: 52px;
 	height: 52px;
 	left: 51px;
 }
+
 .infoButton {
 	height: 34px;
 	width: 34px;
 	float: right;
 }
+
 .field-with-info {
 	display: flex;
 }
+
 .field-with-info select,
 .field-with-info input {
 	flex-grow: 100;
 }
+
 .datetime-picker {
 	width: 100%;
 }
+
 .bill-date,
 .bill-payment-mode,
 .bill-category,
@@ -1099,26 +1116,31 @@ export default {
 	display: grid;
 	grid-template: 1fr / 5fr 7fr;
 }
+
 .bill-repeat,
 .bill-payer,
 .bill-amount {
 	margin-top: 25px;
 }
+
 .bill-amount .icon-cospend,
 .bill-currency-convert .icon-currencies {
 	display: inline-block;
 	padding-left: 34px !important;
 }
+
 .bill-amount label,
 .bill-currency-convert label {
 	padding-top: 10px;
 }
+
 .bill-repeat-include {
 	text-align: left;
 	margin-top: 5px;
 	margin-bottom: 5px;
 	padding-left: 8px;
 }
+
 .modehint {
 	max-width: 500px;
 }

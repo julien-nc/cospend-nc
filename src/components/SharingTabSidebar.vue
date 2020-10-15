@@ -503,42 +503,52 @@ export default {
 }
 </script>
 <style scoped>
-	.shareInput {
-		width: 100%;
-	}
-	.shareWithList {
-		margin-bottom: 20px;
-	}
-	.shareWithList li {
-		display: flex;
-		align-items: center;
-	}
-	.username {
-		padding: 12px 9px;
-		flex-grow: 1;
-	}
-	.project-owner-label {
-		opacity: .7;
-	}
-	.avatarLabel {
-		padding: 6px
-	}
-	.avatardiv {
-		background-color: #f5f5f5;
-		border-radius: 16px;
-		width: 32px;
-		height: 32px;
-	}
-	#newPasswordForm div {
-		width: 48%;
-		display: inline-block;
-	}
-	#newPasswordForm label {
-		text-align: center;
-		display: inline-block;
-		width: 48%;
-	}
-	.avatardiv.icon-public-white {
-		background-color: var(--color-primary);
-	}
+.shareInput {
+	width: 100%;
+}
+
+.shareWithList {
+	margin-bottom: 20px;
+}
+
+.shareWithList li {
+	display: flex;
+	align-items: center;
+}
+
+.username {
+	padding: 12px 9px;
+	flex-grow: 1;
+}
+
+.project-owner-label {
+	opacity: .7;
+}
+
+.avatarLabel {
+	padding: 6px
+}
+
+.avatardiv {
+	background-color: #f5f5f5;
+	border-radius: 16px;
+	width: 32px;
+	height: 32px;
+}
+
+#newPasswordForm div {
+	width: 48%;
+	display: inline-block;
+}
+
+#newPasswordForm label {
+	text-align: center;
+	display: inline-block;
+	width: 48%;
+}
+
+.avatardiv.icon-public-white {
+	background-color: var(--color-primary);
+}
+
 </style>

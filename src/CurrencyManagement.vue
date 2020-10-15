@@ -207,15 +207,18 @@ export default {
 #manage-currencies {
 	margin-left: 20px;
 }
+
 #manage-currencies .icon {
 	line-height: 44px;
 	padding: 0 12px 0 25px;
 }
+
 #manage-currencies .icon-currencies {
 	min-height: 18px !important;
 	display: inline-block;
 	padding: 0 12px 0 25px !important;
 }
+
 .editMainCurrencyOk,
 .editMainCurrencyClose,
 .editMainCurrency {
@@ -237,42 +240,52 @@ export default {
 		background-color: var(--color-background-hover);
 	}
 }
+
 .editMainCurrencyInput {
 	width: 96%;
 }
+
 #main-currency-edit {
 	display: grid;
 	grid-template: 1fr / 80% 1fr 1fr;
 }
+
 .addCurrencyOk {
 	background-color: #46ba61;
 	color: white;
 }
+
 #main-currency-edit,
 #add-currency,
 #main-currency-label {
 	margin-left: 37px;
 }
+
 #main-currency-label {
 	display: grid;
 	grid-template: 1fr / 90% 1fr;
 }
+
 #add-currency {
 	display: grid;
 	grid-template: 1fr / 2fr 1fr;
 }
+
 .addCurrencyRateHint {
 	grid-column: 1/3;
 }
+
 #main-currency-label-label,
 #add-currency label {
 	line-height: 40px;
 }
+
 .no-currencies {
 	padding: 2em;
 	text-align: center;
 	color: var(--color-text-light);
 }
+
 #currency-list {
 	margin-left: 37px;
 }

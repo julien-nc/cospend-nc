@@ -1,5 +1,6 @@
 <?php
-script('cospend', 'login');
+$appId = OCA\Cospend\AppInfo\Application::APP_ID;
+script('cospend', $appId . '-login');
 style('cospend', 'login');
 ?>
 

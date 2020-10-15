@@ -1,5 +1,6 @@
 <?php
-OCP\Util::addscript('cospend', 'adminSettings');
+$appId = OCA\Cospend\AppInfo\Application::APP_ID;
+OCP\Util::addscript('cospend', $appId . '-adminSettings');
 OCP\Util::addstyle('cospend', 'admin');
 ?>
 

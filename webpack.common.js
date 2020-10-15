@@ -6,7 +6,7 @@ const StyleLintPlugin = require('stylelint-webpack-plugin')
 module.exports = {
 	stats: {
 		colors: true,
-		excludeModules: true,
+		modules: false,
 	},
 	entry: {
 		adminSettings: { import: path.join(__dirname, 'src', 'adminSettings.js'), filename: 'cospend-adminSettings.js' },

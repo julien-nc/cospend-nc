@@ -4,6 +4,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
 
 module.exports = {
+	stats: {
+		colors: true,
+		excludeModules: true,
+	},
 	entry: {
 		adminSettings: { import: path.join(__dirname, 'src', 'adminSettings.js'), filename: 'cospend-adminSettings.js' },
 		main: { import: path.join(__dirname, 'src', 'main.js'), filename: 'cospend-main.js' },

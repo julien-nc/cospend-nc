@@ -8,18 +8,18 @@
     <author mail="eneiluj@posteo.net">Julien Veyssier</author>
     <namespace>Cospend</namespace>
     <documentation>
-        <user>https://gitlab.com/eneiluj/cospend-nc/wikis/userdoc</user>
-        <admin>https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc</admin>
-        <developer>https://gitlab.com/eneiluj/cospend-nc/wikis/devdoc</developer>
+        <user>https://github.com/eneiluj/cospend-nc/wiki/userdoc</user>
+        <admin>https://github.com/eneiluj/cospend-nc/wiki/admindoc</admin>
+        <developer>https://github.com/eneiluj/cospend-nc/wiki/devdoc</developer>
     </documentation>
     <category>tools</category>
     <category>organization</category>
-    <website>https://gitlab.com/eneiluj/cospend-nc</website>
-    <bugs>https://gitlab.com/eneiluj/cospend-nc/issues</bugs>
-    <screenshot>https://gitlab.com/eneiluj/cospend-nc/-/wikis/uploads/9d23713aaeaeaae6bb00d9686ac68573/cospend1.png</screenshot>
-    <screenshot>https://gitlab.com/eneiluj/cospend-nc/-/wikis/uploads/0a7f7b475b19506c8804c5bb0157aa39/cospend2.png</screenshot>
-    <screenshot>https://gitlab.com/eneiluj/cospend-nc/-/wikis/uploads/5ae6be5c78c660958ed55d4c4b172f83/cospend3.png</screenshot>
-    <screenshot>https://gitlab.com/eneiluj/cospend-nc/-/wikis/uploads/96676ed7c5888bfeb20bde540a9c29b4/cospend4.png</screenshot>
+    <website>https://github.com/eneiluj/cospend-nc</website>
+    <bugs>https://github.com/eneiluj/cospend-nc/issues</bugs>
+    <screenshot>https://github.com/eneiluj/cospend-nc/raw/master/img/screenshots/cospend1.jpg</screenshot>
+    <screenshot>https://github.com/eneiluj/cospend-nc/raw/master/img/screenshots/cospend2.jpg</screenshot>
+    <screenshot>https://github.com/eneiluj/cospend-nc/raw/master/img/screenshots/cospend3.jpg</screenshot>
+    <screenshot>https://github.com/eneiluj/cospend-nc/raw/master/img/screenshots/cospend4.jpg</screenshot>
     <dependencies>
         <database min-version="9.4">pgsql</database>
         <database>sqlite</database>

@@ -37,15 +37,15 @@ This app is under development.
 
 🌍 Help us to translate this app on [Nextcloud-Cospend/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
+⚒ Check out other ways to help in the [contribution guidelines](https://github.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
 ## Install
 
-See the [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc) for installation details.
+See the [AdminDoc](https://github.com/eneiluj/cospend-nc/wiki/admindoc) for installation details.
 
-Check [CHANGELOG](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
+Check [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
 
-Check [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+Check [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
 
 ## Known issues
 

@@ -41,7 +41,7 @@ This app is under development.
 
 🌍 Help us to translate this app on [Nextcloud-Cospend/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
+⚒ Check out other ways to help in the [contribution guidelines](https://github.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
 Link to Nextcloud application website : https://apps.nextcloud.com/apps/cospend
 
@@ -49,16 +49,16 @@ Link to Nextcloud application website : https://apps.nextcloud.com/apps/cospend
 
 I develop this app during my free time.
 
-* [Paypal : <img src="https://gitlab.com/eneiluj/phonetrack-android/wikis/uploads/3ef4665a2c25662265681d6304f71b43/paypal-donate-button.png" width="100"/>](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66PALMY8SF5JE) (you don't need a paypal account)
+* [Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66PALMY8SF5JE) (you don't need a paypal account)
 * [Liberapay : ![Donate using Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/eneiluj/donate)
 
 ## Install
 
-See the [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc) for installation details.
+See the [AdminDoc](https://github.com/eneiluj/cospend-nc/wiki/admindoc) for installation details.
 
-Check [CHANGELOG](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
+Check [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
 
-Check [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors and contributors.
+Check [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors and contributors.
 
 ## Known issues
 
@@ -68,7 +68,7 @@ Any feedback will be appreciated.
 
 ## Screenshots
 
-![1](https://gitlab.com/eneiluj/cospend-nc/-/wikis/uploads/9d23713aaeaeaae6bb00d9686ac68573/cospend1.png)
-![2](https://gitlab.com/eneiluj/cospend-nc/-/wikis/uploads/0a7f7b475b19506c8804c5bb0157aa39/cospend2.png)
-![3](https://gitlab.com/eneiluj/cospend-nc/-/wikis/uploads/5ae6be5c78c660958ed55d4c4b172f83/cospend3.png)
-![4](https://gitlab.com/eneiluj/cospend-nc/-/wikis/uploads/96676ed7c5888bfeb20bde540a9c29b4/cospend4.png)
+![1](https://github.com/eneiluj/cospend-nc/raw/master/img/screenshots/cospend1.jpg)
+![2](https://github.com/eneiluj/cospend-nc/raw/master/img/screenshots/cospend2.jpg)
+![3](https://github.com/eneiluj/cospend-nc/raw/master/img/screenshots/cospend3.jpg)
+![4](https://github.com/eneiluj/cospend-nc/raw/master/img/screenshots/cospend4.jpg)

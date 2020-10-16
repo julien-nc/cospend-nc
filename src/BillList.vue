@@ -20,19 +20,17 @@
 		</h2>
 		<h2 v-show="loading"
 			class="icon-loading-small loading-icon" />
-		<SlideXRightTransition group :duration="{ enter: 300, leave: 0 }">
-			<BillItem
-				v-for="(bill, index) in reverseBills"
-				:key="bill.id"
-				:bill="bill"
-				:project-id="projectId"
-				:index="nbBills - index"
-				:nbbills="nbBills"
-				:selected="bill.id === selectedBillId"
-				:edition-access="editionAccess"
-				@clicked="onItemClicked"
-				@delete="onItemDeleted" />
-		</SlideXRightTransition>
+		<BillItem
+			v-for="(bill, index) in reverseBills"
+			:key="bill.id"
+			:bill="bill"
+			:project-id="projectId"
+			:index="nbBills - index"
+			:nbbills="nbBills"
+			:selected="bill.id === selectedBillId"
+			:edition-access="editionAccess"
+			@clicked="onItemClicked"
+			@delete="onItemDeleted" />
 	</div>
 </template>
 
@@ -42,13 +40,12 @@ import BillItem from './components/BillItem'
 import { showSuccess } from '@nextcloud/dialogs'
 import cospend from './state'
 import * as network from './network'
-import { SlideXRightTransition } from 'vue2-transitions'
 
 export default {
 	name: 'BillList',
 
 	components: {
-		BillItem, AppNavigationItem, SlideXRightTransition,
+		BillItem, AppNavigationItem,
 	},
 
 	props: {

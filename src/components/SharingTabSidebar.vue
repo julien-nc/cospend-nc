@@ -26,59 +26,57 @@
 					icon="icon-add"
 					:aria-label="t('cospend', 'Add link')" />
 			</li>
-			<SlideXRightTransition group>
-				<li v-for="access in linkShares" :key="access.id">
-					<div class="avatardiv icon icon-public-white" />
-					<span class="username">
-						<span>{{ t('cospend', 'Public link') }}</span>
-					</span>
+			<li v-for="access in linkShares" :key="access.id">
+				<div class="avatardiv icon icon-public-white" />
+				<span class="username">
+					<span>{{ t('cospend', 'Public link') }}</span>
+				</span>
 
-					<Popover>
-						<ActionButton slot="trigger"
-							class="copyLinkButton"
-							:icon="(linkCopied[access.id]) ? 'icon-checkmark-color' : 'icon-clippy'"
-							:aria-label="t('cospend', 'Copy link')"
-							@click="copyLink(access)" />
-						<template>
-							{{ t('cospend', 'Copied!') }}
-						</template>
-					</Popover>
+				<Popover>
+					<ActionButton slot="trigger"
+						class="copyLinkButton"
+						:icon="(linkCopied[access.id]) ? 'icon-checkmark-color' : 'icon-clippy'"
+						:aria-label="t('cospend', 'Copy link')"
+						@click="copyLink(access)" />
+					<template>
+						{{ t('cospend', 'Copied!') }}
+					</template>
+				</Popover>
 
-					<Actions
-						:force-menu="true"
-						placement="bottom">
-						<ActionRadio name="accessLevel"
-							:disabled="!canSetAccessLevel(1, access)"
-							:checked="access.accesslevel === 1"
-							@change="clickAccessLevel(access, 1)">
-							{{ t('cospend', 'Viewer') }}
-						</ActionRadio>
-						<ActionRadio name="accessLevel"
-							:disabled="!canSetAccessLevel(2, access)"
-							:checked="access.accesslevel === 2"
-							@change="clickAccessLevel(access, 2)">
-							{{ t('cospend', 'Participant') }}
-						</ActionRadio>
-						<ActionRadio name="accessLevel"
-							:disabled="!canSetAccessLevel(3, access)"
-							:checked="access.accesslevel === 3"
-							@change="clickAccessLevel(access, 3)">
-							{{ t('cospend', 'Maintainer') }}
-						</ActionRadio>
-						<ActionRadio name="accessLevel"
-							:disabled="!canSetAccessLevel(4, access)"
-							:checked="access.accesslevel === 4"
-							@change="clickAccessLevel(access, 4)">
-							{{ t('cospend', 'Admin') }}
-						</ActionRadio>
-						<ActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
-							icon="icon-delete"
-							@click="clickDeleteAccess(access)">
-							{{ t('cospend', 'Delete link') }}
-						</ActionButton>
-					</Actions>
-				</li>
-			</SlideXRightTransition>
+				<Actions
+					:force-menu="true"
+					placement="bottom">
+					<ActionRadio name="accessLevel"
+						:disabled="!canSetAccessLevel(1, access)"
+						:checked="access.accesslevel === 1"
+						@change="clickAccessLevel(access, 1)">
+						{{ t('cospend', 'Viewer') }}
+					</ActionRadio>
+					<ActionRadio name="accessLevel"
+						:disabled="!canSetAccessLevel(2, access)"
+						:checked="access.accesslevel === 2"
+						@change="clickAccessLevel(access, 2)">
+						{{ t('cospend', 'Participant') }}
+					</ActionRadio>
+					<ActionRadio name="accessLevel"
+						:disabled="!canSetAccessLevel(3, access)"
+						:checked="access.accesslevel === 3"
+						@change="clickAccessLevel(access, 3)">
+						{{ t('cospend', 'Maintainer') }}
+					</ActionRadio>
+					<ActionRadio name="accessLevel"
+						:disabled="!canSetAccessLevel(4, access)"
+						:checked="access.accesslevel === 4"
+						@change="clickAccessLevel(access, 4)">
+						{{ t('cospend', 'Admin') }}
+					</ActionRadio>
+					<ActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
+						icon="icon-delete"
+						@click="clickDeleteAccess(access)">
+						{{ t('cospend', 'Delete link') }}
+					</ActionButton>
+				</Actions>
+			</li>
 			<li>
 				<Avatar :disable-menu="true" :disable-tooltip="true" :user="project.userid" />
 				<span class="has-tooltip username">
@@ -88,56 +86,54 @@
 					</span>
 				</span>
 			</li>
-			<SlideXRightTransition group>
-				<li v-for="access in ugcShares" :key="access.id">
-					<Avatar
-						v-if="access.type==='u'"
-						:user="access.userid"
-						:disable-menu="true"
-						:disable-tooltip="true" />
-					<div v-if="access.type==='g'" class="avatardiv icon icon-group" />
-					<div v-if="access.type==='c'" class="avatardiv icon share-icon-circle" />
-					<span class="username">
-						<span>{{ access.name }}</span>
-						<span v-if="access.type==='g'">({{ t('cospend', 'Group') }})</span>
-						<span v-if="access.type==='c'">({{ t('cospend', 'Circle') }})</span>
-					</span>
+			<li v-for="access in ugcShares" :key="access.id">
+				<Avatar
+					v-if="access.type==='u'"
+					:user="access.userid"
+					:disable-menu="true"
+					:disable-tooltip="true" />
+				<div v-if="access.type==='g'" class="avatardiv icon icon-group" />
+				<div v-if="access.type==='c'" class="avatardiv icon share-icon-circle" />
+				<span class="username">
+					<span>{{ access.name }}</span>
+					<span v-if="access.type==='g'">({{ t('cospend', 'Group') }})</span>
+					<span v-if="access.type==='c'">({{ t('cospend', 'Circle') }})</span>
+				</span>
 
-					<Actions
-						:force-menu="true"
-						placement="bottom">
-						<ActionRadio name="accessLevel"
-							:disabled="!canSetAccessLevel(1, access)"
-							:checked="access.accesslevel === 1"
-							@change="clickAccessLevel(access, 1)">
-							{{ t('cospend', 'Viewer') }}
-						</ActionRadio>
-						<ActionRadio name="accessLevel"
-							:disabled="!canSetAccessLevel(2, access)"
-							:checked="access.accesslevel === 2"
-							@change="clickAccessLevel(access, 2)">
-							{{ t('cospend', 'Participant') }}
-						</ActionRadio>
-						<ActionRadio name="accessLevel"
-							:disabled="!canSetAccessLevel(3, access)"
-							:checked="access.accesslevel === 3"
-							@change="clickAccessLevel(access, 3)">
-							{{ t('cospend', 'Maintainer') }}
-						</ActionRadio>
-						<ActionRadio name="accessLevel"
-							:disabled="!canSetAccessLevel(4, access)"
-							:checked="access.accesslevel === 4"
-							@change="clickAccessLevel(access, 4)">
-							{{ t('cospend', 'Admin') }}
-						</ActionRadio>
-						<ActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
-							icon="icon-delete"
-							@click="clickDeleteAccess(access)">
-							{{ t('cospend', 'Delete access') }}
-						</ActionButton>
-					</Actions>
-				</li>
-			</SlideXRightTransition>
+				<Actions
+					:force-menu="true"
+					placement="bottom">
+					<ActionRadio name="accessLevel"
+						:disabled="!canSetAccessLevel(1, access)"
+						:checked="access.accesslevel === 1"
+						@change="clickAccessLevel(access, 1)">
+						{{ t('cospend', 'Viewer') }}
+					</ActionRadio>
+					<ActionRadio name="accessLevel"
+						:disabled="!canSetAccessLevel(2, access)"
+						:checked="access.accesslevel === 2"
+						@change="clickAccessLevel(access, 2)">
+						{{ t('cospend', 'Participant') }}
+					</ActionRadio>
+					<ActionRadio name="accessLevel"
+						:disabled="!canSetAccessLevel(3, access)"
+						:checked="access.accesslevel === 3"
+						@change="clickAccessLevel(access, 3)">
+						{{ t('cospend', 'Maintainer') }}
+					</ActionRadio>
+					<ActionRadio name="accessLevel"
+						:disabled="!canSetAccessLevel(4, access)"
+						:checked="access.accesslevel === 4"
+						@change="clickAccessLevel(access, 4)">
+						{{ t('cospend', 'Admin') }}
+					</ActionRadio>
+					<ActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
+						icon="icon-delete"
+						@click="clickDeleteAccess(access)">
+						{{ t('cospend', 'Delete access') }}
+					</ActionButton>
+				</Actions>
+			</li>
 		</ul>
 		<hr><br>
 		<ul
@@ -230,7 +226,6 @@ import cospend from '../state'
 import * as constants from '../constants'
 import * as network from '../network'
 import { Timer } from '../utils'
-import { SlideXRightTransition } from 'vue2-transitions'
 
 export default {
 	name: 'SharingTabSidebar',
@@ -242,7 +237,6 @@ export default {
 		ActionRadio,
 		Multiselect,
 		Popover,
-		SlideXRightTransition,
 	},
 	props: {
 		project: {

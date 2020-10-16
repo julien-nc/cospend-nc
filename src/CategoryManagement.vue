@@ -37,15 +37,13 @@
 			</label>
 			<div v-if="categories"
 				id="category-list">
-				<SlideXRightTransition group>
-					<Category
-						v-for="category in categories"
-						:key="category.id"
-						:category="category"
-						:edition-access="editionAccess"
-						@delete="onDeleteCategory"
-						@edit="onEditCategory" />
-				</SlideXRightTransition>
+				<Category
+					v-for="category in categories"
+					:key="category.id"
+					:category="category"
+					:edition-access="editionAccess"
+					@delete="onDeleteCategory"
+					@edit="onEditCategory" />
 			</div>
 			<div v-else class="no-categories">
 				{{ t('cospend', 'No categories to display') }}
@@ -65,13 +63,12 @@ import {
 } from '@nextcloud/dialogs'
 import * as constants from './constants'
 import * as network from './network'
-import { SlideXRightTransition } from 'vue2-transitions'
 
 export default {
 	name: 'CategoryManagement',
 
 	components: {
-		Category, ColorPicker, SlideXRightTransition, EmojiPicker,
+		Category, ColorPicker, EmojiPicker,
 	},
 
 	props: {

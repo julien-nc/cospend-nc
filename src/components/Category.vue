@@ -25,7 +25,7 @@
 				</vac>
 			</label>
 		</div>
-		<div v-show="editMode"
+		<div v-if="editMode"
 			class="one-category-edit">
 			<ColorPicker ref="col"
 				class="app-navigation-entry-bullet-wrapper"

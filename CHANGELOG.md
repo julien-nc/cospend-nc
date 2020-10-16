@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.1.2 – 2020-10-16
+### Changed
+- move to GitHub
+- use Webpack 5
+- use stylelint
+- get rid of vue2-transitions
+
+### Fixed
+- major UI performance problem: render category edition only in edition mode (emoji picker was loaded many times)
+
 ## 1.1.1 – 2020-10-14
 ### Changed
 - bump vue libs

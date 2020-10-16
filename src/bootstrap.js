@@ -1,5 +1,4 @@
 import Vue from 'vue'
-// eslint-disable-next-line
 import { translate, translatePlural } from '@nextcloud/l10n'
 
 Vue.prototype.t = translate

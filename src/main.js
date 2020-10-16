@@ -17,7 +17,6 @@ import App from './App'
 import vueAwesomeCountdown from 'vue-awesome-countdown'
 import VueClipboard from 'vue-clipboard2'
 import SmartTable from 'vuejs-smart-table'
-import Transitions from 'vue2-transitions'
 import { hexToDarkerHex } from './utils'
 import * as network from './network'
 import cospend from './state'
@@ -25,7 +24,6 @@ import cospend from './state'
 Vue.use(vueAwesomeCountdown, 'vac')
 Vue.use(VueClipboard)
 Vue.use(SmartTable)
-Vue.use(Transitions)
 
 // eslint-disable-next-line
 'use strict'

@@ -253,7 +253,7 @@
 					<button id="modehintbutton" @click="onHintClick">
 						<span class="icon-details" />
 					</button>
-					<CollapseTransition>
+					<transition name="fade">
 						<div v-if="newBillMode === 'normal' && showHint"
 							class="modehint modenormal">
 							{{ t('cospend', 'Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost.') }}
@@ -266,7 +266,7 @@
 							class="modehint modecustom">
 							{{ t('cospend', 'Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press "Create the bills". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate.') }}
 						</div>
-					</CollapseTransition>
+					</transition>
 				</div>
 				<div class="bill-owers">
 					<label class="bill-owers-label">
@@ -379,11 +379,9 @@
 </template>
 
 <script>
-import { CollapseTransition } from 'vue2-transitions'
 import cospend from './state'
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-// eslint-disable-next-line
 import { getLocale } from '@nextcloud/l10n'
 import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
 import {
@@ -400,7 +398,7 @@ export default {
 	name: 'BillForm',
 
 	components: {
-		DatetimePicker, CollapseTransition,
+		DatetimePicker,
 	},
 
 	props: {

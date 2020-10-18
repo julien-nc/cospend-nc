@@ -1,6 +1,6 @@
 # Nextcloud Cospend 💰
 
-Nextcloud Cospend 是一款群组/共享支出管理工具。 由伟大的 [IHateMoney](https://github.com/spiral-project/ihatemoney/) 启发。
+Nextcloud Cospend 是一款群组/共享支出管理工具。 由伟大的 [IHateMoney](https://github.com/spiral-project/ihatemoney/) 启发。 由伟大的 [IHateMoney](https://github.com/spiral-project/ihatemoney/) 启发。
 
 您可在租赁房屋、与朋友外出度假时的任何需要共享金钱的情况使用。
 

@@ -41,7 +41,7 @@
 .disabledMask {
     width: 26px;
     height: 26px;
-    background-image: url(images/forbidden.svg);
+    background-image: url('./images/forbidden.svg');
     position: absolute;
     top: 9px;
     left: 38px;
@@ -54,7 +54,7 @@
     display: block;
     width: 105%;
     height: 105%;
-    background-image: url(images/forbidden.svg);
+    background-image: url('./images/forbidden.svg');
     margin: -1px 0 0 -1px;
     position: absolute;
 }

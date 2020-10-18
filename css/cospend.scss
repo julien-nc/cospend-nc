@@ -240,10 +240,10 @@ input[type=number] {
 .icon-cospend {
     background-color: var(--color-main-text);
     padding: 0 !important;
-    mask: url(images/app_black.svg) no-repeat;
+    mask: url('./images/app_black.svg') no-repeat;
     mask-size: 18px auto;
     mask-position: center;
-    -webkit-mask: url(images/app_black.svg) no-repeat;
+    -webkit-mask: url('./images/app_black.svg') no-repeat;
     -webkit-mask-size: 18px auto;
     -webkit-mask-position: center;
     min-width: 44px !important;
@@ -252,10 +252,10 @@ input[type=number] {
 .icon-time {
     background-color: var(--color-main-text);
     padding: 0 !important;
-    mask: url(images/time.svg) no-repeat;
+    mask: url('./images/time.svg') no-repeat;
     mask-size: 18px auto;
     mask-position: center;
-    -webkit-mask: url(images/time.svg) no-repeat;
+    -webkit-mask: url('./images/time.svg') no-repeat;
     -webkit-mask-size: 18px auto;
     -webkit-mask-position: center;
     min-width: 44px !important;
@@ -264,10 +264,10 @@ input[type=number] {
 .icon-schedule {
     background-color: var(--color-main-text);
     padding: 0 !important;
-    mask: url(images/schedule.svg) no-repeat;
+    mask: url('./images/schedule.svg') no-repeat;
     mask-size: 16px auto;
     mask-position: center;
-    -webkit-mask: url(images/schedule.svg) no-repeat;
+    -webkit-mask: url('./images/schedule.svg') no-repeat;
     -webkit-mask-size: 16px auto;
     -webkit-mask-position: center;
     min-width: 44px !important;
@@ -276,10 +276,10 @@ input[type=number] {
 .icon-currencies {
     background-color: var(--color-main-text);
     padding: 0 !important;
-    mask: url(images/currency.svg) no-repeat;
+    mask: url('./images/currency.svg') no-repeat;
     mask-size: 18px 18px;
     mask-position: center;
-    -webkit-mask: url(images/currency.svg) no-repeat;
+    -webkit-mask: url('./images/currency.svg') no-repeat;
     -webkit-mask-size: 18px 18px;
     -webkit-mask-position: center;
     min-width: 44px !important;
@@ -288,10 +288,10 @@ input[type=number] {
 .icon-palette {
     background-color: var(--color-main-text);
     padding: 0 !important;
-    mask: url(images/palette.svg) no-repeat;
+    mask: url('./images/palette.svg') no-repeat;
     mask-size: 18px 18px;
     mask-position: center;
-    -webkit-mask: url(images/palette.svg) no-repeat;
+    -webkit-mask: url('./images/palette.svg') no-repeat;
     -webkit-mask-size: 18px 18px;
     -webkit-mask-position: center;
     min-width: 44px !important;
@@ -300,10 +300,10 @@ input[type=number] {
 .icon-reimburse {
     background-color: var(--color-main-text);
     padding: 0 !important;
-    mask: url(images/reimburse.svg) no-repeat;
+    mask: url('./images/reimburse.svg') no-repeat;
     mask-size: 18px 18px;
     mask-position: center;
-    -webkit-mask: url(images/reimburse.svg) no-repeat;
+    -webkit-mask: url('./images/reimburse.svg') no-repeat;
     -webkit-mask-size: 18px 18px;
     -webkit-mask-position: center;
     min-width: 44px !important;
@@ -312,10 +312,10 @@ input[type=number] {
 .icon-save {
     background-color: var(--color-main-text);
     padding: 0 !important;
-    mask: url(images/save.svg) no-repeat;
+    mask: url('./images/save.svg') no-repeat;
     mask-size: 18px 18px;
     mask-position: center;
-    -webkit-mask: url(images/save.svg) no-repeat;
+    -webkit-mask: url('./images/save.svg') no-repeat;
     -webkit-mask-size: 18px 18px;
     -webkit-mask-position: center;
     min-width: 44px !important;
@@ -331,10 +331,10 @@ input[type=number] {
 }
 .icon-shar {
     background-color: var(--color-main-text) !important;
-    mask: url(images/shar.svg) no-repeat;
+    mask: url('./images/shar.svg') no-repeat;
     mask-size: 16px 16px;
     mask-position: center;
-    -webkit-mask: url(images/shar.svg) no-repeat;
+    -webkit-mask: url('./images/shar.svg') no-repeat;
     -webkit-mask-size: 16px 16px;
     -webkit-mask-position: center;
 }

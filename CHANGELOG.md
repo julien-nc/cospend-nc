@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.1.4 – 2020-10-19
+### Fixed
+- another custom icon path...
+
 ## 1.1.3 – 2020-10-18
 ### Fixed
 - custom icon path

@@ -1,0 +1,61 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master, test ]
+  pull_request:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  tests:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      #- name: Run a one-line script
+      #  run: echo Hello, world!
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+        run: |
+          export DEBIAN_FRONTEND=noninteractive
+          sudo apt-get update -yqq
+          sudo apt-get install git sudo php-xdebug php7.4-sqlite3 php7.4-curl\
+            php7.4-xml php7.4-mbstring php7.4-json php7.4-zip php7.4-gd\
+            php7.4-intl unzip curl wget nodejs npm sed make rsync -yqq > /dev/null 2>&1
+          sudo npm install -g jshint > /dev/null 2>&1
+          sudo curl --location --output /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
+          sudo chmod +x /usr/local/bin/phpunit
+          sudo mkdir -p /var/www/html ; cd /var/www/html
+          sudo git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b stable20 nextcloud
+          sudo sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
+          sudo chown -R www-data:www-data nextcloud && cd nextcloud/apps && sudo cp -r $GITHUB_WORKSPACE ./cospend
+          sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
+          sudo -u www-data php /var/www/html/nextcloud/occ app:enable cospend
+          sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
+          #sudo -u www-data php /var/www/html/nextcloud/occ app:check-code cospend
+          sudo mkdir /tmp/coverage
+          cd /tmp
+          sudo phpunit --configuration /var/www/html/nextcloud/apps/cospend/phpunit.xml --coverage-text --color=never --coverage-html coverage
+          echo "############################"
+          ls /tmp
+          echo "############################"
+          ls /tmp/coverage
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage
+          path: /tmp/coverage

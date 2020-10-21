@@ -1,7 +1,7 @@
 # Nextcloud Cospend 💰
 
 ![CI](https://github.com/eneiluj/cospend-nc/workflows/CI/badge.svg?branch=master&event=push)
-[![coverage report](https://eneiluj.github.io/cospend-nc/coverage.svg)](https://eneiluj.github.io/cospend-nc/)
+[![coverage report](https://github.com/eneiluj/cospend-nc/raw/gh-pages/coverage.svg)](https://eneiluj.github.io/cospend-nc/)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/moneybuster/localized.svg)](https://crowdin.com/project/moneybuster)
 
 Nextcloud Cospend is a group/shared budget manager.

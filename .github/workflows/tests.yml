@@ -53,7 +53,10 @@ jobs:
           echo "phpunit finished ############################"
           sudo cat /tmp/cov.txt
           echo "generating badge ############################"
-          sudo grep "^\s\+Lines:" /tmp/cov.txt | sudo sed 's/^\s\+Lines:\s\+\([0-9]\+\.\?[0-9]\+\)\%.*/\1/' > /tmp/coverage/cov.value.txt
+          sudo grep "^\s\+Lines:" /tmp/cov.txt > /tmp/cov.line.txt
+          sudo grep -o "[0-9]\+\.\?[0-9]\+" /tmp/cov.line.txt > /tmp/cov.value.txt
+          sudo mv /tmp/cov.value.txt /tmp/coverage/cov.value.txt
+          echo "anybadge ############################"
           sudo anybadge -l coverage -v `sudo cat /tmp/coverage/cov.value.txt` -f /tmp/coverage/coverage.svg 50=red 70=orange 80=yellow 90=green
 
       - name: Upload coverage

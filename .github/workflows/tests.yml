@@ -27,7 +27,7 @@ jobs:
       #  run: echo Hello, world!
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Perform PhpUnit tests
         if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
         run: |
           export DEBIAN_FRONTEND=noninteractive
@@ -35,30 +35,30 @@ jobs:
           sudo apt-get install python3-pip git sudo php-xdebug php7.4-sqlite3 php7.4-curl\
             php7.4-xml php7.4-mbstring php7.4-json php7.4-zip php7.4-gd\
             php7.4-intl unzip curl wget nodejs npm sed make rsync -yqq > /dev/null 2>&1
-          sudo pip3 install anybadge
+          sudo -H pip3 install anybadge
           sudo npm install -g jshint > /dev/null 2>&1
           sudo curl --location --output /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
           sudo chmod +x /usr/local/bin/phpunit
-          sudo mkdir -p /var/www/html ; cd /var/www/html
-          sudo git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b stable20 nextcloud
-          sudo sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
-          sudo chown -R www-data:www-data nextcloud && cd nextcloud/apps && sudo cp -r $GITHUB_WORKSPACE ./cospend
-          sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
-          sudo -u www-data php /var/www/html/nextcloud/occ app:enable cospend
-          sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
-          #sudo -u www-data php /var/www/html/nextcloud/occ app:check-code cospend
-          sudo mkdir /tmp/coverage
+          mkdir -p ~/html
+          git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b stable20 ~/html/nextcloud
+          sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' ~/html/nextcloud/lib/autoloader.php
+          cp -r $GITHUB_WORKSPACE ~/html/nextcloud/apps/cospend
+          php ~/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
+          php ~/html/nextcloud/occ app:enable cospend
+          php ~/html/nextcloud/occ maintenance:mode --off
+          #php ~/html/nextcloud/occ app:check-code cospend
+          mkdir /tmp/coverage
           cd /tmp
-          sudo phpunit --configuration /var/www/html/nextcloud/apps/cospend/phpunit.xml --coverage-text --color=never --coverage-html coverage > /tmp/cov.txt
+          phpunit --configuration ~/html/nextcloud/apps/cospend/phpunit.xml --coverage-text --color=never --coverage-html coverage > /tmp/cov.txt
           echo "phpunit finished ############################"
-          sudo cat /tmp/cov.txt
+          cat /tmp/cov.txt
           echo "generating badge ############################"
-          sudo grep "^\s\+Lines:" /tmp/cov.txt > /tmp/cov.line.txt
-          sudo grep -o "[0-9]\+\.[0-9]\+" /tmp/cov.line.txt > /tmp/cov.value.txt
-          sudo mv /tmp/cov.value.txt /tmp/coverage/cov.value.txt
+          grep "^\s\+Lines:" /tmp/cov.txt > /tmp/cov.line.txt
+          grep -o "[0-9]\+\.[0-9]\+" /tmp/cov.line.txt > /tmp/cov.value.txt
+          mv /tmp/cov.value.txt /tmp/coverage/cov.value.txt
           echo "anybadge ############################"
-          sudo cat /tmp/coverage/cov.value.txt
-          sudo anybadge -l coverage -v `sudo cat /tmp/coverage/cov.value.txt` -m "%.2f%%" -f /tmp/coverage/coverage.svg 50=red 70=orange 80=yellow 90=green
+          cat /tmp/coverage/cov.value.txt
+          anybadge -l coverage -v `cat /tmp/coverage/cov.value.txt` -m "%.2f%%" -f /tmp/coverage/coverage.svg 50=red 70=orange 80=yellow 90=green
 
       - name: Upload coverage
         uses: actions/upload-artifact@v2

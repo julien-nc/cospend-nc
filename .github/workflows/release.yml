@@ -17,13 +17,11 @@ jobs:
         run: |
           git fetch --tags --force
           tag=$(git tag -l --points-at HEAD)
-          echo CURRENT TAG IS '"'${tag}'"' '!!!!'
-          # returns 1 if it does not match
-          echo $tag | grep "v[0-9]\+\.[0-9]\+\.[0-9]\+"
-          echo "##[set-output name=currenttag;]$tag"
+          vtag=$(echo $tag | grep "v[0-9]\+\.[0-9]\+\.[0-9]\+" || echo "")
+          echo "##[set-output name=currenttag;]$vtag"
 
       - name: Build project
-        if: success()
+        if: ${{ startsWith( steps.tag.outputs.currenttag , 'v' ) }}
         id: build_release
         run: |
           echo "###### copy certificate"
@@ -55,7 +53,7 @@ jobs:
           APP_KEY: ${{ secrets.APP_KEY }}
 
       - name: Create Release
-        if: success()
+        if: ${{ startsWith( steps.tag.outputs.currenttag , 'v' ) }}
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -67,7 +65,7 @@ jobs:
           prerelease: false
 
       - name: Upload Release Asset
-        if: success()
+        if: ${{ startsWith( steps.tag.outputs.currenttag , 'v' ) }}
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
@@ -79,7 +77,7 @@ jobs:
           asset_content_type: application/gzip
 
       - name: Publish to appstore
-        if: success()
+        if: ${{ startsWith( steps.tag.outputs.currenttag , 'v' ) }}
         id: publish
         run: |
           SIGNATURE=$(cat /tmp/build/sign.txt | tr -d '\n' )

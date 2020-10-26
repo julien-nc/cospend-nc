@@ -1,5 +1,5 @@
 <template>
-	<Content app-name="Cospend">
+	<Content app-name="cospend">
 		<CospendNavigation
 			:projects="projects"
 			:selected-project-id="currentProjectId"

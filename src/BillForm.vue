@@ -112,7 +112,7 @@
 						:placeholder="t('cospend', 'When?')"
 						:minute-step="5"
 						:show-second="false"
-						:format="format"
+						:formatter="format"
 						:disabled="!editionAccess"
 						confirm />
 				</div>

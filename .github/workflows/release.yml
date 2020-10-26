@@ -7,6 +7,8 @@ name: Publish release
 jobs:
   build:
     name: Build, upload and release in the appstore
+    env:
+      APP_ID: cospend
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -24,23 +26,24 @@ jobs:
         if: ${{ startsWith( steps.tag.outputs.currenttag , 'v' ) }}
         id: build_release
         run: |
+          echo "##[set-output name=app_id;]$APP_ID"
           echo "###### copy certificate"
           mkdir -p ~/.nextcloud/certificates
-          echo "$APP_CRT" > ~/.nextcloud/certificates/cospend.crt
-          echo "$APP_KEY" > ~/.nextcloud/certificates/cospend.key
+          echo "$APP_CRT" > ~/.nextcloud/certificates/${APP_ID}.crt
+          echo "$APP_KEY" > ~/.nextcloud/certificates/${APP_ID}.key
           echo "###### install dependencies"
           export DEBIAN_FRONTEND=noninteractive
           sudo apt-get update -yqq
           sudo apt-get install php7.4-mbstring php7.4-sqlite3 npm make openssl -yqq > /dev/null 2>&1
-          echo "#### installing nextcloud"
+          echo "###### installing nextcloud"
           mkdir ~/html
           git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b stable20 ~/html/nextcloud
           sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' ~/html/nextcloud/lib/autoloader.php
-          cp -r $GITHUB_WORKSPACE ~/html/nextcloud/apps/cospend
+          cp -r $GITHUB_WORKSPACE ~/html/nextcloud/apps/${APP_ID}
           php ~/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
-          php ~/html/nextcloud/occ app:enable cospend
+          php ~/html/nextcloud/occ app:enable ${APP_ID}
           php ~/html/nextcloud/occ maintenance:mode --off
-          cd ~/html/nextcloud/apps/cospend
+          cd ~/html/nextcloud/apps/${APP_ID}
           echo "###### make"
           webserveruser=runner occ_dir=~/html/nextcloud make > /dev/null
           echo "###### make appstore"
@@ -72,17 +75,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: /tmp/build/cospend-${{ steps.build_release.outputs.version }}.tar.gz
-          asset_name: cospend-${{ steps.build_release.outputs.version }}.tar.gz
+          asset_path: /tmp/build/${{ steps.build_release.outputs.app_id }}-${{ steps.build_release.outputs.version }}.tar.gz
+          asset_name: ${{ steps.build_release.outputs.app_id }}-${{ steps.build_release.outputs.version }}.tar.gz
           asset_content_type: application/gzip
 
       - name: Publish to appstore
         if: ${{ startsWith( steps.tag.outputs.currenttag , 'v' ) }}
         id: publish
         run: |
-          SIGNATURE=$(cat /tmp/build/sign.txt | tr -d '\n' )
+          SIGNATURE=$(cat /tmp/build/sign.txt | tr -d '\n')
           VERSION=${{ steps.build_release.outputs.version }}
-          DOWNLOAD_URL=https://github.com/eneiluj/cospend-nc/releases/download/v${VERSION}/cospend-${VERSION}.tar.gz
-          curl -X POST -H "Authorization: Token $APPSTORE_TOKEN" https://apps.nextcloud.com/api/v1/apps/releases -H "Content-Type: application/json" -d '{"download":"'$DOWNLOAD_URL'", "signature": "'$SIGNATURE'"}'
+          DOWNLOAD_URL=https://github.com/${{ github.repository }}/releases/download/v${VERSION}/${APP_ID}-${VERSION}.tar.gz
+          curl -X POST -H "Authorization: Token $APPSTORE_TOKEN" https://apps.nextcloud.com/api/v1/apps/releases -H "Content-Type: application/json" -d '{"download":"'${DOWNLOAD_URL}'", "signature": "'${SIGNATURE}'"}'
         env:
           APPSTORE_TOKEN: ${{ secrets.APPSTORE_TOKEN }}

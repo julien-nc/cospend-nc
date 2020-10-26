@@ -40,16 +40,19 @@
 			</ActionButton>
 			<ActionButton
 				icon="icon-category-monitoring"
+				:close-after-click="true"
 				@click="onStatsClick">
 				{{ t('cospend', 'Statistics') }}
 			</ActionButton>
 			<ActionButton
 				icon="icon-reimburse"
+				:close-after-click="true"
 				@click="onSettleClick">
 				{{ t('cospend', 'Project settlement') }}
 			</ActionButton>
 			<ActionButton v-if="adminAccess"
 				icon="icon-delete"
+				:close-after-click="true"
 				@click="onDeleteProjectClick">
 				{{ t('cospend', 'Delete') }}
 			</ActionButton>

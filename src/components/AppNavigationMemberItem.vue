@@ -67,6 +67,7 @@
 			</ActionInput>
 			<ActionButton
 				:icon="member.activated ? 'icon-delete' : 'icon-history'"
+				:close-after-click="true"
 				@click="onDeleteMemberClick">
 				{{ getDeletionText() }}
 			</ActionButton>

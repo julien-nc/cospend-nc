@@ -655,6 +655,7 @@ export function loadUsers(successCB) {
 export function addSharedAccess(projectid, sh, successCB) {
 	const req = {
 		accesslevel: sh.accesslevel || constants.ACCESS.PARTICIPANT,
+		manually_added: sh.manually_added,
 	}
 	let url
 	if (sh.type === 'u') {

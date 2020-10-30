@@ -250,6 +250,10 @@ export default {
 		onDeleteMemberClick() {
 			this.member.activated = !this.member.activated
 			this.$emit('memberEdited', this.projectId, this.member.id)
+			// take care of removing access if it was added automatically
+			if (this.member.userid) {
+				this.deleteAccessOfUser()
+			}
 		},
 		onNameSubmit() {
 			const newName = this.$refs.nameInput.$el.querySelector('input[type="text"]').value
@@ -263,6 +267,10 @@ export default {
 			}
 
 			this.member.name = newName
+			// take care of removing access if it was added automatically
+			if (this.member.userid) {
+				this.deleteAccessOfUser()
+			}
 			this.member.userid = null
 			this.$emit('memberEdited', this.projectId, this.member.id)
 		},
@@ -283,6 +291,11 @@ export default {
 		onMenuColorClick() {
 			this.$refs.col.$el.querySelector('.trigger').click()
 		},
+		deleteAccessOfUser() {
+			if (this.access !== null && !this.access.manually_added) {
+				network.deleteAccess(this.projectId, this.access, this.deleteAccessSuccess)
+			}
+		},
 		clickAccessLevel(level) {
 			if (this.access === null && level !== 0) {
 				// add a shared access
@@ -290,6 +303,7 @@ export default {
 					user: this.member.userid,
 					type: 'u',
 					accesslevel: level,
+					manually_added: true,
 				}
 				network.addSharedAccess(this.projectId, sh, this.addSharedAccessSuccess)
 			} else if (this.access !== null && level === 0) {
@@ -307,6 +321,7 @@ export default {
 				name: response.name,
 				userid: sh.user,
 				id: response.id,
+				manually_added: sh.manually_added,
 			}
 			this.project.shares.push(newShAccess)
 		},

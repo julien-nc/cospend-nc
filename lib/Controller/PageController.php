@@ -2253,9 +2253,9 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function addUserShare($projectid, $userid, $accesslevel=ACCESS_PARTICIPANT) {
+    public function addUserShare($projectid, $userid, $accesslevel = ACCESS_PARTICIPANT, $manually_added = true) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
-            $result = $this->projectService->addUserShare($projectid, $userid, $this->userId, $accesslevel);
+            $result = $this->projectService->addUserShare($projectid, $userid, $this->userId, $accesslevel, $manually_added);
             if (is_array($result)) {
                 return new DataResponse($result);
             }

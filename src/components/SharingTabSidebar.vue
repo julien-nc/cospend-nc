@@ -292,6 +292,7 @@ export default {
 			return this.unallocatedSharees.map(item => {
 				const sharee = {
 					user: item.id,
+					manually_added: true,
 					displayName: item.label,
 					icon: 'icon-user',
 					type: item.type,
@@ -413,6 +414,7 @@ export default {
 			const newShAccess = {
 				accesslevel: constants.ACCESS.PARTICIPANT,
 				type: sh.type,
+				manually_added: sh.manually_added,
 			}
 			newShAccess.id = response.id
 			if (sh.type === 'l') {

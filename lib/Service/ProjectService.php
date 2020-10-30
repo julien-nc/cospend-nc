@@ -2181,7 +2181,7 @@ class ProjectService {
         }
 
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('projectid', 'userid', 'id', 'accesslevel')
+        $qb->select('projectid', 'userid', 'id', 'accesslevel', 'manually_added')
            ->from('cospend_shares', 'sh')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -2195,13 +2195,15 @@ class ProjectService {
             $dbprojectId = $row['projectid'];
             $dbId = $row['id'];
             $dbAccessLevel = intval($row['accesslevel']);
+            $dbManuallyAdded = intval($row['manually_added']);
             if (array_key_exists($dbuserId, $userIdToName)) {
                 array_push($shares, [
                     'userid' => $dbuserId,
                     'name' => $userIdToName[$dbuserId],
                     'id' => $dbId,
                     'accesslevel' => $dbAccessLevel,
-                    'type' => 'u'
+                    'type' => 'u',
+                    'manually_added' => $dbManuallyAdded === 1,
                 ]);
             }
         }
@@ -3063,7 +3065,7 @@ class ProjectService {
         }
     }
 
-    public function addUserShare($projectid, $userid, $fromUserId, $accesslevel=ACCESS_PARTICIPANT) {
+    public function addUserShare($projectid, $userid, $fromUserId, $accesslevel = ACCESS_PARTICIPANT, $manually_added = true) {
         // check if userId exists
         $userIds = [];
         foreach ($this->userManager->search('') as $u) {
@@ -3105,7 +3107,8 @@ class ProjectService {
                                 'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
                                 'userid' => $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR),
                                 'type' => $qb->createNamedParameter('u', IQueryBuilder::PARAM_STR),
-                                'accesslevel' => $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT)
+                                'accesslevel' => $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT),
+                                'manually_added' => $qb->createNamedParameter($manually_added ? 1 : 0, IQueryBuilder::PARAM_INT),
                             ]);
                         $req = $qb->execute();
                         $qb = $qb->resetQueryParts();

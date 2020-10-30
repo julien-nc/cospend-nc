@@ -552,6 +552,7 @@ export default {
 					user: userid,
 					type: 'u',
 					accesslevel: 2,
+					manually_added: false,
 				}
 				network.addSharedAccess(projectid, sh, this.addSharedAccessSuccess)
 			}
@@ -563,6 +564,7 @@ export default {
 				name: response.name,
 				userid: sh.user,
 				id: response.id,
+				manually_added: sh.manually_added,
 			}
 			this.projects[projectid].shares.push(newShAccess)
 		},

@@ -31,17 +31,17 @@
 				class="app-navigation-entry-bullet-wrapper"
 				value=""
 				@input="updateColor">
-				<div :style="{ backgroundColor: category.color }" class="color0 icon-colorpicker" />
+				<div :style="{ backgroundColor: color }" class="color0 icon-colorpicker" />
 			</ColorPicker>
 			<EmojiPicker :show-preview="true"
 				@select="selectEmoji">
 				<button class="edit-icon-button"
 					:title="t('cospend', 'Icon')">
-					{{ category.icon }}
+					{{ icon }}
 				</button>
 			</EmojiPicker>
 			<input ref="cname"
-				v-model="category.name"
+				v-model="name"
 				type="text"
 				maxlength="300"
 				class="editCategoryNameInput"
@@ -83,7 +83,10 @@ export default {
 			editMode: false,
 			timerOn: false,
 			timer: null,
-			categoryBackup: null,
+			// initial data
+			color: this.category.color,
+			name: this.category.name,
+			icon: this.category.icon,
 		}
 	},
 
@@ -92,25 +95,20 @@ export default {
 
 	methods: {
 		selectEmoji(emoji) {
-			this.category.icon = emoji
+			this.icon = emoji
 		},
 		updateColor(color) {
-			this.category.color = color
+			this.color = color
 		},
 		onClickEdit() {
 			this.editMode = true
-			this.categoryBackup = {
-				color: this.category.color,
-				name: this.category.name,
-				icon: this.category.icon,
-			}
 			this.$nextTick(() => this.$refs.cname.focus())
 		},
 		onClickCancel() {
 			this.editMode = false
-			this.category.name = this.categoryBackup.name
-			this.category.color = this.categoryBackup.color
-			this.category.icon = this.categoryBackup.icon
+			this.name = this.category.name
+			this.color = this.category.color
+			this.icon = this.category.icon
 		},
 		onClickDelete() {
 			if (this.timerOn) {
@@ -119,15 +117,14 @@ export default {
 				delete this.timer
 			} else {
 				this.timerOn = true
-				const that = this
 				this.timer = new Timer(() => {
-					that.timerOn = false
-					that.$emit('delete', that.category)
+					this.timerOn = false
+					this.$emit('delete', this.category)
 				}, 7000)
 			}
 		},
 		onClickEditOk() {
-			this.$emit('edit', this.category, this.categoryBackup)
+			this.$emit('edit', this.category, this.name, this.icon, this.color)
 			this.editMode = false
 		},
 	},

@@ -139,20 +139,26 @@ export default {
 			this.$delete(this.categories, categoryid)
 			this.$emit('category-deleted', categoryid)
 		},
-		onEditCategory(category, backupCategory) {
-			if (category.name === null || category.name === '') {
+		onEditCategory(category, name, icon, color) {
+			if (name === null || name === '') {
 				showError(t('cospend', 'Category name should not be empty.'))
-				category.name = backupCategory.name
-				category.icon = backupCategory.icon
-				category.color = backupCategory.color
 				return
 			}
+			const backupCategory = {
+				name: category.name,
+				icon: category.icon,
+				color: category.color,
+			}
+			category.name = name
+			category.icon = icon
+			category.color = color
 			network.editCategory(this.project.id, category, backupCategory, this.editCategoryFail)
 		},
 		editCategoryFail(category, backupCategory) {
 			// backup
 			category.name = backupCategory.name
-			category.exchange_rate = backupCategory.exchange_rate
+			category.icon = backupCategory.icon
+			category.color = backupCategory.color
 		},
 	},
 }

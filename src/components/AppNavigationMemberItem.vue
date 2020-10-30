@@ -169,6 +169,9 @@ export default {
 		project() {
 			return cospend.projects[this.projectId]
 		},
+		cMember() {
+			return cospend.members[this.projectId][this.member.id]
+		},
 		myAccessLevel() {
 			return this.project.myaccesslevel
 		},
@@ -248,7 +251,7 @@ export default {
 				&& (access === null || !this.isCurrentUser(access.userid))
 		},
 		onDeleteMemberClick() {
-			this.member.activated = !this.member.activated
+			this.cMember.activated = !this.cMember.activated
 			this.$emit('member-edited', this.projectId, this.member.id)
 			// take care of removing access if it was added automatically
 			if (this.member.userid) {
@@ -266,17 +269,17 @@ export default {
 				}
 			}
 
-			this.member.name = newName
+			this.cMember.name = newName
 			// take care of removing access if it was added automatically
 			if (this.member.userid) {
 				this.deleteAccessOfUser()
 			}
-			this.member.userid = null
+			this.cMember.userid = null
 			this.$emit('member-edited', this.projectId, this.member.id)
 		},
 		onWeightSubmit() {
 			const newWeight = this.$refs.weightInput.$el.querySelector('input[type="number"]').value
-			this.member.weight = parseFloat(newWeight)
+			this.cMember.weight = parseFloat(newWeight)
 			this.$emit('member-edited', this.projectId, this.member.id)
 		},
 		updateColor(color) {
@@ -285,7 +288,7 @@ export default {
 			}, 2000)()
 		},
 		applyUpdateColor(color) {
-			this.member.color = color.replace('#', '')
+			this.cMember.color = color.replace('#', '')
 			this.$emit('member-edited', this.projectId, this.member.id)
 		},
 		onMenuColorClick() {

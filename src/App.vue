@@ -261,7 +261,8 @@ export default {
 				this.updateBalances(cospend.currentProjectId)
 			}
 		},
-		onBillSaved(bill) {
+		onBillSaved(bill, changedBill) {
+			Object.assign(bill, changedBill)
 			this.updateBalances(cospend.currentProjectId)
 		},
 		onCustomBillsCreated() {

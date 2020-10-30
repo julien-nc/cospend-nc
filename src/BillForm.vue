@@ -2,8 +2,8 @@
 	<div id="billdetail" class="app-content-details">
 		<h2 class="bill-title">
 			<span v-show="billLoading" class="loading-bill icon-loading-small" />
-			<div :class="'billFormAvatar owerAvatar' + myGetAvatarClass(bill.payer_id)">
-				<div class="disabledMask" /><img :src="myGetTitleAvatar(bill.payer_id)">
+			<div :class="'billFormAvatar owerAvatar' + myGetAvatarClass(myBill.payer_id)">
+				<div class="disabledMask" /><img :src="myGetTitleAvatar(myBill.payer_id)">
 			</div>
 			<span>
 				{{ billFormattedTitle }}
@@ -34,7 +34,7 @@
 					</label>
 					<input
 						id="what"
-						v-model="bill.what"
+						v-model="myBill.what"
 						type="text"
 						maxlength="300"
 						class="input-bill-what"
@@ -92,14 +92,14 @@
 					<label for="payer"><a class="icon icon-user" />{{ t('cospend', 'Who payed?') }}</label>
 					<select
 						id="payer"
-						v-model="bill.payer_id"
+						v-model="myBill.payer_id"
 						class="input-bill-payer"
-						:disabled="!editionAccess || (!isNewBill && !members[bill.payer_id].activated)"
+						:disabled="!editionAccess || (!isNewBill && !members[myBill.payer_id].activated)"
 						@input="onBillEdited">
 						<option v-for="member in activatedOrPayer"
 							:key="member.id"
 							:value="member.id"
-							:selected="member.id === bill.payer_id || (isNewBill && currentUser && member.userid === currentUser.uid)">
+							:selected="member.id === myBill.payer_id || (isNewBill && currentUser && member.userid === currentUser.uid)">
 							{{ myGetSmartMemberName(member.id) }}
 						</option>
 					</select>
@@ -122,7 +122,7 @@
 					</label>
 					<select
 						id="payment-mode"
-						v-model="bill.paymentmode"
+						v-model="myBill.paymentmode"
 						:disabled="!editionAccess"
 						@input="onBillEdited">
 						<option value="n">
@@ -142,7 +142,7 @@
 					</label>
 					<select
 						id="category"
-						v-model="bill.categoryid"
+						v-model="myBill.categoryid"
 						:disabled="!editionAccess"
 						@input="onBillEdited">
 						<option value="0">
@@ -168,7 +168,7 @@
 					</label>
 					<textarea
 						id="comment"
-						v-model="bill.comment"
+						v-model="myBill.comment"
 						maxlength="300"
 						class="input-bill-comment"
 						:readonly="!editionAccess"
@@ -181,7 +181,7 @@
 					</label>
 					<select
 						id="repeatbill"
-						v-model="bill.repeat"
+						v-model="myBill.repeat"
 						:disabled="!editionAccess"
 						@input="onBillEdited">
 						<option value="n" selected="selected">
@@ -201,13 +201,12 @@
 						</option>
 					</select>
 				</div>
-				<div
-					v-if="bill.repeat !== 'n'"
+				<div v-if="myBill.repeat !== 'n'"
 					class="bill-repeat-extra">
 					<div class="bill-repeat-include">
 						<input
 							id="repeatallactive"
-							v-model="bill.repeatallactive"
+							v-model="myBill.repeatallactive"
 							class="checkbox"
 							type="checkbox"
 							:disabled="!editionAccess"
@@ -223,7 +222,7 @@
 						</label>
 						<input
 							id="repeatuntil"
-							v-model="bill.repeatuntil"
+							v-model="myBill.repeatuntil"
 							type="date"
 							class="input-bill-repeatuntil"
 							:readonly="!editionAccess"
@@ -293,7 +292,7 @@
 							</div>
 							<input
 								:id="'dum' + ower.id"
-								v-model="bill.owerIds"
+								v-model="myBill.owerIds"
 								:value="ower.id"
 								number
 								class="checkbox"
@@ -306,7 +305,7 @@
 								:for="'dum' + ower.id">
 								{{ ower.name }}
 							</label>
-							<label v-if="bill.owerIds.includes(ower.id)"
+							<label v-if="myBill.owerIds.includes(ower.id)"
 								class="spentlabel">
 								({{ owerAmount[ower.id] || 0 }})
 							</label>
@@ -321,7 +320,7 @@
 							</div>
 							<input
 								:id="'dum' + ower.id"
-								v-model="bill.owerIds"
+								v-model="myBill.owerIds"
 								class="checkbox"
 								type="checkbox"
 								:owerid="ower.id"
@@ -332,7 +331,7 @@
 								:for="'dum' + ower.id">
 								{{ ower.name }}
 							</label>
-							<input v-show="bill.owerIds.includes(ower.id)"
+							<input v-show="myBill.owerIds.includes(ower.id)"
 								:ref="'amountdum' + ower.id"
 								class="amountinput"
 								type="text"
@@ -430,6 +429,11 @@ export default {
 			},
 			currentFormula: null,
 			nbBillsLeftToCreate: 0,
+			// pseudo deep copy of the bill prop, this myBill is the one we make changes on
+			myBill: {
+				...this.bill,
+				owerIds: [...this.bill.owerIds],
+			},
 		}
 	},
 
@@ -437,16 +441,16 @@ export default {
 		// amount field proxy to safely manipulate bill.amount
 		uiAmount: {
 			get() {
-				return this.bill.amount
+				return this.myBill.amount
 			},
 			set(value) {
 				const val = value.replace(/,/g, '.')
 				// only change bill amount if we're not typing a formula
 				if (val === '') {
-					this.bill.amount = 0
+					this.myBill.amount = 0
 					this.currentFormula = null
 				} else if (!val.endsWith('.') && !isNaN(val)) {
-					this.bill.amount = parseFloat(val)
+					this.myBill.amount = parseFloat(val)
 					this.currentFormula = null
 				} else {
 					this.currentFormula = val
@@ -455,10 +459,9 @@ export default {
 		},
 		selectAllNoneOwers: {
 			get() {
-				return this.activatedOrOwer ? this.bill.owerIds.length === this.activatedOrOwer.length : false
+				return this.activatedOrOwer ? this.myBill.owerIds.length === this.activatedOrOwer.length : false
 			},
 			set(value) {
-				const that = this
 				const selected = []
 
 				if (value) {
@@ -470,31 +473,30 @@ export default {
 					// deselect all members
 					// avoid deselecting disabled ones (add those who are not active and were selected)
 					this.disabledMembers.forEach((member) => {
-						if (that.bill.owerIds.includes(member.id)) {
+						if (this.myBill.owerIds.includes(member.id)) {
 							selected.push(member.id)
 						}
 					})
 				}
 
-				this.bill.owerIds = selected
+				this.myBill.owerIds = selected
 			},
 		},
 		owerAmount() {
 			const result = {}
-			const that = this
-			const amount = parseFloat(this.bill.amount)
-			const nbOwers = this.bill.owerIds.length
+			const amount = parseFloat(this.myBill.amount)
+			const nbOwers = this.myBill.owerIds.length
 			let weightSum = 0
 			let oneWeight, owerVal
 			if (nbOwers > 0
 				&& !isNaN(amount)
 				&& amount !== 0.0) {
-				this.bill.owerIds.forEach(function(mid) {
-					weightSum += that.members[mid].weight
+				this.myBill.owerIds.forEach((mid) => {
+					weightSum += this.members[mid].weight
 				})
 				oneWeight = amount / weightSum
-				this.bill.owerIds.forEach(function(mid) {
-					owerVal = oneWeight * that.members[mid].weight
+				this.myBill.owerIds.forEach((mid) => {
+					owerVal = oneWeight * this.members[mid].weight
 					result[mid] = owerVal.toFixed(2)
 				})
 			}
@@ -504,31 +506,31 @@ export default {
 			return cospend.pageIsPublic
 		},
 		isNewBill() {
-			return (this.bill.id === 0)
+			return (this.myBill.id === 0)
 		},
 		noBill() {
-			return (this.bill && this.bill.id === -1)
+			return (this.myBill && this.myBill.id === -1)
 		},
 		project() {
 			return cospend.projects[this.projectId]
 		},
 		billLinks() {
-			return this.bill.what.match(/https?:\/\/[^\s]+/gi) || []
+			return this.myBill.what.match(/https?:\/\/[^\s]+/gi) || []
 		},
 		billFormattedTitle() {
 			let paymentmodeChar = ''
 			let categoryChar = ''
-			if (parseInt(this.bill.categoryid) !== 0) {
-				categoryChar = getCategory(this.projectId, this.bill.categoryid).icon + ' '
+			if (parseInt(this.myBill.categoryid) !== 0) {
+				categoryChar = getCategory(this.projectId, this.myBill.categoryid).icon + ' '
 			}
-			if (this.bill.paymentmode && this.bill.paymentmode !== 'n') {
-				paymentmodeChar = cospend.paymentModes[this.bill.paymentmode].icon + ' '
+			if (this.myBill.paymentmode && this.myBill.paymentmode !== 'n') {
+				paymentmodeChar = cospend.paymentModes[this.myBill.paymentmode].icon + ' '
 			}
-			const whatFormatted = paymentmodeChar + categoryChar + this.bill.what.replace(/https?:\/\/[^\s]+/gi, '')
+			const whatFormatted = paymentmodeChar + categoryChar + this.myBill.what.replace(/https?:\/\/[^\s]+/gi, '')
 			return t('cospend', 'Bill : {what}', { what: whatFormatted })
 		},
 		billDateObject() {
-			return moment.unix(this.bill.timestamp).toDate()
+			return moment.unix(this.myBill.timestamp).toDate()
 		},
 		billDatetime: {
 			get() {
@@ -537,7 +539,7 @@ export default {
 			set(value) {
 				const ts = moment(value).unix()
 				if (!isNaN(ts)) {
-					this.bill.timestamp = ts
+					this.myBill.timestamp = ts
 					this.onBillEdited(null, false)
 				}
 			},
@@ -563,7 +565,7 @@ export default {
 		activatedOrPayer() {
 			const mList = []
 			for (const mid in this.members) {
-				if (this.members[mid].activated || parseInt(mid) === this.bill.payer_id) {
+				if (this.members[mid].activated || parseInt(mid) === this.myBill.payer_id) {
 					mList.push(this.members[mid])
 				}
 			}
@@ -572,7 +574,7 @@ export default {
 		activatedOrOwer() {
 			const mList = []
 			for (const mid in this.members) {
-				if (this.members[mid].activated || this.bill.owerIds.indexOf(parseInt(mid)) !== -1) {
+				if (this.members[mid].activated || this.myBill.owerIds.indexOf(parseInt(mid)) !== -1) {
 					mList.push(this.members[mid])
 				}
 			}
@@ -596,9 +598,15 @@ export default {
 	},
 
 	watch: {
-		bill() {
+		myBill() {
 			// reset formula when changing bill
 			this.currentFormula = null
+		},
+		bill() {
+			this.myBill = {
+				...this.bill,
+				owerIds: [...this.bill.owerIds],
+			}
 		},
 	},
 
@@ -620,7 +628,7 @@ export default {
 			return this.members[mid].activated ? '' : ' owerAvatarDisabled'
 		},
 		myGetTitleAvatar(mid) {
-			return (this.bill.id === 0)
+			return (this.myBill.id === 0)
 				? generateUrl('/apps/cospend/getAvatar?name=' + encodeURIComponent('*'))
 				: this.myGetMemberAvatar(mid)
 		},
@@ -635,11 +643,10 @@ export default {
 			}
 		},
 		onBillEdited(e, delayed = true) {
-			const that = this
 			if (!this.isNewBill && !this.noBill) {
 				if (delayed) {
-					delay(function() {
-						that.saveBill()
+					delay(() => {
+						this.saveBill()
 					}, 2000)()
 				} else {
 					this.saveBill()
@@ -647,14 +654,14 @@ export default {
 			}
 		},
 		isBillValidForSaveOrNormal() {
-			return this.basicBillValueCheck() && this.bill.owerIds.length > 0
+			return this.basicBillValueCheck() && this.myBill.owerIds.length > 0
 		},
 		basicBillValueCheck() {
-			const bill = this.bill
-			if (bill.what === null || bill.what === '') {
+			const myBill = this.myBill
+			if (myBill.what === null || myBill.what === '') {
 				return false
 			}
-			if (bill.amount === '' || isNaN(bill.amount) || isNaN(bill.payer_id)) {
+			if (myBill.amount === '' || isNaN(myBill.amount) || isNaN(myBill.payer_id)) {
 				return false
 			}
 			return true
@@ -668,13 +675,12 @@ export default {
 				showError(t('cospend', 'Impossible to save bill, invalid values.'))
 			} else {
 				this.billLoading = true
-				const bill = this.bill
-				network.saveBill(this.projectId, bill, this.saveBillSuccess, this.saveBillDone)
+				network.saveBill(this.projectId, this.myBill, this.saveBillSuccess, this.saveBillDone)
 			}
 		},
 		saveBillSuccess() {
 			// to update balances
-			this.$emit('bill-saved', this.bill)
+			this.$emit('bill-saved', this.bill, this.myBill)
 			showSuccess(t('cospend', 'Bill saved.'))
 		},
 		saveBillDone() {
@@ -683,7 +689,7 @@ export default {
 		onCurrencyConvert() {
 			let currencyId = this.$refs.currencySelect.value
 			if (currencyId !== '') {
-				const userAmount = parseFloat(this.bill.amount)
+				const userAmount = parseFloat(this.myBill.amount)
 				currencyId = parseInt(currencyId)
 				let currency = null
 				for (let i = 0; i < this.currencies.length; i++) {
@@ -693,8 +699,8 @@ export default {
 					}
 				}
 				this.progAmountChange = true
-				this.bill.amount = parseFloat(this.bill.amount) * currency.exchange_rate
-				this.bill.what = this.cleanStringFromCurrency(this.bill.what) + ' (' + userAmount.toFixed(2) + ' ' + currency.name + ')'
+				this.myBill.amount = parseFloat(this.myBill.amount) * currency.exchange_rate
+				this.myBill.what = this.cleanStringFromCurrency(this.myBill.what) + ' (' + userAmount.toFixed(2) + ' ' + currency.name + ')'
 				this.$refs.currencySelect.value = ''
 				// convert personal amounts
 				if (this.isNewBill && this.newBillMode === 'perso') {
@@ -730,7 +736,7 @@ export default {
 			return str
 		},
 		onAmountChanged() {
-			this.bill.what = this.cleanStringFromCurrency(this.bill.what)
+			this.myBill.what = this.cleanStringFromCurrency(this.myBill.what)
 			// here, do nothing if we are typing a formula or if
 			if (this.currentFormula === null) {
 				this.onBillEdited()
@@ -746,7 +752,7 @@ export default {
 				} catch (err) {
 					console.debug(err)
 				}
-				this.bill.amount = isNaN(calc) ? 0 : calc
+				this.myBill.amount = isNaN(calc) ? 0 : calc
 				this.currentFormula = null
 				this.onBillEdited(null, false)
 			}
@@ -796,18 +802,18 @@ export default {
 		},
 		createNormalBill() {
 			if (this.isBillValidForSaveOrNormal()) {
-				const bill = this.bill
-				this.createBill('normal', bill.what, bill.amount, bill.payer_id, bill.timestamp, bill.owerIds, bill.repeat,
-					bill.paymentmode, bill.categoryid, bill.repeatallactive, bill.repeatuntil, bill.comment)
+				const myBill = this.myBill
+				this.createBill('normal', myBill.what, myBill.amount, myBill.payer_id, myBill.timestamp, myBill.owerIds, myBill.repeat,
+					myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.comment)
 			} else {
 				showError(t('cospend', 'Bill values are not valid.'))
 			}
 		},
 		createEquiPersoBill() {
 			if (this.isBillValidForSaveOrNormal()) {
-				const bill = this.bill
+				const myBill = this.myBill
 				// check if personal parts are valid
-				let tmpAmount = parseFloat(this.bill.amount)
+				let tmpAmount = parseFloat(this.myBill.amount)
 				const persoParts = this.getPersonalParts()
 				let part
 				for (const mid in persoParts) {
@@ -838,15 +844,15 @@ export default {
 				for (const mid in persoParts) {
 					part = persoParts[mid]
 					if (!isNaN(part) && part !== 0.0) {
-						this.createBill('perso', bill.what, part, bill.payer_id, bill.timestamp, [mid], bill.repeat,
-							bill.paymentmode, bill.categoryid, bill.repeatallactive, bill.repeatuntil, bill.comment)
+						this.createBill('perso', myBill.what, part, myBill.payer_id, myBill.timestamp, [mid], myBill.repeat,
+							myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.comment)
 					}
 				}
 
 				// create main bill
 				if (tmpAmount > 0.0) {
-					this.createBill('mainPerso', bill.what, tmpAmount, bill.payer_id, bill.timestamp, bill.owerIds, bill.repeat,
-						bill.paymentmode, bill.categoryid, bill.repeatallactive, bill.repeatuntil, bill.comment)
+					this.createBill('mainPerso', myBill.what, tmpAmount, myBill.payer_id, myBill.timestamp, myBill.owerIds, myBill.repeat,
+						myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.comment)
 				}
 				this.newBillMode = 'normal'
 			} else {
@@ -855,7 +861,7 @@ export default {
 		},
 		createCustomAmountBill() {
 			if (this.basicBillValueCheck()) {
-				const bill = this.bill
+				const myBill = this.myBill
 				// check if custom amounts are valid
 				const customAmounts = this.getCustomAmounts()
 				let total = 0.0
@@ -876,8 +882,8 @@ export default {
 					for (const mid in customAmounts) {
 						am = customAmounts[mid]
 						if (am !== 0.0) {
-							this.createBill('custom', bill.what, am, bill.payer_id, bill.timestamp, [mid], bill.repeat,
-								bill.paymentmode, bill.categoryid, bill.repeatallactive, bill.repeatuntil, bill.comment)
+							this.createBill('custom', myBill.what, am, myBill.payer_id, myBill.timestamp, [mid], myBill.repeat,
+								myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.comment)
 						}
 					}
 				}
@@ -889,9 +895,8 @@ export default {
 		createBill(mode = null, what = null, amount = null, payer_id = null, timestamp = null, owerIds = null, repeat = null,
 			paymentmode = null, categoryid = null, repeatallactive = null,
 			repeatuntil = null, comment = null) {
-			const that = this
 			if (mode === null) {
-				mode = that.newBillMode
+				mode = this.newBillMode
 			}
 			const billToCreate = {
 				what,
@@ -946,17 +951,15 @@ export default {
 		},
 		getPersonalParts() {
 			const result = {}
-			const that = this
-			this.bill.owerIds.forEach((mid) => {
-				result[mid] = parseFloat(that.$refs['amountdum' + mid][0].value) || 0
+			this.myBill.owerIds.forEach((mid) => {
+				result[mid] = parseFloat(this.$refs['amountdum' + mid][0].value) || 0
 			})
 			return result
 		},
 		getCustomAmounts() {
 			const result = {}
-			const that = this
 			this.activatedOrOwer.forEach((member) => {
-				result[member.id] = parseFloat(that.$refs['amountdum' + member.id][0].value) || 0
+				result[member.id] = parseFloat(this.$refs['amountdum' + member.id][0].value) || 0
 			})
 			return result
 		},
@@ -968,14 +971,13 @@ export default {
 				am = customAmounts[mid]
 				sum += am
 			}
-			this.bill.amount = sum
+			this.myBill.amount = sum
 		},
 		onGeneratePubLinkClick() {
-			const that = this
 			OC.dialogs.filepicker(
 				t('cospend', 'Choose file'),
-				function(targetPath) {
-					that.generatePublicLinkToFile(targetPath)
+				(targetPath) => {
+					this.generatePublicLinkToFile(targetPath)
 				},
 				false, null, true
 			)
@@ -986,9 +988,9 @@ export default {
 		genSuccess(response) {
 			const filePublicUrl = window.location.protocol + '//' + window.location.host + generateUrl('/s/' + response.token)
 
-			let what = this.bill.what
+			let what = this.myBill.what
 			what = what + ' ' + filePublicUrl
-			this.bill.what = what
+			this.myBill.what = what
 			this.onBillEdited()
 		},
 		onConvertInfoClicked() {

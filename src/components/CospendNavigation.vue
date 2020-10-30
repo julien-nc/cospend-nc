@@ -1,7 +1,7 @@
 <template>
 	<AppNavigation>
 		<template slot="list">
-			<div v-if="!pageIsPublic">
+			<div v-if="!pageIsPublic && !loading">
 				<AppNavigationItem v-if="!creating"
 					class="buttonItem"
 					icon="icon-add"
@@ -23,7 +23,9 @@
 					</form>
 				</div>
 			</div>
-			<EmptyContent v-if="sortedProjectIds.length === 0"
+			<h2 v-if="loading"
+				class="icon-loading-small loading-icon" />
+			<EmptyContent v-else-if="sortedProjectIds.length === 0"
 				icon="icon-folder">
 				{{ t('cospend', 'No projects yet') }}
 			</EmptyContent>
@@ -149,11 +151,14 @@ export default {
 			type: String,
 			default: '',
 		},
+		loading: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
 			opened: false,
-			loading: false,
 			creating: false,
 			outputDir: cospend.outputDirectory,
 			pageIsPublic: cospend.pageIsPublic,
@@ -340,5 +345,9 @@ export default {
 #sort-order {
 	display: grid;
 	grid-template: 1fr / 1fr 1fr;
+}
+
+.loading-icon {
+	margin-top: 16px;
 }
 </style>

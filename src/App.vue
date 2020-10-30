@@ -3,6 +3,7 @@
 		<CospendNavigation
 			:projects="projects"
 			:selected-project-id="currentProjectId"
+			:loading="projectsLoading"
 			@projectClicked="onProjectClicked"
 			@deleteProject="onDeleteProject"
 			@statsClicked="onStatsClicked"
@@ -122,6 +123,7 @@ export default {
 			bills: {},
 			billLists: {},
 			members: {},
+			projectsLoading: false,
 			billsLoading: false,
 			currentBill: null,
 			filterQuery: null,
@@ -413,6 +415,7 @@ export default {
 			this.mode = 'edition'
 		},
 		getProjects() {
+			this.projectsLoading = true
 			network.getProjects(this.getProjectsSuccess)
 		},
 		getProjectsSuccess(response) {
@@ -432,6 +435,7 @@ export default {
 				this.addProject(response)
 				this.selectProject(response.id, false)
 			}
+			this.projectsLoading = false
 		},
 		getBills(projectid) {
 			this.billsLoading = true

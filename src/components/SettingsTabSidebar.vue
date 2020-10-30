@@ -73,7 +73,7 @@
 				<h3>
 					<span class="icon-user" />
 					<span class="tcontent">
-						{{ t('cospend', 'Associate a simple member with a Nextcloud user') }}
+						{{ t('cospend', 'Associate a project member with a Nextcloud user') }}
 					</span>
 					<button class="icon icon-info" @click="onInfoAssociateClicked" />
 				</h3>

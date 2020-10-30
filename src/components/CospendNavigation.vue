@@ -23,6 +23,10 @@
 					</form>
 				</div>
 			</div>
+			<EmptyContent v-if="sortedProjectIds.length === 0"
+				icon="icon-folder">
+				{{ t('cospend', 'No projects yet') }}
+			</EmptyContent>
 			<AppNavigationProjectItem
 				v-for="id in sortedProjectIds"
 				:key="id"
@@ -111,6 +115,7 @@ import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
 import AppNavigationSettings from '@nextcloud/vue/dist/Components/AppNavigationSettings'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 
 import { generateUrl } from '@nextcloud/router'
 import cospend from '../state'
@@ -130,6 +135,7 @@ export default {
 		AppNavigationSettings,
 		ActionButton,
 		Actions,
+		EmptyContent,
 	},
 	directives: {
 		ClickOutside,

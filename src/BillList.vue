@@ -14,10 +14,10 @@
 			class="nomember">
 			{{ t('cospend', 'Add at least 2 members to start creating bills') }}
 		</h3>
-		<h2 v-else-if="bills.length === 0"
-			class="nobill">
-			{{ t('cospend', 'No bill yet') }}
-		</h2>
+		<EmptyContent v-else-if="bills.length === 0 && !loading"
+			icon="icon-cospend-raw">
+			{{ t('cospend', 'No bills yet') }}
+		</EmptyContent>
 		<h2 v-show="loading"
 			class="icon-loading-small loading-icon" />
 		<BillItem
@@ -36,6 +36,7 @@
 
 <script>
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import BillItem from './components/BillItem'
 import { showSuccess } from '@nextcloud/dialogs'
 import cospend from './state'
@@ -45,7 +46,7 @@ export default {
 	name: 'BillList',
 
 	components: {
-		BillItem, AppNavigationItem,
+		BillItem, AppNavigationItem, EmptyContent,
 	},
 
 	props: {
@@ -147,5 +148,18 @@ export default {
 
 .loading-icon {
 	margin-top: 16px;
+}
+
+::v-deep .icon-cospend-raw {
+	background-color: var(--color-main-text);
+	padding: 0 !important;
+	mask: url('./../css/images/app_black.svg') no-repeat;
+	mask-size: 64px auto;
+	mask-position: center;
+	-webkit-mask: url('./../css/images/app_black.svg') no-repeat;
+	-webkit-mask-size: 64px auto;
+	-webkit-mask-position: center;
+	min-width: 44px !important;
+	min-height: 44px !important;
 }
 </style>

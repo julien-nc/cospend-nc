@@ -552,7 +552,7 @@ export default {
 			const foundIndex = this.projects[projectid].shares.findIndex((access) => {
 				return access.userid === userid && access.type === 'u'
 			})
-			if (foundIndex === -1) {
+			if (userid !== this.projects[projectid].userid && foundIndex === -1) {
 				const sh = {
 					user: userid,
 					type: 'u',

@@ -260,7 +260,7 @@ export default {
 
 	methods: {
 		onAutoExportSet(e) {
-			this.project.autoexport = e.target.value
+			cospend.projects[this.projectId].autoexport = e.target.value
 			this.$emit('project-edited', this.projectId)
 		},
 		asyncFind() {
@@ -325,7 +325,7 @@ export default {
 			this.$emit('member-edited', this.projectId, memberid)
 		},
 		onRenameProject() {
-			this.project.name = this.newProjectName
+			cospend.projects[this.projectId].name = this.newProjectName
 			this.$emit('project-edited', this.projectId)
 			this.newProjectName = ''
 		},

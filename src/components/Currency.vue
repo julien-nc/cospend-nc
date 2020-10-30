@@ -23,17 +23,17 @@
 				</vac>
 			</label>
 		</div>
-		<div v-show="editMode"
+		<div v-if="editMode"
 			class="one-currency-edit">
 			<input
 				ref="cname"
-				v-model="currency.name"
+				v-model="name"
 				type="text"
 				maxlength="64"
 				class="editCurrencyNameInput"
 				:placeholder="t('cospend', 'Currency name')"
 				@focus="$event.target.select()">
-			<input v-model="currency.exchange_rate"
+			<input v-model="exchange_rate"
 				type="number"
 				class="editCurrencyRateInput"
 				step="0.0001"
@@ -67,7 +67,9 @@ export default {
 			editMode: false,
 			timerOn: false,
 			timer: null,
-			currencyBackup: null,
+			// initial values
+			name: this.currency.name,
+			exchange_rate: this.currency.exchange_rate,
 		}
 	},
 
@@ -77,16 +79,12 @@ export default {
 	methods: {
 		onClickEdit() {
 			this.editMode = true
-			this.currencyBackup = {
-				exchange_rate: this.currency.exchange_rate,
-				name: this.currency.name,
-			}
 			this.$nextTick(() => this.$refs.cname.focus())
 		},
 		onClickCancel() {
 			this.editMode = false
-			this.currency.name = this.currencyBackup.name
-			this.currency.exchange_rate = this.currencyBackup.exchange_rate
+			this.name = this.currency.name
+			this.exchange_rate = this.currency.exchange_rate
 		},
 		onClickDelete() {
 			if (this.timerOn) {
@@ -95,17 +93,14 @@ export default {
 				delete this.timer
 			} else {
 				this.timerOn = true
-				const that = this
 				this.timer = new Timer(() => {
-					// that.deleteCurrency(that.currency)
-					that.timerOn = false
-					that.$emit('delete', that.currency)
+					this.timerOn = false
+					this.$emit('delete', this.currency)
 				}, 7000)
 			}
 		},
 		onClickEditOk() {
-			// this.editCurrency(this.currency, this.currencyBackup)
-			this.$emit('edit', this.currency, this.currencyBackup)
+			this.$emit('edit', this.currency, this.name, this.exchange_rate)
 			this.editMode = false
 		},
 	},

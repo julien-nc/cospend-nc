@@ -429,7 +429,7 @@ export default {
 					newShAccess.circleid = sh.user
 				}
 			}
-			this.project.shares.push(newShAccess)
+			cospend.projects[this.projectId].shares.push(newShAccess)
 			this.selectedSharee = null
 		},
 		clickAccessLevel(access, level) {
@@ -492,7 +492,7 @@ export default {
 			network.setGuestAccessLevel(this.projectId, level, this.setGuestAccessLevelSuccess)
 		},
 		setGuestAccessLevelSuccess(level) {
-			this.project.guestaccesslevel = level
+			cospend.projects[this.projectId].guestaccesslevel = level
 			showSuccess(t('cospend', 'Guest access level changed.'))
 		},
 	},

@@ -182,13 +182,17 @@ export default {
 				this.currencies.splice(iToDel, 1)
 			}
 		},
-		onEditCurrency(currency, backupCurrency) {
-			if (currency.name === '') {
+		onEditCurrency(currency, name, exchangeRate) {
+			if (name === '') {
 				showError(t('cospend', 'Currency name should not be empty.'))
-				currency.name = backupCurrency.name
-				currency.exchange_rate = backupCurrency.exchange_rate
 				return
 			}
+			const backupCurrency = {
+				name: currency.name,
+				exchange_rate: currency.exchange_rate,
+			}
+			currency.name = name
+			currency.exchange_rate = exchangeRate
 			network.editCurrency(this.project.id, currency, backupCurrency, this.editCurrencyFail)
 		},
 		editCurrencyFail(currency, backupCurrency) {

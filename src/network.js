@@ -671,7 +671,7 @@ export function addSharedAccess(projectid, sh, successCB) {
 	}
 	axios.post(url, req)
 		.then((response) => {
-			successCB(response.data, sh)
+			successCB(response.data, sh, projectid)
 		})
 		.catch((error) => {
 			showError(

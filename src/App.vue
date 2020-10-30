@@ -538,6 +538,33 @@ export default {
 			this.$set(this.members[projectid], response.id, response)
 			this.projects[projectid].members.unshift(response)
 			showSuccess(t('cospend', 'Created member {name}', { name }))
+			// add access to this user if it's not there already
+			if (response.userid) {
+				this.addParticipantAccess(projectid, response.id, response.userid)
+			}
+		},
+		addParticipantAccess(projectid, memberid, userid) {
+			const foundIndex = this.projects[projectid].shares.findIndex((access) => {
+				return access.userid === userid && access.type === 'u'
+			})
+			if (foundIndex === -1) {
+				const sh = {
+					user: userid,
+					type: 'u',
+					accesslevel: 2,
+				}
+				network.addSharedAccess(projectid, sh, this.addSharedAccessSuccess)
+			}
+		},
+		addSharedAccessSuccess(response, sh, projectid) {
+			const newShAccess = {
+				accesslevel: sh.accesslevel,
+				type: sh.type,
+				name: response.name,
+				userid: sh.user,
+				id: response.id,
+			}
+			this.projects[projectid].shares.push(newShAccess)
 		},
 		editMember(projectid, memberid) {
 			const member = this.members[projectid][memberid]

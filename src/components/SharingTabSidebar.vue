@@ -409,7 +409,7 @@ export default {
 		addSharedAccess(sh) {
 			network.addSharedAccess(this.projectId, sh, this.addSharedAccessSuccess)
 		},
-		addSharedAccessSuccess(response, sh) {
+		addSharedAccessSuccess(response, sh, projectid) {
 			const newShAccess = {
 				accesslevel: constants.ACCESS.PARTICIPANT,
 				type: sh.type,

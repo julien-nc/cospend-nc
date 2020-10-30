@@ -300,7 +300,7 @@ export default {
 				network.setAccessLevel(this.projectId, this.access, level, this.setAccessLevelSuccess)
 			}
 		},
-		addSharedAccessSuccess(response, sh) {
+		addSharedAccessSuccess(response, sh, projectid) {
 			const newShAccess = {
 				accesslevel: sh.accesslevel,
 				type: sh.type,

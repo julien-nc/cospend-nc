@@ -35,14 +35,14 @@
 				:project="projects[id]"
 				:members="projects[id].members"
 				:selected="id === selectedProjectId"
-				@projectClicked="onProjectClicked"
-				@deleteProject="onDeleteProject"
-				@statsClicked="onStatsClicked"
-				@settleClicked="onSettleClicked"
-				@detailClicked="onDetailClicked"
-				@shareClicked="onShareClicked"
-				@newMemberClicked="onNewMemberClicked"
-				@memberEdited="onMemberEdited" />
+				@project-clicked="onProjectClicked"
+				@delete-project="onDeleteProject"
+				@stats-clicked="onStatsClicked"
+				@settle-clicked="onSettleClicked"
+				@detail-clicked="onDetailClicked"
+				@share-clicked="onShareClicked"
+				@new-member-clicked="onNewMemberClicked"
+				@member-edited="onMemberEdited" />
 		</template>
 		<template slot="footer">
 			<AppNavigationSettings>
@@ -221,7 +221,7 @@ export default {
 			network.importProject(targetPath, isSplitWise, this.importProjectSuccess)
 		},
 		importProjectSuccess(response) {
-			this.$emit('projectImported', response)
+			this.$emit('project-imported', response)
 			showSuccess(t('cospend', 'Project imported.'))
 		},
 		async onGuestLinkClick() {
@@ -243,7 +243,7 @@ export default {
 						targetPath = '/'
 					}
 					that.outputDir = targetPath
-					that.$emit('saveOption', 'outputDirectory', targetPath)
+					that.$emit('save-option', 'outputDirectory', targetPath)
 				},
 				false,
 				'httpd/unix-directory',
@@ -251,42 +251,42 @@ export default {
 			)
 		},
 		onSortOrderChange() {
-			this.$emit('saveOption', 'sortOrder', this.sortOrder)
+			this.$emit('save-option', 'sortOrder', this.sortOrder)
 		},
 		onMaxPrecisionChange() {
-			this.$emit('saveOption', 'maxPrecision', this.maxPrecision)
+			this.$emit('save-option', 'maxPrecision', this.maxPrecision)
 			cospend.maxPrecision = this.maxPrecision
 		},
 		onProjectClicked(projectid) {
-			this.$emit('projectClicked', projectid)
+			this.$emit('project-clicked', projectid)
 		},
 		onDeleteProject(projectid) {
-			this.$emit('deleteProject', projectid)
+			this.$emit('delete-project', projectid)
 		},
 		onStatsClicked(projectid) {
-			this.$emit('statsClicked', projectid)
+			this.$emit('stats-clicked', projectid)
 		},
 		onSettleClicked(projectid) {
-			this.$emit('settleClicked', projectid)
+			this.$emit('settle-clicked', projectid)
 		},
 		onDetailClicked(projectid) {
-			this.$emit('detailClicked', projectid)
+			this.$emit('detail-clicked', projectid)
 		},
 		onShareClicked(projectid) {
-			this.$emit('shareClicked', projectid)
+			this.$emit('share-clicked', projectid)
 		},
 		onNewMemberClicked(projectid) {
-			this.$emit('newMemberClicked', projectid)
+			this.$emit('new-member-clicked', projectid)
 		},
 		onMemberEdited(projectid, memberid) {
-			this.$emit('memberEdited', projectid, memberid)
+			this.$emit('member-edited', projectid, memberid)
 		},
 		startCreateProject(e) {
 			this.creating = true
 		},
 		createProject(e) {
 			const name = e.currentTarget.childNodes[0].value
-			this.$emit('createProject', name)
+			this.$emit('create-project', name)
 			this.creating = false
 		},
 		cancelCreate(e) {

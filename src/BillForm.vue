@@ -674,7 +674,7 @@ export default {
 		},
 		saveBillSuccess() {
 			// to update balances
-			this.$emit('billSaved', this.bill)
+			this.$emit('bill-saved', this.bill)
 			showSuccess(t('cospend', 'Bill saved.'))
 		},
 		saveBillDone() {
@@ -927,16 +927,16 @@ export default {
 			billToCreate.id = billid
 			// only select the bill if it's a normal one or the main one in perso mode
 			const select = (mode === 'normal' || mode === 'mainPerso')
-			this.$emit('billCreated', billToCreate, select, mode)
+			this.$emit('bill-created', billToCreate, select, mode)
 			showSuccess(t('cospend', 'Bill created.'))
 			// manage multiple creation
 			if (mode !== 'normal') {
 				this.nbBillsLeftToCreate--
 				if (this.nbBillsLeftToCreate === 0) {
 					if (mode === 'custom') {
-						this.$emit('customBillsCreated')
+						this.$emit('custom-bills-created')
 					} else {
-						this.$emit('persoBillsCreated')
+						this.$emit('perso-bills-created')
 					}
 				}
 			}

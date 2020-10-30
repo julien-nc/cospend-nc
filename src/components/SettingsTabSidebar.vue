@@ -67,7 +67,7 @@
 				:project-id="project.id"
 				:in-navigation="false"
 				:precision="precision"
-				@memberEdited="onMemberEdited(member.id)" />
+				@member-edited="onMemberEdited(member.id)" />
 			<div v-if="!pageIsPublic && maintenerAccess">
 				<br><hr>
 				<h3>
@@ -261,7 +261,7 @@ export default {
 	methods: {
 		onAutoExportSet(e) {
 			this.project.autoexport = e.target.value
-			this.$emit('projectEdited', this.projectId)
+			this.$emit('project-edited', this.projectId)
 		},
 		asyncFind() {
 			if (!this.pageIsPublic) {
@@ -307,9 +307,9 @@ export default {
 				return
 			}
 			if (this.selectedAddUser.type === 'u') {
-				this.$emit('userAdded', this.projectId, this.selectedAddUser.name, this.selectedAddUser.user)
+				this.$emit('user-added', this.projectId, this.selectedAddUser.name, this.selectedAddUser.user)
 			} else {
-				this.$emit('newSimpleMember', this.projectId, this.selectedAddUser.name)
+				this.$emit('new-simple-member', this.projectId, this.selectedAddUser.name)
 			}
 			this.asyncFind()
 		},
@@ -317,23 +317,23 @@ export default {
 			const member = this.members[this.selectedMember]
 			this.$set(member, 'userid', this.selectedAffectUser.user)
 			this.$set(member, 'name', this.selectedAffectUser.name)
-			this.$emit('memberEdited', this.projectId, this.selectedMember)
+			this.$emit('member-edited', this.projectId, this.selectedMember)
 			this.selectedAffectUser = null
 			this.asyncFind()
 		},
 		onMemberEdited(memberid) {
-			this.$emit('memberEdited', this.projectId, memberid)
+			this.$emit('member-edited', this.projectId, memberid)
 		},
 		onRenameProject() {
 			this.project.name = this.newProjectName
-			this.$emit('projectEdited', this.projectId)
+			this.$emit('project-edited', this.projectId)
 			this.newProjectName = ''
 		},
 		onMultiselectEnterPressed(elem) {
 			// this is most likely never triggered because of the fake user
 			// we add that will make the multiselect catch the event
 			const name = elem.value
-			this.$emit('newSimpleMember', this.projectId, name)
+			this.$emit('new-simple-member', this.projectId, name)
 			elem.value = ''
 		},
 		updateSimpleUser(name) {
@@ -357,7 +357,7 @@ export default {
 			}
 		},
 		onExportClick() {
-			this.$emit('exportClicked', this.projectId)
+			this.$emit('export-clicked', this.projectId)
 		},
 		onInfoAddClicked() {
 			OC.dialogs.info(

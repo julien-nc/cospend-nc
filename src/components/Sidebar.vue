@@ -24,7 +24,7 @@
 			:order="1">
 			<SharingTabSidebar
 				:project="project"
-				@projectEdited="onProjectEdited" />
+				@project-edited="onProjectEdited" />
 		</AppSidebarTab>
 		<AppSidebarTab
 			id="project-settings"
@@ -33,11 +33,11 @@
 			:order="2">
 			<SettingsTabSidebar
 				:project="project"
-				@projectEdited="onProjectEdited"
-				@userAdded="onUserAdded"
-				@memberEdited="onMemberEdited"
-				@newSimpleMember="onNewSimpleMember"
-				@exportClicked="onExportClicked" />
+				@project-edited="onProjectEdited"
+				@user-added="onUserAdded"
+				@member-edited="onMemberEdited"
+				@new-simple-member="onNewSimpleMember"
+				@export-clicked="onExportClicked" />
 		</AppSidebarTab>
 		<AppSidebarTab
 			id="categories"
@@ -46,7 +46,7 @@
 			:order="3">
 			<CategoryManagement
 				:project-id="projectId"
-				@categoryDeleted="onCategoryDeleted" />
+				@category-deleted="onCategoryDeleted" />
 		</AppSidebarTab>
 		<AppSidebarTab
 			id="currencies"
@@ -55,7 +55,7 @@
 			:order="4">
 			<CurrencyManagement
 				:project-id="projectId"
-				@projectEdited="onProjectEdited" />
+				@project-edited="onProjectEdited" />
 		</AppSidebarTab>
 		<!--AppSidebarTab :id="'comments'" :name="'Comments'" :icon="'icon-comment'"
 			:order="3"
@@ -144,25 +144,25 @@ export default {
 	},
 	methods: {
 		onActiveChanged(newActive) {
-			this.$emit('activeChanged', newActive)
+			this.$emit('active-changed', newActive)
 		},
 		onProjectEdited(projectid, password = null) {
-			this.$emit('projectEdited', projectid, password)
+			this.$emit('project-edited', projectid, password)
 		},
 		onUserAdded(projectid, name, userid) {
-			this.$emit('userAdded', projectid, name, userid)
+			this.$emit('user-added', projectid, name, userid)
 		},
 		onMemberEdited(projectid, memberid) {
-			this.$emit('memberEdited', projectid, memberid)
+			this.$emit('member-edited', projectid, memberid)
 		},
 		onNewSimpleMember(projectid, name) {
-			this.$emit('newMember', projectid, name)
+			this.$emit('new-member', projectid, name)
 		},
 		onExportClicked(projectid) {
-			this.$emit('exportClicked', projectid)
+			this.$emit('export-clicked', projectid)
 		},
 		onCategoryDeleted(catid) {
-			this.$emit('categoryDeleted', catid)
+			this.$emit('category-deleted', catid)
 		},
 	},
 }

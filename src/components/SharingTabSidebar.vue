@@ -38,8 +38,8 @@
 						:icon="(linkCopied[access.id]) ? 'icon-checkmark-color' : 'icon-clippy'"
 						:aria-label="t('cospend', 'Copy link')"
 						@click="copyLink(access)" />
-					<template>
-						{{ t('cospend', 'Copied!') }}
+					<template #default>
+						{{ t('cospend', 'Copied!aa') }}
 					</template>
 				</Popover>
 
@@ -151,7 +151,7 @@
 						:icon="guestLinkCopied ? 'icon-checkmark-color' : 'icon-clippy'"
 						:aria-label="t('cospend', 'Copy link')"
 						@click="copyPasswordLink" />
-					<template>
+					<template #default>
 						{{ t('cospend', 'Copied!') }}
 					</template>
 				</Popover>
@@ -468,7 +468,7 @@ export default {
 		setPassword() {
 			const password = this.$refs.newPasswordInput.value
 			if (password) {
-				this.$emit('projectEdited', this.projectId, password)
+				this.$emit('project-edited', this.projectId, password)
 			} else {
 				showError(t('cospend', 'Password should not be empty.'))
 			}

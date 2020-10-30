@@ -5,7 +5,7 @@
 		@undo="cancelDeletion">
 		<template slot="counter">
 			<vac :end-time="new Date().getTime() + (7000)">
-				<template v-slot:process="{ timeObj }">
+				<template #process="{ timeObj }">
 					<span>{{ `${timeObj.s}` }}</span>
 				</template>
 				<!--template v-slot:finish>
@@ -57,7 +57,7 @@
 				{{ t('cospend', 'Delete') }}
 			</ActionButton>
 		</template>
-		<template>
+		<template #default>
 			<AppNavigationItem v-if="members.length === 0"
 				icon="icon-category-disabled"
 				:title="t('cospend', 'No members yet')" />
@@ -68,7 +68,7 @@
 				:project-id="project.id"
 				:in-navigation="true"
 				:precision="precision"
-				@memberEdited="onMemberEdited" />
+				@member-edited="onMemberEdited" />
 		</template>
 	</AppNavigationItem>
 </template>
@@ -133,14 +133,14 @@ export default {
 	},
 	methods: {
 		onProjectClick() {
-			this.$emit('projectClicked', this.project.id)
+			this.$emit('project-clicked', this.project.id)
 		},
 		onDeleteProjectClick() {
 			this.deleting = true
 			const that = this
 			this.deletionTimer = new Timer(() => {
 				// that.deleting = false
-				that.$emit('deleteProject', that.project.id)
+				that.$emit('delete-project', that.project.id)
 			}, 7000)
 		},
 		cancelDeletion() {
@@ -149,22 +149,22 @@ export default {
 			delete this.deletionTimer
 		},
 		onStatsClick() {
-			this.$emit('statsClicked', this.project.id)
+			this.$emit('stats-clicked', this.project.id)
 		},
 		onSettleClick() {
-			this.$emit('settleClicked', this.project.id)
+			this.$emit('settle-clicked', this.project.id)
 		},
 		onDetailClick() {
-			this.$emit('detailClicked', this.project.id)
+			this.$emit('detail-clicked', this.project.id)
 		},
 		onShareClick() {
-			this.$emit('shareClicked', this.project.id)
+			this.$emit('share-clicked', this.project.id)
 		},
 		onAddMemberClick() {
-			this.$emit('newMemberClicked', this.project.id)
+			this.$emit('new-member-clicked', this.project.id)
 		},
 		onMemberEdited(projectid, memberid) {
-			this.$emit('memberEdited', projectid, memberid)
+			this.$emit('member-edited', projectid, memberid)
 		},
 	},
 }

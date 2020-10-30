@@ -137,7 +137,7 @@ export default {
 		},
 		deleteCategorySuccess(categoryid) {
 			this.$delete(this.categories, categoryid)
-			this.$emit('categoryDeleted', categoryid)
+			this.$emit('category-deleted', categoryid)
 		},
 		onEditCategory(category, backupCategory) {
 			if (category.name === null || category.name === '') {

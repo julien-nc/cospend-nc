@@ -249,7 +249,7 @@ export default {
 		},
 		onDeleteMemberClick() {
 			this.member.activated = !this.member.activated
-			this.$emit('memberEdited', this.projectId, this.member.id)
+			this.$emit('member-edited', this.projectId, this.member.id)
 			// take care of removing access if it was added automatically
 			if (this.member.userid) {
 				this.deleteAccessOfUser()
@@ -272,12 +272,12 @@ export default {
 				this.deleteAccessOfUser()
 			}
 			this.member.userid = null
-			this.$emit('memberEdited', this.projectId, this.member.id)
+			this.$emit('member-edited', this.projectId, this.member.id)
 		},
 		onWeightSubmit() {
 			const newWeight = this.$refs.weightInput.$el.querySelector('input[type="number"]').value
 			this.member.weight = parseFloat(newWeight)
-			this.$emit('memberEdited', this.projectId, this.member.id)
+			this.$emit('member-edited', this.projectId, this.member.id)
 		},
 		updateColor(color) {
 			delay(() => {
@@ -286,7 +286,7 @@ export default {
 		},
 		applyUpdateColor(color) {
 			this.member.color = color.replace('#', '')
-			this.$emit('memberEdited', this.projectId, this.member.id)
+			this.$emit('member-edited', this.projectId, this.member.id)
 		},
 		onMenuColorClick() {
 			this.$refs.col.$el.querySelector('.trigger').click()

@@ -106,14 +106,14 @@ export default {
 
 	methods: {
 		onAddBillClicked() {
-			this.$emit('newBillClicked')
+			this.$emit('new-bill-clicked')
 		},
 		onItemClicked(bill) {
-			this.$emit('itemClicked', bill.id)
+			this.$emit('item-clicked', bill.id)
 		},
 		onItemDeleted(bill) {
 			if (bill.id === 0) {
-				this.$emit('itemDeleted', bill)
+				this.$emit('item-deleted', bill)
 			} else {
 				this.deleteBill(bill)
 			}
@@ -122,7 +122,7 @@ export default {
 			network.deleteBill(this.projectId, bill, this.deleteBillSuccess)
 		},
 		deleteBillSuccess(bill) {
-			this.$emit('itemDeleted', bill)
+			this.$emit('item-deleted', bill)
 			// updateProjectBalances(projectid)
 			showSuccess(t('cospend', 'Bill deleted.'))
 		},

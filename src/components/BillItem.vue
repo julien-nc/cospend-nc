@@ -24,7 +24,7 @@
 			@click="onDeleteClick">
 			<span v-if="timerOn" class="countdown">
 				<vac :end-time="new Date().getTime() + (7000)">
-					<template v-slot:process="{ timeObj }">
+					<template #process="{ timeObj }">
 						<span>{{ `${timeObj.s}` }}</span>
 					</template>
 				</vac>

@@ -141,7 +141,7 @@ export default {
 		onEditMainOkClick() {
 			const newVal = this.$refs.mainCurrencyEdit.value
 			this.project.currencyname = newVal
-			this.$emit('projectEdited', this.project.id)
+			this.$emit('project-edited', this.project.id)
 			this.editMode = false
 		},
 		onAddCurrency() {

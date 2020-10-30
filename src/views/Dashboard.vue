@@ -3,7 +3,7 @@
 		:show-more-url="showMoreUrl"
 		:show-more-text="title"
 		:loading="state === 'loading'">
-		<template v-slot:empty-content>
+		<template #empty-content>
 			<a :href="showMoreUrl">
 				{{ t('cospend', 'No recent activity') }}
 			</a>

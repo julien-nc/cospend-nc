@@ -4,18 +4,18 @@
 			:projects="projects"
 			:selected-project-id="currentProjectId"
 			:loading="projectsLoading"
-			@projectClicked="onProjectClicked"
-			@deleteProject="onDeleteProject"
-			@statsClicked="onStatsClicked"
-			@settleClicked="onSettleClicked"
-			@detailClicked="onDetailClicked"
-			@shareClicked="onShareClicked"
-			@newMemberClicked="onNewMemberClicked"
-			@memberEdited="onMemberEdited"
-			@projectEdited="onProjectEdited"
-			@createProject="onCreateProject"
-			@projectImported="onProjectImported"
-			@saveOption="onSaveOption" />
+			@project-clicked="onProjectClicked"
+			@delete-project="onDeleteProject"
+			@stats-clicked="onStatsClicked"
+			@settle-clicked="onSettleClicked"
+			@detail-clicked="onDetailClicked"
+			@share-clicked="onShareClicked"
+			@new-member-clicked="onNewMemberClicked"
+			@member-edited="onMemberEdited"
+			@project-edited="onProjectEdited"
+			@create-project="onCreateProject"
+			@project-imported="onProjectImported"
+			@save-option="onSaveOption" />
 		<AppContent>
 			<div v-if="shouldShowDetailsToggle"
 				id="app-details-toggle"
@@ -31,25 +31,25 @@
 					:selected-bill-id="selectedBillId"
 					:edition-access="editionAccess"
 					:mode="mode"
-					@itemClicked="onBillClicked"
-					@itemDeleted="onBillDeleted"
-					@newBillClicked="onNewBillClicked" />
+					@item-clicked="onBillClicked"
+					@item-deleted="onBillDeleted"
+					@new-bill-clicked="onNewBillClicked" />
 				<BillForm
 					v-if="currentBill !== null && mode === 'edition'"
 					:bill="currentBill"
 					:members="currentMembers"
 					:edition-access="editionAccess"
-					@billCreated="onBillCreated"
-					@billSaved="onBillSaved"
-					@customBillsCreated="onCustomBillsCreated"
-					@persoBillsCreated="onPersoBillsCreated" />
+					@bill-created="onBillCreated"
+					@bill-saved="onBillSaved"
+					@custom-bills-created="onCustomBillsCreated"
+					@perso-bills-created="onPersoBillsCreated" />
 				<Statistics
 					v-if="mode === 'stats'"
 					:project-id="currentProjectId" />
 				<Settlement
 					v-if="mode === 'settle'"
 					:project-id="currentProjectId"
-					@autoSettled="onAutoSettled" />
+					@auto-settled="onAutoSettled" />
 			</div>
 			<Actions
 				class="content-buttons"
@@ -66,14 +66,14 @@
 			:members="currentMembers"
 			:show="showSidebar"
 			:active-tab="activeSidebarTab"
-			@activeChanged="onActiveSidebarTabChanged"
+			@active-changed="onActiveSidebarTabChanged"
 			@close="showSidebar = false"
-			@projectEdited="onProjectEdited"
-			@userAdded="onNewMember"
-			@memberEdited="onMemberEdited"
-			@newMember="onNewMember"
-			@exportClicked="onExportClicked"
-			@categoryDeleted="onCategoryDeleted" />
+			@project-edited="onProjectEdited"
+			@user-added="onNewMember"
+			@member-edited="onMemberEdited"
+			@new-member="onNewMember"
+			@export-clicked="onExportClicked"
+			@category-deleted="onCategoryDeleted" />
 	</Content>
 </template>
 
@@ -114,6 +114,10 @@ export default {
 		AppContent,
 		Actions,
 		ActionButton,
+	},
+	provide() {
+		return {
+		}
 	},
 	data() {
 		return {
@@ -180,10 +184,6 @@ export default {
 			}
 			return payerId
 		},
-	},
-	provide() {
-		return {
-		}
 	},
 	created() {
 		this.getProjects()

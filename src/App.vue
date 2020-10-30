@@ -582,6 +582,10 @@ export default {
 			} else {
 				showSuccess(t('cospend', 'Member saved.'))
 				this.updateBalances(cospend.currentProjectId)
+				// add access to this user if it's not there already
+				if (member.userid) {
+					this.addParticipantAccess(projectid, memberid, member.userid)
+				}
 			}
 		},
 		editProject(projectid, password = null) {

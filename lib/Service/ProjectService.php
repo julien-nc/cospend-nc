@@ -2525,7 +2525,7 @@ class ProjectService {
             $qb->set('comment', $qb->createNamedParameter($comment, IQueryBuilder::PARAM_STR));
         }
 
-        if ($repeat !== null) {
+        if ($repeat !== null && $repeat !== '') {
             if (in_array($repeat, ['n', 'd', 'w', 'm', 'y'])) {
                 $qb->set('repeat', $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR));
             } else {

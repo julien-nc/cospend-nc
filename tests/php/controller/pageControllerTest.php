@@ -412,11 +412,11 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 
         $resp = $this->pageController->webEditBill('superproj', $idBill1, '2019-01-20', '', $idMember1, $idMember1.','.$idMember2, 99, 'n');
         $status = $resp->getStatus();
-        $this->assertEquals(400, $status);
+        $this->assertEquals(200, $status);
 
         $resp = $this->pageController->webEditBill('superproj', $idBill1, '2019-01-20', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, '');
         $status = $resp->getStatus();
-        $this->assertEquals(400, $status);
+        $this->assertEquals(200, $status);
 
         $resp = $this->pageController->webEditBill('superproj', $idBill1, '2019-01-20', 'boomerang', 0, $idMember1.','.$idMember2, 99, 'n');
         $status = $resp->getStatus();

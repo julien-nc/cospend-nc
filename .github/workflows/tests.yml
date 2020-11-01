@@ -46,12 +46,15 @@ jobs:
           php ~/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
           php ~/html/nextcloud/occ app:enable cospend
           php ~/html/nextcloud/occ maintenance:mode --off
+          echo "##### App is installed"
           #php ~/html/nextcloud/occ app:check-code cospend
           mkdir /tmp/coverage
           cd /tmp
-          phpunit --configuration ~/html/nextcloud/apps/cospend/phpunit.xml --coverage-text --color=never --coverage-html coverage > /tmp/cov.txt
+          echo "##### PHPunit"
+          phpunit --configuration ~/html/nextcloud/apps/cospend/phpunit.xml --coverage-text --color=never --coverage-html coverage > /tmp/cov.txt && SUCCESS=yes || SUCCESS=no
           echo "phpunit finished ############################"
           cat /tmp/cov.txt
+          if [ $SUCCESS = "yes" ]; then echo "TESTS PASSED"; else echo "TESTS FAILED"; exit 1; fi
           echo "generating badge ############################"
           grep "^\s\+Lines:" /tmp/cov.txt > /tmp/cov.line.txt
           grep -o "[0-9]\+\.[0-9]\+" /tmp/cov.line.txt > /tmp/cov.value.txt

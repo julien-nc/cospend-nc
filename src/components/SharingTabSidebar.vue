@@ -39,7 +39,7 @@
 						:aria-label="t('cospend', 'Copy link')"
 						@click="copyLink(access)" />
 					<template #default>
-						{{ t('cospend', 'Copied!aa') }}
+						{{ t('cospend', 'Copied!') }}
 					</template>
 				</Popover>
 

@@ -74,6 +74,7 @@ import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import BillItem from './components/BillItem'
 import { showSuccess } from '@nextcloud/dialogs'
+import '@nextcloud/dialogs/styles/toast.scss'
 import cospend from './state'
 import * as network from './network'
 
@@ -168,7 +169,6 @@ export default {
 		},
 		onItemClicked(bill) {
 			if (this.selectMode) {
-				console.debug('select ' + bill.id)
 				if (this.isBillSelected(bill)) {
 					const i = this.selectedBillIds.findIndex((id) => id === bill.id)
 					this.selectedBillIds.splice(i, 1)
@@ -214,12 +214,33 @@ export default {
 		},
 		deleteSelection() {
 			if (this.selectedBillIds.length > 0) {
-				network.deleteBills(this.projectId, this.selectedBillIds, this.deleteBillsSuccess)
+				OC.dialogs.confirmDestructive(
+					n('cospend',
+						'Are you sure you want to delete {nb} bill?',
+						'Are you sure you want to delete {nb} bills?',
+						this.selectedBillIds.length,
+						{ nb: this.selectedBillIds.length }
+					),
+					t('cospend', 'Confirm deletion'),
+					{
+						type: OC.dialogs.YES_NO_BUTTONS,
+						confirm: t('cospend', 'Delete'),
+						confirmClasses: 'error',
+						cancel: t('cospend', 'Cancel'),
+					},
+					(result) => {
+						if (result) {
+							network.deleteBills(this.projectId, this.selectedBillIds, this.deleteBillsSuccess)
+						}
+					},
+					true
+				)
 			}
 		},
 		deleteBillsSuccess(billIds) {
 			this.$emit('items-deleted', billIds)
 			showSuccess(t('cospend', 'Bills deleted'))
+			this.selectedBillIds = []
 		},
 	},
 }

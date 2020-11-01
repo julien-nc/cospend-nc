@@ -299,6 +299,41 @@ export function saveBill(projectid, bill, successCB, doneCB) {
 		})
 }
 
+export function saveBills(projectid, billIds, categoryid, successCB) {
+	const req = {
+		what: null,
+		comment: null,
+		timestamp: null,
+		payer: null,
+		payed_for: null,
+		amount: null,
+		repeat: null,
+		repeatallactive: null,
+		repeatuntil: null,
+		paymentmode: null,
+		categoryid,
+		billIds,
+	}
+	let url
+	if (!cospend.pageIsPublic) {
+		url = generateUrl('/apps/cospend/projects/' + projectid + '/bills')
+	} else {
+		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills')
+	}
+	axios.put(url, req)
+		.then((response) => {
+			successCB(billIds, categoryid)
+		})
+		.catch((error) => {
+			showError(
+				t('cospend', 'Failed to save bill')
+				+ ': ' + error.response?.request?.responseText
+			)
+		})
+		.then(() => {
+		})
+}
+
 export function createBill(projectid, mode, req, billToCreate, successCB, doneCB) {
 	let url
 	if (!cospend.pageIsPublic) {
@@ -353,6 +388,30 @@ export function deleteBill(projectid, bill, successCB) {
 			showError(
 				t('cospend', 'Failed to delete bill')
 				+ ': ' + error.response.request.responseText
+			)
+		})
+}
+
+export function deleteBills(projectid, billIds, successCB) {
+	let url
+	if (!cospend.pageIsPublic) {
+		url = generateUrl('/apps/cospend/projects/' + projectid + '/bills')
+	} else {
+		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills')
+	}
+	const req = {
+		params: {
+			billIds,
+		},
+	}
+	axios.delete(url, req)
+		.then((response) => {
+			successCB(billIds)
+		})
+		.catch((error) => {
+			showError(
+				t('cospend', 'Failed to delete bills')
+				+ ': ' + error.response?.request?.responseText
 			)
 		})
 }

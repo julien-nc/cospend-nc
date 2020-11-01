@@ -33,6 +33,9 @@
 					:mode="mode"
 					@item-clicked="onBillClicked"
 					@item-deleted="onBillDeleted"
+					@items-deleted="onBillsDeleted"
+					@multi-category-edit="onMultiCategoryEdit"
+					@reset-selection="onResetSelection"
 					@new-bill-clicked="onNewBillClicked" />
 				<BillForm
 					v-if="currentBill !== null && mode === 'edition'"
@@ -261,6 +264,11 @@ export default {
 				this.updateBalances(cospend.currentProjectId)
 			}
 		},
+		onMultiCategoryEdit(billIds, categoryid) {
+			billIds.forEach(id => {
+				this.bills[cospend.currentProjectId][id].categoryid = categoryid
+			})
+		},
 		onBillSaved(bill, changedBill) {
 			Object.assign(bill, changedBill)
 			this.updateBalances(cospend.currentProjectId)
@@ -270,6 +278,17 @@ export default {
 			this.updateBalances(cospend.currentProjectId)
 		},
 		onPersoBillsCreated() {
+			this.updateBalances(cospend.currentProjectId)
+		},
+		onResetSelection() {
+			this.currentBill = null
+		},
+		onBillsDeleted(billIds) {
+			const billList = this.billLists[cospend.currentProjectId]
+			billIds.forEach(id => {
+				const index = billList.findIndex(bill => bill.id === id)
+				billList.splice(index, 1)
+			})
 			this.updateBalances(cospend.currentProjectId)
 		},
 		onBillDeleted(bill) {

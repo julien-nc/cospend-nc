@@ -458,6 +458,37 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
+    public function webDeleteBills($projectid, $billIds) {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
+            foreach ($billIds as $billid) {
+                if ($this->projectService->getBill($projectid, $billid) !== null) {
+                    $billObj = $this->billMapper->find($billid);
+                    $this->activityManager->triggerEvent(
+                        ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                        ActivityManager::SUBJECT_BILL_DELETE,
+                        []
+                    );
+                }
+                $result = $this->projectService->deleteBill($projectid, $billid);
+                if ($result !== 'OK') {
+                    return new DataResponse($result, 400);
+                }
+            }
+            return new DataResponse('OK');
+        }
+        else {
+            $response = new DataResponse(
+                ['message' => $this->trans->t('You are not allowed to delete this bill')]
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     *
+     */
     public function webGetProjectInfo($projectid) {
         if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
             $projectInfo = $this->projectService->getProjectInfo($projectid);
@@ -604,6 +635,44 @@ class PageController extends ApiController {
             else {
                 return new DataResponse($result, 400);
             }
+        }
+        else {
+            $response = new DataResponse(
+                ['message' => $this->trans->t('You are not allowed to edit this bill')]
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     *
+     */
+    public function webEditBills($projectid, $billIds, $categoryid, $date=null,
+                                $what=null, $payer=null, $payed_for=null,
+                                $amount=null, $repeat=null, $paymentmode=null,
+                                $repeatallactive=null, $repeatuntil=null, $timestamp=null,
+                                $comment=null) {
+        $userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
+        if ($userAccessLevel >= ACCESS_PARTICIPANT) {
+            foreach ($billIds as $billid) {
+                $result =  $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
+                                                        $amount, $repeat, $paymentmode, $categoryid,
+                                                        $repeatallactive, $repeatuntil, $timestamp, $comment);
+                if (is_numeric($result)) {
+                    $billObj = $this->billMapper->find($billid);
+                    $this->activityManager->triggerEvent(
+                        ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                        ActivityManager::SUBJECT_BILL_UPDATE,
+                        []
+                    );
+                }
+                else {
+                    return new DataResponse($result, 400);
+                }
+            }
+            return new DataResponse($billIds);
         }
         else {
             $response = new DataResponse(
@@ -1216,6 +1285,48 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      * @NoCSRFRequired
+     * @PublicPage
+     * @CORS
+     */
+    public function apiEditBills($projectid, $password, $billIds, $categoryid, $date=null,
+                                $what=null, $payer=null, $payed_for=null,
+                                $amount=null, $repeat='n', $paymentmode=null,
+                                $repeatallactive=null, $repeatuntil=null, $timestamp=null, $comment=null) {
+        $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
+        if (
+            ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_PARTICIPANT)
+        ) {
+            foreach ($billIds as $billid) {
+                $result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
+                                                        $amount, $repeat, $paymentmode, $categoryid,
+                                                        $repeatallactive, $repeatuntil, $timestamp, $comment);
+                if (is_numeric($result)) {
+                    $billObj = $this->billMapper->find($billid);
+                    $this->activityManager->triggerEvent(
+                        ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                        ActivityManager::SUBJECT_BILL_UPDATE,
+                        []
+                    );
+                }
+                else {
+                    return new DataResponse($result, 400);
+                }
+            }
+            return new DataResponse($result);
+        }
+        else {
+            $response = new DataResponse(
+                ['message' => $this->trans->t('You are not allowed to edit this bill')]
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
      * @CORS
      */
     public function apiPrivEditBill($projectid, $billid, $date, $what, $payer, $payed_for,
@@ -1276,6 +1387,44 @@ class PageController extends ApiController {
             else {
                 return new DataResponse($result, 404);
             }
+        }
+        else {
+            $response = new DataResponse(
+                ['message' => $this->trans->t('Unauthorized action')]
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     * @CORS
+     */
+    public function apiDeleteBills($projectid, $password, $billIds) {
+        $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
+        if (
+            ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
+            or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_PARTICIPANT)
+        ) {
+            foreach ($billIds as $billid) {
+                if ($this->projectService->getBill($projectid, $billid) !== null) {
+                    $billObj = $this->billMapper->find($billid);
+                    $this->activityManager->triggerEvent(
+                        ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                        ActivityManager::SUBJECT_BILL_DELETE,
+                        []
+                    );
+                }
+
+                $result = $this->projectService->deleteBill($projectid, $billid);
+                if ($result !== 'OK') {
+                    return new DataResponse($result, 404);
+                }
+            }
+            return new DataResponse('OK');
         }
         else {
             $response = new DataResponse(

@@ -9,7 +9,41 @@
 				icon="icon-add"
 				:title="t('cospend', 'New bill')"
 				@click="onAddBillClicked" />
+			<button v-if="editionAccess"
+				:class="{ icon: true, 'icon-toggle-filelist': !selectMode, 'icon-close': selectMode, 'top-right-icon': true }"
+				@click="toggleSelectMode" />
 		</div>
+		<transition name="fade">
+			<div v-if="selectMode"
+				class="selectionOptions">
+				<select v-show="selectedBillIds.length > 0"
+					v-model="selectedCategory"
+					@input="onCategoryChange">
+					<option value="0">
+						{{ t('cospend', 'Affect a category') }}
+					</option>
+					<option
+						v-for="category in categories"
+						:key="category.id"
+						:value="category.id">
+						{{ category.icon + ' ' + category.name }}
+					</option>
+					<option
+						v-for="(category, catid) in hardCodedCategories"
+						:key="catid"
+						:value="catid">
+						{{ category.icon + ' ' + category.name }}
+					</option>
+				</select>
+				<button v-if="selectedBillIds.length > 0"
+					class="icon icon-delete"
+					@click="deleteSelection" />
+				<p v-else
+					class="multiSelectHint">
+					{{ t('cospend', 'Multi select mode: Select bills to make grouped actions') }}
+				</p>
+			</div>
+		</transition>
 		<h3 v-if="!twoActiveMembers"
 			class="nomember">
 			{{ t('cospend', 'Add at least 2 members to start creating bills') }}
@@ -27,8 +61,9 @@
 			:project-id="projectId"
 			:index="nbBills - index"
 			:nbbills="nbBills"
-			:selected="bill.id === selectedBillId"
+			:selected="isBillSelected(bill)"
 			:edition-access="editionAccess"
+			:show-delete="!selectMode"
 			@clicked="onItemClicked"
 			@delete="onItemDeleted" />
 	</div>
@@ -79,6 +114,9 @@ export default {
 	data() {
 		return {
 			cospend,
+			selectMode: false,
+			selectedCategory: 0,
+			selectedBillIds: [],
 		}
 	},
 
@@ -102,14 +140,44 @@ export default {
 			}
 			return (c >= 2)
 		},
+		categories() {
+			return cospend.projects[this.projectId].categories
+		},
+		hardCodedCategories() {
+			return cospend.hardCodedCategories
+		},
+	},
+
+	watch: {
+		projectId() {
+			this.selectMode = false
+			this.selectedBillIds = []
+		},
 	},
 
 	methods: {
+		isBillSelected(bill) {
+			if (this.selectMode) {
+				return this.selectedBillIds.includes(bill.id)
+			} else {
+				return bill.id === this.selectedbillid
+			}
+		},
 		onAddBillClicked() {
 			this.$emit('new-bill-clicked')
 		},
 		onItemClicked(bill) {
-			this.$emit('item-clicked', bill.id)
+			if (this.selectMode) {
+				console.debug('select ' + bill.id)
+				if (this.isBillSelected(bill)) {
+					const i = this.selectedBillIds.findIndex((id) => id === bill.id)
+					this.selectedBillIds.splice(i, 1)
+				} else {
+					this.selectedBillIds.push(bill.id)
+				}
+			} else {
+				this.$emit('item-clicked', bill.id)
+			}
 		},
 		onItemDeleted(bill) {
 			if (bill.id === 0) {
@@ -123,8 +191,35 @@ export default {
 		},
 		deleteBillSuccess(bill) {
 			this.$emit('item-deleted', bill)
-			// updateProjectBalances(projectid)
-			showSuccess(t('cospend', 'Bill deleted.'))
+			showSuccess(t('cospend', 'Bill deleted'))
+		},
+		toggleSelectMode() {
+			this.selectMode = !this.selectMode
+			if (this.selectMode) {
+				this.$emit('reset-selection')
+			} else {
+				this.selectedBillIds = []
+			}
+		},
+		onCategoryChange(e) {
+			const categoryid = e.target.value
+			if (this.selectedBillIds.length > 0) {
+				network.saveBills(this.projectId, this.selectedBillIds, categoryid, this.saveBillsSuccess)
+			}
+		},
+		saveBillsSuccess(billIds, categoryid) {
+			this.$emit('multi-category-edit', billIds, categoryid)
+			showSuccess(t('cospend', 'Bills edited'))
+			this.selectedCategory = 0
+		},
+		deleteSelection() {
+			if (this.selectedBillIds.length > 0) {
+				network.deleteBills(this.projectId, this.selectedBillIds, this.deleteBillsSuccess)
+			}
+		},
+		deleteBillsSuccess(billIds) {
+			this.$emit('items-deleted', billIds)
+			showSuccess(t('cospend', 'Bills deleted'))
 		},
 	},
 }
@@ -133,6 +228,7 @@ export default {
 <style scoped lang="scss">
 .addBillItem {
 	padding-left: 40px;
+	padding-right: 44px;
 }
 
 .nobill, .nomember {
@@ -148,6 +244,49 @@ export default {
 
 .loading-icon {
 	margin-top: 16px;
+}
+
+.icon {
+	width: 44px;
+	height: 44px;
+	border-radius: var(--border-radius-pill);
+	opacity: .5;
+
+	&.top-right-icon {
+		position: absolute;
+		top: 2px;
+		right: 0;
+	}
+	&.icon-delete,
+	&.icon-close,
+	&.icon-toggle-filelist {
+		background-color: transparent;
+		border: none;
+		margin: 0;
+	}
+	&:hover,
+	&:focus {
+		opacity: 1;
+		background-color: var(--color-background-hover);
+	}
+}
+
+.selectionOptions {
+	display: flex;
+
+	select {
+		margin-top: 5px;
+	}
+	.icon-delete {
+		margin-left: auto;
+	}
+}
+
+.multiSelectHint {
+	text-align: center;
+	width: 100%;
+	font-weight: bold;
+	min-height: 44px;
 }
 
 ::v-deep .icon-cospend-raw {

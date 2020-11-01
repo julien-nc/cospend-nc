@@ -2517,19 +2517,21 @@ class ProjectService {
             return ['message' => $this->trans->t('There is no such bill')];
         }
         // then edit the hell of it
-        if ($what === null || $what === '') {
-            return ['what' => $this->trans->t('"What" field is invalid')];
+        if ($what !== null && is_string($what) && $what !== '') {
+            $qb->set('what', $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR));
         }
-        $qb->set('what', $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR));
 
-        if ($comment !== null and is_string($comment)) {
+        if ($comment !== null && is_string($comment)) {
             $qb->set('comment', $qb->createNamedParameter($comment, IQueryBuilder::PARAM_STR));
         }
 
-        if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
-            return ['repeat' => $this->trans->t('Invalid value')];
+        if ($repeat !== null) {
+            if (in_array($repeat, ['n', 'd', 'w', 'm', 'y'])) {
+                $qb->set('repeat', $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR));
+            } else {
+                return ['repeat' => $this->trans->t('Invalid value')];
+            }
         }
-        $qb->set('repeat', $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR));
 
         if ($repeatuntil !== null) {
             if ($repeatuntil === '') {

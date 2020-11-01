@@ -19,7 +19,7 @@
 			</span>
 			<span>{{ billDate }}</span>
 		</span>
-		<div v-show="editionAccess"
+		<div v-if="editionAccess && showDelete"
 			:class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteBillIcon'"
 			@click="onDeleteClick">
 			<span v-if="timerOn" class="countdown">
@@ -29,6 +29,11 @@
 					</template>
 				</vac>
 			</span>
+		</div>
+		<div v-if="editionAccess && !showDelete" class="icon-selector">
+			<input type="checkbox"
+				:readonly="true"
+				:checked="selected">
 		</div>
 	</a>
 </template>
@@ -69,6 +74,10 @@ export default {
 		selected: {
 			type: Boolean,
 			required: true,
+		},
+		showDelete: {
+			type: Boolean,
+			default: true,
 		},
 	},
 	data() {
@@ -211,5 +220,12 @@ export default {
 
 .newBill {
 	font-style: italic;
+}
+
+.icon-selector input {
+	position: relative;
+	top: -17px;
+	right: 10px;
+	cursor: pointer;
 }
 </style>

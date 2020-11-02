@@ -522,7 +522,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
         $data = $resp->getData();
-        $nbBills = count($data);
+        $nbBills = count($data['bills']);
         $this->assertEquals(true, ($nbBills > 0));
 
         // DELETE BILL
@@ -542,7 +542,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
         $data = $resp->getData();
-        $nbBills2 = count($data);
+        $nbBills2 = count($data['bills']);
         $this->assertEquals($nbBills2, ($nbBills - 1));
 
         $resp = $this->pageController->webGetBills('superprojLALA');

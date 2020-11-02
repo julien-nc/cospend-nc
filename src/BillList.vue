@@ -10,17 +10,10 @@
 				icon="icon-add"
 				:title="t('cospend', 'New bill')"
 				@click="onAddBillClicked" />
-			<div class="top-right-icon">
-				<Popover trigger="hover">
-					<button v-if="editionAccess && bills.length > 0"
-						slot="trigger"
-						:class="{ icon: true, 'icon-toggle-filelist': !selectMode, 'icon-close': selectMode }"
-						@click="toggleSelectMode" />
-					<template #default>
-						{{ multiToggleText }}
-					</template>
-				</Popover>
-			</div>
+			<button v-if="editionAccess && bills.length > 0"
+				v-tooltip.left="{ content: multiToggleText }"
+				:class="{ icon: true, 'icon-toggle-filelist': !selectMode, 'icon-close': selectMode, 'top-right-icon': true }"
+				@click="toggleSelectMode" />
 		</div>
 		<transition name="fade">
 			<div v-if="selectMode"
@@ -66,17 +59,10 @@
 						{{ pm.icon + ' ' + pm.name }}
 					</option>
 				</select>
-				<Popover v-if="selectedBillIds.length > 0"
-					class="multiDelete"
-					trigger="hover">
-					<button
-						slot="trigger"
-						class="icon icon-delete"
-						@click="deleteSelection" />
-					<template #default>
-						{{ t('cospend', 'Delete selected bills') }}
-					</template>
-				</Popover>
+				<button v-if="selectedBillIds.length > 0"
+					v-tooltip.left="{ content: t('cospend', 'Delete selected bills') }"
+					class="icon icon-delete multiDelete"
+					@click="deleteSelection" />
 				<p v-else
 					class="multiSelectHint">
 					{{ t('cospend', 'Multi select mode: Select bills to make grouped actions') }}
@@ -114,7 +100,6 @@
 <script>
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import Popover from '@nextcloud/vue/dist/Components/Popover'
 import BillItem from './components/BillItem'
 import InfiniteLoading from 'vue-infinite-loading'
 import { showSuccess } from '@nextcloud/dialogs'
@@ -122,11 +107,15 @@ import '@nextcloud/dialogs/styles/toast.scss'
 import cospend from './state'
 import * as network from './network'
 
+import Vue from 'vue'
+import { VTooltip } from 'v-tooltip'
+Vue.directive('tooltip', VTooltip)
+
 export default {
 	name: 'BillList',
 
 	components: {
-		BillItem, AppNavigationItem, EmptyContent, InfiniteLoading, Popover,
+		BillItem, AppNavigationItem, EmptyContent, InfiniteLoading,
 	},
 
 	props: {

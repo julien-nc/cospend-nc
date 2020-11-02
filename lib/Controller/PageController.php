@@ -778,7 +778,11 @@ class PageController extends ApiController {
                     $projectid, null, null, null, null, null, null, $lastchanged, null, $reverse
                 );
             }
-            $response = new DataResponse($bills);
+            $result = [
+                'nb_bills' => $this->projectService->getNbBills($projectid),
+                'bills' => $bills,
+            ];
+            $response = new DataResponse($result);
             return $response;
         }
         else {
@@ -1037,7 +1041,11 @@ class PageController extends ApiController {
                     $projectid, null, null, null, null, null, null, $lastchanged, null, $reverse
                 );
             }
-            $response = new DataResponse($bills);
+            $result = [
+                'nb_bills' => $this->projectService->getNbBills($projectid),
+                'bills' => $bills,
+            ];
+            $response = new DataResponse($result);
             return $response;
         }
         else {

@@ -1532,6 +1532,22 @@ class ProjectService {
         }
     }
 
+    public function getNbBills(string $projectId): int {
+        $nb = 0;
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select($qb->createFunction('COUNT(*)'))
+           ->from('cospend_bills', 'bi')
+           ->where(
+               $qb->expr()->eq('bi.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+           );
+        $req = $qb->execute();
+        while ($row = $req->fetch()) {
+            error_log(implode(',', array_keys($row)));
+            $nb = $row['COUNT(*)'];
+        }
+        return $nb;
+    }
+
     public function getBillsRestricted(string $projectId, ?int $tsMin = null, ?int $tsMax = null, ?string $paymentMode = null, ?int $category = null,
                               ?float $amountMin = null, ?float $amountMax = null, ?int $lastchanged = null, ?int $limit = null,
                               bool $reverse = false, int $offset = 0) {

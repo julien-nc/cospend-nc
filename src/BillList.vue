@@ -157,7 +157,7 @@ export default {
 
 	computed: {
 		nbBills() {
-			return this.bills.length
+			return cospend.projects[this.projectId].nbBills
 		},
 		reverseBills() {
 			return this.bills.slice().reverse()

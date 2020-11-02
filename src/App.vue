@@ -470,11 +470,12 @@ export default {
 			network.getBills(projectid, 0, 50, this.getBillsSuccess, this.getBillsDone)
 		},
 		getBillsSuccess(projectid, response) {
+			this.currentProject.nbBills = response.nb_bills
 			this.bills[projectid] = {}
-			this.$set(this.billLists, projectid, response)
+			this.$set(this.billLists, projectid, response.bills)
 			let bill
-			for (let i = 0; i < response.length; i++) {
-				bill = response[i]
+			for (let i = 0; i < response.bills.length; i++) {
+				bill = response.bills[i]
 				this.bills[projectid][bill.id] = bill
 			}
 			this.updateBalances(projectid)
@@ -486,13 +487,14 @@ export default {
 			network.getBills(projectid, this.billLists[projectid].length, 20, this.getMoreBillsSuccess, this.getMoreBillsDone, state)
 		},
 		getMoreBillsSuccess(projectid, response, state) {
-			if (!response || response.length === 0) {
+			this.currentProject.nbBills = response.nb_bills
+			if (!response.bills || response.bills.length === 0) {
 				state.complete()
 			} else {
-				this.$set(this.billLists, projectid, this.billLists[projectid].concat(response))
+				this.$set(this.billLists, projectid, this.billLists[projectid].concat(response.bills))
 				let bill
-				for (let i = 0; i < response.length; i++) {
-					bill = response[i]
+				for (let i = 0; i < response.bills.length; i++) {
+					bill = response.bills[i]
 					this.bills[projectid][bill.id] = bill
 				}
 				state.loaded()

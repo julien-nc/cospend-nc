@@ -256,7 +256,7 @@ export default {
 		},
 		onBillCreated(bill, select, mode) {
 			this.bills[cospend.currentProjectId][bill.id] = bill
-			this.billLists[cospend.currentProjectId].push(bill)
+			this.billLists[cospend.currentProjectId].unshift(bill)
 			this.cleanupBills()
 			if (select) {
 				this.currentBill = bill
@@ -411,7 +411,7 @@ export default {
 					categoryid: 0,
 					comment: '',
 				}
-				this.billLists[cospend.currentProjectId].push(this.currentBill)
+				this.billLists[cospend.currentProjectId].unshift(this.currentBill)
 			} else {
 				this.currentBill = billList[found]
 			}

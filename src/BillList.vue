@@ -23,7 +23,7 @@
 					class="category-select"
 					@input="onCategoryChange">
 					<option value="placeholder">
-						{{ t('cospend', 'Affect a category') }}
+						{{ t('cospend', 'Assign category') }}
 					</option>
 					<option value="0">
 						{{ t('cospend', 'None') }}
@@ -47,7 +47,7 @@
 					:disabled="!editionAccess"
 					@input="onPaymentModeChange">
 					<option value="placeholder">
-						{{ t('cospend', 'Affect a payment mode') }}
+						{{ t('cospend', 'Assign payment mode') }}
 					</option>
 					<option value="n">
 						{{ t('cospend', 'None') }}

@@ -193,12 +193,12 @@ export default {
 		this.getProjects()
 	},
 	mounted() {
-		subscribe('nextcloud:unified-search:search', this.filter)
-		subscribe('nextcloud:unified-search:reset', this.cleanSearch)
+		subscribe('nextcloud:unified-search.search', this.filter)
+		subscribe('nextcloud:unified-search.reset', this.cleanSearch)
 	},
 	beforeDestroy() {
-		unsubscribe('nextcloud:unified-search:search', this.filter)
-		unsubscribe('nextcloud:unified-search:reset', this.cleanSearch)
+		unsubscribe('nextcloud:unified-search.search', this.filter)
+		unsubscribe('nextcloud:unified-search.reset', this.cleanSearch)
 	},
 	methods: {
 		onActiveSidebarTabChanged(newActive) {

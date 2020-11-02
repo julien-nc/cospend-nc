@@ -1,5 +1,6 @@
 <template>
 	<div id="bill-list"
+		ref="list"
 		:class="{ 'app-content-list': true, 'showdetails': shouldShowDetails }">
 		<div>
 			<AppNavigationItem
@@ -55,7 +56,7 @@
 		<h2 v-show="loading"
 			class="icon-loading-small loading-icon" />
 		<BillItem
-			v-for="(bill, index) in reverseBills"
+			v-for="(bill, index) in bills"
 			:key="bill.id"
 			:bill="bill"
 			:project-id="projectId"
@@ -66,6 +67,9 @@
 			:show-delete="!selectMode"
 			@clicked="onItemClicked"
 			@delete="onItemDeleted" />
+		<InfiniteLoading v-if="bills.length > 30"
+			:identifier="projectId"
+			@infinite="infiniteHandler" />
 	</div>
 </template>
 
@@ -73,6 +77,7 @@
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import BillItem from './components/BillItem'
+import InfiniteLoading from 'vue-infinite-loading'
 import { showSuccess } from '@nextcloud/dialogs'
 import '@nextcloud/dialogs/styles/toast.scss'
 import cospend from './state'
@@ -82,7 +87,7 @@ export default {
 	name: 'BillList',
 
 	components: {
-		BillItem, AppNavigationItem, EmptyContent,
+		BillItem, AppNavigationItem, EmptyContent, InfiniteLoading,
 	},
 
 	props: {
@@ -153,10 +158,14 @@ export default {
 		projectId() {
 			this.selectMode = false
 			this.selectedBillIds = []
+			this.$refs.list.scrollTo(0, 0)
 		},
 	},
 
 	methods: {
+		infiniteHandler($state) {
+			this.$emit('load-more-bills', this.projectId, $state)
+		},
 		isBillSelected(bill) {
 			if (this.selectMode) {
 				return this.selectedBillIds.includes(bill.id)

@@ -31,6 +31,7 @@
 					:selected-bill-id="selectedBillId"
 					:edition-access="editionAccess"
 					:mode="mode"
+					@load-more-bills="loadMoreBills"
 					@item-clicked="onBillClicked"
 					@item-deleted="onBillDeleted"
 					@items-deleted="onBillsDeleted"
@@ -459,7 +460,7 @@ export default {
 		},
 		getBills(projectid) {
 			this.billsLoading = true
-			network.getBills(projectid, this.getBillsSuccess, this.getBillsDone)
+			network.getBills(projectid, 0, 50, this.getBillsSuccess, this.getBillsDone)
 		},
 		getBillsSuccess(projectid, response) {
 			this.bills[projectid] = {}
@@ -473,6 +474,24 @@ export default {
 		},
 		getBillsDone() {
 			this.billsLoading = false
+		},
+		loadMoreBills(projectid, state) {
+			network.getBills(projectid, this.billLists[projectid].length, 20, this.getMoreBillsSuccess, this.getMoreBillsDone, state)
+		},
+		getMoreBillsSuccess(projectid, response, state) {
+			if (!response || response.length === 0) {
+				state.complete()
+			} else {
+				this.$set(this.billLists, projectid, this.billLists[projectid].concat(response))
+				let bill
+				for (let i = 0; i < response.length; i++) {
+					bill = response[i]
+					this.bills[projectid][bill.id] = bill
+				}
+				state.loaded()
+			}
+		},
+		getMoreBillsDone() {
 		},
 		addProject(proj) {
 			cospend.members[proj.id] = {}

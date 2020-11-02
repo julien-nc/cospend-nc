@@ -767,9 +767,17 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webGetBills($projectid, $lastchanged=null) {
+    public function webGetBills(string $projectid, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false) {
         if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-            $bills = $this->projectService->getBills($projectid, null, null, null, null, null, null, $lastchanged);
+            if ($limit) {
+                $bills = $this->projectService->getBillsRestricted(
+                    $projectid, null, null, null, null, null, null, $lastchanged, $limit, $reverse, $offset
+                );
+            } else {
+                $bills = $this->projectService->getBills(
+                    $projectid, null, null, null, null, null, null, $lastchanged, null, $reverse
+                );
+            }
             $response = new DataResponse($bills);
             return $response;
         }
@@ -1017,10 +1025,18 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiGetBills($projectid, $password, $lastchanged=null) {
+    public function apiGetBills($projectid, $password, $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if ($this->checkLogin($projectid, $password) or $publicShareInfo['accesslevel'] !== null) {
-            $bills = $this->projectService->getBills($projectid, null, null, null, null, null, null, $lastchanged);
+            if ($limit) {
+                $bills = $this->projectService->getBillsRestricted(
+                    $projectid, null, null, null, null, null, null, $lastchanged, $limit, $reverse, $offset
+                );
+            } else {
+                $bills = $this->projectService->getBills(
+                    $projectid, null, null, null, null, null, null, $lastchanged, null, $reverse
+                );
+            }
             $response = new DataResponse($bills);
             return $response;
         }

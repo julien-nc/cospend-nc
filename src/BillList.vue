@@ -170,7 +170,7 @@ export default {
 			if (this.selectMode) {
 				return this.selectedBillIds.includes(bill.id)
 			} else {
-				return bill.id === this.selectedbillid
+				return bill.id === this.selectedBillId
 			}
 		},
 		onAddBillClicked() {

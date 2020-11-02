@@ -10,9 +10,17 @@
 				icon="icon-add"
 				:title="t('cospend', 'New bill')"
 				@click="onAddBillClicked" />
-			<button v-if="editionAccess && bills.length > 0"
-				:class="{ icon: true, 'icon-toggle-filelist': !selectMode, 'icon-close': selectMode, 'top-right-icon': true }"
-				@click="toggleSelectMode" />
+			<div class="top-right-icon">
+				<Popover trigger="hover">
+					<button v-if="editionAccess && bills.length > 0"
+						slot="trigger"
+						:class="{ icon: true, 'icon-toggle-filelist': !selectMode, 'icon-close': selectMode }"
+						@click="toggleSelectMode" />
+					<template #default>
+						{{ multiToggleText }}
+					</template>
+				</Popover>
+			</div>
 		</div>
 		<transition name="fade">
 			<div v-if="selectMode"
@@ -58,9 +66,17 @@
 						{{ pm.icon + ' ' + pm.name }}
 					</option>
 				</select>
-				<button v-if="selectedBillIds.length > 0"
-					class="icon icon-delete"
-					@click="deleteSelection" />
+				<Popover v-if="selectedBillIds.length > 0"
+					class="multiDelete"
+					trigger="hover">
+					<button
+						slot="trigger"
+						class="icon icon-delete"
+						@click="deleteSelection" />
+					<template #default>
+						{{ t('cospend', 'Delete selected bills') }}
+					</template>
+				</Popover>
 				<p v-else
 					class="multiSelectHint">
 					{{ t('cospend', 'Multi select mode: Select bills to make grouped actions') }}
@@ -98,6 +114,7 @@
 <script>
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import Popover from '@nextcloud/vue/dist/Components/Popover'
 import BillItem from './components/BillItem'
 import InfiniteLoading from 'vue-infinite-loading'
 import { showSuccess } from '@nextcloud/dialogs'
@@ -109,7 +126,7 @@ export default {
 	name: 'BillList',
 
 	components: {
-		BillItem, AppNavigationItem, EmptyContent, InfiniteLoading,
+		BillItem, AppNavigationItem, EmptyContent, InfiniteLoading, Popover,
 	},
 
 	props: {
@@ -177,6 +194,11 @@ export default {
 		},
 		hardCodedCategories() {
 			return cospend.hardCodedCategories
+		},
+		multiToggleText() {
+			return this.selectMode
+				? t('cospend', 'Leave multiple selection mode')
+				: t('cospend', 'Enter multiple selection mode')
 		},
 	},
 
@@ -309,17 +331,18 @@ export default {
 	margin-top: 16px;
 }
 
+.top-right-icon {
+	position: absolute;
+	top: 2px;
+	right: 0;
+}
+
 .icon {
 	width: 44px;
 	height: 44px;
 	border-radius: var(--border-radius-pill);
 	opacity: .5;
 
-	&.top-right-icon {
-		position: absolute;
-		top: 2px;
-		right: 0;
-	}
 	&.icon-delete,
 	&.icon-close,
 	&.icon-toggle-filelist {
@@ -340,7 +363,7 @@ export default {
 	select {
 		margin-top: 5px;
 	}
-	.icon-delete {
+	.multiDelete {
 		margin-left: auto;
 	}
 

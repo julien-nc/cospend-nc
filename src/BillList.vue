@@ -10,7 +10,7 @@
 				icon="icon-add"
 				:title="t('cospend', 'New bill')"
 				@click="onAddBillClicked" />
-			<button v-if="editionAccess"
+			<button v-if="editionAccess && bills.length > 0"
 				:class="{ icon: true, 'icon-toggle-filelist': !selectMode, 'icon-close': selectMode, 'top-right-icon': true }"
 				@click="toggleSelectMode" />
 		</div>
@@ -317,6 +317,7 @@ export default {
 	width: 100%;
 	font-weight: bold;
 	min-height: 44px;
+	line-height: 44px;
 }
 
 ::v-deep .icon-cospend-raw {

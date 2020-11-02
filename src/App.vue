@@ -35,7 +35,7 @@
 					@item-clicked="onBillClicked"
 					@item-deleted="onBillDeleted"
 					@items-deleted="onBillsDeleted"
-					@multi-category-edit="onMultiCategoryEdit"
+					@multi-bill-edit="onMultiBillEdit"
 					@reset-selection="onResetSelection"
 					@new-bill-clicked="onNewBillClicked" />
 				<BillForm
@@ -265,10 +265,17 @@ export default {
 				this.updateBalances(cospend.currentProjectId)
 			}
 		},
-		onMultiCategoryEdit(billIds, categoryid) {
-			billIds.forEach(id => {
-				this.bills[cospend.currentProjectId][id].categoryid = categoryid
-			})
+		onMultiBillEdit(billIds, categoryid, paymentmode) {
+			if (categoryid !== null) {
+				billIds.forEach(id => {
+					this.bills[cospend.currentProjectId][id].categoryid = categoryid
+				})
+			}
+			if (paymentmode !== null) {
+				billIds.forEach(id => {
+					this.bills[cospend.currentProjectId][id].paymentmode = paymentmode
+				})
+			}
 		},
 		onBillSaved(bill, changedBill) {
 			Object.assign(bill, changedBill)

@@ -222,10 +222,14 @@ export default {
 	font-style: italic;
 }
 
-.icon-selector input {
-	position: relative;
-	top: -17px;
-	right: 10px;
-	cursor: pointer;
+.icon-selector {
+	opacity: 1 !important;
+
+	input {
+		position: relative;
+		top: -17px;
+		right: 10px;
+		cursor: pointer;
+	}
 }
 </style>

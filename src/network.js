@@ -305,7 +305,7 @@ export function saveBill(projectid, bill, successCB, doneCB) {
 		})
 }
 
-export function saveBills(projectid, billIds, categoryid, successCB) {
+export function saveBills(projectid, billIds, categoryid, paymentmode, successCB) {
 	const req = {
 		what: null,
 		comment: null,
@@ -316,7 +316,7 @@ export function saveBills(projectid, billIds, categoryid, successCB) {
 		repeat: null,
 		repeatallactive: null,
 		repeatuntil: null,
-		paymentmode: null,
+		paymentmode,
 		categoryid,
 		billIds,
 	}
@@ -328,7 +328,7 @@ export function saveBills(projectid, billIds, categoryid, successCB) {
 	}
 	axios.put(url, req)
 		.then((response) => {
-			successCB(billIds, categoryid)
+			successCB(billIds, categoryid, paymentmode)
 		})
 		.catch((error) => {
 			showError(

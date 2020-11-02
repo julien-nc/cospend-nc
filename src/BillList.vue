@@ -19,9 +19,13 @@
 				class="selectionOptions">
 				<select v-show="selectedBillIds.length > 0"
 					v-model="selectedCategory"
+					class="category-select"
 					@input="onCategoryChange">
-					<option value="0">
+					<option value="placeholder">
 						{{ t('cospend', 'Affect a category') }}
+					</option>
+					<option value="0">
+						{{ t('cospend', 'None') }}
 					</option>
 					<option
 						v-for="category in categories"
@@ -34,6 +38,24 @@
 						:key="catid"
 						:value="catid">
 						{{ category.icon + ' ' + category.name }}
+					</option>
+				</select>
+				<select v-show="selectedBillIds.length > 0"
+					v-model="selectedPaymentMode"
+					class="paymentmode-select"
+					:disabled="!editionAccess"
+					@input="onPaymentModeChange">
+					<option value="placeholder">
+						{{ t('cospend', 'Affect a payment mode') }}
+					</option>
+					<option value="n">
+						{{ t('cospend', 'None') }}
+					</option>
+					<option
+						v-for="(pm, id) in paymentModes"
+						:key="id"
+						:value="id">
+						{{ pm.icon + ' ' + pm.name }}
 					</option>
 				</select>
 				<button v-if="selectedBillIds.length > 0"
@@ -121,7 +143,8 @@ export default {
 		return {
 			cospend,
 			selectMode: false,
-			selectedCategory: 0,
+			selectedCategory: 'placeholder',
+			selectedPaymentMode: 'placeholder',
 			selectedBillIds: [],
 		}
 	},
@@ -148,6 +171,9 @@ export default {
 		},
 		categories() {
 			return cospend.projects[this.projectId].categories
+		},
+		paymentModes() {
+			return cospend.paymentModes
 		},
 		hardCodedCategories() {
 			return cospend.hardCodedCategories
@@ -213,13 +239,20 @@ export default {
 		onCategoryChange(e) {
 			const categoryid = e.target.value
 			if (this.selectedBillIds.length > 0) {
-				network.saveBills(this.projectId, this.selectedBillIds, categoryid, this.saveBillsSuccess)
+				network.saveBills(this.projectId, this.selectedBillIds, categoryid, null, this.saveBillsSuccess)
 			}
 		},
-		saveBillsSuccess(billIds, categoryid) {
-			this.$emit('multi-category-edit', billIds, categoryid)
+		onPaymentModeChange(e) {
+			const paymentmode = e.target.value
+			if (this.selectedBillIds.length > 0) {
+				network.saveBills(this.projectId, this.selectedBillIds, null, paymentmode, this.saveBillsSuccess)
+			}
+		},
+		saveBillsSuccess(billIds, categoryid, paymentmode) {
+			this.$emit('multi-bill-edit', billIds, categoryid, paymentmode)
 			showSuccess(t('cospend', 'Bills edited'))
-			this.selectedCategory = 0
+			this.selectedCategory = 'placeholder'
+			this.selectedPaymentMode = 'placeholder'
 		},
 		deleteSelection() {
 			if (this.selectedBillIds.length > 0) {
@@ -309,6 +342,11 @@ export default {
 	}
 	.icon-delete {
 		margin-left: auto;
+	}
+
+	.paymentmode-select,
+	.category-select {
+		width: 40%;
 	}
 }
 

@@ -1,5 +1,6 @@
 <template>
-	<div id="billdetail" class="app-content-details">
+	<!--div id="billdetail" class="app-content-details"-->
+	<AppContentDetails class="settlement-content">
 		<h2 id="settlementTitle">
 			<span class="icon-reimburse" />
 			{{ t('cospend', 'Settlement of project {name}', {name: project.name}) }}
@@ -31,6 +32,7 @@
 		</div>
 		<v-table v-if="transactions"
 			id="settlementTable"
+			class="coloredTable avatarTable"
 			:data="transactions">
 			<thead slot="head">
 				<v-th sort-key="from">
@@ -61,13 +63,12 @@
 				</tr>
 			</tbody>
 		</v-table>
-	</div>
+	</AppContentDetails>
 </template>
 
 <script>
-import {
-	showSuccess,
-} from '@nextcloud/dialogs'
+import { showSuccess } from '@nextcloud/dialogs'
+import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
 import { getSmartMemberName, getMemberAvatar } from './utils'
 import cospend from './state'
 import * as constants from './constants'
@@ -77,6 +78,7 @@ export default {
 	name: 'Settlement',
 
 	components: {
+		AppContentDetails,
 	},
 
 	props: {
@@ -184,8 +186,36 @@ export default {
 	margin-right: 5px;
 }
 
-#billdetail {
+.settlement-content {
 	margin-left: auto;
 	margin-right: auto;
+}
+
+::v-deep #settlementTitle {
+	text-align: left;
+	padding: 20px 0px 20px 0px;
+
+	.icon-reimburse {
+		min-width: 23px !important;
+		min-height: 23px !important;
+		vertical-align: middle;
+		display: inline-block;
+	}
+}
+
+#settlementTable {
+	display: table;
+	margin: 20px auto 20px auto;
+
+	td {
+		border: 1px solid var(--color-border-dark);
+		padding: 0px 5px 0px 5px;
+		text-align: left;
+	}
+
+	td:last-child {
+		text-align: right;
+		padding-right: 2px;
+	}
 }
 </style>

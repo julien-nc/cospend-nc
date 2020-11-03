@@ -1,7 +1,7 @@
 <template>
-	<div id="billdetail" class="app-content-details">
+	<AppContentDetails class="statistics-content">
 		<h2 id="statsTitle">
-			<span :class="{ 'icon-loading-small': loading, 'icon-category-monitoring': !loading }" />
+			<span :class="{ 'icon-loading-small': loading, 'icon-category-monitoring': !loading, icon: true }" />
 			{{ t('cospend', 'Statistics of project {name}', { name: project.name }) }}
 			<button v-if="!cospend.pageIsPublic"
 				class="exportStats"
@@ -107,6 +107,7 @@
 		</h2>
 		<v-table v-if="stats"
 			id="statsTable"
+			class="coloredTable avatarTable"
 			:data="stats.stats">
 			<thead slot="head">
 				<v-th sort-key="member.name">
@@ -159,6 +160,7 @@
 		</h2>
 		<v-table v-if="stats"
 			id="monthlyTable"
+			class="coloredTable avatarTable"
 			:data="monthlyMemberStats">
 			<thead slot="head">
 				<v-th sort-key="member.name">
@@ -198,6 +200,7 @@
 		</h2>
 		<v-table v-if="stats"
 			id="categoryTable"
+			class="coloredTable"
 			:data="monthlyCategoryStats">
 			<thead slot="head">
 				<v-th sort-key="name">
@@ -275,7 +278,7 @@
 				:chart-data="memberPolarPieData"
 				:options="memberPolarPieOptions" />
 		</div>
-	</div>
+	</AppContentDetails>
 </template>
 
 <script>
@@ -286,12 +289,13 @@ import LineChartJs from './components/LineChartJs'
 import PieChartJs from './components/PieChartJs'
 import PolarChartJs from './components/PolarChartJs'
 import moment from '@nextcloud/moment'
+import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
 
 export default {
 	name: 'Statistics',
 
 	components: {
-		LineChartJs, PieChartJs, PolarChartJs,
+		LineChartJs, PieChartJs, PolarChartJs, AppContentDetails,
 	},
 
 	props: {
@@ -797,9 +801,19 @@ export default {
 	text-align: center;
 }
 
-#billdetail > * {
-	margin-left: auto;
-	margin-right: auto;
+.statistics-content {
+	// flex: 1 1 500px;
+	flex-grow: 1;
+	width: 500px;
+
+	#stats-filters {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.totalPayedText {
+		text-align: center;
+	}
 }
 
 /* TODO find a solution to limit stats width and still be able to scroll-x
@@ -808,4 +822,30 @@ export default {
 	width: 100%;
 }
 */
+
+::v-deep #statsTitle {
+	text-align: left;
+	padding: 20px 0px 20px 20px;
+
+	.icon {
+		display: inline-block;
+	}
+}
+
+.statTableTitle {
+	padding: 0px 0px 0px 20px !important;
+}
+
+.totalPayedText {
+	margin: 0px 20px 0px 20px;
+}
+
+#monthlyTable,
+#categoryTable {
+	overflow: scroll;
+}
+
+#categoryTable td:first-child {
+	padding: 0px 5px 0px 5px;
+}
 </style>

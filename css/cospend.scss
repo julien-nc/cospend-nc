@@ -67,25 +67,24 @@
     position: absolute;
 }
 
-#settlementTable .owerAvatar,
-#statsTable .owerAvatar,
-#monthlyTable .owerAvatar {
-    height: 24px;
-    margin: 1px 5px 1px 5px;
-}
-#settlementTable .owerAvatarDisabled,
-#statsTable .owerAvatarDisabled,
-#monthlyTable .owerAvatarDisabled {
-    margin-left: -21px;
+.avatarTable {
+    .owerAvatar {
+        height: 24px;
+        margin: 1px 5px 1px 5px;
+    }
+    .owerAvatarDisabled {
+        margin-left: -21px;
+    }
+    .owerAvatar img {
+        margin-bottom: 2px;
+    }
+    .owerAvatarDisabled .disabledMask {
+        top: -1px;
+    }
 }
 .owerAvatar {
     display: inline-block;
     vertical-align: middle;
-}
-#settlementTable .owerAvatar img,
-#statsTable .owerAvatar img,
-#monthlyTable .owerAvatar img {
-    margin-bottom: 2px;
 }
 .owerAvatar img {
     width: 24px;
@@ -100,11 +99,6 @@
 .owerAvatarDisabled {
     margin-left: -26px;
 }
-#settlementTable .owerAvatarDisabled .disabledMask,
-#statsTable .owerAvatarDisabled .disabledMask,
-#monthlyTable .owerAvatarDisabled .disabledMask {
-    top: -1px;
-}
 .owerAvatarDisabled .disabledMask {
     display: inline-block;
     position: relative;
@@ -116,70 +110,34 @@ input[type=number] {
     -moz-appearance: number-input !important;
     -webkit-appearance: initial !important;
 }
-#monthlyTable,
-#categoryTable,
-#settlementTable,
-#statsTable {
-    max-width: 95%;
-    margin: 20px auto 20px auto;
-}
-#monthlyTable,
-#categoryTable {
-    overflow: scroll;
-}
-#monthlyTable th,
-#categoryTable th,
-#settlementTable th,
-#statsTable th {
-    font-weight: bold;
-    text-align: center;
-}
-#monthlyTable td,
-#categoryTable td,
-#settlementTable td:last-child,
-#statsTable td {
-    text-align: right;
-    padding-right: 2px;
-}
-#monthlyTable td:first-child,
-#categoryTable td:first-child,
-#settlementTable td,
-#statsTable td:first-child {
-    text-align: left;
-}
-#categoryTable td:first-child {
-    padding: 0px 5px 0px 5px;
-}
-#settlementTable,
-#statsTable,
-#categoryTable,
-#monthlyTable{
-    border-spacing: 2px 2px;
-}
-#settlementTable th,
-#settlementTable td,
-#statsTable th,
-#categoryTable th,
-#monthlyTable th {
-    border: 1px solid var(--color-border-dark);
-    padding: 0px 5px 0px 5px;
-}
-#settlementTable th span,
-#statsTable th span,
-#categoryTable th span,
-#monthlyTable th span {
+.coloredTable {
+    // max-width: 500px;
     display: block;
-    max-width: 100px;
-    word-wrap: break-word;
-    white-space: normal;
-}
-#settlementTitle,
-#statsTitle {
-    text-align: left;
-    padding: 20px 0px 20px 0px;
-}
-.statTableTitle {
-    padding: 0px 0px 0px 20px !important;
+    margin: 20px 20px 20px 20px;
+    border-spacing: 2px 2px;
+    scrollbar-width: unset !important;
+    scrollbar-color: var(--color-primary);
+
+    th {
+        font-weight: bold;
+        text-align: center;
+        border: 1px solid var(--color-border-dark);
+        padding: 0px 5px 0px 5px;
+
+        span {
+            display: block;
+            max-width: 100px;
+            word-wrap: break-word;
+            white-space: normal;
+        }
+    }
+    td {
+        text-align: right;
+        padding-right: 2px;
+    }
+    td:first-child {
+        text-align: left;
+    }
 }
 .undoDeleteBill {
     display: none;
@@ -321,7 +279,6 @@ input[type=number] {
     min-width: 44px !important;
     min-height: 44px !important;
 }
-#settlementTitle .icon-reimburse,
 #billdetail .icon-cospend,
 #billdetail .icon-time,
 #billdetail .icon-currencies {
@@ -352,9 +309,6 @@ input[type=number] {
 }
 .memberitem > a {
     opacity: 1 !important;
-}
-.totalPayedText {
-    margin: 0px 20px 0px 20px;
 }
 .autoexportSelect {
     width: 40%;

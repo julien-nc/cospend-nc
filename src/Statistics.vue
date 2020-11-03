@@ -774,7 +774,7 @@ export default {
 #categoryMemberChart,
 #memberChart,
 #categoryChart {
-	max-width: 600px;
+	max-width: 400px;
 	margin: 0 auto 0 auto;
 }
 
@@ -823,6 +823,12 @@ export default {
 
 .statTableTitle {
 	padding: 0px 0px 0px 20px !important;
+}
+
+#statsTable {
+	display: table;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .totalPayedText {

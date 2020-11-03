@@ -20,7 +20,7 @@ export function getSmartMemberName(projectid, memberid) {
 export function getMemberAvatar(projectid, memberid) {
 	const member = cospend.members[projectid][memberid]
 	if (member.userid && !cospend.pageIsPublic) {
-		return generateUrl('/avatar/' + encodeURIComponent(member.userid) + '/64?v=2')
+		return generateUrl('/avatar/' + encodeURIComponent(member.userid) + '/64?v=' + window.OCA.Theming.cacheBuster)
 	} else {
 		return generateUrl('/apps/cospend/getAvatar?color=' + member.color + '&name=' + encodeURIComponent(member.name))
 	}

@@ -48,12 +48,17 @@
 					@custom-bills-created="onCustomBillsCreated"
 					@perso-bills-created="onPersoBillsCreated" />
 				<Statistics
-					v-if="mode === 'stats'"
+					v-else-if="mode === 'stats'"
 					:project-id="currentProjectId" />
 				<Settlement
-					v-if="mode === 'settle'"
+					v-else-if="mode === 'settle'"
 					:project-id="currentProjectId"
 					@auto-settled="onAutoSettled" />
+				<EmptyContent v-else
+					class="central-empty-content"
+					icon="icon-cospend">
+					{{ t('cospend', 'No bill selected') }}
+				</EmptyContent>
 			</div>
 			<Actions
 				class="content-buttons"
@@ -104,6 +109,7 @@ import Content from '@nextcloud/vue/dist/Components/Content'
 import AppContent from '@nextcloud/vue/dist/Components/AppContent'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 
 export default {
 	name: 'App',
@@ -118,6 +124,7 @@ export default {
 		AppContent,
 		Actions,
 		ActionButton,
+		EmptyContent,
 	},
 	provide() {
 		return {
@@ -700,6 +707,16 @@ export default {
 
 #app-content-wrapper {
 	display: flex;
+}
+
+::v-deep .central-empty-content {
+	margin-left: auto;
+	margin-right: auto;
+
+	.empty-content__icon {
+		mask-size: 64px auto;
+		-webkit-mask-size: 64px auto;
+	}
 }
 </style>
 

@@ -32,16 +32,12 @@
 					<span>{{ t('cospend', 'Public link') }}</span>
 				</span>
 
-				<Popover>
-					<ActionButton slot="trigger"
-						class="copyLinkButton"
-						:icon="(linkCopied[access.id]) ? 'icon-checkmark-color' : 'icon-clippy'"
-						:aria-label="t('cospend', 'Copy link')"
-						@click="copyLink(access)" />
-					<template #default>
-						{{ t('cospend', 'Copied!') }}
-					</template>
-				</Popover>
+				<ActionButton
+					v-tooltip.bottom="{ content: t('cospend', 'Copied!'), show: linkCopied[access.id], trigger: 'manual' }"
+					class="copyLinkButton"
+					:icon="(linkCopied[access.id]) ? 'icon-checkmark-color' : 'icon-clippy'"
+					:aria-label="t('cospend', 'Copy link')"
+					@click="copyLink(access)" />
 
 				<Actions
 					:force-menu="true"
@@ -145,16 +141,12 @@
 					<span>{{ t('cospend', 'Password protected access') }}</span>
 				</span>
 
-				<Popover>
-					<ActionButton slot="trigger"
-						class="copyLinkButton"
-						:icon="guestLinkCopied ? 'icon-checkmark-color' : 'icon-clippy'"
-						:aria-label="t('cospend', 'Copy link')"
-						@click="copyPasswordLink" />
-					<template #default>
-						{{ t('cospend', 'Copied!') }}
-					</template>
-				</Popover>
+				<ActionButton
+					v-tooltip.bottom="{ content: t('cospend', 'Copied!'), show: guestLinkCopied, trigger: 'manual' }"
+					class="copyLinkButton"
+					:icon="guestLinkCopied ? 'icon-checkmark-color' : 'icon-clippy'"
+					:aria-label="t('cospend', 'Copy link')"
+					@click="copyPasswordLink" />
 
 				<Actions
 					:force-menu="true"
@@ -213,7 +205,6 @@ import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
-import Popover from '@nextcloud/vue/dist/Components/Popover'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
@@ -227,6 +218,10 @@ import * as constants from '../constants'
 import * as network from '../network'
 import { Timer } from '../utils'
 
+import Vue from 'vue'
+import { VTooltip } from 'v-tooltip'
+Vue.directive('tooltip', VTooltip)
+
 export default {
 	name: 'SharingTabSidebar',
 	components: {
@@ -236,7 +231,6 @@ export default {
 		ActionButton,
 		ActionRadio,
 		Multiselect,
-		Popover,
 	},
 	props: {
 		project: {

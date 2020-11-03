@@ -6,6 +6,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.2.0 – 2020-11-03
+### Added
+- automatic releases with GitHub actions
+- automatically add/remove shared access to NC users when adding/removing them as project members
+[#6](https://github.com/eneiluj/cospend-nc/issues/6) @simonspa
+- empty content for project list, bill list, main content
+[#7](https://github.com/eneiluj/cospend-nc/issues/7) @simonspa
+- loading icons here and there
+- multi selection mode to delete or assign category/payment mode to multiple bills @pichette
+- partial initial bill list load, load the rest with infinite scrolling
+[#11](https://github.com/eneiluj/cospend-nc/issues/11) @simonspa
+
+### Changed
+- bump all JS libs
+- improve some labels
+- use AppContentDetails component for main content (bill form, stats, settlement)
+- big style improvements in stats and bill form
+- move GitLab wiki to files in the repo
+
+### Fixed
+- ambiguous
+- all eslint errors/warnings, no more props mutation
+- internal search reacting to wrong event
+
 ## 1.1.4 – 2020-10-19
 ### Fixed
 - another custom icon path...

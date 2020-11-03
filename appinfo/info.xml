@@ -3,14 +3,14 @@
     <id>cospend</id>
     <name>Cospend</name>
     <summary> </summary><description> </description>
-    <version>1.1.5</version>
+    <version>1.2.0</version>
     <licence>agpl</licence>
     <author mail="eneiluj@posteo.net">Julien Veyssier</author>
     <namespace>Cospend</namespace>
     <documentation>
-        <user>https://github.com/eneiluj/cospend-nc/wiki/userdoc</user>
-        <admin>https://github.com/eneiluj/cospend-nc/wiki/admindoc</admin>
-        <developer>https://github.com/eneiluj/cospend-nc/wiki/devdoc</developer>
+        <user>https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md
+        <admin>https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md</admin>
+        <developer>https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md</developer>
     </documentation>
     <category>tools</category>
     <category>organization</category>

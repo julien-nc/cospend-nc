@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/eneiluj/cospend-nc"
+    "url": "https://github.com/eneiluj/cospend-nc"
   },
   "keywords": [
     "cospend"
@@ -21,9 +21,9 @@
   "author": "Julien Veyssier",
   "license": "AGPL-3.0",
   "bugs": {
-    "url": "https://gitlab.com/eneiluj/cospend-nc/issues"
+    "url": "https://github.com/eneiluj/cospend-nc/issues"
   },
-  "homepage": "https://gitlab.com/eneiluj/cospend-nc",
+  "homepage": "https://github.com/eneiluj/cospend-nc",
   "browserslist": [
     "extends @nextcloud/browserslist-config"
   ],

@@ -173,9 +173,6 @@ input[type=number] {
     transform: rotate(180deg);
 	border-radius: 50%;
 }
-#billdetail .bill-title {
-    padding: 20px 0px 20px 0px;
-}
 .selectedproject > a ,
 .selectedproject > div {
     background: var(--color-background-dark, lightgrey);
@@ -279,13 +276,6 @@ input[type=number] {
     min-width: 44px !important;
     min-height: 44px !important;
 }
-#billdetail .icon-cospend,
-#billdetail .icon-time,
-#billdetail .icon-currencies {
-    min-width: 23px !important;
-    min-height: 23px !important;
-    vertical-align: middle;
-}
 .icon-shar {
     background-color: var(--color-main-text) !important;
     mask: url('./images/shar.svg') no-repeat;
@@ -299,11 +289,6 @@ input[type=number] {
     margin-left: 10px;
     margin-right: 10px;
 }
-#billdetail h2 span[class^=icon-] {
-    display: inline-block;
-    width: 30px;
-}
-
 .activeButton {
     background: var(--color-background-darker);
 }

@@ -796,11 +796,6 @@ export default {
 	grid-column: 3 / 5;
 }
 
-#billdetail > p,
-#billdetail h2 {
-	text-align: center;
-}
-
 .statistics-content {
 	// flex: 1 1 500px;
 	flex-grow: 1;
@@ -816,19 +811,13 @@ export default {
 	}
 }
 
-/* TODO find a solution to limit stats width and still be able to scroll-x
-#monthlyTable, #categoryTable {
-	display: inline-block;
-	width: 100%;
-}
-*/
-
 ::v-deep #statsTitle {
-	text-align: left;
+	text-align: center;
 	padding: 20px 0px 20px 20px;
 
 	.icon {
 		display: inline-block;
+		width: 30px;
 	}
 }
 

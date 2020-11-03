@@ -1,5 +1,5 @@
 <template>
-	<div id="billdetail" class="app-content-details">
+	<AppContentDetails class="bill-form-content">
 		<h2 class="bill-title">
 			<span v-show="billLoading" class="loading-bill icon-loading-small" />
 			<div :class="'billFormAvatar owerAvatar' + myGetAvatarClass(myBill.payer_id)">
@@ -374,7 +374,7 @@
 				</button>
 			</div>
 		</div>
-	</div>
+	</AppContentDetails>
 </template>
 
 <script>
@@ -383,6 +383,7 @@ import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { getLocale } from '@nextcloud/l10n'
 import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
+import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
 import {
 	showSuccess,
 	showError,
@@ -397,7 +398,7 @@ export default {
 	name: 'BillForm',
 
 	components: {
-		DatetimePicker,
+		DatetimePicker, AppContentDetails,
 	},
 
 	props: {
@@ -1010,22 +1011,48 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.bill-title {
+	padding: 20px 0px 20px 0px;
+	text-align: left;
+	margin-left: 50px;
+}
+
+.icon-cospend,
+.icon-time,
+.icon-currencies {
+	min-width: 23px !important;
+	min-height: 23px !important;
+	vertical-align: middle;
+}
+
 .bill-left select,
 .bill-left textarea,
 .bill-left input {
 	width: 100%;
 }
 
-.bill-form a.icon {
-	justify-content: space-between;
-	line-height: 44px;
-	min-height: 44px;
-	padding: 0 12px 0 25px;
+.bill-form-content {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+
+	.bill-form {
+		height: 100%;
+		margin-left: auto;
+		margin-right: auto;
+
+		a.icon {
+			justify-content: space-between;
+			line-height: 44px;
+			min-height: 44px;
+			padding: 0 12px 0 25px;
+		}
+	}
 }
 
 .bill-left,
 .bill-right {
-	padding: 0px 10px 0px 15px;
+	padding: 0px 15px 0px 15px;
 	float: left;
 }
 
@@ -1062,11 +1089,6 @@ export default {
 .amountinput {
 	margin-top: 0px !important;
 	margin-bottom: 0px !important;
-}
-
-.bill-title {
-	text-align: left;
-	margin-left: 50px;
 }
 
 #billtype {

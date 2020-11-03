@@ -1,8 +1,7 @@
 <template>
-	<!--div id="billdetail" class="app-content-details"-->
 	<AppContentDetails class="settlement-content">
 		<h2 id="settlementTitle">
-			<span class="icon-reimburse" />
+			<span class="icon-reimburse icon" />
 			{{ t('cospend', 'Settlement of project {name}', {name: project.name}) }}
 			<button class="exportSettlement" @click="onExportClick">
 				<span class="icon-save" />
@@ -195,9 +194,10 @@ export default {
 	text-align: left;
 	padding: 20px 0px 20px 0px;
 
-	.icon-reimburse {
+	.icon {
 		min-width: 23px !important;
 		min-height: 23px !important;
+		width: 30px;
 		vertical-align: middle;
 		display: inline-block;
 	}

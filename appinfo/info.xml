@@ -8,7 +8,7 @@
     <author mail="eneiluj@posteo.net">Julien Veyssier</author>
     <namespace>Cospend</namespace>
     <documentation>
-        <user>https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md
+        <user>https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md</user>
         <admin>https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md</admin>
         <developer>https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md</developer>
     </documentation>

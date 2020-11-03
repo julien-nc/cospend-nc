@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-11-03 01:46+0100\n"
-"PO-Revision-Date: 2020-11-03 01:02\n"
+"PO-Revision-Date: 2020-11-03 01:09\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -915,19 +915,19 @@ msgstr "Nouvelle facture"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:62
 msgid "Assign category"
-msgstr ""
+msgstr "Assigner une catégorie"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:64
 msgid "Assign payment mode"
-msgstr ""
+msgstr "Assigner un mode de paiement"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:66
 msgid "Delete selected bills"
-msgstr ""
+msgstr "Supprimer les factures sélectionnées"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:67
 msgid "Multi select mode: Select bills to make grouped actions"
-msgstr ""
+msgstr "Mode sélection multiple : Sélectionnez les factures pour effectuer des actions groupées"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:68
 msgid "Add at least 2 members to start creating bills"
@@ -935,27 +935,27 @@ msgstr "Ajoutez au moins 2 membres pour commencer à créer des factures"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:69
 msgid "No bills yet"
-msgstr ""
+msgstr "Pas encore de facture"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:70
 msgid "Leave multiple selection mode"
-msgstr ""
+msgstr "Sortir du mode sélection multiple"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:71
 msgid "Enter multiple selection mode"
-msgstr ""
+msgstr "Entrer en mode sélection multiple"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:72
 msgid "Bill deleted"
-msgstr ""
+msgstr "Facture supprimée"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:73
 msgid "Bills edited"
-msgstr ""
+msgstr "Factures modifiées"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:74
 msgid "Confirm deletion"
-msgstr ""
+msgstr "Confirmation de suppression"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:75
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:164
@@ -965,17 +965,17 @@ msgstr "Supprimer"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:76
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:77
 msgid "Bills deleted"
-msgstr ""
+msgstr "Factures supprimées"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:78
 msgid "Are you sure you want to delete {nb} bill?"
 msgid_plural "Are you sure you want to delete {nb} bills?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Êtes-vous sûr de vouloir supprimer {nb} facture ?"
+msgstr[1] "Êtes-vous sûr de vouloir supprimer {nb} factures ?"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:79
 msgid "Add category"
@@ -1324,7 +1324,7 @@ msgstr "Nouveau nom de projet"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:181
 msgid "No projects yet"
-msgstr ""
+msgstr "Pas encore de projet"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:182
 msgid "Import csv project"
@@ -1400,7 +1400,7 @@ msgstr "Liste des membres"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:206
 msgid "Associate a project member with a Nextcloud user"
-msgstr ""
+msgstr "Associer un membre de projet à un utilisateur Nextcloud"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:207
 msgid "Choose a Nextcloud user"
@@ -1638,7 +1638,7 @@ msgstr "Échec de la suppression de la facture"
 
 #: /var/www/html/dev/server/apps/cospend/src/network.js:419
 msgid "Failed to delete bills"
-msgstr ""
+msgstr "Impossible de supprimer les factures"
 
 #: /var/www/html/dev/server/apps/cospend/src/network.js:432
 msgid "Failed to check password."

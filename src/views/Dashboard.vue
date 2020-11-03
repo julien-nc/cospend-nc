@@ -4,9 +4,17 @@
 		:show-more-text="title"
 		:loading="state === 'loading'">
 		<template #empty-content>
-			<a :href="showMoreUrl">
-				{{ t('cospend', 'No recent activity') }}
-			</a>
+			<EmptyContent
+				icon="icon-cospend">
+				<template #desc>
+					{{ t('cospend', 'No recent activity') }}
+					<div class="empty-content-button">
+						<a class="button" :href="cospendUrl">
+							{{ t('cospend', 'Go to Cospend') }}
+						</a>
+					</div>
+				</template>
+			</EmptyContent>
 		</template>
 	</DashboardWidget>
 </template>
@@ -17,12 +25,13 @@ import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import moment from '@nextcloud/moment'
 import { DashboardWidget } from '@nextcloud/vue-dashboard'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 
 export default {
 	name: 'Dashboard',
 
 	components: {
-		DashboardWidget,
+		DashboardWidget, EmptyContent,
 	},
 
 	props: {
@@ -36,6 +45,7 @@ export default {
 		return {
 			activities: [],
 			showMoreUrl: generateUrl('/apps/activity') + '?filter=cospend',
+			cospendUrl: generateUrl('/apps/cospend'),
 			loop: null,
 			state: 'loading',
 			darkThemeColor: OCA.Accessibility.theme === 'dark' ? '181818' : 'ffffff',
@@ -162,3 +172,9 @@ export default {
 	},
 }
 </script>
+
+<style scoped lang="scss">
+::v-deep .empty-content-button {
+	margin-top: 10px;
+}
+</style>

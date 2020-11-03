@@ -47,7 +47,6 @@
     "Active is not a valid integer value" : "Aktív nem egy érvényes egész érték",
     "This project already has this member" : "Ennek a projektnek már tagja ez a tag",
     "There is no such bill" : "Nincs ilyen számla",
-    "\"What\" field is invalid" : "\"Mi\" mező érvénytelen",
     "Not found" : "Nem található",
     "This project have no such category" : "Ennek a projektnek nincs ilyen ketegóriája",
     "Malformed CSV, bad owers on line %1$s" : "Rossz formátumú CSV, hibás tartozók a %1$s. sorban",

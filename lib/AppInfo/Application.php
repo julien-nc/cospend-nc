@@ -47,27 +47,6 @@ class Application extends App implements IBootstrap {
         //$manager = \OC::$server->getNotificationManager();
         $manager = $container->query(INotificationManager::class);
         $manager->registerNotifierService(Notifier::class);
-
-        $container->query(\OCP\INavigationManager::class)->add(function () use ($container) {
-            $urlGenerator = $container->query(\OCP\IURLGenerator::class);
-            $l10n = $container->query(\OCP\IL10N::class);
-            return [
-                'id' => self::APP_ID,
-
-                'order' => 10,
-
-                // the route that will be shown on startup
-                'href' => $urlGenerator->linkToRoute('cospend.page.index'),
-
-                // the icon that will be shown in the navigation
-                // this file needs to exist in img/
-                'icon' => $urlGenerator->imagePath(self::APP_ID, 'app.svg'),
-
-                // the title of your application. This will be used in the
-                // navigation or on the settings page of your app
-                'name' => $l10n->t('Cospend'),
-            ];
-        });
     }
 
     public function register(IRegistrationContext $context): void {

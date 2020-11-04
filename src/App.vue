@@ -718,6 +718,58 @@ export default {
 		-webkit-mask-size: 64px auto;
 	}
 }
+
+::v-deep .icon-cospend {
+	background-color: var(--color-main-text);
+	padding: 0 !important;
+	mask: url('./../img/app_black.svg') no-repeat;
+	mask-size: 18px auto;
+	mask-position: center;
+	-webkit-mask: url('./../img/app_black.svg') no-repeat;
+	-webkit-mask-size: 18px auto;
+	-webkit-mask-position: center;
+	min-width: 44px !important;
+	min-height: 44px !important;
+}
+
+::v-deep .icon-currencies {
+	background-color: var(--color-main-text);
+	padding: 0 !important;
+	mask: url('./../img/currency.svg') no-repeat;
+	mask-size: 18px 18px;
+	mask-position: center;
+	-webkit-mask: url('./../img/currency.svg') no-repeat;
+	-webkit-mask-size: 18px 18px;
+	-webkit-mask-position: center;
+	min-width: 44px !important;
+	min-height: 44px !important;
+}
+
+::v-deep .icon-reimburse {
+	background-color: var(--color-main-text);
+	padding: 0 !important;
+	mask: url('./../img/reimburse.svg') no-repeat;
+	mask-size: 18px 18px;
+	mask-position: center;
+	-webkit-mask: url('./../img/reimburse.svg') no-repeat;
+	-webkit-mask-size: 18px 18px;
+	-webkit-mask-position: center;
+	min-width: 44px !important;
+	min-height: 44px !important;
+}
+
+::v-deep .icon-save {
+	background-color: var(--color-main-text);
+	padding: 0 !important;
+	mask: url('./../img/save.svg') no-repeat;
+	mask-size: 18px 18px;
+	mask-position: center;
+	-webkit-mask: url('./../img/save.svg') no-repeat;
+	-webkit-mask-size: 18px 18px;
+	-webkit-mask-position: center;
+	min-width: 44px !important;
+	min-height: 44px !important;
+}
 </style>
 
 <style>

@@ -4,7 +4,7 @@
 			<span class="icon-reimburse icon" />
 			{{ t('cospend', 'Settlement of project {name}', {name: project.name}) }}
 			<button class="exportSettlement" @click="onExportClick">
-				<span class="icon-save" />
+				<span class="icon icon-save" />
 				{{ t('cospend', 'Export') }}
 			</button>
 			<button
@@ -200,6 +200,12 @@ export default {
 		width: 30px;
 		vertical-align: middle;
 		display: inline-block;
+	}
+	button {
+		.icon {
+			min-height: 16px !important;
+			vertical-align: text-bottom;
+		}
 	}
 }
 

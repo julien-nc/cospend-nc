@@ -174,4 +174,17 @@ export default {
 .memberItem {
 	padding-left: 30px !important;
 }
+
+::v-deep .icon-reimburse {
+	background-color: var(--color-main-text);
+	padding: 0 !important;
+	mask: url('./../../img/reimburse.svg') no-repeat;
+	mask-size: 18px 18px;
+	mask-position: center;
+	-webkit-mask: url('./../../img/reimburse.svg') no-repeat;
+	-webkit-mask-size: 18px 18px;
+	-webkit-mask-position: center;
+	min-width: 44px !important;
+	min-height: 44px !important;
+}
 </style>

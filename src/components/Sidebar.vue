@@ -51,7 +51,7 @@
 		<AppSidebarTab
 			id="currencies"
 			:name="t('cospend', 'Currencies')"
-			:icon="'icon-currencies'"
+			:icon="'icon-tab-currencies'"
 			:order="4">
 			<CurrencyManagement
 				:project-id="projectId"
@@ -167,3 +167,18 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+::v-deep .icon-tab-currencies {
+	background-color: var(--color-main-text);
+	padding: 0 !important;
+	mask: url('./../../img/currency.svg') no-repeat;
+	mask-size: 18px 18px;
+	mask-position: center 7px;
+	-webkit-mask: url('./../../img/currency.svg') no-repeat;
+	-webkit-mask-size: 18px 18px;
+	-webkit-mask-position: center 7px;
+	min-width: 44px !important;
+	min-height: 44px !important;
+}
+</style>

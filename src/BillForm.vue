@@ -1018,7 +1018,6 @@ export default {
 }
 
 .icon-cospend,
-.icon-time,
 .icon-currencies {
 	min-width: 23px !important;
 	min-height: 23px !important;

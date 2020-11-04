@@ -7,7 +7,7 @@
 				class="exportStats"
 				projectid="dum"
 				@click="onExportClick">
-				<span class="icon-save" />
+				<span class="icon icon-save" />
 				{{ t('cospend', 'Export') }}
 			</button>
 		</h2>
@@ -823,8 +823,17 @@ export default {
 	padding: 20px 0px 20px 20px;
 
 	.icon {
-		display: inline-block;
+		min-width: 23px !important;
+		min-height: 23px !important;
 		width: 30px;
+		vertical-align: middle;
+		display: inline-block;
+	}
+	button {
+		.icon {
+			min-height: 16px !important;
+			vertical-align: text-bottom;
+		}
 	}
 }
 

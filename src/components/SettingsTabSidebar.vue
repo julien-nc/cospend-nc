@@ -380,6 +380,19 @@ export default {
 	width: 100%;
 }
 
+.icon-schedule {
+	background-color: var(--color-main-text);
+	padding: 0 !important;
+	mask: url('./../../img/schedule.svg') no-repeat;
+	mask-size: 16px auto;
+	mask-position: center;
+	-webkit-mask: url('./../../img/schedule.svg') no-repeat;
+	-webkit-mask-size: 16px auto;
+	-webkit-mask-position: center;
+	min-width: 44px !important;
+	min-height: 44px !important;
+}
+
 #autoExport span.icon {
 	display: inline-block;
 	min-width: 30px !important;

@@ -373,10 +373,10 @@ export default {
 ::v-deep .icon-cospend-raw {
 	background-color: var(--color-main-text);
 	padding: 0 !important;
-	mask: url('./../css/images/app_black.svg') no-repeat;
+	mask: url('./../img/app_black.svg') no-repeat;
 	mask-size: 64px auto;
 	mask-position: center;
-	-webkit-mask: url('./../css/images/app_black.svg') no-repeat;
+	-webkit-mask: url('./../img/app_black.svg') no-repeat;
 	-webkit-mask-size: 64px auto;
 	-webkit-mask-position: center;
 	min-width: 44px !important;

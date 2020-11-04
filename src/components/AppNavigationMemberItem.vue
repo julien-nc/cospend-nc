@@ -354,6 +354,19 @@ export default {
 	margin-right: 2px;
 }
 
+::v-deep .icon-palette {
+	background-color: var(--color-main-text);
+	padding: 0 !important;
+	mask: url('./../../img/palette.svg') no-repeat;
+	mask-size: 18px 18px;
+	mask-position: center;
+	-webkit-mask: url('./../../img/palette.svg') no-repeat;
+	-webkit-mask-size: 18px 18px;
+	-webkit-mask-position: center;
+	min-width: 44px !important;
+	min-height: 44px !important;
+}
+
 /* first action-input child has margin...
 ::v-deep .action-input {
 	margin-top: 0px !important;

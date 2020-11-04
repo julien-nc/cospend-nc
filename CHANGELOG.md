@@ -24,6 +24,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - use AppContentDetails component for main content (bill form, stats, settlement)
 - big style improvements in stats and bill form
 - move GitLab wiki to files in the repo
+- improve dashboard widget empty content
+- declare navigation in info.xml
+- more popovers (cat/cur management, on stats table rows...)
 
 ### Fixed
 - ambiguous

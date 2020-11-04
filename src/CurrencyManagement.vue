@@ -68,13 +68,11 @@
 					<label class="addCurrencyRateHint">
 						{{ t('cospend', '(1 of this currency = X of main currency)') }}
 					</label>
-					<button class="addCurrencyOk" @click="onAddCurrency">
-						<span class="icon-add" />
-						<span>
-							{{ t('cospend', 'Add this currency') }}
-						</span>
-					</button>
 				</div>
+				<button
+					v-tooltip.left="{ content: t('cospend', 'Add this currency') }"
+					class="icon icon-add-white addCurrencyOk"
+					@click="onAddCurrency" />
 				<hr>
 			</div>
 			<br>
@@ -107,6 +105,10 @@ import {
 } from '@nextcloud/dialogs'
 import * as constants from './constants'
 import * as network from './network'
+
+import Vue from 'vue'
+import { VTooltip } from 'v-tooltip'
+Vue.directive('tooltip', VTooltip)
 
 export default {
 	name: 'CurrencyManagement',
@@ -252,8 +254,22 @@ export default {
 }
 
 .addCurrencyOk {
-	background-color: #46ba61;
-	color: white;
+	width: 44px;
+	height: 44px;
+
+	border-radius: var(--border-radius-pill);
+	opacity: .5;
+
+	&.icon {
+		background-color: var(--color-success);
+		border: none;
+		margin: 0 0 0 88%;
+	}
+
+	&:hover,
+	&:focus {
+		opacity: 1;
+	}
 }
 
 #main-currency-edit,

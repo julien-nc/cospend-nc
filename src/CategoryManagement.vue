@@ -27,7 +27,10 @@
 						:placeholder="t('cospend', 'Category name')"
 						@focus="$event.target.select()"
 						@keyup.enter="onAddCategory">
-					<button class="icon icon-add addCategoryOk" @click="onAddCategory" />
+					<button
+						v-tooltip.left="{ content: t('cospend', 'Add this category') }"
+						class="icon icon-add-white addCategoryOk"
+						@click="onAddCategory" />
 				</div>
 				<hr>
 			</div>
@@ -63,6 +66,10 @@ import {
 } from '@nextcloud/dialogs'
 import * as constants from './constants'
 import * as network from './network'
+
+import Vue from 'vue'
+import { VTooltip } from 'v-tooltip'
+Vue.directive('tooltip', VTooltip)
 
 export default {
 	name: 'CategoryManagement',
@@ -180,8 +187,8 @@ export default {
 	border-radius: var(--border-radius-pill);
 	opacity: .5;
 
-	&.icon-add {
-		background-color: transparent;
+	&.icon {
+		background-color: var(--color-success);
 		border: none;
 		margin: 0;
 	}
@@ -189,7 +196,6 @@ export default {
 	&:hover,
 	&:focus {
 		opacity: 1;
-		background-color: var(--color-background-hover);
 	}
 }
 

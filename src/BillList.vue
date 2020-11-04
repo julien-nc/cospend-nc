@@ -367,7 +367,7 @@ export default {
 	width: 100%;
 	font-weight: bold;
 	min-height: 44px;
-	line-height: 44px;
+	padding-top: 10px;
 }
 
 ::v-deep .icon-cospend-raw {

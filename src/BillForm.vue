@@ -1164,6 +1164,6 @@ export default {
 }
 
 .modehint {
-	max-width: 500px;
+	max-width: 350px;
 }
 </style>

@@ -116,7 +116,7 @@ input[type=number] {
     margin: 20px 20px 20px 20px;
     border-spacing: 2px 2px;
     scrollbar-width: unset !important;
-    scrollbar-color: var(--color-primary);
+    scrollbar-color: var(--color-primary) var(--color-background-hover);
 
     th {
         font-weight: bold;

@@ -92,7 +92,7 @@ jobs:
 
       - name: Publish nightly release to appstore
         if: ${{ startsWith( steps.tag.outputs.currenttag , 'v' ) && endsWith( steps.tag.outputs.currenttag , 'nightly' ) }}
-        id: publish
+        id: nightly
         run: |
           SIGNATURE=$(cat /tmp/build/sign.txt | tr -d '\n')
           VERSION=${{ steps.build_release.outputs.version }}

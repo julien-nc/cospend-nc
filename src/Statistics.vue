@@ -174,7 +174,8 @@
 			</thead>
 			<tbody slot="body" slot-scope="{displayData}">
 				<tr v-for="value in displayData"
-					:key="value.member.id">
+					:key="value.member.id"
+					v-tooltip.left="{ content: value.member.name }">
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
 						<div v-if="value.member.id !== 0"
 							:class="'owerAvatar' + myGetAvatarClass(value.member.id)">
@@ -213,7 +214,9 @@
 				</v-th>
 			</thead>
 			<tbody slot="body" slot-scope="{displayData}">
-				<tr v-for="vals in displayData" :key="vals.catid">
+				<tr v-for="vals in displayData"
+					:key="vals.catid"
+					v-tooltip.left="{ content: getCategoryNameIcon(vals.catid) }">
 					<td :style="'border: 2px solid ' + myGetCategory(vals.catid).color + ';'">
 						{{ getCategoryNameIcon(vals.catid) }}
 					</td>
@@ -290,6 +293,10 @@ import PieChartJs from './components/PieChartJs'
 import PolarChartJs from './components/PolarChartJs'
 import moment from '@nextcloud/moment'
 import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
+
+import Vue from 'vue'
+import { VTooltip } from 'v-tooltip'
+Vue.directive('tooltip', VTooltip)
 
 export default {
 	name: 'Statistics',

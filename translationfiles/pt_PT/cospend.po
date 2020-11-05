@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-11-04 02:02+0100\n"
-"PO-Revision-Date: 2020-11-04 01:04\n"
+"PO-Revision-Date: 2020-11-05 01:05\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -673,7 +673,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:1
 msgid "No bill selected"
-msgstr ""
+msgstr "Não facturas seleccionadas"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "Details"
@@ -918,19 +918,19 @@ msgstr "Nova factura"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:63
 msgid "Assign category"
-msgstr ""
+msgstr "Atribuir categoria"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:65
 msgid "Assign payment mode"
-msgstr ""
+msgstr "Atribuir modo de pagamento"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:67
 msgid "Delete selected bills"
-msgstr ""
+msgstr "Eliminar as facturas seleccionadas"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:68
 msgid "Multi select mode: Select bills to make grouped actions"
-msgstr ""
+msgstr "Modo de selecção múltipla: Seleccione facturas para executar acções agrupadas"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:69
 msgid "Add at least 2 members to start creating bills"
@@ -938,27 +938,27 @@ msgstr "Adicione pelo menos 2 membros para começar a criar facturas"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:70
 msgid "No bills yet"
-msgstr ""
+msgstr "Ainda não existem facturas"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:71
 msgid "Leave multiple selection mode"
-msgstr ""
+msgstr "Deixar modo de selecção múltipla"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:72
 msgid "Enter multiple selection mode"
-msgstr ""
+msgstr "Iniciar o modo de selecção múltipla"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:73
 msgid "Bill deleted"
-msgstr ""
+msgstr "Factura eliminada"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:74
 msgid "Bills edited"
-msgstr ""
+msgstr "Facturas editadas"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:75
 msgid "Confirm deletion"
-msgstr ""
+msgstr "Confirmar eliminação"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:76
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:166
@@ -968,17 +968,17 @@ msgstr "Eliminar"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:77
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:78
 msgid "Bills deleted"
-msgstr ""
+msgstr "Facturas eliminadas"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:79
 msgid "Are you sure you want to delete {nb} bill?"
 msgid_plural "Are you sure you want to delete {nb} bills?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tem a certeza que quer eliminar {nb} factura?"
+msgstr[1] "Tem a certeza que quer eliminar {nb} facturas?"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:80
 msgid "Add category"
@@ -1000,7 +1000,7 @@ msgstr "Nome da categoria"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:84
 msgid "Add this category"
-msgstr ""
+msgstr "Adicionar esta categoria"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:85
 msgid "Category list"
@@ -1331,7 +1331,7 @@ msgstr "Novo nome do projecto"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "No projects yet"
-msgstr ""
+msgstr "Ainda não há projectos"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "Import csv project"
@@ -1407,7 +1407,7 @@ msgstr "Lista de membros"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:208
 msgid "Associate a project member with a Nextcloud user"
-msgstr ""
+msgstr "Associar um membro do projecto a um utilizador do Nextcloud"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:209
 msgid "Choose a Nextcloud user"
@@ -1535,7 +1535,7 @@ msgstr "Sem atividade recente"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:256
 msgid "Go to Cospend"
-msgstr ""
+msgstr "Ir para o Cospend"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:257
 msgid "{user} shared {project} with {who}"
@@ -1649,7 +1649,7 @@ msgstr "Falha ao eliminar a factura"
 
 #: /var/www/html/dev/server/apps/cospend/src/network.js:419
 msgid "Failed to delete bills"
-msgstr ""
+msgstr "Falha ao eliminar as facturas"
 
 #: /var/www/html/dev/server/apps/cospend/src/network.js:432
 msgid "Failed to check password."

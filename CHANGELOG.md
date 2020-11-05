@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - improve dashboard widget empty content
 - declare navigation in info.xml
 - more popovers (cat/cur management, on stats table rows...)
+- style cleanup, most images are now loaded by webpack
 
 ### Fixed
 - ambiguous

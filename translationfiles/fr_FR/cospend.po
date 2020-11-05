@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-11-04 02:02+0100\n"
-"PO-Revision-Date: 2020-11-04 01:03\n"
+"PO-Revision-Date: 2020-11-05 01:05\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -673,7 +673,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:1
 msgid "No bill selected"
-msgstr ""
+msgstr "Aucune facture sélectionnée"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "Details"
@@ -1000,7 +1000,7 @@ msgstr "Nom de la catégorie"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:84
 msgid "Add this category"
-msgstr ""
+msgstr "Ajouter cette catégorie"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:85
 msgid "Category list"
@@ -1535,7 +1535,7 @@ msgstr "Pas d'activité récente"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:256
 msgid "Go to Cospend"
-msgstr ""
+msgstr "Aller dans Cospend"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:257
 msgid "{user} shared {project} with {who}"

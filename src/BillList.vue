@@ -123,6 +123,10 @@ export default {
 			type: String,
 			required: true,
 		},
+		totalBillNumber: {
+			type: Number,
+			required: true,
+		},
 		bills: {
 			type: Array,
 			required: true,
@@ -157,7 +161,7 @@ export default {
 
 	computed: {
 		nbBills() {
-			return cospend.projects[this.projectId].nbBills
+			return this.totalBillNumber
 		},
 		reverseBills() {
 			return this.bills.slice().reverse()

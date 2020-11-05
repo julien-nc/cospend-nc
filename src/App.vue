@@ -27,6 +27,7 @@
 					v-if="currentProjectId"
 					:loading="billsLoading"
 					:project-id="currentProjectId"
+					:total-bill-number="currentProject.nbBills || 0"
 					:bills="currentBills"
 					:selected-bill-id="selectedBillId"
 					:edition-access="editionAccess"
@@ -264,6 +265,7 @@ export default {
 		onBillCreated(bill, select, mode) {
 			this.bills[cospend.currentProjectId][bill.id] = bill
 			this.billLists[cospend.currentProjectId].unshift(bill)
+			this.currentProject.nbBills++
 			this.cleanupBills()
 			if (select) {
 				this.currentBill = bill
@@ -303,12 +305,14 @@ export default {
 			billIds.forEach(id => {
 				const index = billList.findIndex(bill => bill.id === id)
 				billList.splice(index, 1)
+				this.currentProject.nbBills--
 			})
 			this.updateBalances(cospend.currentProjectId)
 		},
 		onBillDeleted(bill) {
 			const billList = this.billLists[cospend.currentProjectId]
 			billList.splice(billList.indexOf(bill), 1)
+			this.currentProject.nbBills--
 			if (bill.id === this.selectedBillId) {
 				this.currentBill = null
 			}
@@ -426,6 +430,7 @@ export default {
 					comment: '',
 				}
 				this.billLists[cospend.currentProjectId].unshift(this.currentBill)
+				this.currentProject.nbBills++
 			} else {
 				this.currentBill = billList[found]
 			}

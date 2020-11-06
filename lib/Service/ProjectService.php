@@ -1542,7 +1542,6 @@ class ProjectService {
            );
         $req = $qb->execute();
         while ($row = $req->fetch()) {
-            error_log(implode(',', array_keys($row)));
             $nb = $row['COUNT(*)'];
         }
         return $nb;

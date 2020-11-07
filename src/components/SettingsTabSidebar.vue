@@ -215,7 +215,7 @@ export default {
 					user: item.id,
 					name: item.name,
 					displayName: item.label,
-					icon: item.type === 'u' ? 'icon-user' : '',
+					icon: item.type === 'u' ? 'icon-user' : 'icon-user-dollar',
 					type: item.type,
 					value: item.value,
 					multiselectKey: item.type + ':' + item.id,
@@ -351,7 +351,7 @@ export default {
 				this.users.unshift({
 					id: '',
 					name,
-					label: name + ' (' + t('cospend', 'Simple member') + ')',
+					label: name + ' - (' + t('cospend', 'Simple member') + ')',
 					type: 's',
 				})
 			}
@@ -387,6 +387,19 @@ export default {
 	mask-size: 16px auto;
 	mask-position: center;
 	-webkit-mask: url('./../../img/schedule.svg') no-repeat;
+	-webkit-mask-size: 16px auto;
+	-webkit-mask-position: center;
+	min-width: 44px !important;
+	min-height: 44px !important;
+}
+
+::v-deep .icon-user-dollar {
+	background-color: var(--color-main-text);
+	padding: 0 !important;
+	mask: url('./../../img/icon-user-dollar.svg') no-repeat;
+	mask-size: 16px auto;
+	mask-position: center;
+	-webkit-mask: url('./../../img/icon-user-dollar.svg') no-repeat;
 	-webkit-mask-size: 16px auto;
 	-webkit-mask-position: center;
 	min-width: 44px !important;

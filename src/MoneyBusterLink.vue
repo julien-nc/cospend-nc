@@ -6,7 +6,7 @@
 			<button class="icon icon-info"
 				@click="onInfo1Clicked" />
 		</h3>
-		<h3 class="qrcode-title">{{ t('cospend', 'Old link') }}, MoneyBuster &lt;= 0.1.7, PayForMe &lt;= 0.0.1</h3>
+		<h3 class="qrcode-title">{{ t('cospend', 'Old link') }}, MoneyBuster &lt;= 0.1.7</h3>
 		<div class="qrcode-div-nopass">
 			<QRCode render="canvas"
 				:link="noPassLink"
@@ -47,7 +47,7 @@
 					<input type="submit" value="" class="icon-confirm">
 				</form>
 			</div>
-			<h3 v-if="validPassword" class="qrcode-title">{{ t('cospend', 'Old link') }}, MoneyBuster &lt;= 0.1.7, PayForMe &lt;= 0.0.1</h3>
+			<h3 v-if="validPassword" class="qrcode-title">{{ t('cospend', 'Old link') }}, MoneyBuster &lt;= 0.1.7</h3>
 			<div class="qrcode-div-pass">
 				<QRCode
 					v-if="validPassword"
@@ -149,17 +149,15 @@ export default {
 		},
 		onInfo1Clicked() {
 			OC.dialogs.info(
-				t('cospend', 'Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone.')
-				+ ' '
-				+ t('cospend', 'Android will know MoneyBuster can open such a link (based on the \'https://net.eneiluj.moneybuster.cospend\' part) and you will be able to add the project.'),
+				t('cospend', 'Scan this QRCode with a smartphone which has MoneyBuster or PayForMe installed or simply send the link itself.'),
 				t('cospend', 'Info')
 			)
 		},
 		onInfo2Clicked() {
 			OC.dialogs.info(
-				t('cospend', 'As password is stored hashed (for security), it can\'t be automatically included in the QRCode. If you want to include it in the QRCode and make it easier to add a project in MoneyBuster, you can provide the password again.')
+				t('cospend', 'As the password is stored hashed (for security), it can\'t be automatically included in the QRCode. If you want to include it in the QRCode and make it easier to add a project in mobile apps, you must provide the password again.')
 				+ ' '
-				+ t('cospend', 'Type the project password and press Enter to generate another QRCode including the password.'),
+				+ t('cospend', 'Type the project password and press "Enter" to generate another QRCode that includes the password.'),
 				t('cospend', 'Info')
 			)
 		},

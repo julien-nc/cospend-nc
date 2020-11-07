@@ -45,6 +45,7 @@ return [
         ['name' => 'page#apiDeleteBill', 'url' => '/api/projects/{projectid}/{password}/bills/{billid}', 'verb' => 'DELETE'],
         ['name' => 'page#apiDeleteBills', 'url' => '/api/projects/{projectid}/{password}/bills', 'verb' => 'DELETE'],
         ['name' => 'page#apiv2GetBills', 'url' => '/apiv2/projects/{projectid}/{password}/bills', 'verb' => 'GET'],
+        ['name' => 'page#apiv3GetBills', 'url' => '/apiv3/projects/{projectid}/{password}/bills', 'verb' => 'GET'],
         ['name' => 'page#apiGetProjectStatistics', 'url' => '/api/projects/{projectid}/{password}/statistics', 'verb' => 'GET'],
         ['name' => 'page#apiGetProjectSettlement', 'url' => '/api/projects/{projectid}/{password}/settle', 'verb' => 'GET'],
         ['name' => 'page#apiAutoSettlement', 'url' => '/api/projects/{projectid}/{password}/autosettlement', 'verb' => 'GET'],

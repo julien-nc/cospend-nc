@@ -113,7 +113,7 @@ export function getBills(projectid, offset, limit, successCB, doneCB, state = nu
 	if (!cospend.pageIsPublic) {
 		url = generateUrl('/apps/cospend/projects/' + projectid + '/bills')
 	} else {
-		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills')
+		url = generateUrl('/apps/cospend/apiv3/projects/' + cospend.projectid + '/' + cospend.password + '/bills')
 	}
 	axios.get(url, req)
 		.then((response) => {

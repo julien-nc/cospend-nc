@@ -1041,6 +1041,36 @@ class PageController extends ApiController {
                     $projectid, null, null, null, null, null, null, $lastchanged, null, $reverse
                 );
             }
+            $response = new DataResponse($bills);
+            return $response;
+        }
+        else {
+            $response = new DataResponse(
+                ['message' => $this->trans->t('Unauthorized action')]
+                , 401
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     * @CORS
+     */
+    public function apiv3GetBills($projectid, $password, $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false) {
+        $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
+        if ($this->checkLogin($projectid, $password) or $publicShareInfo['accesslevel'] !== null) {
+            if ($limit) {
+                $bills = $this->projectService->getBillsRestricted(
+                    $projectid, null, null, null, null, null, null, $lastchanged, $limit, $reverse, $offset
+                );
+            } else {
+                $bills = $this->projectService->getBills(
+                    $projectid, null, null, null, null, null, null, $lastchanged, null, $reverse
+                );
+            }
             $result = [
                 'nb_bills' => $this->projectService->getNbBills($projectid),
                 'bills' => $bills,

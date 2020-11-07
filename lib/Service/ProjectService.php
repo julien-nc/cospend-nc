@@ -4598,7 +4598,7 @@ class ProjectService {
                 'projectId' => $projectId,
                 'amount' => $dbAmount,
                 'what' => $dbWhat,
-                'timestamp' => $timestamp,
+                'timestamp' => $dbTimestamp,
                 'comment' => $dbComment,
                 'paymentmode' => $dbPaymentMode,
                 'categoryid' => $dbCategoryId

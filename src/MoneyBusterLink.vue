@@ -6,7 +6,8 @@
 			<button class="icon icon-info"
 				@click="onInfo1Clicked" />
 		</h3>
-		<div id="qrcode-div-nopass">
+		<h3 class="qrcode-title">{{ t('cospend', 'Old link') }}, MoneyBuster &lt;= 0.1.7, PayForMe &lt;= 0.0.1</h3>
+		<div class="qrcode-div-nopass">
 			<QRCode render="canvas"
 				:link="noPassLink"
 				:fgcolor="qrcodeColor"
@@ -14,6 +15,16 @@
 				:rounded="100" />
 		</div>
 		<label id="mbUrlLabel">{{ noPassLink }}</label>
+		<br>
+		<h3 class="qrcode-title">{{ t('cospend', 'New link') }}, MoneyBuster &gt;= 0.1.8, PayForMe &gt;= 0.0.2</h3>
+		<div class="qrcode-div-nopass">
+			<QRCode render="canvas"
+				:link="noPassProtocolLink"
+				:fgcolor="qrcodeColor"
+				:image-url="qrcodeImageUrl"
+				:rounded="100" />
+		</div>
+		<label id="mbUrlLabel">{{ noPassProtocolLink }}</label>
 		<br>
 		<div v-if="!pageIsPublic">
 			<br><hr><br>
@@ -36,7 +47,8 @@
 					<input type="submit" value="" class="icon-confirm">
 				</form>
 			</div>
-			<div id="qrcode-div-pass">
+			<h3 v-if="validPassword" class="qrcode-title">{{ t('cospend', 'Old link') }}, MoneyBuster &lt;= 0.1.7, PayForMe &lt;= 0.0.1</h3>
+			<div class="qrcode-div-pass">
 				<QRCode
 					v-if="validPassword"
 					render="canvas"
@@ -46,6 +58,17 @@
 					:rounded="100" />
 			</div>
 			<label id="mbPassUrlLabel">{{ passLink }}</label>
+			<h3 v-if="validPassword" class="qrcode-title">{{ t('cospend', 'New link') }}, MoneyBuster &gt;= 0.1.8, PayForMe &gt;= 0.0.2</h3>
+			<div class="qrcode-div-pass">
+				<QRCode
+					v-if="validPassword"
+					render="canvas"
+					:link="passProtocolLink"
+					:fgcolor="qrcodeColor"
+					:image-url="qrcodeImageUrl"
+					:rounded="100" />
+			</div>
+			<label id="mbPassUrlLabel">{{ passProtocolLink }}</label>
 		</div>
 	</div>
 </template>
@@ -91,10 +114,22 @@ export default {
 			return 'https://net.eneiluj.moneybuster.cospend/' + window.location.host
 				+ generateUrl('').replace('/index.php', '') + this.project.id + '/'
 		},
+		noPassProtocolLink() {
+			return 'cospend://' + window.location.host
+				+ generateUrl('').replace('/index.php', '') + this.project.id + '/'
+		},
 		passLink() {
 			let url = null
 			if (this.validPassword) {
 				url = 'https://net.eneiluj.moneybuster.cospend/' + window.location.host
+					+ generateUrl('').replace('/index.php', '') + this.project.id + '/' + encodeURIComponent(this.validPassword)
+			}
+			return url
+		},
+		passProtocolLink() {
+			let url = null
+			if (this.validPassword) {
+				url = 'cospend://' + window.location.host
 					+ generateUrl('').replace('/index.php', '') + this.project.id + '/' + encodeURIComponent(this.validPassword)
 			}
 			return url
@@ -133,8 +168,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-#qrcode-div-pass,
-#qrcode-div-nopass {
+.qrcode-div-pass,
+.qrcode-div-nopass {
 	width: 210px;
 	margin: 0 auto;
 }
@@ -167,8 +202,14 @@ export default {
 }
 
 h3 {
-	display: flex;
-	margin-bottom: 20px;
+	&:not(.qrcode-title) {
+		display: flex;
+		margin-bottom: 20px;
+	}
+
+	&.qrcode-title {
+		text-align: center;
+	}
 
 	> .tcontent {
 		flex-grow: 1;

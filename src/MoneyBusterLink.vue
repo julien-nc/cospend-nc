@@ -6,7 +6,9 @@
 			<button class="icon icon-info"
 				@click="onInfo1Clicked" />
 		</h3>
-		<h3 class="qrcode-title">{{ t('cospend', 'Old link') }}, MoneyBuster &lt;= 0.1.7</h3>
+		<h3 class="qrcode-title">
+			{{ t('cospend', 'Old link') }}, MoneyBuster &lt;= 0.1.7
+		</h3>
 		<div class="qrcode-div-nopass">
 			<QRCode render="canvas"
 				:link="noPassLink"
@@ -16,7 +18,9 @@
 		</div>
 		<label id="mbUrlLabel">{{ noPassLink }}</label>
 		<br>
-		<h3 class="qrcode-title">{{ t('cospend', 'New link') }}, MoneyBuster &gt;= 0.1.8, PayForMe &gt;= 0.0.2</h3>
+		<h3 class="qrcode-title">
+			{{ t('cospend', 'New link') }}, MoneyBuster &gt;= 0.1.8, PayForMe &gt;= 0.0.2
+		</h3>
 		<div class="qrcode-div-nopass">
 			<QRCode render="canvas"
 				:link="noPassProtocolLink"
@@ -47,7 +51,9 @@
 					<input type="submit" value="" class="icon-confirm">
 				</form>
 			</div>
-			<h3 v-if="validPassword" class="qrcode-title">{{ t('cospend', 'Old link') }}, MoneyBuster &lt;= 0.1.7</h3>
+			<h3 v-if="validPassword" class="qrcode-title">
+				{{ t('cospend', 'Old link') }}, MoneyBuster &lt;= 0.1.7
+			</h3>
 			<div class="qrcode-div-pass">
 				<QRCode
 					v-if="validPassword"
@@ -58,7 +64,9 @@
 					:rounded="100" />
 			</div>
 			<label id="mbPassUrlLabel">{{ passLink }}</label>
-			<h3 v-if="validPassword" class="qrcode-title">{{ t('cospend', 'New link') }}, MoneyBuster &gt;= 0.1.8, PayForMe &gt;= 0.0.2</h3>
+			<h3 v-if="validPassword" class="qrcode-title">
+				{{ t('cospend', 'New link') }}, MoneyBuster &gt;= 0.1.8, PayForMe &gt;= 0.0.2
+			</h3>
 			<div class="qrcode-div-pass">
 				<QRCode
 					v-if="validPassword"

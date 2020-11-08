@@ -1,8 +1,8 @@
 # Authors
 
 * Julien Veyssier <eneiluj@posteo.net> @eneiluj (Developer)
-* @simonspa (Developper, Tester)
-* @chiefbrain (Developper)
+* @simonspa (Developer, Tester)
+* @chiefbrain (Developer)
 * @archit3kt (test master)
 * @denics (splitwise master)
 * @call-me-matt

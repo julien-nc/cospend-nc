@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 1.2.0 – 2020-11-03
+## 1.2.0 – 2020-11-08
 ### Added
 - automatic releases with GitHub actions
 - automatically add/remove shared access to NC users when adding/removing them as project members
@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - multi selection mode to delete or assign category/payment mode to multiple bills @pichette
 - partial initial bill list load, load the rest with infinite scrolling
 [#11](https://github.com/eneiluj/cospend-nc/issues/11) @simonspa
+- protocol based mobile client QRCode links
 
 ### Changed
 - bump all JS libs

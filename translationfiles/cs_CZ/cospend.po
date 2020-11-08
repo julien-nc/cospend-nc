@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-11-03 01:46+0100\n"
-"PO-Revision-Date: 2020-11-03 01:01\n"
+"POT-Creation-Date: 2020-11-08 02:10+0100\n"
+"PO-Revision-Date: 2020-11-08 01:12\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -72,7 +72,6 @@ msgid "circle %1$s"
 msgstr "okruh %1$s"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Activity/Filter.php:55
-#: /var/www/html/dev/server/apps/cospend/lib/AppInfo/Application.php:68
 #: /var/www/html/dev/server/apps/cospend/lib/Notification/Notifier.php:65
 #: /var/www/html/dev/server/apps/cospend/lib/Search/CospendSearchProvider.php:80
 #: /var/www/html/dev/server/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:2
@@ -112,15 +111,15 @@ msgstr "Projekt %s"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:281
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:336
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2645
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2649
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2653
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4264
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4268
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4272
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4440
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4444
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4448
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2675
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2679
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2683
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4263
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4267
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4271
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4439
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4443
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4447
 msgid "Access denied"
 msgstr "Přístup odepřen"
 
@@ -159,28 +158,28 @@ msgstr "Nemáte oprávnění upravovat tohoto člena"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:641
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:679
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1302
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1344
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1332
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1374
 msgid "You are not allowed to edit this bill"
 msgstr "Nemáte oprávnění upravovat tuto účtenku"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:702
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2441
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2534
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2581
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2471
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2564
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2611
 msgid "You are not allowed to edit this project"
 msgstr "Nemáte oprávnění upravovat tento projekt"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:736
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1228
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1262
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1258
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1292
 msgid "You are not allowed to add bills"
 msgstr "Nemáte oprávnění přidávat účtenky"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:759
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1136
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1165
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1189
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1166
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1195
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1219
 msgid "You are not allowed to add members"
 msgstr "Nemáte oprávnění přidávat členy"
 
@@ -206,81 +205,82 @@ msgstr "Chybné heslo nebo veřejný odkaz"
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:977
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:999
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1019
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1053
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1079
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1107
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1379
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1417
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1455
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1488
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1517
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1541
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1570
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1594
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1625
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1651
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1677
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1701
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1723
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1743
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1772
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1796
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1049
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1083
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1109
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1137
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1409
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1447
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1485
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1518
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1547
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1571
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1600
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1624
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1655
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1681
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1707
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1731
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1753
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1773
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1802
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1826
 msgid "Unauthorized action"
 msgstr "Akce, na kterou nemáte pověření"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1902
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1932
 msgid "You are not allowed to give such shared access level"
 msgstr "Nemáte oprávnění k poskytnutí takové úrovně sdíleného přístupu"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1925
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1940
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1955
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1970
 msgid "You are not allowed to edit guest access level"
 msgstr "Nemáte oprávnění k upravování úrovně přístupu hosta"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1987
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2017
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2042
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2064
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2093
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2117
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2139
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2168
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2192
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2047
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2072
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2094
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2123
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2147
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2169
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2198
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2222
 msgid "You are not allowed to manage categories"
 msgstr "Nemáte oprávnění ke správě kategorií"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2214
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2244
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2269
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2291
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2320
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2344
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2366
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2395
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2419
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2274
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2299
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2321
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2350
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2374
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2396
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2425
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2449
 msgid "You are not allowed to manage currencies"
 msgstr "Nemáte oprávnění ke správě měn"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2466
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2512
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2559
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2606
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2496
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2542
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2589
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2636
 msgid "You are not allowed to remove this shared access"
 msgstr "Nemáte oprávnění pro odebrání tohoto sdíleného přístupu"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2488
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2518
 msgid "You are not allowed to add public shared accesses"
 msgstr "Nemáte oprávnění pro přidávání veřejných sdílených přístupů"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2673
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2703
 msgid "You are not allowed to export this project settlement"
 msgstr "Nemáte oprávnění pro export tohoto vypořádání projektu"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2698
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2728
 msgid "You are not allowed to export this project statistics"
 msgstr "Nemáte oprávnění pro exportování statistik tohoto projektu"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2725
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2755
 msgid "You are not allowed to export this project"
 msgstr "Nemáte oprávnění pro export tohoto projektu"
 
@@ -385,11 +385,11 @@ msgstr "Průměr za měsíc"
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:921
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:959
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:963
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2687
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2714
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2723
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2744
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2749
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2686
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2713
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2722
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2743
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2748
 msgid "Invalid value"
 msgstr "Neplatná hodnota"
 
@@ -413,8 +413,8 @@ msgstr "Tuto kolonku je třeba vyplnit"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:954
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:966
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2732
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2752
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2731
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2751
 msgid "Not a valid choice"
 msgstr "Tato volba není přípustná"
 
@@ -468,203 +468,203 @@ msgstr "Aktivní není platná celočíselná hodnota"
 msgid "This project already has this member"
 msgstr "Tento člen už se v projektu nachází"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2672
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2671
 msgid "There is no such bill"
 msgstr "Neexistuje taková faktura"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3088
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3192
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3087
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3191
 msgid "Not found"
 msgstr "Nenalezeno"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3118
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3117
 msgid "This project have no such category"
 msgstr "Tento projekt nemá žádnou takovou kategorii"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3122
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3221
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3121
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3220
 msgid "Incorrect field values"
 msgstr "Neplatné hodnoty v kolonce"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3217
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3216
 msgid "This project have no such currency"
 msgstr "Tento projekt nemá žádnou takovou měnu"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3312
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3311
 msgid "You are not authorized to give such access level"
 msgstr "Nemáte oprávnění k poskytnutí takové úrovně přístupu"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3315
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3314
 msgid "Already shared with this user"
 msgstr "Už sdíleno s tímto uživatelem"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3318
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3317
 msgid "Impossible to share the project with its owner"
 msgstr "Není možné sdílet projekt s jeho vlastníkem"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3321
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3320
 msgid "No such user"
 msgstr "Žádný takový uživatel"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3416
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3516
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3720
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3855
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3415
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3515
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3719
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3854
 msgid "No such share"
 msgstr "Žádné takové sdílení"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3598
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3597
 msgid "No such shared access"
 msgstr "Žádný takový sdílený přístup"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3659
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3658
 msgid "Already shared with this group"
 msgstr "Už sdíleno s touto skupinou"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3663
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3662
 msgid "No such group"
 msgstr "Žádná taková skupina"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3734
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3733
 msgid "Sharing with personal circles is not supported"
 msgstr "Sdílení s osobními okruhy není podporováno"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3792
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3791
 msgid "Already shared with this circle"
 msgstr "S tímto okruhem už je sdíleno"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3796
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3795
 msgid "No such circle"
 msgstr "Žádný takový okruh"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3800
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3799
 msgid "Circles app is not enabled"
 msgstr "Aplikace Okruhy není zapnutá"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3878
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:118
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3877
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:123
 msgid "Who pays?"
 msgstr "Kdo platí?"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3878
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:119
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3877
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:124
 msgid "To whom?"
 msgstr "Komu?"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3878
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:14
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:120
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3877
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:15
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:125
 msgid "How much?"
 msgstr "Kolik?"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3904
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3903
 #, php-format
 msgid "%1$s is not a folder"
 msgstr "%1$s není složka"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3907
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3906
 #, php-format
 msgid "%1$s is not writeable"
 msgstr "%1$s není přístupné pro zápis"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3914
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3913
 #, php-format
 msgid "Impossible to create %1$s"
 msgstr "Nedaří se vytvořit %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3936
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:139
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3935
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:144
 msgid "Member name"
 msgstr "Jméno člena"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3936
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:140
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3935
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:145
 msgid "Paid"
 msgstr "Zaplaceno"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3936
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:141
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3935
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:146
 msgid "Spent"
 msgstr "Utraceno"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3936
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:143
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3935
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:148
 msgid "Balance"
 msgstr "Zůstatek"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4094
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4093
 #, php-format
 msgid "Malformed CSV, bad column names at line %1$s"
 msgstr "Porušený CSV, chybné názvy sloupců na řádku %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4154
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4153
 #, php-format
 msgid "Malformed CSV, bad payer weight on line %1$s"
 msgstr "Porušený CSV, chybná váha plátce na řádku %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4158
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4165
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4157
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4164
 #, php-format
 msgid "Malformed CSV, bad owers on line %1$s"
 msgstr "Porušený CSV, chybní dlužníci na řádku %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4173
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4358
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4172
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4357
 #, php-format
 msgid "Malformed CSV, bad amount on line %1$s"
 msgstr "Porušený CSV, chybná částka na řádku %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4206
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4395
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4205
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4394
 #, php-format
 msgid "Error in project creation, %1$s"
 msgstr "Chyba při vytváření projektu, %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4217
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4403
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4216
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4402
 #, php-format
 msgid "Error when adding category %1$s"
 msgstr "Chyba při přidávání kategorie %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4226
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4225
 #, php-format
 msgid "Error when adding currency %1$s"
 msgstr "Chyba při přidávání měny %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4234
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4412
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4233
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4411
 #, php-format
 msgid "Error when adding member %1$s"
 msgstr "Chyba při přidávání člena %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4257
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4434
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4256
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4433
 #, php-format
 msgid "Error when adding bill %1$s"
 msgstr "Chyba při přidávání účtu %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4308
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4307
 msgid "Malformed CSV, bad column names"
 msgstr "Porušený CSV, chybné názvy sloupců"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4319
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4318
 msgid "Malformed CSV, cannot have an empty ower"
 msgstr "Poškozený CSV, nemůže mít prázdného dlužníka"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4352
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4351
 #, php-format
 msgid "Malformed CSV, no payer on line %1$s"
 msgstr "Porušený CSV, žádný plátce na řádku %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4473
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4472
 msgid "daily"
 msgstr "každý den"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4488
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4487
 msgid "weekly"
 msgstr "každý týden"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4509
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4508
 msgid "monthly"
 msgstr "každý měsíc"
 
@@ -673,305 +673,309 @@ msgid " "
 msgstr ""
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:1
+msgid "No bill selected"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:2
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "Member {name} already exists"
 msgstr "Člen {name} už existuje"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:3
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:4
 msgid "Invalid project name"
 msgstr "Neplatný název projektu"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:4
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:5
 msgid "Deleted project {id}"
 msgstr "Projekt {id} smazán"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:5
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:6
 msgid "Created member {name}"
 msgstr "Vytvořen člen {name}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:6
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Member deleted."
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:8
 msgid "Member saved."
 msgstr "Člen uložen."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:8
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:9
 msgid "Project saved"
 msgstr "Projekt uložen"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:9
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:10
 msgid "link"
 msgstr "odkaz"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:10
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:44
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:11
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:45
 msgid "Press Shift+Enter to validate"
 msgstr "Ověříte stiskem Shift+Enter"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:11
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:12
 msgid "What?"
 msgstr "Co?"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:12
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:13
 msgid "What is the bill about?"
 msgstr "Čeho se tato faktura týká?"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:13
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:14
 msgid "Attach public link to personal file"
 msgstr "Připojit veřejný odkaz k osobnímu souboru"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:15
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:16
 msgid "Convert to"
 msgstr "Převést na"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:16
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:17
 msgid "Who payed?"
 msgstr "Kdo zaplatil?"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:17
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:18
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:19
 msgid "When?"
 msgstr "Kdy?"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:19
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:127
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:20
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:132
 msgid "Payment mode"
 msgstr "Režim platby"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:20
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:22
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:63
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:65
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:89
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:21
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:23
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:64
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:66
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:91
 msgid "None"
 msgstr "Žádné"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:21
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:129
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:22
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:134
 msgid "Category"
 msgstr "Kategorie"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:23
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:24
 msgid "Comment"
 msgstr "Komentář"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:24
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:25
 msgid "More details about the bill (300 char. max)"
 msgstr "Další podrobnosti o účtence (300 znaků. nejvýše)"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:25
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:26
 msgid "Repeat"
 msgstr "Opakovat"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:26
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:200
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:27
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:205
 msgid "No"
 msgstr "Ne"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:27
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:201
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:28
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:206
 msgid "Daily"
 msgstr "Denně"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:28
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:202
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:29
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:207
 msgid "Weekly"
 msgstr "Týdně"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:29
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:203
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:30
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:208
 msgid "Monthly"
 msgstr "Měsíčně"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:30
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:31
 msgid "Yearly"
 msgstr "Ročně"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:31
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:32
 msgid "Include all active members on repeat"
 msgstr "Při opakování zahrnout všechny aktivní členy"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:32
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:33
 msgid "Repeat until"
 msgstr "Opakovat dokud"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:33
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:34
 msgid "Bill type"
 msgstr "Typ účtenky"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:34
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:35
 msgid "Classic, even split"
 msgstr "Klasické, rovnoměrně rozdělené"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:35
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:36
 msgid "Even split with optional personal parts"
 msgstr "Rovnoměrné rozdělení s volitelnými osobními částmi"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:36
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:37
 msgid "Custom owed amount per member"
 msgstr "Uživatelsky určená dlužná částka pro jednotlivé členy"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:37
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:38
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
 msgstr "Klasický režim: Vyberte kdo zaplatil, zadejte částku z účtenky a vyberte, mezi koho všeho se útrata rozdělí – účet je pak spravedlivě rozdělen mezi vybrané členy. Příklad z reálného života: Jedna osoba zaplatí celý účet v restauraci a všichni souhlasí s rovnoměrným rozdělením nákladů."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:38
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:39
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr "Klasický+osobní režim: Tento režim je podobný tomu klasickému. Vyberete, kdo platil a zadáte částku účtenky, která odpovídá tomu, co bylo skutečně zaplaceno. Pak vyberte, mezi koho všeho se bude rozpočítávat a případně nastavíte částku, která se vztahuje na osobní věci pro některé členy. Bude vytvořeno více účtů: jeden pro sdílené výdaje a jeden pro každou osobní část. Příklad reálného života: Jdeme nakupovat, část toho, co bylo koupeno, se týká skupiny, ale někdo také přidal něco osobního (jako tričko), které ostatní nechtějí kolektivně platit."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:39
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:40
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
 msgstr "Uživatelsky určený režim, nerovnoměrné rozdělení: Vyberte, kdo platil, neberte v úvahu částku účtu (která je nepřístupná) a každému členovi, mezi kterého se rozpočítává, zadejte uživatelsky určenou dlužnou částku. Poté stiskněte tlačítko „Vytvořit účty“. Bude vytvořeno více účtů. Příklad z reálného života: Jedna osoba platí celý účet restaurace, ale existují velké cenové rozdíly mezi tím, co který člověk snědl."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:40
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:41
 msgid "For whom?"
 msgstr "Pro koho?"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:41
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:42
 msgid "All/None"
 msgstr "Vše/žádné"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:42
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:43
 msgid "Personal amount"
 msgstr "Osobní částka"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:43
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:44
 msgid "Custom amount"
 msgstr "Uživatelsky určená částka"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:45
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:46
 msgid "Bill : {what}"
 msgstr "Účet: {what}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:46
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:47
 msgid "Create the bill"
 msgstr "Vytvořit účet"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:46
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:47
 msgid "Create the bills"
 msgstr "Vytvořit účty"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:47
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:156
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:48
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:161
 #: /var/www/html/dev/server/apps/cospend/src/utils.js:16
 msgid "You"
 msgstr "Vy"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:48
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:49
 msgid "Impossible to save bill, invalid values."
 msgstr "Účet není možné uložit – neplatné hodnoty."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:49
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:50
 msgid "Bill saved."
 msgstr "Účet uložen."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:50
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:52
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:54
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:51
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:53
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:55
 msgid "Bill values are not valid."
 msgstr "Fakturační hodnoty nejsou platné."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:51
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:52
 msgid "Personal parts are bigger than the paid amount."
 msgstr "Osobní podíly jsou větší než zaplacená částka."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:53
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:54
 msgid "There is no custom amount."
 msgstr "Není zde žádná uživatelsky určená částka."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:55
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:56
 msgid "Bill created."
 msgstr "Účet vytvořen."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:56
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:57
 msgid "Choose file"
 msgstr "Vyberte soubor"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:57
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:58
 msgid "This is just a currency converter. Bill amount can be entered in another currency and then converted to \"{maincur}\". Value is always stored in \"{maincur}\"."
 msgstr "Toto je pouze převodník měn. Částku účtu je možné zadat v jiné měně a poté převést na „{maincur}“. Hodnota je vždy uložena v „{maincur}“."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:58
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:60
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:109
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:112
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:213
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:216
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:59
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:61
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:114
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:117
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:218
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:221
 msgid "Info"
 msgstr "Informace"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:59
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:60
 msgid "You can type simple math operations and validate by pressing Enter key."
 msgstr "Můžete zadat jednoduché matematické operace a potvrdit stisknutím klávesy Enter."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:61
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:62
 msgid "New bill"
 msgstr "Nový účet"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:62
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:63
 msgid "Assign category"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:64
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:65
 msgid "Assign payment mode"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:66
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:67
 msgid "Delete selected bills"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:67
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:68
 msgid "Multi select mode: Select bills to make grouped actions"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:68
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:69
 msgid "Add at least 2 members to start creating bills"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:69
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:70
 msgid "No bills yet"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:70
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:71
 msgid "Leave multiple selection mode"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:71
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:72
 msgid "Enter multiple selection mode"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:72
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:73
 msgid "Bill deleted"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:73
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:74
 msgid "Bills edited"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:74
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:75
 msgid "Confirm deletion"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:75
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:164
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:170
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:76
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:169
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:175
 msgid "Delete"
 msgstr "Smazat"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:76
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:77
 msgid "Cancel"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:77
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:78
 msgid "Bills deleted"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:78
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:79
 msgid "Are you sure you want to delete {nb} bill?"
 msgid_plural "Are you sure you want to delete {nb} bills?"
 msgstr[0] ""
@@ -979,572 +983,586 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:79
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:80
 msgid "Add category"
 msgstr "Přidat kategorii"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:80
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:81
 msgid "Color"
 msgstr "Barva"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:81
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:177
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:82
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:182
 msgid "Icon"
 msgstr "Ikona"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:82
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:178
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:83
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Category name"
 msgstr "Název kategorie"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:83
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:84
+msgid "Add this category"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:85
 msgid "Category list"
 msgstr "Seznam kategorií"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:84
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:86
 msgid "No categories to display"
 msgstr "Žádné kategorie k zobrazení"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:85
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:87
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:89
 msgid "Category name should not be empty."
 msgstr "Název kategorie by neměl být prázdný."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:86
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:88
 msgid "Category {n} added."
 msgstr "Kategorie {n} přidána."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:88
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:90
 msgid "Main currency"
 msgstr "Hlavní měna"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:90
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:92
 msgid "Main currency name"
 msgstr "Název hlavní měny"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:91
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:93
 msgid "Add currency"
 msgstr "Přidat měnu"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:92
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:188
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:94
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:193
 msgid "Name"
 msgstr "Název"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:93
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:197
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:95
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:202
 msgid "Currency name"
 msgstr "Název měny"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:94
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:96
 msgid "Exchange rate to main currency"
 msgstr "Směnný kurz vůči hlavní měně"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:95
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:97
 msgid "(1 of this currency = X of main currency)"
 msgstr "(1 této měny = X hlavní měny)"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:96
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:98
 msgid "Add this currency"
 msgstr "Přidat tuto měnu"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:97
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:99
 msgid "Currency list"
 msgstr "Seznam měn"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:98
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:100
 msgid "No currencies to display"
 msgstr "Žádné měny k zobrazení"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:99
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:102
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:101
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:104
 msgid "Currency name should not be empty."
 msgstr "Název měny by neměl být prázdný."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:100
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:102
 msgid "Exchange rate should be a number."
 msgstr "Směnný kurz by mělo být číslo."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:101
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:103
 msgid "Currency {n} added."
 msgstr "Měna {n} přidána."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:103
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:105
 msgid "MoneyBuster link/QRCode for project {name}"
 msgstr "MoneyBuster odkaz / QR kód pro projekt {name}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:104
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:106
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:110
+msgid "Old link"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:107
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:111
+msgid "New link"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:108
 msgid "Confirm project password to get a QRCode including the password."
 msgstr "Potvrďte heslo projektu pro získání QR kódu včetně hesla."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:105
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:109
 msgid "Project password"
 msgstr "Heslo projektu"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:106
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "Incorrect project password."
 msgstr "Nesprávné heslo projektu."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:107
-msgid "Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone."
-msgstr "Naskenujte tento QR kód pomocí Android telefonu s nainstalovaným MoneyBuster a otevřete odkaz nebo ho jednoduše odešlete na jiný Android telefon."
-
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:108
-msgid "Android will know MoneyBuster can open such a link (based on the 'https://net.eneiluj.moneybuster.cospend' part) and you will be able to add the project."
-msgstr "Systému Android bude známo, že MoneyBuster může takový odkaz otevřít (na základě části „https://net.eneiluj.moneybuster.cospend“) a budete moci přidat projekt."
-
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:110
-msgid "As password is stored hashed (for security), it can't be automatically included in the QRCode. If you want to include it in the QRCode and make it easier to add a project in MoneyBuster, you can provide the password again."
-msgstr "Vzhledem k tomu, že heslo je uloženo hashed (pro bezpečnost), nemůže být automaticky zahrnuto do QRCode. Pokud to chcete zahrnout do QRCode a zjednodušit přidání projektu do MoneyBuster, můžete znovu zadat heslo."
-
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:111
-msgid "Type the project password and press Enter to generate another QRCode including the password."
-msgstr "Zadejte heslo k projektu, stiskněte klávesu Enter a bude vytvořen další QR kód, obsahující i heslo."
-
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:113
+msgid "Scan this QRCode with a smartphone which has MoneyBuster or PayForMe installed or simply send the link itself."
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:115
+msgid "As the password is stored hashed (for security), it can't be automatically included in the QRCode. If you want to include it in the QRCode and make it easier to add a project in mobile apps, you must provide the password again."
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:116
+msgid "Type the project password and press \"Enter\" to generate another QRCode that includes the password."
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:118
 msgid "Settlement of project {name}"
 msgstr "Vypořádání projektu {name}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:114
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:124
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:119
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:129
 msgid "Export"
 msgstr "Exportovat"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:115
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:120
 msgid "Add these payments to project"
 msgstr "Přidat tyto platby do projektu"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:116
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:121
 msgid "Center settlement on"
 msgstr "Vyrovnat střed na"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:117
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:122
 msgid "Nobody (optimal)"
 msgstr "Nikdo (optimální)"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:121
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:126
 msgid "Project settlement bills added."
 msgstr "Účty k vypořádání projektu přidány."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:122
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:127
 msgid "Project settlement exported in {path}"
 msgstr "Vypořádání projektu exportováno v {path}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:123
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:128
 msgid "Statistics of project {name}"
 msgstr "Statistiky projektu {name}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:125
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:130
 msgid "Minimum date"
 msgstr "Minimální datum"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:126
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:131
 msgid "Maximum date"
 msgstr "Maximální datum"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:128
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:130
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:133
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "All"
 msgstr "Vše"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:131
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:136
 msgid "All except reimbursement"
 msgstr "Vše kromě úhrady"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:132
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:137
 msgid "Minimum amount"
 msgstr "Minimální částka"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:133
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:138
 msgid "Maximum amount"
 msgstr "Maximální částka"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:134
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:139
 msgid "Currency of statistic values"
 msgstr "Měna statistických hodnot"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:135
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:140
 msgid "Main project's currency"
 msgstr "Hlavní měna projektu"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:136
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:141
 msgid "Show disabled members"
 msgstr "Zobrazit zneaktivněné členy"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:137
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:142
 msgid "Total payed by all the members: {t}"
 msgstr "Celkem zaplaceno všemi členy: {t}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:138
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:143
 msgid "Global stats"
 msgstr "Globální statistiky"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:142
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:147
 msgid "Filtered balance"
 msgstr "Filtrovaný zůstatek"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:144
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:149
 msgid "Monthly stats per member"
 msgstr "Měsíční statistiky pro jednotlivé členy"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:145
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:150
 msgid "Member/Month"
 msgstr "Člen/měsíc"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:146
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:151
 msgid "Monthly stats per category"
 msgstr "Měsíční statistiky podle kategorie"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:147
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:152
 msgid "Category/Month"
 msgstr "Kategorie/měsíc"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:148
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:153
 msgid "Select a member"
 msgstr "Vybrat člena"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:149
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:154
 msgid "All members"
 msgstr "Všichni členové"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:150
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:155
 msgid "Payments per member per month"
 msgstr "Měsíční platby jednotlivých členů"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:151
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:156
 msgid "Payments per category per month"
 msgstr "Platby v jednotlivých kategoriích za měsíc"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:152
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:157
 msgid "Who paid (outside circle) and spent (inside pie)?"
 msgstr "Kdo platil (vnější kruh) a utrácel (vnitřní koláčový graf)?"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:153
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:158
 msgid "What was paid per category?"
 msgstr "Co bylo placeno v jednotlivých kategoriích?"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:154
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:159
 msgid "Who paid for this category?"
 msgstr "Kdo v této kategorii platil?"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:155
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:160
 msgid "What kind of member is she/he?"
 msgstr "O jaký druh člena se jedná?"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:157
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:162
 msgid "Change color"
 msgstr "Změnit barvu"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:158
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:163
 msgid "Weight"
 msgstr "Podíl"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:159
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "No access"
 msgstr "Bez přístupu"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:160
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:223
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:231
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:239
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:165
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:228
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:236
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:244
 msgid "Viewer"
 msgstr "Přihlížející"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:161
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:224
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:232
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:240
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:166
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:229
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:237
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:245
 msgid "Participant"
 msgstr "Účastník"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:162
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:225
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:233
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:241
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:167
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:230
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:238
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:246
 msgid "Maintainer"
 msgstr "Správce"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:163
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:226
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:234
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:242
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:168
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:231
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:239
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:247
 msgid "Admin"
 msgstr "Administrátor"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:164
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:169
 msgid "Deactivate"
 msgstr "Deaktivovat"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:165
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:170
 msgid "Reactivate"
 msgstr "Znovu aktivovat"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:166
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:171
 msgid "A member is already named like that."
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:167
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:172
 msgid "Add member"
 msgstr "Přidat člena"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:168
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:173
 msgid "Statistics"
 msgstr "Statistiky"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:169
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:174
 msgid "Project settlement"
 msgstr "Vypořádání projektu"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:171
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:176
 msgid "No members yet"
 msgstr "Zatím žádní členové"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:172
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:177
 msgid "Everyone"
 msgstr "Všichni"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:173
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:175
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:178
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:180
 msgid "Everyone except {member}"
 msgstr "Všichni kromě {member}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:174
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:179
 msgid "{member1} and {member2}"
 msgstr "{member1} a {member2}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:176
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:181
 msgid "Member list is not up to date. Reloading in 5 sec."
 msgstr "Seznam členů není aktuální. Za 5 sekund bude načten znovu."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:179
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "New project"
 msgstr "Nový projekt"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:180
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:185
 msgid "New project name"
 msgstr "Název nového projektu"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:181
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:186
 msgid "No projects yet"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:182
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:187
 msgid "Import csv project"
 msgstr "Importovat csv projekt"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:183
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:188
 msgid "Import SplitWise project"
 msgstr "Importovat SplitWise projekt"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:184
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:189
 msgid "Guest access link"
 msgstr "Odkaz pro přístup hosta"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:185
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:190
 msgid "Change output directory"
 msgstr "Změnit výstupní adresář"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:186
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:191
 msgid "/Anywhere"
 msgstr "/Kdekoliv"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:187
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:192
 msgid "Sort projects by"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:189
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:194
 msgid "Last activity"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:190
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:195
 msgid "Maximum precision"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:191
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:196
 msgid "Choose csv project file"
 msgstr "Zvolte csv soubor s projektem"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:192
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:197
 msgid "Choose SplitWise project file"
 msgstr "Vybrat soubor projektu SplitWise"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:193
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:198
 msgid "Project imported."
 msgstr "Projekt naimportován."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:194
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:199
 msgid "Guest link copied to clipboard."
 msgstr "Odkaz pro hosta zkopírován do schránky."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:195
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:200
 msgid "Guest link could not be copied to clipboard."
 msgstr "Odkaz pro hosta se nepodařilo zkopírovat do schránky."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:196
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:201
 msgid "Choose where to write output files (stats, settlement, export)"
 msgstr "Vyberte kam vytvořit výstupní soubory (statistiky, vypořádání, export)"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:198
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:203
 msgid "Rename project {n}"
 msgstr "Přejmenovat projekt {n}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:199
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:204
 msgid "Automatic export"
 msgstr "Automatický export"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:204
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:209
 msgid "Export project"
 msgstr "Exportovat projekt"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:205
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:210
 msgid "Member list"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:206
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:211
 msgid "Associate a project member with a Nextcloud user"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:207
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:212
 msgid "Choose a Nextcloud user"
 msgstr "Zvolte uživatele z Nextcloud"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:208
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:213
 msgid "New member name"
 msgstr "Jméno nového člena"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:209
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:214
 msgid "New member (or Nextcloud user) name"
 msgstr "Jméno nového člena (nebo uživatele z Nextcloud)"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:210
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:215
 msgid "Failed to add member."
 msgstr "Člena se nepodařilo přidat."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:211
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:216
 msgid "Simple member"
 msgstr "Prostý člen"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:212
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab."
 msgstr "Do projektu můžete přidat prostého člena nebo uživatele z Nextcloud. Těm je možné udělovat přístup z kontextové nabídky. Na kartě Sdílení je také možné udělovat přístup i Nextcloud uživatelům, kteří nejsou členy."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:214
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:219
 msgid "Choose a project member, then a Nextcloud user to associate with."
 msgstr "Vyberte člena projektu a potom Nextcloud uživatele, ke kterému přiřadit."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:215
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:220
 msgid "You can cut the link with a Nextcloud user by renaming the member."
 msgstr "Propojení na Nextcloud uživatele je možné zrušit přejmenováním člena."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:217
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:222
 msgid "Share project with a user, group or circle …"
 msgstr "Sdílejte projekt s uživatelem, skupinou nebo okruhem…"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:218
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:223
 #: /var/www/html/dev/server/apps/cospend/src/state.js:25
 msgid "Add public link"
 msgstr "Přidat veřejný odkaz"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:219
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:224
 msgid "Add link"
 msgstr "Přidat odkaz"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:220
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:225
 msgid "Public link"
 msgstr "Veřejný odkaz"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:221
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:237
-msgid "Copy link"
-msgstr "Zkopírovat odkaz"
-
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:222
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:238
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:226
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:242
 msgid "Copied!"
 msgstr "Zkopírováno!"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:227
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:243
+msgid "Copy link"
+msgstr "Zkopírovat odkaz"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:232
 msgid "Delete link"
 msgstr "Smazat odkaz"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:228
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:233
 msgid "Project owner"
 msgstr "Vlastník projektu"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:229
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:234
 msgid "Group"
 msgstr "Skupina"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:230
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:235
 msgid "Circle"
 msgstr "Okruh"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:235
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:240
 msgid "Delete access"
 msgstr "Odstranit přístup"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:236
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:241
 msgid "Password protected access"
 msgstr "Přístup chráněný heslem"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:243
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:248
 msgid "New project password"
 msgstr "Heslo pro nový projekt"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:244
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:246
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:249
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:251
 msgid "Link could not be copied to clipboard."
 msgstr "Odkaz se nepodařilo zkopírovat do schránky."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:245
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:250
 msgid "Password should not be empty."
 msgstr "Heslo by nemělo zůstat prázdné."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:247
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:252
 msgid "Guest access level changed."
 msgstr "Úroveň přístupu hosta byla změněna."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:248
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:253
 msgid "Sharing"
 msgstr "Sdílení"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:249
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:254
 msgid "Settings"
 msgstr "Nastavení"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:250
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:255
 msgid "Categories"
 msgstr "Kategorie"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:251
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:256
 msgid "Currencies"
 msgstr "Měny"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:252
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:257
 msgid "{nb} bills, {nm} active members, {ns} spent"
 msgstr "{nb} účtů, {nm} aktivních členů, {ns} utraceno"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:253
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:258
 msgid "No recent activity"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:254
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:259
+msgid "Go to Cospend"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:260
 msgid "{user} shared {project} with {who}"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:255
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:261
 msgid "{user} unshared {project} with {who}"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:256
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:262
 msgid "{user} created {bill}"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:257
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:263
 msgid "{user} deleted {bill}"
 msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:258
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:264
 msgid "{user} edited {bill}"
 msgstr ""
 

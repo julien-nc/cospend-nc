@@ -162,7 +162,6 @@
     "Currency list" : "Список валют",
     "No currencies to display" : "Нет валют для отображения",
     "MoneyBuster link/QRCode for project {name}" : "Ссылка MoneyBuster/QRCode для проекта {name}",
-    "Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone." : "Сканируйте этот QRCode с помощью телефона Android с установленным MoneyBuster и откройте ссылку или просто отправьте ссылку на другой телефон Android.",
     "Settlement of project {name}" : "Расчет проекта {name}",
     "Export" : "Экспорт",
     "Add these payments to project" : "Добавить эти платежи в проект",

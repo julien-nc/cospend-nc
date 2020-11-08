@@ -144,7 +144,6 @@
     "Currency name should not be empty." : "Nome da moeda não pode estar vazio.",
     "Currency {n} added." : "Moeda {n} adicionada.",
     "MoneyBuster link/QRCode for project {name}" : "Link/QRCode MoneyBuster para o projeto {name}",
-    "Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone." : "Aponte para este QRCode com um telefone Android com o MoneyBuster instalado e abra o link ou simplesmente envie o link para outro telefone Android.",
     "Settlement of project {name}" : "Quitação do projeto {name}",
     "Export" : "Exportar",
     "Add these payments to project" : "Adicionar estes pagamentos ao projeto",

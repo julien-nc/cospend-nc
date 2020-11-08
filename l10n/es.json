@@ -99,8 +99,6 @@
     "Currency list" : "Lista de monedas",
     "MoneyBuster link/QRCode for project {name}" : "Enlace/códigoQR de MoneyBuster para el proyecto {name}",
     "Project password" : "Contraseña del proyecto",
-    "Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone." : "Escanea este código QR con un teléfono Android con MoneyBuster instalado y abre el enlace o simplemente envía el enlace a otro teléfono Android.",
-    "Android will know MoneyBuster can open such a link (based on the 'https://net.eneiluj.moneybuster.cospend' part) and you will be able to add the project." : "Android sabrá que MoneyBuster puede abrir tal enlace (basado en la parte 'https://net.eneiluj.moneybuster.cospend') y usted será capaz de agregar el proyecto.",
     "Settlement of project {name}" : "Liquidación del proyecto {name}",
     "Export" : "Exportar",
     "Add these payments to project" : "Agregar estos pagos al proyecto",

@@ -43,7 +43,6 @@ OC.L10N.register(
     "New bill" : "新建账单",
     "Delete" : "删除",
     "MoneyBuster link/QRCode for project {name}" : "项目 {name} 的 MoneyBuster 链接/二维码",
-    "Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone." : "使用已安装 MoneyBuster APP 的安卓手机扫描这个二维码，并打开链接。或者也可以简单地将链接发送到另一台安卓手机。",
     "Settlement of project {name}" : "项目 {name} 的结算",
     "Export" : "导出",
     "Add these payments to project" : "添加这些付款到项目",

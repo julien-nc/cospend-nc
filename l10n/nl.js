@@ -97,7 +97,6 @@ OC.L10N.register(
     "New bill" : "Nieuwe rekening",
     "Delete" : "Verwijderen",
     "MoneyBuster link/QRCode for project {name}" : "MoneyBuster-link/QR-code van project '{name}'",
-    "Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone." : "Scan deze QRCode met een Android-telefoon waarop MoneyBuster geïnstalleerd is en open de link of stuur de link naar een andere Android-telefoon.",
     "Settlement of project {name}" : "Afrekening van project '{name}'",
     "Export" : "Exporteren",
     "Add these payments to project" : "Voeg deze betalingen toe aan het project",

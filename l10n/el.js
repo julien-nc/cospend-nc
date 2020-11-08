@@ -85,7 +85,6 @@ OC.L10N.register(
     "(1 of this currency = X of main currency)" : "(1 από αυτό το νόμισμα = X από το κύριο νόμισμα)",
     "Currency list" : "Λίστα νομισμάτων",
     "MoneyBuster link/QRCode for project {name}" : "Σύνδεσμος/QRCode MoneyBuster για το έργο {name}",
-    "Scan this QRCode with an Android phone with MoneyBuster installed and open the link or simply send the link to another Android phone." : "Σάρωση αυτού του QRCode με το MoneyBuster στο Android και άνοιγμα του συνδέσμου ή αποστολή του συνδέσμου σε άλλο τηλέφωνο Android.",
     "Settlement of project {name}" : "Διακανονισμός έργου {name}",
     "Export" : "Εξαγωγή",
     "Add these payments to project" : "Προσθήκη πληρωμών στο έργο",

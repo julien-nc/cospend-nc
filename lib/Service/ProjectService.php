@@ -1542,7 +1542,7 @@ class ProjectService {
            );
         $req = $qb->execute();
         while ($row = $req->fetch()) {
-            $nb = $row['COUNT(*)'];
+            $nb = (int) $row['COUNT(*)'];
         }
         return $nb;
     }

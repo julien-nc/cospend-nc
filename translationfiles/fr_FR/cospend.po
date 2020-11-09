@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-11-08 02:10+0100\n"
-"PO-Revision-Date: 2020-11-08 01:13\n"
+"PO-Revision-Date: 2020-11-09 01:14\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -1082,12 +1082,12 @@ msgstr "Lien/QRCode MoneyBuster pour le projet {name}"
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:106
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:110
 msgid "Old link"
-msgstr ""
+msgstr "Ancien lien"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:107
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:111
 msgid "New link"
-msgstr ""
+msgstr "Nouveau lien"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:108
 msgid "Confirm project password to get a QRCode including the password."
@@ -1103,15 +1103,15 @@ msgstr "Mot de passe de projet incorrect."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:113
 msgid "Scan this QRCode with a smartphone which has MoneyBuster or PayForMe installed or simply send the link itself."
-msgstr ""
+msgstr "Scannez ce QRCode avec un smartphone qui a MoneyBuster ou PayForMe installé ou simplement envoyez le lien."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:115
 msgid "As the password is stored hashed (for security), it can't be automatically included in the QRCode. If you want to include it in the QRCode and make it easier to add a project in mobile apps, you must provide the password again."
-msgstr ""
+msgstr "Comme le mot de passe est stocké haché (pour la sécurité), il ne peut pas être automatiquement inclus dans le QRCode. Si vous voulez l'inclure dans le QRCode et faciliter l'ajout d'un projet dans les applications mobiles, vous devez fournir le mot de passe à nouveau."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:116
 msgid "Type the project password and press \"Enter\" to generate another QRCode that includes the password."
-msgstr ""
+msgstr "Tapez le mot de passe du projet et appuyez sur \"Entrée\" pour générer un autre QRCode incluant le mot de passe."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:118
 msgid "Settlement of project {name}"

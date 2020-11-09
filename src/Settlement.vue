@@ -32,6 +32,8 @@
 			</div>
 			<div id="max-date-settle-div" class="centered-option">
 				<label for="max-date">{{ t('cospend', 'Settlement date') }}</label>
+				<button class="icon icon-info"
+					@click="onDateInfoClicked" />
 				<DatetimePicker
 					id="max-date"
 					v-model="maxDate"
@@ -44,8 +46,18 @@
 					:clearable="true"
 					confirm
 					@change="onChangeMaxDate" />
-				<button class="icon icon-info"
-					@click="onDateInfoClicked" />
+				<button
+					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this day') }"
+					class="icon icon-calendar-dark"
+					@click="onDayBeginningClicked" />
+				<button
+					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this week') }"
+					class="icon icon-calendar-dark"
+					@click="onWeekBeginningClicked" />
+				<button
+					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this month') }"
+					class="icon icon-calendar-dark"
+					@click="onMonthBeginningClicked" />
 			</div>
 		</div>
 		<hr>
@@ -142,6 +154,10 @@ import { getSmartMemberName, getMemberAvatar } from './utils'
 import cospend from './state'
 import * as constants from './constants'
 import * as network from './network'
+
+import Vue from 'vue'
+import { VTooltip } from 'v-tooltip'
+Vue.directive('tooltip', VTooltip)
 
 export default {
 	name: 'Settlement',
@@ -290,9 +306,40 @@ export default {
 			OC.dialogs.info(
 				t('cospend', 'Set a maximum date to only consider bills until then.')
 				+ ' '
-				+ t('cospend', 'Useful if you want to settle at a precise date and ignore the bills created since then.'),
+				+ t('cospend', 'Useful if you want to settle at a precise date and ignore the bills created since then.')
+				+ ' '
+				+ t('cospend', 'Automatic settlement will create bills one second before the maximum date.'),
 				t('cospend', 'Info')
 			)
+		},
+		onDayBeginningClicked() {
+			const begin = moment()
+				.millisecond(0)
+				.second(0)
+				.minute(0)
+				.hour(0)
+			this.maxDate = begin.toDate()
+			this.getSettlement(this.centeredOn)
+		},
+		onWeekBeginningClicked() {
+			const begin = moment()
+				.millisecond(0)
+				.second(0)
+				.minute(0)
+				.hour(0)
+				.day(1)
+			this.maxDate = begin.toDate()
+			this.getSettlement(this.centeredOn)
+		},
+		onMonthBeginningClicked() {
+			const begin = moment()
+				.millisecond(0)
+				.second(0)
+				.minute(0)
+				.hour(0)
+				.date(1)
+			this.maxDate = begin.toDate()
+			this.getSettlement(this.centeredOn)
 		},
 	},
 }
@@ -316,6 +363,7 @@ export default {
 			border-radius: var(--border-radius-pill);
 			opacity: .5;
 
+			&.icon-calendar-dark,
 			&.icon-info {
 				background-color: transparent;
 				border: none;

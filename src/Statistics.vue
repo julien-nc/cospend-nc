@@ -399,6 +399,7 @@ export default {
 		monthlyMemberChartData() {
 			const memberDatasets = []
 			let member
+			let index = 0
 			for (const mid in this.members) {
 				member = this.members[mid]
 				const paid = []
@@ -406,17 +407,21 @@ export default {
 					paid.push(this.stats.monthlyStats[month][mid])
 				}
 
-				memberDatasets.push({
+				const dataset = {
 					label: member.name,
 					// FIXME hacky way to change alpha channel:
 					backgroundColor: '#' + member.color + '4D',
 					pointBackgroundColor: '#' + member.color,
 					borderColor: '#' + member.color,
 					pointHighlightStroke: '#' + member.color,
-					fill: '-1',
 					lineTension: 0,
 					data: paid,
-				})
+				}
+				if (index === 0) {
+					dataset.fill = 'origin'
+				}
+				index++
+				memberDatasets.push(dataset)
 			}
 			return {
 				labels: this.categoryMonths,
@@ -425,6 +430,12 @@ export default {
 		},
 		monthlyMemberChartOptions() {
 			return {
+				elements: {
+					line: {
+						// by default, fill lines to the previous dataset
+						fill: '-1',
+					},
+				},
 				scales: {
 					yAxes: [{
 						stacked: true,
@@ -453,6 +464,7 @@ export default {
 		monthlyCategoryChartData() {
 			const categoryDatasets = []
 			let category
+			let index = 0
 			for (const catId in this.stats.categoryMonthlyStats) {
 				category = this.myGetCategory(catId)
 
@@ -466,17 +478,21 @@ export default {
 					}
 				}
 
-				categoryDatasets.push({
+				const dataset = {
 					label: category.icon + ' ' + category.name,
 					// FIXME hacky way to change alpha channel:
 					backgroundColor: category.color + '4D',
 					pointBackgroundColor: category.color,
 					borderColor: category.color,
 					pointHighlightStroke: category.color,
-					fill: '-1',
 					lineTension: 0,
 					data: paid,
-				})
+				}
+				if (index === 0) {
+					dataset.fill = 'origin'
+				}
+				index++
+				categoryDatasets.push(dataset)
 			}
 			return {
 				labels: this.categoryMonths,

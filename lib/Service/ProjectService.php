@@ -1219,7 +1219,11 @@ class ProjectService {
             $memberIdToName[$member['id']] = $member['name'];
         }
 
-        $ts = (new \DateTime())->getTimestamp();
+        if ($maxTimestamp) {
+            $ts = $maxTimestamp - 1;
+        } else {
+            $ts = (new \DateTime())->getTimestamp();
+        }
 
         foreach ($transactions as $transaction) {
             $fromId = $transaction['from'];

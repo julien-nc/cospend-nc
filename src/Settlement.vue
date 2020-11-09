@@ -271,8 +271,7 @@ export default {
 		autoSettlementSuccess() {
 			this.$emit('auto-settled', this.projectId)
 			showSuccess(t('cospend', 'Project settlement bills added.'))
-			this.transactions = []
-			this.centeredOn = 0
+			this.getSettlement(this.centeredOn)
 		},
 		exportSettlement() {
 			network.exportSettlement(this.projectId, this.centeredOn, this.maxTs, this.exportSettlementSuccess)

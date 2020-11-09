@@ -404,7 +404,13 @@ export default {
 				member = this.members[mid]
 				const paid = []
 				for (const month of this.categoryMonths) {
-					paid.push(this.stats.monthlyStats[month][mid])
+					if (mid in this.stats.monthlyStats[month]) {
+						paid.push(this.stats.monthlyStats[month][mid])
+					}
+				}
+				// check if data is complete (would be better to be sure of member list, like get it from the stats request)
+				if (paid.length !== this.categoryMonths.length) {
+					continue
 				}
 
 				const dataset = {

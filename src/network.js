@@ -631,13 +631,14 @@ export function exportStats(projectid, params, doneCB) {
 		})
 }
 
-export function getSettlement(projectid, centeredOn, successCB, failCB) {
+export function getSettlement(projectid, centeredOn, maxTimestamp, successCB, failCB) {
 	if (parseInt(centeredOn) === 0) {
 		centeredOn = null
 	}
 	const req = {
 		params: {
 			centeredOn,
+			maxTimestamp,
 		},
 	}
 	let url
@@ -659,11 +660,12 @@ export function getSettlement(projectid, centeredOn, successCB, failCB) {
 		})
 }
 
-export function autoSettlement(projectid, centeredOn, precision, successCB) {
+export function autoSettlement(projectid, centeredOn, maxTimestamp, precision, successCB) {
 	const req = {
 		params: {
 			centeredOn: (parseInt(centeredOn) === 0) ? null : centeredOn,
 			precision,
+			maxTimestamp,
 		},
 	}
 	let url
@@ -684,10 +686,11 @@ export function autoSettlement(projectid, centeredOn, precision, successCB) {
 		})
 }
 
-export function exportSettlement(projectid, centeredOn, successCB) {
+export function exportSettlement(projectid, centeredOn, maxTimestamp, successCB) {
 	const req = {
 		params: {
 			centeredOn: (parseInt(centeredOn) === 0) ? null : centeredOn,
+			maxTimestamp,
 		},
 	}
 	const url = generateUrl('/apps/cospend/export-csv-settlement/' + projectid)

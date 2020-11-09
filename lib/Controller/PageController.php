@@ -530,9 +530,9 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webGetProjectSettlement($projectid, $centeredOn=null) {
+    public function webGetProjectSettlement(string $projectid, ?int $centeredOn = null, ?int $maxTimestamp = null) {
         if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-            $result = $this->projectService->getProjectSettlement($projectid, $centeredOn);
+            $result = $this->projectService->getProjectSettlement($projectid, $centeredOn, $maxTimestamp);
             return new DataResponse($result);
         }
         else {
@@ -548,9 +548,9 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webAutoSettlement($projectid, $centeredOn = null, $precision = 2) {
+    public function webAutoSettlement(string $projectid, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null) {
         if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-            $result = $this->projectService->autoSettlement($projectid, $centeredOn, $precision);
+            $result = $this->projectService->autoSettlement($projectid, $centeredOn, $precision, $maxTimestamp);
             if ($result === 'OK') {
                 return new DataResponse($result);
             }
@@ -1741,10 +1741,10 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiGetProjectSettlement($projectid, $password, $centeredOn=null) {
+    public function apiGetProjectSettlement(string $projectid, string $password, ?int $centeredOn = null, ?int $maxTimestamp = null) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
-        if ($this->checkLogin($projectid, $password) or $publicShareInfo['accesslevel'] !== null) {
-            $result = $this->projectService->getProjectSettlement($projectid, $centeredOn);
+        if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
+            $result = $this->projectService->getProjectSettlement($projectid, $centeredOn, $maxTimestamp);
             $response = new DataResponse($result);
             return $response;
         }
@@ -1762,9 +1762,9 @@ class PageController extends ApiController {
      * @NoCSRFRequired
      * @CORS
      */
-    public function apiPrivGetProjectSettlement($projectid, $centeredOn=null) {
+    public function apiPrivGetProjectSettlement(string $projectid, ?int $centeredOn = null, ?int $maxTimestamp = null) {
         if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-            $result = $this->projectService->getProjectSettlement($projectid, $centeredOn);
+            $result = $this->projectService->getProjectSettlement($projectid, $centeredOn, $maxTimestamp);
             $response = new DataResponse($result);
             return $response;
         }
@@ -1783,13 +1783,13 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiAutoSettlement($projectid, $password, $centeredOn = null, $precision = 2) {
+    public function apiAutoSettlement(string $projectid, string $password, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
-            ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
-            or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_PARTICIPANT)
+            ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_PARTICIPANT)
         ) {
-            $result = $this->projectService->autoSettlement($projectid, $centeredOn, $precision);
+            $result = $this->projectService->autoSettlement($projectid, $centeredOn, $precision, $maxTimestamp);
             if ($result === 'OK') {
                 return new DataResponse($result);
             }
@@ -1811,9 +1811,9 @@ class PageController extends ApiController {
      * @NoCSRFRequired
      * @CORS
      */
-    public function apiPrivAutoSettlement($projectid, $centeredOn = null, $precision = 2) {
+    public function apiPrivAutoSettlement(string $projectid, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
-            $result = $this->projectService->autoSettlement($projectid, $centeredOn, $precision);
+            $result = $this->projectService->autoSettlement($projectid, $centeredOn, $precision, $maxTimestamp);
             if ($result === 'OK') {
                 return new DataResponse($result);
             }
@@ -2688,10 +2688,10 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function exportCsvSettlement($projectid, $centeredOn=null) {
+    public function exportCsvSettlement(string $projectid, ?int $centeredOn = null, ?int $maxTimestamp = null) {
         if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-            $result = $this->projectService->exportCsvSettlement($projectid, $this->userId, $centeredOn);
-            if (is_array($result) and array_key_exists('path', $result)) {
+            $result = $this->projectService->exportCsvSettlement($projectid, $this->userId, $centeredOn, $maxTimestamp);
+            if (is_array($result) && array_key_exists('path', $result)) {
                 return new DataResponse($result);
             }
             else {

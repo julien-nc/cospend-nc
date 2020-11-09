@@ -1206,8 +1206,9 @@ class ProjectService {
         $qb = $qb->resetQueryParts();
     }
 
-    public function autoSettlement($projectid, $centeredOn = null, $precision = 2) {
-        $transactions = $this->getProjectSettlement($projectid, $centeredOn);
+    public function autoSettlement(string $projectid, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null) {
+        $settlement = $this->getProjectSettlement($projectid, $centeredOn, $maxTimestamp);
+        $transactions = $settlement['transactions'];
         if (!is_array($transactions)) {
             return ['message' => $this->trans->t('Error when getting project settlement transactions')];
         }
@@ -1233,14 +1234,17 @@ class ProjectService {
         return 'OK';
     }
 
-    public function getProjectSettlement($projectId, $centeredOn=null) {
-        $balances = $this->getBalance($projectId);
-        if ($centeredOn === null || $centeredOn === '') {
+    public function getProjectSettlement(string $projectId, ?int $centeredOn = null, ?int $maxTimestamp = null): array {
+        $balances = $this->getBalance($projectId, $maxTimestamp);
+        if ($centeredOn === null) {
             $transactions = $this->settle($balances);
         } else {
-            $transactions = $this->centeredSettle($balances, intval($centeredOn));
+            $transactions = $this->centeredSettle($balances, $centeredOn);
         }
-        return $transactions;
+        return [
+            'transactions' => $transactions,
+            'balances' => $balances,
+        ];
     }
 
     private function centeredSettle($balances, $centeredOn) {
@@ -1938,7 +1942,7 @@ class ProjectService {
         return $members;
     }
 
-    private function getBalance($projectId) {
+    private function getBalance(string $projectId, ?int $maxTimestamp = null) {
         $membersWeight = [];
         $membersBalance = [];
 
@@ -1950,7 +1954,7 @@ class ProjectService {
             $membersBalance[$memberId] = 0.0;
         }
 
-        $bills = $this->getBills($projectId);
+        $bills = $this->getBills($projectId, null, $maxTimestamp);
         foreach ($bills as $bill) {
             $payerId = $bill['payer_id'];
             $amount = $bill['amount'];
@@ -3857,7 +3861,7 @@ class ProjectService {
         return $response;
     }
 
-    public function exportCsvSettlement($projectid, $userId, $centeredOn=null) {
+    public function exportCsvSettlement(string $projectid, string $userId, ?int $centeredOn = null, ?int $maxTimestamp = null) {
         // create export directory if needed
         $outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
         $userFolder = \OC::$server->getUserFolder($userId);
@@ -3874,8 +3878,9 @@ class ProjectService {
         }
         $file = $folder->newFile($projectid.'-settlement.csv');
         $handler = $file->fopen('w');
-        fwrite($handler, $this->trans->t('Who pays?').','. $this->trans->t('To whom?').','. $this->trans->t('How much?')."\n");
-        $transactions = $this->getProjectSettlement($projectid, $centeredOn);
+        fwrite($handler, '"' . $this->trans->t('Who pays?') . '","' . $this->trans->t('To whom?') . '","' . $this->trans->t('How much?') . '"' . "\n");
+        $settlement = $this->getProjectSettlement($projectid, $centeredOn, $maxTimestamp);
+        $transactions = $settlement['transactions'];
 
         $members = $this->getMembers($projectid);
         $memberIdToName = [];

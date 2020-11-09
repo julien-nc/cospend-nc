@@ -470,7 +470,8 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $this->pageController->webGetProjectSettlement('superproj');
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
-        $data = $resp->getData();
+        $respData = $resp->getData();
+        $data = $respData['transactions'];
         $id1Found = false;
         foreach ($data as $transaction) {
             if ($transaction['from'] === $idMember2 && $transaction['to'] === $idMember1) {

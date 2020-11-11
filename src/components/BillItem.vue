@@ -232,4 +232,8 @@ export default {
 		cursor: pointer;
 	}
 }
+
+.app-content-list-item-details {
+	max-width: 115px !important;
+}
 </style>

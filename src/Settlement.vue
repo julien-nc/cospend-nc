@@ -48,15 +48,15 @@
 					@change="onChangeMaxDate" />
 				<button
 					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this day') }"
-					class="icon icon-calendar-dark"
+					class="icon day-icon icon-calendar-dark"
 					@click="onDayBeginningClicked" />
 				<button
 					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this week') }"
-					class="icon icon-calendar-dark"
+					class="icon week-icon icon-calendar-dark"
 					@click="onWeekBeginningClicked" />
 				<button
 					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this month') }"
-					class="icon icon-calendar-dark"
+					class="icon month-icon icon-calendar-dark"
 					@click="onMonthBeginningClicked" />
 			</div>
 		</div>
@@ -368,6 +368,18 @@ export default {
 				background-color: transparent;
 				border: none;
 				margin: 0;
+			}
+
+			&.day-icon {
+				background-size: 12px;
+			}
+
+			&.week-icon {
+				background-size: 15px;
+			}
+
+			&.month-icon {
+				background-size: 20px;
 			}
 
 			&:hover,

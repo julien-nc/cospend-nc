@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-11-10 18:05+0100\n"
-"PO-Revision-Date: 2020-11-10 17:07\n"
+"PO-Revision-Date: 2020-11-11 17:07\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -1140,43 +1140,43 @@ msgstr "Personne (optimal)"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:123
 msgid "Settlement date"
-msgstr ""
+msgstr "Date du plan de remboursement"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:125
 msgid "Set to beginning of this day"
-msgstr ""
+msgstr "Définir au début de ce jour"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:126
 msgid "Set to beginning of this week"
-msgstr ""
+msgstr "Définir au début de cette semaine"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:127
 msgid "Set to beginning of this month"
-msgstr ""
+msgstr "Définir au début de ce mois"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:128
 msgid "Settlement plan on {date}"
-msgstr ""
+msgstr "Plan de remboursement au {date}"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:128
 msgid "Settlement plan"
-msgstr ""
+msgstr "Plan de remboursement"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:132
 msgid "No transactions found"
-msgstr ""
+msgstr "Aucune transaction trouvée"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:133
 msgid "Balances on {date}"
-msgstr ""
+msgstr "Balances au {date}"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:133
 msgid "Balances"
-msgstr ""
+msgstr "Balances"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:136
 msgid "No balances found"
-msgstr ""
+msgstr "Aucune balance trouvée"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:137
 msgid "Project settlement bills added."
@@ -1188,15 +1188,15 @@ msgstr "Remboursements du projet exportées dans {path}"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:139
 msgid "Set a maximum date to only consider bills until then."
-msgstr ""
+msgstr "Définissez une date maximum jusqu'à laquelle les factures sont prises en compte."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:140
 msgid "Useful if you want to settle at a precise date and ignore the bills created since then."
-msgstr ""
+msgstr "Utile si vous voulez équilibrer les balances à une date précise et ignorer les factures créées depuis."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:141
 msgid "Automatic settlement will create bills one second before the maximum date."
-msgstr ""
+msgstr "Le règlement automatique créera les factures une seconde avant la date maximum."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:143
 msgid "Statistics of project {name}"

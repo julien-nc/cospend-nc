@@ -109,7 +109,7 @@ export default {
 	},
 	data() {
 		return {
-			backgroundImageUrl: generateUrl('/apps/theming/img/core/filetypes/folder.svg?v=' + window.OCA.Theming.cacheBuster),
+			backgroundImageUrl: generateUrl('/apps/theming/img/core/filetypes/folder.svg?v=' + (window.OCA?.Theming?.cacheBuster || 0)),
 		}
 	},
 	computed: {

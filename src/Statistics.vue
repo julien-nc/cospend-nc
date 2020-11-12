@@ -281,6 +281,45 @@
 				:chart-data="memberPolarPieData"
 				:options="memberPolarPieOptions" />
 		</div>
+		<hr>
+		<h2 class="statTableTitle">
+			{{ t('cospend', 'Who paid for whom?') }}
+		</h2>
+		<v-table v-if="stats"
+			id="paidForTable"
+			class="coloredTable avatarTable"
+			:data="membersPaidForData">
+			<thead slot="head">
+				<v-th sort-key="name">
+					↓ {{ t('cospend', 'paid for') }} →
+				</v-th>
+				<v-th v-for="mid in stats.memberIds"
+					:key="mid"
+					:sort-key="mid.toString()"
+					class="avatared"
+					:style="'border: 2px solid #' + myGetMemberColor(mid) + ';'">
+					<div :class="'owerAvatar' + myGetAvatarClass(mid)">
+						<div class="disabledMask" /><img :src="myGetMemberAvatar(projectId, mid)">
+					</div>{{ myGetSmartMemberName(mid) }}
+				</v-th>
+			</thead>
+			<tbody slot="body" slot-scope="{displayData}">
+				<tr v-for="value in displayData"
+					:key="value.memberid">
+					<td :style="'border: 2px solid #' + myGetMemberColor(value.memberid) + ';'">
+						<div :class="'owerAvatar' + myGetAvatarClass(value.memberid)">
+							<div class="disabledMask" /><img :src="myGetMemberAvatar(projectId, value.memberid)">
+						</div>{{ myGetSmartMemberName(value.memberid) }}
+					</td>
+					<td v-for="mid in stats.memberIds"
+						:key="mid"
+						v-tooltip.top="{ content: myGetSmartMemberName(value.memberid) + ' → ' + myGetSmartMemberName(mid) }"
+						:style="'border: 2px solid #' + myGetMemberColor(value.memberid) + ';'">
+						{{ value[mid].toFixed(2) }}
+					</td>
+				</tr>
+			</tbody>
+		</v-table>
 	</AppContentDetails>
 </template>
 
@@ -341,6 +380,18 @@ export default {
 		},
 		paymentModes() {
 			return cospend.paymentModes
+		},
+		membersPaidForData() {
+			const rows = []
+			const memberIds = this.stats.memberIds
+			for (let i = 0; i < memberIds.length; i++) {
+				rows.push({
+					memberid: memberIds[i],
+					name: this.myGetSmartMemberName(memberIds[i]),
+					...this.stats.membersPaidFor[memberIds[i]],
+				})
+			}
+			return rows
 		},
 		totalPayed() {
 			let totalPayed = 0.0
@@ -873,6 +924,11 @@ export default {
 	margin: 0px 20px 0px 20px;
 }
 
+::v-deep #paidForTable th.avatared svg {
+	margin-bottom: -3px;
+}
+
+#paidForTable,
 #monthlyTable,
 #categoryTable {
 	overflow: scroll;

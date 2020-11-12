@@ -678,11 +678,12 @@ class ProjectService {
         $membersFilteredBalance = [];
         $membersPaid = [];
         $membersSpent = [];
+        $membersPaidFor = [];
 
         $showDisabled = ($showDisabled === '1');
 
         $currency = null;
-        if ($currencyId !== null and intval($currencyId) !== 0) {
+        if ($currencyId !== null && intval($currencyId) !== 0) {
             $currency = $this->getCurrency($projectId, $currencyId);
         }
 
@@ -701,6 +702,10 @@ class ProjectService {
             $membersFilteredBalance[$memberId] = 0.0;
             $membersPaid[$memberId] = 0.0;
             $membersSpent[$memberId] = 0.0;
+            $membersPaidFor[$memberId] = [];
+            foreach ($members as $m) {
+                $membersPaidFor[$memberId][$m['id']] = 0.0;
+            }
         }
 
         // build list of members to display
@@ -709,7 +714,7 @@ class ProjectService {
             $memberId = $member['id'];
             // only take enabled members or those with non-zero balance
             $mBalance = floatval($membersBalance[$memberId]);
-            if ($showDisabled or $member['activated'] or $mBalance >= 0.01 or $mBalance <= -0.01) {
+            if ($showDisabled || $member['activated'] || $mBalance >= 0.01 || $mBalance <= -0.01) {
                 $membersToDisplay[$memberId] = $member;
             }
         }
@@ -743,6 +748,8 @@ class ProjectService {
                 $spent = $amount / $nbOwerShares * $owerWeight;
                 $membersFilteredBalance[$owerId] -= $spent;
                 $membersSpent[$owerId] += $spent;
+                // membersPaidFor
+                $membersPaidFor[$payerId][$owerId] += $spent;
             }
         }
 
@@ -906,7 +913,8 @@ class ProjectService {
             'categoryStats' => $categoryStats,
             'categoryMonthlyStats' => $categoryMonthlyStats,
             'categoryMemberStats' => $categoryMemberStats,
-            'memberIds' => array_keys($membersToDisplay)
+            'memberIds' => array_keys($membersToDisplay),
+            'membersPaidFor' => $membersPaidFor,
         ];
     }
 

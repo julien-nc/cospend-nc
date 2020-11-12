@@ -293,7 +293,7 @@
 				<v-th sort-key="name">
 					↓ {{ t('cospend', 'paid for') }} →
 				</v-th>
-				<v-th v-for="mid in stats.memberIds"
+				<v-th v-for="mid in stats.allMemberIds"
 					:key="mid"
 					:sort-key="mid.toString()"
 					class="avatared"
@@ -302,20 +302,29 @@
 						<div class="disabledMask" /><img :src="myGetMemberAvatar(projectId, mid)">
 					</div>{{ myGetSmartMemberName(mid) }}
 				</v-th>
+				<v-th sort-key="total">
+					{{ t('cospend', 'total') }}
+				</v-th>
 			</thead>
 			<tbody slot="body" slot-scope="{displayData}">
 				<tr v-for="value in displayData"
 					:key="value.memberid">
-					<td :style="'border: 2px solid #' + myGetMemberColor(value.memberid) + ';'">
+					<td v-if="value.memberid !== 0" :style="'border: 2px solid #' + myGetMemberColor(value.memberid) + ';'">
 						<div :class="'owerAvatar' + myGetAvatarClass(value.memberid)">
 							<div class="disabledMask" /><img :src="myGetMemberAvatar(projectId, value.memberid)">
 						</div>{{ myGetSmartMemberName(value.memberid) }}
 					</td>
-					<td v-for="mid in stats.memberIds"
-						:key="mid"
-						v-tooltip.top="{ content: myGetSmartMemberName(value.memberid) + ' → ' + myGetSmartMemberName(mid) }"
+					<td v-else>
+						{{ t('cospend', 'total') }}
+					</td>
+					<td v-for="mid in stats.allMemberIds"
+						:key="value.memberid + '-' + mid"
+						v-tooltip.top="{ content: (value.memberid === 0 ? t('cospend', 'total') : myGetSmartMemberName(value.memberid)) + ' → ' + myGetSmartMemberName(mid) }"
 						:style="'border: 2px solid #' + myGetMemberColor(value.memberid) + ';'">
 						{{ value[mid].toFixed(2) }}
+					</td>
+					<td v-if="value.memberid !== 0">
+						{{ value.total.toFixed(2) }}
 					</td>
 				</tr>
 			</tbody>
@@ -383,7 +392,7 @@ export default {
 		},
 		membersPaidForData() {
 			const rows = []
-			const memberIds = this.stats.memberIds
+			const memberIds = this.stats.allMemberIds
 			for (let i = 0; i < memberIds.length; i++) {
 				rows.push({
 					memberid: memberIds[i],
@@ -391,6 +400,11 @@ export default {
 					...this.stats.membersPaidFor[memberIds[i]],
 				})
 			}
+			rows.push({
+				memberid: 0,
+				name: 'total',
+				...this.stats.membersPaidFor.total,
+			})
 			return rows
 		},
 		totalPayed() {

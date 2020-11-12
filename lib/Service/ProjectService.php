@@ -676,7 +676,9 @@ class ProjectService {
         $membersNbBills = [];
         $membersBalance = [];
         $membersFilteredBalance = [];
-        $membersPaid = [];
+        $membersPaid = [
+            'total' => [],
+        ];
         $membersSpent = [];
         $membersPaidFor = [];
 
@@ -706,12 +708,15 @@ class ProjectService {
             foreach ($members as $m) {
                 $membersPaidFor[$memberId][$m['id']] = 0.0;
             }
+            $membersPaidFor['total'][$memberId] = 0.0;
         }
 
         // build list of members to display
         $membersToDisplay = [];
+        $allMembersIds = [];
         foreach ($members as $member) {
             $memberId = $member['id'];
+            $allMembersIds[] = $memberId;
             // only take enabled members or those with non-zero balance
             $mBalance = floatval($membersBalance[$memberId]);
             if ($showDisabled || $member['activated'] || $mBalance >= 0.01 || $mBalance <= -0.01) {
@@ -750,7 +755,12 @@ class ProjectService {
                 $membersSpent[$owerId] += $spent;
                 // membersPaidFor
                 $membersPaidFor[$payerId][$owerId] += $spent;
+                $membersPaidFor['total'][$owerId] += $spent;
             }
+        }
+        foreach ($members as $member) {
+            $memberId = $member['id'];
+            $membersPaidFor[$memberId]['total'] = $membersPaid[$memberId];
         }
 
         // build global stats data
@@ -914,6 +924,7 @@ class ProjectService {
             'categoryMonthlyStats' => $categoryMonthlyStats,
             'categoryMemberStats' => $categoryMemberStats,
             'memberIds' => array_keys($membersToDisplay),
+            'allMemberIds' => $allMembersIds,
             'membersPaidFor' => $membersPaidFor,
         ];
     }
@@ -1398,7 +1409,7 @@ class ProjectService {
                 }
                 $qb->update('cospend_members');
                 if ($weight !== null && $weight !== '') {
-                    if (is_numeric($weight) and floatval($weight) > 0.0) {
+                    if (is_numeric($weight) && floatval($weight) > 0.0) {
                         $newWeight = floatval($weight);
                         $qb->set('weight', $qb->createNamedParameter($newWeight, IQueryBuilder::PARAM_STR));
                     }

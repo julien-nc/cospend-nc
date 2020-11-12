@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.2.1 – 2020-11-13
+### Added
+- new field when settling: max date, impacts table, auto settlement and settlement export
+- new stats table to know who paid for whom
+
+### Changed
+- improve style of bill item counter
+
+### Fixed
+- line charts didn't fill color of first dataset
+- members monthly stats bug with disabled members
+- crash when missing window.OCA.Theming.cacheBuster
+[#17](https://github.com/eneiluj/cospend-nc/issues/17) @xetyr
+
 ## 1.2.0 – 2020-11-08
 ### Added
 - automatic releases with GitHub actions

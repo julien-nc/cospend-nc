@@ -1,7 +1,7 @@
 <template>
 	<AppContentDetails class="statistics-content">
 		<h2 id="statsTitle">
-			<span :class="{ 'icon-loading-small': loading, 'icon-category-monitoring': !loading, icon: true }" />
+			<span :class="{ 'icon-loading-small': exporting, 'icon-category-monitoring': !exporting, icon: true }" />
 			{{ t('cospend', 'Statistics of project {name}', { name: project.name }) }}
 			<button v-if="!cospend.pageIsPublic"
 				class="exportStats"
@@ -154,6 +154,7 @@
 			</tbody>
 			<tfoot />
 		</v-table>
+		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		<hr>
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Monthly stats per member') }}
@@ -190,10 +191,12 @@
 				</tr>
 			</tbody>
 		</v-table>
+		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		<div id="memberMonthlyChart">
 			<LineChartJs v-if="stats"
 				:chart-data="monthlyMemberChartData"
 				:options="monthlyMemberChartOptions" />
+			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
 		<h2 class="statTableTitle">
@@ -228,22 +231,26 @@
 				</tr>
 			</tbody>
 		</v-table>
+		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		<div id="categoryMonthlyChart">
 			<LineChartJs v-if="stats"
 				:chart-data="monthlyCategoryChartData"
 				:options="monthlyCategoryChartOptions" />
+			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
 		<div id="memberChart">
 			<PieChartJs v-if="stats"
 				:chart-data="memberPieData"
 				:options="memberPieOptions" />
+			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
 		<div id="categoryChart">
 			<PieChartJs v-if="stats"
 				:chart-data="categoryPieData"
 				:options="categoryPieOptions" />
+			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
 		<select v-if="stats"
@@ -261,6 +268,7 @@
 				:catid="selectedCategoryId"
 				:chart-data="categoryMemberPieData"
 				:options="categoryMemberPieOptions" />
+			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
 		<select v-if="stats"
@@ -280,6 +288,7 @@
 			<PolarChartJs v-if="stats && (selectedMemberId !== 0)"
 				:chart-data="memberPolarPieData"
 				:options="memberPolarPieOptions" />
+			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
 		<h2 class="statTableTitle">
@@ -329,6 +338,7 @@
 				</tr>
 			</tbody>
 		</v-table>
+		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 	</AppContentDetails>
 </template>
 
@@ -367,7 +377,8 @@ export default {
 			selectedMemberId: 0,
 			isFiltered: true,
 			cospend,
-			loading: false,
+			exporting: false,
+			loadingStats: false,
 		}
 	},
 
@@ -721,7 +732,6 @@ export default {
 
 	watch: {
 		projectId() {
-			this.stats = null
 			this.getStats()
 		},
 	},
@@ -779,6 +789,8 @@ export default {
 			this.getSettlement(e.target.value)
 		},
 		getStats() {
+			this.stats = null
+			this.loadingStats = true
 			const dateMin = this.$refs.dateMinFilter.value
 			const dateMax = this.$refs.dateMaxFilter.value
 			const tsMin = (dateMin !== '') ? moment(dateMin).unix() : null
@@ -807,14 +819,17 @@ export default {
 				|| (amountMin !== null && amountMin !== '')
 				|| (amountMax !== null && amountMax !== '')
 			)
-			network.getStats(this.projectId, req, isFiltered, this.getStatsSuccess)
+			network.getStats(this.projectId, req, isFiltered, this.getStatsSuccess, this.getStatsDone)
 		},
 		getStatsSuccess(response, isFiltered) {
 			this.stats = response
 			this.isFiltered = isFiltered
 		},
+		getStatsDone() {
+			this.loadingStats = false
+		},
 		onExportClick() {
-			this.loading = true
+			this.exporting = true
 			const dateMin = this.$refs.dateMinFilter.value
 			const dateMax = this.$refs.dateMaxFilter.value
 			const tsMin = (dateMin !== '') ? moment(dateMin).unix() : null
@@ -838,7 +853,7 @@ export default {
 			network.exportStats(this.projectId, req, this.exportStatsDone)
 		},
 		exportStatsDone() {
-			this.loading = false
+			this.exporting = false
 		},
 	},
 }
@@ -950,5 +965,9 @@ export default {
 
 #categoryTable td:first-child {
 	padding: 0px 5px 0px 5px;
+}
+
+.loading-stats-animation {
+	height: 70px;
 }
 </style>

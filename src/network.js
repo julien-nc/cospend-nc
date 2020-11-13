@@ -591,7 +591,7 @@ export function editCurrency(projectid, currency, backupCurrency, failCB) {
 		})
 }
 
-export function getStats(projectid, params, isFiltered, successCB) {
+export function getStats(projectid, params, isFiltered, successCB, doneCB) {
 	const req = {
 		params,
 	}
@@ -608,6 +608,9 @@ export function getStats(projectid, params, isFiltered, successCB) {
 		.catch((error) => {
 			showError(t('cospend', 'Failed to get statistics.'))
 			console.debug(error)
+		})
+		.then(() => {
+			doneCB()
 		})
 }
 

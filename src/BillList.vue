@@ -79,18 +79,20 @@
 		</EmptyContent>
 		<h2 v-show="loading"
 			class="icon-loading-small loading-icon" />
-		<BillItem
-			v-for="(bill, index) in bills"
-			:key="bill.id"
-			:bill="bill"
-			:project-id="projectId"
-			:index="nbBills - index"
-			:nbbills="nbBills"
-			:selected="isBillSelected(bill)"
-			:edition-access="editionAccess"
-			:show-delete="!selectMode"
-			@clicked="onItemClicked"
-			@delete="onItemDeleted" />
+		<transition-group name="list">
+			<BillItem
+				v-for="(bill, index) in bills"
+				:key="bill.id"
+				:bill="bill"
+				:project-id="projectId"
+				:index="nbBills - index"
+				:nbbills="nbBills"
+				:selected="isBillSelected(bill)"
+				:edition-access="editionAccess"
+				:show-delete="!selectMode"
+				@clicked="onItemClicked"
+				@delete="onItemDeleted" />
+		</transition-group>
 		<InfiniteLoading v-if="bills.length > 30"
 			:identifier="projectId"
 			@infinite="infiniteHandler" />
@@ -385,5 +387,17 @@ export default {
 	-webkit-mask-position: center;
 	min-width: 44px !important;
 	min-height: 44px !important;
+}
+
+.list-enter-active,
+.list-leave-active {
+	transition: all var(--animation-slow);
+}
+
+.list-enter,
+.list-leave-to {
+	opacity: 0;
+	height: 0px;
+	transform: scaleY(0);
 }
 </style>

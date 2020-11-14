@@ -312,7 +312,7 @@
 					</div>{{ myGetSmartMemberName(mid) }}
 				</v-th>
 				<v-th sort-key="total">
-					{{ t('cospend', 'total') }}
+					{{ t('cospend', 'Total payed') }}
 				</v-th>
 			</thead>
 			<tbody slot="body" slot-scope="{displayData}">
@@ -323,16 +323,22 @@
 							<div class="disabledMask" /><img :src="myGetMemberAvatar(projectId, value.memberid)">
 						</div>{{ myGetSmartMemberName(value.memberid) }}
 					</td>
-					<td v-else>
-						{{ t('cospend', 'total') }}
+					<td v-else style="padding-left: 5px; border: 2px solid lightgrey;">
+						{{ t('cospend', 'Total owed') }}
 					</td>
 					<td v-for="mid in stats.allMemberIds"
 						:key="value.memberid + '-' + mid"
-						v-tooltip.top="{ content: (value.memberid === 0 ? t('cospend', 'total') : myGetSmartMemberName(value.memberid)) + ' → ' + myGetSmartMemberName(mid) }"
-						:style="'border: 2px solid #' + myGetMemberColor(value.memberid) + ';'">
+						v-tooltip.top="{
+							content: value.memberid === 0
+								? t('cospend', 'Total owed by {name}', { name: myGetSmartMemberName(mid) })
+								: myGetSmartMemberName(value.memberid) + ' → ' + myGetSmartMemberName(mid)
+						}"
+						:style="'border: 2px solid ' + (value.memberid === 0 ? 'lightgrey' : '#' + myGetMemberColor(value.memberid)) + ';'">
 						{{ value[mid].toFixed(2) }}
 					</td>
-					<td v-if="value.memberid !== 0">
+					<td v-if="value.memberid !== 0"
+						v-tooltip.top="{ content: t('cospend', 'Total payed by {name}', { name: myGetSmartMemberName(value.memberid) }) }"
+						style="border: 2px solid lightgrey;">
 						{{ value.total.toFixed(2) }}
 					</td>
 				</tr>

@@ -93,9 +93,14 @@
 				@clicked="onItemClicked"
 				@delete="onItemDeleted" />
 		</transition-group>
-		<InfiniteLoading v-if="bills.length > 30"
+		<InfiniteLoading v-if="bills.length > 0"
+			:distance="0"
 			:identifier="projectId"
-			@infinite="infiniteHandler" />
+			@infinite="infiniteHandler">
+			<template #no-more>
+				{{ t('cospend', 'No more bills to load') }}
+			</template>
+		</InfiniteLoading>
 	</div>
 </template>
 

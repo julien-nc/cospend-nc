@@ -3,6 +3,7 @@
 		<CospendNavigation
 			:projects="projects"
 			:selected-project-id="currentProjectId"
+			:selected-member-id="selectedMemberId"
 			:loading="projectsLoading"
 			@project-clicked="onProjectClicked"
 			@delete-project="onDeleteProject"
@@ -11,6 +12,7 @@
 			@detail-clicked="onDetailClicked"
 			@share-clicked="onShareClicked"
 			@new-member-clicked="onNewMemberClicked"
+			@member-clicked="onMemberClicked"
 			@member-edited="onMemberEdited"
 			@project-edited="onProjectEdited"
 			@create-project="onCreateProject"
@@ -28,7 +30,7 @@
 					:loading="billsLoading"
 					:project-id="currentProjectId"
 					:total-bill-number="currentProject.nbBills || 0"
-					:bills="currentBills"
+					:bills="displayedBills"
 					:selected-bill-id="selectedBillId"
 					:edition-access="editionAccess"
 					:mode="mode"
@@ -143,6 +145,7 @@ export default {
 			billsLoading: false,
 			currentBill: null,
 			filterQuery: null,
+			selectedMemberId: null,
 			showSidebar: false,
 			activeSidebarTab: 'sharing',
 		}
@@ -162,12 +165,17 @@ export default {
 		},
 		currentBills() {
 			return (this.currentProjectId && this.currentProjectId in this.billLists)
-				? (
-					this.filterQuery
-						? this.getFilteredBills(this.billLists[this.currentProjectId])
-						: this.billLists[this.currentProjectId]
-				)
+				? this.filterQuery
+					? this.getFilteredBills(this.billLists[this.currentProjectId])
+					: this.billLists[this.currentProjectId]
 				: []
+		},
+		displayedBills() {
+			return this.selectedMemberId
+				? this.currentBills.filter((b) => {
+					return this.selectedMemberId === b.payer_id
+				})
+				: this.currentBills
 		},
 		currentMembers() {
 			return (this.currentProjectId && this.currentProjectId in this.members)
@@ -347,6 +355,14 @@ export default {
 			this.currentBill = null
 			this.mode = 'settle'
 		},
+		onMemberClicked(memberid) {
+			if (memberid === this.selectedMemberId) {
+				this.selectedMemberId = null
+			} else {
+				this.selectedMemberId = memberid
+				// this.getBills(this.currentProjectId, null, null)
+			}
+		},
 		onNewMemberClicked(projectid) {
 			if (cospend.currentProjectId !== projectid) {
 				this.selectProject(projectid)
@@ -383,6 +399,7 @@ export default {
 		selectProject(projectid, save = true) {
 			this.mode = 'edition'
 			this.currentBill = null
+			this.selectedMemberId = null
 			this.getBills(projectid)
 			if (save) {
 				network.saveOptionValue({ selectedProject: projectid })
@@ -392,6 +409,7 @@ export default {
 		deselectProject() {
 			this.mode = 'edition'
 			this.currentBill = null
+			this.selectedMemberId = null
 			cospend.currentProjectId = null
 		},
 		onAutoSettled(projectid) {
@@ -477,9 +495,9 @@ export default {
 			}
 			this.projectsLoading = false
 		},
-		getBills(projectid) {
+		getBills(projectid, offset = 0, limit = 50) {
 			this.billsLoading = true
-			network.getBills(projectid, 0, 50, this.getBillsSuccess, this.getBillsDone)
+			network.getBills(projectid, offset, limit, this.getBillsSuccess, this.getBillsDone)
 		},
 		getBillsSuccess(projectid, response) {
 			this.currentProject.nbBills = response.nb_bills

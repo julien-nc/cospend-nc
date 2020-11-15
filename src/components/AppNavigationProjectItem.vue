@@ -66,8 +66,10 @@
 				class="memberItem"
 				:member="member"
 				:project-id="project.id"
+				:selected="selectedMemberId === member.id"
 				:in-navigation="true"
 				:precision="precision"
+				@click="onMemberClicked"
 				@member-edited="onMemberEdited" />
 		</template>
 	</AppNavigationItem>
@@ -106,6 +108,10 @@ export default {
 		selected: {
 			type: Boolean,
 			required: true,
+		},
+		selectedMemberId: {
+			type: Number,
+			default: null,
 		},
 	},
 	data() {
@@ -162,6 +168,9 @@ export default {
 		},
 		onAddMemberClick() {
 			this.$emit('new-member-clicked', this.project.id)
+		},
+		onMemberClicked(memberid) {
+			this.$emit('member-clicked', memberid)
 		},
 		onMemberEdited(projectid, memberid) {
 			this.$emit('member-edited', projectid, memberid)

@@ -1,9 +1,10 @@
 <template>
 	<AppNavigationItem v-show="memberVisible"
-		class="memberItem"
+		:class="{ memberSelected: selected }"
 		:menu-icon="maintenerAccess ? 'icon-more' : ''"
 		:title="nameTitle"
-		:force-menu="true">
+		:force-menu="true"
+		@click="onClick">
 		<div v-if="maintenerAccess"
 			slot="icon"
 			class="memberItemAvatar">
@@ -151,6 +152,10 @@ export default {
 		projectId: {
 			type: String,
 			required: true,
+		},
+		selected: {
+			type: Boolean,
+			default: false,
 		},
 		inNavigation: {
 			type: Boolean,
@@ -335,6 +340,9 @@ export default {
 			const index = this.project.shares.indexOf(access)
 			this.project.shares.splice(index, 1)
 		},
+		onClick() {
+			this.$emit('click', this.member.id)
+		},
 	},
 
 }
@@ -365,6 +373,15 @@ export default {
 	-webkit-mask-position: center;
 	min-width: 44px !important;
 	min-height: 44px !important;
+}
+
+.memberSelected {
+	background: var(--color-background-darker) !important;
+
+	&:focus,
+	&:hover {
+		background: var(--color-background-darker) !important;
+	}
 }
 
 /* first action-input child has margin...

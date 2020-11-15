@@ -35,6 +35,7 @@
 				:project="projects[id]"
 				:members="projects[id].members"
 				:selected="id === selectedProjectId"
+				:selected-member-id="selectedMemberId"
 				@project-clicked="onProjectClicked"
 				@delete-project="onDeleteProject"
 				@stats-clicked="onStatsClicked"
@@ -42,6 +43,7 @@
 				@detail-clicked="onDetailClicked"
 				@share-clicked="onShareClicked"
 				@new-member-clicked="onNewMemberClicked"
+				@member-clicked="onMemberClicked"
 				@member-edited="onMemberEdited" />
 		</template>
 		<template slot="footer">
@@ -150,6 +152,10 @@ export default {
 		selectedProjectId: {
 			type: String,
 			default: '',
+		},
+		selectedMemberId: {
+			type: Number,
+			default: null,
 		},
 		loading: {
 			type: Boolean,
@@ -277,6 +283,9 @@ export default {
 		},
 		onNewMemberClicked(projectid) {
 			this.$emit('new-member-clicked', projectid)
+		},
+		onMemberClicked(memberid) {
+			this.$emit('member-clicked', memberid)
 		},
 		onMemberEdited(projectid, memberid) {
 			this.$emit('member-edited', projectid, memberid)

@@ -380,7 +380,7 @@ class ProjectService {
                 $req->closeCursor();
                 $qb = $qb->resetQueryParts();
 
-                if ($dbProjectId !== null and $dbAccessLevel > $result) {
+                if ($dbProjectId !== null && $dbAccessLevel > $result) {
                     $result = $dbAccessLevel;
                 }
 
@@ -401,8 +401,8 @@ class ProjectService {
                     $groupId = $row['userid'];
                     $dbAccessLevel = intval($row['accesslevel']);
                     if ($this->groupManager->groupExists($groupId)
-                        and $this->groupManager->get($groupId)->inGroup($userO)
-                        and $dbAccessLevel > $result
+                        && $this->groupManager->get($groupId)->inGroup($userO)
+                        && $dbAccessLevel > $result
                     ) {
                         $result = $dbAccessLevel;
                     }
@@ -427,7 +427,7 @@ class ProjectService {
                     while ($row = $req->fetch()) {
                         $circleId = $row['userid'];
                         $dbAccessLevel = intval($row['accesslevel']);
-                        if ($this->isUserInCircle($userid, $circleId) and $dbAccessLevel > $result) {
+                        if ($this->isUserInCircle($userid, $circleId) && $dbAccessLevel > $result) {
                             $result = $dbAccessLevel;
                         }
                     }
@@ -1315,7 +1315,7 @@ class ProjectService {
     }
 
     private function reduceBalance($crediters, $debiters, $results=null) {
-        if (count($crediters) === 0 or count($debiters) === 0) {
+        if (count($crediters) === 0 || count($debiters) === 0) {
             return $results;
         }
 
@@ -1364,7 +1364,7 @@ class ProjectService {
         if ($reverse) {
             foreach ($arr as $elem) {
                 $i = 0;
-                while ($i < count($res) and $elem[1] < $res[$i][1]) {
+                while ($i < count($res) && $elem[1] < $res[$i][1]) {
                     $i++;
                 }
                 array_splice($res, $i, 0, [$elem]);
@@ -1373,7 +1373,7 @@ class ProjectService {
         else {
             foreach ($arr as $elem) {
                 $i = 0;
-                while ($i < count($res) and $elem[1] >= $res[$i][1]) {
+                while ($i < count($res) && $elem[1] >= $res[$i][1]) {
                     $i++;
                 }
                 array_splice($res, $i, 0, [$elem]);
@@ -1519,7 +1519,7 @@ class ProjectService {
                 }
                 $weightToInsert = 1;
                 if ($weight !== null && $weight !== '') {
-                    if (is_numeric($weight) and floatval($weight) > 0.0) {
+                    if (is_numeric($weight) && floatval($weight) > 0.0) {
                         $weightToInsert = floatval($weight);
                     }
                     else {
@@ -1882,7 +1882,7 @@ class ProjectService {
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
            );
-        if ($lastchanged !== null and is_numeric($lastchanged)) {
+        if ($lastchanged !== null && is_numeric($lastchanged)) {
            $qb->andWhere(
                $qb->expr()->gt('lastchanged', $qb->createNamedParameter($lastchanged, IQueryBuilder::PARAM_INT))
            );
@@ -3029,7 +3029,7 @@ class ProjectService {
         $qb = $this->dbconnection->getQueryBuilder();
 
         $encIcon = $icon;
-        if ($icon !== null and $icon !== '') {
+        if ($icon !== null && $icon !== '') {
             $encIcon = urlencode($icon);
         }
         $qb->insert('cospend_project_categories')
@@ -3118,7 +3118,7 @@ class ProjectService {
     public function editCategory($projectid, $categoryid, $name, $icon, $color) {
         if ($name !== null && $name !== '') {
             $encIcon = $icon;
-            if ($icon !== null and $icon !== '') {
+            if ($icon !== null && $icon !== '') {
                 $encIcon = urlencode($icon);
             }
             if ($this->getCategory($projectid, $categoryid) !== null) {
@@ -3256,7 +3256,7 @@ class ProjectService {
                 array_push($userIds, $u->getUID());
             }
         }
-        if ($userid !== '' and in_array($userid, $userIds)) {
+        if ($userid !== '' && in_array($userid, $userIds)) {
             $name = $this->userManager->get($userid)->getDisplayName();
             $qb = $this->dbconnection->getQueryBuilder();
             $projectInfo = $this->getProjectInfo($projectid);
@@ -3631,7 +3631,7 @@ class ProjectService {
         foreach($this->groupManager->search('') as $g) {
             array_push($groupIds, $g->getGID());
         }
-        if ($groupid !== '' and in_array($groupid, $groupIds)) {
+        if ($groupid !== '' && in_array($groupid, $groupIds)) {
             $name = $this->groupManager->get($groupid)->getDisplayName();
             $qb = $this->dbconnection->getQueryBuilder();
             // check if user share exists
@@ -3765,7 +3765,7 @@ class ProjectService {
                     }
                 }
             }
-            if ($circleid !== '' and $exists) {
+            if ($circleid !== '' && $exists) {
                 $qb = $this->dbconnection->getQueryBuilder();
                 // check if circle share exists
                 $qb->select('userid', 'projectid')
@@ -4088,7 +4088,7 @@ class ProjectService {
                             $previousLineEmpty = true;
                         }
                         // determine which section we're entering
-                        else if ($row === 0 or $previousLineEmpty) {
+                        else if ($row === 0 || $previousLineEmpty) {
                             $previousLineEmpty = false;
                             $nbCol = count($data);
                             $columns = [];
@@ -4097,7 +4097,7 @@ class ProjectService {
                             }
                             if (array_key_exists('what', $columns) and
                                 array_key_exists('amount', $columns) and
-                                (array_key_exists('date', $columns) or array_key_exists('timestamp', $columns)) and
+                                (array_key_exists('date', $columns) || array_key_exists('timestamp', $columns)) and
                                 array_key_exists('payer_name', $columns) and
                                 array_key_exists('payer_weight', $columns) and
                                 array_key_exists('owers', $columns)
@@ -4266,7 +4266,7 @@ class ProjectService {
                     foreach ($bills as $bill) {
                         // manage category id if this is a custom category
                         $catId = $bill['categoryid'];
-                        if (is_numeric($catId) and intval($catId) > 0) {
+                        if (is_numeric($catId) && intval($catId) > 0) {
                             $catId = $categoryIdConv[$catId];
                         }
                         $payerId = $memberNameToId[$bill['payer_name']];

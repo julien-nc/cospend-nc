@@ -110,7 +110,7 @@ class PageController extends ApiController {
             $this->dbdblquotes = '`';
         }
         $this->dbconnection = $dbconnection;
-        if ($UserId !== null and $UserId !== '' and $serverContainer !== null){
+        if ($UserId !== null && $UserId !== '' && $serverContainer !== null){
             // path of user files folder relative to DATA folder
             $this->userfolder = $serverContainer->getUserFolder($UserId);
         }
@@ -389,7 +389,7 @@ class PageController extends ApiController {
         $user = $this->userManager->get($this->userId);
         $userEmail = $user->getEMailAddress();
         $result = $this->projectService->createProject($name, $id, $password, $userEmail, $this->userId);
-        if (is_string($result) and !is_array($result)) {
+        if (is_string($result) && !is_array($result)) {
             $projInfo = $this->projectService->getProjectInfo($result);
             $projInfo['myaccesslevel'] = ACCESS_ADMIN;
             return new DataResponse($projInfo);
@@ -831,7 +831,7 @@ class PageController extends ApiController {
         $allow = intval($this->config->getAppValue('cospend', 'allowAnonymousCreation'));
         if ($allow) {
             $result = $this->projectService->createProject($name, $id, $password, $contact_email);
-            if (is_string($result) and !is_array($result)) {
+            if (is_string($result) && !is_array($result)) {
                 // project id
                 return new DataResponse($result);
             }
@@ -855,7 +855,7 @@ class PageController extends ApiController {
      */
     public function apiPrivCreateProject($name, $id, $password, $contact_email) {
         $result = $this->projectService->createProject($name, $id, $password, $contact_email, $this->userId);
-        if (is_string($result) and !is_array($result)) {
+        if (is_string($result) && !is_array($result)) {
             // project id
             return new DataResponse($result);
         }
@@ -872,7 +872,7 @@ class PageController extends ApiController {
      */
     public function apiGetProjectInfo($projectid, $password) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
-        if ($this->checkLogin($projectid, $password) or $publicShareInfo['accesslevel'] !== null) {
+        if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
             $projectInfo = $this->projectService->getProjectInfo($projectid);
             if ($projectInfo !== null) {
                 unset($projectInfo['userid']);
@@ -937,8 +937,8 @@ class PageController extends ApiController {
     public function apiSetProjectInfo($projectid, $passwd, $name, $contact_email, $password, $autoexport=null, $currencyname=null) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($passwd);
         if (
-            ($this->checkLogin($projectid, $passwd) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_ADMIN)
-            or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_ADMIN)
+            ($this->checkLogin($projectid, $passwd) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_ADMIN)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_ADMIN)
         ) {
             $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname);
             if ($result === 'UPDATED') {
@@ -989,7 +989,7 @@ class PageController extends ApiController {
      */
     public function apiGetMembers($projectid, $password, $lastchanged=null) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
-        if ($this->checkLogin($projectid, $password) or $publicShareInfo['accesslevel'] !== null) {
+        if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
             $members = $this->projectService->getMembers($projectid, null, $lastchanged);
             $response = new DataResponse($members);
             return $response;
@@ -1031,7 +1031,7 @@ class PageController extends ApiController {
      */
     public function apiGetBills($projectid, $password, $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
-        if ($this->checkLogin($projectid, $password) or $publicShareInfo['accesslevel'] !== null) {
+        if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
             if ($limit) {
                 $bills = $this->projectService->getBillsRestricted(
                     $projectid, null, null, null, null, null, null, $lastchanged, $limit, $reverse, $offset
@@ -1061,7 +1061,7 @@ class PageController extends ApiController {
      */
     public function apiv3GetBills($projectid, $password, $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
-        if ($this->checkLogin($projectid, $password) or $publicShareInfo['accesslevel'] !== null) {
+        if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
             if ($limit) {
                 $bills = $this->projectService->getBillsRestricted(
                     $projectid, null, null, null, null, null, null, $lastchanged, $limit, $reverse, $offset
@@ -1121,7 +1121,7 @@ class PageController extends ApiController {
      */
     public function apiv2GetBills($projectid, $password, $lastchanged=null) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
-        if ($this->checkLogin($projectid, $password) or $publicShareInfo['accesslevel'] !== null) {
+        if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
             $bills = $this->projectService->getBills($projectid, null, null, null, null, null, null, $lastchanged);
             $billIds = $this->projectService->getAllBillIds($projectid);
             $ts = (new \DateTime())->getTimestamp();
@@ -1150,8 +1150,8 @@ class PageController extends ApiController {
     public function apiAddMember($projectid, $password, $name, $weight, $active=1, $color=null) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
-            ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
-            or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
+            ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
         ) {
             $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color, null);
             if (is_array($result)) {
@@ -1179,8 +1179,8 @@ class PageController extends ApiController {
     public function apiv2AddMember($projectid, $password, $name, $weight, $active=1, $color=null, $userid=null) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
-            ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
-            or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
+            ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
         ) {
             $result = $this->projectService->addMember($projectid, $name, $weight, $active, $color, $userid);
             if (is_array($result)) {
@@ -1234,8 +1234,8 @@ class PageController extends ApiController {
                                $repeatallactive=0, $repeatuntil=null, $timestamp=null, $comment=null) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
-            ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
-            or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_PARTICIPANT)
+            ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_PARTICIPANT)
         ) {
             $result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
                                                      $repeat, $paymentmode, $categoryid, $repeatallactive,
@@ -1307,8 +1307,8 @@ class PageController extends ApiController {
                                 $repeatallactive=null, $repeatuntil=null, $timestamp=null, $comment=null) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
-            ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
-            or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_PARTICIPANT)
+            ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_PARTICIPANT)
         ) {
             $result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
                                                       $amount, $repeat, $paymentmode, $categoryid,
@@ -1422,8 +1422,8 @@ class PageController extends ApiController {
     public function apiDeleteBill($projectid, $password, $billid) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
-            ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
-            or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_PARTICIPANT)
+            ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_PARTICIPANT)
         ) {
             if ($this->projectService->getBill($projectid, $billid) !== null) {
                 $billObj = $this->billMapper->find($billid);
@@ -1460,8 +1460,8 @@ class PageController extends ApiController {
     public function apiDeleteBills($projectid, $password, $billIds) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
-            ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
-            or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_PARTICIPANT)
+            ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_PARTICIPANT)
         ) {
             foreach ($billIds as $billid) {
                 if ($this->projectService->getBill($projectid, $billid) !== null) {
@@ -1531,8 +1531,8 @@ class PageController extends ApiController {
     public function apiDeleteMember($projectid, $password, $memberid) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
-            ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
-            or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
+            ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
         ) {
             $result = $this->projectService->deleteMember($projectid, $memberid);
             if ($result === 'OK') {
@@ -1584,8 +1584,8 @@ class PageController extends ApiController {
     public function apiDeleteProject($projectid, $password) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
-            ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_ADMIN)
-            or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_ADMIN)
+            ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_ADMIN)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_ADMIN)
         ) {
             $result = $this->projectService->deleteProject($projectid);
             if ($result === 'DELETED') {
@@ -1637,8 +1637,8 @@ class PageController extends ApiController {
     public function apiEditMember($projectid, $password, $memberid, $name, $weight, $activated, $color=null, $userid=null) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
-            ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
-            or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
+            ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
         ) {
             $result = $this->projectService->editMember($projectid, $memberid, $name, $userid, $weight, $activated, $color);
             if (count($result) === 0) {
@@ -1694,7 +1694,7 @@ class PageController extends ApiController {
     public function apiGetProjectStatistics($projectid, $password, $tsMin=null, $tsMax=null, $paymentMode=null,
                                             $category=null, $amountMin=null, $amountMax=null, $showDisabled='1', $currencyId=null) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
-        if ($this->checkLogin($projectid, $password) or $publicShareInfo['accesslevel'] !== null) {
+        if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
             $result = $this->projectService->getProjectStatistics(
                 $projectid, 'lowername', $tsMin, $tsMax, $paymentMode,
                 $category, $amountMin, $amountMax, $showDisabled, $currencyId
@@ -1918,7 +1918,7 @@ class PageController extends ApiController {
         $shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
         // allow edition if user is at least participant and has greater or equal access level than target
         // user can't give higher access level than his/her level (do not downgrade one)
-        if ($userAccessLevel >= ACCESS_PARTICIPANT and $userAccessLevel >= $accesslevel and $userAccessLevel >= $shareAccessLevel) {
+        if ($userAccessLevel >= ACCESS_PARTICIPANT && $userAccessLevel >= $accesslevel && $userAccessLevel >= $shareAccessLevel) {
             $result = $this->projectService->editShareAccessLevel($projectid, $shid, $accesslevel);
             if ($result === 'OK') {
                 return new DataResponse($result);
@@ -2030,8 +2030,8 @@ class PageController extends ApiController {
     public function apiAddCategory($projectid, $password, $name, $icon, $color) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
-            ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
-            or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
+            ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
         ) {
             $result = $this->projectService->addCategory($projectid, $name, $icon, $color);
             if (is_numeric($result)) {
@@ -2107,8 +2107,8 @@ class PageController extends ApiController {
     public function apiEditCategory($projectid, $password, $categoryid, $name, $icon, $color) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
-            ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
-            or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
+            ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
         ) {
             $result = $this->projectService->editCategory($projectid, $categoryid, $name, $icon, $color);
             if (is_array($result)) {
@@ -2182,8 +2182,8 @@ class PageController extends ApiController {
     public function apiDeleteCategory($projectid, $password, $categoryid) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
-            ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
-            or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
+            ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
         ) {
             $result = $this->projectService->deleteCategory($projectid, $categoryid);
             if (is_numeric($result)) {
@@ -2257,8 +2257,8 @@ class PageController extends ApiController {
     public function apiAddCurrency($projectid, $password, $name, $rate) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
-            ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
-            or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
+            ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
         ) {
             $result = $this->projectService->addCurrency($projectid, $name, $rate);
             if (is_numeric($result)) {
@@ -2334,8 +2334,8 @@ class PageController extends ApiController {
     public function apiEditCurrency($projectid, $password, $currencyid, $name, $rate) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
-            ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
-            or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
+            ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
         ) {
             $result = $this->projectService->editCurrency($projectid, $currencyid, $name, $rate);
             if (is_array($result)) {
@@ -2409,8 +2409,8 @@ class PageController extends ApiController {
     public function apiDeleteCurrency($projectid, $password, $currencyid) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
-            ($this->checkLogin($projectid, $password) and $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
-            or ($publicShareInfo['accesslevel'] !== null and $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
+            ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
         ) {
             $result = $this->projectService->deleteCurrency($projectid, $currencyid);
             if (is_numeric($result)) {
@@ -2482,7 +2482,7 @@ class PageController extends ApiController {
         // allow to delete share if user perms are at least participant AND if this share perms are <= user perms
         $userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
         $shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
-        if ($userAccessLevel >= ACCESS_PARTICIPANT and $userAccessLevel >= $shareAccessLevel) {
+        if ($userAccessLevel >= ACCESS_PARTICIPANT && $userAccessLevel >= $shareAccessLevel) {
             $result = $this->projectService->deleteUserShare($projectid, $shid, $this->userId);
             if ($result === 'OK') {
                 return new DataResponse($result);
@@ -2528,7 +2528,7 @@ class PageController extends ApiController {
     public function deletePublicShare($projectid, $shid) {
         $userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
         $shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
-        if ($userAccessLevel >= ACCESS_PARTICIPANT and $userAccessLevel >= $shareAccessLevel) {
+        if ($userAccessLevel >= ACCESS_PARTICIPANT && $userAccessLevel >= $shareAccessLevel) {
             $result = $this->projectService->deletePublicShare($projectid, $shid);
             if ($result === 'OK') {
                 return new DataResponse($result);
@@ -2575,7 +2575,7 @@ class PageController extends ApiController {
         // allow to delete share if user perms are at least participant AND if this share perms are <= user perms
         $userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
         $shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
-        if ($userAccessLevel >= ACCESS_PARTICIPANT and $userAccessLevel >= $shareAccessLevel) {
+        if ($userAccessLevel >= ACCESS_PARTICIPANT && $userAccessLevel >= $shareAccessLevel) {
             $result = $this->projectService->deleteGroupShare($projectid, $shid, $this->userId);
             if ($result === 'OK') {
                 return new DataResponse($result);
@@ -2622,7 +2622,7 @@ class PageController extends ApiController {
         // allow to delete share if user perms are at least participant AND if this share perms are <= user perms
         $userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
         $shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
-        if ($userAccessLevel >= ACCESS_PARTICIPANT and $userAccessLevel >= $shareAccessLevel) {
+        if ($userAccessLevel >= ACCESS_PARTICIPANT && $userAccessLevel >= $shareAccessLevel) {
             $result = $this->projectService->deleteCircleShare($projectid, $shid, $this->userId);
             if ($result === 'OK') {
                 return new DataResponse($result);
@@ -2716,7 +2716,7 @@ class PageController extends ApiController {
             $result = $this->projectService->exportCsvStatistics($projectid, $this->userId, $tsMin, $tsMax,
                                                                  $paymentMode, $category, $amountMin, $amountMax,
                                                                  $showDisabled, $currencyId);
-            if (is_array($result) and array_key_exists('path', $result)) {
+            if (is_array($result) && array_key_exists('path', $result)) {
                 return new DataResponse($result);
             }
             else {
@@ -2743,7 +2743,7 @@ class PageController extends ApiController {
 
         if ($this->projectService->userCanAccessProject($userId, $projectid)) {
             $result = $this->projectService->exportCsvProject($projectid, $name, $userId);
-            if (is_array($result) and array_key_exists('path', $result)) {
+            if (is_array($result) && array_key_exists('path', $result)) {
                 return new DataResponse($result);
             }
             else {
@@ -2764,7 +2764,7 @@ class PageController extends ApiController {
      */
     public function importCsvProject($path) {
         $result = $this->projectService->importCsvProject($path, $this->userId);
-        if (!is_array($result) and is_string($result)) {
+        if (!is_array($result) && is_string($result)) {
             $projInfo = $this->projectService->getProjectInfo($result);
             $projInfo['myaccesslevel'] = ACCESS_ADMIN;
             return new DataResponse($projInfo);
@@ -2779,7 +2779,7 @@ class PageController extends ApiController {
      */
     public function importSWProject($path) {
         $result = $this->projectService->importSWProject($path, $this->userId);
-        if (!is_array($result) and is_string($result)) {
+        if (!is_array($result) && is_string($result)) {
             $projInfo = $this->projectService->getProjectInfo($result);
             $projInfo['myaccesslevel'] = ACCESS_ADMIN;
             return new DataResponse($projInfo);

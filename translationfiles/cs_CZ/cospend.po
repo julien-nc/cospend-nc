@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-11-13 00:21+0100\n"
-"PO-Revision-Date: 2020-11-12 23:23\n"
+"PO-Revision-Date: 2020-11-24 13:47\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -943,7 +943,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:70
 msgid "No bills yet"
-msgstr ""
+msgstr "Zatím žádné účty"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:71
 msgid "Leave multiple selection mode"

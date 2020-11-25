@@ -97,18 +97,15 @@
 </template>
 
 <script>
-import cospend from './state'
-import Currency from './components/Currency'
 import {
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
+
+import cospend from './state'
+import Currency from './components/Currency'
 import * as constants from './constants'
 import * as network from './network'
-
-import Vue from 'vue'
-import { VTooltip } from 'v-tooltip'
-Vue.directive('tooltip', VTooltip)
 
 export default {
 	name: 'CurrencyManagement',

@@ -109,10 +109,6 @@ import '@nextcloud/dialogs/styles/toast.scss'
 import cospend from './state'
 import * as network from './network'
 
-import Vue from 'vue'
-import { VTooltip } from 'v-tooltip'
-Vue.directive('tooltip', VTooltip)
-
 export default {
 	name: 'BillList',
 

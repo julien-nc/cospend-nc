@@ -56,20 +56,17 @@
 </template>
 
 <script>
-import cospend from './state'
-import Category from './components/Category'
 import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
 import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker'
 import {
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
+
+import cospend from './state'
+import Category from './components/Category'
 import * as constants from './constants'
 import * as network from './network'
-
-import Vue from 'vue'
-import { VTooltip } from 'v-tooltip'
-Vue.directive('tooltip', VTooltip)
 
 export default {
 	name: 'CategoryManagement',

@@ -218,12 +218,9 @@ import * as constants from '../constants'
 import * as network from '../network'
 import { Timer } from '../utils'
 
-import Vue from 'vue'
-import { VTooltip } from 'v-tooltip'
-Vue.directive('tooltip', VTooltip)
-
 export default {
 	name: 'SharingTabSidebar',
+
 	components: {
 		MoneyBusterLink,
 		Avatar,
@@ -232,12 +229,14 @@ export default {
 		ActionRadio,
 		Multiselect,
 	},
+
 	props: {
 		project: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			isLoading: false,
@@ -248,6 +247,7 @@ export default {
 			newPasswordReadonly: true,
 		}
 	},
+
 	computed: {
 		editionAccess() {
 			return this.project.myaccesslevel >= constants.ACCESS.PARTICIPANT

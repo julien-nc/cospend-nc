@@ -150,14 +150,11 @@ import { getLocale } from '@nextcloud/l10n'
 import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
 import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+
 import { getSmartMemberName, getMemberAvatar } from './utils'
 import cospend from './state'
 import * as constants from './constants'
 import * as network from './network'
-
-import Vue from 'vue'
-import { VTooltip } from 'v-tooltip'
-Vue.directive('tooltip', VTooltip)
 
 export default {
 	name: 'Settlement',

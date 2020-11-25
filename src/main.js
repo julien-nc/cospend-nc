@@ -14,6 +14,7 @@
 import Vue from 'vue'
 import './bootstrap'
 import App from './App'
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 import vueAwesomeCountdown from 'vue-awesome-countdown'
 import VueClipboard from 'vue-clipboard2'
 import SmartTable from 'vuejs-smart-table'
@@ -24,6 +25,7 @@ import cospend from './state'
 Vue.use(vueAwesomeCountdown, 'vac')
 Vue.use(VueClipboard)
 Vue.use(SmartTable)
+Vue.directive('tooltip', Tooltip)
 
 // eslint-disable-next-line
 'use strict'

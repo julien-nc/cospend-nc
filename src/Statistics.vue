@@ -349,18 +349,15 @@
 </template>
 
 <script>
+import moment from '@nextcloud/moment'
+import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
+
 import { getCategory, getSmartMemberName, getMemberAvatar } from './utils'
 import cospend from './state'
 import * as network from './network'
 import LineChartJs from './components/LineChartJs'
 import PieChartJs from './components/PieChartJs'
 import PolarChartJs from './components/PolarChartJs'
-import moment from '@nextcloud/moment'
-import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
-
-import Vue from 'vue'
-import { VTooltip } from 'v-tooltip'
-Vue.directive('tooltip', VTooltip)
 
 export default {
 	name: 'Statistics',

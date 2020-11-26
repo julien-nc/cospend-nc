@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.2.2 – 2020-11-26
+### Added
+- animations in bill list and stats
+
+### Changed
+- improve last stats 'who paid for whom' table
+- code quality improvements in backend and frontend
+- bump js libs
+
 ## 1.2.1 – 2020-11-13
 ### Added
 - new field when settling: max date, impacts table, auto settlement and settlement export

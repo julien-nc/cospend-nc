@@ -31,6 +31,13 @@ Vue.directive('tooltip', Tooltip)
 'use strict'
 
 function restoreOptions() {
+	const paramString = window.location.search.substr(1)
+	// eslint-disable-next-line
+	const urlParams = new URLSearchParams(paramString)
+	const urlProjectId = urlParams.get('project')
+	if (urlProjectId) {
+		cospend.urlProjectId = urlProjectId
+	}
 	network.getOptionValues(getOptionValuesSuccess)
 }
 

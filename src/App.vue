@@ -465,7 +465,9 @@ export default {
 					proj = response[i]
 					this.addProject(proj)
 				}
-				if (cospend.restoredCurrentProjectId !== null && cospend.restoredCurrentProjectId in this.projects) {
+				if (cospend.urlProjectId && cospend.urlProjectId in this.projects) {
+					this.selectProject(cospend.urlProjectId, false)
+				} else if (cospend.restoredCurrentProjectId !== null && cospend.restoredCurrentProjectId in this.projects) {
 					this.selectProject(cospend.restoredCurrentProjectId, false)
 				}
 			} else {

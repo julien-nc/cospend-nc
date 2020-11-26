@@ -178,6 +178,7 @@ OC.L10N.register(
     "Info" : "Informace",
     "You can type simple math operations and validate by pressing Enter key." : "Můžete zadat jednoduché matematické operace a potvrdit stisknutím klávesy Enter.",
     "New bill" : "Nový účet",
+    "No bills yet" : "Zatím žádné účty",
     "Delete" : "Smazat",
     "Add category" : "Přidat kategorii",
     "Color" : "Barva",

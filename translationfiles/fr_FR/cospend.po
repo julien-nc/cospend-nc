@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-11-26 13:56+0100\n"
-"PO-Revision-Date: 2020-11-26 12:58\n"
+"PO-Revision-Date: 2020-11-26 13:03\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -1281,19 +1281,19 @@ msgstr "a payé pour"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:171
 msgid "Total payed"
-msgstr ""
+msgstr "Total payé"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:172
 msgid "Total owed"
-msgstr ""
+msgstr "Total dû"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:173
 msgid "Total owed by {name}"
-msgstr ""
+msgstr "Total dû par {name}"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:174
 msgid "Total payed by {name}"
-msgstr ""
+msgstr "Total payé par {name}"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:175
 msgid "All members"

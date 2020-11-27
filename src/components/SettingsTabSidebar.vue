@@ -59,7 +59,18 @@
 				:options="formatedUsers"
 				:user-select="true"
 				:internal-search="true"
-				@input="clickAddUserItem" />
+				@input="clickAddUserItem">
+				<template #option="{option}">
+					<Avatar v-if="option.type === 's'"
+						:is-no-user="true"
+						:user="option.name" />
+					<Avatar v-else
+						:is-no-user="false"
+						:user="option.user" />
+					<span class="select-display-name">{{ option.displayName }}</span>
+					<span :class="option.icon + ' select-icon'" />
+				</template>
+			</Multiselect>
 			<AppNavigationMemberItem
 				v-for="member in project.members"
 				:key="member.id"
@@ -106,6 +117,7 @@
 <script>
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
@@ -117,7 +129,7 @@ import AppNavigationMemberItem from './AppNavigationMemberItem'
 export default {
 	name: 'SettingsTabSidebar',
 	components: {
-		Multiselect, AppNavigationItem, AppNavigationMemberItem,
+		Multiselect, AppNavigationItem, AppNavigationMemberItem, Avatar,
 	},
 	props: {
 		project: {
@@ -351,7 +363,7 @@ export default {
 				this.users.unshift({
 					id: '',
 					name,
-					label: name + ' - (' + t('cospend', 'Simple member') + ')',
+					label: name + ' (' + t('cospend', 'Create simple member') + ')',
 					type: 's',
 				})
 			}
@@ -402,8 +414,6 @@ export default {
 	-webkit-mask: url('./../../img/icon-user-dollar.svg') no-repeat;
 	-webkit-mask-size: 16px auto;
 	-webkit-mask-position: center;
-	min-width: 44px !important;
-	min-height: 44px !important;
 }
 
 #autoExport span.icon {
@@ -489,5 +499,14 @@ h3 {
 			background-color: var(--color-background-hover);
 		}
 	}
+}
+
+.select-display-name {
+	margin-left: 5px;
+	margin-right: auto;
+}
+
+.select-icon {
+	opacity: 0.5;
 }
 </style>

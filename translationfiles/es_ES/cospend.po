@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-11-26 13:56+0100\n"
-"PO-Revision-Date: 2020-11-26 12:58\n"
+"PO-Revision-Date: 2020-11-29 10:16\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -59,7 +59,7 @@ msgstr "{user} ha actualizado la factura {bill} del proyecto {project}"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Activity/ActivityManager.php:163
 msgid "A guest user"
-msgstr ""
+msgstr "Usuario invitado"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Activity/BillSetting.php:42
 msgid "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted"
@@ -69,7 +69,7 @@ msgstr "Una <strong>factura</strong> ha sido actualizada/creada/eliminada dentro
 #: /var/www/html/dev/server/apps/cospend/lib/Activity/CospendProvider.php:247
 #, php-format
 msgid "circle %1$s"
-msgstr ""
+msgstr "círculo %1$s"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Activity/Filter.php:55
 #: /var/www/html/dev/server/apps/cospend/lib/Notification/Notifier.php:65
@@ -97,17 +97,17 @@ msgstr ""
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:200
 #, php-format
 msgid "Enter password of project %s"
-msgstr ""
+msgstr "Introduzca la contraseña del proyecto %s"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:228
 msgid "Enter project id and password"
-msgstr ""
+msgstr "Introducir id del proyecto y contraseña"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:259
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:312
 #, php-format
 msgid "Project %s"
-msgstr ""
+msgstr "Proyecto %s"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:281
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:336
@@ -125,32 +125,32 @@ msgstr "Acceso denegado"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:418
 msgid "You are not allowed to delete this project"
-msgstr ""
+msgstr "No tienes permisos para eliminar este proyecto"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:450
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:481
 msgid "You are not allowed to delete this bill"
-msgstr ""
+msgstr "No tienes permisos para eliminar esta factura"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:500
 msgid "You are not allowed to get this project's info"
-msgstr ""
+msgstr "No tienes permisos para obtener la información de este proyecto"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:522
 msgid "You are not allowed to get this project's statistics"
-msgstr ""
+msgstr "No tienes permisos para obtener las estadísticas de este proyecto"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:540
 msgid "You are not allowed to get this project's settlement"
-msgstr ""
+msgstr "No tienes permisos para obtener la liquidación de este proyecto"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:563
 msgid "You are not allowed to settle this project automatically"
-msgstr ""
+msgstr "No tienes permiso para saldar este proyecto automáticamente"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:580
 msgid "You are not allowed to access this project"
-msgstr ""
+msgstr "No tienes permisos para acceder a este proyecto"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:605
 msgid "You are not allowed to edit this member"
@@ -161,44 +161,44 @@ msgstr "No tienes permisos para editar este miembro"
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1332
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1374
 msgid "You are not allowed to edit this bill"
-msgstr ""
+msgstr "No tienes permisos para editar esta factura"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:702
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2471
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2564
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2611
 msgid "You are not allowed to edit this project"
-msgstr ""
+msgstr "No tienes permisos para editar este proyecto"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:736
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1258
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1292
 msgid "You are not allowed to add bills"
-msgstr ""
+msgstr "No tienes permisos para añadir facturas"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:759
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1166
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1195
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1219
 msgid "You are not allowed to add members"
-msgstr ""
+msgstr "No tienes permisos para añadir miembros"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:790
 msgid "You are not allowed to get the bill list"
-msgstr ""
+msgstr "No tienes permisos para obtener la lista de facturas"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:844
 msgid "Anonymous project creation is not allowed on this server"
-msgstr ""
+msgstr "La creación anónima de proyectos no está permitida en este servidor"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:887
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:916
 msgid "Project not found"
-msgstr ""
+msgstr "Proyecto no encontrado"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:895
 msgid "Bad password or public link"
-msgstr ""
+msgstr "Contraseña incorrecta o enlace público"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:924
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:953
@@ -230,12 +230,12 @@ msgstr "Acción no autorizada"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1932
 msgid "You are not allowed to give such shared access level"
-msgstr ""
+msgstr "No tienes permisos para dar este nivel de acceso compartido"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1955
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1970
 msgid "You are not allowed to edit guest access level"
-msgstr ""
+msgstr "No tienes permisos para editar el nivel de acceso de invitado"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2017
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2047
@@ -247,7 +247,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2198
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2222
 msgid "You are not allowed to manage categories"
-msgstr ""
+msgstr "No tienes permisos para administrar categorías"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2244
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2274
@@ -259,34 +259,34 @@ msgstr ""
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2425
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2449
 msgid "You are not allowed to manage currencies"
-msgstr ""
+msgstr "No tienes permisos para administrar monedas"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2496
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2542
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2589
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2636
 msgid "You are not allowed to remove this shared access"
-msgstr ""
+msgstr "No tienes permiso para eliminar este acceso compartido"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2518
 msgid "You are not allowed to add public shared accesses"
-msgstr ""
+msgstr "No tienes permisos para añadir accesos públicos compartidos"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2703
 msgid "You are not allowed to export this project settlement"
-msgstr ""
+msgstr "No tienes permisos para exportar la liquidación de este proyecto"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2728
 msgid "You are not allowed to export this project statistics"
-msgstr ""
+msgstr "No tienes permisos para exportar las estadísticas de este proyecto"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2755
 msgid "You are not allowed to export this project"
-msgstr ""
+msgstr "No tienes permisos para exportar este proyecto"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Dashboard/CospendWidget.php:52
 msgid "Cospend activity"
-msgstr ""
+msgstr "Actividad de gasto"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:92
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:208
@@ -356,7 +356,7 @@ msgstr "El usuario \"%s\" dejó de compartir el proyecto Cospend \"%s\" con uste
 #: /var/www/html/dev/server/apps/cospend/lib/Search/CospendSearchProvider.php:165
 #, php-format
 msgid "In project %1$s"
-msgstr ""
+msgstr "En el proyecto %1$s"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:248
 #: /var/www/html/dev/server/apps/cospend/src/constants.js:18
@@ -370,7 +370,7 @@ msgstr "Id de proyecto inválido"
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:536
 #, php-format
 msgid "A project with id \"%1$s\" already exists"
-msgstr ""
+msgstr "Ya existe un proyecto con id \"%1$s\""
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:601
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1052
@@ -395,7 +395,7 @@ msgstr "Valor inválido"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:951
 msgid "Timestamp (or date) field is required"
-msgstr ""
+msgstr "El campo Timestamp (o fecha) es obligatorio"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:956
 msgid "Invalid date"
@@ -403,7 +403,7 @@ msgstr "Fecha no válida"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:964
 msgid "This field is invalid"
-msgstr ""
+msgstr "Este campo no es válido"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:967
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:970

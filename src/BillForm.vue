@@ -179,27 +179,30 @@
 					<label for="repeatbill">
 						<a class="icon icon-play-next" />{{ t('cospend', 'Repeat') }}
 					</label>
-					<select
-						id="repeatbill"
-						v-model="myBill.repeat"
-						:disabled="!editionAccess"
-						@input="onBillEdited">
-						<option value="n" selected="selected">
-							{{ t('cospend', 'No') }}
-						</option>
-						<option value="d">
-							{{ t('cospend', 'Daily') }}
-						</option>
-						<option value="w">
-							{{ t('cospend', 'Weekly') }}
-						</option>
-						<option value="m">
-							{{ t('cospend', 'Monthly') }}
-						</option>
-						<option value="y">
-							{{ t('cospend', 'Yearly') }}
-						</option>
-					</select>
+					<div class="field-with-info">
+						<select
+							id="repeatbill"
+							v-model="myBill.repeat"
+							:disabled="!editionAccess"
+							@input="onBillEdited">
+							<option value="n" selected="selected">
+								{{ t('cospend', 'No') }}
+							</option>
+							<option value="d">
+								{{ t('cospend', 'Daily') }}
+							</option>
+							<option value="w">
+								{{ t('cospend', 'Weekly') }}
+							</option>
+							<option value="m">
+								{{ t('cospend', 'Monthly') }}
+							</option>
+							<option value="y">
+								{{ t('cospend', 'Yearly') }}
+							</option>
+						</select>
+						<button class="icon-info infoButton" @click="onRepeatInfoClicked" />
+					</div>
 				</div>
 				<div v-if="myBill.repeat !== 'n'"
 					class="bill-repeat-extra">
@@ -1006,6 +1009,12 @@ export default {
 				t('cospend', 'Info')
 			)
 		},
+		onRepeatInfoClicked() {
+			OC.dialogs.info(
+				t('cospend', 'Bill repetition process runs once a day as a background job. If your bills are not repeated, ask your Nextcloud administrator to check if "Cron" method is selected in admin settings.'),
+				t('cospend', 'Info')
+			)
+		},
 	},
 }
 </script>
@@ -1148,11 +1157,6 @@ export default {
 .bill-currency-convert .icon-currencies {
 	display: inline-block;
 	padding-left: 34px !important;
-}
-
-.bill-amount label,
-.bill-currency-convert label {
-	padding-top: 10px;
 }
 
 .bill-repeat-include {

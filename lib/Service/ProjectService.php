@@ -2707,7 +2707,7 @@ class ProjectService {
         }
 
         if ($repeat !== null && $repeat !== '') {
-            if (in_array($repeat, ['n', 'd', 'w', 'm', 'y'])) {
+            if (in_array($repeat, ['n', 'd', 'w', 'b', 's', 'm', 'y'])) {
                 $qb->set('repeat', $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR));
             } else {
                 return ['repeat' => $this->trans->t('Invalid value')];
@@ -2827,27 +2827,27 @@ class ProjectService {
             // get bills whith repetition flag
             $qb = $this->dbconnection->getQueryBuilder();
             $qb->select('id', 'projectid', 'what', 'timestamp', 'amount', 'payerid', 'repeat', 'repeatallactive')
-            ->from('cospend_bills', 'b')
-            ->where(
-                $qb->expr()->neq('repeat', $qb->createNamedParameter('n', IQueryBuilder::PARAM_STR))
-            );
+                ->from('cospend_bills', 'b')
+                ->where(
+                    $qb->expr()->neq('repeat', $qb->createNamedParameter('n', IQueryBuilder::PARAM_STR))
+                );
             $req = $qb->execute();
             $bills = [];
-            while ($row = $req->fetch()){
+            while ($row = $req->fetch()) {
                 $id = $row['id'];
                 $what = $row['what'];
                 $repeat = $row['repeat'];
                 $repeatallactive = $row['repeatallactive'];
                 $timestamp = $row['timestamp'];
                 $projectid = $row['projectid'];
-                array_push($bills, [
+                $bills[] = [
                     'id' => $id,
                     'what' => $what,
                     'repeat' => $repeat,
                     'repeatallactive' => $repeatallactive,
                     'projectid' => $projectid,
                     'timestamp' => $timestamp
-                ]);
+                ];
             }
             $req->closeCursor();
             $qb = $qb->resetQueryParts();
@@ -2856,53 +2856,7 @@ class ProjectService {
                 // Use DateTimeImmutable instead of DateTime so that $billDate->add() returns a
                 // new instance instead of modifying $billDate
                 $billDate = \DateTimeImmutable::createFromFormat('U', $bill['timestamp']);
-
-                $nextDate = null;
-                switch($bill['repeat']) {
-                case 'd':
-                    $nextDate = $billDate->add(new \DateInterval('P1D'));
-                    break;
-
-                case 'w';
-                    $nextDate = $billDate->add(new \DateInterval('P7D'));
-                    break;
-
-                case 'm':
-                    if (intval($billDate->format('m')) === 12) {
-                        $nextYear = $billDate->format('Y') + 1;
-                        $nextMonth = 1;
-                    }
-                    else {
-                        $nextYear = $billDate->format('Y');
-                        $nextMonth = $billDate->format('m') + 1;
-                    }
-
-                    // same day of month if possible, otherwise at end of month
-                    $nextDate = new \DateTime();
-                    $nextDate->setDate($nextYear, $nextMonth, 1);
-                    if ($billDate->format('d') > $nextDate->format('t')) {
-                        $nextDate->setDate($nextYear, $nextMonth, $nextDate->format('t'));
-                    }
-                    else {
-                        $nextDate->setDate($nextYear, $nextMonth, $billDate->format('d'));
-                    }
-                    break;
-
-                case 'y':
-                    $nextYear = $billDate->format('Y') + 1;
-                    $nextMonth = $billDate->format('m');
-
-                    // same day of month if possible, otherwise at end of month + same month
-                    $nextDate = new \DateTime();
-                    $nextDate->setDate($billDate->format('Y') + 1, $billDate->format('m'), 1);
-                    if ($billDate->format('d') > $nextDate->format('t')) {
-                        $nextDate->setDate($nextYear, $nextMonth, $nextDate->format('t'));
-                    }
-                    else {
-                        $nextDate->setDate($nextYear, $nextMonth, $billDate->format('d'));
-                    }
-                    break;
-                }
+                $nextDate = $this->getNextRepetitionDate($bill, $billDate);
 
                 // Unknown repeat interval
                 if ($nextDate === null) {
@@ -2916,12 +2870,12 @@ class ProjectService {
                     if (!array_key_exists($bill['projectid'], $projects)) {
                         $projects[$bill['projectid']] = $this->getProjectInfo($bill['projectid']);
                     }
-                    array_push($result, [
+                    $result[] = [
                         'date_orig' => $billDate->format('Y-m-d'),
                         'date_repeat' => $nextDate->format('Y-m-d'),
                         'what' => $bill['what'],
-                        'project_name' => $projects[$bill['projectid']]['name']
-                    ]);
+                        'project_name' => $projects[$bill['projectid']]['name'],
+                    ];
                     $continue = true;
                 }
             }
@@ -2940,13 +2894,13 @@ class ProjectService {
         if (intval($bill['repeatallactive']) === 1) {
             $pInfo = $this->getProjectInfo($projectid);
             foreach ($pInfo['active_members'] as $am) {
-                array_push($owerIds, $am['id']);
+                $owerIds[] = $am['id'];
             }
         }
         else {
             foreach ($bill['owers'] as $ower) {
                 if ($ower['activated']) {
-                    array_push($owerIds, $ower['id']);
+                    $owerIds[] = $ower['id'];
                 }
             }
         }
@@ -2961,49 +2915,8 @@ class ProjectService {
         // if bill should be repeated until...
         if ($bill['repeatuntil'] !== null && $bill['repeatuntil'] !== '') {
             $untilDate = new \DateTime($bill['repeatuntil']);
-            $billDate = \DateTimeImmutable::createFromFormat('U', $bill['timestamp']);
-            $nextDate = new \DateTime('now');
-            if ($bill['repeat'] === 'd') {
-                $nextDate = $billDate->add(new \DateInterval('P1D'));
-            }
-            else if ($bill['repeat'] === 'w') {
-                $nextDate = $billDate->add(new \DateInterval('P7D'));
-            }
-            else if ($bill['repeat'] === 'm') {
-                if (intval($billDate->format('m')) === 12) {
-                    $nextYear = $billDate->format('Y') + 1;
-                    $nextMonth = 1;
-                }
-                else {
-                    $nextYear = $billDate->format('Y');
-                    $nextMonth = $billDate->format('m') + 1;
-                }
-
-                // same day of month if possible, otherwise at end of month
-                $nextDate = new \DateTime();
-                $nextDate->setDate($nextYear, $nextMonth, 1);
-                if ($billDate->format('d') > $nextDate->format('t')) {
-                    $nextDate->setDate($nextYear, $nextMonth, $nextDate->format('t'));
-                }
-                else {
-                    $nextDate->setDate($nextYear, $nextMonth, $billDate->format('d'));
-                }
-            }
-            else if ($bill['repeat'] === 'y') {
-                $nextYear = $billDate->format('Y') + 1;
-                $nextMonth = $billDate->format('m');
-
-                // same day of month if possible, otherwise at end of month + same month
-                $nextDate = new \DateTime();
-                $nextDate->setDate($billDate->format('Y') + 1, $billDate->format('m'), 1);
-                if ($billDate->format('d') > $nextDate->format('t')) {
-                    $nextDate->setDate($nextYear, $nextMonth, $nextDate->format('t'));
-                }
-                else {
-                    $nextDate->setDate($nextYear, $nextMonth, $billDate->format('d'));
-                }
-            }
-            if ($nextDate >= $untilDate) {
+            // TODO improve this, maybe don't produce bill after repeatuntil...
+            if ($datetime >= $untilDate) {
                 $bill['repeat'] = 'n';
             }
         }
@@ -3023,6 +2936,84 @@ class ProjectService {
         // now we can remove repeat flag on original bill
         $this->editBill($projectid, $billid, null, $bill['what'], $bill['payer_id'], null,
                         $bill['amount'], 'n', null, null, 0, null);
+    }
+
+    private function getNextRepetitionDate(array $bill, \DateTimeImmutable $billDate) {
+        $nextDate = null;
+        switch ($bill['repeat']) {
+            case 'd':
+                $nextDate = $billDate->add(new \DateInterval('P1D'));
+                break;
+
+            case 'w':
+                $nextDate = $billDate->add(new \DateInterval('P7D'));
+                break;
+
+            // bi weekly
+            case 'b':
+                $nextDate = $billDate->add(new \DateInterval('P14D'));
+                break;
+
+            // semi monthly
+            case 's':
+                $day = intval($billDate->format('d'));
+                $month = intval($billDate->format('m'));
+                $year = intval($billDate->format('Y'));
+
+                $nextDate = new \DateTime();
+                // first of next month
+                if ($day >= 15) {
+                    if ($month === 12) {
+                        $nextYear = $year + 1;
+                        $nextMonth = 1;
+                        $nextDate->setDate($nextYear, $nextMonth, 1);
+                    } else {
+                        $nextMonth = $month + 1;
+                        $nextDate->setDate($year, $nextMonth, 1);
+                    }
+                } else {
+                    // 15 of same month
+                    $nextDate->setDate($year, $month, 15);
+                }
+                break;
+
+            case 'm':
+                if (intval($billDate->format('m')) === 12) {
+                    $nextYear = $billDate->format('Y') + 1;
+                    $nextMonth = 1;
+                } else {
+                    $nextYear = $billDate->format('Y');
+                    $nextMonth = $billDate->format('m') + 1;
+                }
+
+                // same day of month if possible, otherwise at end of month
+                $nextDate = new \DateTime();
+                $nextDate->setDate($nextYear, $nextMonth, 1);
+                if ($billDate->format('d') > $nextDate->format('t')) {
+                    $nextDate->setDate($nextYear, $nextMonth, $nextDate->format('t'));
+                }
+                else {
+                    $nextDate->setDate($nextYear, $nextMonth, $billDate->format('d'));
+                }
+                break;
+
+            case 'y':
+                $nextYear = $billDate->format('Y') + 1;
+                $nextMonth = $billDate->format('m');
+
+                // same day of month if possible, otherwise at end of month + same month
+                $nextDate = new \DateTime();
+                $nextDate->setDate($billDate->format('Y') + 1, $billDate->format('m'), 1);
+                if ($billDate->format('d') > $nextDate->format('t')) {
+                    $nextDate->setDate($nextYear, $nextMonth, $nextDate->format('t'));
+                }
+                else {
+                    $nextDate->setDate($nextYear, $nextMonth, $billDate->format('d'));
+                }
+                break;
+        }
+
+        return $nextDate;
     }
 
     public function addCategory($projectid, $name, $icon, $color) {

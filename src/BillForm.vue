@@ -194,6 +194,12 @@
 							<option value="w">
 								{{ t('cospend', 'Weekly') }}
 							</option>
+							<option value="b">
+								{{ t('cospend', 'Bi-weekly (every 2 weeks)') }}
+							</option>
+							<option value="s">
+								{{ t('cospend', 'Semi-monthly (twice a month)') }}
+							</option>
 							<option value="m">
 								{{ t('cospend', 'Monthly') }}
 							</option>

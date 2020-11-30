@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-11-26 13:56+0100\n"
-"PO-Revision-Date: 2020-11-29 10:16\n"
+"PO-Revision-Date: 2020-11-30 10:26\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -409,7 +409,7 @@ msgstr "Este campo no es válido"
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:970
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1461
 msgid "This field is required"
-msgstr ""
+msgstr "Este campo es obligatorio"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:973
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:985
@@ -420,11 +420,11 @@ msgstr "No es una opción válida"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1232
 msgid "Error when getting project settlement transactions"
-msgstr ""
+msgstr "Error al obtener transacciones de liquidación del proyecto"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1254
 msgid "Error when adding a bill"
-msgstr ""
+msgstr "Error al añadir una factura"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1406
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1518
@@ -433,20 +433,20 @@ msgstr "Nombre de miembro inválido"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1408
 msgid "Name already exists"
-msgstr ""
+msgstr "El nombre ya existe"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1417
 msgid "Not a valid decimal value"
-msgstr ""
+msgstr "No es un valor decimal válido"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1457
 msgid "This project have no such member"
-msgstr ""
+msgstr "Este proyecto no tiene tal miembro"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1467
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1558
 msgid "Name field is required"
-msgstr ""
+msgstr "El campo Nombre es obligatorio"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1479
 msgid "Invalid email address"
@@ -458,37 +458,37 @@ msgstr "No hay tal proyecto"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1526
 msgid "Weight is not a valid decimal value"
-msgstr ""
+msgstr "El peso no es un valor decimal válido"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1530
 msgid "Active is not a valid integer value"
-msgstr ""
+msgstr "Activo no es un valor entero válido"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1554
 msgid "This project already has this member"
-msgstr ""
+msgstr "Este proyecto ya tiene este miembro"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2698
 msgid "There is no such bill"
-msgstr ""
+msgstr "No existe tal factura"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3114
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3218
 msgid "Not found"
-msgstr ""
+msgstr "No encontrado"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3144
 msgid "This project have no such category"
-msgstr ""
+msgstr "Este proyecto no tiene tal categoría"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3148
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3247
 msgid "Incorrect field values"
-msgstr ""
+msgstr "Valores de campos incorrectos"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3243
 msgid "This project have no such currency"
-msgstr ""
+msgstr "Este proyecto no tiene esa moneda"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3338
 msgid "You are not authorized to give such access level"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-11-26 13:56+0100\n"
-"PO-Revision-Date: 2020-12-05 17:04\n"
+"PO-Revision-Date: 2020-12-06 17:04\n"
 "Last-Translator: \n"
 "Language-Team: Macedonian\n"
 "Language: mk_MK\n"
@@ -462,7 +462,7 @@ msgstr "Нема зададено валиден децимален број в�
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1530
 msgid "Active is not a valid integer value"
-msgstr ""
+msgstr "Не е валидна вредност"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1554
 msgid "This project already has this member"
@@ -821,19 +821,19 @@ msgstr "Дури и поделени со изборни лични делови
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:37
 msgid "Custom owed amount per member"
-msgstr ""
+msgstr "Износот што го должи по член"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:38
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
-msgstr ""
+msgstr "Класичен режим: Изберете плаќач, внесете износ на сметка и изберете кој е вклучен за целото трошење, сметката потоа се дели рамноправно помеѓу избраните членови. Пример од реален живот: Едно лице ја плаќа целата сметка во ресторанот и сите се согласуваат подеднакво да ги поделат трошоците."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:39
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
-msgstr ""
+msgstr "Класичен+личен режим: Овој режим е сличен на класичниот. Изберете плаќач и внесете износ на сметка што одговара на она што всушност е платено. Потоа изберете кој е вклучен во сметката и по избор внесете износ што се однесува на лични работи за некои членови. Се креираат повеќе сметки: една за заедничко трошење и една за секој личен дел. Пример од реалниот живот: Одиме на шопинг, дел од купеното се однесува на групата, но некој додал и нешто лично (пример кошула) што другите не сакаат колективно да го плаќаат."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:40
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
-msgstr ""
+msgstr "Прилагоден режим, нерамномерна распределба: Изберете плаќач, игнорирајте го износот на сметката (што е оневозможен) и внесете сума на долгови за секој член. Потоа, притиснете „Креирај сметка“. Се креираат повеќе сметки. Пример во реалниот живот: Едно лице ја плаќа целата сметка во ресторанот, но има големи разлики во цените помеѓу она што го јадело секое лице."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:41
 msgid "For whom?"
@@ -849,7 +849,7 @@ msgstr "Лична сума"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:44
 msgid "Custom amount"
-msgstr ""
+msgstr "Прилагоден износ"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:46
 msgid "Bill : {what}"
@@ -871,7 +871,7 @@ msgstr "Вие"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:49
 msgid "Impossible to save bill, invalid values."
-msgstr ""
+msgstr "Неможе да се зачува сметката, неправилни вресности."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:50
 msgid "Bill saved."
@@ -885,11 +885,11 @@ msgstr "Вредноста на сметката не е валидна."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:52
 msgid "Personal parts are bigger than the paid amount."
-msgstr ""
+msgstr "Личниот дел на сметката е поголем од целата платена сума."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:54
 msgid "There is no custom amount."
-msgstr ""
+msgstr "Не е внесена прилагоден износ."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:56
 msgid "Bill created."
@@ -901,7 +901,7 @@ msgstr "Избери датотека"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:58
 msgid "This is just a currency converter. Bill amount can be entered in another currency and then converted to \"{maincur}\". Value is always stored in \"{maincur}\"."
-msgstr ""
+msgstr "Ова е само конвертор на валута. Износот на сметката може да се внесе во друга валута и потоа да се конвертира во \"{maincur}\". Вредноста е секогаш зачувана во \"{maincur}\"."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:59
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:61
@@ -915,7 +915,7 @@ msgstr "Информации"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:60
 msgid "You can type simple math operations and validate by pressing Enter key."
-msgstr ""
+msgstr "Можете да напишете едноставни математички операции и да ги потврдите со притискање на копчето Ентер."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:62
 msgid "New bill"
@@ -935,7 +935,7 @@ msgstr "Избриши ги означените сметки"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:68
 msgid "Multi select mode: Select bills to make grouped actions"
-msgstr ""
+msgstr "Режим со повеќе избирања: Изберете сметки за да направите групирани дејства"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:69
 msgid "Add at least 2 members to start creating bills"
@@ -947,11 +947,11 @@ msgstr "Нема сметки"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:71
 msgid "Leave multiple selection mode"
-msgstr ""
+msgstr "Напушти режим на повеќекратно избирање"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:72
 msgid "Enter multiple selection mode"
-msgstr ""
+msgstr "Влези во режим на повеќекратно избирање"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:73
 msgid "Bill deleted"
@@ -1229,19 +1229,19 @@ msgstr "Минимална сума"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:154
 msgid "Currency of statistic values"
-msgstr ""
+msgstr "Валута на статистички вредности"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:155
 msgid "Main project's currency"
-msgstr ""
+msgstr "Валута на проект"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:156
 msgid "Show disabled members"
-msgstr ""
+msgstr "Прикажи ги оневозможените членови"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:157
 msgid "Total payed by all the members: {t}"
-msgstr ""
+msgstr "Вкупно платено од сите членови: {t}"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:158
 msgid "Global stats"
@@ -1253,7 +1253,7 @@ msgstr "Филтриран баланс"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "Monthly stats per member"
-msgstr ""
+msgstr "Месечна статистика по член"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:165
 msgid "Member/Month"
@@ -1261,7 +1261,7 @@ msgstr "Член/Месец"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:166
 msgid "Monthly stats per category"
-msgstr ""
+msgstr "Месечна статистика по категорија"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:167
 msgid "Category/Month"
@@ -1289,11 +1289,11 @@ msgstr "Вкупно должи"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:173
 msgid "Total owed by {name}"
-msgstr ""
+msgstr "Вкупно должен од {name}"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:174
 msgid "Total payed by {name}"
-msgstr ""
+msgstr "Вкупно платени од {name}"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:175
 msgid "All members"
@@ -1309,7 +1309,7 @@ msgstr "Плаќања од категорија за месец"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:178
 msgid "Who paid (outside circle) and spent (inside pie)?"
-msgstr ""
+msgstr "Кој плати (надвор) и потроши (внатре)?"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:179
 msgid "What was paid per category?"
@@ -1386,7 +1386,7 @@ msgstr "Статистики"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:195
 msgid "Project settlement"
-msgstr ""
+msgstr "Подмирување на проектот"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:197
 msgid "No members yet"
@@ -1519,15 +1519,15 @@ msgstr "Обичен член"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:238
 msgid "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab."
-msgstr ""
+msgstr "Можете да додадете едноставен член или корисник на Nextcloud. Можете да им дадете пристап на корисниците на Nextcloud до проектот во менито. Може да им дадете пристап и на корисниците на Nextcloud кои не се членови во јазичето Споделување."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:240
 msgid "Choose a project member, then a Nextcloud user to associate with."
-msgstr ""
+msgstr "Изберете член на проектот, а потоа корисник на Nextcloud за да го здружите."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:241
 msgid "You can cut the link with a Nextcloud user by renaming the member."
-msgstr ""
+msgstr "Можете да ја прекинете врската со корисник на Nextcloud со преименување во член."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:243
 msgid "Share project with a user, group or circle …"
@@ -1667,11 +1667,11 @@ msgstr "Онлајн услуги"
 
 #: /var/www/html/dev/server/apps/cospend/src/network.js:21
 msgid "Failed to restore options values."
-msgstr ""
+msgstr "Неуспешно враќање на вредностите."
 
 #: /var/www/html/dev/server/apps/cospend/src/network.js:38
 msgid "Failed to save option values"
-msgstr ""
+msgstr "Неуспешно снимање на вредностите"
 
 #: /var/www/html/dev/server/apps/cospend/src/network.js:53
 msgid "Cospend setting saved."
@@ -1773,43 +1773,43 @@ msgstr "Неуспешна промана на валута"
 
 #: /var/www/html/dev/server/apps/cospend/src/network.js:609
 msgid "Failed to get statistics."
-msgstr ""
+msgstr "Неуспешно добивање на статистика."
 
 #: /var/www/html/dev/server/apps/cospend/src/network.js:624
 msgid "Project statistics exported in {path}"
-msgstr ""
+msgstr "Статистиката на проектот е извезена во {path}"
 
 #: /var/www/html/dev/server/apps/cospend/src/network.js:628
 msgid "Failed to export project statistics"
-msgstr ""
+msgstr "Неуспешно извезување на статистика на проектот"
 
 #: /var/www/html/dev/server/apps/cospend/src/network.js:660
 msgid "Failed to get settlement"
-msgstr ""
+msgstr "Неуспешно добивање на подмирувања"
 
 #: /var/www/html/dev/server/apps/cospend/src/network.js:686
 msgid "Failed to add project settlement bills"
-msgstr ""
+msgstr "Неуспешно додавање сметки за порамнување во проектот"
 
 #: /var/www/html/dev/server/apps/cospend/src/network.js:706
 msgid "Failed to export project settlement"
-msgstr ""
+msgstr "Неуспешно извезување на порамнувањето на проектот"
 
 #: /var/www/html/dev/server/apps/cospend/src/network.js:720
 msgid "Failed to get user list"
-msgstr ""
+msgstr "Неуспешно добивање на листата со корисници"
 
 #: /var/www/html/dev/server/apps/cospend/src/network.js:750
 msgid "Failed to add shared access"
-msgstr ""
+msgstr "Неуспешно додавање споделен пристап"
 
 #: /var/www/html/dev/server/apps/cospend/src/network.js:767
 msgid "Failed to edit shared access level"
-msgstr ""
+msgstr "Неуспешна промена во споделениот пристап"
 
 #: /var/www/html/dev/server/apps/cospend/src/network.js:791
 msgid "Failed to delete shared access"
-msgstr ""
+msgstr "Неуспешно отстранување на споделен пристап"
 
 #: /var/www/html/dev/server/apps/cospend/src/network.js:813
 msgid "Failed to edit guest access level"
@@ -1822,19 +1822,19 @@ msgstr "Нема категорија"
 #: /var/www/html/dev/server/apps/cospend/templates/admin.php:9
 #: /var/www/html/dev/server/apps/cospend/templates/admin.php:18
 msgid "Allow guests to create projects"
-msgstr ""
+msgstr "Дозволи им на гостите да креираат проекти"
 
 #: /var/www/html/dev/server/apps/cospend/templates/admin.php:10
 msgid "Enabling this option will allow any visitor to create a project without having to log in."
-msgstr ""
+msgstr "Овозможувањето на оваа опција ќе му овозможи на секој посетител да креира проект без да се најавува."
 
 #: /var/www/html/dev/server/apps/cospend/templates/admin.php:11
 msgid "This can be useful if you are in a local network and want to let anybody create a project."
-msgstr ""
+msgstr "Ова може да биде корисно ако сте во локална мрежа и сакате да дозволите некој да креира проект."
 
 #: /var/www/html/dev/server/apps/cospend/templates/admin.php:12
 msgid "Or maybe you are very generous and want to allow the entire world to use Cospend without having an account on your Nextcloud instance."
-msgstr ""
+msgstr "Или можеби сте многу дарежливи и сакате да му дозволите на целиот свет да го користи Cospend без да има сметка на вашата инстанца на Nextcloud."
 
 #: /var/www/html/dev/server/apps/cospend/templates/logincontent.php:2
 msgid "Authentication"

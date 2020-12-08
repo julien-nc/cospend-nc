@@ -261,7 +261,6 @@ OC.L10N.register(
     "New member name" : "نام عضو تازه",
     "New member (or Nextcloud user) name" : "نام عضو تازه (یا کاربر Nextcloud)",
     "Failed to add member." : "افزودن عضو ناموفق بود.",
-    "Simple member" : "عضو ساده",
     "Choose a project member, then a Nextcloud user to associate with." : "یک عضو پروژه، سپس یک کاربر Nextcloud را انتخاب کرده تا با آن پیوندبرقرار کند.",
     "Share project with a user, group or circle …" : "پروژه را با یک کاربر، گروه یا حلقه به اشتراک بگذارید…",
     "Add public link" : "افزودن پیوند عمومی",

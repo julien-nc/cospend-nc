@@ -300,7 +300,6 @@ OC.L10N.register(
     "New member name" : "Nome do novo membro",
     "New member (or Nextcloud user) name" : "Nome do novo membro (ou utilizador do Nextcloud)",
     "Failed to add member." : "Falha ao adicionar membro.",
-    "Simple member" : "Membro simples",
     "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab." : "Pode adicionar ao projecto um membro simples ou um utilizador do Nextcloud. Pode dar acesso ao projecto aos utilizadores do Nextcloud, no menu de contexto. Também pode dar acesso aos utilizadores do Nextcloud que não são membros, no separador Partilha.",
     "Choose a project member, then a Nextcloud user to associate with." : "Escolha um membro para o projecto e, de seguida, um utilizador do Nextcloud ao qual vai ser associado.",
     "You can cut the link with a Nextcloud user by renaming the member." : "Pode cortar a hiperligação com o utilizador no Nextcloud renomeando o membro.",

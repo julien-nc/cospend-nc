@@ -48,4 +48,4 @@ Check [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#aut
 
 * it does not make you rich
 
-Any feedback will be appreciated.
+Cualquier comentario sera apreciado.

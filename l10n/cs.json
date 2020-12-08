@@ -272,7 +272,6 @@
     "New member name" : "Jméno nového člena",
     "New member (or Nextcloud user) name" : "Jméno nového člena (nebo uživatele z Nextcloud)",
     "Failed to add member." : "Člena se nepodařilo přidat.",
-    "Simple member" : "Prostý člen",
     "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab." : "Do projektu můžete přidat prostého člena nebo uživatele z Nextcloud. Těm je možné udělovat přístup z kontextové nabídky. Na kartě Sdílení je také možné udělovat přístup i Nextcloud uživatelům, kteří nejsou členy.",
     "Choose a project member, then a Nextcloud user to associate with." : "Vyberte člena projektu a potom Nextcloud uživatele, ke kterému přiřadit.",
     "You can cut the link with a Nextcloud user by renaming the member." : "Propojení na Nextcloud uživatele je možné zrušit přejmenováním člena.",

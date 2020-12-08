@@ -281,7 +281,6 @@
     "New member name" : "Nazwa nowego członka",
     "New member (or Nextcloud user) name" : "Nazwa nowego członka (lub użytkownika Nextcloud)",
     "Failed to add member." : "Nie udało się dodać członka.",
-    "Simple member" : "Zwykły członek",
     "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab." : "Możesz dodać do projektu zwykłego członka lub użytkownika Nextcloud. Możesz przyznać użytkownikom Nextcloud dostęp do projektu w menu kontekstowym. Możesz również przyznać dostęp użytkownikom Nextcloud, którzy nie są członkami na karcie \"Udostępnianie\".",
     "Choose a project member, then a Nextcloud user to associate with." : "Wybierz członka projektu, a następnie użytkownika Nextcloud, z którym chcesz się połączyć.",
     "You can cut the link with a Nextcloud user by renaming the member." : "Możesz usunąć link z użytkownikiem Nextcloud, zmieniając nazwę członka.",

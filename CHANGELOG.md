@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - biweekly and semi monthly repetition frequencies
 [#19](https://github.com/eneiluj/cospend-nc/issues/19) @DrMantisTobbogan
+- hint about repetition in UI
+
+### Changed
+- improve simple member multiselect item design
+
+### Fixed
+- parse GET params and select project if an ID was given
+- add missing primary key for projects table
+[#24](https://github.com/eneiluj/cospend-nc/issues/24) @acsfer
 
 ## 1.2.2 – 2020-11-26
 ### Added

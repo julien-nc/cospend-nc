@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-12-08 13:21+0100\n"
-"PO-Revision-Date: 2020-12-08 12:22\n"
+"PO-Revision-Date: 2020-12-08 12:29\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -792,11 +792,11 @@ msgstr "Toutes les semaines"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:30
 msgid "Bi-weekly (every 2 weeks)"
-msgstr ""
+msgstr "Bihebdomadaire (toutes les 2 semaines)"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:31
 msgid "Semi-monthly (twice a month)"
-msgstr ""
+msgstr "Semi-mensuel (deux fois par mois)"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:32
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:233
@@ -928,7 +928,7 @@ msgstr "Vous pouvez taper des opérations mathématiques simples et valider en a
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:64
 msgid "Bill repetition process runs once a day as a background job. If your bills are not repeated, ask your Nextcloud administrator to check if \"Cron\" method is selected in admin settings."
-msgstr ""
+msgstr "Le processus de répétition de factures se déclenche une fois par jour dans une tâche de fond. Si vos factures ne sont pas répétées, demandez à votre administrateur Nextcloud de vérifier si la méthode \"Cron\" est sélectionnée dans les paramètres d'administration."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:66
 msgid "New bill"
@@ -1527,7 +1527,7 @@ msgstr "Échec de l'ajout du membre."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:241
 msgid "Create simple member"
-msgstr ""
+msgstr "Créer un membre simple"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:242
 msgid "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab."

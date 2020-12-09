@@ -1,7 +1,7 @@
 * [Introduction](#s1)
   * [What is a project :paperclip: ?](#s1-1)
   * [What are balances :balance_scale: ?](#s1-2)
-  * [What is a member :person\_with\_blond\_hair\_tone4: ?](#s1-3)
+  * [What is a member :blond_haired_person: ?](#s1-3)
   * [What is a bill :dollar: ?](#s1-4)
 * [Add a project](#s2)
   * [Guest access](#s2-1)
@@ -15,7 +15,7 @@
 
 Things you should know:
 
-* "Sometimes small tools save big time" (:person\_with\_blond\_hair: MacGyver)
+* "Sometimes small tools save big time" (:blond_haired_person: MacGyver)
 * Most (all?) fields are mandatory in Cospend. The cold interface messages will tell you that.
 
 ## <a id='s1-1' />What is a project :paperclip: ?
@@ -40,7 +40,7 @@ The only difference is the effect on other members balances:
 2. -5 in B's balance and -5 in C's balance
 3. -1 in each member's balance (if there are 10 members in the project)
 
-## <a id='s1-3' />What is a member :person\_with\_blond\_hair\_tone4: ?
+## <a id='s1-3' />What is a member :blond_haired_person: ?
 
 A member has a name, a weight and can be activated or not. When a member is disabled, it cannot be part of a new bill (as a payer or an ower). A disabled member will appear in member list until his/her balance reaches 0.
 

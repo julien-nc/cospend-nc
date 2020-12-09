@@ -28,7 +28,7 @@ Le client iOS [PayForMe](https://github.com/mayflower/PayForMe) est en cours de 
 * 🔗 générez des liens/QRCode pour facilement importer des projets dans MoneyBuster
 * 🗲 implémente les notifications Nextcloud et le flux d'activité
 
-This app is tested on Nextcloud 20+ with Firefox 57+ and Chromium.
+Cette application est testée sur Nextcloud 20+ avec Firefox 57+ et Chromium.
 
 Cette application est en cours de développement.
 
@@ -38,14 +38,14 @@ Cette application est en cours de développement.
 
 ## Documentation
 
-* [User documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
-* [Admin documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
-* [Developer documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
+* [Documentation utilisateur](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
+* [Documentation administrateur](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
+* [Documentation développeur](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
 * [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
-* [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
+* [AUTEURS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## Problèmes connus
 
-* it does not make you rich
+* ça ne vous rend pas riche
 
-Any feedback will be appreciated.
+Tout retour sera apprécié.

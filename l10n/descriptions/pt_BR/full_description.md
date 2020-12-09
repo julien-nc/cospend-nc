@@ -28,7 +28,7 @@ Os membros do projeto são independentes dos usuários do Nextcloud. Projetos po
 * gere link/QRCode para importar facilmente projetos no MoneyBuster
 * 🗲 implemente notificações e fluxo de atividades do Nextcloud
 
-Este aplicativo foi testado no Nextcloud 18 com Firefox 57+ e Chromium.
+This app is tested on Nextcloud 20+ with Firefox 57+ and Chromium.
 
 Este aplicativo está em desenvolvimento.
 
@@ -36,16 +36,16 @@ Este aplicativo está em desenvolvimento.
 
 ⚒ Veja outras formas de ajudar nos [guias de contribuição](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
-## Instalação
+## Documentation
 
-Consulte o [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc) para obter detalhes de instalação.
-
-Consulte o arquivo [CHANGELOG](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) para ver o que há de novo e o que está por vir na próxima versão.
-
-Consulte o arquivo [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) para ver a lista completa dos autores.
+* [User documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
+* [Admin documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
+* [Developer documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
+* [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## Problemas conhecidos
 
-* ele não te torna rico
+* it does not make you rich
 
-Qualquer feedback será apreciado.
+Any feedback will be appreciated.

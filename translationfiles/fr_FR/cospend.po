@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-12-09 18:09+0100\n"
-"PO-Revision-Date: 2020-12-09 17:11\n"
+"PO-Revision-Date: 2020-12-09 17:20\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -686,11 +686,11 @@ msgstr "Infos"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "{nb} bills were created"
-msgstr ""
+msgstr "{nb} factures ont été créées"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:4
 msgid "Nothing to repeat"
-msgstr ""
+msgstr "Rien à répéter"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:5
 msgid "Member {name} already exists"
@@ -699,7 +699,7 @@ msgstr "Le membre {name} existe déjà"
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:6
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Failed to get bills"
-msgstr ""
+msgstr "Impossible d'obtenir les factures"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:8
 msgid "Invalid project name"
@@ -832,7 +832,7 @@ msgstr "Répéter jusqu'à"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:40
 msgid "Repeat now"
-msgstr ""
+msgstr "Répéter maintenant"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:41
 msgid "Bill type"
@@ -947,11 +947,11 @@ msgstr "Vous pouvez taper des opérations mathématiques simples et valider en a
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:69
 msgid "Bill repetition process runs once a day as a background job. If your bills are not automatically repeated, ask your Nextcloud administrator to check if \"Cron\" method is selected in admin settings."
-msgstr ""
+msgstr "Le processus de répétition de factures se déclenche une fois par jour dans une tâche de fond. Si vos factures ne sont pas automatiquement répétées, demandez à votre administrateur Nextcloud de vérifier si la méthode \"Cron\" est sélectionnée dans les paramètres d'administration."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:70
 msgid "You can also manually repeat the current bill with the \"Repeat now\" button."
-msgstr ""
+msgstr "Vous pouvez également manuellement répéter la facture en cours avec le bouton \"Répéter maintenant\"."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:72
 msgid "New bill"
@@ -984,7 +984,7 @@ msgstr "Pas encore de facture"
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:81
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:82
 msgid "No more bills"
-msgstr ""
+msgstr "Pas plus de factures"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:83
 msgid "Leave multiple selection mode"

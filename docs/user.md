@@ -1,17 +1,28 @@
+* [Introduction](#s1)
+      * [What is a project :paperclip: ?](#s1-0-1)
+      * [What is a member :person\_with\_blond\_hair\_tone4:  ?](#s1-0-2)
+      * [What is a bill :dollar: ?](#s1-0-3)
+* [Add a project](#s2)
+  * [Guest access](#s2-1)
+* [Add a member](#s3)
+* [Add a bill](#s4)
+* [Project statistics](#s5)
+* [Settle the project](#s6)
+* [Anonymous project creation](#s7)
 [[_TOC_]]
 
-# Introduction
+# <a id='s1' />Introduction
 
 Things you should know :
 
 * "Sometimes small tools save big time" (:person\_with\_blond\_hair: MacGyver)
 * Most (all?) fields are mandatory in Cospend. The cold interface messages will tell you that.
 
-### What is a project :paperclip: ?
+### <a id='s1-0-1' />What is a project :paperclip: ?
 
 A project contains members and bills. A project is a way to manage what is spent in a group of persons. It's a way to know who paid what for whom and when and who owes how much to whom.
 
-### What is a member :person\_with\_blond\_hair\_tone4:  ?
+### <a id='s1-0-2' />What is a member :person\_with\_blond\_hair\_tone4:  ?
 
 A member has a name, a weight and can be activated or not. When a member is disabled, it cannot be part of a new bill (as a payer or an ower). A disabled member will appear in member list until his/her balance reaches 0.
 
@@ -23,17 +34,17 @@ For example if Roger, with a weight of 1, pays a 30 euros bill which concerns Ro
 
 It seems simple enough to do it intuitively with a small example but it gets really complicated for a bigger one. Let the tool do the job. :eyeglasses:
 
-### What is a bill :dollar: ?
+### <a id='s1-0-3' />What is a bill :dollar: ?
 
 A bill is a spending from one member which concerns one or more members in the project. A bill is defined by a name, an amount, a payer, a date and a list of owers.
 
-# Add a project
+# <a id='s2' />Add a project
 
 When you first visit the app, there is no project yet. Well let's create one!
 
 A project is defined by an ID, a name, a contact email address and a password. When you "add" a project. When creating a project from the web interface, the user's email address will be used as contact email address.
 
-## Guest access
+## <a id='s2-1' />Guest access
 
 The project ID and password are important to provide access to people who don't have an account on the Nextcloud instance. They can visit the "Guest access link", enter the project ID and the password and have access to the project just like a regular user.
 
@@ -41,25 +52,25 @@ This link looks like `https://YOUR.NEXTCLOUD.ORG/index.php/apps/cospend/login` o
 
 This link is accessible in projects context menu => "guest link".
 
-# Add a member
+# <a id='s3' />Add a member
 
 This is pretty simple. Press "+" in the project drop-down menu and then press "add a member".
 
 Just provide a user name and that's it. Member is added with a weight of 1 and is activated by default.
 
-# Add a bill
+# <a id='s4' />Add a bill
 
 Pretty simple too. Press the "new bill" button. Fill all fields and the bill will be saved automatically.
 
-# Project statistics
+# <a id='s5' />Project statistics
 
 Well does it need explanations ?
 
-# Settle the project
+# <a id='s6' />Settle the project
 
 This feature shows you a possible way to settle the bills and put everyone's balance back to 0.
 
-# Anonymous project creation
+# <a id='s7' />Anonymous project creation
 
 There is a Cospend setting called "anonymous project creation" which is only accessible to Nextcloud admins in "additional settings".
 

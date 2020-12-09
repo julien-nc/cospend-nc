@@ -54,7 +54,7 @@ I develop this app during my free time.
 
 ## Install
 
-See the [AdminDoc](https://github.com/eneiluj/cospend-nc/wiki/admindoc) for installation details.
+See the [AdminDoc](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md) for installation details.
 
 Check [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
 

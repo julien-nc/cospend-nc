@@ -28,7 +28,7 @@ Le client iOS [PayForMe](https://github.com/mayflower/PayForMe) est en cours de 
 * 🔗 générez des liens/QRCode pour facilement importer des projets dans MoneyBuster
 * 🗲 implémente les notifications Nextcloud et le flux d'activité
 
-Cette application est testée sur Nextcloud 18 avec Firefox 57+ et Chromium.
+This app is tested on Nextcloud 20+ with Firefox 57+ and Chromium.
 
 Cette application est en cours de développement.
 
@@ -36,16 +36,16 @@ Cette application est en cours de développement.
 
 ⚒ Découvrez d'autres façons d'aider dans les [indications de contribution](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
-## Installer
+## Documentation
 
-Voir l' [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc) pour les détails de l'installation.
-
-Voir le fichier [CHANGELOG](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) pour avoir la liste des nouveautés à venir dans la prochaine version.
-
-Lisez le fichier [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) pour voir la liste complète des auteurs.
+* [User documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
+* [Admin documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
+* [Developer documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
+* [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## Problèmes connus
 
-* ça ne vous rend pas riche
+* it does not make you rich
 
-Tout retour sera apprécié.
+Any feedback will be appreciated.

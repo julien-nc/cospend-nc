@@ -95,7 +95,14 @@
 		</transition-group>
 		<InfiniteLoading v-if="bills.length > 30"
 			:identifier="projectId"
-			@infinite="infiniteHandler" />
+			@infinite="infiniteHandler">
+			<template #no-results>
+				{{ t('cospend', 'No more bills') }}
+			</template>
+			<template #no-more>
+				{{ t('cospend', 'No more bills') }}
+			</template>
+		</InfiniteLoading>
 	</div>
 </template>
 

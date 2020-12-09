@@ -243,25 +243,16 @@ export default {
 			this.filterQuery = null
 		},
 		getFilteredBills(billList) {
-			const filteredBills = []
 			// Make sure to escape user input before creating regex from it:
 			const regex = new RegExp(this.filterQuery.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'i')
-			let bill
-			for (let i = 0; i < billList.length; i++) {
-				bill = billList[i]
-				if (regex.test(bill.what)) {
-					filteredBills.push(bill)
-				}
-			}
-			return filteredBills
+			return billList.filter(bill => {
+				return regex.test(bill.what)
+			})
 		},
 		cleanupBills() {
-			const billList = this.billLists[cospend.currentProjectId]
-			for (let i = 0; i < billList.length; i++) {
-				if (billList[i].id === 0) {
-					billList.splice(i, 1)
-					break
-				}
+			const i0 = this.billLists[cospend.currentProjectId].findIndex((bill) => { return bill.id === 0 })
+			if (i0 !== -1) {
+				this.billLists[cospend.currentProjectId].splice(i0, 1)
 			}
 		},
 		onBillCreated(bill, select, mode) {
@@ -415,13 +406,7 @@ export default {
 		onNewBillClicked() {
 			// find potentially existing new bill
 			const billList = this.billLists[cospend.currentProjectId]
-			let found = -1
-			for (let i = 0; i < billList.length; i++) {
-				if (billList[i].id === 0) {
-					found = i
-					break
-				}
-			}
+			const found = billList.findIndex((bill) => { return bill.id === 0 })
 			if (found === -1) {
 				const payerId = this.defaultPayerId
 				// select all owers
@@ -456,14 +441,10 @@ export default {
 		onBillClicked(billid) {
 			const billList = this.billLists[cospend.currentProjectId]
 			if (billid === 0) {
-				let found = -1
-				for (let i = 0; i < billList.length; i++) {
-					if (billList[i].id === 0) {
-						found = i
-						break
-					}
+				const found = billList.findIndex((bill) => { return bill.id === 0 })
+				if (found !== -1) {
+					this.currentBill = billList[found]
 				}
-				this.currentBill = billList[found]
 			} else {
 				this.currentBill = this.bills[cospend.currentProjectId][billid]
 			}
@@ -475,11 +456,7 @@ export default {
 		},
 		getProjectsSuccess(response) {
 			if (!cospend.pageIsPublic) {
-				let proj
-				for (let i = 0; i < response.length; i++) {
-					proj = response[i]
-					this.addProject(proj)
-				}
+				response.forEach((proj) => { this.addProject(proj) })
 				if (cospend.urlProjectId && cospend.urlProjectId in this.projects) {
 					this.selectProject(cospend.urlProjectId, false)
 				} else if (cospend.restoredCurrentProjectId !== null && cospend.restoredCurrentProjectId in this.projects) {
@@ -502,11 +479,9 @@ export default {
 			this.currentProject.nbBills = response.nb_bills
 			this.bills[projectid] = {}
 			this.$set(this.billLists, projectid, response.bills)
-			let bill
-			for (let i = 0; i < response.bills.length; i++) {
-				bill = response.bills[i]
+			response.bills.forEach((bill) => {
 				this.bills[projectid][bill.id] = bill
-			}
+			})
 			this.updateBalances(projectid)
 		},
 		getBillsDone() {
@@ -521,11 +496,9 @@ export default {
 				state.complete()
 			} else {
 				this.$set(this.billLists, projectid, this.billLists[projectid].concat(response.bills))
-				let bill
-				for (let i = 0; i < response.bills.length; i++) {
-					bill = response.bills[i]
+				response.bills.forEach((bill) => {
 					this.bills[projectid][bill.id] = bill
-				}
+				})
 				state.loaded()
 			}
 		},
@@ -534,21 +507,18 @@ export default {
 		addProject(proj) {
 			cospend.members[proj.id] = {}
 			this.$set(this.members, proj.id, cospend.members[proj.id])
-			for (let i = 0; i < proj.members.length; i++) {
-				cospend.members[proj.id][proj.members[i].id] = proj.members[i]
-				this.$set(this.members[proj.id], proj.members[i].id, proj.members[i])
-				// proj.members[i].balance = proj.balance[proj.members[i].id]
-				this.$set(this.members[proj.id][proj.members[i].id], 'balance', proj.balance[proj.members[i].id])
-				// proj.members[i].color = rgbObjToHex(proj.members[i].color).replace('#', '')
-				this.$set(this.members[proj.id][proj.members[i].id], 'color', rgbObjToHex(proj.members[i].color).replace('#', ''))
-			}
+			proj.members.forEach((member) => {
+				cospend.members[proj.id][member.id] = member
+				this.$set(this.members[proj.id], member.id, member)
+				this.$set(this.members[proj.id][member.id], 'balance', proj.balance[member.id])
+				this.$set(this.members[proj.id][member.id], 'color', rgbObjToHex(member.color).replace('#', ''))
+			})
 
 			cospend.bills[proj.id] = {}
 			this.$set(this.bills, proj.id, cospend.bills[proj.id])
 
 			cospend.billLists[proj.id] = []
 			this.$set(this.billLists, proj.id, cospend.billLists[proj.id])
-			// this.$set(cospend.projects, proj.id, proj)
 
 			cospend.projects[proj.id] = proj
 			this.$set(this.projects, proj.id, proj)

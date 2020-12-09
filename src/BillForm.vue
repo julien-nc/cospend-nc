@@ -1027,7 +1027,8 @@ export default {
 		},
 		onRepeatInfoClicked() {
 			OC.dialogs.info(
-				t('cospend', 'Bill repetition process runs once a day as a background job. If your bills are not repeated, ask your Nextcloud administrator to check if "Cron" method is selected in admin settings.'),
+				t('cospend', 'Bill repetition process runs once a day as a background job. If your bills are not automatically repeated, ask your Nextcloud administrator to check if "Cron" method is selected in admin settings.')
+					+ ' ' + t('cospend', 'You can also manually repeat the current bill with the "Repeat now" button.'),
 				t('cospend', 'Info')
 			)
 		},

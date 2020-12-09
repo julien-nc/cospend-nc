@@ -28,7 +28,7 @@ Nextcloud Cospend - это менеджер группового/общего б
 * 🔗 создание ссылки/QRCode для легкого импорта проектов в MoneyBuster
 * реализация потока уведомлений и активности Nextcloud
 
-Это приложение протестировано на Nextcloud 18 в Firefox 57+ и Chromium.
+This app is tested on Nextcloud 20+ with Firefox 57+ and Chromium.
 
 Это приложение находится в стадии разработки.
 
@@ -36,16 +36,16 @@ Nextcloud Cospend - это менеджер группового/общего б
 
 ⚒ Посмотрите другие возможности для помощи проекту в [contribution guidelines](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
-## Установка
+## Documentation
 
-Подробности установки см. в [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc).
-
-Обратитесь к файлу [CHANGELOG](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) чтобы увидеть, что нового и что будет в следующем выпуске.
-
-Полный список авторов находится в файле [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors).
+* [User documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
+* [Admin documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
+* [Developer documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
+* [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## Известные проблемы
 
-* оно не сделает вас богатым
+* it does not make you rich
 
-Мы будем признательны за любую обратную связь.
+Any feedback will be appreciated.

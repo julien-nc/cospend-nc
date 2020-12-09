@@ -2815,7 +2815,7 @@ class ProjectService {
     /**
      * daily check of repeated bills
      */
-    public function cronRepeatBills() {
+    public function cronRepeatBills(?int $billId = null): array {
         $result = [];
         $projects = [];
         $now = new \DateTime();
@@ -2831,6 +2831,12 @@ class ProjectService {
                 ->where(
                     $qb->expr()->neq('repeat', $qb->createNamedParameter('n', IQueryBuilder::PARAM_STR))
                 );
+            // we only repeat one bill
+            if (!is_null($billId)) {
+                $qb->andWhere(
+                    $qb->expr()->eq('id', $qb->createNamedParameter($billId, IQueryBuilder::PARAM_INT))
+                );
+            }
             $req = $qb->execute();
             $bills = [];
             while ($row = $req->fetch()) {
@@ -2866,17 +2872,20 @@ class ProjectService {
                 // Repeat if $nextDate is in the past (or today)
                 $diff = $now->diff($nextDate);
                 if ($nextDate->format('Y-m-d') === $now->format('Y-m-d') || $diff->invert) {
-                    $this->repeatBill($bill['projectid'], $bill['id'], $nextDate);
+                    $newBillId = $this->repeatBill($bill['projectid'], $bill['id'], $nextDate);
                     if (!array_key_exists($bill['projectid'], $projects)) {
                         $projects[$bill['projectid']] = $this->getProjectInfo($bill['projectid']);
                     }
                     $result[] = [
+                        'new_bill_id' => $newBillId,
                         'date_orig' => $billDate->format('Y-m-d'),
                         'date_repeat' => $nextDate->format('Y-m-d'),
                         'what' => $bill['what'],
                         'project_name' => $projects[$bill['projectid']]['name'],
                     ];
                     $continue = true;
+                    // when only repeating one bill, this newly created bill is the one we want to potentially repeat
+                    $billId = $newBillId;
                 }
             }
         }
@@ -2887,7 +2896,7 @@ class ProjectService {
      * duplicate the bill today and give it the repeat flag
      * remove the repeat flag on original bill
      */
-    private function repeatBill($projectid, $billid, $datetime) {
+    private function repeatBill(string $projectid, int $billid, $datetime) {
         $bill = $this->getBill($projectid, $billid);
 
         $owerIds = [];
@@ -2936,6 +2945,7 @@ class ProjectService {
         // now we can remove repeat flag on original bill
         $this->editBill($projectid, $billid, null, $bill['what'], $bill['payer_id'], null,
                         $bill['amount'], 'n', null, null, 0, null);
+        return $newBillId;
     }
 
     private function getNextRepetitionDate(array $bill, \DateTimeImmutable $billDate) {

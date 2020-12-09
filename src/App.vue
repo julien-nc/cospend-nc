@@ -47,7 +47,8 @@
 					@bill-created="onBillCreated"
 					@bill-saved="onBillSaved"
 					@custom-bills-created="onCustomBillsCreated"
-					@perso-bills-created="onPersoBillsCreated" />
+					@perso-bills-created="onPersoBillsCreated"
+					@repeat-bill-now="onRepeatBillNow" />
 				<Statistics
 					v-else-if="mode === 'stats'"
 					:project-id="currentProjectId" />
@@ -103,6 +104,7 @@ import moment from '@nextcloud/moment'
 import {
 	showSuccess,
 	showError,
+	showInfo,
 } from '@nextcloud/dialogs'
 import * as constants from './constants'
 import { rgbObjToHex, slugify } from './utils'
@@ -285,6 +287,19 @@ export default {
 					this.bills[cospend.currentProjectId][id].paymentmode = paymentmode
 				})
 			}
+		},
+		onRepeatBillNow(billId) {
+			network.repeatBillNow(cospend.currentProjectId, billId).then((response) => {
+				if (response.data.length > 0) {
+					this.getBills(cospend.currentProjectId)
+					showSuccess(t('cospend', '{nb} bills were created', { nb: response.data.length }))
+					this.currentBill = null
+				} else {
+					showInfo(t('cospend', 'Nothing to repeat'))
+				}
+			}).catch((error) => {
+				console.error(error)
+			})
 		},
 		onBillSaved(bill, changedBill) {
 			Object.assign(bill, changedBill)

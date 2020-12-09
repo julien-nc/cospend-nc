@@ -237,6 +237,16 @@
 							:readonly="!editionAccess"
 							@input="onBillEdited">
 					</div>
+					<div v-if="editionAccess && !isNewBill"
+						class="bill-repeat-until">
+						<label />
+						<button
+							class="repeat-now"
+							@click="$emit('repeat-bill-now', myBill.id)">
+							<span class="icon icon-play-next" />
+							{{ t('cospend', 'Repeat now') }}
+						</button>
+					</div>
 				</div>
 			</div>
 			<div class="bill-right">

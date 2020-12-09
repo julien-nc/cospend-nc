@@ -616,7 +616,7 @@ class PageController extends ApiController {
     public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for,
                                 $amount, $repeat, $paymentmode=null, $categoryid=null,
                                 $repeatallactive=null, $repeatuntil=null, $timestamp=null,
-                                $comment=null) {
+                                $comment=null): DataResponse {
         $userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
         if ($userAccessLevel >= ACCESS_PARTICIPANT) {
             $result =  $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
@@ -639,6 +639,25 @@ class PageController extends ApiController {
         else {
             $response = new DataResponse(
                 ['message' => $this->trans->t('You are not allowed to edit this bill')]
+                , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     *
+     */
+    public function webRepeatBill(string $projectid, int $billid): DataResponse {
+        $userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
+        if ($userAccessLevel >= ACCESS_PARTICIPANT) {
+            $result = $this->projectService->cronRepeatBills($billid);
+            return new DataResponse($result);
+        }
+        else {
+            $response = new DataResponse(
+                ['message' => $this->trans->t('You are not allowed to add bills')]
                 , 403
             );
             return $response;
@@ -1291,6 +1310,30 @@ class PageController extends ApiController {
             $response = new DataResponse(
                 ['message' => $this->trans->t('You are not allowed to add bills')]
                 , 403
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     * @CORS
+     */
+    public function apiRepeatBill(string $projectid, string $password, int $billid): DataResponse {
+        $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
+        if (
+            ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_PARTICIPANT)
+        ) {
+            $result = $this->projectService->cronRepeatBills($billid);
+            return new DataResponse($result);
+        }
+        else {
+            $response = new DataResponse(
+                ['message' => $this->trans->t('You are not allowed to add bills')]
+                , 401
             );
             return $response;
         }

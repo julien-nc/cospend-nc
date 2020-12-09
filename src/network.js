@@ -270,6 +270,13 @@ export function editProject(project, password, successCB) {
 		})
 }
 
+export function repeatBillNow(projectId, billId) {
+	const url = cospend.pageIsPublic
+		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills/' + billId + '/repeat')
+		: generateUrl('/apps/cospend/projects/' + projectId + '/bills/' + billId + '/repeat')
+	return axios.get(url)
+}
+
 export function saveBill(projectid, bill, successCB, doneCB) {
 	const req = {
 		what: bill.what,

@@ -1,7 +1,7 @@
 * [Introduction](#s1)
   * [What is a project :paperclip: ?](#s1-1)
   * [What are balances :balance_scale: ?](#s1-2)
-  * [What is a member :blond_haired_person: ?](#s1-3)
+  * [What is a member :ok_woman: ?](#s1-3)
   * [What is a bill :dollar: ?](#s1-4)
 * [Add a project](#s2)
   * [Guest access](#s2-1)
@@ -40,7 +40,7 @@ The only difference is the effect on other members balances:
 2. -5 in B's balance and -5 in C's balance
 3. -1 in each member's balance (if there are 10 members in the project)
 
-## <a id='s1-3' />What is a member :blond_haired_person: ?
+## <a id='s1-3' />What is a member :ok_woman: ?
 
 A member has a name, a weight and can be activated or not. When a member is disabled, it cannot be part of a new bill (as a payer or an ower). A disabled member will appear in member list until his/her balance reaches 0.
 

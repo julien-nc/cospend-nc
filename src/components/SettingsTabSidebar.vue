@@ -90,7 +90,7 @@
 				</h3>
 				<div id="affectDiv">
 					<select v-model="selectedMember">
-						<option v-for="member in activatedMembers"
+						<option v-for="member in activeMembers"
 							:key="member.id"
 							:value="member.id">
 							{{ member.name }}
@@ -165,18 +165,11 @@ export default {
 		memberList() {
 			return this.project.members
 		},
-		activatedMembers() {
-			const mList = this.memberList
-			const actList = []
-			for (let i = 0; i < mList.length; i++) {
-				if (mList[i].activated) {
-					actList.push(mList[i])
-				}
-			}
-			return actList
+		activeMembers() {
+			return this.memberList.filter((member) => { return member.activated })
 		},
 		firstMid() {
-			return this.activatedMembers[0].id
+			return this.activeMembers[0].id
 		},
 		projectId() {
 			return this.project.id
@@ -350,11 +343,9 @@ export default {
 		},
 		updateSimpleUser(name) {
 			// delete existing simple user
-			for (let i = 0; i < this.users.length; i++) {
-				if (this.users[i].type === 's') {
-					this.users.splice(i, 1)
-					break
-				}
+			const iToDel = this.users.findIndex((user) => { return user.type === 's' })
+			if (iToDel !== -1) {
+				this.users.splice(iToDel, 1)
 			}
 			// without this, simple member creation works once every two tries
 			this.selectedAddUser = null

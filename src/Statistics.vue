@@ -407,13 +407,13 @@ export default {
 		membersPaidForData() {
 			const rows = []
 			const memberIds = this.stats.allMemberIds
-			for (let i = 0; i < memberIds.length; i++) {
+			memberIds.forEach((mid) => {
 				rows.push({
-					memberid: memberIds[i],
-					name: this.myGetSmartMemberName(memberIds[i]),
-					...this.stats.membersPaidFor[memberIds[i]],
+					memberid: mid,
+					name: this.myGetSmartMemberName(mid),
+					...this.stats.membersPaidFor[mid],
 				})
-			}
+			})
 			rows.push({
 				memberid: 0,
 				name: 'total',
@@ -422,32 +422,21 @@ export default {
 			return rows
 		},
 		totalPayed() {
-			let totalPayed = 0.0
-			for (let i = 0; i < this.stats.stats.length; i++) {
-				totalPayed += this.stats.stats[i].paid
-			}
-			return totalPayed
+			return this.stats.stats.map(s => s.paid).reduce((acc, curr) => acc + curr)
 		},
 		monthlyMemberStats() {
-			const rows = []
 			const memberIds = this.stats.memberIds
 			const mids = memberIds.slice()
 			mids.push('0')
-			let mid, row
-			for (let i = 0; i < mids.length; i++) {
-				mid = mids[i]
-				row = {}
-				if (mid === '0') {
-					row.member = { name: t('cospend', 'All members'), id: 0 }
-				} else {
-					row.member = cospend.members[this.projectId][mid]
+			return mids.map((mid) => {
+				const row = {
+					member: mid === '0' ? { name: t('cospend', 'All members'), id: 0 } : cospend.members[this.projectId][mid],
 				}
 				for (const month in this.stats.monthlyStats) {
 					row[month] = this.stats.monthlyStats[month][mid]
 				}
-				rows.push(row)
-			}
-			return rows
+				return row
+			})
 		},
 		categoryMonths() {
 			const months = []
@@ -594,38 +583,18 @@ export default {
 			}
 		},
 		memberPieData() {
-			const memberBackgroundColors = []
-			const memberData = {
+			const memberBackgroundColors = this.stats.stats.map((stat) => '#' + this.members[stat.member.id].color)
+			return {
 				// 2 datasets: paid and spent
 				datasets: [{
-					data: [],
-					backgroundColor: [],
+					data: this.stats.stats.map((stat) => stat.paid.toFixed(2)),
+					backgroundColor: memberBackgroundColors,
 				}, {
-					data: [],
-					backgroundColor: [],
+					data: this.stats.stats.map((stat) => stat.spent.toFixed(2)),
+					backgroundColor: memberBackgroundColors,
 				}],
-				labels: [],
+				labels: this.stats.stats.map((stat) => stat.member.name),
 			}
-			// let sumPaid = 0
-			// let sumSpent = 0
-			let paid, spent, name, color
-			for (let i = 0; i < this.stats.stats.length; i++) {
-				paid = this.stats.stats[i].paid.toFixed(2)
-				spent = this.stats.stats[i].spent.toFixed(2)
-				// sumPaid += parseFloat(paid)
-				// sumSpent += parseFloat(spent)
-				name = this.stats.stats[i].member.name
-				color = '#' + this.members[this.stats.stats[i].member.id].color
-				memberData.datasets[0].data.push(paid)
-				memberData.datasets[1].data.push(spent)
-
-				memberBackgroundColors.push(color)
-
-				memberData.labels.push(name)
-			}
-			memberData.datasets[0].backgroundColor = memberBackgroundColors
-			memberData.datasets[1].backgroundColor = memberBackgroundColors
-			return memberData
 		},
 		memberPieOptions() {
 			return {

@@ -17,8 +17,9 @@
 			ref="shareWithList"
 			class="shareWithList">
 			<li v-if="editionAccess"
+				class="add-public-link-line"
 				@click="addLink">
-				<div class="avatardiv icon icon-public-white" />
+				<div :class="'avatardiv icon icon-public-white' + (addingPublicLink ? ' loading' : '')" />
 				<span class="username">
 					{{ t('cospend', 'Add public link') }}
 				</span>
@@ -239,12 +240,12 @@ export default {
 
 	data() {
 		return {
-			isLoading: false,
 			selectedSharee: null,
 			sharees: [],
 			guestLinkCopied: false,
 			linkCopied: {},
 			newPasswordReadonly: true,
+			addingPublicLink: false,
 		}
 	},
 
@@ -259,22 +260,10 @@ export default {
 			return this.project.shares
 		},
 		linkShares() {
-			const ls = []
-			for (let i = 0; i < this.shares.length; i++) {
-				if (this.shares[i].type === 'l') {
-					ls.push(this.shares[i])
-				}
-			}
-			return ls
+			return this.shares.filter((sh) => { return sh.type === 'l' })
 		},
 		ugcShares() {
-			const ls = []
-			for (let i = 0; i < this.shares.length; i++) {
-				if (this.shares[i].type !== 'l') {
-					ls.push(this.shares[i])
-				}
-			}
-			return ls
+			return this.shares.filter((sh) => { return sh.type !== 'l' })
 		},
 		projectId() {
 			return this.project.id
@@ -341,7 +330,6 @@ export default {
 				&& (access.type !== 'u' || !this.isCurrentUser(access.userid))
 		},
 		asyncFind() {
-			this.isLoading = true
 			this.loadSharees()
 		},
 		loadSharees() {
@@ -402,7 +390,8 @@ export default {
 			this.addSharedAccess(this.selectedSharee)
 		},
 		addSharedAccess(sh) {
-			network.addSharedAccess(this.projectId, sh, this.addSharedAccessSuccess)
+			this.addingPublicLink = true
+			network.addSharedAccess(this.projectId, sh, this.addSharedAccessSuccess, this.addSharedAccessDone)
 		},
 		addSharedAccessSuccess(response, sh, projectid) {
 			const newShAccess = {
@@ -425,6 +414,9 @@ export default {
 			}
 			cospend.projects[this.projectId].shares.push(newShAccess)
 			this.selectedSharee = null
+		},
+		addSharedAccessDone() {
+			this.addingPublicLink = false
 		},
 		clickAccessLevel(access, level) {
 			network.setAccessLevel(this.projectId, access, level, this.setAccessLevelSuccess)
@@ -493,6 +485,10 @@ export default {
 }
 </script>
 <style scoped>
+.add-public-link-line * {
+	cursor: pointer;
+}
+
 .shareInput {
 	width: 100%;
 }

@@ -730,7 +730,7 @@ export function loadUsers(successCB) {
 		})
 }
 
-export function addSharedAccess(projectid, sh, successCB) {
+export function addSharedAccess(projectid, sh, successCB, thenCB = null) {
 	const req = {
 		accesslevel: sh.accesslevel || constants.ACCESS.PARTICIPANT,
 		manually_added: sh.manually_added,
@@ -757,6 +757,10 @@ export function addSharedAccess(projectid, sh, successCB) {
 				t('cospend', 'Failed to add shared access')
 				+ ': ' + error.response.request.responseText
 			)
+		}).then(() => {
+			if (thenCB !== null) {
+				thenCB()
+			}
 		})
 }
 

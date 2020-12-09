@@ -711,12 +711,9 @@ export default {
 			if (currencyId !== '') {
 				const userAmount = parseFloat(this.myBill.amount)
 				currencyId = parseInt(currencyId)
-				let currency = null
-				for (let i = 0; i < this.currencies.length; i++) {
-					if (parseInt(this.currencies[i].id) === currencyId) {
-						currency = this.currencies[i]
-						break
-					}
+				const currency = this.currencies.find((c) => { return parseInt(c.id) === currencyId })
+				if (!currency) {
+					return
 				}
 				this.progAmountChange = true
 				this.myBill.amount = parseFloat(this.myBill.amount) * currency.exchange_rate
@@ -747,12 +744,10 @@ export default {
 			}
 		},
 		cleanStringFromCurrency(str) {
-			let currency, re
-			for (let i = 0; i < this.currencies.length; i++) {
-				currency = this.currencies[i]
-				re = new RegExp(' \\(\\d+\\.?\\d* ' + currency.name + '\\)', 'g')
+			this.currencies.forEach((c) => {
+				const re = new RegExp(' \\(\\d+\\.?\\d* ' + c.name + '\\)', 'g')
 				str = str.replace(re, '')
-			}
+			})
 			return str
 		},
 		onAmountChanged() {

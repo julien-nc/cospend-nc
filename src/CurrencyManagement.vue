@@ -170,14 +170,10 @@ export default {
 			network.deleteCurrency(this.project.id, currency, this.deleteCurrencySuccess)
 		},
 		deleteCurrencySuccess(currency) {
-			let iToDel = null
-			for (let i = 0; i < this.currencies.length; i++) {
-				if (parseInt(this.currencies[i].id) === parseInt(currency.id)) {
-					iToDel = i
-					break
-				}
-			}
-			if (iToDel !== null) {
+			const iToDel = this.currencies.findIndex((c) => {
+				return parseInt(c.id) === parseInt(currency.id)
+			})
+			if (iToDel !== -1) {
 				this.currencies.splice(iToDel, 1)
 			}
 		},

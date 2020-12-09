@@ -31,7 +31,7 @@ Projects can be accessed and modified by people without a Nextcloud account. Eac
 * 🔗 generate link/QRCode to easily import projects in MoneyBuster
 * 🗲 implement Nextcloud notifications and activity stream
 
-This app is tested on Nextcloud 18 with Firefox 57+ and Chromium.
+This app is tested on Nextcloud 20+ with Firefox 57+ and Chromium.
 
 This app is under development.
 
@@ -39,13 +39,13 @@ This app is under development.
 
 ⚒ Check out other ways to help in the [contribution guidelines](https://github.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
-## Install
+## Documentation
 
-See the [AdminDoc](https://github.com/eneiluj/cospend-nc/wiki/admindoc) for installation details.
-
-Check [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
-
-Check [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+* [User documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
+* [Admin documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
+* [Developer documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
+* [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## Known issues
 

@@ -35,7 +35,7 @@ Projects can be accessed and modified by people without a Nextcloud account. Eac
 * 🔗 generate link/QRCode to easily import projects in MoneyBuster
 * 🗲 implement Nextcloud notifications and activity stream
 
-This app is tested on Nextcloud 18 with Firefox 57+ and Chromium.
+This app is tested on Nextcloud 20+ with Firefox 57+ and Chromium.
 
 This app is under development.
 
@@ -52,13 +52,13 @@ I develop this app during my free time.
 * [Paypal: <img src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png" width="100"/>](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66PALMY8SF5JE) (you don't need a paypal account)
 * [Liberapay : ![Donate using Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/eneiluj/donate)
 
-## Install
+## Documentation
 
-See the [AdminDoc](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md) for installation details.
-
-Check [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
-
-Check [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) file to see complete list of authors and contributors.
+* [User documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
+* [Admin documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
+* [Developer documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
+* [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## Known issues
 

@@ -1,7 +1,8 @@
 * [Introduction](#s1)
-      * [What is a project :paperclip: ?](#s1-0-1)
-      * [What is a member :person\_with\_blond\_hair\_tone4:  ?](#s1-0-2)
-      * [What is a bill :dollar: ?](#s1-0-3)
+  * [What is a project :paperclip: ?](#s1-1)
+  * [What are balances :balance_scale: ?](#s1-2)
+  * [What is a member :person\_with\_blond\_hair\_tone4: ?](#s1-3)
+  * [What is a bill :dollar: ?](#s1-4)
 * [Add a project](#s2)
   * [Guest access](#s2-1)
 * [Add a member](#s3)
@@ -9,20 +10,37 @@
 * [Project statistics](#s5)
 * [Settle the project](#s6)
 * [Anonymous project creation](#s7)
-[[_TOC_]]
 
 # <a id='s1' />Introduction
 
-Things you should know :
+Things you should know:
 
 * "Sometimes small tools save big time" (:person\_with\_blond\_hair: MacGyver)
 * Most (all?) fields are mandatory in Cospend. The cold interface messages will tell you that.
 
-### <a id='s1-0-1' />What is a project :paperclip: ?
+## <a id='s1-1' />What is a project :paperclip: ?
 
 A project contains members and bills. A project is a way to manage what is spent in a group of persons. It's a way to know who paid what for whom and when and who owes how much to whom.
 
-### <a id='s1-0-2' />What is a member :person\_with\_blond\_hair\_tone4:  ?
+## <a id='s1-2' />What are balances :balance_scale: ?
+
+The balance value represents the situation of a member in a project. A positive balance indicates that the member payed more for the group than the grouped payed for him/her. By keeping an eye on the balance, one can stop taking care of exactly how much he/she owes to each project member.
+
+If member A has a negative balance, -10 for example, it just means A owes 10$ to the group. Any payment of 10$ to the group (or a sub part of the group) will bring the balance back to zero. It does not matter who it was payed for.
+
+All those actions have the same effect on member A's balance => bring it up:
+
+1. Member A pays 10$ to member B
+2. Member A pays 5$ to member B and 5$ to member C
+3. Member A pays a 10$ cake for the whole group
+
+The only difference is the effect on other members balances:
+
+1. -10 in B's balance
+2. -5 in B's balance and -5 in C's balance
+3. -1 in each member's balance (if there are 10 members in the project)
+
+## <a id='s1-3' />What is a member :person\_with\_blond\_hair\_tone4: ?
 
 A member has a name, a weight and can be activated or not. When a member is disabled, it cannot be part of a new bill (as a payer or an ower). A disabled member will appear in member list until his/her balance reaches 0.
 
@@ -34,7 +52,7 @@ For example if Roger, with a weight of 1, pays a 30 euros bill which concerns Ro
 
 It seems simple enough to do it intuitively with a small example but it gets really complicated for a bigger one. Let the tool do the job. :eyeglasses:
 
-### <a id='s1-0-3' />What is a bill :dollar: ?
+## <a id='s1-4' />What is a bill :dollar: ?
 
 A bill is a spending from one member which concerns one or more members in the project. A bill is defined by a name, an amount, a payer, a date and a list of owers.
 

@@ -28,7 +28,7 @@ Nextcloud Cospend یک مدیر بودجه گروهی/ اشتراکی است. ا
 * پیوند/ کدQR ایجاد کنید تا پروژه‌ها به راحتی در MoneyBuster وارد شوند
 * 🗲 اعلان‌های Nextcloud و جریان فعالیت را پیاده سازی کنید
 
-این برنامه روی Nextcloud 18 با فایرفاکس 57+ و کرومیوم آزمایش شده است.
+This app is tested on Nextcloud 20+ with Firefox 57+ and Chromium.
 
 این برنامه در حال توسعه است.
 
@@ -36,16 +36,16 @@ Nextcloud Cospend یک مدیر بودجه گروهی/ اشتراکی است. ا
 
 ⚒ راه‌های دیگر برای کمک را در [دستورالعمل‌های مشارکت](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md) ببینید.
 
-## نصب
+## Documentation
 
-برای جزئیات نصب [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc) را مشاهده کنید.
-
-پرونده [ CHANGELOG ](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) را بررسی کنید تا ببینید چه چیزی تازه است و چه چیزی در نگارش بعدی می‌آید.
-
-برای مشاهده فهرست کامل سازندگان [نویسندگان](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) را بررسی کنید.
+* [User documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
+* [Admin documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
+* [Developer documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
+* [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## مشکلات شناخته شده
 
-* شما را ثروتمند نمی‌کند
+* it does not make you rich
 
-از هر بازخوردی قدردانی می‌شود.
+Any feedback will be appreciated.

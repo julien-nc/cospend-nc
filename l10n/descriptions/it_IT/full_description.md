@@ -28,7 +28,7 @@ Il client per Android [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) è [
 * 🔗 genera link/codice QR per importare facilmente progetti in MoneyBuster
 * 🗲 implementa le notifiche e il flusso di attività di Nextcloud
 
-Questa app è testata su Nextcloud 18 con Firefox 57+ e Chromium.
+This app is tested on Nextcloud 20+ with Firefox 57+ and Chromium.
 
 Questa app è in fase di sviluppo.
 
@@ -36,16 +36,16 @@ Questa app è in fase di sviluppo.
 
 ⚒ Scopri altri modi per aiutare nelle linee guida per [contributi](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
-## Installazione
+## Documentation
 
-Vedi gli [AdminDoc](https://gitlab.com/eneiluj/cospend-nc/wikis/admindoc) per i dettagli di installazione.
-
-Controlla il file [CHANGELOG](https://gitlab.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log) per vedere cosa è nuovo e cosa sta arrivando con la prossima versione.
-
-Controlla il file [AUTHORS](https://gitlab.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors) per vedere l'elenco completo degli autori.
+* [User documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
+* [Admin documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
+* [Developer documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
+* [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## Problemi noti
 
-* non ti rende ricco
+* it does not make you rich
 
-Qualsiasi feedback sarà apprezzato.
+Any feedback will be appreciated.

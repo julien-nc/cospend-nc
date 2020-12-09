@@ -434,6 +434,7 @@ export default {
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			projectId: cospend.currentProjectId,

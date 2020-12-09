@@ -101,7 +101,7 @@ export function getProjects(callback) {
 		})
 }
 
-export function getBills(projectid, offset, limit, successCB, doneCB, state = null) {
+export function getBills(projectid, offset, limit) {
 	const req = {
 		params: {
 			offset,
@@ -109,25 +109,10 @@ export function getBills(projectid, offset, limit, successCB, doneCB, state = nu
 			reverse: true,
 		},
 	}
-	let url
-	if (!cospend.pageIsPublic) {
-		url = generateUrl('/apps/cospend/projects/' + projectid + '/bills')
-	} else {
-		url = generateUrl('/apps/cospend/apiv3/projects/' + cospend.projectid + '/' + cospend.password + '/bills')
-	}
-	axios.get(url, req)
-		.then((response) => {
-			successCB(projectid, response.data, state)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to get projects')
-				+ ': ' + error.response?.request?.responseText
-			)
-		})
-		.then(() => {
-			doneCB()
-		})
+	const url = cospend.pageIsPublic
+		? generateUrl('/apps/cospend/apiv3/projects/' + cospend.projectid + '/' + cospend.password + '/bills')
+		: generateUrl('/apps/cospend/projects/' + projectid + '/bills')
+	return axios.get(url, req)
 }
 
 export function createProject(name, id, successCB) {

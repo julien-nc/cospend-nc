@@ -282,9 +282,9 @@ export default {
 		onRepeatBillNow(billId) {
 			network.repeatBillNow(cospend.currentProjectId, billId).then((response) => {
 				if (response.data.length > 0) {
-					this.getBills(cospend.currentProjectId)
+					this.getBills(cospend.currentProjectId, billId)
 					showSuccess(t('cospend', '{nb} bills were created', { nb: response.data.length }))
-					this.currentBill = null
+					// this.currentBill = null
 				} else {
 					showInfo(t('cospend', 'Nothing to repeat'))
 				}
@@ -471,38 +471,47 @@ export default {
 			}
 			this.projectsLoading = false
 		},
-		getBills(projectid) {
+		getBills(projectid, selectBillId = null) {
 			this.billsLoading = true
-			network.getBills(projectid, 0, 50, this.getBillsSuccess, this.getBillsDone)
-		},
-		getBillsSuccess(projectid, response) {
-			this.currentProject.nbBills = response.nb_bills
-			this.bills[projectid] = {}
-			this.$set(this.billLists, projectid, response.bills)
-			response.bills.forEach((bill) => {
-				this.bills[projectid][bill.id] = bill
-			})
-			this.updateBalances(projectid)
-		},
-		getBillsDone() {
-			this.billsLoading = false
-		},
-		loadMoreBills(projectid, state) {
-			network.getBills(projectid, this.billLists[projectid].length, 20, this.getMoreBillsSuccess, this.getMoreBillsDone, state)
-		},
-		getMoreBillsSuccess(projectid, response, state) {
-			this.currentProject.nbBills = response.nb_bills
-			if (!response.bills || response.bills.length === 0) {
-				state.complete()
-			} else {
-				this.$set(this.billLists, projectid, this.billLists[projectid].concat(response.bills))
-				response.bills.forEach((bill) => {
+			network.getBills(projectid, 0, 50).then((response) => {
+				this.currentProject.nbBills = response.data.nb_bills
+				this.bills[projectid] = {}
+				this.$set(this.billLists, projectid, response.data.bills)
+				response.data.bills.forEach((bill) => {
 					this.bills[projectid][bill.id] = bill
 				})
-				state.loaded()
-			}
+				this.updateBalances(projectid)
+				if (selectBillId !== null && this.bills[projectid][selectBillId]) {
+					this.currentBill = this.bills[projectid][selectBillId]
+				}
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to get bills')
+					+ ': ' + error.response?.request?.responseText
+				)
+			}).then(() => {
+				this.billsLoading = false
+			})
 		},
-		getMoreBillsDone() {
+		loadMoreBills(projectid, state) {
+			network.getBills(projectid, this.billLists[projectid].length, 20).then((response) => {
+				this.currentProject.nbBills = response.data.nb_bills
+				if (!response.data.bills || response.data.bills.length === 0) {
+					state.complete()
+				} else {
+					this.$set(this.billLists, projectid, this.billLists[projectid].concat(response.data.bills))
+					response.data.bills.forEach((bill) => {
+						this.bills[projectid][bill.id] = bill
+					})
+					state.loaded()
+				}
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to get bills')
+					+ ': ' + error.response?.request?.responseText
+				)
+			}).then(() => {
+			})
 		},
 		addProject(proj) {
 			cospend.members[proj.id] = {}

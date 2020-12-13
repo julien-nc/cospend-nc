@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-12-09 18:09+0100\n"
-"PO-Revision-Date: 2020-12-09 17:10\n"
+"PO-Revision-Date: 2020-12-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -1181,7 +1181,7 @@ msgstr "Niemand (optimal)"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "Settlement date"
-msgstr ""
+msgstr "Abrechnungsdatum"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:137
 msgid "Set to beginning of this day"
@@ -1197,7 +1197,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:140
 msgid "Settlement plan on {date}"
-msgstr ""
+msgstr "Abrechnungsplan für {date}"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:140
 msgid "Settlement plan"

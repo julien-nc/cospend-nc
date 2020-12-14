@@ -25,10 +25,10 @@ Projektmitglieder sind unabhängig von Nextcloud Benutzern. Projekte können von
 * 👩 Gastzugang für Personen ohne Nextcloud-Konto
 * 👫 Projekte mit Nextcloud-Benutzern/Gruppen/Kreisen teilen
 * 🖫 Importiere/Exportieren ein Projekt als CSV (kompatibel mit CSV-Dateien von IHateMoney)
-* 🔗 Link/QRCode generieren, um Projekte einfach in MoneyBuster zu importieren
+* 🔗 Link/QR-Code generieren, um Projekte einfach in MoneyBuster zu importieren
 * 🗲 Implementierung von Nextcloud-Benachrichtigungen und Aktivitäten
 
-This app is tested on Nextcloud 20+ with Firefox 57+ and Chromium.
+Diese App wurde auf Nextcloud 20+ mit Firefox 57+ und Chromium getestet.
 
 Diese App ist in Entwicklung.
 
@@ -36,16 +36,16 @@ Diese App ist in Entwicklung.
 
 ⚒ Weitere Hilfestellungen sind in den [Beitragsrichtlinien](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
-## Documentation
+## Dokumentation
 
-* [User documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
-* [Admin documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
-* [Developer documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
-* [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
-* [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
+* [Benutzer-Dokumentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
+* [Admin-Dokumentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
+* [Entwickler-Dokumentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
+* [CHANGELOG / Änderungen](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [AUTHORS / Ersteller](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## Bekannte Probleme
 
-* it does not make you rich
+* Es macht dich nicht reich
 
-Any feedback will be appreciated.
+Jedes Feedback ist willkommen.

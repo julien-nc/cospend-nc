@@ -28,7 +28,7 @@ Nextcloud Cospend е групен менаџер на буџет. Инспири
 * 🔗 генерирање на линк/QR Код за едноставно увезување на проекти во MoneyBuster
 * 🗲 имплементирани известувања во Nextcloud
 
-This app is tested on Nextcloud 20+ with Firefox 57+ and Chromium.
+Оваа апликација е тестирана на Nextcloud 20+ со Firefox 57+ и Chromium.
 
 Апликацијата сеуште е во фаза на развивање.
 
@@ -36,16 +36,16 @@ This app is tested on Nextcloud 20+ with Firefox 57+ and Chromium.
 
 ⚒ Проверете дали можете на други начин да помогнете во [упатства за придонес](https://github.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
-## Documentation
+## Документација
 
-* [User documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
-* [Admin documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
-* [Developer documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
-* [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
-* [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
+* [Корисничка документација](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
+* [Администраторска документација](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
+* [Програмерска документација](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
+* [ЛИСТА СО ПРОМЕНИ](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [АВТОРИ](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## Познати проблеми
 
-* it does not make you rich
+* не те прави богат
 
-Any feedback will be appreciated.
+Сите повратни информации ќе бидат ценети.

@@ -2,26 +2,11 @@
 	<AppNavigation>
 		<template slot="list">
 			<div v-if="!pageIsPublic && !loading">
-				<AppNavigationItem v-if="!creating"
-					class="buttonItem"
+				<AppNavigationNewItem
 					icon="icon-add"
 					:title="t('cospend', 'New project')"
-					@click.prevent.stop="startCreateProject" />
-				<div v-else
-					class="project-create">
-					<form @submit.prevent.stop="createProject">
-						<input type="text"
-							:placeholder="t('cospend', 'New project name')"
-							required>
-						<input type="submit"
-							value=""
-							class="icon-confirm">
-						<Actions>
-							<ActionButton icon="icon-close"
-								@click.stop.prevent="cancelCreate" />
-						</Actions>
-					</form>
-				</div>
+					:edit-placeholder="t('cospend', 'New project name')"
+					@new-item="$emit('create-project', $event)" />
 			</div>
 			<h2 v-if="loading"
 				class="icon-loading-small loading-icon" />
@@ -112,12 +97,11 @@
 import ClickOutside from 'vue-click-outside'
 import AppNavigationProjectItem from './AppNavigationProjectItem'
 
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
 import AppNavigationSettings from '@nextcloud/vue/dist/Components/AppNavigationSettings'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import AppNavigationNewItem from '@nextcloud/vue/dist/Components/AppNavigationNewItem'
 
 import { generateUrl } from '@nextcloud/router'
 import cospend from '../state'
@@ -135,9 +119,8 @@ export default {
 		AppNavigation,
 		AppNavigationItem,
 		AppNavigationSettings,
-		ActionButton,
-		Actions,
 		EmptyContent,
+		AppNavigationNewItem,
 	},
 	directives: {
 		ClickOutside,
@@ -280,17 +263,6 @@ export default {
 		},
 		onMemberEdited(projectid, memberid) {
 			this.$emit('member-edited', projectid, memberid)
-		},
-		startCreateProject(e) {
-			this.creating = true
-		},
-		createProject(e) {
-			const name = e.currentTarget.childNodes[0].value
-			this.$emit('create-project', name)
-			this.creating = false
-		},
-		cancelCreate(e) {
-			this.creating = false
 		},
 	},
 }

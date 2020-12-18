@@ -438,10 +438,9 @@ export default {
 			try {
 				await this.$copyText(publicLink)
 				this.$set(this.linkCopied, access.id, true)
-				const that = this
 				// eslint-disable-next-line
 				new Timer(() => {
-					that.$set(that.linkCopied, access.id, false)
+					this.$set(this.linkCopied, access.id, false)
 				}, 5000)
 			} catch (error) {
 				console.debug(error)
@@ -464,10 +463,9 @@ export default {
 			try {
 				await this.$copyText(guestLink)
 				this.guestLinkCopied = true
-				const that = this
 				// eslint-disable-next-line
 				new Timer(() => {
-					that.guestLinkCopied = false
+					this.guestLinkCopied = false
 				}, 5000)
 			} catch (error) {
 				console.debug(error)

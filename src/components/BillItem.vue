@@ -199,10 +199,9 @@ export default {
 					this.$emit('delete', this.bill)
 				} else {
 					this.timerOn = true
-					const that = this
 					this.timer = new Timer(() => {
-						that.timerOn = false
-						that.$emit('delete', that.bill)
+						this.timerOn = false
+						this.$emit('delete', this.bill)
 					}, 7000)
 				}
 			}

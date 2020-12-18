@@ -137,10 +137,8 @@ export default {
 		},
 		onDeleteProjectClick() {
 			this.deleting = true
-			const that = this
 			this.deletionTimer = new Timer(() => {
-				// that.deleting = false
-				that.$emit('delete-project', that.project.id)
+				this.$emit('delete-project', this.project.id)
 			}, 7000)
 		},
 		cancelDeletion() {

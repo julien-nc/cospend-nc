@@ -96,20 +96,19 @@ export default {
 			this.$refs.qrcodediv.appendChild(qr)
 		},
 		genQRCodeWithImage() {
-			const that = this
 			const img = new Image()
 			// wait for the image to be loaded to generate the QRcode
-			img.onload = function() {
+			img.onload = () => {
 				const qr = kjua({
-					text: that.link,
+					text: this.link,
 					crisp: false,
-					render: that.render,
+					render: this.render,
 					minVersion: 6,
 					ecLevel: 'H',
-					size: that.size,
-					back: that.bgcolor,
-					fill: that.fgcolor,
-					rounded: that.rounded,
+					size: this.size,
+					back: this.bgcolor,
+					fill: this.fgcolor,
+					rounded: this.rounded,
 					quiet: 1,
 					mode: 'image',
 					mSize: 20,
@@ -118,20 +117,20 @@ export default {
 					image: img,
 					label: '',
 				})
-				that.$refs.qrcodediv.innerHTML = ''
-				that.$refs.qrcodediv.appendChild(qr)
+				this.$refs.qrcodediv.innerHTML = ''
+				this.$refs.qrcodediv.appendChild(qr)
 			}
-			img.onerror = function() {
+			img.onerror = () => {
 				const qr = kjua({
-					text: that.link,
+					text: this.link,
 					crisp: false,
-					render: that.render,
+					render: this.render,
 					minVersion: 6,
 					ecLevel: 'H',
-					size: that.size,
-					back: that.bgcolor,
-					fill: that.fgcolor,
-					rounded: that.rounded,
+					size: this.size,
+					back: this.bgcolor,
+					fill: this.fgcolor,
+					rounded: this.rounded,
 					quiet: 1,
 					mode: 'label',
 					mSize: 10,
@@ -139,10 +138,10 @@ export default {
 					mPosY: 50,
 					image: null,
 					label: 'Cospend',
-					fontcolor: that.fgcolor,
+					fontcolor: this.fgcolor,
 				})
-				that.$refs.qrcodediv.innerHTML = ''
-				that.$refs.qrcodediv.appendChild(qr)
+				this.$refs.qrcodediv.innerHTML = ''
+				this.$refs.qrcodediv.appendChild(qr)
 			}
 
 			img.src = this.imageUrl

@@ -177,11 +177,10 @@ export default {
 			this.opened = false
 		},
 		onImportClick() {
-			const that = this
 			OC.dialogs.filepicker(
 				t('cospend', 'Choose csv project file'),
-				function(targetPath) {
-					that.importProject(targetPath)
+				(targetPath) => {
+					this.importProject(targetPath)
 				},
 				false,
 				['text/csv'],
@@ -189,11 +188,10 @@ export default {
 			)
 		},
 		onImportSWClick() {
-			const that = this
 			OC.dialogs.filepicker(
 				t('cospend', 'Choose SplitWise project file'),
-				function(targetPath) {
-					that.importProject(targetPath, true)
+				(targetPath) => {
+					this.importProject(targetPath, true)
 				},
 				false,
 				['text/csv'],
@@ -218,15 +216,14 @@ export default {
 			}
 		},
 		onOutputDirClick() {
-			const that = this
 			OC.dialogs.filepicker(
 				t('maps', 'Choose where to write output files (stats, settlement, export)'),
-				function(targetPath) {
+				(targetPath) => {
 					if (targetPath === '') {
 						targetPath = '/'
 					}
-					that.outputDir = targetPath
-					that.$emit('save-option', 'outputDirectory', targetPath)
+					this.outputDir = targetPath
+					this.$emit('save-option', 'outputDirectory', targetPath)
 				},
 				false,
 				'httpd/unix-directory',

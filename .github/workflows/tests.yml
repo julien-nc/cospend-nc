@@ -40,7 +40,7 @@ jobs:
           sudo curl --location --output /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
           sudo chmod +x /usr/local/bin/phpunit
           mkdir -p ~/html
-          git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b stable20 ~/html/nextcloud
+          git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b master ~/html/nextcloud
           sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' ~/html/nextcloud/lib/autoloader.php
           cp -r $GITHUB_WORKSPACE ~/html/nextcloud/apps/cospend
           php ~/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"

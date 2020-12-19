@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 1.2.3 – 2020-12-19
+## 1.2.4 – 2020-12-19
 ### Added
 - biweekly and semi monthly repetition frequencies
 [#19](https://github.com/eneiluj/cospend-nc/issues/19) @DrMantisTobbogan

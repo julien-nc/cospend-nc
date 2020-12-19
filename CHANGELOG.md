@@ -5,13 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 1.2.3 – 2020-12-19
 ### Added
 - biweekly and semi monthly repetition frequencies
 [#19](https://github.com/eneiluj/cospend-nc/issues/19) @DrMantisTobbogan
 - hint about repetition in UI
+- button to repeat a bill 'now'
+[#22](https://github.com/eneiluj/cospend-nc/issues/22) @Nadeige
 
 ### Changed
 - improve simple member multiselect item design
+- refactor loops and network calls
 
 ### Fixed
 - parse GET params and select project if an ID was given

@@ -1470,7 +1470,7 @@ class ProjectService {
     }
 
     public function editProject(string $projectid, string $name, ?string $contact_email = null, ?string $password = null,
-                                ?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null) {
+                                ?string $autoexport = null, ?string $currencyname = null, ?bool $deletiondisabled = null) {
         if ($name === null || $name === '') {
             return ['name' => [$this->trans->t('Name field is required')]];
         }
@@ -1493,8 +1493,8 @@ class ProjectService {
         if ($autoexport !== null && $autoexport !== '') {
             $qb->set('autoexport', $qb->createNamedParameter($autoexport, IQueryBuilder::PARAM_STR));
         }
-        if ($deletion_disabled !== null) {
-            $qb->set('deletion_disabled', $qb->createNamedParameter($deletion_disabled ? 1 : 0, IQueryBuilder::PARAM_INT));
+        if ($deletiondisabled !== null) {
+            $qb->set('deletion_disabled', $qb->createNamedParameter($deletiondisabled ? 1 : 0, IQueryBuilder::PARAM_INT));
         }
         if ($currencyname !== null) {
             if ($currencyname === '') {

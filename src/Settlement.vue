@@ -65,7 +65,8 @@
 		<h3>
 			{{ maxTs ? t('cospend', 'Settlement plan on {date}', { date: formattedMaxDate }) : t('cospend', 'Settlement plan') }}
 		</h3>
-		<v-table v-if="transactions"
+		<div v-if="loading" class="loading loading-animation" />
+		<v-table v-else-if="transactions"
 			id="settlementTable"
 			class="coloredTable avatarTable"
 			:data="transactions">
@@ -107,7 +108,8 @@
 		<h3>
 			{{ maxTs ? t('cospend', 'Balances on {date}', { date: formattedMaxDate }) : t('cospend', 'Balances') }}
 		</h3>
-		<v-table v-if="balances"
+		<div v-if="loading" class="loading loading-animation" />
+		<v-table v-else-if="balances"
 			id="balanceTable"
 			class="coloredTable avatarTable"
 			:data="balances">
@@ -447,5 +449,9 @@ export default {
 		text-align: right;
 		padding-right: 2px;
 	}
+}
+
+.loading-animation {
+	height: 70px;
 }
 </style>

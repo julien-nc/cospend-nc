@@ -626,7 +626,7 @@ export function exportStats(projectid, params, doneCB) {
 		})
 }
 
-export function getSettlement(projectid, centeredOn, maxTimestamp, successCB, failCB) {
+export function getSettlement(projectid, centeredOn, maxTimestamp) {
 	if (parseInt(centeredOn) === 0) {
 		centeredOn = null
 	}
@@ -642,17 +642,7 @@ export function getSettlement(projectid, centeredOn, maxTimestamp, successCB, fa
 	} else {
 		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/settle')
 	}
-	axios.get(url, req)
-		.then((response) => {
-			successCB(response.data)
-		})
-		.catch((error) => {
-			failCB()
-			showError(
-				t('cospend', 'Failed to get settlement')
-				+ ': ' + error.response.request.responseText
-			)
-		})
+	return axios.get(url, req)
 }
 
 export function autoSettlement(projectid, centeredOn, maxTimestamp, precision, successCB) {

@@ -1,7 +1,7 @@
 <template>
 	<AppContentDetails class="settlement-content">
 		<h2 id="settlementTitle">
-			<span class="icon-reimburse icon" />
+			<span :class="{ 'icon-reimburse': !loading, icon: true, 'icon-loading-small': loading }" />
 			{{ t('cospend', 'Settlement of project {name}', {name: project.name}) }}
 			<button class="exportSettlement" @click="onExportClick">
 				<span class="icon icon-save" />
@@ -144,7 +144,7 @@
 </template>
 
 <script>
-import { showSuccess } from '@nextcloud/dialogs'
+import { showSuccess, showError } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import { getLocale } from '@nextcloud/l10n'
 import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
@@ -172,6 +172,7 @@ export default {
 
 	data() {
 		return {
+			loading: false,
 			transactions: null,
 			balancesObject: null,
 			centeredOn: 0,
@@ -258,7 +259,18 @@ export default {
 			this.getSettlement(this.centeredOn)
 		},
 		getSettlement(centeredOn = null) {
-			network.getSettlement(this.project.id, centeredOn, this.maxTs, this.getSettlementSuccess, this.getSettlementFail)
+			this.loading = true
+			network.getSettlement(this.project.id, centeredOn, this.maxTs).then((response) => {
+				this.getSettlementSuccess(response.data)
+			}).catch((error) => {
+				this.getSettlementFail()
+				showError(
+					t('cospend', 'Failed to get settlement')
+					+ ': ' + error.response?.request?.responseText
+				)
+			}).then(() => {
+				this.loading = false
+			})
 		},
 		getSettlementSuccess(response) {
 			if (Array.isArray(response.transactions) && response.transactions.length > 0) {

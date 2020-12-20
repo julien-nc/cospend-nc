@@ -44,7 +44,7 @@ class Version010205Date20201220175819 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 		$table = $schema->getTable('cospend_projects');
-		$table->addColumn('deletion_disabled', 'integer', [
+		$table->addColumn('deletiondisabled', 'integer', [
 			'notnull' => true,
 			'length' => 4,
 			'default' => 0,

@@ -607,7 +607,7 @@ class ProjectService {
 
         $qb = $this->dbconnection->getQueryBuilder();
 
-        $qb->select('id', 'password', 'name', 'email', 'userid', 'lastchanged', 'guestaccesslevel', 'autoexport', 'currencyname', 'deletion_disabled')
+        $qb->select('id', 'password', 'name', 'email', 'userid', 'lastchanged', 'guestaccesslevel', 'autoexport', 'currencyname', 'deletiondisabled')
            ->from('cospend_projects', 'p')
            ->where(
                $qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -626,7 +626,7 @@ class ProjectService {
             $dbLastchanged = intval($row['lastchanged']);
             $dbAutoexport= $row['autoexport'];
             $dbCurrencyName = $row['currencyname'];
-            $dbDeletionDisabled = intval($row['deletion_disabled']) === 1;
+            $dbDeletionDisabled = intval($row['deletiondisabled']) === 1;
             break;
         }
         $req->closeCursor();
@@ -1494,7 +1494,7 @@ class ProjectService {
             $qb->set('autoexport', $qb->createNamedParameter($autoexport, IQueryBuilder::PARAM_STR));
         }
         if ($deletion_disabled !== null) {
-            $qb->set('deletion_disabled', $qb->createNamedParameter($deletion_disabled ? 1 : 0, IQueryBuilder::PARAM_INT));
+            $qb->set('deletiondisabled', $qb->createNamedParameter($deletion_disabled ? 1 : 0, IQueryBuilder::PARAM_INT));
         }
         if ($currencyname !== null) {
             if ($currencyname === '') {

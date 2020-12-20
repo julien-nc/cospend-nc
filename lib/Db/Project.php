@@ -23,6 +23,7 @@ class Project extends Entity {
     protected $autoexport;
     protected $lastchanged;
     protected $guestaccesslevel;
+    protected $deletion_disabled;
     protected $currencyname;
 
     public function __construct() {
@@ -34,6 +35,7 @@ class Project extends Entity {
         $this->addType('autoexport', 'string');
         $this->addType('lastchanged', 'integer');
         $this->addType('guestaccesslevel', 'integer');
+        $this->addType('deletion_disabled', 'integer');
         $this->addType('currencyname', 'string');
     }
 }

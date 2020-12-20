@@ -426,19 +426,22 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webDeleteBill($projectid, $billid) {
+    public function webDeleteBill(string $projectid, int $billid): DataResponse {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
+            $billObj = null;
             if ($this->projectService->getBill($projectid, $billid) !== null) {
                 $billObj = $this->billMapper->find($billid);
-                $this->activityManager->triggerEvent(
-                    ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-                    ActivityManager::SUBJECT_BILL_DELETE,
-                    []
-                );
             }
 
             $result = $this->projectService->deleteBill($projectid, $billid);
             if ($result === 'OK') {
+                if (!is_null($billObj)) {
+                    $this->activityManager->triggerEvent(
+                        ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                        ActivityManager::SUBJECT_BILL_DELETE,
+                        []
+                    );
+                }
                 return new DataResponse($result);
             }
             else {
@@ -458,20 +461,24 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webDeleteBills($projectid, $billIds) {
+    public function webDeleteBills(string $projectid, array $billIds): DataResponse {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
             foreach ($billIds as $billid) {
+                $billObj = null;
                 if ($this->projectService->getBill($projectid, $billid) !== null) {
                     $billObj = $this->billMapper->find($billid);
-                    $this->activityManager->triggerEvent(
-                        ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-                        ActivityManager::SUBJECT_BILL_DELETE,
-                        []
-                    );
                 }
                 $result = $this->projectService->deleteBill($projectid, $billid);
                 if ($result !== 'OK') {
                     return new DataResponse($result, 400);
+                } else {
+                    if (!is_null($billObj)) {
+                        $this->activityManager->triggerEvent(
+                            ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                            ActivityManager::SUBJECT_BILL_DELETE,
+                            []
+                        );
+                    }
                 }
             }
             return new DataResponse('OK');
@@ -706,13 +713,13 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webEditProject($projectid, $name, $contact_email, $password, $autoexport=null, $currencyname=null) {
+    public function webEditProject(string $projectid, string $name, ?string $contact_email = null, ?string $password = null,
+                                    ?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null): DataResponse {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_ADMIN) {
-            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname);
+            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname, $deletion_disabled);
             if ($result === 'UPDATED') {
                 return new DataResponse($result);
-            }
-            else {
+            } else {
                 return new DataResponse($result, 400);
             }
         }
@@ -953,21 +960,21 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiSetProjectInfo($projectid, $passwd, $name, $contact_email, $password, $autoexport=null, $currencyname=null) {
+    public function apiSetProjectInfo(string $projectid, string $passwd, string $name, ?string $contact_email = null,
+                                    ?string $password = null, ?string $autoexport = null, ?string $currencyname = null,
+                                    ?bool $deletion_disabled = null): DataResponse {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($passwd);
         if (
             ($this->checkLogin($projectid, $passwd) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_ADMIN)
             || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_ADMIN)
         ) {
-            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname);
+            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname, $deletion_disabled);
             if ($result === 'UPDATED') {
                 return new DataResponse($result);
-            }
-            else {
+            } else {
                 return new DataResponse($result, 400);
             }
-        }
-        else {
+        } else {
             $response = new DataResponse(
                 ['message' => $this->trans->t('Unauthorized action')]
                 , 401
@@ -981,17 +988,16 @@ class PageController extends ApiController {
      * @NoCSRFRequired
      * @CORS
      */
-    public function apiPrivSetProjectInfo($projectid, $name, $contact_email, $password, $autoexport=null, $currencyname=null) {
+    public function apiPrivSetProjectInfo(string $projectid, string $name, ?string $contact_email = null, ?string $password = null,
+                                        ?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null): DataResponse {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_ADMIN) {
-            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname);
+            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname, $deletion_disabled);
             if ($result === 'UPDATED') {
                 return new DataResponse($result);
-            }
-            else {
+            } else {
                 return new DataResponse($result, 400);
             }
-        }
-        else {
+        } else {
             $response = new DataResponse(
                 ['message' => $this->trans->t('Unauthorized action')]
                 , 401
@@ -1462,23 +1468,26 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiDeleteBill($projectid, $password, $billid) {
+    public function apiDeleteBill(string $projectid, string $password, int $billid): DataResponse {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
             ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
             || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_PARTICIPANT)
         ) {
+            $billObj = null;
             if ($this->projectService->getBill($projectid, $billid) !== null) {
                 $billObj = $this->billMapper->find($billid);
-                $this->activityManager->triggerEvent(
-                    ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-                    ActivityManager::SUBJECT_BILL_DELETE,
-                    []
-                );
             }
 
             $result = $this->projectService->deleteBill($projectid, $billid);
             if ($result === 'OK') {
+                if (!is_null($billObj)) {
+                    $this->activityManager->triggerEvent(
+                        ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                        ActivityManager::SUBJECT_BILL_DELETE,
+                        []
+                    );
+                }
                 return new DataResponse($result);
             }
             else {
@@ -1500,25 +1509,29 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiDeleteBills($projectid, $password, $billIds) {
+    public function apiDeleteBills(string $projectid, string $password, array $billIds): DataResponse {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
             ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
             || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_PARTICIPANT)
         ) {
             foreach ($billIds as $billid) {
+                $billObj = null;
                 if ($this->projectService->getBill($projectid, $billid) !== null) {
                     $billObj = $this->billMapper->find($billid);
-                    $this->activityManager->triggerEvent(
-                        ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-                        ActivityManager::SUBJECT_BILL_DELETE,
-                        []
-                    );
                 }
 
                 $result = $this->projectService->deleteBill($projectid, $billid);
                 if ($result !== 'OK') {
                     return new DataResponse($result, 404);
+                } else {
+                    if (!is_null($billObj)) {
+                        $this->activityManager->triggerEvent(
+                            ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                            ActivityManager::SUBJECT_BILL_DELETE,
+                            []
+                        );
+                    }
                 }
             }
             return new DataResponse('OK');
@@ -1537,19 +1550,22 @@ class PageController extends ApiController {
      * @NoCSRFRequired
      * @CORS
      */
-    public function apiPrivDeleteBill($projectid, $billid) {
+    public function apiPrivDeleteBill(string $projectid, int $billid): DataResponse {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
+            $billObj = null;
             if ($this->projectService->getBill($projectid, $billid) !== null) {
                 $billObj = $this->billMapper->find($billid);
-                $this->activityManager->triggerEvent(
-                    ActivityManager::COSPEND_OBJECT_BILL, $billObj,
-                    ActivityManager::SUBJECT_BILL_DELETE,
-                    []
-                );
             }
 
             $result = $this->projectService->deleteBill($projectid, $billid);
             if ($result === 'OK') {
+                if (!is_null($billObj)) {
+                    $this->activityManager->triggerEvent(
+                        ActivityManager::COSPEND_OBJECT_BILL, $billObj,
+                        ActivityManager::SUBJECT_BILL_DELETE,
+                        []
+                    );
+                }
                 return new DataResponse($result);
             }
             else {
@@ -1557,11 +1573,10 @@ class PageController extends ApiController {
             }
         }
         else {
-            $response = new DataResponse(
+            return new DataResponse(
                 ['message' => $this->trans->t('Unauthorized action')]
                 , 403
             );
-            return $response;
         }
     }
 

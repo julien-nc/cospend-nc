@@ -59,11 +59,11 @@
 						{{ pm.icon + ' ' + pm.name }}
 					</option>
 				</select>
-				<button v-if="selectedBillIds.length > 0"
+				<button v-if="selectedBillIds.length > 0 && deletionEnabled"
 					v-tooltip.left="{ content: t('cospend', 'Delete selected bills') }"
 					class="icon icon-delete multiDelete"
 					@click="deleteSelection" />
-				<p v-else
+				<p v-if="selectedBillIds.length === 0"
 					class="multiSelectHint">
 					{{ t('cospend', 'Multi select mode: Select bills to make grouped actions') }}
 				</p>
@@ -197,6 +197,9 @@ export default {
 			return this.selectMode
 				? t('cospend', 'Leave multiple selection mode')
 				: t('cospend', 'Enter multiple selection mode')
+		},
+		deletionEnabled() {
+			return !cospend.projects[this.projectId].deletion_disabled
 		},
 	},
 

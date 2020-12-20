@@ -19,7 +19,7 @@
 			</span>
 			<span>{{ billDate }}</span>
 		</span>
-		<div v-if="editionAccess && showDelete"
+		<div v-if="editionAccess && showDelete && deletionEnabled"
 			:class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteBillIcon'"
 			@click="onDeleteClick">
 			<span v-if="timerOn" class="countdown">
@@ -96,6 +96,9 @@ export default {
 		},
 		payerDisabled() {
 			return this.bill.id !== 0 && !this.members[this.bill.payer_id].activated
+		},
+		deletionEnabled() {
+			return !cospend.projects[this.projectId].deletion_disabled
 		},
 		billFormattedTitle() {
 			const links = this.bill.what.match(/https?:\/\/[^\s]+/gi) || []

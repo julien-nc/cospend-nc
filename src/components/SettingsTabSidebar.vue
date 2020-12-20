@@ -11,6 +11,17 @@
 			</form>
 			<br>
 		</div>
+		<div v-if="adminAccess" class="deletion-disabled-line">
+			<input
+				id="deletion-disabled"
+				class="checkbox"
+				type="checkbox"
+				:checked="project.deletion_disabled"
+				@input="onDisableDeletionChange">
+			<label for="deletion-disabled" class="checkboxlabel">
+				{{ t('cospend', 'Disable bill deletion') }}
+			</label>
+		</div>
 		<div id="autoExport">
 			<label for="autoExportSelect">
 				<span class="icon icon-schedule" />
@@ -334,6 +345,10 @@ export default {
 			this.$emit('project-edited', this.projectId)
 			this.newProjectName = ''
 		},
+		onDisableDeletionChange(e) {
+			cospend.projects[this.projectId].deletion_disabled = e.target.checked
+			this.$emit('project-edited', this.projectId)
+		},
 		onMultiselectEnterPressed(elem) {
 			// this is most likely never triggered because of the fake user
 			// we add that will make the multiselect catch the event
@@ -450,6 +465,13 @@ export default {
 		input[type='text'] {
 			flex-grow: 1;
 		}
+	}
+}
+
+.deletion-disabled-line {
+	line-height: 44px;
+	label {
+		margin-left: 10px;
 	}
 }
 

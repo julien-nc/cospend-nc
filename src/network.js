@@ -236,7 +236,7 @@ export function editProject(project, password, successCB) {
 		password,
 		autoexport: project.autoexport,
 		currencyname: project.currencyname,
-		deletiondisabled: project.deletion_disabled,
+		deletion_disabled: project.deletion_disabled,
 	}
 	let url
 	if (!cospend.pageIsPublic) {
@@ -251,7 +251,7 @@ export function editProject(project, password, successCB) {
 		.catch((error) => {
 			showError(
 				t('cospend', 'Failed to edit project')
-				+ ': ' + error.response?.request?.responseText
+				+ ': ' + error.response.request.responseText
 			)
 		})
 }

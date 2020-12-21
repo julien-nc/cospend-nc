@@ -451,28 +451,17 @@ export function importProject(targetPath, isSplitWise, successCB) {
 		})
 }
 
-export function addCategory(projectid, name, icon, color, successCB) {
+export function addCategory(projectid, name, icon, color, order) {
 	const req = {
 		name,
 		icon,
 		color,
+		order,
 	}
-	let url
-	if (!cospend.pageIsPublic) {
-		url = generateUrl('/apps/cospend/projects/' + projectid + '/category')
-	} else {
-		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/category')
-	}
-	axios.post(url, req)
-		.then((response) => {
-			successCB(response.data, name, icon, color)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to add category')
-				+ ': ' + error.response.request.responseText
-			)
-		})
+	const url = cospend.pageIsPublic
+		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/category')
+		: generateUrl('/apps/cospend/projects/' + projectid + '/category')
+	return axios.post(url, req)
 }
 
 export function deleteCategory(projectid, categoryid, successCB) {

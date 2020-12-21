@@ -136,11 +136,19 @@ export default {
 			const name = this.$refs.newCategoryName.value
 			const icon = this.newCategoryIcon
 			const color = this.newCategoryColor
+			const order = this.categoryList.length
 			if (name === null || name === '') {
 				showError(t('cospend', 'Category name should not be empty.'))
 				return
 			}
-			network.addCategory(this.project.id, name, icon, color, this.addCategorySuccess)
+			network.addCategory(this.project.id, name, icon, color, order).then((response) => {
+				this.addCategorySuccess(response.data, name, icon, color)
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to add category')
+					+ ': ' + error.response?.request?.responseText
+				)
+			})
 		},
 		addCategorySuccess(response, name, icon, color) {
 			// make sure to update vue

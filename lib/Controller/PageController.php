@@ -2060,22 +2060,19 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function addCategory($projectid, $name, $icon, $color) {
+    public function addCategory(string $projectid, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
-            $result = $this->projectService->addCategory($projectid, $name, $icon, $color);
+            $result = $this->projectService->addCategory($projectid, $name, $icon, $color, $order);
             if (is_numeric($result)) {
                 return new DataResponse($result);
-            }
-            else {
+            } else {
                 return new DataResponse($result, 400);
             }
-        }
-        else {
-            $response = new DataResponse(
-                ['message' => $this->trans->t('You are not allowed to manage categories')]
-                , 403
+        } else {
+            return new DataResponse(
+                ['message' => $this->trans->t('You are not allowed to manage categories')],
+                403
             );
-            return $response;
         }
     }
 
@@ -2085,27 +2082,24 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiAddCategory($projectid, $password, $name, $icon, $color) {
+    public function apiAddCategory(string $projectid, string $password, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
             ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
             || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
         ) {
-            $result = $this->projectService->addCategory($projectid, $name, $icon, $color);
+            $result = $this->projectService->addCategory($projectid, $name, $icon, $color, $order);
             if (is_numeric($result)) {
                 // inserted category id
                 return new DataResponse($result);
-            }
-            else {
+            } else {
                 return new DataResponse($result, 400);
             }
-        }
-        else {
-            $response = new DataResponse(
-                ['message' => $this->trans->t('You are not allowed to manage categories')]
-                , 401
+        } else {
+            return new DataResponse(
+                ['message' => $this->trans->t('You are not allowed to manage categories')],
+                401
             );
-            return $response;
         }
     }
 

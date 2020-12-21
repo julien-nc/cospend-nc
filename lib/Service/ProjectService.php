@@ -2919,7 +2919,7 @@ class ProjectService {
         return $nextDate;
     }
 
-    public function addCategory($projectid, $name, $icon, $color) {
+    public function addCategory(string $projectid, string $name, ?string $icon, string $color, ?int $order = 0): int {
         $qb = $this->dbconnection->getQueryBuilder();
 
         $encIcon = $icon;
@@ -2931,7 +2931,8 @@ class ProjectService {
                 'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
                 'encoded_icon' => $qb->createNamedParameter($encIcon, IQueryBuilder::PARAM_STR),
                 'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
-                'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR)
+                'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
+                'order' => $qb->createNamedParameter(is_null($order) ? 0 : $order, IQueryBuilder::PARAM_INT)
             ]);
         $req = $qb->execute();
         $qb = $qb->resetQueryParts();

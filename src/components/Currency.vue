@@ -5,11 +5,13 @@
 			<label class="one-currency-label-label">{{ currency.name }}</label>
 			<label class="one-currency-label-label">(x{{ currency.exchange_rate }})</label>
 			<input v-show="editionAccess"
+				v-tooltip.top="{ content: t('cospend', 'Edit') }"
 				type="submit"
 				value=""
 				class="icon-rename editOneCurrency icon"
 				@click="onClickEdit">
 			<input v-show="editionAccess"
+				v-tooltip.top="{ content: t('cospend', 'Delete') }"
 				type="submit"
 				value=""
 				:class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteOneCurrency icon'"
@@ -38,8 +40,14 @@
 				class="editCurrencyRateInput"
 				step="0.0001"
 				min="0">
-			<button class="editCurrencyClose icon-history icon" @click="onClickCancel" />
-			<button class="editCurrencyOk icon-checkmark icon" @click="onClickEditOk" />
+			<button
+				v-tooltip.top="{ content: t('cospend', 'Cancel') }"
+				class="editCurrencyClose icon-history icon"
+				@click="onClickCancel" />
+			<button
+				v-tooltip.top="{ content: t('cospend', 'Save') }"
+				class="editCurrencyOk icon-checkmark icon"
+				@click="onClickEditOk" />
 		</div>
 	</div>
 </template>

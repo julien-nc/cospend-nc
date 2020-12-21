@@ -8,14 +8,16 @@
 				</label>
 				<div class="add-category-2">
 					<ColorPicker class="app-navigation-entry-bullet-wrapper" value="" @input="updateAddColor">
-						<div class="color0 icon-colorpicker"
-							:style="{ backgroundColor: newCategoryColor }"
-							:title="t('cospend', 'Color')" />
+						<div
+							v-tooltip.top="{ content: t('cospend', 'Color') }"
+							class="color0 icon-colorpicker clickable"
+							:style="{ backgroundColor: newCategoryColor }" />
 					</ColorPicker>
 					<EmojiPicker :show-preview="true"
 						@select="selectEmoji">
-						<button class="add-icon-button"
-							:title="t('cospend', 'Icon')">
+						<button
+							v-tooltip.top="{ content: t('cospend', 'Icon') }"
+							class="add-icon-button">
 							{{ newCategoryIcon }}
 						</button>
 					</EmojiPicker>
@@ -28,7 +30,7 @@
 						@focus="$event.target.select()"
 						@keyup.enter="onAddCategory">
 					<button
-						v-tooltip.left="{ content: t('cospend', 'Add this category') }"
+						v-tooltip.top="{ content: t('cospend', 'Add this category') }"
 						class="icon icon-add-white addCategoryOk"
 						@click="onAddCategory" />
 				</div>
@@ -317,5 +319,9 @@ $clickable-area: 44px;
 
 .hint {
 	opacity: 0.7;
+}
+
+.clickable {
+	cursor: pointer;
 }
 </style>

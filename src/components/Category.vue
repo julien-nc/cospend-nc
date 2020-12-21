@@ -7,11 +7,13 @@
 			<label class="one-category-label-label">{{ category.icon || '' }}</label>
 			<label class="one-category-label-label">{{ category.name }}</label>
 			<input v-show="editionAccess"
+				v-tooltip.top="{ content: t('cospend', 'Edit') }"
 				type="submit"
 				value=""
 				class="icon-rename editOneCategory icon"
 				@click="onClickEdit">
 			<input v-show="editionAccess"
+				v-tooltip.top="{ content: t('cospend', 'Delete') }"
 				type="submit"
 				value=""
 				:class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteOneCategory icon'"
@@ -31,11 +33,16 @@
 				class="app-navigation-entry-bullet-wrapper"
 				value=""
 				@input="updateColor">
-				<div :style="{ backgroundColor: color }" class="color0 icon-colorpicker" />
+				<div
+					v-tooltip.top="{ content: t('cospend', 'Color') }"
+					:style="{ backgroundColor: color }"
+					class="color0 icon-colorpicker" />
 			</ColorPicker>
 			<EmojiPicker :show-preview="true"
 				@select="selectEmoji">
-				<button class="edit-icon-button"
+				<button
+					v-tooltip.top="{ content: t('cospend', 'Icon') }"
+					class="edit-icon-button"
 					:title="t('cospend', 'Icon')">
 					{{ icon }}
 				</button>
@@ -47,9 +54,13 @@
 				class="editCategoryNameInput"
 				:placeholder="t('cospend', 'Category name')"
 				@focus="$event.target.select()">
-			<button class="editCategoryClose icon-history icon"
+			<button
+				v-tooltip.top="{ content: t('cospend', 'Cancel') }"
+				class="editCategoryClose icon-history icon"
 				@click="onClickCancel" />
-			<button class="editCategoryOk icon-checkmark icon"
+			<button
+				v-tooltip.top="{ content: t('cospend', 'Save') }"
+				class="editCategoryOk icon-checkmark icon"
 				@click="onClickEditOk" />
 		</div>
 	</div>

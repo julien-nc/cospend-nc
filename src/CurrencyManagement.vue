@@ -8,6 +8,7 @@
 				id="main-currency-label">
 				<label id="main-currency-label-label">{{ project.currencyname || t('cospend', 'None') }}</label>
 				<input v-show="project.myaccesslevel >= constants.ACCESS.MAINTENER"
+					v-tooltip.top="{ content: t('cospend', 'Set main currency name') }"
 					type="submit"
 					value=""
 					class="icon icon-rename editMainCurrency"
@@ -24,11 +25,13 @@
 					@keyup.enter="onEditMainOkClick"
 					@focus="$event.target.select()">
 				<input
+					v-tooltip.top="{ content: t('cospend', 'Cancel') }"
 					type="submit"
 					value=""
-					class="icon icon-close editMainCurrencyClose"
+					class="icon icon-history editMainCurrencyClose"
 					@click="editMode=false">
 				<input
+					v-tooltip.top="{ content: t('cospend', 'Save') }"
 					type="submit"
 					value=""
 					class="icon icon-checkmark editMainCurrencyOk"
@@ -70,7 +73,7 @@
 					</label>
 				</div>
 				<button
-					v-tooltip.left="{ content: t('cospend', 'Add this currency') }"
+					v-tooltip.top="{ content: t('cospend', 'Add this currency') }"
 					class="icon icon-add-white addCurrencyOk"
 					@click="onAddCurrency" />
 				<hr>

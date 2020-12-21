@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [#13](https://github.com/eneiluj/cospend-nc/issues/13) @LJJS
 - reorder categories by drag'n'drop
 [#26](https://github.com/eneiluj/cospend-nc/issues/26) @itatabitovski
+- new bill creation mode 'custom shares' (ignoring member weights or not)
+[#20](https://github.com/eneiluj/cospend-nc/issues/20) @stildalf
 
 ## 1.2.4 – 2020-12-19
 ### Added

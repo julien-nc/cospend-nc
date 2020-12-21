@@ -2194,7 +2194,7 @@ class ProjectService {
         $categories = [];
 
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select('name', 'id', 'encoded_icon', 'color')
+        $qb->select('name', 'id', 'encoded_icon', 'color', 'order')
            ->from('cospend_project_categories', 'c')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -2205,11 +2205,13 @@ class ProjectService {
             $dbIcon = urldecode($row['encoded_icon']);
             $dbColor = $row['color'];
             $dbId = intval($row['id']);
+            $dbOrder = intval($row['order']);
             $categories[$dbId] = [
                 'name' => $dbName,
                 'icon' => $dbIcon,
                 'color' => $dbColor,
-                'id' => $dbId
+                'id' => $dbId,
+                'order' => $dbOrder,
             ];
         }
         $req->closeCursor();
@@ -3005,6 +3007,23 @@ class ProjectService {
         else {
             return ['message' => $this->trans->t('Not found')];
         }
+    }
+
+    public function saveCategoryOrder(string $projectid, array $order): bool {
+        $qb = $this->dbconnection->getQueryBuilder();
+        foreach ($order as $o) {
+            $qb->update('cospend_project_categories');
+            $qb->set('order', $qb->createNamedParameter($o['order'], IQueryBuilder::PARAM_INT));
+            $qb->where(
+                $qb->expr()->eq('id', $qb->createNamedParameter($o['id'], IQueryBuilder::PARAM_INT))
+            )
+            ->andWhere(
+                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+            );
+            $req = $qb->execute();
+            $qb = $qb->resetQueryParts();
+        }
+        return true;
     }
 
     public function editCategory($projectid, $categoryid, $name, $icon, $color) {

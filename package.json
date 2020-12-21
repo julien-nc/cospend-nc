@@ -46,7 +46,8 @@
     "vue-click-outside": "^1.1.0",
     "vuejs-smart-table": "^0.0.5",
     "vue-infinite-loading": "^2.4.5",
-    "vue-awesome-countdown": "^1.1.4"
+    "vue-awesome-countdown": "^1.1.4",
+    "vue-smooth-dnd": "^0.8.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.0",

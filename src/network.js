@@ -518,6 +518,17 @@ export function editCategory(projectid, category, backupCategory, failCB) {
 		})
 }
 
+export function saveCategoryOrder(projectid, order) {
+	const req = {
+		projectid,
+		order,
+	}
+	const url = cospend.pageIsPublic
+		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/category-order')
+		: generateUrl('/apps/cospend/projects/' + projectid + '/category-order')
+	return axios.put(url, req)
+}
+
 export function addCurrency(projectid, name, rate, successCB) {
 	const req = {
 		name,

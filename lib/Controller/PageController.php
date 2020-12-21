@@ -2137,22 +2137,37 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function editCategory($projectid, $categoryid, $name, $icon, $color) {
+    public function editCategory(string $projectid, int $categoryid, $name, $icon, $color): DataResponse {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
             $result = $this->projectService->editCategory($projectid, $categoryid, $name, $icon, $color);
             if (is_array($result)) {
                 return new DataResponse($result);
-            }
-            else {
+            } else {
                 return new DataResponse($result, 400);
             }
-        }
-        else {
-            $response = new DataResponse(
-                ['message' => $this->trans->t('You are not allowed to manage categories')]
-                , 403
+        } else {
+            return new DataResponse(
+                ['message' => $this->trans->t('You are not allowed to manage categories')],
+                403
             );
-            return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function saveCategoryOrder(string $projectid, array $order): DataResponse {
+        if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
+            if ($this->projectService->saveCategoryOrder($projectid, $order)) {
+                return new DataResponse(true);
+            } else {
+                return new DataResponse(false, 400);
+            }
+        } else {
+            return new DataResponse(
+                ['message' => $this->trans->t('You are not allowed to manage categories')],
+                403
+            );
         }
     }
 
@@ -2182,6 +2197,31 @@ class PageController extends ApiController {
                 , 401
             );
             return $response;
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     * @CORS
+     */
+    public function apiSaveCategoryOrder(string $projectid, string $password, array $order): DataResponse {
+        $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
+        if (
+            ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
+            || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
+        ) {
+            if ($this->projectService->saveCategoryOrder($projectid, $order)) {
+                return new DataResponse(true);
+            } else {
+                return new DataResponse(false, 403);
+            }
+        } else {
+            return new DataResponse(
+                ['message' => $this->trans->t('You are not allowed to manage categories')],
+                401
+            );
         }
     }
 

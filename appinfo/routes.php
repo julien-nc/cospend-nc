@@ -55,6 +55,7 @@ return [
         ['name' => 'page#apiDeleteCurrency', 'url' => '/api/projects/{projectid}/{password}/currency/{currencyid}', 'verb' => 'DELETE'],
         ['name' => 'page#apiAddCategory', 'url' => '/api/projects/{projectid}/{password}/category', 'verb' => 'POST'],
         ['name' => 'page#apiEditCategory', 'url' => '/api/projects/{projectid}/{password}/category/{categoryid}', 'verb' => 'PUT'],
+        ['name' => 'page#apiSaveCategoryOrder', 'url' => '/api/projects/{projectid}/{password}/category-order', 'verb' => 'PUT'],
         ['name' => 'page#apiDeleteCategory', 'url' => '/api/projects/{projectid}/{password}/category/{categoryid}', 'verb' => 'DELETE'],
         ['name' => 'page#apiEditGuestAccessLevel', 'url' => '/api/projects/{projectid}/{password}/guest-access-level', 'verb' => 'PUT'],
 
@@ -97,6 +98,7 @@ return [
         ['name' => 'page#deleteCurrency', 'url' => '/projects/{projectid}/currency/{currencyid}', 'verb' => 'DELETE'],
         ['name' => 'page#addCategory', 'url' => '/projects/{projectid}/category', 'verb' => 'POST'],
         ['name' => 'page#editCategory', 'url' => '/projects/{projectid}/category/{categoryid}', 'verb' => 'PUT'],
+        ['name' => 'page#saveCategoryOrder', 'url' => '/projects/{projectid}/category-order', 'verb' => 'PUT'],
         ['name' => 'page#deleteCategory', 'url' => '/projects/{projectid}/category/{categoryid}', 'verb' => 'DELETE'],
         ['name' => 'page#addUserShare', 'url' => '/projects/{projectid}/user-share', 'verb' => 'POST'],
         ['name' => 'page#deleteUserShare', 'url' => '/projects/{projectid}/user-share/{shid}', 'verb' => 'DELETE'],

@@ -38,15 +38,23 @@
 			<label>
 				<a class="icon icon-category-app-bundles" />{{ t('cospend', 'Category list') }}
 			</label>
+			<br>
+			<label class="hint">
+				<span class="icon icon-info" />{{ t('cospend', 'Drag to reorder') }}
+			</label>
 			<div v-if="categories"
 				id="category-list">
-				<Category
-					v-for="category in categories"
-					:key="category.id"
-					:category="category"
-					:edition-access="editionAccess"
-					@delete="onDeleteCategory"
-					@edit="onEditCategory" />
+				<Container @drop="onDrop">
+					<Draggable
+						v-for="category in sortedCategories"
+						:key="category.id">
+						<Category
+							:category="category"
+							:edition-access="editionAccess"
+							@delete="onDeleteCategory"
+							@edit="onEditCategory" />
+					</Draggable>
+				</Container>
 			</div>
 			<div v-else class="no-categories">
 				{{ t('cospend', 'No categories to display') }}
@@ -63,6 +71,8 @@ import {
 	showError,
 } from '@nextcloud/dialogs'
 
+import { Container, Draggable } from 'vue-smooth-dnd'
+
 import cospend from './state'
 import Category from './components/Category'
 import * as constants from './constants'
@@ -72,7 +82,7 @@ export default {
 	name: 'CategoryManagement',
 
 	components: {
-		Category, ColorPicker, EmojiPicker,
+		Category, ColorPicker, EmojiPicker, Container, Draggable,
 	},
 
 	props: {
@@ -103,6 +113,15 @@ export default {
 		},
 		categoryList() {
 			return Object.values(this.categories)
+		},
+		sortedCategories() {
+			return this.categoryList.slice().sort((a, b) => {
+				return a.order > b.order
+					? 1
+					: a.order < b.order
+						? -1
+						: 0
+			})
 		},
 	},
 
@@ -163,6 +182,38 @@ export default {
 			category.name = backupCategory.name
 			category.icon = backupCategory.icon
 			category.color = backupCategory.color
+		},
+		onDrop(e) {
+			const index = e.removedIndex
+			const newIndex = e.addedIndex
+			if (index !== newIndex) {
+				const currentList = this.sortedCategories
+				// initialize order
+				for (let i = 0; i < currentList.length; i++) {
+					currentList[i].order = i
+				}
+				// change the one that's been moved
+				currentList[index].order = newIndex
+				// change others along the way
+				if (index > newIndex) {
+					for (let i = newIndex; i < index; i++) {
+						currentList[i].order++
+					}
+				} else {
+					for (let i = index + 1; i <= newIndex; i++) {
+						currentList[i].order--
+					}
+				}
+				this.saveCategoriesOrder()
+			}
+		},
+		saveCategoriesOrder() {
+			const order = this.categoryList.map((c) => { return { id: c.id, order: c.order } })
+			network.saveCategoryOrder(this.project.id, order).then((response) => {
+				showSuccess(t('cospend', 'Category order saved'))
+			}).catch((error) => {
+				console.error(error)
+			})
 		},
 	},
 }
@@ -254,5 +305,9 @@ $clickable-area: 44px;
 
 .new-category-name {
 	width: 90%;
+}
+
+.hint {
+	opacity: 0.7;
 }
 </style>

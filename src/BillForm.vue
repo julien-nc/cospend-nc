@@ -149,15 +149,15 @@
 							{{ t('cospend', 'None') }}
 						</option>
 						<option
-							v-for="category in categories"
-							:key="category.id"
-							:value="category.id">
-							{{ category.icon + ' ' + category.name }}
-						</option>
-						<option
 							v-for="(category, catid) in hardCodedCategories"
 							:key="catid"
 							:value="catid">
+							{{ category.icon + ' ' + category.name }}
+						</option>
+						<option
+							v-for="category in categories"
+							:key="category.id"
+							:value="category.id">
 							{{ category.icon + ' ' + category.name }}
 						</option>
 					</select>
@@ -602,7 +602,13 @@ export default {
 			return mList
 		},
 		categories() {
-			return cospend.projects[this.projectId].categories
+			return Object.values(cospend.projects[this.projectId].categories).sort((a, b) => {
+				return a.order > b.order
+					? 1
+					: a.order < b.order
+						? -1
+						: 0
+			})
 		},
 		hardCodedCategories() {
 			return cospend.hardCodedCategories

@@ -19,7 +19,7 @@
 			</span>
 			<span>{{ billDate }}</span>
 		</span>
-		<div v-if="editionAccess && showDelete && deletionEnabled"
+		<div v-if="editionAccess && showDelete && (deletionEnabled || bill.id === 0)"
 			:class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteBillIcon'"
 			@click="onDeleteClick">
 			<span v-if="timerOn" class="countdown">

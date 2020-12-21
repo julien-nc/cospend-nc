@@ -41,10 +41,10 @@
 				<a class="icon icon-category-app-bundles" />{{ t('cospend', 'Category list') }}
 			</label>
 			<br>
-			<label class="hint">
+			<label v-if="categories && editionAccess" class="hint">
 				<span class="icon icon-info" />{{ t('cospend', 'Drag to reorder') }}
 			</label>
-			<div v-if="categories"
+			<div v-if="categories && editionAccess"
 				id="category-list">
 				<Container @drop="onDrop">
 					<Draggable
@@ -57,6 +57,16 @@
 							@edit="onEditCategory" />
 					</Draggable>
 				</Container>
+			</div>
+			<div v-else-if="categories"
+				id="category-list">
+				<Category
+					v-for="category in sortedCategories"
+					:key="category.id"
+					:category="category"
+					:edition-access="editionAccess"
+					@delete="onDeleteCategory"
+					@edit="onEditCategory" />
 			</div>
 			<div v-else class="no-categories">
 				{{ t('cospend', 'No categories to display') }}

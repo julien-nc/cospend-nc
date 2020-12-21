@@ -702,7 +702,7 @@ export default {
 }*/
 .content-buttons {
 	position: absolute !important;
-	top: 0px;
+	top: 8px;
 	right: 8px;
 }
 

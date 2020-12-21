@@ -334,25 +334,10 @@ export function saveBills(projectid, billIds, categoryid, paymentmode, successCB
 }
 
 export function createBill(projectid, mode, req, billToCreate, successCB, doneCB) {
-	let url
-	if (!cospend.pageIsPublic) {
-		url = generateUrl('/apps/cospend/projects/' + projectid + '/bills')
-	} else {
-		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills')
-	}
-	axios.post(url, req)
-		.then((response) => {
-			successCB(response.data, billToCreate, mode)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to create bill')
-				+ ': ' + error.response.request.responseText
-			)
-		})
-		.then(() => {
-			doneCB()
-		})
+	const url = cospend.pageIsPublic
+		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills')
+		: generateUrl('/apps/cospend/projects/' + projectid + '/bills')
+	return axios.post(url, req)
 }
 
 export function generatePublicLinkToFile(targetPath, successCB) {

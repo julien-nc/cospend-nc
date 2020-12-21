@@ -267,22 +267,29 @@
 						<option value="custom">
 							{{ t('cospend', 'Custom owed amount per member') }}
 						</option>
+						<option value="customShare">
+							{{ t('cospend', 'Custom share per member') }}
+						</option>
 					</select>
 					<button id="modehintbutton" @click="onHintClick">
 						<span class="icon-details" />
 					</button>
 					<transition name="fade">
 						<div v-if="newBillMode === 'normal' && showHint"
-							class="modehint modenormal">
+							class="modehint">
 							{{ t('cospend', 'Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost.') }}
 						</div>
 						<div v-else-if="newBillMode === 'perso' && showHint"
-							class="modehint modeperso">
+							class="modehint">
 							{{ t('cospend', 'Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don\'t want to collectively pay.') }}
 						</div>
 						<div v-else-if="newBillMode === 'custom' && showHint"
-							class="modehint modecustom">
+							class="modehint">
 							{{ t('cospend', 'Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press "Create the bills". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate.') }}
+						</div>
+						<div v-else-if="newBillMode === 'customShare' && showHint"
+							class="modehint">
+							{{ t('cospend', 'Custom share mode, uneven split: Choose a payer, set the bill amount and enter a custom share number for each member who is concerned. Then press "Create the bills". Multiple bills will be created. Real life example: Someone pays an electricity bill for the month but one member was only there during half the month. This member should then pay half a share (0.5) while the others pay a full share (1).') }}
 						</div>
 					</transition>
 				</div>
@@ -290,7 +297,7 @@
 					<label class="bill-owers-label">
 						<a class="icon icon-group" /><span>{{ t('cospend', 'For whom?') }}</span>
 					</label>
-					<div v-if="newBillMode !== 'custom'"
+					<div v-if="!['custom', 'customShare'].includes(newBillMode)"
 						class="owerAllNoneDiv">
 						<div class="icon-group" />
 						<input
@@ -359,7 +366,7 @@
 								@keyup.enter="onPersoAmountEnterPressed">
 						</div>
 					</div>
-					<div v-else>
+					<div v-else-if="newBillMode === 'custom'">
 						<div v-for="ower in activatedOrOwer"
 							:key="ower.id"
 							class="owerEntry">
@@ -380,6 +387,33 @@
 								:placeholder="t('cospend', 'Custom amount')"
 								@input="onCustomAmountChange"
 								@keyup.enter="onCustomAmountEnterPressed">
+						</div>
+					</div>
+					<div v-else-if="newBillMode === 'customShare'">
+						<div v-for="ower in activatedOrOwer"
+							:key="ower.id"
+							class="owerEntry">
+							<div :class="'owerAvatar' + myGetAvatarClass(ower.id)">
+								<div class="disabledMask" /><img :src="myGetMemberAvatar(ower.id)">
+							</div>
+							<label
+								class="numberlabel"
+								:for="'amountdum' + ower.id">
+								{{ ower.name }}
+							</label>
+							<input
+								:id="'amountdum' + ower.id"
+								:ref="'amountdum' + ower.id"
+								class="amountinput"
+								type="number"
+								step="0.1"
+								value=""
+								:placeholder="t('cospend', 'Custom share number')"
+								@input="onCustomShareAmountChange">
+							<label v-if="owerCustomShareAmount[ower.id]"
+								class="spentlabel">
+								({{ owerCustomShareAmount[ower.id] ? owerCustomShareAmount[ower.id].toFixed(2) : 0 }})
+							</label>
 						</div>
 					</div>
 				</div>
@@ -455,6 +489,7 @@ export default {
 				...this.bill,
 				owerIds: [...this.bill.owerIds],
 			},
+			owerCustomShareAmount: {},
 		}
 	},
 
@@ -475,6 +510,10 @@ export default {
 					this.currentFormula = null
 				} else {
 					this.currentFormula = val
+				}
+				// update custom share ower amounts
+				if (this.isNewBill && this.newBillMode === 'customShare') {
+					this.owerCustomShareAmount = this.getOwersCustomShareAmount()
 				}
 			},
 		},
@@ -503,6 +542,7 @@ export default {
 				this.myBill.owerIds = selected
 			},
 		},
+		// classic mode, get actual amount owed per member
 		owerAmount() {
 			const result = {}
 			const amount = parseFloat(this.myBill.amount)
@@ -727,24 +767,27 @@ export default {
 				this.myBill.what = this.cleanStringFromCurrency(this.myBill.what) + ' (' + userAmount.toFixed(2) + ' ' + currency.name + ')'
 				this.$refs.currencySelect.value = ''
 				// convert personal amounts
-				if (this.isNewBill && this.newBillMode === 'perso') {
-					const persoParts = this.getPersonalParts()
-					let part
-					for (const mid in persoParts) {
-						part = persoParts[mid]
-						if (part !== 0.0) {
-							this.$refs['amountdum' + mid][0].value = part * currency.exchange_rate
+				if (this.isNewBill) {
+					if (this.newBillMode === 'perso') {
+						const persoParts = this.getPersonalParts()
+						let part
+						for (const mid in persoParts) {
+							part = persoParts[mid]
+							if (part !== 0.0) {
+								this.$refs['amountdum' + mid][0].value = part * currency.exchange_rate
+							}
 						}
-					}
-				}
-				if (this.isNewBill && this.newBillMode === 'custom') {
-					const customAmounts = this.getCustomAmounts()
-					let am
-					for (const mid in customAmounts) {
-						am = customAmounts[mid]
-						if (am !== 0.0) {
-							this.$refs['amountdum' + mid][0].value = am * currency.exchange_rate
+					} else if (this.newBillMode === 'custom') {
+						const customAmounts = this.getCustomAmounts()
+						let am
+						for (const mid in customAmounts) {
+							am = customAmounts[mid]
+							if (am !== 0.0) {
+								this.$refs['amountdum' + mid][0].value = am * currency.exchange_rate
+							}
 						}
+					} else if (this.newBillMode === 'customShare') {
+						this.owerCustomShareAmount = this.getOwersCustomShareAmount()
 					}
 				}
 				this.onBillEdited(null, false)
@@ -820,6 +863,8 @@ export default {
 				this.createEquiPersoBill()
 			} else if (this.newBillMode === 'custom') {
 				this.createCustomAmountBill()
+			} else if (this.newBillMode === 'customShare') {
+				this.createCustomShareBill()
 			}
 		},
 		createNormalBill() {
@@ -911,7 +956,43 @@ export default {
 				}
 				this.newBillMode = 'normal'
 			} else {
-				showError(t('cospend', 'Bill values are not valid.'))
+				showError(t('cospend', 'Bill values are not valid'))
+			}
+		},
+		createCustomShareBill() {
+			if (this.basicBillValueCheck()) {
+				const myBill = this.myBill
+				// make sure we have up-to-date custom amounts
+				this.owerCustomShareAmount = this.getOwersCustomShareAmount()
+				// check if custom share numbers are valid
+				let total = 0.0
+				let nbBills = 0
+				for (const mid in this.owerCustomShareAmount) {
+					total += this.owerCustomShareAmount[mid]
+					// count how many bills are going to be created
+					if (this.owerCustomShareAmount[mid] !== 0.0) {
+						nbBills++
+					}
+				}
+				if (total === 0.0) {
+					showError(t('cospend', 'There is no custom share number'))
+					return
+				} else {
+					this.nbBillsLeftToCreate = nbBills
+					console.debug('BBBBB')
+					for (const mid in this.owerCustomShareAmount) {
+						const amount = this.owerCustomShareAmount[mid]
+						console.debug(amount)
+						if (amount !== 0.0) {
+							this.createBill('customShare', myBill.what, amount, myBill.payer_id, myBill.timestamp, [mid], myBill.repeat,
+								myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.comment)
+						}
+					}
+				}
+				this.newBillMode = 'normal'
+				this.owerCustomShareAmount = {}
+			} else {
+				showError(t('cospend', 'Bill values are not valid'))
 			}
 		},
 		createBill(mode = null, what = null, amount = null, payer_id = null, timestamp = null, owerIds = null, repeat = null,
@@ -947,7 +1028,16 @@ export default {
 				categoryid,
 			}
 			this.billLoading = true
-			network.createBill(this.projectId, mode, req, billToCreate, this.createBillSuccess, this.createBillDone)
+			network.createBill(this.projectId, mode, req).then((response) => {
+				this.createBillSuccess(response.data, billToCreate, mode)
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to create bill')
+					+ ': ' + error.response?.request?.responseText
+				)
+			}).then(() => {
+				this.createBillDone()
+			})
 		},
 		createBillSuccess(response, billToCreate, mode) {
 			const billid = response
@@ -955,12 +1045,12 @@ export default {
 			// only select the bill if it's a normal one or the main one in perso mode
 			const select = (mode === 'normal' || mode === 'mainPerso')
 			this.$emit('bill-created', billToCreate, select, mode)
-			showSuccess(t('cospend', 'Bill created.'))
+			showSuccess(t('cospend', 'Bill created'))
 			// manage multiple creation
 			if (mode !== 'normal') {
 				this.nbBillsLeftToCreate--
 				if (this.nbBillsLeftToCreate === 0) {
-					if (mode === 'custom') {
+					if (['custom', 'customShare'].includes(mode)) {
 						this.$emit('custom-bills-created')
 					} else {
 						this.$emit('perso-bills-created')
@@ -994,6 +1084,42 @@ export default {
 				sum += am
 			}
 			this.myBill.amount = sum
+		},
+		getCustomShareNumbers() {
+			const result = {}
+			this.activatedOrOwer.forEach((member) => {
+				const field = this.$refs['amountdum' + member.id]
+				const val = field ? parseFloat(field[0].value) : 0
+				if (val) {
+					result[member.id] = val
+				}
+			})
+			return result
+		},
+		// custom share mode, get owed amount (consider member weights AND custom share number)
+		getOwersCustomShareAmount() {
+			const result = {}
+			const amount = parseFloat(this.myBill.amount)
+			const shareNumbers = this.getCustomShareNumbers()
+
+			const nbOwers = Object.keys(shareNumbers).length
+			let shareWeightSum = 0
+			if (nbOwers > 0
+				&& !isNaN(amount)
+				&& amount !== 0.0) {
+				Object.keys(shareNumbers).forEach((mid) => {
+					shareWeightSum += this.members[mid].weight * shareNumbers[mid]
+				})
+				Object.keys(shareNumbers).forEach((mid) => {
+					const myProp = this.members[mid].weight * shareNumbers[mid]
+					const owerVal = amount * (myProp / shareWeightSum)
+					result[mid] = owerVal
+				})
+			}
+			return result
+		},
+		onCustomShareAmountChange() {
+			this.owerCustomShareAmount = this.getOwersCustomShareAmount()
 		},
 		onGeneratePubLinkClick() {
 			OC.dialogs.filepicker(

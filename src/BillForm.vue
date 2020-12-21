@@ -274,6 +274,17 @@
 					<button id="modehintbutton" @click="onHintClick">
 						<span class="icon-details" />
 					</button>
+					<div v-if="isNewBill && newBillMode === 'customShare'" class="checkbox-line">
+						<input
+							id="ignore-weights"
+							class="checkbox"
+							type="checkbox"
+							:checked="ignoreWeights"
+							@input="onIgnoreWeightsChange">
+						<label for="ignore-weights" class="checkboxlabel">
+							{{ t('cospend', 'Ignore member weights') }}
+						</label>
+					</div>
 					<transition name="fade">
 						<div v-if="newBillMode === 'normal' && showHint"
 							class="modehint">
@@ -490,6 +501,7 @@ export default {
 				owerIds: [...this.bill.owerIds],
 			},
 			owerCustomShareAmount: {},
+			ignoreWeights: false,
 		}
 	},
 
@@ -1107,18 +1119,35 @@ export default {
 			if (nbOwers > 0
 				&& !isNaN(amount)
 				&& amount !== 0.0) {
-				Object.keys(shareNumbers).forEach((mid) => {
-					shareWeightSum += this.members[mid].weight * shareNumbers[mid]
-				})
-				Object.keys(shareNumbers).forEach((mid) => {
-					const myProp = this.members[mid].weight * shareNumbers[mid]
-					const owerVal = amount * (myProp / shareWeightSum)
-					result[mid] = owerVal
-				})
+				if (this.ignoreWeights) {
+					// here we only consider custom share numbers
+					Object.keys(shareNumbers).forEach((mid) => {
+						shareWeightSum += shareNumbers[mid]
+					})
+					Object.keys(shareNumbers).forEach((mid) => {
+						const myProp = shareNumbers[mid]
+						const owerVal = amount * (myProp / shareWeightSum)
+						result[mid] = owerVal
+					})
+				} else {
+					// here we combine the effect of member's weight and custom share numbers
+					Object.keys(shareNumbers).forEach((mid) => {
+						shareWeightSum += this.members[mid].weight * shareNumbers[mid]
+					})
+					Object.keys(shareNumbers).forEach((mid) => {
+						const myProp = this.members[mid].weight * shareNumbers[mid]
+						const owerVal = amount * (myProp / shareWeightSum)
+						result[mid] = owerVal
+					})
+				}
 			}
 			return result
 		},
 		onCustomShareAmountChange() {
+			this.owerCustomShareAmount = this.getOwersCustomShareAmount()
+		},
+		onIgnoreWeightsChange(e) {
+			this.ignoreWeights = e.target.checked
 			this.owerCustomShareAmount = this.getOwersCustomShareAmount()
 		},
 		onGeneratePubLinkClick() {
@@ -1313,5 +1342,9 @@ export default {
 
 .modehint {
 	max-width: 350px;
+}
+
+.checkbox-line {
+	line-height: 44px;
 }
 </style>

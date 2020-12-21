@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- now possible to disable bill deletion
+[#13](https://github.com/eneiluj/cospend-nc/issues/13) @LJJS
+- reorder categories by drag'n'drop
+[#26](https://github.com/eneiluj/cospend-nc/issues/26) @itatabitovski
+
 ## 1.2.4 – 2020-12-19
 ### Added
 - biweekly and semi monthly repetition frequencies

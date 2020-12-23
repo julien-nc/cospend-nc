@@ -16,6 +16,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - new bill creation mode 'custom shares' (ignoring member weights or not)
 [#20](https://github.com/eneiluj/cospend-nc/issues/20) @stildalf
 
+### Changed
+- improve categories and currencies buttons
+
+### Fixed
+- bills count and total spent in sidebar
+
 ## 1.2.4 – 2020-12-19
 ### Added
 - biweekly and semi monthly repetition frequencies

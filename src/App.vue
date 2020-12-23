@@ -574,6 +574,9 @@ export default {
 				this.$set(this.members[projectid][memberid], 'balance', balance)
 			}
 			this.updateProjectPrecision(projectid, response.balance)
+
+			this.projects[projectid].nb_bills = response.nb_bills
+			this.projects[projectid].total_spent = response.total_spent
 		},
 		updateProjectPrecision(projectid, balances) {
 			const balanceArray = Object.values(balances)

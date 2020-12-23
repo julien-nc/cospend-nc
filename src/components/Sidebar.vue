@@ -124,11 +124,8 @@ export default {
 			return this.project.name
 		},
 		subtitle() {
-			const nbBills = this.bills.length
-			let spent = 0
-			this.bills.forEach(function(bill) {
-				spent += bill.amount
-			})
+			const nbBills = this.project.nb_bills
+			const spent = this.project.total_spent
 			let nbActiveMembers = 0
 			let member
 			for (const mid in this.members) {

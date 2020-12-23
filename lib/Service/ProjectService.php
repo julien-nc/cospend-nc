@@ -634,6 +634,7 @@ class ProjectService {
         $req->closeCursor();
         $qb = $qb->resetQueryParts();
         if ($dbProjectId !== null) {
+            $smallStats = $this->getSmallStats($dbProjectId);
             $members = $this->getMembers($dbProjectId, 'lowername');
             $activeMembers = [];
             foreach ($members as $member) {
@@ -663,6 +664,8 @@ class ProjectService {
                 'active_members' => $activeMembers,
                 'members' => $members,
                 'balance' => $balance,
+                'nb_bills' => $smallStats['nb_bills'],
+                'total_spent' => $smallStats['total_spent'],
                 'shares' => $shares,
                 'currencies' => $currencies,
                 'categories' => $categories,
@@ -672,6 +675,37 @@ class ProjectService {
         }
 
         return $projectInfo;
+    }
+
+    private function getSmallStats(string $projectId): array {
+        $nbBills = 0;
+        $qb = $this->dbconnection->getQueryBuilder();
+        $qb->select($qb->createFunction('COUNT(*)'))
+           ->from('cospend_bills')
+           ->where(
+               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+           );
+        $req = $qb->execute();
+        while ($row = $req->fetch()) {
+            $nbBills = (int) $row['COUNT(*)'];
+        }
+        $qb = $qb->resetQueryParts();
+
+        $totalSpent = 0;
+        $qb->select($qb->createFunction('SUM(amount)'))
+           ->from('cospend_bills')
+           ->where(
+               $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+           );
+        $req = $qb->execute();
+        while ($row = $req->fetch()) {
+            $totalSpent = (int) $row['SUM(amount)'];
+        }
+        $qb = $qb->resetQueryParts();
+        return [
+            'nb_bills' => $nbBills,
+            'total_spent' => $totalSpent,
+        ];
     }
 
     public function getProjectStatistics($projectId, $memberOrder=null, $tsMin=null, $tsMax=null,

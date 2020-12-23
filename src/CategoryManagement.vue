@@ -7,7 +7,7 @@
 					<span>{{ t('cospend', 'Category sort method') }}</span>
 				</label>
 				<select id="order-select"
-					:disabled="!editionAccess"
+					:disabled="!adminAccess"
 					:value="project.categorysort || 'm'"
 					@input="onCategorySortChange">
 					<option value="a">
@@ -136,6 +136,9 @@ export default {
 		},
 		categories() {
 			return this.project.categories
+		},
+		adminAccess() {
+			return (this.project.myaccesslevel >= constants.ACCESS.ADMIN)
 		},
 		editionAccess() {
 			return (this.project.myaccesslevel >= constants.ACCESS.MAINTENER)

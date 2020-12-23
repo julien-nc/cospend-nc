@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - now possible to disable bill deletion
 [#13](https://github.com/eneiluj/cospend-nc/issues/13) @LJJS
+- choose between alphabetical and manual categories order
+[#26](https://github.com/eneiluj/cospend-nc/issues/26) @itatabitovski
 - reorder categories by drag'n'drop
 [#26](https://github.com/eneiluj/cospend-nc/issues/26) @itatabitovski
 - new bill creation mode 'custom shares' (ignoring member weights or not)

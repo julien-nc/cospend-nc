@@ -714,9 +714,10 @@ class PageController extends ApiController {
      *
      */
     public function webEditProject(string $projectid, string $name, ?string $contact_email = null, ?string $password = null,
-                                    ?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null): DataResponse {
+                                    ?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
+                                    ?string $categorysort = null): DataResponse {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_ADMIN) {
-            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname, $deletion_disabled);
+            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname, $deletion_disabled, $categorysort);
             if ($result === 'UPDATED') {
                 return new DataResponse($result);
             } else {
@@ -962,13 +963,13 @@ class PageController extends ApiController {
      */
     public function apiSetProjectInfo(string $projectid, string $passwd, string $name, ?string $contact_email = null,
                                     ?string $password = null, ?string $autoexport = null, ?string $currencyname = null,
-                                    ?bool $deletion_disabled = null): DataResponse {
+                                    ?bool $deletion_disabled = null, ?string $categorysort = null): DataResponse {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($passwd);
         if (
             ($this->checkLogin($projectid, $passwd) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_ADMIN)
             || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_ADMIN)
         ) {
-            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname, $deletion_disabled);
+            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname, $deletion_disabled, $categorysort);
             if ($result === 'UPDATED') {
                 return new DataResponse($result);
             } else {
@@ -989,9 +990,10 @@ class PageController extends ApiController {
      * @CORS
      */
     public function apiPrivSetProjectInfo(string $projectid, string $name, ?string $contact_email = null, ?string $password = null,
-                                        ?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null): DataResponse {
+                                        ?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
+                                        ?string $categorysort = null): DataResponse {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_ADMIN) {
-            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname, $deletion_disabled);
+            $result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname, $deletion_disabled, $categorysort);
             if ($result === 'UPDATED') {
                 return new DataResponse($result);
             } else {

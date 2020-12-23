@@ -607,7 +607,8 @@ class ProjectService {
 
         $qb = $this->dbconnection->getQueryBuilder();
 
-        $qb->select('id', 'password', 'name', 'email', 'userid', 'lastchanged', 'guestaccesslevel', 'autoexport', 'currencyname', 'deletiondisabled')
+        $qb->select('id', 'password', 'name', 'email', 'userid', 'lastchanged', 'guestaccesslevel',
+                    'autoexport', 'currencyname', 'deletiondisabled', 'categorysort')
            ->from('cospend_projects', 'p')
            ->where(
                $qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -627,6 +628,7 @@ class ProjectService {
             $dbAutoexport= $row['autoexport'];
             $dbCurrencyName = $row['currencyname'];
             $dbDeletionDisabled = intval($row['deletiondisabled']) === 1;
+            $dbCategorySort= $row['categorysort'];
             break;
         }
         $req->closeCursor();
@@ -665,6 +667,7 @@ class ProjectService {
                 'currencies' => $currencies,
                 'categories' => $categories,
                 'deletion_disabled' => $dbDeletionDisabled,
+                'categorysort' => $dbCategorySort,
             ];
         }
 
@@ -1470,7 +1473,8 @@ class ProjectService {
     }
 
     public function editProject(string $projectid, string $name, ?string $contact_email = null, ?string $password = null,
-                                ?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null) {
+                                ?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
+                                ?string $categorysort = null) {
         if ($name === null || $name === '') {
             return ['name' => [$this->trans->t('Name field is required')]];
         }
@@ -1492,6 +1496,9 @@ class ProjectService {
         }
         if ($autoexport !== null && $autoexport !== '') {
             $qb->set('autoexport', $qb->createNamedParameter($autoexport, IQueryBuilder::PARAM_STR));
+        }
+        if ($categorysort !== null && $categorysort !== '') {
+            $qb->set('categorysort', $qb->createNamedParameter($categorysort, IQueryBuilder::PARAM_STR));
         }
         if ($deletion_disabled !== null) {
             $qb->set('deletiondisabled', $qb->createNamedParameter($deletion_disabled ? 1 : 0, IQueryBuilder::PARAM_INT));

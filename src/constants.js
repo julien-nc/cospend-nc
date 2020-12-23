@@ -15,6 +15,7 @@ export const PROJECT_PASSWORD_EDITION = 2
 
 export const hardCodedCategories = {
 	'-11': {
+		id: -11,
 		name: t('cospend', 'Reimbursement'),
 		icon: '💰',
 		color: '#e1d85a',

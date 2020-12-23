@@ -237,6 +237,7 @@ export function editProject(project, password, successCB) {
 		autoexport: project.autoexport,
 		currencyname: project.currencyname,
 		deletion_disabled: project.deletion_disabled,
+		categorysort: project.categorysort,
 	}
 	let url
 	if (!cospend.pageIsPublic) {

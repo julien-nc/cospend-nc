@@ -14,7 +14,7 @@ use OCP\IDBConnection;
 /**
  * Auto-generated migration step: Please modify to your needs!
  */
-class Version010205Date20201220175819 extends SimpleMigrationStep {
+class Version010206Date20201223134353 extends SimpleMigrationStep {
 
 	/** @var IDBConnection */
 	private $connection;
@@ -44,11 +44,29 @@ class Version010205Date20201220175819 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 		$table = $schema->getTable('cospend_projects');
-		$table->addColumn('deletiondisabled', 'integer', [
-			'notnull' => true,
-			'length' => 4,
-			'default' => 0,
-		]);
+		if (!$table->hasColumn('deletiondisabled')) {
+			$table->addColumn('deletiondisabled', 'integer', [
+				'notnull' => true,
+				'length' => 4,
+				'default' => 0,
+			]);
+		}
+		if (!$table->hasColumn('categorysort')) {
+			$table->addColumn('categorysort', 'string', [
+				'notnull' => true,
+				'length' => 1,
+				'default' => 'a',
+			]);
+		}
+
+		$table = $schema->getTable('cospend_project_categories');
+		if (!$table->hasColumn('order')) {
+			$table->addColumn('order', 'integer', [
+				'notnull' => true,
+				'length' => 4,
+				'default' => 0,
+			]);
+		}
 		return $schema;
 	}
 

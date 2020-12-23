@@ -149,13 +149,7 @@
 							{{ t('cospend', 'None') }}
 						</option>
 						<option
-							v-for="(category, catid) in hardCodedCategories"
-							:key="catid"
-							:value="catid">
-							{{ category.icon + ' ' + category.name }}
-						</option>
-						<option
-							v-for="category in categories"
+							v-for="category in sortedCategories"
 							:key="category.id"
 							:value="category.id">
 							{{ category.icon + ' ' + category.name }}
@@ -653,17 +647,27 @@ export default {
 			}
 			return mList
 		},
-		categories() {
-			return Object.values(cospend.projects[this.projectId].categories).sort((a, b) => {
-				return a.order > b.order
-					? 1
-					: a.order < b.order
-						? -1
-						: 0
-			})
-		},
-		hardCodedCategories() {
-			return cospend.hardCodedCategories
+		sortedCategories() {
+			const allCategories = Object.values(cospend.projects[this.projectId].categories).concat(Object.values(cospend.hardCodedCategories))
+			return this.project.categorysort === 'm'
+				? allCategories.sort((a, b) => {
+					return a.order > b.order
+						? 1
+						: a.order < b.order
+							? -1
+							: 0
+				})
+				: this.project.categorysort === 'a'
+					? allCategories.sort((a, b) => {
+						const la = a.name.toLowerCase()
+						const lb = b.name.toLowerCase()
+						return la > lb
+							? 1
+							: la < lb
+								? -1
+								: 0
+					})
+					: allCategories
 		},
 		currencies() {
 			return cospend.projects[this.projectId].currencies

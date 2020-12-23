@@ -1,6 +1,24 @@
 <template>
 	<div id="manage-categories">
 		<div id="categories-div">
+			<div id="order-selection">
+				<label for="order-select">
+					<span class="icon icon-settings-dark" />
+					<span>{{ t('cospend', 'Category sort method') }}</span>
+				</label>
+				<select id="order-select"
+					:disabled="!editionAccess"
+					:value="project.categorysort || 'm'"
+					@input="onCategorySortChange">
+					<option value="a">
+						{{ t('cospend', 'Alphabetical') }}
+					</option>
+					<option value="m">
+						{{ t('cospend', 'Manual') }}
+					</option>
+				</select>
+			</div>
+			<hr>
 			<div v-show="editionAccess"
 				id="add-category-div">
 				<label>
@@ -41,7 +59,7 @@
 			</label>
 			<br>
 			<label v-if="categories && editionAccess" class="hint">
-				<span class="icon icon-info" />{{ t('cospend', 'Drag to reorder') }}
+				<span class="icon icon-info" />{{ t('cospend', 'Drag categories to set manual order') }}
 			</label>
 			<div v-if="categories && editionAccess"
 				id="category-list">
@@ -234,6 +252,10 @@ export default {
 				console.error(error)
 			})
 		},
+		onCategorySortChange(e) {
+			cospend.projects[this.projectId].categorysort = e.target.value
+			this.$emit('project-edited', this.projectId)
+		},
 	},
 }
 </script>
@@ -332,5 +354,11 @@ $clickable-area: 44px;
 
 .clickable {
 	cursor: pointer;
+}
+
+#order-selection label,
+#order-selection select {
+	display: inline-block;
+	width: 49%;
 }
 </style>

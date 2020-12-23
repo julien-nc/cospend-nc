@@ -46,6 +46,7 @@
 			:order="3">
 			<CategoryManagement
 				:project-id="projectId"
+				@project-edited="onProjectEdited"
 				@category-deleted="onCategoryDeleted" />
 		</AppSidebarTab>
 		<AppSidebarTab

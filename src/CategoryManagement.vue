@@ -36,7 +36,6 @@
 				</div>
 				<hr>
 			</div>
-			<br>
 			<label>
 				<a class="icon icon-category-app-bundles" />{{ t('cospend', 'Category list') }}
 			</label>

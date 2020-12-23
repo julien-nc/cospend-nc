@@ -62,13 +62,13 @@
 					{{ t('cospend', 'No bill selected') }}
 				</EmptyContent>
 			</div>
-			<Actions
-				class="content-buttons"
-				:title="t('cospend', 'Details')">
-				<ActionButton
-					icon="icon-menu-sidebar"
+			<div
+				class="content-buttons">
+				<button
+					v-tooltip.bottom="{ content: t('cospend', 'Toggle sidebar') }"
+					class="icon-menu-sidebar"
 					@click="onMainDetailClicked" />
-			</Actions>
+			</div>
 		</AppContent>
 		<Sidebar
 			v-if="currentProjectId"
@@ -110,8 +110,6 @@ import * as constants from './constants'
 import { rgbObjToHex, slugify } from './utils'
 import Content from '@nextcloud/vue/dist/Components/Content'
 import AppContent from '@nextcloud/vue/dist/Components/AppContent'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 
 export default {
@@ -125,8 +123,6 @@ export default {
 		Sidebar,
 		Content,
 		AppContent,
-		Actions,
-		ActionButton,
 		EmptyContent,
 	},
 	provide() {
@@ -702,8 +698,18 @@ export default {
 }*/
 .content-buttons {
 	position: absolute !important;
-	top: 8px;
-	right: 8px;
+	top: 6px;
+	right: 6px;
+	button {
+		width: 44px;
+		height: 44px;
+		margin: 0;
+		background-color: transparent;
+		border: none;
+		&:hover {
+			background-color: var(--color-background-dark);
+		}
+	}
 }
 
 #app-content-wrapper {

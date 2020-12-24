@@ -1,8 +1,7 @@
 <template>
 	<AppContentDetails class="bill-form-content">
 		<h2 class="bill-title">
-			<span v-show="billLoading" class="loading-bill icon-loading-small" />
-			<div :class="'billFormAvatar owerAvatar' + myGetAvatarClass(myBill.payer_id)">
+			<div :class="'billFormAvatar owerAvatar' + myGetAvatarClass(myBill.payer_id) + (billLoading ? ' icon-loading' : '')">
 				<div class="disabledMask" /><img :src="myGetTitleAvatar(myBill.payer_id)">
 			</div>
 			<span>
@@ -65,7 +64,10 @@
 							@input="onAmountChanged"
 							@keyup.enter="onAmountEnterPressed"
 							@focus="$event.target.select()">
-						<button class="icon-info infoButton" @click="onAmountInfoClicked" />
+						<button
+							v-tooltip.top="{ content: t('cospend', 'More information') }"
+							class="icon-info infoButton"
+							@click="onAmountInfoClicked" />
 					</div>
 				</div>
 				<div
@@ -85,7 +87,10 @@
 								{{ currency.name }} ⇒ {{ project.currencyname }} (x{{ currency.exchange_rate }})
 							</option>
 						</select>
-						<button class="icon-info infoButton" @click="onConvertInfoClicked" />
+						<button
+							v-tooltip.top="{ content: t('cospend', 'More information') }"
+							class="icon-info infoButton"
+							@click="onConvertInfoClicked" />
 					</div>
 				</div>
 				<div class="bill-payer">
@@ -201,7 +206,10 @@
 								{{ t('cospend', 'Yearly') }}
 							</option>
 						</select>
-						<button class="icon-info infoButton" @click="onRepeatInfoClicked" />
+						<button
+							v-tooltip.top="{ content: t('cospend', 'More information') }"
+							class="icon-info infoButton"
+							@click="onRepeatInfoClicked" />
 					</div>
 				</div>
 				<div v-if="myBill.repeat !== 'n'"
@@ -304,7 +312,7 @@
 					</label>
 					<div v-if="!['custom', 'customShare'].includes(newBillMode)"
 						class="owerAllNoneDiv">
-						<div class="icon-group" />
+						<div />
 						<input
 							id="checkAllNone"
 							v-model="selectAllNoneOwers"
@@ -1200,7 +1208,7 @@ export default {
 <style scoped lang="scss">
 .bill-title {
 	padding: 20px 0px 20px 0px;
-	text-align: left;
+	text-align: center;
 	margin-left: 50px;
 }
 
@@ -1281,6 +1289,10 @@ export default {
 	max-width: 80%;
 }
 
+.billFormAvatar {
+	height: 50px;
+}
+
 .billFormAvatar img {
 	width: 50px;
 }
@@ -1295,6 +1307,11 @@ export default {
 	height: 34px;
 	width: 34px;
 	float: right;
+	border: none;
+	background-color: transparent;
+	&:hover {
+		background-color: var(--color-background-hover);
+	}
 }
 
 .field-with-info {

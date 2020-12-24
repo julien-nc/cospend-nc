@@ -44,7 +44,7 @@
     "vue": "^2.6.12",
     "vue-types": "^2.0.1",
     "vue-click-outside": "^1.1.0",
-    "vuejs-smart-table": "^0.0.5",
+    "vuejs-smart-table": "^0.0.6",
     "vue-infinite-loading": "^2.4.5",
     "vue-awesome-countdown": "^1.1.4",
     "vue-smooth-dnd": "^0.8.1"
@@ -84,7 +84,7 @@
     "clean-webpack-plugin": "3.0.0",
     "webpack": "^5.11.0",
     "webpack-cli": "^4.2.0",
-    "webpack-merge": "^5.7.2",
+    "webpack-merge": "^5.7.3",
     "webpack-node-externals": "^2.5.2"
   }
 }

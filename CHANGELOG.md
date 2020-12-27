@@ -6,8 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.2.6 – 2020-12-27
 ### Added
-- now possible to disable bill deletion
+- option to disable bill deletion
 [#13](https://github.com/eneiluj/cospend-nc/issues/13) @LJJS
 - choose between alphabetical and manual categories order
 [#26](https://github.com/eneiluj/cospend-nc/issues/26) @itatabitovski
@@ -17,7 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [#20](https://github.com/eneiluj/cospend-nc/issues/20) @stildalf
 
 ### Changed
-- improve categories and currencies buttons
+- improve categories and currencies design
 
 ### Fixed
 - bills count and total spent in sidebar

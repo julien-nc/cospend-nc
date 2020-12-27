@@ -47,12 +47,12 @@ endif
 
 .PHONY: npm
 npm:
-	$(npm) install
+	$(npm) ci
 	$(npm) run build
 
 .PHONY: npm-dev
 npm-dev:
-	$(npm) install
+	$(npm) ci
 	$(npm) run dev
 
 clean:

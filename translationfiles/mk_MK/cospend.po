@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-12-09 18:09+0100\n"
-"PO-Revision-Date: 2020-12-10 17:18\n"
+"POT-Creation-Date: 2020-12-24 01:21+0100\n"
+"PO-Revision-Date: 2020-12-24 00:24\n"
 "Last-Translator: \n"
 "Language-Team: Macedonian\n"
 "Language: mk_MK\n"
@@ -111,15 +111,15 @@ msgstr "Проект %s"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:281
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:336
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2718
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2722
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2726
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4292
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4296
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4300
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4468
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4472
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4476
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2769
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2773
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2777
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4244
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4248
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4252
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4420
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4424
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4428
 msgid "Access denied"
 msgstr "Пристапот е одбиен"
 
@@ -127,162 +127,164 @@ msgstr "Пристапот е одбиен"
 msgid "You are not allowed to delete this project"
 msgstr "Немате дозвола да го избришете овој проект"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:450
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:481
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:453
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:488
 msgid "You are not allowed to delete this bill"
 msgstr "Немате дозвола да ја избришете оваа сметка"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:500
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:507
 msgid "You are not allowed to get this project's info"
 msgstr "Немате дозвола да ги видите информациите за овој проект"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:522
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:529
 msgid "You are not allowed to get this project's statistics"
 msgstr "Немате дозвола да ја видите статистиката за овој проект"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:540
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:547
 msgid "You are not allowed to get this project's settlement"
 msgstr "Немате дозвола да ги видите должниците во овој проект"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:563
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:570
 msgid "You are not allowed to settle this project automatically"
 msgstr "Немате дозвола да го исплаќате овој проект автоматски"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:580
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:587
 msgid "You are not allowed to access this project"
 msgstr "Немате дозвола за пристап до овој проект"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:605
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:612
 msgid "You are not allowed to edit this member"
 msgstr "Немате дозвола да го измените овој член"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:641
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:698
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1375
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1417
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:648
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:705
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1383
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1425
 msgid "You are not allowed to edit this bill"
 msgstr "Немате дозвола да ја измените оваа сметка"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:660
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:755
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1277
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1311
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1335
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:667
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:763
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1285
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1319
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1343
 msgid "You are not allowed to add bills"
 msgstr "Немате дозвола да додавате сметки"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:721
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2514
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2607
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2654
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:729
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2565
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2658
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2705
 msgid "You are not allowed to edit this project"
 msgstr "Немате дозвола да го измените овој проект"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:778
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1185
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1214
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1238
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:786
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1193
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1222
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1246
 msgid "You are not allowed to add members"
 msgstr "Немате дозвола да додавате корисници"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:809
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:817
 msgid "You are not allowed to get the bill list"
 msgstr "Немате дозвола да ја преземете листата со сметки"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:863
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:871
 msgid "Anonymous project creation is not allowed on this server"
 msgstr "Не е дозволено креирање на анонимен проект на овој сервер"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:906
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:935
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:914
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:943
 msgid "Project not found"
 msgstr "Проектот не е пронајден"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:914
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:922
 msgid "Bad password or public link"
 msgstr "Неточна лозинка или линк"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:943
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:972
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:996
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1018
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1038
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1068
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1102
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1128
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1156
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1452
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1490
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1528
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1561
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1590
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1614
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1643
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1667
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1698
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1724
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1750
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1774
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1796
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1816
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1845
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1869
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:951
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:980
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1004
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1026
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1046
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1076
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1110
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1136
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1164
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1460
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1501
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1543
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1579
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1607
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1631
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1660
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1684
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1715
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1741
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1767
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1791
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1813
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1833
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1862
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1886
 msgid "Unauthorized action"
 msgstr "Неовластена акција"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1975
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1992
 msgid "You are not allowed to give such shared access level"
 msgstr "Не ви е дозволено да додавате ниво на споделен пристап"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:1998
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2013
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2015
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2030
 msgid "You are not allowed to edit guest access level"
 msgstr "Не ви е дозволено да го измените нивото на пристап за гостите"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2060
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2090
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2115
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2137
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2166
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2190
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2212
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2075
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2102
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2126
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2146
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2164
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2192
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2218
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2241
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2265
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2263
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2292
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2316
 msgid "You are not allowed to manage categories"
 msgstr "Немате дозвола да менаџирате категории"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2287
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2317
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2342
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2364
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2338
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2368
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2393
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2417
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2439
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2415
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2444
 #: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2468
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2492
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2490
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2519
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2543
 msgid "You are not allowed to manage currencies"
 msgstr "Немате дозвола да менаџирате валути"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2539
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2585
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2632
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2679
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2590
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2636
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2683
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2730
 msgid "You are not allowed to remove this shared access"
 msgstr "Не ви е дозволено да го отстраните нивото на споделен пристап"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2561
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2612
 msgid "You are not allowed to add public shared accesses"
 msgstr "Не ви е дозволено да додавате јавно ниво на споделен пристап"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2746
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2797
 msgid "You are not allowed to export this project settlement"
 msgstr "Немате дозвола да ги извезувате должниците за овој проект"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2771
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2822
 msgid "You are not allowed to export this project statistics"
 msgstr "Немате дозвола да ја извезувате статистиката за овој проект"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2798
+#: /var/www/html/dev/server/apps/cospend/lib/Controller/PageController.php:2849
 msgid "You are not allowed to export this project"
 msgstr "Немате дозвола да го извезувате овој проект"
 
@@ -361,7 +363,7 @@ msgid "In project %1$s"
 msgstr "Во проектот %1$s"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:248
-#: /var/www/html/dev/server/apps/cospend/src/constants.js:18
+#: /var/www/html/dev/server/apps/cospend/src/constants.js:19
 msgid "Reimbursement"
 msgstr "Надоместок"
 
@@ -375,300 +377,300 @@ msgid "A project with id \"%1$s\" already exists"
 msgstr "Проект со id \"%1$s\" веќе постои"
 
 #: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:601
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1052
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1096
 msgid "Not Found"
 msgstr "Ништо нема пронајдено"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:832
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:871
 msgid "Average per month"
 msgstr "Просечно по месец"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:937
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:940
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:978
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:982
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2713
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2740
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2749
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2770
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2775
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:976
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:979
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1017
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1021
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2647
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2674
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2683
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2704
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2709
 msgid "Invalid value"
 msgstr "Невалидна вредност"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:951
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:990
 msgid "Timestamp (or date) field is required"
 msgstr "Временски печат (или датум) полето е задолжително"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:956
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:995
 msgid "Invalid date"
 msgstr "Погрешен датум"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:964
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1003
 msgid "This field is invalid"
 msgstr "Полето не е валидно"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:967
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:970
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1461
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1006
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1009
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1505
 msgid "This field is required"
 msgstr "Ова поле е задолжително"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:973
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:985
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2758
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2778
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1012
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1024
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2692
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2712
 msgid "Not a valid choice"
 msgstr "Не е валиден изборот"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1232
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1276
 msgid "Error when getting project settlement transactions"
 msgstr "Грешка при добивање на трансакции за порамнување на проектот"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1254
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1298
 msgid "Error when adding a bill"
 msgstr "Грешка при додавање на сметка"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1406
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1518
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1450
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1567
 msgid "Invalid member name"
 msgstr "Невалидно име на член"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1408
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1452
 msgid "Name already exists"
 msgstr "Членот веќе постои"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1417
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1461
 msgid "Not a valid decimal value"
 msgstr "Не е валидна вредноста на децимали"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1457
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1501
 msgid "This project have no such member"
 msgstr "Овој проект нема членови"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1467
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1558
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1513
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1607
 msgid "Name field is required"
 msgstr "Полето име е задолжително"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1479
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1524
 msgid "Invalid email address"
 msgstr "Невалидна е-пошта адреса"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1510
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1559
 msgid "There is no such project"
 msgstr "Тука нема проект"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1526
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1575
 msgid "Weight is not a valid decimal value"
 msgstr "Нема зададено валиден децимален број во тежината"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1530
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1579
 msgid "Active is not a valid integer value"
 msgstr "Не е валидна вредност"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1554
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1603
 msgid "This project already has this member"
 msgstr "Во овој проект веќе постои тој член"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2698
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:2632
 msgid "There is no such bill"
 msgstr "Сеуште нема сметки"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3115
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3219
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3050
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3171
 msgid "Not found"
 msgstr "Ништо нема пронајдено"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3145
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3097
 msgid "This project have no such category"
 msgstr "Овој проект нема категории"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3149
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3248
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3101
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3200
 msgid "Incorrect field values"
 msgstr "Неправилна вредност во полето"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3244
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3196
 msgid "This project have no such currency"
 msgstr "Овој проект нема валути"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3339
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3291
 msgid "You are not authorized to give such access level"
 msgstr "Не ви е дозволено да додавате ниво на пристап"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3342
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3294
 msgid "Already shared with this user"
 msgstr "Веќе е споделено со тој корисник"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3345
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3297
 msgid "Impossible to share the project with its owner"
 msgstr "Невозможно е да се споделува проект со својот сопственик"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3348
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3300
 msgid "No such user"
 msgstr "Нема корисник"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3443
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3543
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3747
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3882
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3395
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3495
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3699
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3834
 msgid "No such share"
 msgstr "Нема споделување"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3625
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3577
 msgid "No such shared access"
 msgstr "Нема споделен пристап"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3686
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3638
 msgid "Already shared with this group"
 msgstr "Веќе е споделено со тоа група"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3690
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3642
 msgid "No such group"
 msgstr "Нема група"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3761
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3713
 msgid "Sharing with personal circles is not supported"
 msgstr "Не е поддржано споделување со сопствени кругови"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3819
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3771
 msgid "Already shared with this circle"
 msgstr "Веќе е споделено со тој круг"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3823
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3775
 msgid "No such circle"
 msgstr "Нема круг"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3827
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3779
 msgid "Circles app is not enabled"
 msgstr "Circles апликацијата не е овозможена"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3905
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:141
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3857
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:160
 msgid "Who pays?"
 msgstr "Кој плаќа?"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3905
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:142
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3857
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:161
 msgid "To whom?"
 msgstr "За кого?"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3905
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3857
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:19
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:143
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:162
 msgid "How much?"
 msgstr "Колку?"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3932
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3884
 #, php-format
 msgid "%1$s is not a folder"
 msgstr "%1$s не е папка"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3935
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3887
 #, php-format
 msgid "%1$s is not writeable"
 msgstr "во %1$s неможе да се запишува"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3942
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3894
 #, php-format
 msgid "Impossible to create %1$s"
 msgstr "Невозможно да се креира %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3964
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:146
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:171
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3916
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:165
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:191
 msgid "Member name"
 msgstr "Име на ченот"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3964
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:172
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3916
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:192
 msgid "Paid"
 msgstr "Платено"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3964
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:173
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3916
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:193
 msgid "Spent"
 msgstr "Потрошено"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3964
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:147
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:175
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3916
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:166
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:195
 msgid "Balance"
 msgstr "Состојба"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4122
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4074
 #, php-format
 msgid "Malformed CSV, bad column names at line %1$s"
 msgstr "Неправилна форма на CSV, неправило име на колона на линија %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4182
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4134
 #, php-format
 msgid "Malformed CSV, bad payer weight on line %1$s"
 msgstr "Неправилна форма на CSV, неправилна тежина на линија %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4186
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4193
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4138
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4145
 #, php-format
 msgid "Malformed CSV, bad owers on line %1$s"
 msgstr "Неправилна форма на CSV, неправилни должници на линија %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4201
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4386
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4153
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4338
 #, php-format
 msgid "Malformed CSV, bad amount on line %1$s"
 msgstr "Неправилна форма на CSV, неправилни вредности на линија %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4234
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4423
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4186
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4375
 #, php-format
 msgid "Error in project creation, %1$s"
 msgstr "Грешка при креирање на проект, %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4245
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4431
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4197
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4383
 #, php-format
 msgid "Error when adding category %1$s"
 msgstr "Грешка при додавање на категорија %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4254
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4206
 #, php-format
 msgid "Error when adding currency %1$s"
 msgstr "Грешка при додавање на валута %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4262
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4440
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4214
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4392
 #, php-format
 msgid "Error when adding member %1$s"
 msgstr "Грешка при додавање на член %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4285
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4462
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4237
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4414
 #, php-format
 msgid "Error when adding bill %1$s"
 msgstr "Грешка при додавање на сметка %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4336
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4288
 msgid "Malformed CSV, bad column names"
 msgstr "Неправилна форма на CSV, неправило име на колона"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4347
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4299
 msgid "Malformed CSV, cannot have an empty ower"
 msgstr "Неправилна форма на CSV, неможе должникот да е празно поле"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4380
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4332
 #, php-format
 msgid "Malformed CSV, no payer on line %1$s"
 msgstr "Неправилна форма на CSV, неправилен плаќач на линија %1$s"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4501
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4453
 msgid "daily"
 msgstr "дневно"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4516
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4468
 msgid "weekly"
 msgstr "неделно"
 
-#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4537
+#: /var/www/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4489
 msgid "monthly"
 msgstr "месечно"
 
@@ -681,8 +683,8 @@ msgid "No bill selected"
 msgstr "Нема избрано сметка"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:2
-msgid "Details"
-msgstr "Детали"
+msgid "Toggle sidebar"
+msgstr ""
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "{nb} bills were created"
@@ -730,7 +732,7 @@ msgid "link"
 msgstr "врска"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:15
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:52
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:59
 msgid "Press Shift+Enter to validate"
 msgstr "Притисни Shift+Enter за потврда"
 
@@ -747,962 +749,1050 @@ msgid "Attach public link to personal file"
 msgstr "Прикачи јавен линк до сопствена датотека"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:20
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:22
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:40
+msgid "More information"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:21
 msgid "Convert to"
 msgstr "Конвертирај во"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:21
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:23
 msgid "Who payed?"
 msgstr "Кој плаќа?"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:22
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:23
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:136
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:24
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:25
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:155
 msgid "When?"
 msgstr "Кога?"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:24
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:159
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:26
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:179
 msgid "Payment mode"
 msgstr "Начин на плаќање"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:25
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:27
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:74
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:76
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:103
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:29
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:84
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:86
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:119
 msgid "None"
 msgstr "Никој"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:26
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:161
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:28
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:181
 msgid "Category"
 msgstr "Категорија"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:28
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:30
 msgid "Comment"
 msgstr "Коментар"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:29
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:31
 msgid "More details about the bill (300 char. max)"
 msgstr "Повеќе детали за сметката (300 карактери максимум)"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:30
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:32
 msgid "Repeat"
 msgstr "Повтори"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:31
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:238
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:33
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:269
 msgid "No"
 msgstr "Не"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:32
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:239
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:34
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:270
 msgid "Daily"
 msgstr "Дневно"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:33
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:240
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:35
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:271
 msgid "Weekly"
 msgstr "Неделно"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:34
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:36
 msgid "Bi-weekly (every 2 weeks)"
 msgstr "Дво-неделни (секој 2 недели)"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:35
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:37
 msgid "Semi-monthly (twice a month)"
 msgstr "Двојно месечно (двапати месечно)"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:36
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:241
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:38
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:272
 msgid "Monthly"
 msgstr "Месечно"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:37
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:39
 msgid "Yearly"
 msgstr "Годишно"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:38
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:41
 msgid "Include all active members on repeat"
 msgstr "Вклучи ги сите активни членови во повторувањето"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:39
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:42
 msgid "Repeat until"
 msgstr "Повторувај додека"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:40
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:43
 msgid "Repeat now"
 msgstr "Повтори сега"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:41
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:44
 msgid "Bill type"
 msgstr "Вид на сметка"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:42
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:45
 msgid "Classic, even split"
 msgstr "Класичен, дури и поделен"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:43
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:46
 msgid "Even split with optional personal parts"
 msgstr "Дури и поделени со изборни лични делови"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:44
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:47
 msgid "Custom owed amount per member"
 msgstr "Износот што го должи по член"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:45
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:48
+msgid "Custom share per member"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:49
+msgid "Ignore member weights"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:50
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
 msgstr "Класичен режим: Изберете плаќач, внесете износ на сметка и изберете кој е вклучен за целото трошење, сметката потоа се дели рамноправно помеѓу избраните членови. Пример од реален живот: Едно лице ја плаќа целата сметка во ресторанот и сите се согласуваат подеднакво да ги поделат трошоците."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:46
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:51
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr "Класичен+личен режим: Овој режим е сличен на класичниот. Изберете плаќач и внесете износ на сметка што одговара на она што всушност е платено. Потоа изберете кој е вклучен во сметката и по избор внесете износ што се однесува на лични работи за некои членови. Се креираат повеќе сметки: една за заедничко трошење и една за секој личен дел. Пример од реалниот живот: Одиме на шопинг, дел од купеното се однесува на групата, но некој додал и нешто лично (пример кошула) што другите не сакаат колективно да го плаќаат."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:47
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:52
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
 msgstr "Прилагоден режим, нерамномерна распределба: Изберете плаќач, игнорирајте го износот на сметката (што е оневозможен) и внесете сума на долгови за секој член. Потоа, притиснете „Креирај сметка“. Се креираат повеќе сметки. Пример во реалниот живот: Едно лице ја плаќа целата сметка во ресторанот, но има големи разлики во цените помеѓу она што го јадело секое лице."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:48
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:53
+msgid "Custom share mode, uneven split: Choose a payer, set the bill amount and enter a custom share number for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: Someone pays an electricity bill for the month but one member was only there during half the month. This member should then pay half a share (0.5) while the others pay a full share (1)."
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:54
 msgid "For whom?"
 msgstr "За кого?"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:49
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:55
 msgid "All/None"
 msgstr "Сите/Никој"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:50
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:56
 msgid "Personal amount"
 msgstr "Лична сума"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:51
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:57
 msgid "Custom amount"
 msgstr "Прилагоден износ"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:53
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:58
+msgid "Custom share number"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:60
 msgid "Bill : {what}"
 msgstr "Сметка : {what}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:54
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:61
 msgid "Create the bill"
 msgstr "Креирај сметка"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:54
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:61
 msgid "Create the bills"
 msgstr "Креирајте сметки"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:55
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:194
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:62
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:214
 #: /var/www/html/dev/server/apps/cospend/src/utils.js:16
 msgid "You"
 msgstr "Вие"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:56
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:63
 msgid "Impossible to save bill, invalid values."
 msgstr "Неможе да се зачува сметката, неправилни вресности."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:57
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:64
 msgid "Bill saved."
 msgstr "Сметката е зачувана."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:58
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:60
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:62
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:65
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:67
 msgid "Bill values are not valid."
 msgstr "Вредноста на сметката не е валидна."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:59
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:66
 msgid "Personal parts are bigger than the paid amount."
 msgstr "Личниот дел на сметката е поголем од целата платена сума."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:61
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:68
 msgid "There is no custom amount."
 msgstr "Не е внесена прилагоден износ."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:63
-msgid "Bill created."
-msgstr "Сметката е креирана."
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:69
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:71
+msgid "Bill values are not valid"
+msgstr ""
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:64
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:70
+msgid "There is no custom share number"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:72
+msgid "Failed to create bill"
+msgstr "Неуспешно креирање на сметка"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:73
+msgid "Bill created"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:74
 msgid "Choose file"
 msgstr "Избери датотека"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:65
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:75
 msgid "This is just a currency converter. Bill amount can be entered in another currency and then converted to \"{maincur}\". Value is always stored in \"{maincur}\"."
 msgstr "Ова е само конвертор на валута. Износот на сметката може да се внесе во друга валута и потоа да се конвертира во \"{maincur}\". Вредноста е секогаш зачувана во \"{maincur}\"."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:66
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:68
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:71
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:126
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:129
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:154
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:251
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:254
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:76
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:78
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:81
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:145
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:148
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:174
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:282
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:285
 msgid "Info"
 msgstr "Информации"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:67
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:77
 msgid "You can type simple math operations and validate by pressing Enter key."
 msgstr "Можете да напишете едноставни математички операции и да ги потврдите со притискање на копчето Ентер."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:69
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:79
 msgid "Bill repetition process runs once a day as a background job. If your bills are not automatically repeated, ask your Nextcloud administrator to check if \"Cron\" method is selected in admin settings."
 msgstr "Процесот на повторување на сметките се одвива еднаш дневно во позадина. Ако вашите сметки не се повторуваат автоматски, прашајте го администраторот на Nextcloud да провери дали Cron е избран во поставките на администраторот."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:70
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:80
 msgid "You can also manually repeat the current bill with the \"Repeat now\" button."
 msgstr "Секако можете и рачно да ги повторите сметките со притискање на копчето \"Повтори сега\"."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:72
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:82
 msgid "New bill"
 msgstr "Нова сметка"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:73
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:83
 msgid "Assign category"
 msgstr "Додели категорија"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:75
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:85
 msgid "Assign payment mode"
 msgstr "Додели начин на плаќање"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:77
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:87
 msgid "Delete selected bills"
 msgstr "Избриши ги означените сметки"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:78
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:88
 msgid "Multi select mode: Select bills to make grouped actions"
 msgstr "Режим со повеќе избирања: Изберете сметки за да направите групирани дејства"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:79
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:89
 msgid "Add at least 2 members to start creating bills"
 msgstr "Додадете најмалку 2 члена за да почнете да креирате сметки"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:80
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:90
 msgid "No bills yet"
 msgstr "Нема сметки"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:81
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:82
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:91
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:92
 msgid "No more bills"
 msgstr "Нема повеќе сметки"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:83
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:93
 msgid "Leave multiple selection mode"
 msgstr "Напушти режим на повеќекратно избирање"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:84
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:94
 msgid "Enter multiple selection mode"
 msgstr "Влези во режим на повеќекратно избирање"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:85
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:95
 msgid "Bill deleted"
 msgstr "Сметката е избришана"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:86
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:96
 msgid "Bills edited"
 msgstr "Сметката е изменета"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:87
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:97
 msgid "Confirm deletion"
 msgstr "Потврди бришење"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:88
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:202
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:208
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:98
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:222
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:228
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:236
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:262
 msgid "Delete"
 msgstr "Избриши"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:89
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:99
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:122
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:241
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:264
 msgid "Cancel"
 msgstr "Откажи"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:90
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:100
 msgid "Bills deleted"
 msgstr "Сметката е избришана"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:91
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:101
 msgid "Are you sure you want to delete {nb} bill?"
 msgid_plural "Are you sure you want to delete {nb} bills?"
 msgstr[0] "Дали сте сигурни дека сакате да ја избришете сметката {nb}?"
 msgstr[1] "Дали сте сигурни дека сакате да ги избришете сметките {nb}?"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:92
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:102
+msgid "Category sort method"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:103
+msgid "Alphabetical"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:104
+msgid "Manual"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:105
 msgid "Add category"
 msgstr "Додадете категорија"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:93
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:106
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:237
 msgid "Color"
 msgstr "Боја"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:94
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:215
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:107
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:238
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:239
 msgid "Icon"
 msgstr "Икона"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:95
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:216
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:108
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:240
 msgid "Category name"
 msgstr "Име на категорија"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:96
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:109
 msgid "Add this category"
 msgstr "Додадете ја оваа категорија"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:97
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:110
 msgid "Category list"
 msgstr "Листа со категории"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:98
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:111
+msgid "Drag categories to set manual order"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "No categories to display"
 msgstr "Нема категории за приказ"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:99
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:101
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:113
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:116
 msgid "Category name should not be empty."
 msgstr "Името на категоријата не треба да биде празно."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:100
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:114
+msgid "Failed to add category"
+msgstr "Неуспешно додавање на категорија"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:115
 msgid "Category {n} added."
 msgstr "Додадена категорија {n}."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:102
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:117
+msgid "Category order saved"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:118
 msgid "Main currency"
 msgstr "Главна валута"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:104
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:120
+msgid "Set main currency name"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:121
 msgid "Main currency name"
 msgstr "Име на главната валута"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:105
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:123
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:242
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:265
+msgid "Save"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:124
 msgid "Add currency"
 msgstr "Додадете валута"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:106
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:226
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:125
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:252
 msgid "Name"
 msgstr "Име"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:107
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:235
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:126
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:263
 msgid "Currency name"
 msgstr "Име на валутата"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:108
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:127
 msgid "Exchange rate to main currency"
 msgstr "Девизен курс со главната валута"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:109
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:128
 msgid "(1 of this currency = X of main currency)"
 msgstr "(1 од оваа валута = X од главната валута)"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:110
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:129
 msgid "Add this currency"
 msgstr "Додај ја оваа валута"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:111
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:130
 msgid "Currency list"
 msgstr "Листа на валути"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:112
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:131
 msgid "No currencies to display"
 msgstr "Нема валути за приказ"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:113
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:116
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:132
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "Currency name should not be empty."
 msgstr "Името на валутата не треба да биде празно."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:114
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:133
 msgid "Exchange rate should be a number."
 msgstr "Девизниот курс треба да биде број."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:115
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:134
 msgid "Currency {n} added."
 msgstr "Додадена валута {n}."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:117
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:136
 msgid "MoneyBuster link/QRCode for project {name}"
 msgstr "MoneyBuster линк/QR Код за проектот {name}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:118
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:122
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:137
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:141
 msgid "Old link"
 msgstr "Стар линк"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:119
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:123
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:138
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:142
 msgid "New link"
 msgstr "Нов линк"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:120
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:139
 msgid "Confirm project password to get a QRCode including the password."
 msgstr "Потврдете ја лозинката на проектот за да се вклучи и лозинката во QR Кодот."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:121
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:140
 msgid "Project password"
 msgstr "Лозинка на проект"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:124
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:143
 msgid "Incorrect project password."
 msgstr "Погрешна лозинка на проект."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:125
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:144
 msgid "Scan this QRCode with a smartphone which has MoneyBuster or PayForMe installed or simply send the link itself."
 msgstr "Скенирајте го овој QR Код со телефон кој има MoneyBuster или PayForMe инсталирано или едноставно испратете си го линкот."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:127
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:146
 msgid "As the password is stored hashed (for security), it can't be automatically included in the QRCode. If you want to include it in the QRCode and make it easier to add a project in mobile apps, you must provide the password again."
 msgstr "Лозинката е зачувана како хаш (поради безбедност), и неможе автоматски да се додаде во QR Кодот. Доколку сакате да се вклучи и лозинката во QR Кодот и да направите додавањето на проектот биде поедноставно во мобилна апликација, морате да ја внесете лозинката на проектот уште еднаш."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:128
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:147
 msgid "Type the project password and press \"Enter\" to generate another QRCode that includes the password."
 msgstr "Внесете ја лозинката на проектот и притиснете \"Ентер\" за да се генерира друг QR Код кој ќе ја вклучува и лозинката."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:130
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:149
 msgid "Settlement of project {name}"
 msgstr "Плаќање на проект {name}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:131
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:156
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:150
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:176
 msgid "Export"
 msgstr "Извоз"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:132
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:151
 msgid "Add these payments to project"
 msgstr "Додади ги овие плаќања во проект"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:133
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:152
 msgid "Center settlement on"
 msgstr "Централно порамнување на"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:134
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:153
 msgid "Nobody (optimal)"
 msgstr "Никој (оптимално)"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:135
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:154
 msgid "Settlement date"
 msgstr "Датум на порамнување"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:137
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:156
 msgid "Set to beginning of this day"
 msgstr "Постави го на почеток на овој ден"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:138
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:157
 msgid "Set to beginning of this week"
 msgstr "Постави го на почеток на оваа недела"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:139
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:158
 msgid "Set to beginning of this month"
 msgstr "Постави го на почеток на овој месец"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:140
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:159
 msgid "Settlement plan on {date}"
 msgstr "План за порамнување на {date}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:140
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:159
 msgid "Settlement plan"
 msgstr "План за порамнување"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:144
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:163
 msgid "No transactions found"
 msgstr "Не се пронајдени трансакции"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:145
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "Balances on {date}"
 msgstr "Состојба на {date}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:145
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "Balances"
 msgstr "Состојби"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:148
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:167
 msgid "No balances found"
 msgstr "Не се пронајдени состојби"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:149
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:168
+msgid "Failed to get settlement"
+msgstr "Неуспешно добивање на подмирувања"
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:169
 msgid "Project settlement bills added."
 msgstr "Додадена сметка за порамнување во проект."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:150
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:170
 msgid "Project settlement exported in {path}"
 msgstr "Порамнување на проект е извезено во {path}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:151
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:171
 msgid "Set a maximum date to only consider bills until then."
 msgstr "Поставете максимален датум за да ги разгледувате сметките до тогаш."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:152
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:172
 msgid "Useful if you want to settle at a precise date and ignore the bills created since then."
 msgstr "Корисно е ако сакате да се решите на прецизен датум и да ги игнорирате сметките создадени оттогаш."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:153
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:173
 msgid "Automatic settlement will create bills one second before the maximum date."
 msgstr "Автоматското порамнување ќе создаде сметки една секунда пред максималниот датум."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:155
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:175
 msgid "Statistics of project {name}"
 msgstr "Статистики за проект {name}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:157
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:177
 msgid "Minimum date"
 msgstr "Минимален датум"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:158
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:178
 msgid "Maximum date"
 msgstr "Максимален датум"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:160
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:162
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:180
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:182
 msgid "All"
 msgstr "Сите"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:163
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "All except reimbursement"
 msgstr "Сите освен надоместок"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:164
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "Minimum amount"
 msgstr "Минимална сума"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:165
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:185
 msgid "Maximum amount"
 msgstr "Минимална сума"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:166
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:186
 msgid "Currency of statistic values"
 msgstr "Валута на статистички вредности"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:167
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:187
 msgid "Main project's currency"
 msgstr "Валута на проект"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:168
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:188
 msgid "Show disabled members"
 msgstr "Прикажи ги оневозможените членови"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:169
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:189
 msgid "Total payed by all the members: {t}"
 msgstr "Вкупно платено од сите членови: {t}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:170
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:190
 msgid "Global stats"
 msgstr "Глобална статистика"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:174
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:194
 msgid "Filtered balance"
 msgstr "Филтриран баланс"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:176
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:196
 msgid "Monthly stats per member"
 msgstr "Месечна статистика по член"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:177
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:197
 msgid "Member/Month"
 msgstr "Член/Месец"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:178
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:198
 msgid "Monthly stats per category"
 msgstr "Месечна статистика по категорија"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:179
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:199
 msgid "Category/Month"
 msgstr "Категорија/Месец"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:180
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:200
 msgid "Select a member"
 msgstr "Избери член"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:181
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:201
 msgid "Who paid for whom?"
 msgstr "Кој плати за кого?"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:182
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:202
 msgid "paid for"
 msgstr "плати за"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:183
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:203
 msgid "Total payed"
 msgstr "Вкупно платено"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:184
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:204
 msgid "Total owed"
 msgstr "Вкупно должи"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:185
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:205
 msgid "Total owed by {name}"
 msgstr "Вкупно должен од {name}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:186
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:206
 msgid "Total payed by {name}"
 msgstr "Вкупно платени од {name}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:187
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:207
 msgid "All members"
 msgstr "Сите членови"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:188
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:208
 msgid "Payments per member per month"
 msgstr "Плаќања од член за месец"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:189
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:209
 msgid "Payments per category per month"
 msgstr "Плаќања од категорија за месец"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:190
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:210
 msgid "Who paid (outside circle) and spent (inside pie)?"
 msgstr "Кој плати (надвор) и потроши (внатре)?"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:191
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:211
 msgid "What was paid per category?"
 msgstr "Што се плаќаше по категорија?"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:192
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:212
 msgid "Who paid for this category?"
 msgstr "Кој платил за оваа категорија?"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:193
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:213
 msgid "What kind of member is she/he?"
 msgstr "What kind of member is she/he?\n"
 "Каков вид на член е тој/таа?"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:195
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:215
 msgid "Change color"
 msgstr "Промени боја"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:196
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:216
 msgid "Weight"
 msgstr "Тежина"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:197
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "No access"
 msgstr "Нема пристап"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:198
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:261
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:269
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:277
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:218
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:292
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:300
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:308
 msgid "Viewer"
 msgstr "Посматрач"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:199
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:262
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:270
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:278
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:219
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:293
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:301
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:309
 msgid "Participant"
 msgstr "Учесник"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:200
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:263
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:271
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:279
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:220
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:294
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:302
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:310
 msgid "Maintainer"
 msgstr "Сервисер"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:201
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:264
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:272
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:280
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:221
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:295
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:303
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:311
 msgid "Admin"
 msgstr "Администратор"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:202
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:222
 msgid "Deactivate"
 msgstr "Деактивирај"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:203
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:223
 msgid "Reactivate"
 msgstr "Повторно активирај"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:204
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:224
 msgid "A member is already named like that."
 msgstr "Постои челн со тоа име."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:205
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:225
 msgid "Add member"
 msgstr "Додади член"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:206
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:226
 msgid "Statistics"
 msgstr "Статистики"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:207
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "Project settlement"
 msgstr "Подмирување на проектот"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:209
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:229
 msgid "No members yet"
 msgstr "Засега нема членови"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:210
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:230
 msgid "Everyone"
 msgstr "Сите"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:211
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:213
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:231
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:233
 msgid "Everyone except {member}"
 msgstr "Сите освен {member}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:212
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:232
 msgid "{member1} and {member2}"
 msgstr "{member1} и {member2}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:214
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:234
 msgid "Member list is not up to date. Reloading in 5 sec."
 msgstr "Листата со членови не е ажурирана. Ажурирање за 5 секунди."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:217
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:235
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:261
+msgid "Edit"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:243
 msgid "New project"
 msgstr "Нов проект"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:218
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:244
 msgid "New project name"
 msgstr "Име на нов проект"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:219
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:245
 msgid "No projects yet"
 msgstr "Нема проекти"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:220
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:246
 msgid "Import csv project"
 msgstr "Увези csv проект"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:221
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:247
 msgid "Import SplitWise project"
 msgstr "Увези SplitWise проект"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:222
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:248
 msgid "Guest access link"
 msgstr "Гостински линк за пристап"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:223
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:249
 msgid "Change output directory"
 msgstr "Промени излезна папка"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:224
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:250
 msgid "/Anywhere"
 msgstr "/Билокаде"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:225
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:251
 msgid "Sort projects by"
 msgstr "Подреди проекти по"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:227
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:253
 msgid "Last activity"
 msgstr "Последна активност"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:228
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:254
 msgid "Maximum precision"
 msgstr "Максимална прецизност"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:229
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:255
 msgid "Choose csv project file"
 msgstr "Избери проект од csv датотека"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:230
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:256
 msgid "Choose SplitWise project file"
 msgstr "Избери проект од SplitWise датотека"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:231
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:257
 msgid "Project imported."
 msgstr "Проектот е увезен."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:232
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:258
 msgid "Guest link copied to clipboard."
 msgstr "Линкот за гости е копиран."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:233
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:259
 msgid "Guest link could not be copied to clipboard."
 msgstr "Линкот за гости неможе да се копира."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:234
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:260
 msgid "Choose where to write output files (stats, settlement, export)"
 msgstr "Избери каде да се запишува излезот (статистики, порамнувања, извоз)"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:236
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:266
 msgid "Rename project {n}"
 msgstr "Преименувај проект {n}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:237
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:267
+msgid "Disable bill deletion"
+msgstr ""
+
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:268
 msgid "Automatic export"
 msgstr "Автоматски извоз"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:242
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:273
 msgid "Export project"
 msgstr "Извези проект"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:243
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:274
 msgid "Member list"
 msgstr "Листа на членови"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:244
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:275
 msgid "Associate a project member with a Nextcloud user"
 msgstr "Поврзи член на проектот со Nextcloud корисник"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:245
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:276
 msgid "Choose a Nextcloud user"
 msgstr "Избери Nextcloud корисник"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:246
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:277
 msgid "New member name"
 msgstr "Име на нов член"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:247
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:278
 msgid "New member (or Nextcloud user) name"
 msgstr "Име на нов член (или Nextcloud корисник)"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:248
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:279
 msgid "Failed to add member."
 msgstr "Неуспешно додавање на член."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:249
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:280
 msgid "Create simple member"
 msgstr "Креирај член"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:250
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:281
 msgid "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab."
 msgstr "Можете да додадете едноставен член или корисник на Nextcloud. Можете да им дадете пристап на корисниците на Nextcloud до проектот во менито. Може да им дадете пристап и на корисниците на Nextcloud кои не се членови во јазичето Споделување."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:252
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:283
 msgid "Choose a project member, then a Nextcloud user to associate with."
 msgstr "Изберете член на проектот, а потоа корисник на Nextcloud за да го здружите."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:253
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:284
 msgid "You can cut the link with a Nextcloud user by renaming the member."
 msgstr "Можете да ја прекинете врската со корисник на Nextcloud со преименување во член."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:255
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:286
 msgid "Share project with a user, group or circle …"
 msgstr "Споделете проект со корисник, група или круг …"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:256
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:287
 #: /var/www/html/dev/server/apps/cospend/src/state.js:26
 msgid "Add public link"
 msgstr "Додади јавен линк"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:257
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:288
 msgid "Add link"
 msgstr "Додади линк"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:258
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:289
 msgid "Public link"
 msgstr "Јавен линк"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:259
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:275
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:290
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:306
 msgid "Copied!"
 msgstr "Копирано!"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:260
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:276
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:291
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:307
 msgid "Copy link"
 msgstr "Копирај го линкот"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:265
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:296
 msgid "Delete link"
 msgstr "Избриши го линкот"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:266
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:297
 msgid "Project owner"
 msgstr "Сопственик на проектот"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:267
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:298
 msgid "Group"
 msgstr "Група"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:268
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:299
 msgid "Circle"
 msgstr "Круг"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:273
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:304
 msgid "Delete access"
 msgstr "Отстрани пристап"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:274
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:305
 msgid "Password protected access"
 msgstr "Заштитено со лозинка"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:281
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:312
 msgid "New project password"
 msgstr "Лозинка на новиот проект"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:282
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:284
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:313
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Link could not be copied to clipboard."
 msgstr "Линкот за гости неможе да се копира."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:283
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "Password should not be empty."
 msgstr "Лоинката неможе да биде празна."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:285
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:316
 msgid "Guest access level changed."
 msgstr "Пристапот за гости е променет."
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:286
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:317
 msgid "Sharing"
 msgstr "Споделување"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:287
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "Settings"
 msgstr "Подесувања"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:288
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:319
 msgid "Categories"
 msgstr "Категории"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:289
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:320
 msgid "Currencies"
 msgstr "Валути"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:290
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:321
 msgid "{nb} bills, {nm} active members, {ns} spent"
 msgstr "{nb} сметки, {nm} активни членови, {ns} потрошени"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:291
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:322
 msgid "No recent activity"
 msgstr "Нема неодамнешни активности"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:292
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:323
 msgid "Go to Cospend"
 msgstr "Оди во Cospend"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:293
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:324
 msgid "{user} shared {project} with {who}"
 msgstr "{user} сподели {project} со {who}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:294
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:325
 msgid "{user} unshared {project} with {who}"
 msgstr "{user} престана да го споделува {project} со {who}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:295
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:326
 msgid "{user} created {bill}"
 msgstr "{user} креираше {bill}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:296
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:327
 msgid "{user} deleted {bill}"
 msgstr "{user} избриша {bill}"
 
-#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:297
+#: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:328
 msgid "{user} edited {bill}"
 msgstr "{user} измени {bill}"
 
-#: /var/www/html/dev/server/apps/cospend/src/constants.js:26
+#: /var/www/html/dev/server/apps/cospend/src/constants.js:27
 msgid "Credit card"
 msgstr "Кредитна картичка"
 
-#: /var/www/html/dev/server/apps/cospend/src/constants.js:30
+#: /var/www/html/dev/server/apps/cospend/src/constants.js:31
 msgid "Cash"
 msgstr "Во готово"
 
-#: /var/www/html/dev/server/apps/cospend/src/constants.js:34
+#: /var/www/html/dev/server/apps/cospend/src/constants.js:35
 msgid "Check"
 msgstr "Чек"
 
-#: /var/www/html/dev/server/apps/cospend/src/constants.js:38
+#: /var/www/html/dev/server/apps/cospend/src/constants.js:39
 msgid "Transfer"
 msgstr "Трансфер"
 
-#: /var/www/html/dev/server/apps/cospend/src/constants.js:42
+#: /var/www/html/dev/server/apps/cospend/src/constants.js:43
 msgid "Online service"
 msgstr "Онлајн услуги"
 
@@ -1754,104 +1844,92 @@ msgstr "Неуспешно додавање на член"
 msgid "Failed to save member"
 msgstr "Неуспешно зачувување на член"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:252
+#: /var/www/html/dev/server/apps/cospend/src/network.js:254
 msgid "Failed to edit project"
 msgstr "Неуспешно изменување на проект"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:291
-#: /var/www/html/dev/server/apps/cospend/src/network.js:327
+#: /var/www/html/dev/server/apps/cospend/src/network.js:293
+#: /var/www/html/dev/server/apps/cospend/src/network.js:329
 msgid "Failed to save bill"
 msgstr "Неуспешно зачувување на сметка"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:348
-msgid "Failed to create bill"
-msgstr "Неуспешно креирање на сметка"
-
-#: /var/www/html/dev/server/apps/cospend/src/network.js:368
+#: /var/www/html/dev/server/apps/cospend/src/network.js:355
 msgid "Failed to generate public link to file"
 msgstr "Неуспешно генерирање на јавен линк во датотека"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:387
+#: /var/www/html/dev/server/apps/cospend/src/network.js:374
 msgid "Failed to delete bill"
 msgstr "Неуспешно бришење на сметка"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:411
+#: /var/www/html/dev/server/apps/cospend/src/network.js:398
 msgid "Failed to delete bills"
 msgstr "Неуспешно бришење на сметки"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:424
+#: /var/www/html/dev/server/apps/cospend/src/network.js:411
 msgid "Failed to check password."
 msgstr "Неуспешна проверка на лозинка."
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:447
+#: /var/www/html/dev/server/apps/cospend/src/network.js:434
 msgid "Failed to import project file"
 msgstr "Неуспешен увоз на проект од датотека"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:471
-msgid "Failed to add category"
-msgstr "Неуспешно додавање на категорија"
-
-#: /var/www/html/dev/server/apps/cospend/src/network.js:490
+#: /var/www/html/dev/server/apps/cospend/src/network.js:466
 msgid "Failed to delete category"
 msgstr "Неуспешно бришење на категорија"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:514
+#: /var/www/html/dev/server/apps/cospend/src/network.js:490
 msgid "Failed to edit category"
 msgstr "Неуспешна промена на категорија"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:538
+#: /var/www/html/dev/server/apps/cospend/src/network.js:525
 msgid "Failed to add currency"
 msgstr "Неуспешно додавање на валута"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:557
+#: /var/www/html/dev/server/apps/cospend/src/network.js:544
 msgid "Failed to delete currency"
 msgstr "Неуспешно бришење на валута"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:580
+#: /var/www/html/dev/server/apps/cospend/src/network.js:567
 msgid "Failed to edit currency"
 msgstr "Неуспешна промана на валута"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:601
+#: /var/www/html/dev/server/apps/cospend/src/network.js:588
 msgid "Failed to get statistics."
 msgstr "Неуспешно добивање на статистика."
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:616
+#: /var/www/html/dev/server/apps/cospend/src/network.js:603
 msgid "Project statistics exported in {path}"
 msgstr "Статистиката на проектот е извезена во {path}"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:620
+#: /var/www/html/dev/server/apps/cospend/src/network.js:607
 msgid "Failed to export project statistics"
 msgstr "Неуспешно извезување на статистика на проектот"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:652
-msgid "Failed to get settlement"
-msgstr "Неуспешно добивање на подмирувања"
-
-#: /var/www/html/dev/server/apps/cospend/src/network.js:678
+#: /var/www/html/dev/server/apps/cospend/src/network.js:655
 msgid "Failed to add project settlement bills"
 msgstr "Неуспешно додавање сметки за порамнување во проектот"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:698
+#: /var/www/html/dev/server/apps/cospend/src/network.js:675
 msgid "Failed to export project settlement"
 msgstr "Неуспешно извезување на порамнувањето на проектот"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:712
+#: /var/www/html/dev/server/apps/cospend/src/network.js:689
 msgid "Failed to get user list"
 msgstr "Неуспешно добивање на листата со корисници"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:742
+#: /var/www/html/dev/server/apps/cospend/src/network.js:719
 msgid "Failed to add shared access"
 msgstr "Неуспешно додавање споделен пристап"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:763
+#: /var/www/html/dev/server/apps/cospend/src/network.js:740
 msgid "Failed to edit shared access level"
 msgstr "Неуспешна промена во споделениот пристап"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:787
+#: /var/www/html/dev/server/apps/cospend/src/network.js:764
 msgid "Failed to delete shared access"
 msgstr "Неуспешно отстранување на споделен пристап"
 
-#: /var/www/html/dev/server/apps/cospend/src/network.js:809
+#: /var/www/html/dev/server/apps/cospend/src/network.js:786
 msgid "Failed to edit guest access level"
 msgstr "Неуспешна промена во пристапот за гости"
 

@@ -25,6 +25,7 @@ OC.L10N.register(
     "For whom?" : "Kim için?",
     "Bill : {what}" : "Fatura : {what}",
     "Create the bill" : "Faturayı oluştur",
+    "Failed to create bill" : "Fatura oluşturulamadı",
     "Delete" : "Sil",
     "Maximum amount" : "Maksimum tutar",
     "Currency of statistic values" : "İstatistik veri dövizi",
@@ -46,7 +47,6 @@ OC.L10N.register(
     "Failed to add member" : "Üye eklenemedi",
     "Failed to edit project" : "Proje düzenlenemedi",
     "Failed to save bill" : "Fatura kayıt edilemedi",
-    "Failed to create bill" : "Fatura oluşturulamadı",
     "Failed to delete bill" : "Fatura silinemedi",
     "No category" : "Kategori yok"
 },

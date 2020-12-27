@@ -80,6 +80,7 @@ OC.L10N.register(
     "Color" : "Szín",
     "Icon" : "Ikon",
     "Category list" : "Kategória lista",
+    "Failed to add category" : "Hiba kategória hozzáadása közben",
     "Name" : "Név",
     "Settlement of project {name}" : "{name} projekt szilárdítmánya",
     "Export" : "Exportálás",
@@ -89,7 +90,6 @@ OC.L10N.register(
     "Failed to get projects" : "A projektek betöltése sikertelen",
     "Failed to delete project" : "A projekt törlése sikertelen",
     "Failed to edit project" : "A projekt szerkesztése sikertelen",
-    "Failed to delete bill" : "Nem sikerült törölni a számlát",
-    "Failed to add category" : "Hiba kategória hozzáadása közben"
+    "Failed to delete bill" : "Nem sikerült törölni a számlát"
 },
 "nplurals=2; plural=(n != 1);");

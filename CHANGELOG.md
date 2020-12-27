@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 1.2.6 – 2020-12-27
+## 1.2.7 – 2020-12-27
 ### Added
 - option to disable bill deletion
 [#13](https://github.com/eneiluj/cospend-nc/issues/13) @LJJS

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-12-24 01:21+0100\n"
-"PO-Revision-Date: 2020-12-24 00:24\n"
+"PO-Revision-Date: 2020-12-28 16:57\n"
 "Last-Translator: \n"
 "Language-Team: Macedonian\n"
 "Language: mk_MK\n"
@@ -684,7 +684,7 @@ msgstr "Нема избрано сметка"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Отвори странична лента"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "{nb} bills were created"
@@ -752,7 +752,7 @@ msgstr "Прикачи јавен линк до сопствена датоте�
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:22
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:40
 msgid "More information"
-msgstr ""
+msgstr "Повеќе информации"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:21
 msgid "Convert to"
@@ -779,7 +779,7 @@ msgstr "Начин на плаќање"
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:86
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:119
 msgid "None"
-msgstr "Никој"
+msgstr "Ништо"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:28
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:181
@@ -860,11 +860,11 @@ msgstr "Износот што го должи по член"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:48
 msgid "Custom share per member"
-msgstr ""
+msgstr "Прилагодено делење со член"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:49
 msgid "Ignore member weights"
-msgstr ""
+msgstr "Игнорирај ја тежината на членот"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:50
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
@@ -880,7 +880,7 @@ msgstr "Прилагоден режим, нерамномерна распред
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:53
 msgid "Custom share mode, uneven split: Choose a payer, set the bill amount and enter a custom share number for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: Someone pays an electricity bill for the month but one member was only there during half the month. This member should then pay half a share (0.5) while the others pay a full share (1)."
-msgstr ""
+msgstr "Режим на прилагодено споделување, нерамномерна поделба: Изберете плаќач, внесете го износот на сметката и внесете сопствен број на споделување за секој член. Потоа, притиснете \"Креирај сметки\". Ќе се креираат повеќе сметки. Пример од реален живот: Некој плаќа сметка за електрична енергија за месецот, но еден член бил таму само во текот на половина месец. Потоа, овој член треба да плати половина (0.5), додека другите плаќаат целосен удел (1)."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:54
 msgid "For whom?"
@@ -888,7 +888,7 @@ msgstr "За кого?"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:55
 msgid "All/None"
-msgstr "Сите/Никој"
+msgstr "Сите/Ништо"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:56
 msgid "Personal amount"
@@ -900,7 +900,7 @@ msgstr "Прилагоден износ"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:58
 msgid "Custom share number"
-msgstr ""
+msgstr "Број за прилагодено делење"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:60
 msgid "Bill : {what}"
@@ -944,11 +944,11 @@ msgstr "Не е внесена прилагоден износ."
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:69
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:71
 msgid "Bill values are not valid"
-msgstr ""
+msgstr "Вредноста на сметката не е валидна"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:70
 msgid "There is no custom share number"
-msgstr ""
+msgstr "Не е внесен број за прилагодено делење"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:72
 msgid "Failed to create bill"
@@ -956,7 +956,7 @@ msgstr "Неуспешно креирање на сметка"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:73
 msgid "Bill created"
-msgstr ""
+msgstr "Сметката е креирана"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:74
 msgid "Choose file"
@@ -1069,15 +1069,15 @@ msgstr[1] "Дали сте сигурни дека сакате да ги изб
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:102
 msgid "Category sort method"
-msgstr ""
+msgstr "Подредување категории"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:103
 msgid "Alphabetical"
-msgstr ""
+msgstr "Азбучен ред"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:104
 msgid "Manual"
-msgstr ""
+msgstr "Рачно"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:105
 msgid "Add category"
@@ -1109,7 +1109,7 @@ msgstr "Листа со категории"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:111
 msgid "Drag categories to set manual order"
-msgstr ""
+msgstr "Повлечи категории за да ги подредите рачно"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "No categories to display"
@@ -1130,7 +1130,7 @@ msgstr "Додадена категорија {n}."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:117
 msgid "Category order saved"
-msgstr ""
+msgstr "Зачувано подредување на категории"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:118
 msgid "Main currency"
@@ -1138,7 +1138,7 @@ msgstr "Главна валута"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:120
 msgid "Set main currency name"
-msgstr ""
+msgstr "Постави име на главна валута"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:121
 msgid "Main currency name"
@@ -1148,7 +1148,7 @@ msgstr "Име на главната валута"
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:242
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:265
 msgid "Save"
-msgstr ""
+msgstr "Зачувај"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:124
 msgid "Add currency"
@@ -1534,7 +1534,7 @@ msgstr "Листата со членови не е ажурирана. Ажур�
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:235
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:261
 msgid "Edit"
-msgstr ""
+msgstr "Уреди"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:243
 msgid "New project"
@@ -1610,7 +1610,7 @@ msgstr "Преименувај проект {n}"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:267
 msgid "Disable bill deletion"
-msgstr ""
+msgstr "Оневозможи бришење на сметки"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:268
 msgid "Automatic export"

@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- bump js libs
+
+### Fixed
+- db queries with functions, issues with Postgres
+[#30](https://github.com/eneiluj/cospend-nc/issues/30) @lkempf
+
 ## 1.2.7 – 2020-12-27
 ### Added
 - option to disable bill deletion

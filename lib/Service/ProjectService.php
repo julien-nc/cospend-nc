@@ -680,26 +680,26 @@ class ProjectService {
     private function getSmallStats(string $projectId): array {
         $nbBills = 0;
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select($qb->createFunction('COUNT(*)'))
+        $qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_bills')
            ->from('cospend_bills')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
            );
         $req = $qb->execute();
         while ($row = $req->fetch()) {
-            $nbBills = (int) $row['COUNT(*)'];
+            $nbBills = (int) $row['count_bills'];
         }
         $qb = $qb->resetQueryParts();
 
         $totalSpent = 0;
-        $qb->select($qb->createFunction('SUM(amount)'))
+        $qb->selectAlias($qb->createFunction('SUM(amount)'), 'sum_amount')
            ->from('cospend_bills')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
            );
         $req = $qb->execute();
         while ($row = $req->fetch()) {
-            $totalSpent = (int) $row['SUM(amount)'];
+            $totalSpent = (int) $row['sum_amount'];
         }
         $qb = $qb->resetQueryParts();
         return [
@@ -1611,14 +1611,14 @@ class ProjectService {
     public function getNbBills(string $projectId): int {
         $nb = 0;
         $qb = $this->dbconnection->getQueryBuilder();
-        $qb->select($qb->createFunction('COUNT(*)'))
+        $qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_bills')
            ->from('cospend_bills', 'bi')
            ->where(
                $qb->expr()->eq('bi.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
            );
         $req = $qb->execute();
         while ($row = $req->fetch()) {
-            $nb = (int) $row['COUNT(*)'];
+            $nb = (int) $row['count_bills'];
         }
         return $nb;
     }

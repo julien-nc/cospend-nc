@@ -70,6 +70,7 @@
 						<Category
 							:category="category"
 							:edition-access="editionAccess"
+							:draggable="true"
 							@delete="onDeleteCategory"
 							@edit="onEditCategory" />
 					</Draggable>

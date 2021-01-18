@@ -1,5 +1,9 @@
 <template>
 	<div class="one-category">
+		<span v-if="draggable"
+			class="move-icon">
+			⮁
+		</span>
 		<div v-show="!editMode"
 			class="one-category-label">
 			<div class="colorDot"
@@ -87,6 +91,10 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+		draggable: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
 	data() {
@@ -143,7 +151,25 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.one-category {
+	display: flex;
+
+	.move-icon {
+		cursor: grab;
+		width: 44px;
+		height: 44px;
+		border-radius: 50%;
+		text-align: center;
+		line-height: 44px;
+		font-size: 25px;
+		&:hover {
+			background-color: var(--color-background-hover);
+		}
+	}
+}
+
 .one-category-edit {
+	flex-grow: 1;
 	display: grid;
 	grid-template: 1fr / 44px 44px 3fr 42px 42px;
 	height: 40px;
@@ -166,6 +192,7 @@ export default {
 }
 
 .one-category-label {
+	flex-grow: 1;
 	display: grid;
 	grid-template: 1fr / 1fr 1fr 6fr 42px 42px 15px;
 }

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-12-24 01:21+0100\n"
-"PO-Revision-Date: 2020-12-24 00:24\n"
+"PO-Revision-Date: 2021-01-14 10:23\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -684,7 +684,7 @@ msgstr "Keine Ausgabe ausgewählt"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Seitenleiste ein-/ausblenden"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "{nb} bills were created"
@@ -752,7 +752,7 @@ msgstr "Öffentlichen Link an persönliche Datei anhängen"
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:22
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:40
 msgid "More information"
-msgstr ""
+msgstr "Mehr Informationen"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:21
 msgid "Convert to"
@@ -860,11 +860,11 @@ msgstr "Individuell geschuldeter Betrag pro Mitglied"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:48
 msgid "Custom share per member"
-msgstr ""
+msgstr "Benutzerdefinierte Anteile"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:49
 msgid "Ignore member weights"
-msgstr ""
+msgstr "Mitgliedergewichtungen ignorieren"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:50
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
@@ -880,7 +880,7 @@ msgstr "Benutzerdefinierter Modus, ungleichmäßige Aufteilung: Wähle einen Zah
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:53
 msgid "Custom share mode, uneven split: Choose a payer, set the bill amount and enter a custom share number for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: Someone pays an electricity bill for the month but one member was only there during half the month. This member should then pay half a share (0.5) while the others pay a full share (1)."
-msgstr ""
+msgstr "Benutzerdefinierter Modus mit individueller Aufteilung: Wähle einen Zahler, setze den Rechnungsbetrag und außerdem einen individuellen Anteil für jedes betroffene Mitglied. Klicke dann „Ausgaben erstellen“; es werden mehrere Rechnungen erstellt. Praktisches Beispiel: Jemand bezahlt die Stromrechnung für den Monat, aber eines der Mitglieder war nur den halben Monat anwesend. Dieses Mitglied zahlt dann nur einen halben Anteil (0.5), während die übrigen einen vollen Anteil bezahlen (1)."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:54
 msgid "For whom?"
@@ -900,7 +900,7 @@ msgstr "Benutzerdefinierter Betrag"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:58
 msgid "Custom share number"
-msgstr ""
+msgstr "Anteil"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:60
 msgid "Bill : {what}"
@@ -944,11 +944,11 @@ msgstr "Es gibt keinen benutzerdefinierten Betrag."
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:69
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:71
 msgid "Bill values are not valid"
-msgstr ""
+msgstr "Die Rechnungs-Einträge sind ungültig"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:70
 msgid "There is no custom share number"
-msgstr ""
+msgstr "Bitte individuelle Anteile setzen"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:72
 msgid "Failed to create bill"
@@ -956,7 +956,7 @@ msgstr "Ausgabe konnte nicht erstellt werden"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:73
 msgid "Bill created"
-msgstr ""
+msgstr "Ausgabe erstellt"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:74
 msgid "Choose file"
@@ -1069,15 +1069,15 @@ msgstr[1] "Möchtest du {nb} Ausgaben wirklich löschen?"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:102
 msgid "Category sort method"
-msgstr ""
+msgstr "Kategoriensortierung"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:103
 msgid "Alphabetical"
-msgstr ""
+msgstr "Alphabetisch"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:104
 msgid "Manual"
-msgstr ""
+msgstr "Manuell"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:105
 msgid "Add category"
@@ -1109,7 +1109,7 @@ msgstr "Kategorieliste"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:111
 msgid "Drag categories to set manual order"
-msgstr ""
+msgstr "Ändere die Reihenfolge durch drag & drop"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "No categories to display"
@@ -1130,7 +1130,7 @@ msgstr "Kategorie {n} hinzugefügt."
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:117
 msgid "Category order saved"
-msgstr ""
+msgstr "Kategorienreihenfolge gespeichert"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:118
 msgid "Main currency"
@@ -1138,7 +1138,7 @@ msgstr "Hauptwährung"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:120
 msgid "Set main currency name"
-msgstr ""
+msgstr "Namen der Hauptwährung festlegen"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:121
 msgid "Main currency name"
@@ -1148,7 +1148,7 @@ msgstr "Name der Hauptwährung"
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:242
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:265
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:124
 msgid "Add currency"
@@ -1533,7 +1533,7 @@ msgstr "Mitgliederliste nicht aktuell. Wird in 5 Sek neu geladen."
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:235
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:261
 msgid "Edit"
-msgstr ""
+msgstr "Bearbeiten"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:243
 msgid "New project"
@@ -1609,7 +1609,7 @@ msgstr "Projekt {n} umbenennen"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:267
 msgid "Disable bill deletion"
-msgstr ""
+msgstr "Löschen von Ausgaben deaktivieren"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:268
 msgid "Automatic export"
@@ -1629,7 +1629,7 @@ msgstr "Ein Projektmitglied mit einem Nextcloud-Benutzer verknüpfen"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:276
 msgid "Choose a Nextcloud user"
-msgstr "Nextcloud Benutzer wählen"
+msgstr "Nextcloud-Benutzer wählen"
 
 #: /var/www/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:277
 msgid "New member name"

@@ -5,7 +5,10 @@ build_dir=/tmp/build
 sign_dir=/tmp/sign
 cert_dir=$(HOME)/.nextcloud/certificates
 webserveruser ?= www-data
-occ_dir ?= /var/www/html/nextcloud
+occ_dir ?= /var/www/html/dev/server21
+
+GITHUB_TOKEN := $(shell cat ~/.nextcloud/secrets/GITHUB_TOKEN | tr -d '\n')
+GITHUB_REPO=eneiluj/cospend-nc
 
 build_tools_directory=$(CURDIR)/build/tools
 npm=$(shell which npm 2> /dev/null)
@@ -115,4 +118,25 @@ appstore: clean
 	@if [ -f $(cert_dir)/$(app_name).key ]; then \
 		echo NEXTCLOUD------------------------------------------ ;\
 		openssl dgst -sha512 -sign $(cert_dir)/$(app_name).key $(build_dir)/$(app_name)-$(app_version).tar.gz | openssl base64 | tee $(build_dir)/sign.txt ;\
+	fi
+	# create release on GitHub
+	echo $(GITHUB_TOKEN); \
+	UPLOAD_URL=`curl -s -H "Authorization: token $(GITHUB_TOKEN)"  \
+		-d '{"tag_name": "v$(app_version)", "name": "v$(app_version)", "body": "See CHANGELOG.md for changes."}'  \
+		"https://api.github.com/repos/$(GITHUB_REPO)/releases" | jq -r '.upload_url'`; \
+	UPLOAD_URL="$${UPLOAD_URL%\{*}"; \
+	echo "uploading asset to release to url : $${UPLOAD_URL}"; \
+	curl -s -H "Authorization: token $(GITHUB_TOKEN)"  \
+		-H "Content-Type: application/gzip" \
+		--data-binary  @$(build_dir)/$(app_name)-$(app_version).tar.gz \
+		"$${UPLOAD_URL}?name=$(app_name)-$(app_version).tar.gz&label=$(app_name)-$(app_version).tar.gz"
+	# publish to appstore
+	SIGNATURE=`cat $(build_dir)/sign.txt | tr -d '\n'`; \
+	APPSTORE_TOKEN=`cat ~/.nextcloud/secrets/APPSTORE_TOKEN | tr -d '\n'`; \
+	DOWNLOAD_URL=https://github.com/$(GITHUB_REPO)/releases/download/v$(app_version)/$(app_name)-$(app_version).tar.gz; \
+	NIGHTLY=`echo $(app_version) | grep '\-nightly$$'`; \
+	if [ "$$NIGHTLY" = "" ]; then \
+		curl -X POST -H "Authorization: Token $${APPSTORE_TOKEN}" https://apps.nextcloud.com/api/v1/apps/releases -H "Content-Type: application/json" -d '{"download":"'$${DOWNLOAD_URL}'", "signature": "'$${SIGNATURE}'"}'; \
+	else \
+		curl -X POST -H "Authorization: Token $${APPSTORE_TOKEN}" https://apps.nextcloud.com/api/v1/apps/releases -H "Content-Type: application/json" -d '{"download":"'$${DOWNLOAD_URL}'", "signature": "'$${SIGNATURE}'", "nightly": true}'; \
 	fi

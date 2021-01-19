@@ -6,12 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.2.8 – 2021-01-19
 ### Changed
 - bump js libs
+- add move icon next to draggable categories
+- automated release process is now launched locally
 
 ### Fixed
 - db queries with functions, issues with Postgres
 [#30](https://github.com/eneiluj/cospend-nc/issues/30) @lkempf
+- popover scroll problem
 
 ## 1.2.7 – 2020-12-27
 ### Added

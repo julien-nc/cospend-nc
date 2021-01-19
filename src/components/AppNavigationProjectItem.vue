@@ -15,7 +15,7 @@
 		</template>
 	</AppNavigationItem>
 	<AppNavigationItem v-else
-		icon="icon-folder"
+		:icon="selected ? 'icon-filetype-folder-drag-accept' : 'icon-folder'"
 		:title="project.name"
 		:class="{'selectedproject': selected}"
 		:allow-collapse="true"

@@ -62,7 +62,7 @@ clean:
 	sudo rm -rf $(build_dir)
 	sudo rm -rf $(sign_dir)
 
-appstore: clean
+build_release: clean
 	mkdir -p $(sign_dir)
 	mkdir -p $(build_dir)
 	@rsync -a \
@@ -119,8 +119,9 @@ appstore: clean
 		echo NEXTCLOUD------------------------------------------ ;\
 		openssl dgst -sha512 -sign $(cert_dir)/$(app_name).key $(build_dir)/$(app_name)-$(app_version).tar.gz | openssl base64 | tee $(build_dir)/sign.txt ;\
 	fi
+
+publish_release: build_release
 	# create release on GitHub
-	echo $(GITHUB_TOKEN); \
 	UPLOAD_URL=`curl -s -H "Authorization: token $(GITHUB_TOKEN)"  \
 		-d '{"tag_name": "v$(app_version)", "name": "v$(app_version)", "body": "See CHANGELOG.md for changes."}'  \
 		"https://api.github.com/repos/$(GITHUB_REPO)/releases" | jq -r '.upload_url'`; \

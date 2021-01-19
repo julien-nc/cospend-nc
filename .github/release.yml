@@ -28,7 +28,7 @@ jobs:
         id: build_release
         run: |
           echo "##[set-output name=app_id;]$APP_ID"
-          echo "###### copy certificate"
+          echo "###### copy app certificate"
           mkdir -p ~/.nextcloud/certificates
           echo "$APP_CRT" > ~/.nextcloud/certificates/${APP_ID}.crt
           echo "$APP_KEY" > ~/.nextcloud/certificates/${APP_ID}.key

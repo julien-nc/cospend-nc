@@ -10,11 +10,11 @@ Os membros do projecto são independentes dos utilizadores do Nextcloud. Os proj
 
 [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) O cliente Android está [disponível no F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) e na [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
-[PayForMe](https://github.com/mayflower/PayForMe) iOS client is currently being developped!
+[PayForMe](https://github.com/mayflower/PayForMe) O cliente iOS está a ser desenvolvido neste momento!
 
 ## Funcionalidades
 
-* ✎ create/edit/delete projects, members, bills, bill categories, currencies
+* ✎ criar/editar/eliminar projectos, membros, facturas, categorias de facturas, unidades monetárias
 * ⚖ verificar os saldos dos membros
 * 🗠 exibir estatísticas do projecto
 * ♻ exibir plano de liquidação

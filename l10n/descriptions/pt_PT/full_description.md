@@ -21,31 +21,31 @@ Os membros do projecto são independentes dos utilizadores do Nextcloud. Os proj
 * 🎇 criar automaticamente facturas de reembolso a partir do plano de liquidação
 * 🗓 criar facturas recorrentes (diárias/semanais/mensais/anuais)
 * 📊 fornecer, opcionalmente, um valor personalizado para cada membro em facturas novas
-* 🔗 link bills with personal files (picture of physical bill for example)
+* 🔗 ligar facturas a ficheiros pessoais (fotografia da factura física, por exemplo)
 * 👩 acesso de convidado para pessoas fora do Nextcloud
-* 👫 share projects with Nextcloud users/groups/circles
+* 👫 partilhar projectos com utilizadores/grupos/círculos do Nextcloud
 * 🖫 importar/exportar projectos no formato CSV (compatível com ficheiros CSV do IHateMoney)
-* 🔗 generate link/QRCode to easily import projects in MoneyBuster
-* 🗲 implement Nextcloud notifications and activity stream
+* 🔗 gerar ligações ou códigos QR para importar facilmente projectos no MoneyBuster
+* 🗲 implementar notificações e fluxo de actividade do Nextcloud
 
-This app is tested on Nextcloud 20+ with Firefox 57+ and Chromium.
+Esta aplicação foi testada no Nextcloud 20+ com o Firefox 57+ e com o Chromium.
 
-This app is under development.
+Esta aplicação está sob desenvolvimento.
 
-🌍 Help us to translate this app on [Nextcloud-Cospend/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
+🌍 Ajude-nos a traduzir esta aplicação no [projecto Crowdin do Nextcloud-Cospend/MoneyBuster](https://crowdin.com/project/moneybuster).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
+⚒ Veja outras formas de ajudar nas [directrizes de contribuição](https://github.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
-## Documentation
+## Documentação
 
-* [User documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
-* [Admin documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
-* [Developer documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
-* [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
-* [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
+* [Documentação para o utilizador](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
+* [Documentação para o administrador](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
+* [Documentação para o programador](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
+* [CHANGELOG (registo das alterações)](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [AUTHORS (autores)](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## Problemas conhecidos
 
-* it does not make you rich
+* não o torna rico
 
-Any feedback will be appreciated.
+Qualquer comentário será apreciado.

@@ -1,9 +1,7 @@
 <template>
 	<div class="one-category">
 		<span v-if="draggable"
-			class="move-icon">
-			⮁
-		</span>
+			class="icon icon-move" />
 		<div v-show="!editMode"
 			class="one-category-label">
 			<div class="colorDot"
@@ -154,7 +152,7 @@ export default {
 .one-category {
 	display: flex;
 
-	.move-icon {
+	.icon-move {
 		cursor: grab;
 		width: 44px;
 		height: 44px;
@@ -163,8 +161,18 @@ export default {
 		line-height: 44px;
 		font-size: 25px;
 		&:hover {
-			background-color: var(--color-background-hover);
+			background-color: black;
 		}
+		background-color: var(--color-main-text);
+		padding: 0 !important;
+		mask: url('./../../img/move.svg') no-repeat;
+		mask-size: 18px 18px;
+		mask-position: center;
+		-webkit-mask: url('./../../img/move.svg') no-repeat;
+		-webkit-mask-size: 18px 18px;
+		-webkit-mask-position: center;
+		min-width: 44px !important;
+		min-height: 44px !important;
 	}
 }
 

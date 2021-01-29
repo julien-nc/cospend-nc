@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.2.9 – 2021-01-29
+### Changed
+- use svg icon instead of UTF-8 char
+
+### Fixed
+- bump nc-vue to fix issue with iOS devices
+[#33](https://github.com/eneiluj/cospend-nc/issues/33) @ndi123
+
 ## 1.2.8 – 2021-01-19
 ### Changed
 - bump js libs

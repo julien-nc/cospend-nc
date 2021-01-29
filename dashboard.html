@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /home/runner/html/nextcloud/apps/cospend/lib</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="_css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="_css/nv.d3.min.css" rel="stylesheet" type="text/css">
+  <link href="_css/style.css" rel="stylesheet" type="text/css">
+  <link href="_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="index.html">/home/runner/html/nextcloud/apps/cospend/lib</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Activity/BillSetting.php.html#27">OCA\Cospend\Activity\BillSetting</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/CospendProvider.php.html#38">OCA\Cospend\Activity\CospendProvider</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/Filter.php.html#29">OCA\Cospend\Activity\Filter</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/Setting.php.html#29">OCA\Cospend\Activity\Setting</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExportProject.php.html#28">OCA\Cospend\Command\ExportProject</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/RepeatBills.php.html#28">OCA\Cospend\Command\RepeatBills</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Cron/AutoExport.php.html#15">OCA\Cospend\Cron\AutoExport</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Cron/RepeatBills.php.html#15">OCA\Cospend\Cron\RepeatBills</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Dashboard/CospendWidget.php.html#30">OCA\Cospend\Dashboard\CospendWidget</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000007Date20190401053312.php.html#15">OCA\Cospend\Migration\Version000007Date20190401053312</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000102Date20190907142139.php.html#15">OCA\Cospend\Migration\Version000102Date20190907142139</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000103Date20190907163755.php.html#15">OCA\Cospend\Migration\Version000103Date20190907163755</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000106Date20191023153118.php.html#15">OCA\Cospend\Migration\Version000106Date20191023153118</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000201Date20191223203543.php.html#15">OCA\Cospend\Migration\Version000201Date20191223203543</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000202Date20191225201436.php.html#15">OCA\Cospend\Migration\Version000202Date20191225201436</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000203Date20191227005654.php.html#15">OCA\Cospend\Migration\Version000203Date20191227005654</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000204Date20191228201832.php.html#15">OCA\Cospend\Migration\Version000204Date20191228201832</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000205Date20200102013739.php.html#15">OCA\Cospend\Migration\Version000205Date20200102013739</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000301Date20200108160931.php.html#15">OCA\Cospend\Migration\Version000301Date20200108160931</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000302Date20200110144741.php.html#15">OCA\Cospend\Migration\Version000302Date20200110144741</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000303Date20200201171814.php.html#17">OCA\Cospend\Migration\Version000303Date20200201171814</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000303Date20200201172933.php.html#15">OCA\Cospend\Migration\Version000303Date20200201172933</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000304Date20200313092247.php.html#17">OCA\Cospend\Migration\Version000304Date20200313092247</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000304Date20200313095955.php.html#15">OCA\Cospend\Migration\Version000304Date20200313095955</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000403Date20200231152118.php.html#17">OCA\Cospend\Migration\Version000403Date20200231152118</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000403Date20200323173321.php.html#15">OCA\Cospend\Migration\Version000403Date20200323173321</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000404Date20200324145208.php.html#15">OCA\Cospend\Migration\Version000404Date20200324145208</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000406Date20200417185442.php.html#15">OCA\Cospend\Migration\Version000406Date20200417185442</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000406Date20200426154317.php.html#18">OCA\Cospend\Migration\Version000406Date20200426154317</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000406Date20200426163311.php.html#15">OCA\Cospend\Migration\Version000406Date20200426163311</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000408Date20200430162436.php.html#17">OCA\Cospend\Migration\Version000408Date20200430162436</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version010105Date20201030132329.php.html#17">OCA\Cospend\Migration\Version010105Date20201030132329</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version010203Date20201208131054.php.html#17">OCA\Cospend\Migration\Version010203Date20201208131054</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version010206Date20201223134353.php.html#17">OCA\Cospend\Migration\Version010206Date20201223134353</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Notification/Notifier.php.html#22">OCA\Cospend\Notification\Notifier</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Search/CospendSearchProvider.php.html#38">OCA\Cospend\Search\CospendSearchProvider</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Settings/Admin.php.html#13">OCA\Cospend\Settings\Admin</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#54">OCA\Cospend\Controller\PageController</a></td><td class="text-right">17%</td></tr>
+       <tr><td><a href="Controller/UtilsController.php.html#33">OCA\Cospend\Controller\UtilsController</a></td><td class="text-right">40%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#175">OCA\Cospend\Service\ProjectService</a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="AppInfo/Application.php.html#32">OCA\Cospend\AppInfo\Application</a></td><td class="text-right">55%</td></tr>
+       <tr><td><a href="Activity/ActivityManager.php.html#40">OCA\Cospend\Activity\ActivityManager</a></td><td class="text-right">75%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Controller/PageController.php.html#54">OCA\Cospend\Controller\PageController</a></td><td class="text-right">88103</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#175">OCA\Cospend\Service\ProjectService</a></td><td class="text-right">51500</td></tr>
+       <tr><td><a href="Activity/CospendProvider.php.html#38">OCA\Cospend\Activity\CospendProvider</a></td><td class="text-right">1406</td></tr>
+       <tr><td><a href="Search/CospendSearchProvider.php.html#38">OCA\Cospend\Search\CospendSearchProvider</a></td><td class="text-right">240</td></tr>
+       <tr><td><a href="Migration/Version000406Date20200426154317.php.html#18">OCA\Cospend\Migration\Version000406Date20200426154317</a></td><td class="text-right">156</td></tr>
+       <tr><td><a href="Controller/UtilsController.php.html#33">OCA\Cospend\Controller\UtilsController</a></td><td class="text-right">125</td></tr>
+       <tr><td><a href="Migration/Version000007Date20190401053312.php.html#15">OCA\Cospend\Migration\Version000007Date20190401053312</a></td><td class="text-right">110</td></tr>
+       <tr><td><a href="Notification/Notifier.php.html#22">OCA\Cospend\Notification\Notifier</a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="Activity/ActivityManager.php.html#40">OCA\Cospend\Activity\ActivityManager</a></td><td class="text-right">63</td></tr>
+       <tr><td><a href="Migration/Version000304Date20200313092247.php.html#17">OCA\Cospend\Migration\Version000304Date20200313092247</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Migration/Version010206Date20201223134353.php.html#17">OCA\Cospend\Migration\Version010206Date20201223134353</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Migration/Version000106Date20191023153118.php.html#15">OCA\Cospend\Migration\Version000106Date20191023153118</a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Command/ExportProject.php.html#28">OCA\Cospend\Command\ExportProject</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Migration/Version000103Date20190907163755.php.html#15">OCA\Cospend\Migration\Version000103Date20190907163755</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Migration/Version000301Date20200108160931.php.html#15">OCA\Cospend\Migration\Version000301Date20200108160931</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Migration/Version000303Date20200201171814.php.html#17">OCA\Cospend\Migration\Version000303Date20200201171814</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Command/RepeatBills.php.html#28">OCA\Cospend\Command\RepeatBills</a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Migration/Version000102Date20190907142139.php.html#15">OCA\Cospend\Migration\Version000102Date20190907142139</a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Migration/Version000201Date20191223203543.php.html#15">OCA\Cospend\Migration\Version000201Date20191223203543</a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Migration/Version000202Date20191225201436.php.html#15">OCA\Cospend\Migration\Version000202Date20191225201436</a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Migration/Version000203Date20191227005654.php.html#15">OCA\Cospend\Migration\Version000203Date20191227005654</a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Migration/Version000204Date20191228201832.php.html#15">OCA\Cospend\Migration\Version000204Date20191228201832</a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Migration/Version000205Date20200102013739.php.html#15">OCA\Cospend\Migration\Version000205Date20200102013739</a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Migration/Version000302Date20200110144741.php.html#15">OCA\Cospend\Migration\Version000302Date20200110144741</a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Migration/Version000303Date20200201172933.php.html#15">OCA\Cospend\Migration\Version000303Date20200201172933</a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Migration/Version000304Date20200313095955.php.html#15">OCA\Cospend\Migration\Version000304Date20200313095955</a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Migration/Version000404Date20200324145208.php.html#15">OCA\Cospend\Migration\Version000404Date20200324145208</a></td><td class="text-right">20</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Activity/ActivityManager.php.html#83"><abbr title="OCA\Cospend\Activity\ActivityManager::getActivityFormat">getActivityFormat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/BillSetting.php.html#33"><abbr title="OCA\Cospend\Activity\BillSetting::getIdentifier">getIdentifier</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/BillSetting.php.html#41"><abbr title="OCA\Cospend\Activity\BillSetting::getName">getName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/CospendProvider.php.html#53"><abbr title="OCA\Cospend\Activity\CospendProvider::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/CospendProvider.php.html#76"><abbr title="OCA\Cospend\Activity\CospendProvider::parse">parse</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/CospendProvider.php.html#163"><abbr title="OCA\Cospend\Activity\CospendProvider::setSubjects">setSubjects</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/CospendProvider.php.html#180"><abbr title="OCA\Cospend\Activity\CospendProvider::getIcon">getIcon</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/CospendProvider.php.html#194"><abbr title="OCA\Cospend\Activity\CospendProvider::parseParamForProject">parseParamForProject</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/CospendProvider.php.html#205"><abbr title="OCA\Cospend\Activity\CospendProvider::parseParamForBill">parseParamForBill</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/CospendProvider.php.html#217"><abbr title="OCA\Cospend\Activity\CospendProvider::parseParamForWho">parseParamForWho</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/CospendProvider.php.html#261"><abbr title="OCA\Cospend\Activity\CospendProvider::cospendUrl">cospendUrl</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/Filter.php.html#34"><abbr title="OCA\Cospend\Activity\Filter::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/Filter.php.html#46"><abbr title="OCA\Cospend\Activity\Filter::getIdentifier">getIdentifier</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/Filter.php.html#54"><abbr title="OCA\Cospend\Activity\Filter::getName">getName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/Filter.php.html#64"><abbr title="OCA\Cospend\Activity\Filter::getPriority">getPriority</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/Filter.php.html#72"><abbr title="OCA\Cospend\Activity\Filter::getIcon">getIcon</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/Filter.php.html#81"><abbr title="OCA\Cospend\Activity\Filter::filterTypes">filterTypes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/Filter.php.html#89"><abbr title="OCA\Cospend\Activity\Filter::allowedApps">allowedApps</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/Setting.php.html#37"><abbr title="OCA\Cospend\Activity\Setting::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/Setting.php.html#45"><abbr title="OCA\Cospend\Activity\Setting::getIdentifier">getIdentifier</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/Setting.php.html#53"><abbr title="OCA\Cospend\Activity\Setting::getName">getName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/Setting.php.html#63"><abbr title="OCA\Cospend\Activity\Setting::getPriority">getPriority</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/Setting.php.html#71"><abbr title="OCA\Cospend\Activity\Setting::canChangeStream">canChangeStream</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/Setting.php.html#79"><abbr title="OCA\Cospend\Activity\Setting::isDefaultEnabledStream">isDefaultEnabledStream</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/Setting.php.html#87"><abbr title="OCA\Cospend\Activity\Setting::canChangeMail">canChangeMail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Activity/Setting.php.html#95"><abbr title="OCA\Cospend\Activity\Setting::isDefaultEnabledMail">isDefaultEnabledMail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AppInfo/Application.php.html#52"><abbr title="OCA\Cospend\AppInfo\Application::register">register</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AppInfo/Application.php.html#57"><abbr title="OCA\Cospend\AppInfo\Application::boot">boot</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExportProject.php.html#36"><abbr title="OCA\Cospend\Command\ExportProject::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExportProject.php.html#47"><abbr title="OCA\Cospend\Command\ExportProject::configure">configure</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExportProject.php.html#62"><abbr title="OCA\Cospend\Command\ExportProject::execute">execute</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/RepeatBills.php.html#36"><abbr title="OCA\Cospend\Command\RepeatBills::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/RepeatBills.php.html#47"><abbr title="OCA\Cospend\Command\RepeatBills::configure">configure</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/RepeatBills.php.html#52"><abbr title="OCA\Cospend\Command\RepeatBills::execute">execute</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#123"><abbr title="OCA\Cospend\Controller\PageController::db_quote_escape_string">db_quote_escape_string</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#132"><abbr title="OCA\Cospend\Controller\PageController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#161"><abbr title="OCA\Cospend\Controller\PageController::pubLoginProjectPassword">pubLoginProjectPassword</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#191"><abbr title="OCA\Cospend\Controller\PageController::pubLoginProject">pubLoginProject</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#220"><abbr title="OCA\Cospend\Controller\PageController::pubLogin">pubLogin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#248"><abbr title="OCA\Cospend\Controller\PageController::publicShareLinkPage">publicShareLinkPage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#302"><abbr title="OCA\Cospend\Controller\PageController::pubProject">pubProject</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#352"><abbr title="OCA\Cospend\Controller\PageController::checkLogin">checkLogin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#464"><abbr title="OCA\Cospend\Controller\PageController::webDeleteBills">webDeleteBills</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#581"><abbr title="OCA\Cospend\Controller\PageController::webCheckPassword">webCheckPassword</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#659"><abbr title="OCA\Cospend\Controller\PageController::webRepeatBill">webRepeatBill</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#678"><abbr title="OCA\Cospend\Controller\PageController::webEditBills">webEditBills</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#841"><abbr title="OCA\Cospend\Controller\PageController::webGetProjects2">webGetProjects2</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#857"><abbr title="OCA\Cospend\Controller\PageController::apiCreateProject">apiCreateProject</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#883"><abbr title="OCA\Cospend\Controller\PageController::apiPrivCreateProject">apiPrivCreateProject</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#900"><abbr title="OCA\Cospend\Controller\PageController::apiGetProjectInfo">apiGetProjectInfo</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#934"><abbr title="OCA\Cospend\Controller\PageController::apiPrivGetProjectInfo">apiPrivGetProjectInfo</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#964"><abbr title="OCA\Cospend\Controller\PageController::apiSetProjectInfo">apiSetProjectInfo</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#992"><abbr title="OCA\Cospend\Controller\PageController::apiPrivSetProjectInfo">apiPrivSetProjectInfo</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1017"><abbr title="OCA\Cospend\Controller\PageController::apiGetMembers">apiGetMembers</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1038"><abbr title="OCA\Cospend\Controller\PageController::apiPrivGetMembers">apiPrivGetMembers</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1059"><abbr title="OCA\Cospend\Controller\PageController::apiGetBills">apiGetBills</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1089"><abbr title="OCA\Cospend\Controller\PageController::apiv3GetBills">apiv3GetBills</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1122"><abbr title="OCA\Cospend\Controller\PageController::apiPrivGetBills">apiPrivGetBills</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1149"><abbr title="OCA\Cospend\Controller\PageController::apiv2GetBills">apiv2GetBills</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1177"><abbr title="OCA\Cospend\Controller\PageController::apiAddMember">apiAddMember</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1206"><abbr title="OCA\Cospend\Controller\PageController::apiv2AddMember">apiv2AddMember</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1234"><abbr title="OCA\Cospend\Controller\PageController::apiPrivAddMember">apiPrivAddMember</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1259"><abbr title="OCA\Cospend\Controller\PageController::apiAddBill">apiAddBill</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1297"><abbr title="OCA\Cospend\Controller\PageController::apiPrivAddBill">apiPrivAddBill</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1332"><abbr title="OCA\Cospend\Controller\PageController::apiRepeatBill">apiRepeatBill</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1356"><abbr title="OCA\Cospend\Controller\PageController::apiEditBill">apiEditBill</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1396"><abbr title="OCA\Cospend\Controller\PageController::apiEditBills">apiEditBills</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1437"><abbr title="OCA\Cospend\Controller\PageController::apiPrivEditBill">apiPrivEditBill</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1473"><abbr title="OCA\Cospend\Controller\PageController::apiDeleteBill">apiDeleteBill</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1514"><abbr title="OCA\Cospend\Controller\PageController::apiDeleteBills">apiDeleteBills</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1555"><abbr title="OCA\Cospend\Controller\PageController::apiPrivDeleteBill">apiPrivDeleteBill</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1591"><abbr title="OCA\Cospend\Controller\PageController::apiDeleteMember">apiDeleteMember</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1619"><abbr title="OCA\Cospend\Controller\PageController::apiPrivDeleteMember">apiPrivDeleteMember</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1644"><abbr title="OCA\Cospend\Controller\PageController::apiDeleteProject">apiDeleteProject</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1672"><abbr title="OCA\Cospend\Controller\PageController::apiPrivDeleteProject">apiPrivDeleteProject</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1697"><abbr title="OCA\Cospend\Controller\PageController::apiEditMember">apiEditMember</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1727"><abbr title="OCA\Cospend\Controller\PageController::apiPrivEditMember">apiPrivEditMember</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1754"><abbr title="OCA\Cospend\Controller\PageController::apiGetProjectStatistics">apiGetProjectStatistics</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1779"><abbr title="OCA\Cospend\Controller\PageController::apiPrivGetProjectStatistics">apiPrivGetProjectStatistics</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1804"><abbr title="OCA\Cospend\Controller\PageController::apiGetProjectSettlement">apiGetProjectSettlement</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1825"><abbr title="OCA\Cospend\Controller\PageController::apiPrivGetProjectSettlement">apiPrivGetProjectSettlement</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1846"><abbr title="OCA\Cospend\Controller\PageController::apiAutoSettlement">apiAutoSettlement</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1874"><abbr title="OCA\Cospend\Controller\PageController::apiPrivAutoSettlement">apiPrivAutoSettlement</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1976"><abbr title="OCA\Cospend\Controller\PageController::editShareAccessLevel">editShareAccessLevel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2002"><abbr title="OCA\Cospend\Controller\PageController::editGuestAccessLevel">editGuestAccessLevel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2028"><abbr title="OCA\Cospend\Controller\PageController::apiEditGuestAccessLevel">apiEditGuestAccessLevel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2065"><abbr title="OCA\Cospend\Controller\PageController::addCategory">addCategory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2087"><abbr title="OCA\Cospend\Controller\PageController::apiAddCategory">apiAddCategory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2113"><abbr title="OCA\Cospend\Controller\PageController::apiPrivAddCategory">apiPrivAddCategory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2136"><abbr title="OCA\Cospend\Controller\PageController::editCategory">editCategory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2155"><abbr title="OCA\Cospend\Controller\PageController::saveCategoryOrder">saveCategoryOrder</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2176"><abbr title="OCA\Cospend\Controller\PageController::apiEditCategory">apiEditCategory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2205"><abbr title="OCA\Cospend\Controller\PageController::apiSaveCategoryOrder">apiSaveCategoryOrder</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2229"><abbr title="OCA\Cospend\Controller\PageController::apiPrivEditCategory">apiPrivEditCategory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2251"><abbr title="OCA\Cospend\Controller\PageController::deleteCategory">deleteCategory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2276"><abbr title="OCA\Cospend\Controller\PageController::apiDeleteCategory">apiDeleteCategory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2304"><abbr title="OCA\Cospend\Controller\PageController::apiPrivDeleteCategory">apiPrivDeleteCategory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2326"><abbr title="OCA\Cospend\Controller\PageController::addCurrency">addCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2351"><abbr title="OCA\Cospend\Controller\PageController::apiAddCurrency">apiAddCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2380"><abbr title="OCA\Cospend\Controller\PageController::apiPrivAddCurrency">apiPrivAddCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2403"><abbr title="OCA\Cospend\Controller\PageController::editCurrency">editCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2428"><abbr title="OCA\Cospend\Controller\PageController::apiEditCurrency">apiEditCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2456"><abbr title="OCA\Cospend\Controller\PageController::apiPrivEditCurrency">apiPrivEditCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2478"><abbr title="OCA\Cospend\Controller\PageController::deleteCurrency">deleteCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2503"><abbr title="OCA\Cospend\Controller\PageController::apiDeleteCurrency">apiDeleteCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2531"><abbr title="OCA\Cospend\Controller\PageController::apiPrivDeleteCurrency">apiPrivDeleteCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2600"><abbr title="OCA\Cospend\Controller\PageController::addPublicShare">addPublicShare</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2622"><abbr title="OCA\Cospend\Controller\PageController::deletePublicShare">deletePublicShare</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2693"><abbr title="OCA\Cospend\Controller\PageController::addCircleShare">addCircleShare</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2715"><abbr title="OCA\Cospend\Controller\PageController::deleteCircleShare">deleteCircleShare</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2740"><abbr title="OCA\Cospend\Controller\PageController::getPublicFileShare">getPublicFileShare</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2785"><abbr title="OCA\Cospend\Controller\PageController::exportCsvSettlement">exportCsvSettlement</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2807"><abbr title="OCA\Cospend\Controller\PageController::exportCsvStatistics">exportCsvStatistics</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2832"><abbr title="OCA\Cospend\Controller\PageController::exportCsvProject">exportCsvProject</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2859"><abbr title="OCA\Cospend\Controller\PageController::importCsvProject">importCsvProject</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2874"><abbr title="OCA\Cospend\Controller\PageController::importSWProject">importSWProject</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2891"><abbr title="OCA\Cospend\Controller\PageController::apiPing">apiPing</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2906"><abbr title="OCA\Cospend\Controller\PageController::getBillActivity">getBillActivity</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/UtilsController.php.html#70"><abbr title="OCA\Cospend\Controller\UtilsController::setAllowAnonymousCreation">setAllowAnonymousCreation</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/UtilsController.php.html#161"><abbr title="OCA\Cospend\Controller\UtilsController::getAvatar">getAvatar</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/UtilsController.php.html#239"><abbr title="OCA\Cospend\Controller\UtilsController::imageTTFCenter">imageTTFCenter</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Controller/UtilsController.php.html#264"><abbr title="OCA\Cospend\Controller\UtilsController::hexToRgb">hexToRgb</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Cron/AutoExport.php.html#17"><abbr title="OCA\Cospend\Cron\AutoExport::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Cron/AutoExport.php.html#23"><abbr title="OCA\Cospend\Cron\AutoExport::run">run</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Cron/RepeatBills.php.html#17"><abbr title="OCA\Cospend\Cron\RepeatBills::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Cron/RepeatBills.php.html#25"><abbr title="OCA\Cospend\Cron\RepeatBills::run">run</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Dashboard/CospendWidget.php.html#35"><abbr title="OCA\Cospend\Dashboard\CospendWidget::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Dashboard/CospendWidget.php.html#44"><abbr title="OCA\Cospend\Dashboard\CospendWidget::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Dashboard/CospendWidget.php.html#51"><abbr title="OCA\Cospend\Dashboard\CospendWidget::getTitle">getTitle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Dashboard/CospendWidget.php.html#58"><abbr title="OCA\Cospend\Dashboard\CospendWidget::getOrder">getOrder</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Dashboard/CospendWidget.php.html#65"><abbr title="OCA\Cospend\Dashboard\CospendWidget::getIconClass">getIconClass</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Dashboard/CospendWidget.php.html#72"><abbr title="OCA\Cospend\Dashboard\CospendWidget::getUrl">getUrl</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Dashboard/CospendWidget.php.html#79"><abbr title="OCA\Cospend\Dashboard\CospendWidget::load">load</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000007Date20190401053312.php.html#31"><abbr title="OCA\Cospend\Migration\Version000007Date20190401053312::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000102Date20190907142139.php.html#31"><abbr title="OCA\Cospend\Migration\Version000102Date20190907142139::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000103Date20190907163755.php.html#31"><abbr title="OCA\Cospend\Migration\Version000103Date20190907163755::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000106Date20191023153118.php.html#31"><abbr title="OCA\Cospend\Migration\Version000106Date20191023153118::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000201Date20191223203543.php.html#31"><abbr title="OCA\Cospend\Migration\Version000201Date20191223203543::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000202Date20191225201436.php.html#31"><abbr title="OCA\Cospend\Migration\Version000202Date20191225201436::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000203Date20191227005654.php.html#31"><abbr title="OCA\Cospend\Migration\Version000203Date20191227005654::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000204Date20191228201832.php.html#31"><abbr title="OCA\Cospend\Migration\Version000204Date20191228201832::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000205Date20200102013739.php.html#31"><abbr title="OCA\Cospend\Migration\Version000205Date20200102013739::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000301Date20200108160931.php.html#31"><abbr title="OCA\Cospend\Migration\Version000301Date20200108160931::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000302Date20200110144741.php.html#31"><abbr title="OCA\Cospend\Migration\Version000302Date20200110144741::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000303Date20200201171814.php.html#25"><abbr title="OCA\Cospend\Migration\Version000303Date20200201171814::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000303Date20200201171814.php.html#43"><abbr title="OCA\Cospend\Migration\Version000303Date20200201171814::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000303Date20200201171814.php.html#64"><abbr title="OCA\Cospend\Migration\Version000303Date20200201171814::postSchemaChange">postSchemaChange</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000303Date20200201172933.php.html#31"><abbr title="OCA\Cospend\Migration\Version000303Date20200201172933::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000304Date20200313092247.php.html#25"><abbr title="OCA\Cospend\Migration\Version000304Date20200313092247::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000304Date20200313092247.php.html#43"><abbr title="OCA\Cospend\Migration\Version000304Date20200313092247::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000304Date20200313092247.php.html#64"><abbr title="OCA\Cospend\Migration\Version000304Date20200313092247::postSchemaChange">postSchemaChange</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000304Date20200313095955.php.html#31"><abbr title="OCA\Cospend\Migration\Version000304Date20200313095955::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000403Date20200231152118.php.html#25"><abbr title="OCA\Cospend\Migration\Version000403Date20200231152118::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000403Date20200231152118.php.html#43"><abbr title="OCA\Cospend\Migration\Version000403Date20200231152118::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000403Date20200231152118.php.html#66"><abbr title="OCA\Cospend\Migration\Version000403Date20200231152118::postSchemaChange">postSchemaChange</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000403Date20200323173321.php.html#31"><abbr title="OCA\Cospend\Migration\Version000403Date20200323173321::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000404Date20200324145208.php.html#31"><abbr title="OCA\Cospend\Migration\Version000404Date20200324145208::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000406Date20200417185442.php.html#31"><abbr title="OCA\Cospend\Migration\Version000406Date20200417185442::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000406Date20200426154317.php.html#27"><abbr title="OCA\Cospend\Migration\Version000406Date20200426154317::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000406Date20200426154317.php.html#46"><abbr title="OCA\Cospend\Migration\Version000406Date20200426154317::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000406Date20200426154317.php.html#63"><abbr title="OCA\Cospend\Migration\Version000406Date20200426154317::postSchemaChange">postSchemaChange</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000406Date20200426163311.php.html#31"><abbr title="OCA\Cospend\Migration\Version000406Date20200426163311::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000408Date20200430162436.php.html#25"><abbr title="OCA\Cospend\Migration\Version000408Date20200430162436::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version000408Date20200430162436.php.html#43"><abbr title="OCA\Cospend\Migration\Version000408Date20200430162436::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version010105Date20201030132329.php.html#25"><abbr title="OCA\Cospend\Migration\Version010105Date20201030132329::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version010105Date20201030132329.php.html#43"><abbr title="OCA\Cospend\Migration\Version010105Date20201030132329::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version010203Date20201208131054.php.html#25"><abbr title="OCA\Cospend\Migration\Version010203Date20201208131054::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version010203Date20201208131054.php.html#43"><abbr title="OCA\Cospend\Migration\Version010203Date20201208131054::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version010206Date20201223134353.php.html#25"><abbr title="OCA\Cospend\Migration\Version010206Date20201223134353::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migration/Version010206Date20201223134353.php.html#43"><abbr title="OCA\Cospend\Migration\Version010206Date20201223134353::changeSchema">changeSchema</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Notification/Notifier.php.html#42"><abbr title="OCA\Cospend\Notification\Notifier::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Notification/Notifier.php.html#55"><abbr title="OCA\Cospend\Notification\Notifier::getID">getID</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Notification/Notifier.php.html#64"><abbr title="OCA\Cospend\Notification\Notifier::getName">getName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Notification/Notifier.php.html#75"><abbr title="OCA\Cospend\Notification\Notifier::prepare">prepare</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Search/CospendSearchProvider.php.html#57"><abbr title="OCA\Cospend\Search\CospendSearchProvider::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Search/CospendSearchProvider.php.html#72"><abbr title="OCA\Cospend\Search\CospendSearchProvider::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Search/CospendSearchProvider.php.html#79"><abbr title="OCA\Cospend\Search\CospendSearchProvider::getName">getName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Search/CospendSearchProvider.php.html#86"><abbr title="OCA\Cospend\Search\CospendSearchProvider::getOrder">getOrder</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Search/CospendSearchProvider.php.html#98"><abbr title="OCA\Cospend\Search\CospendSearchProvider::search">search</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Search/CospendSearchProvider.php.html#157"><abbr title="OCA\Cospend\Search\CospendSearchProvider::getMainText">getMainText</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Search/CospendSearchProvider.php.html#164"><abbr title="OCA\Cospend\Search\CospendSearchProvider::getSubline">getSubline</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Search/CospendSearchProvider.php.html#171"><abbr title="OCA\Cospend\Search\CospendSearchProvider::getDeepLinkToCospendApp">getDeepLinkToCospendApp</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#441"><abbr title="OCA\Cospend\Service\ProjectService::getGuestAccessLevel">getGuestAccessLevel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1317"><abbr title="OCA\Cospend\Service\ProjectService::centeredSettle">centeredSettle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1626"><abbr title="OCA\Cospend\Service\ProjectService::getBillsRestricted">getBillsRestricted</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1896"><abbr title="OCA\Cospend\Service\ProjectService::getAllBillIds">getAllBillIds</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2059"><abbr title="OCA\Cospend\Service\ProjectService::isUserInCircle">isUserInCircle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2367"><abbr title="OCA\Cospend\Service\ProjectService::getProjectInfoFromShareToken">getProjectInfoFromShareToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2482"><abbr title="OCA\Cospend\Service\ProjectService::deleteMember">deleteMember</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2752"><abbr title="OCA\Cospend\Service\ProjectService::cronRepeatBills">cronRepeatBills</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2833"><abbr title="OCA\Cospend\Service\ProjectService::repeatBill">repeatBill</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2885"><abbr title="OCA\Cospend\Service\ProjectService::getNextRepetitionDate">getNextRepetitionDate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2963"><abbr title="OCA\Cospend\Service\ProjectService::addCategory">addCategory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2987"><abbr title="OCA\Cospend\Service\ProjectService::getCategory">getCategory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3020"><abbr title="OCA\Cospend\Service\ProjectService::deleteCategory">deleteCategory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3054"><abbr title="OCA\Cospend\Service\ProjectService::saveCategoryOrder">saveCategoryOrder</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3071"><abbr title="OCA\Cospend\Service\ProjectService::editCategory">editCategory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3105"><abbr title="OCA\Cospend\Service\ProjectService::addCurrency">addCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3123"><abbr title="OCA\Cospend\Service\ProjectService::getCurrency">getCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3154"><abbr title="OCA\Cospend\Service\ProjectService::deleteCurrency">deleteCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3175"><abbr title="OCA\Cospend\Service\ProjectService::editCurrency">editCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3304"><abbr title="OCA\Cospend\Service\ProjectService::addPublicShare">addPublicShare</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3359"><abbr title="OCA\Cospend\Service\ProjectService::editShareAccessLevel">editShareAccessLevel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3399"><abbr title="OCA\Cospend\Service\ProjectService::editGuestAccessLevel">editGuestAccessLevel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3499"><abbr title="OCA\Cospend\Service\ProjectService::deletePublicShare">deletePublicShare</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3703"><abbr title="OCA\Cospend\Service\ProjectService::addCircleShare">addCircleShare</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3783"><abbr title="OCA\Cospend\Service\ProjectService::deleteCircleShare">deleteCircleShare</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3840"><abbr title="OCA\Cospend\Service\ProjectService::exportCsvSettlement">exportCsvSettlement</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3877"><abbr title="OCA\Cospend\Service\ProjectService::createAndCheckExportDirectory">createAndCheckExportDirectory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3898"><abbr title="OCA\Cospend\Service\ProjectService::exportCsvStatistics">exportCsvStatistics</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3933"><abbr title="OCA\Cospend\Service\ProjectService::exportCsvProject">exportCsvProject</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#4021"><abbr title="OCA\Cospend\Service\ProjectService::importCsvProject">importCsvProject</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#4259"><abbr title="OCA\Cospend\Service\ProjectService::importSWProject">importSWProject</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#4438"><abbr title="OCA\Cospend\Service\ProjectService::cronAutoExport">cronAutoExport</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#4544"><abbr title="OCA\Cospend\Service\ProjectService::hexToRgb">hexToRgb</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#4553"><abbr title="OCA\Cospend\Service\ProjectService::searchBills">searchBills</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#4594"><abbr title="OCA\Cospend\Service\ProjectService::getBillActivity">getBillActivity</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Settings/Admin.php.html#25"><abbr title="OCA\Cospend\Settings\Admin::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Settings/Admin.php.html#41"><abbr title="OCA\Cospend\Settings\Admin::getForm">getForm</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Settings/Admin.php.html#53"><abbr title="OCA\Cospend\Settings\Admin::getSection">getSection</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Settings/Admin.php.html#64"><abbr title="OCA\Cospend\Settings\Admin::getPriority">getPriority</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Settings/Admin.php.html#72"><abbr title="OCA\Cospend\Settings\Admin::getPanel">getPanel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Settings/Admin.php.html#85"><abbr title="OCA\Cospend\Settings\Admin::getSectionID">getSectionID</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2575"><abbr title="OCA\Cospend\Service\ProjectService::getMemberByUserid">getMemberByUserid</abbr></a></td><td class="text-right">9%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2434"><abbr title="OCA\Cospend\Service\ProjectService::getCircleShares">getCircleShares</abbr></a></td><td class="text-right">11%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2553"><abbr title="OCA\Cospend\Controller\PageController::addUserShare">addUserShare</abbr></a></td><td class="text-right">44%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2575"><abbr title="OCA\Cospend\Controller\PageController::deleteUserShare">deleteUserShare</abbr></a></td><td class="text-right">54%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2646"><abbr title="OCA\Cospend\Controller\PageController::addGroupShare">addGroupShare</abbr></a></td><td class="text-right">55%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2331"><abbr title="OCA\Cospend\Service\ProjectService::getPublicShares">getPublicShares</abbr></a></td><td class="text-right">56%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1896"><abbr title="OCA\Cospend\Controller\PageController::getUserList">getUserList</abbr></a></td><td class="text-right">60%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2264"><abbr title="OCA\Cospend\Service\ProjectService::getCurrencies">getCurrencies</abbr></a></td><td class="text-right">61%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2668"><abbr title="OCA\Cospend\Controller\PageController::deleteGroupShare">deleteGroupShare</abbr></a></td><td class="text-right">63%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1429"><abbr title="OCA\Cospend\Service\ProjectService::editMember">editMember</abbr></a></td><td class="text-right">63%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2085"><abbr title="OCA\Cospend\Service\ProjectService::getProjects">getProjects</abbr></a></td><td class="text-right">69%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1765"><abbr title="OCA\Cospend\Service\ProjectService::getBills">getBills</abbr></a></td><td class="text-right">76%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#350"><abbr title="OCA\Cospend\Service\ProjectService::getUserMaxAccessLevel">getUserMaxAccessLevel</abbr></a></td><td class="text-right">77%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1509"><abbr title="OCA\Cospend\Service\ProjectService::editProject">editProject</abbr></a></td><td class="text-right">78%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#257"><abbr title="OCA\Cospend\Service\ProjectService::userCanAccessProject">userCanAccessProject</abbr></a></td><td class="text-right">78%</td></tr>
+       <tr><td><a href="Activity/ActivityManager.php.html#107"><abbr title="OCA\Cospend\Activity\ActivityManager::triggerEvent">triggerEvent</abbr></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="Activity/ActivityManager.php.html#210"><abbr title="OCA\Cospend\Activity\ActivityManager::findObjectForEntity">findObjectForEntity</abbr></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2619"><abbr title="OCA\Cospend\Service\ProjectService::editBill">editBill</abbr></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1361"><abbr title="OCA\Cospend\Service\ProjectService::reduceBalance">reduceBalance</abbr></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1563"><abbr title="OCA\Cospend\Service\ProjectService::addMember">addMember</abbr></a></td><td class="text-right">82%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1304"><abbr title="OCA\Cospend\Service\ProjectService::getProjectSettlement">getProjectSettlement</abbr></a></td><td class="text-right">83%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1406"><abbr title="OCA\Cospend\Service\ProjectService::sortCreditersDebiters">sortCreditersDebiters</abbr></a></td><td class="text-right">84%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1272"><abbr title="OCA\Cospend\Service\ProjectService::autoSettlement">autoSettlement</abbr></a></td><td class="text-right">85%</td></tr>
+       <tr><td><a href="Activity/ActivityManager.php.html#126"><abbr title="OCA\Cospend\Activity\ActivityManager::createEvent">createEvent</abbr></a></td><td class="text-right">85%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#797"><abbr title="OCA\Cospend\Controller\PageController::webGetBills">webGetBills</abbr></a></td><td class="text-right">86%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#711"><abbr title="OCA\Cospend\Service\ProjectService::getProjectStatistics">getProjectStatistics</abbr></a></td><td class="text-right">86%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#406"><abbr title="OCA\Cospend\Controller\PageController::webDeleteProject">webDeleteProject</abbr></a></td><td class="text-right">88%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#558"><abbr title="OCA\Cospend\Controller\PageController::webAutoSettlement">webAutoSettlement</abbr></a></td><td class="text-right">88%</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#774"><abbr title="OCA\Cospend\Controller\PageController::webAddMember">webAddMember</abbr></a></td><td class="text-right">88%</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1069"><abbr title="OCA\Cospend\Service\ProjectService::deleteBill">deleteBill</abbr></a></td><td class="text-right">89%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Service/ProjectService.php.html#4021"><abbr title="OCA\Cospend\Service\ProjectService::importCsvProject">importCsvProject</abbr></a></td><td class="text-right">3080</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#4259"><abbr title="OCA\Cospend\Service\ProjectService::importSWProject">importSWProject</abbr></a></td><td class="text-right">1722</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1626"><abbr title="OCA\Cospend\Service\ProjectService::getBillsRestricted">getBillsRestricted</abbr></a></td><td class="text-right">506</td></tr>
+       <tr><td><a href="Activity/CospendProvider.php.html#76"><abbr title="OCA\Cospend\Activity\CospendProvider::parse">parse</abbr></a></td><td class="text-right">182</td></tr>
+       <tr><td><a href="Activity/ActivityManager.php.html#83"><abbr title="OCA\Cospend\Activity\ActivityManager::getActivityFormat">getActivityFormat</abbr></a></td><td class="text-right">156</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2885"><abbr title="OCA\Cospend\Service\ProjectService::getNextRepetitionDate">getNextRepetitionDate</abbr></a></td><td class="text-right">156</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3933"><abbr title="OCA\Cospend\Service\ProjectService::exportCsvProject">exportCsvProject</abbr></a></td><td class="text-right">156</td></tr>
+       <tr><td><a href="Controller/UtilsController.php.html#161"><abbr title="OCA\Cospend\Controller\UtilsController::getAvatar">getAvatar</abbr></a></td><td class="text-right">132</td></tr>
+       <tr><td><a href="Activity/CospendProvider.php.html#217"><abbr title="OCA\Cospend\Activity\CospendProvider::parseParamForWho">parseParamForWho</abbr></a></td><td class="text-right">110</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#352"><abbr title="OCA\Cospend\Controller\PageController::checkLogin">checkLogin</abbr></a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1514"><abbr title="OCA\Cospend\Controller\PageController::apiDeleteBills">apiDeleteBills</abbr></a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="Migration/Version000406Date20200426154317.php.html#63"><abbr title="OCA\Cospend\Migration\Version000406Date20200426154317::postSchemaChange">postSchemaChange</abbr></a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2752"><abbr title="OCA\Cospend\Service\ProjectService::cronRepeatBills">cronRepeatBills</abbr></a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2833"><abbr title="OCA\Cospend\Service\ProjectService::repeatBill">repeatBill</abbr></a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3703"><abbr title="OCA\Cospend\Service\ProjectService::addCircleShare">addCircleShare</abbr></a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#4438"><abbr title="OCA\Cospend\Service\ProjectService::cronAutoExport">cronAutoExport</abbr></a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1473"><abbr title="OCA\Cospend\Controller\PageController::apiDeleteBill">apiDeleteBill</abbr></a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="Migration/Version000007Date20190401053312.php.html#31"><abbr title="OCA\Cospend\Migration\Version000007Date20190401053312::changeSchema">changeSchema</abbr></a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#711"><abbr title="OCA\Cospend\Service\ProjectService::getProjectStatistics">getProjectStatistics</abbr></a></td><td class="text-right">66</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1396"><abbr title="OCA\Cospend\Controller\PageController::apiEditBills">apiEditBills</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1697"><abbr title="OCA\Cospend\Controller\PageController::apiEditMember">apiEditMember</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2740"><abbr title="OCA\Cospend\Controller\PageController::getPublicFileShare">getPublicFileShare</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Search/CospendSearchProvider.php.html#98"><abbr title="OCA\Cospend\Search\CospendSearchProvider::search">search</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2059"><abbr title="OCA\Cospend\Service\ProjectService::isUserInCircle">isUserInCircle</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1429"><abbr title="OCA\Cospend\Service\ProjectService::editMember">editMember</abbr></a></td><td class="text-right">51</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2619"><abbr title="OCA\Cospend\Service\ProjectService::editBill">editBill</abbr></a></td><td class="text-right">50</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#464"><abbr title="OCA\Cospend\Controller\PageController::webDeleteBills">webDeleteBills</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#964"><abbr title="OCA\Cospend\Controller\PageController::apiSetProjectInfo">apiSetProjectInfo</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1177"><abbr title="OCA\Cospend\Controller\PageController::apiAddMember">apiAddMember</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1206"><abbr title="OCA\Cospend\Controller\PageController::apiv2AddMember">apiv2AddMember</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1259"><abbr title="OCA\Cospend\Controller\PageController::apiAddBill">apiAddBill</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1356"><abbr title="OCA\Cospend\Controller\PageController::apiEditBill">apiEditBill</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1591"><abbr title="OCA\Cospend\Controller\PageController::apiDeleteMember">apiDeleteMember</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1644"><abbr title="OCA\Cospend\Controller\PageController::apiDeleteProject">apiDeleteProject</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1846"><abbr title="OCA\Cospend\Controller\PageController::apiAutoSettlement">apiAutoSettlement</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2087"><abbr title="OCA\Cospend\Controller\PageController::apiAddCategory">apiAddCategory</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2176"><abbr title="OCA\Cospend\Controller\PageController::apiEditCategory">apiEditCategory</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2205"><abbr title="OCA\Cospend\Controller\PageController::apiSaveCategoryOrder">apiSaveCategoryOrder</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2276"><abbr title="OCA\Cospend\Controller\PageController::apiDeleteCategory">apiDeleteCategory</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2351"><abbr title="OCA\Cospend\Controller\PageController::apiAddCurrency">apiAddCurrency</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2428"><abbr title="OCA\Cospend\Controller\PageController::apiEditCurrency">apiEditCurrency</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2503"><abbr title="OCA\Cospend\Controller\PageController::apiDeleteCurrency">apiDeleteCurrency</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3071"><abbr title="OCA\Cospend\Service\ProjectService::editCategory">editCategory</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2434"><abbr title="OCA\Cospend\Service\ProjectService::getCircleShares">getCircleShares</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#900"><abbr title="OCA\Cospend\Controller\PageController::apiGetProjectInfo">apiGetProjectInfo</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1332"><abbr title="OCA\Cospend\Controller\PageController::apiRepeatBill">apiRepeatBill</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1555"><abbr title="OCA\Cospend\Controller\PageController::apiPrivDeleteBill">apiPrivDeleteBill</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1976"><abbr title="OCA\Cospend\Controller\PageController::editShareAccessLevel">editShareAccessLevel</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2832"><abbr title="OCA\Cospend\Controller\PageController::exportCsvProject">exportCsvProject</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Notification/Notifier.php.html#75"><abbr title="OCA\Cospend\Notification\Notifier::prepare">prepare</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1317"><abbr title="OCA\Cospend\Service\ProjectService::centeredSettle">centeredSettle</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3175"><abbr title="OCA\Cospend\Service\ProjectService::editCurrency">editCurrency</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3840"><abbr title="OCA\Cospend\Service\ProjectService::exportCsvSettlement">exportCsvSettlement</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3877"><abbr title="OCA\Cospend\Service\ProjectService::createAndCheckExportDirectory">createAndCheckExportDirectory</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3898"><abbr title="OCA\Cospend\Service\ProjectService::exportCsvStatistics">exportCsvStatistics</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#4594"><abbr title="OCA\Cospend\Service\ProjectService::getBillActivity">getBillActivity</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1765"><abbr title="OCA\Cospend\Service\ProjectService::getBills">getBills</abbr></a></td><td class="text-right">26</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2085"><abbr title="OCA\Cospend\Service\ProjectService::getProjects">getProjects</abbr></a></td><td class="text-right">25</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1509"><abbr title="OCA\Cospend\Service\ProjectService::editProject">editProject</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Activity/CospendProvider.php.html#163"><abbr title="OCA\Cospend\Activity\CospendProvider::setSubjects">setSubjects</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Activity/CospendProvider.php.html#180"><abbr title="OCA\Cospend\Activity\CospendProvider::getIcon">getIcon</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#678"><abbr title="OCA\Cospend\Controller\PageController::webEditBills">webEditBills</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#857"><abbr title="OCA\Cospend\Controller\PageController::apiCreateProject">apiCreateProject</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1059"><abbr title="OCA\Cospend\Controller\PageController::apiGetBills">apiGetBills</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1089"><abbr title="OCA\Cospend\Controller\PageController::apiv3GetBills">apiv3GetBills</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1727"><abbr title="OCA\Cospend\Controller\PageController::apiPrivEditMember">apiPrivEditMember</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2622"><abbr title="OCA\Cospend\Controller\PageController::deletePublicShare">deletePublicShare</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2715"><abbr title="OCA\Cospend\Controller\PageController::deleteCircleShare">deleteCircleShare</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2785"><abbr title="OCA\Cospend\Controller\PageController::exportCsvSettlement">exportCsvSettlement</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2807"><abbr title="OCA\Cospend\Controller\PageController::exportCsvStatistics">exportCsvStatistics</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Migration/Version000106Date20191023153118.php.html#31"><abbr title="OCA\Cospend\Migration\Version000106Date20191023153118::changeSchema">changeSchema</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Migration/Version010206Date20201223134353.php.html#43"><abbr title="OCA\Cospend\Migration\Version010206Date20201223134353::changeSchema">changeSchema</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2482"><abbr title="OCA\Cospend\Service\ProjectService::deleteMember">deleteMember</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2963"><abbr title="OCA\Cospend\Service\ProjectService::addCategory">addCategory</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1896"><abbr title="OCA\Cospend\Controller\PageController::getUserList">getUserList</abbr></a></td><td class="text-right">18</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#350"><abbr title="OCA\Cospend\Service\ProjectService::getUserMaxAccessLevel">getUserMaxAccessLevel</abbr></a></td><td class="text-right">16</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2575"><abbr title="OCA\Cospend\Service\ProjectService::getMemberByUserid">getMemberByUserid</abbr></a></td><td class="text-right">15</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#257"><abbr title="OCA\Cospend\Service\ProjectService::userCanAccessProject">userCanAccessProject</abbr></a></td><td class="text-right">13</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1563"><abbr title="OCA\Cospend\Service\ProjectService::addMember">addMember</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Command/ExportProject.php.html#62"><abbr title="OCA\Cospend\Command\ExportProject::execute">execute</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#883"><abbr title="OCA\Cospend\Controller\PageController::apiPrivCreateProject">apiPrivCreateProject</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#934"><abbr title="OCA\Cospend\Controller\PageController::apiPrivGetProjectInfo">apiPrivGetProjectInfo</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#992"><abbr title="OCA\Cospend\Controller\PageController::apiPrivSetProjectInfo">apiPrivSetProjectInfo</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1017"><abbr title="OCA\Cospend\Controller\PageController::apiGetMembers">apiGetMembers</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1149"><abbr title="OCA\Cospend\Controller\PageController::apiv2GetBills">apiv2GetBills</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1234"><abbr title="OCA\Cospend\Controller\PageController::apiPrivAddMember">apiPrivAddMember</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1297"><abbr title="OCA\Cospend\Controller\PageController::apiPrivAddBill">apiPrivAddBill</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1437"><abbr title="OCA\Cospend\Controller\PageController::apiPrivEditBill">apiPrivEditBill</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1619"><abbr title="OCA\Cospend\Controller\PageController::apiPrivDeleteMember">apiPrivDeleteMember</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1672"><abbr title="OCA\Cospend\Controller\PageController::apiPrivDeleteProject">apiPrivDeleteProject</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1754"><abbr title="OCA\Cospend\Controller\PageController::apiGetProjectStatistics">apiGetProjectStatistics</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1804"><abbr title="OCA\Cospend\Controller\PageController::apiGetProjectSettlement">apiGetProjectSettlement</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1874"><abbr title="OCA\Cospend\Controller\PageController::apiPrivAutoSettlement">apiPrivAutoSettlement</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2002"><abbr title="OCA\Cospend\Controller\PageController::editGuestAccessLevel">editGuestAccessLevel</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2065"><abbr title="OCA\Cospend\Controller\PageController::addCategory">addCategory</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2113"><abbr title="OCA\Cospend\Controller\PageController::apiPrivAddCategory">apiPrivAddCategory</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2136"><abbr title="OCA\Cospend\Controller\PageController::editCategory">editCategory</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2155"><abbr title="OCA\Cospend\Controller\PageController::saveCategoryOrder">saveCategoryOrder</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2229"><abbr title="OCA\Cospend\Controller\PageController::apiPrivEditCategory">apiPrivEditCategory</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2251"><abbr title="OCA\Cospend\Controller\PageController::deleteCategory">deleteCategory</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2304"><abbr title="OCA\Cospend\Controller\PageController::apiPrivDeleteCategory">apiPrivDeleteCategory</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2326"><abbr title="OCA\Cospend\Controller\PageController::addCurrency">addCurrency</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2380"><abbr title="OCA\Cospend\Controller\PageController::apiPrivAddCurrency">apiPrivAddCurrency</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2403"><abbr title="OCA\Cospend\Controller\PageController::editCurrency">editCurrency</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2456"><abbr title="OCA\Cospend\Controller\PageController::apiPrivEditCurrency">apiPrivEditCurrency</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2478"><abbr title="OCA\Cospend\Controller\PageController::deleteCurrency">deleteCurrency</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2531"><abbr title="OCA\Cospend\Controller\PageController::apiPrivDeleteCurrency">apiPrivDeleteCurrency</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2600"><abbr title="OCA\Cospend\Controller\PageController::addPublicShare">addPublicShare</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2693"><abbr title="OCA\Cospend\Controller\PageController::addCircleShare">addCircleShare</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2859"><abbr title="OCA\Cospend\Controller\PageController::importCsvProject">importCsvProject</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2874"><abbr title="OCA\Cospend\Controller\PageController::importSWProject">importSWProject</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Migration/Version000103Date20190907163755.php.html#31"><abbr title="OCA\Cospend\Migration\Version000103Date20190907163755::changeSchema">changeSchema</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Migration/Version000301Date20200108160931.php.html#31"><abbr title="OCA\Cospend\Migration\Version000301Date20200108160931::changeSchema">changeSchema</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Migration/Version000304Date20200313092247.php.html#64"><abbr title="OCA\Cospend\Migration\Version000304Date20200313092247::postSchemaChange">postSchemaChange</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3359"><abbr title="OCA\Cospend\Service\ProjectService::editShareAccessLevel">editShareAccessLevel</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3499"><abbr title="OCA\Cospend\Service\ProjectService::deletePublicShare">deletePublicShare</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3783"><abbr title="OCA\Cospend\Service\ProjectService::deleteCircleShare">deleteCircleShare</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Activity/ActivityManager.php.html#126"><abbr title="OCA\Cospend\Activity\ActivityManager::createEvent">createEvent</abbr></a></td><td class="text-right">11</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1406"><abbr title="OCA\Cospend\Service\ProjectService::sortCreditersDebiters">sortCreditersDebiters</abbr></a></td><td class="text-right">8</td></tr>
+       <tr><td><a href="Activity/ActivityManager.php.html#210"><abbr title="OCA\Cospend\Activity\ActivityManager::findObjectForEntity">findObjectForEntity</abbr></a></td><td class="text-right">7</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1361"><abbr title="OCA\Cospend\Service\ProjectService::reduceBalance">reduceBalance</abbr></a></td><td class="text-right">7</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1272"><abbr title="OCA\Cospend\Service\ProjectService::autoSettlement">autoSettlement</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Activity/CospendProvider.php.html#194"><abbr title="OCA\Cospend\Activity\CospendProvider::parseParamForProject">parseParamForProject</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Activity/CospendProvider.php.html#205"><abbr title="OCA\Cospend\Activity\CospendProvider::parseParamForBill">parseParamForBill</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Command/RepeatBills.php.html#52"><abbr title="OCA\Cospend\Command\RepeatBills::execute">execute</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#248"><abbr title="OCA\Cospend\Controller\PageController::publicShareLinkPage">publicShareLinkPage</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#302"><abbr title="OCA\Cospend\Controller\PageController::pubProject">pubProject</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#581"><abbr title="OCA\Cospend\Controller\PageController::webCheckPassword">webCheckPassword</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#659"><abbr title="OCA\Cospend\Controller\PageController::webRepeatBill">webRepeatBill</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1038"><abbr title="OCA\Cospend\Controller\PageController::apiPrivGetMembers">apiPrivGetMembers</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1122"><abbr title="OCA\Cospend\Controller\PageController::apiPrivGetBills">apiPrivGetBills</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1779"><abbr title="OCA\Cospend\Controller\PageController::apiPrivGetProjectStatistics">apiPrivGetProjectStatistics</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#1825"><abbr title="OCA\Cospend\Controller\PageController::apiPrivGetProjectSettlement">apiPrivGetProjectSettlement</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2906"><abbr title="OCA\Cospend\Controller\PageController::getBillActivity">getBillActivity</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Migration/Version000102Date20190907142139.php.html#31"><abbr title="OCA\Cospend\Migration\Version000102Date20190907142139::changeSchema">changeSchema</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Migration/Version000201Date20191223203543.php.html#31"><abbr title="OCA\Cospend\Migration\Version000201Date20191223203543::changeSchema">changeSchema</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Migration/Version000202Date20191225201436.php.html#31"><abbr title="OCA\Cospend\Migration\Version000202Date20191225201436::changeSchema">changeSchema</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Migration/Version000203Date20191227005654.php.html#31"><abbr title="OCA\Cospend\Migration\Version000203Date20191227005654::changeSchema">changeSchema</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Migration/Version000204Date20191228201832.php.html#31"><abbr title="OCA\Cospend\Migration\Version000204Date20191228201832::changeSchema">changeSchema</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Migration/Version000205Date20200102013739.php.html#31"><abbr title="OCA\Cospend\Migration\Version000205Date20200102013739::changeSchema">changeSchema</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Migration/Version000302Date20200110144741.php.html#31"><abbr title="OCA\Cospend\Migration\Version000302Date20200110144741::changeSchema">changeSchema</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Migration/Version000303Date20200201171814.php.html#43"><abbr title="OCA\Cospend\Migration\Version000303Date20200201171814::changeSchema">changeSchema</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Migration/Version000303Date20200201172933.php.html#31"><abbr title="OCA\Cospend\Migration\Version000303Date20200201172933::changeSchema">changeSchema</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Migration/Version000304Date20200313092247.php.html#43"><abbr title="OCA\Cospend\Migration\Version000304Date20200313092247::changeSchema">changeSchema</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Migration/Version000304Date20200313095955.php.html#31"><abbr title="OCA\Cospend\Migration\Version000304Date20200313095955::changeSchema">changeSchema</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Migration/Version000404Date20200324145208.php.html#31"><abbr title="OCA\Cospend\Migration\Version000404Date20200324145208::changeSchema">changeSchema</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Search/CospendSearchProvider.php.html#86"><abbr title="OCA\Cospend\Search\CospendSearchProvider::getOrder">getOrder</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#441"><abbr title="OCA\Cospend\Service\ProjectService::getGuestAccessLevel">getGuestAccessLevel</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1896"><abbr title="OCA\Cospend\Service\ProjectService::getAllBillIds">getAllBillIds</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2367"><abbr title="OCA\Cospend\Service\ProjectService::getProjectInfoFromShareToken">getProjectInfoFromShareToken</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2987"><abbr title="OCA\Cospend\Service\ProjectService::getCategory">getCategory</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3020"><abbr title="OCA\Cospend\Service\ProjectService::deleteCategory">deleteCategory</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3054"><abbr title="OCA\Cospend\Service\ProjectService::saveCategoryOrder">saveCategoryOrder</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3123"><abbr title="OCA\Cospend\Service\ProjectService::getCurrency">getCurrency</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#3154"><abbr title="OCA\Cospend\Service\ProjectService::deleteCurrency">deleteCurrency</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#4553"><abbr title="OCA\Cospend\Service\ProjectService::searchBills">searchBills</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2575"><abbr title="OCA\Cospend\Controller\PageController::deleteUserShare">deleteUserShare</abbr></a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2668"><abbr title="OCA\Cospend\Controller\PageController::deleteGroupShare">deleteGroupShare</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2553"><abbr title="OCA\Cospend\Controller\PageController::addUserShare">addUserShare</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#2646"><abbr title="OCA\Cospend\Controller\PageController::addGroupShare">addGroupShare</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2331"><abbr title="OCA\Cospend\Service\ProjectService::getPublicShares">getPublicShares</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Activity/ActivityManager.php.html#107"><abbr title="OCA\Cospend\Activity\ActivityManager::triggerEvent">triggerEvent</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#797"><abbr title="OCA\Cospend\Controller\PageController::webGetBills">webGetBills</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#406"><abbr title="OCA\Cospend\Controller\PageController::webDeleteProject">webDeleteProject</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#558"><abbr title="OCA\Cospend\Controller\PageController::webAutoSettlement">webAutoSettlement</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Controller/PageController.php.html#774"><abbr title="OCA\Cospend\Controller\PageController::webAddMember">webAddMember</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1069"><abbr title="OCA\Cospend\Service\ProjectService::deleteBill">deleteBill</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#2264"><abbr title="OCA\Cospend\Service\ProjectService::getCurrencies">getCurrencies</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Service/ProjectService.php.html#1304"><abbr title="OCA\Cospend\Service\ProjectService::getProjectSettlement">getProjectSettlement</abbr></a></td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 9.2.5</a> using <a href="https://secure.php.net/" target="_top">PHP 8.0.1</a> with <a href="https://xdebug.org/">Xdebug 3.0.2</a> and <a href="https://phpunit.de/">PHPUnit 9.5.1</a> at Fri Jan 29 16:55:05 UTC 2021.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="_js/jquery.min.js" type="text/javascript"></script>
+  <script src="_js/d3.min.js" type="text/javascript"></script>
+  <script src="_js/nv.d3.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([37,0,1,0,0,1,2,0,1,0,0,6], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([223,1,1,0,0,1,3,5,4,15,14,88], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[75.45454545454545,40,"<a href=\"Activity\/ActivityManager.php.html#40\">OCA\\Cospend\\Activity\\ActivityManager<\/a>"],[0,2,"<a href=\"Activity\/BillSetting.php.html#27\">OCA\\Cospend\\Activity\\BillSetting<\/a>"],[0,37,"<a href=\"Activity\/CospendProvider.php.html#38\">OCA\\Cospend\\Activity\\CospendProvider<\/a>"],[0,7,"<a href=\"Activity\/Filter.php.html#29\">OCA\\Cospend\\Activity\\Filter<\/a>"],[0,8,"<a href=\"Activity\/Setting.php.html#29\">OCA\\Cospend\\Activity\\Setting<\/a>"],[55.55555555555556,3,"<a href=\"AppInfo\/Application.php.html#32\">OCA\\Cospend\\AppInfo\\Application<\/a>"],[0,5,"<a href=\"Command\/ExportProject.php.html#28\">OCA\\Cospend\\Command\\ExportProject<\/a>"],[0,4,"<a href=\"Command\/RepeatBills.php.html#28\">OCA\\Cospend\\Command\\RepeatBills<\/a>"],[17.74716369529984,397,"<a href=\"Controller\/PageController.php.html#54\">OCA\\Cospend\\Controller\\PageController<\/a>"],[40.17857142857143,22,"<a href=\"Controller\/UtilsController.php.html#33\">OCA\\Cospend\\Controller\\UtilsController<\/a>"],[0,2,"<a href=\"Cron\/AutoExport.php.html#15\">OCA\\Cospend\\Cron\\AutoExport<\/a>"],[0,2,"<a href=\"Cron\/RepeatBills.php.html#15\">OCA\\Cospend\\Cron\\RepeatBills<\/a>"],[0,7,"<a href=\"Dashboard\/CospendWidget.php.html#30\">OCA\\Cospend\\Dashboard\\CospendWidget<\/a>"],[100,1,"<a href=\"Db\/Bill.php.html#17\">OCA\\Cospend\\Db\\Bill<\/a>"],[100,3,"<a href=\"Db\/BillMapper.php.html#18\">OCA\\Cospend\\Db\\BillMapper<\/a>"],[100,1,"<a href=\"Db\/Project.php.html#17\">OCA\\Cospend\\Db\\Project<\/a>"],[100,2,"<a href=\"Db\/ProjectMapper.php.html#18\">OCA\\Cospend\\Db\\ProjectMapper<\/a>"],[0,10,"<a href=\"Migration\/Version000007Date20190401053312.php.html#15\">OCA\\Cospend\\Migration\\Version000007Date20190401053312<\/a>"],[0,4,"<a href=\"Migration\/Version000102Date20190907142139.php.html#15\">OCA\\Cospend\\Migration\\Version000102Date20190907142139<\/a>"],[0,5,"<a href=\"Migration\/Version000103Date20190907163755.php.html#15\">OCA\\Cospend\\Migration\\Version000103Date20190907163755<\/a>"],[0,6,"<a href=\"Migration\/Version000106Date20191023153118.php.html#15\">OCA\\Cospend\\Migration\\Version000106Date20191023153118<\/a>"],[0,4,"<a href=\"Migration\/Version000201Date20191223203543.php.html#15\">OCA\\Cospend\\Migration\\Version000201Date20191223203543<\/a>"],[0,4,"<a href=\"Migration\/Version000202Date20191225201436.php.html#15\">OCA\\Cospend\\Migration\\Version000202Date20191225201436<\/a>"],[0,4,"<a href=\"Migration\/Version000203Date20191227005654.php.html#15\">OCA\\Cospend\\Migration\\Version000203Date20191227005654<\/a>"],[0,4,"<a href=\"Migration\/Version000204Date20191228201832.php.html#15\">OCA\\Cospend\\Migration\\Version000204Date20191228201832<\/a>"],[0,4,"<a href=\"Migration\/Version000205Date20200102013739.php.html#15\">OCA\\Cospend\\Migration\\Version000205Date20200102013739<\/a>"],[0,5,"<a href=\"Migration\/Version000301Date20200108160931.php.html#15\">OCA\\Cospend\\Migration\\Version000301Date20200108160931<\/a>"],[0,4,"<a href=\"Migration\/Version000302Date20200110144741.php.html#15\">OCA\\Cospend\\Migration\\Version000302Date20200110144741<\/a>"],[0,5,"<a href=\"Migration\/Version000303Date20200201171814.php.html#17\">OCA\\Cospend\\Migration\\Version000303Date20200201171814<\/a>"],[0,4,"<a href=\"Migration\/Version000303Date20200201172933.php.html#15\">OCA\\Cospend\\Migration\\Version000303Date20200201172933<\/a>"],[0,7,"<a href=\"Migration\/Version000304Date20200313092247.php.html#17\">OCA\\Cospend\\Migration\\Version000304Date20200313092247<\/a>"],[0,4,"<a href=\"Migration\/Version000304Date20200313095955.php.html#15\">OCA\\Cospend\\Migration\\Version000304Date20200313095955<\/a>"],[0,4,"<a href=\"Migration\/Version000403Date20200231152118.php.html#17\">OCA\\Cospend\\Migration\\Version000403Date20200231152118<\/a>"],[0,3,"<a href=\"Migration\/Version000403Date20200323173321.php.html#15\">OCA\\Cospend\\Migration\\Version000403Date20200323173321<\/a>"],[0,4,"<a href=\"Migration\/Version000404Date20200324145208.php.html#15\">OCA\\Cospend\\Migration\\Version000404Date20200324145208<\/a>"],[0,3,"<a href=\"Migration\/Version000406Date20200417185442.php.html#15\">OCA\\Cospend\\Migration\\Version000406Date20200417185442<\/a>"],[0,12,"<a href=\"Migration\/Version000406Date20200426154317.php.html#18\">OCA\\Cospend\\Migration\\Version000406Date20200426154317<\/a>"],[0,3,"<a href=\"Migration\/Version000406Date20200426163311.php.html#15\">OCA\\Cospend\\Migration\\Version000406Date20200426163311<\/a>"],[0,4,"<a href=\"Migration\/Version000408Date20200430162436.php.html#17\">OCA\\Cospend\\Migration\\Version000408Date20200430162436<\/a>"],[0,4,"<a href=\"Migration\/Version010105Date20201030132329.php.html#17\">OCA\\Cospend\\Migration\\Version010105Date20201030132329<\/a>"],[0,4,"<a href=\"Migration\/Version010203Date20201208131054.php.html#17\">OCA\\Cospend\\Migration\\Version010203Date20201208131054<\/a>"],[0,7,"<a href=\"Migration\/Version010206Date20201223134353.php.html#17\">OCA\\Cospend\\Migration\\Version010206Date20201223134353<\/a>"],[0,8,"<a href=\"Notification\/Notifier.php.html#22\">OCA\\Cospend\\Notification\\Notifier<\/a>"],[0,15,"<a href=\"Search\/CospendSearchProvider.php.html#38\">OCA\\Cospend\\Search\\CospendSearchProvider<\/a>"],[100,0,"<a href=\"Search\/CospendSearchResultEntry.php.html#29\">OCA\\Cospend\\Search\\CospendSearchResultEntry<\/a>"],[50.318922749822825,644,"<a href=\"Service\/ProjectService.php.html#175\">OCA\\Cospend\\Service\\ProjectService<\/a>"],[100,9,"<a href=\"Service\/UserService.php.html#28\">OCA\\Cospend\\Service\\UserService<\/a>"],[0,6,"<a href=\"Settings\/Admin.php.html#13\">OCA\\Cospend\\Settings\\Admin<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[100,1,"<a href=\"Activity\/ActivityManager.php.html#59\">OCA\\Cospend\\Activity\\ActivityManager::__construct<\/a>"],[0,12,"<a href=\"Activity\/ActivityManager.php.html#83\">OCA\\Cospend\\Activity\\ActivityManager::getActivityFormat<\/a>"],[80,3,"<a href=\"Activity\/ActivityManager.php.html#107\">OCA\\Cospend\\Activity\\ActivityManager::triggerEvent<\/a>"],[85.71428571428571,11,"<a href=\"Activity\/ActivityManager.php.html#126\">OCA\\Cospend\\Activity\\ActivityManager::createEvent<\/a>"],[100,4,"<a href=\"Activity\/ActivityManager.php.html#184\">OCA\\Cospend\\Activity\\ActivityManager::sendToUsers<\/a>"],[80,7,"<a href=\"Activity\/ActivityManager.php.html#210\">OCA\\Cospend\\Activity\\ActivityManager::findObjectForEntity<\/a>"],[100,1,"<a href=\"Activity\/ActivityManager.php.html#236\">OCA\\Cospend\\Activity\\ActivityManager::findDetailsForBill<\/a>"],[100,1,"<a href=\"Activity\/ActivityManager.php.html#254\">OCA\\Cospend\\Activity\\ActivityManager::findDetailsForProject<\/a>"],[0,1,"<a href=\"Activity\/BillSetting.php.html#33\">OCA\\Cospend\\Activity\\BillSetting::getIdentifier<\/a>"],[0,1,"<a href=\"Activity\/BillSetting.php.html#41\">OCA\\Cospend\\Activity\\BillSetting::getName<\/a>"],[0,1,"<a href=\"Activity\/CospendProvider.php.html#53\">OCA\\Cospend\\Activity\\CospendProvider::__construct<\/a>"],[0,13,"<a href=\"Activity\/CospendProvider.php.html#76\">OCA\\Cospend\\Activity\\CospendProvider::parse<\/a>"],[0,4,"<a href=\"Activity\/CospendProvider.php.html#163\">OCA\\Cospend\\Activity\\CospendProvider::setSubjects<\/a>"],[0,4,"<a href=\"Activity\/CospendProvider.php.html#180\">OCA\\Cospend\\Activity\\CospendProvider::getIcon<\/a>"],[0,2,"<a href=\"Activity\/CospendProvider.php.html#194\">OCA\\Cospend\\Activity\\CospendProvider::parseParamForProject<\/a>"],[0,2,"<a href=\"Activity\/CospendProvider.php.html#205\">OCA\\Cospend\\Activity\\CospendProvider::parseParamForBill<\/a>"],[0,10,"<a href=\"Activity\/CospendProvider.php.html#217\">OCA\\Cospend\\Activity\\CospendProvider::parseParamForWho<\/a>"],[0,1,"<a href=\"Activity\/CospendProvider.php.html#261\">OCA\\Cospend\\Activity\\CospendProvider::cospendUrl<\/a>"],[0,1,"<a href=\"Activity\/Filter.php.html#34\">OCA\\Cospend\\Activity\\Filter::__construct<\/a>"],[0,1,"<a href=\"Activity\/Filter.php.html#46\">OCA\\Cospend\\Activity\\Filter::getIdentifier<\/a>"],[0,1,"<a href=\"Activity\/Filter.php.html#54\">OCA\\Cospend\\Activity\\Filter::getName<\/a>"],[0,1,"<a href=\"Activity\/Filter.php.html#64\">OCA\\Cospend\\Activity\\Filter::getPriority<\/a>"],[0,1,"<a href=\"Activity\/Filter.php.html#72\">OCA\\Cospend\\Activity\\Filter::getIcon<\/a>"],[0,1,"<a href=\"Activity\/Filter.php.html#81\">OCA\\Cospend\\Activity\\Filter::filterTypes<\/a>"],[0,1,"<a href=\"Activity\/Filter.php.html#89\">OCA\\Cospend\\Activity\\Filter::allowedApps<\/a>"],[0,1,"<a href=\"Activity\/Setting.php.html#37\">OCA\\Cospend\\Activity\\Setting::__construct<\/a>"],[0,1,"<a href=\"Activity\/Setting.php.html#45\">OCA\\Cospend\\Activity\\Setting::getIdentifier<\/a>"],[0,1,"<a href=\"Activity\/Setting.php.html#53\">OCA\\Cospend\\Activity\\Setting::getName<\/a>"],[0,1,"<a href=\"Activity\/Setting.php.html#63\">OCA\\Cospend\\Activity\\Setting::getPriority<\/a>"],[0,1,"<a href=\"Activity\/Setting.php.html#71\">OCA\\Cospend\\Activity\\Setting::canChangeStream<\/a>"],[0,1,"<a href=\"Activity\/Setting.php.html#79\">OCA\\Cospend\\Activity\\Setting::isDefaultEnabledStream<\/a>"],[0,1,"<a href=\"Activity\/Setting.php.html#87\">OCA\\Cospend\\Activity\\Setting::canChangeMail<\/a>"],[0,1,"<a href=\"Activity\/Setting.php.html#95\">OCA\\Cospend\\Activity\\Setting::isDefaultEnabledMail<\/a>"],[100,1,"<a href=\"AppInfo\/Application.php.html#41\">OCA\\Cospend\\AppInfo\\Application::__construct<\/a>"],[0,1,"<a href=\"AppInfo\/Application.php.html#52\">OCA\\Cospend\\AppInfo\\Application::register<\/a>"],[0,1,"<a href=\"AppInfo\/Application.php.html#57\">OCA\\Cospend\\AppInfo\\Application::boot<\/a>"],[0,1,"<a href=\"Command\/ExportProject.php.html#36\">OCA\\Cospend\\Command\\ExportProject::__construct<\/a>"],[0,1,"<a href=\"Command\/ExportProject.php.html#47\">OCA\\Cospend\\Command\\ExportProject::configure<\/a>"],[0,3,"<a href=\"Command\/ExportProject.php.html#62\">OCA\\Cospend\\Command\\ExportProject::execute<\/a>"],[0,1,"<a href=\"Command\/RepeatBills.php.html#36\">OCA\\Cospend\\Command\\RepeatBills::__construct<\/a>"],[0,1,"<a href=\"Command\/RepeatBills.php.html#47\">OCA\\Cospend\\Command\\RepeatBills::configure<\/a>"],[0,2,"<a href=\"Command\/RepeatBills.php.html#52\">OCA\\Cospend\\Command\\RepeatBills::execute<\/a>"],[96,5,"<a href=\"Controller\/PageController.php.html#71\">OCA\\Cospend\\Controller\\PageController::__construct<\/a>"],[0,1,"<a href=\"Controller\/PageController.php.html#123\">OCA\\Cospend\\Controller\\PageController::db_quote_escape_string<\/a>"],[0,1,"<a href=\"Controller\/PageController.php.html#132\">OCA\\Cospend\\Controller\\PageController::index<\/a>"],[0,1,"<a href=\"Controller\/PageController.php.html#161\">OCA\\Cospend\\Controller\\PageController::pubLoginProjectPassword<\/a>"],[0,1,"<a href=\"Controller\/PageController.php.html#191\">OCA\\Cospend\\Controller\\PageController::pubLoginProject<\/a>"],[0,1,"<a href=\"Controller\/PageController.php.html#220\">OCA\\Cospend\\Controller\\PageController::pubLogin<\/a>"],[0,2,"<a href=\"Controller\/PageController.php.html#248\">OCA\\Cospend\\Controller\\PageController::publicShareLinkPage<\/a>"],[0,2,"<a href=\"Controller\/PageController.php.html#302\">OCA\\Cospend\\Controller\\PageController::pubProject<\/a>"],[0,9,"<a href=\"Controller\/PageController.php.html#352\">OCA\\Cospend\\Controller\\PageController::checkLogin<\/a>"],[100,3,"<a href=\"Controller\/PageController.php.html#388\">OCA\\Cospend\\Controller\\PageController::webCreateProject<\/a>"],[88.88888888888889,3,"<a href=\"Controller\/PageController.php.html#406\">OCA\\Cospend\\Controller\\PageController::webDeleteProject<\/a>"],[94.11764705882352,5,"<a href=\"Controller\/PageController.php.html#429\">OCA\\Cospend\\Controller\\PageController::webDeleteBill<\/a>"],[0,6,"<a href=\"Controller\/PageController.php.html#464\">OCA\\Cospend\\Controller\\PageController::webDeleteBills<\/a>"],[100,2,"<a href=\"Controller\/PageController.php.html#499\">OCA\\Cospend\\Controller\\PageController::webGetProjectInfo<\/a>"],[100,2,"<a href=\"Controller\/PageController.php.html#518\">OCA\\Cospend\\Controller\\PageController::webGetProjectStatistics<\/a>"],[100,2,"<a href=\"Controller\/PageController.php.html#540\">OCA\\Cospend\\Controller\\PageController::webGetProjectSettlement<\/a>"],[88.88888888888889,3,"<a href=\"Controller\/PageController.php.html#558\">OCA\\Cospend\\Controller\\PageController::webAutoSettlement<\/a>"],[0,2,"<a href=\"Controller\/PageController.php.html#581\">OCA\\Cospend\\Controller\\PageController::webCheckPassword<\/a>"],[90.9090909090909,4,"<a href=\"Controller\/PageController.php.html#598\">OCA\\Cospend\\Controller\\PageController::webEditMember<\/a>"],[100,3,"<a href=\"Controller\/PageController.php.html#623\">OCA\\Cospend\\Controller\\PageController::webEditBill<\/a>"],[0,2,"<a href=\"Controller\/PageController.php.html#659\">OCA\\Cospend\\Controller\\PageController::webRepeatBill<\/a>"],[0,4,"<a href=\"Controller\/PageController.php.html#678\">OCA\\Cospend\\Controller\\PageController::webEditBills<\/a>"],[100,3,"<a href=\"Controller\/PageController.php.html#716\">OCA\\Cospend\\Controller\\PageController::webEditProject<\/a>"],[100,3,"<a href=\"Controller\/PageController.php.html#740\">OCA\\Cospend\\Controller\\PageController::webAddBill<\/a>"],[88.88888888888889,3,"<a href=\"Controller\/PageController.php.html#774\">OCA\\Cospend\\Controller\\PageController::webAddMember<\/a>"],[86.66666666666667,3,"<a href=\"Controller\/PageController.php.html#797\">OCA\\Cospend\\Controller\\PageController::webGetBills<\/a>"],[100,1,"<a href=\"Controller\/PageController.php.html#829\">OCA\\Cospend\\Controller\\PageController::webGetProjects<\/a>"],[0,1,"<a href=\"Controller\/PageController.php.html#841\">OCA\\Cospend\\Controller\\PageController::webGetProjects2<\/a>"],[0,4,"<a href=\"Controller\/PageController.php.html#857\">OCA\\Cospend\\Controller\\PageController::apiCreateProject<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#883\">OCA\\Cospend\\Controller\\PageController::apiPrivCreateProject<\/a>"],[0,5,"<a href=\"Controller\/PageController.php.html#900\">OCA\\Cospend\\Controller\\PageController::apiGetProjectInfo<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#934\">OCA\\Cospend\\Controller\\PageController::apiPrivGetProjectInfo<\/a>"],[0,6,"<a href=\"Controller\/PageController.php.html#964\">OCA\\Cospend\\Controller\\PageController::apiSetProjectInfo<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#992\">OCA\\Cospend\\Controller\\PageController::apiPrivSetProjectInfo<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#1017\">OCA\\Cospend\\Controller\\PageController::apiGetMembers<\/a>"],[0,2,"<a href=\"Controller\/PageController.php.html#1038\">OCA\\Cospend\\Controller\\PageController::apiPrivGetMembers<\/a>"],[0,4,"<a href=\"Controller\/PageController.php.html#1059\">OCA\\Cospend\\Controller\\PageController::apiGetBills<\/a>"],[0,4,"<a href=\"Controller\/PageController.php.html#1089\">OCA\\Cospend\\Controller\\PageController::apiv3GetBills<\/a>"],[0,2,"<a href=\"Controller\/PageController.php.html#1122\">OCA\\Cospend\\Controller\\PageController::apiPrivGetBills<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#1149\">OCA\\Cospend\\Controller\\PageController::apiv2GetBills<\/a>"],[0,6,"<a href=\"Controller\/PageController.php.html#1177\">OCA\\Cospend\\Controller\\PageController::apiAddMember<\/a>"],[0,6,"<a href=\"Controller\/PageController.php.html#1206\">OCA\\Cospend\\Controller\\PageController::apiv2AddMember<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#1234\">OCA\\Cospend\\Controller\\PageController::apiPrivAddMember<\/a>"],[0,6,"<a href=\"Controller\/PageController.php.html#1259\">OCA\\Cospend\\Controller\\PageController::apiAddBill<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#1297\">OCA\\Cospend\\Controller\\PageController::apiPrivAddBill<\/a>"],[0,5,"<a href=\"Controller\/PageController.php.html#1332\">OCA\\Cospend\\Controller\\PageController::apiRepeatBill<\/a>"],[0,6,"<a href=\"Controller\/PageController.php.html#1356\">OCA\\Cospend\\Controller\\PageController::apiEditBill<\/a>"],[0,7,"<a href=\"Controller\/PageController.php.html#1396\">OCA\\Cospend\\Controller\\PageController::apiEditBills<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#1437\">OCA\\Cospend\\Controller\\PageController::apiPrivEditBill<\/a>"],[0,8,"<a href=\"Controller\/PageController.php.html#1473\">OCA\\Cospend\\Controller\\PageController::apiDeleteBill<\/a>"],[0,9,"<a href=\"Controller\/PageController.php.html#1514\">OCA\\Cospend\\Controller\\PageController::apiDeleteBills<\/a>"],[0,5,"<a href=\"Controller\/PageController.php.html#1555\">OCA\\Cospend\\Controller\\PageController::apiPrivDeleteBill<\/a>"],[0,6,"<a href=\"Controller\/PageController.php.html#1591\">OCA\\Cospend\\Controller\\PageController::apiDeleteMember<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#1619\">OCA\\Cospend\\Controller\\PageController::apiPrivDeleteMember<\/a>"],[0,6,"<a href=\"Controller\/PageController.php.html#1644\">OCA\\Cospend\\Controller\\PageController::apiDeleteProject<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#1672\">OCA\\Cospend\\Controller\\PageController::apiPrivDeleteProject<\/a>"],[0,7,"<a href=\"Controller\/PageController.php.html#1697\">OCA\\Cospend\\Controller\\PageController::apiEditMember<\/a>"],[0,4,"<a href=\"Controller\/PageController.php.html#1727\">OCA\\Cospend\\Controller\\PageController::apiPrivEditMember<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#1754\">OCA\\Cospend\\Controller\\PageController::apiGetProjectStatistics<\/a>"],[0,2,"<a href=\"Controller\/PageController.php.html#1779\">OCA\\Cospend\\Controller\\PageController::apiPrivGetProjectStatistics<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#1804\">OCA\\Cospend\\Controller\\PageController::apiGetProjectSettlement<\/a>"],[0,2,"<a href=\"Controller\/PageController.php.html#1825\">OCA\\Cospend\\Controller\\PageController::apiPrivGetProjectSettlement<\/a>"],[0,6,"<a href=\"Controller\/PageController.php.html#1846\">OCA\\Cospend\\Controller\\PageController::apiAutoSettlement<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#1874\">OCA\\Cospend\\Controller\\PageController::apiPrivAutoSettlement<\/a>"],[60.60606060606061,11,"<a href=\"Controller\/PageController.php.html#1896\">OCA\\Cospend\\Controller\\PageController::getUserList<\/a>"],[100,4,"<a href=\"Controller\/PageController.php.html#1946\">OCA\\Cospend\\Controller\\PageController::getMemberSuggestions<\/a>"],[0,5,"<a href=\"Controller\/PageController.php.html#1976\">OCA\\Cospend\\Controller\\PageController::editShareAccessLevel<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#2002\">OCA\\Cospend\\Controller\\PageController::editGuestAccessLevel<\/a>"],[0,1,"<a href=\"Controller\/PageController.php.html#2028\">OCA\\Cospend\\Controller\\PageController::apiEditGuestAccessLevel<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#2065\">OCA\\Cospend\\Controller\\PageController::addCategory<\/a>"],[0,6,"<a href=\"Controller\/PageController.php.html#2087\">OCA\\Cospend\\Controller\\PageController::apiAddCategory<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#2113\">OCA\\Cospend\\Controller\\PageController::apiPrivAddCategory<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#2136\">OCA\\Cospend\\Controller\\PageController::editCategory<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#2155\">OCA\\Cospend\\Controller\\PageController::saveCategoryOrder<\/a>"],[0,6,"<a href=\"Controller\/PageController.php.html#2176\">OCA\\Cospend\\Controller\\PageController::apiEditCategory<\/a>"],[0,6,"<a href=\"Controller\/PageController.php.html#2205\">OCA\\Cospend\\Controller\\PageController::apiSaveCategoryOrder<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#2229\">OCA\\Cospend\\Controller\\PageController::apiPrivEditCategory<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#2251\">OCA\\Cospend\\Controller\\PageController::deleteCategory<\/a>"],[0,6,"<a href=\"Controller\/PageController.php.html#2276\">OCA\\Cospend\\Controller\\PageController::apiDeleteCategory<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#2304\">OCA\\Cospend\\Controller\\PageController::apiPrivDeleteCategory<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#2326\">OCA\\Cospend\\Controller\\PageController::addCurrency<\/a>"],[0,6,"<a href=\"Controller\/PageController.php.html#2351\">OCA\\Cospend\\Controller\\PageController::apiAddCurrency<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#2380\">OCA\\Cospend\\Controller\\PageController::apiPrivAddCurrency<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#2403\">OCA\\Cospend\\Controller\\PageController::editCurrency<\/a>"],[0,6,"<a href=\"Controller\/PageController.php.html#2428\">OCA\\Cospend\\Controller\\PageController::apiEditCurrency<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#2456\">OCA\\Cospend\\Controller\\PageController::apiPrivEditCurrency<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#2478\">OCA\\Cospend\\Controller\\PageController::deleteCurrency<\/a>"],[0,6,"<a href=\"Controller\/PageController.php.html#2503\">OCA\\Cospend\\Controller\\PageController::apiDeleteCurrency<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#2531\">OCA\\Cospend\\Controller\\PageController::apiPrivDeleteCurrency<\/a>"],[44.44444444444444,3,"<a href=\"Controller\/PageController.php.html#2553\">OCA\\Cospend\\Controller\\PageController::addUserShare<\/a>"],[54.54545454545454,4,"<a href=\"Controller\/PageController.php.html#2575\">OCA\\Cospend\\Controller\\PageController::deleteUserShare<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#2600\">OCA\\Cospend\\Controller\\PageController::addPublicShare<\/a>"],[0,4,"<a href=\"Controller\/PageController.php.html#2622\">OCA\\Cospend\\Controller\\PageController::deletePublicShare<\/a>"],[55.55555555555556,3,"<a href=\"Controller\/PageController.php.html#2646\">OCA\\Cospend\\Controller\\PageController::addGroupShare<\/a>"],[63.63636363636363,4,"<a href=\"Controller\/PageController.php.html#2668\">OCA\\Cospend\\Controller\\PageController::deleteGroupShare<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#2693\">OCA\\Cospend\\Controller\\PageController::addCircleShare<\/a>"],[0,4,"<a href=\"Controller\/PageController.php.html#2715\">OCA\\Cospend\\Controller\\PageController::deleteCircleShare<\/a>"],[0,7,"<a href=\"Controller\/PageController.php.html#2740\">OCA\\Cospend\\Controller\\PageController::getPublicFileShare<\/a>"],[0,4,"<a href=\"Controller\/PageController.php.html#2785\">OCA\\Cospend\\Controller\\PageController::exportCsvSettlement<\/a>"],[0,4,"<a href=\"Controller\/PageController.php.html#2807\">OCA\\Cospend\\Controller\\PageController::exportCsvStatistics<\/a>"],[0,5,"<a href=\"Controller\/PageController.php.html#2832\">OCA\\Cospend\\Controller\\PageController::exportCsvProject<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#2859\">OCA\\Cospend\\Controller\\PageController::importCsvProject<\/a>"],[0,3,"<a href=\"Controller\/PageController.php.html#2874\">OCA\\Cospend\\Controller\\PageController::importSWProject<\/a>"],[0,1,"<a href=\"Controller\/PageController.php.html#2891\">OCA\\Cospend\\Controller\\PageController::apiPing<\/a>"],[0,2,"<a href=\"Controller\/PageController.php.html#2906\">OCA\\Cospend\\Controller\\PageController::getBillActivity<\/a>"],[91.66666666666666,2,"<a href=\"Controller\/UtilsController.php.html#41\">OCA\\Cospend\\Controller\\UtilsController::__construct<\/a>"],[0,1,"<a href=\"Controller\/UtilsController.php.html#70\">OCA\\Cospend\\Controller\\UtilsController::setAllowAnonymousCreation<\/a>"],[100,2,"<a href=\"Controller\/UtilsController.php.html#89\">OCA\\Cospend\\Controller\\UtilsController::deleteOptionsValues<\/a>"],[100,2,"<a href=\"Controller\/UtilsController.php.html#112\">OCA\\Cospend\\Controller\\UtilsController::saveOptionValue<\/a>"],[100,2,"<a href=\"Controller\/UtilsController.php.html#134\">OCA\\Cospend\\Controller\\UtilsController::getOptionsValues<\/a>"],[0,11,"<a href=\"Controller\/UtilsController.php.html#161\">OCA\\Cospend\\Controller\\UtilsController::getAvatar<\/a>"],[0,1,"<a href=\"Controller\/UtilsController.php.html#239\">OCA\\Cospend\\Controller\\UtilsController::imageTTFCenter<\/a>"],[0,1,"<a href=\"Controller\/UtilsController.php.html#264\">OCA\\Cospend\\Controller\\UtilsController::hexToRgb<\/a>"],[0,1,"<a href=\"Cron\/AutoExport.php.html#17\">OCA\\Cospend\\Cron\\AutoExport::__construct<\/a>"],[0,1,"<a href=\"Cron\/AutoExport.php.html#23\">OCA\\Cospend\\Cron\\AutoExport::run<\/a>"],[0,1,"<a href=\"Cron\/RepeatBills.php.html#17\">OCA\\Cospend\\Cron\\RepeatBills::__construct<\/a>"],[0,1,"<a href=\"Cron\/RepeatBills.php.html#25\">OCA\\Cospend\\Cron\\RepeatBills::run<\/a>"],[0,1,"<a href=\"Dashboard\/CospendWidget.php.html#35\">OCA\\Cospend\\Dashboard\\CospendWidget::__construct<\/a>"],[0,1,"<a href=\"Dashboard\/CospendWidget.php.html#44\">OCA\\Cospend\\Dashboard\\CospendWidget::getId<\/a>"],[0,1,"<a href=\"Dashboard\/CospendWidget.php.html#51\">OCA\\Cospend\\Dashboard\\CospendWidget::getTitle<\/a>"],[0,1,"<a href=\"Dashboard\/CospendWidget.php.html#58\">OCA\\Cospend\\Dashboard\\CospendWidget::getOrder<\/a>"],[0,1,"<a href=\"Dashboard\/CospendWidget.php.html#65\">OCA\\Cospend\\Dashboard\\CospendWidget::getIconClass<\/a>"],[0,1,"<a href=\"Dashboard\/CospendWidget.php.html#72\">OCA\\Cospend\\Dashboard\\CospendWidget::getUrl<\/a>"],[0,1,"<a href=\"Dashboard\/CospendWidget.php.html#79\">OCA\\Cospend\\Dashboard\\CospendWidget::load<\/a>"],[100,1,"<a href=\"Db\/Bill.php.html#32\">OCA\\Cospend\\Db\\Bill::__construct<\/a>"],[100,1,"<a href=\"Db\/BillMapper.php.html#20\">OCA\\Cospend\\Db\\BillMapper::__construct<\/a>"],[100,1,"<a href=\"Db\/BillMapper.php.html#24\">OCA\\Cospend\\Db\\BillMapper::find<\/a>"],[100,1,"<a href=\"Db\/BillMapper.php.html#30\">OCA\\Cospend\\Db\\BillMapper::findProjectId<\/a>"],[100,1,"<a href=\"Db\/Project.php.html#30\">OCA\\Cospend\\Db\\Project::__construct<\/a>"],[100,1,"<a href=\"Db\/ProjectMapper.php.html#20\">OCA\\Cospend\\Db\\ProjectMapper::__construct<\/a>"],[100,1,"<a href=\"Db\/ProjectMapper.php.html#24\">OCA\\Cospend\\Db\\ProjectMapper::find<\/a>"],[100,1,"<a href=\"Migration\/Version000007Date20190401053312.php.html#22\">OCA\\Cospend\\Migration\\Version000007Date20190401053312::preSchemaChange<\/a>"],[0,8,"<a href=\"Migration\/Version000007Date20190401053312.php.html#31\">OCA\\Cospend\\Migration\\Version000007Date20190401053312::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version000007Date20190401053312.php.html#207\">OCA\\Cospend\\Migration\\Version000007Date20190401053312::postSchemaChange<\/a>"],[100,1,"<a href=\"Migration\/Version000102Date20190907142139.php.html#22\">OCA\\Cospend\\Migration\\Version000102Date20190907142139::preSchemaChange<\/a>"],[0,2,"<a href=\"Migration\/Version000102Date20190907142139.php.html#31\">OCA\\Cospend\\Migration\\Version000102Date20190907142139::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version000102Date20190907142139.php.html#52\">OCA\\Cospend\\Migration\\Version000102Date20190907142139::postSchemaChange<\/a>"],[100,1,"<a href=\"Migration\/Version000103Date20190907163755.php.html#22\">OCA\\Cospend\\Migration\\Version000103Date20190907163755::preSchemaChange<\/a>"],[0,3,"<a href=\"Migration\/Version000103Date20190907163755.php.html#31\">OCA\\Cospend\\Migration\\Version000103Date20190907163755::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version000103Date20190907163755.php.html#73\">OCA\\Cospend\\Migration\\Version000103Date20190907163755::postSchemaChange<\/a>"],[100,1,"<a href=\"Migration\/Version000106Date20191023153118.php.html#22\">OCA\\Cospend\\Migration\\Version000106Date20191023153118::preSchemaChange<\/a>"],[0,4,"<a href=\"Migration\/Version000106Date20191023153118.php.html#31\">OCA\\Cospend\\Migration\\Version000106Date20191023153118::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version000106Date20191023153118.php.html#72\">OCA\\Cospend\\Migration\\Version000106Date20191023153118::postSchemaChange<\/a>"],[100,1,"<a href=\"Migration\/Version000201Date20191223203543.php.html#22\">OCA\\Cospend\\Migration\\Version000201Date20191223203543::preSchemaChange<\/a>"],[0,2,"<a href=\"Migration\/Version000201Date20191223203543.php.html#31\">OCA\\Cospend\\Migration\\Version000201Date20191223203543::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version000201Date20191223203543.php.html#52\">OCA\\Cospend\\Migration\\Version000201Date20191223203543::postSchemaChange<\/a>"],[100,1,"<a href=\"Migration\/Version000202Date20191225201436.php.html#22\">OCA\\Cospend\\Migration\\Version000202Date20191225201436::preSchemaChange<\/a>"],[0,2,"<a href=\"Migration\/Version000202Date20191225201436.php.html#31\">OCA\\Cospend\\Migration\\Version000202Date20191225201436::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version000202Date20191225201436.php.html#52\">OCA\\Cospend\\Migration\\Version000202Date20191225201436::postSchemaChange<\/a>"],[100,1,"<a href=\"Migration\/Version000203Date20191227005654.php.html#22\">OCA\\Cospend\\Migration\\Version000203Date20191227005654::preSchemaChange<\/a>"],[0,2,"<a href=\"Migration\/Version000203Date20191227005654.php.html#31\">OCA\\Cospend\\Migration\\Version000203Date20191227005654::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version000203Date20191227005654.php.html#52\">OCA\\Cospend\\Migration\\Version000203Date20191227005654::postSchemaChange<\/a>"],[100,1,"<a href=\"Migration\/Version000204Date20191228201832.php.html#22\">OCA\\Cospend\\Migration\\Version000204Date20191228201832::preSchemaChange<\/a>"],[0,2,"<a href=\"Migration\/Version000204Date20191228201832.php.html#31\">OCA\\Cospend\\Migration\\Version000204Date20191228201832::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version000204Date20191228201832.php.html#52\">OCA\\Cospend\\Migration\\Version000204Date20191228201832::postSchemaChange<\/a>"],[100,1,"<a href=\"Migration\/Version000205Date20200102013739.php.html#22\">OCA\\Cospend\\Migration\\Version000205Date20200102013739::preSchemaChange<\/a>"],[0,2,"<a href=\"Migration\/Version000205Date20200102013739.php.html#31\">OCA\\Cospend\\Migration\\Version000205Date20200102013739::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version000205Date20200102013739.php.html#52\">OCA\\Cospend\\Migration\\Version000205Date20200102013739::postSchemaChange<\/a>"],[100,1,"<a href=\"Migration\/Version000301Date20200108160931.php.html#22\">OCA\\Cospend\\Migration\\Version000301Date20200108160931::preSchemaChange<\/a>"],[0,3,"<a href=\"Migration\/Version000301Date20200108160931.php.html#31\">OCA\\Cospend\\Migration\\Version000301Date20200108160931::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version000301Date20200108160931.php.html#74\">OCA\\Cospend\\Migration\\Version000301Date20200108160931::postSchemaChange<\/a>"],[100,1,"<a href=\"Migration\/Version000302Date20200110144741.php.html#22\">OCA\\Cospend\\Migration\\Version000302Date20200110144741::preSchemaChange<\/a>"],[0,2,"<a href=\"Migration\/Version000302Date20200110144741.php.html#31\">OCA\\Cospend\\Migration\\Version000302Date20200110144741::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version000302Date20200110144741.php.html#57\">OCA\\Cospend\\Migration\\Version000302Date20200110144741::postSchemaChange<\/a>"],[0,1,"<a href=\"Migration\/Version000303Date20200201171814.php.html#25\">OCA\\Cospend\\Migration\\Version000303Date20200201171814::__construct<\/a>"],[100,1,"<a href=\"Migration\/Version000303Date20200201171814.php.html#34\">OCA\\Cospend\\Migration\\Version000303Date20200201171814::preSchemaChange<\/a>"],[0,2,"<a href=\"Migration\/Version000303Date20200201171814.php.html#43\">OCA\\Cospend\\Migration\\Version000303Date20200201171814::changeSchema<\/a>"],[0,1,"<a href=\"Migration\/Version000303Date20200201171814.php.html#64\">OCA\\Cospend\\Migration\\Version000303Date20200201171814::postSchemaChange<\/a>"],[100,1,"<a href=\"Migration\/Version000303Date20200201172933.php.html#22\">OCA\\Cospend\\Migration\\Version000303Date20200201172933::preSchemaChange<\/a>"],[0,2,"<a href=\"Migration\/Version000303Date20200201172933.php.html#31\">OCA\\Cospend\\Migration\\Version000303Date20200201172933::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version000303Date20200201172933.php.html#48\">OCA\\Cospend\\Migration\\Version000303Date20200201172933::postSchemaChange<\/a>"],[0,1,"<a href=\"Migration\/Version000304Date20200313092247.php.html#25\">OCA\\Cospend\\Migration\\Version000304Date20200313092247::__construct<\/a>"],[100,1,"<a href=\"Migration\/Version000304Date20200313092247.php.html#34\">OCA\\Cospend\\Migration\\Version000304Date20200313092247::preSchemaChange<\/a>"],[0,2,"<a href=\"Migration\/Version000304Date20200313092247.php.html#43\">OCA\\Cospend\\Migration\\Version000304Date20200313092247::changeSchema<\/a>"],[0,3,"<a href=\"Migration\/Version000304Date20200313092247.php.html#64\">OCA\\Cospend\\Migration\\Version000304Date20200313092247::postSchemaChange<\/a>"],[100,1,"<a href=\"Migration\/Version000304Date20200313095955.php.html#22\">OCA\\Cospend\\Migration\\Version000304Date20200313095955::preSchemaChange<\/a>"],[0,2,"<a href=\"Migration\/Version000304Date20200313095955.php.html#31\">OCA\\Cospend\\Migration\\Version000304Date20200313095955::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version000304Date20200313095955.php.html#48\">OCA\\Cospend\\Migration\\Version000304Date20200313095955::postSchemaChange<\/a>"],[0,1,"<a href=\"Migration\/Version000403Date20200231152118.php.html#25\">OCA\\Cospend\\Migration\\Version000403Date20200231152118::__construct<\/a>"],[100,1,"<a href=\"Migration\/Version000403Date20200231152118.php.html#34\">OCA\\Cospend\\Migration\\Version000403Date20200231152118::preSchemaChange<\/a>"],[0,1,"<a href=\"Migration\/Version000403Date20200231152118.php.html#43\">OCA\\Cospend\\Migration\\Version000403Date20200231152118::changeSchema<\/a>"],[0,1,"<a href=\"Migration\/Version000403Date20200231152118.php.html#66\">OCA\\Cospend\\Migration\\Version000403Date20200231152118::postSchemaChange<\/a>"],[100,1,"<a href=\"Migration\/Version000403Date20200323173321.php.html#22\">OCA\\Cospend\\Migration\\Version000403Date20200323173321::preSchemaChange<\/a>"],[0,1,"<a href=\"Migration\/Version000403Date20200323173321.php.html#31\">OCA\\Cospend\\Migration\\Version000403Date20200323173321::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version000403Date20200323173321.php.html#48\">OCA\\Cospend\\Migration\\Version000403Date20200323173321::postSchemaChange<\/a>"],[100,1,"<a href=\"Migration\/Version000404Date20200324145208.php.html#22\">OCA\\Cospend\\Migration\\Version000404Date20200324145208::preSchemaChange<\/a>"],[0,2,"<a href=\"Migration\/Version000404Date20200324145208.php.html#31\">OCA\\Cospend\\Migration\\Version000404Date20200324145208::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version000404Date20200324145208.php.html#47\">OCA\\Cospend\\Migration\\Version000404Date20200324145208::postSchemaChange<\/a>"],[100,1,"<a href=\"Migration\/Version000406Date20200417185442.php.html#22\">OCA\\Cospend\\Migration\\Version000406Date20200417185442::preSchemaChange<\/a>"],[0,1,"<a href=\"Migration\/Version000406Date20200417185442.php.html#31\">OCA\\Cospend\\Migration\\Version000406Date20200417185442::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version000406Date20200417185442.php.html#50\">OCA\\Cospend\\Migration\\Version000406Date20200417185442::postSchemaChange<\/a>"],[0,1,"<a href=\"Migration\/Version000406Date20200426154317.php.html#27\">OCA\\Cospend\\Migration\\Version000406Date20200426154317::__construct<\/a>"],[100,1,"<a href=\"Migration\/Version000406Date20200426154317.php.html#37\">OCA\\Cospend\\Migration\\Version000406Date20200426154317::preSchemaChange<\/a>"],[0,1,"<a href=\"Migration\/Version000406Date20200426154317.php.html#46\">OCA\\Cospend\\Migration\\Version000406Date20200426154317::changeSchema<\/a>"],[0,9,"<a href=\"Migration\/Version000406Date20200426154317.php.html#63\">OCA\\Cospend\\Migration\\Version000406Date20200426154317::postSchemaChange<\/a>"],[100,1,"<a href=\"Migration\/Version000406Date20200426163311.php.html#22\">OCA\\Cospend\\Migration\\Version000406Date20200426163311::preSchemaChange<\/a>"],[0,1,"<a href=\"Migration\/Version000406Date20200426163311.php.html#31\">OCA\\Cospend\\Migration\\Version000406Date20200426163311::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version000406Date20200426163311.php.html#46\">OCA\\Cospend\\Migration\\Version000406Date20200426163311::postSchemaChange<\/a>"],[0,1,"<a href=\"Migration\/Version000408Date20200430162436.php.html#25\">OCA\\Cospend\\Migration\\Version000408Date20200430162436::__construct<\/a>"],[100,1,"<a href=\"Migration\/Version000408Date20200430162436.php.html#34\">OCA\\Cospend\\Migration\\Version000408Date20200430162436::preSchemaChange<\/a>"],[0,1,"<a href=\"Migration\/Version000408Date20200430162436.php.html#43\">OCA\\Cospend\\Migration\\Version000408Date20200430162436::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version000408Date20200430162436.php.html#60\">OCA\\Cospend\\Migration\\Version000408Date20200430162436::postSchemaChange<\/a>"],[0,1,"<a href=\"Migration\/Version010105Date20201030132329.php.html#25\">OCA\\Cospend\\Migration\\Version010105Date20201030132329::__construct<\/a>"],[100,1,"<a href=\"Migration\/Version010105Date20201030132329.php.html#34\">OCA\\Cospend\\Migration\\Version010105Date20201030132329::preSchemaChange<\/a>"],[0,1,"<a href=\"Migration\/Version010105Date20201030132329.php.html#43\">OCA\\Cospend\\Migration\\Version010105Date20201030132329::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version010105Date20201030132329.php.html#60\">OCA\\Cospend\\Migration\\Version010105Date20201030132329::postSchemaChange<\/a>"],[0,1,"<a href=\"Migration\/Version010203Date20201208131054.php.html#25\">OCA\\Cospend\\Migration\\Version010203Date20201208131054::__construct<\/a>"],[100,1,"<a href=\"Migration\/Version010203Date20201208131054.php.html#34\">OCA\\Cospend\\Migration\\Version010203Date20201208131054::preSchemaChange<\/a>"],[0,1,"<a href=\"Migration\/Version010203Date20201208131054.php.html#43\">OCA\\Cospend\\Migration\\Version010203Date20201208131054::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version010203Date20201208131054.php.html#56\">OCA\\Cospend\\Migration\\Version010203Date20201208131054::postSchemaChange<\/a>"],[0,1,"<a href=\"Migration\/Version010206Date20201223134353.php.html#25\">OCA\\Cospend\\Migration\\Version010206Date20201223134353::__construct<\/a>"],[100,1,"<a href=\"Migration\/Version010206Date20201223134353.php.html#34\">OCA\\Cospend\\Migration\\Version010206Date20201223134353::preSchemaChange<\/a>"],[0,4,"<a href=\"Migration\/Version010206Date20201223134353.php.html#43\">OCA\\Cospend\\Migration\\Version010206Date20201223134353::changeSchema<\/a>"],[100,1,"<a href=\"Migration\/Version010206Date20201223134353.php.html#78\">OCA\\Cospend\\Migration\\Version010206Date20201223134353::postSchemaChange<\/a>"],[0,1,"<a href=\"Notification\/Notifier.php.html#42\">OCA\\Cospend\\Notification\\Notifier::__construct<\/a>"],[0,1,"<a href=\"Notification\/Notifier.php.html#55\">OCA\\Cospend\\Notification\\Notifier::getID<\/a>"],[0,1,"<a href=\"Notification\/Notifier.php.html#64\">OCA\\Cospend\\Notification\\Notifier::getName<\/a>"],[0,5,"<a href=\"Notification\/Notifier.php.html#75\">OCA\\Cospend\\Notification\\Notifier::prepare<\/a>"],[0,1,"<a href=\"Search\/CospendSearchProvider.php.html#57\">OCA\\Cospend\\Search\\CospendSearchProvider::__construct<\/a>"],[0,1,"<a href=\"Search\/CospendSearchProvider.php.html#72\">OCA\\Cospend\\Search\\CospendSearchProvider::getId<\/a>"],[0,1,"<a href=\"Search\/CospendSearchProvider.php.html#79\">OCA\\Cospend\\Search\\CospendSearchProvider::getName<\/a>"],[0,2,"<a href=\"Search\/CospendSearchProvider.php.html#86\">OCA\\Cospend\\Search\\CospendSearchProvider::getOrder<\/a>"],[0,7,"<a href=\"Search\/CospendSearchProvider.php.html#98\">OCA\\Cospend\\Search\\CospendSearchProvider::search<\/a>"],[0,1,"<a href=\"Search\/CospendSearchProvider.php.html#157\">OCA\\Cospend\\Search\\CospendSearchProvider::getMainText<\/a>"],[0,1,"<a href=\"Search\/CospendSearchProvider.php.html#164\">OCA\\Cospend\\Search\\CospendSearchProvider::getSubline<\/a>"],[0,1,"<a href=\"Search\/CospendSearchProvider.php.html#171\">OCA\\Cospend\\Search\\CospendSearchProvider::getDeepLinkToCospendApp<\/a>"],[100,1,"<a href=\"Service\/ProjectService.php.html#183\">OCA\\Cospend\\Service\\ProjectService::__construct<\/a>"],[78.57142857142857,12,"<a href=\"Service\/ProjectService.php.html#257\">OCA\\Cospend\\Service\\ProjectService::userCanAccessProject<\/a>"],[77.96610169491525,14,"<a href=\"Service\/ProjectService.php.html#350\">OCA\\Cospend\\Service\\ProjectService::getUserMaxAccessLevel<\/a>"],[0,2,"<a href=\"Service\/ProjectService.php.html#441\">OCA\\Cospend\\Service\\ProjectService::getGuestAccessLevel<\/a>"],[100,2,"<a href=\"Service\/ProjectService.php.html#451\">OCA\\Cospend\\Service\\ProjectService::getShareAccessLevel<\/a>"],[97.77777777777777,9,"<a href=\"Service\/ProjectService.php.html#473\">OCA\\Cospend\\Service\\ProjectService::createProject<\/a>"],[97.36842105263158,3,"<a href=\"Service\/ProjectService.php.html#540\">OCA\\Cospend\\Service\\ProjectService::deleteProject<\/a>"],[100,5,"<a href=\"Service\/ProjectService.php.html#605\">OCA\\Cospend\\Service\\ProjectService::getProjectInfo<\/a>"],[100,3,"<a href=\"Service\/ProjectService.php.html#680\">OCA\\Cospend\\Service\\ProjectService::getSmallStats<\/a>"],[86.82634730538922,59,"<a href=\"Service\/ProjectService.php.html#711\">OCA\\Cospend\\Service\\ProjectService::getProjectStatistics<\/a>"],[94.91525423728814,32,"<a href=\"Service\/ProjectService.php.html#971\">OCA\\Cospend\\Service\\ProjectService::addBill<\/a>"],[89.47368421052632,3,"<a href=\"Service\/ProjectService.php.html#1069\">OCA\\Cospend\\Service\\ProjectService::deleteBill<\/a>"],[96.7741935483871,3,"<a href=\"Service\/ProjectService.php.html#1100\">OCA\\Cospend\\Service\\ProjectService::getMemberById<\/a>"],[100,2,"<a href=\"Service\/ProjectService.php.html#1144\">OCA\\Cospend\\Service\\ProjectService::getProjectById<\/a>"],[100,3,"<a href=\"Service\/ProjectService.php.html#1183\">OCA\\Cospend\\Service\\ProjectService::getBill<\/a>"],[100,1,"<a href=\"Service\/ProjectService.php.html#1262\">OCA\\Cospend\\Service\\ProjectService::deleteBillOwersOfBill<\/a>"],[85,6,"<a href=\"Service\/ProjectService.php.html#1272\">OCA\\Cospend\\Service\\ProjectService::autoSettlement<\/a>"],[83.33333333333334,2,"<a href=\"Service\/ProjectService.php.html#1304\">OCA\\Cospend\\Service\\ProjectService::getProjectSettlement<\/a>"],[0,5,"<a href=\"Service\/ProjectService.php.html#1317\">OCA\\Cospend\\Service\\ProjectService::centeredSettle<\/a>"],[100,1,"<a href=\"Service\/ProjectService.php.html#1339\">OCA\\Cospend\\Service\\ProjectService::settle<\/a>"],[100,4,"<a href=\"Service\/ProjectService.php.html#1346\">OCA\\Cospend\\Service\\ProjectService::orderBalance<\/a>"],[80.76923076923077,7,"<a href=\"Service\/ProjectService.php.html#1361\">OCA\\Cospend\\Service\\ProjectService::reduceBalance<\/a>"],[84.61538461538461,8,"<a href=\"Service\/ProjectService.php.html#1406\">OCA\\Cospend\\Service\\ProjectService::sortCreditersDebiters<\/a>"],[63.829787234042556,24,"<a href=\"Service\/ProjectService.php.html#1429\">OCA\\Cospend\\Service\\ProjectService::editMember<\/a>"],[78.125,17,"<a href=\"Service\/ProjectService.php.html#1509\">OCA\\Cospend\\Service\\ProjectService::editProject<\/a>"],[82.14285714285714,12,"<a href=\"Service\/ProjectService.php.html#1563\">OCA\\Cospend\\Service\\ProjectService::addMember<\/a>"],[100,2,"<a href=\"Service\/ProjectService.php.html#1611\">OCA\\Cospend\\Service\\ProjectService::getNbBills<\/a>"],[0,22,"<a href=\"Service\/ProjectService.php.html#1626\">OCA\\Cospend\\Service\\ProjectService::getBillsRestricted<\/a>"],[76.40449438202246,21,"<a href=\"Service\/ProjectService.php.html#1765\">OCA\\Cospend\\Service\\ProjectService::getBills<\/a>"],[0,2,"<a href=\"Service\/ProjectService.php.html#1896\">OCA\\Cospend\\Service\\ProjectService::getAllBillIds<\/a>"],[92.42424242424242,12,"<a href=\"Service\/ProjectService.php.html#1915\">OCA\\Cospend\\Service\\ProjectService::getMembers<\/a>"],[92.85714285714286,7,"<a href=\"Service\/ProjectService.php.html#2017\">OCA\\Cospend\\Service\\ProjectService::getBalance<\/a>"],[0,7,"<a href=\"Service\/ProjectService.php.html#2059\">OCA\\Cospend\\Service\\ProjectService::isUserInCircle<\/a>"],[69.56521739130434,17,"<a href=\"Service\/ProjectService.php.html#2085\">OCA\\Cospend\\Service\\ProjectService::getProjects<\/a>"],[100,2,"<a href=\"Service\/ProjectService.php.html#2234\">OCA\\Cospend\\Service\\ProjectService::getCategories<\/a>"],[61.111111111111114,2,"<a href=\"Service\/ProjectService.php.html#2264\">OCA\\Cospend\\Service\\ProjectService::getCurrencies<\/a>"],[100,4,"<a href=\"Service\/ProjectService.php.html#2290\">OCA\\Cospend\\Service\\ProjectService::getUserShares<\/a>"],[56.00000000000001,3,"<a href=\"Service\/ProjectService.php.html#2331\">OCA\\Cospend\\Service\\ProjectService::getPublicShares<\/a>"],[0,2,"<a href=\"Service\/ProjectService.php.html#2367\">OCA\\Cospend\\Service\\ProjectService::getProjectInfoFromShareToken<\/a>"],[100,4,"<a href=\"Service\/ProjectService.php.html#2395\">OCA\\Cospend\\Service\\ProjectService::getGroupShares<\/a>"],[11.76470588235294,6,"<a href=\"Service\/ProjectService.php.html#2434\">OCA\\Cospend\\Service\\ProjectService::getCircleShares<\/a>"],[0,4,"<a href=\"Service\/ProjectService.php.html#2482\">OCA\\Cospend\\Service\\ProjectService::deleteMember<\/a>"],[92.85714285714286,2,"<a href=\"Service\/ProjectService.php.html#2512\">OCA\\Cospend\\Service\\ProjectService::getBillsOfMember<\/a>"],[96.7741935483871,3,"<a href=\"Service\/ProjectService.php.html#2533\">OCA\\Cospend\\Service\\ProjectService::getMemberByName<\/a>"],[9.375,4,"<a href=\"Service\/ProjectService.php.html#2575\">OCA\\Cospend\\Service\\ProjectService::getMemberByUserid<\/a>"],[80.59701492537313,39,"<a href=\"Service\/ProjectService.php.html#2619\">OCA\\Cospend\\Service\\ProjectService::editBill<\/a>"],[0,9,"<a href=\"Service\/ProjectService.php.html#2752\">OCA\\Cospend\\Service\\ProjectService::cronRepeatBills<\/a>"],[0,9,"<a href=\"Service\/ProjectService.php.html#2833\">OCA\\Cospend\\Service\\ProjectService::repeatBill<\/a>"],[0,12,"<a href=\"Service\/ProjectService.php.html#2885\">OCA\\Cospend\\Service\\ProjectService::getNextRepetitionDate<\/a>"],[0,4,"<a href=\"Service\/ProjectService.php.html#2963\">OCA\\Cospend\\Service\\ProjectService::addCategory<\/a>"],[0,2,"<a href=\"Service\/ProjectService.php.html#2987\">OCA\\Cospend\\Service\\ProjectService::getCategory<\/a>"],[0,2,"<a href=\"Service\/ProjectService.php.html#3020\">OCA\\Cospend\\Service\\ProjectService::deleteCategory<\/a>"],[0,2,"<a href=\"Service\/ProjectService.php.html#3054\">OCA\\Cospend\\Service\\ProjectService::saveCategoryOrder<\/a>"],[0,6,"<a href=\"Service\/ProjectService.php.html#3071\">OCA\\Cospend\\Service\\ProjectService::editCategory<\/a>"],[0,1,"<a href=\"Service\/ProjectService.php.html#3105\">OCA\\Cospend\\Service\\ProjectService::addCurrency<\/a>"],[0,2,"<a href=\"Service\/ProjectService.php.html#3123\">OCA\\Cospend\\Service\\ProjectService::getCurrency<\/a>"],[0,2,"<a href=\"Service\/ProjectService.php.html#3154\">OCA\\Cospend\\Service\\ProjectService::deleteCurrency<\/a>"],[0,5,"<a href=\"Service\/ProjectService.php.html#3175\">OCA\\Cospend\\Service\\ProjectService::editCurrency<\/a>"],[90.76923076923077,10,"<a href=\"Service\/ProjectService.php.html#3204\">OCA\\Cospend\\Service\\ProjectService::addUserShare<\/a>"],[0,1,"<a href=\"Service\/ProjectService.php.html#3304\">OCA\\Cospend\\Service\\ProjectService::addPublicShare<\/a>"],[0,3,"<a href=\"Service\/ProjectService.php.html#3359\">OCA\\Cospend\\Service\\ProjectService::editShareAccessLevel<\/a>"],[0,1,"<a href=\"Service\/ProjectService.php.html#3399\">OCA\\Cospend\\Service\\ProjectService::editGuestAccessLevel<\/a>"],[98.11320754716981,3,"<a href=\"Service\/ProjectService.php.html#3417\">OCA\\Cospend\\Service\\ProjectService::deleteUserShare<\/a>"],[0,3,"<a href=\"Service\/ProjectService.php.html#3499\">OCA\\Cospend\\Service\\ProjectService::deletePublicShare<\/a>"],[100,6,"<a href=\"Service\/ProjectService.php.html#3581\">OCA\\Cospend\\Service\\ProjectService::addGroupShare<\/a>"],[100,3,"<a href=\"Service\/ProjectService.php.html#3646\">OCA\\Cospend\\Service\\ProjectService::deleteGroupShare<\/a>"],[0,9,"<a href=\"Service\/ProjectService.php.html#3703\">OCA\\Cospend\\Service\\ProjectService::addCircleShare<\/a>"],[0,3,"<a href=\"Service\/ProjectService.php.html#3783\">OCA\\Cospend\\Service\\ProjectService::deleteCircleShare<\/a>"],[0,5,"<a href=\"Service\/ProjectService.php.html#3840\">OCA\\Cospend\\Service\\ProjectService::exportCsvSettlement<\/a>"],[0,5,"<a href=\"Service\/ProjectService.php.html#3877\">OCA\\Cospend\\Service\\ProjectService::createAndCheckExportDirectory<\/a>"],[0,5,"<a href=\"Service\/ProjectService.php.html#3898\">OCA\\Cospend\\Service\\ProjectService::exportCsvStatistics<\/a>"],[0,12,"<a href=\"Service\/ProjectService.php.html#3933\">OCA\\Cospend\\Service\\ProjectService::exportCsvProject<\/a>"],[0,55,"<a href=\"Service\/ProjectService.php.html#4021\">OCA\\Cospend\\Service\\ProjectService::importCsvProject<\/a>"],[0,41,"<a href=\"Service\/ProjectService.php.html#4259\">OCA\\Cospend\\Service\\ProjectService::importSWProject<\/a>"],[0,9,"<a href=\"Service\/ProjectService.php.html#4438\">OCA\\Cospend\\Service\\ProjectService::cronAutoExport<\/a>"],[0,1,"<a href=\"Service\/ProjectService.php.html#4544\">OCA\\Cospend\\Service\\ProjectService::hexToRgb<\/a>"],[0,2,"<a href=\"Service\/ProjectService.php.html#4553\">OCA\\Cospend\\Service\\ProjectService::searchBills<\/a>"],[0,5,"<a href=\"Service\/ProjectService.php.html#4594\">OCA\\Cospend\\Service\\ProjectService::getBillActivity<\/a>"],[100,1,"<a href=\"Service\/ProjectService.php.html#4631\">OCA\\Cospend\\Service\\ProjectService::updateProjectLastChanged<\/a>"],[100,1,"<a href=\"Service\/UserService.php.html#35\">OCA\\Cospend\\Service\\UserService::__construct<\/a>"],[100,8,"<a href=\"Service\/UserService.php.html#55\">OCA\\Cospend\\Service\\UserService::findUsers<\/a>"],[0,1,"<a href=\"Settings\/Admin.php.html#25\">OCA\\Cospend\\Settings\\Admin::__construct<\/a>"],[0,1,"<a href=\"Settings\/Admin.php.html#41\">OCA\\Cospend\\Settings\\Admin::getForm<\/a>"],[0,1,"<a href=\"Settings\/Admin.php.html#53\">OCA\\Cospend\\Settings\\Admin::getSection<\/a>"],[0,1,"<a href=\"Settings\/Admin.php.html#64\">OCA\\Cospend\\Settings\\Admin::getPriority<\/a>"],[0,1,"<a href=\"Settings\/Admin.php.html#72\">OCA\\Cospend\\Settings\\Admin::getPanel<\/a>"],[0,1,"<a href=\"Settings\/Admin.php.html#85\">OCA\\Cospend\\Settings\\Admin::getSectionID<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

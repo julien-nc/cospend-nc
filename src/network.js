@@ -129,7 +129,7 @@ export function createProject(name, id, successCB) {
 		.catch((error) => {
 			showError(
 				t('cospend', 'Failed to create project')
-				+ ': ' + error.response.request.responseText
+				+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
 			)
 		})
 }
@@ -148,7 +148,7 @@ export function deleteProject(projectid, successCB) {
 		.catch((error) => {
 			showError(
 				t('cospend', 'Failed to delete project')
-				+ ': ' + error.response.request.responseText
+				+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
 			)
 		})
 }

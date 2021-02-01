@@ -403,22 +403,19 @@ class PageController extends ApiController {
      * @NoAdminRequired
      *
      */
-    public function webDeleteProject($projectid) {
+    public function webDeleteProject(string $projectid): DataResponse {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_ADMIN) {
             $result = $this->projectService->deleteProject($projectid);
-            if ($result === 'DELETED') {
+            if (!isset($result['error'])) {
                 return new DataResponse($result);
+            } else {
+                return new DataResponse(['message' => $result['error']], 404);
             }
-            else {
-                return new DataResponse($result, 404);
-            }
-        }
-        else {
-            $response = new DataResponse(
-                ['message' => $this->trans->t('You are not allowed to delete this project')]
-                , 403
+        } else {
+            return new DataResponse(
+                ['message' => $this->trans->t('Unauthorized action')],
+                403
             );
-            return $response;
         }
     }
 
@@ -1641,26 +1638,23 @@ class PageController extends ApiController {
      * @PublicPage
      * @CORS
      */
-    public function apiDeleteProject($projectid, $password) {
+    public function apiDeleteProject(string $projectid, string $password): DataResponse {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
             ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_ADMIN)
             || ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_ADMIN)
         ) {
             $result = $this->projectService->deleteProject($projectid);
-            if ($result === 'DELETED') {
+            if (!isset($result['error'])) {
                 return new DataResponse($result);
+            } else {
+                return new DataResponse(['message' => $result['error']], 404);
             }
-            else {
-                return new DataResponse($result, 404);
-            }
-        }
-        else {
-            $response = new DataResponse(
-                ['message' => $this->trans->t('Unauthorized action')]
-                , 401
+        } else {
+            return new DataResponse(
+                ['message' => $this->trans->t('Unauthorized action')],
+                401
             );
-            return $response;
         }
     }
 
@@ -1669,22 +1663,19 @@ class PageController extends ApiController {
      * @NoCSRFRequired
      * @CORS
      */
-    public function apiPrivDeleteProject($projectid) {
+    public function apiPrivDeleteProject(string $projectid): DataResponse {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_ADMIN) {
             $result = $this->projectService->deleteProject($projectid);
-            if ($result === 'DELETED') {
+            if (!isset($result['error'])) {
                 return new DataResponse($result);
+            } else {
+                return new DataResponse(['message' => $result['error']], 404);
             }
-            else {
-                return new DataResponse($result, 404);
-            }
-        }
-        else {
-            $response = new DataResponse(
-                ['message' => $this->trans->t('Unauthorized action')]
-                , 403
+        } else {
+            return new DataResponse(
+                ['message' => $this->trans->t('Unauthorized action')],
+                403
             );
-            return $response;
         }
     }
 

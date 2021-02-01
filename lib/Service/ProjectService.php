@@ -537,7 +537,7 @@ class ProjectService {
         }
     }
 
-    public function deleteProject($projectid) {
+    public function deleteProject(string $projectid): array {
         $projectToDelete = $this->getProjectById($projectid);
         if ($projectToDelete !== null) {
             $qb = $this->dbconnection->getQueryBuilder();
@@ -595,10 +595,10 @@ class ProjectService {
             $req = $qb->execute();
             $qb = $qb->resetQueryParts();
 
-            return 'DELETED';
+            return ['message' => 'DELETED'];
         }
         else {
-            return [$this->trans->t('Not Found')];
+            return ['error' => $this->trans->t('Not Found')];
         }
     }
 

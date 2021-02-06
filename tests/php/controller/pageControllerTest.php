@@ -581,7 +581,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
         $data = $resp->getData();
-        $this->assertEquals('DELETED', $data);
+        $this->assertEquals('DELETED', $data['message'] ?? '');
 
         // DELETE PROJECT which does not exist
         $resp = $this->pageController->webDeleteProject('superprojdontexist');
@@ -674,7 +674,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $status = $resp->getStatus();
         $this->assertEquals(200, $status);
         $data = $resp->getData();
-        $this->assertEquals('DELETED', $data);
+        $this->assertEquals('DELETED', $data['message'] ?? '');
 
         // GET USER LIST
         $resp = $this->pageController->getUserList();

@@ -106,6 +106,7 @@ import {
 	showError,
 	showInfo,
 } from '@nextcloud/dialogs'
+import '@nextcloud/dialogs/styles/toast.scss'
 import * as constants from './constants'
 import { rgbObjToHex, slugify } from './utils'
 import Content from '@nextcloud/vue/dist/Components/Content'

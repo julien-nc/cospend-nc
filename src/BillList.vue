@@ -112,7 +112,6 @@ import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import BillItem from './components/BillItem'
 import InfiniteLoading from 'vue-infinite-loading'
 import { showSuccess } from '@nextcloud/dialogs'
-import '@nextcloud/dialogs/styles/toast.scss'
 import cospend from './state'
 import * as network from './network'
 

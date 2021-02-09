@@ -142,6 +142,40 @@
 			icon="icon-cospend">
 			{{ t('cospend', 'No balances found') }}
 		</EmptyContent>
+
+		<hr>
+		<h2>
+			{{ t('cospend', 'Individual reimbursement') }}
+		</h2>
+		<div id="individual-form">
+			<select id="individual-payer" v-model="individualPayerId" @change="onChangeIndividual">
+				<option value="0">
+					{{ t('cospend', 'Payer') }}
+				</option>
+				<option
+					v-for="member in membersWithNegativeBalance"
+					:key="member.id"
+					:value="member.id">
+					{{ member.name }}
+				</option>
+			</select>
+			→
+			<select id="individual-receiver" v-model="individualReceiverId" @change="onChangeIndividual">
+				<option value="0">
+					{{ t('cospend', 'Receiver') }}
+				</option>
+				<option
+					v-for="member in receiverCandidates"
+					:key="member.id"
+					:value="member.id">
+					{{ member.name }}
+				</option>
+			</select>
+			<button v-if="individualPayerId && individualReceiverId"
+				@click="createIndividual">
+				{{ t('cospend', 'Create bill ({amount})', { amount: (-members[individualPayerId].balance).toFixed(precision) }) }}
+			</button>
+		</div>
 	</AppContentDetails>
 </template>
 
@@ -184,6 +218,9 @@ export default {
 				stringify: this.stringify,
 				parse: this.parse,
 			},
+			// individual reimbursement
+			individualPayerId: 0,
+			individualReceiverId: 0,
 		}
 	},
 
@@ -193,6 +230,16 @@ export default {
 		},
 		members() {
 			return cospend.members[this.projectId]
+		},
+		membersWithNegativeBalance() {
+			return Object.values(this.members).filter((m) => {
+				return m.balance <= -0.01
+			})
+		},
+		receiverCandidates() {
+			return Object.values(this.members).filter((m) => {
+				return m.id !== this.individualPayerId
+			})
 		},
 		editionAccess() {
 			return (this.project.myaccesslevel >= constants.ACCESS.PARTICIPANT)
@@ -352,6 +399,32 @@ export default {
 			this.maxDate = begin.toDate()
 			this.getSettlement(this.centeredOn)
 		},
+		// individual reimbursement
+		onChangeIndividual(e) {
+			if (this.individualPayerId === this.individualReceiverId) {
+				this.individualReceiverId = 0
+			}
+		},
+		createIndividual() {
+			const req = {
+				what: t('cospend', 'Reimbursement'),
+				timestamp: moment().unix(),
+				payer: this.individualPayerId,
+				payed_for: this.individualReceiverId,
+				amount: -this.members[this.individualPayerId].balance,
+				repeat: 'n',
+				categoryid: '-11',
+			}
+			network.createBill(this.projectId, req).then((response) => {
+				this.$emit('auto-settled', this.projectId)
+				this.individualPayerId = 0
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to create bill')
+					+ ': ' + error.response?.request?.responseText
+				)
+			})
+		},
 	},
 }
 </script>
@@ -406,8 +479,16 @@ export default {
 	margin-left: auto;
 	margin-right: auto;
 
+	>h2,
 	>h3 {
 		text-align: center;
+	}
+
+	#individual-form {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-bottom: 50px;
 	}
 }
 

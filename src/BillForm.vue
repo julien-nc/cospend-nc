@@ -1052,7 +1052,7 @@ export default {
 				categoryid,
 			}
 			this.billLoading = true
-			network.createBill(this.projectId, mode, req).then((response) => {
+			network.createBill(this.projectId, req).then((response) => {
 				this.createBillSuccess(response.data, billToCreate, mode)
 			}).catch((error) => {
 				showError(

@@ -334,7 +334,7 @@ export function saveBills(projectid, billIds, categoryid, paymentmode, successCB
 		})
 }
 
-export function createBill(projectid, mode, req, billToCreate, successCB, doneCB) {
+export function createBill(projectid, req) {
 	const url = cospend.pageIsPublic
 		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills')
 		: generateUrl('/apps/cospend/projects/' + projectid + '/bills')

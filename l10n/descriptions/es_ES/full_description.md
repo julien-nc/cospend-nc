@@ -18,34 +18,34 @@ El cliente para Android [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) es
 * ⚖ verificar el saldo de los miembros
 * 🗠 mostrar estadísticas del proyecto
 * ♻ mostrar un plan de liquidación o pago
-* 🎇 automatically create reimbursement bills from settlement plan
+* 🎇 crear automáticamente facturas de reembolso a partir del plan de liquidación
 * 🗓 crear facturas recurrentes (diaria/semanal/mensual/anual)
-* 📊 optionally provide custom amount for each member in new bills
-* 🔗 link bills with personal files (picture of physical bill for example)
-* 👩 guest access for people outside Nextcloud
-* 👫 share projects with Nextcloud users/groups/circles
-* 🖫 import/export projects as csv (compatible with csv files from IHateMoney)
-* 🔗 generate link/QRCode to easily import projects in MoneyBuster
-* 🗲 implement Nextcloud notifications and activity stream
+* 📊 proporcionar opcionalmente una cantidad personalizada para cada miembro en nuevas facturas
+* 🔗 enlazar facturas con archivos personales (imagen de la factura física, por ejemplo)
+* 👩 acceso para huéspedes fuera de Nextcloud
+* 👫 compartir proyectos con usuarios/grupos/círculos de Nextcloud
+* 🖫 importar y exportar proyectos a csv (compatible con archivos csv de IHateMoney)
+* 🔗 generar enlaces o QRs para importar proyectos fácilmente en MoneyBuster
+* 🗲 se integra con notificaciones de Nextcloud y el flujo de actividad
 
-This app is tested on Nextcloud 20+ with Firefox 57+ and Chromium.
+Esta aplicación está probada en Nextcloud 20+ con Firefox 57+ y Chromium.
 
-This app is under development.
+Esta aplicación está en desarrollo.
 
-🌍 Help us to translate this app on [Nextcloud-Cospend/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
+🌍 Ayúdanos a traducir esta aplicación en [el proyecto de Crowdin de Nextcloud Cospend/MoneyBuster](https://crowdin.com/project/moneybuster).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
+⚒ Encuentra otras maneras de ayudar en [la guía de contribución](https://github.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
-## Documentation
+## Documentación
 
-* [User documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
-* [Admin documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
-* [Developer documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
-* [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
-* [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
+* [Documentacion para el usuario](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
+* [Documentacion para el administrador](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
+* [Documentación para desarrolladores](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
+* [Últimos cambios](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [Autores](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
-## Known issues
+## Problemas conocidos
 
-* it does not make you rich
+* no te hace rico
 
-Any feedback will be appreciated.
+Cualquier comentario o crítica es bienvenido.

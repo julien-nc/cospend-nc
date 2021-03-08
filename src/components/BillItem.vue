@@ -5,8 +5,16 @@
 		:class="{ 'app-content-list-item': true, billitem: true, selectedbill: selected, newBill: bill.id === 0}"
 		:title="itemTitle"
 		@click="onItemClick">
-		<div class="app-content-list-item-icon"
-			:style="'background-image: url(' + myGetMemberAvatar(bill.payer_id) + ');'">
+		<div class="app-content-list-item-icon">
+			<Avatar
+				class="itemAvatar"
+				:size="40"
+				:disable-menu="true"
+				:disable-tooltip="true"
+				:show-user-status="false"
+				:is-no-user="payerUserId === ''"
+				:user="payerUserId"
+				:display-name="payerName" />
 			<div v-if="payerDisabled" class="billItemDisabledMask disabled" />
 			<div v-if="bill.repeat !== 'n'" class="billItemRepeatMask show" />
 		</div>
@@ -42,12 +50,14 @@
 import cospend from '../state'
 import { generateUrl } from '@nextcloud/router'
 import moment from '@nextcloud/moment'
-import { reload, Timer, getCategory, getSmartMemberName, getMemberAvatar } from '../utils'
+import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import { reload, Timer, getCategory, getSmartMemberName } from '../utils'
 
 export default {
 	name: 'BillItem',
 
 	components: {
+		Avatar,
 	},
 
 	props: {
@@ -97,6 +107,18 @@ export default {
 		payerDisabled() {
 			return this.bill.id !== 0 && !this.members[this.bill.payer_id].activated
 		},
+		payerUserId() {
+			return this.members[this.bill.payer_id]
+				? this.members[this.bill.payer_id].userid || ''
+				: ''
+		},
+		payerName() {
+			return (this.bill.payer_id === 0 || this.bill.id === 0)
+				? '*'
+				: this.members[this.bill.payer_id]
+					? this.members[this.bill.payer_id].name
+					: ''
+		},
 		deletionEnabled() {
 			return !cospend.projects[this.projectId].deletion_disabled
 		},
@@ -117,11 +139,9 @@ export default {
 			return paymentmodeChar + categoryChar + this.bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars
 		},
 		smartPayerName() {
-			let memberName = ''
-			if (this.bill.payer_id !== 0) {
-				memberName = getSmartMemberName(this.projectId, this.bill.payer_id)
-			}
-			return memberName
+			return this.bill.payer_id !== 0
+				? getSmartMemberName(this.projectId, this.bill.payer_id)
+				: ''
 		},
 		smartOwerNames() {
 			const owerIds = this.bill.owerIds
@@ -183,11 +203,6 @@ export default {
 	},
 
 	methods: {
-		myGetMemberAvatar(mid) {
-			return (this.bill.payer_id === 0 || this.bill.id === 0)
-				? generateUrl('/apps/cospend/getAvatar?name=' + encodeURIComponent('*'))
-				: getMemberAvatar(this.projectId, mid)
-		},
 		onItemClick() {
 			this.$emit('clicked', this.bill)
 		},
@@ -237,5 +252,10 @@ export default {
 
 .app-content-list-item-details {
 	max-width: 115px !important;
+}
+
+.itemAvatar {
+	position: absolute !important;
+	left: 0;
 }
 </style>

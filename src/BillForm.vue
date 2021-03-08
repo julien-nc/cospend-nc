@@ -1,8 +1,19 @@
 <template>
 	<AppContentDetails class="bill-form-content">
 		<h2 class="bill-title">
-			<div :class="'billFormAvatar owerAvatar' + myGetAvatarClass(myBill.payer_id) + (billLoading ? ' icon-loading' : '')">
-				<div class="disabledMask" /><img :src="myGetTitleAvatar(myBill.payer_id)">
+			<div class="billFormAvatar">
+				<Avatar
+					class="itemAvatar"
+					:size="50"
+					:disable-menu="true"
+					:disable-tooltip="true"
+					:show-user-status="false"
+					:icon-class="billLoading ? 'icon-loading' : undefined"
+					:is-no-user="payerUserId === ''"
+					:user="payerUserId"
+					:display-name="payerName" />
+				<div v-if="payerDisabled" class="disabledMask" />
+				<!--img :src="myGetTitleAvatar(myBill.payer_id)"-->
 			</div>
 			<span>
 				{{ billFormattedTitle }}
@@ -450,6 +461,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { getLocale } from '@nextcloud/l10n'
 import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
 import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
+import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import {
 	showSuccess,
 	showError,
@@ -464,7 +476,7 @@ export default {
 	name: 'BillForm',
 
 	components: {
-		DatetimePicker, AppContentDetails,
+		DatetimePicker, AppContentDetails, Avatar,
 	},
 
 	props: {
@@ -588,6 +600,21 @@ export default {
 		},
 		project() {
 			return cospend.projects[this.projectId]
+		},
+		payerDisabled() {
+			return this.myBill.id !== 0 && !this.members[this.myBill.payer_id].activated
+		},
+		payerUserId() {
+			return this.members[this.myBill.payer_id]
+				? this.members[this.myBill.payer_id].userid || ''
+				: ''
+		},
+		payerName() {
+			return (this.myBill.payer_id === 0 || this.myBill.id === 0)
+				? '*'
+				: this.members[this.myBill.payer_id]
+					? this.members[this.myBill.payer_id].name
+					: ''
 		},
 		billLinks() {
 			return this.myBill.what.match(/https?:\/\/[^\s]+/gi) || []
@@ -718,11 +745,6 @@ export default {
 		},
 		myGetAvatarClass(mid) {
 			return this.members[mid].activated ? '' : ' owerAvatarDisabled'
-		},
-		myGetTitleAvatar(mid) {
-			return (this.myBill.id === 0)
-				? generateUrl('/apps/cospend/getAvatar?name=' + encodeURIComponent('*'))
-				: this.myGetMemberAvatar(mid)
 		},
 		myGetMemberAvatar(mid) {
 			return getMemberAvatar(this.projectId, mid)
@@ -1291,17 +1313,23 @@ export default {
 }
 
 .billFormAvatar {
-	height: 50px;
-}
-
-.billFormAvatar img {
-	width: 50px;
-}
-
-.billFormAvatar .disabledMask {
-	width: 52px;
+	display: inline-block;
+	// vertical-align: middle;
 	height: 52px;
-	left: 51px;
+	.itemAvatar {
+		display: block;
+		position: relative;
+		left: 0px;
+		top: 20px;
+	}
+	.disabledMask {
+		width: 52px;
+		height: 52px;
+		display: block;
+		position: relative;
+		left: -1px;
+		top: -31px;
+	}
 }
 
 .infoButton {

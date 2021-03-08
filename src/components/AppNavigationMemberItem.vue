@@ -19,9 +19,9 @@
 					:size="24"
 					:disable-menu="true"
 					:disable-tooltip="true"
-					:user="member.userid || ''"
 					:is-no-user="!isUser"
-					:url="memberAvatar" />
+					:user="member.userid || ''"
+					:display-name="member.name" />
 			</ColorPicker>
 		</div>
 		<div v-else
@@ -34,9 +34,9 @@
 				:size="24"
 				:disable-menu="true"
 				:disable-tooltip="true"
-				:user="member.userid || ''"
 				:is-no-user="!isUser"
-				:url="memberAvatar" />
+				:user="member.userid || ''"
+				:display-name="member.name" />
 		</div>
 		<template v-if="inNavigation"
 			slot="counter">
@@ -132,7 +132,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import cospend from '../state'
 import * as constants from '../constants'
 import * as network from '../network'
-import { getSmartMemberName, getMemberAvatar, delay } from '../utils'
+import { getSmartMemberName, delay } from '../utils'
 import { showError } from '@nextcloud/dialogs'
 
 export default {
@@ -206,11 +206,6 @@ export default {
 		},
 		color() {
 			return '#' + this.member.color
-		},
-		memberAvatar() {
-			return this.isUser
-				? undefined
-				: getMemberAvatar(this.projectId, this.member.id)
 		},
 		isUser() {
 			if (this.member.userid) {

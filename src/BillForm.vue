@@ -1233,6 +1233,26 @@ export default {
 	padding: 20px 0px 20px 0px;
 	text-align: center;
 	margin-left: 50px;
+
+	.billFormAvatar {
+		display: inline-block;
+		vertical-align: middle;
+		height: 52px;
+		.itemAvatar {
+			display: block;
+			position: relative;
+			left: 0px;
+			top: 0px;
+		}
+		.disabledMask {
+			width: 52px;
+			height: 52px;
+			display: block;
+			position: relative;
+			left: -1px;
+			top: -51px;
+		}
+	}
 }
 
 .icon-cospend,
@@ -1310,26 +1330,6 @@ export default {
 
 #billtype {
 	max-width: 80%;
-}
-
-.billFormAvatar {
-	display: inline-block;
-	// vertical-align: middle;
-	height: 52px;
-	.itemAvatar {
-		display: block;
-		position: relative;
-		left: 0px;
-		top: 20px;
-	}
-	.disabledMask {
-		width: 52px;
-		height: 52px;
-		display: block;
-		position: relative;
-		left: -1px;
-		top: -31px;
-	}
 }
 
 .infoButton {

@@ -322,7 +322,7 @@
 							@input="onBillEdited">
 						<label for="checkAllNone" class="checkboxlabel">{{ t('cospend', 'All/None') }}</label>
 					</div>
-					<div v-if="newBillMode === 'normal'">
+					<div v-if="!isNewBill || newBillMode === 'normal'">
 						<div v-for="ower in activatedOrOwer"
 							:key="ower.id"
 							class="owerEntry">
@@ -692,6 +692,7 @@ export default {
 		myBill() {
 			// reset formula when changing bill
 			this.currentFormula = null
+			this.newBillMode = 'normal'
 		},
 		bill() {
 			this.myBill = {

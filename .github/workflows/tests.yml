@@ -19,6 +19,20 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Use Node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          extensions: mbstring, intl, sqlite3, curl, xml, json, zip, gd
+          ini-values: post_max_size=256M, max_execution_time=180
+          coverage: xdebug
+          tools: php-cs-fixer, phpunit
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
@@ -31,12 +45,10 @@ jobs:
         if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
         run: |
           export DEBIAN_FRONTEND=noninteractive
-          sudo apt-get update -yqq
-          sudo apt-get install python3-pip git sudo php-xdebug php7.4-sqlite3 php7.4-curl\
-            php7.4-xml php7.4-mbstring php7.4-json php7.4-zip php7.4-gd\
-            php7.4-intl unzip curl wget nodejs npm sed make rsync -yqq > /dev/null 2>&1
+          sudo apt update -y
+          sudo apt install python3-pip git sudo \
+            unzip curl wget sed make rsync -y
           sudo -H pip3 install anybadge
-          sudo npm install -g jshint > /dev/null 2>&1
           sudo curl --location --output /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
           sudo chmod +x /usr/local/bin/phpunit
           mkdir -p ~/html

@@ -1357,6 +1357,9 @@ export default {
 .owerEntry {
 	height: 34px;
 	margin: 10px 0 10px 26px;
+	.owerAvatar {
+		width: 24px;
+	}
 }
 
 .amountinput {

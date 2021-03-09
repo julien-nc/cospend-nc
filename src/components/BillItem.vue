@@ -237,6 +237,9 @@ export default {
 
 .newBill {
 	font-style: italic;
+	.itemAvatar {
+		font-style: normal;
+	}
 }
 
 .icon-selector {

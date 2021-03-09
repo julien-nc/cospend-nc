@@ -131,8 +131,17 @@
 				<tr v-for="value in displayData"
 					:key="value.member.id">
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
-						<div :class="'owerAvatar' + myGetAvatarClass(value.member.id)">
-							<div class="disabledMask" /><img :src="myGetMemberAvatar(projectId, value.member.id)">
+						<div class="owerAvatar">
+							<Avatar
+								class="itemAvatar"
+								:size="24"
+								:disable-menu="true"
+								:disable-tooltip="true"
+								:show-user-status="false"
+								:is-no-user="getMemberUserId(value.member.id) === ''"
+								:user="getMemberUserId(value.member.id)"
+								:display-name="getMemberName(value.member.id)" />
+							<div v-if="isMemberDisabled(value.member.id)" class="disabledMask" />
 						</div>{{ myGetSmartMemberName(value.member.id) }}
 					</td>
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
@@ -179,8 +188,17 @@
 					v-tooltip.left="{ content: value.member.name }">
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
 						<div v-if="value.member.id !== 0"
-							:class="'owerAvatar' + myGetAvatarClass(value.member.id)">
-							<div class="disabledMask" /><img :src="myGetMemberAvatar(projectId, value.member.id)">
+							class="owerAvatar">
+							<Avatar
+								class="itemAvatar"
+								:size="24"
+								:disable-menu="true"
+								:disable-tooltip="true"
+								:show-user-status="false"
+								:is-no-user="getMemberUserId(value.member.id) === ''"
+								:user="getMemberUserId(value.member.id)"
+								:display-name="getMemberName(value.member.id)" />
+							<div v-if="isMemberDisabled(value.member.id)" class="disabledMask" />
 						</div>{{ (value.member.id !== 0) ? myGetSmartMemberName(value.member.id) : value.member.name }}
 					</td>
 					<td v-for="(st, month) in stats.monthlyStats"
@@ -307,8 +325,17 @@
 					:sort-key="mid.toString()"
 					class="avatared"
 					:style="'border: 2px solid #' + myGetMemberColor(mid) + ';'">
-					<div :class="'owerAvatar' + myGetAvatarClass(mid)">
-						<div class="disabledMask" /><img :src="myGetMemberAvatar(projectId, mid)">
+					<div class="owerAvatar">
+						<Avatar
+							class="itemAvatar"
+							:size="24"
+							:disable-menu="true"
+							:disable-tooltip="true"
+							:show-user-status="false"
+							:is-no-user="getMemberUserId(mid) === ''"
+							:user="getMemberUserId(mid)"
+							:display-name="getMemberName(mid)" />
+						<div v-if="isMemberDisabled(mid)" class="disabledMask" />
 					</div>{{ myGetSmartMemberName(mid) }}
 				</v-th>
 				<v-th sort-key="total">
@@ -319,8 +346,17 @@
 				<tr v-for="value in displayData"
 					:key="value.memberid">
 					<td v-if="value.memberid !== 0" :style="'border: 2px solid #' + myGetMemberColor(value.memberid) + ';'">
-						<div :class="'owerAvatar' + myGetAvatarClass(value.memberid)">
-							<div class="disabledMask" /><img :src="myGetMemberAvatar(projectId, value.memberid)">
+						<div class="owerAvatar">
+							<Avatar
+								class="itemAvatar"
+								:size="24"
+								:disable-menu="true"
+								:disable-tooltip="true"
+								:show-user-status="false"
+								:is-no-user="getMemberUserId(value.memberid) === ''"
+								:user="getMemberUserId(value.memberid)"
+								:display-name="getMemberName(value.memberid)" />
+							<div v-if="isMemberDisabled(value.memberid)" class="disabledMask" />
 						</div>{{ myGetSmartMemberName(value.memberid) }}
 					</td>
 					<td v-else style="padding-left: 5px; border: 2px solid lightgrey;">
@@ -351,8 +387,9 @@
 <script>
 import moment from '@nextcloud/moment'
 import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
+import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 
-import { getCategory, getSmartMemberName, getMemberAvatar } from './utils'
+import { getCategory, getSmartMemberName } from './utils'
 import cospend from './state'
 import * as network from './network'
 import LineChartJs from './components/LineChartJs'
@@ -363,7 +400,7 @@ export default {
 	name: 'Statistics',
 
 	components: {
-		LineChartJs, PieChartJs, PolarChartJs, AppContentDetails,
+		Avatar, LineChartJs, PieChartJs, PolarChartJs, AppContentDetails,
 	},
 
 	props: {
@@ -737,8 +774,14 @@ export default {
 			}
 			return balanceClass
 		},
-		myGetAvatarClass(mid) {
-			return this.members[mid].activated ? '' : ' owerAvatarDisabled'
+		isMemberDisabled(mid) {
+			return !this.members[mid].activated
+		},
+		getMemberUserId(mid) {
+			return this.members[mid].userid || ''
+		},
+		getMemberName(mid) {
+			return this.members[mid].name
 		},
 		myGetSmartMemberName(mid) {
 			let smartName = getSmartMemberName(this.projectId, mid)
@@ -746,9 +789,6 @@ export default {
 				smartName += ' (' + this.members[mid].name + ')'
 			}
 			return smartName
-		},
-		myGetMemberAvatar(pid, mid) {
-			return getMemberAvatar(pid, mid)
 		},
 		myGetMemberColor(mid) {
 			if (mid === 0) {

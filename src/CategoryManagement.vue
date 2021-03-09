@@ -343,6 +343,7 @@ $clickable-area: 44px;
 
 .add-icon-button {
 	margin-top: 0px;
+	padding: 0;
 	border-radius: 50%;
 	width: 40px;
 	height: 40px;

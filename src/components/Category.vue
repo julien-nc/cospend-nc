@@ -241,6 +241,7 @@ $clickable-area: 44px;
 	height: 40px;
 	width: 40px;
 	margin: 0;
+	padding: 0;
 }
 
 .icon {

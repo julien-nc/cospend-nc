@@ -84,14 +84,32 @@
 			<tbody slot="body" slot-scope="{displayData}">
 				<tr v-for="value in displayData" :key="value.from + ':' + value.to">
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.from) + ';'">
-						<div :class="'owerAvatar' + myGetAvatarClass(value.from)">
-							<div class="disabledMask" /><img :src="myGetMemberAvatar(project.id, value.from)">
+						<div class="owerAvatar">
+							<Avatar
+								class="itemAvatar"
+								:size="24"
+								:disable-menu="true"
+								:disable-tooltip="true"
+								:show-user-status="false"
+								:is-no-user="getMemberUserId(value.from) === ''"
+								:user="getMemberUserId(value.from)"
+								:display-name="getMemberName(value.from)" />
+							<div v-if="isMemberDisabled(value.from)" class="disabledMask" />
 						</div>
 						{{ myGetSmartMemberName(project.id, value.from) }}
 					</td>
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.to) + ';'">
-						<div :class="'owerAvatar' + myGetAvatarClass(value.to)">
-							<div class="disabledMask" /><img :src="myGetMemberAvatar(project.id, value.to)">
+						<div class="owerAvatar">
+							<Avatar
+								class="itemAvatar"
+								:size="24"
+								:disable-menu="true"
+								:disable-tooltip="true"
+								:show-user-status="false"
+								:is-no-user="getMemberUserId(value.to) === ''"
+								:user="getMemberUserId(value.to)"
+								:display-name="getMemberName(value.to)" />
+							<div v-if="isMemberDisabled(value.to)" class="disabledMask" />
 						</div>
 						{{ myGetSmartMemberName(project.id, value.to) }}
 					</td>
@@ -125,8 +143,17 @@
 				<tr v-for="value in displayData"
 					:key="value.mid">
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.mid) + ';'">
-						<div :class="'owerAvatar' + myGetAvatarClass(value.mid)">
-							<div class="disabledMask" /><img :src="myGetMemberAvatar(project.id, value.mid)">
+						<div class="owerAvatar">
+							<Avatar
+								class="itemAvatar"
+								:size="24"
+								:disable-menu="true"
+								:disable-tooltip="true"
+								:show-user-status="false"
+								:is-no-user="getMemberUserId(value.mid) === ''"
+								:user="getMemberUserId(value.mid)"
+								:display-name="getMemberName(value.mid)" />
+							<div v-if="isMemberDisabled(value.mid)" class="disabledMask" />
 						</div>{{ myGetSmartMemberName(project.id, value.mid) }}
 					</td>
 					<td :class="getBalanceClass(value.balance)"
@@ -186,8 +213,9 @@ import { getLocale } from '@nextcloud/l10n'
 import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
 import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 
-import { getSmartMemberName, getMemberAvatar } from './utils'
+import { getSmartMemberName } from './utils'
 import cospend from './state'
 import * as constants from './constants'
 import * as network from './network'
@@ -196,7 +224,7 @@ export default {
 	name: 'Settlement',
 
 	components: {
-		AppContentDetails, DatetimePicker, EmptyContent,
+		Avatar, AppContentDetails, DatetimePicker, EmptyContent,
 	},
 
 	props: {
@@ -280,17 +308,20 @@ export default {
 	},
 
 	methods: {
-		myGetAvatarClass(mid) {
-			return this.members[mid].activated ? '' : ' owerAvatarDisabled'
-		},
 		myGetSmartMemberName(pid, mid) {
 			return getSmartMemberName(pid, mid)
 		},
-		myGetMemberAvatar(pid, mid) {
-			return getMemberAvatar(pid, mid)
-		},
 		myGetMemberColor(mid) {
 			return this.members[mid].color
+		},
+		getMemberName(mid) {
+			return this.members[mid].name
+		},
+		getMemberUserId(mid) {
+			return this.members[mid].userid || ''
+		},
+		isMemberDisabled(mid) {
+			return !this.members[mid].activated
 		},
 		getBalanceClass(balance) {
 			let balanceClass = ''

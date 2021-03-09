@@ -503,7 +503,7 @@ import {
 } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import {
-	delay, getCategory, getSmartMemberName, getMemberAvatar,
+	delay, getCategory, getSmartMemberName,
 } from './utils'
 import * as network from './network'
 
@@ -786,12 +786,6 @@ export default {
 		},
 		isMemberDisabled(mid) {
 			return !this.members[mid].activated
-		},
-		myGetAvatarClass(mid) {
-			return this.members[mid].activated ? '' : ' owerAvatarDisabled'
-		},
-		myGetMemberAvatar(mid) {
-			return getMemberAvatar(this.projectId, mid)
 		},
 		myGetMemberColor(mid) {
 			if (mid === 0) {

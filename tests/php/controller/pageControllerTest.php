@@ -217,7 +217,6 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
             $sc,
             $sc->getConfig(),
             $c->getServer()->getAppManager(),
-            $sc->getAvatarManager(),
             $c->getServer()->getAppDataDir('cospend'),
             $sc->getDatabaseConnection(),
             'test'

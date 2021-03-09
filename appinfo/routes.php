@@ -140,7 +140,5 @@ return [
         ['name' => 'page#pubLogin', 'url' => 'login', 'verb' => 'GET'],
         ['name' => 'page#pubProject', 'url' => 'project', 'verb' => 'POST'],
         ['name' => 'page#publicShareLinkPage', 'url' => 's/{token}', 'verb' => 'GET'],
-
-        ['name' => 'utils#getAvatar', 'url' => 'getAvatar', 'verb' => 'GET'],
     ]
 ];

@@ -1,7 +1,6 @@
 /* jshint esversion: 6 */
 
 import cospend from './state'
-import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import {
 	showInfo,
@@ -15,15 +14,6 @@ export function getSmartMemberName(projectid, memberid) {
 	return (!cospend.pageIsPublic && cospend.members[projectid][memberid].userid === getCurrentUser().uid)
 		? t('cospend', 'You')
 		: getMemberName(projectid, memberid)
-}
-
-export function getMemberAvatar(projectid, memberid) {
-	const member = cospend.members[projectid][memberid]
-	if (member.userid && !cospend.pageIsPublic) {
-		return generateUrl('/avatar/' + encodeURIComponent(member.userid) + '/64?v=' + (window.OCA?.Theming?.cacheBuster || 0))
-	} else {
-		return generateUrl('/apps/cospend/getAvatar?color=' + member.color + '&name=' + encodeURIComponent(member.name))
-	}
 }
 
 export function getCategory(projectid, catId) {

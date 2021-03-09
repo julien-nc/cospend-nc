@@ -108,7 +108,7 @@ export default {
 			return this.bill.id !== 0 && !this.members[this.bill.payer_id].activated
 		},
 		payerUserId() {
-			return this.members[this.bill.payer_id]
+			return this.bill.id !== 0 && this.members[this.bill.payer_id]
 				? this.members[this.bill.payer_id].userid || ''
 				: ''
 		},

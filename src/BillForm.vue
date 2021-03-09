@@ -640,7 +640,7 @@ export default {
 			return this.myBill.id !== 0 && !this.members[this.myBill.payer_id].activated
 		},
 		payerUserId() {
-			return this.members[this.myBill.payer_id]
+			return this.myBill.id !== 0 && this.members[this.myBill.payer_id]
 				? this.members[this.myBill.payer_id].userid || ''
 				: ''
 		},

@@ -13,7 +13,6 @@
 					:user="payerUserId"
 					:display-name="payerName" />
 				<div v-if="payerDisabled" class="disabledMask" />
-				<!--img :src="myGetTitleAvatar(myBill.payer_id)"-->
 			</div>
 			<span>
 				{{ billFormattedTitle }}

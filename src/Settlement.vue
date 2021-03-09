@@ -4,7 +4,7 @@
 			<span :class="{ 'icon-reimburse': !loading, icon: true, 'icon-loading-small': loading }" />
 			{{ t('cospend', 'Settlement of project {name}', {name: project.name}) }}
 			<button class="exportSettlement" @click="onExportClick">
-				<span class="icon icon-save" />
+				<span class="icon-save" />
 				{{ t('cospend', 'Export') }}
 			</button>
 			<button
@@ -171,8 +171,10 @@
 		</EmptyContent>
 
 		<hr>
-		<h2>
-			{{ t('cospend', 'Individual reimbursement') }}
+		<h2 class="individualTitle">
+			<button class="icon icon-info"
+				@click="onIndividualInfoClicked" />
+			<span>{{ t('cospend', 'Individual reimbursement') }}</span>
 		</h2>
 		<div id="individual-form">
 			<select id="individual-payer" v-model="individualPayerId" @change="onChangeIndividual">
@@ -401,6 +403,16 @@ export default {
 				t('cospend', 'Info')
 			)
 		},
+		onIndividualInfoClicked() {
+			OC.dialogs.info(
+				t('cospend', 'This feature is useful when a member with a negative balance wants to get out of the project but you don\'t want to make a full settlement plan.')
+				+ ' '
+				+ t('cospend', 'Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money.')
+				+ ' '
+				+ t('cospend', 'Make sure the "real" reimbursement has been done between those 2 members in real life. Then press "Create bill" to automatically create the corresponding bill.'),
+				t('cospend', 'Info')
+			)
+		},
 		onDayBeginningClicked() {
 			const begin = moment()
 				.millisecond(0)
@@ -472,19 +484,6 @@ export default {
 		}
 
 		.icon {
-			display: inline-block;
-			width: 44px;
-			height: 44px;
-			border-radius: var(--border-radius-pill);
-			opacity: .5;
-
-			&.icon-calendar-dark,
-			&.icon-info {
-				background-color: transparent;
-				border: none;
-				margin: 0;
-			}
-
 			&.day-icon {
 				background-size: 12px;
 			}
@@ -496,12 +495,6 @@ export default {
 			&.month-icon {
 				background-size: 20px;
 			}
-
-			&:hover,
-			&:focus {
-				opacity: 1;
-				background-color: var(--color-background-hover);
-			}
 		}
 	}
 }
@@ -510,9 +503,35 @@ export default {
 	margin-left: auto;
 	margin-right: auto;
 
+	.icon {
+		display: inline-block;
+		width: 44px;
+		height: 44px;
+		border-radius: var(--border-radius-pill);
+		opacity: .5;
+
+		&.icon-calendar-dark,
+		&.icon-info {
+			background-color: transparent;
+			border: none;
+			margin: 0;
+		}
+
+		&:hover,
+		&:focus {
+			opacity: 1;
+			background-color: var(--color-background-hover);
+		}
+	}
+
 	>h2,
 	>h3 {
 		text-align: center;
+	}
+
+	.individualTitle {
+		display: flex;
+		align-items: center;
 	}
 
 	#individual-form {

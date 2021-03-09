@@ -7,7 +7,7 @@
 				class="exportStats"
 				projectid="dum"
 				@click="onExportClick">
-				<span class="icon icon-save" />
+				<span class="icon-save" />
 				{{ t('cospend', 'Export') }}
 			</button>
 		</h2>

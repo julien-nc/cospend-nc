@@ -778,8 +778,6 @@ export default {
 	-webkit-mask: url('./../img/save.svg') no-repeat;
 	-webkit-mask-size: 18px 18px;
 	-webkit-mask-position: center;
-	min-width: 44px !important;
-	min-height: 44px !important;
 }
 </style>
 

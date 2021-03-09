@@ -336,8 +336,17 @@
 						<div v-for="ower in activatedOrOwer"
 							:key="ower.id"
 							class="owerEntry">
-							<div :class="'owerAvatar' + myGetAvatarClass(ower.id)">
-								<div class="disabledMask" /><img :src="myGetMemberAvatar(ower.id)">
+							<div class="owerAvatar">
+								<Avatar
+									class="itemAvatar"
+									:size="24"
+									:disable-menu="true"
+									:disable-tooltip="true"
+									:show-user-status="false"
+									:is-no-user="getMemberUserId(ower.id) === ''"
+									:user="getMemberUserId(ower.id)"
+									:display-name="getMemberName(ower.id)" />
+								<div v-if="isMemberDisabled(ower.id)" class="disabledMask" />
 							</div>
 							<input
 								:id="'dum' + ower.id"
@@ -364,8 +373,17 @@
 						<div v-for="ower in activatedOrOwer"
 							:key="ower.id"
 							class="owerEntry">
-							<div :class="'owerAvatar' + myGetAvatarClass(ower.id)">
-								<div class="disabledMask" /><img :src="myGetMemberAvatar(ower.id)">
+							<div class="owerAvatar">
+								<Avatar
+									class="itemAvatar"
+									:size="24"
+									:disable-menu="true"
+									:disable-tooltip="true"
+									:show-user-status="false"
+									:is-no-user="getMemberUserId(ower.id) === ''"
+									:user="getMemberUserId(ower.id)"
+									:display-name="getMemberName(ower.id)" />
+								<div v-if="isMemberDisabled(ower.id)" class="disabledMask" />
 							</div>
 							<input
 								:id="'dum' + ower.id"
@@ -393,8 +411,17 @@
 						<div v-for="ower in activatedOrOwer"
 							:key="ower.id"
 							class="owerEntry">
-							<div :class="'owerAvatar' + myGetAvatarClass(ower.id)">
-								<div class="disabledMask" /><img :src="myGetMemberAvatar(ower.id)">
+							<div class="owerAvatar">
+								<Avatar
+									class="itemAvatar"
+									:size="24"
+									:disable-menu="true"
+									:disable-tooltip="true"
+									:show-user-status="false"
+									:is-no-user="getMemberUserId(ower.id) === ''"
+									:user="getMemberUserId(ower.id)"
+									:display-name="getMemberName(ower.id)" />
+								<div v-if="isMemberDisabled(ower.id)" class="disabledMask" />
 							</div>
 							<label
 								class="numberlabel"
@@ -416,8 +443,17 @@
 						<div v-for="ower in activatedOrOwer"
 							:key="ower.id"
 							class="owerEntry">
-							<div :class="'owerAvatar' + myGetAvatarClass(ower.id)">
-								<div class="disabledMask" /><img :src="myGetMemberAvatar(ower.id)">
+							<div class="owerAvatar">
+								<Avatar
+									class="itemAvatar"
+									:size="24"
+									:disable-menu="true"
+									:disable-tooltip="true"
+									:show-user-status="false"
+									:is-no-user="getMemberUserId(ower.id) === ''"
+									:user="getMemberUserId(ower.id)"
+									:display-name="getMemberName(ower.id)" />
+								<div v-if="isMemberDisabled(ower.id)" class="disabledMask" />
 							</div>
 							<label
 								class="numberlabel"
@@ -741,6 +777,15 @@ export default {
 				smartName += ' (' + this.members[mid].name + ')'
 			}
 			return smartName
+		},
+		getMemberName(mid) {
+			return this.members[mid].name
+		},
+		getMemberUserId(mid) {
+			return this.members[mid].userid || ''
+		},
+		isMemberDisabled(mid) {
+			return !this.members[mid].activated
 		},
 		myGetAvatarClass(mid) {
 			return this.members[mid].activated ? '' : ' owerAvatarDisabled'
@@ -1316,10 +1361,8 @@ export default {
 
 .owerAllNoneDiv,
 .owerEntry {
-	margin-left: 26px;
-	margin-right: 00px;
-	margin-top: 15px;
-	margin-bottom: 15px;
+	height: 34px;
+	margin: 10px 0 10px 26px;
 }
 
 .amountinput {

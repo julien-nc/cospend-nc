@@ -12,6 +12,8 @@
 namespace OCA\Cospend\AppInfo;
 
 use OCP\IContainer;
+use OCP\Util;
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
 
 use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
@@ -47,6 +49,12 @@ class Application extends App implements IBootstrap {
         //$manager = \OC::$server->getNotificationManager();
         $manager = $container->query(INotificationManager::class);
         $manager->registerNotifierService(Notifier::class);
+
+        $server = $container->getServer();
+        $eventDispatcher = $server->getEventDispatcher();
+        $eventDispatcher->addListener(LoadAdditionalScriptsEvent::class, function () {
+            Util::addscript(self::APP_ID, 'filesplugin');
+        });
     }
 
     public function register(IRegistrationContext $context): void {

@@ -19,7 +19,6 @@
     "Enter project id and password" : "Введите id проекта и пароль",
     "Project %s" : "Проект %s",
     "Access denied" : "Доступ запрещен",
-    "You are not allowed to delete this project" : "Вы не можете удалить этот проект",
     "You are not allowed to delete this bill" : "Вы не можете удалить этот счет",
     "You are not allowed to get this project's info" : "Вы не можете получить информацию об этом проекте",
     "You are not allowed to get this project's statistics" : "Вы не можете получить статистику этого проекта",

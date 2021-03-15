@@ -1,8 +1,8 @@
 { "translations": {
     "You have created a new bill {bill} in project {project}" : "Készítettél egy új számlát {bill} a {project} projektben",
     "Cospend" : "Cospend",
-    "Bad password or public link" : "Hibás jelszó vagy publikus link",
     "Unauthorized action" : "Jogtalan művelet",
+    "Bad password or public link" : "Hibás jelszó vagy publikus link",
     "You are not allowed to give such shared access level" : "Nem vagy jogosult, hogy ilyen megosztási szintet adj",
     "You are not allowed to edit guest access level" : "Nincs jogosultságod szerkeszteni a vendég szintet",
     "You are not allowed to manage categories" : "Nincs jogosultságod kategóriák kezelésére",

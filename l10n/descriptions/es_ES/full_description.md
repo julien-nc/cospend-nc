@@ -2,50 +2,50 @@
 
 Nextcloud Cospend es un gestor de presupuesto compartido. Fue inspirado por el magnífico [IHateMoney](https://github.com/spiral-project/ihatemoney/).
 
-Puedes usarlo cuando compartes una casa, cuando vas de vacaciones con tus amigos, siempre que compartas dinero con otros.
+Puedes usarlo cuando compartes una casa, cuando vas de vacaciones con tus amigos, o en cualquier momento en que compartas dinero con otros.
 
-Te permite crear proyectos con miembros y facturas. Cada miembro tiene un saldo calculado a partir de las facturas del proyecto. De esta manera se puede ver quién debe al grupo y a quién debe el grupo. En última instancia, puedes pedir un plan de liquidación diciendo qué pagos hacer para restablecer los saldos de los miembros.
+Te permite crear proyectos con miembros y facturas. Cada miembro tiene un saldo calculado a partir de las facturas del proyecto. De esta manera se puede ver quién debe al grupo y a quién debe el grupo. En última instancia, puedes pedir un plan de liquidación que indique qué pagos hay que hacer para restablecer los saldos de los miembros.
 
 Los miembros del proyecto son independientes de los usuarios de Nextcloud. Los proyectos pueden ser accedidos y modificados por personas sin una cuenta de Nextcloud. Cada proyecto tiene un ID y una contraseña para el acceso de invitados.
 
 El cliente para Android [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) está [disponible en F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) y en la [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
-[PayForMe](https://github.com/mayflower/PayForMe) iOS client is currently being developped!
+¡El cliente de iOS [PayForMe](https://github.com/mayflower/PayForMe) está en desarrollo actualmente!
 
 ## Funcionalidades
 
-* ✎ create/edit/delete projects, members, bills, bill categories, currencies
+* ✎ crear, editar y eliminar proyectos, miembros, facturas, categorías y monedas
 * ⚖ verificar el saldo de los miembros
-* 🗠 display project statistics
-* ♻ display settlement plan
-* 🎇 automatically create reimbursement bills from settlement plan
-* 🗓 create recurring bills (daily/weekly/monthly/yearly)
-* 📊 optionally provide custom amount for each member in new bills
-* 🔗 link bills with personal files (picture of physical bill for example)
-* 👩 guest access for people outside Nextcloud
-* 👫 share projects with Nextcloud users/groups/circles
-* 🖫 import/export projects as csv (compatible with csv files from IHateMoney)
-* 🔗 generate link/QRCode to easily import projects in MoneyBuster
-* 🗲 implement Nextcloud notifications and activity stream
+* 🗠 mostrar estadísticas del proyecto
+* ♻ mostrar un plan de liquidación o pago
+* 🎇 crear automáticamente facturas de reembolso a partir del plan de liquidación
+* 🗓 crear facturas recurrentes (diaria/semanal/mensual/anual)
+* 📊 proporcionar opcionalmente una cantidad personalizada para cada miembro en nuevas facturas
+* 🔗 enlazar facturas con archivos personales (imagen de la factura física, por ejemplo)
+* 👩 acceso para huéspedes fuera de Nextcloud
+* 👫 compartir proyectos con usuarios/grupos/círculos de Nextcloud
+* 🖫 importar y exportar proyectos a csv (compatible con archivos csv de IHateMoney)
+* 🔗 generar enlaces o QRs para importar proyectos fácilmente en MoneyBuster
+* 🗲 se integra con notificaciones de Nextcloud y el flujo de actividad
 
-This app is tested on Nextcloud 20+ with Firefox 57+ and Chromium.
+Esta aplicación está probada en Nextcloud 20+ con Firefox 57+ y Chromium.
 
-This app is under development.
+Esta aplicación está en desarrollo.
 
-🌍 Help us to translate this app on [Nextcloud-Cospend/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
+🌍 Ayúdanos a traducir esta aplicación en [el proyecto de Crowdin de Nextcloud Cospend/MoneyBuster](https://crowdin.com/project/moneybuster).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
+⚒ Encuentra otras maneras de ayudar en [la guía de contribución](https://github.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
-## Documentation
+## Documentación
 
-* [User documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
-* [Admin documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
-* [Developer documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
-* [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
-* [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
+* [Documentacion para el usuario](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
+* [Documentacion para el administrador](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
+* [Documentación para desarrolladores](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
+* [Últimos cambios](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [Autores](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
-## Known issues
+## Problemas conocidos
 
-* it does not make you rich
+* no te hace rico
 
-Any feedback will be appreciated.
+Cualquier comentario o crítica es bienvenido.

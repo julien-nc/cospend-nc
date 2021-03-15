@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.3.0 – 2021-03-15
+### Added
+- individual settlement
+[#29](https://github.com/eneiluj/cospend-nc/issues/29) @FrouxBY
+
+### Changed
+- adjust project navigation item icons
+
+### Fixed
+- custom mode selected for existing bills when switching from new bill
+[#42](https://github.com/eneiluj/cospend-nc/issues/42) @mayonezo
+- get rid of old avatars, reduces load on server
+[#37](https://github.com/eneiluj/cospend-nc/issues/37) @normen
+
 ## 1.2.9 – 2021-01-29
 ### Changed
 - use svg icon instead of UTF-8 char

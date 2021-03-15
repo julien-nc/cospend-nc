@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-03-09 14:54+0100\n"
-"PO-Revision-Date: 2021-03-09 15:40\n"
+"PO-Revision-Date: 2021-03-15 10:56\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -1298,19 +1298,19 @@ msgstr "Aucune balance trouvée"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:168
 msgid "Individual reimbursement"
-msgstr ""
+msgstr "Remboursement individuel"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:169
 msgid "Payer"
-msgstr ""
+msgstr "Payeur"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:170
 msgid "Receiver"
-msgstr ""
+msgstr "Récepteur"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:171
 msgid "Create bill ({amount})"
-msgstr ""
+msgstr "Créer la facture ({amount})"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:172
 msgid "Failed to get settlement"
@@ -1338,15 +1338,15 @@ msgstr "Le règlement automatique créera les factures une seconde avant la date
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:179
 msgid "This feature is useful when a member with a negative balance wants to get out of the project but you don't want to make a full settlement plan."
-msgstr ""
+msgstr "Cette fonctionnalité est utile lorsqu'un membre avec un solde négatif veut sortir du projet mais que vous ne voulez pas faire un plan de remboursement complet."
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:180
 msgid "Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money."
-msgstr ""
+msgstr "Sélectionnez un payeur qui veut obtenir un solde de zéro, puis un récepteur qui sera le seul à recevoir l'argent du remboursement."
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:181
 msgid "Make sure the \"real\" reimbursement has been done between those 2 members in real life. Then press \"Create bill\" to automatically create the corresponding bill."
-msgstr ""
+msgstr "Assurez-vous que le remboursement « réel » a été effectué entre ces 2 membres dans la vie réelle, puis appuyez sur « Créer la facture » pour créer automatiquement la facture correspondante."
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:185
 msgid "Statistics of project {name}"

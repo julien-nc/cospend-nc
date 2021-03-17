@@ -178,15 +178,31 @@ class CospendProvider implements IProvider {
 	}
 
 	private function getIcon(IEvent $event) {
-		$event->setIcon($this->urlGenerator->imagePath('cospend', 'app_black.svg'));
+		$event->setIcon(
+			$this->urlGenerator->getAbsoluteURL(
+				$this->urlGenerator->imagePath('cospend', 'app_black.svg')
+			)
+		);
 		if (strpos($event->getSubject(), '_update') !== false) {
-			$event->setIcon($this->urlGenerator->imagePath('files', 'change.svg'));
+			$event->setIcon(
+				$this->urlGenerator->getAbsoluteURL(
+					$this->urlGenerator->imagePath('files', 'change.svg')
+				)
+			);
 		}
 		if (strpos($event->getSubject(), '_create') !== false) {
-			$event->setIcon($this->urlGenerator->imagePath('files', 'add-color.svg'));
+			$event->setIcon(
+				$this->urlGenerator->getAbsoluteURL(
+					$this->urlGenerator->imagePath('files', 'add-color.svg')
+				)
+			);
 		}
 		if (strpos($event->getSubject(), '_delete') !== false) {
-			$event->setIcon($this->urlGenerator->imagePath('files', 'delete-color.svg'));
+			$event->setIcon(
+				$this->urlGenerator->getAbsoluteURL(
+					$this->urlGenerator->imagePath('files', 'delete-color.svg')
+				)
+			);
 		}
 		return $event;
 	}

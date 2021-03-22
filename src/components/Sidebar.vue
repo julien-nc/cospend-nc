@@ -7,7 +7,7 @@
 		:active="activeTab"
 		@update:active="onActiveChanged"
 		@close="$emit('close')">
-		<!--template slot="primary-actions" /-->
+		<!--template slot="description" /-->
 		<template v-if="false" slot="secondary-actions">
 			<ActionButton icon="icon-edit" @click="alert('Edit')">
 				Edit

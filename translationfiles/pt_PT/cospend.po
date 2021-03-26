@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-03-09 14:54+0100\n"
-"PO-Revision-Date: 2021-03-09 15:40\n"
+"PO-Revision-Date: 2021-03-26 23:23\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -983,7 +983,7 @@ msgstr "Pode escrever operações matemáticas simples e validar com a tecla Ent
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:79
 msgid "Bill repetition process runs once a day as a background job. If your bills are not automatically repeated, ask your Nextcloud administrator to check if \"Cron\" method is selected in admin settings."
-msgstr "O processo de repetição de facturas é executado uma vez por dia como um trabalho em segundo plano. Se suas facturas não forem repetidas automaticamente, peça ao seu administrador do Nextcloud para verificar se o método \"Cron\" está seleccionado nas configurações de administrador."
+msgstr "O processo de repetição de facturas é executado uma vez por dia como uma tarefa em segundo plano. Se as suas facturas não forem repetidas automaticamente, peça ao seu administrador do Nextcloud para verificar se o método \"Cron\" está seleccionado nas configurações de administrador."
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:80
 msgid "You can also manually repeat the current bill with the \"Repeat now\" button."
@@ -1298,19 +1298,19 @@ msgstr "Não foram encontrados quaisquer balanços"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:168
 msgid "Individual reimbursement"
-msgstr ""
+msgstr "Reembolso individual"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:169
 msgid "Payer"
-msgstr ""
+msgstr "Pagante"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:170
 msgid "Receiver"
-msgstr ""
+msgstr "Receptor"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:171
 msgid "Create bill ({amount})"
-msgstr ""
+msgstr "Criar factura ({amount})"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:172
 msgid "Failed to get settlement"
@@ -1338,7 +1338,7 @@ msgstr "A liquidação automática irá criar facturas um segundo antes da data 
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:179
 msgid "This feature is useful when a member with a negative balance wants to get out of the project but you don't want to make a full settlement plan."
-msgstr ""
+msgstr "Esta funcionalidade é útil quando um membro com saldo negativo quer sair do projecto mas você não quer fazer um plano de liquidação completo."
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:180
 msgid "Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money."

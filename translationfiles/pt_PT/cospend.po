@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-03-09 14:54+0100\n"
-"PO-Revision-Date: 2021-03-26 23:23\n"
+"PO-Revision-Date: 2021-03-27 23:21\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -1330,7 +1330,7 @@ msgstr "Defina uma data máxima para considerar apenas as facturas até então."
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:176
 msgid "Useful if you want to settle at a precise date and ignore the bills created since then."
-msgstr "Útil se quiser liquidar numa data precisa e ignorar as facturas criadas desde então."
+msgstr "É útil se quiser liquidar numa data precisa e ignorar as facturas criadas desde então."
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:177
 msgid "Automatic settlement will create bills one second before the maximum date."
@@ -1342,11 +1342,11 @@ msgstr "Esta funcionalidade é útil quando um membro com saldo negativo quer sa
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:180
 msgid "Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money."
-msgstr ""
+msgstr "Seleccione um pagante que quer ficar com saldo zero e depois um receptor que será o único a ficar com o dinheiro do reembolso."
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:181
 msgid "Make sure the \"real\" reimbursement has been done between those 2 members in real life. Then press \"Create bill\" to automatically create the corresponding bill."
-msgstr ""
+msgstr "Certifique-se de que o reembolso \"real\" foi feito entre os dois membros na vida real. Depois clique em \"Criar factura\" para criar automaticamente a factura correspondente."
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:185
 msgid "Statistics of project {name}"
@@ -1543,12 +1543,12 @@ msgstr "Ainda não existem membros"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:240
 msgid "Everyone"
-msgstr "Toda a gente"
+msgstr "Todos"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:241
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:243
 msgid "Everyone except {member}"
-msgstr "Toda a gente excepto {member}"
+msgstr "Todos excepto {member}"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:242
 msgid "{member1} and {member2}"
@@ -1975,7 +1975,7 @@ msgstr "Activar esta opção permitirá que qualquer visitante crie um projecto 
 
 #: /var/www/html/dev/server21/apps/cospend/templates/admin.php:11
 msgid "This can be useful if you are in a local network and want to let anybody create a project."
-msgstr "Isso pode ser útil se estiver numa rede local e quiser deixar qualquer pessoa criar um projecto."
+msgstr "Isto pode ser útil se estiver numa rede local e quiser deixar qualquer pessoa criar um projecto."
 
 #: /var/www/html/dev/server21/apps/cospend/templates/admin.php:12
 msgid "Or maybe you are very generous and want to allow the entire world to use Cospend without having an account on your Nextcloud instance."

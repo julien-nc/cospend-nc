@@ -1149,14 +1149,16 @@ export default {
 		getPersonalParts() {
 			const result = {}
 			this.myBill.owerIds.forEach((mid) => {
-				result[mid] = parseFloat(this.$refs['amountdum' + mid][0].value) || 0
+				const val = this.$refs['amountdum' + mid][0].value.replace(/,/g, '.')
+				result[mid] = parseFloat(val) || 0
 			})
 			return result
 		},
 		getCustomAmounts() {
 			const result = {}
 			this.activatedOrOwer.forEach((member) => {
-				result[member.id] = parseFloat(this.$refs['amountdum' + member.id][0].value) || 0
+				const val = this.$refs['amountdum' + member.id][0].value.replace(/,/g, '.')
+				result[member.id] = parseFloat(val) || 0
 			})
 			return result
 		},

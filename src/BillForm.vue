@@ -898,7 +898,7 @@ export default {
 				let calc = 'a'
 				try {
 					// eslint-disable-next-line
-					calc = eval(this.currentFormula)
+					calc = parseFloat(eval(this.currentFormula).toFixed(12))
 				} catch (err) {
 					console.debug(err)
 				}
@@ -913,7 +913,7 @@ export default {
 				let calc = 'a'
 				try {
 					// eslint-disable-next-line
-					calc = eval(val)
+					calc = parseFloat(eval(val).toFixed(12))
 				} catch (err) {
 					console.debug(err)
 				}
@@ -928,7 +928,7 @@ export default {
 				let calc = 'a'
 				try {
 					// eslint-disable-next-line
-					calc = eval(val)
+					calc = parseFloat(eval(val).toFixed(12))
 				} catch (err) {
 					console.debug(err)
 				}

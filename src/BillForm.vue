@@ -571,6 +571,7 @@ export default {
 					this.currentFormula = null
 				} else {
 					this.currentFormula = val
+					this.myBill.amount = val
 				}
 				// update custom share ower amounts
 				if (this.isNewBill && this.newBillMode === 'customShare') {

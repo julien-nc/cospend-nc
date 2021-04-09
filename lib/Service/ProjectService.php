@@ -25,6 +25,7 @@ use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\IServerContainer;
 use OCP\IDBConnection;
+use OCP\IDateTimeZone;
 
 use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\Db\ProjectMapper;
@@ -190,6 +191,7 @@ class ProjectService {
                                 IManager $shareManager,
                                 IUserManager $userManager,
                                 IGroupManager $groupManager,
+                                IDateTimeZone $dateTimeZone,
                                 IDBConnection $dbconnection) {
         $this->trans = $l10n;
         $this->config = $config;
@@ -203,6 +205,7 @@ class ProjectService {
         $this->groupManager = $groupManager;
         $this->userManager = $userManager;
         $this->shareManager = $shareManager;
+        $this->dateTimeZone = $dateTimeZone;
 
         $this->defaultCategoryNames = [
             '-1' => $this->trans->t('Grocery'),
@@ -711,6 +714,7 @@ class ProjectService {
     public function getProjectStatistics($projectId, $memberOrder=null, $tsMin=null, $tsMax=null,
                                           $paymentMode=null, $category=null, $amountMin=null, $amountMax=null,
                                           $showDisabled='1', $currencyId=null) {
+        $timeZone = $this->dateTimeZone->getTimeZone();
         $membersWeight = [];
         $membersNbBills = [];
         $membersBalance = [];
@@ -836,6 +840,7 @@ class ProjectService {
             $payerId = $bill['payer_id'];
             $amount = $bill['amount'];
             $date = \DateTime::createFromFormat('U', $bill['timestamp']);
+            $date->setTimezone($timeZone);
             $month = $date->format('Y-m');
             if (!array_key_exists($month, $monthlyStats)) {
                 $monthlyStats[$month] = [];
@@ -935,6 +940,7 @@ class ProjectService {
             $categoryId = $bill['categoryid'];
             $amount = $bill['amount'];
             $date = \DateTime::createFromFormat('U', $bill['timestamp']);
+            $date->setTimezone($timeZone);
             $month = $date->format('Y-m');
 
             if (!array_key_exists($categoryId, $categoryMonthlyStats)) {

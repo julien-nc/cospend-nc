@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-03-09 14:54+0100\n"
-"PO-Revision-Date: 2021-03-09 15:40\n"
+"PO-Revision-Date: 2021-04-09 14:18\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -55,7 +55,7 @@ msgstr "Du hast die Ausgabe {bill} im Projekt {project} aktualisiert"
 
 #: /var/www/html/dev/server21/apps/cospend/lib/Activity/ActivityManager.php:99
 msgid "{user} has updated the bill {bill} of project {project}"
-msgstr "{user} hat die Abrechnung {bill} im Projekt {project} aktualisiert"
+msgstr "{user} hat die Ausgabe {bill} im Projekt {project} aktualisiert"
 
 #: /var/www/html/dev/server21/apps/cospend/lib/Activity/ActivityManager.php:163
 msgid "A guest user"
@@ -594,7 +594,7 @@ msgstr "Ausgegeben"
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:166
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:205
 msgid "Balance"
-msgstr "Balance"
+msgstr "Saldo"
 
 #: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4074
 #, php-format
@@ -1286,31 +1286,31 @@ msgstr "Keine Transaktionen gefunden"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "Balances on {date}"
-msgstr "Bilanzen zum {date}"
+msgstr "Salden zum {date}"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "Balances"
-msgstr "Bilanzen"
+msgstr "Salden"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:167
 msgid "No balances found"
-msgstr "Keine Bilanzen gefunden"
+msgstr "Keine Salden gefunden"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:168
 msgid "Individual reimbursement"
-msgstr ""
+msgstr "Individuelle Rückerstattung"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:169
 msgid "Payer"
-msgstr ""
+msgstr "Zahler"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:170
 msgid "Receiver"
-msgstr ""
+msgstr "Empfänger"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:171
 msgid "Create bill ({amount})"
-msgstr ""
+msgstr "Rechnung erstellen ({amount})"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:172
 msgid "Failed to get settlement"
@@ -1342,7 +1342,7 @@ msgstr ""
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:180
 msgid "Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money."
-msgstr ""
+msgstr "Wählen Sie einen Zahler, der ein Null-Saldo erhalten möchte, dann einen Empfänger, der als einziger die Rückerstattung erhält."
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:181
 msgid "Make sure the \"real\" reimbursement has been done between those 2 members in real life. Then press \"Create bill\" to automatically create the corresponding bill."
@@ -1543,7 +1543,7 @@ msgstr "Noch keine Mitglieder"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:240
 msgid "Everyone"
-msgstr "Jeder"
+msgstr "Alle"
 
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:241
 #: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:243
@@ -1861,7 +1861,7 @@ msgstr "Löschen des Projekts nicht möglich"
 
 #: /var/www/html/dev/server21/apps/cospend/src/network.js:173
 msgid "Failed to update balances"
-msgstr "Aktualisierung der Bilanzen fehlgeschlagen"
+msgstr "Aktualisierung der Salden fehlgeschlagen"
 
 #: /var/www/html/dev/server21/apps/cospend/src/network.js:198
 msgid "Failed to add member"

@@ -280,7 +280,7 @@ export default {
 			network.repeatBillNow(cospend.currentProjectId, billId).then((response) => {
 				if (response.data.length > 0) {
 					this.getBills(cospend.currentProjectId, billId)
-					showSuccess(t('cospend', '{nb} bills were created', { nb: response.data.length }))
+					showSuccess(n('cospend', '{nb} bill was created', '{nb} bills were created', response.data.length, { nb: response.data.length }))
 					// this.currentBill = null
 				} else {
 					showInfo(t('cospend', 'Nothing to repeat'))

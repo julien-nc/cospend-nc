@@ -88,6 +88,16 @@
 						step="1"
 						@input="onMaxPrecisionChange">
 				</div>
+				<div id="use-time">
+					<input id="use-time-input"
+						v-model="useTime"
+						class="checkbox"
+						type="checkbox"
+						@input="onUseTimeChange">
+					<label for="use-time-input">
+						{{ t('cospend', 'Use time in dates') }}
+					</label>
+				</div>
 			</AppNavigationSettings>
 		</template>
 	</AppNavigation>
@@ -147,6 +157,7 @@ export default {
 			pageIsPublic: cospend.pageIsPublic,
 			sortOrder: cospend.sortOrder || 'name',
 			maxPrecision: cospend.maxPrecision || 2,
+			useTime: cospend.useTime,
 		}
 	},
 	computed: {
@@ -236,6 +247,10 @@ export default {
 		onMaxPrecisionChange() {
 			this.$emit('save-option', 'maxPrecision', this.maxPrecision)
 			cospend.maxPrecision = this.maxPrecision
+		},
+		onUseTimeChange(e) {
+			this.$emit('save-option', 'useTime', e.target.checked ? '1' : '0')
+			cospend.useTime = e.target.checked
 		},
 		onProjectClicked(projectid) {
 			this.$emit('project-clicked', projectid)

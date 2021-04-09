@@ -122,15 +122,16 @@
 				</div>
 				<div class="bill-date">
 					<label for="date"><a class="icon icon-calendar-dark" />{{ t('cospend', 'When?') }}</label>
-					<DatetimePicker v-model="billDatetime"
+					<DatetimePicker v-if="showDatePicker"
+						v-model="billDatetime"
 						class="datetime-picker"
-						type="datetime"
+						:type="useTime ? 'datetime' : 'date'"
 						:placeholder="t('cospend', 'When?')"
 						:minute-step="5"
 						:show-second="false"
 						:formatter="format"
 						:disabled="!editionAccess"
-						confirm />
+						:confirm="false" />
 				</div>
 				<div class="bill-payment-mode">
 					<label for="payment-mode">
@@ -557,10 +558,14 @@ export default {
 			},
 			owerCustomShareAmount: {},
 			ignoreWeights: false,
+			showDatePicker: true,
 		}
 	},
 
 	computed: {
+		useTime() {
+			return cospend.useTime
+		},
 		// amount field proxy to safely manipulate bill.amount
 		uiAmount: {
 			get() {
@@ -775,6 +780,11 @@ export default {
 				...this.bill,
 				owerIds: [...this.bill.owerIds],
 			}
+		},
+		useTime() {
+			// re-render date picker after type change
+			this.showDatePicker = false
+			this.$nextTick(() => { this.showDatePicker = true })
 		},
 	},
 

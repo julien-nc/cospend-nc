@@ -42,6 +42,7 @@ function restoreOptions() {
 }
 
 function getOptionValuesSuccess(response) {
+	cospend.useTime = true
 	let optionsValues = {}
 	optionsValues = response.values
 	if (optionsValues) {
@@ -54,6 +55,8 @@ function getOptionValuesSuccess(response) {
 				cospend.sortOrder = optionsValues[k]
 			} else if (k === 'maxPrecision') {
 				cospend.maxPrecision = optionsValues[k]
+			} else if (k === 'useTime') {
+				cospend.useTime = optionsValues[k] !== '0'
 			}
 		}
 	}

@@ -85,8 +85,9 @@
 				<tr v-for="value in displayData" :key="value.from + ':' + value.to">
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.from) + ';'">
 						<div class="owerAvatar">
-							<Avatar
+							<ColoredAvatar
 								class="itemAvatar"
+								:color="getMemberColor(value.from)"
 								:size="24"
 								:disable-menu="true"
 								:disable-tooltip="true"
@@ -100,8 +101,9 @@
 					</td>
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.to) + ';'">
 						<div class="owerAvatar">
-							<Avatar
+							<ColoredAvatar
 								class="itemAvatar"
+								:color="getMemberColor(value.to)"
 								:size="24"
 								:disable-menu="true"
 								:disable-tooltip="true"
@@ -144,8 +146,9 @@
 					:key="value.mid">
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.mid) + ';'">
 						<div class="owerAvatar">
-							<Avatar
+							<ColoredAvatar
 								class="itemAvatar"
+								:color="getMemberColor(value.mid)"
 								:size="24"
 								:disable-menu="true"
 								:disable-tooltip="true"
@@ -215,7 +218,7 @@ import { getLocale } from '@nextcloud/l10n'
 import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
 import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import ColoredAvatar from './components/ColoredAvatar'
 
 import { getSmartMemberName } from './utils'
 import cospend from './state'
@@ -226,7 +229,7 @@ export default {
 	name: 'Settlement',
 
 	components: {
-		Avatar, AppContentDetails, DatetimePicker, EmptyContent,
+		ColoredAvatar, AppContentDetails, DatetimePicker, EmptyContent,
 	},
 
 	props: {
@@ -318,6 +321,9 @@ export default {
 		},
 		getMemberName(mid) {
 			return this.members[mid].name
+		},
+		getMemberColor(mid) {
+			return this.members[mid].color || ''
 		},
 		getMemberUserId(mid) {
 			return this.members[mid].userid || ''

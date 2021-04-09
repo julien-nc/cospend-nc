@@ -132,8 +132,9 @@
 					:key="value.member.id">
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
 						<div class="owerAvatar">
-							<Avatar
+							<ColoredAvatar
 								class="itemAvatar"
+								:color="getMemberColor(value.member.id)"
 								:size="24"
 								:disable-menu="true"
 								:disable-tooltip="true"
@@ -189,8 +190,9 @@
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
 						<div v-if="value.member.id !== 0"
 							class="owerAvatar">
-							<Avatar
+							<ColoredAvatar
 								class="itemAvatar"
+								:color="getMemberColor(value.member.id)"
 								:size="24"
 								:disable-menu="true"
 								:disable-tooltip="true"
@@ -326,8 +328,9 @@
 					class="avatared"
 					:style="'border: 2px solid #' + myGetMemberColor(mid) + ';'">
 					<div class="owerAvatar">
-						<Avatar
+						<ColoredAvatar
 							class="itemAvatar"
+							:color="getMemberColor(mid)"
 							:size="24"
 							:disable-menu="true"
 							:disable-tooltip="true"
@@ -347,8 +350,9 @@
 					:key="value.memberid">
 					<td v-if="value.memberid !== 0" :style="'border: 2px solid #' + myGetMemberColor(value.memberid) + ';'">
 						<div class="owerAvatar">
-							<Avatar
+							<ColoredAvatar
 								class="itemAvatar"
+								:color="getMemberColor(value.memberid)"
 								:size="24"
 								:disable-menu="true"
 								:disable-tooltip="true"
@@ -387,7 +391,7 @@
 <script>
 import moment from '@nextcloud/moment'
 import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import ColoredAvatar from './components/ColoredAvatar'
 
 import { getCategory, getSmartMemberName } from './utils'
 import cospend from './state'
@@ -400,7 +404,7 @@ export default {
 	name: 'Statistics',
 
 	components: {
-		Avatar, LineChartJs, PieChartJs, PolarChartJs, AppContentDetails,
+		ColoredAvatar, LineChartJs, PieChartJs, PolarChartJs, AppContentDetails,
 	},
 
 	props: {
@@ -776,6 +780,9 @@ export default {
 		},
 		isMemberDisabled(mid) {
 			return !this.members[mid].activated
+		},
+		getMemberColor(mid) {
+			return this.members[mid].color || ''
 		},
 		getMemberUserId(mid) {
 			return this.members[mid].userid || ''

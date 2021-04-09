@@ -6,8 +6,9 @@
 		:title="itemTitle"
 		@click="onItemClick">
 		<div class="app-content-list-item-icon">
-			<Avatar
+			<ColoredAvatar
 				class="itemAvatar"
+				:color="payerColor"
 				:size="40"
 				:disable-menu="true"
 				:disable-tooltip="true"
@@ -50,14 +51,14 @@
 import cospend from '../state'
 import { generateUrl } from '@nextcloud/router'
 import moment from '@nextcloud/moment'
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import ColoredAvatar from './ColoredAvatar'
 import { reload, Timer, getCategory, getSmartMemberName } from '../utils'
 
 export default {
 	name: 'BillItem',
 
 	components: {
-		Avatar,
+		ColoredAvatar,
 	},
 
 	props: {
@@ -111,6 +112,13 @@ export default {
 			return this.bill.id !== 0 && this.members[this.bill.payer_id]
 				? this.members[this.bill.payer_id].userid || ''
 				: ''
+		},
+		payerColor() {
+			return (this.bill.payer_id === 0 || this.bill.id === 0)
+				? ''
+				: this.members[this.bill.payer_id]
+					? this.members[this.bill.payer_id].color
+					: ''
 		},
 		payerName() {
 			return (this.bill.payer_id === 0 || this.bill.id === 0)

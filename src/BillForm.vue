@@ -2,8 +2,9 @@
 	<AppContentDetails class="bill-form-content">
 		<h2 class="bill-title">
 			<div class="billFormAvatar">
-				<Avatar
+				<ColoredAvatar
 					class="itemAvatar"
+					:color="payerColor"
 					:size="50"
 					:disable-menu="true"
 					:disable-tooltip="true"
@@ -337,8 +338,9 @@
 							:key="ower.id"
 							class="owerEntry">
 							<div class="owerAvatar">
-								<Avatar
+								<ColoredAvatar
 									class="itemAvatar"
+									:color="getMemberColor(ower.id)"
 									:size="24"
 									:disable-menu="true"
 									:disable-tooltip="true"
@@ -374,8 +376,9 @@
 							:key="ower.id"
 							class="owerEntry">
 							<div class="owerAvatar">
-								<Avatar
+								<ColoredAvatar
 									class="itemAvatar"
+									:color="getMemberColor(ower.id)"
 									:size="24"
 									:disable-menu="true"
 									:disable-tooltip="true"
@@ -412,8 +415,9 @@
 							:key="ower.id"
 							class="owerEntry">
 							<div class="owerAvatar">
-								<Avatar
+								<ColoredAvatar
 									class="itemAvatar"
+									:color="getMemberColor(ower.id)"
 									:size="24"
 									:disable-menu="true"
 									:disable-tooltip="true"
@@ -444,8 +448,9 @@
 							:key="ower.id"
 							class="owerEntry">
 							<div class="owerAvatar">
-								<Avatar
+								<ColoredAvatar
 									class="itemAvatar"
+									:color="getMemberColor(ower.id)"
 									:size="24"
 									:disable-menu="true"
 									:disable-tooltip="true"
@@ -496,7 +501,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { getLocale } from '@nextcloud/l10n'
 import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
 import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import ColoredAvatar from './components/ColoredAvatar'
 import {
 	showSuccess,
 	showError,
@@ -511,7 +516,7 @@ export default {
 	name: 'BillForm',
 
 	components: {
-		DatetimePicker, AppContentDetails, Avatar,
+		DatetimePicker, AppContentDetails, ColoredAvatar,
 	},
 
 	props: {
@@ -644,6 +649,13 @@ export default {
 			return this.myBill.id !== 0 && this.members[this.myBill.payer_id]
 				? this.members[this.myBill.payer_id].userid || ''
 				: ''
+		},
+		payerColor() {
+			return (this.myBill.payer_id === 0 || this.myBill.id === 0)
+				? ''
+				: this.members[this.myBill.payer_id]
+					? this.members[this.myBill.payer_id].color
+					: ''
 		},
 		payerName() {
 			return (this.myBill.payer_id === 0 || this.myBill.id === 0)
@@ -784,6 +796,9 @@ export default {
 		},
 		getMemberUserId(mid) {
 			return this.members[mid].userid || ''
+		},
+		getMemberColor(mid) {
+			return this.members[mid].color || ''
 		},
 		isMemberDisabled(mid) {
 			return !this.members[mid].activated

@@ -14,8 +14,9 @@
 				<div
 					v-show="!member.activated"
 					:class="{ disabledMask: true, nopad: !inNavigation }" />
-				<Avatar
+				<ColoredAvatar
 					class="itemAvatar"
+					:color="member.color"
 					:size="24"
 					:disable-menu="true"
 					:disable-tooltip="true"
@@ -29,8 +30,9 @@
 			class="memberItemAvatar">
 			<div v-show="!member.activated"
 				:class="{ disabledMask: true, nopad: !inNavigation }" />
-			<Avatar
+			<ColoredAvatar
 				class="itemAvatar"
+				:color="member.color"
 				:size="24"
 				:disable-menu="true"
 				:disable-tooltip="true"
@@ -126,7 +128,7 @@ import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
 import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
 import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator'
 import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import ColoredAvatar from './ColoredAvatar'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import cospend from '../state'
@@ -138,7 +140,7 @@ import { showError } from '@nextcloud/dialogs'
 export default {
 	name: 'AppNavigationMemberItem',
 	components: {
-		AppNavigationItem, ActionButton, ActionRadio, ActionSeparator, ActionInput, ColorPicker, Avatar,
+		AppNavigationItem, ActionButton, ActionRadio, ActionSeparator, ActionInput, ColorPicker, ColoredAvatar,
 	},
 	directives: {
 		ClickOutside,

@@ -407,6 +407,7 @@
 								type="text"
 								value=""
 								:placeholder="t('cospend', 'Personal amount')"
+								@input="onPersoAmountInput"
 								@keyup.enter="onPersoAmountEnterPressed">
 						</div>
 					</div>
@@ -923,6 +924,9 @@ export default {
 				this.onBillEdited(null, false)
 			}
 		},
+		onPersoAmountInput(e) {
+			e.target.value = e.target.value.replace(/,/g, '.')
+		},
 		onPersoAmountEnterPressed(e) {
 			const val = e.target.value.replace(/,/g, '.')
 			if (isNaN(val)) {
@@ -950,7 +954,7 @@ export default {
 				}
 				if (!isNaN(calc)) {
 					e.target.value = calc
-					this.onCustomAmountChange()
+					this.onCustomAmountChange(e)
 				}
 			}
 		},
@@ -1178,7 +1182,9 @@ export default {
 			})
 			return result
 		},
-		onCustomAmountChange() {
+		onCustomAmountChange(e) {
+			e.target.value = e.target.value.replace(/,/g, '.')
+
 			const customAmounts = this.getCustomAmounts()
 			let am
 			let sum = 0

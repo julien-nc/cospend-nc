@@ -150,12 +150,8 @@ class ActivityManager {
 			// No need to enhance parameters since entity already contains the required data
 			case self::SUBJECT_BILL_CREATE:
 			case self::SUBJECT_BILL_UPDATE:
-				$subjectParams = $this->findDetailsForBill($entity->getId());
-				$objectName = $object->getWhat();
-				$eventType = 'cospend_bill_event';
-				break;
 			case self::SUBJECT_BILL_DELETE:
-				$subjectParams = $this->findDetailsForBill(null, $entity);
+				$subjectParams = $this->findDetailsForBill($object);
 				$objectName = $object->getWhat();
 				$eventType = 'cospend_bill_event';
 				break;
@@ -239,12 +235,7 @@ class ActivityManager {
 		throw new InvalidArgumentException('No entity relation present for '. $className . ' to ' . $objectType);
 	}
 
-	private function findDetailsForBill(?int $billId, ?object $billEntity = null) {
-		if ($billId) {
-			$bill = $this->billMapper->find($billId);
-		} else {
-			$bill = $billEntity;
-		}
+	private function findDetailsForBill(object $bill) {
 		$project = $this->projectMapper->find($bill->getProjectid());
 		$bill = [
 			'id' => $bill->getId(),

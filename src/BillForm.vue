@@ -127,11 +127,11 @@
 						class="datetime-picker"
 						:type="useTime ? 'datetime' : 'date'"
 						:placeholder="t('cospend', 'When?')"
-						:minute-step="5"
+						:minute-step="1"
 						:show-second="false"
 						:formatter="format"
 						:disabled="!editionAccess"
-						:confirm="false" />
+						:confirm="true" />
 				</div>
 				<div class="bill-payment-mode">
 					<label for="payment-mode">

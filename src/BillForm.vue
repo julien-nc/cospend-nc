@@ -789,10 +789,14 @@ export default {
 
 	methods: {
 		stringify(date) {
-			return moment(date).locale(this.locale).format('LLL')
+			return this.useTime
+				? moment(date).locale(this.locale).format('LLL')
+				: moment(date).locale(this.locale).format('LL')
 		},
 		parse(value) {
-			return moment(value, 'LLL', this.locale).toDate()
+			return this.useTime
+				? moment(value, 'LLL', this.locale).toDate()
+				: moment(value, 'LL', this.locale).toDate()
 		},
 		myGetSmartMemberName(mid) {
 			let smartName = getSmartMemberName(this.projectId, mid)

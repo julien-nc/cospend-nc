@@ -416,7 +416,7 @@ export default {
 				this.currentBill = {
 					id: 0,
 					what: '',
-					timestamp: moment().unix(),
+					timestamp: moment().hour(0).minute(0).second(0).unix(),
 					amount: 0.0,
 					payer_id: payerId,
 					repeat: 'n',

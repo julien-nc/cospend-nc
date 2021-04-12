@@ -124,14 +124,18 @@ class ActivityManager {
 	 * @throws \Exception
 	 */
 	private function createEvent($objectType, $entity, $subject, $additionalParams = [], $author = null) {
-		try {
-			$object = $this->findObjectForEntity($objectType, $entity);
-		} catch (DoesNotExistException $e) {
-			\OC::$server->getLogger()->error('Could not create activity entry for ' . $subject . '. Entity not found.', (array)$entity);
-			return null;
-		} catch (MultipleObjectsReturnedException $e) {
-			\OC::$server->getLogger()->error('Could not create activity entry for ' . $subject . '. Entity not found.', (array)$entity);
-			return null;
+		if ($subject === self::SUBJECT_BILL_DELETE) {
+			$object = $entity;
+		} else {
+			try {
+				$object = $this->findObjectForEntity($objectType, $entity);
+			} catch (DoesNotExistException $e) {
+				\OC::$server->getLogger()->error('Could not create activity entry for ' . $subject . '. Entity not found.', (array)$entity);
+				return null;
+			} catch (MultipleObjectsReturnedException $e) {
+				\OC::$server->getLogger()->error('Could not create activity entry for ' . $subject . '. Entity not found.', (array)$entity);
+				return null;
+			}
 		}
 
 		/**
@@ -146,8 +150,12 @@ class ActivityManager {
 			// No need to enhance parameters since entity already contains the required data
 			case self::SUBJECT_BILL_CREATE:
 			case self::SUBJECT_BILL_UPDATE:
-			case self::SUBJECT_BILL_DELETE:
 				$subjectParams = $this->findDetailsForBill($entity->getId());
+				$objectName = $object->getWhat();
+				$eventType = 'cospend_bill_event';
+				break;
+			case self::SUBJECT_BILL_DELETE:
+				$subjectParams = $this->findDetailsForBill(null, $entity);
 				$objectName = $object->getWhat();
 				$eventType = 'cospend_bill_event';
 				break;
@@ -184,11 +192,9 @@ class ActivityManager {
 	private function sendToUsers(IEvent $event) {
 		switch ($event->getObjectType()) {
 			case self::COSPEND_OBJECT_BILL:
-				$mapper = $this->billMapper;
-				$projectId = $mapper->findProjectId($event->getObjectId());
+				$projectId = $event->getSubjectParameters()['project']['id'];
 				break;
 			case self::COSPEND_OBJECT_PROJECT:
-				$mapper = $this->projectMapper;
 				$projectId = $event->getObjectName();
 				break;
 		}
@@ -233,8 +239,12 @@ class ActivityManager {
 		throw new InvalidArgumentException('No entity relation present for '. $className . ' to ' . $objectType);
 	}
 
-	private function findDetailsForBill($billId) {
-		$bill = $this->billMapper->find($billId);
+	private function findDetailsForBill(?int $billId, ?object $billEntity = null) {
+		if ($billId) {
+			$bill = $this->billMapper->find($billId);
+		} else {
+			$bill = $billEntity;
+		}
 		$project = $this->projectMapper->find($bill->getProjectid());
 		$bill = [
 			'id' => $bill->getId(),

@@ -275,6 +275,7 @@ export function saveBill(projectid, bill, successCB, doneCB) {
 		repeat: bill.repeat,
 		repeatallactive: bill.repeatallactive ? 1 : 0,
 		repeatuntil: bill.repeatuntil,
+		repeatfreq: bill.repeatfreq,
 		paymentmode: bill.paymentmode,
 		categoryid: bill.categoryid,
 	}

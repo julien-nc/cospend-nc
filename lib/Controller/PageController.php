@@ -620,12 +620,12 @@ class PageController extends ApiController {
     public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for,
                                 $amount, $repeat, $paymentmode=null, $categoryid=null,
                                 $repeatallactive=null, $repeatuntil=null, $timestamp=null,
-                                $comment=null): DataResponse {
+                                $comment=null, ?int $repeatfreq = null): DataResponse {
         $userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
         if ($userAccessLevel >= ACCESS_PARTICIPANT) {
             $result =  $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
                                                        $amount, $repeat, $paymentmode, $categoryid,
-                                                       $repeatallactive, $repeatuntil, $timestamp, $comment);
+                                                       $repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq);
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($billid);
                 $this->activityManager->triggerEvent(
@@ -676,13 +676,13 @@ class PageController extends ApiController {
                                 $what=null, $payer=null, $payed_for=null,
                                 $amount=null, $repeat=null, $paymentmode=null,
                                 $repeatallactive=null, $repeatuntil=null, $timestamp=null,
-                                $comment=null) {
+                                $comment=null, ?int $repeatfreq = null) {
         $userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
         if ($userAccessLevel >= ACCESS_PARTICIPANT) {
             foreach ($billIds as $billid) {
                 $result =  $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
                                                         $amount, $repeat, $paymentmode, $categoryid,
-                                                        $repeatallactive, $repeatuntil, $timestamp, $comment);
+                                                        $repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq);
                 if (is_numeric($result)) {
                     $billObj = $this->billMapper->find($billid);
                     $this->activityManager->triggerEvent(
@@ -736,11 +736,11 @@ class PageController extends ApiController {
      */
     public function webAddBill($projectid, $date, $what, $payer, $payed_for, $amount,
                                $repeat, $paymentmode=null, $categoryid=null, $repeatallactive=0,
-                               $repeatuntil=null, $timestamp=null, $comment=null) {
+                               $repeatuntil=null, $timestamp=null, $comment=null, ?int $repeatfreq = null) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
             $result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
                                                      $repeat, $paymentmode, $categoryid, $repeatallactive,
-                                                     $repeatuntil, $timestamp, $comment);
+                                                     $repeatuntil, $timestamp, $comment, $repeatfreq);
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($result);
                 $this->activityManager->triggerEvent(
@@ -1255,7 +1255,7 @@ class PageController extends ApiController {
      */
     public function apiAddBill($projectid, $password, $date, $what, $payer, $payed_for,
                                $amount, $repeat='n', $paymentmode=null, $categoryid=null,
-                               $repeatallactive=0, $repeatuntil=null, $timestamp=null, $comment=null) {
+                               $repeatallactive=0, $repeatuntil=null, $timestamp=null, $comment=null, ?int $repeatfreq = null) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
             ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
@@ -1263,7 +1263,7 @@ class PageController extends ApiController {
         ) {
             $result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
                                                      $repeat, $paymentmode, $categoryid, $repeatallactive,
-                                                     $repeatuntil, $timestamp, $comment);
+                                                     $repeatuntil, $timestamp, $comment, $repeatfreq);
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($result);
                 $this->activityManager->triggerEvent(
@@ -1293,11 +1293,11 @@ class PageController extends ApiController {
      */
     public function apiPrivAddBill($projectid, $date, $what, $payer, $payed_for,
                                $amount, $repeat='n', $paymentmode=null, $categoryid=null,
-                               $repeatallactive=0, $repeatuntil=null, $timestamp=null, $comment=null) {
+                               $repeatallactive=0, $repeatuntil=null, $timestamp=null, $comment=null, ?int $repeatfreq = null) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
             $result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
                                                      $repeat, $paymentmode, $categoryid, $repeatallactive,
-                                                     $repeatuntil, $timestamp, $comment);
+                                                     $repeatuntil, $timestamp, $comment, $repeatfreq);
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($result);
                 $this->activityManager->triggerEvent(
@@ -1352,7 +1352,7 @@ class PageController extends ApiController {
      */
     public function apiEditBill($projectid, $password, $billid, $date, $what, $payer, $payed_for,
                                 $amount, $repeat='n', $paymentmode=null, $categoryid=null,
-                                $repeatallactive=null, $repeatuntil=null, $timestamp=null, $comment=null) {
+                                $repeatallactive=null, $repeatuntil=null, $timestamp=null, $comment=null, ?int $repeatfreq = null) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
             ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
@@ -1360,7 +1360,7 @@ class PageController extends ApiController {
         ) {
             $result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
                                                       $amount, $repeat, $paymentmode, $categoryid,
-                                                      $repeatallactive, $repeatuntil, $timestamp, $comment);
+                                                      $repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq);
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($billid);
                 $this->activityManager->triggerEvent(
@@ -1393,7 +1393,7 @@ class PageController extends ApiController {
     public function apiEditBills($projectid, $password, $billIds, $categoryid, $date=null,
                                 $what=null, $payer=null, $payed_for=null,
                                 $amount=null, $repeat='n', $paymentmode=null,
-                                $repeatallactive=null, $repeatuntil=null, $timestamp=null, $comment=null) {
+                                $repeatallactive=null, $repeatuntil=null, $timestamp=null, $comment=null, ?int $repeatfreq = null) {
         $publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
         if (
             ($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
@@ -1402,7 +1402,7 @@ class PageController extends ApiController {
             foreach ($billIds as $billid) {
                 $result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
                                                         $amount, $repeat, $paymentmode, $categoryid,
-                                                        $repeatallactive, $repeatuntil, $timestamp, $comment);
+                                                        $repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq);
                 if (is_numeric($result)) {
                     $billObj = $this->billMapper->find($billid);
                     $this->activityManager->triggerEvent(
@@ -1433,11 +1433,11 @@ class PageController extends ApiController {
      */
     public function apiPrivEditBill($projectid, $billid, $date, $what, $payer, $payed_for,
                                 $amount, $repeat='n', $paymentmode=null, $categoryid=null,
-                                $repeatallactive=null, $repeatuntil=null, $timestamp=null, $comment=null) {
+                                $repeatallactive=null, $repeatuntil=null, $timestamp=null, $comment=null, ?int $repeatfreq = null) {
         if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
             $result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
                                                       $amount, $repeat, $paymentmode, $categoryid,
-                                                      $repeatallactive, $repeatuntil, $timestamp, $comment);
+                                                      $repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq);
             if (is_numeric($result)) {
                 $billObj = $this->billMapper->find($billid);
                 $this->activityManager->triggerEvent(

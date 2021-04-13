@@ -28,6 +28,7 @@ class Bill extends Entity {
     protected $paymentmode;
     protected $lastchanged;
     protected $repeatuntil;
+    protected $repeatfreq;
 
     public function __construct() {
         $this->addType('id', 'integer');
@@ -43,5 +44,6 @@ class Bill extends Entity {
         $this->addType('paymentmode', 'string');
         $this->addType('lastchanged', 'integer');
         $this->addType('repeatuntil', 'string');
+        $this->addType('repeatfreq', 'integer');
     }
 }

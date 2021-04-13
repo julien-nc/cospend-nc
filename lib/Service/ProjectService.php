@@ -642,7 +642,7 @@ class ProjectService {
             $activeMembers = [];
             foreach ($members as $member) {
                 if ($member['activated']) {
-                    array_push($activeMembers, $member);
+                    $activeMembers[] = $member;
                 }
             }
             $balance = $this->getBalance($dbProjectId);
@@ -817,7 +817,7 @@ class ProjectService {
                     'spent' => $membersSpent[$memberId],
                     'member' => $member
                 ];
-                array_push($statistics, $statistic);
+                $statistics[] = $statistic;
             }
         }
         else {
@@ -829,7 +829,7 @@ class ProjectService {
                     'spent' => ($membersSpent[$memberId] === 0.0) ? 0 : $membersSpent[$memberId] / $currency['exchange_rate'],
                     'member' => $member
                 ];
-                array_push($statistics, $statistic);
+                $statistics[] = $statistic;
             }
         }
 
@@ -974,10 +974,10 @@ class ProjectService {
         ];
     }
 
-    public function addBill($projectid, $date, $what, $payer, $payed_for,
-                            $amount, $repeat, $paymentmode=null, $categoryid=null,
-                            $repeatallactive=0, $repeatuntil=null, $timestamp=null,
-                            $comment=null) {
+    public function addBill(string $projectid, ?string $date, ?string $what, ?int $payer, ?string $payed_for,
+                            ?float $amount, ?string $repeat, ?string $paymentmode = null, ?int $categoryid = null,
+                            ?int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
+                            ?string $comment = null, ?int $repeatfreq = null) {
         if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
             return ['repeat' => $this->trans->t('Invalid value')];
         }
@@ -1047,6 +1047,7 @@ class ProjectService {
                 'repeat' => $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR),
                 'repeatallactive' => $qb->createNamedParameter($repeatallactive, IQueryBuilder::PARAM_INT),
                 'repeatuntil' => $qb->createNamedParameter($repeatuntil, IQueryBuilder::PARAM_STR),
+                'repeatfreq' => $qb->createNamedParameter($repeatfreq ?? 1, IQueryBuilder::PARAM_INT),
                 'categoryid' => $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT),
                 'paymentmode' => $qb->createNamedParameter($paymentmode, IQueryBuilder::PARAM_STR),
                 'lastchanged' => $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT)
@@ -1207,20 +1208,20 @@ class ProjectService {
             $dbName = $row['name'];
             $dbActivated = (intval($row['activated']) === 1);
             $dbOwerId= intval($row['memberid']);
-            array_push($billOwers, [
+            $billOwers[] = [
                 'id' => $dbOwerId,
                 'weight' => $dbWeight,
                 'name' => $dbName,
                 'activated' => $dbActivated
-            ]);
-            array_push($billOwerIds, $dbOwerId);
+            ];
+            $billOwerIds[] = $dbOwerId;
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();
 
         // get the bill
         $qb->select('id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
-                    'repeatallactive', 'paymentmode', 'categoryid', 'repeatuntil')
+                    'repeatallactive', 'paymentmode', 'categoryid', 'repeatuntil', 'repeatfreq')
            ->from('cospend_bills', 'b')
            ->where(
                $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -1239,6 +1240,7 @@ class ProjectService {
             $dbRepeat = $row['repeat'];
             $dbRepeatAllActive = $row['repeatallactive'];
             $dbRepeatUntil = $row['repeatuntil'];
+            $dbRepeatFreq = (int) $row['repeatfreq'];
             $dbPayerId = intval($row['payerid']);
             $dbPaymentMode = $row['paymentmode'];
             $dbCategoryId = intval($row['categoryid']);
@@ -1255,6 +1257,7 @@ class ProjectService {
                 'repeat' => $dbRepeat,
                 'repeatallactive' => $dbRepeatAllActive,
                 'repeatuntil' => $dbRepeatUntil,
+                'repeatfreq' => $dbRepeatFreq,
                 'paymentmode' => $dbPaymentMode,
                 'categoryid' => $dbCategoryId
             ];
@@ -1325,17 +1328,17 @@ class ProjectService {
         foreach ($balances as $memberId => $balance) {
             if ($memberId !== $centeredOn) {
                 if ($balance > 0.0) {
-                    array_push($transactions, [
+                    $transactions[] = [
                         'from' => $centeredOn,
                         'to' => $memberId,
                         'amount' => $balance
-                    ]);
-                } else if ($balance < 0.0) {
-                    array_push($transactions, [
+                    ];
+                } elseif ($balance < 0.0) {
+                    $transactions[] = [
                         'from' => $memberId,
                         'to' => $centeredOn,
                         'amount' => -$balance
-                    ]);
+                    ];
                 }
             }
         }
@@ -1354,10 +1357,10 @@ class ProjectService {
         $debiters = [];
         foreach ($balances as $id => $balance) {
             if ($balance > 0.0) {
-                array_push($crediters, [$id, $balance]);
+                $crediters[] = [$id, $balance];
             }
             else if ($balance < 0.0) {
-                array_push($debiters, [$id, $balance]);
+                $debiters[] = [$id, $balance];
             }
         }
 
@@ -1392,17 +1395,17 @@ class ProjectService {
         }
 
         $newResults = $results;
-        array_push($newResults, ['to' => $crediter, 'amount' => $amount, 'from' => $debiter]);
+        $newResults[] = ['to' => $crediter, 'amount' => $amount, 'from' => $debiter];
 
         $newDebiterBalance = $debiterBalance + $amount;
         if ($newDebiterBalance < 0.0) {
-            array_push($debiters, [$debiter, $newDebiterBalance]);
+            $debiters[] = [$debiter, $newDebiterBalance];
             $debiters = $this->sortCreditersDebiters($debiters, true);
         }
 
         $newCrediterBalance = $crediterBalance - $amount;
         if ($newCrediterBalance > 0.0) {
-            array_push($crediters, [$crediter, $newCrediterBalance]);
+            $crediters[] = [$crediter, $newCrediterBalance];
             $crediters = $this->sortCreditersDebiters($crediters);
         }
 
@@ -1634,7 +1637,8 @@ class ProjectService {
                               bool $reverse = false, int $offset = 0) {
         $qb = $this->dbconnection->getQueryBuilder();
         $qb->select('id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
-                    'paymentmode', 'categoryid', 'lastchanged', 'repeatallactive', 'repeatuntil')
+                    'paymentmode', 'categoryid', 'lastchanged', 'repeatallactive',
+                    'repeatuntil', 'repeatfreq')
            ->from('cospend_bills', 'bi')
            ->where(
                $qb->expr()->eq('bi.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -1711,6 +1715,7 @@ class ProjectService {
             $dbLastchanged = intval($row['lastchanged']);
             $dbRepeatAllActive = intval($row['repeatallactive']);
             $dbRepeatUntil = $row['repeatuntil'];
+            $dbRepeatFreq = (int) $row['repeatfreq'];
             $bills[] = [
                 'id' => $dbBillId,
                 'amount' => $dbAmount,
@@ -1727,6 +1732,7 @@ class ProjectService {
                 'lastchanged' => $dbLastchanged,
                 'repeatallactive' => $dbRepeatAllActive,
                 'repeatuntil' => $dbRepeatUntil,
+                'repeatfreq' => $dbRepeatFreq,
             ];
         }
         $req->closeCursor();
@@ -1773,7 +1779,7 @@ class ProjectService {
                               bool $reverse = false) {
         $qb = $this->dbconnection->getQueryBuilder();
         $qb->select('bi.id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
-                    'paymentmode', 'categoryid', 'bi.lastchanged', 'repeatallactive', 'repeatuntil',
+                    'paymentmode', 'categoryid', 'bi.lastchanged', 'repeatallactive', 'repeatuntil', 'repeatfreq',
                     'memberid', 'm.name', 'm.weight', 'm.activated')
            ->from('cospend_bill_owers', 'bo')
            ->innerJoin('bo', 'cospend_bills', 'bi', $qb->expr()->eq('bo.billid', 'bi.id'))
@@ -1855,6 +1861,7 @@ class ProjectService {
                 $dbLastchanged = intval($row['lastchanged']);
                 $dbRepeatAllActive = intval($row['repeatallactive']);
                 $dbRepeatUntil = $row['repeatuntil'];
+                $dbRepeatFreq = (int) $row['repeatfreq'];
                 $billDict[$dbBillId] = [
                     'id' => $dbBillId,
                     'amount' => $dbAmount,
@@ -1870,30 +1877,31 @@ class ProjectService {
                     'categoryid' => $dbCategoryId,
                     'lastchanged' => $dbLastchanged,
                     'repeatallactive' => $dbRepeatAllActive,
-                    'repeatuntil' => $dbRepeatUntil
+                    'repeatuntil' => $dbRepeatUntil,
+                    'repeatfreq' => $dbRepeatFreq,
                 ];
                 // keep order of bills
-                array_push($orderedBillIds, $dbBillId);
+                $orderedBillIds[] = $dbBillId;
             }
             // anyway add an ower
             $dbWeight = floatval($row['weight']);
             $dbName = $row['name'];
             $dbActivated = (intval($row['activated']) === 1);
             $dbOwerId= intval($row['memberid']);
-            array_push($billDict[$dbBillId]['owers'], [
+            $billDict[$dbBillId]['owers'][] = [
                 'id' => $dbOwerId,
                 'weight' => $dbWeight,
                 'name' => $dbName,
-                'activated' => $dbActivated
-            ]);
-            array_push($billDict[$dbBillId]['owerIds'], $dbOwerId);
+                'activated' => $dbActivated,
+            ];
+            $billDict[$dbBillId]['owerIds'][] = $dbOwerId;
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();
 
         $resultBills = [];
         foreach ($orderedBillIds as $bid) {
-            array_push($resultBills, $billDict[$bid]);
+            $resultBills[] = $billDict[$bid];
         }
 
         return $resultBills;
@@ -1910,7 +1918,7 @@ class ProjectService {
         $req = $qb->execute();
 
         while ($row = $req->fetch()){
-            array_push($billIds, $row['id']);
+            $billIds[] = $row['id'];
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();
@@ -1983,8 +1991,7 @@ class ProjectService {
                     ]]
                 );
             }
-        }
-        else {
+        } else {
             while ($row = $req->fetch()){
                 $dbMemberId = intval($row['id']);
                 $dbWeight = floatval($row['weight']);
@@ -1996,23 +2003,19 @@ class ProjectService {
                 if ($dbColor === null) {
                     $av = $this->avatarManager->getGuestAvatar($dbName);
                     $dbColor = $av->avatarBackgroundColor($dbName);
-                }
-                else {
+                } else {
                     $dbColor = $this->hexToRgb($dbColor);
                 }
 
-                array_push(
-                    $members,
-                    [
-                        'activated' => ($dbActivated === 1),
-                        'userid' => $dbUserid,
-                        'name' => $dbName,
-                        'id' => $dbMemberId,
-                        'weight' => $dbWeight,
-                        'color' => $dbColor,
-                        'lastchanged' => $dbLastchanged
-                    ]
-                );
+                $members[] = [
+                    'activated' => ($dbActivated === 1),
+                    'userid' => $dbUserid,
+                    'name' => $dbName,
+                    'id' => $dbMemberId,
+                    'weight' => $dbWeight,
+                    'color' => $dbColor,
+                    'lastchanged' => $dbLastchanged
+                ];
             }
         }
         $req->closeCursor();
@@ -2281,11 +2284,11 @@ class ProjectService {
             $dbName = $row['name'];
             $dbId = intval($row['id']);
             $dbExchangeRate = floatval($row['exchange_rate']);
-            array_push($currencies, [
+            $currencies[] = [
                 'name' => $dbName,
                 'exchange_rate' => $dbExchangeRate,
-                'id' => $dbId
-            ]);
+                'id' => $dbId,
+            ];
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();
@@ -2318,14 +2321,14 @@ class ProjectService {
             $dbAccessLevel = intval($row['accesslevel']);
             $dbManuallyAdded = intval($row['manually_added']);
             if (array_key_exists($dbuserId, $userIdToName)) {
-                array_push($shares, [
+                $shares[] = [
                     'userid' => $dbuserId,
                     'name' => $userIdToName[$dbuserId],
                     'id' => $dbId,
                     'accesslevel' => $dbAccessLevel,
                     'type' => 'u',
                     'manually_added' => $dbManuallyAdded === 1,
-                ]);
+                ];
             }
         }
         $req->closeCursor();
@@ -2357,12 +2360,12 @@ class ProjectService {
             $dbprojectId = $row['projectid'];
             $dbId = $row['id'];
             $dbAccessLevel = intval($row['accesslevel']);
-            array_push($shares, [
+            $shares[] = [
                 'token' => $dbToken,
                 'id' => $dbId,
                 'accesslevel' => $dbAccessLevel,
-                'type' => 'l'
-            ]);
+                'type' => 'l',
+            ];
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();
@@ -2422,13 +2425,13 @@ class ProjectService {
             $dbId = $row['id'];
             $dbAccessLevel = intval($row['accesslevel']);
             if (array_key_exists($dbGroupId, $groupIdToName)) {
-                array_push($shares, [
+                $shares[] = [
                     'groupid' => $dbGroupId,
                     'name' => $groupIdToName[$dbGroupId],
                     'id' => $dbId,
                     'accesslevel' => $dbAccessLevel,
-                    'type' => 'g'
-                ]);
+                    'type' => 'g',
+                ];
             }
         }
         $req->closeCursor();
@@ -2467,13 +2470,13 @@ class ProjectService {
                     $dbId = $row['id'];
                     $dbAccessLevel = intval($row['accesslevel']);
                     if (array_key_exists($dbCircleId, $circleIdToName)) {
-                        array_push($shares, [
+                        $shares[] = [
                             'circleid' => $dbCircleId,
                             'name' => $circleIdToName[$dbCircleId],
                             'id' => $dbId,
                             'accesslevel' => $dbAccessLevel,
-                            'type' => 'c'
-                        ]);
+                            'type' => 'c',
+                        ];
                     }
                 }
                 $req->closeCursor();
@@ -2531,7 +2534,7 @@ class ProjectService {
 
         $billIds = [];
         while ($row = $req->fetch()) {
-            array_push($billIds, $row['id']);
+            $billIds[] = $row['id'];
         }
         return $billIds;
     }
@@ -2622,10 +2625,10 @@ class ProjectService {
         return $member;
     }
 
-    public function editBill($projectid, $billid, $date, $what, $payer, $payed_for,
-                              $amount, $repeat, $paymentmode=null, $categoryid=null,
-                              $repeatallactive=null, $repeatuntil=null, $timestamp=null,
-                              $comment=null) {
+    public function editBill(string $projectid, int $billid, ?string $date, ?string $what, ?int $payer, ?string $payed_for,
+                              ?float $amount, ?string $repeat, ?string $paymentmode = null, ?int $categoryid = null,
+                              ?int $repeatallactive = null, ?string $repeatuntil = null, ?int $timestamp = null,
+                              ?string $comment = null, ?int $repeatfreq = null) {
         $qb = $this->dbconnection->getQueryBuilder();
         $qb->update('cospend_bills');
 
@@ -2654,11 +2657,14 @@ class ProjectService {
             }
         }
 
+        if ($repeatfreq !== null) {
+            $qb->set('repeatfreq', $qb->createNamedParameter($repeatfreq, IQueryBuilder::PARAM_INT));
+        }
+
         if ($repeatuntil !== null) {
             if ($repeatuntil === '') {
                 $qb->set('repeatuntil', $qb->createNamedParameter(null, IQueryBuilder::PARAM_STR));
-            }
-            else {
+            } else {
                 $qb->set('repeatuntil', $qb->createNamedParameter($repeatuntil, IQueryBuilder::PARAM_STR));
             }
         }
@@ -2675,17 +2681,14 @@ class ProjectService {
         if ($timestamp !== null && $timestamp !== '') {
             if (is_numeric($timestamp)) {
                 $qb->set('timestamp', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT));
-            }
-            else {
+            } else {
                 return ['timestamp' => $this->trans->t('Invalid value')];
             }
-        }
-        else if ($date !== null && $date !== '') {
+        } elseif ($date !== null && $date !== '') {
             $dateTs = strtotime($date);
             if ($dateTs !== false) {
                 $qb->set('timestamp', $qb->createNamedParameter($dateTs, IQueryBuilder::PARAM_INT));
-            }
-            else {
+            } else {
                 return ['date' => $this->trans->t('Invalid value')];
             }
         }
@@ -2696,8 +2699,7 @@ class ProjectService {
             $member = $this->getMemberById($projectid, $payer);
             if ($member === null) {
                 return ['payer' => $this->trans->t('Not a valid choice')];
-            }
-            else {
+            } else {
                 $qb->set('payerid', $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT));
             }
         }
@@ -2708,8 +2710,7 @@ class ProjectService {
             $owerIds = explode(',', $payed_for);
             if (count($owerIds) === 0) {
                 return ['payed_for' => $this->trans->t('Invalid value')];
-            }
-            else {
+            } else {
                 foreach ($owerIds as $owerId) {
                     if (!is_numeric($owerId)) {
                         return ['payed_for' => $this->trans->t('Invalid value')];
@@ -2766,7 +2767,7 @@ class ProjectService {
             $continue = false;
             // get bills whith repetition flag
             $qb = $this->dbconnection->getQueryBuilder();
-            $qb->select('id', 'projectid', 'what', 'timestamp', 'amount', 'payerid', 'repeat', 'repeatallactive')
+            $qb->select('id', 'projectid', 'what', 'timestamp', 'amount', 'payerid', 'repeat', 'repeatallactive', 'repeatfreq')
                 ->from('cospend_bills', 'b')
                 ->where(
                     $qb->expr()->neq('repeat', $qb->createNamedParameter('n', IQueryBuilder::PARAM_STR))
@@ -2784,6 +2785,7 @@ class ProjectService {
                 $what = $row['what'];
                 $repeat = $row['repeat'];
                 $repeatallactive = $row['repeatallactive'];
+                $repeatfreq = (int) $row['repeatfreq'];
                 $timestamp = $row['timestamp'];
                 $projectid = $row['projectid'];
                 $bills[] = [
@@ -2791,6 +2793,7 @@ class ProjectService {
                     'what' => $what,
                     'repeat' => $repeat,
                     'repeatallactive' => $repeatallactive,
+                    'repeatfreq' => $repeatfreq,
                     'projectid' => $projectid,
                     'timestamp' => $timestamp
                 ];
@@ -2873,7 +2876,7 @@ class ProjectService {
         $newBillId = $this->addBill($projectid, null, $bill['what'], $bill['payer_id'],
                                     $owerIdsStr, $bill['amount'], $bill['repeat'], $bill['paymentmode'],
                                     $bill['categoryid'], $bill['repeatallactive'], $bill['repeatuntil'],
-                                    $datetime->getTimestamp(), $bill['comment']);
+                                    $datetime->getTimestamp(), $bill['comment'], $bill['repeatfreq']);
 
         $billObj = $this->billMapper->find($newBillId);
         $this->activityManager->triggerEvent(
@@ -2892,11 +2895,20 @@ class ProjectService {
         $nextDate = null;
         switch ($bill['repeat']) {
             case 'd':
-                $nextDate = $billDate->add(new \DateInterval('P1D'));
+                if ($bill['repeatfreq'] < 2) {
+                    $nextDate = $billDate->add(new \DateInterval('P1D'));
+                } else {
+                    $nextDate = $billDate->add(new \DateInterval('P' . $bill['repeatfreq'] . 'D'));
+                }
                 break;
 
             case 'w':
-                $nextDate = $billDate->add(new \DateInterval('P7D'));
+                if ($bill['repeatfreq'] < 2) {
+                    $nextDate = $billDate->add(new \DateInterval('P7D'));
+                } else {
+                    $nbDays = 7 * $bill['repeatfreq'];
+                    $nextDate = $billDate->add(new \DateInterval('P' . $nbDays . 'D'));
+                }
                 break;
 
             // bi weekly
@@ -2928,37 +2940,44 @@ class ProjectService {
                 break;
 
             case 'm':
-                if (intval($billDate->format('m')) === 12) {
-                    $nextYear = $billDate->format('Y') + 1;
-                    $nextMonth = 1;
-                } else {
-                    $nextYear = $billDate->format('Y');
-                    $nextMonth = $billDate->format('m') + 1;
-                }
+                $freq = ($bill['repeatfreq'] < 2) ? 1 : $bill['repeatfreq'];
+                $billMonth = intval($billDate->format('m'));
+                $yearDelta = intdiv($billMonth + $freq - 1, 12);
+                $nextYear = intval($billDate->format('Y')) + $yearDelta;
+                $nextMonth = (($billMonth + $freq - 1) % 12) + 1;
 
                 // same day of month if possible, otherwise at end of month
                 $nextDate = new \DateTime();
+                // to get the time
+                $nextDate->setTimestamp($billDate->getTimestamp());
                 $nextDate->setDate($nextYear, $nextMonth, 1);
-                if ($billDate->format('d') > $nextDate->format('t')) {
-                    $nextDate->setDate($nextYear, $nextMonth, $nextDate->format('t'));
-                }
-                else {
-                    $nextDate->setDate($nextYear, $nextMonth, $billDate->format('d'));
+                $billDay = intval($billDate->format('d'));
+                error_log('bill day : '.$billDay);
+                $nbDaysInNextMonth = intval($nextDate->format('t'));
+                if ($billDay > $nbDaysInNextMonth) {
+                    $nextDate->setDate($nextYear, $nextMonth, $nbDaysInNextMonth);
+                } else {
+                    $nextDate->setDate($nextYear, $nextMonth, $billDay);
                 }
                 break;
 
             case 'y':
-                $nextYear = $billDate->format('Y') + 1;
-                $nextMonth = $billDate->format('m');
+                $freq = ($bill['repeatfreq'] < 2) ? 1 : $bill['repeatfreq'];
+                $billYear = intval($billDate->format('Y'));
+                $billMonth = intval($billDate->format('m'));
+                $billDay = intval($billDate->format('d'));
+                $nextYear = $billYear + $freq;
 
                 // same day of month if possible, otherwise at end of month + same month
                 $nextDate = new \DateTime();
-                $nextDate->setDate($billDate->format('Y') + 1, $billDate->format('m'), 1);
-                if ($billDate->format('d') > $nextDate->format('t')) {
-                    $nextDate->setDate($nextYear, $nextMonth, $nextDate->format('t'));
-                }
-                else {
-                    $nextDate->setDate($nextYear, $nextMonth, $billDate->format('d'));
+                // to get the time
+                $nextDate->setTimestamp($billDate->getTimestamp());
+                $nextDate->setDate($nextYear, $billMonth, 1);
+                $nbDaysInNextMonth = intval($nextDate->format('t'));
+                if ($billDay > $nbDaysInNextMonth) {
+                    $nextDate->setDate($nextYear, $billMonth, $nbDaysInNextMonth);
+                } else {
+                    $nextDate->setDate($nextYear, $billMonth, $billDay);
                 }
                 break;
         }
@@ -3212,7 +3231,7 @@ class ProjectService {
         $userIds = [];
         foreach ($this->userManager->search('') as $u) {
             if ($u->getUID() !== $fromUserId) {
-                array_push($userIds, $u->getUID());
+                $userIds[] = $u->getUID();
             }
         }
         if ($userid !== '' && in_array($userid, $userIds)) {
@@ -3588,7 +3607,7 @@ class ProjectService {
         // check if groupId exists
         $groupIds = [];
         foreach($this->groupManager->search('') as $g) {
-            array_push($groupIds, $g->getGID());
+            $groupIds[] = $g->getGID();
         }
         if ($groupid !== '' && in_array($groupid, $groupIds)) {
             $name = $this->groupManager->get($groupid)->getDisplayName();
@@ -3962,7 +3981,7 @@ class ProjectService {
         }
         $file = $folder->newFile($filename);
         $handler = $file->fopen('w');
-        fwrite($handler, "what,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,repeatallactive,repeatuntil,categoryid,paymentmode,comment\n");
+        fwrite($handler, "what,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,repeatfreq,repeatallactive,repeatuntil,categoryid,paymentmode,comment\n");
         $members = $projectInfo['members'];
         $memberIdToName = [];
         $memberIdToWeight = [];
@@ -3978,7 +3997,7 @@ class ProjectService {
         foreach ($bills as $bill) {
             $owerNames = [];
             foreach ($bill['owers'] as $ower) {
-                array_push($owerNames, $ower['name']);
+                $owerNames[] = $ower['name'];
             }
             $owersTxt = implode(', ', $owerNames);
 
@@ -3991,7 +4010,7 @@ class ProjectService {
             fwrite($handler, '"'.$bill['what'].'",'.floatval($bill['amount']).','.$oldDateStr.','.$bill['timestamp'].
                              ',"'.$payer_name.'",'.
                              floatval($payer_weight).','.$payer_active.',"'.$owersTxt.'",'.$bill['repeat'].
-                             ','.$bill['repeatallactive'].','.
+                             ','.$bill['repeatfreq'].','.$bill['repeatallactive'].','.
                              $bill['repeatuntil'].','.$bill['categoryid'].','.$bill['paymentmode'].
                              ',"'.urlencode($bill['comment']).'"'."\n");
         }
@@ -4047,7 +4066,7 @@ class ProjectService {
                             $previousLineEmpty = true;
                         }
                         // determine which section we're entering
-                        else if ($row === 0 || $previousLineEmpty) {
+                        elseif ($row === 0 || $previousLineEmpty) {
                             $previousLineEmpty = false;
                             $nbCol = count($data);
                             $columns = [];
@@ -4062,20 +4081,17 @@ class ProjectService {
                                 array_key_exists('owers', $columns)
                             ) {
                                 $currentSection = 'bills';
-                            }
-                            else if (array_key_exists('icon', $columns) and
+                            } elseif (array_key_exists('icon', $columns) and
                                      array_key_exists('color', $columns) and
                                      array_key_exists('categoryid', $columns) and
                                      array_key_exists('categoryname', $columns)
                             ) {
                                 $currentSection = 'categories';
-                            }
-                            else if (array_key_exists('exchange_rate', $columns) and
+                            } elseif (array_key_exists('exchange_rate', $columns) and
                                      array_key_exists('currencyname', $columns)
                             ) {
                                 $currentSection = 'currencies';
-                            }
-                            else {
+                            } else {
                                 fclose($handle);
                                 return ['message' => $this->trans->t('Malformed CSV, bad column names at line %1$s', [$row + 1])];
                             }
@@ -4088,34 +4104,31 @@ class ProjectService {
                                 $color = $data[$columns['color']];
                                 $categoryid = $data[$columns['categoryid']];
                                 $categoryname = $data[$columns['categoryname']];
-                                array_push($categories, [
+                                $categories[] = [
                                     'icon' => $icon,
                                     'color' => $color,
                                     'id' => $categoryid,
-                                    'name' => $categoryname
-                                ]);
+                                    'name' => $categoryname,
+                                ];
                             }
                             else if ($currentSection === 'currencies') {
                                 $name = $data[$columns['currencyname']];
                                 $exchange_rate = $data[$columns['exchange_rate']];
                                 if (floatval($exchange_rate) === 1.0) {
                                     $mainCurrencyName = $name;
-                                }
-                                else {
-                                    array_push($currencies, [
+                                } else {
+                                    $currencies[] = [
                                         'name' => $name,
-                                        'exchange_rate' => $exchange_rate
-                                    ]);
+                                        'exchange_rate' => $exchange_rate,
+                                    ];
                                 }
-                            }
-                            else if ($currentSection === 'bills') {
+                            } elseif ($currentSection === 'bills') {
                                 $what = $data[$columns['what']];
                                 $amount = $data[$columns['amount']];
                                 // priority to timestamp
                                 if (array_key_exists('timestamp', $columns)) {
                                     $timestamp = $data[$columns['timestamp']];
-                                }
-                                else if (array_key_exists('date', $columns)) {
+                                } elseif (array_key_exists('date', $columns)) {
                                     $date = $data[$columns['date']];
                                     $timestamp = strtotime($date);
                                 }
@@ -4128,14 +4141,14 @@ class ProjectService {
                                 $paymentmode = array_key_exists('paymentmode', $columns) ? $data[$columns['paymentmode']] : null;
                                 $repeatallactive = array_key_exists('repeatallactive', $columns) ? $data[$columns['repeatallactive']] : 0;
                                 $repeatuntil = array_key_exists('repeatuntil', $columns) ? $data[$columns['repeatuntil']] : null;
+                                $repeatfreq = array_key_exists('repeatfreq', $columns) ? $data[$columns['repeatfreq']] : 1;
                                 $comment = array_key_exists('comment', $columns) ? urldecode($data[$columns['comment']]) : null;
 
                                 // manage members
                                 $membersActive[$payer_name] = intval($payer_active);
                                 if (is_numeric($payer_weight)) {
                                     $membersWeight[$payer_name] = floatval($payer_weight);
-                                }
-                                else {
+                                } else {
                                     fclose($handle);
                                     return ['message' => $this->trans->t('Malformed CSV, bad payer weight on line %1$s', [$row + 1])];
                                 }
@@ -4158,7 +4171,7 @@ class ProjectService {
                                         fclose($handle);
                                         return ['message' => $this->trans->t('Malformed CSV, bad amount on line %1$s', [$row + 1])];
                                     }
-                                    array_push($bills, [
+                                    $bills[] = [
                                         'what' => $what,
                                         'comment' => $comment,
                                         'timestamp' => $timestamp,
@@ -4169,8 +4182,9 @@ class ProjectService {
                                         'categoryid' => $categoryid,
                                         'repeat' => $repeat,
                                         'repeatuntil' => $repeatuntil,
-                                        'repeatallactive' => $repeatallactive
-                                    ]);
+                                        'repeatallactive' => $repeatallactive,
+                                        'repeatfreq' => $repeatfreq,
+                                    ];
                                 }
                             }
                         }
@@ -4231,13 +4245,13 @@ class ProjectService {
                         $payerId = $memberNameToId[$bill['payer_name']];
                         $owerIds = [];
                         foreach ($bill['owers'] as $owerName) {
-                            array_push($owerIds, $memberNameToId[$owerName]);
+                            $owerIds[] = $memberNameToId[$owerName];
                         }
                         $owerIdsStr = implode(',', $owerIds);
                         $addBillResult = $this->addBill($projectid, null, $bill['what'], $payerId,
                                                         $owerIdsStr, $bill['amount'], $bill['repeat'],
                                                         $bill['paymentmode'], $catId, $bill['repeatallactive'],
-                                                        $bill['repeatuntil'], $bill['timestamp'], $bill['comment']);
+                                                        $bill['repeatuntil'], $bill['timestamp'], $bill['comment'], $bill['repeatfreq']);
                         if (!is_numeric($addBillResult)) {
                             $this->deleteProject($projectid);
                             return ['message' => $this->trans->t('Error when adding bill %1$s', [$bill['what']])];
@@ -4356,11 +4370,11 @@ class ProjectService {
                                 $data[$columns['Category']] !== '') {
                                 $catName = $data[$columns['Category']];
                                 if (!in_array($catName, $categoryNames)) {
-                                    array_push($categoryNames, $catName);
+                                    $categoryNames[] = $catName;
                                 }
                                 $bill['category_name'] = $catName;
                             }
-                            array_push($bills, $bill);
+                            $bills[] = $bill;
                         }
                         $row++;
                     }
@@ -4404,7 +4418,7 @@ class ProjectService {
                         $payerId = $memberNameToId[$bill['payer_name']];
                         $owerIds = [];
                         foreach ($bill['owers'] as $owerName) {
-                            array_push($owerIds, $memberNameToId[$owerName]);
+                            $owerIds[] = $memberNameToId[$owerName];
                         }
                         $owerIdsStr = implode(',', $owerIds);
                         // category
@@ -4580,7 +4594,7 @@ class ProjectService {
             $dbComment = $row['comment'];
             $dbPaymentMode = $row['paymentmode'];
             $dbCategoryId = intval($row['categoryid']);
-            array_push($bills, [
+            $bills[] = [
                 'id' => $dbBillId,
                 'projectId' => $projectId,
                 'amount' => $dbAmount,
@@ -4588,8 +4602,8 @@ class ProjectService {
                 'timestamp' => $dbTimestamp,
                 'comment' => $dbComment,
                 'paymentmode' => $dbPaymentMode,
-                'categoryid' => $dbCategoryId
-            ]);
+                'categoryid' => $dbCategoryId,
+            ];
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();

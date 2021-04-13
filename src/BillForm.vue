@@ -226,6 +226,24 @@
 				</div>
 				<div v-if="myBill.repeat !== 'n'"
 					class="bill-repeat-extra">
+					<div v-if="['d', 'w', 'm', 'y'].includes(myBill.repeat)"
+						class="bill-repeat-freq">
+						<label for="repeat-freq">
+							<a class="icon icon-category-monitoring" />{{ t('cospend', 'Frequency') }}
+						</label>
+						<div class="field-with-info">
+							<input
+								id="repeat-freq"
+								v-model.number="myBill.repeatfreq"
+								type="number"
+								class="input-repeat-freq"
+								min="1"
+								step="1"
+								:placeholder="t('cospend', 'Leave empty for maximum frequency')"
+								:readonly="!editionAccess"
+								@input="onBillEdited">
+						</div>
+					</div>
 					<div class="bill-repeat-include">
 						<input
 							id="repeatallactive"
@@ -989,7 +1007,7 @@ export default {
 			if (this.isBillValidForSaveOrNormal()) {
 				const myBill = this.myBill
 				this.createBill('normal', myBill.what, myBill.amount, myBill.payer_id, myBill.timestamp, myBill.owerIds, myBill.repeat,
-					myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.comment)
+					myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.repeatfreq, myBill.comment)
 			} else {
 				showError(t('cospend', 'Bill values are not valid.'))
 			}
@@ -1030,14 +1048,14 @@ export default {
 					part = persoParts[mid]
 					if (!isNaN(part) && part !== 0.0) {
 						this.createBill('perso', myBill.what, part, myBill.payer_id, myBill.timestamp, [mid], myBill.repeat,
-							myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.comment)
+							myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.repeatfreq, myBill.comment)
 					}
 				}
 
 				// create main bill
 				if (tmpAmount > 0.0) {
 					this.createBill('mainPerso', myBill.what, tmpAmount, myBill.payer_id, myBill.timestamp, myBill.owerIds, myBill.repeat,
-						myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.comment)
+						myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.repeatfreq, myBill.comment)
 				}
 				this.newBillMode = 'normal'
 			} else {
@@ -1068,7 +1086,7 @@ export default {
 						am = customAmounts[mid]
 						if (am !== 0.0) {
 							this.createBill('custom', myBill.what, am, myBill.payer_id, myBill.timestamp, [mid], myBill.repeat,
-								myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.comment)
+								myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.repeatfreq, myBill.comment)
 						}
 					}
 				}
@@ -1103,7 +1121,7 @@ export default {
 						console.debug(amount)
 						if (amount !== 0.0) {
 							this.createBill('customShare', myBill.what, amount, myBill.payer_id, myBill.timestamp, [mid], myBill.repeat,
-								myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.comment)
+								myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.repeatfreq, myBill.comment)
 						}
 					}
 				}
@@ -1115,7 +1133,7 @@ export default {
 		},
 		createBill(mode = null, what = null, amount = null, payer_id = null, timestamp = null, owerIds = null, repeat = null,
 			paymentmode = null, categoryid = null, repeatallactive = null,
-			repeatuntil = null, comment = null) {
+			repeatuntil = null, repeatfreq = null, comment = null) {
 			if (mode === null) {
 				mode = this.newBillMode
 			}
@@ -1129,6 +1147,7 @@ export default {
 				repeat,
 				repeatallactive,
 				repeatuntil,
+				repeatfreq: repeatfreq ? parseInt(repeatfreq) : 1,
 				paymentmode,
 				categoryid,
 			}
@@ -1142,6 +1161,7 @@ export default {
 				repeat,
 				repeatallactive: repeatallactive ? 1 : 0,
 				repeatuntil,
+				repeatfreq: repeatfreq ? parseInt(repeatfreq) : 1,
 				paymentmode,
 				categoryid,
 			}
@@ -1437,6 +1457,7 @@ export default {
 .bill-category,
 .bill-repeat,
 .bill-repeat-until,
+.bill-repeat-freq,
 .bill-payer,
 .bill-amount,
 .bill-currency-convert,

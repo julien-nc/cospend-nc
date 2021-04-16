@@ -10,7 +10,7 @@ Umožňuje vytvářet projekty s členy a účty. Každý z členů má zůstate
 
 Android klient pro [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) je [k dispozici v repozitáři F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) a v katalogu [Google Play](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
-Je ve vývoji i iOS klient [PayForMe](https://github.com/mayflower/PayForMe)!
+Ve vývoji je také iOS klient [PayForMe](https://github.com/mayflower/PayForMe)!
 
 ## Funkce
 
@@ -28,7 +28,7 @@ Je ve vývoji i iOS klient [PayForMe](https://github.com/mayflower/PayForMe)!
 * 🔗 vytvářejte odkazy/QRKód pro snadný import projektů v MoneyBuster
 * 🗲 implementovat oznámení z Nextcloud a proud aktivit
 
-This app is tested on Nextcloud 20+ with Firefox 57+ and Chromium.
+Tato aplikace je testována na Nextcloudu 20+ s Firefoxem 57+ a Chromiem.
 
 Na této aplikaci stále ještě probíhá intenzivní vývoj.
 
@@ -36,16 +36,16 @@ Na této aplikaci stále ještě probíhá intenzivní vývoj.
 
 ⚒ Podívejte se na další způsoby, jak pomoci ve [pokynech pro přispěvatele](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
-## Documentation
+## Dokumentace
 
-* [User documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
-* [Admin documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
-* [Developer documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
-* [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
-* [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
+* [Uživatelská dokumentace](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
+* [Dokumentace pro administrátory](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
+* [Dokumentace pro vývojáře](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
+* [SEZNAM ZMĚN](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [AUTOŘI](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## Známé problémy
 
 * it does not make you rich
 
-Any feedback will be appreciated.
+Jakákoliv zpětná vazba bude vítána.

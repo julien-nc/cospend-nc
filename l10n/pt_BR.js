@@ -128,7 +128,6 @@ OC.L10N.register(
     "monthly" : "mensalmente",
     "No bill selected" : "Nenhuma fatura selecionada",
     "Toggle sidebar" : "Alternar barra lateral",
-    "{nb} bills were created" : "{nb} contas foram criadas",
     "Nothing to repeat" : "Nada para repetir",
     "Member {name} already exists" : "Membro {name} já existe",
     "Failed to get bills" : "Falha ao receber contas",

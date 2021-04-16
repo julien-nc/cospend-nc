@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2021-03-09 14:54+0100\n"
-"PO-Revision-Date: 2021-03-09 15:40\n"
+"POT-Creation-Date: 2021-04-09 17:38+0200\n"
+"PO-Revision-Date: 2021-04-10 14:22\n"
 "Last-Translator: \n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
@@ -17,1983 +17,1989 @@ msgstr ""
 "X-Crowdin-File: /master/translationfiles/templates/cospend.pot\n"
 "X-Crowdin-File-ID: 60\n"
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Activity/ActivityManager.php:87
+#: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:87
 msgid "You have created a new bill {bill} in project {project}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Activity/ActivityManager.php:87
+#: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:87
 msgid "{user} has created a new bill {bill} in project {project}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Activity/ActivityManager.php:90
+#: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:90
 msgid "You have deleted the bill {bill} of project {project}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Activity/ActivityManager.php:90
+#: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:90
 msgid "{user} has deleted the bill {bill} of project {project}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Activity/ActivityManager.php:93
+#: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:93
 msgid "You have shared the project {project} with {who}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Activity/ActivityManager.php:93
+#: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:93
 msgid "{user} has shared the project {project} with {who}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Activity/ActivityManager.php:96
+#: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:96
 msgid "You have removed {who} from the project {project}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Activity/ActivityManager.php:96
+#: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:96
 msgid "{user} has removed {who} from the project {project}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Activity/ActivityManager.php:99
+#: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:99
 msgid "You have updated the bill {bill} of project {project}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Activity/ActivityManager.php:99
+#: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:99
 msgid "{user} has updated the bill {bill} of project {project}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Activity/ActivityManager.php:163
+#: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:163
 msgid "A guest user"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Activity/BillSetting.php:42
+#: /var/www/html/dev/server22/apps/cospend/lib/Activity/BillSetting.php:42
 msgid "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Activity/CospendProvider.php:236
-#: /var/www/html/dev/server21/apps/cospend/lib/Activity/CospendProvider.php:247
+#: /var/www/html/dev/server22/apps/cospend/lib/Activity/CospendProvider.php:252
+#: /var/www/html/dev/server22/apps/cospend/lib/Activity/CospendProvider.php:263
 #, php-format
 msgid "circle %1$s"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Activity/Filter.php:55
-#: /var/www/html/dev/server21/apps/cospend/lib/Notification/Notifier.php:65
-#: /var/www/html/dev/server21/apps/cospend/lib/Search/CospendSearchProvider.php:80
-#: /var/www/html/dev/server21/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:2
-#: /var/www/html/dev/server21/apps/cospend/templates/admin.php:8
+#: /var/www/html/dev/server22/apps/cospend/lib/Activity/Filter.php:55
+#: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:65
+#: /var/www/html/dev/server22/apps/cospend/lib/Search/CospendSearchProvider.php:80
+#: /var/www/html/dev/server22/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:2
+#: /var/www/html/dev/server22/apps/cospend/templates/admin.php:8
 msgid "Cospend"
 msgstr "Cospend"
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Activity/Setting.php:54
+#: /var/www/html/dev/server22/apps/cospend/lib/Activity/Setting.php:54
 msgid "Changes in the <strong>Cospend app</strong>"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:170
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:199
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:227
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:258
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:280
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:311
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:335
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:170
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:199
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:227
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:258
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:280
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:311
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:335
 msgid "Cospend public access"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:171
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:200
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:171
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:200
 #, php-format
 msgid "Enter password of project %s"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:228
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:228
 msgid "Enter project id and password"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:259
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:312
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:259
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:312
 #, php-format
 msgid "Project %s"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:281
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:336
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2760
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2764
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2768
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4244
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4248
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4252
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4420
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4424
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4428
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:281
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:336
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2760
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2764
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2768
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4250
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4254
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4258
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4426
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4430
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4434
 msgid "Access denied"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:416
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:948
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:977
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1001
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1023
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1043
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1073
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1107
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1133
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1161
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1457
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1498
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1540
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1576
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1604
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1628
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1655
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1676
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1706
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1732
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1758
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1782
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1804
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1824
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1853
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1877
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:416
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:948
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:977
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1001
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1023
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1043
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1073
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1107
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1133
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1161
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1457
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1498
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1540
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1576
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1604
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1628
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1655
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1676
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1706
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1732
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1758
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1782
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1804
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1824
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1853
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1877
 msgid "Unauthorized action"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:450
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:485
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:450
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:485
 msgid "You are not allowed to delete this bill"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:504
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:504
 msgid "You are not allowed to get this project's info"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:526
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:526
 msgid "You are not allowed to get this project's statistics"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:544
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:544
 msgid "You are not allowed to get this project's settlement"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:567
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:567
 msgid "You are not allowed to settle this project automatically"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:584
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:584
 msgid "You are not allowed to access this project"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:609
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:609
 msgid "You are not allowed to edit this member"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:645
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:702
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1380
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1422
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:645
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:702
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1380
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1422
 msgid "You are not allowed to edit this bill"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:664
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:760
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1282
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1316
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1340
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:664
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:760
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1282
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1316
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1340
 msgid "You are not allowed to add bills"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:726
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2556
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2649
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2696
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:726
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2556
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2649
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2696
 msgid "You are not allowed to edit this project"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:783
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1190
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1219
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1243
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:783
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1190
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1219
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1243
 msgid "You are not allowed to add members"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:814
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:814
 msgid "You are not allowed to get the bill list"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:868
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:868
 msgid "Anonymous project creation is not allowed on this server"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:911
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:940
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:911
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:940
 msgid "Project not found"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:919
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:919
 msgid "Bad password or public link"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:1983
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1983
 msgid "You are not allowed to give such shared access level"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2006
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2021
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2006
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2021
 msgid "You are not allowed to edit guest access level"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2066
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2093
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2117
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2137
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2155
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2183
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2209
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2232
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2254
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2283
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2307
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2066
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2093
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2117
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2137
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2155
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2183
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2209
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2232
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2254
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2283
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2307
 msgid "You are not allowed to manage categories"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2329
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2359
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2384
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2406
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2435
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2459
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2481
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2510
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2534
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2329
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2359
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2384
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2406
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2435
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2459
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2481
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2510
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2534
 msgid "You are not allowed to manage currencies"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2581
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2627
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2674
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2721
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2581
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2627
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2674
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2721
 msgid "You are not allowed to remove this shared access"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2603
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2603
 msgid "You are not allowed to add public shared accesses"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2788
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2788
 msgid "You are not allowed to export this project settlement"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2813
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2813
 msgid "You are not allowed to export this project statistics"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Controller/PageController.php:2840
+#: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2840
 msgid "You are not allowed to export this project"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Dashboard/CospendWidget.php:52
+#: /var/www/html/dev/server22/apps/cospend/lib/Dashboard/CospendWidget.php:52
 msgid "Cospend activity"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Migration/Version000406Date20200426154317.php:92
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:208
+#: /var/www/html/dev/server22/apps/cospend/lib/Migration/Version000406Date20200426154317.php:92
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:211
 msgid "Grocery"
 msgstr "Market"
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Migration/Version000406Date20200426154317.php:93
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:209
+#: /var/www/html/dev/server22/apps/cospend/lib/Migration/Version000406Date20200426154317.php:93
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:212
 msgid "Bar/Party"
 msgstr "Bar/Parti"
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Migration/Version000406Date20200426154317.php:94
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:210
+#: /var/www/html/dev/server22/apps/cospend/lib/Migration/Version000406Date20200426154317.php:94
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:213
 msgid "Rent"
 msgstr "Kira"
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Migration/Version000406Date20200426154317.php:95
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:211
+#: /var/www/html/dev/server22/apps/cospend/lib/Migration/Version000406Date20200426154317.php:95
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:214
 msgid "Bill"
 msgstr "Fatura"
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Migration/Version000406Date20200426154317.php:96
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:212
+#: /var/www/html/dev/server22/apps/cospend/lib/Migration/Version000406Date20200426154317.php:96
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:215
 msgid "Excursion/Culture"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Migration/Version000406Date20200426154317.php:97
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:213
+#: /var/www/html/dev/server22/apps/cospend/lib/Migration/Version000406Date20200426154317.php:97
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:216
 msgid "Health"
 msgstr "Sağlık"
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Migration/Version000406Date20200426154317.php:98
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:214
+#: /var/www/html/dev/server22/apps/cospend/lib/Migration/Version000406Date20200426154317.php:98
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:217
 msgid "Shopping"
 msgstr "Alışveriş"
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Migration/Version000406Date20200426154317.php:100
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:215
+#: /var/www/html/dev/server22/apps/cospend/lib/Migration/Version000406Date20200426154317.php:100
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:218
 msgid "Restaurant"
 msgstr "Restaurant"
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Migration/Version000406Date20200426154317.php:101
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:216
+#: /var/www/html/dev/server22/apps/cospend/lib/Migration/Version000406Date20200426154317.php:101
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:219
 msgid "Accommodation"
 msgstr "Konaklama"
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Migration/Version000406Date20200426154317.php:102
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:217
+#: /var/www/html/dev/server22/apps/cospend/lib/Migration/Version000406Date20200426154317.php:102
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:220
 msgid "Transport"
 msgstr "Ulaşım"
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Migration/Version000406Date20200426154317.php:103
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:218
+#: /var/www/html/dev/server22/apps/cospend/lib/Migration/Version000406Date20200426154317.php:103
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:221
 msgid "Sport"
 msgstr "Spor"
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Notification/Notifier.php:86
+#: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:86
 #, php-format
 msgid "User \"%s\" shared Cospend project \"%s\" with you."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Notification/Notifier.php:94
+#: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:94
 #, php-format
 msgid "User \"%s\" stopped sharing Cospend project \"%s\" with you."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Search/CospendSearchProvider.php:165
+#: /var/www/html/dev/server22/apps/cospend/lib/Search/CospendSearchProvider.php:165
 #, php-format
 msgid "In project %1$s"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:248
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:183
-#: /var/www/html/dev/server21/apps/cospend/src/constants.js:19
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:251
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:183
+#: /var/www/html/dev/server22/apps/cospend/src/constants.js:19
 msgid "Reimbursement"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:494
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:497
 msgid "Invalid project id"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:536
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:539
 #, php-format
 msgid "A project with id \"%1$s\" already exists"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:601
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1096
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:604
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1102
 msgid "Not Found"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:871
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:876
 msgid "Average per month"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:976
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:979
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1017
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1021
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:2647
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:2674
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:2683
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:2704
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:2709
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:982
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:985
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1023
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1027
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:2653
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:2680
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:2689
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:2710
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:2715
 msgid "Invalid value"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:990
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:996
 msgid "Timestamp (or date) field is required"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:995
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1001
 msgid "Invalid date"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1003
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1009
 msgid "This field is invalid"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1006
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1009
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1505
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1012
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1015
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1511
 msgid "This field is required"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1012
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1024
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:2692
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:2712
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1018
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1030
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:2698
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:2718
 msgid "Not a valid choice"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1276
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1282
 msgid "Error when getting project settlement transactions"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1298
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1304
 msgid "Error when adding a bill"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1450
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1567
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1456
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1573
 msgid "Invalid member name"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1452
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1458
 msgid "Name already exists"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1461
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1467
 msgid "Not a valid decimal value"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1501
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1507
 msgid "This project have no such member"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1513
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1607
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1519
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1613
 msgid "Name field is required"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1524
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1530
 msgid "Invalid email address"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1559
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1565
 msgid "There is no such project"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1575
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1581
 msgid "Weight is not a valid decimal value"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1579
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1585
 msgid "Active is not a valid integer value"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:1603
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1609
 msgid "This project already has this member"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:2632
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:2638
 msgid "There is no such bill"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3050
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3171
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3056
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3177
 msgid "Not found"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3097
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3103
 msgid "This project have no such category"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3101
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3200
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3107
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3206
 msgid "Incorrect field values"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3196
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3202
 msgid "This project have no such currency"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3291
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3297
 msgid "You are not authorized to give such access level"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3294
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3300
 msgid "Already shared with this user"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3297
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3303
 msgid "Impossible to share the project with its owner"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3300
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3306
 msgid "No such user"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3395
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3495
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3699
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3834
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3401
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3501
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3705
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3840
 msgid "No such share"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3577
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3583
 msgid "No such shared access"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3638
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3644
 msgid "Already shared with this group"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3642
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3648
 msgid "No such group"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3713
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3719
 msgid "Sharing with personal circles is not supported"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3771
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3777
 msgid "Already shared with this circle"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3775
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3781
 msgid "No such circle"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3779
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3785
 msgid "Circles app is not enabled"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3857
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:160
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3863
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:160
 msgid "Who pays?"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3857
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:161
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3863
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:161
 msgid "To whom?"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3857
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:19
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:162
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3863
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:19
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:162
 msgid "How much?"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3884
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3890
 #, php-format
 msgid "%1$s is not a folder"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3887
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3893
 #, php-format
 msgid "%1$s is not writeable"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3894
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3900
 #, php-format
 msgid "Impossible to create %1$s"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3916
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:165
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:201
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3922
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:165
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:201
 msgid "Member name"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3916
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:202
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3922
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:202
 msgid "Paid"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3916
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:203
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3922
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:203
 msgid "Spent"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:3916
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:166
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:205
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3922
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:166
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:205
 msgid "Balance"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4074
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4080
 #, php-format
 msgid "Malformed CSV, bad column names at line %1$s"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4134
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4140
 #, php-format
 msgid "Malformed CSV, bad payer weight on line %1$s"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4138
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4145
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4144
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4151
 #, php-format
 msgid "Malformed CSV, bad owers on line %1$s"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4153
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4338
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4159
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4344
 #, php-format
 msgid "Malformed CSV, bad amount on line %1$s"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4186
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4375
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4192
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4381
 #, php-format
 msgid "Error in project creation, %1$s"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4197
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4383
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4203
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4389
 #, php-format
 msgid "Error when adding category %1$s"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4206
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4212
 #, php-format
 msgid "Error when adding currency %1$s"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4214
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4392
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4220
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4398
 #, php-format
 msgid "Error when adding member %1$s"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4237
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4414
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4243
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4420
 #, php-format
 msgid "Error when adding bill %1$s"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4288
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4294
 msgid "Malformed CSV, bad column names"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4299
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4305
 msgid "Malformed CSV, cannot have an empty ower"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4332
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4338
 #, php-format
 msgid "Malformed CSV, no payer on line %1$s"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4453
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4459
 msgid "daily"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4468
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4474
 msgid "weekly"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/lib/Service/ProjectService.php:4489
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4495
 msgid "monthly"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:3
+#: /var/www/html/dev/server22/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:3
 msgid " "
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:1
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:1
 msgid "No bill selected"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:2
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "Toggle sidebar"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:3
-msgid "{nb} bills were created"
-msgstr ""
-
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:4
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "Nothing to repeat"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:5
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:4
 msgid "Member {name} already exists"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:6
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:7
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:5
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:6
 msgid "Failed to get bills"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:8
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Invalid project name"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:9
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:8
 msgid "Deleted project {id}"
 msgstr "{id} projesi silindi"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:10
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:9
 msgid "Created member {name}"
 msgstr "{name} üyesi oluşturuldu"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:11
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:10
 msgid "Member deleted."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:12
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:11
 msgid "Member saved."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:13
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:12
 msgid "Project saved"
 msgstr "Proje kayıt edildi"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:14
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:13
+msgid "{nb} bill was created"
+msgid_plural "{nb} bills were created"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:14
 msgid "link"
 msgstr "link"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:15
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:59
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:15
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:59
 msgid "Press Shift+Enter to validate"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:16
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:16
 msgid "What?"
 msgstr "Ne?"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:17
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:17
 msgid "What is the bill about?"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:18
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:18
 msgid "Attach public link to personal file"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:20
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:22
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:40
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:20
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:22
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:40
 msgid "More information"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:21
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:21
 msgid "Convert to"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:23
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:23
 msgid "Who payed?"
 msgstr "Kim ödedi?"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:24
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:25
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:155
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:24
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:25
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:155
 msgid "When?"
 msgstr "Ne zaman?"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:26
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:189
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:26
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:189
 msgid "Payment mode"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:27
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:29
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:84
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:86
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:119
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:27
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:29
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:84
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:86
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:119
 msgid "None"
 msgstr "Hiç biri"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:28
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:191
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:28
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:191
 msgid "Category"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:30
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:30
 msgid "Comment"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:31
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:31
 msgid "More details about the bill (300 char. max)"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:32
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:32
 msgid "Repeat"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:33
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:279
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:33
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:280
 msgid "No"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:34
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:280
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:34
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:281
 msgid "Daily"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:35
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:281
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:35
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:282
 msgid "Weekly"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:36
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:36
 msgid "Bi-weekly (every 2 weeks)"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:37
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:37
 msgid "Semi-monthly (twice a month)"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:38
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:282
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:38
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:283
 msgid "Monthly"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:39
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:39
 msgid "Yearly"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:41
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:41
 msgid "Include all active members on repeat"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:42
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:42
 msgid "Repeat until"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:43
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:43
 msgid "Repeat now"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:44
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:44
 msgid "Bill type"
 msgstr "Fatura tipi"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:45
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:45
 msgid "Classic, even split"
 msgstr "Klasik, eşit dağılım"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:46
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:46
 msgid "Even split with optional personal parts"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:47
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:47
 msgid "Custom owed amount per member"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:48
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:48
 msgid "Custom share per member"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:49
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:49
 msgid "Ignore member weights"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:50
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:50
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:51
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:51
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:52
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:52
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:53
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:53
 msgid "Custom share mode, uneven split: Choose a payer, set the bill amount and enter a custom share number for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: Someone pays an electricity bill for the month but one member was only there during half the month. This member should then pay half a share (0.5) while the others pay a full share (1)."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:54
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:54
 msgid "For whom?"
 msgstr "Kim için?"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:55
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:55
 msgid "All/None"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:56
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:56
 msgid "Personal amount"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:57
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:57
 msgid "Custom amount"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:58
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:58
 msgid "Custom share number"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:60
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:60
 msgid "Bill : {what}"
 msgstr "Fatura : {what}"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:61
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:61
 msgid "Create the bill"
 msgstr "Faturayı oluştur"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:61
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:61
 msgid "Create the bills"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:62
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:224
-#: /var/www/html/dev/server21/apps/cospend/src/utils.js:15
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:62
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:224
+#: /var/www/html/dev/server22/apps/cospend/src/utils.js:15
 msgid "You"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:63
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:63
 msgid "Impossible to save bill, invalid values."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:64
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:64
 msgid "Bill saved."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:65
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:67
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:65
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:67
 msgid "Bill values are not valid."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:66
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:66
 msgid "Personal parts are bigger than the paid amount."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:68
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:68
 msgid "There is no custom amount."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:69
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:71
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:69
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:71
 msgid "Bill values are not valid"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:70
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:70
 msgid "There is no custom share number"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:72
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:184
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:72
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "Failed to create bill"
 msgstr "Fatura oluşturulamadı"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:73
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:73
 msgid "Bill created"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:74
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:74
 msgid "Choose file"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:75
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:75
 msgid "This is just a currency converter. Bill amount can be entered in another currency and then converted to \"{maincur}\". Value is always stored in \"{maincur}\"."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:76
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:78
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:81
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:145
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:148
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:178
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:182
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:292
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:295
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:76
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:78
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:81
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:145
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:148
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:178
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:182
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:293
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:296
 msgid "Info"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:77
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:77
 msgid "You can type simple math operations and validate by pressing Enter key."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:79
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:79
 msgid "Bill repetition process runs once a day as a background job. If your bills are not automatically repeated, ask your Nextcloud administrator to check if \"Cron\" method is selected in admin settings."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:80
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:80
 msgid "You can also manually repeat the current bill with the \"Repeat now\" button."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:82
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:82
 msgid "New bill"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:83
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:83
 msgid "Assign category"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:85
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:85
 msgid "Assign payment mode"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:87
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:87
 msgid "Delete selected bills"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:88
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:88
 msgid "Multi select mode: Select bills to make grouped actions"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:89
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:89
 msgid "Add at least 2 members to start creating bills"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:90
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:90
 msgid "No bills yet"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:91
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:92
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:91
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:92
 msgid "No more bills"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:93
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:93
 msgid "Leave multiple selection mode"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:94
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:94
 msgid "Enter multiple selection mode"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:95
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:95
 msgid "Bill deleted"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:96
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:96
 msgid "Bills edited"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:97
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:97
 msgid "Confirm deletion"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:98
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:232
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:238
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:246
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:272
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:98
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:232
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:238
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:246
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:273
 msgid "Delete"
 msgstr "Sil"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:99
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:122
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:251
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:274
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:99
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:122
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:251
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:275
 msgid "Cancel"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:100
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:100
 msgid "Bills deleted"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:101
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:101
 msgid "Are you sure you want to delete {nb} bill?"
 msgid_plural "Are you sure you want to delete {nb} bills?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:102
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:102
 msgid "Category sort method"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:103
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:103
 msgid "Alphabetical"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:104
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:104
 msgid "Manual"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:105
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:105
 msgid "Add category"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:106
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:247
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:106
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:247
 msgid "Color"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:107
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:248
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:249
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:107
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:248
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:249
 msgid "Icon"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:108
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:250
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:108
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:250
 msgid "Category name"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:109
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:109
 msgid "Add this category"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:110
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:110
 msgid "Category list"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:111
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:111
 msgid "Drag categories to set manual order"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:112
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "No categories to display"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:113
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:116
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:113
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:116
 msgid "Category name should not be empty."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:114
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:114
 msgid "Failed to add category"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:115
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:115
 msgid "Category {n} added."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:117
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:117
 msgid "Category order saved"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:118
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:118
 msgid "Main currency"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:120
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:120
 msgid "Set main currency name"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:121
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:121
 msgid "Main currency name"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:123
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:252
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:275
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:123
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:252
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:276
 msgid "Save"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:124
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:124
 msgid "Add currency"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:125
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:262
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:125
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:262
 msgid "Name"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:126
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:273
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:126
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:274
 msgid "Currency name"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:127
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:127
 msgid "Exchange rate to main currency"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:128
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:128
 msgid "(1 of this currency = X of main currency)"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:129
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:129
 msgid "Add this currency"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:130
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:130
 msgid "Currency list"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:131
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:131
 msgid "No currencies to display"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:132
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:135
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:132
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "Currency name should not be empty."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:133
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:133
 msgid "Exchange rate should be a number."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:134
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:134
 msgid "Currency {n} added."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:136
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:136
 msgid "MoneyBuster link/QRCode for project {name}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:137
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:141
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:137
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:141
 msgid "Old link"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:138
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:142
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:138
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:142
 msgid "New link"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:139
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:139
 msgid "Confirm project password to get a QRCode including the password."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:140
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:140
 msgid "Project password"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:143
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:143
 msgid "Incorrect project password."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:144
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:144
 msgid "Scan this QRCode with a smartphone which has MoneyBuster or PayForMe installed or simply send the link itself."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:146
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:146
 msgid "As the password is stored hashed (for security), it can't be automatically included in the QRCode. If you want to include it in the QRCode and make it easier to add a project in mobile apps, you must provide the password again."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:147
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:147
 msgid "Type the project password and press \"Enter\" to generate another QRCode that includes the password."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:149
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:149
 msgid "Settlement of project {name}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:150
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:186
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:150
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:186
 msgid "Export"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:151
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:151
 msgid "Add these payments to project"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:152
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:152
 msgid "Center settlement on"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:153
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:153
 msgid "Nobody (optimal)"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:154
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:154
 msgid "Settlement date"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:156
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:156
 msgid "Set to beginning of this day"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:157
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:157
 msgid "Set to beginning of this week"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:158
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:158
 msgid "Set to beginning of this month"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:159
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:159
 msgid "Settlement plan on {date}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:159
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:159
 msgid "Settlement plan"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:163
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:163
 msgid "No transactions found"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:164
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "Balances on {date}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:164
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "Balances"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:167
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:167
 msgid "No balances found"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:168
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:168
 msgid "Individual reimbursement"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:169
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:169
 msgid "Payer"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:170
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:170
 msgid "Receiver"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:171
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:171
 msgid "Create bill ({amount})"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:172
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:172
 msgid "Failed to get settlement"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:173
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:173
 msgid "Project settlement bills added."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:174
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:174
 msgid "Project settlement exported in {path}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:175
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:175
 msgid "Set a maximum date to only consider bills until then."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:176
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:176
 msgid "Useful if you want to settle at a precise date and ignore the bills created since then."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:177
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:177
 msgid "Automatic settlement will create bills one second before the maximum date."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:179
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:179
 msgid "This feature is useful when a member with a negative balance wants to get out of the project but you don't want to make a full settlement plan."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:180
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:180
 msgid "Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:181
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:181
 msgid "Make sure the \"real\" reimbursement has been done between those 2 members in real life. Then press \"Create bill\" to automatically create the corresponding bill."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:185
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:185
 msgid "Statistics of project {name}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:187
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:187
 msgid "Minimum date"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:188
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:188
 msgid "Maximum date"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:190
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:192
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:190
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:192
 msgid "All"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:193
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:193
 msgid "All except reimbursement"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:194
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:194
 msgid "Minimum amount"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:195
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:195
 msgid "Maximum amount"
 msgstr "Maksimum tutar"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:196
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:196
 msgid "Currency of statistic values"
 msgstr "İstatistik veri dövizi"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:197
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:197
 msgid "Main project's currency"
 msgstr "Ana proje dövizi"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:198
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:198
 msgid "Show disabled members"
 msgstr "Devre dışı bırakılmış üyeleri göster"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:199
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:199
 msgid "Total payed by all the members: {t}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:200
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:200
 msgid "Global stats"
 msgstr "Genel veriler"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:204
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:204
 msgid "Filtered balance"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:206
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:206
 msgid "Monthly stats per member"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:207
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:207
 msgid "Member/Month"
 msgstr "Üye/Ay"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:208
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:208
 msgid "Monthly stats per category"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:209
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:209
 msgid "Category/Month"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:210
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:210
 msgid "Select a member"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:211
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:211
 msgid "Who paid for whom?"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:212
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:212
 msgid "paid for"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:213
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:213
 msgid "Total payed"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:214
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:214
 msgid "Total owed"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:215
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:215
 msgid "Total owed by {name}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:216
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:216
 msgid "Total payed by {name}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:217
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "All members"
 msgstr "Tüm üyeler"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:218
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:218
 msgid "Payments per member per month"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:219
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:219
 msgid "Payments per category per month"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:220
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:220
 msgid "Who paid (outside circle) and spent (inside pie)?"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:221
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:221
 msgid "What was paid per category?"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:222
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:222
 msgid "Who paid for this category?"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:223
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:223
 msgid "What kind of member is she/he?"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:225
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:225
 msgid "Change color"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:226
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:226
 msgid "Weight"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:227
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "No access"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:228
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:302
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:310
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:318
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:228
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:303
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:311
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:319
 msgid "Viewer"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:229
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:303
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:311
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:319
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:229
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:304
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:312
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:320
 msgid "Participant"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:230
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:304
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:312
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:320
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:230
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:305
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:313
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:321
 msgid "Maintainer"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:231
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:305
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:313
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:321
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:231
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:306
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:314
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:322
 msgid "Admin"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:232
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:232
 msgid "Deactivate"
 msgstr "Devre dışı bırak"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:233
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:233
 msgid "Reactivate"
 msgstr "Yeniden aktive et"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:234
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:234
 msgid "A member is already named like that."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:235
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:235
 msgid "Add member"
 msgstr "Üye ekle"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:236
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:236
 msgid "Statistics"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:237
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:237
 msgid "Project settlement"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:239
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:239
 msgid "No members yet"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:240
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:240
 msgid "Everyone"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:241
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:243
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:241
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:243
 msgid "Everyone except {member}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:242
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:242
 msgid "{member1} and {member2}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:244
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:244
 msgid "Member list is not up to date. Reloading in 5 sec."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:245
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:271
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:245
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:272
 msgid "Edit"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:253
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:253
 msgid "New project"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:254
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:254
 msgid "New project name"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:255
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:255
 msgid "No projects yet"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:256
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:256
 msgid "Import csv project"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:257
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:257
 msgid "Import SplitWise project"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:258
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:258
 msgid "Guest access link"
 msgstr "Misafir erişim linki"
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:259
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:259
 msgid "Change output directory"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:260
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:260
 msgid "/Anywhere"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:261
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:261
 msgid "Sort projects by"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:263
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:263
 msgid "Last activity"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:264
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:264
 msgid "Maximum precision"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:265
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:265
+msgid "Use time in dates"
+msgstr ""
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:266
 msgid "Choose csv project file"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:266
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:267
 msgid "Choose SplitWise project file"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:267
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:268
 msgid "Project imported."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:268
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:269
 msgid "Guest link copied to clipboard."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:269
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:270
 msgid "Guest link could not be copied to clipboard."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:270
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:271
 msgid "Choose where to write output files (stats, settlement, export)"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:276
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:277
 msgid "Rename project {n}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:277
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:278
 msgid "Disable bill deletion"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:278
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:279
 msgid "Automatic export"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:283
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:284
 msgid "Export project"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:284
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:285
 msgid "Member list"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:285
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:286
 msgid "Associate a project member with a Nextcloud user"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:286
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:287
 msgid "Choose a Nextcloud user"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:287
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:288
 msgid "New member name"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:288
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:289
 msgid "New member (or Nextcloud user) name"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:289
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:290
 msgid "Failed to add member."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:290
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:291
 msgid "Create simple member"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:291
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:292
 msgid "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:293
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:294
 msgid "Choose a project member, then a Nextcloud user to associate with."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:294
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:295
 msgid "You can cut the link with a Nextcloud user by renaming the member."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:296
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:297
 msgid "Share project with a user, group or circle …"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:297
-#: /var/www/html/dev/server21/apps/cospend/src/state.js:26
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:298
+#: /var/www/html/dev/server22/apps/cospend/src/state.js:26
 msgid "Add public link"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:298
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:299
 msgid "Add link"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:299
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:300
 msgid "Public link"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:300
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:316
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:301
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:317
 msgid "Copied!"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:301
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:317
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:302
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "Copy link"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:306
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:307
 msgid "Delete link"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:307
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:308
 msgid "Project owner"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:308
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:309
 msgid "Group"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:309
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:310
 msgid "Circle"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:314
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Delete access"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:315
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:316
 msgid "Password protected access"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:322
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:323
 msgid "New project password"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:323
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:325
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:324
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:326
 msgid "Link could not be copied to clipboard."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:324
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:325
 msgid "Password should not be empty."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:326
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:327
 msgid "Guest access level changed."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:327
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:328
 msgid "Sharing"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:328
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:329
 msgid "Settings"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:329
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:330
 msgid "Categories"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:330
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:331
 msgid "Currencies"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:331
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:332
 msgid "{nb} bills, {nm} active members, {ns} spent"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:332
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:333
 msgid "No recent activity"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:333
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:334
 msgid "Go to Cospend"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:334
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:335
 msgid "{user} shared {project} with {who}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:335
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:336
 msgid "{user} unshared {project} with {who}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:336
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:337
 msgid "{user} created {bill}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:337
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:338
 msgid "{user} deleted {bill}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/specialVueFakeDummyForL10nScript.js:338
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:339
 msgid "{user} edited {bill}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/constants.js:27
+#: /var/www/html/dev/server22/apps/cospend/src/constants.js:27
 msgid "Credit card"
 msgstr "Kredi kartı"
 
-#: /var/www/html/dev/server21/apps/cospend/src/constants.js:31
+#: /var/www/html/dev/server22/apps/cospend/src/constants.js:31
 msgid "Cash"
 msgstr "Nakit"
 
-#: /var/www/html/dev/server21/apps/cospend/src/constants.js:35
+#: /var/www/html/dev/server22/apps/cospend/src/constants.js:35
 msgid "Check"
 msgstr "Çek"
 
-#: /var/www/html/dev/server21/apps/cospend/src/constants.js:39
+#: /var/www/html/dev/server22/apps/cospend/src/constants.js:39
 msgid "Transfer"
 msgstr "Havale"
 
-#: /var/www/html/dev/server21/apps/cospend/src/constants.js:43
+#: /var/www/html/dev/server22/apps/cospend/src/constants.js:43
 msgid "Online service"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:21
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:21
 msgid "Failed to restore options values."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:38
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:38
 msgid "Failed to save option values"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:53
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:53
 msgid "Cospend setting saved."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:58
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:58
 msgid "Failed to save Cospend setting."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:74
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:74
 msgid "Project {name} exported in {path}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:78
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:78
 msgid "Failed to export project"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:98
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:98
 msgid "Failed to get projects"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:131
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:131
 msgid "Failed to create project"
 msgstr "Proje oluşturalamadı"
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:150
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:150
 msgid "Failed to delete project"
 msgstr "Proje silinemedi"
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:173
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:173
 msgid "Failed to update balances"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:198
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:198
 msgid "Failed to add member"
 msgstr "Üye eklenemedi"
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:225
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:225
 msgid "Failed to save member"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:254
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:254
 msgid "Failed to edit project"
 msgstr "Proje düzenlenemedi"
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:293
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:329
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:293
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:329
 msgid "Failed to save bill"
 msgstr "Fatura kayıt edilemedi"
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:355
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:355
 msgid "Failed to generate public link to file"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:374
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:374
 msgid "Failed to delete bill"
 msgstr "Fatura silinemedi"
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:398
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:398
 msgid "Failed to delete bills"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:411
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:411
 msgid "Failed to check password."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:434
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:434
 msgid "Failed to import project file"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:466
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:466
 msgid "Failed to delete category"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:490
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:490
 msgid "Failed to edit category"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:525
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:525
 msgid "Failed to add currency"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:544
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:544
 msgid "Failed to delete currency"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:567
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:567
 msgid "Failed to edit currency"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:588
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:588
 msgid "Failed to get statistics."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:603
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:603
 msgid "Project statistics exported in {path}"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:607
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:607
 msgid "Failed to export project statistics"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:655
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:655
 msgid "Failed to add project settlement bills"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:675
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:675
 msgid "Failed to export project settlement"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:689
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:689
 msgid "Failed to get user list"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:719
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:719
 msgid "Failed to add shared access"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:740
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:740
 msgid "Failed to edit shared access level"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:764
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:764
 msgid "Failed to delete shared access"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/network.js:786
+#: /var/www/html/dev/server22/apps/cospend/src/network.js:786
 msgid "Failed to edit guest access level"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/src/utils.js:30
+#: /var/www/html/dev/server22/apps/cospend/src/utils.js:30
 msgid "No category"
 msgstr "Kategori yok"
 
-#: /var/www/html/dev/server21/apps/cospend/templates/admin.php:9
-#: /var/www/html/dev/server21/apps/cospend/templates/admin.php:18
+#: /var/www/html/dev/server22/apps/cospend/templates/admin.php:9
+#: /var/www/html/dev/server22/apps/cospend/templates/admin.php:18
 msgid "Allow guests to create projects"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/templates/admin.php:10
+#: /var/www/html/dev/server22/apps/cospend/templates/admin.php:10
 msgid "Enabling this option will allow any visitor to create a project without having to log in."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/templates/admin.php:11
+#: /var/www/html/dev/server22/apps/cospend/templates/admin.php:11
 msgid "This can be useful if you are in a local network and want to let anybody create a project."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/templates/admin.php:12
+#: /var/www/html/dev/server22/apps/cospend/templates/admin.php:12
 msgid "Or maybe you are very generous and want to allow the entire world to use Cospend without having an account on your Nextcloud instance."
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/templates/logincontent.php:2
+#: /var/www/html/dev/server22/apps/cospend/templates/logincontent.php:2
 msgid "Authentication"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/templates/logincontent.php:7
+#: /var/www/html/dev/server22/apps/cospend/templates/logincontent.php:7
 msgid "Wrong project Id or password"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/templates/logincontent.php:12
+#: /var/www/html/dev/server22/apps/cospend/templates/logincontent.php:12
 msgid "Project ID/name"
 msgstr ""
 
-#: /var/www/html/dev/server21/apps/cospend/templates/logincontent.php:21
+#: /var/www/html/dev/server22/apps/cospend/templates/logincontent.php:21
 msgid "Project password (aka Access code)"
 msgstr ""
 

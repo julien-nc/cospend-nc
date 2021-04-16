@@ -128,7 +128,6 @@ OC.L10N.register(
     "monthly" : "месечно",
     "No bill selected" : "Нема избрано сметка",
     "Toggle sidebar" : "Отвори странична лента",
-    "{nb} bills were created" : "{nb} сметки се креирани",
     "Nothing to repeat" : "Нема ништо за повторување",
     "Member {name} already exists" : "Членот {name} веќе постои",
     "Failed to get bills" : "Неуспешно добивање на сметки",

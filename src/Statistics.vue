@@ -177,7 +177,7 @@
 				<v-th sort-key="member.name">
 					{{ t('cospend', 'Member/Month') }}
 				</v-th>
-				<v-th v-for="(st, month) in stats.monthlyStats"
+				<v-th v-for="(st, month) in stats.memberMonthlyStats"
 					:key="month"
 					:sort-key="month">
 					{{ month }}
@@ -203,7 +203,7 @@
 							<div v-if="isMemberDisabled(value.member.id)" class="disabledMask" />
 						</div>{{ (value.member.id !== 0) ? myGetSmartMemberName(value.member.id) : value.member.name }}
 					</td>
-					<td v-for="(st, month) in stats.monthlyStats"
+					<td v-for="(st, month) in stats.memberMonthlyStats"
 						:key="month"
 						:style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
 						{{ value[month].toFixed(2) }}
@@ -473,8 +473,8 @@ export default {
 				const row = {
 					member: mid === '0' ? { name: t('cospend', 'All members'), id: 0 } : cospend.members[this.projectId][mid],
 				}
-				for (const month in this.stats.monthlyStats) {
-					row[month] = this.stats.monthlyStats[month][mid]
+				for (const month in this.stats.memberMonthlyStats) {
+					row[month] = this.stats.memberMonthlyStats[month][mid]
 				}
 				return row
 			})
@@ -513,8 +513,8 @@ export default {
 				member = this.members[mid]
 				const paid = []
 				for (const month of this.categoryMonths) {
-					if (mid in this.stats.monthlyStats[month]) {
-						paid.push(this.stats.monthlyStats[month][mid])
+					if (mid in this.stats.memberMonthlyStats[month]) {
+						paid.push(this.stats.memberMonthlyStats[month][mid])
 					}
 				}
 				// check if data is complete (would be better to be sure of member list, like get it from the stats request)

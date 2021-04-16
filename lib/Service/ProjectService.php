@@ -833,8 +833,8 @@ class ProjectService {
             }
         }
 
-        // compute monthly stats
-        $monthlyStats = [];
+        // compute monthly member stats
+        $memberMonthlyStats = [];
         $allMembersKey = 0;
         foreach ($bills as $bill) {
             $payerId = $bill['payer_id'];
@@ -842,45 +842,45 @@ class ProjectService {
             $date = \DateTime::createFromFormat('U', $bill['timestamp']);
             $date->setTimezone($timeZone);
             $month = $date->format('Y-m');
-            if (!array_key_exists($month, $monthlyStats)) {
-                $monthlyStats[$month] = [];
+            if (!array_key_exists($month, $memberMonthlyStats)) {
+                $memberMonthlyStats[$month] = [];
                 foreach ($membersToDisplay as $memberId => $member) {
-                    $monthlyStats[$month][$memberId] = 0;
+                    $memberMonthlyStats[$month][$memberId] = 0;
                 }
-                $monthlyStats[$month][$allMembersKey] = 0;
+                $memberMonthlyStats[$month][$allMembersKey] = 0;
             }
 
             if (array_key_exists($payerId, $membersToDisplay)) {
-                $monthlyStats[$month][$payerId] += $amount;
-                $monthlyStats[$month][$allMembersKey] += $amount;
+                $memberMonthlyStats[$month][$payerId] += $amount;
+                $memberMonthlyStats[$month][$allMembersKey] += $amount;
             }
         }
         // monthly average
-        $nbMonth = count(array_keys($monthlyStats));
+        $nbMonth = count(array_keys($memberMonthlyStats));
         if ($nbMonth > 0) {
             $averageStats = [];
             foreach ($membersToDisplay as $memberId => $member) {
                 $sum = 0;
-                foreach ($monthlyStats as $month => $mStat) {
-                    $sum += $monthlyStats[$month][$memberId];
+                foreach ($memberMonthlyStats as $month => $mStat) {
+                    $sum += $memberMonthlyStats[$month][$memberId];
                 }
                 $averageStats[$memberId] = $sum / $nbMonth;
             }
             // average for all members
             $sum = 0;
-            foreach ($monthlyStats as $month => $mStat) {
-                $sum += $monthlyStats[$month][$allMembersKey];
+            foreach ($memberMonthlyStats as $month => $mStat) {
+                $sum += $memberMonthlyStats[$month][$allMembersKey];
             }
             $averageStats[$allMembersKey] = $sum / $nbMonth;
 
             $averageKey = $this->trans->t('Average per month');
-            $monthlyStats[$averageKey] = $averageStats;
+            $memberMonthlyStats[$averageKey] = $averageStats;
         }
         // convert if necessary
         if ($currency !== null) {
-            foreach ($monthlyStats as $month => $mStat) {
+            foreach ($memberMonthlyStats as $month => $mStat) {
                 foreach ($mStat as $mid => $val) {
-                    $monthlyStats[$month][$mid] = ($monthlyStats[$month][$mid] === 0.0) ? 0 : $monthlyStats[$month][$mid] / $currency['exchange_rate'];
+                    $memberMonthlyStats[$month][$mid] = ($memberMonthlyStats[$month][$mid] === 0.0) ? 0 : $memberMonthlyStats[$month][$mid] / $currency['exchange_rate'];
                 }
             }
         }
@@ -964,7 +964,7 @@ class ProjectService {
 
         return [
             'stats' => $statistics,
-            'monthlyStats' => $monthlyStats,
+            'memberMonthlyStats' => $memberMonthlyStats,
             'categoryStats' => $categoryStats,
             'categoryMonthlyStats' => $categoryMonthlyStats,
             'categoryMemberStats' => $categoryMemberStats,

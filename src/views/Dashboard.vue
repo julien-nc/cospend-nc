@@ -95,7 +95,7 @@ export default {
 			params.append('limit', 50)
 
 			try {
-				const response = await axios.get(generateOcsUrl('apps/activity/api/v2/activity') + 'cospend' + '?' + params)
+				const response = await axios.get(generateOcsUrl('apps/activity/api/v2/activity') + '/cospend' + '?' + params)
 				this.processActivities(response.data.ocs.data)
 				this.state = 'ok'
 			} catch (error) {

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-04-09 17:38+0200\n"
-"PO-Revision-Date: 2021-04-10 14:22\n"
+"PO-Revision-Date: 2021-04-16 10:03\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -724,8 +724,8 @@ msgstr "Projet sauvegardé"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:13
 msgid "{nb} bill was created"
 msgid_plural "{nb} bills were created"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{nb} facture a été créée"
+msgstr[1] "{nb} factures ont été créées"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:14
 msgid "link"
@@ -1611,7 +1611,7 @@ msgstr "Précision maximum"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:265
 msgid "Use time in dates"
-msgstr ""
+msgstr "Utiliser le temps dans les dates"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:266
 msgid "Choose csv project file"

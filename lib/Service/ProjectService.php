@@ -884,11 +884,13 @@ class ProjectService {
                 }
             }
         }
-        // compute category stats
+        // compute category and payment mode stats
         $categoryStats = [];
+        $paymentModeStats = [];
         foreach ($bills as $bill) {
+            // category
             $categoryId = $bill['categoryid'];
-            if (!array_key_exists(strval($categoryId), $this->hardCodedCategoryNames) and
+            if (!array_key_exists(strval($categoryId), $this->hardCodedCategoryNames) &&
                 !array_key_exists(strval($categoryId), $projectCategories)
             ) {
                 $categoryId = 0;
@@ -898,6 +900,13 @@ class ProjectService {
                 $categoryStats[$categoryId] = 0;
             }
             $categoryStats[$categoryId] += $amount;
+
+            // payment mode
+            $paymentMode = $bill['paymentmode'];
+            if (!array_key_exists($paymentMode, $paymentModeStats)) {
+                $paymentModeStats[$paymentMode] = 0;
+            }
+            $paymentModeStats[$paymentMode] += $amount;
         }
         // convert if necessary
         if ($currency !== null) {
@@ -910,7 +919,7 @@ class ProjectService {
         foreach ($bills as $bill) {
             $payerId = $bill['payer_id'];
             $categoryId = $bill['categoryid'];
-            if (!array_key_exists(strval($categoryId), $this->hardCodedCategoryNames) and
+            if (!array_key_exists(strval($categoryId), $this->hardCodedCategoryNames) &&
                 !array_key_exists(strval($categoryId), $projectCategories)
             ) {
                 $categoryId = 0;
@@ -934,30 +943,45 @@ class ProjectService {
                 }
             }
         }
-        // compute category per month stats
+        // compute category/payment mode per month stats
         $categoryMonthlyStats = [];
+        $paymentModeMonthlyStats = [];
         foreach ($bills as $bill) {
-            $categoryId = $bill['categoryid'];
             $amount = $bill['amount'];
             $date = \DateTime::createFromFormat('U', $bill['timestamp']);
             $date->setTimezone($timeZone);
             $month = $date->format('Y-m');
 
+            // category
+            $categoryId = $bill['categoryid'];
             if (!array_key_exists($categoryId, $categoryMonthlyStats)) {
                 $categoryMonthlyStats[$categoryId] = [];
             }
-
             if (!array_key_exists($month, $categoryMonthlyStats[$categoryId])) {
                 $categoryMonthlyStats[$categoryId][$month] = 0;
             }
-
             $categoryMonthlyStats[$categoryId][$month] += $amount;
+
+            // payment mode
+            $paymentMode = $bill['paymentmode'];
+            if (!array_key_exists($paymentMode, $paymentModeMonthlyStats)) {
+                $paymentModeMonthlyStats[$paymentMode] = [];
+            }
+            if (!array_key_exists($month, $paymentModeMonthlyStats[$paymentMode])) {
+                $paymentModeMonthlyStats[$paymentMode][$month] = 0;
+            }
+            $paymentModeMonthlyStats[$paymentMode][$month] += $amount;
         }
         // convert if necessary
         if ($currency !== null) {
             foreach ($categoryMonthlyStats as $catId => $cStat) {
-                foreach ($cStat as $cid => $val) {
-                    $categoryMonthlyStats[$catId][$cid] = ($val === 0.0) ? 0 : $val / $currency['exchange_rate'];
+                foreach ($cStat as $month => $val) {
+                    $categoryMonthlyStats[$catId][$month] = ($val === 0.0) ? 0 : $val / $currency['exchange_rate'];
+                }
+            }
+            foreach ($paymentModeMonthlyStats as $pm => $pmStat) {
+                foreach ($pmStat as $month => $val) {
+                    $paymentModeMonthlyStats[$pm][$month] = ($val === 0.0) ? 0 : $val / $currency['exchange_rate'];
                 }
             }
         }
@@ -967,6 +991,8 @@ class ProjectService {
             'memberMonthlyStats' => $memberMonthlyStats,
             'categoryStats' => $categoryStats,
             'categoryMonthlyStats' => $categoryMonthlyStats,
+            'paymentModeStats' => $paymentModeStats,
+            'paymentModeMonthlyStats' => $paymentModeMonthlyStats,
             'categoryMemberStats' => $categoryMemberStats,
             'memberIds' => array_keys($membersToDisplay),
             'allMemberIds' => $allMembersIds,

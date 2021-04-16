@@ -26,21 +26,26 @@ export const paymentModes = {
 	c: {
 		name: t('cospend', 'Credit card'),
 		icon: '💳',
+		color: '#FF7F50',
 	},
 	b: {
 		name: t('cospend', 'Cash'),
 		icon: '💵',
+		color: '#556B2F',
 	},
 	f: {
 		name: t('cospend', 'Check'),
 		icon: '🎫',
+		color: '#A9A9A9',
 	},
 	t: {
 		name: t('cospend', 'Transfer'),
 		icon: '⇄',
+		color: '#00CED1',
 	},
 	o: {
 		name: t('cospend', 'Online service'),
 		icon: '🌎',
+		color: '#9932CC',
 	},
 }

@@ -239,9 +239,9 @@
 			<tbody slot="body" slot-scope="{displayData}">
 				<tr v-for="vals in displayData"
 					:key="vals.catid"
-					v-tooltip.left="{ content: getCategoryNameIcon(vals.catid) }">
+					v-tooltip.left="{ content: vals.name }">
 					<td :style="'border: 2px solid ' + myGetCategory(vals.catid).color + ';'">
-						{{ getCategoryNameIcon(vals.catid) }}
+						{{ vals.name }}
 					</td>
 					<td v-for="month in categoryMonths"
 						:key="month"
@@ -259,6 +259,46 @@
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
+		<h2 class="statTableTitle">
+			{{ t('cospend', 'Monthly stats per payment mode') }}
+		</h2>
+		<v-table v-if="stats"
+			id="paymentModeTable"
+			class="coloredTable"
+			:data="monthlyPaymentModeStats">
+			<thead slot="head">
+				<v-th sort-key="name">
+					{{ t('cospend', 'Payment mode/Month') }}
+				</v-th>
+				<v-th v-for="month in paymentModeMonths"
+					:key="month"
+					:sort-key="month">
+					{{ month }}
+				</v-th>
+			</thead>
+			<tbody slot="body" slot-scope="{displayData}">
+				<tr v-for="vals in displayData"
+					:key="vals.pmId"
+					v-tooltip.left="{ content: vals.name }">
+					<td :style="'border: 2px solid ' + myGetPaymentMode(vals.pmId).color + ';'">
+						{{ vals.name }}
+					</td>
+					<td v-for="month in paymentModeMonths"
+						:key="month"
+						:style="'border: 2px solid ' + myGetPaymentMode(vals.pmId).color + ';'">
+						{{ (vals[month] || 0).toFixed(2) }}
+					</td>
+				</tr>
+			</tbody>
+		</v-table>
+		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
+		<div id="paymentModeMonthlyChart">
+			<LineChartJs v-if="stats"
+				:chart-data="monthlyPaymentModeChartData"
+				:options="monthlyPaymentModeChartOptions" />
+			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
+		</div>
+		<hr>
 		<div id="memberChart">
 			<PieChartJs v-if="stats"
 				:chart-data="memberPieData"
@@ -270,6 +310,13 @@
 			<PieChartJs v-if="stats"
 				:chart-data="categoryPieData"
 				:options="categoryPieOptions" />
+			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
+		</div>
+		<hr>
+		<div id="paymentModeChart">
+			<PieChartJs v-if="stats"
+				:chart-data="paymentModePieData"
+				:options="paymentModePieOptions" />
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
@@ -394,6 +441,7 @@ import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
 import ColoredAvatar from './components/ColoredAvatar'
 
 import { getCategory, getSmartMemberName } from './utils'
+import { paymentModes } from './constants'
 import cospend from './state'
 import * as network from './network'
 import LineChartJs from './components/LineChartJs'
@@ -490,6 +538,17 @@ export default {
 			distinctMonths.sort()
 			return distinctMonths
 		},
+		paymentModeMonths() {
+			const months = []
+			for (const catId in this.stats.paymentModeMonthlyStats) {
+				for (const month in this.stats.paymentModeMonthlyStats[catId]) {
+					months.push(month)
+				}
+			}
+			const distinctMonths = [...new Set(months)]
+			distinctMonths.sort()
+			return distinctMonths
+		},
 		monthlyCategoryStats() {
 			const data = []
 			let elem
@@ -500,6 +559,21 @@ export default {
 				}
 				for (const month in this.stats.categoryMonthlyStats[catid]) {
 					elem[month] = this.stats.categoryMonthlyStats[catid][month]
+				}
+				data.push(elem)
+			}
+			return data
+		},
+		monthlyPaymentModeStats() {
+			const data = []
+			let elem
+			for (const pmId in this.stats.paymentModeMonthlyStats) {
+				elem = {
+					pmId,
+					name: this.getPaymentModeNameIcon(pmId),
+				}
+				for (const month in this.stats.paymentModeMonthlyStats[pmId]) {
+					elem[month] = this.stats.paymentModeMonthlyStats[pmId][month]
 				}
 				data.push(elem)
 			}
@@ -623,6 +697,53 @@ export default {
 				},
 			}
 		},
+		monthlyPaymentModeChartData() {
+			const paymentModeDatasets = []
+			let paymentMode
+			let index = 0
+			for (const pmId in this.stats.paymentModeMonthlyStats) {
+				paymentMode = this.myGetPaymentMode(pmId)
+
+				// Build time series:
+				const paid = []
+				for (const month of this.paymentModeMonths) {
+					if (month in this.stats.paymentModeMonthlyStats[pmId]) {
+						paid.push(this.stats.paymentModeMonthlyStats[pmId][month])
+					} else {
+						paid.push(0)
+					}
+				}
+
+				const dataset = {
+					label: paymentMode.icon + ' ' + paymentMode.name,
+					// FIXME hacky way to change alpha channel:
+					backgroundColor: paymentMode.color + '4D',
+					pointBackgroundColor: paymentMode.color,
+					borderColor: paymentMode.color,
+					pointHighlightStroke: paymentMode.color,
+					lineTension: 0,
+					data: paid,
+				}
+				if (index === 0) {
+					dataset.fill = 'origin'
+				}
+				index++
+				paymentModeDatasets.push(dataset)
+			}
+			return {
+				labels: this.paymentModeMonths,
+				datasets: paymentModeDatasets,
+			}
+		},
+		monthlyPaymentModeChartOptions() {
+			return {
+				...this.monthlyMemberChartOptions,
+				title: {
+					display: true,
+					text: t('cospend', 'Payments per payment mode per month'),
+				},
+			}
+		},
 		memberPieData() {
 			const memberBackgroundColors = this.stats.stats.map((stat) => '#' + this.members[stat.member.id].color)
 			return {
@@ -675,6 +796,34 @@ export default {
 				title: {
 					display: true,
 					text: t('cospend', 'What was paid per category?'),
+				},
+			}
+		},
+		paymentModePieData() {
+			const paymentModeData = {
+				datasets: [{
+					data: [],
+					backgroundColor: [],
+				}],
+				labels: [],
+			}
+			let paid, paymentMode
+			for (const pmId in this.stats.paymentModeStats) {
+				paid = this.stats.paymentModeStats[pmId].toFixed(2)
+				paymentMode = this.myGetPaymentMode(pmId)
+
+				paymentModeData.datasets[0].data.push(paid)
+				paymentModeData.datasets[0].backgroundColor.push(paymentMode.color)
+				paymentModeData.labels.push(paymentMode.icon + ' ' + paymentMode.name)
+			}
+			return paymentModeData
+		},
+		paymentModePieOptions() {
+			return {
+				...this.memberPieOptions,
+				title: {
+					display: true,
+					text: t('cospend', 'What was paid per payment mode?'),
 				},
 			}
 		},
@@ -754,6 +903,13 @@ export default {
 	},
 
 	methods: {
+		myGetPaymentMode(pmId) {
+			return paymentModes[pmId]
+		},
+		getPaymentModeNameIcon(pmId) {
+			const paymentMode = this.myGetPaymentMode(pmId)
+			return paymentMode.icon + ' ' + paymentMode.name
+		},
 		myGetCategory(catid) {
 			return getCategory(this.projectId, catid)
 		},
@@ -901,12 +1057,14 @@ export default {
 #memberPolarChart,
 #categoryMemberChart,
 #memberChart,
+#paymentModeChart,
 #categoryChart {
 	max-width: 400px;
 	margin: 0 auto 0 auto;
 }
 
 #categoryMonthlyChart,
+#paymentModeMonthlyChart,
 #memberMonthlyChart {
 	width: 800px !important;
 	height: 400px !important;
@@ -978,7 +1136,8 @@ export default {
 
 #paidForTable,
 #monthlyTable,
-#categoryTable {
+#categoryTable,
+#paymentModeTable {
 	overflow: scroll;
 }
 

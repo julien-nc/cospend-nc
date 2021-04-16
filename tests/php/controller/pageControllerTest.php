@@ -386,10 +386,6 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $status = $resp->getStatus();
         $this->assertEquals(400, $status);
 
-        $resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', $idMember2, $idMember1, 'amount', 'n');
-        $status = $resp->getStatus();
-        $this->assertEquals(400, $status);
-
         $resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', 'memem', $idMember1, 12.3, 'n');
         $status = $resp->getStatus();
         $this->assertEquals(400, $status);

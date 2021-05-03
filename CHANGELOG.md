@@ -6,6 +6,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.3.2 – 2021-05-03
+### Added
+- new option to display/set dates instead of datetimes
+[#46](https://github.com/eneiluj/cospend-nc/issues/46) @pawlosck
+- bill repetition frequency for daily, weekly, monthly and yearly
+[#47](https://github.com/eneiluj/cospend-nc/issues/47) @pawlosck
+- payment mode stats (monthly and global)
+
+### Changed
+- new bill default time is 00:00:00
+[#46](https://github.com/eneiluj/cospend-nc/issues/46) @pawlosck
+
+### Fixed
+- use absolute URLs for activity icons
+- fix perso amounts and custom owed amount with coma
+[#44](https://github.com/eneiluj/cospend-nc/issues/44) @ndi123
+- fix strange JS number operations behaviour
+[#44](https://github.com/eneiluj/cospend-nc/issues/44) @ndi123
+- fix member avatar color with Avatar wrapper component handling custom color prop
+- use user timezone in statistics generation
+[#45](https://github.com/eneiluj/cospend-nc/issues/45) @pawlosck
+- bill deletion activity
+- avoid some db queries in activity manager
+
 ## 1.3.0 – 2021-03-15
 ### Added
 - individual settlement

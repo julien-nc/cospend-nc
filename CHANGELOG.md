@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.3.4 – 2021-05-06
+### Fixed
+- fix payment mode in stats again
+[#52](https://github.com/eneiluj/cospend-nc/issues/52) @jonasbb @Byter3
+
 ## 1.3.3 – 2021-05-06
 ### Fixed
 - missing fallback payment mode in stats

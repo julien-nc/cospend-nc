@@ -904,6 +904,13 @@ export default {
 
 	methods: {
 		myGetPaymentMode(pmId) {
+			if (pmId === 'n') {
+				return {
+					name: t('cospend', 'None'),
+					icon: '',
+					color: 'black',
+				}
+			}
 			return paymentModes[pmId]
 		},
 		getPaymentModeNameIcon(pmId) {

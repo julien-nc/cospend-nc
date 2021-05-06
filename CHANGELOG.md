@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.3.3 – 2021-05-06
+### Fixed
+- missing fallback payment mode in stats
+[#52](https://github.com/eneiluj/cospend-nc/issues/52) @jonasbb @Byter3
+
 ## 1.3.2 – 2021-05-03
 ### Added
 - new option to display/set dates instead of datetimes

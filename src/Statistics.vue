@@ -540,8 +540,8 @@ export default {
 		},
 		paymentModeMonths() {
 			const months = []
-			for (const catId in this.stats.paymentModeMonthlyStats) {
-				for (const month in this.stats.paymentModeMonthlyStats[catId]) {
+			for (const pmId in this.stats.paymentModeMonthlyStats) {
+				for (const month in this.stats.paymentModeMonthlyStats[pmId]) {
 					months.push(month)
 				}
 			}
@@ -904,14 +904,11 @@ export default {
 
 	methods: {
 		myGetPaymentMode(pmId) {
-			if (pmId === 'n') {
-				return {
-					name: t('cospend', 'None'),
-					icon: '',
-					color: 'black',
-				}
+			return paymentModes[pmId] ?? {
+				name: t('cospend', 'None'),
+				icon: '',
+				color: 'black',
 			}
-			return paymentModes[pmId]
 		},
 		getPaymentModeNameIcon(pmId) {
 			const paymentMode = this.myGetPaymentMode(pmId)

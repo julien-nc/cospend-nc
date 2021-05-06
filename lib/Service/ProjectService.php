@@ -902,7 +902,7 @@ class ProjectService {
             $categoryStats[$categoryId] += $amount;
 
             // payment mode
-            $paymentMode = $bill['paymentmode'];
+            $paymentMode = $bill['paymentmode'] ?: 'n';
             if (!array_key_exists($paymentMode, $paymentModeStats)) {
                 $paymentModeStats[$paymentMode] = 0;
             }
@@ -963,7 +963,7 @@ class ProjectService {
             $categoryMonthlyStats[$categoryId][$month] += $amount;
 
             // payment mode
-            $paymentMode = $bill['paymentmode'];
+            $paymentMode = $bill['paymentmode'] ?: 'n';
             if (!array_key_exists($paymentMode, $paymentModeMonthlyStats)) {
                 $paymentModeMonthlyStats[$paymentMode] = [];
             }

@@ -700,7 +700,7 @@ export default {
 				paymentmodeChar = cospend.paymentModes[this.myBill.paymentmode].icon + ' '
 			}
 			const whatFormatted = paymentmodeChar + categoryChar + this.myBill.what.replace(/https?:\/\/[^\s]+/gi, '')
-			return t('cospend', 'Bill : {what}', { what: whatFormatted })
+			return t('cospend', 'Bill : {what}', { what: whatFormatted }, undefined, { escape: false })
 		},
 		billDateObject() {
 			return moment.unix(this.myBill.timestamp).toDate()

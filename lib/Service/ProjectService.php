@@ -2441,11 +2441,8 @@ class ProjectService {
 
 	private function getGroupShares($projectid) {
 		$shares = [];
-
 		$groupIdToName = [];
-		foreach($this->groupManager->search('') as $g) {
-			$groupIdToName[$g->getGID()] = $g->getDisplayName();
-		}
+		$sharesToDelete = [];
 
 		$qb = $this->dbconnection->getQueryBuilder();
 		$qb->select('projectid', 'userid', 'id', 'accesslevel')
@@ -2463,17 +2460,30 @@ class ProjectService {
 			$dbId = $row['id'];
 			$dbAccessLevel = intval($row['accesslevel']);
 			if (array_key_exists($dbGroupId, $groupIdToName)) {
-				$shares[] = [
-					'groupid' => $dbGroupId,
-					'name' => $groupIdToName[$dbGroupId],
-					'id' => $dbId,
-					'accesslevel' => $dbAccessLevel,
-					'type' => 'g',
-				];
+				$name = $groupIdToName[$dbGroupId];
+			} else {
+				if ($this->groupManager->groupExists($dbGroupId)) {
+					$name = $this->groupManager->get($dbGroupId)->getDisplayName();
+					$groupIdToName[$dbGroupId] = $name;
+				} else {
+					$sharesToDelete[] = $dbId;
+					continue;
+				}
 			}
+			$shares[] = [
+				'groupid' => $dbGroupId,
+				'name' => $name,
+				'id' => $dbId,
+				'accesslevel' => $dbAccessLevel,
+				'type' => 'g',
+			];
 		}
 		$req->closeCursor();
 		$qb = $qb->resetQueryParts();
+
+		foreach ($sharesToDelete as $shId) {
+			$this->deleteGroupShare($projectid, $shId);
+		}
 
 		return $shares;
 	}
@@ -3637,12 +3647,7 @@ class ProjectService {
 	}
 
 	public function addGroupShare($projectid, $groupid, $fromUserId) {
-		// check if groupId exists
-		$groupIds = [];
-		foreach($this->groupManager->search('') as $g) {
-			$groupIds[] = $g->getGID();
-		}
-		if ($groupid !== '' && in_array($groupid, $groupIds)) {
+		if ($this->groupManager->groupExists($groupid)) {
 			$name = $this->groupManager->get($groupid)->getDisplayName();
 			$qb = $this->dbconnection->getQueryBuilder();
 			// check if user share exists
@@ -3701,7 +3706,7 @@ class ProjectService {
 		}
 	}
 
-	public function deleteGroupShare($projectid, $shid, $fromUserId) {
+	public function deleteGroupShare($projectid, $shid, ?string $fromUserId = null) {
 		// check if group share exists
 		$qb = $this->dbconnection->getQueryBuilder();
 		$qb->select('userid', 'projectid', 'id')

@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.3.5 – 2021-05-28
+### Fixed
+- issue with global user search in some cases
+[#54](https://github.com/eneiluj/cospend-nc/issues/54) @susinths
+
 ## 1.3.4 – 2021-05-06
 ### Fixed
 - fix payment mode in stats again

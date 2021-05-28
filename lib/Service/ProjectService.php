@@ -3265,14 +3265,8 @@ class ProjectService {
     }
 
     public function addUserShare($projectid, $userid, $fromUserId, $accesslevel = ACCESS_PARTICIPANT, $manually_added = true) {
-        // check if userId exists
-        $userIds = [];
-        foreach ($this->userManager->search('') as $u) {
-            if ($u->getUID() !== $fromUserId) {
-                $userIds[] = $u->getUID();
-            }
-        }
-        if ($userid !== '' && in_array($userid, $userIds)) {
+        $user = $this->userManager->get($userid);
+        if ($user !== null && $userid !== $fromUserId) {
             $name = $this->userManager->get($userid)->getDisplayName();
             $qb = $this->dbconnection->getQueryBuilder();
             $projectInfo = $this->getProjectInfo($projectid);
@@ -3315,7 +3309,7 @@ class ProjectService {
                         $insertedShareId = intval($qb->getLastInsertId());
                         $response = [
                             'id' => $insertedShareId,
-                            'name' => $name
+                            'name' => $name,
                         ];
 
                         // activity
@@ -3323,7 +3317,7 @@ class ProjectService {
                         $this->activityManager->triggerEvent(
                             ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
                             ActivityManager::SUBJECT_PROJECT_SHARE,
-                            ['who' => $userid, 'type' => 'u']
+                            ['who' => $userid, 'type' => 'u'],
                         );
 
                         // SEND NOTIFICATION
@@ -3344,8 +3338,7 @@ class ProjectService {
                             ->setObject('addusershare', $projectid)
                             ->setSubject('add_user_share', [$fromUserId, $projectInfo['name']])
                             ->addAction($acceptAction)
-                            ->addAction($declineAction)
-                            ;
+                            ->addAction($declineAction);
 
                         $manager->notify($notification);
 

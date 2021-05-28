@@ -562,13 +562,6 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $status = $resp->getStatus();
         $this->assertEquals(400, $status);
 
-        // GET MEMBER SUGGESTIONS
-        $resp = $this->pageController->getMemberSuggestions('superproj');
-        $status = $resp->getStatus();
-        $this->assertEquals(200, $status);
-        $data = $resp->getData();
-        $this->assertEquals(true, isset($data['users']['test']));
-
         // DELETE PROJECT
         $resp = $this->pageController->webDeleteProject('superproj');
         $status = $resp->getStatus();

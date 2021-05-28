@@ -1884,36 +1884,6 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function getMemberSuggestions($projectid) {
-        $userNames = [];
-        foreach ($this->userManager->search('') as $u) {
-            if ($u->isEnabled()) {
-                $userNames[$u->getUID()] = $u->getDisplayName();
-            }
-        }
-        foreach ($this->projectService->getMembers($projectid) as $member) {
-            unset($userNames[$member['userid']]);
-        }
-
-        $groupNames = [];
-        $circleNames = [];
-
-        $response = new DataResponse([
-            'users' => $userNames,
-            'groups' => $groupNames,
-            'circles' => $circleNames
-        ]);
-        $csp = new ContentSecurityPolicy();
-        $csp->addAllowedImageDomain('*')
-                ->addAllowedMediaDomain('*')
-                ->addAllowedConnectDomain('*');
-        $response->setContentSecurityPolicy($csp);
-        return $response;
-    }
-
-    /**
-     * @NoAdminRequired
-     */
     public function editShareAccessLevel($projectid, $shid, $accesslevel) {
         $userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
         $shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);

@@ -2324,11 +2324,8 @@ class ProjectService {
 
     private function getUserShares($projectid) {
         $shares = [];
-
         $userIdToName = [];
-        foreach($this->userManager->search('') as $u) {
-            $userIdToName[$u->getUID()] = $u->getDisplayName();
-        }
+        $sharesToDelete = [];
 
         $qb = $this->dbconnection->getQueryBuilder();
         $qb->select('projectid', 'userid', 'id', 'accesslevel', 'manually_added')
@@ -2347,18 +2344,33 @@ class ProjectService {
             $dbAccessLevel = intval($row['accesslevel']);
             $dbManuallyAdded = intval($row['manually_added']);
             if (array_key_exists($dbuserId, $userIdToName)) {
-                $shares[] = [
-                    'userid' => $dbuserId,
-                    'name' => $userIdToName[$dbuserId],
-                    'id' => $dbId,
-                    'accesslevel' => $dbAccessLevel,
-                    'type' => 'u',
-                    'manually_added' => $dbManuallyAdded === 1,
-                ];
+                $name = $userIdToName[$dbuserId];
+            } else {
+                $user = $this->userManager->get($dbuserId);
+                if ($user !== null) {
+                    $userIdToName[$user->getUID()] = $user->getDisplayName();
+                    $name = $user->getDisplayName();
+                } else {
+                    $sharesToDelete[] = $dbId;
+                    continue;
+                }
             }
+            $shares[] = [
+                'userid' => $dbuserId,
+                'name' => $name,
+                'id' => $dbId,
+                'accesslevel' => $dbAccessLevel,
+                'type' => 'u',
+                'manually_added' => $dbManuallyAdded === 1,
+            ];
         }
         $req->closeCursor();
         $qb = $qb->resetQueryParts();
+
+        // delete shares pointing to unfound users
+        foreach ($sharesToDelete as $shId) {
+            $this->deleteUserShare($projectid, $shId);
+        }
 
         return $shares;
     }
@@ -3465,7 +3477,7 @@ class ProjectService {
         return $response;
     }
 
-    public function deleteUserShare($projectid, $shid, $fromUserId) {
+    public function deleteUserShare($projectid, $shid, ?string $fromUserId = null) {
         // check if user share exists
         $qb = $this->dbconnection->getQueryBuilder();
         $qb->select('id', 'userid', 'projectid')
@@ -3516,29 +3528,31 @@ class ProjectService {
             );
 
             // SEND NOTIFICATION
-            $projectInfo = $this->getProjectInfo($projectid);
+            if (!is_null($fromUserId)) {
+                $projectInfo = $this->getProjectInfo($projectid);
 
-            $manager = \OC::$server->getNotificationManager();
-            $notification = $manager->createNotification();
+                $manager = \OC::$server->getNotificationManager();
+                $notification = $manager->createNotification();
 
-            $acceptAction = $notification->createAction();
-            $acceptAction->setLabel('accept')
-                ->setLink('/apps/cospend', 'GET');
+                $acceptAction = $notification->createAction();
+                $acceptAction->setLabel('accept')
+                    ->setLink('/apps/cospend', 'GET');
 
-            $declineAction = $notification->createAction();
-            $declineAction->setLabel('decline')
-                ->setLink('/apps/cospend', 'GET');
+                $declineAction = $notification->createAction();
+                $declineAction->setLabel('decline')
+                    ->setLink('/apps/cospend', 'GET');
 
-            $notification->setApp('cospend')
-                ->setUser($dbuserId)
-                ->setDateTime(new \DateTime())
-                ->setObject('deleteusershare', $projectid)
-                ->setSubject('delete_user_share', [$fromUserId, $projectInfo['name']])
-                ->addAction($acceptAction)
-                ->addAction($declineAction)
-                ;
+                $notification->setApp('cospend')
+                    ->setUser($dbuserId)
+                    ->setDateTime(new \DateTime())
+                    ->setObject('deleteusershare', $projectid)
+                    ->setSubject('delete_user_share', [$fromUserId, $projectInfo['name']])
+                    ->addAction($acceptAction)
+                    ->addAction($declineAction)
+                    ;
 
-            $manager->notify($notification);
+                $manager->notify($notification);
+            }
 
             return $response;
         }

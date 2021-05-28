@@ -29,18 +29,18 @@ class Version000406Date20200417185442 extends SimpleMigrationStep {
 	 * @return null|ISchemaWrapper
 	 */
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
-        /** @var ISchemaWrapper $schema */
-        $schema = $schemaClosure();
+		/** @var ISchemaWrapper $schema */
+		$schema = $schemaClosure();
 
-        $table = $schema->getTable('cospend_members');
-        $table->addColumn('userid', 'string', [
-            'notnull' => false,
-            'length' => 64,
-            'default' => null
-        ]);
+		$table = $schema->getTable('cospend_members');
+		$table->addColumn('userid', 'string', [
+			'notnull' => false,
+			'length' => 64,
+			'default' => null
+		]);
 
-        return $schema;
-    }
+		return $schema;
+	}
 
 	/**
 	 * @param IOutput $output

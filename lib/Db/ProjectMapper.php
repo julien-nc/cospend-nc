@@ -17,14 +17,14 @@ use OCP\AppFramework\Db\Mapper;
 
 class ProjectMapper extends Mapper {
 
-    public function __construct(IDBConnection $db) {
-        parent::__construct($db, 'cospend_projects');
-    }
+	public function __construct(IDBConnection $db) {
+		parent::__construct($db, 'cospend_projects');
+	}
 
-    public function find($id) {
-        $sql = 'SELECT * FROM `*PREFIX*cospend_projects` ' .
-            'WHERE `id` = ?';
-        return $this->findEntity($sql, [$id]);
-    }
+	public function find($id) {
+		$sql = 'SELECT * FROM `*PREFIX*cospend_projects` ' .
+			'WHERE `id` = ?';
+		return $this->findEntity($sql, [$id]);
+	}
 
 }

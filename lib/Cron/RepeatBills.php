@@ -14,16 +14,16 @@ use OCA\Cospend\Service\ProjectService;
 
 class RepeatBills extends \OC\BackgroundJob\TimedJob {
 
-    public function __construct(
-        ProjectService $projectService
-    ) {
-        $this->projectService = $projectService;
-        // Run each day
-        $this->setInterval(24 * 60 * 60);
-    }
+	public function __construct(
+		ProjectService $projectService
+	) {
+		$this->projectService = $projectService;
+		// Run each day
+		$this->setInterval(24 * 60 * 60);
+	}
 
-    protected function run($argument) {
-        $this->projectService->cronRepeatBills();
-    }
+	protected function run($argument) {
+		$this->projectService->cronRepeatBills();
+	}
 
 }

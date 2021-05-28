@@ -33,13 +33,13 @@ class Version000102Date20190907142139 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 
 		if ($schema->hasTable('cospend_projects')) {
-            $table = $schema->getTable('cospend_projects');
+			$table = $schema->getTable('cospend_projects');
 			$table->addColumn('autoexport', 'string', [
 				'notnull' => true,
 				'length' => 1,
 				'default' => 'n',
 			]);
-        }
+		}
 
 		return $schema;
 	}

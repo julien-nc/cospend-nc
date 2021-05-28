@@ -16,28 +16,28 @@ use OCP\AppFramework\Db\Entity;
 
 class Project extends Entity {
 
-    protected $userid;
-    protected $name;
-    protected $email;
-    protected $password;
-    protected $autoexport;
-    protected $lastchanged;
-    protected $guestaccesslevel;
-    protected $deletiondisabled;
-    protected $categorysort;
-    protected $currencyname;
+	protected $userid;
+	protected $name;
+	protected $email;
+	protected $password;
+	protected $autoexport;
+	protected $lastchanged;
+	protected $guestaccesslevel;
+	protected $deletiondisabled;
+	protected $categorysort;
+	protected $currencyname;
 
-    public function __construct() {
-        $this->addType('id', 'string');
-        $this->addType('userid', 'string');
-        $this->addType('name', 'string');
-        $this->addType('email', 'string');
-        $this->addType('password', 'string');
-        $this->addType('autoexport', 'string');
-        $this->addType('lastchanged', 'integer');
-        $this->addType('guestaccesslevel', 'integer');
-        $this->addType('deletiondisabled', 'integer');
-        $this->addType('categorysort', 'string');
-        $this->addType('currencyname', 'string');
-    }
+	public function __construct() {
+		$this->addType('id', 'string');
+		$this->addType('userid', 'string');
+		$this->addType('name', 'string');
+		$this->addType('email', 'string');
+		$this->addType('password', 'string');
+		$this->addType('autoexport', 'string');
+		$this->addType('lastchanged', 'integer');
+		$this->addType('guestaccesslevel', 'integer');
+		$this->addType('deletiondisabled', 'integer');
+		$this->addType('categorysort', 'string');
+		$this->addType('currencyname', 'string');
+	}
 }

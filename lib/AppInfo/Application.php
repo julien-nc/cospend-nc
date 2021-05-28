@@ -31,31 +31,31 @@ use OCA\Cospend\Notification\Notifier;
  */
 class Application extends App implements IBootstrap {
 
-    public const APP_ID = 'cospend';
+	public const APP_ID = 'cospend';
 
-    /**
-     * Constructor
-     *
-     * @param array $urlParams
-     */
-    public function __construct(array $urlParams = []) {
-        parent::__construct(self::APP_ID, $urlParams);
+	/**
+	 * Constructor
+	 *
+	 * @param array $urlParams
+	 */
+	public function __construct(array $urlParams = []) {
+		parent::__construct(self::APP_ID, $urlParams);
 
-        $container = $this->getContainer();
+		$container = $this->getContainer();
 
-        // content of app.php
-        //$manager = \OC::$server->getNotificationManager();
-        $manager = $container->query(INotificationManager::class);
-        $manager->registerNotifierService(Notifier::class);
-    }
+		// content of app.php
+		//$manager = \OC::$server->getNotificationManager();
+		$manager = $container->query(INotificationManager::class);
+		$manager->registerNotifierService(Notifier::class);
+	}
 
-    public function register(IRegistrationContext $context): void {
-        $context->registerSearchProvider(CospendSearchProvider::class);
-        $context->registerDashboardWidget(CospendWidget::class);
-    }
+	public function register(IRegistrationContext $context): void {
+		$context->registerSearchProvider(CospendSearchProvider::class);
+		$context->registerDashboardWidget(CospendWidget::class);
+	}
 
-    public function boot(IBootContext $context): void {
-    }
+	public function boot(IBootContext $context): void {
+	}
 
 }
 

@@ -17,20 +17,20 @@ use OCP\AppFramework\Db\Mapper;
 
 class BillMapper extends Mapper {
 
-    public function __construct(IDBConnection $db) {
-        parent::__construct($db, 'cospend_bills');
-    }
+	public function __construct(IDBConnection $db) {
+		parent::__construct($db, 'cospend_bills');
+	}
 
-    public function find($id) {
-        $sql = 'SELECT * FROM `*PREFIX*cospend_bills` ' .
-            'WHERE `id` = ?';
-        return $this->findEntity($sql, [$id]);
-    }
+	public function find($id) {
+		$sql = 'SELECT * FROM `*PREFIX*cospend_bills` ' .
+			'WHERE `id` = ?';
+		return $this->findEntity($sql, [$id]);
+	}
 
-    public function findProjectId($id) {
-        $sql = 'SELECT projectid FROM `*PREFIX*cospend_bills` ' .
-            'WHERE `id` = ?';
-        return $this->findEntity($sql, [$id])->getProjectid();
-    }
+	public function findProjectId($id) {
+		$sql = 'SELECT projectid FROM `*PREFIX*cospend_bills` ' .
+			'WHERE `id` = ?';
+		return $this->findEntity($sql, [$id])->getProjectid();
+	}
 
 }

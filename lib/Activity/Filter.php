@@ -70,7 +70,7 @@ class Filter implements \OCP\Activity\IFilter {
 	 * @since 11.0.0
 	 */
 	public function getIcon() {
-        return $this->urlGenerator->imagePath('cospend', 'app_black.svg');
+		return $this->urlGenerator->imagePath('cospend', 'app_black.svg');
 	}
 
 	/**

@@ -27,36 +27,36 @@ use \OCA\Cospend\AppInfo\Application;
 
 class RepeatBills extends Command {
 
-    protected $userManager;
+	protected $userManager;
 
-    protected $output;
+	protected $output;
 
-    protected $encryptionManager;
+	protected $encryptionManager;
 
-    public function __construct(IUserManager $userManager,
-                                IManager $encryptionManager,
-                                ProjectService $projectService,
-                                IConfig $config) {
-        parent::__construct();
-        $this->userManager = $userManager;
-        $this->encryptionManager = $encryptionManager;
-        $this->config = $config;
-        $this->projectService = $projectService;
-    }
+	public function __construct(IUserManager $userManager,
+								IManager $encryptionManager,
+								ProjectService $projectService,
+								IConfig $config) {
+		parent::__construct();
+		$this->userManager = $userManager;
+		$this->encryptionManager = $encryptionManager;
+		$this->config = $config;
+		$this->projectService = $projectService;
+	}
 
-    protected function configure() {
-        $this->setName('cospend:repeat-bills')
-            ->setDescription('Repeat bills if necessary');
-    }
+	protected function configure() {
+		$this->setName('cospend:repeat-bills')
+			->setDescription('Repeat bills if necessary');
+	}
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
-        $repeated = $this->projectService->cronRepeatBills();
-        foreach ($repeated as $r) {
-            $output->writeln(
-                '[Project "'.$r['project_name'].'"] Bill "'.$r['what'].
-                '" ('.$r['date_orig'].') repeated on ('.$r['date_repeat'].')'
-            );
-        }
-        return 0;
-    }
+	protected function execute(InputInterface $input, OutputInterface $output) {
+		$repeated = $this->projectService->cronRepeatBills();
+		foreach ($repeated as $r) {
+			$output->writeln(
+				'[Project "'.$r['project_name'].'"] Bill "'.$r['what'].
+				'" ('.$r['date_orig'].') repeated on ('.$r['date_repeat'].')'
+			);
+		}
+		return 0;
+	}
 }

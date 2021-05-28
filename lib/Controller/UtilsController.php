@@ -32,121 +32,121 @@ use OCP\AppFramework\Controller;
 class UtilsController extends Controller {
 
 
-    private $userId;
-    private $config;
-    private $dbconnection;
-    private $dbtype;
+	private $userId;
+	private $config;
+	private $dbconnection;
+	private $dbtype;
 
-    public function __construct($AppName,
-                                IRequest $request,
-                                IServerContainer $serverContainer,
-                                IConfig $config,
-                                IAppManager $appManager,
-                                IAppData $appData,
-                                IDBConnection $dbconnection,
-                                $UserId) {
-        parent::__construct($AppName, $request);
-        $this->userId = $UserId;
-        $this->appData = $appData;
-        $this->serverContainer = $serverContainer;
-        $this->dbtype = $config->getSystemValue('dbtype');
-        if ($this->dbtype === 'pgsql'){
-            $this->dbdblquotes = '"';
-        }
-        else{
-            $this->dbdblquotes = '';
-        }
-        // IConfig object
-        $this->config = $config;
-        $this->dbconnection = $dbconnection;
-    }
+	public function __construct($AppName,
+								IRequest $request,
+								IServerContainer $serverContainer,
+								IConfig $config,
+								IAppManager $appManager,
+								IAppData $appData,
+								IDBConnection $dbconnection,
+								$UserId) {
+		parent::__construct($AppName, $request);
+		$this->userId = $UserId;
+		$this->appData = $appData;
+		$this->serverContainer = $serverContainer;
+		$this->dbtype = $config->getSystemValue('dbtype');
+		if ($this->dbtype === 'pgsql'){
+			$this->dbdblquotes = '"';
+		}
+		else{
+			$this->dbdblquotes = '';
+		}
+		// IConfig object
+		$this->config = $config;
+		$this->dbconnection = $dbconnection;
+	}
 
-    /**
-     * set global point quota
-     */
-    public function setAllowAnonymousCreation($allow) {
-        $this->config->setAppValue('cospend', 'allowAnonymousCreation', $allow);
-        $response = new DataResponse(
-            [
-                'done'=>'1'
-            ]
-        );
-        $csp = new ContentSecurityPolicy();
-        $csp->addAllowedImageDomain('*')
-            ->addAllowedMediaDomain('*')
-            ->addAllowedConnectDomain('*');
-        $response->setContentSecurityPolicy($csp);
-        return $response;
-    }
+	/**
+	 * set global point quota
+	 */
+	public function setAllowAnonymousCreation($allow) {
+		$this->config->setAppValue('cospend', 'allowAnonymousCreation', $allow);
+		$response = new DataResponse(
+			[
+				'done'=>'1'
+			]
+		);
+		$csp = new ContentSecurityPolicy();
+		$csp->addAllowedImageDomain('*')
+			->addAllowedMediaDomain('*')
+			->addAllowedConnectDomain('*');
+		$response->setContentSecurityPolicy($csp);
+		return $response;
+	}
 
-    /**
-     * Delete user options
-     * @NoAdminRequired
-     */
-    public function deleteOptionsValues() {
-        $keys = $this->config->getUserKeys($this->userId, 'cospend');
-        foreach ($keys as $key) {
-            $this->config->deleteUserValue($this->userId, 'cospend', $key);
-        }
+	/**
+	 * Delete user options
+	 * @NoAdminRequired
+	 */
+	public function deleteOptionsValues() {
+		$keys = $this->config->getUserKeys($this->userId, 'cospend');
+		foreach ($keys as $key) {
+			$this->config->deleteUserValue($this->userId, 'cospend', $key);
+		}
 
-        $response = new DataResponse(
-            [
-                'done'=>1
-            ]
-        );
-        $csp = new ContentSecurityPolicy();
-        $csp->addAllowedImageDomain('*')
-            ->addAllowedMediaDomain('*')
-            ->addAllowedConnectDomain('*');
-        $response->setContentSecurityPolicy($csp);
-        return $response;
-    }
+		$response = new DataResponse(
+			[
+				'done'=>1
+			]
+		);
+		$csp = new ContentSecurityPolicy();
+		$csp->addAllowedImageDomain('*')
+			->addAllowedMediaDomain('*')
+			->addAllowedConnectDomain('*');
+		$response->setContentSecurityPolicy($csp);
+		return $response;
+	}
 
-    /**
-     * Save options values to the DB for current user
-     * @NoAdminRequired
-     */
-    public function saveOptionValue($options) {
-        foreach ($options as $key => $value) {
-            $this->config->setUserValue($this->userId, 'cospend', $key, $value);
-        }
+	/**
+	 * Save options values to the DB for current user
+	 * @NoAdminRequired
+	 */
+	public function saveOptionValue($options) {
+		foreach ($options as $key => $value) {
+			$this->config->setUserValue($this->userId, 'cospend', $key, $value);
+		}
 
-        $response = new DataResponse(
-            [
-                'done'=>true
-            ]
-        );
-        $csp = new ContentSecurityPolicy();
-        $csp->addAllowedImageDomain('*')
-            ->addAllowedMediaDomain('*')
-            ->addAllowedConnectDomain('*');
-        $response->setContentSecurityPolicy($csp);
-        return $response;
-    }
+		$response = new DataResponse(
+			[
+				'done'=>true
+			]
+		);
+		$csp = new ContentSecurityPolicy();
+		$csp->addAllowedImageDomain('*')
+			->addAllowedMediaDomain('*')
+			->addAllowedConnectDomain('*');
+		$response->setContentSecurityPolicy($csp);
+		return $response;
+	}
 
-    /**
-     * get options values from the config for current user
-     * @NoAdminRequired
-     */
-    public function getOptionsValues() {
-        $ov = array();
-        $keys = $this->config->getUserKeys($this->userId, 'cospend');
-        foreach ($keys as $key) {
-            $value = $this->config->getUserValue($this->userId, 'cospend', $key);
-            $ov[$key] = $value;
-        }
+	/**
+	 * get options values from the config for current user
+	 * @NoAdminRequired
+	 */
+	public function getOptionsValues() {
+		$ov = array();
+		$keys = $this->config->getUserKeys($this->userId, 'cospend');
+		foreach ($keys as $key) {
+			$value = $this->config->getUserValue($this->userId, 'cospend', $key);
+			$ov[$key] = $value;
+		}
 
-        $response = new DataResponse(
-            [
-                'values'=>$ov
-            ]
-        );
-        $csp = new ContentSecurityPolicy();
-        $csp->addAllowedImageDomain('*')
-            ->addAllowedMediaDomain('*')
-            ->addAllowedConnectDomain('*');
-        $response->setContentSecurityPolicy($csp);
-        return $response;
-    }
+		$response = new DataResponse(
+			[
+				'values'=>$ov
+			]
+		);
+		$csp = new ContentSecurityPolicy();
+		$csp->addAllowedImageDomain('*')
+			->addAllowedMediaDomain('*')
+			->addAllowedConnectDomain('*');
+		$response->setContentSecurityPolicy($csp);
+		return $response;
+	}
 
 }

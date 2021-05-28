@@ -51,7 +51,7 @@ class Version000103Date20190907163755 extends SimpleMigrationStep {
 		}
 
 		if ($schema->hasTable('cospend_bills')) {
-            $table = $schema->getTable('cospend_bills');
+			$table = $schema->getTable('cospend_bills');
 			$table->addColumn('categoryid', 'integer', [
 				'notnull' => false,
 				'length' => 255
@@ -60,7 +60,7 @@ class Version000103Date20190907163755 extends SimpleMigrationStep {
 				'notnull' => false,
 				'length' => 1
 			]);
-        }
+		}
 
 		return $schema;
 	}

@@ -16,75 +16,75 @@ use OCP\IDBConnection;
  */
 class Version000304Date20200313092247 extends SimpleMigrationStep {
 
-    /** @var IDBConnection */
-    private $connection;
+	/** @var IDBConnection */
+	private $connection;
 
-    /**
-     * @param IDBConnection $connection
-     */
-    public function __construct(IDBConnection $connection) {
-        $this->connection = $connection;
-    }
+	/**
+	 * @param IDBConnection $connection
+	 */
+	public function __construct(IDBConnection $connection) {
+		$this->connection = $connection;
+	}
 
-    /**
-     * @param IOutput $output
-     * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-     * @param array $options
-     */
-    public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
-    }
+	/**
+	 * @param IOutput $output
+	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param array $options
+	 */
+	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
+	}
 
-    /**
-     * @param IOutput $output
-     * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-     * @param array $options
-     * @return null|ISchemaWrapper
-     */
-    public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
-        /** @var ISchemaWrapper $schema */
-        $schema = $schemaClosure();
+	/**
+	 * @param IOutput $output
+	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param array $options
+	 * @return null|ISchemaWrapper
+	 */
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
+		/** @var ISchemaWrapper $schema */
+		$schema = $schemaClosure();
 
-        if ($schema->hasTable('cospend_bills')) {
-            $table = $schema->getTable('cospend_bills');
-            $table->addColumn('timestamp', 'bigint', [
-                'notnull' => true,
-                'length' => 10,
-                'default' => 0
-            ]);
-        }
+		if ($schema->hasTable('cospend_bills')) {
+			$table = $schema->getTable('cospend_bills');
+			$table->addColumn('timestamp', 'bigint', [
+				'notnull' => true,
+				'length' => 10,
+				'default' => 0
+			]);
+		}
 
-        return $schema;
-    }
+		return $schema;
+	}
 
-    /**
-     * @param IOutput $output
-     * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-     * @param array $options
-     */
-    public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
-        $qb = $this->connection->getQueryBuilder();
-        $timestamps = [];
-        $qb->select('id', 'date')
-        ->from('cospend_bills', 'b');
-        $req = $qb->execute();
-        while ($row = $req->fetch()) {
-            $id = $row['id'];
-            $date = $row['date'];
+	/**
+	 * @param IOutput $output
+	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param array $options
+	 */
+	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
+		$qb = $this->connection->getQueryBuilder();
+		$timestamps = [];
+		$qb->select('id', 'date')
+		->from('cospend_bills', 'b');
+		$req = $qb->execute();
+		while ($row = $req->fetch()) {
+			$id = $row['id'];
+			$date = $row['date'];
 
-            $timestamp = strtotime($date.' 12:00:00');
-            $timestamps[$id] = $timestamp;
-        }
-        $req->closeCursor();
-        $qb = $qb->resetQueryParts();
+			$timestamp = strtotime($date.' 12:00:00');
+			$timestamps[$id] = $timestamp;
+		}
+		$req->closeCursor();
+		$qb = $qb->resetQueryParts();
 
-        foreach ($timestamps as $bid => $ts) {
-            $qb->update('cospend_bills')
-            ->set('timestamp', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT))
-            ->where(
-                $qb->expr()->eq('id', $qb->createNamedParameter($bid, IQueryBuilder::PARAM_INT))
-            );
-            $qb->execute();
-            $qb = $qb->resetQueryParts();
-        }
-    }
+		foreach ($timestamps as $bid => $ts) {
+			$qb->update('cospend_bills')
+			->set('timestamp', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT))
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($bid, IQueryBuilder::PARAM_INT))
+			);
+			$qb->execute();
+			$qb = $qb->resetQueryParts();
+		}
+	}
 }

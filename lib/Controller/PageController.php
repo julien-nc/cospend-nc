@@ -1884,56 +1884,6 @@ class PageController extends ApiController {
     /**
      * @NoAdminRequired
      */
-    public function getUserList() {
-        $userNames = [];
-        foreach($this->userManager->search('') as $u) {
-            if ($u->getUID() !== $this->userId && $u->isEnabled()) {
-                $userNames[$u->getUID()] = $u->getDisplayName();
-            }
-        }
-        $groupNames = [];
-        foreach($this->groupManager->search('') as $g) {
-            $groupNames[$g->getGID()] = $g->getDisplayName();
-        }
-        // circles
-        $circleNames = [];
-        $circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
-        if ($circlesEnabled) {
-            $cs = \OCA\Circles\Api\v1\Circles::listCircles(\OCA\Circles\Model\Circle::CIRCLES_ALL, '', 0);
-            foreach ($cs as $c) {
-                $circleUniqueId = $c->getUniqueId();
-                $circleName = $c->getName();
-                if ($c->getOwner()->getUserId() === $this->userId) {
-                    $circleNames[$circleUniqueId] = $circleName;
-                    continue;
-                }
-                $circleDetails = \OCA\Circles\Api\v1\Circles::detailsCircle($c->getUniqueId());
-                if ($circleDetails->getMembers() !== null) {
-                    foreach ($circleDetails->getMembers() as $m) {
-                        if ($m->getUserId() === $this->userId) {
-                            $circleNames[$circleUniqueId] = $circleName;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        $response = new DataResponse([
-            'users' => $userNames,
-            'groups' => $groupNames,
-            'circles' => $circleNames
-        ]);
-        $csp = new ContentSecurityPolicy();
-        $csp->addAllowedImageDomain('*')
-                ->addAllowedMediaDomain('*')
-                ->addAllowedConnectDomain('*');
-        $response->setContentSecurityPolicy($csp);
-        return $response;
-    }
-
-    /**
-     * @NoAdminRequired
-     */
     public function getMemberSuggestions($projectid) {
         $userNames = [];
         foreach ($this->userManager->search('') as $u) {

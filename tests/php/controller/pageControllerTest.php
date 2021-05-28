@@ -668,26 +668,6 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(200, $status);
         $data = $resp->getData();
         $this->assertEquals('DELETED', $data['message'] ?? '');
-
-        // GET USER LIST
-        $resp = $this->pageController->getUserList();
-        $status = $resp->getStatus();
-        $this->assertEquals(200, $status);
-        $data = $resp->getData();
-        $testFound = false;
-        $groupFound = false;
-        foreach ($data['users'] as $userid=>$username) {
-            if ($userid === 'test2') {
-                $testFound = true;
-            }
-        }
-        $this->assertEquals(true, $testFound);
-        foreach ($data['groups'] as $groupid=>$groupname) {
-            if ($groupid === 'group1test') {
-                $groupFound = true;
-            }
-        }
-        $this->assertEquals(true, $groupFound);
     }
 
 }

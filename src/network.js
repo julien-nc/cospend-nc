@@ -679,20 +679,6 @@ export function exportSettlement(projectid, centeredOn, maxTimestamp, successCB)
 		})
 }
 
-export function loadUsers(successCB) {
-	const url = generateUrl('/apps/cospend/user-list')
-	axios.get(url)
-		.then((response) => {
-			successCB(response.data)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to get user list')
-				+ ': ' + error.response.request.responseText
-			)
-		})
-}
-
 export function addSharedAccess(projectid, sh, successCB, thenCB = null) {
 	const req = {
 		accesslevel: sh.accesslevel || constants.ACCESS.PARTICIPANT,

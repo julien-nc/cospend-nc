@@ -70,13 +70,16 @@
 				:options="formatedUsers"
 				:user-select="true"
 				:internal-search="true"
+				@search-change="asyncFind"
 				@input="clickAddUserItem">
 				<template #option="{option}">
 					<Avatar v-if="option.type === 's'"
 						:is-no-user="true"
+						:show-user-status="false"
 						:user="option.name" />
 					<Avatar v-else
 						:is-no-user="false"
+						:show-user-status="false"
 						:user="option.user" />
 					<span class="select-display-name">{{ option.displayName }}</span>
 					<span :class="option.icon + ' select-icon'" />
@@ -118,7 +121,17 @@
 						:options="formatedUsersAffect"
 						:user-select="true"
 						:internal-search="true"
-						@input="clickAffectUserItem" />
+						@search-change="asyncFind"
+						@input="clickAffectUserItem">
+						<template #option="{option}">
+							<Avatar
+								:is-no-user="false"
+								:show-user-status="false"
+								:user="option.user" />
+							<span class="select-display-name">{{ option.displayName }}</span>
+							<span :class="option.icon + ' select-icon'" />
+						</template>
+					</Multiselect>
 				</div>
 			</div>
 		</div>
@@ -134,7 +147,8 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
 import cospend from '../state'
 import * as constants from '../constants'
-import * as network from '../network'
+import { generateOcsUrl } from '@nextcloud/router'
+import axios from '@nextcloud/axios'
 import AppNavigationMemberItem from './AppNavigationMemberItem'
 
 export default {
@@ -155,6 +169,7 @@ export default {
 			users: [],
 			selectedMember: null,
 			newProjectName: '',
+			query: '',
 		}
 	},
 	computed: {
@@ -238,10 +253,21 @@ export default {
 				}
 			})
 		},
-		// those not present as member yet
 		unallocatedUsers() {
+			// prepend simple user
+			const result = []
+			if (this.query) {
+				result.push({
+					id: '',
+					name: this.query,
+					label: this.query + ' (' + t('cospend', 'Create simple member') + ')',
+					type: 's',
+				})
+			}
+
+			// those not present as member yet
 			const memberList = Object.values(this.members)
-			return this.users.filter((user) => {
+			const userNotMembers = this.users.filter((user) => {
 				const foundIndex = memberList.findIndex((member) => {
 					return member.userid === user.id
 				})
@@ -250,28 +276,12 @@ export default {
 				}
 				return false
 			})
+			result.push(...userNotMembers)
+			return result
 		},
 	},
 
 	mounted() {
-		if (this.maintenerAccess) {
-			this.asyncFind()
-
-			const input = this.$refs.userMultiselect.$el.querySelector('input')
-			input.addEventListener('keyup', e => {
-				if (e.key === 'Enter') {
-					// trick to add member when pressing enter on NC user multiselect
-					// this.onMultiselectEnterPressed(e.target)
-				} else {
-					// add a simple user entry in multiselect when typing
-					this.updateSimpleUser(e.target.value)
-				}
-			})
-			// remove simple user when loosing focus
-			input.addEventListener('blur', e => {
-				this.updateSimpleUser(null)
-			})
-		}
 	},
 
 	methods: {
@@ -279,43 +289,36 @@ export default {
 			cospend.projects[this.projectId].autoexport = e.target.value
 			this.$emit('project-edited', this.projectId)
 		},
-		asyncFind() {
+		asyncFind(query) {
 			if (!this.pageIsPublic) {
-				this.isLoading = true
-				this.loadUsers()
-			}
-		},
-		loadUsers() {
-			network.loadUsers(this.loadUsersSuccess)
-		},
-		loadUsersSuccess(response) {
-			const data = []
-			let d, name, id
-			for (id in response.users) {
-				name = response.users[id]
-				d = {
-					id,
-					name,
-					type: 'u',
+				this.query = query
+				if (query === '') {
+					this.users = []
+					return
 				}
-				if (id !== name) {
-					d.label = name + ' (' + id + ')'
-					d.value = name + ' (' + id + ')'
-				} else {
-					d.label = name
-					d.value = name
-				}
-				data.push(d)
+				const url = generateOcsUrl('core/autocomplete/get', 2).replace(/\/$/, '')
+				axios.get(url, {
+					params: {
+						format: 'json',
+						search: query,
+						itemType: ' ',
+						itemId: ' ',
+						shareTypes: [0],
+					},
+				}).then((response) => {
+					this.users = response.data.ocs.data.map((s) => {
+						return {
+							id: s.id,
+							name: s.label,
+							value: s.id !== s.label ? s.label + ' (' + s.id + ')' : s.label,
+							label: s.id !== s.label ? s.label + ' (' + s.id + ')' : s.label,
+							type: 'u',
+						}
+					})
+				}).catch((error) => {
+					console.error(error)
+				})
 			}
-			// add current user
-			const cu = getCurrentUser()
-			data.push({
-				id: cu.uid,
-				name: cu.displayName,
-				label: (cu.uid !== cu.displayName) ? (cu.displayName + ' (' + cu.uid + ')') : cu.uid,
-				type: 'u',
-			})
-			this.users = data
 		},
 		clickAddUserItem() {
 			if (this.selectedAddUser === null) {
@@ -327,7 +330,7 @@ export default {
 			} else {
 				this.$emit('new-simple-member', this.projectId, this.selectedAddUser.name)
 			}
-			this.asyncFind()
+			this.selectedAddUser = null
 		},
 		clickAffectUserItem() {
 			const member = this.members[this.selectedMember]
@@ -335,7 +338,6 @@ export default {
 			this.$set(member, 'name', this.selectedAffectUser.name)
 			this.$emit('member-edited', this.projectId, this.selectedMember)
 			this.selectedAffectUser = null
-			this.asyncFind()
 		},
 		onMemberEdited(memberid) {
 			this.$emit('member-edited', this.projectId, memberid)
@@ -355,24 +357,6 @@ export default {
 			const name = elem.value
 			this.$emit('new-simple-member', this.projectId, name)
 			elem.value = ''
-		},
-		updateSimpleUser(name) {
-			// delete existing simple user
-			const iToDel = this.users.findIndex((user) => { return user.type === 's' })
-			if (iToDel !== -1) {
-				this.users.splice(iToDel, 1)
-			}
-			// without this, simple member creation works once every two tries
-			this.selectedAddUser = null
-			// add one
-			if (name !== null && name !== '') {
-				this.users.unshift({
-					id: '',
-					name,
-					label: name + ' (' + t('cospend', 'Create simple member') + ')',
-					type: 's',
-				})
-			}
 		},
 		onExportClick() {
 			this.$emit('export-clicked', this.projectId)

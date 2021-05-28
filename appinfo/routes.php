@@ -91,7 +91,6 @@ return [
         ['name' => 'utils#getOptionsValues', 'url' => '/option-values', 'verb' => 'GET'],
         ['name' => 'utils#saveOptionValue', 'url' => '/option-value', 'verb' => 'PUT'],
         ['name' => 'utils#setAllowAnonymousCreation', 'url' => '/allow-anonymous-creation', 'verb' => 'PUT'],
-        ['name' => 'page#getUserList', 'url' => '/user-list', 'verb' => 'GET'],
         ['name' => 'page#getMemberSuggestions', 'url' => '/projects/{projectid}/member-suggestions', 'verb' => 'GET'],
         ['name' => 'page#addCurrency', 'url' => '/projects/{projectid}/currency', 'verb' => 'POST'],
         ['name' => 'page#editCurrency', 'url' => '/projects/{projectid}/currency/{currencyid}', 'verb' => 'PUT'],

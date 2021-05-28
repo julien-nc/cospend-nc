@@ -10,7 +10,25 @@
 			label="displayName"
 			track-by="multiselectKey"
 			:internal-search="true"
-			@input="clickShareeItem" />
+			@search-change="asyncFind"
+			@input="clickShareeItem">
+			<template #option="{option}">
+				<Avatar v-if="option.type === 'u'"
+					class="avatar-option"
+					:user="option.user"
+					:show-user-status="false" />
+				<Avatar v-else-if="['g', 'c'].includes(option.type)"
+					class="avatar-option"
+					:display-name="option.displayName"
+					:is-no-user="true"
+					:show-user-status="false" />
+				<span class="multiselect-name">
+					{{ option.displayName }}
+				</span>
+				<span v-if="option.icon"
+					:class="{ icon: true, [option.icon]: true, 'multiselect-icon': true }" />
+			</template>
+		</Multiselect>
 
 		<ul
 			id="shareWithList"
@@ -208,7 +226,7 @@ import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
 
 import { getCurrentUser } from '@nextcloud/auth'
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import {
 	showSuccess,
 	showError,
@@ -217,6 +235,7 @@ import MoneyBusterLink from '../MoneyBusterLink'
 import cospend from '../state'
 import * as constants from '../constants'
 import * as network from '../network'
+import axios from '@nextcloud/axios'
 import { Timer } from '../utils'
 
 export default {
@@ -319,7 +338,6 @@ export default {
 	},
 
 	mounted() {
-		this.asyncFind()
 	},
 
 	methods: {
@@ -329,62 +347,38 @@ export default {
 			return this.editionAccess && this.myAccessLevel >= access.accesslevel && this.myAccessLevel >= level
 				&& (access.type !== 'u' || !this.isCurrentUser(access.userid))
 		},
-		asyncFind() {
-			this.loadSharees()
-		},
-		loadSharees() {
-			network.loadUsers(this.loadShareesSuccess)
-		},
-		loadShareesSuccess(response) {
-			cospend.userIdName = response.users
-			cospend.groupIdName = response.groups
-			cospend.circleIdName = response.circles
-			const data = []
-			let d, name, id
-			for (id in response.users) {
-				name = response.users[id]
-				d = {
-					id,
-					name,
-					type: 'u',
-				}
-				if (id !== name) {
-					d.label = name + ' (' + id + ')'
-					d.value = name + ' (' + id + ')'
-				} else {
-					d.label = name
-					d.value = name
-				}
-				data.push(d)
+		asyncFind(query) {
+			this.query = query
+			if (query === '') {
+				this.sharees = []
+				return
 			}
-			for (id in response.groups) {
-				name = response.groups[id]
-				d = {
-					id,
-					name,
-					type: 'g',
-				}
-				if (id !== name) {
-					d.label = name + ' (' + id + ')'
-					d.value = name + ' (' + id + ')'
-				} else {
-					d.label = name
-					d.value = name
-				}
-				data.push(d)
-			}
-			for (id in response.circles) {
-				name = response.circles[id]
-				d = {
-					id,
-					name,
-					type: 'c',
-				}
-				d.label = name
-				d.value = name
-				data.push(d)
-			}
-			this.sharees = data
+			const url = generateOcsUrl('core/autocomplete/get', 2).replace(/\/$/, '')
+			axios.get(url, {
+				params: {
+					format: 'json',
+					search: query,
+					itemType: ' ',
+					itemId: ' ',
+					shareTypes: [0, 1, 7],
+				},
+			}).then((response) => {
+				this.sharees = response.data.ocs.data.map((s) => {
+					return {
+						id: s.id,
+						name: s.label,
+						value: s.id !== s.label ? s.label + ' (' + s.id + ')' : s.label,
+						label: s.id !== s.label ? s.label + ' (' + s.id + ')' : s.label,
+						type: s.source === 'users'
+							? 'u'
+							: s.source === 'groups'
+								? 'g'
+								: 'c',
+					}
+				})
+			}).catch((error) => {
+				console.error(error)
+			})
 		},
 		clickShareeItem() {
 			this.addSharedAccess(this.selectedSharee)
@@ -482,13 +476,23 @@ export default {
 	},
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .add-public-link-line * {
 	cursor: pointer;
 }
 
 .shareInput {
 	width: 100%;
+
+	.multiselect-name {
+		flex-grow: 1;
+		margin-left: 10px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.multiselect-icon {
+		opacity: 0.5;
+	}
 }
 
 .shareWithList {
@@ -534,5 +538,4 @@ export default {
 .avatardiv.icon-public-white {
 	background-color: var(--color-primary);
 }
-
 </style>

@@ -431,7 +431,7 @@ class PageController extends ApiController {
 			}
 
 			$result = $this->projectService->deleteBill($projectid, $billid);
-			if ($result === 'OK') {
+			if (isset($result['success'])) {
 				if (!is_null($billObj)) {
 					$this->activityManager->triggerEvent(
 						ActivityManager::COSPEND_OBJECT_BILL, $billObj,
@@ -439,13 +439,11 @@ class PageController extends ApiController {
 						[]
 					);
 				}
-				return new DataResponse($result);
-			}
-			else {
+				return new DataResponse('OK');
+			} else {
 				return new DataResponse($result, 404);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to delete this bill')]
 				, 403
@@ -466,7 +464,7 @@ class PageController extends ApiController {
 					$billObj = $this->billMapper->find($billid);
 				}
 				$result = $this->projectService->deleteBill($projectid, $billid);
-				if ($result !== 'OK') {
+				if (!isset($result['success'])) {
 					return new DataResponse($result, 400);
 				} else {
 					if (!is_null($billObj)) {
@@ -554,14 +552,12 @@ class PageController extends ApiController {
 	public function webAutoSettlement(string $projectid, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null) {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			$result = $this->projectService->autoSettlement($projectid, $centeredOn, $precision, $maxTimestamp);
-			if ($result === 'OK') {
-				return new DataResponse($result);
-			}
-			else {
+			if (isset($result['success'])) {
+				return new DataResponse('OK');
+			} else {
 				return new DataResponse($result, 403);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to settle this project automatically')]
 				, 403
@@ -591,19 +587,23 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 *
 	 */
-	public function webEditMember($projectid, $memberid, $name, $weight, $activated, $color=null, $userid=null) {
+	public function webEditMember(string $projectid, int $memberid, ?string $name = null,
+								?float $weight = null, $activated = null, ?string $color = null, ?string $userid = null) {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
+			if ($activated === 'true') {
+				$activated = true;
+			} elseif ($activated === 'false') {
+				$activated = false;
+			}
 			$result = $this->projectService->editMember($projectid, $memberid, $name, $userid, $weight, $activated, $color);
 			if (count($result) === 0) {
 				return new DataResponse(null);
 			} elseif (array_key_exists('activated', $result)) {
 				return new DataResponse($result);
-			}
-			else {
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to edit this member')]
 				, 403
@@ -714,13 +714,12 @@ class PageController extends ApiController {
 									?string $categorysort = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_ADMIN) {
 			$result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname, $deletion_disabled, $categorysort);
-			if ($result === 'UPDATED') {
-				return new DataResponse($result);
+			if (isset($result['success'])) {
+				return new DataResponse('UPDATED');
 			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to edit this project')]
 				, 403
@@ -733,28 +732,26 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 *
 	 */
-	public function webAddBill($projectid, $date, $what, $payer, $payed_for, $amount,
-							   $repeat, $paymentmode=null, $categoryid=null, $repeatallactive=0,
-							   $repeatuntil=null, $timestamp=null, $comment=null, ?int $repeatfreq = null) {
+	public function webAddBill(string $projectid, $date, string $what, $payer, $payed_for, float $amount,
+							   $repeat, $paymentmode = null, $categoryid = null, $repeatallactive = 0,
+							   $repeatuntil = null, $timestamp = null, $comment = null, ?int $repeatfreq = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
 			$result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
 													 $repeat, $paymentmode, $categoryid, $repeatallactive,
 													 $repeatuntil, $timestamp, $comment, $repeatfreq);
-			if (is_numeric($result)) {
-				$billObj = $this->billMapper->find($result);
+			if (isset($result['inserted_id'])) {
+				$billObj = $this->billMapper->find($result['inserted_id']);
 				$this->activityManager->triggerEvent(
 					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
 					ActivityManager::SUBJECT_BILL_CREATE,
 					[]
 				);
 
-				return new DataResponse($result);
-			}
-			else {
+				return new DataResponse($result['inserted_id']);
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to add bills')]
 				, 403
@@ -767,17 +764,16 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 *
 	 */
-	public function webAddMember($projectid, $name, $userid=null, $weight=1, $active=1, $color=null) {
+	public function webAddMember(string $projectid, string $name, ?string $userid = null,
+								float $weight = 1, int $active = 1, ?string $color=null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
-			$result = $this->projectService->addMember($projectid, $name, $weight, $active, $color, $userid);
-			if (is_array($result)) {
+			$result = $this->projectService->addMember($projectid, $name, $weight, $active !== 0, $color, $userid);
+			if (!isset($result['error'])) {
 				return new DataResponse($result);
+			} else {
+				return new DataResponse($result['error'], 400);
 			}
-			else {
-				return new DataResponse($result, 400);
-			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to add members')]
 				, 403
@@ -966,8 +962,8 @@ class PageController extends ApiController {
 			|| ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_ADMIN)
 		) {
 			$result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname, $deletion_disabled, $categorysort);
-			if ($result === 'UPDATED') {
-				return new DataResponse($result);
+			if (isset($result['success'])) {
+				return new DataResponse('UPDATED');
 			} else {
 				return new DataResponse($result, 400);
 			}
@@ -990,8 +986,8 @@ class PageController extends ApiController {
 										?string $categorysort = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_ADMIN) {
 			$result = $this->projectService->editProject($projectid, $name, $contact_email, $password, $autoexport, $currencyname, $deletion_disabled, $categorysort);
-			if ($result === 'UPDATED') {
-				return new DataResponse($result);
+			if (isset($result['success'])) {
+				return new DataResponse('UPDATED');
 			} else {
 				return new DataResponse($result, 400);
 			}
@@ -1170,21 +1166,19 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiAddMember($projectid, $password, $name, $weight, $active=1, $color=null) {
+	public function apiAddMember(string $projectid, string $password, string $name, float $weight = 1, int $active = 1, ?string $color = null) {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if (
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
 			|| ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
 		) {
-			$result = $this->projectService->addMember($projectid, $name, $weight, $active, $color, null);
-			if (is_array($result)) {
+			$result = $this->projectService->addMember($projectid, $name, $weight, $active !== 0, $color, null);
+			if (!isset($result['error'])) {
 				return new DataResponse($result['id']);
+			} else {
+				return new DataResponse($result['error'], 400);
 			}
-			else {
-				return new DataResponse($result, 400);
-			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to add members')]
 				, 401
@@ -1199,21 +1193,20 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiv2AddMember($projectid, $password, $name, $weight, $active=1, $color=null, $userid=null) {
+	public function apiv2AddMember(string $projectid, string $password, string $name, float $weight = 1, int $active = 1,
+									?string $color = null, ?string $userid = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if (
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
 			|| ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
 		) {
-			$result = $this->projectService->addMember($projectid, $name, $weight, $active, $color, $userid);
-			if (is_array($result)) {
+			$result = $this->projectService->addMember($projectid, $name, $weight, $active !== 0, $color, $userid);
+			if (!isset($result['error'])) {
 				return new DataResponse($result);
+			} else {
+				return new DataResponse($result['error'], 400);
 			}
-			else {
-				return new DataResponse($result, 400);
-			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to add members')]
 				, 401
@@ -1227,17 +1220,16 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivAddMember($projectid, $name, $weight, $active=1, $color=null, $userid=null) {
+	public function apiPrivAddMember(string $projectid, string $name, float $weight = 1, int $active = 1,
+									?string $color = null, ?string $userid = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
-			$result = $this->projectService->addMember($projectid, $name, $weight, $active, $color, $userid);
-			if (is_array($result)) {
+			$result = $this->projectService->addMember($projectid, $name, $weight, $active !== 0, $color, $userid);
+			if (!isset($result['error'])) {
 				return new DataResponse($result['id']);
+			} else {
+				return new DataResponse($result['error'], 400);
 			}
-			else {
-				return new DataResponse($result, 400);
-			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to add members')]
 				, 403
@@ -1252,9 +1244,10 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiAddBill($projectid, $password, $date, $what, $payer, $payed_for,
-							   $amount, $repeat='n', $paymentmode=null, $categoryid=null,
-							   $repeatallactive=0, $repeatuntil=null, $timestamp=null, $comment=null, ?int $repeatfreq = null) {
+	public function apiAddBill(string $projectid, string $password, $date, string $what, $payer, $payed_for,
+							   float $amount, string $repeat = 'n', $paymentmode = null, $categoryid = null,
+							   $repeatallactive = 0, $repeatuntil = null, $timestamp = null, $comment = null,
+							   ?int $repeatfreq = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if (
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
@@ -1263,20 +1256,18 @@ class PageController extends ApiController {
 			$result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
 													 $repeat, $paymentmode, $categoryid, $repeatallactive,
 													 $repeatuntil, $timestamp, $comment, $repeatfreq);
-			if (is_numeric($result)) {
-				$billObj = $this->billMapper->find($result);
+			if (isset($result['inserted_id'])) {
+				$billObj = $this->billMapper->find($result['inserted_id']);
 				$this->activityManager->triggerEvent(
 					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
 					ActivityManager::SUBJECT_BILL_CREATE,
 					[]
 				);
-				return new DataResponse($result);
-			}
-			else {
+				return new DataResponse($result['inserted_id']);
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to add bills')]
 				, 401
@@ -1297,14 +1288,14 @@ class PageController extends ApiController {
 			$result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
 													 $repeat, $paymentmode, $categoryid, $repeatallactive,
 													 $repeatuntil, $timestamp, $comment, $repeatfreq);
-			if (is_numeric($result)) {
-				$billObj = $this->billMapper->find($result);
+			if (isset($result['inserted_id'])) {
+				$billObj = $this->billMapper->find($result['inserted_id']);
 				$this->activityManager->triggerEvent(
 					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
 					ActivityManager::SUBJECT_BILL_CREATE,
 					[]
 				);
-				return new DataResponse($result);
+				return new DataResponse($result['inserted_id']);
 			}
 			else {
 				return new DataResponse($result, 400);
@@ -1478,7 +1469,7 @@ class PageController extends ApiController {
 			}
 
 			$result = $this->projectService->deleteBill($projectid, $billid);
-			if ($result === 'OK') {
+			if (isset($result['success'])) {
 				if (!is_null($billObj)) {
 					$this->activityManager->triggerEvent(
 						ActivityManager::COSPEND_OBJECT_BILL, $billObj,
@@ -1486,7 +1477,7 @@ class PageController extends ApiController {
 						[]
 					);
 				}
-				return new DataResponse($result);
+				return new DataResponse('OK');
 			}
 			else {
 				return new DataResponse($result, 404);
@@ -1520,7 +1511,7 @@ class PageController extends ApiController {
 				}
 
 				$result = $this->projectService->deleteBill($projectid, $billid);
-				if ($result !== 'OK') {
+				if (!isset($result['success'])) {
 					return new DataResponse($result, 404);
 				} else {
 					if (!is_null($billObj)) {
@@ -1556,7 +1547,7 @@ class PageController extends ApiController {
 			}
 
 			$result = $this->projectService->deleteBill($projectid, $billid);
-			if ($result === 'OK') {
+			if (isset($result['success'])) {
 				if (!is_null($billObj)) {
 					$this->activityManager->triggerEvent(
 						ActivityManager::COSPEND_OBJECT_BILL, $billObj,
@@ -1564,7 +1555,7 @@ class PageController extends ApiController {
 						[]
 					);
 				}
-				return new DataResponse($result);
+				return new DataResponse('OK');
 			}
 			else {
 				return new DataResponse($result, 404);
@@ -1684,23 +1675,28 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiEditMember($projectid, $password, $memberid, $name, $weight, $activated, $color=null, $userid=null) {
+	public function apiEditMember(string $projectid, string $password, int $memberid,
+								?string $name = null, ?float $weight = null, $activated = null,
+								?string $color = null, ?string $userid = null) {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if (
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
 			|| ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
 		) {
+			if ($activated === 'true') {
+				$activated = true;
+			} elseif ($activated === 'false') {
+				$activated = false;
+			}
 			$result = $this->projectService->editMember($projectid, $memberid, $name, $userid, $weight, $activated, $color);
 			if (count($result) === 0) {
 				return new DataResponse(null);
 			} elseif (array_key_exists('activated', $result)) {
 				return new DataResponse($result);
-			}
-			else {
+			} else {
 				return new DataResponse($result, 403);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('Unauthorized action')]
 				, 401
@@ -1714,19 +1710,23 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivEditMember($projectid, $memberid, $name, $weight, $activated, $color=null, $userid=null) {
+	public function apiPrivEditMember(string $projectid, int $memberid, ?string $name = null, ?float $weight = null,
+									$activated = null, ?string $color = null, ?string $userid = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
+			if ($activated === 'true') {
+				$activated = true;
+			} elseif ($activated === 'false') {
+				$activated = false;
+			}
 			$result = $this->projectService->editMember($projectid, $memberid, $name, $userid, $weight, $activated, $color);
 			if (count($result) === 0) {
 				return new DataResponse(null);
 			} elseif (array_key_exists('activated', $result)) {
 				return new DataResponse($result);
-			}
-			else {
+			} else {
 				return new DataResponse($result, 403);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('Unauthorized action')]
 				, 403
@@ -1840,14 +1840,12 @@ class PageController extends ApiController {
 			|| ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_PARTICIPANT)
 		) {
 			$result = $this->projectService->autoSettlement($projectid, $centeredOn, $precision, $maxTimestamp);
-			if ($result === 'OK') {
-				return new DataResponse($result);
-			}
-			else {
+			if (isset($result['success'])) {
+				return new DataResponse('OK');
+			} else {
 				return new DataResponse($result, 403);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('Unauthorized action')]
 				, 401
@@ -1864,14 +1862,12 @@ class PageController extends ApiController {
 	public function apiPrivAutoSettlement(string $projectid, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null) {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
 			$result = $this->projectService->autoSettlement($projectid, $centeredOn, $precision, $maxTimestamp);
-			if ($result === 'OK') {
-				return new DataResponse($result);
-			}
-			else {
+			if (isset($result['success'])) {
+				return new DataResponse('OK');
+			} else {
 				return new DataResponse($result, 403);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('Unauthorized action')]
 				, 403

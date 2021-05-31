@@ -914,10 +914,29 @@ class ProjectService {
 		];
 	}
 
+	/**
+	 * Add a bill in a given project
+	 *
+	 * @param string $projectid
+	 * @param string|null $date
+	 * @param string|null $what
+	 * @param int|null $payer
+	 * @param string|null $payed_for
+	 * @param float|null $amount
+	 * @param string|null $repeat
+	 * @param string|null $paymentmode
+	 * @param int|null $categoryid
+	 * @param int|null $repeatallactive
+	 * @param string|null $repeatuntil
+	 * @param int|null $timestamp
+	 * @param string|null $comment
+	 * @param int|null $repeatfreq
+	 * @return array
+	 */
 	public function addBill(string $projectid, ?string $date, ?string $what, ?int $payer, ?string $payed_for,
 							?float $amount, ?string $repeat, ?string $paymentmode = null, ?int $categoryid = null,
 							?int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
-							?string $comment = null, ?int $repeatfreq = null) {
+							?string $comment = null, ?int $repeatfreq = null): array {
 		if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
 			return ['repeat' => $this->trans->t('Invalid value')];
 		}
@@ -934,15 +953,13 @@ class ProjectService {
 		if ($timestamp === null || !is_numeric($timestamp)) {
 			if ($date === null || $date === '') {
 				return ['message' => $this->trans->t('Timestamp (or date) field is required')];
-			}
-			else {
+			} else {
 				$dateTs = strtotime($date);
 				if ($dateTs === false) {
 					return ['date' => $this->trans->t('Invalid date')];
 				}
 			}
-		}
-		else {
+		} else {
 			$dateTs = intval($timestamp);
 		}
 		if ($what === null || $what === '') {
@@ -1010,10 +1027,17 @@ class ProjectService {
 
 		$this->updateProjectLastChanged($projectid, $ts);
 
-		return $insertedBillId;
+		return ['inserted_id' => $insertedBillId];
 	}
 
-	public function deleteBill($projectid, $billid) {
+	/**
+	 * Delete a bill
+	 *
+	 * @param string $projectid
+	 * @param int $billid
+	 * @return
+	 */
+	public function deleteBill(string $projectid, string $billid): array {
 		$project = $this->getProjectInfo($projectid);
 		$deletionDisabled = $project['deletion_disabled'];
 		if ($deletionDisabled) {
@@ -1037,14 +1061,20 @@ class ProjectService {
 			$ts = (new \DateTime())->getTimestamp();
 			$this->updateProjectLastChanged($projectid, $ts);
 
-			return 'OK';
-		}
-		else {
+			return ['success' => true];
+		} else {
 			return ['message' => $this->trans->t('Not Found')];
 		}
 	}
 
-	private function getMemberById($projectId, $memberId) {
+	/**
+	 * Get a member
+	 *
+	 * @param string $projectId
+	 * @param int $memberId
+	 * @return array|null
+	 */
+	private function getMemberById(string $projectId, int $memberId): ?array {
 		$member = null;
 
 		$qb = $this->dbconnection->getQueryBuilder();
@@ -1068,8 +1098,7 @@ class ProjectService {
 			if ($dbColor === null) {
 				$av = $this->avatarManager->getGuestAvatar($dbName);
 				$dbColor = $av->avatarBackgroundColor($dbName);
-			}
-			else {
+			} else {
 				$dbColor = $this->hexToRgb($dbColor);
 			}
 
@@ -1088,7 +1117,12 @@ class ProjectService {
 		return $member;
 	}
 
-	public function getProjectById($projectId) {
+	/**
+	 * Get project info
+	 *
+	 * @param string $projectId
+	 */
+	public function getProjectById(string $projectId): ?array {
 		$project = null;
 
 		$qb = $this->dbconnection->getQueryBuilder();
@@ -1127,7 +1161,14 @@ class ProjectService {
 		return $project;
 	}
 
-	public function getBill($projectId, $billId) {
+	/**
+	 * Get bill info
+	 *
+	 * @param string $projectId
+	 * @param int $billId
+	 * @return array|null
+	 */
+	public function getBill(string $projectId, int $billId): ?array {
 		$bill = null;
 		// get bill owers
 		$billOwers = [];
@@ -1208,7 +1249,13 @@ class ProjectService {
 		return $bill;
 	}
 
-	private function deleteBillOwersOfBill($billid) {
+	/**
+	 * Delete bill owers of given bill
+	 *
+	 * @param int $billid
+	 * @return void
+	 */
+	private function deleteBillOwersOfBill(int $billid): void {
 		$qb = $this->dbconnection->getQueryBuilder();
 		$qb->delete('cospend_bill_owers')
 		   ->where(
@@ -1218,7 +1265,16 @@ class ProjectService {
 		$qb = $qb->resetQueryParts();
 	}
 
-	public function autoSettlement(string $projectid, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null) {
+	/**
+	 * Generate bills to automatically settle a project
+	 *
+	 * @param string $projectid
+	 * @param int|null $centeredOn
+	 * @param int $precision
+	 * @param int|null $maxTimestamp
+	 * @return array
+	 */
+	public function autoSettlement(string $projectid, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): array {
 		$settlement = $this->getProjectSettlement($projectid, $centeredOn, $maxTimestamp);
 		$transactions = $settlement['transactions'];
 		if (!is_array($transactions)) {
@@ -1243,13 +1299,21 @@ class ProjectService {
 			$amount = round(floatval($transaction['amount']), $precision);
 			$billTitle = $memberIdToName[$fromId].' → '.$memberIdToName[$toId];
 			$addBillResult = $this->addBill($projectid, null, $billTitle, $fromId, $toId, $amount, 'n', 'n', CAT_REIMBURSEMENT, 0, null, $ts);
-			if (!is_numeric($addBillResult)) {
+			if (!isset($addBillResult['inserted_id'])) {
 				return ['message' => $this->trans->t('Error when adding a bill')];
 			}
 		}
-		return 'OK';
+		return ['success' => true];
 	}
 
+	/**
+	 * Get project settlement plan
+	 *
+	 * @param string $projectId
+	 * @param int|null $centeredOn
+	 * @param int|null $maxTimestamp
+	 * @return array
+	 */
 	public function getProjectSettlement(string $projectId, ?int $centeredOn = null, ?int $maxTimestamp = null): array {
 		$balances = $this->getBalance($projectId, $maxTimestamp);
 		if ($centeredOn === null) {
@@ -1263,7 +1327,14 @@ class ProjectService {
 		];
 	}
 
-	private function centeredSettle($balances, $centeredOn) {
+	/**
+	 * Get a settlement plan centered on a member
+	 *
+	 * @param array $balances
+	 * @param int $centeredOn
+	 * @return array
+	 */
+	private function centeredSettle(array $balances, int $centeredOn): array {
 		$transactions = [];
 		foreach ($balances as $memberId => $balance) {
 			if ($memberId !== $centeredOn) {
@@ -1285,21 +1356,32 @@ class ProjectService {
 		return $transactions;
 	}
 
-	private function settle($balances) {
+	/**
+	 * Get optimal settlement of a balance list
+	 *
+	 * @param array $balances
+	 * @return array
+	 */
+	private function settle(array $balances): array {
 		$debitersCrediters = $this->orderBalance($balances);
 		$debiters = $debitersCrediters[0];
 		$crediters = $debitersCrediters[1];
 		return $this->reduceBalance($crediters, $debiters);
 	}
 
-	private function orderBalance($balances) {
+	/**
+	 * Separate crediter and debiter balances
+	 *
+	 * @param array $balances
+	 * @return array
+	 */
+	private function orderBalance(array $balances): array {
 		$crediters = [];
 		$debiters = [];
 		foreach ($balances as $id => $balance) {
 			if ($balance > 0.0) {
 				$crediters[] = [$id, $balance];
-			}
-			else if ($balance < 0.0) {
+			} elseif ($balance < 0.0) {
 				$debiters[] = [$id, $balance];
 			}
 		}
@@ -1307,7 +1389,15 @@ class ProjectService {
 		return [$debiters, $crediters];
 	}
 
-	private function reduceBalance($crediters, $debiters, $results=null) {
+	/**
+	 * Recursively produce transaction list of the settlement plan
+	 *
+	 * @param array $crediters
+	 * @param array $debiters
+	 * @param array|null $results
+	 * @return array
+	 */
+	private function reduceBalance(array $crediters, array $debiters, ?array $results = null): array {
 		if (count($crediters) === 0 || count($debiters) === 0) {
 			return $results;
 		}
@@ -1329,8 +1419,7 @@ class ProjectService {
 
 		if (abs($debiterBalance) > abs($crediterBalance)) {
 			$amount = abs($crediterBalance);
-		}
-		else {
+		} else {
 			$amount = abs($debiterBalance);
 		}
 
@@ -1352,7 +1441,14 @@ class ProjectService {
 		return $this->reduceBalance($crediters, $debiters, $newResults);
 	}
 
-	private function sortCreditersDebiters($arr, $reverse=false) {
+	/**
+	 * Sort crediters or debiters array by balance value
+	 *
+	 * @param array $arr
+	 * @param bool $reverse
+	 * @return array
+	 */
+	private function sortCreditersDebiters(array $arr, bool $reverse = false): array {
 		$res = [];
 		if ($reverse) {
 			foreach ($arr as $elem) {
@@ -1362,8 +1458,7 @@ class ProjectService {
 				}
 				array_splice($res, $i, 0, [$elem]);
 			}
-		}
-		else {
+		} else {
 			foreach ($arr as $elem) {
 				$i = 0;
 				while ($i < count($res) && $elem[1] >= $res[$i][1]) {
@@ -1375,15 +1470,28 @@ class ProjectService {
 		return $res;
 	}
 
-	public function editMember($projectid, $memberid, $name, $userid, $weight, $activated, $color=null): array {
-		if ($name !== null && $name !== '') {
+	/**
+	 * Edit a member
+	 *
+	 * @param string $projectid
+	 * @param int $memberid
+	 * @param string|null $name
+	 * @param string|null $userid
+	 * @param float|null $weight
+	 * @param  $activated
+	 * @param string|null $color
+	 * @return array
+	 */
+	public function editMember(string $projectid, int $memberid, ?string $name = null, ?string $userid = null,
+								?float $weight = null, ?bool $activated = null, ?string $color = null): array {
+		if (!is_null($name) && $name !== '') {
 			$member = $this->getMemberById($projectid, $memberid);
-			if ($member !== null) {
+			if (!is_null($member)) {
 				$qb = $this->dbconnection->getQueryBuilder();
 				// delete member if it has no bill and we are disabling it
-				if (count($this->getBillsOfMember($projectid, $memberid)) === 0
-					&& $member['activated']
-					&& ($activated === 'false' || $activated === false)
+				if ($member['activated']
+					&& (!is_null($activated) && $activated === false)
+					&& count($this->getBillsOfMember($projectid, $memberid)) === 0
 				) {
 					$qb->delete('cospend_members')
 						->where(
@@ -1405,13 +1513,12 @@ class ProjectService {
 					if (is_numeric($weight) && floatval($weight) > 0.0) {
 						$newWeight = floatval($weight);
 						$qb->set('weight', $qb->createNamedParameter($newWeight, IQueryBuilder::PARAM_STR));
-					}
-					else {
+					} else {
 						return ['weight' => $this->trans->t('Not a valid decimal value')];
 					}
 				}
-				if ($activated !== null && $activated !== '' && ($activated === 'true' || $activated === 'false')) {
-					$qb->set('activated', $qb->createNamedParameter(($activated === 'true' ? 1 : 0), IQueryBuilder::PARAM_INT));
+				if (!is_null($activated)) {
+					$qb->set('activated', $qb->createNamedParameter(($activated ? 1 : 0), IQueryBuilder::PARAM_INT));
 				}
 
 				$ts = (new \DateTime())->getTimestamp();
@@ -1421,8 +1528,7 @@ class ProjectService {
 				if ($color !== null) {
 					if ($color === '') {
 						$qb->set('color', $qb->createNamedParameter(null, IQueryBuilder::PARAM_STR));
-					}
-					else {
+					} else {
 						$qb->set('color', $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR));
 					}
 				}
@@ -1445,19 +1551,30 @@ class ProjectService {
 				$editedMember = $this->getMemberById($projectid, $memberid);
 
 				return $editedMember;
-			}
-			else {
+			} else {
 				return ['name' => $this->trans->t('This project have no such member')];
 			}
-		}
-		else {
+		} else {
 			return ['name' => $this->trans->t('This field is required')];
 		}
 	}
 
+	/**
+	 * Edit a project
+	 *
+	 * @param string $projectid
+	 * @param string $name
+	 * @param string|null $contact_email
+	 * @param string|null $password
+	 * @param string|null $autoexport
+	 * @param string|null $currencyname
+	 * @param bool|null $deletion_disabled
+	 * @param string|null $categorysort
+	 * @return array
+	 */
 	public function editProject(string $projectid, string $name, ?string $contact_email = null, ?string $password = null,
 								?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
-								?string $categorysort = null) {
+								?string $categorysort = null): array {
 		if ($name === null || $name === '') {
 			return ['name' => [$this->trans->t('Name field is required')]];
 		}
@@ -1503,29 +1620,36 @@ class ProjectService {
 			$req = $qb->execute();
 			$qb = $qb->resetQueryParts();
 
-			return 'UPDATED';
+			return ['success' => true];
 		} else {
 			return ['message' => $this->trans->t('There is no such project')];
 		}
 	}
 
-	public function addMember($projectid, $name, $weight, $active=1, $color=null, $userid=null) {
+	/**
+	 * Add a member to a project
+	 *
+	 * @param string $projectid
+	 * @param string $name
+	 * @param string|null $weight
+	 * @param bool $active
+	 * @param string|null $color
+	 * @param string|null $userid
+	 */
+	public function addMember(string $projectid, string $name, ?float $weight = 1.0, bool $active = true,
+								?string $color = null, ?string $userid = null): array {
 		if ($name !== null && $name !== '') {
 			if ($this->getMemberByName($projectid, $name) === null && $this->getMemberByUserid($projectid, $userid) === null) {
 				if (strpos($name, '/') !== false) {
-					return $this->trans->t('Invalid member name');
+					return ['error' => $this->trans->t('Invalid member name')];
 				}
-				$weightToInsert = 1;
-				if ($weight !== null && $weight !== '') {
-					if (is_numeric($weight) && floatval($weight) > 0.0) {
-						$weightToInsert = floatval($weight);
+				$weightToInsert = 1.0;
+				if ($weight !== null) {
+					if ($weight > 0.0) {
+						$weightToInsert = $weight;
+					} else {
+						return ['error' => $this->trans->t('Weight is not a valid decimal value')];
 					}
-					else {
-						return $this->trans->t('Weight is not a valid decimal value');
-					}
-				}
-				if ($active === null || !is_numeric($active)) {
-					return $this->trans->t('Active is not a valid integer value');
 				}
 
 				$ts = (new \DateTime())->getTimestamp();
@@ -1537,7 +1661,7 @@ class ProjectService {
 						'userid' => $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR),
 						'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
 						'weight' => $qb->createNamedParameter($weightToInsert, IQueryBuilder::PARAM_STR),
-						'activated' => $qb->createNamedParameter($active, IQueryBuilder::PARAM_INT),
+						'activated' => $qb->createNamedParameter($active ? 1 : 0, IQueryBuilder::PARAM_INT),
 						'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
 						'lastchanged' => $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT)
 					]);
@@ -1547,16 +1671,20 @@ class ProjectService {
 				$insertedMember = $this->getMemberByName($projectid, $name);
 
 				return $insertedMember;
+			} else {
+				return ['error' => $this->trans->t('This project already has this member')];
 			}
-			else {
-				return $this->trans->t('This project already has this member');
-			}
-		}
-		else {
-			return $this->trans->t('Name field is required');
+		} else {
+			return ['error' => $this->trans->t('Name field is required')];
 		}
 	}
 
+	/**
+	 * Get number of bills in a project
+	 *
+	 * @param string $projectId
+	 * @return int
+	 */
 	public function getNbBills(string $projectId): int {
 		$nb = 0;
 		$qb = $this->dbconnection->getQueryBuilder();
@@ -2834,10 +2962,12 @@ class ProjectService {
 			}
 		}
 
-		$newBillId = $this->addBill($projectid, null, $bill['what'], $bill['payer_id'],
+		$addBillResult = $this->addBill($projectid, null, $bill['what'], $bill['payer_id'],
 									$owerIdsStr, $bill['amount'], $bill['repeat'], $bill['paymentmode'],
 									$bill['categoryid'], $bill['repeatallactive'], $bill['repeatuntil'],
 									$datetime->getTimestamp(), $bill['comment'], $bill['repeatfreq']);
+
+		$newBillId = $addBillResult['inserted_id'] ?? 0;
 
 		$billObj = $this->billMapper->find($newBillId);
 		$this->activityManager->triggerEvent(
@@ -3942,7 +4072,7 @@ class ProjectService {
 			$memberIdToWeight[$member['id']] = $member['weight'];
 			$memberIdToActive[$member['id']] = intval($member['activated']);
 			fwrite($handler, 'deleteMeIfYouWant,1,1970-01-01,0,"'.$member['name'].'",'.floatval($member['weight']).','.
-							  intval($member['activated']).',"'.$member['name'].'",n,,,,,'."\n");
+							  intval($member['activated']).',"'.$member['name'].'",n,,,,,,'."\n");
 		}
 		$bills = $this->getBills($projectid);
 		foreach ($bills as $bill) {
@@ -4093,7 +4223,7 @@ class ProjectService {
 								$repeatallactive = array_key_exists('repeatallactive', $columns) ? $data[$columns['repeatallactive']] : 0;
 								$repeatuntil = array_key_exists('repeatuntil', $columns) ? $data[$columns['repeatuntil']] : null;
 								$repeatfreq = array_key_exists('repeatfreq', $columns) ? $data[$columns['repeatfreq']] : 1;
-								$comment = array_key_exists('comment', $columns) ? urldecode($data[$columns['comment']]) : null;
+								$comment = array_key_exists('comment', $columns) ? urldecode($data[$columns['comment']] ?? '') : null;
 
 								// manage members
 								$membersActive[$payer_name] = intval($payer_active);
@@ -4203,23 +4333,20 @@ class ProjectService {
 														$owerIdsStr, $bill['amount'], $bill['repeat'],
 														$bill['paymentmode'], $catId, $bill['repeatallactive'],
 														$bill['repeatuntil'], $bill['timestamp'], $bill['comment'], $bill['repeatfreq']);
-						if (!is_numeric($addBillResult)) {
+						if (!isset($addBillResult['inserted_id'])) {
 							$this->deleteProject($projectid);
 							return ['message' => $this->trans->t('Error when adding bill %1$s', [$bill['what']])];
 						}
 					}
 
 					return $projectid;
-				}
-				else {
+				} else {
 					return ['message' => $this->trans->t('Access denied')];
 				}
-			}
-			else {
+			} else {
 				return ['message' => $this->trans->t('Access denied')];
 			}
-		}
-		else {
+		} else {
 			return ['message' => $this->trans->t('Access denied')];
 		}
 	}
@@ -4380,7 +4507,7 @@ class ProjectService {
 						}
 						$addBillResult = $this->addBill($projectid, null, $bill['what'], $payerId, $owerIdsStr, $bill['amount'], 'n',
 														null, $catId, 0, null, $bill['timestamp']);
-						if (!is_numeric($addBillResult)) {
+						if (!isset($addBillResult['inserted_id'])) {
 							$this->deleteProject($projectid);
 							return ['message' => $this->trans->t('Error when adding bill %1$s', [$bill['what']])];
 						}

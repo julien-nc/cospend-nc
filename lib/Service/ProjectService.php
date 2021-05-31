@@ -27,6 +27,10 @@ use OCP\IServerContainer;
 use OCP\IDBConnection;
 use OCP\IDateTimeZone;
 
+use DateTimeImmutable;
+use DateInterval;
+use DateTime;
+
 use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Db\BillMapper;
@@ -387,7 +391,7 @@ class ProjectService {
 			if ($contact_email === null) {
 				$contact_email = '';
 			}
-			$ts = (new \DateTime())->getTimestamp();
+			$ts = (new DateTime())->getTimestamp();
 			$qb->insert('cospend_projects')
 				->values([
 					'userid' => $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR),
@@ -753,7 +757,7 @@ class ProjectService {
 		foreach ($bills as $bill) {
 			$payerId = $bill['payer_id'];
 			$amount = $bill['amount'];
-			$date = \DateTime::createFromFormat('U', $bill['timestamp']);
+			$date = DateTime::createFromFormat('U', $bill['timestamp']);
 			$date->setTimezone($timeZone);
 			$month = $date->format('Y-m');
 			if (!array_key_exists($month, $memberMonthlyStats)) {
@@ -862,7 +866,7 @@ class ProjectService {
 		$paymentModeMonthlyStats = [];
 		foreach ($bills as $bill) {
 			$amount = $bill['amount'];
-			$date = \DateTime::createFromFormat('U', $bill['timestamp']);
+			$date = DateTime::createFromFormat('U', $bill['timestamp']);
 			$date->setTimezone($timeZone);
 			$month = $date->format('Y-m');
 
@@ -989,7 +993,7 @@ class ProjectService {
 		}
 
 		// last modification timestamp is now
-		$ts = (new \DateTime())->getTimestamp();
+		$ts = (new DateTime())->getTimestamp();
 
 		// do it already !
 		$qb = $this->dbconnection->getQueryBuilder();
@@ -1058,7 +1062,7 @@ class ProjectService {
 			$req = $qb->execute();
 			$qb = $qb->resetQueryParts();
 
-			$ts = (new \DateTime())->getTimestamp();
+			$ts = (new DateTime())->getTimestamp();
 			$this->updateProjectLastChanged($projectid, $ts);
 
 			return ['success' => true];
@@ -1217,7 +1221,7 @@ class ProjectService {
 			$dbWhat = $row['what'];
 			$dbComment = $row['comment'];
 			$dbTimestamp = $row['timestamp'];
-			$dbDate = \DateTime::createFromFormat('U', $dbTimestamp);
+			$dbDate = DateTime::createFromFormat('U', $dbTimestamp);
 			$dbRepeat = $row['repeat'];
 			$dbRepeatAllActive = $row['repeatallactive'];
 			$dbRepeatUntil = $row['repeatuntil'];
@@ -1290,7 +1294,7 @@ class ProjectService {
 		if ($maxTimestamp) {
 			$ts = $maxTimestamp - 1;
 		} else {
-			$ts = (new \DateTime())->getTimestamp();
+			$ts = (new DateTime())->getTimestamp();
 		}
 
 		foreach ($transactions as $transaction) {
@@ -1521,7 +1525,7 @@ class ProjectService {
 					$qb->set('activated', $qb->createNamedParameter(($activated ? 1 : 0), IQueryBuilder::PARAM_INT));
 				}
 
-				$ts = (new \DateTime())->getTimestamp();
+				$ts = (new DateTime())->getTimestamp();
 				$qb->set('lastchanged', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT));
 
 				$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
@@ -1611,7 +1615,7 @@ class ProjectService {
 			}
 		}
 		if ($this->getProjectById($projectid) !== null) {
-			$ts = (new \DateTime())->getTimestamp();
+			$ts = (new DateTime())->getTimestamp();
 			$qb->set('lastchanged', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT));
 			$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
 			$qb->where(
@@ -1652,7 +1656,7 @@ class ProjectService {
 					}
 				}
 
-				$ts = (new \DateTime())->getTimestamp();
+				$ts = (new DateTime())->getTimestamp();
 
 				$qb = $this->dbconnection->getQueryBuilder();
 				$qb->insert('cospend_members')
@@ -1700,9 +1704,25 @@ class ProjectService {
 		return $nb;
 	}
 
-	public function getBillsRestricted(string $projectId, ?int $tsMin = null, ?int $tsMax = null, ?string $paymentMode = null, ?int $category = null,
+	/**
+	 * Get filtered list of bills for a project
+	 *
+	 * @param string $projectId
+	 * @param int|null $tsMin
+	 * @param int|null $tsMax
+	 * @param string|null $paymentMode
+	 * @param int|null $category
+	 * @param float|null $amountMin
+	 * @param float|null $amountMax
+	 * @param int|null $lastchanged
+	 * @param int|null $limit
+	 * @param bool $reverse
+	 * @param int $offset
+	 * @return array
+	 */
+	public function getBillsWithLimit(string $projectId, ?int $tsMin = null, ?int $tsMax = null, ?string $paymentMode = null, ?int $category = null,
 							  ?float $amountMin = null, ?float $amountMax = null, ?int $lastchanged = null, ?int $limit = null,
-							  bool $reverse = false, int $offset = 0) {
+							  bool $reverse = false, int $offset = 0): array {
 		$qb = $this->dbconnection->getQueryBuilder();
 		$qb->select('id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
 					'paymentmode', 'categoryid', 'lastchanged', 'repeatallactive',
@@ -1738,8 +1758,7 @@ class ProjectService {
 				$or->add($qb->expr()->isNull('categoryid'));
 				$or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(CAT_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
 				$qb->andWhere($or);
-			}
-			else {
+			} else {
 				$qb->andWhere(
 					$qb->expr()->eq('categoryid', $qb->createNamedParameter(intval($category), IQueryBuilder::PARAM_INT))
 				);
@@ -1775,7 +1794,7 @@ class ProjectService {
 			$dbWhat = $row['what'];
 			$dbComment = $row['comment'];
 			$dbTimestamp = $row['timestamp'];
-			$dbDate = \DateTime::createFromFormat('U', $dbTimestamp);
+			$dbDate = DateTime::createFromFormat('U', $dbTimestamp);
 			$dbRepeat = $row['repeat'];
 			$dbPayerId = intval($row['payerid']);
 			$dbPaymentMode = $row['paymentmode'];
@@ -1842,6 +1861,21 @@ class ProjectService {
 		return $bills;
 	}
 
+	/**
+	 * Get filtered list of bills for a project
+	 *
+	 * @param string $projectId
+	 * @param int|null $tsMin
+	 * @param int|null $tsMax
+	 * @param string|null $paymentMode
+	 * @param int|null $category
+	 * @param float|null $amountMin
+	 * @param float|null $amountMax
+	 * @param int|null $lastchanged
+	 * @param int|null $limit
+	 * @param bool $reverse
+	 * @return array
+	 */
 	public function getBills(string $projectId, ?int $tsMin = null, ?int $tsMax = null, ?string $paymentMode = null, ?int $category = null,
 							  ?float $amountMin = null, ?float $amountMax = null, ?int $lastchanged = null, ?int $limit = null,
 							  bool $reverse = false) {
@@ -1882,8 +1916,7 @@ class ProjectService {
 				$or->add($qb->expr()->isNull('categoryid'));
 				$or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(CAT_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
 				$qb->andWhere($or);
-			}
-			else {
+			} else {
 				$qb->andWhere(
 					$qb->expr()->eq('categoryid', $qb->createNamedParameter(intval($category), IQueryBuilder::PARAM_INT))
 				);
@@ -1921,7 +1954,7 @@ class ProjectService {
 				$dbWhat = $row['what'];
 				$dbComment = $row['comment'];
 				$dbTimestamp = $row['timestamp'];
-				$dbDate = \DateTime::createFromFormat('U', $dbTimestamp);
+				$dbDate = DateTime::createFromFormat('U', $dbTimestamp);
 				$dbRepeat = $row['repeat'];
 				$dbPayerId = intval($row['payerid']);
 				$dbPaymentMode = $row['paymentmode'];
@@ -1975,7 +2008,13 @@ class ProjectService {
 		return $resultBills;
 	}
 
-	public function getAllBillIds($projectId) {
+	/**
+	 * Get all bill IDs of a project
+	 *
+	 * @param string $projectId
+	 * @return array
+	 */
+	public function getAllBillIds(string $projectId): array {
 		$billIds = [];
 		$qb = $this->dbconnection->getQueryBuilder();
 		$qb->select('id')
@@ -1994,7 +2033,15 @@ class ProjectService {
 		return $billIds;
 	}
 
-	public function getMembers($projectId, ?string $order = null, ?int $lastchanged = null) {
+	/**
+	 * Get members of a project
+	 *
+	 * @param string $projectId
+	 * @param string|null $order
+	 * @param int|null $lastchanged
+	 * @return array
+	 */
+	public function getMembers(string $projectId, ?string $order = null, ?int $lastchanged = null): array {
 		$members = [];
 
 		$sqlOrder = 'name';
@@ -2032,8 +2079,7 @@ class ProjectService {
 				if ($dbColor === null) {
 					$av = $this->avatarManager->getGuestAvatar($dbName);
 					$dbColor = $av->avatarBackgroundColor($dbName);
-				}
-				else {
+				} else {
 					$dbColor = $this->hexToRgb($dbColor);
 				}
 
@@ -2090,7 +2136,14 @@ class ProjectService {
 		return $members;
 	}
 
-	private function getBalance(string $projectId, ?int $maxTimestamp = null) {
+	/**
+	 * Get members balances for a project
+	 *
+	 * @param string $projectId
+	 * @param int|null $maxTimestamp
+	 * @return array
+	 */
+	private function getBalance(string $projectId, ?int $maxTimestamp = null): array {
 		$membersWeight = [];
 		$membersBalance = [];
 
@@ -2132,7 +2185,13 @@ class ProjectService {
 		return $membersBalance;
 	}
 
-	private function isUserInCircle($userId, $circleId) {
+	/**
+	 * Check if a user is member of a given circle
+	 *
+	 * @param string $userId
+	 * @return bool
+	 */
+	private function isUserInCircle(string $userId, $circleId): bool {
 		$circleDetails = null;
 		try {
 			$circleDetails = \OCA\Circles\Api\v1\Circles::detailsCircle($circleId);
@@ -2143,8 +2202,7 @@ class ProjectService {
 			// is the circle owner
 			if ($circleDetails->getOwner()->getUserId() === $userId) {
 				return true;
-			}
-			else {
+			} else {
 				if ($circleDetails->getMembers() !== null) {
 					foreach ($circleDetails->getMembers() as $m) {
 						// is member of this circle
@@ -2158,6 +2216,12 @@ class ProjectService {
 		return false;
 	}
 
+	/**
+	 * Get project list for a given NC user
+	 *
+	 * @param string $userId
+	 * @return array
+	 */
 	public function getProjects(string $userId): array {
 		$projectids = [];
 
@@ -2307,7 +2371,13 @@ class ProjectService {
 		return $projects;
 	}
 
-	private function getCategories($projectid) {
+	/**
+	 * Get categories of a given project
+	 *
+	 * @param string $projectid
+	 * @return array
+	 */
+	private function getCategories(string $projectid): array {
 		$categories = [];
 
 		$qb = $this->dbconnection->getQueryBuilder();
@@ -2337,7 +2407,13 @@ class ProjectService {
 		return $categories;
 	}
 
-	private function getCurrencies($projectid) {
+	/**
+	 * Get currencies of a project
+	 *
+	 * @param string $projectid
+	 * @return array
+	 */
+	private function getCurrencies($projectid): array {
 		$currencies = [];
 
 		$qb = $this->dbconnection->getQueryBuilder();
@@ -2363,7 +2439,13 @@ class ProjectService {
 		return $currencies;
 	}
 
-	private function getUserShares($projectid) {
+	/**
+	 * Get user shared access of a project
+	 *
+	 * @param string $projectid
+	 * @return array
+	 */
+	private function getUserShares(string $projectid): array {
 		$shares = [];
 		$userIdToName = [];
 		$sharesToDelete = [];
@@ -2416,7 +2498,14 @@ class ProjectService {
 		return $shares;
 	}
 
-	private function getPublicShares($projectid, $maxAccessLevel=null) {
+	/**
+	 * Get public links of a project
+	 *
+	 * @param string $projectid
+	 * @param int|null $maxAccessLevel
+	 * @return array
+	 */
+	private function getPublicShares(string $projectid, ?int $maxAccessLevel = null): array {
 		$shares = [];
 
 		$qb = $this->dbconnection->getQueryBuilder();
@@ -2452,7 +2541,13 @@ class ProjectService {
 		return $shares;
 	}
 
-	public function getProjectInfoFromShareToken($token) {
+	/**
+	 * Get project info for a given public share token
+	 *
+	 * @param string $token
+	 * @return array
+	 */
+	public function getProjectInfoFromShareToken(string $token): array {
 		$projectId = null;
 		$accessLevel = null;
 
@@ -2480,7 +2575,13 @@ class ProjectService {
 		];
 	}
 
-	private function getGroupShares($projectid) {
+	/**
+	 * Get group shared access list of a project
+	 *
+	 * @param string $projectid
+	 * @return array
+	 */
+	private function getGroupShares(string $projectid): array {
 		$shares = [];
 		$groupIdToName = [];
 		$sharesToDelete = [];
@@ -2529,7 +2630,13 @@ class ProjectService {
 		return $shares;
 	}
 
-	private function getCircleShares($projectid) {
+	/**
+	 * Get circle shared access list of a project
+	 *
+	 * @param string $projectid
+	 * @return array
+	 */
+	private function getCircleShares(string $projectid): array {
 		$shares = [];
 
 		$circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
@@ -2577,7 +2684,14 @@ class ProjectService {
 		return $shares;
 	}
 
-	public function deleteMember($projectid, $memberid) {
+	/**
+	 * Delete a member
+	 *
+	 * @param string $projectid
+	 * @param int $memberid
+	 * @return array
+	 */
+	public function deleteMember(string $projectid, int $memberid): array {
 		$memberToDelete = $this->getMemberById($projectid, $memberid);
 		if ($memberToDelete !== null) {
 			$qb = $this->dbconnection->getQueryBuilder();
@@ -2600,13 +2714,19 @@ class ProjectService {
 				$req = $qb->execute();
 				$qb = $qb->resetQueryParts();
 			}
-			return 'OK';
-		}
-		else {
+			return ['success' => true];
+		} else {
 			return ['Not Found'];
 		}
 	}
 
+	/**
+	 * Get bills involving a member (as a payer or an ower)
+	 *
+	 * @param string $projectid
+	 * @param int $memberid
+	 * @return array
+	 */
 	private function getBillsOfMember(string $projectid, int $memberid): array {
 		$qb = $this->dbconnection->getQueryBuilder();
 		$qb->select('bi.id')
@@ -2628,7 +2748,14 @@ class ProjectService {
 		return $billIds;
 	}
 
-	public function getMemberByName($projectId, $name) {
+	/**
+	 * Get a member from its name
+	 *
+	 * @param string $projectId
+	 * @param string $name
+	 * @return array|null
+	 */
+	public function getMemberByName(string $projectId, string $name): ?array {
 		$member = null;
 		$qb = $this->dbconnection->getQueryBuilder();
 		$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated')
@@ -2651,8 +2778,7 @@ class ProjectService {
 			if ($dbColor === null) {
 				$av = $this->avatarManager->getGuestAvatar($dbName);
 				$dbColor = $av->avatarBackgroundColor($dbName);
-			}
-			else {
+			} else {
 				$dbColor = $this->hexToRgb($dbColor);
 			}
 			$member = [
@@ -2670,7 +2796,14 @@ class ProjectService {
 		return $member;
 	}
 
-	public function getMemberByUserid($projectId, $userid) {
+	/**
+	 * Get a member from its user ID
+	 *
+	 * @param string $projectId
+	 * @param string|null $userid
+	 * @return array|null
+	 */
+	public function getMemberByUserid(string $projectId, ?string $userid): ?array {
 		$member = null;
 		if ($userid !== null) {
 			$qb = $this->dbconnection->getQueryBuilder();
@@ -2694,8 +2827,7 @@ class ProjectService {
 				if ($dbColor === null) {
 					$av = $this->avatarManager->getGuestAvatar($dbName);
 					$dbColor = $av->avatarBackgroundColor($dbName);
-				}
-				else {
+				} else {
 					$dbColor = $this->hexToRgb($dbColor);
 				}
 				$member = [
@@ -2714,15 +2846,35 @@ class ProjectService {
 		return $member;
 	}
 
+	/**
+	 * Edit a bill
+	 *
+	 * @param string $projectid
+	 * @param int $billid
+	 * @param string|null $date
+	 * @param string|null $what
+	 * @param int|null $payer
+	 * @param string|null $payed_for
+	 * @param float|null $amount
+	 * @param string|null $repeat
+	 * @param string|null $paymentmode
+	 * @param int|null $categoryid
+	 * @param int|null $repeatallactive
+	 * @param string|null $repeatuntil
+	 * @param int|null $timestamp
+	 * @param string|null $comment
+	 * @param int|null $repeatfreq
+	 * @return array
+	 */
 	public function editBill(string $projectid, int $billid, ?string $date, ?string $what, ?int $payer, ?string $payed_for,
 							  ?float $amount, ?string $repeat, ?string $paymentmode = null, ?int $categoryid = null,
 							  ?int $repeatallactive = null, ?string $repeatuntil = null, ?int $timestamp = null,
-							  ?string $comment = null, ?int $repeatfreq = null) {
+							  ?string $comment = null, ?int $repeatfreq = null): array {
 		$qb = $this->dbconnection->getQueryBuilder();
 		$qb->update('cospend_bills');
 
 		// set last modification timestamp
-		$ts = (new \DateTime())->getTimestamp();
+		$ts = (new DateTime())->getTimestamp();
 		$qb->set('lastchanged', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT));
 
 		// first check the bill exists
@@ -2839,16 +2991,19 @@ class ProjectService {
 
 		$this->updateProjectLastChanged($projectid, $ts);
 
-		return intval($billid);
+		return ['edited_bill_id' => intval($billid)];
 	}
 
 	/**
 	 * daily check of repeated bills
+	 *
+	 * @param int|null $billId
+	 * @return array
 	 */
 	public function cronRepeatBills(?int $billId = null): array {
 		$result = [];
 		$projects = [];
-		$now = new \DateTime();
+		$now = new DateTime();
 		// in case cron job wasn't executed during several days,
 		// continue trying to repeat bills as long as there was at least one repeated
 		$continue = true;
@@ -2893,7 +3048,7 @@ class ProjectService {
 			foreach ($bills as $bill) {
 				// Use DateTimeImmutable instead of DateTime so that $billDate->add() returns a
 				// new instance instead of modifying $billDate
-				$billDate = \DateTimeImmutable::createFromFormat('U', $bill['timestamp']);
+				$billDate = DateTimeImmutable::createFromFormat('U', $bill['timestamp']);
 				$nextDate = $this->getNextRepetitionDate($bill, $billDate);
 
 				// Unknown repeat interval
@@ -2927,8 +3082,13 @@ class ProjectService {
 	/**
 	 * duplicate the bill today and give it the repeat flag
 	 * remove the repeat flag on original bill
+	 *
+	 * @param string $projectid
+	 * @param int $billid
+	 * @param $datetime
+	 * @return int|null
 	 */
-	private function repeatBill(string $projectid, int $billid, $datetime) {
+	private function repeatBill(string $projectid, int $billid, $datetime): ?int {
 		$bill = $this->getBill($projectid, $billid);
 
 		$owerIds = [];
@@ -2937,8 +3097,7 @@ class ProjectService {
 			foreach ($pInfo['active_members'] as $am) {
 				$owerIds[] = $am['id'];
 			}
-		}
-		else {
+		} else {
 			foreach ($bill['owers'] as $ower) {
 				if ($ower['activated']) {
 					$owerIds[] = $ower['id'];
@@ -2950,12 +3109,12 @@ class ProjectService {
 		if (count($owerIds) === 0) {
 			$this->editBill($projectid, $billid, null, $bill['what'], $bill['payer_id'], null,
 							$bill['amount'], 'n', null, null, 0, null);
-			return;
+			return null;
 		}
 
 		// if bill should be repeated until...
 		if ($bill['repeatuntil'] !== null && $bill['repeatuntil'] !== '') {
-			$untilDate = new \DateTime($bill['repeatuntil']);
+			$untilDate = new DateTime($bill['repeatuntil']);
 			// TODO improve this, maybe don't produce bill after repeatuntil...
 			if ($datetime >= $untilDate) {
 				$bill['repeat'] = 'n';
@@ -2982,29 +3141,39 @@ class ProjectService {
 		return $newBillId;
 	}
 
-	private function getNextRepetitionDate(array $bill, \DateTimeImmutable $billDate) {
+	/**
+	 * Get next repetition date of a bill
+	 *
+	 * @param array $bill
+	 * @param DateTimeImmutable $billDate
+	 * @return DateTime|null
+	 */
+	private function getNextRepetitionDate(array $bill, DateTimeImmutable $billDate): ?DateTime {
 		$nextDate = null;
 		switch ($bill['repeat']) {
 			case 'd':
 				if ($bill['repeatfreq'] < 2) {
-					$nextDate = $billDate->add(new \DateInterval('P1D'));
+					$nextDate = $billDate->add(new DateInterval('P1D'));
 				} else {
-					$nextDate = $billDate->add(new \DateInterval('P' . $bill['repeatfreq'] . 'D'));
+					$nextDate = $billDate->add(new DateInterval('P' . $bill['repeatfreq'] . 'D'));
 				}
+				$nextDate = DateTime::createFromImmutable($nextDate);
 				break;
 
 			case 'w':
 				if ($bill['repeatfreq'] < 2) {
-					$nextDate = $billDate->add(new \DateInterval('P7D'));
+					$nextDate = $billDate->add(new DateInterval('P7D'));
 				} else {
 					$nbDays = 7 * $bill['repeatfreq'];
-					$nextDate = $billDate->add(new \DateInterval('P' . $nbDays . 'D'));
+					$nextDate = $billDate->add(new DateInterval('P' . $nbDays . 'D'));
 				}
+				$nextDate = DateTime::createFromImmutable($nextDate);
 				break;
 
 			// bi weekly
 			case 'b':
-				$nextDate = $billDate->add(new \DateInterval('P14D'));
+				$nextDate = $billDate->add(new DateInterval('P14D'));
+				$nextDate = DateTime::createFromImmutable($nextDate);
 				break;
 
 			// semi monthly
@@ -3013,7 +3182,7 @@ class ProjectService {
 				$month = intval($billDate->format('m'));
 				$year = intval($billDate->format('Y'));
 
-				$nextDate = new \DateTime();
+				$nextDate = new DateTime();
 				// first of next month
 				if ($day >= 15) {
 					if ($month === 12) {
@@ -3038,7 +3207,7 @@ class ProjectService {
 				$nextMonth = (($billMonth + $freq - 1) % 12) + 1;
 
 				// same day of month if possible, otherwise at end of month
-				$nextDate = new \DateTime();
+				$nextDate = new DateTime();
 				// to get the time
 				$nextDate->setTimestamp($billDate->getTimestamp());
 				$nextDate->setDate($nextYear, $nextMonth, 1);
@@ -3060,7 +3229,7 @@ class ProjectService {
 				$nextYear = $billYear + $freq;
 
 				// same day of month if possible, otherwise at end of month + same month
-				$nextDate = new \DateTime();
+				$nextDate = new DateTime();
 				// to get the time
 				$nextDate->setTimestamp($billDate->getTimestamp());
 				$nextDate->setDate($nextYear, $billMonth, 1);
@@ -3076,6 +3245,16 @@ class ProjectService {
 		return $nextDate;
 	}
 
+	/**
+	 * Add a new category
+	 *
+	 * @param string $projectid
+	 * @param string $name
+	 * @param string|null $icon
+	 * @param string $color
+	 * @param int|null $order
+	 * @return int
+	 */
 	public function addCategory(string $projectid, string $name, ?string $icon, string $color, ?int $order = 0): int {
 		$qb = $this->dbconnection->getQueryBuilder();
 
@@ -3100,7 +3279,14 @@ class ProjectService {
 		return $response;
 	}
 
-	private function getCategory($projectId, $categoryid) {
+	/**
+	 * Get a category
+	 *
+	 * @param string $projectId
+	 * @param int $categoryid
+	 * @return array|null
+	 */
+	private function getCategory(string $projectId, int $categoryid): ?array {
 		$category = null;
 
 		$qb = $this->dbconnection->getQueryBuilder();
@@ -3133,7 +3319,14 @@ class ProjectService {
 		return $category;
 	}
 
-	public function deleteCategory($projectid, $categoryid) {
+	/**
+	 * Delete a category
+	 *
+	 * @param string $projectid
+	 * @param int $categoryid
+	 * @return array
+	 */
+	public function deleteCategory(string $projectid, int $categoryid): array {
 		$categoryToDelete = $this->getCategory($projectid, $categoryid);
 		if ($categoryToDelete !== null) {
 			$qb = $this->dbconnection->getQueryBuilder();
@@ -3160,13 +3353,19 @@ class ProjectService {
 			$req = $qb->execute();
 			$qb = $qb->resetQueryParts();
 
-			return $categoryid;
-		}
-		else {
+			return ['success' => true];
+		} else {
 			return ['message' => $this->trans->t('Not found')];
 		}
 	}
 
+	/**
+	 * Save the manual category order
+	 *
+	 * @param string $projectid
+	 * @param array $order
+	 * @return bool
+	 */
 	public function saveCategoryOrder(string $projectid, array $order): bool {
 		$qb = $this->dbconnection->getQueryBuilder();
 		foreach ($order as $o) {
@@ -3184,7 +3383,18 @@ class ProjectService {
 		return true;
 	}
 
-	public function editCategory($projectid, $categoryid, $name, $icon, $color) {
+	/**
+	 * Edit a category
+	 *
+	 * @param string $projectid
+	 * @param int $categoryid
+	 * @param string|null $name
+	 * @param string|null $icon
+	 * @param string|null $color
+	 * @return array
+	 */
+	public function editCategory(string $projectid, int $categoryid, ?string $name = null,
+								?string $icon = null, ?string $color = null): array {
 		if ($name !== null && $name !== '') {
 			$encIcon = $icon;
 			if ($icon !== null && $icon !== '') {
@@ -3208,17 +3418,23 @@ class ProjectService {
 				$editedCategory = $this->getCategory($projectid, $categoryid);
 
 				return $editedCategory;
-			}
-			else {
+			} else {
 				return ['message' => $this->trans->t('This project have no such category')];
 			}
-		}
-		else {
+		} else {
 			return ['message' => $this->trans->t('Incorrect field values')];
 		}
 	}
 
-	public function addCurrency($projectid, $name, $rate) {
+	/**
+	 * Add a currency
+	 *
+	 * @param string $projectid
+	 * @param string $name
+	 * @param float $rate
+	 * @return int
+	 */
+	public function addCurrency(string $projectid, string $name, float $rate): int {
 		$qb = $this->dbconnection->getQueryBuilder();
 
 		$qb->insert('cospend_currencies')
@@ -3231,9 +3447,7 @@ class ProjectService {
 		$qb = $qb->resetQueryParts();
 
 		$insertedCurrencyId = intval($qb->getLastInsertId());
-		$response = $insertedCurrencyId;
-
-		return $response;
+		return $insertedCurrencyId;
 	}
 
 	private function getCurrency($projectId, $currencyid) {
@@ -3387,7 +3601,7 @@ class ProjectService {
 
 						$notification->setApp('cospend')
 							->setUser($userid)
-							->setDateTime(new \DateTime())
+							->setDateTime(new DateTime())
 							->setObject('addusershare', $projectid)
 							->setSubject('add_user_share', [$fromUserId, $projectInfo['name']])
 							->addAction($acceptAction)
@@ -3453,7 +3667,7 @@ class ProjectService {
 
 		//$notification->setApp('cospend')
 		//    ->setUser($userid)
-		//    ->setDateTime(new \DateTime())
+		//    ->setDateTime(new DateTime())
 		//    ->setObject('addusershare', $projectid)
 		//    ->setSubject('add_user_share', [$fromUserId, $projectInfo['name']])
 		//    ->addAction($acceptAction)
@@ -3590,7 +3804,7 @@ class ProjectService {
 
 				$notification->setApp('cospend')
 					->setUser($dbuserId)
-					->setDateTime(new \DateTime())
+					->setDateTime(new DateTime())
 					->setObject('deleteusershare', $projectid)
 					->setSubject('delete_user_share', [$fromUserId, $projectInfo['name']])
 					->addAction($acceptAction)
@@ -3673,7 +3887,7 @@ class ProjectService {
 
 			//$notification->setApp('cospend')
 			//    ->setUser($dbuserId)
-			//    ->setDateTime(new \DateTime())
+			//    ->setDateTime(new DateTime())
 			//    ->setObject('deleteusershare', $projectid)
 			//    ->setSubject('delete_user_share', [$fromUserId, $projectInfo['name']])
 			//    ->addAction($acceptAction)
@@ -4086,7 +4300,7 @@ class ProjectService {
 			$payer_name = $memberIdToName[$payer_id];
 			$payer_weight = $memberIdToWeight[$payer_id];
 			$payer_active = $memberIdToActive[$payer_id];
-			$dateTime = \DateTime::createFromFormat('U', $bill['timestamp']);
+			$dateTime = DateTime::createFromFormat('U', $bill['timestamp']);
 			$oldDateStr = $dateTime->format('Y-m-d');
 			fwrite($handler, '"'.$bill['what'].'",'.floatval($bill['amount']).','.$oldDateStr.','.$bill['timestamp'].
 							 ',"'.$payer_name.'",'.
@@ -4536,14 +4750,14 @@ class ProjectService {
 	public function cronAutoExport() {
 		date_default_timezone_set('UTC');
 		// last day
-		$now = new \DateTime();
+		$now = new DateTime();
 		$y = $now->format('Y');
 		$m = $now->format('m');
 		$d = $now->format('d');
 		$timestamp = $now->getTimestamp();
 
 		// get begining of today
-		$dateMaxDay = new \DateTime($y.'-'.$m.'-'.$d);
+		$dateMaxDay = new DateTime($y.'-'.$m.'-'.$d);
 		$maxDayTimestamp = $dateMaxDay->getTimestamp();
 		$minDayTimestamp = $maxDayTimestamp - 24*60*60;
 
@@ -4551,29 +4765,29 @@ class ProjectService {
 		$dailySuffix = '_'.$this->trans->t('daily').'_'.$dateMaxDay->format('Y-m-d');
 
 		// last week
-		$now = new \DateTime();
+		$now = new DateTime();
 		while (intval($now->format('N')) !== 1) {
 			$now->modify('-1 day');
 		}
 		$y = $now->format('Y');
 		$m = $now->format('m');
 		$d = $now->format('d');
-		$dateWeekMax = new \DateTime($y.'-'.$m.'-'.$d);
+		$dateWeekMax = new DateTime($y.'-'.$m.'-'.$d);
 		$maxWeekTimestamp = $dateWeekMax->getTimestamp();
 		$minWeekTimestamp = $maxWeekTimestamp - 7*24*60*60;
-		$dateWeekMin = new \DateTime($y.'-'.$m.'-'.$d);
+		$dateWeekMin = new DateTime($y.'-'.$m.'-'.$d);
 		$dateWeekMin->modify('-7 day');
 		$weeklySuffix = '_'.$this->trans->t('weekly').'_'.$dateWeekMin->format('Y-m-d');
 
 		// last month
-		$now = new \DateTime();
+		$now = new DateTime();
 		while (intval($now->format('d')) !== 1) {
 			$now->modify('-1 day');
 		}
 		$y = $now->format('Y');
 		$m = $now->format('m');
 		$d = $now->format('d');
-		$dateMonthMax = new \DateTime($y.'-'.$m.'-'.$d);
+		$dateMonthMax = new DateTime($y.'-'.$m.'-'.$d);
 		$maxMonthTimestamp = $dateMonthMax->getTimestamp();
 		$now->modify('-1 day');
 		while (intval($now->format('d')) !== 1) {
@@ -4582,7 +4796,7 @@ class ProjectService {
 		$y = intval($now->format('Y'));
 		$m = intval($now->format('m'));
 		$d = intval($now->format('d'));
-		$dateMonthMin = new \DateTime($y.'-'.$m.'-'.$d);
+		$dateMonthMin = new DateTime($y.'-'.$m.'-'.$d);
 		$minMonthTimestamp = $dateMonthMin->getTimestamp();
 		$monthlySuffix = '_'.$this->trans->t('monthly').'_'.$dateMonthMin->format('Y-m');
 

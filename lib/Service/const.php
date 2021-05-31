@@ -13,6 +13,7 @@ define('CAT_ACCOMODATION', -13);
 define('CAT_TRANSPORT', -14);
 define('CAT_SPORT', -15);
 
+define('NO_ACCESS', 0);
 define('ACCESS_VIEWER', 1);
 define('ACCESS_PARTICIPANT', 2);
 define('ACCESS_MAINTENER', 3);

@@ -513,11 +513,11 @@ class PageController extends ApiController {
 	 *
 	 */
 	public function webGetProjectStatistics($projectid, $tsMin=null, $tsMax=null, $paymentMode=null, $category=null,
-											$amountMin=null, $amountMax=null, $showDisabled='1', $currencyId=null) {
+											$amountMin=null, $amountMax=null, string $showDisabled = '1', $currencyId=null) {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			$result = $this->projectService->getProjectStatistics(
 				$projectid, 'lowername', $tsMin, $tsMax, $paymentMode,
-				$category, $amountMin, $amountMax, $showDisabled, $currencyId
+				$category, $amountMin, $amountMax, $showDisabled === '1', $currencyId
 			);
 			return new DataResponse($result);
 		}
@@ -1743,12 +1743,12 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiGetProjectStatistics($projectid, $password, $tsMin=null, $tsMax=null, $paymentMode=null,
-											$category=null, $amountMin=null, $amountMax=null, $showDisabled='1', $currencyId=null) {
+											$category=null, $amountMin=null, $amountMax=null, string $showDisabled = '1', $currencyId=null) {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
 			$result = $this->projectService->getProjectStatistics(
 				$projectid, 'lowername', $tsMin, $tsMax, $paymentMode,
-				$category, $amountMin, $amountMax, $showDisabled, $currencyId
+				$category, $amountMin, $amountMax, $showDisabled === '1', $currencyId
 			);
 			$response = new DataResponse($result);
 			return $response;
@@ -1768,11 +1768,11 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiPrivGetProjectStatistics($projectid, $tsMin=null, $tsMax=null, $paymentMode=null,
-											$category=null, $amountMin=null, $amountMax=null, $showDisabled='1', $currencyId=null) {
+											$category=null, $amountMin=null, $amountMax=null, string $showDisabled = '1', $currencyId=null) {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			$result = $this->projectService->getProjectStatistics(
 				$projectid, 'lowername', $tsMin, $tsMax, $paymentMode,
-				$category, $amountMin, $amountMax, $showDisabled, $currencyId
+				$category, $amountMin, $amountMax, $showDisabled === '1', $currencyId
 			);
 			$response = new DataResponse($result);
 			return $response;

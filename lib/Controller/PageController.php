@@ -498,8 +498,7 @@ class PageController extends ApiController {
 			$projectInfo = $this->projectService->getProjectInfo($projectid);
 			$response = new DataResponse($projectInfo);
 			return $response;
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to get this project\'s info')]
 				, 403

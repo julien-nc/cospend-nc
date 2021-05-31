@@ -500,7 +500,7 @@ class ProjectService {
 	 * @param string $projectid
 	 * @return array
 	 */
-	public function getProjectInfo(string $projectid): array {
+	public function getProjectInfo(string $projectid): ?array {
 		$projectInfo = null;
 
 		$qb = $this->dbconnection->getQueryBuilder();

@@ -350,13 +350,13 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
-		$idBill1 = intval($data['inserted_id']);
+		$idBill1 = intval($data);
 
 		$resp = $this->pageController->webAddBill('superproj', '2019-01-25', 'agua', $idMember2, $idMember1, 12.3, 'n');
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
-		$idBill2 = intval($data['inserted_id']);
+		$idBill2 = intval($data);
 
 		$resp = $this->pageController->webAddBill('superprojdoesnotexist', '2019-01-20', 'lala', $idMember2, $idMember1, 12.3, 'n');
 		$status = $resp->getStatus();

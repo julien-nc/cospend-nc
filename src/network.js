@@ -433,7 +433,7 @@ export function importProject(targetPath, isSplitWise, successCB) {
 		.catch((error) => {
 			showError(
 				t('cospend', 'Failed to import project file')
-				+ ': ' + error.response.request.responseText
+				+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
 			)
 		})
 }
@@ -704,7 +704,7 @@ export function addSharedAccess(projectid, sh, successCB, thenCB = null) {
 		.catch((error) => {
 			showError(
 				t('cospend', 'Failed to add shared access')
-				+ ': ' + error.response.request.responseText
+				+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
 			)
 		}).then(() => {
 			if (thenCB !== null) {

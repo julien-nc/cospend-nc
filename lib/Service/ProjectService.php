@@ -26,6 +26,7 @@ use OCP\Share\IManager;
 use OCP\IServerContainer;
 use OCP\IDBConnection;
 use OCP\IDateTimeZone;
+use OCP\Files\Folder;
 
 use DateTimeImmutable;
 use DateInterval;
@@ -1366,7 +1367,7 @@ class ProjectService {
 	 * @param array $balances
 	 * @return array
 	 */
-	private function settle(array $balances): array {
+	private function settle(array $balances): ?array {
 		$debitersCrediters = $this->orderBalance($balances);
 		$debiters = $debitersCrediters[0];
 		$crediters = $debitersCrediters[1];
@@ -1401,7 +1402,7 @@ class ProjectService {
 	 * @param array|null $results
 	 * @return array
 	 */
-	private function reduceBalance(array $crediters, array $debiters, ?array $results = null): array {
+	private function reduceBalance(array $crediters, array $debiters, ?array $results = null): ?array {
 		if (count($crediters) === 0 || count($debiters) === 0) {
 			return $results;
 		}
@@ -3450,7 +3451,14 @@ class ProjectService {
 		return $insertedCurrencyId;
 	}
 
-	private function getCurrency($projectId, $currencyid) {
+	/**
+	 * Get one currency
+	 *
+	 * @param string $projectid
+	 * @param int $currencyid
+	 * @return array|null
+	 */
+	private function getCurrency(string $projectId, int $currencyid): ?array {
 		$currency = null;
 
 		$qb = $this->dbconnection->getQueryBuilder();
@@ -3481,7 +3489,14 @@ class ProjectService {
 		return $currency;
 	}
 
-	public function deleteCurrency($projectid, $currencyid) {
+	/**
+	 * Delete one currency
+	 *
+	 * @param string $projectid
+	 * @param int $currencyid
+	 * @return array
+	 */
+	public function deleteCurrency(string $projectid, int $currencyid): array {
 		$currencyToDelete = $this->getCurrency($projectid, $currencyid);
 		if ($currencyToDelete !== null) {
 			$qb = $this->dbconnection->getQueryBuilder();
@@ -3495,15 +3510,23 @@ class ProjectService {
 			$req = $qb->execute();
 			$qb = $qb->resetQueryParts();
 
-			return $currencyid;
-		}
-		else {
+			return ['success' => true];
+		} else {
 			return ['message' => $this->trans->t('Not found')];
 		}
 	}
 
-	public function editCurrency($projectid, $currencyid, $name, $exchange_rate) {
-		if ($name !== null && $name !== '' && is_numeric($exchange_rate)) {
+	/**
+	 * Edit a currency
+	 *
+	 * @param string $projectid
+	 * @param int $currencyid
+	 * @param string $name
+	 * @param float $exchange_rate
+	 * @return array
+	 */
+	public function editCurrency(string $projectid, int $currencyid, string $name, float $exchange_rate): array {
+		if ($name !== '' && $exchange_rate !== 0.0) {
 			if ($this->getCurrency($projectid, $currencyid) !== null) {
 				$qb = $this->dbconnection->getQueryBuilder();
 				$qb->update('cospend_currencies');
@@ -3512,29 +3535,37 @@ class ProjectService {
 				$qb->where(
 					$qb->expr()->eq('id', $qb->createNamedParameter($currencyid, IQueryBuilder::PARAM_INT))
 				)
-				->andWhere(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
-				);
+					->andWhere(
+						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					);
 				$req = $qb->execute();
 				$qb = $qb->resetQueryParts();
 
 				$editedCurrency = $this->getCurrency($projectid, $currencyid);
-
 				return $editedCurrency;
-			}
-			else {
+			} else {
 				return ['message' => $this->trans->t('This project have no such currency')];
 			}
-		}
-		else {
+		} else {
 			return ['message' => $this->trans->t('Incorrect field values')];
 		}
 	}
 
-	public function addUserShare($projectid, $userid, $fromUserId, $accesslevel = ACCESS_PARTICIPANT, $manually_added = true) {
+	/**
+	 * Add a user shared access to a project
+	 *
+	 * @param string $projectid
+	 * @param string $userid
+	 * @param string $fromuserId
+	 * @param int $accesslevel
+	 * @param bool $manually_added
+	 * @return array
+	 */
+	public function addUserShare(string $projectid, string $userid, string $fromUserId,
+								int $accesslevel = ACCESS_PARTICIPANT, bool $manually_added = true): array {
 		$user = $this->userManager->get($userid);
 		if ($user !== null && $userid !== $fromUserId) {
-			$name = $this->userManager->get($userid)->getDisplayName();
+			$userName = $user->getDisplayName();
 			$qb = $this->dbconnection->getQueryBuilder();
 			$projectInfo = $this->getProjectInfo($projectid);
 			// check if someone tries to share the project with its owner
@@ -3576,7 +3607,7 @@ class ProjectService {
 						$insertedShareId = intval($qb->getLastInsertId());
 						$response = [
 							'id' => $insertedShareId,
-							'name' => $name,
+							'name' => $userName,
 						];
 
 						// activity
@@ -3611,20 +3642,26 @@ class ProjectService {
 
 						return $response;
 					} else {
-						return $this->trans->t('You are not authorized to give such access level');
+						return ['message' => $this->trans->t('You are not authorized to give such access level')];
 					}
 				} else {
-					return $this->trans->t('Already shared with this user');
+					return ['message' => $this->trans->t('Already shared with this user')];
 				}
 			} else {
-				return $this->trans->t('Impossible to share the project with its owner');
+				return ['message' => $this->trans->t('Impossible to share the project with its owner')];
 			}
 		} else {
-			return $this->trans->t('No such user');
+			return ['message' => $this->trans->t('No such user')];
 		}
 	}
 
-	public function addPublicShare($projectid) {
+	/**
+	 * Add public share access (public link with token)
+	 *
+	 * @param string $projectid
+	 * @return array
+	 */
+	public function addPublicShare(string $projectid): array {
 		$qb = $this->dbconnection->getQueryBuilder();
 		// generate token
 		$token = md5($projectid.rand());
@@ -3679,7 +3716,15 @@ class ProjectService {
 		return $response;
 	}
 
-	public function editShareAccessLevel($projectid, $shid, $accesslevel) {
+	/**
+	 * Change shared access permissions
+	 *
+	 * @param string $projectid
+	 * @param int $shid
+	 * @param int $accesslevel
+	 * @return array
+	 */
+	public function editShareAccessLevel(string $projectid, int $shid, int $accesslevel): array {
 		// check if user share exists
 		$qb = $this->dbconnection->getQueryBuilder();
 		$qb->select('id', 'projectid')
@@ -3712,14 +3757,20 @@ class ProjectService {
 			$req = $qb->execute();
 			$qb = $qb->resetQueryParts();
 
-			return 'OK';
-		}
-		else {
+			return ['success' => true];
+		} else {
 			return ['message' => $this->trans->t('No such share')];
 		}
 	}
 
-	public function editGuestAccessLevel($projectid, $accesslevel) {
+	/**
+	 * Change guest access permissions
+	 *
+	 * @param string $projectid
+	 * @param int $accesslevel
+	 * @return array
+	 */
+	public function editGuestAccessLevel(string $projectid, int $accesslevel): array {
 		// check if project exists
 		$qb = $this->dbconnection->getQueryBuilder();
 
@@ -3732,12 +3783,20 @@ class ProjectService {
 		$req = $qb->execute();
 		$qb = $qb->resetQueryParts();
 
-		$response = 'OK';
+		$response = ['success' => true];
 
 		return $response;
 	}
 
-	public function deleteUserShare($projectid, $shid, ?string $fromUserId = null) {
+	/**
+	 * Delete user shared access
+	 *
+	 * @param string $projectid
+	 * @param int $shid
+	 * @param string|null $fromUserId
+	 * @return array
+	 */
+	public function deleteUserShare($projectid, $shid, ?string $fromUserId = null): array {
 		// check if user share exists
 		$qb = $this->dbconnection->getQueryBuilder();
 		$qb->select('id', 'userid', 'projectid')
@@ -3777,8 +3836,6 @@ class ProjectService {
 			$req = $qb->execute();
 			$qb = $qb->resetQueryParts();
 
-			$response = 'OK';
-
 			// activity
 			$projectObj = $this->projectMapper->find($projectid);
 			$this->activityManager->triggerEvent(
@@ -3814,14 +3871,20 @@ class ProjectService {
 				$manager->notify($notification);
 			}
 
-			return $response;
-		}
-		else {
+			return ['success' => true];
+		} else {
 			return ['message' => $this->trans->t('No such share')];
 		}
 	}
 
-	public function deletePublicShare($projectid, $shid) {
+	/**
+	 * Delete public shared access
+	 *
+	 * @param string $projectid
+	 * @param int $shid
+	 * @return array
+	 */
+	public function deletePublicShare(string $projectid, int $shid): array {
 		// check if public share exists
 		$qb = $this->dbconnection->getQueryBuilder();
 		$qb->select('id', 'userid', 'projectid')
@@ -3861,8 +3924,6 @@ class ProjectService {
 			$req = $qb->execute();
 			$qb = $qb->resetQueryParts();
 
-			$response = 'OK';
-
 			//// activity
 			//$projectObj = $this->projectMapper->find($projectid);
 			//$this->activityManager->triggerEvent(
@@ -3896,16 +3957,23 @@ class ProjectService {
 
 			//$manager->notify($notification);
 
-			return $response;
-		}
-		else {
+			return ['success' => true];
+		} else {
 			return ['message' => $this->trans->t('No such shared access')];
 		}
 	}
 
-	public function addGroupShare($projectid, $groupid, $fromUserId) {
+	/**
+	 * Add group shared access
+	 *
+	 * @param string $projectid
+	 * @param string $groupid
+	 * @param string|null $fromUserId
+	 * @return array
+	 */
+	public function addGroupShare(string $projectid, string $groupid, ?string $fromUserId = null): array {
 		if ($this->groupManager->groupExists($groupid)) {
-			$name = $this->groupManager->get($groupid)->getDisplayName();
+			$groupName = $this->groupManager->get($groupid)->getDisplayName();
 			$qb = $this->dbconnection->getQueryBuilder();
 			// check if user share exists
 			$qb->select('userid', 'projectid')
@@ -3939,10 +4007,6 @@ class ProjectService {
 				$qb = $qb->resetQueryParts();
 
 				$insertedShareId = intval($qb->getLastInsertId());
-				$response = [
-					'id' => $insertedShareId,
-					'name' => $name
-				];
 
 				// activity
 				$projectObj = $this->projectMapper->find($projectid);
@@ -3952,18 +4016,27 @@ class ProjectService {
 					['who' => $groupid, 'type' => 'g']
 				);
 
-				return $response;
+				return [
+					'id' => $insertedShareId,
+					'name' => $groupName,
+				];
+			} else {
+				return ['message' => $this->trans->t('Already shared with this group')];
 			}
-			else {
-				return $this->trans->t('Already shared with this group');
-			}
-		}
-		else {
-			return $this->trans->t('No such group');
+		} else {
+			return ['message' => $this->trans->t('No such group')];
 		}
 	}
 
-	public function deleteGroupShare($projectid, $shid, ?string $fromUserId = null) {
+	/**
+	 * Delete group shared access
+	 *
+	 * @param string $projectid
+	 * @param int shid
+	 * @param string|null $fromUserId
+	 * @return array
+	 */
+	public function deleteGroupShare(string $projectid, int $shid, ?string $fromUserId = null): array {
 		// check if group share exists
 		$qb = $this->dbconnection->getQueryBuilder();
 		$qb->select('userid', 'projectid', 'id')
@@ -4003,8 +4076,6 @@ class ProjectService {
 			$req = $qb->execute();
 			$qb = $qb->resetQueryParts();
 
-			$response = 'OK';
-
 			// activity
 			$projectObj = $this->projectMapper->find($projectid);
 			$this->activityManager->triggerEvent(
@@ -4013,14 +4084,21 @@ class ProjectService {
 				['who' => $dbGroupId, 'type' => 'g']
 			);
 
-			return $response;
-		}
-		else {
+			return ['success' => true];
+		} else {
 			return ['message' => $this->trans->t('No such share')];
 		}
 	}
 
-	public function addCircleShare($projectid, $circleid, $fromUserId) {
+	/**
+	 * Add circle shaed access
+	 *
+	 * @param string $projectid
+	 * @param $circleid
+	 * @param string|null $fromUserId
+	 * @return array
+	 */
+	public function addCircleShare(string $projectid, $circleid, ?string $fromUserId = null): array {
 		// check if circleId exists
 		$circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
 		$circleName = '';
@@ -4031,8 +4109,7 @@ class ProjectService {
 				if ($c->getUniqueId() === $circleid) {
 					if ($c->getType() === \OCA\Circles\Model\Circle::CIRCLES_PERSONAL) {
 						return ['message' => $this->trans->t('Sharing with personal circles is not supported')];
-					}
-					else {
+					} else {
 						$exists = true;
 						$circleName = $c->getName();
 					}
@@ -4072,10 +4149,6 @@ class ProjectService {
 					$qb = $qb->resetQueryParts();
 
 					$insertedShareId = intval($qb->getLastInsertId());
-					$response = [
-						'id' => $insertedShareId,
-						'name' => $circleName
-					];
 
 					// activity
 					$projectObj = $this->projectMapper->find($projectid);
@@ -4085,22 +4158,30 @@ class ProjectService {
 						['who' => $circleid, 'type' => 'c']
 					);
 
-					return $response;
+					return [
+						'id' => $insertedShareId,
+						'name' => $circleName,
+					];
+				} else {
+					return ['message' => $this->trans->t('Already shared with this circle')];
 				}
-				else {
-					return $this->trans->t('Already shared with this circle');
-				}
+			} else {
+				return ['message' => $this->trans->t('No such circle')];
 			}
-			else {
-				return $this->trans->t('No such circle');
-			}
-		}
-		else {
-			return $this->trans->t('Circles app is not enabled');
+		} else {
+			return ['message' => $this->trans->t('Circles app is not enabled')];
 		}
 	}
 
-	public function deleteCircleShare($projectid, $shid, $fromUserId) {
+	/**
+	 * Delete circle shared access
+	 *
+	 * @param string $projectid
+	 * @param int $shid
+	 * @param string|null $fromUserId
+	 * @return array
+	 */
+	public function deleteCircleShare(string $projectid, int $shid, ?string $fromUserId = null): array {
 		// check if circle share exists
 		$qb = $this->dbconnection->getQueryBuilder();
 		$qb->select('userid', 'projectid', 'id')
@@ -4140,8 +4221,6 @@ class ProjectService {
 			$req = $qb->execute();
 			$qb = $qb->resetQueryParts();
 
-			$response = 'OK';
-
 			// activity
 			$projectObj = $this->projectMapper->find($projectid);
 			$this->activityManager->triggerEvent(
@@ -4149,22 +4228,30 @@ class ProjectService {
 				ActivityManager::SUBJECT_PROJECT_UNSHARE,
 				['who' => $dbCircleId, 'type' => 'c']
 			);
-		}
-		else {
+
+			$response = ['success' => true];
+		} else {
 			$response = ['message' => $this->trans->t('No such share')];
 		}
-
 		return $response;
 	}
 
-	public function exportCsvSettlement(string $projectid, string $userId, ?int $centeredOn = null, ?int $maxTimestamp = null) {
+	/**
+	 * Export settlement plan in CSV
+	 *
+	 * @param string $projectid
+	 * @param string $userId
+	 * @param int|null $centeredOn
+	 * @param int|null $maxTimestamp
+	 * @return array
+	 */
+	public function exportCsvSettlement(string $projectid, string $userId, ?int $centeredOn = null, ?int $maxTimestamp = null): array {
 		// create export directory if needed
 		$outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
 		$userFolder = \OC::$server->getUserFolder($userId);
 		$msg = $this->createAndCheckExportDirectory($userFolder, $outPath);
 		if ($msg !== '') {
-			$response = ['message' => $msg];
-			return $response;
+			return ['message' => $msg];
 		}
 		$folder = $userFolder->get($outPath);
 
@@ -4174,7 +4261,13 @@ class ProjectService {
 		}
 		$file = $folder->newFile($projectid.'-settlement.csv');
 		$handler = $file->fopen('w');
-		fwrite($handler, '"' . $this->trans->t('Who pays?') . '","' . $this->trans->t('To whom?') . '","' . $this->trans->t('How much?') . '"' . "\n");
+		fwrite(
+			$handler,
+			'"' . $this->trans->t('Who pays?')
+				. '","' . $this->trans->t('To whom?')
+				. '","' . $this->trans->t('How much?')
+				. '"' . "\n"
+		);
 		$settlement = $this->getProjectSettlement($projectid, $centeredOn, $maxTimestamp);
 		$transactions = $settlement['transactions'];
 
@@ -4190,11 +4283,17 @@ class ProjectService {
 
 		fclose($handler);
 		$file->touch();
-		$response = ['path' => $outPath.'/'.$projectid.'-settlement.csv'];
-		return $response;
+		return ['path' => $outPath . '/' . $projectid . '-settlement.csv'];
 	}
 
-	private function createAndCheckExportDirectory($userFolder, $outPath) {
+	/**
+	 * Create directory where things will be exported
+	 *
+	 * @param Folder $userFolder
+	 * @param string $outPath
+	 * @return string
+	 */
+	private function createAndCheckExportDirectory(Folder $userFolder, string $outPath): string {
 		if (!$userFolder->nodeExists($outPath)) {
 			$userFolder->newFolder($outPath);
 		}
@@ -4202,28 +4301,39 @@ class ProjectService {
 			$folder = $userFolder->get($outPath);
 			if ($folder->getType() !== \OCP\Files\FileInfo::TYPE_FOLDER) {
 				return $this->trans->t('%1$s is not a folder', [$outPath]);
-			}
-			else if (!$folder->isCreatable()) {
+			} elseif (!$folder->isCreatable()) {
 				return $this->trans->t('%1$s is not writeable', [$outPath]);
-			}
-			else {
+			} else {
 				return '';
 			}
-		}
-		else {
+		} else {
 			return $this->trans->t('Impossible to create %1$s', [$outPath]);
 		}
 	}
 
-	public function exportCsvStatistics($projectid, $userId, $tsMin=null, $tsMax=null, $paymentMode=null, $category=null,
-										$amountMin=null, $amountMax=null, $showDisabled='1', $currencyId=null) {
+	/**
+	 * @param string $projectid
+	 * @param string $userId
+	 * @param int|null $tsMin
+	 * @param int|null $tsMax
+	 * @param string|null $paymentMode
+	 * @param int|null $category
+	 * @param float|null $amountMin
+	 * @param float|null $amountMax
+	 * @param bool $showDisabled
+	 * @param int|null $currencyId
+	 * @return array
+	 */
+	public function exportCsvStatistics(string $projectid, string $userId, ?int $tsMin = null, ?int $tsMax = null,
+										?string $paymentMode = null, ?int $category = null,
+										?float $amountMin = null, ?float $amountMax = null,
+										bool $showDisabled = true, ?int $currencyId = null): array {
 		// create export directory if needed
 		$outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
 		$userFolder = \OC::$server->getUserFolder($userId);
 		$msg = $this->createAndCheckExportDirectory($userFolder, $outPath);
 		if ($msg !== '') {
-			$response = ['message' => $msg];
-			return $response;
+			return ['message' => $msg];
 		}
 		$folder = $userFolder->get($outPath);
 
@@ -4246,18 +4356,24 @@ class ProjectService {
 
 		fclose($handler);
 		$file->touch();
-		$response = ['path' => $outPath.'/'.$projectid.'-stats.csv'];
-		return $response;
+		return ['path' => $outPath . '/' . $projectid . '-stats.csv'];
 	}
 
-	public function exportCsvProject($projectid, $name, $userId) {
+	/**
+	 * Export project in CSV
+	 *
+	 * @param string $projectid
+	 * @param string $name
+	 * @param string $userid
+	 * @return array
+	 */
+	public function exportCsvProject(string $projectid, ?string $name = null, string $userId): array {
 		// create export directory if needed
 		$outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
 		$userFolder = \OC::$server->getUserFolder($userId);
 		$msg = $this->createAndCheckExportDirectory($userFolder, $outPath);
 		if ($msg !== '') {
-			$response = ['message' => $msg];
-			return $response;
+			return ['message' => $msg];
 		}
 		$folder = $userFolder->get($outPath);
 
@@ -4334,11 +4450,17 @@ class ProjectService {
 
 		fclose($handler);
 		$file->touch();
-		$response = ['path' => $outPath.'/'.$filename];
-		return $response;
+		return ['path' => $outPath . '/' . $filename];
 	}
 
-	public function importCsvProject($path, $userId) {
+	/**
+	 * Import CSV project file
+	 *
+	 * @param string $path
+	 * @param string $userId
+	 * @return array
+	 */
+	public function importCsvProject(string $path, string $userId): array {
 		$cleanPath = str_replace(array('../', '..\\'), '',  $path);
 		$userFolder = \OC::$server->getUserFolder($userId);
 		if ($userFolder->nodeExists($cleanPath)) {
@@ -4359,13 +4481,12 @@ class ProjectService {
 					while (($data = fgetcsv($handle, 1000, ',')) !== false) {
 						if ($data === [null]) {
 							$previousLineEmpty = true;
-						}
-						// determine which section we're entering
-						elseif ($row === 0 || $previousLineEmpty) {
+						} elseif ($row === 0 || $previousLineEmpty) {
+							// determine which section we're entering
 							$previousLineEmpty = false;
 							$nbCol = count($data);
 							$columns = [];
-							for ($c=0; $c < $nbCol; $c++) {
+							for ($c = 0; $c < $nbCol; $c++) {
 								$columns[$data[$c]] = $c;
 							}
 							if (array_key_exists('what', $columns) and
@@ -4390,9 +4511,8 @@ class ProjectService {
 								fclose($handle);
 								return ['message' => $this->trans->t('Malformed CSV, bad column names at line %1$s', [$row + 1])];
 							}
-						}
-						// normal line : bill or category
-						else {
+						} else {
+							// normal line : bill or category
 							$previousLineEmpty = false;
 							if ($currentSection === 'categories') {
 								$icon = $data[$columns['icon']];
@@ -4405,8 +4525,7 @@ class ProjectService {
 									'id' => $categoryid,
 									'name' => $categoryname,
 								];
-							}
-							else if ($currentSection === 'currencies') {
+							} elseif ($currentSection === 'currencies') {
 								$name = $data[$columns['currencyname']];
 								$exchange_rate = $data[$columns['exchange_rate']];
 								if (floatval($exchange_rate) === 1.0) {
@@ -4553,7 +4672,7 @@ class ProjectService {
 						}
 					}
 
-					return $projectid;
+					return ['project_id' => $projectid];
 				} else {
 					return ['message' => $this->trans->t('Access denied')];
 				}
@@ -4566,9 +4685,13 @@ class ProjectService {
 	}
 
 	/**
-	 * @NoAdminRequired
+	 * Import SplitWise project file
+	 *
+	 * @param string $path
+	 * @param string $userId
+	 * @return array
 	 */
-	public function importSWProject($path, $userId) {
+	public function importSWProject(string $path, string $userId): array {
 		$cleanPath = str_replace(array('../', '..\\'), '',  $path);
 		$userFolder = \OC::$server->getUserFolder();
 		if ($userFolder->nodeExists($cleanPath)) {
@@ -4726,17 +4849,14 @@ class ProjectService {
 							return ['message' => $this->trans->t('Error when adding bill %1$s', [$bill['what']])];
 						}
 					}
-					return $projectid;
-				}
-				else {
+					return ['project_id' => $projectid];
+				} else {
 					return ['message' => $this->trans->t('Access denied')];
 				}
-			}
-			else {
+			} else {
 				return ['message' => $this->trans->t('Access denied')];
 			}
-		}
-		else {
+		} else {
 			return ['message' => $this->trans->t('Access denied')];
 		}
 	}
@@ -4747,7 +4867,7 @@ class ProjectService {
 	 *
 	 * export projects
 	 */
-	public function cronAutoExport() {
+	public function cronAutoExport(): void {
 		date_default_timezone_set('UTC');
 		// last day
 		$now = new DateTime();
@@ -4836,8 +4956,7 @@ class ProjectService {
 				$suffix = $dailySuffix;
 				if ($autoexport === 'w') {
 					$suffix = $weeklySuffix;
-				}
-				else if ($autoexport === 'm') {
+				} elseif ($autoexport === 'm') {
 					$suffix = $monthlySuffix;
 				}
 				// check if file already exists
@@ -4853,16 +4972,33 @@ class ProjectService {
 		}
 	}
 
-	private function hexToRgb($color) {
+	/**
+	 * Convert hexadecimal color into RGB array
+	 *
+	 * @param string $color
+	 * @return array
+	 */
+	private function hexToRgb(string $color): array {
 		$color = \str_replace('#', '', $color);
 		$split_hex_color = str_split($color, 2);
 		$r = hexdec($split_hex_color[0]);
 		$g = hexdec($split_hex_color[1]);
 		$b = hexdec($split_hex_color[2]);
-		return ['r' => $r, 'g' => $g, 'b' => $b];
+		return [
+			'r' => $r,
+			'g' => $g,
+			'b' => $b,
+		];
 	}
 
-	public function searchBills($projectId, $term) {
+	/**
+	 * Search bills with query string
+	 *
+	 * @param string $projectId
+	 * @param string $term
+	 * @return array
+	 */
+	public function searchBills(string $projectId, string $term): array {
 		$qb = $this->dbconnection->getQueryBuilder();
 		$qb->select('id', 'what', 'comment', 'amount', 'timestamp',
 					'paymentmode', 'categoryid')
@@ -4903,6 +5039,13 @@ class ProjectService {
 		return $bills;
 	}
 
+	/**
+	 * Get Cospend bill activity
+	 *
+	 * @param string $userId
+	 * @param int|null $since
+	 * @return array
+	 */
 	public function getBillActivity(string $userId, ?int $since): array {
 		// get projects
 		$projects = $this->getProjects($userId);
@@ -4940,7 +5083,14 @@ class ProjectService {
 		return array_slice($bills, 0, 7);
 	}
 
-	private function updateProjectLastChanged(string $projectId, int $timestamp) {
+	/**
+	 * Touch a project
+	 *
+	 * @param string $projectId
+	 * @param int $timestamp
+	 * @return void
+	 */
+	private function updateProjectLastChanged(string $projectId, int $timestamp): void {
 		$qb = $this->dbconnection->getQueryBuilder();
 		$qb->update('cospend_projects');
 		$qb->set('lastchanged', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT));

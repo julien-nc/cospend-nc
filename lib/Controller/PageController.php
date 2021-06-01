@@ -1861,21 +1861,19 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function editShareAccessLevel($projectid, $shid, $accesslevel) {
+	public function editShareAccessLevel(string $projectid, int $shid, int $accesslevel): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
 		// allow edition if user is at least participant and has greater or equal access level than target
 		// user can't give higher access level than his/her level (do not downgrade one)
 		if ($userAccessLevel >= ACCESS_PARTICIPANT && $userAccessLevel >= $accesslevel && $userAccessLevel >= $shareAccessLevel) {
 			$result = $this->projectService->editShareAccessLevel($projectid, $shid, $accesslevel);
-			if ($result === 'OK') {
-				return new DataResponse($result);
-			}
-			else {
+			if (isset($result['success'])) {
+				return new DataResponse('OK');
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to give such shared access level')]
 				, 403
@@ -1887,18 +1885,16 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function editGuestAccessLevel($projectid, $accesslevel) {
+	public function editGuestAccessLevel(string $projectid, int $accesslevel): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		if ($userAccessLevel >= ACCESS_ADMIN) {
 			$result = $this->projectService->editGuestAccessLevel($projectid, $accesslevel);
-			if ($result === 'OK') {
-				return new DataResponse($result);
-			}
-			else {
+			if (isset($result['success'])) {
+				return new DataResponse('OK');
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to edit guest access level')]
 				, 403
@@ -2282,17 +2278,15 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function editCurrency($projectid, $currencyid, $name, $rate) {
+	public function editCurrency(string $projectid, int $currencyid, string $name, float $rate): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
 			$result = $this->projectService->editCurrency($projectid, $currencyid, $name, $rate);
-			if (is_array($result)) {
+			if (!isset($result['message'])) {
 				return new DataResponse($result);
-			}
-			else {
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to manage currencies')]
 				, 403
@@ -2307,21 +2301,19 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiEditCurrency($projectid, $password, $currencyid, $name, $rate) {
+	public function apiEditCurrency(string $projectid, string $password, int $currencyid, string $name, float $rate): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if (
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
 			|| ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
 		) {
 			$result = $this->projectService->editCurrency($projectid, $currencyid, $name, $rate);
-			if (is_array($result)) {
+			if (!isset($result['message'])) {
 				return new DataResponse($result);
-			}
-			else {
+			} else {
 				return new DataResponse($result, 403);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to manage currencies')]
 				, 401
@@ -2335,17 +2327,15 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivEditCurrency($projectid, $currencyid, $name, $rate) {
+	public function apiPrivEditCurrency(string $projectid, int $currencyid, string $name, float $rate): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
 			$result = $this->projectService->editCurrency($projectid, $currencyid, $name, $rate);
-			if (is_array($result)) {
+			if (!isset($result['message'])) {
 				return new DataResponse($result);
-			}
-			else {
+			} else {
 				return new DataResponse($result, 403);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to manage currencies')]
 				, 403
@@ -2357,17 +2347,15 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function deleteCurrency($projectid, $currencyid) {
+	public function deleteCurrency(string $projectid, int $currencyid): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
 			$result = $this->projectService->deleteCurrency($projectid, $currencyid);
-			if (is_numeric($result)) {
-				return new DataResponse($result);
-			}
-			else {
+			if (isset($result['success'])) {
+				return new DataResponse($currencyid);
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to manage currencies')]
 				, 403
@@ -2382,21 +2370,19 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiDeleteCurrency($projectid, $password, $currencyid) {
+	public function apiDeleteCurrency(string $projectid, string $password, int $currencyid): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if (
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
 			|| ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= ACCESS_MAINTENER)
 		) {
 			$result = $this->projectService->deleteCurrency($projectid, $currencyid);
-			if (is_numeric($result)) {
-				return new DataResponse($result);
-			}
-			else {
+			if (isset($result['success'])) {
+				return new DataResponse($currencyid);
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to manage currencies')]
 				, 401
@@ -2410,17 +2396,15 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivDeleteCurrency($projectid, $currencyid) {
+	public function apiPrivDeleteCurrency(string $projectid, int $currencyid): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
 			$result = $this->projectService->deleteCurrency($projectid, $currencyid);
-			if (is_numeric($result)) {
-				return new DataResponse($result);
-			}
-			else {
+			if (isset($result['success'])) {
+				return new DataResponse($currencyid);
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to manage currencies')]
 				, 403
@@ -2432,17 +2416,16 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function addUserShare($projectid, $userid, $accesslevel = ACCESS_PARTICIPANT, $manually_added = true) {
+	public function addUserShare(string $projectid, string $userid, int $accesslevel = ACCESS_PARTICIPANT,
+								bool $manually_added = true): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
 			$result = $this->projectService->addUserShare($projectid, $userid, $this->userId, $accesslevel, $manually_added);
-			if (is_array($result)) {
+			if (!isset($result['message'])) {
 				return new DataResponse($result);
-			}
-			else {
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to edit this project')]
 				, 403
@@ -2454,20 +2437,18 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function deleteUserShare($projectid, $shid) {
+	public function deleteUserShare(string $projectid, int $shid): DataResponse {
 		// allow to delete share if user perms are at least participant AND if this share perms are <= user perms
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
 		if ($userAccessLevel >= ACCESS_PARTICIPANT && $userAccessLevel >= $shareAccessLevel) {
 			$result = $this->projectService->deleteUserShare($projectid, $shid, $this->userId);
-			if ($result === 'OK') {
-				return new DataResponse($result);
-			}
-			else {
+			if (isset($result['success'])) {
+				return new DataResponse('OK');
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to remove this shared access')]
 				, 403
@@ -2479,17 +2460,15 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function addPublicShare($projectid) {
+	public function addPublicShare(string $projectid): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
 			$result = $this->projectService->addPublicShare($projectid, $this->userId);
 			if (is_array($result)) {
 				return new DataResponse($result);
-			}
-			else {
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to add public shared accesses')]
 				, 403
@@ -2501,19 +2480,17 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function deletePublicShare($projectid, $shid) {
+	public function deletePublicShare(string $projectid, int $shid): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
 		if ($userAccessLevel >= ACCESS_PARTICIPANT && $userAccessLevel >= $shareAccessLevel) {
 			$result = $this->projectService->deletePublicShare($projectid, $shid);
-			if ($result === 'OK') {
-				return new DataResponse($result);
-			}
-			else {
+			if (isset($result['success'])) {
+				return new DataResponse('OK');
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to remove this shared access')]
 				, 403
@@ -2525,17 +2502,15 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function addGroupShare($projectid, $groupid) {
+	public function addGroupShare(string $projectid, string $groupid): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
 			$result = $this->projectService->addGroupShare($projectid, $groupid, $this->userId);
-			if (is_array($result)) {
+			if (!isset($result['message'])) {
 				return new DataResponse($result);
-			}
-			else {
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to edit this project')]
 				, 403
@@ -2547,20 +2522,18 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function deleteGroupShare($projectid, $shid) {
+	public function deleteGroupShare(string $projectid, int $shid): DataResponse {
 		// allow to delete share if user perms are at least participant AND if this share perms are <= user perms
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
 		if ($userAccessLevel >= ACCESS_PARTICIPANT && $userAccessLevel >= $shareAccessLevel) {
 			$result = $this->projectService->deleteGroupShare($projectid, $shid, $this->userId);
-			if ($result === 'OK') {
-				return new DataResponse($result);
-			}
-			else {
+			if (isset($result['success'])) {
+				return new DataResponse('OK');
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to remove this shared access')]
 				, 403
@@ -2572,17 +2545,15 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function addCircleShare($projectid, $circleid) {
+	public function addCircleShare(string $projectid, $circleid): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
 			$result = $this->projectService->addCircleShare($projectid, $circleid, $this->userId);
-			if (is_array($result)) {
+			if (!isset($result['message'])) {
 				return new DataResponse($result);
-			}
-			else {
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to edit this project')]
 				, 403
@@ -2594,20 +2565,18 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function deleteCircleShare($projectid, $shid) {
+	public function deleteCircleShare(string $projectid, int $shid): DataResponse {
 		// allow to delete share if user perms are at least participant AND if this share perms are <= user perms
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
 		if ($userAccessLevel >= ACCESS_PARTICIPANT && $userAccessLevel >= $shareAccessLevel) {
 			$result = $this->projectService->deleteCircleShare($projectid, $shid, $this->userId);
-			if ($result === 'OK') {
-				return new DataResponse($result);
-			}
-			else {
+			if (isset($result['success'])) {
+				return new DataResponse('OK');
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to remove this shared access')]
 				, 403
@@ -2619,7 +2588,7 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function getPublicFileShare($path) {
+	public function getPublicFileShare(string $path): DataResponse {
 		$cleanPath = str_replace(array('../', '..\\'), '',  $path);
 		$userFolder = \OC::$server->getUserFolder();
 		if ($userFolder->nodeExists($cleanPath)) {
@@ -2635,8 +2604,7 @@ class PageController extends ApiController {
 								break;
 							}
 						}
-					}
-					else {
+					} else {
 						$share = $this->shareManager->newShare();
 						$share->setNode($file);
 						$share->setPermissions(Constants::PERMISSION_READ);
@@ -2646,16 +2614,13 @@ class PageController extends ApiController {
 						$token = $share->getToken();
 					}
 					$response = new DataResponse(['token' => $token]);
-				}
-				else {
+				} else {
 					$response = new DataResponse(['message' => $this->trans->t('Access denied')], 403);
 				}
-			}
-			else {
+			} else {
 				$response = new DataResponse(['message' => $this->trans->t('Access denied')], 403);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(['message' => $this->trans->t('Access denied')], 403);
 		}
 		return $response;
@@ -2664,17 +2629,15 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function exportCsvSettlement(string $projectid, ?int $centeredOn = null, ?int $maxTimestamp = null) {
+	public function exportCsvSettlement(string $projectid, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			$result = $this->projectService->exportCsvSettlement($projectid, $this->userId, $centeredOn, $maxTimestamp);
-			if (is_array($result) && array_key_exists('path', $result)) {
+			if (isset($result['path'])) {
 				return new DataResponse($result);
-			}
-			else {
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to export this project settlement')]
 				, 403
@@ -2686,20 +2649,19 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function exportCsvStatistics($projectid, $tsMin=null, $tsMax=null, $paymentMode=null, $category=null,
-										$amountMin=null, $amountMax=null, $showDisabled='1', $currencyId=null) {
+	public function exportCsvStatistics(string $projectid, ?int $tsMin = null, ?int $tsMax = null, ?string $paymentMode = null,
+										?int $category = null, ?float $amountMin = null, ?float $amountMax = null, int $showDisabled = 1,
+										?int $currencyId = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			$result = $this->projectService->exportCsvStatistics($projectid, $this->userId, $tsMin, $tsMax,
 																 $paymentMode, $category, $amountMin, $amountMax,
-																 $showDisabled, $currencyId);
-			if (is_array($result) && array_key_exists('path', $result)) {
+																 $showDisabled !== 0, $currencyId);
+			if (isset($result['path'])) {
 				return new DataResponse($result);
-			}
-			else {
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
+		} else {
 			$response = new DataResponse(
 				['message' => $this->trans->t('You are not allowed to export this project statistics')]
 				, 403
@@ -2738,14 +2700,13 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function importCsvProject($path) {
+	public function importCsvProject(string $path): DataResponse {
 		$result = $this->projectService->importCsvProject($path, $this->userId);
-		if (!is_array($result) && is_string($result)) {
-			$projInfo = $this->projectService->getProjectInfo($result);
+		if (isset($result['project_id'])) {
+			$projInfo = $this->projectService->getProjectInfo($result['project_id']);
 			$projInfo['myaccesslevel'] = ACCESS_ADMIN;
 			return new DataResponse($projInfo);
-		}
-		else {
+		} else {
 			return new DataResponse($result, 400);
 		}
 	}
@@ -2753,14 +2714,13 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function importSWProject($path) {
+	public function importSWProject(string $path): DataResponse {
 		$result = $this->projectService->importSWProject($path, $this->userId);
-		if (!is_array($result) && is_string($result)) {
-			$projInfo = $this->projectService->getProjectInfo($result);
+		if (isset($result['project_id'])) {
+			$projInfo = $this->projectService->getProjectInfo($result['project_id']);
 			$projInfo['myaccesslevel'] = ACCESS_ADMIN;
 			return new DataResponse($projInfo);
-		}
-		else {
+		} else {
 			return new DataResponse($result, 400);
 		}
 	}

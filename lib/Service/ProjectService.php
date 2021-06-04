@@ -5010,10 +5010,10 @@ class ProjectService {
 		   );
 		$or = $qb->expr()->orx();
 		$or->add(
-			$qb->expr()->like('b.what', $qb->createNamedParameter('%'.$term.'%', IQueryBuilder::PARAM_STR))
+			$qb->expr()->iLike('b.what', $qb->createNamedParameter('%'.$term.'%', IQueryBuilder::PARAM_STR))
 		);
 		$or->add(
-			$qb->expr()->like('b.comment', $qb->createNamedParameter('%'.$term.'%', IQueryBuilder::PARAM_STR))
+			$qb->expr()->iLike('b.comment', $qb->createNamedParameter('%'.$term.'%', IQueryBuilder::PARAM_STR))
 		);
 		$qb->andWhere($or);
 		$qb->orderBy('timestamp', 'ASC');

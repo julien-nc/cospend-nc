@@ -3213,7 +3213,6 @@ class ProjectService {
 				$nextDate->setTimestamp($billDate->getTimestamp());
 				$nextDate->setDate($nextYear, $nextMonth, 1);
 				$billDay = intval($billDate->format('d'));
-				error_log('bill day : '.$billDay);
 				$nbDaysInNextMonth = intval($nextDate->format('t'));
 				if ($billDay > $nbDaysInNextMonth) {
 					$nextDate->setDate($nextYear, $nextMonth, $nbDaysInNextMonth);

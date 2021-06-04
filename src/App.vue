@@ -243,7 +243,7 @@ export default {
 			// Make sure to escape user input before creating regex from it:
 			const regex = new RegExp(this.filterQuery.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'i')
 			return billList.filter(bill => {
-				return regex.test(bill.what)
+				return regex.test(bill.what) || regex.test(bill.comment)
 			})
 		},
 		cleanupBills() {

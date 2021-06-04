@@ -4999,16 +4999,22 @@ class ProjectService {
 	 * @return array
 	 */
 	public function searchBills(string $projectId, string $term): array {
+		$term = strtolower($term);
 		$qb = $this->dbconnection->getQueryBuilder();
 		$qb->select('id', 'what', 'comment', 'amount', 'timestamp',
 					'paymentmode', 'categoryid')
 		   ->from('cospend_bills', 'b')
 		   ->where(
 			   $qb->expr()->eq('b.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-		   )
-		   ->andWhere(
-			   $qb->expr()->like('b.what', $qb->createNamedParameter('%'.$term.'%', IQueryBuilder::PARAM_STR))
 		   );
+		$or = $qb->expr()->orx();
+		$or->add(
+			$qb->expr()->like('b.what', $qb->createNamedParameter('%'.$term.'%', IQueryBuilder::PARAM_STR))
+		);
+		$or->add(
+			$qb->expr()->like('b.comment', $qb->createNamedParameter('%'.$term.'%', IQueryBuilder::PARAM_STR))
+		);
+		$qb->andWhere($or);
 		$qb->orderBy('timestamp', 'ASC');
 		$req = $qb->execute();
 

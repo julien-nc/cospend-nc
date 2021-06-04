@@ -2,9 +2,9 @@ module.exports = {
 	globals: {
 		appVersion: true
 	},
-    parserOptions: {
-        requireConfigFile: false
-    },
+	parserOptions: {
+		requireConfigFile: false
+	},
 	extends: [
 		'@nextcloud'
 	]

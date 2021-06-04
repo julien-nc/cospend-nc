@@ -5001,9 +5001,10 @@ class ProjectService {
 	public function searchBills(string $projectId, string $term): array {
 		$term = strtolower($term);
 		$qb = $this->dbconnection->getQueryBuilder();
-		$qb->select('id', 'what', 'comment', 'amount', 'timestamp',
-					'paymentmode', 'categoryid')
+		$qb->select('b.id', 'what', 'comment', 'amount', 'timestamp',
+					'paymentmode', 'categoryid', 'pr.currencyname')
 		   ->from('cospend_bills', 'b')
+		   ->innerJoin('b', 'cospend_projects', 'pr', $qb->expr()->eq('b.projectid', 'pr.id'))
 		   ->where(
 			   $qb->expr()->eq('b.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 		   );
@@ -5028,6 +5029,7 @@ class ProjectService {
 			$dbComment = $row['comment'];
 			$dbPaymentMode = $row['paymentmode'];
 			$dbCategoryId = intval($row['categoryid']);
+			$dbProjectCurrencyName = $row['currencyname'];
 			$bills[] = [
 				'id' => $dbBillId,
 				'projectId' => $projectId,
@@ -5037,6 +5039,7 @@ class ProjectService {
 				'comment' => $dbComment,
 				'paymentmode' => $dbPaymentMode,
 				'categoryid' => $dbCategoryId,
+				'currencyname' => $dbProjectCurrencyName,
 			];
 		}
 		$req->closeCursor();

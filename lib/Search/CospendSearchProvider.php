@@ -146,7 +146,7 @@ class CospendSearchProvider implements IProvider {
 			return new CospendSearchResultEntry(
 				$thumbnailUrl,
 				$this->getMainText($bill),
-				$this->getSubline($projectsById[$projectId]),
+				$this->getSubline($bill, $projectsById[$projectId]),
 				$this->getDeepLinkToCospendApp($projectId),
 				'',
 				false
@@ -164,17 +164,19 @@ class CospendSearchProvider implements IProvider {
 	 * @return string
 	 */
 	protected function getMainText(array $bill): string {
-		$d = new DateTime();
-		$d->setTimestamp($bill['timestamp']);
-		$fd = $this->dateFormatter->formatDateTime($d, 'short', 'short');
-		return $bill['what']. ' ('. $bill['amount'] . ') [' . $fd . ']';
+		$currency = $bill['currencyname'] ?? '💰';
+		$what = $this->truncate($bill['what'], 24);
+		return $what. ' ('. $bill['amount'] . ' ' . $currency . ')';
 	}
 
 	/**
 	 * @return string
 	 */
-	protected function getSubline(array $project): string {
-		return $this->l10n->t('In project %1$s', [$project['name']]);
+	protected function getSubline(array $bill, array $project): string {
+		$d = new DateTime();
+		$d->setTimestamp($bill['timestamp']);
+		$fd = $this->dateFormatter->formatDate($d, 'short');
+		return '[' . $fd . '] ' . $this->l10n->t('in %1$s', [$project['name']]);
 	}
 
 	/**
@@ -188,4 +190,14 @@ class CospendSearchProvider implements IProvider {
 		);
 	}
 
+	/**
+	 * @param string $s
+	 * @param int $len
+	 * @return string
+	 */
+	private function truncate(string $s, int $len): string {
+		return strlen($s) > $len
+				? substr($s, 0, $len) . '…'
+				: $s;
+	}
 }

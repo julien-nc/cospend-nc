@@ -35,6 +35,9 @@ use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 
+use OCP\IDateTimeFormatter;
+use DateTime;
+
 class CospendSearchProvider implements IProvider {
 
 	/** @var IAppManager */
@@ -58,11 +61,13 @@ class CospendSearchProvider implements IProvider {
 								IL10N $l10n,
 								IConfig $config,
 								IURLGenerator $urlGenerator,
+								IDateTimeFormatter $dateFormatter,
 								ProjectService $projectService) {
 		$this->appManager = $appManager;
 		$this->l10n = $l10n;
 		$this->config = $config;
 		$this->urlGenerator = $urlGenerator;
+		$this->dateFormatter = $dateFormatter;
 		$this->projectService = $projectService;
 	}
 
@@ -139,8 +144,12 @@ class CospendSearchProvider implements IProvider {
 			$projectId = $bill['projectId'];
 			$projectName = $projectsById[$projectId]['name'];
 			return new CospendSearchResultEntry(
-				$thumbnailUrl, $this->getMainText($bill), $this->getSubline($projectsById[$projectId]),
-				$this->getDeepLinkToCospendApp($projectId), '', true
+				$thumbnailUrl,
+				$this->getMainText($bill),
+				$this->getSubline($projectsById[$projectId]),
+				$this->getDeepLinkToCospendApp($projectId),
+				'',
+				false
 			);
 		}, $resultBills);
 
@@ -155,7 +164,10 @@ class CospendSearchProvider implements IProvider {
 	 * @return string
 	 */
 	protected function getMainText(array $bill): string {
-		return $bill['what']. ' ('. $bill['amount'] . ')';
+		$d = new DateTime();
+		$d->setTimestamp($bill['timestamp']);
+		$fd = $this->dateFormatter->formatDateTime($d, 'short', 'short');
+		return $bill['what']. ' ('. $bill['amount'] . ') [' . $fd . ']';
 	}
 
 	/**

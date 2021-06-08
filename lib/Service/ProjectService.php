@@ -45,7 +45,7 @@ class ProjectService {
 	private $logger;
 	private $config;
 	private $qb;
-	private $dbconnection;
+	private $db;
 
 	public function __construct (LoggerInterface $logger,
 								IL10N $l10n,
@@ -58,12 +58,12 @@ class ProjectService {
 								IUserManager $userManager,
 								IGroupManager $groupManager,
 								IDateTimeZone $dateTimeZone,
-								IDBConnection $dbconnection) {
+								IDBConnection $db) {
 		$this->trans = $l10n;
 		$this->config = $config;
 		$this->logger = $logger;
-		$this->dbconnection = $dbconnection;
-		$this->qb = $dbconnection->getQueryBuilder();
+		$this->db = $db;
+		$this->qb = $db->getQueryBuilder();
 		$this->projectMapper = $projectMapper;
 		$this->billMapper = $billMapper;
 		$this->activityManager = $activityManager;
@@ -134,7 +134,7 @@ class ProjectService {
 			if ($projectInfo['userid'] === $userid) {
 				return true;
 			} else {
-				$qb = $this->dbconnection->getQueryBuilder();
+				$qb = $this->db->getQueryBuilder();
 				// is the project shared with the user ?
 				$qb->select('userid', 'projectid')
 					->from('cospend_shares', 's')
@@ -231,7 +231,7 @@ class ProjectService {
 			if ($projectInfo['userid'] === $userid) {
 				return ACCESS_ADMIN;
 			} else {
-				$qb = $this->dbconnection->getQueryBuilder();
+				$qb = $this->db->getQueryBuilder();
 				// is the project shared with the user ?
 				$qb->select('userid', 'projectid', 'accesslevel')
 					->from('cospend_shares', 's')
@@ -337,7 +337,7 @@ class ProjectService {
 	 */
 	public function getShareAccessLevel(string $projectid, int $shid): int {
 		$result = 0;
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('accesslevel')
 		   ->from('cospend_shares', 's')
 		   ->where(
@@ -364,7 +364,7 @@ class ProjectService {
 	 */
 	public function createProject(string $name, string $id, ?string $password, ?string $contact_email, string $userid = '',
 								  bool $createDefaultCategories = true) {
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('id')
 		   ->from('cospend_projects', 'p')
@@ -438,7 +438,7 @@ class ProjectService {
 	public function deleteProject(string $projectid): array {
 		$projectToDelete = $this->getProjectById($projectid);
 		if ($projectToDelete !== null) {
-			$qb = $this->dbconnection->getQueryBuilder();
+			$qb = $this->db->getQueryBuilder();
 
 			// delete project bills
 			$bills = $this->getBills($projectid);
@@ -508,7 +508,7 @@ class ProjectService {
 	public function getProjectInfo(string $projectid): ?array {
 		$projectInfo = null;
 
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('id', 'password', 'name', 'email', 'userid', 'lastchanged', 'guestaccesslevel',
 					'autoexport', 'currencyname', 'deletiondisabled', 'categorysort')
@@ -588,7 +588,7 @@ class ProjectService {
 	 */
 	private function getSmallStats(string $projectId): array {
 		$nbBills = 0;
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_bills')
 		   ->from('cospend_bills')
 		   ->where(
@@ -997,7 +997,7 @@ class ProjectService {
 		$ts = (new DateTime())->getTimestamp();
 
 		// do it already !
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->insert('cospend_bills')
 			->values([
 				'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
@@ -1052,7 +1052,7 @@ class ProjectService {
 		if ($billToDelete !== null) {
 			$this->deleteBillOwersOfBill($billid);
 
-			$qb = $this->dbconnection->getQueryBuilder();
+			$qb = $this->db->getQueryBuilder();
 			$qb->delete('cospend_bills')
 			   ->where(
 				   $qb->expr()->eq('id', $qb->createNamedParameter($billid, IQueryBuilder::PARAM_INT))
@@ -1082,7 +1082,7 @@ class ProjectService {
 	private function getMemberById(string $projectId, int $memberId): ?array {
 		$member = null;
 
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated')
 		   ->from('cospend_members', 'm')
 		   ->where(
@@ -1130,7 +1130,7 @@ class ProjectService {
 	public function getProjectById(string $projectId): ?array {
 		$project = null;
 
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'userid', 'name', 'email', 'password', 'currencyname', 'autoexport', 'guestaccesslevel', 'lastchanged')
 		   ->from('cospend_projects', 'p')
 		   ->where(
@@ -1179,7 +1179,7 @@ class ProjectService {
 		$billOwers = [];
 		$billOwerIds = [];
 
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('memberid', 'm.name', 'm.weight', 'm.activated')
 		   ->from('cospend_bill_owers', 'bo')
@@ -1261,7 +1261,7 @@ class ProjectService {
 	 * @return void
 	 */
 	private function deleteBillOwersOfBill(int $billid): void {
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->delete('cospend_bill_owers')
 		   ->where(
 			   $qb->expr()->eq('billid', $qb->createNamedParameter($billid, IQueryBuilder::PARAM_INT))
@@ -1492,7 +1492,7 @@ class ProjectService {
 		if (!is_null($name) && $name !== '') {
 			$member = $this->getMemberById($projectid, $memberid);
 			if (!is_null($member)) {
-				$qb = $this->dbconnection->getQueryBuilder();
+				$qb = $this->db->getQueryBuilder();
 				// delete member if it has no bill and we are disabling it
 				if ($member['activated']
 					&& (!is_null($activated) && $activated === false)
@@ -1584,7 +1584,7 @@ class ProjectService {
 			return ['name' => [$this->trans->t('Name field is required')]];
 		}
 
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->update('cospend_projects');
 
 		$emailSql = '';
@@ -1659,7 +1659,7 @@ class ProjectService {
 
 				$ts = (new DateTime())->getTimestamp();
 
-				$qb = $this->dbconnection->getQueryBuilder();
+				$qb = $this->db->getQueryBuilder();
 				$qb->insert('cospend_members')
 					->values([
 						'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
@@ -1692,7 +1692,7 @@ class ProjectService {
 	 */
 	public function getNbBills(string $projectId): int {
 		$nb = 0;
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_bills')
 		   ->from('cospend_bills', 'bi')
 		   ->where(
@@ -1724,7 +1724,7 @@ class ProjectService {
 	public function getBillsWithLimit(string $projectId, ?int $tsMin = null, ?int $tsMax = null, ?string $paymentMode = null, ?int $category = null,
 							  ?float $amountMin = null, ?float $amountMax = null, ?int $lastchanged = null, ?int $limit = null,
 							  bool $reverse = false, int $offset = 0): array {
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
 					'paymentmode', 'categoryid', 'lastchanged', 'repeatallactive',
 					'repeatuntil', 'repeatfreq')
@@ -1880,7 +1880,7 @@ class ProjectService {
 	public function getBills(string $projectId, ?int $tsMin = null, ?int $tsMax = null, ?string $paymentMode = null, ?int $category = null,
 							  ?float $amountMin = null, ?float $amountMax = null, ?int $lastchanged = null, ?int $limit = null,
 							  bool $reverse = false) {
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('bi.id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
 					'paymentmode', 'categoryid', 'bi.lastchanged', 'repeatallactive', 'repeatuntil', 'repeatfreq',
 					'memberid', 'm.name', 'm.weight', 'm.activated')
@@ -2017,7 +2017,7 @@ class ProjectService {
 	 */
 	public function getAllBillIds(string $projectId): array {
 		$billIds = [];
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('id')
 		   ->from('cospend_bills', 'b')
 		   ->where(
@@ -2054,7 +2054,7 @@ class ProjectService {
 			}
 		}
 
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated', 'lastchanged')
 		   ->from('cospend_members', 'm')
 		   ->where(
@@ -2226,7 +2226,7 @@ class ProjectService {
 	public function getProjects(string $userId): array {
 		$projectids = [];
 
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('id')
 		   ->from('cospend_projects', 'p')
@@ -2381,7 +2381,7 @@ class ProjectService {
 	private function getCategories(string $projectid): array {
 		$categories = [];
 
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('name', 'id', 'encoded_icon', 'color', 'order')
 		   ->from('cospend_project_categories', 'c')
 		   ->where(
@@ -2417,7 +2417,7 @@ class ProjectService {
 	private function getCurrencies($projectid): array {
 		$currencies = [];
 
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('name', 'id', 'exchange_rate')
 		   ->from('cospend_currencies', 'c')
 		   ->where(
@@ -2451,7 +2451,7 @@ class ProjectService {
 		$userIdToName = [];
 		$sharesToDelete = [];
 
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('projectid', 'userid', 'id', 'accesslevel', 'manually_added')
 		   ->from('cospend_shares', 'sh')
 		   ->where(
@@ -2509,7 +2509,7 @@ class ProjectService {
 	private function getPublicShares(string $projectid, ?int $maxAccessLevel = null): array {
 		$shares = [];
 
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('projectid', 'userid', 'id', 'accesslevel')
 		   ->from('cospend_shares', 'sh')
 		   ->where(
@@ -2552,7 +2552,7 @@ class ProjectService {
 		$projectId = null;
 		$accessLevel = null;
 
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('projectid', 'accesslevel')
 		   ->from('cospend_shares', 'sh')
 		   ->where(
@@ -2587,7 +2587,7 @@ class ProjectService {
 		$groupIdToName = [];
 		$sharesToDelete = [];
 
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('projectid', 'userid', 'id', 'accesslevel')
 		   ->from('cospend_shares', 'sh')
 		   ->where(
@@ -2651,7 +2651,7 @@ class ProjectService {
 					$circleIdToName[$circleUniqueId] = $circleName;
 				}
 
-				$qb = $this->dbconnection->getQueryBuilder();
+				$qb = $this->db->getQueryBuilder();
 				$qb->select('projectid', 'userid', 'id', 'accesslevel')
 				->from('cospend_shares', 'sh')
 				->where(
@@ -2695,7 +2695,7 @@ class ProjectService {
 	public function deleteMember(string $projectid, int $memberid): array {
 		$memberToDelete = $this->getMemberById($projectid, $memberid);
 		if ($memberToDelete !== null) {
-			$qb = $this->dbconnection->getQueryBuilder();
+			$qb = $this->db->getQueryBuilder();
 			if (count($this->getBillsOfMember($projectid, $memberid)) === 0) {
 				$qb->delete('cospend_members')
 					->where(
@@ -2729,7 +2729,7 @@ class ProjectService {
 	 * @return array
 	 */
 	private function getBillsOfMember(string $projectid, int $memberid): array {
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('bi.id')
 			->from('cospend_bill_owers', 'bo')
 			->innerJoin('bo', 'cospend_bills', 'bi', $qb->expr()->eq('bo.billid', 'bi.id'))
@@ -2758,7 +2758,7 @@ class ProjectService {
 	 */
 	public function getMemberByName(string $projectId, string $name): ?array {
 		$member = null;
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated')
 		   ->from('cospend_members', 'm')
 		   ->where(
@@ -2807,7 +2807,7 @@ class ProjectService {
 	public function getMemberByUserid(string $projectId, ?string $userid): ?array {
 		$member = null;
 		if ($userid !== null) {
-			$qb = $this->dbconnection->getQueryBuilder();
+			$qb = $this->db->getQueryBuilder();
 			$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated')
 			   ->from('cospend_members', 'm')
 			   ->where(
@@ -2871,7 +2871,7 @@ class ProjectService {
 							  ?float $amount, ?string $repeat, ?string $paymentmode = null, ?int $categoryid = null,
 							  ?int $repeatallactive = null, ?string $repeatuntil = null, ?int $timestamp = null,
 							  ?string $comment = null, ?int $repeatfreq = null): array {
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->update('cospend_bills');
 
 		// set last modification timestamp
@@ -3011,7 +3011,7 @@ class ProjectService {
 		while ($continue) {
 			$continue = false;
 			// get bills whith repetition flag
-			$qb = $this->dbconnection->getQueryBuilder();
+			$qb = $this->db->getQueryBuilder();
 			$qb->select('id', 'projectid', 'what', 'timestamp', 'amount', 'payerid', 'repeat', 'repeatallactive', 'repeatfreq')
 				->from('cospend_bills', 'b')
 				->where(
@@ -3256,7 +3256,7 @@ class ProjectService {
 	 * @return int
 	 */
 	public function addCategory(string $projectid, string $name, ?string $icon, string $color, ?int $order = 0): int {
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 
 		$encIcon = $icon;
 		if ($icon !== null && $icon !== '') {
@@ -3289,7 +3289,7 @@ class ProjectService {
 	private function getCategory(string $projectId, int $categoryid): ?array {
 		$category = null;
 
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'name', 'projectid', 'encoded_icon', 'color')
 		   ->from('cospend_project_categories', 'c')
 		   ->where(
@@ -3329,7 +3329,7 @@ class ProjectService {
 	public function deleteCategory(string $projectid, int $categoryid): array {
 		$categoryToDelete = $this->getCategory($projectid, $categoryid);
 		if ($categoryToDelete !== null) {
-			$qb = $this->dbconnection->getQueryBuilder();
+			$qb = $this->db->getQueryBuilder();
 			$qb->delete('cospend_project_categories')
 			   ->where(
 				   $qb->expr()->eq('id', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT))
@@ -3341,7 +3341,7 @@ class ProjectService {
 			$qb = $qb->resetQueryParts();
 
 			// then get rid of this category in bills
-			$qb = $this->dbconnection->getQueryBuilder();
+			$qb = $this->db->getQueryBuilder();
 			$qb->update('cospend_bills');
 			$qb->set('categoryid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT));
 			$qb->where(
@@ -3367,7 +3367,7 @@ class ProjectService {
 	 * @return bool
 	 */
 	public function saveCategoryOrder(string $projectid, array $order): bool {
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		foreach ($order as $o) {
 			$qb->update('cospend_project_categories');
 			$qb->set('order', $qb->createNamedParameter($o['order'], IQueryBuilder::PARAM_INT));
@@ -3401,7 +3401,7 @@ class ProjectService {
 				$encIcon = urlencode($icon);
 			}
 			if ($this->getCategory($projectid, $categoryid) !== null) {
-				$qb = $this->dbconnection->getQueryBuilder();
+				$qb = $this->db->getQueryBuilder();
 				$qb->update('cospend_project_categories');
 				$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
 				$qb->set('encoded_icon', $qb->createNamedParameter($encIcon, IQueryBuilder::PARAM_STR));
@@ -3435,7 +3435,7 @@ class ProjectService {
 	 * @return int
 	 */
 	public function addCurrency(string $projectid, string $name, float $rate): int {
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 
 		$qb->insert('cospend_currencies')
 			->values([
@@ -3460,7 +3460,7 @@ class ProjectService {
 	private function getCurrency(string $projectId, int $currencyid): ?array {
 		$currency = null;
 
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'name', 'exchange_rate', 'projectid')
 		   ->from('cospend_currencies', 'c')
 		   ->where(
@@ -3498,7 +3498,7 @@ class ProjectService {
 	public function deleteCurrency(string $projectid, int $currencyid): array {
 		$currencyToDelete = $this->getCurrency($projectid, $currencyid);
 		if ($currencyToDelete !== null) {
-			$qb = $this->dbconnection->getQueryBuilder();
+			$qb = $this->db->getQueryBuilder();
 			$qb->delete('cospend_currencies')
 			   ->where(
 				   $qb->expr()->eq('id', $qb->createNamedParameter($currencyid, IQueryBuilder::PARAM_INT))
@@ -3527,7 +3527,7 @@ class ProjectService {
 	public function editCurrency(string $projectid, int $currencyid, string $name, float $exchange_rate): array {
 		if ($name !== '' && $exchange_rate !== 0.0) {
 			if ($this->getCurrency($projectid, $currencyid) !== null) {
-				$qb = $this->dbconnection->getQueryBuilder();
+				$qb = $this->db->getQueryBuilder();
 				$qb->update('cospend_currencies');
 				$qb->set('exchange_rate', $qb->createNamedParameter($exchange_rate, IQueryBuilder::PARAM_STR));
 				$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
@@ -3565,7 +3565,7 @@ class ProjectService {
 		$user = $this->userManager->get($userid);
 		if ($user !== null && $userid !== $fromUserId) {
 			$userName = $user->getDisplayName();
-			$qb = $this->dbconnection->getQueryBuilder();
+			$qb = $this->db->getQueryBuilder();
 			$projectInfo = $this->getProjectInfo($projectid);
 			// check if someone tries to share the project with its owner
 			if ($userid !== $projectInfo['userid']) {
@@ -3661,7 +3661,7 @@ class ProjectService {
 	 * @return array
 	 */
 	public function addPublicShare(string $projectid): array {
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		// generate token
 		$token = md5($projectid.rand());
 
@@ -3725,7 +3725,7 @@ class ProjectService {
 	 */
 	public function editShareAccessLevel(string $projectid, int $shid, int $accesslevel): array {
 		// check if user share exists
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'projectid')
 			->from('cospend_shares', 's')
 			->where(
@@ -3771,7 +3771,7 @@ class ProjectService {
 	 */
 	public function editGuestAccessLevel(string $projectid, int $accesslevel): array {
 		// check if project exists
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 
 		// set the access level
 		$qb->update('cospend_projects')
@@ -3797,7 +3797,7 @@ class ProjectService {
 	 */
 	public function deleteUserShare($projectid, $shid, ?string $fromUserId = null): array {
 		// check if user share exists
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'userid', 'projectid')
 			->from('cospend_shares', 's')
 			->where(
@@ -3885,7 +3885,7 @@ class ProjectService {
 	 */
 	public function deletePublicShare(string $projectid, int $shid): array {
 		// check if public share exists
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'userid', 'projectid')
 			->from('cospend_shares', 's')
 			->where(
@@ -3973,7 +3973,7 @@ class ProjectService {
 	public function addGroupShare(string $projectid, string $groupid, ?string $fromUserId = null): array {
 		if ($this->groupManager->groupExists($groupid)) {
 			$groupName = $this->groupManager->get($groupid)->getDisplayName();
-			$qb = $this->dbconnection->getQueryBuilder();
+			$qb = $this->db->getQueryBuilder();
 			// check if user share exists
 			$qb->select('userid', 'projectid')
 				->from('cospend_shares', 's')
@@ -4037,7 +4037,7 @@ class ProjectService {
 	 */
 	public function deleteGroupShare(string $projectid, int $shid, ?string $fromUserId = null): array {
 		// check if group share exists
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('userid', 'projectid', 'id')
 			->from('cospend_shares', 's')
 			->where(
@@ -4115,7 +4115,7 @@ class ProjectService {
 				}
 			}
 			if ($circleid !== '' && $exists) {
-				$qb = $this->dbconnection->getQueryBuilder();
+				$qb = $this->db->getQueryBuilder();
 				// check if circle share exists
 				$qb->select('userid', 'projectid')
 					->from('cospend_shares', 's')
@@ -4182,7 +4182,7 @@ class ProjectService {
 	 */
 	public function deleteCircleShare(string $projectid, int $shid, ?string $fromUserId = null): array {
 		// check if circle share exists
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('userid', 'projectid', 'id')
 			->from('cospend_shares', 's')
 			->where(
@@ -4929,7 +4929,7 @@ class ProjectService {
 		$monthFilterArray['tsmin'] = $minMonthTimestamp;
 		$monthFilterArray['tsmax'] = $maxMonthTimestamp;
 
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 
 		foreach ($this->userManager->search('') as $u) {
 			$uid = $u->getUID();
@@ -4999,7 +4999,7 @@ class ProjectService {
 	 */
 	public function searchBills(string $projectId, string $term): array {
 		$term = strtolower($term);
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('b.id', 'what', 'comment', 'amount', 'timestamp',
 					'paymentmode', 'categoryid', 'pr.currencyname')
 		   ->from('cospend_bills', 'b')
@@ -5009,10 +5009,10 @@ class ProjectService {
 		   );
 		$or = $qb->expr()->orx();
 		$or->add(
-			$qb->expr()->iLike('b.what', $qb->createNamedParameter('%'.$term.'%', IQueryBuilder::PARAM_STR))
+			$qb->expr()->iLike('b.what', $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($term) . '%', IQueryBuilder::PARAM_STR))
 		);
 		$or->add(
-			$qb->expr()->iLike('b.comment', $qb->createNamedParameter('%'.$term.'%', IQueryBuilder::PARAM_STR))
+			$qb->expr()->iLike('b.comment', $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($term) . '%', IQueryBuilder::PARAM_STR))
 		);
 		$qb->andWhere($or);
 		$qb->orderBy('timestamp', 'ASC');
@@ -5099,7 +5099,7 @@ class ProjectService {
 	 * @return void
 	 */
 	private function updateProjectLastChanged(string $projectId, int $timestamp): void {
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->update('cospend_projects');
 		$qb->set('lastchanged', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT));
 		$qb->where(

@@ -2044,17 +2044,17 @@ class ProjectService {
 	 */
 	public function getMembers(string $projectId, ?string $order = null, ?int $lastchanged = null): array {
 		$members = [];
+		$qb = $this->db->getQueryBuilder();
 
 		$sqlOrder = 'name';
 		if ($order !== null) {
 			if ($order === 'lowername') {
-				$sqlOrder = 'name';
+				$sqlOrder = $qb->func()->lower('name');
 			} else {
 				$sqlOrder = $order;
 			}
 		}
 
-		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated', 'lastchanged')
 		   ->from('cospend_members', 'm')
 		   ->where(
@@ -2068,69 +2068,30 @@ class ProjectService {
 		$qb->orderBy($sqlOrder, 'ASC');
 		$req = $qb->execute();
 
-		if ($order === 'lowername') {
-			while ($row = $req->fetch()){
-				$dbMemberId = intval($row['id']);
-				$dbWeight = floatval($row['weight']);
-				$dbUserid = $row['userid'];
-				$dbName = $row['name'];
-				$dbActivated = intval($row['activated']);
-				$dbLastchanged = intval($row['lastchanged']);
-				$dbColor = $row['color'];
-				if ($dbColor === null) {
-					$av = $this->avatarManager->getGuestAvatar($dbName);
-					$dbColor = $av->avatarBackgroundColor($dbName);
-				} else {
-					$dbColor = $this->hexToRgb($dbColor);
-				}
-
-				// find index to make sorted insert
-				$ii = 0;
-				while ($ii < count($members) && strcmp(strtolower($dbName), strtolower($members[$ii]['name'])) > 0) {
-					$ii++;
-				}
-
-				array_splice(
-					$members,
-					$ii,
-					0,
-					[[
-						'activated' => ($dbActivated === 1),
-						'userid' => $dbUserid,
-						'name' => $dbName,
-						'id' => $dbMemberId,
-						'weight' => $dbWeight,
-						'color' => $dbColor,
-						'lastchanged' => $dbLastchanged
-					]]
-				);
+		while ($row = $req->fetch()){
+			$dbMemberId = intval($row['id']);
+			$dbWeight = floatval($row['weight']);
+			$dbUserid = $row['userid'];
+			$dbName = $row['name'];
+			$dbActivated = intval($row['activated']);
+			$dbLastchanged = intval($row['lastchanged']);
+			$dbColor = $row['color'];
+			if ($dbColor === null) {
+				$av = $this->avatarManager->getGuestAvatar($dbName);
+				$dbColor = $av->avatarBackgroundColor($dbName);
+			} else {
+				$dbColor = $this->hexToRgb($dbColor);
 			}
-		} else {
-			while ($row = $req->fetch()){
-				$dbMemberId = intval($row['id']);
-				$dbWeight = floatval($row['weight']);
-				$dbUserid = $row['userid'];
-				$dbName = $row['name'];
-				$dbActivated = intval($row['activated']);
-				$dbLastchanged = intval($row['lastchanged']);
-				$dbColor = $row['color'];
-				if ($dbColor === null) {
-					$av = $this->avatarManager->getGuestAvatar($dbName);
-					$dbColor = $av->avatarBackgroundColor($dbName);
-				} else {
-					$dbColor = $this->hexToRgb($dbColor);
-				}
 
-				$members[] = [
-					'activated' => ($dbActivated === 1),
-					'userid' => $dbUserid,
-					'name' => $dbName,
-					'id' => $dbMemberId,
-					'weight' => $dbWeight,
-					'color' => $dbColor,
-					'lastchanged' => $dbLastchanged
-				];
-			}
+			$members[] = [
+				'activated' => ($dbActivated === 1),
+				'userid' => $dbUserid,
+				'name' => $dbName,
+				'id' => $dbMemberId,
+				'weight' => $dbWeight,
+				'color' => $dbColor,
+				'lastchanged' => $dbLastchanged
+			];
 		}
 		$req->closeCursor();
 		$qb = $qb->resetQueryParts();

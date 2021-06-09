@@ -192,8 +192,6 @@ class ProjectService {
 						// if not, are circles enabled and is the project shared with a circle containing the user?
 						$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 						if ($circlesEnabled) {
-							$dbCircleId = null;
-
 							$qb->select('userid')
 								->from('cospend_shares', 's')
 								->where(
@@ -292,8 +290,6 @@ class ProjectService {
 				// are circles enabled and is the project shared with a circle containing the user
 				$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 				if ($circlesEnabled) {
-					$dbCircleId = null;
-
 					$qb->select('userid', 'accesslevel')
 						->from('cospend_shares', 's')
 						->where(
@@ -2155,30 +2151,35 @@ class ProjectService {
 	 * Check if a user is member of a given circle
 	 *
 	 * @param string $userId
+	 * @param string $circleId
 	 * @return bool
 	 */
-	private function isUserInCircle(string $userId, $circleId): bool {
-		$circleDetails = null;
+	private function isUserInCircle(string $userId, string $circleId): bool {
+		$circlesManager = \OC::$server->get(\OCA\Circles\CirclesManager::class);
+		$circlesManager->startSuperSession();
 		try {
-			$circleDetails = \OCA\Circles\Api\v1\Circles::detailsCircle($circleId);
+			$circle = $circlesManager->getCircle($circleId);
+		} catch (\OCA\Circles\Exceptions\CircleNotFoundException $e) {
+			$circlesManager->stopSession();
+			return false;
 		}
-		catch (\OCA\Circles\Exceptions\CircleDoesNotExistException $e) {
-		}
-		if ($circleDetails) {
-			// is the circle owner
-			if ($circleDetails->getOwner()->getUserId() === $userId) {
-				return true;
-			} else {
-				if ($circleDetails->getMembers() !== null) {
-					foreach ($circleDetails->getMembers() as $m) {
-						// is member of this circle
-						if ($m->getUserId() === $userId) {
-							return true;
-						}
-					}
+		// is the circle owner
+		$owner = $circle->getOwner();
+		// the owner is also a member so this might be useless...
+		if ($owner->getUserType() === 1 && $owner->getUserId() === $userId) {
+			$circlesManager->stopSession();
+			return true;
+		} else {
+			$members = $circle->getMembers();
+			foreach ($members as $m) {
+				// is member of this circle
+				if ($m->getUserType() === 1 && $m->getUserId() === $userId) {
+					$circlesManager->stopSession();
+					return true;
 				}
 			}
 		}
+		$circlesManager->stopSession();
 		return false;
 	}
 
@@ -2607,17 +2608,10 @@ class ProjectService {
 
 		$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 		if ($circlesEnabled) {
-			try {
-				$circleIdToName = [];
-				$cs = \OCA\Circles\Api\v1\Circles::listCircles(\OCA\Circles\Model\Circle::CIRCLES_ALL, '', 0);
-				foreach ($cs as $c) {
-					$circleUniqueId = $c->getUniqueId();
-					$circleName = $c->getName();
-					$circleIdToName[$circleUniqueId] = $circleName;
-				}
-
-				$qb = $this->db->getQueryBuilder();
-				$qb->select('projectid', 'userid', 'id', 'accesslevel')
+			$circlesManager = \OC::$server->get(\OCA\Circles\CirclesManager::class);
+			$circlesManager->startSuperSession();
+			$qb = $this->db->getQueryBuilder();
+			$qb->select('projectid', 'userid', 'id', 'accesslevel')
 				->from('cospend_shares', 'sh')
 				->where(
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -2625,27 +2619,26 @@ class ProjectService {
 				->andWhere(
 					$qb->expr()->eq('type', $qb->createNamedParameter('c', IQueryBuilder::PARAM_STR))
 				);
-				$req = $qb->executeQuery();
-				while ($row = $req->fetch()){
-					$dbCircleId = $row['userid'];
-					$dbprojectId = $row['projectid'];
-					$dbId = $row['id'];
-					$dbAccessLevel = intval($row['accesslevel']);
-					if (array_key_exists($dbCircleId, $circleIdToName)) {
-						$shares[] = [
-							'circleid' => $dbCircleId,
-							'name' => $circleIdToName[$dbCircleId],
-							'id' => $dbId,
-							'accesslevel' => $dbAccessLevel,
-							'type' => 'c',
-						];
-					}
+			$req = $qb->executeQuery();
+			while ($row = $req->fetch()) {
+				$dbCircleId = $row['userid'];
+				$dbId = $row['id'];
+				$dbAccessLevel = intval($row['accesslevel']);
+				try {
+					$circle = $circlesManager->getCircle($dbCircleId);
+					$shares[] = [
+						'circleid' => $dbCircleId,
+						'name' => $circle->getDisplayName(),
+						'id' => $dbId,
+						'accesslevel' => $dbAccessLevel,
+						'type' => 'c',
+					];
+				} catch (\OCA\Circles\Exceptions\CircleNotFoundException $e) {
 				}
-				$req->closeCursor();
-				$qb = $qb->resetQueryParts();
-			} catch (\Throwable $e) {
-				return [];
 			}
+			$req->closeCursor();
+			$qb = $qb->resetQueryParts();
+			$circlesManager->stopSession();
 		}
 		return $shares;
 	}
@@ -4067,18 +4060,18 @@ class ProjectService {
 		$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 		$circleName = '';
 		if ($circlesEnabled) {
-			$cs = \OCA\Circles\Api\v1\Circles::listCircles(\OCA\Circles\Model\Circle::CIRCLES_ALL, '', 0);
-			$exists = false;
-			foreach ($cs as $c) {
-				if ($c->getUniqueId() === $circleid) {
-					if ($c->getType() === \OCA\Circles\Model\Circle::CIRCLES_PERSONAL) {
-						return ['message' => $this->trans->t('Sharing with personal circles is not supported')];
-					} else {
-						$exists = true;
-						$circleName = $c->getName();
-					}
-				}
+			$circlesManager = \OC::$server->get(\OCA\Circles\CirclesManager::class);
+			$circlesManager->startSuperSession();
+
+			$exists = true;
+			$circleName = '';
+			try {
+				$circle = $circlesManager->getCircle($circleid);
+				$circleName = $circle->getDisplayName();
+			} catch (\OCA\Circles\Exceptions\CircleNotFoundException $e) {
+				$exists = false;
 			}
+
 			if ($circleid !== '' && $exists) {
 				$qb = $this->db->getQueryBuilder();
 				// check if circle share exists
@@ -4122,14 +4115,17 @@ class ProjectService {
 						['who' => $circleid, 'type' => 'c']
 					);
 
+					$circlesManager->stopSession();
 					return [
 						'id' => $insertedShareId,
 						'name' => $circleName,
 					];
 				} else {
+					$circlesManager->stopSession();
 					return ['message' => $this->trans->t('Already shared with this circle')];
 				}
 			} else {
+				$circlesManager->stopSession();
 				return ['message' => $this->trans->t('No such circle')];
 			}
 		} else {

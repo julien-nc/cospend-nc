@@ -334,11 +334,9 @@ class PageController extends ApiController {
 			   ->where(
 				   $qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			   );
-			$req = $qb->execute();
-			$dbid = null;
+			$req = $qb->executeQuery();
 			$dbPassword = null;
 			while ($row = $req->fetch()){
-				$dbid = $row['id'];
 				$dbPassword = $row['password'];
 				break;
 			}
@@ -416,8 +414,8 @@ class PageController extends ApiController {
 			}
 		} else {
 			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to delete this bill')]
-				, 403
+				['message' => $this->trans->t('You are not allowed to delete this bill')],
+				403
 			);
 			return $response;
 		}
@@ -448,29 +446,10 @@ class PageController extends ApiController {
 				}
 			}
 			return new DataResponse('OK');
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to delete this bill')]
-				, 403
-			);
-			return $response;
-		}
-	}
-
-	/**
-	 * @NoAdminRequired
-	 *
-	 */
-	public function webGetProjectInfo($projectid) {
-		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-			$projectInfo = $this->projectService->getProjectInfo($projectid);
-			$response = new DataResponse($projectInfo);
-			return $response;
 		} else {
 			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to get this project\'s info')]
-				, 403
+				['message' => $this->trans->t('You are not allowed to delete this bill')],
+				403
 			);
 			return $response;
 		}
@@ -480,21 +459,36 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 *
 	 */
-	public function webGetProjectStatistics($projectid, $tsMin=null, $tsMax=null, $paymentMode=null, $category=null,
-											$amountMin=null, $amountMax=null, string $showDisabled = '1', $currencyId=null) {
+	public function webGetProjectInfo(string $projectid): DataResponse {
+		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+			$projectInfo = $this->projectService->getProjectInfo($projectid);
+			return new DataResponse($projectInfo);
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to get this project\'s info')],
+				403
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 */
+	public function webGetProjectStatistics(string $projectid, ?int $tsMin = null, ?int $tsMax = null, ?string $paymentMode = null,
+											?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
+											string $showDisabled = '1', ?int $currencyId = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			$result = $this->projectService->getProjectStatistics(
 				$projectid, 'lowername', $tsMin, $tsMax, $paymentMode,
 				$category, $amountMin, $amountMax, $showDisabled === '1', $currencyId
 			);
 			return new DataResponse($result);
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to get this project\'s statistics')]
-				, 403
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to get this project\'s statistics')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -502,17 +496,16 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 *
 	 */
-	public function webGetProjectSettlement(string $projectid, ?int $centeredOn = null, ?int $maxTimestamp = null) {
+	public function webGetProjectSettlement(string $projectid, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			$result = $this->projectService->getProjectSettlement($projectid, $centeredOn, $maxTimestamp);
 			return new DataResponse($result);
 		}
 		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to get this project\'s settlement')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to get this project\'s settlement')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -520,7 +513,7 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 *
 	 */
-	public function webAutoSettlement(string $projectid, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null) {
+	public function webAutoSettlement(string $projectid, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			$result = $this->projectService->autoSettlement($projectid, $centeredOn, $precision, $maxTimestamp);
 			if (isset($result['success'])) {
@@ -529,11 +522,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 403);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to settle this project automatically')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to settle this project automatically')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -541,16 +533,14 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 *
 	 */
-	public function webCheckPassword($projectid, $password) {
+	public function webCheckPassword(string $projectid, string $password): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			return new DataResponse($this->checkLogin($projectid, $password));
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to access this project')]
-				, 403
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to access this project')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -559,7 +549,8 @@ class PageController extends ApiController {
 	 *
 	 */
 	public function webEditMember(string $projectid, int $memberid, ?string $name = null,
-								?float $weight = null, $activated = null, ?string $color = null, ?string $userid = null) {
+								?float $weight = null, $activated = null, ?string $color = null,
+								?string $userid = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
 			if ($activated === 'true') {
 				$activated = true;
@@ -575,11 +566,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to edit this member')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to edit this member')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -587,10 +577,10 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 *
 	 */
-	public function webEditBill($projectid, $billid, $date, $what, $payer, $payed_for,
-								$amount, $repeat, $paymentmode=null, $categoryid=null,
-								$repeatallactive=null, $repeatuntil=null, $timestamp=null,
-								$comment=null, ?int $repeatfreq = null): DataResponse {
+	public function webEditBill(string $projectid, int $billid, ?string $date = null, ?string $what = null, ?int $payer = null,
+								?string $payed_for = null, ?float $amount = null, ?string $repeat = null, ?string $paymentmode = null,
+								?int $categoryid = null, ?int $repeatallactive = null, ?string $repeatuntil = null,
+								?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		if ($userAccessLevel >= ACCESS_PARTICIPANT) {
 			$result =  $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
@@ -609,11 +599,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to edit this bill')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to edit this bill')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -626,13 +615,11 @@ class PageController extends ApiController {
 		if ($userAccessLevel >= ACCESS_PARTICIPANT) {
 			$result = $this->projectService->cronRepeatBills($billid);
 			return new DataResponse($result);
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to add bills')]
-				, 403
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to add bills')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -640,11 +627,11 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 *
 	 */
-	public function webEditBills($projectid, $billIds, $categoryid, $date=null,
-								$what=null, $payer=null, $payed_for=null,
-								$amount=null, $repeat=null, $paymentmode=null,
-								$repeatallactive=null, $repeatuntil=null, $timestamp=null,
-								$comment=null, ?int $repeatfreq = null) {
+	public function webEditBills(string $projectid, array $billIds, ?int $categoryid = null, ?string $date = null,
+								?string $what = null, ?int $payer = null, ?string $payed_for = null,
+								?float $amount = null, ?string $repeat = null, ?string $paymentmode = null,
+								?int $repeatallactive = null, ?string $repeatuntil = null, ?int $timestamp = null,
+								?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		if ($userAccessLevel >= ACCESS_PARTICIPANT) {
 			foreach ($billIds as $billid) {
@@ -663,13 +650,11 @@ class PageController extends ApiController {
 				}
 			}
 			return new DataResponse($billIds);
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to edit this bill')]
-				, 403
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to edit this bill')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -688,11 +673,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to edit this project')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to edit this project')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -700,9 +684,10 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 *
 	 */
-	public function webAddBill(string $projectid, $date, string $what, $payer, $payed_for, float $amount,
-							   $repeat, $paymentmode = null, $categoryid = null, $repeatallactive = 0,
-							   $repeatuntil = null, $timestamp = null, $comment = null, ?int $repeatfreq = null): DataResponse {
+	public function webAddBill(string $projectid, ?string $date = null, ?string $what = null, ?int $payer = null, ?string $payed_for = null,
+							?float $amount = null, ?string $repeat = null, ?string $paymentmode = null, ?int $categoryid = null,
+							?int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null, ?string $comment = null,
+							?int $repeatfreq = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
 			$result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
 													 $repeat, $paymentmode, $categoryid, $repeatallactive,
@@ -714,17 +699,15 @@ class PageController extends ApiController {
 					ActivityManager::SUBJECT_BILL_CREATE,
 					[]
 				);
-
 				return new DataResponse($result['inserted_id']);
 			} else {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to add bills')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to add bills')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -742,11 +725,10 @@ class PageController extends ApiController {
 				return new DataResponse($result['error'], 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to add members')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to add members')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -754,7 +736,8 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 *
 	 */
-	public function webGetBills(string $projectid, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false) {
+	public function webGetBills(string $projectid, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null,
+								bool $reverse = false): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			if ($limit) {
 				$bills = $this->projectService->getBillsWithLimit(
@@ -769,15 +752,12 @@ class PageController extends ApiController {
 				'nb_bills' => $this->projectService->getNbBills($projectid),
 				'bills' => $bills,
 			];
-			$response = new DataResponse($result);
-			return $response;
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to get the bill list')]
-				, 403
+			return new DataResponse($result);
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to get the bill list')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -786,11 +766,10 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 *
 	 */
-	public function webGetProjects() {
-		$response = new DataResponse(
+	public function webGetProjects(): DataResponse {
+		return new DataResponse(
 			$this->projectService->getProjects($this->userId)
 		);
-		return $response;
 	}
 
 	/**
@@ -798,17 +777,13 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 *
 	 */
-	public function webGetProjects2() {
-		$response = new DataResponse(
+	public function webGetProjects2(): DataResponse {
+		return new DataResponse(
 			$this->projectService->getProjects($this->userId)
 		);
-		return $response;
 	}
 
 	/**
-	 * curl -X POST https://ihatemoney.org/api/projects \
-	 *   -d 'name=yay&id=yay&password=yay&contact_email=yay@notmyidea.org'
-	 *   "yay"
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 * @PublicPage
@@ -825,8 +800,8 @@ class PageController extends ApiController {
 			}
 		} else {
 			return new DataResponse(
-				['message' => $this->trans->t('Anonymous project creation is not allowed on this server')]
-				, 403
+				['message' => $this->trans->t('Anonymous project creation is not allowed on this server')],
+				403
 			);
 		}
 	}
@@ -851,7 +826,7 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiGetProjectInfo($projectid, $password) {
+	public function apiGetProjectInfo(string $projectid, string $password): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
 			$projectInfo = $this->projectService->getProjectInfo($projectid);
@@ -862,21 +837,17 @@ class PageController extends ApiController {
 					$projectInfo['myaccesslevel'] = $publicShareInfo['accesslevel'];
 				}
 				return new DataResponse($projectInfo);
-			}
-			else {
-				$response = new DataResponse(
-					['message' => $this->trans->t('Project not found')]
-					, 404
+			} else {
+				return new DataResponse(
+					['message' => $this->trans->t('Project not found')],
+					404
 				);
-				return $response;
 			}
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Bad password or public link')]
-				, 400
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('Bad password or public link')],
+				400
 			);
-			return $response;
 		}
 	}
 
@@ -885,27 +856,23 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivGetProjectInfo($projectid) {
+	public function apiPrivGetProjectInfo(string $projectid): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			$projectInfo = $this->projectService->getProjectInfo($projectid);
 			if ($projectInfo !== null) {
 				unset($projectInfo['userid']);
 				return new DataResponse($projectInfo);
-			}
-			else {
-				$response = new DataResponse(
-					['message' => $this->trans->t('Project not found')]
-					, 404
+			} else {
+				return new DataResponse(
+					['message' => $this->trans->t('Project not found')],
+					404
 				);
-				return $response;
 			}
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 403
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -930,11 +897,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 401
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -954,11 +920,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 401
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -968,19 +933,16 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiGetMembers($projectid, $password, $lastchanged=null) {
+	public function apiGetMembers(string $projectid, string $password, ?int $lastchanged = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
 			$members = $this->projectService->getMembers($projectid, null, $lastchanged);
-			$response = new DataResponse($members);
-			return $response;
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 401
+			return new DataResponse($members);
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -989,18 +951,15 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivGetMembers($projectid, $lastchanged=null) {
+	public function apiPrivGetMembers(string $projectid, ?int $lastchanged = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			$members = $this->projectService->getMembers($projectid, null, $lastchanged);
-			$response = new DataResponse($members);
-			return $response;
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 403
+			return new DataResponse($members);
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -1010,7 +969,8 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiGetBills($projectid, $password, $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false) {
+	public function apiGetBills(string $projectid, string $password, ?int $lastchanged = null,
+								?int $offset = 0, ?int $limit = null, bool $reverse = false): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
 			if ($limit) {
@@ -1022,15 +982,12 @@ class PageController extends ApiController {
 					$projectid, null, null, null, null, null, null, $lastchanged, null, $reverse
 				);
 			}
-			$response = new DataResponse($bills);
-			return $response;
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 401
+			return new DataResponse($bills);
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -1040,7 +997,8 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiv3GetBills($projectid, $password, $lastchanged = null, ?int $offset = 0, ?int $limit = null, bool $reverse = false) {
+	public function apiv3GetBills(string $projectid, string $password, ?int $lastchanged = null,
+								?int $offset = 0, ?int $limit = null, bool $reverse = false): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
 			if ($limit) {
@@ -1056,15 +1014,12 @@ class PageController extends ApiController {
 				'nb_bills' => $this->projectService->getNbBills($projectid),
 				'bills' => $bills,
 			];
-			$response = new DataResponse($result);
-			return $response;
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 401
+			return new DataResponse($result);
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -1073,24 +1028,21 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivGetBills($projectid, $lastchanged=null) {
+	public function apiPrivGetBills(string $projectid, ?int $lastchanged = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			$bills = $this->projectService->getBills($projectid, null, null, null, null, null, null, $lastchanged);
 			$billIds = $this->projectService->getAllBillIds($projectid);
 			$ts = (new \DateTime())->getTimestamp();
-			$response = new DataResponse([
+			return new DataResponse([
 				'bills' => $bills,
 				'allBillIds' => $billIds,
-				'timestamp' => $ts
+				'timestamp' => $ts,
 			]);
-			return $response;
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 403
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -1100,25 +1052,22 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiv2GetBills($projectid, $password, $lastchanged=null) {
+	public function apiv2GetBills(string $projectid, string $password, ?int $lastchanged = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
 			$bills = $this->projectService->getBills($projectid, null, null, null, null, null, null, $lastchanged);
 			$billIds = $this->projectService->getAllBillIds($projectid);
 			$ts = (new \DateTime())->getTimestamp();
-			$response = new DataResponse([
+			return new DataResponse([
 				'bills' => $bills,
 				'allBillIds' => $billIds,
-				'timestamp' => $ts
+				'timestamp' => $ts,
 			]);
-			return $response;
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 401
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -1128,7 +1077,8 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiAddMember(string $projectid, string $password, string $name, float $weight = 1, int $active = 1, ?string $color = null) {
+	public function apiAddMember(string $projectid, string $password, string $name,
+								float $weight = 1, int $active = 1, ?string $color = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if (
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
@@ -1141,11 +1091,10 @@ class PageController extends ApiController {
 				return new DataResponse($result['error'], 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to add members')]
-				, 401
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to add members')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -1169,11 +1118,10 @@ class PageController extends ApiController {
 				return new DataResponse($result['error'], 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to add members')]
-				, 401
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to add members')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -1192,11 +1140,10 @@ class PageController extends ApiController {
 				return new DataResponse($result['error'], 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to add members')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to add members')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -1206,10 +1153,10 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiAddBill(string $projectid, string $password, $date, string $what, $payer, $payed_for,
-							   float $amount, string $repeat = 'n', $paymentmode = null, $categoryid = null,
-							   $repeatallactive = 0, $repeatuntil = null, $timestamp = null, $comment = null,
-							   ?int $repeatfreq = null): DataResponse {
+	public function apiAddBill(string $projectid, string $password, ?string $date = null, ?string $what = null, ?int $payer = null,
+							?string $payed_for = null, ?float $amount = null, string $repeat = 'n', ?string $paymentmode = null,
+							?int $categoryid = null, ?int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
+							?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if (
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
@@ -1230,11 +1177,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to add bills')]
-				, 401
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to add bills')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -1243,9 +1189,10 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivAddBill($projectid, $date, $what, $payer, $payed_for,
-							   $amount, $repeat='n', $paymentmode=null, $categoryid=null,
-							   $repeatallactive=0, $repeatuntil=null, $timestamp=null, $comment=null, ?int $repeatfreq = null) {
+	public function apiPrivAddBill(string $projectid, ?string $date = null, ?string $what = null, ?int $payer = null,
+								?string $payed_for = null, ?float $amount = null, string $repeat = 'n', ?string $paymentmode = null,
+								?int $categoryid = null, ?int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
+								?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
 			$result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
 													 $repeat, $paymentmode, $categoryid, $repeatallactive,
@@ -1258,17 +1205,14 @@ class PageController extends ApiController {
 					[]
 				);
 				return new DataResponse($result['inserted_id']);
-			}
-			else {
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to add bills')]
-				, 403
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to add bills')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -1286,13 +1230,11 @@ class PageController extends ApiController {
 		) {
 			$result = $this->projectService->cronRepeatBills($billid);
 			return new DataResponse($result);
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to add bills')]
-				, 401
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to add bills')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -1302,9 +1244,11 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiEditBill($projectid, $password, $billid, $date, $what, $payer, $payed_for,
-								$amount, $repeat='n', $paymentmode=null, $categoryid=null,
-								$repeatallactive=null, $repeatuntil=null, $timestamp=null, $comment=null, ?int $repeatfreq = null): DataResponse {
+	public function apiEditBill(string $projectid, string $password, int $billid, ?string $date = null, ?string $what = null,
+								?int $payer = null, ?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
+								?string $paymentmode = null, ?int $categoryid = null, ?int $repeatallactive = null,
+								?string $repeatuntil = null, ?int $timestamp = null, ?string $comment = null,
+								?int $repeatfreq = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if (
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
@@ -1326,11 +1270,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to edit this bill')]
-				, 401
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to edit this bill')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -1340,10 +1283,11 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiEditBills($projectid, $password, $billIds, $categoryid, $date=null,
-								$what=null, $payer=null, $payed_for=null,
-								$amount=null, $repeat='n', $paymentmode=null,
-								$repeatallactive=null, $repeatuntil=null, $timestamp=null, $comment=null, ?int $repeatfreq = null): DataResponse {
+	public function apiEditBills(string $projectid, string $password, array $billIds, ?int $categoryid = null, ?string $date = null,
+								?string $what = null, ?int $payer = null, ?string $payed_for = null, ?float $amount = null,
+								?string $repeat = 'n', ?string $paymentmode = null, ?int $repeatallactive = null,
+								?string $repeatuntil = null, ?int $timestamp = null, ?string $comment = null,
+								?int $repeatfreq = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if (
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
@@ -1366,11 +1310,10 @@ class PageController extends ApiController {
 			}
 			return new DataResponse($result);
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to edit this bill')]
-				, 401
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to edit this bill')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -1379,9 +1322,11 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivEditBill($projectid, $billid, $date, $what, $payer, $payed_for,
-								$amount, $repeat='n', $paymentmode=null, $categoryid=null,
-								$repeatallactive=null, $repeatuntil=null, $timestamp=null, $comment=null, ?int $repeatfreq = null): DataResponse {
+	public function apiPrivEditBill(string $projectid, int $billid, ?string $date = null, ?string $what = null,
+								?int $payer = null, ?string $payed_for = null, ?float $amount = null, ?string $repeat = 'n',
+								?string $paymentmode = null, ?int $categoryid = null, ?int $repeatallactive = null,
+								?string $repeatuntil = null, ?int $timestamp = null, ?string $comment=null,
+								?int $repeatfreq = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
 			$result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
 													  $amount, $repeat, $paymentmode, $categoryid,
@@ -1399,11 +1344,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -1438,11 +1382,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 404);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 401
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -1479,11 +1422,10 @@ class PageController extends ApiController {
 			}
 			return new DataResponse('OK');
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 401
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -1514,8 +1456,8 @@ class PageController extends ApiController {
 			}
 		} else {
 			return new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 403
+				['message' => $this->trans->t('Unauthorized action')],
+				403
 			);
 		}
 	}
@@ -1539,11 +1481,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 404);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 401
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -1561,11 +1502,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 404);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -1644,11 +1584,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 403);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 401
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -1674,11 +1613,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 403);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -1688,23 +1626,22 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiGetProjectStatistics($projectid, $password, $tsMin=null, $tsMax=null, $paymentMode=null,
-											$category=null, $amountMin=null, $amountMax=null, string $showDisabled = '1', $currencyId=null) {
+	public function apiGetProjectStatistics(string $projectid, string $password, ?int $tsMin = null, ?int $tsMax = null,
+											?string $paymentMode = null, ?int $category = null,
+											?float $amountMin = null, ?float $amountMax=null,
+											string $showDisabled = '1', ?int $currencyId = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
 			$result = $this->projectService->getProjectStatistics(
 				$projectid, 'lowername', $tsMin, $tsMax, $paymentMode,
 				$category, $amountMin, $amountMax, $showDisabled === '1', $currencyId
 			);
-			$response = new DataResponse($result);
-			return $response;
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 401
+			return new DataResponse($result);
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -1713,22 +1650,20 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivGetProjectStatistics($projectid, $tsMin=null, $tsMax=null, $paymentMode=null,
-											$category=null, $amountMin=null, $amountMax=null, string $showDisabled = '1', $currencyId=null) {
+	public function apiPrivGetProjectStatistics(string $projectid, ?int $tsMin = null, ?int $tsMax = null, ?string $paymentMode = null,
+											?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
+											string $showDisabled = '1', ?int $currencyId = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			$result = $this->projectService->getProjectStatistics(
 				$projectid, 'lowername', $tsMin, $tsMax, $paymentMode,
 				$category, $amountMin, $amountMax, $showDisabled === '1', $currencyId
 			);
-			$response = new DataResponse($result);
-			return $response;
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 403
+			return new DataResponse($result);
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -1738,19 +1673,16 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiGetProjectSettlement(string $projectid, string $password, ?int $centeredOn = null, ?int $maxTimestamp = null) {
+	public function apiGetProjectSettlement(string $projectid, string $password, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
 			$result = $this->projectService->getProjectSettlement($projectid, $centeredOn, $maxTimestamp);
-			$response = new DataResponse($result);
-			return $response;
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 401
+			return new DataResponse($result);
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -1759,18 +1691,15 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivGetProjectSettlement(string $projectid, ?int $centeredOn = null, ?int $maxTimestamp = null) {
+	public function apiPrivGetProjectSettlement(string $projectid, ?int $centeredOn = null, ?int $maxTimestamp = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			$result = $this->projectService->getProjectSettlement($projectid, $centeredOn, $maxTimestamp);
-			$response = new DataResponse($result);
-			return $response;
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 403
+			return new DataResponse($result);
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -1780,7 +1709,8 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiAutoSettlement(string $projectid, string $password, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null) {
+	public function apiAutoSettlement(string $projectid, string $password, ?int $centeredOn = null,
+									int $precision = 2, ?int $maxTimestamp = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if (
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_PARTICIPANT)
@@ -1793,11 +1723,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 403);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 401
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -1806,7 +1735,7 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivAutoSettlement(string $projectid, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null) {
+	public function apiPrivAutoSettlement(string $projectid, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
 			$result = $this->projectService->autoSettlement($projectid, $centeredOn, $precision, $maxTimestamp);
 			if (isset($result['success'])) {
@@ -1815,11 +1744,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 403);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('Unauthorized action')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('Unauthorized action')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -1839,11 +1767,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to give such shared access level')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to give such shared access level')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -1860,11 +1787,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to edit guest access level')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to edit guest access level')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -1874,10 +1800,10 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiEditGuestAccessLevel($projectid, $password, $accesslevel) {
+	public function apiEditGuestAccessLevel($projectid, $password, $accesslevel): DataResponse {
 		$response = new DataResponse(
-			['message' => $this->trans->t('You are not allowed to edit guest access level')]
-			, 403
+			['message' => $this->trans->t('You are not allowed to edit guest access level')],
+			403
 		);
 		return $response;
 		//if ($this->checkLogin($projectid, $password)) {
@@ -1892,19 +1818,17 @@ class PageController extends ApiController {
 		//        }
 		//    }
 		//    else {
-		//        $response = new DataResponse(
-		//            ['message' => $this->trans->t('You are not allowed to give such access level')]
-		//            , 403
+		//        return new DataResponse(
+		//            ['message' => $this->trans->t('You are not allowed to give such access level')],
+		//				403
 		//        );
-		//        return $response;
 		//    }
 		//}
 		//else {
-		//    $response = new DataResponse(
-		//        ['message' => $this->trans->t('You are not allowed to access this project')]
-		//        , 403
+		//    return new DataResponse(
+		//        ['message' => $this->trans->t('You are not allowed to access this project')],
+		//			403
 		//    );
-		//    return $response;
 		//}
 	}
 
@@ -1959,7 +1883,7 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivAddCategory($projectid, $name, $icon, $color) {
+	public function apiPrivAddCategory(string $projectid, string $name, ?string $icon = null, ?string $color = null) {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
 			$result = $this->projectService->addCategory($projectid, $name, $icon, $color);
 			if (is_numeric($result)) {
@@ -1969,20 +1893,19 @@ class PageController extends ApiController {
 			else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage categories')]
-				, 403
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage categories')],
+				403
 			);
-			return $response;
 		}
 	}
 
 	/**
 	 * @NoAdminRequired
 	 */
-	public function editCategory(string $projectid, int $categoryid, $name, $icon, $color): DataResponse {
+	public function editCategory(string $projectid, int $categoryid, ?string $name = null,
+								?string $icon = null, ?string $color = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
 			$result = $this->projectService->editCategory($projectid, $categoryid, $name, $icon, $color);
 			if (is_array($result)) {
@@ -2022,7 +1945,8 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiEditCategory($projectid, $password, $categoryid, $name, $icon, $color) {
+	public function apiEditCategory(string $projectid, string $password, int $categoryid, ?string $name = null,
+									?string $icon = null, ?string $color = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if (
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
@@ -2035,13 +1959,11 @@ class PageController extends ApiController {
 			else {
 				return new DataResponse($result, 403);
 			}
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage categories')]
-				, 401
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage categories')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -2075,22 +1997,20 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivEditCategory($projectid, $categoryid, $name, $icon, $color) {
+	public function apiPrivEditCategory(string $projectid, int $categoryid, ?string $name = null,
+										?string $icon = null, ?string $color = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
 			$result = $this->projectService->editCategory($projectid, $categoryid, $name, $icon, $color);
 			if (is_array($result)) {
 				return new DataResponse($result);
-			}
-			else {
+			} else {
 				return new DataResponse($result, 403);
 			}
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage categories')]
-				, 403
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage categories')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -2106,11 +2026,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage categories')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage categories')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -2120,7 +2039,7 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiDeleteCategory($projectid, $password, $categoryid): DataResponse {
+	public function apiDeleteCategory(string $projectid, string $password, int $categoryid): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if (
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
@@ -2133,11 +2052,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage categories')]
-				, 401
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage categories')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -2155,33 +2073,29 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage categories')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage categories')],
+				403
 			);
-			return $response;
 		}
 	}
 
 	/**
 	 * @NoAdminRequired
 	 */
-	public function addCurrency($projectid, $name, $rate) {
+	public function addCurrency(string $projectid, string $name, float $rate): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
 			$result = $this->projectService->addCurrency($projectid, $name, $rate);
 			if (is_numeric($result)) {
 				return new DataResponse($result);
-			}
-			else {
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage currencies')]
-				, 403
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage currencies')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -2191,7 +2105,7 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiAddCurrency($projectid, $password, $name, $rate) {
+	public function apiAddCurrency(string $projectid, string $password, string $name, float $rate): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if (
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
@@ -2201,17 +2115,14 @@ class PageController extends ApiController {
 			if (is_numeric($result)) {
 				// inserted currency id
 				return new DataResponse($result);
-			}
-			else {
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage currencies')]
-				, 401
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage currencies')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -2220,23 +2131,20 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivAddCurrency($projectid, $name, $rate) {
+	public function apiPrivAddCurrency(string $projectid, string $name, float $rate): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
 			$result = $this->projectService->addCurrency($projectid, $name, $rate);
 			if (is_numeric($result)) {
 				// inserted bill id
 				return new DataResponse($result);
-			}
-			else {
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage currencies')]
-				, 403
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage currencies')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -2252,11 +2160,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage currencies')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage currencies')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -2279,11 +2186,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 403);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage currencies')]
-				, 401
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage currencies')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -2301,11 +2207,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 403);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage currencies')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage currencies')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -2321,11 +2226,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage currencies')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage currencies')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -2348,11 +2252,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage currencies')]
-				, 401
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage currencies')],
+				401
 			);
-			return $response;
 		}
 	}
 
@@ -2370,11 +2273,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to manage currencies')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage currencies')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -2391,11 +2293,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to edit this project')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to edit this project')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -2414,11 +2315,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to remove this shared access')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to remove this shared access')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -2434,11 +2334,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to add public shared accesses')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to add public shared accesses')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -2456,11 +2355,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to remove this shared access')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to remove this shared access')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -2476,11 +2374,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to edit this project')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to edit this project')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -2499,18 +2396,17 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to remove this shared access')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to remove this shared access')],
+				403
 			);
-			return $response;
 		}
 	}
 
 	/**
 	 * @NoAdminRequired
 	 */
-	public function addCircleShare(string $projectid, $circleid): DataResponse {
+	public function addCircleShare(string $projectid, string $circleid): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
 			$result = $this->projectService->addCircleShare($projectid, $circleid, $this->userId);
 			if (!isset($result['message'])) {
@@ -2519,11 +2415,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to edit this project')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to edit this project')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -2542,11 +2437,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to remove this shared access')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to remove this shared access')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -2603,11 +2497,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to export this project settlement')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to export this project settlement')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -2627,18 +2520,17 @@ class PageController extends ApiController {
 				return new DataResponse($result, 400);
 			}
 		} else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to export this project statistics')]
-				, 403
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to export this project statistics')],
+				403
 			);
-			return $response;
 		}
 	}
 
 	/**
 	 * @NoAdminRequired
 	 */
-	public function exportCsvProject($projectid, $name=null, $uid=null) {
+	public function exportCsvProject(string $projectid, ?string $name = null, ?string $uid = null): DataResponse {
 		$userId = $uid;
 		if ($this->userId) {
 			$userId = $this->userId;
@@ -2646,19 +2538,16 @@ class PageController extends ApiController {
 
 		if ($this->projectService->userCanAccessProject($userId, $projectid)) {
 			$result = $this->projectService->exportCsvProject($projectid, $name, $userId);
-			if (is_array($result) && array_key_exists('path', $result)) {
+			if (isset($result['path'])) {
 				return new DataResponse($result);
-			}
-			else {
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
-			$response = new DataResponse(
-				['message' => $this->trans->t('You are not allowed to export this project')]
-				, 403
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to export this project')],
+				403
 			);
-			return $response;
 		}
 	}
 
@@ -2695,10 +2584,8 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function apiPing() {
-		$response = new DataResponse(
-			[$this->userId]
-		);
+	public function apiPing(): DataResponse {
+		$response = new DataResponse([$this->userId]);
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedImageDomain('*')
 			->addAllowedMediaDomain('*')
@@ -2710,12 +2597,11 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function getBillActivity(?int $since) {
+	public function getBillActivity(?int $since): DataResponse {
 		$result = $this->projectService->getBillActivity($this->userId, $since);
 		if (isset($result['error'])) {
 			return new DataResponse($result, 400);
-		}
-		else {
+		} else {
 			return new DataResponse($result);
 		}
 	}

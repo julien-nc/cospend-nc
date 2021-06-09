@@ -363,7 +363,7 @@ class ProjectService {
 	 * @param string $name
 	 */
 	public function createProject(string $name, string $id, ?string $password, ?string $contact_email, string $userid = '',
-								  bool $createDefaultCategories = true) {
+								  bool $createDefaultCategories = true): array {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('id')
@@ -422,9 +422,8 @@ class ProjectService {
 				}
 			}
 
-			return $id;
-		}
-		else {
+			return ['id' => $id];
+		} else {
 			return ['message' => $this->trans->t('A project with id "%1$s" already exists', [$id])];
 		}
 	}
@@ -4576,8 +4575,8 @@ class ProjectService {
 					$createDefaultCategories = (count($categories) === 0);
 					$projResult = $this->createProject($projectName, $projectid, '', $userEmail, $userId,
 													   $createDefaultCategories);
-					if (!is_string($projResult)) {
-						return ['message' => $this->trans->t('Error in project creation, %1$s', [$projResult['message']])];
+					if (!isset($projResult['id'])) {
+						return ['message' => $this->trans->t('Error in project creation, %1$s', [$projResult['message'] ?? ''])];
 					}
 					// set project main currency
 					if ($mainCurrencyName !== null) {
@@ -4766,8 +4765,8 @@ class ProjectService {
 					$createDefaultCategories = (count($categoryNames) === 0);
 					$projResult = $this->createProject($projectName, $projectid, '', $userEmail,
 													   $userId, $createDefaultCategories);
-					if (!is_string($projResult)) {
-						return ['message' => $this->trans->t('Error in project creation, %1$s', [$projResult['message']])];
+					if (!isset($projResult['id'])) {
+						return ['message' => $this->trans->t('Error in project creation, %1$s', [$projResult['message'] ?? ''])];
 					}
 					// add categories
 					$catIdToName = [];

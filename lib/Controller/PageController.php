@@ -11,8 +11,6 @@
 
 namespace OCA\Cospend\Controller;
 
-use OCP\App\IAppManager;
-
 use OCP\IConfig;
 use \OCP\IL10N;
 
@@ -24,11 +22,12 @@ use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\ApiController;
 use OCP\Constants;
-use OCP\Share;
+use OCP\Files\FileInfo;
+use OCP\Share\IShare;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IUserManager;
 use OCP\Share\IManager;
-use OCP\IServerContainer;
+use OCP\Files\IRootFolder;
 use OCP\IGroupManager;
 use Psr\Log\LoggerInterface;
 use OCP\IDBConnection;
@@ -59,10 +58,8 @@ class PageController extends ApiController {
 
 	public function __construct($AppName,
 								IRequest $request,
-								IServerContainer $serverContainer,
 								IConfig $config,
 								IManager $shareManager,
-								IAppManager $appManager,
 								IUserManager $userManager,
 								IGroupManager $groupManager,
 								IL10N $trans,
@@ -72,7 +69,8 @@ class PageController extends ApiController {
 								ProjectService $projectService,
 								ActivityManager $activityManager,
 								IDBConnection $dbconnection,
-								$UserId){
+								IRootFolder $root,
+								?string $userId){
 		parent::__construct($AppName, $request,
 							'PUT, POST, GET, DELETE, PATCH, OPTIONS',
 							'Authorization, Content-Type, Accept',
@@ -83,17 +81,14 @@ class PageController extends ApiController {
 		$this->projectMapper = $projectMapper;
 		$this->projectService = $projectService;
 		$this->appVersion = $config->getAppValue('cospend', 'installed_version');
-		$this->userId = $UserId;
+		$this->userId = $userId;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->activityManager = $activityManager;
 		$this->trans = $trans;
 		$this->config = $config;
+		$this->root = $root;
 		$this->dbconnection = $dbconnection;
-		if ($UserId !== null && $UserId !== '' && $serverContainer !== null){
-			// path of user files folder relative to DATA folder
-			$this->userfolder = $serverContainer->getUserFolder($UserId);
-		}
 		$this->shareManager = $shareManager;
 	}
 
@@ -102,13 +97,13 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function index() {
+	public function index(): TemplateResponse {
 		// PARAMS to view
 		$params = [
 			'projectid' => '',
 			'password' => '',
 			'username' => $this->userId,
-			'cospend_version' => $this->appVersion
+			'cospend_version' => $this->appVersion,
 		];
 		$response = new TemplateResponse('cospend', 'main', $params);
 		$csp = new ContentSecurityPolicy();
@@ -131,7 +126,7 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 */
-	public function pubLoginProjectPassword($projectid, $password='') {
+	public function pubLoginProjectPassword(string $projectid, string $password = ''): PublicTemplateResponse {
 		// PARAMS to view
 		$params = [
 			'projectid' => $projectid,
@@ -161,12 +156,12 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 */
-	public function pubLoginProject($projectid) {
+	public function pubLoginProject(string $projectid): PublicTemplateResponse {
 		// PARAMS to view
 		$params = [
 			'projectid' => $projectid,
 			'wrong' => false,
-			'cospend_version' => $this->appVersion
+			'cospend_version' => $this->appVersion,
 		];
 		$response = new PublicTemplateResponse('cospend', 'login', $params);
 		$response->setHeaderTitle($this->trans->t('Cospend public access'));
@@ -190,11 +185,11 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 */
-	public function pubLogin() {
+	public function pubLogin(): PublicTemplateResponse {
 		// PARAMS to view
 		$params = [
 			'wrong' => false,
-			'cospend_version' => $this->appVersion
+			'cospend_version' => $this->appVersion,
 		];
 		$response = new PublicTemplateResponse('cospend', 'login', $params);
 		$response->setHeaderTitle($this->trans->t('Cospend public access'));
@@ -218,14 +213,14 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 */
-	public function publicShareLinkPage($token) {
+	public function publicShareLinkPage(string $token): PublicTemplateResponse {
 		$result = $this->projectService->getProjectInfoFromShareToken($token);
 		if ($result['projectid'] !== null) {
 			// PARAMS to view
 			$params = [
 				'projectid' => $result['projectid'],
 				'password' => $token,
-				'cospend_version' => $this->appVersion
+				'cospend_version' => $this->appVersion,
 			];
 			$response = new PublicTemplateResponse('cospend', 'main', $params);
 			$response->setHeaderTitle($this->trans->t('Cospend public access'));
@@ -243,11 +238,10 @@ class PageController extends ApiController {
 				->addAllowedConnectDomain('*');
 			$response->setContentSecurityPolicy($csp);
 			return $response;
-		}
-		else {
+		} else {
 			$params = [
 				'wrong' => true,
-				'cospend_version' => $this->appVersion
+				'cospend_version' => $this->appVersion,
 			];
 			$response = new PublicTemplateResponse('cospend', 'login', $params);
 			$response->setHeaderTitle($this->trans->t('Cospend public access'));
@@ -272,13 +266,13 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 */
-	public function pubProject($projectid, $password) {
+	public function pubProject(string $projectid, string $password): PublicTemplateResponse {
 		if ($this->checkLogin($projectid, $password)) {
 			// PARAMS to view
 			$params = [
 				'projectid' => $projectid,
 				'password' => $password,
-				'cospend_version' => $this->appVersion
+				'cospend_version' => $this->appVersion,
 			];
 			$response = new PublicTemplateResponse('cospend', 'main', $params);
 			$response->setHeaderTitle($this->trans->t('Cospend public access'));
@@ -296,13 +290,12 @@ class PageController extends ApiController {
 				->addAllowedConnectDomain('*');
 			$response->setContentSecurityPolicy($csp);
 			return $response;
-		}
-		else {
+		} else {
 			//$response = new DataResponse(null, 403);
 			//return $response;
 			$params = [
 				'wrong' => true,
-				'cospend_version' => $this->appVersion
+				'cospend_version' => $this->appVersion,
 			];
 			$response = new PublicTemplateResponse('cospend', 'login', $params);
 			$response->setHeaderTitle($this->trans->t('Cospend public access'));
@@ -322,13 +315,19 @@ class PageController extends ApiController {
 		}
 	}
 
-	private function checkLogin($projectId, $password) {
-		if ($projectId === '' || $projectId === null ||
-			$password === '' || $password === null
+	/**
+	 * Check if project password is valid
+	 *
+	 * @param string $projectId
+	 * @param string $password
+	 * @return bool
+	 */
+	private function checkLogin(string $projectId, string $password): bool {
+		if ($projectId === '' || $projectId === null
+			|| $password === '' || $password === null
 		) {
 			return false;
-		}
-		else {
+		} else {
 			$qb = $this->dbconnection->getQueryBuilder();
 			$qb->select('id', 'password')
 			   ->from('cospend_projects', 'p')
@@ -358,16 +357,15 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 *
 	 */
-	public function webCreateProject($id, $name, $password) {
+	public function webCreateProject(string $id, string $name, ?string $password = null): DataResponse {
 		$user = $this->userManager->get($this->userId);
 		$userEmail = $user->getEMailAddress();
 		$result = $this->projectService->createProject($name, $id, $password, $userEmail, $this->userId);
-		if (is_string($result) && !is_array($result)) {
-			$projInfo = $this->projectService->getProjectInfo($result);
+		if (isset($result['id'])) {
+			$projInfo = $this->projectService->getProjectInfo($result['id']);
 			$projInfo['myaccesslevel'] = ACCESS_ADMIN;
 			return new DataResponse($projInfo);
-		}
-		else {
+		} else {
 			return new DataResponse($result, 400);
 		}
 	}
@@ -816,24 +814,20 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiCreateProject($name, $id, $password, $contact_email) {
+	public function apiCreateProject(string $name, string $id, ?string $password = null, ?string $contact_email = null): DataResponse {
 		$allow = intval($this->config->getAppValue('cospend', 'allowAnonymousCreation'));
 		if ($allow) {
 			$result = $this->projectService->createProject($name, $id, $password, $contact_email);
-			if (is_string($result) && !is_array($result)) {
-				// project id
-				return new DataResponse($result);
-			}
-			else {
+			if (isset($result['id'])) {
+				return new DataResponse($result['id']);
+			} else {
 				return new DataResponse($result, 400);
 			}
-		}
-		else {
-			$response = new DataResponse(
+		} else {
+			return new DataResponse(
 				['message' => $this->trans->t('Anonymous project creation is not allowed on this server')]
 				, 403
 			);
-			return $response;
 		}
 	}
 
@@ -842,13 +836,11 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivCreateProject($name, $id, $password, $contact_email) {
+	public function apiPrivCreateProject(string $name, string $id, ?string $password = null, ?string $contact_email = null): DataResponse {
 		$result = $this->projectService->createProject($name, $id, $password, $contact_email, $this->userId);
-		if (is_string($result) && !is_array($result)) {
-			// project id
-			return new DataResponse($result);
-		}
-		else {
+		if (isset($result['id'])) {
+			return new DataResponse($result['id']);
+		} else {
 			return new DataResponse($result, 400);
 		}
 	}
@@ -2563,13 +2555,13 @@ class PageController extends ApiController {
 	 */
 	public function getPublicFileShare(string $path): DataResponse {
 		$cleanPath = str_replace(array('../', '..\\'), '',  $path);
-		$userFolder = \OC::$server->getUserFolder();
+		$userFolder = $this->root->getUserFolder($this->userId);
 		if ($userFolder->nodeExists($cleanPath)) {
 			$file = $userFolder->get($cleanPath);
-			if ($file->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
+			if ($file->getType() === FileInfo::TYPE_FILE) {
 				if ($file->isShareable()) {
 					$shares = $this->shareManager->getSharesBy($this->userId,
-						\OCP\Share::SHARE_TYPE_LINK, $file, false, 1, 0);
+						IShare::TYPE_LINK, $file, false, 1, 0);
 					if (count($shares) > 0){
 						foreach($shares as $share){
 							if ($share->getPassword() === null){
@@ -2581,7 +2573,7 @@ class PageController extends ApiController {
 						$share = $this->shareManager->newShare();
 						$share->setNode($file);
 						$share->setPermissions(Constants::PERMISSION_READ);
-						$share->setShareType(Share::SHARE_TYPE_LINK);
+						$share->setShareType(IShare::TYPE_LINK);
 						$share->setSharedBy($this->userId);
 						$share = $this->shareManager->createShare($share);
 						$token = $share->getToken();

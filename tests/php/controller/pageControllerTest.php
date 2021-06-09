@@ -142,10 +142,8 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 		$this->pageController = new PageController(
 			$this->appName,
 			$this->request,
-			$sc,
 			$sc->getConfig(),
 			$c->get(IShareManager::class),
-			$c->get(IAppManager::class),
 			$c->get(IUserManager::class),
 			$c->get(IGroupManager::class),
 			$sc->getL10N($c->get('AppName')),
@@ -179,16 +177,15 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 			),
 			$this->activityManager,
 			$sc->getDatabaseConnection(),
+			$c->get(IRootFolder::class),
 			'test'
 		);
 
 		$this->pageController2 = new PageController(
 			$this->appName,
 			$this->request,
-			$sc,
 			$sc->getConfig(),
 			$c->get(IShareManager::class),
-			$c->get(IAppManager::class),
 			$c->get(IUserManager::class),
 			$c->get(IGroupManager::class),
 			$sc->getL10N($c->get('AppName')),
@@ -222,6 +219,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 			),
 			$this->activityManager2,
 			$sc->getDatabaseConnection(),
+			$c->get(IRootFolder::class),
 			'test2'
 		);
 

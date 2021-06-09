@@ -6,10 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 1.3.5 – 2021-05-28
+## 1.3.5 – 2021-06-09
+### Changed
+- replace home made user search by OCS search request
+- refactor and cleanup project service
+- use comment field when searching bills
+- display date, time and currency in unified search results
+
 ### Fixed
 - issue with global user search in some cases
 [#54](https://github.com/eneiluj/cospend-nc/issues/54) @susinths
+- auto delete shares with unexisting users
 
 ## 1.3.4 – 2021-05-06
 ### Fixed

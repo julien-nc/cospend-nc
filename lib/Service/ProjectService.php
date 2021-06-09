@@ -17,13 +17,12 @@ use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
-use OC\Archive\ZIP;
+use OCP\App\IAppManager;
 use OCP\IGroupManager;
 use OCP\IAvatarManager;
 
 use OCP\IUserManager;
 use OCP\Share\IManager;
-use OCP\IServerContainer;
 use OCP\IDBConnection;
 use OCP\IDateTimeZone;
 use OCP\Files\Folder;
@@ -56,6 +55,7 @@ class ProjectService {
 								IAvatarManager $avatarManager,
 								IManager $shareManager,
 								IUserManager $userManager,
+								IAppManager $appManager,
 								IGroupManager $groupManager,
 								IDateTimeZone $dateTimeZone,
 								IDBConnection $db) {
@@ -70,6 +70,7 @@ class ProjectService {
 		$this->avatarManager = $avatarManager;
 		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
+		$this->appManager = $appManager;
 		$this->shareManager = $shareManager;
 		$this->dateTimeZone = $dateTimeZone;
 
@@ -186,7 +187,7 @@ class ProjectService {
 						return true;
 					} else {
 						// if not, are circles enabled and is the project shared with a circle containing the user?
-						$circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
+						$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 						if ($circlesEnabled) {
 							$dbCircleId = null;
 
@@ -286,7 +287,7 @@ class ProjectService {
 				$qb = $qb->resetQueryParts();
 
 				// are circles enabled and is the project shared with a circle containing the user
-				$circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
+				$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 				if ($circlesEnabled) {
 					$dbCircleId = null;
 
@@ -2275,7 +2276,7 @@ class ProjectService {
 			}
 		}
 
-		$circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
+		$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 		if ($circlesEnabled) {
 			// get circles with which a project is shared
 			$candidateCircleIds = [];
@@ -2601,7 +2602,7 @@ class ProjectService {
 	private function getCircleShares(string $projectid): array {
 		$shares = [];
 
-		$circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
+		$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 		if ($circlesEnabled) {
 			try {
 				$circleIdToName = [];
@@ -4060,7 +4061,7 @@ class ProjectService {
 	 */
 	public function addCircleShare(string $projectid, $circleid, ?string $fromUserId = null): array {
 		// check if circleId exists
-		$circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
+		$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 		$circleName = '';
 		if ($circlesEnabled) {
 			$cs = \OCA\Circles\Api\v1\Circles::listCircles(\OCA\Circles\Model\Circle::CIRCLES_ALL, '', 0);

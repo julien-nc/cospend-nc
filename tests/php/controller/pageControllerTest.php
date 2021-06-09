@@ -167,6 +167,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 				$c->getServer()->getAppManager(),
 				$c->getServer()->getGroupManager(),
 				$sc->getDateTimeZone(),
+				$c->getServer()->getRootFolder(),
 				$sc->getDatabaseConnection()
 			),
 			$this->activityManager,
@@ -208,6 +209,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 				$c->getServer()->getAppManager(),
 				$c->getServer()->getGroupManager(),
 				$sc->getDateTimeZone(),
+				$c->getServer()->getRootFolder(),
 				$sc->getDatabaseConnection()
 			),
 			$this->activityManager2,

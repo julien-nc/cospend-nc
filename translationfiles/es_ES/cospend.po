@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-04-16 15:03+0200\n"
-"PO-Revision-Date: 2021-04-17 11:24\n"
+"PO-Revision-Date: 2021-05-04 16:03\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -724,8 +724,8 @@ msgstr "Proyecto guardado"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:13
 msgid "{nb} bill was created"
 msgid_plural "{nb} bills were created"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Se ha creado {nb} factura"
+msgstr[1] "Se han creado {nb} facturas"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:14
 msgid "link"
@@ -832,11 +832,11 @@ msgstr "Anualmente"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:41
 msgid "Frequency"
-msgstr ""
+msgstr "Frecuencia"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:42
 msgid "Leave empty for maximum frequency"
-msgstr ""
+msgstr "Dejar vacío para la frecuencia máxima"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:43
 msgid "Include all active members on repeat"
@@ -1308,19 +1308,19 @@ msgstr "No hay saldos"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:170
 msgid "Individual reimbursement"
-msgstr ""
+msgstr "Reembolso individual"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:171
 msgid "Payer"
-msgstr ""
+msgstr "Pagador"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:172
 msgid "Receiver"
-msgstr ""
+msgstr "Destinatario"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:173
 msgid "Create bill ({amount})"
-msgstr ""
+msgstr "Crear factura ({amount})"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:174
 msgid "Failed to get settlement"
@@ -1348,15 +1348,15 @@ msgstr "La liquidación automática por defecto creará las facturas de liquidac
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:181
 msgid "This feature is useful when a member with a negative balance wants to get out of the project but you don't want to make a full settlement plan."
-msgstr ""
+msgstr "Esta característica es útil cuando un miembro con un saldo negativo quiere salir del proyecto pero no quiere hacer un plan de liquidación completo."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:182
 msgid "Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money."
-msgstr ""
+msgstr "Selecciona un pagador que quiera obtener un saldo cero, luego un receptor que será el único que obtenga el reembolso de dinero."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Make sure the \"real\" reimbursement has been done between those 2 members in real life. Then press \"Create bill\" to automatically create the corresponding bill."
-msgstr ""
+msgstr "Asegúrate de que el reembolso «real» se ha hecho entre esos dos miembros en la vida real. Luego pulsa «Crear factura» para crear automáticamente la factura correspondiente."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:187
 msgid "Statistics of project {name}"

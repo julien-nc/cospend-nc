@@ -19,7 +19,7 @@
 					:show-user-status="false" />
 				<Avatar v-else-if="['g', 'c'].includes(option.type)"
 					class="avatar-option"
-					:display-name="option.displayName"
+					:display-name="option.name"
 					:is-no-user="true"
 					:show-user-status="false" />
 				<span class="multiselect-name">
@@ -111,8 +111,6 @@
 				<div v-if="access.type==='c'" class="avatardiv icon share-icon-circle" />
 				<span class="username">
 					<span>{{ access.name }}</span>
-					<span v-if="access.type==='g'">({{ t('cospend', 'Group') }})</span>
-					<span v-if="access.type==='c'">({{ t('cospend', 'Circle') }})</span>
 				</span>
 
 				<Actions
@@ -295,6 +293,7 @@ export default {
 				const sharee = {
 					user: item.id,
 					manually_added: true,
+					name: item.name,
 					displayName: item.label,
 					icon: 'icon-user',
 					type: item.type,
@@ -306,7 +305,7 @@ export default {
 					sharee.isNoUser = true
 				}
 				if (item.type === 'c') {
-					sharee.icon = 'share-icon-circle'
+					sharee.icon = 'icon-circle'
 					sharee.isNoUser = true
 				}
 				return sharee
@@ -364,11 +363,14 @@ export default {
 				},
 			}).then((response) => {
 				this.sharees = response.data.ocs.data.map((s) => {
+					const displayName = s.source === 'circles'
+						? s.label
+						: s.id !== s.label ? s.label + ' (' + s.id + ')' : s.label
 					return {
 						id: s.id,
 						name: s.label,
-						value: s.id !== s.label ? s.label + ' (' + s.id + ')' : s.label,
-						label: s.id !== s.label ? s.label + ' (' + s.id + ')' : s.label,
+						value: displayName,
+						label: displayName,
 						type: s.source === 'users'
 							? 'u'
 							: s.source === 'groups'
@@ -492,6 +494,12 @@ export default {
 	}
 	.multiselect-icon {
 		opacity: 0.5;
+	}
+	.icon-circle {
+		background-image: var(--icon-circles-circles-000);
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+		background-position: center;
 	}
 }
 

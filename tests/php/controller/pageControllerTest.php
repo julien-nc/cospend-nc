@@ -164,6 +164,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 				$sc->getAvatarManager(),
 				$c->getServer()->getShareManager(),
 				$c->getServer()->getUserManager(),
+				$c->getServer()->getAppManager(),
 				$c->getServer()->getGroupManager(),
 				$sc->getDateTimeZone(),
 				$sc->getDatabaseConnection()
@@ -204,6 +205,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 				$sc->getAvatarManager(),
 				$c->getServer()->getShareManager(),
 				$c->getServer()->getUserManager(),
+				$c->getServer()->getAppManager(),
 				$c->getServer()->getGroupManager(),
 				$sc->getDateTimeZone(),
 				$sc->getDatabaseConnection()

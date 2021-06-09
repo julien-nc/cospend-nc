@@ -25,15 +25,14 @@ namespace OCA\Cospend\Activity;
 
 use OCA\Cospend\Activity\ActivityManager;
 
-use cogpowered\FineDiff\Diff;
 use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
-use OCP\Comments\NotFoundException;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\App\IAppManager;
 
 class CospendProvider implements IProvider {
 
@@ -52,11 +51,16 @@ class CospendProvider implements IProvider {
 
 	public function __construct(IURLGenerator $urlGenerator,
 								ActivityManager $activityManager,
-								IUserManager $userManager, IGroupManager $groupManager,
-								IL10N $l10n, IConfig $config, $userId) {
+								IUserManager $userManager,
+								IGroupManager $groupManager,
+								IAppManager $appManager,
+								IL10N $l10n,
+								IConfig $config,
+								?string $userId) {
 		$this->userId = $userId;
 		$this->urlGenerator = $urlGenerator;
 		$this->activityManager = $activityManager;
+		$this->appManager = $appManager;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->l10n = $l10n;
@@ -239,24 +243,21 @@ class CospendProvider implements IProvider {
 					'id' => $subjectParams['who'],
 					'name' => $user !== null ? $user->getDisplayName() : $subjectParams['who']
 				];
-			}
-			else if ($subjectParams['type'] === 'g') {
+			} elseif ($subjectParams['type'] === 'g') {
 				$group = $this->groupManager->get($subjectParams['who']);
 				$params['who'] = [
 					'type' => 'highlight',
 					'id' => $subjectParams['who'],
 					'name' => $group !== null ? $group->getDisplayName() : $subjectParams['who']
 				];
-			}
-			else if ($subjectParams['type'] === 'c') {
+			} elseif ($subjectParams['type'] === 'c') {
 				$displayName = $this->l10n->t('circle %1$s', [$subjectParams['who']]);
-				$circlesEnabled = \OC::$server->getAppManager()->isEnabledForUser('circles');
+				$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 				if ($circlesEnabled) {
 					$circleDetails = null;
 					try {
 						$circleDetails = \OCA\Circles\Api\v1\Circles::detailsCircle($subjectParams['who']);
-					}
-					catch (\OCA\Circles\Exceptions\CircleDoesNotExistException $e) {
+					} catch (\OCA\Circles\Exceptions\CircleDoesNotExistException $e) {
 					}
 					if ($circleDetails) {
 						$displayName = 'circle '.$circleDetails->getName();

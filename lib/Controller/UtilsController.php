@@ -11,16 +11,8 @@
 
 namespace OCA\Cospend\Controller;
 
-use OCP\App\IAppManager;
-use OCP\Files\IAppData;
-use OCP\AppFramework\Http\DataDisplayResponse;
-
-use OCP\IURLGenerator;
 use OCP\IConfig;
 use OCP\IServerContainer;
-
-use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\RedirectResponse;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 
@@ -34,29 +26,16 @@ class UtilsController extends Controller {
 
 	private $userId;
 	private $config;
-	private $dbconnection;
-	private $dbtype;
 
 	public function __construct($AppName,
 								IRequest $request,
 								IServerContainer $serverContainer,
 								IConfig $config,
-								IAppManager $appManager,
-								IAppData $appData,
 								IDBConnection $dbconnection,
-								$UserId) {
+								?string $userId) {
 		parent::__construct($AppName, $request);
-		$this->userId = $UserId;
-		$this->appData = $appData;
+		$this->userId = $userId;
 		$this->serverContainer = $serverContainer;
-		$this->dbtype = $config->getSystemValue('dbtype');
-		if ($this->dbtype === 'pgsql'){
-			$this->dbdblquotes = '"';
-		}
-		else{
-			$this->dbdblquotes = '';
-		}
-		// IConfig object
 		$this->config = $config;
 		$this->dbconnection = $dbconnection;
 	}
@@ -66,11 +45,7 @@ class UtilsController extends Controller {
 	 */
 	public function setAllowAnonymousCreation($allow) {
 		$this->config->setAppValue('cospend', 'allowAnonymousCreation', $allow);
-		$response = new DataResponse(
-			[
-				'done'=>'1'
-			]
-		);
+		$response = new DataResponse(['done' => '1']);
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedImageDomain('*')
 			->addAllowedMediaDomain('*')
@@ -89,11 +64,7 @@ class UtilsController extends Controller {
 			$this->config->deleteUserValue($this->userId, 'cospend', $key);
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>1
-			]
-		);
+		$response = new DataResponse(['done' => 1]);
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedImageDomain('*')
 			->addAllowedMediaDomain('*')
@@ -111,11 +82,7 @@ class UtilsController extends Controller {
 			$this->config->setUserValue($this->userId, 'cospend', $key, $value);
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>true
-			]
-		);
+		$response = new DataResponse(['done' => true]);
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedImageDomain('*')
 			->addAllowedMediaDomain('*')
@@ -136,11 +103,7 @@ class UtilsController extends Controller {
 			$ov[$key] = $value;
 		}
 
-		$response = new DataResponse(
-			[
-				'values'=>$ov
-			]
-		);
+		$response = new DataResponse(['values' => $ov]);
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedImageDomain('*')
 			->addAllowedMediaDomain('*')

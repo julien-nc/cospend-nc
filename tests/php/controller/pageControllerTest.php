@@ -18,17 +18,21 @@
 namespace OCA\Cospend\Controller;
 
 use Psr\Log\LoggerInterface;
+use OCP\Notification\IManager as INotificationManager;
+use OCP\Files\IRootFolder;
+use OCP\IGroupManager;
+use OCP\Share\IManager as IShareManager;
+use OCP\App\IAppManager;
 
 use \OCA\Cospend\AppInfo\Application;
+use OCP\IUserManager;
 
 class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 
 	private $appName;
 	private $request;
-	private $contacts;
 
 	private $container;
-	private $config;
 	private $app;
 
 	private $pageController;
@@ -40,28 +44,30 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 		$c = $app->getContainer();
 
 		// clear test users
-		$user = $c->getServer()->getUserManager()->get('test');
+		$userManager = $c->get(IUserManager::class);
+		$user = $userManager->get('test');
 		if ($user !== null) {
 			$user->delete();
 		}
-		$user = $c->getServer()->getUserManager()->get('test2');
+		$user = $userManager->get('test2');
 		if ($user !== null) {
 			$user->delete();
 		}
-		$user = $c->getServer()->getUserManager()->get('test3');
+		$user = $userManager->get('test3');
 		if ($user !== null) {
 			$user->delete();
 		}
 
 		// CREATE DUMMY USERS
-		$u1 = $c->getServer()->getUserManager()->createUser('test', 'T0T0T0');
+		$u1 = $userManager->createUser('test', 'T0T0T0');
 		$u1->setEMailAddress('toto@toto.net');
-		$u2 = $c->getServer()->getUserManager()->createUser('test2', 'T0T0T0');
-		$u3 = $c->getServer()->getUserManager()->createUser('test3', 'T0T0T0');
-		$c->getServer()->getGroupManager()->createGroup('group1test');
-		$c->getServer()->getGroupManager()->get('group1test')->addUser($u1);
-		$c->getServer()->getGroupManager()->createGroup('group2test');
-		$c->getServer()->getGroupManager()->get('group2test')->addUser($u2);
+		$u2 = $userManager->createUser('test2', 'T0T0T0');
+		$u3 = $userManager->createUser('test3', 'T0T0T0');
+		$groupManager = $c->get(IGroupManager::class);
+		$groupManager->createGroup('group1test');
+		$groupManager->get('group1test')->addUser($u1);
+		$groupManager->createGroup('group2test');
+		$groupManager->get('group2test')->addUser($u2);
 	}
 
 	protected function setUp(): void {
@@ -76,23 +82,23 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 		$this->app = new Application();
 		$this->container = $this->app->getContainer();
 		$c = $this->container;
-		$sc = $c->query(\OCP\IServerContainer::class);
+		$sc = $c->get(\OCP\IServerContainer::class);
 		$this->config = $sc->getConfig();
 
 		$this->activityManager = new \OCA\Cospend\Activity\ActivityManager(
 			$sc->getActivityManager(),
 			new \OCA\Cospend\Service\UserService(
 				$this->createMock(LoggerInterface::class),
-				$sc->getL10N($c->query('AppName')),
+				$sc->getL10N($c->get('AppName')),
 				new \OCA\Cospend\Db\ProjectMapper(
 					$sc->getDatabaseConnection()
 				),
 				new \OCA\Cospend\Db\BillMapper(
 					$sc->getDatabaseConnection()
 				),
-				$c->getServer()->getShareManager(),
-				$c->getServer()->getUserManager(),
-				$c->getServer()->getGroupManager(),
+				$c->get(IShareManager::class),
+				$c->get(IUserManager::class),
+				$c->get(IGroupManager::class),
 				$sc->getDatabaseConnection()
 			),
 			new \OCA\Cospend\Db\ProjectMapper(
@@ -101,8 +107,8 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 			new \OCA\Cospend\Db\BillMapper(
 				$sc->getDatabaseConnection()
 			),
-			$sc->getL10N($c->query('AppName')),
-			$c->getServer()->getUserManager(),
+			$sc->getL10N($c->get('AppName')),
+			$c->get(IUserManager::class),
 			'test'
 		);
 
@@ -110,16 +116,16 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 			$sc->getActivityManager(),
 			new \OCA\Cospend\Service\UserService(
 				$this->createMock(LoggerInterface::class),
-				$sc->getL10N($c->query('AppName')),
+				$sc->getL10N($c->get('AppName')),
 				new \OCA\Cospend\Db\ProjectMapper(
 					$sc->getDatabaseConnection()
 				),
 				new \OCA\Cospend\Db\BillMapper(
 					$sc->getDatabaseConnection()
 				),
-				$c->getServer()->getShareManager(),
-				$c->getServer()->getUserManager(),
-				$c->getServer()->getGroupManager(),
+				$c->get(IShareManager::class),
+				$c->get(IUserManager::class),
+				$c->get(IGroupManager::class),
 				$sc->getDatabaseConnection()
 			),
 			new \OCA\Cospend\Db\ProjectMapper(
@@ -128,8 +134,8 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 			new \OCA\Cospend\Db\BillMapper(
 				$sc->getDatabaseConnection()
 			),
-			$sc->getL10N($c->query('AppName')),
-			$c->getServer()->getUserManager(),
+			$sc->getL10N($c->get('AppName')),
+			$c->get(IUserManager::class),
 			'test2'
 		);
 
@@ -138,11 +144,11 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 			$this->request,
 			$sc,
 			$sc->getConfig(),
-			$c->getServer()->getShareManager(),
-			$c->getServer()->getAppManager(),
-			$c->getServer()->getUserManager(),
-			$c->getServer()->getGroupManager(),
-			$sc->getL10N($c->query('AppName')),
+			$c->get(IShareManager::class),
+			$c->get(IAppManager::class),
+			$c->get(IUserManager::class),
+			$c->get(IGroupManager::class),
+			$sc->getL10N($c->get('AppName')),
 			$this->createMock(LoggerInterface::class),
 			new \OCA\Cospend\Db\BillMapper(
 				$sc->getDatabaseConnection()
@@ -152,7 +158,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 			),
 			new \OCA\Cospend\Service\ProjectService(
 				$this->createMock(LoggerInterface::class),
-				$sc->getL10N($c->query('AppName')),
+				$sc->getL10N($c->get('AppName')),
 				$sc->getConfig(),
 				new \OCA\Cospend\Db\ProjectMapper(
 					$sc->getDatabaseConnection()
@@ -162,13 +168,13 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 				),
 				$this->activityManager,
 				$sc->getAvatarManager(),
-				$c->getServer()->getShareManager(),
-				$c->getServer()->getUserManager(),
-				$c->getServer()->getAppManager(),
-				$c->getServer()->getGroupManager(),
+				$c->get(IShareManager::class),
+				$c->get(IUserManager::class),
+				$c->get(IAppManager::class),
+				$c->get(IGroupManager::class),
 				$sc->getDateTimeZone(),
-				$c->getServer()->getRootFolder(),
-				$c->getServer()->getNotificationManager(),
+				$c->get(IRootFolder::class),
+				$c->get(INotificationManager::class),
 				$sc->getDatabaseConnection()
 			),
 			$this->activityManager,
@@ -181,11 +187,11 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 			$this->request,
 			$sc,
 			$sc->getConfig(),
-			$c->getServer()->getShareManager(),
-			$c->getServer()->getAppManager(),
-			$c->getServer()->getUserManager(),
-			$c->getServer()->getGroupManager(),
-			$sc->getL10N($c->query('AppName')),
+			$c->get(IShareManager::class),
+			$c->get(IAppManager::class),
+			$c->get(IUserManager::class),
+			$c->get(IGroupManager::class),
+			$sc->getL10N($c->get('AppName')),
 			$this->createMock(LoggerInterface::class),
 			new \OCA\Cospend\Db\BillMapper(
 				$sc->getDatabaseConnection()
@@ -195,7 +201,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 			),
 			new \OCA\Cospend\Service\ProjectService(
 				$this->createMock(LoggerInterface::class),
-				$sc->getL10N($c->query('AppName')),
+				$sc->getL10N($c->get('AppName')),
 				$sc->getConfig(),
 				new \OCA\Cospend\Db\ProjectMapper(
 					$sc->getDatabaseConnection()
@@ -205,13 +211,13 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 				),
 				$this->activityManager2,
 				$sc->getAvatarManager(),
-				$c->getServer()->getShareManager(),
-				$c->getServer()->getUserManager(),
-				$c->getServer()->getAppManager(),
-				$c->getServer()->getGroupManager(),
+				$c->get(IShareManager::class),
+				$c->get(IUserManager::class),
+				$c->get(IAppManager::class),
+				$c->get(IGroupManager::class),
 				$sc->getDateTimeZone(),
-				$c->getServer()->getRootFolder(),
-				$c->getServer()->getNotificationManager(),
+				$c->get(IRootFolder::class),
+				$c->get(INotificationManager::class),
 				$sc->getDatabaseConnection()
 			),
 			$this->activityManager2,
@@ -224,8 +230,6 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 			$this->request,
 			$sc,
 			$sc->getConfig(),
-			$c->getServer()->getAppManager(),
-			$c->getServer()->getAppDataDir('cospend'),
 			$sc->getDatabaseConnection(),
 			'test'
 		);
@@ -234,14 +238,16 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 	public static function tearDownAfterClass(): void {
 		$app = new Application();
 		$c = $app->getContainer();
-		$user = $c->getServer()->getUserManager()->get('test');
+		$userManager = $c->get(IUserManager::class);
+		$user = $userManager->get('test');
 		$user->delete();
-		$user = $c->getServer()->getUserManager()->get('test2');
+		$user = $userManager->get('test2');
 		$user->delete();
-		$user = $c->getServer()->getUserManager()->get('test3');
+		$user = $userManager->get('test3');
 		$user->delete();
-		$c->getServer()->getGroupManager()->get('group1test')->delete();
-		$c->getServer()->getGroupManager()->get('group2test')->delete();
+		$groupManager = $c->get(IGroupManager::class);
+		$groupManager->get('group1test')->delete();
+		$groupManager->get('group2test')->delete();
 	}
 
 	protected function tearDown(): void {

@@ -42,10 +42,7 @@ require_once __DIR__ . '/../utils.php';
 
 class ProjectService {
 
-	private $l10n;
-	private $logger;
 	private $config;
-	private $qb;
 	private $db;
 
 	public function __construct (LoggerInterface $logger,

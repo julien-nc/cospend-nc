@@ -26,21 +26,16 @@ use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Db\BillMapper;
 
 class UserService {
-
-	private $l10n;
-	private $logger;
-	private $qb;
 	private $dbconnection;
 
-	public function __construct (
-		LoggerInterface $logger, IL10N $l10n,
-		ProjectMapper $projectMapper,
-		BillMapper $billMapper,
-		IManager $shareManager,
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		IDBConnection $dbconnection
-	) {
+	public function __construct (LoggerInterface $logger,
+								IL10N $l10n,
+								ProjectMapper $projectMapper,
+								BillMapper $billMapper,
+								IManager $shareManager,
+								IUserManager $userManager,
+								IGroupManager $groupManager,
+								IDBConnection $dbconnection) {
 		$this->trans = $l10n;
 		$this->logger = $logger;
 		$this->dbconnection = $dbconnection;
@@ -68,7 +63,7 @@ class UserService {
 			->andWhere(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 			);
-		$req = $qb->execute();
+		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
 			if (!in_array($row['userid'], $userIds)) {
 				array_push($userIds, $row['userid']);
@@ -86,7 +81,7 @@ class UserService {
 			->andWhere(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 			);
-		$req = $qb->execute();
+		$req = $qb->executeQuery();
 		$groupIds = [];
 		while ($row = $req->fetch()) {
 			array_push($groupIds, $row['userid']);

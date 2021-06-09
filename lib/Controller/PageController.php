@@ -13,12 +13,8 @@ namespace OCA\Cospend\Controller;
 
 use OCP\App\IAppManager;
 
-use OCP\IURLGenerator;
 use OCP\IConfig;
 use \OCP\IL10N;
-
-use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\RedirectResponse;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 
@@ -26,7 +22,6 @@ use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Controller;
 use OCP\AppFramework\ApiController;
 use OCP\Constants;
 use OCP\Share;
@@ -54,18 +49,12 @@ function endswith($string, $test) {
 class PageController extends ApiController {
 
 	private $userId;
-	private $userfolder;
 	private $config;
 	private $appVersion;
 	private $shareManager;
 	private $userManager;
-	private $groupManager;
 	private $dbconnection;
-	private $dbtype;
-	private $dbdblquotes;
-	private $defaultDeviceId;
 	private $trans;
-	private $logger;
 	protected $appName;
 
 	public function __construct($AppName,
@@ -99,29 +88,13 @@ class PageController extends ApiController {
 		$this->groupManager = $groupManager;
 		$this->activityManager = $activityManager;
 		$this->trans = $trans;
-		$this->dbtype = $config->getSystemValue('dbtype');
-		// IConfig object
 		$this->config = $config;
-
-		if ($this->dbtype === 'pgsql'){
-			$this->dbdblquotes = '"';
-		}
-		else{
-			$this->dbdblquotes = '`';
-		}
 		$this->dbconnection = $dbconnection;
 		if ($UserId !== null && $UserId !== '' && $serverContainer !== null){
 			// path of user files folder relative to DATA folder
 			$this->userfolder = $serverContainer->getUserFolder($UserId);
 		}
 		$this->shareManager = $shareManager;
-	}
-
-	/*
-	 * quote and choose string escape function depending on database used
-	 */
-	private function db_quote_escape_string($str){
-		return $this->dbconnection->quote($str);
 	}
 
 	/**

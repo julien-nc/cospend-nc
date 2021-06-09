@@ -20,6 +20,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\App\IAppManager;
 use OCP\IGroupManager;
 use OCP\IAvatarManager;
+use OCP\Notification\IManager as INotificationManager;
 
 use OCP\IUserManager;
 use OCP\Share\IManager;
@@ -60,6 +61,7 @@ class ProjectService {
 								IGroupManager $groupManager,
 								IDateTimeZone $dateTimeZone,
 								IRootFolder $root,
+								INotificationManager $notificationManager,
 								IDBConnection $db) {
 		$this->trans = $l10n;
 		$this->config = $config;
@@ -70,6 +72,7 @@ class ProjectService {
 		$this->projectMapper = $projectMapper;
 		$this->billMapper = $billMapper;
 		$this->activityManager = $activityManager;
+		$this->notificationManager = $notificationManager;
 		$this->avatarManager = $avatarManager;
 		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
@@ -3576,7 +3579,7 @@ class ProjectService {
 						);
 
 						// SEND NOTIFICATION
-						$manager = \OC::$server->getNotificationManager();
+						$manager = $this->notificationManager;
 						$notification = $manager->createNotification();
 
 						$acceptAction = $notification->createAction();
@@ -3648,7 +3651,7 @@ class ProjectService {
 
 		//// SEND NOTIFICATION
 		//$projectInfo = $this->getProjectInfo($projectid);
-		//$manager = \OC::$server->getNotificationManager();
+		//$manager = $this->notificationManager;
 		//$notification = $manager->createNotification();
 
 		//$acceptAction = $notification->createAction();
@@ -3805,7 +3808,7 @@ class ProjectService {
 			if (!is_null($fromUserId)) {
 				$projectInfo = $this->getProjectInfo($projectid);
 
-				$manager = \OC::$server->getNotificationManager();
+				$manager = $this->notificationManager;
 				$notification = $manager->createNotification();
 
 				$acceptAction = $notification->createAction();
@@ -3892,7 +3895,7 @@ class ProjectService {
 			//// SEND NOTIFICATION
 			//$projectInfo = $this->getProjectInfo($projectid);
 
-			//$manager = \OC::$server->getNotificationManager();
+			//$manager = $this->notificationManager;
 			//$notification = $manager->createNotification();
 
 			//$acceptAction = $notification->createAction();

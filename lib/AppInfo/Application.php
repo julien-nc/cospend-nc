@@ -11,10 +11,7 @@
 
 namespace OCA\Cospend\AppInfo;
 
-use OCP\IContainer;
-
 use OCP\AppFramework\App;
-use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -44,8 +41,7 @@ class Application extends App implements IBootstrap {
 		$container = $this->getContainer();
 
 		// content of app.php
-		//$manager = \OC::$server->getNotificationManager();
-		$manager = $container->query(INotificationManager::class);
+		$manager = $container->get(INotificationManager::class);
 		$manager->registerNotifierService(Notifier::class);
 	}
 

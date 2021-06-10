@@ -186,7 +186,8 @@
 			<tbody slot="body" slot-scope="{displayData}">
 				<tr v-for="value in displayData"
 					:key="value.member.id"
-					v-tooltip.left="{ content: value.member.name }">
+					v-tooltip.left="{ content: value.member.name }"
+					:class="{ 'all-members': value.member.id === 0 }">
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
 						<div v-if="value.member.id !== 0"
 							class="owerAvatar">
@@ -1145,6 +1146,8 @@ export default {
 	overflow: scroll;
 }
 
+#monthlyTable tr.all-members td:first-child,
+#paymentModeTable td:first-child,
 #categoryTable td:first-child {
 	padding: 0px 5px 0px 5px;
 }

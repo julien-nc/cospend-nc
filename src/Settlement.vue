@@ -578,7 +578,7 @@ export default {
 
 	td {
 		border: 1px solid var(--color-border-dark);
-		padding: 0px 5px 0px 5px;
+		padding: 0 5px 0 0;
 		text-align: left;
 	}
 

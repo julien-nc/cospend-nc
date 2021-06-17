@@ -73,7 +73,7 @@ class Version000403Date20200231152118 extends SimpleMigrationStep {
 		   ->where(
 			   $qb->expr()->neq('permissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
 		   );
-		$qb->execute();
+		$qb->executeStatement();
 		$qb = $qb->resetQueryParts();
 
 		$qb->update('cospend_shares')
@@ -81,7 +81,7 @@ class Version000403Date20200231152118 extends SimpleMigrationStep {
 		   ->where(
 			   $qb->expr()->eq('permissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
 		   );
-		$qb->execute();
+		$qb->executeStatement();
 		$qb = $qb->resetQueryParts();
 
 		// guest permissions
@@ -90,7 +90,7 @@ class Version000403Date20200231152118 extends SimpleMigrationStep {
 		   ->where(
 			   $qb->expr()->neq('guestpermissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
 		   );
-		$qb->execute();
+		$qb->executeStatement();
 		$qb = $qb->resetQueryParts();
 
 		$qb->update('cospend_projects')
@@ -98,7 +98,7 @@ class Version000403Date20200231152118 extends SimpleMigrationStep {
 		   ->where(
 			   $qb->expr()->eq('guestpermissions', $qb->createNamedParameter('', IQueryBuilder::PARAM_STR))
 		   );
-		$qb->execute();
+		$qb->executeStatement();
 		$qb = $qb->resetQueryParts();
 	}
 }

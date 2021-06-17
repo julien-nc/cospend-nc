@@ -67,7 +67,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 		$categoryIconDict = [];
 		$qb->select('c.id', 'c.icon')
 		   ->from('cospend_project_categories', 'c');
-		$req = $qb->execute();
+		$req = $qb->executeQuery();
 
 		while ($row = $req->fetch()) {
 			$categoryIconDict[$row['id']] = $row['icon'];
@@ -81,7 +81,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 			$qb->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT))
 			);
-			$req = $qb->execute();
+			$req = $qb->executeStatement();
 			$qb = $qb->resetQueryParts();
 		}
 
@@ -137,7 +137,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 		$projectIdList = [];
 		$qb->select('p.id')
 		   ->from('cospend_projects', 'p');
-		$req = $qb->execute();
+		$req = $qb->executeQuery();
 
 		while ($row = $req->fetch()) {
 			array_push($projectIdList, $row['id']);
@@ -153,7 +153,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 			   ->where(
 				   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			   );
-			$req = $qb->execute();
+			$req = $qb->executeQuery();
 
 			while ($row = $req->fetch()) {
 				if (in_array($row['name'], $categoryNameList)) {
@@ -177,21 +177,21 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 							'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
 							'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR)
 						]);
-					$req = $qb->execute();
+					$req = $qb->executeStatement();
 					$qb = $qb->resetQueryParts();
 					$insertedCategoryId = intval($qb->getLastInsertId());
 
 					// convert category ids in existing bills
 					$qb->update('cospend_bills')
-					->set('categoryid', $qb->createNamedParameter($insertedCategoryId, IQueryBuilder::PARAM_INT))
-					->set('lastchanged', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT))
-					->where(
-						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
-					)
-					->andWhere(
-						$qb->expr()->eq('categoryid', $qb->createNamedParameter(intval($strId), IQueryBuilder::PARAM_INT))
-					);
-					$qb->execute();
+						->set('categoryid', $qb->createNamedParameter($insertedCategoryId, IQueryBuilder::PARAM_INT))
+						->set('lastchanged', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT))
+						->where(
+							$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+						)
+						->andWhere(
+							$qb->expr()->eq('categoryid', $qb->createNamedParameter(intval($strId), IQueryBuilder::PARAM_INT))
+						);
+					$qb->executeStatement();
 					$qb = $qb->resetQueryParts();
 				}
 			}

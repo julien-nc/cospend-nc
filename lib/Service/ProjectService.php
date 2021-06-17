@@ -4050,14 +4050,13 @@ class ProjectService {
 	 * Add circle shaed access
 	 *
 	 * @param string $projectid
-	 * @param $circleid
+	 * @param string $circleid
 	 * @param string|null $fromUserId
 	 * @return array
 	 */
-	public function addCircleShare(string $projectid, $circleid, ?string $fromUserId = null): array {
+	public function addCircleShare(string $projectid, string $circleid, ?string $fromUserId = null): array {
 		// check if circleId exists
 		$circlesEnabled = $this->appManager->isEnabledForUser('circles');
-		$circleName = '';
 		if ($circlesEnabled) {
 			$circlesManager = \OC::$server->get(\OCA\Circles\CirclesManager::class);
 			$circlesManager->startSuperSession();

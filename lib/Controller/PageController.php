@@ -12,7 +12,7 @@
 namespace OCA\Cospend\Controller;
 
 use OCP\IConfig;
-use \OCP\IL10N;
+use OCP\IL10N;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 

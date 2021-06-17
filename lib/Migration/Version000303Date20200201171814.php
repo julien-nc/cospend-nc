@@ -68,6 +68,6 @@ class Version000303Date20200201171814 extends SimpleMigrationStep {
 		   ->where(
 			   $qb->expr()->eq('isgroupshare', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
 		   );
-	   $qb->execute();
+	   $qb->executeStatement();
 	}
 }

@@ -66,7 +66,7 @@ class Version000304Date20200313092247 extends SimpleMigrationStep {
 		$timestamps = [];
 		$qb->select('id', 'date')
 		->from('cospend_bills', 'b');
-		$req = $qb->execute();
+		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
 			$id = $row['id'];
 			$date = $row['date'];
@@ -83,7 +83,7 @@ class Version000304Date20200313092247 extends SimpleMigrationStep {
 			->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($bid, IQueryBuilder::PARAM_INT))
 			);
-			$qb->execute();
+			$qb->executeStatement();
 			$qb = $qb->resetQueryParts();
 		}
 	}

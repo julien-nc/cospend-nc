@@ -23,9 +23,13 @@ use OCP\Files\IRootFolder;
 use OCP\IGroupManager;
 use OCP\Share\IManager as IShareManager;
 use OCP\App\IAppManager;
-
-use \OCA\Cospend\AppInfo\Application;
 use OCP\IUserManager;
+
+use OCA\Cospend\AppInfo\Application;
+use OCA\Cospend\Activity\ActivityManager;
+use OCA\Cospend\Service\UserService;
+use OCA\Cospend\Db\ProjectMapper;
+use OCA\Cospend\Db\BillMapper;
 
 class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 
@@ -85,15 +89,15 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 		$sc = $c->get(\OCP\IServerContainer::class);
 		$this->config = $sc->getConfig();
 
-		$this->activityManager = new \OCA\Cospend\Activity\ActivityManager(
+		$this->activityManager = new ActivityManager(
 			$sc->getActivityManager(),
-			new \OCA\Cospend\Service\UserService(
+			new UserService(
 				$this->createMock(LoggerInterface::class),
 				$sc->getL10N($c->get('AppName')),
-				new \OCA\Cospend\Db\ProjectMapper(
+				new ProjectMapper(
 					$sc->getDatabaseConnection()
 				),
-				new \OCA\Cospend\Db\BillMapper(
+				new BillMapper(
 					$sc->getDatabaseConnection()
 				),
 				$c->get(IShareManager::class),
@@ -101,26 +105,27 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 				$c->get(IGroupManager::class),
 				$sc->getDatabaseConnection()
 			),
-			new \OCA\Cospend\Db\ProjectMapper(
+			new ProjectMapper(
 				$sc->getDatabaseConnection()
 			),
-			new \OCA\Cospend\Db\BillMapper(
+			new BillMapper(
 				$sc->getDatabaseConnection()
 			),
 			$sc->getL10N($c->get('AppName')),
+			$c->get(LoggerInterface::class),
 			$c->get(IUserManager::class),
 			'test'
 		);
 
-		$this->activityManager2 = new \OCA\Cospend\Activity\ActivityManager(
+		$this->activityManager2 = new ActivityManager(
 			$sc->getActivityManager(),
-			new \OCA\Cospend\Service\UserService(
+			new UserService(
 				$this->createMock(LoggerInterface::class),
 				$sc->getL10N($c->get('AppName')),
-				new \OCA\Cospend\Db\ProjectMapper(
+				new ProjectMapper(
 					$sc->getDatabaseConnection()
 				),
-				new \OCA\Cospend\Db\BillMapper(
+				new BillMapper(
 					$sc->getDatabaseConnection()
 				),
 				$c->get(IShareManager::class),
@@ -128,13 +133,14 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 				$c->get(IGroupManager::class),
 				$sc->getDatabaseConnection()
 			),
-			new \OCA\Cospend\Db\ProjectMapper(
+			new ProjectMapper(
 				$sc->getDatabaseConnection()
 			),
-			new \OCA\Cospend\Db\BillMapper(
+			new BillMapper(
 				$sc->getDatabaseConnection()
 			),
 			$sc->getL10N($c->get('AppName')),
+			$c->get(LoggerInterface::class),
 			$c->get(IUserManager::class),
 			'test2'
 		);
@@ -148,20 +154,20 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 			$c->get(IGroupManager::class),
 			$sc->getL10N($c->get('AppName')),
 			$this->createMock(LoggerInterface::class),
-			new \OCA\Cospend\Db\BillMapper(
+			new BillMapper(
 				$sc->getDatabaseConnection()
 			),
-			new \OCA\Cospend\Db\ProjectMapper(
+			new ProjectMapper(
 				$sc->getDatabaseConnection()
 			),
 			new \OCA\Cospend\Service\ProjectService(
 				$this->createMock(LoggerInterface::class),
 				$sc->getL10N($c->get('AppName')),
 				$sc->getConfig(),
-				new \OCA\Cospend\Db\ProjectMapper(
+				new ProjectMapper(
 					$sc->getDatabaseConnection()
 				),
-				new \OCA\Cospend\Db\BillMapper(
+				new BillMapper(
 					$sc->getDatabaseConnection()
 				),
 				$this->activityManager,
@@ -190,20 +196,20 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 			$c->get(IGroupManager::class),
 			$sc->getL10N($c->get('AppName')),
 			$this->createMock(LoggerInterface::class),
-			new \OCA\Cospend\Db\BillMapper(
+			new BillMapper(
 				$sc->getDatabaseConnection()
 			),
-			new \OCA\Cospend\Db\ProjectMapper(
+			new ProjectMapper(
 				$sc->getDatabaseConnection()
 			),
 			new \OCA\Cospend\Service\ProjectService(
 				$this->createMock(LoggerInterface::class),
 				$sc->getL10N($c->get('AppName')),
 				$sc->getConfig(),
-				new \OCA\Cospend\Db\ProjectMapper(
+				new ProjectMapper(
 					$sc->getDatabaseConnection()
 				),
-				new \OCA\Cospend\Db\BillMapper(
+				new BillMapper(
 					$sc->getDatabaseConnection()
 				),
 				$this->activityManager2,

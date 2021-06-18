@@ -25,8 +25,11 @@
 				<span class="multiselect-name">
 					{{ option.displayName }}
 				</span>
-				<span v-if="option.icon"
+				<span v-if="option.icon && option.type !== 'c'"
 					:class="{ icon: true, [option.icon]: true, 'multiselect-icon': true }" />
+				<span v-else-if="option.icon && option.type === 'c'"
+					:class="{ icon: true, [option.icon]: true, 'multiselect-icon': true }"
+					:style="'background-image: url(' + circleMultiselectIconUrl + ')'" />
 			</template>
 		</Multiselect>
 
@@ -107,8 +110,12 @@
 					:user="access.userid"
 					:disable-menu="true"
 					:disable-tooltip="true" />
-				<div v-if="access.type==='g'" class="avatardiv icon icon-group" />
-				<div v-if="access.type==='c'" class="avatardiv icon share-icon-circle" />
+				<div v-if="access.type==='g'"
+					class="avatardiv icon icon-group"
+					:style="'background-image: url(' + groupIconUrl + ')'" />
+				<div v-if="access.type==='c'"
+					class="avatardiv icon fixed-icon"
+					:style="'background-image: url(' + circleIconUrl + ')'" />
 				<span class="username">
 					<span>{{ access.name }}</span>
 				</span>
@@ -153,7 +160,8 @@
 			id="guestList"
 			class="shareWithList">
 			<li>
-				<div class="avatardiv icon icon-password" />
+				<div class="avatardiv icon icon-password fixed-icon"
+					:style="'background-image: url(' + passwordIconUrl + ')'" />
 				<span class="username">
 					<span>{{ t('cospend', 'Password protected access') }}</span>
 				</span>
@@ -263,6 +271,12 @@ export default {
 			linkCopied: {},
 			newPasswordReadonly: true,
 			addingPublicLink: false,
+			groupIconUrl: generateUrl('/svg/core/actions/group?color=000000'),
+			passwordIconUrl: generateUrl('/svg/core/actions/password?color=000000'),
+			circleIconUrl: generateUrl('/svg/circles/circles?color=000000'),
+			circleMultiselectIconUrl: OCA.Accessibility.theme === 'dark'
+				? generateUrl('/svg/circles/circles?color=ffffff')
+				: generateUrl('/svg/circles/circles?color=000000'),
 		}
 	},
 

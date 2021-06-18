@@ -39,7 +39,7 @@
     "@nextcloud/l10n": "^1.4.1",
     "@nextcloud/moment": "^1.1.1",
     "@nextcloud/router": "^2.0.0",
-    "@nextcloud/vue": "^3.10.1",
+    "@nextcloud/vue": "^4.0.2",
     "@nextcloud/vue-dashboard": "^2.0.1",
     "chart.js": "^2.9.3",
     "kjua-svg": "^1.12.1",

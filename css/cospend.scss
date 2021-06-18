@@ -31,6 +31,8 @@ body {
 .balance {
     float: right;
     font-weight: bold;
+	height: 44px;
+	line-height: 36px;
 }
 .memberAvatar img {
     width: 24px;
@@ -228,9 +230,8 @@ a.billitem .app-content-list-item-icon {
 .detailButton button {
     padding-right: 0 !important;
 }
-.share-icon-circle {
-    background-image: var(--icon-circles-circles-000);
-    background-size: 80% 100%;
+.fixed-icon {
+    background-size: 60% 100%;
     background-repeat: no-repeat;
     background-position: center;
 }

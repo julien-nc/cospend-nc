@@ -506,4 +506,8 @@ h3 {
 .select-icon {
 	opacity: 0.5;
 }
+
+.memberItem {
+	height: 44px;
+}
 </style>

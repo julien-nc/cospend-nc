@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.3.6 – 2021-06-18
+### Fixed
+- php 7.2 compatibility
+
 ## 1.3.5 – 2021-06-09
 ### Changed
 - replace home made user search by OCS search request

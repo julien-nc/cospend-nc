@@ -3111,27 +3111,30 @@ class ProjectService {
 		switch ($bill['repeat']) {
 			case 'd':
 				if ($bill['repeatfreq'] < 2) {
-					$nextDate = $billDate->add(new DateInterval('P1D'));
+					$tmpImmuDate = $billDate->add(new DateInterval('P1D'));
 				} else {
-					$nextDate = $billDate->add(new DateInterval('P' . $bill['repeatfreq'] . 'D'));
+					$tmpImmuDate = $billDate->add(new DateInterval('P' . $bill['repeatfreq'] . 'D'));
 				}
-				$nextDate = DateTime::createFromImmutable($nextDate);
+				$nextDate = new DateTime();
+				$nextDate->setTimestamp($tmpImmuDate->getTimestamp());
 				break;
 
 			case 'w':
 				if ($bill['repeatfreq'] < 2) {
-					$nextDate = $billDate->add(new DateInterval('P7D'));
+					$tmpImmuDate = $billDate->add(new DateInterval('P7D'));
 				} else {
 					$nbDays = 7 * $bill['repeatfreq'];
-					$nextDate = $billDate->add(new DateInterval('P' . $nbDays . 'D'));
+					$tmpImmuDate = $billDate->add(new DateInterval('P' . $nbDays . 'D'));
 				}
-				$nextDate = DateTime::createFromImmutable($nextDate);
+				$nextDate = new DateTime();
+				$nextDate->setTimestamp($tmpImmuDate->getTimestamp());
 				break;
 
 			// bi weekly
 			case 'b':
-				$nextDate = $billDate->add(new DateInterval('P14D'));
-				$nextDate = DateTime::createFromImmutable($nextDate);
+				$tmpImmuDate = $billDate->add(new DateInterval('P14D'));
+				$nextDate = new DateTime();
+				$nextDate->setTimestamp($tmpImmuDate->getTimestamp());
 				break;
 
 			// semi monthly
@@ -3512,7 +3515,7 @@ class ProjectService {
 	 *
 	 * @param string $projectid
 	 * @param string $userid
-	 * @param string $fromuserId
+	 * @param string $fromUserId
 	 * @param int $accesslevel
 	 * @param bool $manually_added
 	 * @return array
@@ -3557,7 +3560,7 @@ class ProjectService {
 								'accesslevel' => $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT),
 								'manually_added' => $qb->createNamedParameter($manually_added ? 1 : 0, IQueryBuilder::PARAM_INT),
 							]);
-						$req = $qb->executeStatement();
+						$qb->executeStatement();
 						$qb = $qb->resetQueryParts();
 
 						$insertedShareId = intval($qb->getLastInsertId());
@@ -3571,7 +3574,7 @@ class ProjectService {
 						$this->activityManager->triggerEvent(
 							ActivityManager::COSPEND_OBJECT_PROJECT, $projectObj,
 							ActivityManager::SUBJECT_PROJECT_SHARE,
-							['who' => $userid, 'type' => 'u'],
+							['who' => $userid, 'type' => 'u']
 						);
 
 						// SEND NOTIFICATION

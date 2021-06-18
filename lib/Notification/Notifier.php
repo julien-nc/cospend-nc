@@ -12,7 +12,9 @@
 namespace OCA\Cospend\Notification;
 
 
+use OCP\IConfig;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Notification\IManager as INotificationManager;
@@ -32,6 +34,14 @@ class Notifier implements INotifier {
 
 	/** @var IURLGenerator */
 	protected $url;
+	/**
+	 * @var string|null
+	 */
+	private $userId;
+	/**
+	 * @var IConfig
+	 */
+	private $config;
 
 	/**
 	 * @param IFactory $factory
@@ -39,11 +49,18 @@ class Notifier implements INotifier {
 	 * @param INotificationManager $notificationManager
 	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct(IFactory $factory, IUserManager $userManager, INotificationManager $notificationManager, IURLGenerator $urlGenerator) {
+	public function __construct(IFactory $factory,
+								IConfig $config,
+								IUserManager $userManager,
+								INotificationManager $notificationManager,
+								IURLGenerator $urlGenerator,
+								?string $userId) {
 		$this->factory = $factory;
 		$this->userManager = $userManager;
 		$this->notificationManager = $notificationManager;
 		$this->url = $urlGenerator;
+		$this->userId = $userId;
+		$this->config = $config;
 	}
 
 	/**
@@ -62,7 +79,7 @@ class Notifier implements INotifier {
 	 * @since 17.0.0
 	 */
 	public function getName(): string {
-		return $this->lFactory->get('cospend')->t('Cospend');
+		return $this->factory->get('cospend')->t('Cospend');
 	}
 
 	/**
@@ -83,18 +100,63 @@ class Notifier implements INotifier {
 		switch ($notification->getSubject()) {
 		case 'add_user_share':
 			$p = $notification->getSubjectParameters();
-			$content = $l->t('User "%s" shared Cospend project "%s" with you.', [$p[0], $p[1]]);
+			$user = $this->userManager->get($p[0]);
+			if ($user instanceof IUser) {
+				$richSubjectUser = [
+					'type' => 'user',
+					'id' => $p[0],
+					'name' => $user->getDisplayName(),
+				];
 
-			$notification->setParsedSubject($content)
-				->setLink($this->url->linkToRouteAbsolute('cospend.page.index'));
+				$subject = $l->t('Cospend project shared');
+				$content = $l->t('User "%s" shared Cospend project "%s" with you.', [$p[0], $p[1]]);
+				$iconUrl = $this->url->getAbsoluteURL(
+					$this->url->imagePath('core', 'actions/share.svg')
+				);
+
+				$notification
+					->setParsedSubject($subject)
+					->setParsedMessage($content)
+					->setLink($this->url->linkToRouteAbsolute('cospend.page.index'))
+					->setRichMessage(
+						$l->t('{user} shared project %s with you', [$p[1]]),
+						[
+							'user' => $richSubjectUser,
+						]
+					)
+					->setIcon($iconUrl);
+			}
 			return $notification;
 
 		case 'delete_user_share':
 			$p = $notification->getSubjectParameters();
-			$content = $l->t('User "%s" stopped sharing Cospend project "%s" with you.', [$p[0], $p[1]]);
+			$user = $this->userManager->get($p[0]);
+			if ($user instanceof IUser) {
+				$richSubjectUser = [
+					'type' => 'user',
+					'id' => $p[0],
+					'name' => $user->getDisplayName(),
+				];
+				$subject = $l->t('Cospend project share removed');
+				$content = $l->t('User "%s" stopped sharing Cospend project "%s" with you.', [$p[0], $p[1]]);
+				$theme = $this->config->getUserValue($this->userId, 'accessibility', 'theme', '');
+				$red = ($theme === 'dark')
+					? '46BA61'
+					: 'E9322D';
+				$iconUrl = $this->url->getAbsoluteURL('/index.php/svg/core/actions/share?color=' . $red);
 
-			$notification->setParsedSubject($content)
-				->setLink($this->url->linkToRouteAbsolute('cospend.page.index'));
+				$notification
+					->setParsedSubject($subject)
+					->setParsedMessage($content)
+					->setLink($this->url->linkToRouteAbsolute('cospend.page.index'))
+					->setRichMessage(
+						$l->t('{user} stopped sharing project %s with you', [$p[1]]),
+						[
+							'user' => $richSubjectUser,
+						]
+					)
+					->setIcon($iconUrl);
+			}
 			return $notification;
 
 		default:

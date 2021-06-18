@@ -17,6 +17,7 @@
  */
 namespace OCA\Cospend\Controller;
 
+use OCP\IServerContainer;
 use Psr\Log\LoggerInterface;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Files\IRootFolder;
@@ -30,6 +31,7 @@ use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\Service\UserService;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Db\BillMapper;
+use OCA\Cospend\Service\ProjectService;
 
 class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 
@@ -86,7 +88,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 		$this->app = new Application();
 		$this->container = $this->app->getContainer();
 		$c = $this->container;
-		$sc = $c->get(\OCP\IServerContainer::class);
+		$sc = $c->get(IServerContainer::class);
 		$this->config = $sc->getConfig();
 
 		$this->activityManager = new ActivityManager(
@@ -160,7 +162,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 			new ProjectMapper(
 				$sc->getDatabaseConnection()
 			),
-			new \OCA\Cospend\Service\ProjectService(
+			new ProjectService(
 				$this->createMock(LoggerInterface::class),
 				$sc->getL10N($c->get('AppName')),
 				$sc->getConfig(),
@@ -202,7 +204,7 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 			new ProjectMapper(
 				$sc->getDatabaseConnection()
 			),
-			new \OCA\Cospend\Service\ProjectService(
+			new ProjectService(
 				$this->createMock(LoggerInterface::class),
 				$sc->getL10N($c->get('AppName')),
 				$sc->getConfig(),

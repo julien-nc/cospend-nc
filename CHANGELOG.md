@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.3.7 – 2021-06-18
+### Changed
+- use new DB query methods
+- adapt to new Circles management
+- bump min NC version to 22
+- don't fetch dashboard widget content if tab is not visible
+- improve activity and notifications icons
+- improve notifications content
+
+### Fixed
+- some class injections
+- remove calls to deprecated stuff
+- padding issues in settlement/stats tables
+- PHP 7.2 compatibility
+
 ## 1.3.6 – 2021-06-18
 ### Fixed
 - php 7.2 compatibility

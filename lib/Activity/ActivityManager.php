@@ -29,6 +29,8 @@ use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Db\Bill;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Db\Project;
+
+use Psr\Log\LoggerInterface;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\IUserManager;
@@ -41,7 +43,6 @@ class ActivityManager {
 
 	private $manager;
 	private $userId;
-	private $projectService;
 	private $projectMapper;
 	private $billMapper;
 	private $l10n;
@@ -55,16 +56,27 @@ class ActivityManager {
 
 	const SUBJECT_PROJECT_SHARE = 'project_share';
 	const SUBJECT_PROJECT_UNSHARE = 'project_unshare';
+	/**
+	 * @var UserService
+	 */
+	private $userService;
+	/**
+	 * @var IUserManager
+	 */
+	private $userManager;
+	/**
+	 * @var LoggerInterface
+	 */
+	private $logger;
 
-	public function __construct(
-		IManager $manager,
-		UserService $userService,
-		ProjectMapper $projectMapper,
-		BillMapper $billMapper,
-		IL10N $l10n,
-		IUserManager $userManager,
-		$userId
-	) {
+	public function __construct(IManager $manager,
+								UserService $userService,
+								ProjectMapper $projectMapper,
+								BillMapper $billMapper,
+								IL10N $l10n,
+								LoggerInterface $logger,
+								IUserManager $userManager,
+								?string $userId) {
 		$this->manager = $manager;
 		$this->userService = $userService;
 		$this->projectMapper = $projectMapper;
@@ -72,6 +84,7 @@ class ActivityManager {
 		$this->l10n = $l10n;
 		$this->userId = $userId;
 		$this->userManager = $userManager;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -80,7 +93,7 @@ class ActivityManager {
 	 * @param bool $ownActivity
 	 * @return string
 	 */
-	public function getActivityFormat($subjectIdentifier, $subjectParams = [], $ownActivity = false) {
+	public function getActivityFormat($subjectIdentifier, $subjectParams = [], $ownActivity = false): string {
 		$subject = '';
 		switch ($subjectIdentifier) {
 			case self::SUBJECT_BILL_CREATE:
@@ -123,17 +136,17 @@ class ActivityManager {
 	 * @return IEvent|null
 	 * @throws \Exception
 	 */
-	private function createEvent($objectType, $entity, $subject, $additionalParams = [], $author = null) {
+	private function createEvent($objectType, $entity, $subject, $additionalParams = [], $author = null): ?IEvent {
 		if ($subject === self::SUBJECT_BILL_DELETE) {
 			$object = $entity;
 		} else {
 			try {
 				$object = $this->findObjectForEntity($objectType, $entity);
 			} catch (DoesNotExistException $e) {
-				\OC::$server->getLogger()->error('Could not create activity entry for ' . $subject . '. Entity not found.', (array)$entity);
+				$this->logger->error('Could not create activity entry for ' . $subject . '. Entity not found.', (array)$entity);
 				return null;
 			} catch (MultipleObjectsReturnedException $e) {
-				\OC::$server->getLogger()->error('Could not create activity entry for ' . $subject . '. Entity not found.', (array)$entity);
+				$this->logger->error('Could not create activity entry for ' . $subject . '. Entity not found.', (array)$entity);
 				return null;
 			}
 		}

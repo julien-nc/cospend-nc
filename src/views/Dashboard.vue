@@ -49,6 +49,7 @@ export default {
 			loop: null,
 			state: 'loading',
 			darkThemeColor: OCA.Accessibility.theme === 'dark' ? '181818' : 'ffffff',
+			windowVisibility: true,
 		}
 	},
 
@@ -79,16 +80,36 @@ export default {
 		},
 	},
 
+	watch: {
+		windowVisibility(newValue) {
+			if (newValue) {
+				this.loadActivity()
+			}
+		},
+	},
+
+	beforeDestroy() {
+		document.removeEventListener('visibilitychange', this.changeWindowVisibility)
+	},
+
 	beforeMount() {
 		this.loadActivity()
-		this.loop = setInterval(() => this.loadActivity(), 60000)
+		this.loop = setInterval(this.loadActivity, 60000)
+		document.addEventListener('visibilitychange', this.changeWindowVisibility)
 	},
 
 	mounted() {
 	},
 
 	methods: {
+		changeWindowVisibility() {
+			this.windowVisibility = !document.hidden
+		},
 		async loadActivity() {
+			if (!this.windowVisibility) {
+				// Dashboard is not visible, so don't update the activity list
+				return
+			}
 			// eslint-disable-next-line
 			const params = new URLSearchParams()
 			params.append('format', 'json')

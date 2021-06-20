@@ -23,7 +23,8 @@
 
 namespace OCA\Cospend\Activity;
 
-use OCA\Cospend\Activity\ActivityManager;
+use Exception;
+use InvalidArgumentException;
 
 use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
@@ -48,6 +49,14 @@ class CospendProvider implements IProvider {
 	private $l10n;
 	/** @var IConfig */
 	private $config;
+	/**
+	 * @var IGroupManager
+	 */
+	private $groupManager;
+	/**
+	 * @var IAppManager
+	 */
+	private $appManager;
 
 	public function __construct(IURLGenerator $urlGenerator,
 								ActivityManager $activityManager,
@@ -60,11 +69,11 @@ class CospendProvider implements IProvider {
 		$this->userId = $userId;
 		$this->urlGenerator = $urlGenerator;
 		$this->activityManager = $activityManager;
-		$this->appManager = $appManager;
 		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
 		$this->l10n = $l10n;
 		$this->config = $config;
+		$this->groupManager = $groupManager;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -74,12 +83,12 @@ class CospendProvider implements IProvider {
 	 *                                   To do so, simply use setChildEvent($previousEvent) after setting the
 	 *                                   combined subject on the current event.
 	 * @return IEvent
-	 * @throws \InvalidArgumentException Should be thrown if your provider does not know this event
+	 * @throws InvalidArgumentException Should be thrown if your provider does not know this event
 	 * @since 11.0.0
 	 */
 	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'cospend') {
-			throw new \InvalidArgumentException();
+			throw new InvalidArgumentException();
 		}
 
 		$event = $this->getIcon($event);
@@ -154,7 +163,7 @@ class CospendProvider implements IProvider {
 		try {
 			$subject = $this->activityManager->getActivityFormat($subjectIdentifier, $subjectParams, $ownActivity);
 			$this->setSubjects($event, $subject, $params);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 		}
 		return $event;
 	}

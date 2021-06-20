@@ -12,6 +12,7 @@
 
 namespace OCA\Cospend\Service;
 
+use OCP\Files\FileInfo;
 use OCP\IL10N;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
@@ -36,6 +37,7 @@ use DateTime;
 use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Db\BillMapper;
+use function str_replace;
 
 require_once __DIR__ . '/const.php';
 require_once __DIR__ . '/../utils.php';
@@ -263,7 +265,6 @@ class ProjectService {
 
 				// is the project shared with a group containing the user?
 				$userO = $this->userManager->get($userid);
-				$accessWithGroup = null;
 
 				$qb->select('userid', 'accesslevel')
 					->from('cospend_shares', 's')
@@ -352,7 +353,7 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 
 		return $result;
 	}
@@ -402,7 +403,7 @@ class ProjectService {
 					'email' => $qb->createNamedParameter($contact_email, IQueryBuilder::PARAM_STR),
 					'lastchanged' => $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT)
 				]);
-			$req = $qb->executeStatement();
+			$qb->executeStatement();
 			$qb = $qb->resetQueryParts();
 
 			// create default categories
@@ -417,7 +418,7 @@ class ProjectService {
 							'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
 							'name' => $qb->createNamedParameter($catName, IQueryBuilder::PARAM_STR)
 						]);
-					$req = $qb->executeStatement();
+					$qb->executeStatement();
 					$qb = $qb->resetQueryParts();
 				}
 			}
@@ -449,7 +450,7 @@ class ProjectService {
 				->where(
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 				);
-			$req = $qb->executeStatement();
+			$qb->executeStatement();
 			$qb = $qb->resetQueryParts();
 
 			// delete project members
@@ -457,7 +458,7 @@ class ProjectService {
 				->where(
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 				);
-			$req = $qb->executeStatement();
+			$qb->executeStatement();
 			$qb = $qb->resetQueryParts();
 
 			// delete shares
@@ -465,7 +466,7 @@ class ProjectService {
 				->where(
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 				);
-			$req = $qb->executeStatement();
+			$qb->executeStatement();
 			$qb = $qb->resetQueryParts();
 
 			// delete currencies
@@ -473,7 +474,7 @@ class ProjectService {
 				->where(
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 				);
-			$req = $qb->executeStatement();
+			$qb->executeStatement();
 			$qb = $qb->resetQueryParts();
 
 			// delete categories
@@ -481,7 +482,7 @@ class ProjectService {
 				->where(
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 				);
-			$req = $qb->executeStatement();
+			$qb->executeStatement();
 			$qb = $qb->resetQueryParts();
 
 			// delete project
@@ -489,8 +490,8 @@ class ProjectService {
 				->where(
 					$qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 				);
-			$req = $qb->executeStatement();
-			$qb = $qb->resetQueryParts();
+			$qb->executeStatement();
+			$qb->resetQueryParts();
 
 			return ['message' => 'DELETED'];
 		} else {
@@ -518,10 +519,8 @@ class ProjectService {
 		$req = $qb->executeQuery();
 
 		$dbProjectId = null;
-		$dbPassword = null;
 		while ($row = $req->fetch()){
 			$dbProjectId = $row['id'];
-			$dbPassword = $row['password'];
 			$dbName = $row['name'];
 			$dbEmail= $row['email'];
 			$dbUserId = $row['userid'];
@@ -534,7 +533,7 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 		if ($dbProjectId !== null) {
 			$smallStats = $this->getSmallStats($dbProjectId);
 			$members = $this->getMembers($dbProjectId, 'lowername');
@@ -609,7 +608,7 @@ class ProjectService {
 		while ($row = $req->fetch()) {
 			$totalSpent = (int) $row['sum_amount'];
 		}
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 		return [
 			'nb_bills' => $nbBills,
 			'total_spent' => $totalSpent,
@@ -1013,7 +1012,7 @@ class ProjectService {
 				'paymentmode' => $qb->createNamedParameter($paymentmode, IQueryBuilder::PARAM_STR),
 				'lastchanged' => $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT)
 			]);
-		$req = $qb->executeStatement();
+		$qb->executeStatement();
 		$qb = $qb->resetQueryParts();
 
 		$insertedBillId = $qb->getLastInsertId();
@@ -1025,7 +1024,7 @@ class ProjectService {
 					'billid' => $qb->createNamedParameter($insertedBillId, IQueryBuilder::PARAM_INT),
 					'memberid' => $qb->createNamedParameter($owerId, IQueryBuilder::PARAM_INT)
 				]);
-			$req = $qb->executeStatement();
+			$qb->executeStatement();
 			$qb = $qb->resetQueryParts();
 		}
 
@@ -1059,8 +1058,8 @@ class ProjectService {
 			   ->andWhere(
 				   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 			   );
-			$req = $qb->executeStatement();
-			$qb = $qb->resetQueryParts();
+			$qb->executeStatement();
+			$qb->resetQueryParts();
 
 			$ts = (new DateTime())->getTimestamp();
 			$this->updateProjectLastChanged($projectid, $ts);
@@ -1117,7 +1116,7 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 		return $member;
 	}
 
@@ -1161,7 +1160,7 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 		return $project;
 	}
 
@@ -1248,7 +1247,7 @@ class ProjectService {
 			];
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 
 		return $bill;
 	}
@@ -1265,8 +1264,8 @@ class ProjectService {
 		   ->where(
 			   $qb->expr()->eq('billid', $qb->createNamedParameter($billid, IQueryBuilder::PARAM_INT))
 		   );
-		$req = $qb->executeStatement();
-		$qb = $qb->resetQueryParts();
+		$qb->executeStatement();
+		$qb->resetQueryParts();
 	}
 
 	/**
@@ -1501,8 +1500,8 @@ class ProjectService {
 						->where(
 							$qb->expr()->eq('id', $qb->createNamedParameter($memberid, IQueryBuilder::PARAM_INT))
 						);
-					$req = $qb->executeStatement();
-					$qb = $qb->resetQueryParts();
+					$qb->executeStatement();
+					$qb->resetQueryParts();
 					return [];
 				}
 				// get existing member with this name
@@ -1546,11 +1545,11 @@ class ProjectService {
 				$qb->where(
 					$qb->expr()->eq('id', $qb->createNamedParameter($memberid, IQueryBuilder::PARAM_INT))
 				)
-				->andWhere(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
-				);
-				$req = $qb->executeStatement();
-				$qb = $qb->resetQueryParts();
+					->andWhere(
+						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					);
+				$qb->executeStatement();
+				$qb->resetQueryParts();
 
 				$editedMember = $this->getMemberById($projectid, $memberid);
 
@@ -1586,7 +1585,6 @@ class ProjectService {
 		$qb = $this->db->getQueryBuilder();
 		$qb->update('cospend_projects');
 
-		$emailSql = '';
 		if ($contact_email !== null && $contact_email !== '') {
 			if (filter_var($contact_email, FILTER_VALIDATE_EMAIL)) {
 				$qb->set('email', $qb->createNamedParameter($contact_email, IQueryBuilder::PARAM_STR));
@@ -1621,8 +1619,8 @@ class ProjectService {
 			$qb->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 			);
-			$req = $qb->executeStatement();
-			$qb = $qb->resetQueryParts();
+			$qb->executeStatement();
+			$qb->resetQueryParts();
 
 			return ['success' => true];
 		} else {
@@ -1669,8 +1667,8 @@ class ProjectService {
 						'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
 						'lastchanged' => $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT)
 					]);
-				$req = $qb->executeStatement();
-				$qb = $qb->resetQueryParts();
+				$qb->executeStatement();
+				$qb->resetQueryParts();
 
 				$insertedMember = $this->getMemberByName($projectid, $name);
 
@@ -1998,7 +1996,7 @@ class ProjectService {
 			$billDict[$dbBillId]['owerIds'][] = $dbOwerId;
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 
 		$resultBills = [];
 		foreach ($orderedBillIds as $bid) {
@@ -2028,7 +2026,7 @@ class ProjectService {
 			$billIds[] = $row['id'];
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 
 		return $billIds;
 	}
@@ -2093,7 +2091,7 @@ class ProjectService {
 			];
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 		return $members;
 	}
 
@@ -2368,7 +2366,7 @@ class ProjectService {
 			];
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 
 		return $categories;
 	}
@@ -2400,7 +2398,7 @@ class ProjectService {
 			];
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 
 		return $currencies;
 	}
@@ -2428,7 +2426,6 @@ class ProjectService {
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()){
 			$dbuserId = $row['userid'];
-			$dbprojectId = $row['projectid'];
 			$dbId = $row['id'];
 			$dbAccessLevel = intval($row['accesslevel']);
 			$dbManuallyAdded = intval($row['manually_added']);
@@ -2454,7 +2451,7 @@ class ProjectService {
 			];
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 
 		// delete shares pointing to unfound users
 		foreach ($sharesToDelete as $shId) {
@@ -2491,7 +2488,6 @@ class ProjectService {
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()){
 			$dbToken = $row['userid'];
-			$dbprojectId = $row['projectid'];
 			$dbId = $row['id'];
 			$dbAccessLevel = intval($row['accesslevel']);
 			$shares[] = [
@@ -2502,7 +2498,7 @@ class ProjectService {
 			];
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 
 		return $shares;
 	}
@@ -2533,7 +2529,7 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 
 		return [
 			'projectid' => $projectId,
@@ -2564,7 +2560,6 @@ class ProjectService {
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()){
 			$dbGroupId = $row['userid'];
-			$dbprojectId = $row['projectid'];
 			$dbId = $row['id'];
 			$dbAccessLevel = intval($row['accesslevel']);
 			if (array_key_exists($dbGroupId, $groupIdToName)) {
@@ -2587,7 +2582,7 @@ class ProjectService {
 			];
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 
 		foreach ($sharesToDelete as $shId) {
 			$this->deleteGroupShare($projectid, $shId);
@@ -2636,7 +2631,7 @@ class ProjectService {
 				}
 			}
 			$req->closeCursor();
-			$qb = $qb->resetQueryParts();
+			$qb->resetQueryParts();
 			$circlesManager->stopSession();
 		}
 		return $shares;
@@ -2658,8 +2653,8 @@ class ProjectService {
 					->where(
 						$qb->expr()->eq('id', $qb->createNamedParameter($memberid, IQueryBuilder::PARAM_INT))
 					);
-				$req = $qb->executeStatement();
-				$qb = $qb->resetQueryParts();
+				$qb->executeStatement();
+				$qb->resetQueryParts();
 			} elseif ($memberToDelete['activated']) {
 				$qb->update('cospend_members');
 				$qb->set('activated', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT));
@@ -2669,8 +2664,8 @@ class ProjectService {
 				->andWhere(
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 				);
-				$req = $qb->executeStatement();
-				$qb = $qb->resetQueryParts();
+				$qb->executeStatement();
+				$qb->resetQueryParts();
 			}
 			return ['success' => true];
 		} else {
@@ -2750,7 +2745,7 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 		return $member;
 	}
 
@@ -2799,7 +2794,7 @@ class ProjectService {
 				break;
 			}
 			$req->closeCursor();
-			$qb = $qb->resetQueryParts();
+			$qb->resetQueryParts();
 		}
 		return $member;
 	}
@@ -2928,7 +2923,7 @@ class ProjectService {
 		   ->andWhere(
 			   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 		   );
-		$req = $qb->executeStatement();
+		$qb->executeStatement();
 		$qb = $qb->resetQueryParts();
 
 		// edit the bill owers
@@ -2942,7 +2937,7 @@ class ProjectService {
 						'billid' => $qb->createNamedParameter($billid, IQueryBuilder::PARAM_INT),
 						'memberid' => $qb->createNamedParameter($owerId, IQueryBuilder::PARAM_INT)
 					]);
-				$req = $qb->executeStatement();
+				$qb->executeStatement();
 				$qb = $qb->resetQueryParts();
 			}
 		}
@@ -3001,7 +2996,7 @@ class ProjectService {
 				];
 			}
 			$req->closeCursor();
-			$qb = $qb->resetQueryParts();
+			$qb->resetQueryParts();
 
 			foreach ($bills as $bill) {
 				// Use DateTimeImmutable instead of DateTime so that $billDate->add() returns a
@@ -3230,7 +3225,7 @@ class ProjectService {
 				'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
 				'order' => $qb->createNamedParameter(is_null($order) ? 0 : $order, IQueryBuilder::PARAM_INT)
 			]);
-		$req = $qb->executeStatement();
+		$qb->executeStatement();
 		$qb = $qb->resetQueryParts();
 
 		$insertedCategoryId = intval($qb->getLastInsertId());
@@ -3275,7 +3270,7 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 		return $category;
 	}
 
@@ -3297,8 +3292,8 @@ class ProjectService {
 			   ->andWhere(
 				   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 			   );
-			$req = $qb->executeStatement();
-			$qb = $qb->resetQueryParts();
+			$qb->executeStatement();
+			$qb->resetQueryParts();
 
 			// then get rid of this category in bills
 			$qb = $this->db->getQueryBuilder();
@@ -3307,11 +3302,11 @@ class ProjectService {
 			$qb->where(
 				$qb->expr()->eq('categoryid', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT))
 			)
-			->andWhere(
-				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
-			);
-			$req = $qb->executeStatement();
-			$qb = $qb->resetQueryParts();
+				->andWhere(
+					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+				);
+			$qb->executeStatement();
+			$qb->resetQueryParts();
 
 			return ['success' => true];
 		} else {
@@ -3337,7 +3332,7 @@ class ProjectService {
 			->andWhere(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 			);
-			$req = $qb->executeStatement();
+			$qb->executeStatement();
 			$qb = $qb->resetQueryParts();
 		}
 		return true;
@@ -3372,8 +3367,8 @@ class ProjectService {
 				->andWhere(
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 				);
-				$req = $qb->executeStatement();
-				$qb = $qb->resetQueryParts();
+				$qb->executeStatement();
+				$qb->resetQueryParts();
 
 				$editedCategory = $this->getCategory($projectid, $categoryid);
 
@@ -3403,7 +3398,7 @@ class ProjectService {
 				'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
 				'exchange_rate' => $qb->createNamedParameter($rate, IQueryBuilder::PARAM_STR)
 			]);
-		$req = $qb->executeStatement();
+		$qb->executeStatement();
 		$qb = $qb->resetQueryParts();
 
 		$insertedCurrencyId = intval($qb->getLastInsertId());
@@ -3444,7 +3439,7 @@ class ProjectService {
 			break;
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 		return $currency;
 	}
 
@@ -3466,8 +3461,8 @@ class ProjectService {
 			   ->andWhere(
 				   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 			   );
-			$req = $qb->executeStatement();
-			$qb = $qb->resetQueryParts();
+			$qb->executeStatement();
+			$qb->resetQueryParts();
 
 			return ['success' => true];
 		} else {
@@ -3497,8 +3492,8 @@ class ProjectService {
 					->andWhere(
 						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 					);
-				$req = $qb->executeStatement();
-				$qb = $qb->resetQueryParts();
+				$qb->executeStatement();
+				$qb->resetQueryParts();
 
 				$editedCurrency = $this->getCurrency($projectid, $currencyid);
 				return $editedCurrency;
@@ -3631,7 +3626,7 @@ class ProjectService {
 				'userid' => $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR),
 				'type' => $qb->createNamedParameter('l', IQueryBuilder::PARAM_STR)
 			]);
-		$req = $qb->executeStatement();
+		$qb->executeStatement();
 		$qb = $qb->resetQueryParts();
 
 		$insertedShareId = intval($qb->getLastInsertId());
@@ -3713,8 +3708,8 @@ class ProjectService {
 				->andWhere(
 					$qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
 				);
-			$req = $qb->executeStatement();
-			$qb = $qb->resetQueryParts();
+			$qb->executeStatement();
+			$qb->resetQueryParts();
 
 			return ['success' => true];
 		} else {
@@ -3739,8 +3734,8 @@ class ProjectService {
 			->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 			);
-		$req = $qb->executeStatement();
-		$qb = $qb->resetQueryParts();
+		$qb->executeStatement();
+		$qb->resetQueryParts();
 
 		$response = ['success' => true];
 
@@ -3792,8 +3787,8 @@ class ProjectService {
 				->andWhere(
 					$qb->expr()->eq('type', $qb->createNamedParameter('u', IQueryBuilder::PARAM_STR))
 				);
-			$req = $qb->executeStatement();
-			$qb = $qb->resetQueryParts();
+			$qb->executeStatement();
+			$qb->resetQueryParts();
 
 			// activity
 			$projectObj = $this->projectMapper->find($projectid);
@@ -3859,10 +3854,8 @@ class ProjectService {
 			);
 		$req = $qb->executeQuery();
 		$dbId = null;
-		$dbToken = null;
 		while ($row = $req->fetch()){
 			$dbId = $row['id'];
-			$dbToken = $row['userid'];
 			break;
 		}
 		$req->closeCursor();
@@ -3880,8 +3873,8 @@ class ProjectService {
 				->andWhere(
 					$qb->expr()->eq('type', $qb->createNamedParameter('l', IQueryBuilder::PARAM_STR))
 				);
-			$req = $qb->executeStatement();
-			$qb = $qb->resetQueryParts();
+			$qb->executeStatement();
+			$qb->resetQueryParts();
 
 			//// activity
 			//$projectObj = $this->projectMapper->find($projectid);
@@ -3962,7 +3955,7 @@ class ProjectService {
 						'userid' => $qb->createNamedParameter($groupid, IQueryBuilder::PARAM_STR),
 						'type' => $qb->createNamedParameter('g', IQueryBuilder::PARAM_STR)
 					]);
-				$req = $qb->executeStatement();
+				$qb->executeStatement();
 				$qb = $qb->resetQueryParts();
 
 				$insertedShareId = intval($qb->getLastInsertId());
@@ -4011,10 +4004,8 @@ class ProjectService {
 			);
 		$req = $qb->executeQuery();
 		$dbGroupId = null;
-		$dbId = null;
 		while ($row = $req->fetch()){
 			$dbGroupId = $row['userid'];
-			$dbId = $row['id'];
 			break;
 		}
 		$req->closeCursor();
@@ -4032,8 +4023,8 @@ class ProjectService {
 				->andWhere(
 					$qb->expr()->eq('type', $qb->createNamedParameter('g', IQueryBuilder::PARAM_STR))
 				);
-			$req = $qb->executeStatement();
-			$qb = $qb->resetQueryParts();
+			$qb->executeStatement();
+			$qb->resetQueryParts();
 
 			// activity
 			$projectObj = $this->projectMapper->find($projectid);
@@ -4103,10 +4094,10 @@ class ProjectService {
 							'userid' => $qb->createNamedParameter($circleid, IQueryBuilder::PARAM_STR),
 							'type' => $qb->createNamedParameter('c', IQueryBuilder::PARAM_STR)
 						]);
-					$req = $qb->executeStatement();
+					$qb->executeStatement();
 					$qb = $qb->resetQueryParts();
 
-					$insertedShareId = intval($qb->getLastInsertId());
+					$insertedShareId = $qb->getLastInsertId();
 
 					// activity
 					$projectObj = $this->projectMapper->find($projectid);
@@ -4158,10 +4149,8 @@ class ProjectService {
 			);
 		$req = $qb->executeQuery();
 		$dbCircleId = null;
-		$dbId = null;
 		while ($row = $req->fetch()){
 			$dbCircleId = $row['userid'];
-			$dbId = $row['id'];
 			break;
 		}
 		$req->closeCursor();
@@ -4179,8 +4168,8 @@ class ProjectService {
 				->andWhere(
 					$qb->expr()->eq('type', $qb->createNamedParameter('c', IQueryBuilder::PARAM_STR))
 				);
-			$req = $qb->executeStatement();
-			$qb = $qb->resetQueryParts();
+			$qb->executeStatement();
+			$qb->resetQueryParts();
 
 			// activity
 			$projectObj = $this->projectMapper->find($projectid);
@@ -4260,7 +4249,7 @@ class ProjectService {
 		}
 		if ($userFolder->nodeExists($outPath)) {
 			$folder = $userFolder->get($outPath);
-			if ($folder->getType() !== \OCP\Files\FileInfo::TYPE_FOLDER) {
+			if ($folder->getType() !== FileInfo::TYPE_FOLDER) {
 				return $this->trans->t('%1$s is not a folder', [$outPath]);
 			} elseif (!$folder->isCreatable()) {
 				return $this->trans->t('%1$s is not writeable', [$outPath]);
@@ -4308,8 +4297,6 @@ class ProjectService {
 		$allStats = $this->getProjectStatistics($projectid, 'lowername', $tsMin, $tsMax, $paymentMode,
 												$category, $amountMin, $amountMax, $showDisabled, $currencyId);
 		$stats = $allStats['stats'];
-		if (!is_array($stats)) {
-		}
 
 		foreach ($stats as $stat) {
 			fwrite($handler, '"'.$stat['member']['name'].'",'.floatval($stat['paid']).','.floatval($stat['spent']).','.floatval($stat['balance'])."\n");
@@ -4426,7 +4413,7 @@ class ProjectService {
 		$userFolder = $this->root->getUserFolder($userId);
 		if ($userFolder->nodeExists($cleanPath)) {
 			$file = $userFolder->get($cleanPath);
-			if ($file->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
+			if ($file->getType() === FileInfo::TYPE_FILE) {
 				if (($handle = $file->fopen('r')) !== false) {
 					$columns = [];
 					$membersWeight = [];
@@ -4654,10 +4641,10 @@ class ProjectService {
 	 */
 	public function importSWProject(string $path, string $userId): array {
 		$cleanPath = str_replace(array('../', '..\\'), '',  $path);
-		$userFolder = $this->root->getUserFolder();
+		$userFolder = $this->root->getUserFolder($userId);
 		if ($userFolder->nodeExists($cleanPath)) {
 			$file = $userFolder->get($cleanPath);
-			if ($file->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
+			if ($file->getType() === FileInfo::TYPE_FILE) {
 				if (($handle = $file->fopen('r')) !== false) {
 					$columns = [];
 					$membersWeight = [];
@@ -4835,7 +4822,6 @@ class ProjectService {
 		$y = $now->format('Y');
 		$m = $now->format('m');
 		$d = $now->format('d');
-		$timestamp = $now->getTimestamp();
 
 		// get begining of today
 		$dateMaxDay = new DateTime($y.'-'.$m.'-'.$d);
@@ -4908,10 +4894,8 @@ class ProjectService {
 			$req = $qb->executeQuery();
 
 			$dbProjectId = null;
-			$dbPassword = null;
 			while ($row = $req->fetch()) {
 				$dbProjectId = $row['id'];
-				$dbName  = $row['name'];
 				$autoexport = $row['autoexport'];
 
 				$suffix = $dailySuffix;
@@ -4940,7 +4924,7 @@ class ProjectService {
 	 * @return array
 	 */
 	private function hexToRgb(string $color): array {
-		$color = \str_replace('#', '', $color);
+		$color = str_replace('#', '', $color);
 		$split_hex_color = str_split($color, 2);
 		$r = hexdec($split_hex_color[0]);
 		$g = hexdec($split_hex_color[1]);
@@ -5004,7 +4988,7 @@ class ProjectService {
 			];
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 
 		return $bills;
 	}
@@ -5043,7 +5027,7 @@ class ProjectService {
 		}
 
 		// sort bills by date
-		$a = usort($bills, function($a, $b) {
+		usort($bills, function($a, $b) {
 			$ta = $a['timestamp'];
 			$tb = $b['timestamp'];
 			return ($ta > $tb) ? -1 : 1;
@@ -5067,7 +5051,7 @@ class ProjectService {
 		$qb->where(
 			$qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 		);
-		$req = $qb->executeStatement();
-		$qb = $qb->resetQueryParts();
+		$qb->executeStatement();
+		$qb->resetQueryParts();
 	}
 }

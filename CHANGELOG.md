@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.3.7 – 2021-06-21
+### Fixed
+- mistakely using new DB methods
+  [#57](https://github.com/eneiluj/cospend-nc/issues/57) @rettenbs
+
 ## 1.3.6 – 2021-06-18
 ### Fixed
 - php 7.2 compatibility

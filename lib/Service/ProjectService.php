@@ -3565,7 +3565,7 @@ class ProjectService {
 								'accesslevel' => $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT),
 								'manually_added' => $qb->createNamedParameter($manually_added ? 1 : 0, IQueryBuilder::PARAM_INT),
 							]);
-						$qb->executeStatement();
+						$qb->execute();
 						$qb = $qb->resetQueryParts();
 
 						$insertedShareId = intval($qb->getLastInsertId());

@@ -83,7 +83,9 @@ export default {
 	watch: {
 		windowVisibility(newValue) {
 			if (newValue) {
-				this.loadActivity()
+				this.launchLoop()
+			} else {
+				this.stopLoop()
 			}
 		},
 	},
@@ -93,8 +95,7 @@ export default {
 	},
 
 	beforeMount() {
-		this.loadActivity()
-		this.loop = setInterval(this.loadActivity, 60000)
+		this.launchLoop()
 		document.addEventListener('visibilitychange', this.changeWindowVisibility)
 	},
 
@@ -104,6 +105,13 @@ export default {
 	methods: {
 		changeWindowVisibility() {
 			this.windowVisibility = !document.hidden
+		},
+		stopLoop() {
+			clearInterval(this.loop)
+		},
+		launchLoop() {
+			this.loadActivity()
+			this.loop = setInterval(this.loadActivity, 60000)
 		},
 		async loadActivity() {
 			if (!this.windowVisibility) {

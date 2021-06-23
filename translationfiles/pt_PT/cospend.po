@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-04-16 15:03+0200\n"
-"PO-Revision-Date: 2021-04-17 11:24\n"
+"PO-Revision-Date: 2021-06-23 11:27\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -725,7 +725,7 @@ msgstr "Projecto guardado"
 msgid "{nb} bill was created"
 msgid_plural "{nb} bills were created"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "Foram criadas {nb} facturas"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:14
 msgid "link"
@@ -832,11 +832,11 @@ msgstr "Anualmente"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:41
 msgid "Frequency"
-msgstr ""
+msgstr "Frequência"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:42
 msgid "Leave empty for maximum frequency"
-msgstr ""
+msgstr "Deixe em branco para a máxima frequência"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:43
 msgid "Include all active members on repeat"
@@ -1429,11 +1429,11 @@ msgstr "Categoria/Mês"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:212
 msgid "Monthly stats per payment mode"
-msgstr ""
+msgstr "Estatísticas mensais por modo de pagamento"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:213
 msgid "Payment mode/Month"
-msgstr ""
+msgstr "Modo de pagamento/Mês"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:214
 msgid "Select a member"
@@ -1477,7 +1477,7 @@ msgstr "Pagamentos por categoria por mês"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:224
 msgid "Payments per payment mode per month"
-msgstr ""
+msgstr "Pagamentos por modo de pagamento por mês"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:225
 msgid "Who paid (outside circle) and spent (inside pie)?"
@@ -1489,7 +1489,7 @@ msgstr "O que foi pago por categoria?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "What was paid per payment mode?"
-msgstr ""
+msgstr "O que foi pago por modo de pagamento?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "Who paid for this category?"
@@ -1635,7 +1635,7 @@ msgstr "Precisão máxima"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:271
 msgid "Use time in dates"
-msgstr ""
+msgstr "Usar tempo nas datas"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:272
 msgid "Choose csv project file"

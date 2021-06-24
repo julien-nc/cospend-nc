@@ -86,7 +86,7 @@ class CospendProvider implements IProvider {
 	 * @throws InvalidArgumentException Should be thrown if your provider does not know this event
 	 * @since 11.0.0
 	 */
-	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'cospend') {
 			throw new InvalidArgumentException();
 		}
@@ -100,6 +100,7 @@ class CospendProvider implements IProvider {
 		/**
 		 * Map stored parameter objects to rich string types
 		 */
+		$params = [];
 
 		$author = $event->getAuthor();
 		// get author if
@@ -173,7 +174,7 @@ class CospendProvider implements IProvider {
 	 * @param string $subject
 	 * @param array $parameters
 	 */
-	protected function setSubjects(IEvent $event, $subject, array $parameters) {
+	protected function setSubjects(IEvent $event, string $subject, array $parameters) {
 		$placeholders = $replacements = $richParameters = [];
 		foreach ($parameters as $placeholder => $parameter) {
 			$placeholders[] = '{' . $placeholder . '}';
@@ -190,8 +191,8 @@ class CospendProvider implements IProvider {
 		$event->setSubject($subject, $parameters);
 	}
 
-	private function getIcon(IEvent $event) {
-		$theme = $this->config->getUserValue($this->userId, 'accessibility', 'theme', '');
+	private function getIcon(IEvent $event): IEvent {
+		$theme = $this->config->getUserValue($this->userId, 'accessibility', 'theme');
 		$green = ($theme === 'dark')
 			? 'E9322D'
 			: '46BA61';
@@ -291,7 +292,7 @@ class CospendProvider implements IProvider {
 		return $params;
 	}
 
-	public function cospendUrl($endpoint) {
+	public function cospendUrl($endpoint): string {
 		return $this->urlGenerator->linkToRouteAbsolute('cospend.page.index') . $endpoint;
 	}
 }

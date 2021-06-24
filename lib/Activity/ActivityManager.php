@@ -23,6 +23,7 @@
 
 namespace OCA\Cospend\Activity;
 
+use Exception;
 use InvalidArgumentException;
 use OCA\Cospend\Service\UserService;
 use OCA\Cospend\Db\BillMapper;
@@ -30,14 +31,14 @@ use OCA\Cospend\Db\Bill;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Db\Project;
 
+use OCP\AppFramework\Db\Entity;
 use Psr\Log\LoggerInterface;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
-use OCP\IUserManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\IL10N;
-use OCP\IUser;
+use function get_class;
 
 class ActivityManager {
 
@@ -61,10 +62,6 @@ class ActivityManager {
 	 */
 	private $userService;
 	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-	/**
 	 * @var LoggerInterface
 	 */
 	private $logger;
@@ -75,7 +72,6 @@ class ActivityManager {
 								BillMapper $billMapper,
 								IL10N $l10n,
 								LoggerInterface $logger,
-								IUserManager $userManager,
 								?string $userId) {
 		$this->manager = $manager;
 		$this->userService = $userService;
@@ -83,17 +79,16 @@ class ActivityManager {
 		$this->billMapper = $billMapper;
 		$this->l10n = $l10n;
 		$this->userId = $userId;
-		$this->userManager = $userManager;
 		$this->logger = $logger;
 	}
 
 	/**
-	 * @param $subjectIdentifier
+	 * @param string $subjectIdentifier
 	 * @param array $subjectParams
 	 * @param bool $ownActivity
 	 * @return string
 	 */
-	public function getActivityFormat($subjectIdentifier, $subjectParams = [], $ownActivity = false): string {
+	public function getActivityFormat(string $subjectIdentifier, array $subjectParams = [], bool $ownActivity = false): string {
 		$subject = '';
 		switch ($subjectIdentifier) {
 			case self::SUBJECT_BILL_CREATE:
@@ -117,26 +112,34 @@ class ActivityManager {
 		return $subject;
 	}
 
-	public function triggerEvent($objectType, $entity, $subject, $additionalParams = [], $author = null) {
+	/**
+	 * @param string $objectType
+	 * @param Entity $entity
+	 * @param string $subject
+	 * @param array $additionalParams
+	 * @param string|null $author
+	 */
+	public function triggerEvent(string $objectType, Entity $entity, string $subject, array $additionalParams = [], ?string $author = null) {
 		try {
 			$event = $this->createEvent($objectType, $entity, $subject, $additionalParams, $author);
 			if ($event !== null) {
 				$this->sendToUsers($event);
 			}
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			// Ignore exception for undefined activities on update events
 		}
 	}
 
 	/**
-	 * @param $objectType
-	 * @param $entity
-	 * @param $subject
+	 * @param string $objectType
+	 * @param Entity $entity
+	 * @param string $subject
 	 * @param array $additionalParams
+	 * @param string|null $author
 	 * @return IEvent|null
-	 * @throws \Exception
+	 * @throws Exception
 	 */
-	private function createEvent($objectType, $entity, $subject, $additionalParams = [], $author = null): ?IEvent {
+	private function createEvent(string $objectType, Entity $entity, string $subject, array $additionalParams = [], ?string $author = null): ?IEvent {
 		if ($subject === self::SUBJECT_BILL_DELETE) {
 			$object = $entity;
 		} else {
@@ -174,8 +177,7 @@ class ActivityManager {
 				$objectName = $object->getId();
 				break;
 			default:
-				throw new \Exception('Unknown subject for activity.');
-				break;
+				throw new Exception('Unknown subject for activity.');
 		}
 		$subjectParams['author'] = $this->l10n->t('A guest user');
 
@@ -183,7 +185,7 @@ class ActivityManager {
 		$event->setApp('cospend')
 			->setType($eventType)
 			->setAuthor($author === null ? $this->userId ?? '' : $author)
-			->setObject($objectType, (int)$object->getId(), $objectName)
+			->setObject($objectType, $object->getId(), $objectName)
 			->setSubject($subject, array_merge($subjectParams, $additionalParams))
 			->setTimestamp(time());
 
@@ -199,6 +201,7 @@ class ActivityManager {
 	 * @param IEvent $event
 	 */
 	private function sendToUsers(IEvent $event) {
+		$projectId = '';
 		switch ($event->getObjectType()) {
 			case self::COSPEND_OBJECT_BILL:
 				$projectId = $event->getSubjectParameters()['project']['id'];
@@ -207,7 +210,6 @@ class ActivityManager {
 				$projectId = $event->getObjectName();
 				break;
 		}
-		/** @var IUser $user */
 		foreach ($this->userService->findUsers($projectId) as $user) {
 			$event->setAffectedUser($user);
 			/** @noinspection DisconnectedForeachInstructionInspection */
@@ -218,13 +220,10 @@ class ActivityManager {
 	/**
 	 * @param $objectType
 	 * @param $entity
-	 * @return null|\OCA\Cospend\Db\RelationalEntity|\OCP\AppFramework\Db\Entity
-	 * @throws \OCP\AppFramework\Db\DoesNotExistException
-	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException
+	 * @return Entity
 	 */
-	private function findObjectForEntity($objectType, $entity) {
-		$className = \get_class($entity);
-		$objectId = null;
+	private function findObjectForEntity($objectType, $entity): Entity	{
+		$className = get_class($entity);
 		if ($objectType === self::COSPEND_OBJECT_BILL) {
 			switch ($className) {
 				case Bill::class:
@@ -248,7 +247,11 @@ class ActivityManager {
 		throw new InvalidArgumentException('No entity relation present for '. $className . ' to ' . $objectType);
 	}
 
-	private function findDetailsForBill(object $bill) {
+	/**
+	 * @param object $bill
+	 * @return array[]
+	 */
+	private function findDetailsForBill(object $bill): array {
 		$project = $this->projectMapper->find($bill->getProjectid());
 		$bill = [
 			'id' => $bill->getId(),
@@ -265,7 +268,11 @@ class ActivityManager {
 		];
 	}
 
-	private function findDetailsForProject($projectId, $subject = null) {
+	/**
+	 * @param string $projectId
+	 * @return array[]
+	 */
+	private function findDetailsForProject(string $projectId): array {
 		$project = $this->projectMapper->find($projectId);
 		$project = [
 			'id' => $project->getId(),

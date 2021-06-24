@@ -12,25 +12,53 @@
 
  namespace OCA\Cospend\Db;
 
+use Exception;
+use OCP\AppFramework\Db\QBMapper;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\AppFramework\Db\Mapper;
 
-class BillMapper extends Mapper {
+class BillMapper extends QBMapper {
+	const TABLENAME = 'cospend_bills';
 
 	public function __construct(IDBConnection $db) {
-		parent::__construct($db, 'cospend_bills');
+		parent::__construct($db, self::TABLENAME, Bill::class);
 	}
 
-	public function find($id) {
-		$sql = 'SELECT * FROM `*PREFIX*cospend_bills` ' .
-			'WHERE `id` = ?';
-		return $this->findEntity($sql, [$id]);
+	/**
+	 * @param int $id
+	 * @return Bill
+	 * @throws \OCP\DB\Exception
+	 */
+	public function find(int $id): Bill {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from(self::TABLENAME)
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+		$result = $qb->executeQuery();
+		$row = $result->fetch();
+		$result->closeCursor();
+
+		if ($row === false) {
+			throw new Exception('Bill ' . $id . ' not found');
+		}
+
+		return $this->mapRowToEntity($row);
 	}
 
-	public function findProjectId($id) {
-		$sql = 'SELECT projectid FROM `*PREFIX*cospend_bills` ' .
-			'WHERE `id` = ?';
-		return $this->findEntity($sql, [$id])->getProjectid();
-	}
+	public function findProjectId(int $id): string {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('projectid')
+			->from(self::TABLENAME)
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+		$result = $qb->executeQuery();
+		$row = $result->fetch();
+		$result->closeCursor();
 
+		if ($row === false) {
+			throw new Exception('Bill ' . $id . ' not found');
+		}
+
+		error_log('22222 found projectid ' . $row['projectid']);
+		return $row['projectid'];
+	}
 }

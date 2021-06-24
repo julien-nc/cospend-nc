@@ -185,7 +185,7 @@ class ActivityManager {
 		$event->setApp('cospend')
 			->setType($eventType)
 			->setAuthor($author === null ? $this->userId ?? '' : $author)
-			->setObject($objectType, $object->getId(), $objectName)
+			->setObject($objectType, (int)$object->getId(), $objectName)
 			->setSubject($subject, array_merge($subjectParams, $additionalParams))
 			->setTimestamp(time());
 

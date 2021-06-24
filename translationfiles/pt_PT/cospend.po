@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-04-16 15:03+0200\n"
-"PO-Revision-Date: 2021-06-23 11:27\n"
+"PO-Revision-Date: 2021-06-24 11:31\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -1009,7 +1009,7 @@ msgstr "Atribuir categoria"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:87
 msgid "Assign payment mode"
-msgstr "Atribuir modo de pagamento"
+msgstr "Atribuir forma de pagamento"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:89
 msgid "Delete selected bills"
@@ -1429,11 +1429,11 @@ msgstr "Categoria/Mês"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:212
 msgid "Monthly stats per payment mode"
-msgstr "Estatísticas mensais por modo de pagamento"
+msgstr "Estatísticas mensais por forma de pagamento"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:213
 msgid "Payment mode/Month"
-msgstr "Modo de pagamento/Mês"
+msgstr "Forma de pagamento/Mês"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:214
 msgid "Select a member"
@@ -1477,7 +1477,7 @@ msgstr "Pagamentos por categoria por mês"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:224
 msgid "Payments per payment mode per month"
-msgstr "Pagamentos por modo de pagamento por mês"
+msgstr "Pagamentos por forma de pagamento por mês"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:225
 msgid "Who paid (outside circle) and spent (inside pie)?"
@@ -1489,7 +1489,7 @@ msgstr "O que foi pago por categoria?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "What was paid per payment mode?"
-msgstr "O que foi pago por modo de pagamento?"
+msgstr "O que foi pago por forma de pagamento?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "Who paid for this category?"

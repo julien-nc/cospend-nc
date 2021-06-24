@@ -18,6 +18,7 @@
 namespace OCA\Cospend\Controller;
 
 use OCP\IServerContainer;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Files\IRootFolder;
@@ -33,7 +34,7 @@ use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Service\ProjectService;
 
-class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
+class PageNUtilsControllerTest extends TestCase {
 
 	private $appName;
 	private $request;
@@ -115,7 +116,6 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 			),
 			$sc->getL10N($c->get('AppName')),
 			$c->get(LoggerInterface::class),
-			$c->get(IUserManager::class),
 			'test'
 		);
 
@@ -143,7 +143,6 @@ class PageNUtilsControllerTest extends \PHPUnit\Framework\TestCase {
 			),
 			$sc->getL10N($c->get('AppName')),
 			$c->get(LoggerInterface::class),
-			$c->get(IUserManager::class),
 			'test2'
 		);
 

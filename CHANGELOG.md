@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - improve stats line charts style
+- round numbers in line charts tooltips
 - use new DB query methods
 - adapt to new Circles management
 - bump min NC version to 22

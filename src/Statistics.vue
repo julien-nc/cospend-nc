@@ -657,7 +657,7 @@ export default {
 				const paid = []
 				for (const month of this.categoryMonths) {
 					if (mid in this.stats.memberMonthlyPaidStats[month]) {
-						paid.push(this.stats.memberMonthlyPaidStats[month][mid])
+						paid.push(this.stats.memberMonthlyPaidStats[month][mid].toFixed(2))
 					}
 				}
 				// check if data is complete (would be better to be sure of member list, like get it from the stats request)
@@ -696,7 +696,7 @@ export default {
 				const paid = []
 				for (const month of this.categoryMonths) {
 					if (mid in this.stats.memberMonthlySpentStats[month]) {
-						paid.push(this.stats.memberMonthlySpentStats[month][mid])
+						paid.push(this.stats.memberMonthlySpentStats[month][mid].toFixed(2))
 					}
 				}
 				// check if data is complete (would be better to be sure of member list, like get it from the stats request)
@@ -780,7 +780,7 @@ export default {
 				const paid = []
 				for (const month of this.categoryMonths) {
 					if (month in this.stats.categoryMonthlyStats[catId]) {
-						paid.push(this.stats.categoryMonthlyStats[catId][month])
+						paid.push(this.stats.categoryMonthlyStats[catId][month].toFixed(2))
 					} else {
 						paid.push(0)
 					}
@@ -828,7 +828,7 @@ export default {
 				const paid = []
 				for (const month of this.paymentModeMonths) {
 					if (month in this.stats.paymentModeMonthlyStats[pmId]) {
-						paid.push(this.stats.paymentModeMonthlyStats[pmId][month])
+						paid.push(this.stats.paymentModeMonthlyStats[pmId][month].toFixed(2))
 					} else {
 						paid.push(0)
 					}

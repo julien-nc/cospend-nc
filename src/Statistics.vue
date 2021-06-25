@@ -99,7 +99,7 @@
 		<br>
 		<p v-if="stats"
 			class="totalPayedText">
-			{{ t('cospend', 'Total payed by all the members: {t}', { t: totalPayed.toFixed(2) }) }}
+			{{ t('cospend', 'Total paid by all the members: {t}', { t: totalPayed.toFixed(2) }) }}
 		</p>
 		<br><hr>
 		<h2 class="statTableTitle">
@@ -444,7 +444,7 @@
 					</div>{{ myGetSmartMemberName(mid) }}
 				</v-th>
 				<v-th sort-key="total">
-					{{ t('cospend', 'Total payed') }}
+					{{ t('cospend', 'Total paid') }}
 				</v-th>
 			</thead>
 			<tbody slot="body" slot-scope="{displayData}">
@@ -479,7 +479,7 @@
 						{{ value[mid].toFixed(2) }}
 					</td>
 					<td v-if="value.memberid !== 0"
-						v-tooltip.top="{ content: t('cospend', 'Total payed by {name}', { name: myGetSmartMemberName(value.memberid) }) }"
+						v-tooltip.top="{ content: t('cospend', 'Total paid by {name}', { name: myGetSmartMemberName(value.memberid) }) }"
 						style="border: 2px solid lightgrey;">
 						{{ value.total.toFixed(2) }}
 					</td>

@@ -8,8 +8,8 @@ function endswith($string, $test) {
 
 function slugify($text) {
 	$str = strval($text);
-	$str = \preg_replace('/^\s+|\s+$/', '', $str); // trim
-	$str = \strtolower($str);
+	$str = preg_replace('/^\s+|\s+$/', '', $str); // trim
+	$str = strtolower($str);
 
 	$swaps = [
 		'0' => ['°', '₀', '۰', '０'],
@@ -128,14 +128,14 @@ function slugify($text) {
 
 	foreach ($swaps as $swap => $chars) {
 		foreach ($chars as $char) {
-			$str = \preg_replace('/'.$char.'/', $swap, $str);
+			$str = preg_replace('/'.$char.'/', $swap, $str);
 		}
 	}
-	$str = \preg_replace('/[^a-z0-9 -]/', '_', $str);
-	$str = \preg_replace('/\s+/', '-', $str);
-	$str = \preg_replace('/-+/', '-', $str);
-	$str = \preg_replace('/^-+/', '', $str);
-	$str = \preg_replace('/-+$/', '', $str);
+	$str = preg_replace('/[^a-z0-9 -]/', '_', $str);
+	$str = preg_replace('/\s+/', '-', $str);
+	$str = preg_replace('/-+/', '-', $str);
+	$str = preg_replace('/^-+/', '', $str);
+	$str = preg_replace('/-+$/', '', $str);
 	return $str;
 }
 ?>

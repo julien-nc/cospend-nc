@@ -30,6 +30,25 @@ class Application extends App implements IBootstrap {
 
 	public const APP_ID = 'cospend';
 
+	public const CAT_GROCERY = -1;
+	public const CAT_BAR = -2;
+	public const CAT_RENT = -3;
+	public const CAT_BILL = -4;
+	public const CAT_CULTURE = -5;
+	public const CAT_HEALTH = -6;
+	public const CAT_SHOPPING = -10;
+	public const CAT_REIMBURSEMENT = -11;
+	public const CAT_RESTAURANT = -12;
+	public const CAT_ACCOMODATION = -13;
+	public const CAT_TRANSPORT = -14;
+	public const CAT_SPORT = -15;
+
+	public const NO_ACCESS = 0;
+	public const ACCESS_VIEWER = 1;
+	public const ACCESS_PARTICIPANT = 2;
+	public const ACCESS_MAINTENER = 3;
+	public const ACCESS_ADMIN = 4;
+
 	/**
 	 * Constructor
 	 *

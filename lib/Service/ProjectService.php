@@ -34,12 +34,12 @@ use DateTimeImmutable;
 use DateInterval;
 use DateTime;
 
+use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Db\BillMapper;
 use function str_replace;
 
-require_once __DIR__ . '/const.php';
 require_once __DIR__ . '/../utils.php';
 
 class ProjectService {
@@ -233,7 +233,7 @@ class ProjectService {
 		if ($projectInfo !== null) {
 			// does the user own the project ?
 			if ($projectInfo['userid'] === $userid) {
-				return ACCESS_ADMIN;
+				return Application::ACCESS_ADMIN;
 			} else {
 				$qb = $this->db->getQueryBuilder();
 				// is the project shared with the user ?
@@ -325,7 +325,7 @@ class ProjectService {
 		if ($projectInfo !== null) {
 			return intval($projectInfo['guestaccesslevel']);
 		} else {
-			return NO_ACCESS;
+			return Application::NO_ACCESS;
 		}
 	}
 
@@ -1301,7 +1301,11 @@ class ProjectService {
 			$toId = $transaction['to'];
 			$amount = round(floatval($transaction['amount']), $precision);
 			$billTitle = $memberIdToName[$fromId].' → '.$memberIdToName[$toId];
-			$addBillResult = $this->addBill($projectid, null, $billTitle, $fromId, $toId, $amount, 'n', 'n', CAT_REIMBURSEMENT, 0, null, $ts);
+			$addBillResult = $this->addBill(
+				$projectid, null, $billTitle, $fromId, $toId, $amount,
+				'n', 'n', Application::CAT_REIMBURSEMENT,
+				0, null, $ts
+			);
 			if (!isset($addBillResult['inserted_id'])) {
 				return ['message' => $this->trans->t('Error when adding a bill')];
 			}
@@ -1754,7 +1758,7 @@ class ProjectService {
 			if (intval($category) === -100) {
 				$or = $qb->expr()->orx();
 				$or->add($qb->expr()->isNull('categoryid'));
-				$or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(CAT_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
+				$or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(Application::CAT_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
 				$qb->andWhere($or);
 			} else {
 				$qb->andWhere(
@@ -1912,7 +1916,7 @@ class ProjectService {
 			if (intval($category) === -100) {
 				$or = $qb->expr()->orx();
 				$or->add($qb->expr()->isNull('categoryid'));
-				$or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(CAT_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
+				$or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(Application::CAT_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
 				$qb->andWhere($or);
 			} else {
 				$qb->andWhere(
@@ -3516,7 +3520,7 @@ class ProjectService {
 	 * @return array
 	 */
 	public function addUserShare(string $projectid, string $userid, string $fromUserId,
-								int $accesslevel = ACCESS_PARTICIPANT, bool $manually_added = true): array {
+								int $accesslevel = Application::ACCESS_PARTICIPANT, bool $manually_added = true): array {
 		$user = $this->userManager->get($userid);
 		if ($user !== null && $userid !== $fromUserId) {
 			$userName = $user->getDisplayName();

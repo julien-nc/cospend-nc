@@ -758,7 +758,7 @@ msgid "Convert to"
 msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:23
-msgid "Who payed?"
+msgid "Who paid?"
 msgstr "谁支付?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:24
@@ -878,7 +878,7 @@ msgid "Classic mode: Choose a payer, enter a bill amount and select who is conce
 msgstr "经典模式：选择一个支付人，输入账单的金额，选择这笔消费涉及的有关成员，然后账单会平均摊分到所选的成员上。实际生活例子：一个人支付整个餐厅账单，每个人都同意平均摊分这笔费用。"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:53
-msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
+msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr "经典+个人模式：这个模式类似于典型模式。选择一个支付人，输入实际消费支出的金额。然后选择和此消费相关的成员。另外，可以设定属于某个成员的个人消费金额。多个账单将会被创建：一部分属于团队共同支出，另外一部分属于每个个人的支出。实际生活示例：我们在购物结账的时候，账单里其中一部分购买的物品是整个团队公用的，但也有掺杂了一些个人物品（例如单独一件衬衫），其他团队成员并不希望为此个人物品买单。"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:54

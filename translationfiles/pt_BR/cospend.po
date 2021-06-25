@@ -759,7 +759,7 @@ msgid "Convert to"
 msgstr "Converter para"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:23
-msgid "Who payed?"
+msgid "Who paid?"
 msgstr "Quem pagou?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:24
@@ -879,7 +879,7 @@ msgid "Classic mode: Choose a payer, enter a bill amount and select who is conce
 msgstr "Modo clássico: Escolha um pagador, digite um valor da despesa e secione quem está incluído na despesa inteira. A despesa é então dividida igualmente entre os membros selecionados. Exemplo da vida real: Uma pessoa paga a fatura do restaurante por inteiro e todos concordam em dividir o custo."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:53
-msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
+msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr "Modo clássico + pessoal: Este modo é semelhante ao clássico. Escolha um pagador e digite um valor de despesa correspondente ao que foi realmente pago. Em seguida, selecione quem está implicado na despesa e, opcionalmente, defina um valor relativo a partes pessoais para alguns membros. Irão ser criadas várias despesas: uma para a despesa compartilhada e outra para cada parte pessoal. Exemplo da vida real: Vamos às compras, parte do que foi comprado diz respeito ao grupo mas alguém adicionou também algo pessoal (tal como uma camisa) que os outros não querem pagar coletivamente."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:54

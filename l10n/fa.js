@@ -128,7 +128,7 @@ OC.L10N.register(
     "What is the bill about?" : "رسید درباره چیست؟",
     "Attach public link to personal file" : "پیوست نشانی عمومی به پرونده شخصی",
     "Convert to" : "تبدیل به",
-    "Who payed?" : "چه کسی پرداخت کرده؟",
+    "Who paid?" : "چه کسی پرداخت کرده؟",
     "When?" : "چه زمانی؟",
     "Payment mode" : "شیوه پرداخت",
     "None" : "هیچ کدام",

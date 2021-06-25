@@ -105,7 +105,7 @@
 					</div>
 				</div>
 				<div class="bill-payer">
-					<label for="payer"><a class="icon icon-user" />{{ t('cospend', 'Who payed?') }}</label>
+					<label for="payer"><a class="icon icon-user" />{{ t('cospend', 'Who paid?') }}</label>
 					<select
 						id="payer"
 						v-model="myBill.payer_id"
@@ -324,7 +324,7 @@
 						</div>
 						<div v-else-if="newBillMode === 'perso' && showHint"
 							class="modehint">
-							{{ t('cospend', 'Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don\'t want to collectively pay.') }}
+							{{ t('cospend', 'Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don\'t want to collectively pay.') }}
 						</div>
 						<div v-else-if="newBillMode === 'custom' && showHint"
 							class="modehint">

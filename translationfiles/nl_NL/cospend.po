@@ -759,7 +759,7 @@ msgid "Convert to"
 msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:23
-msgid "Who payed?"
+msgid "Who paid?"
 msgstr "Wie heeft er betaald?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:24
@@ -879,7 +879,7 @@ msgid "Classic mode: Choose a payer, enter a bill amount and select who is conce
 msgstr "Klassieke modus: Kies een betaler, voer een rekeningbedrag in en selecteer wie gehele uitgave deed; de rekening wordt dan eerlijk verdeeld over de geselecteerde deelnemers. Bijvoorbeeld: één persoon betaalt de hele rekening van het restaurant en iedereen is het erover eens de kosten gelijk te verdelen."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:53
-msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
+msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr "Klassies+persoonlijk modus: Deze modus is vergelijkbaar met de klassieke. Kies een betaler en voer een rekening-bedrag in dat overeenkomt met wat er daadwerkelijk is betaald. Selecteer vervolgens de deelnemers waaronder het bedrag verdeeld dient te worden en stel eventueel een bedrag in gerelateerd aan persoonlijke delen voor sommige deelnemers. Meerdere rekeningen zullen worden gemaakt: één voor de gedeelde uitgaven en één voor elk persoonlijk deel. Bijvoorbeeld: We gaan winkelen; Een deel van wat werd gekocht heeft betrekking op de groep, maar iemand heeft ook iets persoonlijk toegevoegd (zoals een shirt) dat de anderen niet collectief willen betalen."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:54

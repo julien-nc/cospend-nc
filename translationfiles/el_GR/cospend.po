@@ -759,7 +759,7 @@ msgid "Convert to"
 msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:23
-msgid "Who payed?"
+msgid "Who paid?"
 msgstr "Ποιος πλήρωσε;"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:24
@@ -879,7 +879,7 @@ msgid "Classic mode: Choose a payer, enter a bill amount and select who is conce
 msgstr "Κλασική λειτουργία: Επιλέξτε έναν πληρωτή, εισάγετε ένα ποσό λογαριασμού και επιλέξτε ποιος ενδιαφέρεται για το σύνολο των δαπανών, ο λογαριασμός κατανέμεται στη συνέχεια ισότιμα μεταξύ επιλεγμένων μελών. Παράδειγμα: Ένα άτομο πληρώνει ολόκληρο το λογαριασμό του εστιατορίου και όλοι συμφωνούν να κατανείμουν ομοιόμορφα το κόστος."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:53
-msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
+msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr "Κλασσική + προσωπική λειτουργία: Αυτή η λειτουργία είναι παρόμοια με την κλασική. Επιλέξτε έναν πληρωτή και εισάγετε ένα ποσό λογαριασμού που αντιστοιχεί σε αυτό που πραγματικά πληρώσατε. Στη συνέχεια επιλέξτε ποιος ενδιαφέρεται για το λογαριασμό και προαιρετικά ορίστε ένα ποσό που σχετίζεται με προσωπικά πράγματα για ορισμένα μέλη. Θα δημιουργηθούν πολλαπλοί λογαριασμοί: ένας για τις κοινές δαπάνες και ένας για κάθε προσωπικό κομμάτι. Παράδειγμα: Πηγαίνουμε για ψώνια, μέρος των αγαθών που αγοράσαμε αφορά την ομάδα, αλλά κάποιος πρόσθεσε επίσης κάτι προσωπικό (όπως ένα πουκάμισο) το οποίο οι άλλοι δεν θέλουν να πληρώσουν συλλογικά."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:54

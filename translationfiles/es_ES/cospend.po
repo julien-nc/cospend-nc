@@ -759,7 +759,7 @@ msgid "Convert to"
 msgstr "Convertir a"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:23
-msgid "Who payed?"
+msgid "Who paid?"
 msgstr "¿Quién pagó?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:24
@@ -879,7 +879,7 @@ msgid "Classic mode: Choose a payer, enter a bill amount and select who is conce
 msgstr "Modo clásico: Elija un pagador, introduzca una factura y seleccione quién es responsable del gasto, la factura se dividirá equitativamente entre los miembros seleccionados. Ejemplo de vida real: Una persona paga toda la factura del restaurante y todo el mundo acepta dividir el coste de manera uniforme."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:53
-msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
+msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr "Modo clásico+personal: Este modo es similar al clásico. Elija un pagador y introduzca un importe de factura correspondiente a lo que se ha pagado realmente. Luego seleccione quién es el responsable de la factura y opcionalmente establezca una cantidad relacionada con las cosas personales para algunos miembros. Se crearán varias facturas: una para el gasto compartido y una para cada parte personal. Ejemplo de vida real: Vamos a comprar, parte de lo que se compró concierne al grupo pero alguien también añadió algo personal (como una camiseta) que los demás no quieren pagar colectivamente."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:54

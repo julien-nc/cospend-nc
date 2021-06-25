@@ -761,7 +761,7 @@ msgid "Convert to"
 msgstr "Przewalutowano na"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:23
-msgid "Who payed?"
+msgid "Who paid?"
 msgstr "Kto zapłacił?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:24
@@ -881,7 +881,7 @@ msgid "Classic mode: Choose a payer, enter a bill amount and select who is conce
 msgstr "Tryb klasyczny: Wybierz zleceniodawcę, wprowadź kwotę rachunku i wybierz kto jest zainteresowany całym wydatkiem, rachunek jest następnie rozdzielany sprawiedliwie pomiędzy wybranych członków. Przykład rzeczywistego życia: jedna osoba płaci cały rachunek restauracyjny i wszyscy zgadzają się na równomierny podział kosztów."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:53
-msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
+msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr "Tryb klasyczny i prywatny: Ten tryb jest podobny do klasycznego. Wybierz płatnika i wprowadź kwotę rachunku odpowiadającą temu, co zostało faktycznie zapłacone. Następnie wybierz kto jest zainteresowany rachunkiem i opcjonalnie ustaw kwotę związaną z osobistymi rzeczami dla niektórych członków. Stworzone zostaną liczne rachunki: jeden dla wydatków dzielonych i jeden dla każdej części osobistej. Prawdziwy przykład życia: idziemy na zakupy, część tego, co zostało kupione, dotyczy grupy, ale ktoś dodał również coś osobistego (jak koszulka), którego inni nie chcą wspólnie płacić."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:54

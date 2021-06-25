@@ -106,7 +106,7 @@ OC.L10N.register(
     "What?" : "Mi?",
     "Attach public link to personal file" : "Publikus link hozzáadása egyéni fájlhoz",
     "Convert to" : "Konvertálás",
-    "Who payed?" : "Ki fizetett?",
+    "Who paid?" : "Ki fizetett?",
     "When?" : "Mikor?",
     "Payment mode" : "Fizetési mód",
     "None" : "Egyik sem",

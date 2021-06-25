@@ -761,7 +761,7 @@ msgid "Convert to"
 msgstr "Převést na"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:23
-msgid "Who payed?"
+msgid "Who paid?"
 msgstr "Kdo zaplatil?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:24
@@ -881,7 +881,7 @@ msgid "Classic mode: Choose a payer, enter a bill amount and select who is conce
 msgstr "Klasický režim: Vyberte kdo zaplatil, zadejte částku z účtenky a vyberte, mezi koho všeho se útrata rozdělí – účet je pak spravedlivě rozdělen mezi vybrané členy. Příklad z reálného života: Jedna osoba zaplatí celý účet v restauraci a všichni souhlasí s rovnoměrným rozdělením nákladů."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:53
-msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually payed. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
+msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr "Klasický+osobní režim: Tento režim je podobný tomu klasickému. Vyberete, kdo platil a zadáte částku účtenky, která odpovídá tomu, co bylo skutečně zaplaceno. Pak vyberte, mezi koho všeho se bude rozpočítávat a případně nastavíte částku, která se vztahuje na osobní věci pro některé členy. Bude vytvořeno více účtů: jeden pro sdílené výdaje a jeden pro každou osobní část. Příklad reálného života: Jdeme nakupovat, část toho, co bylo koupeno, se týká skupiny, ale někdo také přidal něco osobního (jako tričko), které ostatní nechtějí kolektivně platit."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:54

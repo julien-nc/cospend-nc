@@ -167,17 +167,17 @@
 		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		<hr>
 		<h2 class="statTableTitle">
-			{{ t('cospend', 'Monthly stats per member') }}
+			{{ t('cospend', 'Monthly paid per member') }}
 		</h2>
 		<v-table v-if="stats"
-			id="monthlyTable"
+			id="memberMonthlyPaidTable"
 			class="coloredTable avatarTable"
-			:data="monthlyMemberStats">
+			:data="memberMonthlyPaidStats">
 			<thead slot="head">
 				<v-th sort-key="member.name">
 					{{ t('cospend', 'Member/Month') }}
 				</v-th>
-				<v-th v-for="(st, month) in stats.memberMonthlyStats"
+				<v-th v-for="(st, month) in stats.memberMonthlyPaidStats"
 					:key="month"
 					:sort-key="month">
 					{{ month }}
@@ -204,7 +204,7 @@
 							<div v-if="isMemberDisabled(value.member.id)" class="disabledMask" />
 						</div>{{ (value.member.id !== 0) ? myGetSmartMemberName(value.member.id) : value.member.name }}
 					</td>
-					<td v-for="(st, month) in stats.memberMonthlyStats"
+					<td v-for="(st, month) in stats.memberMonthlyPaidStats"
 						:key="month"
 						:style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
 						{{ value[month].toFixed(2) }}
@@ -213,15 +213,69 @@
 			</tbody>
 		</v-table>
 		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
-		<div id="memberMonthlyChart">
+		<div id="memberMonthlyPaidChart">
 			<LineChartJs v-if="stats"
-				:chart-data="monthlyMemberChartData"
-				:options="monthlyMemberChartOptions" />
+				:chart-data="memberMonthlyPaidChartData"
+				:options="memberMonthlyPaidChartOptions" />
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
 		<h2 class="statTableTitle">
-			{{ t('cospend', 'Monthly stats per category') }}
+			{{ t('cospend', 'Monthly spent per member') }}
+		</h2>
+		<v-table v-if="stats"
+			id="memberMonthlySpentTable"
+			class="coloredTable avatarTable"
+			:data="memberMonthlySpentStats">
+			<thead slot="head">
+				<v-th sort-key="member.name">
+					{{ t('cospend', 'Member/Month') }}
+				</v-th>
+				<v-th v-for="(st, month) in stats.memberMonthlySpentStats"
+					:key="month"
+					:sort-key="month">
+					{{ month }}
+				</v-th>
+			</thead>
+			<tbody slot="body" slot-scope="{displayData}">
+				<tr v-for="value in displayData"
+					:key="value.member.id"
+					v-tooltip.left="{ content: value.member.name }"
+					:class="{ 'all-members': value.member.id === 0 }">
+					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
+						<div v-if="value.member.id !== 0"
+							class="owerAvatar">
+							<ColoredAvatar
+								class="itemAvatar"
+								:color="getMemberColor(value.member.id)"
+								:size="24"
+								:disable-menu="true"
+								:disable-tooltip="true"
+								:show-user-status="false"
+								:is-no-user="getMemberUserId(value.member.id) === ''"
+								:user="getMemberUserId(value.member.id)"
+								:display-name="getMemberName(value.member.id)" />
+							<div v-if="isMemberDisabled(value.member.id)" class="disabledMask" />
+						</div>{{ (value.member.id !== 0) ? myGetSmartMemberName(value.member.id) : value.member.name }}
+					</td>
+					<td v-for="(st, month) in stats.memberMonthlySpentStats"
+						:key="month"
+						:style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
+						{{ value[month].toFixed(2) }}
+					</td>
+				</tr>
+			</tbody>
+		</v-table>
+		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
+		<div id="memberMonthlySpentChart">
+			<LineChartJs v-if="stats"
+				:chart-data="memberMonthlySpentChartData"
+				:options="memberMonthlySpentChartOptions" />
+			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
+		</div>
+		<hr>
+		<h2 class="statTableTitle">
+			{{ t('cospend', 'Monthly paid per category') }}
 		</h2>
 		<v-table v-if="stats"
 			id="categoryTable"
@@ -261,7 +315,7 @@
 		</div>
 		<hr>
 		<h2 class="statTableTitle">
-			{{ t('cospend', 'Monthly stats per payment mode') }}
+			{{ t('cospend', 'Monthly paid per payment mode') }}
 		</h2>
 		<v-table v-if="stats"
 			id="paymentModeTable"
@@ -514,7 +568,7 @@ export default {
 		totalPayed() {
 			return this.stats.stats.map(s => s.paid).reduce((acc, curr) => acc + curr)
 		},
-		monthlyMemberStats() {
+		memberMonthlyPaidStats() {
 			const memberIds = this.stats.memberIds
 			const mids = memberIds.slice()
 			mids.push('0')
@@ -522,8 +576,22 @@ export default {
 				const row = {
 					member: mid === '0' ? { name: t('cospend', 'All members'), id: 0 } : cospend.members[this.projectId][mid],
 				}
-				for (const month in this.stats.memberMonthlyStats) {
-					row[month] = this.stats.memberMonthlyStats[month][mid]
+				for (const month in this.stats.memberMonthlyPaidStats) {
+					row[month] = this.stats.memberMonthlyPaidStats[month][mid]
+				}
+				return row
+			})
+		},
+		memberMonthlySpentStats() {
+			const memberIds = this.stats.memberIds
+			const mids = memberIds.slice()
+			mids.push('0')
+			return mids.map((mid) => {
+				const row = {
+					member: mid === '0' ? { name: t('cospend', 'All members'), id: 0 } : cospend.members[this.projectId][mid],
+				}
+				for (const month in this.stats.memberMonthlySpentStats) {
+					row[month] = this.stats.memberMonthlySpentStats[month][mid]
 				}
 				return row
 			})
@@ -580,7 +648,7 @@ export default {
 			}
 			return data
 		},
-		monthlyMemberChartData() {
+		memberMonthlyPaidChartData() {
 			const memberDatasets = []
 			let member
 			let index = 0
@@ -588,8 +656,8 @@ export default {
 				member = this.members[mid]
 				const paid = []
 				for (const month of this.categoryMonths) {
-					if (mid in this.stats.memberMonthlyStats[month]) {
-						paid.push(this.stats.memberMonthlyStats[month][mid])
+					if (mid in this.stats.memberMonthlyPaidStats[month]) {
+						paid.push(this.stats.memberMonthlyPaidStats[month][mid])
 					}
 				}
 				// check if data is complete (would be better to be sure of member list, like get it from the stats request)
@@ -618,7 +686,45 @@ export default {
 				datasets: memberDatasets,
 			}
 		},
-		monthlyMemberChartOptions() {
+		memberMonthlySpentChartData() {
+			const memberDatasets = []
+			let member
+			let index = 0
+			for (const mid in this.members) {
+				member = this.members[mid]
+				const paid = []
+				for (const month of this.categoryMonths) {
+					if (mid in this.stats.memberMonthlySpentStats[month]) {
+						paid.push(this.stats.memberMonthlySpentStats[month][mid])
+					}
+				}
+				// check if data is complete (would be better to be sure of member list, like get it from the stats request)
+				if (paid.length !== this.categoryMonths.length) {
+					continue
+				}
+
+				const dataset = {
+					label: member.name,
+					// FIXME hacky way to change alpha channel:
+					backgroundColor: '#' + member.color + '4D',
+					pointBackgroundColor: '#' + member.color,
+					borderColor: '#' + member.color,
+					pointHighlightStroke: '#' + member.color,
+					lineTension: 0,
+					data: paid,
+				}
+				if (index === 0) {
+					dataset.fill = 'origin'
+				}
+				index++
+				memberDatasets.push(dataset)
+			}
+			return {
+				labels: this.categoryMonths,
+				datasets: memberDatasets,
+			}
+		},
+		memberMonthlyPaidChartOptions() {
 			return {
 				elements: {
 					line: {
@@ -648,6 +754,15 @@ export default {
 				},
 				legend: {
 					position: 'left',
+				},
+			}
+		},
+		memberMonthlySpentChartOptions() {
+			return {
+				...this.memberMonthlyPaidChartOptions,
+				title: {
+					display: true,
+					text: t('cospend', 'Spendings per member per month'),
 				},
 			}
 		},
@@ -691,7 +806,7 @@ export default {
 		},
 		monthlyCategoryChartOptions() {
 			return {
-				...this.monthlyMemberChartOptions,
+				...this.memberMonthlyPaidChartOptions,
 				title: {
 					display: true,
 					text: t('cospend', 'Payments per category per month'),
@@ -738,7 +853,7 @@ export default {
 		},
 		monthlyPaymentModeChartOptions() {
 			return {
-				...this.monthlyMemberChartOptions,
+				...this.memberMonthlyPaidChartOptions,
 				title: {
 					display: true,
 					text: t('cospend', 'Payments per payment mode per month'),
@@ -1070,7 +1185,8 @@ export default {
 
 #categoryMonthlyChart,
 #paymentModeMonthlyChart,
-#memberMonthlyChart {
+#memberMonthlyPaidChart,
+#memberMonthlySpentChart {
 	width: 800px !important;
 	height: 400px !important;
 	margin: 0 auto 0 auto;
@@ -1140,13 +1256,15 @@ export default {
 }
 
 #paidForTable,
-#monthlyTable,
+#memberMonthlyPaidTable,
+#memberMonthlySpentTable,
 #categoryTable,
 #paymentModeTable {
 	overflow: scroll;
 }
 
-#monthlyTable tr.all-members td:first-child,
+#memberMonthlyPaidTable tr.all-members td:first-child,
+#memberMonthlySpentTable tr.all-members td:first-child,
 #paymentModeTable td:first-child,
 #categoryTable td:first-child {
 	padding: 0px 5px 0px 5px;

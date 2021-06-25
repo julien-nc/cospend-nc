@@ -816,53 +816,117 @@ class ProjectService {
 		}
 
 		// compute monthly member stats
-		$memberMonthlyStats = [];
+		$memberMonthlyPaidStats = [];
+		$memberMonthlySpentStats = [];
 		$allMembersKey = 0;
 		foreach ($bills as $bill) {
 			$payerId = $bill['payer_id'];
 			$amount = $bill['amount'];
+			$owers = $bill['owers'];
 			$date = DateTime::createFromFormat('U', $bill['timestamp']);
 			$date->setTimezone($timeZone);
 			$month = $date->format('Y-m');
-			if (!array_key_exists($month, $memberMonthlyStats)) {
-				$memberMonthlyStats[$month] = [];
+			//////////////// PAID
+			// initialize this month
+			if (!array_key_exists($month, $memberMonthlyPaidStats)) {
+				$memberMonthlyPaidStats[$month] = [];
 				foreach ($membersToDisplay as $memberId => $member) {
-					$memberMonthlyStats[$month][$memberId] = 0;
+					$memberMonthlyPaidStats[$month][$memberId] = 0;
 				}
-				$memberMonthlyStats[$month][$allMembersKey] = 0;
+				$memberMonthlyPaidStats[$month][$allMembersKey] = 0;
 			}
 
+			// add paid amount
 			if (array_key_exists($payerId, $membersToDisplay)) {
-				$memberMonthlyStats[$month][$payerId] += $amount;
-				$memberMonthlyStats[$month][$allMembersKey] += $amount;
+				$memberMonthlyPaidStats[$month][$payerId] += $amount;
+				$memberMonthlyPaidStats[$month][$allMembersKey] += $amount;
+			}
+			//////////////// SPENT
+			// initialize this month
+			if (!array_key_exists($month, $memberMonthlySpentStats)) {
+				$memberMonthlySpentStats[$month] = [];
+				foreach ($membersToDisplay as $memberId => $member) {
+					$memberMonthlySpentStats[$month][$memberId] = 0;
+				}
+				$memberMonthlySpentStats[$month][$allMembersKey] = 0;
+			}
+			// spent value for all members is the bill amount (like the paid value)
+			$memberMonthlySpentStats[$month][$allMembersKey] += $amount;
+			// compute number of shares
+			$nbOwerShares = 0.0;
+			foreach ($owers as $ower) {
+				$owerWeight = $ower['weight'];
+				if ($owerWeight === 0.0) {
+					$owerWeight = 1.0;
+				}
+				$nbOwerShares += $owerWeight;
+			}
+			// compute how much each ower has spent
+			foreach ($owers as $ower) {
+				$owerWeight = $ower['weight'];
+				if ($owerWeight === 0.0) {
+					$owerWeight = 1.0;
+				}
+				$owerId = $ower['id'];
+				$spent = $amount / $nbOwerShares * $owerWeight;
+				if (array_key_exists($owerId, $membersToDisplay)) {
+					$memberMonthlySpentStats[$month][$owerId] += $spent;
+				}
 			}
 		}
-		// monthly average
-		$nbMonth = count(array_keys($memberMonthlyStats));
+		// monthly paid and spent average
+		$averageKey = $this->trans->t('Average per month');
+		$nbMonth = count(array_keys($memberMonthlyPaidStats));
 		if ($nbMonth > 0) {
-			$averageStats = [];
+			////////////////////// PAID
+			$averagePaidStats = [];
 			foreach ($membersToDisplay as $memberId => $member) {
 				$sum = 0;
-				foreach ($memberMonthlyStats as $month => $mStat) {
-					$sum += $memberMonthlyStats[$month][$memberId];
+				foreach ($memberMonthlyPaidStats as $month => $mStat) {
+					$sum += $memberMonthlyPaidStats[$month][$memberId];
 				}
-				$averageStats[$memberId] = $sum / $nbMonth;
+				$averagePaidStats[$memberId] = $sum / $nbMonth;
 			}
 			// average for all members
 			$sum = 0;
-			foreach ($memberMonthlyStats as $month => $mStat) {
-				$sum += $memberMonthlyStats[$month][$allMembersKey];
+			foreach ($memberMonthlyPaidStats as $month => $mStat) {
+				$sum += $memberMonthlyPaidStats[$month][$allMembersKey];
 			}
-			$averageStats[$allMembersKey] = $sum / $nbMonth;
+			$averagePaidStats[$allMembersKey] = $sum / $nbMonth;
 
-			$averageKey = $this->trans->t('Average per month');
-			$memberMonthlyStats[$averageKey] = $averageStats;
+			$memberMonthlyPaidStats[$averageKey] = $averagePaidStats;
+			////////////////////// SPENT
+			$averageSpentStats = [];
+			foreach ($membersToDisplay as $memberId => $member) {
+				$sum = 0;
+				foreach ($memberMonthlySpentStats as $month => $mStat) {
+					$sum += $memberMonthlySpentStats[$month][$memberId];
+				}
+				$averageSpentStats[$memberId] = $sum / $nbMonth;
+			}
+			// average for all members
+			$sum = 0;
+			foreach ($memberMonthlySpentStats as $month => $mStat) {
+				$sum += $memberMonthlySpentStats[$month][$allMembersKey];
+			}
+			$averageSpentStats[$allMembersKey] = $sum / $nbMonth;
+
+			$memberMonthlySpentStats[$averageKey] = $averageSpentStats;
 		}
 		// convert if necessary
 		if ($currency !== null) {
-			foreach ($memberMonthlyStats as $month => $mStat) {
+			foreach ($memberMonthlyPaidStats as $month => $mStat) {
 				foreach ($mStat as $mid => $val) {
-					$memberMonthlyStats[$month][$mid] = ($memberMonthlyStats[$month][$mid] === 0.0) ? 0 : $memberMonthlyStats[$month][$mid] / $currency['exchange_rate'];
+					$memberMonthlyPaidStats[$month][$mid] = ($memberMonthlyPaidStats[$month][$mid] === 0.0)
+						? 0
+						: $memberMonthlyPaidStats[$month][$mid] / $currency['exchange_rate'];
+				}
+			}
+			foreach ($memberMonthlySpentStats as $month => $mStat) {
+				foreach ($mStat as $mid => $val) {
+					$memberMonthlySpentStats[$month][$mid] = ($memberMonthlySpentStats[$month][$mid] === 0.0)
+						? 0
+						: $memberMonthlySpentStats[$month][$mid] / $currency['exchange_rate'];
 				}
 			}
 		}
@@ -970,7 +1034,8 @@ class ProjectService {
 
 		return [
 			'stats' => $statistics,
-			'memberMonthlyStats' => $memberMonthlyStats,
+			'memberMonthlyPaidStats' => $memberMonthlyPaidStats,
+			'memberMonthlySpentStats' => $memberMonthlySpentStats,
 			'categoryStats' => $categoryStats,
 			'categoryMonthlyStats' => $categoryMonthlyStats,
 			'paymentModeStats' => $paymentModeStats,

@@ -36,7 +36,6 @@ OC.L10N.register(
     "Spent" : "Изразходвано",
     "Balance" : "Баланс",
     "What?" : "Какво?",
-    "Who payed?" : "Кой е платил?",
     "When?" : "Кога?",
     "None" : "Без",
     "Category" : "Категория",

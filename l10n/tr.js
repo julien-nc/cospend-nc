@@ -17,7 +17,6 @@ OC.L10N.register(
     "Project saved" : "Proje kayıt edildi",
     "link" : "link",
     "What?" : "Ne?",
-    "Who payed?" : "Kim ödedi?",
     "When?" : "Ne zaman?",
     "None" : "Hiç biri",
     "Bill type" : "Fatura tipi",

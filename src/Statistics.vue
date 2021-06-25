@@ -1122,6 +1122,7 @@ export default {
 		},
 		getStatsDone() {
 			this.loadingStats = false
+			this.onCategoryMemberChange()
 		},
 		onExportClick() {
 			this.exporting = true

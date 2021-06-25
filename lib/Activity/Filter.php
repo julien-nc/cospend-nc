@@ -23,18 +23,17 @@
 
 namespace OCA\Cospend\Activity;
 
+use OCP\Activity\IFilter;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 
-class Filter implements \OCP\Activity\IFilter {
+class Filter implements IFilter {
 
 	private $l10n;
 	private $urlGenerator;
 
-	public function __construct(
-		IL10N $l10n,
-		IURLGenerator $urlGenerator
-	) {
+	public function __construct(IL10N $l10n,
+								IURLGenerator $urlGenerator) {
 		$this->l10n = $l10n;
 		$this->urlGenerator = $urlGenerator;
 	}
@@ -43,7 +42,7 @@ class Filter implements \OCP\Activity\IFilter {
 	 * @return string Lowercase a-z and underscore only identifier
 	 * @since 11.0.0
 	 */
-	public function getIdentifier() {
+	public function getIdentifier(): string {
 		return 'cospend';
 	}
 
@@ -51,7 +50,7 @@ class Filter implements \OCP\Activity\IFilter {
 	 * @return string A translated string
 	 * @since 11.0.0
 	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->l10n->t('Cospend');
 	}
 
@@ -61,7 +60,7 @@ class Filter implements \OCP\Activity\IFilter {
 	 * priority values. It is required to return a value between 0 and 100.
 	 * @since 11.0.0
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 95;
 	}
 
@@ -69,7 +68,7 @@ class Filter implements \OCP\Activity\IFilter {
 	 * @return string Full URL to an icon, empty string when none is given
 	 * @since 11.0.0
 	 */
-	public function getIcon() {
+	public function getIcon(): string {
 		return $this->urlGenerator->imagePath('cospend', 'app_black.svg');
 	}
 
@@ -78,7 +77,7 @@ class Filter implements \OCP\Activity\IFilter {
 	 * @return string[] An array of allowed apps from which activities should be displayed
 	 * @since 11.0.0
 	 */
-	public function filterTypes(array $types) {
+	public function filterTypes(array $types): array {
 		return $types;
 	}
 
@@ -86,7 +85,7 @@ class Filter implements \OCP\Activity\IFilter {
 	 * @return string[] An array of allowed apps from which activities should be displayed
 	 * @since 11.0.0
 	 */
-	public function allowedApps() {
+	public function allowedApps(): array {
 		return ['cospend'];
 	}
 }

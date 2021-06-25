@@ -11,6 +11,7 @@
 
 namespace OCA\Cospend\Controller;
 
+use DateTime;
 use OCP\IConfig;
 use OCP\IL10N;
 
@@ -28,11 +29,9 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\Files\IRootFolder;
-use OCP\IGroupManager;
-use Psr\Log\LoggerInterface;
 use OCP\IDBConnection;
+
 use OCA\Cospend\Db\BillMapper;
-use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Service\ProjectService;
 use OCA\Cospend\Activity\ActivityManager;
 
@@ -47,49 +46,73 @@ function endswith($string, $test) {
 
 class PageController extends ApiController {
 
-	private $userId;
+	/**
+	 * @var IConfig
+	 */
 	private $config;
-	private $appVersion;
+	/**
+	 * @var IManager
+	 */
 	private $shareManager;
+	/**
+	 * @var IUserManager
+	 */
 	private $userManager;
-	private $dbconnection;
+	/**
+	 * @var IL10N
+	 */
 	private $trans;
-	protected $appName;
+	/**
+	 * @var BillMapper
+	 */
+	private $billMapper;
+	/**
+	 * @var ProjectService
+	 */
+	private $projectService;
+	/**
+	 * @var ActivityManager
+	 */
+	private $activityManager;
+	/**
+	 * @var IDBConnection
+	 */
+	private $dbconnection;
+	/**
+	 * @var IRootFolder
+	 */
+	private $root;
+	/**
+	 * @var string|null
+	 */
+	private $userId;
 
-	public function __construct($AppName,
+	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
 								IManager $shareManager,
 								IUserManager $userManager,
-								IGroupManager $groupManager,
 								IL10N $trans,
-								LoggerInterface $logger,
 								BillMapper $billMapper,
-								ProjectMapper $projectMapper,
 								ProjectService $projectService,
 								ActivityManager $activityManager,
 								IDBConnection $dbconnection,
 								IRootFolder $root,
 								?string $userId){
-		parent::__construct($AppName, $request,
+		parent::__construct($appName, $request,
 							'PUT, POST, GET, DELETE, PATCH, OPTIONS',
 							'Authorization, Content-Type, Accept',
 							1728000);
-		$this->logger = $logger;
-		$this->appName = $AppName;
-		$this->billMapper = $billMapper;
-		$this->projectMapper = $projectMapper;
-		$this->projectService = $projectService;
-		$this->appVersion = $config->getAppValue('cospend', 'installed_version');
-		$this->userId = $userId;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->activityManager = $activityManager;
-		$this->trans = $trans;
 		$this->config = $config;
-		$this->root = $root;
-		$this->dbconnection = $dbconnection;
 		$this->shareManager = $shareManager;
+		$this->userManager = $userManager;
+		$this->trans = $trans;
+		$this->billMapper = $billMapper;
+		$this->projectService = $projectService;
+		$this->activityManager = $activityManager;
+		$this->dbconnection = $dbconnection;
+		$this->root = $root;
+		$this->userId = $userId;
 	}
 
 	/**
@@ -103,7 +126,6 @@ class PageController extends ApiController {
 			'projectid' => '',
 			'password' => '',
 			'username' => $this->userId,
-			'cospend_version' => $this->appVersion,
 		];
 		$response = new TemplateResponse('cospend', 'main', $params);
 		$csp = new ContentSecurityPolicy();
@@ -113,7 +135,7 @@ class PageController extends ApiController {
 			->addAllowedFrameDomain('*')
 			->addAllowedWorkerSrcDomain('*')
 			//->allowInlineScript(true)
-			->allowEvalScript(true)
+//			->allowEvalScript(true)
 			->addAllowedObjectDomain('*')
 			->addAllowedScriptDomain('*')
 			->addAllowedConnectDomain('*');
@@ -132,7 +154,6 @@ class PageController extends ApiController {
 			'projectid' => $projectid,
 			'password' => $password,
 			'wrong' => false,
-			'cospend_version' => $this->appVersion
 		];
 		$response = new PublicTemplateResponse('cospend', 'login', $params);
 		$response->setHeaderTitle($this->trans->t('Cospend public access'));
@@ -161,7 +182,6 @@ class PageController extends ApiController {
 		$params = [
 			'projectid' => $projectid,
 			'wrong' => false,
-			'cospend_version' => $this->appVersion,
 		];
 		$response = new PublicTemplateResponse('cospend', 'login', $params);
 		$response->setHeaderTitle($this->trans->t('Cospend public access'));
@@ -189,7 +209,6 @@ class PageController extends ApiController {
 		// PARAMS to view
 		$params = [
 			'wrong' => false,
-			'cospend_version' => $this->appVersion,
 		];
 		$response = new PublicTemplateResponse('cospend', 'login', $params);
 		$response->setHeaderTitle($this->trans->t('Cospend public access'));
@@ -220,7 +239,6 @@ class PageController extends ApiController {
 			$params = [
 				'projectid' => $result['projectid'],
 				'password' => $token,
-				'cospend_version' => $this->appVersion,
 			];
 			$response = new PublicTemplateResponse('cospend', 'main', $params);
 			$response->setHeaderTitle($this->trans->t('Cospend public access'));
@@ -232,7 +250,7 @@ class PageController extends ApiController {
 				//->addAllowedChildSrcDomain('*')
 				->addAllowedFrameDomain('*')
 				->addAllowedWorkerSrcDomain('*')
-				->allowEvalScript(true)
+//				->allowEvalScript(true)
 				->addAllowedObjectDomain('*')
 				->addAllowedScriptDomain('*')
 				->addAllowedConnectDomain('*');
@@ -241,7 +259,6 @@ class PageController extends ApiController {
 		} else {
 			$params = [
 				'wrong' => true,
-				'cospend_version' => $this->appVersion,
 			];
 			$response = new PublicTemplateResponse('cospend', 'login', $params);
 			$response->setHeaderTitle($this->trans->t('Cospend public access'));
@@ -272,7 +289,6 @@ class PageController extends ApiController {
 			$params = [
 				'projectid' => $projectid,
 				'password' => $password,
-				'cospend_version' => $this->appVersion,
 			];
 			$response = new PublicTemplateResponse('cospend', 'main', $params);
 			$response->setHeaderTitle($this->trans->t('Cospend public access'));
@@ -284,7 +300,7 @@ class PageController extends ApiController {
 				//->addAllowedChildSrcDomain('*')
 				->addAllowedFrameDomain('*')
 				->addAllowedWorkerSrcDomain('*')
-				->allowEvalScript(true)
+//				->allowEvalScript(true)
 				->addAllowedObjectDomain('*')
 				->addAllowedScriptDomain('*')
 				->addAllowedConnectDomain('*');
@@ -295,7 +311,6 @@ class PageController extends ApiController {
 			//return $response;
 			$params = [
 				'wrong' => true,
-				'cospend_version' => $this->appVersion,
 			];
 			$response = new PublicTemplateResponse('cospend', 'login', $params);
 			$response->setHeaderTitle($this->trans->t('Cospend public access'));
@@ -336,15 +351,13 @@ class PageController extends ApiController {
 			   );
 			$req = $qb->executeQuery();
 			$dbPassword = null;
-			while ($row = $req->fetch()){
+			$row = $req->fetch();
+			if ($row !== null) {
 				$dbPassword = $row['password'];
-				break;
 			}
 			$req->closeCursor();
-			$qb = $qb->resetQueryParts();
+			$qb->resetQueryParts();
 			return (
-				$password !== null &&
-				$password !== '' &&
 				$dbPassword !== null &&
 				password_verify($password, $dbPassword)
 			);
@@ -413,11 +426,10 @@ class PageController extends ApiController {
 				return new DataResponse($result, 404);
 			}
 		} else {
-			$response = new DataResponse(
+			return new DataResponse(
 				['message' => $this->trans->t('You are not allowed to delete this bill')],
 				403
 			);
-			return $response;
 		}
 	}
 
@@ -447,11 +459,10 @@ class PageController extends ApiController {
 			}
 			return new DataResponse('OK');
 		} else {
-			$response = new DataResponse(
+			return new DataResponse(
 				['message' => $this->trans->t('You are not allowed to delete this bill')],
 				403
 			);
-			return $response;
 		}
 	}
 
@@ -1032,7 +1043,7 @@ class PageController extends ApiController {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			$bills = $this->projectService->getBills($projectid, null, null, null, null, null, null, $lastchanged);
 			$billIds = $this->projectService->getAllBillIds($projectid);
-			$ts = (new \DateTime())->getTimestamp();
+			$ts = (new DateTime())->getTimestamp();
 			return new DataResponse([
 				'bills' => $bills,
 				'allBillIds' => $billIds,
@@ -1057,7 +1068,7 @@ class PageController extends ApiController {
 		if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
 			$bills = $this->projectService->getBills($projectid, null, null, null, null, null, null, $lastchanged);
 			$billIds = $this->projectService->getAllBillIds($projectid);
-			$ts = (new \DateTime())->getTimestamp();
+			$ts = (new DateTime())->getTimestamp();
 			return new DataResponse([
 				'bills' => $bills,
 				'allBillIds' => $billIds,
@@ -1308,7 +1319,7 @@ class PageController extends ApiController {
 					return new DataResponse($result, 400);
 				}
 			}
-			return new DataResponse($result);
+			return new DataResponse($billIds);
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('You are not allowed to edit this bill')],
@@ -1564,7 +1575,7 @@ class PageController extends ApiController {
 	 */
 	public function apiEditMember(string $projectid, string $password, int $memberid,
 								?string $name = null, ?float $weight = null, $activated = null,
-								?string $color = null, ?string $userid = null) {
+								?string $color = null, ?string $userid = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if (
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= ACCESS_MAINTENER)
@@ -1801,11 +1812,10 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiEditGuestAccessLevel($projectid, $password, $accesslevel): DataResponse {
-		$response = new DataResponse(
+		return new DataResponse(
 			['message' => $this->trans->t('You are not allowed to edit guest access level')],
 			403
 		);
-		return $response;
 		//if ($this->checkLogin($projectid, $password)) {
 		//    $guestAccessLevel = $this->projectService->getGuestAccessLevel($projectid);
 		//    if ($guestAccessLevel >= ACCESS_PARTICIPANT and $guestAccessLevel >= $accesslevel) {
@@ -1883,14 +1893,13 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivAddCategory(string $projectid, string $name, ?string $icon = null, ?string $color = null) {
+	public function apiPrivAddCategory(string $projectid, string $name, ?string $icon = null, ?string $color = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_MAINTENER) {
 			$result = $this->projectService->addCategory($projectid, $name, $icon, $color);
 			if (is_numeric($result)) {
 				// inserted category id
 				return new DataResponse($result);
-			}
-			else {
+			} else {
 				return new DataResponse($result, 400);
 			}
 		} else {
@@ -2327,7 +2336,7 @@ class PageController extends ApiController {
 	 */
 	public function addPublicShare(string $projectid): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= ACCESS_PARTICIPANT) {
-			$result = $this->projectService->addPublicShare($projectid, $this->userId);
+			$result = $this->projectService->addPublicShare($projectid);
 			if (is_array($result)) {
 				return new DataResponse($result);
 			} else {
@@ -2456,9 +2465,9 @@ class PageController extends ApiController {
 				if ($file->isShareable()) {
 					$shares = $this->shareManager->getSharesBy($this->userId,
 						IShare::TYPE_LINK, $file, false, 1, 0);
-					if (count($shares) > 0){
-						foreach($shares as $share){
-							if ($share->getPassword() === null){
+					if (count($shares) > 0) {
+						foreach($shares as $share) {
+							if ($share->getPassword() === null) {
 								$token = $share->getToken();
 								break;
 							}

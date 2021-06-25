@@ -9,20 +9,24 @@
 
 namespace OCA\Cospend\Cron;
 
-use \OCA\Cospend\AppInfo\Application;
-use \OCA\Cospend\Service\ProjectService;
+use OC\BackgroundJob\TimedJob;
+use OCA\Cospend\Service\ProjectService;
 
-class AutoExport extends \OC\BackgroundJob\TimedJob {
+class AutoExport extends TimedJob {
+
+	/**
+	 * @var ProjectService
+	 */
+	private $projectService;
 
 	public function __construct(ProjectService $projectService) {
-		$this->projectService = $projectService;
 		// Run each day
 		$this->setInterval(24 * 60 * 60);
+		$this->projectService = $projectService;
 	}
 
 	protected function run($argument) {
-		$d = new \DateTime();
+//		$d = new DateTime();
 		$this->projectService->cronAutoExport();
 	}
-
 }

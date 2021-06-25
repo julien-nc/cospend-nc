@@ -48,13 +48,27 @@ class CospendSearchProvider implements IProvider {
 
 	/** @var IURLGenerator */
 	private $urlGenerator;
+	/**
+	 * @var IConfig
+	 */
+	private $config;
+	/**
+	 * @var IDateTimeFormatter
+	 */
+	private $dateFormatter;
+	/**
+	 * @var ProjectService
+	 */
+	private $projectService;
 
 	/**
 	 * CospendSearchProvider constructor.
 	 *
 	 * @param IAppManager $appManager
 	 * @param IL10N $l10n
+	 * @param IConfig $config
 	 * @param IURLGenerator $urlGenerator
+	 * @param IDateTimeFormatter $dateFormatter
 	 * @param ProjectService $projectService
 	 */
 	public function __construct(IAppManager $appManager,
@@ -110,7 +124,7 @@ class CospendSearchProvider implements IProvider {
 		$offset = $query->getCursor();
 		$offset = $offset ? intval($offset) : 0;
 
-		$theme = $this->config->getUserValue($user->getUID(), 'accessibility', 'theme', '');
+		$theme = $this->config->getUserValue($user->getUID(), 'accessibility', 'theme');
 		$thumbnailUrl = ($theme === 'dark') ?
 			$this->urlGenerator->imagePath('cospend', 'app.svg') :
 			$this->urlGenerator->imagePath('cospend', 'app_black.svg');
@@ -131,7 +145,7 @@ class CospendSearchProvider implements IProvider {
 		}
 
 		// sort by timestamp
-		$a = usort($resultBills, function($a, $b) {
+		usort($resultBills, function($a, $b) {
 			$ta = $a['timestamp'];
 			$tb = $b['timestamp'];
 			return ($ta > $tb) ? -1 : 1;
@@ -140,9 +154,9 @@ class CospendSearchProvider implements IProvider {
 		$resultBills = array_slice($resultBills, $offset, $limit);
 
 		// build formatted
-		$formattedResults = \array_map(function (array $bill) use ($projectsById, $thumbnailUrl):CospendSearchResultEntry {
+		$formattedResults = array_map(function (array $bill) use ($projectsById, $thumbnailUrl):CospendSearchResultEntry {
 			$projectId = $bill['projectId'];
-			$projectName = $projectsById[$projectId]['name'];
+//			$projectName = $projectsById[$projectId]['name'];
 			return new CospendSearchResultEntry(
 				$thumbnailUrl,
 				$this->getMainText($bill),
@@ -161,6 +175,7 @@ class CospendSearchProvider implements IProvider {
 	}
 
 	/**
+	 * @param array $bill
 	 * @return string
 	 */
 	protected function getMainText(array $bill): string {
@@ -170,6 +185,8 @@ class CospendSearchProvider implements IProvider {
 	}
 
 	/**
+	 * @param array $bill
+	 * @param array $project
 	 * @return string
 	 */
 	protected function getSubline(array $bill, array $project): string {
@@ -180,6 +197,7 @@ class CospendSearchProvider implements IProvider {
 	}
 
 	/**
+	 * @param string $projectId
 	 * @return string
 	 */
 	protected function getDeepLinkToCospendApp(string $projectId): string {

@@ -30,7 +30,7 @@ class BillSetting extends Setting {
 	 * @return string Lowercase a-z and underscore only identifier
 	 * @since 11.0.0
 	 */
-	public function getIdentifier() {
+	public function getIdentifier(): string {
 		return 'cospend_bill_event';
 	}
 
@@ -38,7 +38,7 @@ class BillSetting extends Setting {
 	 * @return string A translated string
 	 * @since 11.0.0
 	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->l->t('A <strong>bill</strong> inside the Cospend app has been updated/created/deleted');
 	}
 

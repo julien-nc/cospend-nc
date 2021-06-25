@@ -12,38 +12,35 @@
 namespace OCA\Cospend\Controller;
 
 use OCP\IConfig;
-use OCP\IServerContainer;
-
 use OCP\AppFramework\Http\ContentSecurityPolicy;
-
 use OCP\IRequest;
-use OCP\IDBConnection;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
 
 class UtilsController extends Controller {
 
-
-	private $userId;
+	/**
+	 * @var IConfig
+	 */
 	private $config;
+	/**
+	 * @var string|null
+	 */
+	private $userId;
 
-	public function __construct($AppName,
+	public function __construct(string $appName,
 								IRequest $request,
-								IServerContainer $serverContainer,
 								IConfig $config,
-								IDBConnection $dbconnection,
 								?string $userId) {
-		parent::__construct($AppName, $request);
-		$this->userId = $userId;
-		$this->serverContainer = $serverContainer;
+		parent::__construct($appName, $request);
 		$this->config = $config;
-		$this->dbconnection = $dbconnection;
+		$this->userId = $userId;
 	}
 
 	/**
 	 * set global point quota
 	 */
-	public function setAllowAnonymousCreation($allow) {
+	public function setAllowAnonymousCreation($allow): DataResponse {
 		$this->config->setAppValue('cospend', 'allowAnonymousCreation', $allow);
 		$response = new DataResponse(['done' => '1']);
 		$csp = new ContentSecurityPolicy();
@@ -58,7 +55,7 @@ class UtilsController extends Controller {
 	 * Delete user options
 	 * @NoAdminRequired
 	 */
-	public function deleteOptionsValues() {
+	public function deleteOptionsValues(): DataResponse	{
 		$keys = $this->config->getUserKeys($this->userId, 'cospend');
 		foreach ($keys as $key) {
 			$this->config->deleteUserValue($this->userId, 'cospend', $key);
@@ -77,7 +74,7 @@ class UtilsController extends Controller {
 	 * Save options values to the DB for current user
 	 * @NoAdminRequired
 	 */
-	public function saveOptionValue($options) {
+	public function saveOptionValue($options): DataResponse	{
 		foreach ($options as $key => $value) {
 			$this->config->setUserValue($this->userId, 'cospend', $key, $value);
 		}
@@ -95,7 +92,7 @@ class UtilsController extends Controller {
 	 * get options values from the config for current user
 	 * @NoAdminRequired
 	 */
-	public function getOptionsValues() {
+	public function getOptionsValues(): DataResponse {
 		$ov = array();
 		$keys = $this->config->getUserKeys($this->userId, 'cospend');
 		foreach ($keys as $key) {
@@ -111,5 +108,4 @@ class UtilsController extends Controller {
 		$response->setContentSecurityPolicy($csp);
 		return $response;
 	}
-
 }

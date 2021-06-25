@@ -1,44 +1,25 @@
 <?php
 namespace OCA\Cospend\Settings;
 
-use bantu\IniGetWrapper\IniGetWrapper;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IRequest;
-use OCP\IL10N;
 use OCP\IConfig;
 use OCP\Settings\ISettings;
-use OCP\Util;
-use OCP\IURLGenerator;
 
 class Admin implements ISettings {
 
-	/** @var IniGetWrapper */
-	private $iniWrapper;
-
-	/** @var IRequest */
-	private $request;
+	/**
+	 * @var IConfig
+	 */
 	private $config;
-	private $dataDirPath;
-	private $urlGenerator;
-	private $l;
 
-	public function __construct(
-						IniGetWrapper $iniWrapper,
-						IL10N $l,
-						IRequest $request,
-						IConfig $config,
-						IURLGenerator $urlGenerator) {
-		$this->urlGenerator = $urlGenerator;
-		$this->iniWrapper = $iniWrapper;
-		$this->request = $request;
-		$this->l = $l;
+	public function __construct(IConfig $config) {
 		$this->config = $config;
 	}
 
 	/**
 	 * @return TemplateResponse
 	 */
-	public function getForm() {
+	public function getForm(): TemplateResponse	{
 		$allow = $this->config->getAppValue('cospend', 'allowAnonymousCreation');
 
 		$parameters = [
@@ -50,7 +31,7 @@ class Admin implements ISettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
-	public function getSection() {
+	public function getSection(): string {
 		return 'additional';
 	}
 
@@ -61,7 +42,7 @@ class Admin implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 5;
 	}
 
@@ -69,7 +50,7 @@ class Admin implements ISettings {
 	 * @return TemplateResponse
 	 * for ownCloud 10+
 	 */
-	public function getPanel() {
+	public function getPanel(): TemplateResponse {
 		$allow = $this->config->getAppValue('cospend', 'allowAnonymousCreation');
 
 		$parameters = [
@@ -82,8 +63,7 @@ class Admin implements ISettings {
 	 * @return string the section ID, e.g. 'sharing'
 	 * for ownCloud 10+
 	 */
-	public function getSectionID() {
+	public function getSectionID(): string {
 		return 'additional';
 	}
-
 }

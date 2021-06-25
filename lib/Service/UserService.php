@@ -12,42 +12,36 @@
 
 namespace OCA\Cospend\Service;
 
-use OCP\IL10N;
-use Psr\Log\LoggerInterface;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-
 use OCP\IGroupManager;
-
-use OCP\IUserManager;
-use OCP\Share\IManager;
 use OCP\IDBConnection;
 
 use OCA\Cospend\Db\ProjectMapper;
-use OCA\Cospend\Db\BillMapper;
 
 class UserService {
+
+	/**
+	 * @var ProjectMapper
+	 */
+	private $projectMapper;
+	/**
+	 * @var IGroupManager
+	 */
+	private $groupManager;
+	/**
+	 * @var IDBConnection
+	 */
 	private $dbconnection;
 
-	public function __construct (LoggerInterface $logger,
-								IL10N $l10n,
-								ProjectMapper $projectMapper,
-								BillMapper $billMapper,
-								IManager $shareManager,
-								IUserManager $userManager,
+	public function __construct (ProjectMapper $projectMapper,
 								IGroupManager $groupManager,
 								IDBConnection $dbconnection) {
-		$this->trans = $l10n;
-		$this->logger = $logger;
-		$this->dbconnection = $dbconnection;
-		$this->qb = $dbconnection->getQueryBuilder();
 		$this->projectMapper = $projectMapper;
-		$this->billMapper = $billMapper;
 		$this->groupManager = $groupManager;
-		$this->userManager = $userManager;
-		$this->shareManager = $shareManager;
+		$this->dbconnection = $dbconnection;
 	}
 
-	public function findUsers($projectid) {
+	public function findUsers($projectid): array {
 		$userIds = [];
 		// get owner with mapper
 		$proj = $this->projectMapper->find($projectid);
@@ -87,7 +81,7 @@ class UserService {
 			array_push($groupIds, $row['userid']);
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
+		$qb->resetQueryParts();
 		// get users of groups
 		foreach ($groupIds as $gid) {
 			$group = $this->groupManager->get($gid);

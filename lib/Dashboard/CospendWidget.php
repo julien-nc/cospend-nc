@@ -28,11 +28,16 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 
 use OCA\Cospend\AppInfo\Application;
+use OCP\Util;
 
 class CospendWidget implements IWidget {
 
 	/** @var IL10N */
 	private $l10n;
+	/**
+	 * @var IURLGenerator
+	 */
+	private $url;
 
 	public function __construct(IL10N $l10n,
 								IURLGenerator $url) {
@@ -79,7 +84,7 @@ class CospendWidget implements IWidget {
 	 * @inheritDoc
 	 */
 	public function load(): void {
-		\OCP\Util::addScript(Application::APP_ID, Application::APP_ID . '-dashboard');
-		\OCP\Util::addStyle(Application::APP_ID, 'dashboard');
+		Util::addScript(Application::APP_ID, Application::APP_ID . '-dashboard');
+		Util::addStyle(Application::APP_ID, 'dashboard');
 	}
 }

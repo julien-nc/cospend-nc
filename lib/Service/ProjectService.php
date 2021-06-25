@@ -3629,11 +3629,7 @@ class ProjectService {
 		$qb->executeStatement();
 		$qb = $qb->resetQueryParts();
 
-		$insertedShareId = intval($qb->getLastInsertId());
-		$response = [
-			'token' => $token,
-			'id' => $insertedShareId
-		];
+		$insertedShareId = $qb->getLastInsertId();
 
 		//// activity
 		//$projectObj = $this->projectMapper->find($projectid);
@@ -3667,7 +3663,10 @@ class ProjectService {
 
 		//$manager->notify($notification);
 
-		return $response;
+		return [
+			'token' => $token,
+			'id' => $insertedShareId
+		];
 	}
 
 	/**

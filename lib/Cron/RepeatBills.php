@@ -9,17 +9,20 @@
 
 namespace OCA\Cospend\Cron;
 
-use \OCA\Cospend\AppInfo\Application;
+use OC\BackgroundJob\TimedJob;
 use OCA\Cospend\Service\ProjectService;
 
-class RepeatBills extends \OC\BackgroundJob\TimedJob {
+class RepeatBills extends TimedJob {
 
-	public function __construct(
-		ProjectService $projectService
-	) {
-		$this->projectService = $projectService;
+	/**
+	 * @var ProjectService
+	 */
+	private $projectService;
+
+	public function __construct(ProjectService $projectService) {
 		// Run each day
 		$this->setInterval(24 * 60 * 60);
+		$this->projectService = $projectService;
 	}
 
 	protected function run($argument) {

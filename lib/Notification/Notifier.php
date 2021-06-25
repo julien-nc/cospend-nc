@@ -12,6 +12,7 @@
 namespace OCA\Cospend\Notification;
 
 
+use InvalidArgumentException;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -45,9 +46,11 @@ class Notifier implements INotifier {
 
 	/**
 	 * @param IFactory $factory
+	 * @param IConfig $config
 	 * @param IUserManager $userManager
 	 * @param INotificationManager $notificationManager
 	 * @param IURLGenerator $urlGenerator
+	 * @param string|null $userId
 	 */
 	public function __construct(IFactory $factory,
 								IConfig $config,
@@ -86,13 +89,13 @@ class Notifier implements INotifier {
 	 * @param INotification $notification
 	 * @param string $languageCode The code of the language that should be used to prepare the notification
 	 * @return INotification
-	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
+	 * @throws InvalidArgumentException When the notification was not prepared by a notifier
 	 * @since 9.0.0
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'cospend') {
 			// Not my app => throw
-			throw new \InvalidArgumentException();
+			throw new InvalidArgumentException();
 		}
 
 		$l = $this->factory->get('cospend', $languageCode);
@@ -139,7 +142,7 @@ class Notifier implements INotifier {
 				];
 				$subject = $l->t('Cospend project share removed');
 				$content = $l->t('User "%s" stopped sharing Cospend project "%s" with you.', [$p[0], $p[1]]);
-				$theme = $this->config->getUserValue($this->userId, 'accessibility', 'theme', '');
+				$theme = $this->config->getUserValue($this->userId, 'accessibility', 'theme');
 				$red = ($theme === 'dark')
 					? '46BA61'
 					: 'E9322D';
@@ -161,7 +164,7 @@ class Notifier implements INotifier {
 
 		default:
 			// Unknown subject => Unknown notification => throw
-			throw new \InvalidArgumentException();
+			throw new InvalidArgumentException();
 		}
 	}
 }

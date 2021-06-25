@@ -672,11 +672,12 @@ export default {
 					pointBackgroundColor: '#' + member.color,
 					borderColor: '#' + member.color,
 					pointHighlightStroke: '#' + member.color,
-					lineTension: 0,
+					// lineTension: 0.2,
+					pointRadius: 0,
 					data: paid,
 				}
 				if (index === 0) {
-					dataset.fill = 'origin'
+					// dataset.fill = 'origin'
 				}
 				index++
 				memberDatasets.push(dataset)
@@ -710,11 +711,12 @@ export default {
 					pointBackgroundColor: '#' + member.color,
 					borderColor: '#' + member.color,
 					pointHighlightStroke: '#' + member.color,
-					lineTension: 0,
+					// lineTension: 0.2,
+					pointRadius: 0,
 					data: paid,
 				}
 				if (index === 0) {
-					dataset.fill = 'origin'
+					// dataset.fill = 'origin'
 				}
 				index++
 				memberDatasets.push(dataset)
@@ -729,12 +731,13 @@ export default {
 				elements: {
 					line: {
 						// by default, fill lines to the previous dataset
-						fill: '-1',
+						// fill: '-1',
+						fill: false,
 					},
 				},
 				scales: {
 					yAxes: [{
-						stacked: true,
+						// stacked: true,
 					}],
 				},
 				title: {
@@ -750,7 +753,7 @@ export default {
 				},
 				tooltips: {
 					intersect: false,
-					mode: 'nearest',
+					mode: 'index',
 				},
 				legend: {
 					position: 'left',
@@ -790,11 +793,12 @@ export default {
 					pointBackgroundColor: category.color,
 					borderColor: category.color,
 					pointHighlightStroke: category.color,
-					lineTension: 0,
+					// lineTension: 0.2,
+					pointRadius: 0,
 					data: paid,
 				}
 				if (index === 0) {
-					dataset.fill = 'origin'
+					// dataset.fill = 'origin'
 				}
 				index++
 				categoryDatasets.push(dataset)
@@ -837,11 +841,12 @@ export default {
 					pointBackgroundColor: paymentMode.color,
 					borderColor: paymentMode.color,
 					pointHighlightStroke: paymentMode.color,
-					lineTension: 0,
+					// lineTension: 0.2,
+					pointRadius: 0,
 					data: paid,
 				}
 				if (index === 0) {
-					dataset.fill = 'origin'
+					// dataset.fill = 'origin'
 				}
 				index++
 				paymentModeDatasets.push(dataset)
@@ -1184,15 +1189,6 @@ export default {
 	margin: 0 auto 0 auto;
 }
 
-#categoryMonthlyChart,
-#paymentModeMonthlyChart,
-#memberMonthlyPaidChart,
-#memberMonthlySpentChart {
-	width: 800px !important;
-	height: 400px !important;
-	margin: 0 auto 0 auto;
-}
-
 #categoryMemberSelect,
 #memberPolarSelect {
 	display: block;
@@ -1252,8 +1248,12 @@ export default {
 	margin: 0px 20px 0px 20px;
 }
 
-::v-deep #paidForTable th.avatared svg {
+::v-deep .coloredTable svg {
 	margin-bottom: -3px;
+}
+
+::v-deep #paidForTable th.avatared .owerAvatar {
+	margin-left: 0;
 }
 
 #paidForTable,

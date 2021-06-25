@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   [#58](https://github.com/eneiluj/cospend-nc/issues/58) @Raspikabek
 
 ### Changed
+- improve stats line charts style
 - use new DB query methods
 - adapt to new Circles management
 - bump min NC version to 22

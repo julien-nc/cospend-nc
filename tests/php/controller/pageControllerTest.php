@@ -95,16 +95,9 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->activityManager = new ActivityManager(
 			$sc->getActivityManager(),
 			new UserService(
-				$this->createMock(LoggerInterface::class),
-				$sc->getL10N($c->get('AppName')),
 				new ProjectMapper(
 					$sc->getDatabaseConnection()
 				),
-				new BillMapper(
-					$sc->getDatabaseConnection()
-				),
-				$c->get(IShareManager::class),
-				$c->get(IUserManager::class),
 				$c->get(IGroupManager::class),
 				$sc->getDatabaseConnection()
 			),
@@ -122,16 +115,9 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->activityManager2 = new ActivityManager(
 			$sc->getActivityManager(),
 			new UserService(
-				$this->createMock(LoggerInterface::class),
-				$sc->getL10N($c->get('AppName')),
 				new ProjectMapper(
 					$sc->getDatabaseConnection()
 				),
-				new BillMapper(
-					$sc->getDatabaseConnection()
-				),
-				$c->get(IShareManager::class),
-				$c->get(IUserManager::class),
 				$c->get(IGroupManager::class),
 				$sc->getDatabaseConnection()
 			),
@@ -152,13 +138,8 @@ class PageNUtilsControllerTest extends TestCase {
 			$sc->getConfig(),
 			$c->get(IShareManager::class),
 			$c->get(IUserManager::class),
-			$c->get(IGroupManager::class),
 			$sc->getL10N($c->get('AppName')),
-			$this->createMock(LoggerInterface::class),
 			new BillMapper(
-				$sc->getDatabaseConnection()
-			),
-			new ProjectMapper(
 				$sc->getDatabaseConnection()
 			),
 			new ProjectService(
@@ -194,13 +175,8 @@ class PageNUtilsControllerTest extends TestCase {
 			$sc->getConfig(),
 			$c->get(IShareManager::class),
 			$c->get(IUserManager::class),
-			$c->get(IGroupManager::class),
 			$sc->getL10N($c->get('AppName')),
-			$this->createMock(LoggerInterface::class),
 			new BillMapper(
-				$sc->getDatabaseConnection()
-			),
-			new ProjectMapper(
 				$sc->getDatabaseConnection()
 			),
 			new ProjectService(
@@ -213,7 +189,7 @@ class PageNUtilsControllerTest extends TestCase {
 				new BillMapper(
 					$sc->getDatabaseConnection()
 				),
-				$this->activityManager2,
+				$this->activityManager,
 				$sc->getAvatarManager(),
 				$c->get(IShareManager::class),
 				$c->get(IUserManager::class),
@@ -224,7 +200,7 @@ class PageNUtilsControllerTest extends TestCase {
 				$c->get(INotificationManager::class),
 				$sc->getDatabaseConnection()
 			),
-			$this->activityManager2,
+			$this->activityManager,
 			$sc->getDatabaseConnection(),
 			$c->get(IRootFolder::class),
 			'test2'
@@ -233,9 +209,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->utilsController = new UtilsController(
 			$this->appName,
 			$this->request,
-			$sc,
 			$sc->getConfig(),
-			$sc->getDatabaseConnection(),
 			'test'
 		);
 	}

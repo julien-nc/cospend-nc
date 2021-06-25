@@ -15,7 +15,6 @@ namespace OCA\Cospend\Service;
 use OCP\Files\FileInfo;
 use OCP\IL10N;
 use OCP\IConfig;
-use Psr\Log\LoggerInterface;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 use OCP\App\IAppManager;
@@ -24,7 +23,6 @@ use OCP\IAvatarManager;
 use OCP\Notification\IManager as INotificationManager;
 
 use OCP\IUserManager;
-use OCP\Share\IManager;
 use OCP\IDBConnection;
 use OCP\IDateTimeZone;
 use OCP\Files\Folder;
@@ -44,17 +42,81 @@ require_once __DIR__ . '/../utils.php';
 
 class ProjectService {
 
+	/**
+	 * @var IL10N
+	 */
+	private $trans;
+	/**
+	 * @var IConfig
+	 */
 	private $config;
+	/**
+	 * @var ProjectMapper
+	 */
+	private $projectMapper;
+	/**
+	 * @var BillMapper
+	 */
+	private $billMapper;
+	/**
+	 * @var ActivityManager
+	 */
+	private $activityManager;
+	/**
+	 * @var IAvatarManager
+	 */
+	private $avatarManager;
+	/**
+	 * @var IUserManager
+	 */
+	private $userManager;
+	/**
+	 * @var IAppManager
+	 */
+	private $appManager;
+	/**
+	 * @var IGroupManager
+	 */
+	private $groupManager;
+	/**
+	 * @var IDateTimeZone
+	 */
+	private $dateTimeZone;
+	/**
+	 * @var IRootFolder
+	 */
+	private $root;
+	/**
+	 * @var INotificationManager
+	 */
+	private $notificationManager;
+	/**
+	 * @var IDBConnection
+	 */
 	private $db;
+	/**
+	 * @var array
+	 */
+	private $defaultCategoryNames;
+	/**
+	 * @var string[]
+	 */
+	private $defaultCategoryIcons;
+	/**
+	 * @var string[]
+	 */
+	private $defaultCategoryColors;
+	/**
+	 * @var array
+	 */
+	private $hardCodedCategoryNames;
 
-	public function __construct (LoggerInterface $logger,
-								IL10N $l10n,
+	public function __construct (IL10N $trans,
 								IConfig $config,
 								ProjectMapper $projectMapper,
 								BillMapper $billMapper,
 								ActivityManager $activityManager,
 								IAvatarManager $avatarManager,
-								IManager $shareManager,
 								IUserManager $userManager,
 								IAppManager $appManager,
 								IGroupManager $groupManager,
@@ -62,22 +124,19 @@ class ProjectService {
 								IRootFolder $root,
 								INotificationManager $notificationManager,
 								IDBConnection $db) {
-		$this->trans = $l10n;
+		$this->trans = $trans;
 		$this->config = $config;
-		$this->logger = $logger;
-		$this->root = $root;
-		$this->db = $db;
-		$this->qb = $db->getQueryBuilder();
 		$this->projectMapper = $projectMapper;
 		$this->billMapper = $billMapper;
 		$this->activityManager = $activityManager;
-		$this->notificationManager = $notificationManager;
 		$this->avatarManager = $avatarManager;
-		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
 		$this->appManager = $appManager;
-		$this->shareManager = $shareManager;
+		$this->groupManager = $groupManager;
 		$this->dateTimeZone = $dateTimeZone;
+		$this->root = $root;
+		$this->notificationManager = $notificationManager;
+		$this->db = $db;
 
 		$this->defaultCategoryNames = [
 			'-1' => $this->trans->t('Grocery'),
@@ -122,7 +181,6 @@ class ProjectService {
 		$this->hardCodedCategoryNames = [
 			'-11' => $this->trans->t('Reimbursement'),
 		];
-
 	}
 
 	/**
@@ -317,7 +375,7 @@ class ProjectService {
 	/**
 	 * Get guest access level of a given project
 	 *
-	 * @param $projectid
+	 * @param string $projectid
 	 * @return int
 	 */
 	public function getGuestAccessLevel(string $projectid): int {
@@ -362,6 +420,13 @@ class ProjectService {
 	 * Create a project
 	 *
 	 * @param string $name
+	 * @param string $id
+	 * @param string|null $password
+	 * @param string|null $contact_email
+	 * @param string $userid
+	 * @param bool $createDefaultCategories
+	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
 	public function createProject(string $name, string $id, ?string $password, ?string $contact_email, string $userid = '',
 								  bool $createDefaultCategories = true): array {
@@ -581,7 +646,7 @@ class ProjectService {
 	/**
 	 * Get number of bills and total spent amount for a givne project
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @return array
 	 */
 	private function getSmallStats(string $projectId): array {
@@ -943,11 +1008,8 @@ class ProjectService {
 		if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
 			return ['repeat' => $this->trans->t('Invalid value')];
 		}
-		if ($repeatallactive === null || ($repeatallactive !== '' && !is_numeric($repeatallactive))) {
+		if ($repeatallactive === null) {
 			return ['repeatallactive' => $this->trans->t('Invalid value')];
-		}
-		if ($repeatallactive !== null && $repeatallactive === '') {
-			$repeatallactive = 0;
 		}
 		if ($repeatuntil !== null && $repeatuntil === '') {
 			$repeatuntil = null;
@@ -968,10 +1030,10 @@ class ProjectService {
 		if ($what === null || $what === '') {
 			return ['what' => $this->trans->t('This field is invalid')];
 		}
-		if ($amount === null || $amount === '' || !is_numeric($amount)) {
+		if ($amount === null) {
 			return ['amount' => $this->trans->t('This field is required')];
 		}
-		if ($payer === null || $payer === '' || !is_numeric($payer)) {
+		if ($payer === null) {
 			return ['payer' => $this->trans->t('This field is required')];
 		}
 		if ($this->getMemberById($projectid, $payer) === null) {
@@ -1038,9 +1100,9 @@ class ProjectService {
 	 *
 	 * @param string $projectid
 	 * @param int $billid
-	 * @return
+	 * @return array
 	 */
-	public function deleteBill(string $projectid, string $billid): array {
+	public function deleteBill(string $projectid, int $billid): array {
 		$project = $this->getProjectInfo($projectid);
 		$deletionDisabled = $project['deletion_disabled'];
 		if ($deletionDisabled) {
@@ -1124,6 +1186,8 @@ class ProjectService {
 	 * Get project info
 	 *
 	 * @param string $projectId
+	 * @return array|null
+	 * @throws \OCP\DB\Exception
 	 */
 	public function getProjectById(string $projectId): ?array {
 		$project = null;
@@ -1485,7 +1549,7 @@ class ProjectService {
 	 * @param string|null $name
 	 * @param string|null $userid
 	 * @param float|null $weight
-	 * @param  $activated
+	 * @param bool $activated
 	 * @param string|null $color
 	 * @return array
 	 */
@@ -1512,14 +1576,13 @@ class ProjectService {
 				$memberWithSameName = $this->getMemberByName($projectid, $name);
 				if (strpos($name, '/') !== false) {
 					return ['name' => $this->trans->t('Invalid member name')];
-				} elseif ($memberWithSameName && $memberWithSameName['id'] !== intval($memberid)) {
+				} elseif ($memberWithSameName && $memberWithSameName['id'] !== $memberid) {
 					return ['name' => $this->trans->t('Name already exists')];
 				}
 				$qb->update('cospend_members');
-				if ($weight !== null && $weight !== '') {
-					if (is_numeric($weight) && floatval($weight) > 0.0) {
-						$newWeight = floatval($weight);
-						$qb->set('weight', $qb->createNamedParameter($newWeight, IQueryBuilder::PARAM_STR));
+				if ($weight !== null) {
+					if ($weight > 0.0) {
+						$qb->set('weight', $qb->createNamedParameter($weight, IQueryBuilder::PARAM_STR));
 					} else {
 						return ['weight' => $this->trans->t('Not a valid decimal value')];
 					}
@@ -1555,9 +1618,7 @@ class ProjectService {
 				$qb->executeStatement();
 				$qb->resetQueryParts();
 
-				$editedMember = $this->getMemberById($projectid, $memberid);
-
-				return $editedMember;
+				return $this->getMemberById($projectid, $memberid);
 			} else {
 				return ['name' => $this->trans->t('This project have no such member')];
 			}
@@ -1637,10 +1698,12 @@ class ProjectService {
 	 *
 	 * @param string $projectid
 	 * @param string $name
-	 * @param string|null $weight
+	 * @param float|null $weight
 	 * @param bool $active
 	 * @param string|null $color
 	 * @param string|null $userid
+	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
 	public function addMember(string $projectid, string $name, ?float $weight = 1.0, bool $active = true,
 								?string $color = null, ?string $userid = null): array {
@@ -1674,9 +1737,7 @@ class ProjectService {
 				$qb->executeStatement();
 				$qb->resetQueryParts();
 
-				$insertedMember = $this->getMemberByName($projectid, $name);
-
-				return $insertedMember;
+				return $this->getMemberByName($projectid, $name);
 			} else {
 				return ['error' => $this->trans->t('This project already has this member')];
 			}
@@ -1754,26 +1815,26 @@ class ProjectService {
 				$qb->expr()->eq('paymentmode', $qb->createNamedParameter($paymentMode, IQueryBuilder::PARAM_STR))
 			);
 		}
-		if ($category !== null && $category !== '' && intval($category) !== 0) {
-			if (intval($category) === -100) {
+		if ($category !== null && $category !== 0) {
+			if ($category === -100) {
 				$or = $qb->expr()->orx();
 				$or->add($qb->expr()->isNull('categoryid'));
 				$or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(Application::CAT_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
 				$qb->andWhere($or);
 			} else {
 				$qb->andWhere(
-					$qb->expr()->eq('categoryid', $qb->createNamedParameter(intval($category), IQueryBuilder::PARAM_INT))
+					$qb->expr()->eq('categoryid', $qb->createNamedParameter($category, IQueryBuilder::PARAM_INT))
 				);
 			}
 		}
-		if ($amountMin !== null && is_numeric($amountMin)) {
+		if ($amountMin !== null) {
 		   $qb->andWhere(
-			   $qb->expr()->gte('amount', $qb->createNamedParameter(floatval($amountMin), IQueryBuilder::PARAM_STR))
+			   $qb->expr()->gte('amount', $qb->createNamedParameter($amountMin, IQueryBuilder::PARAM_STR))
 		   );
 		}
-		if ($amountMax !== null && is_numeric($amountMax)) {
+		if ($amountMax !== null) {
 		   $qb->andWhere(
-			   $qb->expr()->lte('amount', $qb->createNamedParameter(floatval($amountMax), IQueryBuilder::PARAM_STR))
+			   $qb->expr()->lte('amount', $qb->createNamedParameter($amountMax, IQueryBuilder::PARAM_STR))
 		   );
 		}
 		if ($reverse) {
@@ -1880,7 +1941,7 @@ class ProjectService {
 	 */
 	public function getBills(string $projectId, ?int $tsMin = null, ?int $tsMax = null, ?string $paymentMode = null, ?int $category = null,
 							  ?float $amountMin = null, ?float $amountMax = null, ?int $lastchanged = null, ?int $limit = null,
-							  bool $reverse = false) {
+							  bool $reverse = false): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('bi.id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
 					'paymentmode', 'categoryid', 'bi.lastchanged', 'repeatallactive', 'repeatuntil', 'repeatfreq',
@@ -1912,26 +1973,26 @@ class ProjectService {
 				$qb->expr()->eq('paymentmode', $qb->createNamedParameter($paymentMode, IQueryBuilder::PARAM_STR))
 			);
 		}
-		if ($category !== null && $category !== '' && intval($category) !== 0) {
-			if (intval($category) === -100) {
+		if ($category !== null && $category !== 0) {
+			if ($category === -100) {
 				$or = $qb->expr()->orx();
 				$or->add($qb->expr()->isNull('categoryid'));
 				$or->add($qb->expr()->neq('categoryid', $qb->createNamedParameter(Application::CAT_REIMBURSEMENT, IQueryBuilder::PARAM_INT)));
 				$qb->andWhere($or);
 			} else {
 				$qb->andWhere(
-					$qb->expr()->eq('categoryid', $qb->createNamedParameter(intval($category), IQueryBuilder::PARAM_INT))
+					$qb->expr()->eq('categoryid', $qb->createNamedParameter($category, IQueryBuilder::PARAM_INT))
 				);
 			}
 		}
-		if ($amountMin !== null && is_numeric($amountMin)) {
+		if ($amountMin !== null) {
 		   $qb->andWhere(
-			   $qb->expr()->gte('amount', $qb->createNamedParameter(floatval($amountMin), IQueryBuilder::PARAM_STR))
+			   $qb->expr()->gte('amount', $qb->createNamedParameter($amountMin, IQueryBuilder::PARAM_STR))
 		   );
 		}
-		if ($amountMax !== null && is_numeric($amountMax)) {
+		if ($amountMax !== null) {
 		   $qb->andWhere(
-			   $qb->expr()->lte('amount', $qb->createNamedParameter(floatval($amountMax), IQueryBuilder::PARAM_STR))
+			   $qb->expr()->lte('amount', $qb->createNamedParameter($amountMax, IQueryBuilder::PARAM_STR))
 		   );
 		}
 		if ($reverse) {
@@ -2381,7 +2442,7 @@ class ProjectService {
 	 * @param string $projectid
 	 * @return array
 	 */
-	private function getCurrencies($projectid): array {
+	private function getCurrencies(string $projectid): array {
 		$currencies = [];
 
 		$qb = $this->db->getQueryBuilder();
@@ -2866,22 +2927,18 @@ class ProjectService {
 				$qb->set('repeatuntil', $qb->createNamedParameter($repeatuntil, IQueryBuilder::PARAM_STR));
 			}
 		}
-		if ($repeatallactive !== null && is_numeric($repeatallactive)) {
+		if ($repeatallactive !== null) {
 			$qb->set('repeatallactive', $qb->createNamedParameter($repeatallactive, IQueryBuilder::PARAM_INT));
 		}
-		if ($paymentmode !== null && is_string($paymentmode)) {
+		if ($paymentmode !== null) {
 			$qb->set('paymentmode', $qb->createNamedParameter($paymentmode, IQueryBuilder::PARAM_STR));
 		}
-		if ($categoryid !== null && is_numeric($categoryid)) {
+		if ($categoryid !== null) {
 			$qb->set('categoryid', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT));
 		}
 		// priority to timestamp (moneybuster might send both for a moment)
-		if ($timestamp !== null && $timestamp !== '') {
-			if (is_numeric($timestamp)) {
-				$qb->set('timestamp', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT));
-			} else {
-				return ['timestamp' => $this->trans->t('Invalid value')];
-			}
+		if ($timestamp !== null) {
+			$qb->set('timestamp', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT));
 		} elseif ($date !== null && $date !== '') {
 			$dateTs = strtotime($date);
 			if ($dateTs !== false) {
@@ -2890,10 +2947,10 @@ class ProjectService {
 				return ['date' => $this->trans->t('Invalid value')];
 			}
 		}
-		if ($amount !== null && $amount !== '' && is_numeric($amount)) {
+		if ($amount !== null) {
 			$qb->set('amount', $qb->createNamedParameter($amount, IQueryBuilder::PARAM_STR));
 		}
-		if ($payer !== null && $payer !== '' && is_numeric($payer)) {
+		if ($payer !== null) {
 			$member = $this->getMemberById($projectid, $payer);
 			if ($member === null) {
 				return ['payer' => $this->trans->t('Not a valid choice')];
@@ -2948,7 +3005,7 @@ class ProjectService {
 
 		$this->updateProjectLastChanged($projectid, $ts);
 
-		return ['edited_bill_id' => intval($billid)];
+		return ['edited_bill_id' => $billid];
 	}
 
 	/**
@@ -3232,10 +3289,7 @@ class ProjectService {
 		$qb->executeStatement();
 		$qb = $qb->resetQueryParts();
 
-		$insertedCategoryId = intval($qb->getLastInsertId());
-		$response = $insertedCategoryId;
-
-		return $response;
+		return $qb->getLastInsertId();
 	}
 
 	/**
@@ -3374,9 +3428,7 @@ class ProjectService {
 				$qb->executeStatement();
 				$qb->resetQueryParts();
 
-				$editedCategory = $this->getCategory($projectid, $categoryid);
-
-				return $editedCategory;
+				return $this->getCategory($projectid, $categoryid);
 			} else {
 				return ['message' => $this->trans->t('This project have no such category')];
 			}
@@ -3405,14 +3457,13 @@ class ProjectService {
 		$qb->executeStatement();
 		$qb = $qb->resetQueryParts();
 
-		$insertedCurrencyId = intval($qb->getLastInsertId());
-		return $insertedCurrencyId;
+		return $qb->getLastInsertId();
 	}
 
 	/**
 	 * Get one currency
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @param int $currencyid
 	 * @return array|null
 	 */
@@ -3499,8 +3550,7 @@ class ProjectService {
 				$qb->executeStatement();
 				$qb->resetQueryParts();
 
-				$editedCurrency = $this->getCurrency($projectid, $currencyid);
-				return $editedCurrency;
+				return $this->getCurrency($projectid, $currencyid);
 			} else {
 				return ['message' => $this->trans->t('This project have no such currency')];
 			}
@@ -3562,7 +3612,7 @@ class ProjectService {
 						$qb->executeStatement();
 						$qb = $qb->resetQueryParts();
 
-						$insertedShareId = intval($qb->getLastInsertId());
+						$insertedShareId = $qb->getLastInsertId();
 						$response = [
 							'id' => $insertedShareId,
 							'name' => $userName,
@@ -3740,9 +3790,7 @@ class ProjectService {
 		$qb->executeStatement();
 		$qb->resetQueryParts();
 
-		$response = ['success' => true];
-
-		return $response;
+		return ['success' => true];
 	}
 
 	/**
@@ -3753,7 +3801,7 @@ class ProjectService {
 	 * @param string|null $fromUserId
 	 * @return array
 	 */
-	public function deleteUserShare($projectid, $shid, ?string $fromUserId = null): array {
+	public function deleteUserShare(string $projectid, int $shid, ?string $fromUserId = null): array {
 		// check if user share exists
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'userid', 'projectid')
@@ -3961,7 +4009,7 @@ class ProjectService {
 				$qb->executeStatement();
 				$qb = $qb->resetQueryParts();
 
-				$insertedShareId = intval($qb->getLastInsertId());
+				$insertedShareId = $qb->getLastInsertId();
 
 				// activity
 				$projectObj = $this->projectMapper->find($projectid);
@@ -4314,11 +4362,14 @@ class ProjectService {
 	 * Export project in CSV
 	 *
 	 * @param string $projectid
-	 * @param string $name
-	 * @param string $userid
+	 * @param string|null $name
+	 * @param string $userId
 	 * @return array
+	 * @throws \OCP\Files\NotFoundException
+	 * @throws \OCP\Files\NotPermittedException
+	 * @throws \OC\User\NoUserException
 	 */
-	public function exportCsvProject(string $projectid, ?string $name = null, string $userId): array {
+	public function exportCsvProject(string $projectid, string $userId, ?string $name = null): array {
 		// create export directory if needed
 		$outPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
 		$userFolder = $this->root->getUserFolder($userId);
@@ -4712,12 +4763,12 @@ class ProjectService {
 									break;
 								} else {
 									$owersList[$l++] = $owersArray[$c-5];
-								};
+								}
 							}
 							if (!isset($payer_name) || empty($payer_name)) {
 								return ['message' => $this->trans->t('Malformed CSV, no payer on line %1$s', [$row])];
 							}
-							$payer_weight = 1;
+//							$payer_weight = 1;
 
 							if (!is_numeric($amount)) {
 								fclose($handle);
@@ -4761,7 +4812,7 @@ class ProjectService {
 						return ['message' => $this->trans->t('Error in project creation, %1$s', [$projResult['message'] ?? ''])];
 					}
 					// add categories
-					$catIdToName = [];
+					$catNameToId = [];
 					foreach ($categoryNames as $catName) {
 						$insertedCatId = $this->addCategory($projectid, $catName, null, '#000000');
 						if (!is_numeric($insertedCatId)) {
@@ -4870,15 +4921,15 @@ class ProjectService {
 		$minMonthTimestamp = $dateMonthMin->getTimestamp();
 		$monthlySuffix = '_'.$this->trans->t('monthly').'_'.$dateMonthMin->format('Y-m');
 
-		$weekFilterArray = array();
-		$weekFilterArray['tsmin'] = $minWeekTimestamp;
-		$weekFilterArray['tsmax'] = $maxWeekTimestamp;
-		$dayFilterArray = array();
-		$dayFilterArray['tsmin'] = $minDayTimestamp;
-		$dayFilterArray['tsmax'] = $maxDayTimestamp;
-		$monthFilterArray = array();
-		$monthFilterArray['tsmin'] = $minMonthTimestamp;
-		$monthFilterArray['tsmax'] = $maxMonthTimestamp;
+//		$weekFilterArray = [];
+//		$weekFilterArray['tsmin'] = $minWeekTimestamp;
+//		$weekFilterArray['tsmax'] = $maxWeekTimestamp;
+//		$dayFilterArray = [];
+//		$dayFilterArray['tsmin'] = $minDayTimestamp;
+//		$dayFilterArray['tsmax'] = $maxDayTimestamp;
+//		$monthFilterArray = [];
+//		$monthFilterArray['tsmin'] = $minMonthTimestamp;
+//		$monthFilterArray['tsmax'] = $maxMonthTimestamp;
 
 		$qb = $this->db->getQueryBuilder();
 
@@ -4912,7 +4963,7 @@ class ProjectService {
 
 				$userFolder = $this->root->getUserFolder($uid);
 				if (! $userFolder->nodeExists($outPath.'/'.$exportName)) {
-					$this->exportCsvProject($dbProjectId, $exportName, $uid);
+					$this->exportCsvProject($dbProjectId, $uid, $exportName);
 				}
 			}
 			$req->closeCursor();

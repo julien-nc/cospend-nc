@@ -51,7 +51,7 @@ class ExportProject extends Command {
 		$name = $input->getArgument('filename');
 		$project = $this->projectService->getProjectById($projectId);
 		if ($project !== null) {
-			$result = $this->projectService->exportCsvProject($projectId, $name, $project['userid']);
+			$result = $this->projectService->exportCsvProject($projectId, $project['userid'], $name);
 			if (array_key_exists('path', $result)) {
 				$output->writeln(
 					'Project "'.$projectId.'" exported in "'.$result['path'].

@@ -2545,7 +2545,7 @@ class PageController extends ApiController {
 		}
 
 		if ($this->projectService->userCanAccessProject($userId, $projectid)) {
-			$result = $this->projectService->exportCsvProject($projectid, $name, $userId);
+			$result = $this->projectService->exportCsvProject($projectid, $userId, $name);
 			if (isset($result['path'])) {
 				return new DataResponse($result);
 			} else {

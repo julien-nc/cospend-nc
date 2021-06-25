@@ -143,7 +143,6 @@ class PageNUtilsControllerTest extends TestCase {
 				$sc->getDatabaseConnection()
 			),
 			new ProjectService(
-				$this->createMock(LoggerInterface::class),
 				$sc->getL10N($c->get('AppName')),
 				$sc->getConfig(),
 				new ProjectMapper(
@@ -154,7 +153,6 @@ class PageNUtilsControllerTest extends TestCase {
 				),
 				$this->activityManager,
 				$sc->getAvatarManager(),
-				$c->get(IShareManager::class),
 				$c->get(IUserManager::class),
 				$c->get(IAppManager::class),
 				$c->get(IGroupManager::class),
@@ -180,7 +178,6 @@ class PageNUtilsControllerTest extends TestCase {
 				$sc->getDatabaseConnection()
 			),
 			new ProjectService(
-				$this->createMock(LoggerInterface::class),
 				$sc->getL10N($c->get('AppName')),
 				$sc->getConfig(),
 				new ProjectMapper(
@@ -191,7 +188,6 @@ class PageNUtilsControllerTest extends TestCase {
 				),
 				$this->activityManager,
 				$sc->getAvatarManager(),
-				$c->get(IShareManager::class),
 				$c->get(IUserManager::class),
 				$c->get(IAppManager::class),
 				$c->get(IGroupManager::class),

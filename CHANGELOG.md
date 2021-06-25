@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ## 1.3.8 – 2021-06-18
+### Added
+- new member monthly spent stats table/chart
+  [#58](https://github.com/eneiluj/cospend-nc/issues/58) @Raspikabek
+
 ### Changed
 - use new DB query methods
 - adapt to new Circles management

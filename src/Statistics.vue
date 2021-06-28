@@ -652,8 +652,15 @@ export default {
 			const memberDatasets = []
 			let member
 			let index = 0
-			for (const mid in this.members) {
-				member = this.members[mid]
+			const memberDict = {
+				...this.members,
+				0: {
+					name: t('cospend', 'All members'),
+					color: this.myGetMemberColor(0),
+				},
+			}
+			for (const mid in memberDict) {
+				member = memberDict[mid]
 				const paid = []
 				for (const month of this.categoryMonths) {
 					if (mid in this.stats.memberMonthlyPaidStats[month]) {
@@ -675,6 +682,7 @@ export default {
 					// lineTension: 0.2,
 					pointRadius: 0,
 					data: paid,
+					hidden: parseInt(mid) === 0,
 				}
 				if (index === 0) {
 					// dataset.fill = 'origin'
@@ -691,8 +699,15 @@ export default {
 			const memberDatasets = []
 			let member
 			let index = 0
-			for (const mid in this.members) {
-				member = this.members[mid]
+			const memberDict = {
+				...this.members,
+				0: {
+					name: t('cospend', 'All members'),
+					color: this.myGetMemberColor(0),
+				},
+			}
+			for (const mid in memberDict) {
+				member = memberDict[mid]
 				const paid = []
 				for (const month of this.categoryMonths) {
 					if (mid in this.stats.memberMonthlySpentStats[month]) {
@@ -714,6 +729,7 @@ export default {
 					// lineTension: 0.2,
 					pointRadius: 0,
 					data: paid,
+					hidden: parseInt(mid) === 0,
 				}
 				if (index === 0) {
 					// dataset.fill = 'origin'

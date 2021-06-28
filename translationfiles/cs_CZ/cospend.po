@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-06-25 14:59+0200\n"
-"PO-Revision-Date: 2021-06-25 14:05\n"
+"PO-Revision-Date: 2021-06-28 11:26\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -287,7 +287,7 @@ msgstr "Nemáte oprávnění pro export tohoto projektu"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Dashboard/CospendWidget.php:59
 msgid "Cospend activity"
-msgstr ""
+msgstr "Aktivita v Cospend"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Migration/Version000406Date20200426154317.php:92
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:142
@@ -346,7 +346,7 @@ msgstr "Sport"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:114
 msgid "Cospend project shared"
-msgstr ""
+msgstr "Nasdílen projekt v Cospend"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:115
 #, php-format
@@ -356,11 +356,11 @@ msgstr "„%s“ vám nasdílel Cospend projekt „%s“."
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:125
 #, php-format
 msgid "{user} shared project %s with you"
-msgstr ""
+msgstr "{user} vám nasdílel(a) projekt %s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:143
 msgid "Cospend project share removed"
-msgstr ""
+msgstr "Sdílení projektu v Cospend odebráno"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:144
 #, php-format
@@ -370,12 +370,12 @@ msgstr "Uživatel „%s“ s vámi přestal sdílet Cospend projekt „%s“."
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:156
 #, php-format
 msgid "{user} stopped sharing project %s with you"
-msgstr ""
+msgstr "{user} vám zrušil(a) sdílení projektu %s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Search/CospendSearchProvider.php:196
 #, php-format
 msgid "in %1$s"
-msgstr ""
+msgstr "v %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:182
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:185
@@ -452,7 +452,7 @@ msgstr "Neplatné jméno člena"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1645
 msgid "Name already exists"
-msgstr ""
+msgstr "Název už existuje"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1652
 msgid "Not a valid decimal value"
@@ -687,15 +687,15 @@ msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:1
 msgid "No bill selected"
-msgstr ""
+msgstr "Nevybrán žádný účet"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Vyp/zap. postranní panel"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "Nothing to repeat"
-msgstr ""
+msgstr "Nic k (z)opakování"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:4
 msgid "Member {name} already exists"
@@ -704,7 +704,7 @@ msgstr "Člen {name} už existuje"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:5
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:6
 msgid "Failed to get bills"
-msgstr ""
+msgstr "Nepodařilo se načíst účty"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Invalid project name"
@@ -720,7 +720,7 @@ msgstr "Vytvořen člen {name}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:10
 msgid "Member deleted."
-msgstr ""
+msgstr "Člen smazán."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:11
 msgid "Member saved."
@@ -733,10 +733,10 @@ msgstr "Projekt uložen"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:13
 msgid "{nb} bill was created"
 msgid_plural "{nb} bills were created"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "{nb} účet byl vytvořen"
+msgstr[1] "{nb} účty byly vytvořeny"
+msgstr[2] "{nb} účtů bylo vytvořeno"
+msgstr[3] "{nb} účty byly vytvořeny"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:14
 msgid "link"
@@ -763,7 +763,7 @@ msgstr "Připojit veřejný odkaz k osobnímu souboru"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:22
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:40
 msgid "More information"
-msgstr ""
+msgstr "Další informace"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:21
 msgid "Convert to"
@@ -771,7 +771,7 @@ msgstr "Převést na"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:23
 msgid "Who paid?"
-msgstr ""
+msgstr "Kdo zaplatil?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:24
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:25
@@ -827,11 +827,11 @@ msgstr "Týdně"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:36
 msgid "Bi-weekly (every 2 weeks)"
-msgstr ""
+msgstr "Čtrnáctidenní (každé dva týdny)"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:37
 msgid "Semi-monthly (twice a month)"
-msgstr ""
+msgstr "Dvakrát měsíčně (v půli a na konci)"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:38
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:294
@@ -844,11 +844,11 @@ msgstr "Ročně"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:41
 msgid "Frequency"
-msgstr ""
+msgstr "Četnost"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:42
 msgid "Leave empty for maximum frequency"
-msgstr ""
+msgstr "Pokud chcete dostávat co nejčastěji, nevyplňujte"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:43
 msgid "Include all active members on repeat"
@@ -860,7 +860,7 @@ msgstr "Opakovat dokud"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:45
 msgid "Repeat now"
-msgstr ""
+msgstr "Zopakovat nyní"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:46
 msgid "Bill type"
@@ -880,11 +880,11 @@ msgstr "Uživatelsky určená dlužná částka pro jednotlivé členy"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:50
 msgid "Custom share per member"
-msgstr ""
+msgstr "Pro každého ze členů zvlášť samostatné sdílení"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:51
 msgid "Ignore member weights"
-msgstr ""
+msgstr "Ignorovat podíly členů"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:52
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
@@ -892,7 +892,7 @@ msgstr "Klasický režim: Vyberte kdo zaplatil, zadejte částku z účtenky a v
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:53
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
-msgstr ""
+msgstr "Klasický+osobní režim: Tento režim je podobný tomu klasickému. Vyberete, kdo platil a zadáte částku účtenky, která odpovídá tomu, co bylo skutečně zaplaceno. Pak vyberte, mezi koho všeho se bude rozpočítávat a případně nastavíte částku, která se vztahuje na osobní věci pro některé členy. Bude vytvořeno více účtů: jeden pro sdílené výdaje a jeden pro každou osobní část. Příklad reálného života: Jdeme nakupovat, část toho, co bylo koupeno, se týká skupiny, ale někdo také přidal něco osobního (jako tričko), které ostatní nechtějí kolektivně platit."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:54
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."

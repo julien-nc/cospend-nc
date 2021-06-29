@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-06-25 14:59+0200\n"
-"PO-Revision-Date: 2021-06-28 11:26\n"
+"PO-Revision-Date: 2021-06-29 11:24\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -19,27 +19,27 @@ msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:95
 msgid "You have created a new bill {bill} in project {project}"
-msgstr "Vytvořili jste novou účtenku {bill} v projektu {project}"
+msgstr "Vytvořili jste nový účet {bill} v projektu {project}"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:95
 msgid "{user} has created a new bill {bill} in project {project}"
-msgstr "{user} vytvořil nový účtenku {bill} v projektu {project}"
+msgstr "{user} vytvořil(a) nový účet {bill} v projektu {project}"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:98
 msgid "You have deleted the bill {bill} of project {project}"
-msgstr "Odstranili jste účtenku {bill} z projektu {project}"
+msgstr "Odstranili jste účet {bill} projektu {project}"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:98
 msgid "{user} has deleted the bill {bill} of project {project}"
-msgstr "{user} odstranil účtenku {bill} projektu {project}"
+msgstr "{user} odstranil(a) účet {bill} projektu {project}"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:101
 msgid "You have shared the project {project} with {who}"
-msgstr "Nasdíleli jste projekt {project} s {who}"
+msgstr "Nasdíleli jste projekt {project} uživateli {who}"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:101
 msgid "{user} has shared the project {project} with {who}"
-msgstr "{user} uživatel nasdílel projekt {project} s {who}"
+msgstr "{user} nasdílel(a) projekt {project} uživateli {who}"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:104
 msgid "You have removed {who} from the project {project}"
@@ -51,7 +51,7 @@ msgstr "{user} odstranil(a) {who} z projektu {project}"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:107
 msgid "You have updated the bill {bill} of project {project}"
-msgstr "Aktualizovali jste účet {bill} z projektu {project}"
+msgstr "Aktualizovali jste účet {bill} projektu {project}"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Activity/ActivityManager.php:107
 msgid "{user} has updated the bill {bill} of project {project}"
@@ -63,7 +63,7 @@ msgstr "Uživatel-host"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Activity/BillSetting.php:42
 msgid "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted"
-msgstr "<strong>Účet</strong> uvnitř Cospend aplikace byl aktualizován/vytvořen/smazán"
+msgstr "<strong>Účet</strong> v rámci aplikace Cospend byl aktualizován/vytvořen/smazán"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Activity/CospendProvider.php:271
 #: /var/www/html/dev/server22/apps/cospend/lib/Activity/CospendProvider.php:279
@@ -150,28 +150,28 @@ msgstr "Přístup odepřen"
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1737
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1758
 msgid "Unauthorized action"
-msgstr "Akce, na kterou nemáte pověření"
+msgstr "Neoprávněná akce"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:429
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:462
 msgid "You are not allowed to delete this bill"
-msgstr "Nemáte oprávnění zmazat tuto fakturu"
+msgstr "Nemáte oprávnění smazat tuto účtenku"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:478
 msgid "You are not allowed to get this project's info"
-msgstr "Nemáte oprávnění dostávat informace o tomto projektu"
+msgstr "Nemáte oprávnění k informacím o tomto projektu"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:499
 msgid "You are not allowed to get this project's statistics"
-msgstr "Nejste oprávněni získat statistiky tohoto projektu"
+msgstr "Nemáte oprávnění ke statistikám tohoto projektu"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:516
 msgid "You are not allowed to get this project's settlement"
-msgstr "Nemáte oprávnění získat vypořádání tohoto projektu"
+msgstr "Nemáte oprávnění k vypsání vypořádání tohoto projektu"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:536
 msgid "You are not allowed to settle this project automatically"
-msgstr "Nejste oprávněni vypořádat tento projekt automaticky"
+msgstr "Nemáte oprávnění k provedení automatického vypořádání tohoto projektu"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:551
 msgid "You are not allowed to access this project"
@@ -186,7 +186,7 @@ msgstr "Nemáte oprávnění upravovat tohoto člena"
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1284
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1324
 msgid "You are not allowed to edit this bill"
-msgstr "Nemáte oprávnění upravovat tuto účtenku"
+msgstr "Nemáte oprávnění upravovat tento účet"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:630
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:718
@@ -194,7 +194,7 @@ msgstr "Nemáte oprávnění upravovat tuto účtenku"
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1223
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1245
 msgid "You are not allowed to add bills"
-msgstr "Nemáte oprávnění přidávat účtenky"
+msgstr "Nemáte oprávnění přidávat účty"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:687
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2305
@@ -212,7 +212,7 @@ msgstr "Nemáte oprávnění přidávat členy"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:768
 msgid "You are not allowed to get the bill list"
-msgstr "Nemáte oprávnění získávat seznam účtenek"
+msgstr "Nemáte oprávnění k seznamu účtenek"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:813
 msgid "Anonymous project creation is not allowed on this server"
@@ -275,11 +275,11 @@ msgstr "Nemáte oprávnění pro přidávání veřejných sdílených přístup
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2509
 msgid "You are not allowed to export this project settlement"
-msgstr "Nemáte oprávnění pro export tohoto vypořádání projektu"
+msgstr "Nemáte oprávnění pro export vypořádání tohoto projektu"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2532
 msgid "You are not allowed to export this project statistics"
-msgstr "Nemáte oprávnění pro exportování statistik tohoto projektu"
+msgstr "Nemáte oprávnění pro export statistik tohoto projektu"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2556
 msgid "You are not allowed to export this project"
@@ -307,7 +307,7 @@ msgstr "Nájem"
 #: /var/www/html/dev/server22/apps/cospend/lib/Migration/Version000406Date20200426154317.php:95
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:145
 msgid "Bill"
-msgstr "Faktura"
+msgstr "Účet"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Migration/Version000406Date20200426154317.php:96
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:146
@@ -351,7 +351,7 @@ msgstr "Nasdílen projekt v Cospend"
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:115
 #, php-format
 msgid "User \"%s\" shared Cospend project \"%s\" with you."
-msgstr "„%s“ vám nasdílel Cospend projekt „%s“."
+msgstr "Uživatel „%s“ vám nasdílel(a) projekt v Cospend „%s“."
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:125
 #, php-format
@@ -365,12 +365,12 @@ msgstr "Sdílení projektu v Cospend odebráno"
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:144
 #, php-format
 msgid "User \"%s\" stopped sharing Cospend project \"%s\" with you."
-msgstr "Uživatel „%s“ s vámi přestal sdílet Cospend projekt „%s“."
+msgstr "Uživatel „%s“ vám přestal(a) sdílet Cospend projekt „%s“."
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:156
 #, php-format
 msgid "{user} stopped sharing project %s with you"
-msgstr "{user} vám zrušil(a) sdílení projektu %s"
+msgstr "{user} vám přestal(a) sdílet projekt %s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Search/CospendSearchProvider.php:196
 #, php-format
@@ -443,7 +443,7 @@ msgstr "Chyba při získávání transakcí zúčtování projektu"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1439
 msgid "Error when adding a bill"
-msgstr "Chyba při přidávání faktury"
+msgstr "Chyba při přidávání účtu"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1643
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1778
@@ -456,7 +456,7 @@ msgstr "Název už existuje"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1652
 msgid "Not a valid decimal value"
-msgstr "Není platná desetinná hodnota"
+msgstr "Není platná desítková hodnota"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1688
 msgid "This project have no such member"
@@ -477,7 +477,7 @@ msgstr "Neexistuje takový projekt"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1785
 msgid "Weight is not a valid decimal value"
-msgstr "Váha není platná desítková hodnota"
+msgstr "Poměr není platná desítková hodnota"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1807
 msgid "This project already has this member"
@@ -485,7 +485,7 @@ msgstr "Tento člen už se v projektu nachází"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:2965
 msgid "There is no such bill"
-msgstr "Neexistuje taková faktura"
+msgstr "Neexistuje takový účet"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3436
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3589
@@ -511,11 +511,11 @@ msgstr "Nemáte oprávnění k poskytnutí takové úrovně přístupu"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3721
 msgid "Already shared with this user"
-msgstr "Už sdíleno s tímto uživatelem"
+msgstr "Tomuto uživateli už nasdíleno"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3724
 msgid "Impossible to share the project with its owner"
-msgstr "Není možné sdílet projekt s jeho vlastníkem"
+msgstr "Není možné nasdílet projekt jeho vlastníkovi (nedává to smysl)"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3727
 msgid "No such user"
@@ -534,7 +534,7 @@ msgstr "Žádný takový sdílený přístup"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4092
 msgid "Already shared with this group"
-msgstr "Už sdíleno s touto skupinou"
+msgstr "Už sdíleno této skupině"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4095
 msgid "No such group"
@@ -542,7 +542,7 @@ msgstr "Žádná taková skupina"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4233
 msgid "Already shared with this circle"
-msgstr "S tímto okruhem už je sdíleno"
+msgstr "Už sdíleno tomuto okruhu"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4237
 msgid "No such circle"
@@ -581,7 +581,7 @@ msgstr "%1$s není přístupné pro zápis"
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4376
 #, php-format
 msgid "Impossible to create %1$s"
-msgstr "Nedaří se vytvořit %1$s"
+msgstr "Není možné vytvořit %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4412
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:167
@@ -608,24 +608,24 @@ msgstr "Zůstatek"
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4579
 #, php-format
 msgid "Malformed CSV, bad column names at line %1$s"
-msgstr "Porušený CSV, chybné názvy sloupců na řádku %1$s"
+msgstr "Pokažené CSV, chybné názvy sloupců na řádku %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4634
 #, php-format
 msgid "Malformed CSV, bad payer weight on line %1$s"
-msgstr "Porušený CSV, chybná váha plátce na řádku %1$s"
+msgstr "Pokažené CSV, chybný podíl plátce na řádku %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4638
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4645
 #, php-format
 msgid "Malformed CSV, bad owers on line %1$s"
-msgstr "Porušený CSV, chybní dlužníci na řádku %1$s"
+msgstr "Pokažené CSV, chybní dlužníci na řádku %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4653
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4840
 #, php-format
 msgid "Malformed CSV, bad amount on line %1$s"
-msgstr "Porušený CSV, chybná částka na řádku %1$s"
+msgstr "Pokažené CSV, chybná částka na řádku %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4687
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4877
@@ -654,20 +654,20 @@ msgstr "Chyba při přidávání člena %1$s"
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4916
 #, php-format
 msgid "Error when adding bill %1$s"
-msgstr "Chyba při přidávání účtu %1$s"
+msgstr "Chyba při přidávání účtenky %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4791
 msgid "Malformed CSV, bad column names"
-msgstr "Porušený CSV, chybné názvy sloupců"
+msgstr "Pokažené CSV, chybné názvy sloupců"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4802
 msgid "Malformed CSV, cannot have an empty ower"
-msgstr "Poškozený CSV, nemůže mít prázdného dlužníka"
+msgstr "Pokažené CSV, nemůže mít prázdného dlužníka"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4834
 #, php-format
 msgid "Malformed CSV, no payer on line %1$s"
-msgstr "Porušený CSV, žádný plátce na řádku %1$s"
+msgstr "Pokažené CSV, žádný plátce na řádku %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4951
 msgid "daily"
@@ -745,7 +745,7 @@ msgstr "odkaz"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:15
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:61
 msgid "Press Shift+Enter to validate"
-msgstr "Ověříte stiskem Shift+Enter"
+msgstr "Ověříte stisknutím Shift+Enter"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:16
 msgid "What?"
@@ -753,7 +753,7 @@ msgstr "Co?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:17
 msgid "What is the bill about?"
-msgstr "Čeho se tato faktura týká?"
+msgstr "Čeho se tato účtenka týká?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:18
 msgid "Attach public link to personal file"
@@ -804,7 +804,7 @@ msgstr "Komentář"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:31
 msgid "More details about the bill (300 char. max)"
-msgstr "Další podrobnosti o účtence (300 znaků. nejvýše)"
+msgstr "Další podrobnosti o účtu (300 znaků. nejvýše)"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:32
 msgid "Repeat"
@@ -818,16 +818,16 @@ msgstr "Ne"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:34
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:292
 msgid "Daily"
-msgstr "Denně"
+msgstr "Každý den"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:35
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:293
 msgid "Weekly"
-msgstr "Týdně"
+msgstr "Každý týden"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:36
 msgid "Bi-weekly (every 2 weeks)"
-msgstr "Čtrnáctidenní (každé dva týdny)"
+msgstr "Každých čtrnáct dnů (co dva týdny)"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:37
 msgid "Semi-monthly (twice a month)"
@@ -836,11 +836,11 @@ msgstr "Dvakrát měsíčně (v půli a na konci)"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:38
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:294
 msgid "Monthly"
-msgstr "Měsíčně"
+msgstr "Každý měsíc"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:39
 msgid "Yearly"
-msgstr "Ročně"
+msgstr "Každý rok"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:41
 msgid "Frequency"
@@ -864,7 +864,7 @@ msgstr "Zopakovat nyní"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:46
 msgid "Bill type"
-msgstr "Typ účtenky"
+msgstr "Typ účtu"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:47
 msgid "Classic, even split"
@@ -880,7 +880,7 @@ msgstr "Uživatelsky určená dlužná částka pro jednotlivé členy"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:50
 msgid "Custom share per member"
-msgstr "Pro každého ze členů zvlášť samostatné sdílení"
+msgstr "Pro každého ze členů uživatelsky určený podíl"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:51
 msgid "Ignore member weights"
@@ -892,7 +892,7 @@ msgstr "Klasický režim: Vyberte kdo zaplatil, zadejte částku z účtenky a v
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:53
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
-msgstr "Klasický+osobní režim: Tento režim je podobný tomu klasickému. Vyberete, kdo platil a zadáte částku účtenky, která odpovídá tomu, co bylo skutečně zaplaceno. Pak vyberte, mezi koho všeho se bude rozpočítávat a případně nastavíte částku, která se vztahuje na osobní věci pro některé členy. Bude vytvořeno více účtů: jeden pro sdílené výdaje a jeden pro každou osobní část. Příklad reálného života: Jdeme nakupovat, část toho, co bylo koupeno, se týká skupiny, ale někdo také přidal něco osobního (jako tričko), které ostatní nechtějí kolektivně platit."
+msgstr "Klasický+osobní režim: Tento režim je podobný tomu klasickému. Vyberete, kdo platil a zadáte částku účtenky, která odpovídá tomu, co bylo skutečně zaplaceno. Pak vyberte, mezi koho všeho se bude rozpočítávat a případně nastavíte částku, která se vztahuje na osobní věci pro některé členy. Bude vytvořeno více účtů: jeden pro sdílené výdaje a jeden pro každou osobní část. Příklad z reálného života: Jdeme nakupovat, část toho, co bylo koupeno, se týká skupiny, ale někdo také přidal něco osobního (jako tričko), které ostatní nechtějí kolektivně platit."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:54
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
@@ -900,7 +900,7 @@ msgstr "Uživatelsky určený režim, nerovnoměrné rozdělení: Vyberte, kdo p
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:55
 msgid "Custom share mode, uneven split: Choose a payer, set the bill amount and enter a custom share number for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: Someone pays an electricity bill for the month but one member was only there during half the month. This member should then pay half a share (0.5) while the others pay a full share (1)."
-msgstr ""
+msgstr "Uživatelsky určený režim podílu, nerovnoměrné rozdělení: Vyberte plátce, nastavte částku účtu a zadejte uživatelsky určený podíl pro každého člena, kterého se to týká. Poté stiskněte tlačítko „Vytvořit účty“. Bude vytvořeno více účtů. Příklad z reálného života: Někdo platí účet za elektrickou energii za měsíc, ale jeden člen tam byl jen za půl měsíce. Tento člen by pak měl zaplatit polovinu podílu (0.5), zatímco ostatní platí celý podíl (1)."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:56
 msgid "For whom?"
@@ -920,7 +920,7 @@ msgstr "Uživatelsky určená částka"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:60
 msgid "Custom share number"
-msgstr ""
+msgstr "Uživatelsky určený podíl"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:62
 msgid "Bill : {what}"
@@ -951,7 +951,7 @@ msgstr "Účet uložen."
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:67
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:69
 msgid "Bill values are not valid."
-msgstr "Fakturační hodnoty nejsou platné."
+msgstr "Hodnoty na účtu nejsou platné."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:68
 msgid "Personal parts are bigger than the paid amount."
@@ -964,20 +964,20 @@ msgstr "Není zde žádná uživatelsky určená částka."
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:71
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:73
 msgid "Bill values are not valid"
-msgstr ""
+msgstr "Hodnoty na účtu nejsou platné"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:72
 msgid "There is no custom share number"
-msgstr ""
+msgstr "Není zde žádný uživatelsky určený podíl"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:74
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:186
 msgid "Failed to create bill"
-msgstr "Účet se nepodařilo uložit"
+msgstr "Účet se nepodařilo vytvořit"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:75
 msgid "Bill created"
-msgstr ""
+msgstr "Účet vytvořen"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:76
 msgid "Choose file"
@@ -1005,11 +1005,11 @@ msgstr "Můžete zadat jednoduché matematické operace a potvrdit stisknutím k
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:81
 msgid "Bill repetition process runs once a day as a background job. If your bills are not automatically repeated, ask your Nextcloud administrator to check if \"Cron\" method is selected in admin settings."
-msgstr ""
+msgstr "Proces opakování účtu je spouštěn jednou denně jako úloha na pozadí. Pokud se vaše účty automaticky neopakují, požádejte správce vámi využívané instance Nextcloud, aby zkontroloval, zda je v nastavení správce vybrána metoda „Cron“ (systémový plánovač)."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:82
 msgid "You can also manually repeat the current bill with the \"Repeat now\" button."
-msgstr ""
+msgstr "Stávající účet také můžete zopakovat ručně pomocí tlačítka „Zopakovat nyní“."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:84
 msgid "New bill"
@@ -1017,23 +1017,23 @@ msgstr "Nový účet"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:85
 msgid "Assign category"
-msgstr ""
+msgstr "Přiřadit kategorii"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:87
 msgid "Assign payment mode"
-msgstr ""
+msgstr "Přiřadit režim platby"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:89
 msgid "Delete selected bills"
-msgstr ""
+msgstr "Smazat označené účty"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:90
 msgid "Multi select mode: Select bills to make grouped actions"
-msgstr ""
+msgstr "Režim vícenásobného výběru: Vyberte účty a vytvořte seskupené akce"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:91
 msgid "Add at least 2 members to start creating bills"
-msgstr ""
+msgstr "Aby bylo možné začít s vytvářením účtů, je třeba přidat alespoň dva členy"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:92
 msgid "No bills yet"
@@ -1042,27 +1042,27 @@ msgstr "Zatím žádné účty"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:93
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:94
 msgid "No more bills"
-msgstr ""
+msgstr "Žádné další účty"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:95
 msgid "Leave multiple selection mode"
-msgstr ""
+msgstr "Opustit režim vícenásobného výběru"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:96
 msgid "Enter multiple selection mode"
-msgstr ""
+msgstr "Vstoupit do režimu vícenásobného výběru"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:97
 msgid "Bill deleted"
-msgstr ""
+msgstr "Účet smazán"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:98
 msgid "Bills edited"
-msgstr ""
+msgstr "Účty upraveny"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:99
 msgid "Confirm deletion"
-msgstr ""
+msgstr "Potvrdit smazání"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:100
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:243
@@ -1077,31 +1077,31 @@ msgstr "Smazat"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:262
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:286
 msgid "Cancel"
-msgstr ""
+msgstr "Storno"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:102
 msgid "Bills deleted"
-msgstr ""
+msgstr "Účty smazány"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:103
 msgid "Are you sure you want to delete {nb} bill?"
 msgid_plural "Are you sure you want to delete {nb} bills?"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Opravdu chcete smazat {nb} účet?"
+msgstr[1] "Opravdu chcete smazat {nb} účty?"
+msgstr[2] "Opravdu chcete smazat {nb} účtů?"
+msgstr[3] "Opravdu chcete smazat {nb} účty?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:104
 msgid "Category sort method"
-msgstr ""
+msgstr "Metoda řazení kategorií"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:105
 msgid "Alphabetical"
-msgstr ""
+msgstr "Abecedně"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:106
 msgid "Manual"
-msgstr ""
+msgstr "Ruční"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:107
 msgid "Add category"
@@ -1125,7 +1125,7 @@ msgstr "Název kategorie"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:111
 msgid "Add this category"
-msgstr ""
+msgstr "Přidat tuto kategorii"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "Category list"
@@ -1133,7 +1133,7 @@ msgstr "Seznam kategorií"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:113
 msgid "Drag categories to set manual order"
-msgstr ""
+msgstr "Ruční pořadí vytvoříte přetahováním kategorií"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:114
 msgid "No categories to display"
@@ -1154,7 +1154,7 @@ msgstr "Kategorie {n} přidána."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:119
 msgid "Category order saved"
-msgstr ""
+msgstr "Pořadí kategorie uloženo"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:120
 msgid "Main currency"
@@ -1162,7 +1162,7 @@ msgstr "Hlavní měna"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:122
 msgid "Set main currency name"
-msgstr ""
+msgstr "Nastavit název hlavní měny"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:123
 msgid "Main currency name"
@@ -1172,7 +1172,7 @@ msgstr "Název hlavní měny"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:263
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:287
 msgid "Save"
-msgstr ""
+msgstr "Uložit"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:126
 msgid "Add currency"
@@ -1228,16 +1228,16 @@ msgstr "MoneyBuster odkaz / QR kód pro projekt {name}"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:139
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:143
 msgid "Old link"
-msgstr ""
+msgstr "Původní odkaz"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:140
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:144
 msgid "New link"
-msgstr ""
+msgstr "Nový odkaz"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:141
 msgid "Confirm project password to get a QRCode including the password."
-msgstr "Potvrďte heslo projektu pro získání QR kódu včetně hesla."
+msgstr "Zopakujte zadání hesla k projektu a bude vytvořen QR kód, obsahující i heslo."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:142
 msgid "Project password"
@@ -1249,15 +1249,15 @@ msgstr "Nesprávné heslo projektu."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:146
 msgid "Scan this QRCode with a smartphone which has MoneyBuster or PayForMe installed or simply send the link itself."
-msgstr ""
+msgstr "Naskenujte tento QR kód chytrým telefonem, na kterém je nainstalovaná aplikace MoneyBuster nebo PayForMe nebo prostě pošlete odkaz jako takový."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:148
 msgid "As the password is stored hashed (for security), it can't be automatically included in the QRCode. If you want to include it in the QRCode and make it easier to add a project in mobile apps, you must provide the password again."
-msgstr ""
+msgstr "Protože je ukládán pouze otisk hesla (kvůli zabezpečení), není možné ho automaticky vložit do QR kódu. Pokud ho tam přesto chcete mít a zjednodušit tak přidání projektu do mobilních aplikací, je třeba ho zadat znovu."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:149
 msgid "Type the project password and press \"Enter\" to generate another QRCode that includes the password."
-msgstr ""
+msgstr "Zadejte heslo k projektu a stisknutím klávesy „Enter“ vytvořte další QR kód, který obsahuje i heslo."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:151
 msgid "Settlement of project {name}"
@@ -1274,7 +1274,7 @@ msgstr "Přidat tyto platby do projektu"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:154
 msgid "Center settlement on"
-msgstr "Vyrovnat střed na"
+msgstr "Vyrovnat na"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:155
 msgid "Nobody (optimal)"
@@ -1282,63 +1282,63 @@ msgstr "Nikdo (optimální)"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:156
 msgid "Settlement date"
-msgstr ""
+msgstr "Datum vypořádání"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:158
 msgid "Set to beginning of this day"
-msgstr ""
+msgstr "Nastavit na začátek tohoto dne"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:159
 msgid "Set to beginning of this week"
-msgstr ""
+msgstr "Nastavit na začátek tohoto týdne"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:160
 msgid "Set to beginning of this month"
-msgstr ""
+msgstr "Nastavit na začátek tohoto měsíce"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:161
 msgid "Settlement plan on {date}"
-msgstr ""
+msgstr "Plán vyrovnání na {date}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:161
 msgid "Settlement plan"
-msgstr ""
+msgstr "Plán vyrovnání"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:165
 msgid "No transactions found"
-msgstr ""
+msgstr "Nenalezeny žádné transakce"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:166
 msgid "Balances on {date}"
-msgstr ""
+msgstr "Zůstatky v {date}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:166
 msgid "Balances"
-msgstr ""
+msgstr "Zůstatky"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:169
 msgid "No balances found"
-msgstr ""
+msgstr "Nenalezeny žádné zůstatky"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:170
 msgid "Individual reimbursement"
-msgstr ""
+msgstr "Individuální úhrada"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:171
 msgid "Payer"
-msgstr ""
+msgstr "Plátce"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:172
 msgid "Receiver"
-msgstr ""
+msgstr "Příjemce"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:173
 msgid "Create bill ({amount})"
-msgstr ""
+msgstr "Vytvořit účet ({amount})"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:174
 msgid "Failed to get settlement"
-msgstr "Nepodařilo se získat vypořádání"
+msgstr "Nepodařilo se načíst vypořádání"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:175
 msgid "Project settlement bills added."
@@ -1350,27 +1350,27 @@ msgstr "Vypořádání projektu exportováno v {path}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:177
 msgid "Set a maximum date to only consider bills until then."
-msgstr ""
+msgstr "Nastavit datum, do kterého v minulosti brát v potaz účty."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:178
 msgid "Useful if you want to settle at a precise date and ignore the bills created since then."
-msgstr ""
+msgstr "Užitečné, pokud chcete vypořádat konkrétní datum a ignorovat účty, vytvořené potom."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:179
 msgid "Automatic settlement will create bills one second before the maximum date."
-msgstr ""
+msgstr "Automatické vypořádání vytvoří účty jednu sekundu před maximálním datem."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:181
 msgid "This feature is useful when a member with a negative balance wants to get out of the project but you don't want to make a full settlement plan."
-msgstr ""
+msgstr "Tato funkce se hodí, pokud se člen se záporným zůstatkem chce dostat z projektu, ale nechcete vytvořit plán pro plné vypořádání."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:182
 msgid "Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money."
-msgstr ""
+msgstr "Vyberte plátce, který chce získat nulovou bilanci, pak příjemce, který bude jediným příjemcem, který obdrží peníze na úhradu."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Make sure the \"real\" reimbursement has been done between those 2 members in real life. Then press \"Create bill\" to automatically create the corresponding bill."
-msgstr ""
+msgstr "Ujistěte se, že mezi těmito dvěma členy byla v reálném životě provedena „skutečná“. Poté stiskněte tlačítko „Vytvořit účet“ pro automatické vytvoření odpovídající účtu."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:187
 msgid "Statistics of project {name}"
@@ -1403,7 +1403,7 @@ msgstr "Maximální částka"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:198
 msgid "Currency of statistic values"
-msgstr "Měna statistických hodnot"
+msgstr "Měna pro hodnoty ve statistikách"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:199
 msgid "Main project's currency"
@@ -1415,7 +1415,7 @@ msgstr "Zobrazit zneaktivněné členy"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:201
 msgid "Total paid by all the members: {t}"
-msgstr ""
+msgstr "Celkem zaplaceno všemi členy: {t}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:202
 msgid "Global stats"
@@ -1427,7 +1427,7 @@ msgstr "Filtrovaný zůstatek"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:208
 msgid "Monthly paid per member"
-msgstr ""
+msgstr "Jednotlivými členy měsíčně zaplaceno"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:209
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:211
@@ -1436,11 +1436,11 @@ msgstr "Člen/měsíc"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:210
 msgid "Monthly spent per member"
-msgstr ""
+msgstr "Měsíčně utraceno jednotlivými členy"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:212
 msgid "Monthly paid per category"
-msgstr ""
+msgstr "Měsíčně zaplaceno v jednotlivých kategoriích"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:213
 msgid "Category/Month"
@@ -1448,11 +1448,11 @@ msgstr "Kategorie/měsíc"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:214
 msgid "Monthly paid per payment mode"
-msgstr ""
+msgstr "Měsíčně zaplaceno v jednotlivých režimech platby"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:215
 msgid "Payment mode/Month"
-msgstr ""
+msgstr "Způsob platby/měsíc"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:216
 msgid "Select a member"
@@ -1460,27 +1460,27 @@ msgstr "Vybrat člena"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "Who paid for whom?"
-msgstr ""
+msgstr "Kdo za koho zaplatil?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:218
 msgid "paid for"
-msgstr ""
+msgstr "zaplaceno za"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:219
 msgid "Total paid"
-msgstr ""
+msgstr "Celkem zaplaceno"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:220
 msgid "Total owed"
-msgstr ""
+msgstr "Celkem dluženo"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:221
 msgid "Total owed by {name}"
-msgstr ""
+msgstr "{name} celkem dluží"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:222
 msgid "Total paid by {name}"
-msgstr ""
+msgstr "{name} celkem zaplatil(a)"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:223
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:224
@@ -1493,7 +1493,7 @@ msgstr "Měsíční platby jednotlivých členů"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:226
 msgid "Spendings per member per month"
-msgstr ""
+msgstr "Útraty jednotlivých členů za měsíc"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "Payments per category per month"
@@ -1501,7 +1501,7 @@ msgstr "Platby v jednotlivých kategoriích za měsíc"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "Payments per payment mode per month"
-msgstr ""
+msgstr "Platby v jednotlivých režimech za měsíc"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:229
 msgid "Who paid (outside circle) and spent (inside pie)?"
@@ -1513,7 +1513,7 @@ msgstr "Co bylo placeno v jednotlivých kategoriích?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:231
 msgid "What was paid per payment mode?"
-msgstr ""
+msgstr "Komu bylo placeno v jednotlivých režimech plateb?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:232
 msgid "Who paid for this category?"
@@ -1554,14 +1554,14 @@ msgstr "Účastník"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:322
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:330
 msgid "Maintainer"
-msgstr "Správce"
+msgstr "Údržbář"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:242
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:317
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:323
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:331
 msgid "Admin"
-msgstr "Administrátor"
+msgstr "Správce"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:243
 msgid "Deactivate"
@@ -1573,7 +1573,7 @@ msgstr "Znovu aktivovat"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:245
 msgid "A member is already named like that."
-msgstr ""
+msgstr "Takto pojmenovaný člen už existuje."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:246
 msgid "Add member"
@@ -1611,7 +1611,7 @@ msgstr "Seznam členů není aktuální. Za 5 sekund bude načten znovu."
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:256
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:283
 msgid "Edit"
-msgstr ""
+msgstr "Upravit"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:264
 msgid "New project"
@@ -1623,7 +1623,7 @@ msgstr "Název nového projektu"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:266
 msgid "No projects yet"
-msgstr ""
+msgstr "Zatím žádné projekty"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:267
 msgid "Import csv project"
@@ -1647,19 +1647,19 @@ msgstr "/Kdekoliv"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:272
 msgid "Sort projects by"
-msgstr ""
+msgstr "Seřadit projekty podle"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:274
 msgid "Last activity"
-msgstr ""
+msgstr "Poslední aktivity"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:275
 msgid "Maximum precision"
-msgstr ""
+msgstr "Maximální přesnost"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:276
 msgid "Use time in dates"
-msgstr ""
+msgstr "V datumech použít čas"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:277
 msgid "Choose csv project file"
@@ -1667,7 +1667,7 @@ msgstr "Zvolte csv soubor s projektem"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:278
 msgid "Choose SplitWise project file"
-msgstr "Vybrat soubor projektu SplitWise"
+msgstr "Zvolte soubor s projektem SplitWise"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:279
 msgid "Project imported."
@@ -1691,7 +1691,7 @@ msgstr "Přejmenovat projekt {n}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:289
 msgid "Disable bill deletion"
-msgstr ""
+msgstr "Zakázat odstranění účtu"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:290
 msgid "Automatic export"
@@ -1703,11 +1703,11 @@ msgstr "Exportovat projekt"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:296
 msgid "Member list"
-msgstr ""
+msgstr "Seznam členů"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:297
 msgid "Associate a project member with a Nextcloud user"
-msgstr ""
+msgstr "Přiřadit člena projektu k uživateli v Nextcloud"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:298
 msgid "Choose a Nextcloud user"
@@ -1723,7 +1723,7 @@ msgstr "Jméno nového člena (nebo uživatele z Nextcloud)"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:301
 msgid "Create simple member"
-msgstr ""
+msgstr "Vytvořit jednoduchého člena"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:302
 msgid "Failed to add member."
@@ -1823,31 +1823,31 @@ msgstr "{nb} účtů, {nm} aktivních členů, {ns} utraceno"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:342
 msgid "No recent activity"
-msgstr ""
+msgstr "Žádná nedávná aktivita"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:343
 msgid "Go to Cospend"
-msgstr ""
+msgstr "Přejít do Cospend"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:344
 msgid "{user} shared {project} with {who}"
-msgstr ""
+msgstr "{user} nasdíle(a) {project} uživateli {who}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:345
 msgid "{user} unshared {project} with {who}"
-msgstr ""
+msgstr "{user} zrušil(a) sdílení {project} uživateli {who}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:346
 msgid "{user} created {bill}"
-msgstr ""
+msgstr "{user} vytvořil(a) {bill}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:347
 msgid "{user} deleted {bill}"
-msgstr ""
+msgstr "{user} odstranil(a) {bill}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:348
 msgid "{user} edited {bill}"
-msgstr ""
+msgstr "{user} upravil(a) {bill}"
 
 #: /var/www/html/dev/server22/apps/cospend/src/constants.js:27
 msgid "Credit card"
@@ -1936,7 +1936,7 @@ msgstr "Účet se nepodařilo uložit"
 
 #: /var/www/html/dev/server22/apps/cospend/src/network.js:399
 msgid "Failed to delete bills"
-msgstr ""
+msgstr "Účty se nepodařilo smazat"
 
 #: /var/www/html/dev/server22/apps/cospend/src/network.js:412
 msgid "Failed to check password."
@@ -2013,7 +2013,7 @@ msgstr "Umožnit hostům vytvářet projekty"
 
 #: /var/www/html/dev/server22/apps/cospend/templates/admin.php:10
 msgid "Enabling this option will allow any visitor to create a project without having to log in."
-msgstr "Povolení této volby umožní všem návštěvníkům vytvořit projekt bez nutnosti přihlášení."
+msgstr "Povolení této volby umožní všem návštěvníkům vytvořit projekt bez nutnosti přihlášení se."
 
 #: /var/www/html/dev/server22/apps/cospend/templates/admin.php:11
 msgid "This can be useful if you are in a local network and want to let anybody create a project."
@@ -2021,7 +2021,7 @@ msgstr "To může být užitečné, pokud jste v místní síti a chcete umožni
 
 #: /var/www/html/dev/server22/apps/cospend/templates/admin.php:12
 msgid "Or maybe you are very generous and want to allow the entire world to use Cospend without having an account on your Nextcloud instance."
-msgstr "Nebo možná jste velmi velkorysí a chcete celému světu umožnit používat Cospend bez účtu na vaší Nextcloudu."
+msgstr "Nebo možná jste velmi velkorysí a chcete celému světu umožnit používat Cospend bez účtu na vaší instanci Nextcloud."
 
 #: /var/www/html/dev/server22/apps/cospend/templates/logincontent.php:2
 msgid "Authentication"

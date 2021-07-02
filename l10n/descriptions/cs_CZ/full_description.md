@@ -4,7 +4,7 @@ Nextcloud Cospend je správce skupinových/sdílených rozpočtů. Bylo inspirov
 
 Je možné ho použít když sdílíte dům, když jedete na dovolenou s přáteli, kdykoli sdílíte peníze s ostatními.
 
-Umožňuje vytvářet projekty s členy a účty. Každý z členů má zůstatek spočítán z faktur projektu. Tak můžete vidět, kdo dluží skupině a komu dluží skupina. V konečném důsledku můžete požádat o plán vypořádání, který vám oznámí, které platby mají být provedeny za účelem obnovení zůstatků členů.
+Umožňuje vytvářet projekty s členy a účty. Každý z členů má zůstatek spočítán z účtů projektu. Tak můžete vidět, kdo dluží skupině a komu dluží skupina. V konečném důsledku můžete požádat o plán vypořádání, který vám oznámí, které platby mají být provedeny za účelem vynulování zůstatků členů.
 
 Členové projektu jsou nezávislí na uživatelích z Nextcloud. K projektům mohou přistupovat a upravovat je i lidé bez účtu v Nextcloud. Každý projekt má identifikátor a heslo pro přístup hostů.
 
@@ -14,21 +14,21 @@ Ve vývoji je také iOS klient [PayForMe](https://github.com/mayflower/PayForMe)
 
 ## Funkce
 
-* ✎ vytvářejte/upravujte/mažte projekty, členy, účty a jejich kategorie, měny
-* ⚖ kontrolujte zůstatky členů
-* 🗠 zobrazit statistiky projektu
-* ♻ zobrazit plán zúčtování
-* 🎇 Automaticky vytvářet zúčtovací účty z plánu vypořádání
-* 🗓 vytvářejte pravidelné účty (denní/týdenní/měsíční)
-* 📊 volitelně zadejte uživatelsky určenou částku částku pro každého z členů v nových účtenkách
-* 🔗 propojte účtenky s osobními soubory (například obrázek fyzické účtenky)
+* ✎ vytváření/upravování/mazání projektů, členů, účtů a jejich kategorií, měn
+* ⚖ kontrola zůstatků členů
+* 🗠 zobrazování statistik projektů
+* ♻ zobrazování plánu vypořádání
+* 🎇 automatické vytváření účtů náhrad z plánu vypořádání
+* 🗓 vytváření pravidelných účtů (denní/týdenní/měsíční)
+* 📊 volitelné zadávání uživatelsky určené částky pro každého z členů u nových účtů
+* 🔗 propojování účtů s osobními soubory (například obrázek fyzické účtenky)
 * 👩 přístup hostům pro lidi mimo Nextcloud
-* 👫 Sdílejte projekty s Nextcloud uživateli/skupinami/okruhy
-* 🖫 import/exportovat projekty jako csv (kompatibilní s csv soubory z IHateMoney)
-* 🔗 vytvářejte odkazy/QRKód pro snadný import projektů v MoneyBuster
-* 🗲 implementovat oznámení z Nextcloud a proud aktivit
+* 👫 sdílení projektů s Nextcloud uživateli/skupinami/okruhy
+* 🖫 importujte/exportujte projekty jako csv (kompatibilní s csv soubory z IHateMoney)
+* 🔗 vytváření odkazů / QR kódů určených pro snadný import projektů v MoneyBuster
+* 🗲 implementace upozorňování do Nextcloud a proudu aktivit
 
-Tato aplikace je testována na Nextcloudu 20+ s Firefoxem 57+ a Chromiem.
+Tato aplikace je testována na Nextcloud 20+ a prohlížečích Firefox 57+ a Chromium.
 
 Na této aplikaci stále ještě probíhá intenzivní vývoj.
 
@@ -39,13 +39,13 @@ Na této aplikaci stále ještě probíhá intenzivní vývoj.
 ## Dokumentace
 
 * [Uživatelská dokumentace](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
-* [Dokumentace pro administrátory](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
+* [Dokumentace pro správce](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
 * [Dokumentace pro vývojáře](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
 * [SEZNAM ZMĚN](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
 * [AUTOŘI](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## Známé problémy
 
-* it does not make you rich
+* neudělá z vás boháče
 
 Jakákoliv zpětná vazba bude vítána.

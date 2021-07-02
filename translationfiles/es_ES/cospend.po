@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-06-25 14:59+0200\n"
-"PO-Revision-Date: 2021-06-25 14:05\n"
+"PO-Revision-Date: 2021-07-02 15:29\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -346,7 +346,7 @@ msgstr "Deporte"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:114
 msgid "Cospend project shared"
-msgstr ""
+msgstr "Proyecto Cospend compartido"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:115
 #, php-format
@@ -356,7 +356,7 @@ msgstr "El usuario \"%s\" compartió el proyecto \"%s\" contigo."
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:125
 #, php-format
 msgid "{user} shared project %s with you"
-msgstr ""
+msgstr "{user} compartió el proyecto %s con usted"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:143
 msgid "Cospend project share removed"
@@ -375,7 +375,7 @@ msgstr ""
 #: /var/www/html/dev/server22/apps/cospend/lib/Search/CospendSearchProvider.php:196
 #, php-format
 msgid "in %1$s"
-msgstr ""
+msgstr "en %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:182
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:185
@@ -769,7 +769,7 @@ msgstr "Convertir a"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:23
 msgid "Who paid?"
-msgstr ""
+msgstr "¿Quién pagó?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:24
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:25
@@ -1411,7 +1411,7 @@ msgstr "Mostrar miembros deshabilitados"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:201
 msgid "Total paid by all the members: {t}"
-msgstr ""
+msgstr "Total pagado por todos los miembros: {t}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:202
 msgid "Global stats"
@@ -1423,7 +1423,7 @@ msgstr "Balance filtrado"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:208
 msgid "Monthly paid per member"
-msgstr ""
+msgstr "Pago mensual por miembro"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:209
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:211
@@ -1436,7 +1436,7 @@ msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:212
 msgid "Monthly paid per category"
-msgstr ""
+msgstr "Pago mensual por categoría"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:213
 msgid "Category/Month"
@@ -1444,11 +1444,11 @@ msgstr "Categoría/Mes"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:214
 msgid "Monthly paid per payment mode"
-msgstr ""
+msgstr "Pago mensual por modo de pago"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:215
 msgid "Payment mode/Month"
-msgstr ""
+msgstr "Modo de pago/mes"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:216
 msgid "Select a member"
@@ -1464,7 +1464,7 @@ msgstr "pagó por"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:219
 msgid "Total paid"
-msgstr ""
+msgstr "Total pagado"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:220
 msgid "Total owed"
@@ -1476,7 +1476,7 @@ msgstr "Total adeudado por {name}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:222
 msgid "Total paid by {name}"
-msgstr ""
+msgstr "Total pagado por {name}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:223
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:224
@@ -1489,7 +1489,7 @@ msgstr "Pagos por miembro por mes"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:226
 msgid "Spendings per member per month"
-msgstr ""
+msgstr "Gastos por miembro por mes"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "Payments per category per month"
@@ -1497,7 +1497,7 @@ msgstr "Pagos por categoría por mes"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "Payments per payment mode per month"
-msgstr ""
+msgstr "Pagos por modo de pago por mes"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:229
 msgid "Who paid (outside circle) and spent (inside pie)?"
@@ -1509,7 +1509,7 @@ msgstr "¿Qué se pagó por categoría?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:231
 msgid "What was paid per payment mode?"
-msgstr ""
+msgstr "¿Qué se pagó por modo de pago?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:232
 msgid "Who paid for this category?"
@@ -1655,7 +1655,7 @@ msgstr "Precisión máxima"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:276
 msgid "Use time in dates"
-msgstr ""
+msgstr "Usar hora en fechas"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:277
 msgid "Choose csv project file"

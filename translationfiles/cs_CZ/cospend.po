@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-06-25 14:59+0200\n"
-"PO-Revision-Date: 2021-06-29 11:24\n"
+"PO-Revision-Date: 2021-07-09 22:27\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -155,7 +155,7 @@ msgstr "Neoprávněná akce"
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:429
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:462
 msgid "You are not allowed to delete this bill"
-msgstr "Nemáte oprávnění smazat tuto účtenku"
+msgstr "Nemáte oprávnění smazat tento účet"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:478
 msgid "You are not allowed to get this project's info"
@@ -212,7 +212,7 @@ msgstr "Nemáte oprávnění přidávat členy"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:768
 msgid "You are not allowed to get the bill list"
-msgstr "Nemáte oprávnění k seznamu účtenek"
+msgstr "Nemáte oprávnění k seznamu účtů"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:813
 msgid "Anonymous project creation is not allowed on this server"
@@ -381,7 +381,7 @@ msgstr "v %1$s"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:185
 #: /var/www/html/dev/server22/apps/cospend/src/constants.js:19
 msgid "Reimbursement"
-msgstr "Náhrada"
+msgstr "Úhrada"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:452
 msgid "Invalid project id"
@@ -654,7 +654,7 @@ msgstr "Chyba při přidávání člena %1$s"
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4916
 #, php-format
 msgid "Error when adding bill %1$s"
-msgstr "Chyba při přidávání účtenky %1$s"
+msgstr "Chyba při přidávání účtu %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4791
 msgid "Malformed CSV, bad column names"
@@ -900,7 +900,7 @@ msgstr "Uživatelsky určený režim, nerovnoměrné rozdělení: Vyberte, kdo p
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:55
 msgid "Custom share mode, uneven split: Choose a payer, set the bill amount and enter a custom share number for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: Someone pays an electricity bill for the month but one member was only there during half the month. This member should then pay half a share (0.5) while the others pay a full share (1)."
-msgstr "Uživatelsky určený režim podílu, nerovnoměrné rozdělení: Vyberte plátce, nastavte částku účtu a zadejte uživatelsky určený podíl pro každého člena, kterého se to týká. Poté stiskněte tlačítko „Vytvořit účty“. Bude vytvořeno více účtů. Příklad z reálného života: Někdo platí účet za elektrickou energii za měsíc, ale jeden člen tam byl jen za půl měsíce. Tento člen by pak měl zaplatit polovinu podílu (0.5), zatímco ostatní platí celý podíl (1)."
+msgstr "Režim uživatelsky určeného podílu podílu, nerovnoměrné rozdělení: Vyberte plátce, nastavte částku účtu a zadejte uživatelsky určený podíl pro každého člena, kterého se to týká. Poté stiskněte tlačítko „Vytvořit účty“. Bude vytvořeno více účtů. Příklad z reálného života: Někdo platí účet za elektrickou energii za měsíc, ale jeden člen tam byl jen za půl měsíce. Tento člen by pak měl zaplatit polovinu podílu (0.5), zatímco ostatní platí celý podíl (1)."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:56
 msgid "For whom?"
@@ -1452,7 +1452,7 @@ msgstr "Měsíčně zaplaceno v jednotlivých režimech platby"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:215
 msgid "Payment mode/Month"
-msgstr "Způsob platby/měsíc"
+msgstr "Režim platby/měsíc"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:216
 msgid "Select a member"
@@ -1651,7 +1651,7 @@ msgstr "Seřadit projekty podle"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:274
 msgid "Last activity"
-msgstr "Poslední aktivity"
+msgstr "Poslední aktivita"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:275
 msgid "Maximum precision"
@@ -1984,7 +1984,7 @@ msgstr "Nepodařilo se přidat účty za vypořádání projektu"
 
 #: /var/www/html/dev/server22/apps/cospend/src/network.js:676
 msgid "Failed to export project settlement"
-msgstr "Export projektového vypořádání se nezdařil"
+msgstr "Export vypořádání projektu se nezdařil"
 
 #: /var/www/html/dev/server22/apps/cospend/src/network.js:706
 msgid "Failed to add shared access"

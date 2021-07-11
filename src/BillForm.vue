@@ -755,7 +755,7 @@ export default {
 		},
 		sortedCategories() {
 			const allCategories = Object.values(cospend.projects[this.projectId].categories).concat(Object.values(cospend.hardCodedCategories))
-			return ['m', 'u'].includes(this.project.categorysort)
+			return ['m', 'u', 'r'].includes(this.project.categorysort)
 				? allCategories.sort((a, b) => {
 					return a.order === b.order
 						? strcmp(a.name, b.name)

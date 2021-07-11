@@ -19,6 +19,9 @@
 					<option value="u">
 						{{ t('cospend', 'Most used') }}
 					</option>
+					<option value="r">
+						{{ t('cospend', 'Most recently used') }}
+					</option>
 				</select>
 			</div>
 			<hr>
@@ -152,7 +155,7 @@ export default {
 			return Object.values(this.categories)
 		},
 		sortedCategories() {
-			if (['m', 'u'].includes(this.project.categorysort)) {
+			if (['m', 'u', 'r'].includes(this.project.categorysort)) {
 				return this.categoryList.slice().sort((a, b) => {
 					return a.order === b.order
 						? strcmp(a.name, b.name)

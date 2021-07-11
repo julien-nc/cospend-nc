@@ -540,7 +540,7 @@ export default {
 			return cospend.projects[this.projectId].categories
 		},
 		sortedCategories() {
-			if (['m', 'u'].includes(this.project.categorysort)) {
+			if (['m', 'u', 'r'].includes(this.project.categorysort)) {
 				return Object.values(this.categories).slice().sort((a, b) => {
 					return a.order === b.order
 						? strcmp(a.name, b.name)

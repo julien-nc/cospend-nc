@@ -2514,7 +2514,7 @@ class ProjectService {
 			}
 			$req->closeCursor();
 			$qb->resetQueryParts();
-		} elseif ($sortMethod === 'u') {
+		} elseif ($sortMethod === 'u' || $sortMethod === 'r') {
 			// get all categories
 			$qb->select('name', 'id', 'encoded_icon', 'color')
 				->from('cospend_project_categories', 'c')
@@ -2537,32 +2537,57 @@ class ProjectService {
 			}
 			$req->closeCursor();
 			$qb->resetQueryParts();
-			// sort by most used
-			// first get list of most used
-			$mostUsedOrder = [];
-			$qb->select('name', 'cat.id', 'encoded_icon', 'color')
-				->from('cospend_project_categories', 'cat')
-				->innerJoin('cat', 'cospend_bills', 'bill', $qb->expr()->eq('cat.id', 'bill.categoryid'))
-				->where(
-					$qb->expr()->eq('cat.projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
-				)
-				->orderBy($qb->func()->count('cat.id'), 'DESC')
-				->groupBy('cat.id');
-			$req = $qb->executeQuery();
-			$order = 0;
-			while ($row = $req->fetch()) {
-				$dbId = (int) $row['id'];
-				$mostUsedOrder[$dbId] = $order++;
+			// now we get the order
+			if ($sortMethod === 'u') {
+				// sort by most used
+				// first get list of most used
+				$mostUsedOrder = [];
+				$qb->select('cat.id')
+					->from('cospend_project_categories', 'cat')
+					->innerJoin('cat', 'cospend_bills', 'bill', $qb->expr()->eq('cat.id', 'bill.categoryid'))
+					->where(
+						$qb->expr()->eq('cat.projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					)
+					->orderBy($qb->func()->count('cat.id'), 'DESC')
+					->groupBy('cat.id');
+				$req = $qb->executeQuery();
+				$order = 0;
+				while ($row = $req->fetch()) {
+					$dbId = (int) $row['id'];
+					$mostUsedOrder[$dbId] = $order++;
+				}
+				$req->closeCursor();
+				$qb->resetQueryParts();
+				// affect order
+				foreach ($categories as $cid => $cat) {
+					// fallback order is more than max order
+					$categories[$cid]['order'] = $mostUsedOrder[$cid] ?? $order;
+				}
+			} elseif ($sortMethod === 'r') {
+				// sort by most recently used
+				$mostUsedOrder = [];
+				$qb->select('cat.id')
+					->from('cospend_project_categories', 'cat')
+					->innerJoin('cat', 'cospend_bills', 'bill', $qb->expr()->eq('cat.id', 'bill.categoryid'))
+					->where(
+						$qb->expr()->eq('cat.projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					)
+					->orderBy($qb->func()->max('bill.timestamp'), 'DESC')
+					->groupBy('cat.id');
+				$req = $qb->executeQuery();
+				$order = 0;
+				while ($row = $req->fetch()) {
+					$dbId = (int) $row['id'];
+					$mostUsedOrder[$dbId] = $order++;
+				}
+				$req->closeCursor();
+				$qb->resetQueryParts();
+				// affect order
+				foreach ($categories as $cid => $cat) {
+					// fallback order is more than max order
+					$categories[$cid]['order'] = $mostUsedOrder[$cid] ?? $order;
+				}
 			}
-			$req->closeCursor();
-			$qb->resetQueryParts();
-			// affect order
-			foreach ($categories as $cid => $cat) {
-				// fallback order is more than max order
-				$categories[$cid]['order'] = $mostUsedOrder[$cid] ?? $order;
-			}
-		} elseif ($sortMethod === 'r') {
-			// sort by most recently used
 		}
 
 		return $categories;

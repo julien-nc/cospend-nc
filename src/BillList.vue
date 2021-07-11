@@ -111,7 +111,7 @@ import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import BillItem from './components/BillItem'
 import InfiniteLoading from 'vue-infinite-loading'
-import { showSuccess } from '@nextcloud/dialogs'
+import { showSuccess, showError } from '@nextcloud/dialogs'
 import cospend from './state'
 import * as network from './network'
 
@@ -261,13 +261,27 @@ export default {
 		onCategoryChange(e) {
 			const categoryid = e.target.value
 			if (this.selectedBillIds.length > 0) {
-				network.saveBills(this.projectId, this.selectedBillIds, categoryid, null, this.saveBillsSuccess)
+				network.saveBills(this.projectId, this.selectedBillIds, categoryid, null).then((response) => {
+					this.saveBillsSuccess(this.selectedBillIds, categoryid, null)
+				}).catch((error) => {
+					showError(
+						t('cospend', 'Failed to save bills')
+						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					)
+				})
 			}
 		},
 		onPaymentModeChange(e) {
 			const paymentmode = e.target.value
 			if (this.selectedBillIds.length > 0) {
-				network.saveBills(this.projectId, this.selectedBillIds, null, paymentmode, this.saveBillsSuccess)
+				network.saveBills(this.projectId, this.selectedBillIds, null, paymentmode).then((response) => {
+					this.saveBillsSuccess(this.selectedBillIds, null, paymentmode)
+				}).catch((error) => {
+					showError(
+						t('cospend', 'Failed to save bills')
+						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					)
+				})
 			}
 		},
 		saveBillsSuccess(billIds, categoryid, paymentmode) {

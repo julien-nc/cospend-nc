@@ -261,7 +261,7 @@ export default {
 				this.currentBill = bill
 			}
 			if (mode === 'normal') {
-				this.updateBalances(cospend.currentProjectId)
+				this.updateProjectInfo(cospend.currentProjectId)
 			}
 		},
 		onMultiBillEdit(billIds, categoryid, paymentmode) {
@@ -291,14 +291,14 @@ export default {
 		},
 		onBillSaved(bill, changedBill) {
 			Object.assign(bill, changedBill)
-			this.updateBalances(cospend.currentProjectId)
+			this.updateProjectInfo(cospend.currentProjectId)
 		},
 		onCustomBillsCreated() {
 			this.currentBill = null
-			this.updateBalances(cospend.currentProjectId)
+			this.updateProjectInfo(cospend.currentProjectId)
 		},
 		onPersoBillsCreated() {
-			this.updateBalances(cospend.currentProjectId)
+			this.updateProjectInfo(cospend.currentProjectId)
 		},
 		onResetSelection() {
 			this.currentBill = null
@@ -310,7 +310,7 @@ export default {
 				billList.splice(index, 1)
 				this.currentProject.nbBills--
 			})
-			this.updateBalances(cospend.currentProjectId)
+			this.updateProjectInfo(cospend.currentProjectId)
 		},
 		onBillDeleted(bill) {
 			const billList = this.billLists[cospend.currentProjectId]
@@ -319,7 +319,7 @@ export default {
 			if (bill.id === this.selectedBillId) {
 				this.currentBill = null
 			}
-			this.updateBalances(cospend.currentProjectId)
+			this.updateProjectInfo(cospend.currentProjectId)
 		},
 		onProjectClicked(projectid) {
 			if (cospend.currentProjectId !== projectid) {
@@ -449,24 +449,28 @@ export default {
 		},
 		getProjects() {
 			this.projectsLoading = true
-			network.getProjects(this.getProjectsSuccess)
-		},
-		getProjectsSuccess(response) {
-			if (!cospend.pageIsPublic) {
-				response.forEach((proj) => { this.addProject(proj) })
-				if (cospend.urlProjectId && cospend.urlProjectId in this.projects) {
-					this.selectProject(cospend.urlProjectId, false)
-				} else if (cospend.restoredCurrentProjectId !== null && cospend.restoredCurrentProjectId in this.projects) {
-					this.selectProject(cospend.restoredCurrentProjectId, false)
+			network.getProjects().then((response) => {
+				if (!cospend.pageIsPublic) {
+					response.data.forEach((proj) => { this.addProject(proj) })
+					if (cospend.urlProjectId && cospend.urlProjectId in this.projects) {
+						this.selectProject(cospend.urlProjectId, false)
+					} else if (cospend.restoredCurrentProjectId !== null && cospend.restoredCurrentProjectId in this.projects) {
+						this.selectProject(cospend.restoredCurrentProjectId, false)
+					}
+				} else {
+					if (!response.data.myaccesslevel) {
+						response.data.myaccesslevel = response.guestaccesslevel
+					}
+					this.addProject(response.data)
+					this.selectProject(response.data.id, false)
 				}
-			} else {
-				if (!response.myaccesslevel) {
-					response.myaccesslevel = response.guestaccesslevel
-				}
-				this.addProject(response)
-				this.selectProject(response.id, false)
-			}
-			this.projectsLoading = false
+				this.projectsLoading = false
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to get projects')
+					+ ': ' + error.response.request.responseText
+				)
+			})
 		},
 		getBills(projectid, selectBillId = null) {
 			this.billsLoading = true
@@ -477,7 +481,7 @@ export default {
 				response.data.bills.forEach((bill) => {
 					this.bills[projectid][bill.id] = bill
 				})
-				this.updateBalances(projectid)
+				this.updateProjectInfo(projectid)
 				if (selectBillId !== null && this.bills[projectid][selectBillId]) {
 					this.currentBill = this.bills[projectid][selectBillId]
 				}
@@ -542,42 +546,54 @@ export default {
 			}
 		},
 		createProject(name, id) {
-			network.createProject(name, id, this.createProjectSuccess)
-		},
-		createProjectSuccess(response) {
-			this.addProject(response)
-			this.selectProject(response.id)
+			network.createProject(name, id).then((response) => {
+				this.addProject(response.data)
+				this.selectProject(response.data.id)
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to create project')
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+				)
+			})
 		},
 		deleteProject(projectid) {
-			network.deleteProject(projectid, this.deleteProjectSuccess)
-		},
-		deleteProjectSuccess(projectid, response) {
-			this.currentBill = null
-			this.$delete(this.projects, projectid)
-			this.$delete(this.bills, projectid)
-			this.$delete(this.billLists, projectid)
-			this.$delete(this.members, projectid)
+			network.deleteProject(projectid).then((response) => {
+				this.currentBill = null
+				this.$delete(this.projects, projectid)
+				this.$delete(this.bills, projectid)
+				this.$delete(this.billLists, projectid)
+				this.$delete(this.members, projectid)
 
-			if (cospend.pageIsPublic) {
-				const redirectUrl = generateUrl('/apps/cospend/login')
-				window.location.replace(redirectUrl)
-			}
-			showSuccess(t('cospend', 'Deleted project {id}', { id: projectid }))
-			this.deselectProject()
+				if (cospend.pageIsPublic) {
+					const redirectUrl = generateUrl('/apps/cospend/login')
+					window.location.replace(redirectUrl)
+				}
+				showSuccess(t('cospend', 'Deleted project {id}', { id: projectid }))
+				this.deselectProject()
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to delete project')
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+				)
+			})
 		},
-		updateBalances(projectid) {
-			network.updateBalances(projectid, this.updateBalancesSuccess)
-		},
-		updateBalancesSuccess(projectid, response) {
-			let balance
-			for (const memberid in response.balance) {
-				balance = response.balance[memberid]
-				this.$set(this.members[projectid][memberid], 'balance', balance)
-			}
-			this.updateProjectPrecision(projectid, response.balance)
+		updateProjectInfo(projectid) {
+			network.updateProjectInfo(projectid).then((response) => {
+				let balance
+				for (const memberid in response.data.balance) {
+					balance = response.data.balance[memberid]
+					this.$set(this.members[projectid][memberid], 'balance', balance)
+				}
+				this.updateProjectPrecision(projectid, response.data.balance)
 
-			this.projects[projectid].nb_bills = response.nb_bills
-			this.projects[projectid].total_spent = response.total_spent
+				this.projects[projectid].nb_bills = response.data.nb_bills
+				this.projects[projectid].total_spent = response.data.total_spent
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to update balances')
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+				)
+			})
 		},
 		updateProjectPrecision(projectid, balances) {
 			const balanceArray = Object.values(balances)
@@ -590,18 +606,22 @@ export default {
 			this.$set(this.projects[projectid], 'precision', precision)
 		},
 		createMember(projectid, name, userid = null) {
-			network.createMember(projectid, name, userid, this.createMemberSuccess)
-		},
-		createMemberSuccess(projectid, name, response) {
-			response.balance = 0
-			response.color = rgbObjToHex(response.color).replace('#', '')
-			this.$set(this.members[projectid], response.id, response)
-			this.projects[projectid].members.unshift(response)
-			showSuccess(t('cospend', 'Created member {name}', { name }))
-			// add access to this user if it's not there already
-			if (response.userid) {
-				this.addParticipantAccess(projectid, response.id, response.userid)
-			}
+			network.createMember(projectid, name, userid).then((response) => {
+				response.data.balance = 0
+				response.data.color = rgbObjToHex(response.data.color).replace('#', '')
+				this.$set(this.members[projectid], response.data.id, response.data)
+				this.projects[projectid].members.unshift(response.data)
+				showSuccess(t('cospend', 'Created member {name}', { name }))
+				// add access to this user if it's not there already
+				if (response.data.userid) {
+					this.addParticipantAccess(projectid, response.data.id, response.data.userid)
+				}
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to add member')
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+				)
+			})
 		},
 		addParticipantAccess(projectid, memberid, userid) {
 			const foundIndex = this.projects[projectid].shares.findIndex((access) => {
@@ -614,23 +634,34 @@ export default {
 					accesslevel: 2,
 					manually_added: false,
 				}
-				network.addSharedAccess(projectid, sh, this.addSharedAccessSuccess)
+				network.addSharedAccess(projectid, sh).then((response) => {
+					const newShAccess = {
+						accesslevel: sh.accesslevel,
+						type: sh.type,
+						name: response.data.name,
+						userid: sh.user,
+						id: response.data.id,
+						manually_added: sh.manually_added,
+					}
+					this.projects[projectid].shares.push(newShAccess)
+				}).catch((error) => {
+					showError(
+						t('cospend', 'Failed to add shared access')
+						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					)
+				})
 			}
-		},
-		addSharedAccessSuccess(response, sh, projectid) {
-			const newShAccess = {
-				accesslevel: sh.accesslevel,
-				type: sh.type,
-				name: response.name,
-				userid: sh.user,
-				id: response.id,
-				manually_added: sh.manually_added,
-			}
-			this.projects[projectid].shares.push(newShAccess)
 		},
 		editMember(projectid, memberid) {
 			const member = this.members[projectid][memberid]
-			network.editMember(projectid, member, this.editMemberSuccess)
+			network.editMember(projectid, member).then((response) => {
+				this.editMemberSuccess(projectid, memberid, response.data)
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to save member')
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+				)
+			})
 		},
 		editMemberSuccess(projectid, memberid, member) {
 			if (!member) {
@@ -643,7 +674,7 @@ export default {
 				showSuccess(t('cospend', 'Member deleted.'))
 			} else {
 				showSuccess(t('cospend', 'Member saved.'))
-				this.updateBalances(cospend.currentProjectId)
+				this.updateProjectInfo(cospend.currentProjectId)
 				// add access to this user if it's not there already
 				if (member.userid) {
 					this.addParticipantAccess(projectid, memberid, member.userid)
@@ -652,13 +683,17 @@ export default {
 		},
 		editProject(projectid, password = null) {
 			const project = this.projects[projectid]
-			network.editProject(project, password, this.editProjectSuccess)
-		},
-		editProjectSuccess(password) {
-			if (password && cospend.pageIsPublic) {
-				cospend.password = password
-			}
-			showSuccess(t('cospend', 'Project saved'))
+			network.editProject(project, password).then((response) => {
+				if (password && cospend.pageIsPublic) {
+					cospend.password = password
+				}
+				showSuccess(t('cospend', 'Project saved'))
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to edit project')
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+				)
+			})
 		},
 		onCategoryDeleted(catid) {
 			let bill

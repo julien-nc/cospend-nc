@@ -293,7 +293,7 @@ export default {
 		},
 		deleteAccessOfUser() {
 			if (this.access !== null && !this.access.manually_added) {
-				network.deleteAccess(this.projectId, this.access, this.deleteAccessSuccess)
+				this.deleteAccess()
 			}
 		},
 		clickAccessLevel(level) {
@@ -305,31 +305,48 @@ export default {
 					accesslevel: level,
 					manually_added: true,
 				}
-				network.addSharedAccess(this.projectId, sh, this.addSharedAccessSuccess)
+				network.addSharedAccess(this.projectId, sh).then((response) => {
+					const newShAccess = {
+						accesslevel: sh.accesslevel,
+						type: sh.type,
+						name: response.data.name,
+						userid: sh.user,
+						id: response.data.id,
+						manually_added: sh.manually_added,
+					}
+					this.project.shares.push(newShAccess)
+				}).catch((error) => {
+					showError(
+						t('cospend', 'Failed to add shared access')
+						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					)
+				})
 			} else if (this.access !== null && level === 0) {
-				// delete shared access
-				network.deleteAccess(this.projectId, this.access, this.deleteAccessSuccess)
+				this.deleteAccess()
 			} else if (this.access !== null) {
 				// edit shared access
-				network.setAccessLevel(this.projectId, this.access, level, this.setAccessLevelSuccess)
+				network.setAccessLevel(this.projectId, this.access, level).then((response) => {
+					this.access.accesslevel = level
+				}).catch((error) => {
+					showError(
+						t('cospend', 'Failed to edit shared access level')
+						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					)
+				})
 			}
 		},
-		addSharedAccessSuccess(response, sh, projectid) {
-			const newShAccess = {
-				accesslevel: sh.accesslevel,
-				type: sh.type,
-				name: response.name,
-				userid: sh.user,
-				id: response.id,
-				manually_added: sh.manually_added,
-			}
-			this.project.shares.push(newShAccess)
+		deleteAccess() {
+			network.deleteAccess(this.projectId, this.access).then((response) => {
+				this.deleteAccessSuccess(this.access)
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to delete shared access')
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+				)
+			})
 		},
-		setAccessLevelSuccess(access, level) {
-			access.accesslevel = level
-		},
-		deleteAccessSuccess(access) {
-			const index = this.project.shares.indexOf(access)
+		deleteAccessSuccess() {
+			const index = this.project.shares.indexOf(this.access)
 			this.project.shares.splice(index, 1)
 		},
 	},

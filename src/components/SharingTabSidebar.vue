@@ -401,47 +401,58 @@ export default {
 		},
 		addSharedAccess(sh) {
 			this.addingPublicLink = true
-			network.addSharedAccess(this.projectId, sh, this.addSharedAccessSuccess, this.addSharedAccessDone)
-		},
-		addSharedAccessSuccess(response, sh, projectid) {
-			const newShAccess = {
-				accesslevel: constants.ACCESS.PARTICIPANT,
-				type: sh.type,
-				manually_added: sh.manually_added,
-			}
-			newShAccess.id = response.id
-			if (sh.type === 'l') {
-				newShAccess.token = response.token
-			} else {
-				newShAccess.name = response.name
-				if (sh.type === 'u') {
-					newShAccess.userid = sh.user
-				} else if (sh.type === 'g') {
-					newShAccess.groupid = sh.user
-				} else if (sh.type === 'c') {
-					newShAccess.circleid = sh.user
+			network.addSharedAccess(this.projectId, sh).then((response) => {
+				const newShAccess = {
+					accesslevel: constants.ACCESS.PARTICIPANT,
+					type: sh.type,
+					manually_added: sh.manually_added,
 				}
-			}
-			cospend.projects[this.projectId].shares.push(newShAccess)
-			this.selectedSharee = null
-		},
-		addSharedAccessDone() {
-			this.addingPublicLink = false
+				newShAccess.id = response.data.id
+				if (sh.type === 'l') {
+					newShAccess.token = response.data.token
+				} else {
+					newShAccess.name = response.data.name
+					if (sh.type === 'u') {
+						newShAccess.userid = sh.user
+					} else if (sh.type === 'g') {
+						newShAccess.groupid = sh.user
+					} else if (sh.type === 'c') {
+						newShAccess.circleid = sh.user
+					}
+				}
+				cospend.projects[this.projectId].shares.push(newShAccess)
+				this.selectedSharee = null
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to add shared access')
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+				)
+			}).then(() => {
+				this.addingPublicLink = false
+			})
 		},
 		clickAccessLevel(access, level) {
-			network.setAccessLevel(this.projectId, access, level, this.setAccessLevelSuccess)
-		},
-		setAccessLevelSuccess(access, level) {
-			access.accesslevel = level
+			network.setAccessLevel(this.projectId, access, level).then((response) => {
+				access.accesslevel = level
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to edit shared access level')
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+				)
+			})
 		},
 		clickDeleteAccess(access) {
 			// to make sure the menu disappears
 			this.$refs.shareWithList.click()
-			network.deleteAccess(this.projectId, access, this.deleteAccessSuccess)
-		},
-		deleteAccessSuccess(access) {
-			const index = this.shares.indexOf(access)
-			this.shares.splice(index, 1)
+			network.deleteAccess(this.projectId, access).then((response) => {
+				const index = this.shares.indexOf(access)
+				this.shares.splice(index, 1)
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to delete shared access')
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+				)
+			})
 		},
 		async copyLink(access) {
 			const publicLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/s/' + access.token)
@@ -483,11 +494,15 @@ export default {
 			}
 		},
 		clickGuestAccessLevel(level) {
-			network.setGuestAccessLevel(this.projectId, level, this.setGuestAccessLevelSuccess)
-		},
-		setGuestAccessLevelSuccess(level) {
-			cospend.projects[this.projectId].guestaccesslevel = level
-			showSuccess(t('cospend', 'Guest access level changed.'))
+			network.setGuestAccessLevel(this.projectId, level).then((response) => {
+				cospend.projects[this.projectId].guestaccesslevel = level
+				showSuccess(t('cospend', 'Guest access level changed.'))
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to edit guest access level')
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+				)
+			})
 		},
 	},
 }

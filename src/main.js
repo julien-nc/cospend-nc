@@ -14,6 +14,7 @@
 import Vue from 'vue'
 import './bootstrap'
 import App from './App'
+import { showError } from '@nextcloud/dialogs'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 import vueAwesomeCountdown from 'vue-awesome-countdown'
 import VueClipboard from 'vue-clipboard2'
@@ -38,7 +39,12 @@ function restoreOptions() {
 	if (urlProjectId) {
 		cospend.urlProjectId = urlProjectId
 	}
-	network.getOptionValues(getOptionValuesSuccess)
+	network.getOptionValues().then((response) => {
+		getOptionValuesSuccess(response.data)
+	}).catch((error) => {
+		showError(t('cospend', 'Failed to restore options values.'))
+		console.debug(error)
+	})
 }
 
 function getOptionValuesSuccess(response) {

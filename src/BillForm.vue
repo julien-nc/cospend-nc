@@ -875,16 +875,19 @@ export default {
 				showError(t('cospend', 'Impossible to save bill, invalid values.'))
 			} else {
 				this.billLoading = true
-				network.saveBill(this.projectId, this.myBill, this.saveBillSuccess, this.saveBillDone)
+				network.saveBill(this.projectId, this.myBill).then((response) => {
+					// to update balances
+					this.$emit('bill-saved', this.bill, this.myBill)
+					showSuccess(t('cospend', 'Bill saved.'))
+				}).catch((error) => {
+					showError(
+						t('cospend', 'Failed to save bill')
+						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					)
+				}).then(() => {
+					this.billLoading = false
+				})
 			}
-		},
-		saveBillSuccess() {
-			// to update balances
-			this.$emit('bill-saved', this.bill, this.myBill)
-			showSuccess(t('cospend', 'Bill saved.'))
-		},
-		saveBillDone() {
-			this.billLoading = false
 		},
 		onCurrencyConvert() {
 			let currencyId = this.$refs.currencySelect.value

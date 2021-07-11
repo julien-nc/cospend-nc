@@ -9,19 +9,10 @@ import {
 	showError,
 } from '@nextcloud/dialogs'
 
-export function getOptionValues(successCB) {
+export function getOptionValues() {
 	const url = generateUrl('/apps/cospend/option-values')
 	const req = {}
-	axios.get(url, req)
-		.then((response) => {
-			successCB(response.data)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to restore options values.')
-			)
-			console.debug(error)
-		})
+	return axios.get(url, req)
 }
 
 export function saveOptionValue(optionValues) {
@@ -81,7 +72,7 @@ export function exportProject(filename, projectid, projectName) {
 		})
 }
 
-export function getProjects(callback) {
+export function getProjects() {
 	const req = {}
 	let url
 	if (!cospend.pageIsPublic) {
@@ -89,16 +80,7 @@ export function getProjects(callback) {
 	} else {
 		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password)
 	}
-	axios.get(url, req)
-		.then((response) => {
-			callback(response.data)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to get projects')
-				+ ': ' + error.response.request.responseText
-			)
-		})
+	return axios.get(url, req)
 }
 
 export function getBills(projectid, offset, limit) {
@@ -115,45 +97,27 @@ export function getBills(projectid, offset, limit) {
 	return axios.get(url, req)
 }
 
-export function createProject(name, id, successCB) {
+export function createProject(name, id) {
 	const req = {
 		id,
 		name,
 		password: null,
 	}
 	const url = generateUrl('/apps/cospend/projects')
-	axios.post(url, req)
-		.then((response) => {
-			successCB(response.data)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to create project')
-				+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
-			)
-		})
+	return axios.post(url, req)
 }
 
-export function deleteProject(projectid, successCB) {
+export function deleteProject(projectid) {
 	let url
 	if (!cospend.pageIsPublic) {
 		url = generateUrl('/apps/cospend/projects/' + projectid)
 	} else {
 		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password)
 	}
-	axios.delete(url)
-		.then((response) => {
-			successCB(projectid, response.data)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to delete project')
-				+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
-			)
-		})
+	return axios.delete(url)
 }
 
-export function updateBalances(projectid, successCB) {
+export function updateProjectInfo(projectid) {
 	const req = {}
 	let url
 	if (!cospend.pageIsPublic) {
@@ -161,22 +125,10 @@ export function updateBalances(projectid, successCB) {
 	} else {
 		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password)
 	}
-	axios.get(url, req)
-		.then((response) => {
-			successCB(projectid, response.data)
-		})
-		.catch((error) => {
-			const msg = (error.response && error.response.request && error.response.request.responseText)
-				? error.response.request.responseText
-				: error
-			showError(
-				t('cospend', 'Failed to update balances')
-				+ ': ' + msg
-			)
-		})
+	return axios.get(url, req)
 }
 
-export function createMember(projectid, name, userid, successCB) {
+export function createMember(projectid, name, userid) {
 	const req = {
 		name,
 	}
@@ -189,19 +141,10 @@ export function createMember(projectid, name, userid, successCB) {
 	} else {
 		url = generateUrl('/apps/cospend/apiv2/projects/' + cospend.projectid + '/' + cospend.password + '/members')
 	}
-	axios.post(url, req)
-		.then((response) => {
-			successCB(projectid, name, response.data)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to add member')
-				+ ': ' + error.response.request.responseText
-			)
-		})
+	return axios.post(url, req)
 }
 
-export function editMember(projectid, member, successCB) {
+export function editMember(projectid, member) {
 	const memberid = member.id
 	const req = {
 		name: member.name,
@@ -216,19 +159,10 @@ export function editMember(projectid, member, successCB) {
 	} else {
 		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/members/' + memberid)
 	}
-	axios.put(url, req)
-		.then((response) => {
-			successCB(projectid, memberid, response.data)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to save member')
-				+ ': ' + error.response.request.responseText
-			)
-		})
+	return axios.put(url, req)
 }
 
-export function editProject(project, password, successCB) {
+export function editProject(project, password) {
 	const projectid = project.id
 	const req = {
 		name: project.name,
@@ -245,16 +179,7 @@ export function editProject(project, password, successCB) {
 	} else {
 		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password)
 	}
-	axios.put(url, req)
-		.then((response) => {
-			successCB(password)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to edit project')
-				+ ': ' + error.response.request.responseText
-			)
-		})
+	return axios.put(url, req)
 }
 
 export function repeatBillNow(projectId, billId) {
@@ -264,7 +189,7 @@ export function repeatBillNow(projectId, billId) {
 	return axios.get(url)
 }
 
-export function saveBill(projectid, bill, successCB, doneCB) {
+export function saveBill(projectid, bill) {
 	const req = {
 		what: bill.what,
 		comment: bill.comment,
@@ -285,22 +210,10 @@ export function saveBill(projectid, bill, successCB, doneCB) {
 	} else {
 		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills/' + bill.id)
 	}
-	axios.put(url, req)
-		.then((response) => {
-			successCB()
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to save bill')
-				+ ': ' + error.response.request.responseText
-			)
-		})
-		.then(() => {
-			doneCB()
-		})
+	return axios.put(url, req)
 }
 
-export function saveBills(projectid, billIds, categoryid, paymentmode, successCB) {
+export function saveBills(projectid, billIds, categoryid, paymentmode) {
 	const req = {
 		what: null,
 		comment: null,
@@ -321,18 +234,7 @@ export function saveBills(projectid, billIds, categoryid, paymentmode, successCB
 	} else {
 		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills')
 	}
-	axios.put(url, req)
-		.then((response) => {
-			successCB(billIds, categoryid, paymentmode)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to save bill')
-				+ ': ' + error.response?.request?.responseText
-			)
-		})
-		.then(() => {
-		})
+	return axios.put(url, req)
 }
 
 export function createBill(projectid, req) {
@@ -679,7 +581,7 @@ export function exportSettlement(projectid, centeredOn, maxTimestamp, successCB)
 		})
 }
 
-export function addSharedAccess(projectid, sh, successCB, thenCB = null) {
+export function addSharedAccess(projectid, sh) {
 	const req = {
 		accesslevel: sh.accesslevel || constants.ACCESS.PARTICIPANT,
 		manually_added: sh.manually_added,
@@ -697,40 +599,18 @@ export function addSharedAccess(projectid, sh, successCB, thenCB = null) {
 	} else if (sh.type === 'l') {
 		url = generateUrl('/apps/cospend/projects/' + projectid + '/public-share')
 	}
-	axios.post(url, req)
-		.then((response) => {
-			successCB(response.data, sh, projectid)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to add shared access')
-				+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
-			)
-		}).then(() => {
-			if (thenCB !== null) {
-				thenCB()
-			}
-		})
+	return axios.post(url, req)
 }
 
-export function setAccessLevel(projectid, access, level, successCB) {
+export function setAccessLevel(projectid, access, level) {
 	const req = {
 		accesslevel: level,
 	}
 	const url = generateUrl('/apps/cospend/projects/' + projectid + '/share-access-level/' + access.id)
-	axios.put(url, req)
-		.then((response) => {
-			successCB(access, level)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to edit shared access level')
-				+ ': ' + error.response.request.responseText
-			)
-		})
+	return axios.put(url, req)
 }
 
-export function deleteAccess(projectid, access, successCB) {
+export function deleteAccess(projectid, access) {
 	const shid = access.id
 	let url
 	if (access.type === 'u') {
@@ -742,19 +622,10 @@ export function deleteAccess(projectid, access, successCB) {
 	} else if (access.type === 'l') {
 		url = generateUrl('/apps/cospend/projects/' + projectid + '/public-share/' + shid)
 	}
-	axios.delete(url)
-		.then((response) => {
-			successCB(access)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to delete shared access')
-				+ ': ' + error.response.request.responseText
-			)
-		})
+	return axios.delete(url)
 }
 
-export function setGuestAccessLevel(projectid, level, successCB) {
+export function setGuestAccessLevel(projectid, level) {
 	const req = {
 		accesslevel: level,
 	}
@@ -764,14 +635,5 @@ export function setGuestAccessLevel(projectid, level, successCB) {
 	} else {
 		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/guest-access-level')
 	}
-	axios.put(url, req)
-		.then((response) => {
-			successCB(level)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to edit guest access level')
-				+ ': ' + error.response.request.responseText
-			)
-		})
+	return axios.put(url, req)
 }

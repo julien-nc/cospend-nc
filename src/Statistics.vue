@@ -2,7 +2,7 @@
 	<AppContentDetails class="statistics-content">
 		<h2 id="statsTitle">
 			<span :class="{ 'icon-loading-small': exporting, 'icon-category-monitoring': !exporting, icon: true }" />
-			{{ t('cospend', 'Statistics of project {name}', { name: project.name }) }}
+			{{ t('cospend', 'Statistics of project {name}', { name: project.name }, undefined, { escape: false }) }}
 			<button v-if="!cospend.pageIsPublic"
 				class="exportStats"
 				projectid="dum"

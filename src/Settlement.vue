@@ -2,7 +2,7 @@
 	<AppContentDetails class="settlement-content">
 		<h2 id="settlementTitle">
 			<span :class="{ 'icon-reimburse': !loading, icon: true, 'icon-loading-small': loading }" />
-			{{ t('cospend', 'Settlement of project {name}', {name: project.name}) }}
+			{{ t('cospend', 'Settlement of project {name}', { name: project.name }, undefined, { escape: false }) }}
 			<button class="exportSettlement" @click="onExportClick">
 				<span class="icon-save" />
 				{{ t('cospend', 'Export') }}

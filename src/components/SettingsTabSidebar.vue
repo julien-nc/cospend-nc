@@ -5,7 +5,7 @@
 			<form @submit.prevent.stop="onRenameProject">
 				<input
 					v-model="newProjectName"
-					:placeholder="t('cospend', 'Rename project {n}', { n: project.name })"
+					:placeholder="t('cospend', 'Rename project {n}', { n: project.name }, undefined, { escape: false })"
 					type="text">
 				<input type="submit" value="" class="icon-confirm">
 			</form>

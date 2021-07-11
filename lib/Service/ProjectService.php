@@ -2483,8 +2483,11 @@ class ProjectService {
 				$qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
-		$row = $req->fetchOne();
-		$sortMethod = $row['categorysort'];
+		$sortMethod = 'a';
+		while ($row = $req->fetch()) {
+			$sortMethod = $row['categorysort'];
+			break;
+		}
 		$req->closeCursor();
 		$qb->resetQueryParts();
 

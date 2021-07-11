@@ -16,6 +16,9 @@
 					<option value="m">
 						{{ t('cospend', 'Manual') }}
 					</option>
+					<option value="u">
+						{{ t('cospend', 'Most used') }}
+					</option>
 				</select>
 			</div>
 			<hr>
@@ -107,6 +110,7 @@ import cospend from './state'
 import Category from './components/Category'
 import * as constants from './constants'
 import * as network from './network'
+import { strcmp } from './utils'
 
 export default {
 	name: 'CategoryManagement',
@@ -148,23 +152,19 @@ export default {
 			return Object.values(this.categories)
 		},
 		sortedCategories() {
-			if (this.project.categorysort === 'm') {
+			if (['m', 'u'].includes(this.project.categorysort)) {
 				return this.categoryList.slice().sort((a, b) => {
-					return a.order > b.order
-						? 1
-						: a.order < b.order
-							? -1
-							: 0
+					return a.order === b.order
+						? strcmp(a.name, b.name)
+						: a.order > b.order
+							? 1
+							: a.order < b.order
+								? -1
+								: 0
 				})
 			} else if (this.project.categorysort === 'a') {
 				return this.categoryList.slice().sort((a, b) => {
-					const la = a.name.toLowerCase()
-					const lb = b.name.toLowerCase()
-					return la > lb
-						? 1
-						: la < lb
-							? -1
-							: 0
+					return strcmp(a.name, b.name)
 				})
 			}
 			return []

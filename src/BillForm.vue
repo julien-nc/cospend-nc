@@ -528,7 +528,7 @@ import {
 } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import {
-	delay, getCategory, getSmartMemberName,
+	delay, getCategory, getSmartMemberName, strcmp,
 } from './utils'
 import * as network from './network'
 
@@ -755,23 +755,19 @@ export default {
 		},
 		sortedCategories() {
 			const allCategories = Object.values(cospend.projects[this.projectId].categories).concat(Object.values(cospend.hardCodedCategories))
-			return this.project.categorysort === 'm'
+			return ['m', 'u'].includes(this.project.categorysort)
 				? allCategories.sort((a, b) => {
-					return a.order > b.order
-						? 1
-						: a.order < b.order
-							? -1
-							: 0
+					return a.order === b.order
+						? strcmp(a.name, b.name)
+						: a.order > b.order
+							? 1
+							: a.order < b.order
+								? -1
+								: 0
 				})
 				: this.project.categorysort === 'a'
 					? allCategories.sort((a, b) => {
-						const la = a.name.toLowerCase()
-						const lb = b.name.toLowerCase()
-						return la > lb
-							? 1
-							: la < lb
-								? -1
-								: 0
+						return strcmp(a.name, b.name)
 					})
 					: allCategories
 		},

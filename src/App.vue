@@ -588,6 +588,10 @@ export default {
 
 				this.projects[projectid].nb_bills = response.data.nb_bills
 				this.projects[projectid].total_spent = response.data.total_spent
+				// category order
+				for (const cid in this.projects[projectid].categories) {
+					this.projects[projectid].categories[cid].order = response.data.categories[cid]?.order
+				}
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to update balances')
@@ -687,6 +691,7 @@ export default {
 				if (password && cospend.pageIsPublic) {
 					cospend.password = password
 				}
+				this.updateProjectInfo(cospend.currentProjectId)
 				showSuccess(t('cospend', 'Project saved'))
 			}).catch((error) => {
 				showError(

@@ -8,18 +8,18 @@
 				</label>
 				<select id="order-select"
 					:disabled="!adminAccess"
-					:value="project.categorysort || 'm'"
+					:value="project.categorysort || constants.SORT_ORDER.MANUAL"
 					@input="onCategorySortChange">
-					<option value="a">
+					<option :value="constants.SORT_ORDER.ALPHA">
 						{{ t('cospend', 'Alphabetical') }}
 					</option>
-					<option value="m">
+					<option :value="constants.SORT_ORDER.MANUAL">
 						{{ t('cospend', 'Manual') }}
 					</option>
-					<option value="u">
+					<option :value="constants.SORT_ORDER.MOST_USED">
 						{{ t('cospend', 'Most used') }}
 					</option>
-					<option value="r">
+					<option :value="constants.SORT_ORDER.MOST_RECENTLY_USED">
 						{{ t('cospend', 'Most recently used') }}
 					</option>
 				</select>
@@ -67,7 +67,7 @@
 			<label v-if="categories && editionAccess" class="hint">
 				<span class="icon icon-info" />{{ t('cospend', 'Drag categories to set manual order') }}
 			</label>
-			<div v-if="categories && editionAccess && project.categorysort === 'm'"
+			<div v-if="categories && editionAccess && project.categorysort === constants.SORT_ORDER.MANUAL"
 				id="category-list">
 				<Container @drop="onDrop">
 					<Draggable
@@ -155,7 +155,11 @@ export default {
 			return Object.values(this.categories)
 		},
 		sortedCategories() {
-			if (['m', 'u', 'r'].includes(this.project.categorysort)) {
+			if ([
+				constants.SORT_ORDER.MANUAL,
+				constants.SORT_ORDER.MOST_USED,
+				constants.SORT_ORDER.MOST_RECENTLY_USED,
+			].includes(this.project.categorysort)) {
 				return this.categoryList.slice().sort((a, b) => {
 					return a.order === b.order
 						? strcmp(a.name, b.name)
@@ -165,7 +169,7 @@ export default {
 								? -1
 								: 0
 				})
-			} else if (this.project.categorysort === 'a') {
+			} else if (this.project.categorysort === constants.SORT_ORDER.ALPHA) {
 				return this.categoryList.slice().sort((a, b) => {
 					return strcmp(a.name, b.name)
 				})

@@ -196,25 +196,25 @@
 							v-model="myBill.repeat"
 							:disabled="!editionAccess"
 							@input="onBillEdited">
-							<option value="n" selected="selected">
+							<option :value="constants.FREQUENCY.NO" selected="selected">
 								{{ t('cospend', 'No') }}
 							</option>
-							<option value="d">
+							<option :value="constants.FREQUENCY.DAILY">
 								{{ t('cospend', 'Daily') }}
 							</option>
-							<option value="w">
+							<option :value="constants.FREQUENCY.WEEKLY">
 								{{ t('cospend', 'Weekly') }}
 							</option>
-							<option value="b">
+							<option :value="constants.FREQUENCY.BI_WEEKLY">
 								{{ t('cospend', 'Bi-weekly (every 2 weeks)') }}
 							</option>
-							<option value="s">
+							<option :value="constants.FREQUENCY.SEMI_MONTHLY">
 								{{ t('cospend', 'Semi-monthly (twice a month)') }}
 							</option>
-							<option value="m">
+							<option :value="constants.FREQUENCY.MONTHLY">
 								{{ t('cospend', 'Monthly') }}
 							</option>
-							<option value="y">
+							<option :value="constants.FREQUENCY.YEARLY">
 								{{ t('cospend', 'Yearly') }}
 							</option>
 						</select>
@@ -226,7 +226,7 @@
 				</div>
 				<div v-if="myBill.repeat !== 'n'"
 					class="bill-repeat-extra">
-					<div v-if="['d', 'w', 'm', 'y'].includes(myBill.repeat)"
+					<div v-if="[constants.FREQUENCY.DAILY, constants.FREQUENCY.WEEKLY, constants.FREQUENCY.MONTHLY, constants.FREQUENCY.YEARLY].includes(myBill.repeat)"
 						class="bill-repeat-freq">
 						<label for="repeat-freq">
 							<a class="icon icon-category-monitoring" />{{ t('cospend', 'Frequency') }}
@@ -531,6 +531,7 @@ import {
 	delay, getCategory, getSmartMemberName, strcmp,
 } from './utils'
 import * as network from './network'
+import * as constants from './constants'
 
 export default {
 	name: 'BillForm',
@@ -556,6 +557,7 @@ export default {
 
 	data() {
 		return {
+			constants,
 			projectId: cospend.currentProjectId,
 			currentUser: getCurrentUser(),
 			newBillMode: 'normal',
@@ -755,7 +757,11 @@ export default {
 		},
 		sortedCategories() {
 			const allCategories = Object.values(cospend.projects[this.projectId].categories).concat(Object.values(cospend.hardCodedCategories))
-			return ['m', 'u', 'r'].includes(this.project.categorysort)
+			return [
+				constants.SORT_ORDER.MANUAL,
+				constants.SORT_ORDER.MOST_USED,
+				constants.SORT_ORDER.MOST_RECENTLY_USED,
+			].includes(this.project.categorysort)
 				? allCategories.sort((a, b) => {
 					return a.order === b.order
 						? strcmp(a.name, b.name)
@@ -765,7 +771,7 @@ export default {
 								? -1
 								: 0
 				})
-				: this.project.categorysort === 'a'
+				: this.project.categorysort === constants.SORT_ORDER.MOST_RECENTLY_USED
 					? allCategories.sort((a, b) => {
 						return strcmp(a.name, b.name)
 					})

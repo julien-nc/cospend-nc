@@ -13,6 +13,23 @@ export const MEMBER_WEIGHT_EDITION = 2
 export const PROJECT_NAME_EDITION = 1
 export const PROJECT_PASSWORD_EDITION = 2
 
+export const FREQUENCY = {
+	NO: 'n',
+	DAILY: 'd',
+	WEEKLY: 'w',
+	BI_WEEKLY: 'b',
+	SEMI_MONTHLY: 's',
+	MONTHLY: 'm',
+	YEARLY: 'y',
+}
+
+export const SORT_ORDER = {
+	ALPHA: 'a',
+	MANUAL: 'm',
+	MOST_USED: 'u',
+	MOST_RECENTLY_USED: 'r',
+}
+
 export const hardCodedCategories = {
 	'-11': {
 		id: -11,

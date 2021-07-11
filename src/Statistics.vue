@@ -502,6 +502,7 @@ import * as network from './network'
 import LineChartJs from './components/LineChartJs'
 import PieChartJs from './components/PieChartJs'
 import PolarChartJs from './components/PolarChartJs'
+import * as constants from './constants'
 
 export default {
 	name: 'Statistics',
@@ -540,7 +541,11 @@ export default {
 			return cospend.projects[this.projectId].categories
 		},
 		sortedCategories() {
-			if (['m', 'u', 'r'].includes(this.project.categorysort)) {
+			if ([
+				constants.SORT_ORDER.MANUAL,
+				constants.SORT_ORDER.MOST_USED,
+				constants.SORT_ORDER.MOST_RECENTLY_USED,
+			].includes(this.project.categorysort)) {
 				return Object.values(this.categories).slice().sort((a, b) => {
 					return a.order === b.order
 						? strcmp(a.name, b.name)
@@ -550,7 +555,7 @@ export default {
 								? -1
 								: 0
 				})
-			} else if (this.project.categorysort === 'a') {
+			} else if (this.project.categorysort === constants.SORT_ORDER.ALPHA) {
 				return Object.values(this.categories).slice().sort((a, b) => {
 					return strcmp(a.name, b.name)
 				})

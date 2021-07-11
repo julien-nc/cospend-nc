@@ -2483,7 +2483,7 @@ class ProjectService {
 				$qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
-		$sortMethod = 'a';
+		$sortMethod = Application::SORT_ORDER_ALPHA;
 		while ($row = $req->fetch()) {
 			$sortMethod = $row['categorysort'];
 			break;
@@ -2491,7 +2491,7 @@ class ProjectService {
 		$req->closeCursor();
 		$qb->resetQueryParts();
 
-		if ($sortMethod === 'm' || $sortMethod === 'a') {
+		if ($sortMethod === Application::SORT_ORDER_MANUAL || $sortMethod === Application::SORT_ORDER_ALPHA) {
 			$qb->select('name', 'id', 'encoded_icon', 'color', 'order')
 				->from('cospend_project_categories', 'c')
 				->where(
@@ -2514,7 +2514,7 @@ class ProjectService {
 			}
 			$req->closeCursor();
 			$qb->resetQueryParts();
-		} elseif ($sortMethod === 'u' || $sortMethod === 'r') {
+		} elseif ($sortMethod === Application::SORT_ORDER_MOST_USED || $sortMethod === Application::SORT_ORDER_MOST_RECENTLY_USED) {
 			// get all categories
 			$qb->select('name', 'id', 'encoded_icon', 'color')
 				->from('cospend_project_categories', 'c')
@@ -2538,7 +2538,7 @@ class ProjectService {
 			$req->closeCursor();
 			$qb->resetQueryParts();
 			// now we get the order
-			if ($sortMethod === 'u') {
+			if ($sortMethod === Application::SORT_ORDER_MOST_USED) {
 				// sort by most used
 				// first get list of most used
 				$mostUsedOrder = [];
@@ -2563,7 +2563,7 @@ class ProjectService {
 					// fallback order is more than max order
 					$categories[$cid]['order'] = $mostUsedOrder[$cid] ?? $order;
 				}
-			} elseif ($sortMethod === 'r') {
+			} elseif ($sortMethod === Application::SORT_ORDER_MOST_RECENTLY_USED) {
 				// sort by most recently used
 				$mostUsedOrder = [];
 				$qb->select('cat.id')
@@ -3066,7 +3066,15 @@ class ProjectService {
 		}
 
 		if ($repeat !== null && $repeat !== '') {
-			if (in_array($repeat, ['n', 'd', 'w', 'b', 's', 'm', 'y'])) {
+			if (in_array($repeat, [
+				Application::FREQUENCY_NO,
+				Application::FREQUENCY_DAILY,
+				Application::FREQUENCY_WEEKLY,
+				Application::FREQUENCY_BI_WEEKLY,
+				Application::FREQUENCY_SEMI_MONTHLY,
+				Application::FREQUENCY_MONTHLY,
+				Application::FREQUENCY_YEARLY,
+			])) {
 				$qb->set('repeat', $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR));
 			} else {
 				return ['repeat' => $this->trans->t('Invalid value')];
@@ -3322,7 +3330,7 @@ class ProjectService {
 	private function getNextRepetitionDate(array $bill, DateTimeImmutable $billDate): ?DateTime {
 		$nextDate = null;
 		switch ($bill['repeat']) {
-			case 'd':
+			case Application::FREQUENCY_DAILY:
 				if ($bill['repeatfreq'] < 2) {
 					$tmpImmuDate = $billDate->add(new DateInterval('P1D'));
 				} else {
@@ -3332,7 +3340,7 @@ class ProjectService {
 				$nextDate->setTimestamp($tmpImmuDate->getTimestamp());
 				break;
 
-			case 'w':
+			case Application::FREQUENCY_WEEKLY:
 				if ($bill['repeatfreq'] < 2) {
 					$tmpImmuDate = $billDate->add(new DateInterval('P7D'));
 				} else {
@@ -3343,15 +3351,13 @@ class ProjectService {
 				$nextDate->setTimestamp($tmpImmuDate->getTimestamp());
 				break;
 
-			// bi weekly
-			case 'b':
+			case Application::FREQUENCY_BI_WEEKLY:
 				$tmpImmuDate = $billDate->add(new DateInterval('P14D'));
 				$nextDate = new DateTime();
 				$nextDate->setTimestamp($tmpImmuDate->getTimestamp());
 				break;
 
-			// semi monthly
-			case 's':
+			case Application::FREQUENCY_SEMI_MONTHLY:
 				$day = intval($billDate->format('d'));
 				$month = intval($billDate->format('m'));
 				$year = intval($billDate->format('Y'));
@@ -3373,7 +3379,7 @@ class ProjectService {
 				}
 				break;
 
-			case 'm':
+			case Application::FREQUENCY_MONTHLY:
 				$freq = ($bill['repeatfreq'] < 2) ? 1 : $bill['repeatfreq'];
 				$billMonth = intval($billDate->format('m'));
 				$yearDelta = intdiv($billMonth + $freq - 1, 12);
@@ -3394,7 +3400,7 @@ class ProjectService {
 				}
 				break;
 
-			case 'y':
+			case Application::FREQUENCY_YEARLY:
 				$freq = ($bill['repeatfreq'] < 2) ? 1 : $bill['repeatfreq'];
 				$billYear = intval($billDate->format('Y'));
 				$billMonth = intval($billDate->format('m'));
@@ -5095,13 +5101,13 @@ class ProjectService {
 			$outPath = $this->config->getUserValue($uid, 'cospend', 'outputDirectory', '/Cospend');
 
 			$qb->select('p.id', 'p.name', 'p.autoexport')
-			->from('cospend_projects', 'p')
-			->where(
-				$qb->expr()->eq('userid', $qb->createNamedParameter($uid, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->neq('p.autoexport', $qb->createNamedParameter('n', IQueryBuilder::PARAM_STR))
-			);
+				->from('cospend_projects', 'p')
+				->where(
+					$qb->expr()->eq('userid', $qb->createNamedParameter($uid, IQueryBuilder::PARAM_STR))
+				)
+				->andWhere(
+					$qb->expr()->neq('p.autoexport', $qb->createNamedParameter('n', IQueryBuilder::PARAM_STR))
+				);
 			$req = $qb->executeQuery();
 
 			$dbProjectId = null;
@@ -5110,16 +5116,16 @@ class ProjectService {
 				$autoexport = $row['autoexport'];
 
 				$suffix = $dailySuffix;
-				if ($autoexport === 'w') {
+				if ($autoexport === Application::FREQUENCY_WEEKLY) {
 					$suffix = $weeklySuffix;
-				} elseif ($autoexport === 'm') {
+				} elseif ($autoexport === Application::FREQUENCY_MONTHLY) {
 					$suffix = $monthlySuffix;
 				}
 				// check if file already exists
-				$exportName = $dbProjectId.$suffix.'.csv';
+				$exportName = $dbProjectId . $suffix . '.csv';
 
 				$userFolder = $this->root->getUserFolder($uid);
-				if (! $userFolder->nodeExists($outPath.'/'.$exportName)) {
+				if (!$userFolder->nodeExists($outPath . '/' . $exportName)) {
 					$this->exportCsvProject($dbProjectId, $uid, $exportName);
 				}
 			}

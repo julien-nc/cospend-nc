@@ -43,6 +43,19 @@ class Application extends App implements IBootstrap {
 	public const CAT_TRANSPORT = -14;
 	public const CAT_SPORT = -15;
 
+	public const SORT_ORDER_ALPHA = 'a';
+	public const SORT_ORDER_MANUAL = 'm';
+	public const SORT_ORDER_MOST_USED = 'u';
+	public const SORT_ORDER_MOST_RECENTLY_USED = 'r';
+
+	public const FREQUENCY_NO = 'n';
+	public const FREQUENCY_DAILY = 'd';
+	public const FREQUENCY_WEEKLY = 'w';
+	public const FREQUENCY_BI_WEEKLY = 'b';
+	public const FREQUENCY_SEMI_MONTHLY = 's';
+	public const FREQUENCY_MONTHLY = 'm';
+	public const FREQUENCY_YEARLY = 'y';
+
 	public const NO_ACCESS = 0;
 	public const ACCESS_VIEWER = 1;
 	public const ACCESS_PARTICIPANT = 2;

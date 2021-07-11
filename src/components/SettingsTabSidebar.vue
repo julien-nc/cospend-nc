@@ -31,16 +31,16 @@
 				:disabled="!adminAccess"
 				:value="project.autoexport"
 				@input="onAutoExportSet">
-				<option value="n">
+				<option :value="constants.FREQUENCY.NO">
 					{{ t('cospend', 'No') }}
 				</option>
-				<option value="d">
+				<option :value="constants.FREQUENCY.DAILY">
 					{{ t('cospend', 'Daily') }}
 				</option>
-				<option value="w">
+				<option :value="constants.FREQUENCY.WEEKLY">
 					{{ t('cospend', 'Weekly') }}
 				</option>
-				<option value="m">
+				<option :value="constants.FREQUENCY.MONTHLY">
 					{{ t('cospend', 'Monthly') }}
 				</option>
 			</select>
@@ -164,6 +164,7 @@ export default {
 	},
 	data() {
 		return {
+			constants,
 			selectedAddUser: null,
 			selectedAffectUser: null,
 			users: [],

@@ -3065,7 +3065,7 @@ class ProjectService {
 			$qb->set('comment', $qb->createNamedParameter($comment, IQueryBuilder::PARAM_STR));
 		}
 
-		if ($repeat !== null) {
+		if ($repeat !== null && $repeat !== '') {
 			if (in_array($repeat, [
 				Application::FREQUENCY_NO,
 				Application::FREQUENCY_DAILY,

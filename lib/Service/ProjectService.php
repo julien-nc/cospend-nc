@@ -1092,8 +1092,8 @@ class ProjectService {
 		} else {
 			$dateTs = intval($timestamp);
 		}
-		if ($what === null || $what === '') {
-			return ['what' => $this->trans->t('This field is invalid')];
+		if ($what === null) {
+			$what = '';
 		}
 		if ($amount === null) {
 			return ['amount' => $this->trans->t('This field is required')];
@@ -3057,15 +3057,15 @@ class ProjectService {
 			return ['message' => $this->trans->t('There is no such bill')];
 		}
 		// then edit the hell of it
-		if ($what !== null && is_string($what) && $what !== '') {
+		if ($what !== null) {
 			$qb->set('what', $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR));
 		}
 
-		if ($comment !== null && is_string($comment)) {
+		if ($comment !== null) {
 			$qb->set('comment', $qb->createNamedParameter($comment, IQueryBuilder::PARAM_STR));
 		}
 
-		if ($repeat !== null && $repeat !== '') {
+		if ($repeat !== null) {
 			if (in_array($repeat, [
 				Application::FREQUENCY_NO,
 				Application::FREQUENCY_DAILY,

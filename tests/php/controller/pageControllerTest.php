@@ -369,10 +369,6 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
 
-		$resp = $this->pageController->webAddBill('superproj', '2019-01-20', '', $idMember2, $idMember1, 12.3, 'n');
-		$status = $resp->getStatus();
-		$this->assertEquals(400, $status);
-
 		$resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', $idMember2, $idMember1.',aa', 12.3, 'n');
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);

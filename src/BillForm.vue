@@ -860,9 +860,6 @@ export default {
 		},
 		basicBillValueCheck() {
 			const myBill = this.myBill
-			if (myBill.what === null || myBill.what === '') {
-				return false
-			}
 			if (myBill.amount === '' || isNaN(myBill.amount) || isNaN(myBill.payer_id)) {
 				return false
 			}

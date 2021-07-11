@@ -61,7 +61,7 @@
 			<label v-if="categories && editionAccess" class="hint">
 				<span class="icon icon-info" />{{ t('cospend', 'Drag categories to set manual order') }}
 			</label>
-			<div v-if="categories && editionAccess"
+			<div v-if="categories && editionAccess && project.categorysort === 'm'"
 				id="category-list">
 				<Container @drop="onDrop">
 					<Draggable
@@ -148,13 +148,26 @@ export default {
 			return Object.values(this.categories)
 		},
 		sortedCategories() {
-			return this.categoryList.slice().sort((a, b) => {
-				return a.order > b.order
-					? 1
-					: a.order < b.order
-						? -1
-						: 0
-			})
+			if (this.project.categorysort === 'm') {
+				return this.categoryList.slice().sort((a, b) => {
+					return a.order > b.order
+						? 1
+						: a.order < b.order
+							? -1
+							: 0
+				})
+			} else if (this.project.categorysort === 'a') {
+				return this.categoryList.slice().sort((a, b) => {
+					const la = a.name.toLowerCase()
+					const lb = b.name.toLowerCase()
+					return la > lb
+						? 1
+						: la < lb
+							? -1
+							: 0
+				})
+			}
+			return []
 		},
 	},
 

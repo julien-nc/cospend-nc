@@ -244,43 +244,25 @@ export function createBill(projectid, req) {
 	return axios.post(url, req)
 }
 
-export function generatePublicLinkToFile(targetPath, successCB) {
+export function generatePublicLinkToFile(targetPath) {
 	const req = {
 		path: targetPath,
 	}
 	const url = generateUrl('/apps/cospend/getPublicFileShare')
-	axios.post(url, req)
-		.then((response) => {
-			successCB(response.data)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to generate public link to file')
-				+ ': ' + error.response.request.responseText
-			)
-		})
+	return axios.post(url, req)
 }
 
-export function deleteBill(projectid, bill, successCB) {
+export function deleteBill(projectid, bill) {
 	let url
 	if (!cospend.pageIsPublic) {
 		url = generateUrl('/apps/cospend/projects/' + projectid + '/bills/' + bill.id)
 	} else {
 		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/bills/' + bill.id)
 	}
-	axios.delete(url)
-		.then((response) => {
-			successCB(bill)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to delete bill')
-				+ ': ' + error.response.request.responseText
-			)
-		})
+	return axios.delete(url)
 }
 
-export function deleteBills(projectid, billIds, successCB) {
+export function deleteBills(projectid, billIds) {
 	let url
 	if (!cospend.pageIsPublic) {
 		url = generateUrl('/apps/cospend/projects/' + projectid + '/bills')
@@ -292,16 +274,7 @@ export function deleteBills(projectid, billIds, successCB) {
 			billIds,
 		},
 	}
-	axios.delete(url, req)
-		.then((response) => {
-			successCB(billIds)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to delete bills')
-				+ ': ' + error.response?.request?.responseText
-			)
-		})
+	return axios.delete(url, req)
 }
 
 export function checkPassword(projectid, password, successCB) {

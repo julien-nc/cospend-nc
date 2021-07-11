@@ -1293,15 +1293,19 @@ export default {
 			)
 		},
 		generatePublicLinkToFile(targetPath) {
-			network.generatePublicLinkToFile(targetPath, this.genSuccess)
-		},
-		genSuccess(response) {
-			const filePublicUrl = window.location.protocol + '//' + window.location.host + generateUrl('/s/' + response.token)
+			network.generatePublicLinkToFile(targetPath).then((response) => {
+				const filePublicUrl = window.location.protocol + '//' + window.location.host + generateUrl('/s/' + response.data.token)
 
-			let what = this.myBill.what
-			what = what + ' ' + filePublicUrl
-			this.myBill.what = what
-			this.onBillEdited()
+				let what = this.myBill.what
+				what = what + ' ' + filePublicUrl
+				this.myBill.what = what
+				this.onBillEdited()
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to generate public link to file')
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+				)
+			})
 		},
 		onConvertInfoClicked() {
 			OC.dialogs.info(

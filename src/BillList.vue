@@ -244,11 +244,15 @@ export default {
 			}
 		},
 		deleteBill(bill) {
-			network.deleteBill(this.projectId, bill, this.deleteBillSuccess)
-		},
-		deleteBillSuccess(bill) {
-			this.$emit('item-deleted', bill)
-			showSuccess(t('cospend', 'Bill deleted'))
+			network.deleteBill(this.projectId, bill).then((response) => {
+				this.$emit('item-deleted', bill)
+				showSuccess(t('cospend', 'Bill deleted'))
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to delete bill')
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+				)
+			})
 		},
 		toggleSelectMode() {
 			this.selectMode = !this.selectMode
@@ -308,17 +312,21 @@ export default {
 					},
 					(result) => {
 						if (result) {
-							network.deleteBills(this.projectId, this.selectedBillIds, this.deleteBillsSuccess)
+							network.deleteBills(this.projectId, this.selectedBillIds).then((response) => {
+								this.$emit('items-deleted', this.selectedBillIds)
+								showSuccess(t('cospend', 'Bills deleted'))
+								this.selectedBillIds = []
+							}).catch((error) => {
+								showError(
+									t('cospend', 'Failed to delete bills')
+									+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+								)
+							})
 						}
 					},
 					true
 				)
 			}
-		},
-		deleteBillsSuccess(billIds) {
-			this.$emit('items-deleted', billIds)
-			showSuccess(t('cospend', 'Bills deleted'))
-			this.selectedBillIds = []
 		},
 	},
 }

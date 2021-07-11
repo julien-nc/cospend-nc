@@ -2488,7 +2488,7 @@ class ProjectService {
 		$req->closeCursor();
 		$qb->resetQueryParts();
 
-		if ($sortMethod === 'm') {
+		if ($sortMethod === 'm' || $sortMethod === 'a') {
 			$qb->select('name', 'id', 'encoded_icon', 'color', 'order')
 				->from('cospend_project_categories', 'c')
 				->where(

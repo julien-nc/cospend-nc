@@ -53,7 +53,7 @@
 					:selected="true">
 					{{ t('cospend', 'All except reimbursement') }}
 				</option>
-				<option v-for="category in categories"
+				<option v-for="category in sortedCategories"
 					:key="category.id"
 					:value="category.id">
 					{{ category.icon + ' ' + category.name }}
@@ -379,7 +379,7 @@
 			id="categoryMemberSelect"
 			ref="categoryMemberSelect"
 			@change="onCategoryMemberChange">
-			<option v-for="(val, catid) in stats.categoryMemberStats"
+			<option v-for="catid in sortedCategoryStatsIds"
 				:key="catid"
 				:value="catid">
 				{{ getCategoryNameIcon(catid) }}
@@ -495,7 +495,7 @@ import moment from '@nextcloud/moment'
 import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
 import ColoredAvatar from './components/ColoredAvatar'
 
-import { getCategory, getSmartMemberName } from './utils'
+import { getCategory, getSmartMemberName, strcmp } from './utils'
 import { paymentModes } from './constants'
 import cospend from './state'
 import * as network from './network'
@@ -538,6 +538,24 @@ export default {
 		},
 		categories() {
 			return cospend.projects[this.projectId].categories
+		},
+		sortedCategories() {
+			if (['m', 'u'].includes(this.project.categorysort)) {
+				return Object.values(this.categories).slice().sort((a, b) => {
+					return a.order === b.order
+						? strcmp(a.name, b.name)
+						: a.order > b.order
+							? 1
+							: a.order < b.order
+								? -1
+								: 0
+				})
+			} else if (this.project.categorysort === 'a') {
+				return Object.values(this.categories).slice().sort((a, b) => {
+					return strcmp(a.name, b.name)
+				})
+			}
+			return []
 		},
 		hardCodedCategories() {
 			return cospend.hardCodedCategories
@@ -618,10 +636,20 @@ export default {
 			distinctMonths.sort()
 			return distinctMonths
 		},
+		sortedMonthlyCategoryIds() {
+			const sortedCategoryIds = this.sortedCategories.filter((cat) => {
+				return this.stats.categoryMonthlyStats[cat.id]
+			}).map(cat => cat.id)
+			const monthlyCatIds = Object.keys(this.stats.categoryMonthlyStats).map(id => parseInt(id))
+			const diff = [...monthlyCatIds].filter(cid => !sortedCategoryIds.includes(cid))
+			sortedCategoryIds.push(...diff)
+			return sortedCategoryIds
+		},
 		monthlyCategoryStats() {
 			const data = []
 			let elem
-			for (const catid in this.stats.categoryMonthlyStats) {
+
+			this.sortedMonthlyCategoryIds.forEach((catid) => {
 				elem = {
 					catid,
 					name: this.getCategoryNameIcon(catid),
@@ -630,7 +658,7 @@ export default {
 					elem[month] = this.stats.categoryMonthlyStats[catid][month]
 				}
 				data.push(elem)
-			}
+			})
 			return data
 		},
 		monthlyPaymentModeStats() {
@@ -789,7 +817,8 @@ export default {
 			const categoryDatasets = []
 			let category
 			let index = 0
-			for (const catId in this.stats.categoryMonthlyStats) {
+
+			this.sortedMonthlyCategoryIds.forEach((catId) => {
 				category = this.myGetCategory(catId)
 
 				// Build time series:
@@ -818,7 +847,7 @@ export default {
 				}
 				index++
 				categoryDatasets.push(dataset)
-			}
+			})
 			return {
 				labels: this.categoryMonths,
 				datasets: categoryDatasets,
@@ -908,6 +937,15 @@ export default {
 				},
 			}
 		},
+		sortedCategoryStatsIds() {
+			const sortedCategoryIds = this.sortedCategories.filter((cat) => {
+				return this.stats.categoryStats[cat.id]
+			}).map(cat => cat.id)
+			const catIds = Object.keys(this.stats.categoryStats).map(id => parseInt(id))
+			const diff = [...catIds].filter(cid => !sortedCategoryIds.includes(cid))
+			sortedCategoryIds.push(...diff)
+			return sortedCategoryIds
+		},
 		categoryPieData() {
 			const categoryData = {
 				datasets: [{
@@ -917,14 +955,14 @@ export default {
 				labels: [],
 			}
 			let paid, category
-			for (const catId in this.stats.categoryStats) {
+			this.sortedCategoryStatsIds.forEach((catId) => {
 				paid = this.stats.categoryStats[catId].toFixed(2)
 				category = this.myGetCategory(catId)
 
 				categoryData.datasets[0].data.push(paid)
 				categoryData.datasets[0].backgroundColor.push(category.color)
 				categoryData.labels.push(category.icon + ' ' + category.name)
-			}
+			})
 			return categoryData
 		},
 		categoryPieOptions() {
@@ -1004,13 +1042,13 @@ export default {
 				labels: [],
 			}
 			let category, paid
-			for (const catId in this.stats.categoryMemberStats) {
+			this.sortedCategoryStatsIds.forEach((catId) => {
 				category = this.myGetCategory(catId)
 				paid = this.stats.categoryMemberStats[catId][this.selectedMemberId].toFixed(2)
 				memberData.datasets[0].data.push(paid)
 				memberData.datasets[0].backgroundColor.push(category.color)
 				memberData.labels.push(category.icon + ' ' + category.name)
-			}
+			})
 			return memberData
 		},
 		// keeping this computed in case vue-chartjs make options reactive...

@@ -610,7 +610,7 @@ class ProjectService {
 			}
 			$balance = $this->getBalance($dbProjectId);
 			$currencies = $this->getCurrencies($dbProjectId);
-			$categories = $this->getCategories($dbProjectId, $dbCategorySort);
+			$categories = $this->getCategories($dbProjectId);
 			// get all shares
 			$userShares = $this->getUserShares($dbProjectId);
 			$groupShares = $this->getGroupShares($dbProjectId);
@@ -2471,10 +2471,22 @@ class ProjectService {
 	 * @param string $projectid
 	 * @return array
 	 */
-	private function getCategories(string $projectid, string $sortMethod = 'm'): array {
+	private function getCategories(string $projectid): array {
 		$categories = [];
 
 		$qb = $this->db->getQueryBuilder();
+
+		// get sort method
+		$qb->select('categorysort')
+			->from('cospend_projects', 'p')
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+			);
+		$req = $qb->executeQuery();
+		$row = $req->fetchOne();
+		$sortMethod = $row['categorysort'];
+		$req->closeCursor();
+		$qb->resetQueryParts();
 
 		if ($sortMethod === 'm') {
 			$qb->select('name', 'id', 'encoded_icon', 'color', 'order')

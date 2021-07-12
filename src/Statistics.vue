@@ -206,6 +206,7 @@
 					</td>
 					<td v-for="(st, month) in stats.memberMonthlyPaidStats"
 						:key="month"
+						:class="{ selected: selectedMemberMonthlyPaidCol === Object.keys(stats.memberMonthlyPaidStats).indexOf(month) }"
 						:style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
 						{{ value[month].toFixed(2) }}
 					</td>
@@ -213,7 +214,8 @@
 			</tbody>
 		</v-table>
 		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
-		<div id="memberMonthlyPaidChart">
+		<div id="memberMonthlyPaidChart"
+			@mouseleave="selectedMemberMonthlyPaidCol = null">
 			<LineChartJs v-if="stats"
 				:chart-data="memberMonthlyPaidChartData"
 				:options="memberMonthlyPaidChartOptions" />
@@ -260,6 +262,7 @@
 					</td>
 					<td v-for="(st, month) in stats.memberMonthlySpentStats"
 						:key="month"
+						:class="{ selected: selectedMemberMonthlySpentCol === Object.keys(stats.memberMonthlySpentStats).indexOf(month) }"
 						:style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
 						{{ value[month].toFixed(2) }}
 					</td>
@@ -267,7 +270,8 @@
 			</tbody>
 		</v-table>
 		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
-		<div id="memberMonthlySpentChart">
+		<div id="memberMonthlySpentChart"
+			@mouseleave="selectedMemberMonthlySpentCol = null">
 			<LineChartJs v-if="stats"
 				:chart-data="memberMonthlySpentChartData"
 				:options="memberMonthlySpentChartOptions" />
@@ -300,6 +304,7 @@
 					</td>
 					<td v-for="month in categoryMonths"
 						:key="month"
+						:class="{ selected: selectedMonthlyCategoryCol === categoryMonths.indexOf(month) }"
 						:style="'border: 2px solid ' + myGetCategory(vals.catid).color + ';'">
 						{{ (vals[month] || 0).toFixed(2) }}
 					</td>
@@ -307,7 +312,8 @@
 			</tbody>
 		</v-table>
 		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
-		<div id="categoryMonthlyChart">
+		<div id="categoryMonthlyChart"
+			@mouseleave="selectedMonthlyCategoryCol = null">
 			<LineChartJs v-if="stats"
 				:chart-data="monthlyCategoryChartData"
 				:options="monthlyCategoryChartOptions" />
@@ -340,6 +346,7 @@
 					</td>
 					<td v-for="month in paymentModeMonths"
 						:key="month"
+						:class="{ selected: selectedMonthlyPaymentModeCol === paymentModeMonths.indexOf(month) }"
 						:style="'border: 2px solid ' + myGetPaymentMode(vals.pmId).color + ';'">
 						{{ (vals[month] || 0).toFixed(2) }}
 					</td>
@@ -347,7 +354,8 @@
 			</tbody>
 		</v-table>
 		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
-		<div id="paymentModeMonthlyChart">
+		<div id="paymentModeMonthlyChart"
+			@mouseleave="selectedMonthlyPaymentModeCol = null">
 			<LineChartJs v-if="stats"
 				:chart-data="monthlyPaymentModeChartData"
 				:options="monthlyPaymentModeChartOptions" />
@@ -527,6 +535,10 @@ export default {
 			cospend,
 			exporting: false,
 			loadingStats: false,
+			selectedMemberMonthlyPaidCol: null,
+			selectedMemberMonthlySpentCol: null,
+			selectedMonthlyCategoryCol: null,
+			selectedMonthlyPaymentModeCol: null,
 		}
 	},
 
@@ -807,6 +819,7 @@ export default {
 				legend: {
 					position: 'left',
 				},
+				onHover: this.onMemberMonthlyPaidChartHover,
 			}
 		},
 		memberMonthlySpentChartOptions() {
@@ -816,6 +829,7 @@ export default {
 					display: true,
 					text: t('cospend', 'Spendings per member per month'),
 				},
+				onHover: this.onMemberMonthlySpentChartHover,
 			}
 		},
 		monthlyCategoryChartData() {
@@ -865,6 +879,7 @@ export default {
 					display: true,
 					text: t('cospend', 'Payments per category per month'),
 				},
+				onHover: this.onMonthlyCategoryChartHover,
 			}
 		},
 		monthlyPaymentModeChartData() {
@@ -913,6 +928,7 @@ export default {
 					display: true,
 					text: t('cospend', 'Payments per payment mode per month'),
 				},
+				onHover: this.onMonthlyPaymentModeChartHover,
 			}
 		},
 		memberPieData() {
@@ -1083,6 +1099,26 @@ export default {
 	},
 
 	methods: {
+		onMemberMonthlyPaidChartHover(event, data) {
+			if (data.length > 0 && data[0]._index !== undefined) {
+				this.selectedMemberMonthlyPaidCol = data[0]._index
+			}
+		},
+		onMemberMonthlySpentChartHover(event, data) {
+			if (data.length > 0 && data[0]._index !== undefined) {
+				this.selectedMemberMonthlySpentCol = data[0]._index
+			}
+		},
+		onMonthlyCategoryChartHover(event, data) {
+			if (data.length > 0 && data[0]._index !== undefined) {
+				this.selectedMonthlyCategoryCol = data[0]._index
+			}
+		},
+		onMonthlyPaymentModeChartHover(event, data) {
+			if (data.length > 0 && data[0]._index !== undefined) {
+				this.selectedMonthlyPaymentModeCol = data[0]._index
+			}
+		},
 		myGetPaymentMode(pmId) {
 			return paymentModes[pmId] ?? {
 				name: t('cospend', 'None'),
@@ -1333,5 +1369,9 @@ export default {
 
 .loading-stats-animation {
 	height: 70px;
+}
+
+td.selected {
+	background-color: var(--color-background-dark);
 }
 </style>

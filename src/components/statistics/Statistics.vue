@@ -173,7 +173,7 @@
 			:stats="stats.memberMonthlyPaidStats"
 			:project-id="projectId"
 			:member-ids="stats.memberIds"
-			:distinct-months="distinctMonths"
+			:real-months="stats.realMonths"
 			:chart-title="t('cospend', 'Payments per member per month')"
 			:base-line-chart-options="baseLineChartOptions" />
 		<hr>
@@ -184,7 +184,7 @@
 			:stats="stats.memberMonthlySpentStats"
 			:project-id="projectId"
 			:member-ids="stats.memberIds"
-			:distinct-months="distinctMonths"
+			:real-months="stats.realMonths"
 			:chart-title="t('cospend', 'Spendings per member per month')"
 			:base-line-chart-options="baseLineChartOptions" />
 		<hr>
@@ -461,17 +461,6 @@ export default {
 			distinctMonths.sort()
 			return distinctMonths
 		},
-		categoryMonths() {
-			const months = []
-			for (const catId in this.stats.categoryMonthlyStats) {
-				for (const month in this.stats.categoryMonthlyStats[catId]) {
-					months.push(month)
-				}
-			}
-			const distinctMonths = [...new Set(months)]
-			distinctMonths.sort()
-			return distinctMonths
-		},
 		sortedMonthlyCategoryIds() {
 			const sortedCategoryIds = this.sortedCategories.filter((cat) => {
 				return this.stats.categoryMonthlyStats[cat.id]
@@ -554,7 +543,7 @@ export default {
 
 				// Build time series:
 				const paid = []
-				for (const month of this.distinctMonths) {
+				for (const month of this.stats.realMonths) {
 					if (month in this.stats.categoryMonthlyStats[catId]) {
 						paid.push(this.stats.categoryMonthlyStats[catId][month].toFixed(2))
 					} else {
@@ -580,7 +569,7 @@ export default {
 				categoryDatasets.push(dataset)
 			})
 			return {
-				labels: this.distinctMonths,
+				labels: this.stats.realMonths,
 				datasets: categoryDatasets,
 			}
 		},
@@ -593,7 +582,7 @@ export default {
 
 				// Build time series:
 				const paid = []
-				for (const month of this.distinctMonths) {
+				for (const month of this.stats.realMonths) {
 					if (month in this.stats.paymentModeMonthlyStats[pmId]) {
 						paid.push(this.stats.paymentModeMonthlyStats[pmId][month].toFixed(2))
 					} else {
@@ -619,7 +608,7 @@ export default {
 				paymentModeDatasets.push(dataset)
 			}
 			return {
-				labels: this.distinctMonths,
+				labels: this.stats.realMonths,
 				datasets: paymentModeDatasets,
 			}
 		},

@@ -899,6 +899,7 @@ class ProjectService {
 		$averageKey = $this->trans->t('Average per month');
 		// number of months with actual bills
 		$nbMonth = count(array_keys($memberMonthlyPaidStats));
+		$realMonths = array_keys($memberMonthlyPaidStats);
 		if ($nbMonth > 0) {
 			////////////////////// PAID
 			$averagePaidStats = [];
@@ -1083,6 +1084,7 @@ class ProjectService {
 			'memberIds' => array_keys($membersToDisplay),
 			'allMemberIds' => $allMembersIds,
 			'membersPaidFor' => $membersPaidFor,
+			'realMonths' => $realMonths,
 		];
 	}
 

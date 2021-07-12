@@ -81,7 +81,7 @@ export default {
 			type: Array,
 			required: true,
 		},
-		distinctMonths: {
+		realMonths: {
 			type: Array,
 			required: true,
 		},
@@ -135,13 +135,13 @@ export default {
 			for (const mid in memberDict) {
 				member = memberDict[mid]
 				const paid = []
-				for (const month of this.distinctMonths) {
+				for (const month of this.realMonths) {
 					if (mid in this.stats[month]) {
 						paid.push(this.stats[month][mid].toFixed(2))
 					}
 				}
 				// check if data is complete (would be better to be sure of member list, like get it from the stats request)
-				if (paid.length !== this.distinctMonths.length) {
+				if (paid.length !== this.realMonths.length) {
 					continue
 				}
 
@@ -164,7 +164,7 @@ export default {
 				memberDatasets.push(dataset)
 			}
 			return {
-				labels: this.distinctMonths,
+				labels: this.realMonths,
 				datasets: memberDatasets,
 			}
 		},

@@ -751,6 +751,27 @@ class ProjectService {
 
 		// compute stats
 		$bills = $this->getBills($projectId, $tsMin, $tsMax, $paymentMode, $category, $amountMin, $amountMax);
+
+		/*
+		$firstBillTs = $bills[0]['timestamp'];
+		$firstBillDate = DateTime::createFromFormat('U', $firstBillTs);
+		$firstBillDate->setTimezone($timeZone);
+		$firstBillDate->modify('first day of');
+		$firstBillDate->setTime(0, 0);
+		$year1 = (int) $firstBillDate->format('Y');
+		$month1 = (int) $firstBillDate->format('m');
+
+		$lastBillTs = $bills[count($bills) - 1]['timestamp'];
+		$lastBillDate = DateTime::createFromFormat('U', $lastBillTs);
+		$lastBillDate->setTimezone($timeZone);
+		$lastBillDate->modify('first day of');
+		$lastBillDate->setTime(0, 0);
+		$year2 = (int) $lastBillDate->format('Y');
+		$month2 = (int) $lastBillDate->format('m');
+
+		$fullMonthNumber = (($year2 - $year1) * 12) + ($month2 - $month1 + 1);
+		*/
+
 		// compute classic stats
 		foreach ($bills as $bill) {
 			$payerId = $bill['payer_id'];
@@ -876,6 +897,7 @@ class ProjectService {
 		}
 		// monthly paid and spent average
 		$averageKey = $this->trans->t('Average per month');
+		// number of months with actual bills
 		$nbMonth = count(array_keys($memberMonthlyPaidStats));
 		if ($nbMonth > 0) {
 			////////////////////// PAID
@@ -1017,6 +1039,23 @@ class ProjectService {
 				$paymentModeMonthlyStats[$paymentMode][$month] = 0;
 			}
 			$paymentModeMonthlyStats[$paymentMode][$month] += $amount;
+		}
+		// average per month
+		foreach ($categoryMonthlyStats as $catId => $monthValues) {
+			$sum = 0;
+			foreach ($monthValues as $month => $value) {
+				$sum += $value;
+			}
+			$avg = $sum / $nbMonth;
+			$categoryMonthlyStats[$catId][$averageKey] = $avg;
+		}
+		foreach ($paymentModeMonthlyStats as $pmId => $monthValues) {
+			$sum = 0;
+			foreach ($monthValues as $month => $value) {
+				$sum += $value;
+			}
+			$avg = $sum / $nbMonth;
+			$paymentModeMonthlyStats[$pmId][$averageKey] = $avg;
 		}
 		// convert if necessary
 		if ($currency !== null) {

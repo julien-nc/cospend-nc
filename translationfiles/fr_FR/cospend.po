@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-07-12 00:07+0200\n"
-"PO-Revision-Date: 2021-07-11 22:08\n"
+"PO-Revision-Date: 2021-07-12 22:13\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -1103,7 +1103,7 @@ msgstr "Échec de la suppression de la facture"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:109
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:110
 msgid "Failed to save bills"
-msgstr ""
+msgstr "Impossible d'enregistrer les factures"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:111
 msgid "Bills edited"
@@ -1156,11 +1156,11 @@ msgstr "Manuel"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:121
 msgid "Most used"
-msgstr ""
+msgstr "Les plus utilisés"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:122
 msgid "Most recently used"
-msgstr ""
+msgstr "Récemment utilisés"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:123
 msgid "Add category"

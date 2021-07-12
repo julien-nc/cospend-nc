@@ -15,6 +15,8 @@ import Vue from 'vue'
 import './bootstrap'
 import App from './App'
 import { showError } from '@nextcloud/dialogs'
+import { getRequestToken } from '@nextcloud/auth'
+import { generateFilePath } from '@nextcloud/router'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 import vueAwesomeCountdown from 'vue-awesome-countdown'
 import VueClipboard from 'vue-clipboard2'
@@ -27,6 +29,12 @@ Vue.use(vueAwesomeCountdown, 'vac')
 Vue.use(VueClipboard)
 Vue.use(SmartTable)
 Vue.directive('tooltip', Tooltip)
+
+// eslint-disable-next-line
+__webpack_nonce__ = btoa(getRequestToken())
+
+// eslint-disable-next-line
+__webpack_public_path__ = generateFilePath('cospend', '', 'js/')
 
 // eslint-disable-next-line
 'use strict'
@@ -96,9 +104,14 @@ document.addEventListener('DOMContentLoaded', function(event) {
 })
 
 function main() {
+	/*
 	// eslint-disable-next-line
 	new Vue({
 		el: '#content',
 		render: h => h(App),
 	})
+	*/
+
+	const View = Vue.extend(App)
+	new View().$mount('#content')
 }

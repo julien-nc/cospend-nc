@@ -1263,6 +1263,7 @@ export default {
 	// flex: 1 1 500px;
 	flex-grow: 1;
 	width: 500px;
+	padding: 0 20px 0 20px;
 
 	#stats-filters {
 		margin-left: auto;

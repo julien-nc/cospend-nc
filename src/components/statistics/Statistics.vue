@@ -169,114 +169,24 @@
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Monthly paid per member') }}
 		</h2>
-		<v-table v-if="stats"
-			id="memberMonthlyPaidTable"
-			class="coloredTable avatarTable"
-			:data="memberMonthlyPaidStats">
-			<thead slot="head">
-				<v-th sort-key="member.name">
-					{{ t('cospend', 'Member/Month') }}
-				</v-th>
-				<v-th v-for="(st, month) in stats.memberMonthlyPaidStats"
-					:key="month"
-					:sort-key="month">
-					{{ month }}
-				</v-th>
-			</thead>
-			<tbody slot="body" slot-scope="{displayData}">
-				<tr v-for="value in displayData"
-					:key="value.member.id"
-					v-tooltip.left="{ content: value.member.name }"
-					:class="{ 'all-members': value.member.id === 0 }">
-					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
-						<div v-if="value.member.id !== 0"
-							class="owerAvatar">
-							<ColoredAvatar
-								class="itemAvatar"
-								:color="getMemberColor(value.member.id)"
-								:size="24"
-								:disable-menu="true"
-								:disable-tooltip="true"
-								:show-user-status="false"
-								:is-no-user="getMemberUserId(value.member.id) === ''"
-								:user="getMemberUserId(value.member.id)"
-								:display-name="getMemberName(value.member.id)" />
-							<div v-if="isMemberDisabled(value.member.id)" class="disabledMask" />
-						</div>{{ (value.member.id !== 0) ? myGetSmartMemberName(value.member.id) : value.member.name }}
-					</td>
-					<td v-for="(st, month) in stats.memberMonthlyPaidStats"
-						:key="month"
-						:class="{ selected: selectedMemberMonthlyPaidCol === Object.keys(stats.memberMonthlyPaidStats).indexOf(month) }"
-						:style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
-						{{ value[month].toFixed(2) }}
-					</td>
-				</tr>
-			</tbody>
-		</v-table>
-		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
-		<div id="memberMonthlyPaidChart"
-			@mouseleave="selectedMemberMonthlyPaidCol = null">
-			<LineChartJs v-if="stats"
-				:chart-data="memberMonthlyPaidChartData"
-				:options="memberMonthlyPaidChartOptions" />
-			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
-		</div>
+		<MemberMonthly v-if="stats"
+			:stats="stats.memberMonthlyPaidStats"
+			:project-id="projectId"
+			:member-ids="stats.memberIds"
+			:distinct-months="distinctMonths"
+			:chart-title="t('cospend', 'Payments per member per month')"
+			:base-line-chart-options="baseLineChartOptions" />
 		<hr>
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Monthly spent per member') }}
 		</h2>
-		<v-table v-if="stats"
-			id="memberMonthlySpentTable"
-			class="coloredTable avatarTable"
-			:data="memberMonthlySpentStats">
-			<thead slot="head">
-				<v-th sort-key="member.name">
-					{{ t('cospend', 'Member/Month') }}
-				</v-th>
-				<v-th v-for="(st, month) in stats.memberMonthlySpentStats"
-					:key="month"
-					:sort-key="month">
-					{{ month }}
-				</v-th>
-			</thead>
-			<tbody slot="body" slot-scope="{displayData}">
-				<tr v-for="value in displayData"
-					:key="value.member.id"
-					v-tooltip.left="{ content: value.member.name }"
-					:class="{ 'all-members': value.member.id === 0 }">
-					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
-						<div v-if="value.member.id !== 0"
-							class="owerAvatar">
-							<ColoredAvatar
-								class="itemAvatar"
-								:color="getMemberColor(value.member.id)"
-								:size="24"
-								:disable-menu="true"
-								:disable-tooltip="true"
-								:show-user-status="false"
-								:is-no-user="getMemberUserId(value.member.id) === ''"
-								:user="getMemberUserId(value.member.id)"
-								:display-name="getMemberName(value.member.id)" />
-							<div v-if="isMemberDisabled(value.member.id)" class="disabledMask" />
-						</div>{{ (value.member.id !== 0) ? myGetSmartMemberName(value.member.id) : value.member.name }}
-					</td>
-					<td v-for="(st, month) in stats.memberMonthlySpentStats"
-						:key="month"
-						:class="{ selected: selectedMemberMonthlySpentCol === Object.keys(stats.memberMonthlySpentStats).indexOf(month) }"
-						:style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
-						{{ value[month].toFixed(2) }}
-					</td>
-				</tr>
-			</tbody>
-		</v-table>
-		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
-		<div id="memberMonthlySpentChart"
-			@mouseleave="selectedMemberMonthlySpentCol = null">
-			<LineChartJs v-if="stats"
-				:chart-data="memberMonthlySpentChartData"
-				:options="memberMonthlySpentChartOptions" />
-			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
-		</div>
+		<MemberMonthly v-if="stats"
+			:stats="stats.memberMonthlySpentStats"
+			:project-id="projectId"
+			:member-ids="stats.memberIds"
+			:distinct-months="distinctMonths"
+			:chart-title="t('cospend', 'Spendings per member per month')"
+			:base-line-chart-options="baseLineChartOptions" />
 		<hr>
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Monthly paid per category') }}
@@ -289,7 +199,7 @@
 				<v-th sort-key="name">
 					{{ t('cospend', 'Category/Month') }}
 				</v-th>
-				<v-th v-for="month in categoryMonths"
+				<v-th v-for="month in distinctMonths"
 					:key="month"
 					:sort-key="month">
 					{{ month }}
@@ -302,9 +212,9 @@
 					<td :style="'border: 2px solid ' + myGetCategory(vals.catid).color + ';'">
 						{{ vals.name }}
 					</td>
-					<td v-for="month in categoryMonths"
+					<td v-for="month in distinctMonths"
 						:key="month"
-						:class="{ selected: selectedMonthlyCategoryCol === categoryMonths.indexOf(month) }"
+						:class="{ selected: selectedMonthlyCategoryCol === distinctMonths.indexOf(month) }"
 						:style="'border: 2px solid ' + myGetCategory(vals.catid).color + ';'">
 						{{ (vals[month] || 0).toFixed(2) }}
 					</td>
@@ -331,7 +241,7 @@
 				<v-th sort-key="name">
 					{{ t('cospend', 'Payment mode/Month') }}
 				</v-th>
-				<v-th v-for="month in paymentModeMonths"
+				<v-th v-for="month in distinctMonths"
 					:key="month"
 					:sort-key="month">
 					{{ month }}
@@ -344,9 +254,9 @@
 					<td :style="'border: 2px solid ' + myGetPaymentMode(vals.pmId).color + ';'">
 						{{ vals.name }}
 					</td>
-					<td v-for="month in paymentModeMonths"
+					<td v-for="month in distinctMonths"
 						:key="month"
-						:class="{ selected: selectedMonthlyPaymentModeCol === paymentModeMonths.indexOf(month) }"
+						:class="{ selected: selectedMonthlyPaymentModeCol === distinctMonths.indexOf(month) }"
 						:style="'border: 2px solid ' + myGetPaymentMode(vals.pmId).color + ';'">
 						{{ (vals[month] || 0).toFixed(2) }}
 					</td>
@@ -501,22 +411,23 @@
 <script>
 import moment from '@nextcloud/moment'
 import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
-import ColoredAvatar from './components/ColoredAvatar'
+import ColoredAvatar from '../ColoredAvatar'
 
-import { getCategory, getSmartMemberName, strcmp } from './utils'
-import { paymentModes } from './constants'
-import cospend from './state'
-import * as network from './network'
-import LineChartJs from './components/LineChartJs'
-import PieChartJs from './components/PieChartJs'
-import PolarChartJs from './components/PolarChartJs'
-import * as constants from './constants'
+import { getCategory, getSmartMemberName, strcmp } from '../../utils'
+import { paymentModes } from '../../constants'
+import cospend from '../../state'
+import * as network from '../../network'
+import MemberMonthly from './MemberMonthly'
+import LineChartJs from '../LineChartJs'
+import PieChartJs from '../PieChartJs'
+import PolarChartJs from '../PolarChartJs'
+import * as constants from '../../constants'
 
 export default {
 	name: 'Statistics',
 
 	components: {
-		ColoredAvatar, LineChartJs, PieChartJs, PolarChartJs, AppContentDetails,
+		ColoredAvatar, LineChartJs, PieChartJs, PolarChartJs, AppContentDetails, MemberMonthly,
 	},
 
 	props: {
@@ -535,8 +446,6 @@ export default {
 			cospend,
 			exporting: false,
 			loadingStats: false,
-			selectedMemberMonthlyPaidCol: null,
-			selectedMemberMonthlySpentCol: null,
 			selectedMonthlyCategoryCol: null,
 			selectedMonthlyPaymentModeCol: null,
 		}
@@ -603,35 +512,7 @@ export default {
 		totalPayed() {
 			return this.stats.stats.map(s => s.paid).reduce((acc, curr) => acc + curr)
 		},
-		memberMonthlyPaidStats() {
-			const memberIds = this.stats.memberIds
-			const mids = memberIds.slice()
-			mids.push('0')
-			return mids.map((mid) => {
-				const row = {
-					member: mid === '0' ? { name: t('cospend', 'All members'), id: 0 } : cospend.members[this.projectId][mid],
-				}
-				for (const month in this.stats.memberMonthlyPaidStats) {
-					row[month] = this.stats.memberMonthlyPaidStats[month][mid]
-				}
-				return row
-			})
-		},
-		memberMonthlySpentStats() {
-			const memberIds = this.stats.memberIds
-			const mids = memberIds.slice()
-			mids.push('0')
-			return mids.map((mid) => {
-				const row = {
-					member: mid === '0' ? { name: t('cospend', 'All members'), id: 0 } : cospend.members[this.projectId][mid],
-				}
-				for (const month in this.stats.memberMonthlySpentStats) {
-					row[month] = this.stats.memberMonthlySpentStats[month][mid]
-				}
-				return row
-			})
-		},
-		categoryMonths() {
+		distinctMonths() {
 			const months = []
 			for (const catId in this.stats.categoryMonthlyStats) {
 				for (const month in this.stats.categoryMonthlyStats[catId]) {
@@ -642,10 +523,10 @@ export default {
 			distinctMonths.sort()
 			return distinctMonths
 		},
-		paymentModeMonths() {
+		categoryMonths() {
 			const months = []
-			for (const pmId in this.stats.paymentModeMonthlyStats) {
-				for (const month in this.stats.paymentModeMonthlyStats[pmId]) {
+			for (const catId in this.stats.categoryMonthlyStats) {
+				for (const month in this.stats.categoryMonthlyStats[catId]) {
 					months.push(month)
 				}
 			}
@@ -707,13 +588,13 @@ export default {
 			for (const mid in memberDict) {
 				member = memberDict[mid]
 				const paid = []
-				for (const month of this.categoryMonths) {
+				for (const month of this.distinctMonths) {
 					if (mid in this.stats.memberMonthlyPaidStats[month]) {
 						paid.push(this.stats.memberMonthlyPaidStats[month][mid].toFixed(2))
 					}
 				}
 				// check if data is complete (would be better to be sure of member list, like get it from the stats request)
-				if (paid.length !== this.categoryMonths.length) {
+				if (paid.length !== this.distinctMonths.length) {
 					continue
 				}
 
@@ -736,7 +617,7 @@ export default {
 				memberDatasets.push(dataset)
 			}
 			return {
-				labels: this.categoryMonths,
+				labels: this.distinctMonths,
 				datasets: memberDatasets,
 			}
 		},
@@ -754,13 +635,13 @@ export default {
 			for (const mid in memberDict) {
 				member = memberDict[mid]
 				const paid = []
-				for (const month of this.categoryMonths) {
+				for (const month of this.distinctMonths) {
 					if (mid in this.stats.memberMonthlySpentStats[month]) {
 						paid.push(this.stats.memberMonthlySpentStats[month][mid].toFixed(2))
 					}
 				}
 				// check if data is complete (would be better to be sure of member list, like get it from the stats request)
-				if (paid.length !== this.categoryMonths.length) {
+				if (paid.length !== this.distinctMonths.length) {
 					continue
 				}
 
@@ -783,11 +664,11 @@ export default {
 				memberDatasets.push(dataset)
 			}
 			return {
-				labels: this.categoryMonths,
+				labels: this.distinctMonths,
 				datasets: memberDatasets,
 			}
 		},
-		memberMonthlyPaidChartOptions() {
+		baseLineChartOptions() {
 			return {
 				elements: {
 					line: {
@@ -800,10 +681,6 @@ export default {
 					yAxes: [{
 						// stacked: true,
 					}],
-				},
-				title: {
-					display: true,
-					text: t('cospend', 'Payments per member per month'),
 				},
 				responsive: true,
 				maintainAspectRatio: false,
@@ -819,17 +696,6 @@ export default {
 				legend: {
 					position: 'left',
 				},
-				onHover: this.onMemberMonthlyPaidChartHover,
-			}
-		},
-		memberMonthlySpentChartOptions() {
-			return {
-				...this.memberMonthlyPaidChartOptions,
-				title: {
-					display: true,
-					text: t('cospend', 'Spendings per member per month'),
-				},
-				onHover: this.onMemberMonthlySpentChartHover,
 			}
 		},
 		monthlyCategoryChartData() {
@@ -842,7 +708,7 @@ export default {
 
 				// Build time series:
 				const paid = []
-				for (const month of this.categoryMonths) {
+				for (const month of this.distinctMonths) {
 					if (month in this.stats.categoryMonthlyStats[catId]) {
 						paid.push(this.stats.categoryMonthlyStats[catId][month].toFixed(2))
 					} else {
@@ -868,13 +734,13 @@ export default {
 				categoryDatasets.push(dataset)
 			})
 			return {
-				labels: this.categoryMonths,
+				labels: this.distinctMonths,
 				datasets: categoryDatasets,
 			}
 		},
 		monthlyCategoryChartOptions() {
 			return {
-				...this.memberMonthlyPaidChartOptions,
+				...this.baseLineChartOptions,
 				title: {
 					display: true,
 					text: t('cospend', 'Payments per category per month'),
@@ -891,7 +757,7 @@ export default {
 
 				// Build time series:
 				const paid = []
-				for (const month of this.paymentModeMonths) {
+				for (const month of this.distinctMonths) {
 					if (month in this.stats.paymentModeMonthlyStats[pmId]) {
 						paid.push(this.stats.paymentModeMonthlyStats[pmId][month].toFixed(2))
 					} else {
@@ -917,13 +783,13 @@ export default {
 				paymentModeDatasets.push(dataset)
 			}
 			return {
-				labels: this.paymentModeMonths,
+				labels: this.distinctMonths,
 				datasets: paymentModeDatasets,
 			}
 		},
 		monthlyPaymentModeChartOptions() {
 			return {
-				...this.memberMonthlyPaidChartOptions,
+				...this.baseLineChartOptions,
 				title: {
 					display: true,
 					text: t('cospend', 'Payments per payment mode per month'),
@@ -1099,16 +965,6 @@ export default {
 	},
 
 	methods: {
-		onMemberMonthlyPaidChartHover(event, data) {
-			if (data.length > 0 && data[0]._index !== undefined) {
-				this.selectedMemberMonthlyPaidCol = data[0]._index
-			}
-		},
-		onMemberMonthlySpentChartHover(event, data) {
-			if (data.length > 0 && data[0]._index !== undefined) {
-				this.selectedMemberMonthlySpentCol = data[0]._index
-			}
-		},
 		onMonthlyCategoryChartHover(event, data) {
 			if (data.length > 0 && data[0]._index !== undefined) {
 				this.selectedMonthlyCategoryCol = data[0]._index
@@ -1353,15 +1209,11 @@ export default {
 }
 
 #paidForTable,
-#memberMonthlyPaidTable,
-#memberMonthlySpentTable,
 #categoryTable,
 #paymentModeTable {
 	overflow: scroll;
 }
 
-#memberMonthlyPaidTable tr.all-members td:first-child,
-#memberMonthlySpentTable tr.all-members td:first-child,
 #paymentModeTable td:first-child,
 #categoryTable td:first-child {
 	padding: 0px 5px 0px 5px;

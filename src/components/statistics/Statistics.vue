@@ -996,9 +996,34 @@ export default {
 }
 
 #statsTable {
-	display: table;
-	margin-left: auto;
-	margin-right: auto;
+	max-height: 500px;
+	overflow: scroll;
+
+	th {
+		position: sticky;
+		top: 0;
+		z-index: 9;
+		background-color: var(--color-main-background);
+		&:first-child {
+			left: 0;
+			z-index: 10 !important;
+		}
+	}
+	th:first-child,
+	td:first-child {
+		position: sticky;
+		left: 0;
+		z-index: 8;
+		background-color: var(--color-main-background);
+	}
+
+	th.selected,
+	td.selected {
+		background-color: var(--color-background-dark);
+	}
+	td:first-child {
+		padding: 0px 5px 0px 5px;
+	}
 }
 
 .totalPayedText {

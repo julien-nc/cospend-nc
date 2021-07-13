@@ -17,7 +17,6 @@
 			<tbody slot="body" slot-scope="{displayData}">
 				<tr v-for="vals in displayData"
 					:key="vals.id"
-					v-tooltip.left="{ content: vals.name }"
 					@mouseenter="selectedDataset = vals.id"
 					@mouseleave="selectedDataset = null">
 					<td :style="'border: 2px solid ' + vals.color + ';'">

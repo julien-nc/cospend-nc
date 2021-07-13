@@ -17,7 +17,6 @@
 			<tbody slot="body" slot-scope="{displayData}">
 				<tr v-for="value in displayData"
 					:key="value.member.id"
-					v-tooltip.left="{ content: value.member.name }"
 					:class="{ 'all-members': value.member.id === 0 }"
 					@mouseenter="selectedMemberDataset = value.member.id"
 					@mouseleave="selectedMemberDataset = null">

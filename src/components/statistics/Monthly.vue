@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-table v-if="tableData"
+		<v-table
 			class="monthlyTable coloredTable"
 			:data="tableData">
 			<thead slot="head">
@@ -30,7 +30,6 @@
 				</tr>
 			</tbody>
 		</v-table>
-		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		<div id="categoryMonthlyChart"
 			@mouseleave="selectedMonthlyCol = null">
 			<LineChartJs
@@ -144,9 +143,5 @@ export default {
 	td:first-child {
 		padding: 0px 5px 0px 5px;
 	}
-}
-
-.loading-stats-animation {
-	height: 70px;
 }
 </style>

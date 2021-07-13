@@ -176,6 +176,7 @@
 			:real-months="stats.realMonths"
 			:chart-title="t('cospend', 'Payments per member per month')"
 			:base-line-chart-options="baseLineChartOptions" />
+		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		<hr>
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Monthly spent per member') }}
@@ -187,6 +188,7 @@
 			:real-months="stats.realMonths"
 			:chart-title="t('cospend', 'Spendings per member per month')"
 			:base-line-chart-options="baseLineChartOptions" />
+		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		<hr>
 		<h2 class="statTableTitle">
 			{{ t('cospend', 'Monthly paid per category') }}

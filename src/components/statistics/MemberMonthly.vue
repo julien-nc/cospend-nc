@@ -9,7 +9,8 @@
 				</v-th>
 				<v-th v-for="(st, month) in stats"
 					:key="month"
-					:sort-key="month">
+					:sort-key="month"
+					:class="{ selected: selectedMemberMonthlyCol === Object.keys(stats).indexOf(month) }">
 					{{ month }}
 				</v-th>
 			</thead>
@@ -244,6 +245,7 @@ export default {
 		background-color: var(--color-main-background);
 	}
 
+	th.selected,
 	td.selected {
 		background-color: var(--color-background-dark);
 	}

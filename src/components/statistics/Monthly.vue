@@ -17,7 +17,9 @@
 			<tbody slot="body" slot-scope="{displayData}">
 				<tr v-for="vals in displayData"
 					:key="vals.id"
-					v-tooltip.left="{ content: vals.name }">
+					v-tooltip.left="{ content: vals.name }"
+					@mouseenter="selectedDataset = vals.id"
+					@mouseleave="selectedDataset = null">
 					<td :style="'border: 2px solid ' + vals.color + ';'">
 						{{ vals.name }}
 					</td>
@@ -33,7 +35,7 @@
 		<div id="categoryMonthlyChart"
 			@mouseleave="selectedMonthlyCol = null">
 			<LineChartJs
-				:chart-data="chartData"
+				:chart-data="myChartData"
 				:options="chartOptions" />
 		</div>
 	</div>
@@ -82,6 +84,7 @@ export default {
 			cospend,
 			loadingStats: false,
 			selectedMonthlyCol: null,
+			selectedDataset: null,
 		}
 	},
 
@@ -94,6 +97,21 @@ export default {
 					text: this.chartTitle,
 				},
 				onHover: this.onMonthlyChartHover,
+			}
+		},
+		myChartData() {
+			const datasets = this.chartData.datasets.map((ds) => {
+				const datasetIsSelected = parseInt(ds.id) === this.selectedDataset
+				return {
+					...ds,
+					order: datasetIsSelected ? -1 : undefined,
+					borderWidth: datasetIsSelected ? 5 : 3,
+					fill: datasetIsSelected ? 'origin' : undefined,
+				}
+			})
+			return {
+				labels: this.chartData.labels,
+				datasets,
 			}
 		},
 	},

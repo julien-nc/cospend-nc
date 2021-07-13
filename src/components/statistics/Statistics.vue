@@ -538,7 +538,7 @@ export default {
 		monthlyCategoryChartData() {
 			const categoryDatasets = []
 			let category
-			let index = 0
+			// let index = 0
 
 			this.sortedMonthlyCategoryIds.forEach((catId) => {
 				category = this.myGetCategory(catId)
@@ -554,6 +554,7 @@ export default {
 				}
 
 				const dataset = {
+					id: catId,
 					label: category.icon + ' ' + category.name,
 					// FIXME hacky way to change alpha channel:
 					backgroundColor: category.color + '4D',
@@ -564,10 +565,12 @@ export default {
 					pointRadius: 0,
 					data: paid,
 				}
+				/*
 				if (index === 0) {
-					// dataset.fill = 'origin'
+					dataset.fill = 'origin'
 				}
 				index++
+				*/
 				categoryDatasets.push(dataset)
 			})
 			return {
@@ -578,7 +581,7 @@ export default {
 		monthlyPaymentModeChartData() {
 			const paymentModeDatasets = []
 			let paymentMode
-			let index = 0
+			// let index = 0
 			for (const pmId in this.stats.paymentModeMonthlyStats) {
 				paymentMode = this.myGetPaymentMode(pmId)
 
@@ -593,6 +596,7 @@ export default {
 				}
 
 				const dataset = {
+					id: pmId,
 					label: paymentMode.icon + ' ' + paymentMode.name,
 					// FIXME hacky way to change alpha channel:
 					backgroundColor: paymentMode.color + '4D',
@@ -603,10 +607,12 @@ export default {
 					pointRadius: 0,
 					data: paid,
 				}
+				/*
 				if (index === 0) {
-					// dataset.fill = 'origin'
+					dataset.fill = 'origin'
 				}
 				index++
+				*/
 				paymentModeDatasets.push(dataset)
 			}
 			return {

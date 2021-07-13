@@ -18,7 +18,9 @@
 				<tr v-for="value in displayData"
 					:key="value.member.id"
 					v-tooltip.left="{ content: value.member.name }"
-					:class="{ 'all-members': value.member.id === 0 }">
+					:class="{ 'all-members': value.member.id === 0 }"
+					@mouseenter="selectedMemberDataset = value.member.id"
+					@mouseleave="selectedMemberDataset = null">
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
 						<div v-if="value.member.id !== 0"
 							class="owerAvatar">
@@ -100,6 +102,7 @@ export default {
 			cospend,
 			loadingStats: false,
 			selectedMemberMonthlyCol: null,
+			selectedMemberDataset: null,
 		}
 	},
 
@@ -124,7 +127,7 @@ export default {
 		memberMonthlyChartData() {
 			const memberDatasets = []
 			let member
-			let index = 0
+			// let index = 0
 			const memberDict = {
 				...this.members,
 				0: {
@@ -145,6 +148,7 @@ export default {
 					continue
 				}
 
+				const datasetIsSelected = parseInt(mid) === this.selectedMemberDataset
 				const dataset = {
 					label: member.name,
 					// FIXME hacky way to change alpha channel:
@@ -153,14 +157,19 @@ export default {
 					borderColor: '#' + member.color,
 					pointHighlightStroke: '#' + member.color,
 					// lineTension: 0.2,
+					order: datasetIsSelected ? -1 : undefined,
+					borderWidth: datasetIsSelected ? 5 : 3,
+					fill: datasetIsSelected ? 'origin' : undefined,
 					pointRadius: 0,
 					data: paid,
 					hidden: parseInt(mid) === 0,
 				}
+				/*
 				if (index === 0) {
-					// dataset.fill = 'origin'
+					dataset.fill = 'origin'
 				}
 				index++
+				*/
 				memberDatasets.push(dataset)
 			}
 			return {

@@ -238,7 +238,10 @@
 		<select v-if="stats"
 			id="categoryMemberSelect"
 			ref="categoryMemberSelect"
-			@change="onCategoryMemberChange">
+			v-model="selectedCategoryId">
+			<option disabled value="-1">
+				{{ t('cospend', 'Select a category') }}
+			</option>
 			<option v-for="catid in sortedCategoryStatsIds"
 				:key="catid"
 				:value="catid">
@@ -246,8 +249,7 @@
 			</option>
 		</select>
 		<div id="categoryMemberChart">
-			<PieChartJs v-if="stats"
-				:catid="selectedCategoryId"
+			<PieChartJs v-if="stats && (selectedCategoryId !== -1)"
 				:chart-data="categoryMemberPieData"
 				:options="categoryMemberPieOptions" />
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
@@ -257,7 +259,7 @@
 			id="memberPolarSelect"
 			ref="memberPolarSelect"
 			v-model="selectedMemberId">
-			<option disabled value="0">
+			<option disabled value="-1">
 				{{ t('cospend', 'Select a member') }}
 			</option>
 			<option v-for="mid in stats.memberIds"
@@ -267,7 +269,7 @@
 			</option>
 		</select>
 		<div id="memberPolarChart">
-			<PolarChartJs v-if="stats && (selectedMemberId !== 0)"
+			<PolarChartJs v-if="stats && (selectedMemberId !== -1)"
 				:chart-data="memberPolarPieData"
 				:options="memberPolarPieOptions" />
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
@@ -382,8 +384,8 @@ export default {
 	data() {
 		return {
 			stats: null,
-			selectedCategoryId: 0,
-			selectedMemberId: 0,
+			selectedCategoryId: -1,
+			selectedMemberId: -1,
 			isFiltered: true,
 			cospend,
 			exporting: false,
@@ -780,6 +782,8 @@ export default {
 	watch: {
 		projectId() {
 			this.getStats()
+			this.selectedMemberId = -1
+			this.selectedCategoryId = -1
 		},
 	},
 
@@ -805,14 +809,6 @@ export default {
 		getCategoryNameIcon(catid) {
 			const category = this.myGetCategory(catid)
 			return category.icon + ' ' + category.name
-		},
-		onMemberPolarChange() {
-			const mid = this.$refs.memberPolarSelect.value
-			this.selectedMemberId = mid
-		},
-		onCategoryMemberChange() {
-			const catId = this.$refs.categoryMemberSelect.value
-			this.selectedCategoryId = catId
 		},
 		getBalanceClass(balance) {
 			let balanceClass = ''
@@ -891,7 +887,6 @@ export default {
 		},
 		getStatsDone() {
 			this.loadingStats = false
-			this.onCategoryMemberChange()
 		},
 		onExportClick() {
 			this.exporting = true

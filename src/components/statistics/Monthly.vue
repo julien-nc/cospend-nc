@@ -100,7 +100,7 @@ export default {
 		},
 		myChartData() {
 			const datasets = this.chartData.datasets.map((ds) => {
-				const datasetIsSelected = parseInt(ds.id) === this.selectedDataset
+				const datasetIsSelected = ds.id === this.selectedDataset || parseInt(ds.id) === this.selectedDataset
 				return {
 					...ds,
 					order: datasetIsSelected ? -1 : undefined,

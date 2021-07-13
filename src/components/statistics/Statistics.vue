@@ -1015,6 +1015,15 @@ export default {
 
 #paidForTable {
 	overflow: scroll;
+	th:first-child,
+	td:first-child {
+		position: sticky;
+		left: 0;
+		background-color: var(--color-main-background);
+	}
+	th:not(first-child) {
+		z-index: 1;
+	}
 }
 
 .loading-stats-animation {

@@ -225,17 +225,22 @@ export default {
 <style scoped lang="scss">
 .memberMonthlyTable {
 	overflow: scroll;
-}
 
-.memberMonthlyTable tr.all-members td:first-child {
-	padding: 0px 5px 0px 5px;
+	td.selected {
+		background-color: var(--color-background-dark);
+	}
+	tr.all-members td:first-child {
+		padding: 0px 5px 0px 5px;
+	}
+	th:first-child,
+	td:first-child {
+		position: sticky;
+		left: 0;
+		background-color: var(--color-main-background);
+	}
 }
 
 .loading-stats-animation {
 	height: 70px;
-}
-
-td.selected {
-	background-color: var(--color-background-dark);
 }
 </style>

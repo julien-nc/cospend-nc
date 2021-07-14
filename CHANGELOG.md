@@ -6,13 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 1.3.8 – 2021-06-18
+## 1.3.9 – 2021-07-14
 ### Added
 - new member monthly spent stats table/chart
   [#58](https://github.com/eneiluj/cospend-nc/issues/58) @Raspikabek
+- new 'most used' and 'most recently used' category orders
+  [#26](https://github.com/eneiluj/cospend-nc/issues/26) @itatabitovski
+- hover interactions between stats tables and charts (both ways)
+- new average column for category and payment mode monthly stat tables
 
 ### Changed
 - improve stats line charts style
+- improve stats tables design (sticky header and first column)
 - round numbers in line charts tooltips
 - use new DB query methods
 - adapt to new Circles management
@@ -20,12 +25,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - don't fetch dashboard widget content if tab is not visible
 - improve activity and notifications icons
 - improve notifications content
+- allow empty bill title on creation and edition
+  [#28](https://github.com/eneiluj/cospend-nc/issues/28) @whtv
 
 ### Fixed
 - some class injections
 - remove calls to deprecated stuff
 - padding issues in settlement/stats tables
 - PHP 7.2 compatibility
+- character escaping in projects/bills titles
+  [#60](https://github.com/eneiluj/cospend-nc/issues/60) @sihagen
 
 ## 1.3.7 – 2021-06-21
 ### Fixed

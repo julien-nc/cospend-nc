@@ -64,6 +64,13 @@
 				<Actions
 					:force-menu="true"
 					placement="bottom">
+					<ActionInput
+						ref="labelInput"
+						type="text"
+						icon="icon-edit"
+						:value="access.label"
+						:disabled="!editionAccess || myAccessLevel < access.accesslevel"
+						@change="submitLabel(access, $event)" />
 					<ActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(1, access)"
 						:checked="access.accesslevel === 1"
@@ -230,6 +237,7 @@ import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
+import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
@@ -253,6 +261,7 @@ export default {
 		Actions,
 		ActionButton,
 		ActionRadio,
+		ActionInput,
 		Multiselect,
 	},
 
@@ -428,6 +437,7 @@ export default {
 					t('cospend', 'Failed to add shared access')
 					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
 				)
+				console.error(error)
 			}).then(() => {
 				this.addingPublicLink = false
 			})
@@ -440,6 +450,20 @@ export default {
 					t('cospend', 'Failed to edit shared access level')
 					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
 				)
+				console.error(error)
+			})
+		},
+		submitLabel(access, e) {
+			const label = e.target.value
+			network.editSharedAccess(this.projectId, access, label).then((response) => {
+				access.label = label
+				showSuccess(t('cospend', 'Shared access label saved'))
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to edit shared access')
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+				)
+				console.error(error)
 			})
 		},
 		clickDeleteAccess(access) {
@@ -453,6 +477,7 @@ export default {
 					t('cospend', 'Failed to delete shared access')
 					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
 				)
+				console.error(error)
 			})
 		},
 		async copyLink(access) {
@@ -465,7 +490,7 @@ export default {
 					this.$set(this.linkCopied, access.id, false)
 				}, 5000)
 			} catch (error) {
-				console.debug(error)
+				console.error(error)
 				showError(t('cospend', 'Link could not be copied to clipboard.'))
 			}
 		},

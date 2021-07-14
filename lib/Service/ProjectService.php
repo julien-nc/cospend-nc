@@ -2735,7 +2735,7 @@ class ProjectService {
 		$shares = [];
 
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('projectid', 'userid', 'id', 'accesslevel')
+		$qb->select('projectid', 'userid', 'id', 'accesslevel', 'label')
 		   ->from('cospend_shares', 'sh')
 		   ->where(
 			   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -2753,10 +2753,12 @@ class ProjectService {
 			$dbToken = $row['userid'];
 			$dbId = $row['id'];
 			$dbAccessLevel = intval($row['accesslevel']);
+			$dbLabel = $row['label'];
 			$shares[] = [
 				'token' => $dbToken,
 				'id' => $dbId,
 				'accesslevel' => $dbAccessLevel,
+				'label' => $dbLabel,
 				'type' => Application::SHARE_TYPE_PUBLIC_LINK,
 			];
 		}
@@ -3959,6 +3961,53 @@ class ProjectService {
 			// set the accesslevel
 			$qb->update('cospend_shares')
 				->set('accesslevel', $qb->createNamedParameter($accesslevel, IQueryBuilder::PARAM_INT))
+				->where(
+					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+				)
+				->andWhere(
+					$qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
+				);
+			$qb->executeStatement();
+			$qb->resetQueryParts();
+
+			return ['success' => true];
+		} else {
+			return ['message' => $this->trans->t('No such share')];
+		}
+	}
+
+	/**
+	 * Change shared access permissions
+	 *
+	 * @param string $projectid
+	 * @param int $shid
+	 * @param string|null $label
+	 * @return array
+	 * @throws \OCP\DB\Exception
+	 */
+	public function editShareAccess(string $projectid, int $shid, ?string $label = null): array {
+		// check if user share exists
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('id', 'projectid')
+			->from('cospend_shares', 's')
+			->where(
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('id', $qb->createNamedParameter($shid, IQueryBuilder::PARAM_INT))
+			);
+		$req = $qb->executeQuery();
+		$dbId = null;
+		while ($row = $req->fetch()){
+			$dbId = $row['id'];
+			break;
+		}
+		$req->closeCursor();
+		$qb = $qb->resetQueryParts();
+
+		if ($dbId !== null) {
+			$qb->update('cospend_shares')
+				->set('label', $qb->createNamedParameter($label, IQueryBuilder::PARAM_STR))
 				->where(
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 				)

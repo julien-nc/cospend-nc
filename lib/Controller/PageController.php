@@ -1787,6 +1787,29 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
+	public function editShareAccess(string $projectid, int $shid, ?string $label = null): DataResponse {
+		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
+		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
+		// allow edition if user is at least participant and has greater or equal access level than target
+		// user can't give higher access level than his/her level (do not downgrade one)
+		if ($userAccessLevel >= Application::ACCESS_PARTICIPANT && $userAccessLevel >= $shareAccessLevel) {
+			$result = $this->projectService->editShareAccess($projectid, $shid, $label);
+			if (isset($result['success'])) {
+				return new DataResponse('OK');
+			} else {
+				return new DataResponse($result, 400);
+			}
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to edit this shared access')],
+				403
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
 	public function editGuestAccessLevel(string $projectid, int $accesslevel): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		if ($userAccessLevel >= Application::ACCESS_ADMIN) {

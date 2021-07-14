@@ -107,6 +107,7 @@ return [
 		['name' => 'page#addPublicShare', 'url' => '/projects/{projectid}/public-share', 'verb' => 'POST'],
 		['name' => 'page#deletePublicShare', 'url' => '/projects/{projectid}/public-share/{shid}', 'verb' => 'DELETE'],
 		['name' => 'page#editShareAccessLevel', 'url' => '/projects/{projectid}/share-access-level/{shid}', 'verb' => 'PUT'],
+		['name' => 'page#editShareAccess', 'url' => '/projects/{projectid}/share-access/{shid}', 'verb' => 'PUT'],
 		['name' => 'page#editGuestAccessLevel', 'url' => '/projects/{projectid}/guest-access-level', 'verb' => 'PUT'],
 		['name' => 'page#getPublicFileShare', 'url' => '/getPublicFileShare', 'verb' => 'POST'],
 		['name' => 'page#importCsvProject', 'url' => '/import-csv-project', 'verb' => 'GET'],

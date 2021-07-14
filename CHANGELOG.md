@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 1.3.9 – 2021-07-14
 ### Added
+- public link labels
 - new member monthly spent stats table/chart
   [#58](https://github.com/eneiluj/cospend-nc/issues/58) @Raspikabek
 - new 'most used' and 'most recently used' category orders

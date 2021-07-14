@@ -3,230 +3,230 @@ body {
 	height: auto;
 }
 #app {
-    width: 100%;
+	width: 100%;
 }
 @media only screen and (min-width:1024px) {
-    #app-details-toggle {
-        display: none !important;
-    }
-    #bill-list {
-        max-width: 400px;
-    }
-    #app-content {
-        transform: none !important;
-    }
+	#app-details-toggle {
+		display: none !important;
+	}
+	#bill-list {
+		max-width: 400px;
+	}
+	#app-content {
+		transform: none !important;
+	}
 }
 #projectid, #password {
-    display: none;
+	display: none;
 }
 #newBillButton {
-    margin-top: 10px !important;
+	margin-top: 10px !important;
 }
 .balancePositive {
-    color: green;
+	color: green;
 }
 .balanceNegative {
-    color: red;
+	color: red;
 }
 .balance {
-    float: right;
-    font-weight: bold;
+	float: right;
+	font-weight: bold;
 	height: 44px;
 	line-height: 36px;
 }
 .memberAvatar img {
-    width: 24px;
-    height: auto;
-    border-radius: 50%;
-    margin: 10px 6px 10px 0px;
-    cursor: pointer;
+	width: 24px;
+	height: auto;
+	border-radius: 50%;
+	margin: 10px 6px 10px 0px;
+	cursor: pointer;
 }
 .memberAvatarDisabled .disabledMask {
-    display: block;
+	display: block;
 }
 .disabledMask {
-    width: 26px;
-    height: 26px;
-    background-image: url('./images/forbidden.svg');
-    position: absolute;
-    top: 9px;
-    left: 38px;
+	width: 26px;
+	height: 26px;
+	background-image: url('./images/forbidden.svg');
+	position: absolute;
+	top: 9px;
+	left: 38px;
 }
 .memberAvatar {
-    width: 26px;
-    height: 44px;
+	width: 26px;
+	height: 44px;
 }
 .billItemDisabledMask.disabled {
-    display: block;
-    width: 105%;
-    height: 105%;
-    background-image: url('./images/forbidden.svg');
-    margin: -1px 0 0 -1px;
-    position: absolute;
+	display: block;
+	width: 105%;
+	height: 105%;
+	background-image: url('./images/forbidden.svg');
+	margin: -1px 0 0 -1px;
+	position: absolute;
 }
 .billItemRepeatMask.show {
-    display: block;
-    width: 16px;
-    height: 16px;
-    background-image: var(--icon-play-next-000);
-    margin: 33px 0 0 -4px;
-    position: absolute;
+	display: block;
+	width: 16px;
+	height: 16px;
+	background-image: var(--icon-play-next-000);
+	margin: 33px 0 0 -4px;
+	position: absolute;
 }
 
 .avatarTable {
-    .owerAvatar {
-        height: 24px;
-        margin: 2px 5px 2px 5px;
-    }
-    .owerAvatarDisabled {
-        margin-left: -21px;
-    }
-    .owerAvatar img {
-        margin-bottom: 2px;
-    }
-    .owerAvatarDisabled .disabledMask {
-        top: -1px;
-    }
+	.owerAvatar {
+		height: 24px;
+		margin: 2px 5px 2px 5px;
+	}
+	.owerAvatarDisabled {
+		margin-left: -21px;
+	}
+	.owerAvatar img {
+		margin-bottom: 2px;
+	}
+	.owerAvatarDisabled .disabledMask {
+		top: -1px;
+	}
 }
 .owerAvatar {
-    display: inline-block;
-    vertical-align: middle;
-    height: 26px;
-    .disabledMask {
-        display: block;
-        position: relative;
-        top: -31px;
-        left: -1px;
-    }
+	display: inline-block;
+	vertical-align: middle;
+	height: 26px;
+	.disabledMask {
+		display: block;
+		position: relative;
+		top: -31px;
+		left: -1px;
+	}
 }
 .owerAvatarDisabled {
-    margin-left: -26px;
+	margin-left: -26px;
 }
 
 input[type=number] {
-    -moz-appearance: number-input !important;
-    -webkit-appearance: initial !important;
+	-moz-appearance: number-input !important;
+	-webkit-appearance: initial !important;
 }
 .coloredTable {
-    // max-width: 500px;
-    display: block;
-    margin: 20px 20px 20px 20px;
-    border-spacing: 2px 2px;
-    scrollbar-width: unset !important;
-    scrollbar-color: var(--color-primary) var(--color-background-hover);
+	// max-width: 500px;
+	display: block;
+	margin: 20px 20px 20px 20px;
+	border-spacing: 2px 2px;
+	scrollbar-width: unset !important;
+	scrollbar-color: var(--color-primary) var(--color-background-hover);
 
-    th {
-        font-weight: bold;
-        text-align: center;
-        border: 1px solid var(--color-border-dark);
-        padding: 0px 5px 0px 5px;
+	th {
+		font-weight: bold;
+		text-align: center;
+		border: 1px solid var(--color-border-dark);
+		padding: 0px 5px 0px 5px;
 
-        span {
-            display: block;
-            max-width: 100px;
-            word-wrap: break-word;
-            white-space: normal;
-        }
-    }
-    td {
-        text-align: right;
-        padding-right: 2px;
-    }
-    td:first-child {
-        text-align: left;
-    }
+		span {
+			display: block;
+			max-width: 100px;
+			word-wrap: break-word;
+			white-space: normal;
+		}
+	}
+	td {
+		text-align: right;
+		padding-right: 2px;
+	}
+	td:first-child {
+		text-align: left;
+	}
 }
 .undoDeleteBill {
-    display: none;
+	display: none;
 }
 #app-settings-content button {
-    padding: 10px;
-    padding-left: 34px;
-    background-position: 10px center;
-    width: 100%;
-    text-align: left;
+	padding: 10px;
+	padding-left: 34px;
+	background-position: 10px center;
+	width: 100%;
+	text-align: left;
 }
 #bill-list > .deleted {
-    background-color: var(--color-background-darker);
+	background-color: var(--color-background-darker);
 }
 #app-navigation-toggle {
 	border-radius: 50%;
-    background-color: var(--color-background-darker);
-    opacity: 1 !important;
+	background-color: var(--color-background-darker);
+	opacity: 1 !important;
 }
 #app-navigation-toggle:hover {
-    background-color: var(--color-background-darker);
+	background-color: var(--color-background-darker);
 }
 #app-details-toggle {
-    position: fixed;
-    display: inline-block;
-    left: 44px;
-    width: 44px;
-    height: 44px;
-    z-index: 1500;
-    background-color: var(--color-background-darker);
-    cursor: pointer;
-    opacity: 0.6;
-    transform: rotate(180deg);
+	position: fixed;
+	display: inline-block;
+	left: 44px;
+	width: 44px;
+	height: 44px;
+	z-index: 1500;
+	background-color: var(--color-background-darker);
+	cursor: pointer;
+	opacity: 0.6;
+	transform: rotate(180deg);
 	border-radius: 50%;
 }
 .selectedproject > a ,
 .selectedproject > div {
-    background: var(--color-background-dark, lightgrey);
+	background: var(--color-background-dark, lightgrey);
 }
 .selectedproject > a {
-    font-weight: bold;
+	font-weight: bold;
 }
 .selectedbill {
-    background-color: var(--color-background-dark) !important;
+	background-color: var(--color-background-dark) !important;
 }
 .app-navigation-entry-share {
 	display: none;
 }
 .app-navigation-entry {
-    padding-right: 0 !important;
+	padding-right: 0 !important;
 }
 .shareinput {
-    width: 100%;
+	width: 100%;
 }
 .icon-colorpicker {
 	background-image: url('../img/color_picker.svg');
 }
 .loading-bill {
-    margin-left: 10px;
-    margin-right: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 .activeButton {
-    background: var(--color-background-darker);
+	background: var(--color-background-darker);
 }
 .memberitem > a {
-    opacity: 1 !important;
+	opacity: 1 !important;
 }
 .autoexportSelect {
-    width: 40%;
+	width: 40%;
 }
 .autoexportLabel {
-    width: 60%;
-    overflow: hidden;
-    text-overflow: ellipsis;
+	width: 60%;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .autoexportProject {
-    display: flex !important;
-    align-items: center !important;
+	display: flex !important;
+	align-items: center !important;
 }
 a.billitem .app-content-list-item-icon {
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 .exportStats span,
 .exportSettlement span {
-    min-height: 16px !important;
-    min-width: 16px !important;
+	min-height: 16px !important;
+	min-width: 16px !important;
 }
 /* this is not applied if done in a vue component */
 .memberColorPicker .trigger {
-    height: 25px !important;
+	height: 25px !important;
 }
 .copyLinkButton,
 .addLinkButton,
@@ -240,13 +240,13 @@ a.billitem .app-content-list-item-icon {
 	}
 }
 .fixed-icon {
-    background-size: 60% 100%;
-    background-repeat: no-repeat;
-    background-position: center;
+	background-size: 60% 100%;
+	background-repeat: no-repeat;
+	background-position: center;
 }
 /* dirty hack to make things right in settings sidebar */
 .multiselect__content-wrapper {
-    z-index: 10000 !important;
+	z-index: 10000 !important;
 }
 
 // fade transition

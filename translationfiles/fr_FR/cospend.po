@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2021-07-13 18:52+0200\n"
-"PO-Revision-Date: 2021-07-13 16:53\n"
+"POT-Creation-Date: 2021-07-14 16:38+0200\n"
+"PO-Revision-Date: 2021-07-14 14:39\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -817,7 +817,7 @@ msgstr "Mode de paiement"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:96
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:98
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:137
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:363
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:364
 msgid "None"
 msgstr "Aucun"
 
@@ -964,7 +964,7 @@ msgstr "Créer les factures"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:72
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:319
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:364
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:365
 #: /var/www/html/dev/server22/apps/cospend/src/utils.js:15
 msgid "You"
 msgstr "Vous"
@@ -1843,78 +1843,82 @@ msgid "Payment mode/Month"
 msgstr "Mode de paiement/mois"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:351
-msgid "Select a member"
-msgstr "Sélectionner un membre"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:352
-msgid "Who paid for whom?"
-msgstr "Qui a payé pour qui ?"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:353
-msgid "paid for"
-msgstr "a payé pour"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:354
-msgid "Total paid"
-msgstr "Total payé"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:355
-msgid "Total owed"
-msgstr "Total dû"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:356
-msgid "Total owed by {name}"
-msgstr "Total dû par {name}"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:357
-msgid "Total paid by {name}"
-msgstr "Total payé par {name}"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:358
-msgid "Who paid (outside circle) and spent (inside pie)?"
-msgstr "Qui a payé (cercle extérieur) et dépensé (camembert intérieur) ?"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:359
-msgid "What was paid per category?"
-msgstr "Qu'est-ce qui a été payé par catégorie?"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:360
-msgid "What was paid per payment mode?"
-msgstr "Qu'est-ce qui a été payé par mode de paiement?"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:361
 msgid "Who paid for this category?"
 msgstr "Qui a payé pour cette catégorie?"
 
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:362
-msgid "What kind of member is she/he?"
-msgstr "Quel type de membre est-il/elle ?"
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:352
+msgid "Select a category"
+msgstr ""
 
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:365
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:353
+msgid "What did she/he pay for?"
+msgstr ""
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:354
+msgid "Select a member"
+msgstr "Sélectionner un membre"
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:355
+msgid "Who paid for whom?"
+msgstr "Qui a payé pour qui ?"
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:356
+msgid "paid for"
+msgstr "a payé pour"
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:357
+msgid "Total paid"
+msgstr "Total payé"
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:358
+msgid "Total owed"
+msgstr "Total dû"
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:359
+msgid "Total owed by {name}"
+msgstr "Total dû par {name}"
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:360
+msgid "Total paid by {name}"
+msgstr "Total payé par {name}"
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:361
+msgid "Who paid (outside circle) and spent (inside pie)?"
+msgstr "Qui a payé (cercle extérieur) et dépensé (camembert intérieur) ?"
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:362
+msgid "How much was paid per category?"
+msgstr ""
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:363
+msgid "How much was paid per payment mode?"
+msgstr ""
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:366
 msgid "No recent activity"
 msgstr "Pas d'activité récente"
 
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:366
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:367
 msgid "Go to Cospend"
 msgstr "Aller dans Cospend"
 
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:367
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:368
 msgid "{user} shared {project} with {who}"
 msgstr "{user} a partagé {project} avec {who}"
 
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:368
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:369
 msgid "{user} unshared {project} with {who}"
 msgstr "{user} a arrêté de partager {project} avec {who}"
 
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:369
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:370
 msgid "{user} created {bill}"
 msgstr "{user} a créé {bill}"
 
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:370
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:371
 msgid "{user} deleted {bill}"
 msgstr "{user} a supprimé {bill}"
 
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:371
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:372
 msgid "{user} edited {bill}"
 msgstr "{user} a modifié {bill}"
 

@@ -24,6 +24,7 @@ import SmartTable from 'vuejs-smart-table'
 import { hexToDarkerHex } from './utils'
 import * as network from './network'
 import cospend from './state'
+import '../css/cospend.scss'
 
 Vue.use(vueAwesomeCountdown, 'vac')
 Vue.use(VueClipboard)

@@ -771,7 +771,7 @@ export default {
 								? -1
 								: 0
 				})
-				: this.project.categorysort === constants.SORT_ORDER.MOST_RECENTLY_USED
+				: this.project.categorysort === constants.SORT_ORDER.ALPHA
 					? allCategories.sort((a, b) => {
 						return strcmp(a.name, b.name)
 					})

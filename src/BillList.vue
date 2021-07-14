@@ -29,7 +29,7 @@
 						{{ t('cospend', 'None') }}
 					</option>
 					<option
-						v-for="category in categories"
+						v-for="category in sortedCategories"
 						:key="category.id"
 						:value="category.id">
 						{{ category.icon + ' ' + category.name }}
@@ -114,6 +114,8 @@ import InfiniteLoading from 'vue-infinite-loading'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import cospend from './state'
 import * as network from './network'
+import * as constants from './constants'
+import { strcmp } from './utils'
 
 export default {
 	name: 'BillList',
@@ -164,6 +166,9 @@ export default {
 	},
 
 	computed: {
+		project() {
+			return cospend.projects[this.projectId]
+		},
 		nbBills() {
 			return this.totalBillNumber
 		},
@@ -185,6 +190,28 @@ export default {
 		},
 		categories() {
 			return cospend.projects[this.projectId].categories
+		},
+		sortedCategories() {
+			const allCategories = Object.values(cospend.projects[this.projectId].categories)
+			return [
+				constants.SORT_ORDER.MANUAL,
+				constants.SORT_ORDER.MOST_USED,
+				constants.SORT_ORDER.MOST_RECENTLY_USED,
+			].includes(this.project.categorysort)
+				? allCategories.sort((a, b) => {
+					return a.order === b.order
+						? strcmp(a.name, b.name)
+						: a.order > b.order
+							? 1
+							: a.order < b.order
+								? -1
+								: 0
+				})
+				: this.project.categorysort === constants.SORT_ORDER.ALPHA
+					? allCategories.sort((a, b) => {
+						return strcmp(a.name, b.name)
+					})
+					: allCategories
 		},
 		paymentModes() {
 			return cospend.paymentModes

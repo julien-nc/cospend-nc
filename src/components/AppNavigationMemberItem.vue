@@ -1,9 +1,8 @@
 <template>
 	<AppNavigationItem v-show="memberVisible"
 		class="memberItem"
-		:menu-icon="maintenerAccess ? 'icon-more' : ''"
 		:title="nameTitle"
-		:force-menu="true">
+		:force-menu="false">
 		<div v-if="maintenerAccess"
 			slot="icon"
 			class="memberItemAvatar">
@@ -219,13 +218,12 @@ export default {
 			return getSmartMemberName(this.projectId, this.member.id)
 		},
 		balanceClass() {
-			let balanceClass = ''
-			if (this.member.balance >= 0.01) {
-				balanceClass = ' balancePositive'
-			} else if (this.member.balance <= -0.01) {
-				balanceClass = ' balanceNegative'
+			return {
+				balance: true,
+				balancePositive: this.member.balance >= 0.01,
+				balanceNegative: this.member.balance <= -0.01,
+				alone: !this.maintenerAccess,
 			}
-			return 'balance ' + balanceClass
 		},
 		memberVisible() {
 			const balance = this.member.balance
@@ -379,6 +377,10 @@ export default {
 	-webkit-mask-position: center;
 	min-width: 44px !important;
 	min-height: 44px !important;
+}
+
+.balance.alone {
+	padding-right: 10px;
 }
 
 /* first action-input child has margin...

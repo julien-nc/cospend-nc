@@ -37,7 +37,7 @@
 			id="shareWithList"
 			ref="shareWithList"
 			class="shareWithList">
-			<li v-if="editionAccess"
+			<li v-if="editionAccess && linkShares.length === 0"
 				class="add-public-link-line"
 				@click="addLink">
 				<div :class="'avatardiv icon icon-public-white' + (addingPublicLink ? ' loading' : '')" />
@@ -51,7 +51,7 @@
 			<li v-for="access in linkShares" :key="access.id">
 				<div class="avatardiv icon icon-public-white" />
 				<span class="username">
-					<span>{{ t('cospend', 'Public link') }}</span>
+					<span>{{ t('cospend', 'Public link') + (access.label ? ' (' + access.label + ')' : '') }}</span>
 				</span>
 
 				<ActionButton
@@ -70,7 +70,9 @@
 						icon="icon-edit"
 						:value="access.label"
 						:disabled="!editionAccess || myAccessLevel < access.accesslevel"
-						@change="submitLabel(access, $event)" />
+						@change="submitLabel(access, $event)">
+						{{ t('cospend', 'Label') }}
+					</ActionInput>
 					<ActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(1, access)"
 						:checked="access.accesslevel === 1"
@@ -99,6 +101,12 @@
 						icon="icon-delete"
 						@click="clickDeleteAccess(access)">
 						{{ t('cospend', 'Delete link') }}
+					</ActionButton>
+					<ActionButton v-if="editionAccess"
+						icon="icon-add"
+						:close-after-click="true"
+						@click="addLink">
+						{{ t('cospend', 'Add another link') }}
 					</ActionButton>
 				</Actions>
 			</li>

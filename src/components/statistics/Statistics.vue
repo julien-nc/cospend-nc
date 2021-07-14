@@ -235,19 +235,24 @@
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
-		<select v-if="stats"
-			id="categoryMemberSelect"
-			ref="categoryMemberSelect"
-			v-model="selectedCategoryId">
-			<option disabled value="-1">
-				{{ t('cospend', 'Select a category') }}
-			</option>
-			<option v-for="catid in sortedCategoryStatsIds"
-				:key="catid"
-				:value="catid">
-				{{ getCategoryNameIcon(catid) }}
-			</option>
-		</select>
+		<div id="categoryMemberTitle">
+			<label for="categoryMemberSelect">
+				{{ t('cospend', 'Who paid for this category?') }}
+			</label>
+			<select v-if="stats"
+				id="categoryMemberSelect"
+				ref="categoryMemberSelect"
+				v-model="selectedCategoryId">
+				<option disabled value="-1">
+					{{ t('cospend', 'Select a category') }}
+				</option>
+				<option v-for="catid in sortedCategoryStatsIds"
+					:key="catid"
+					:value="catid">
+					{{ getCategoryNameIcon(catid) }}
+				</option>
+			</select>
+		</div>
 		<div id="categoryMemberChart">
 			<PieChartJs v-if="stats && (selectedCategoryId !== -1)"
 				:chart-data="categoryMemberPieData"
@@ -255,23 +260,28 @@
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
-		<select v-if="stats"
-			id="memberPolarSelect"
-			ref="memberPolarSelect"
-			v-model="selectedMemberId">
-			<option disabled value="-1">
-				{{ t('cospend', 'Select a member') }}
-			</option>
-			<option v-for="mid in stats.memberIds"
-				:key="mid"
-				:value="mid">
-				{{ myGetSmartMemberName(mid) }}
-			</option>
-		</select>
-		<div id="memberPolarChart">
-			<PolarChartJs v-if="stats && (selectedMemberId !== -1)"
-				:chart-data="memberPolarPieData"
-				:options="memberPolarPieOptions" />
+		<div id="memberPerCategoryTitle">
+			<label for="memberPerCategorySelect">
+				{{ t('cospend', 'What did she/he pay for?') }}
+			</label>
+			<select v-if="stats"
+				id="memberPerCategorySelect"
+				ref="memberPerCategorySelect"
+				v-model="selectedMemberId">
+				<option disabled value="-1">
+					{{ t('cospend', 'Select a member') }}
+				</option>
+				<option v-for="mid in stats.memberIds"
+					:key="mid"
+					:value="mid">
+					{{ myGetSmartMemberName(mid) }}
+				</option>
+			</select>
+		</div>
+		<div id="memberPerCategoryChart">
+			<PieChartJs v-if="stats && (selectedMemberId !== -1)"
+				:chart-data="memberPerCategoryPieData"
+				:options="memberPerCategoryPieOptions" />
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
@@ -364,14 +374,13 @@ import * as network from '../../network'
 import MemberMonthly from './MemberMonthly'
 import Monthly from './Monthly'
 import PieChartJs from '../PieChartJs'
-import PolarChartJs from '../PolarChartJs'
 import * as constants from '../../constants'
 
 export default {
 	name: 'Statistics',
 
 	components: {
-		ColoredAvatar, PieChartJs, PolarChartJs, AppContentDetails, MemberMonthly, Monthly,
+		ColoredAvatar, PieChartJs, AppContentDetails, MemberMonthly, Monthly,
 	},
 
 	props: {
@@ -682,7 +691,7 @@ export default {
 				...this.memberPieOptions,
 				title: {
 					display: true,
-					text: t('cospend', 'What was paid per category?'),
+					text: t('cospend', 'How much was paid per category?'),
 				},
 			}
 		},
@@ -710,7 +719,7 @@ export default {
 				...this.memberPieOptions,
 				title: {
 					display: true,
-					text: t('cospend', 'What was paid per payment mode?'),
+					text: t('cospend', 'How much was paid per payment mode?'),
 				},
 			}
 		},
@@ -740,12 +749,11 @@ export default {
 			return {
 				...this.memberPieOptions,
 				title: {
-					display: true,
-					text: t('cospend', 'Who paid for this category?'),
+					display: false,
 				},
 			}
 		},
-		memberPolarPieData() {
+		memberPerCategoryPieData() {
 			const memberData = {
 				datasets: [{
 					data: [],
@@ -764,16 +772,11 @@ export default {
 			return memberData
 		},
 		// keeping this computed in case vue-chartjs make options reactive...
-		memberPolarPieOptions() {
+		memberPerCategoryPieOptions() {
 			return {
+				...this.memberPieOptions,
 				title: {
-					display: true,
-					text: t('cospend', 'What kind of member is she/he?'),
-				},
-				responsive: true,
-				showAllTooltips: false,
-				legend: {
-					position: 'left',
+					display: false,
 				},
 			}
 		},
@@ -939,7 +942,7 @@ export default {
 	line-height: 40px;
 }
 
-#memberPolarChart,
+#memberPerCategoryChart,
 #categoryMemberChart,
 #memberChart,
 #paymentModeChart,
@@ -948,9 +951,9 @@ export default {
 	margin: 0 auto 0 auto;
 }
 
-#categoryMemberSelect,
-#memberPolarSelect {
-	display: block;
+#categoryMemberTitle,
+#memberPerCategoryTitle {
+	display: table;
 	margin-left: auto;
 	margin-right: auto;
 }

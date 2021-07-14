@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2021-07-13 18:52+0200\n"
-"PO-Revision-Date: 2021-07-13 16:53\n"
+"POT-Creation-Date: 2021-07-14 16:38+0200\n"
+"PO-Revision-Date: 2021-07-14 14:39\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -819,7 +819,7 @@ msgstr "Režim platby"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:96
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:98
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:137
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:363
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:364
 msgid "None"
 msgstr "Žádné"
 
@@ -966,7 +966,7 @@ msgstr "Vytvořit účty"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:72
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:319
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:364
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:365
 #: /var/www/html/dev/server22/apps/cospend/src/utils.js:15
 msgid "You"
 msgstr "Vy"
@@ -1847,78 +1847,82 @@ msgid "Payment mode/Month"
 msgstr "Režim platby/měsíc"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:351
-msgid "Select a member"
-msgstr "Vybrat člena"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:352
-msgid "Who paid for whom?"
-msgstr "Kdo za koho zaplatil?"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:353
-msgid "paid for"
-msgstr "zaplaceno za"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:354
-msgid "Total paid"
-msgstr "Celkem zaplaceno"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:355
-msgid "Total owed"
-msgstr "Celkem dluženo"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:356
-msgid "Total owed by {name}"
-msgstr "{name} celkem dluží"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:357
-msgid "Total paid by {name}"
-msgstr "{name} celkem zaplatil(a)"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:358
-msgid "Who paid (outside circle) and spent (inside pie)?"
-msgstr "Kdo platil (vnější kruh) a utrácel (vnitřní koláčový graf)?"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:359
-msgid "What was paid per category?"
-msgstr "Co bylo placeno v jednotlivých kategoriích?"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:360
-msgid "What was paid per payment mode?"
-msgstr "Komu bylo placeno v jednotlivých režimech plateb?"
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:361
 msgid "Who paid for this category?"
 msgstr "Kdo v této kategorii platil?"
 
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:362
-msgid "What kind of member is she/he?"
-msgstr "O jaký druh člena se jedná?"
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:352
+msgid "Select a category"
+msgstr ""
 
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:365
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:353
+msgid "What did she/he pay for?"
+msgstr ""
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:354
+msgid "Select a member"
+msgstr "Vybrat člena"
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:355
+msgid "Who paid for whom?"
+msgstr "Kdo za koho zaplatil?"
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:356
+msgid "paid for"
+msgstr "zaplaceno za"
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:357
+msgid "Total paid"
+msgstr "Celkem zaplaceno"
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:358
+msgid "Total owed"
+msgstr "Celkem dluženo"
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:359
+msgid "Total owed by {name}"
+msgstr "{name} celkem dluží"
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:360
+msgid "Total paid by {name}"
+msgstr "{name} celkem zaplatil(a)"
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:361
+msgid "Who paid (outside circle) and spent (inside pie)?"
+msgstr "Kdo platil (vnější kruh) a utrácel (vnitřní koláčový graf)?"
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:362
+msgid "How much was paid per category?"
+msgstr ""
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:363
+msgid "How much was paid per payment mode?"
+msgstr ""
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:366
 msgid "No recent activity"
 msgstr "Žádná nedávná aktivita"
 
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:366
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:367
 msgid "Go to Cospend"
 msgstr "Přejít do Cospend"
 
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:367
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:368
 msgid "{user} shared {project} with {who}"
 msgstr "{user} nasdíle(a) {project} uživateli {who}"
 
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:368
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:369
 msgid "{user} unshared {project} with {who}"
 msgstr "{user} zrušil(a) sdílení {project} uživateli {who}"
 
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:369
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:370
 msgid "{user} created {bill}"
 msgstr "{user} vytvořil(a) {bill}"
 
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:370
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:371
 msgid "{user} deleted {bill}"
 msgstr "{user} odstranil(a) {bill}"
 
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:371
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:372
 msgid "{user} edited {bill}"
 msgstr "{user} upravil(a) {bill}"
 

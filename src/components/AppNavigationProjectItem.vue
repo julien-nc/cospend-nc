@@ -23,14 +23,18 @@
 		:force-menu="false"
 		@click="onProjectClick">
 		<template slot="counter">
-			<ActionButton v-if="!pageIsPublic"
-				icon="icon-shared"
-				class="detailButton"
-				@click="onShareClick" />
-			<ActionButton
-				icon="icon-settings-dark"
-				class="detailButton"
-				@click="onDetailClick" />
+			<Actions>
+				<ActionButton v-if="!pageIsPublic"
+					icon="icon-shared"
+					class="detailButton"
+					@click="onShareClick" />
+			</Actions>
+			<Actions>
+				<ActionButton
+					icon="icon-settings-dark"
+					class="detailButton"
+					@click="onDetailClick" />
+			</Actions>
 		</template>
 		<template slot="actions">
 			<ActionButton v-if="maintenerAccess"
@@ -186,5 +190,16 @@ export default {
 	-webkit-mask-position: center;
 	min-width: 44px !important;
 	min-height: 44px !important;
+}
+
+::v-deep .detailButton {
+	border-radius: 50%;
+	&:hover {
+		background-color: var(--color-background-darker);
+	}
+	button {
+		padding-right: 0 !important;
+		border-radius: 50%;
+	}
 }
 </style>

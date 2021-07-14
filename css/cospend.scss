@@ -228,15 +228,6 @@ a.billitem .app-content-list-item-icon {
 .memberColorPicker .trigger {
 	height: 25px !important;
 }
-.detailButton {
-	&:hover {
-		background-color: var(--color-background-darker);
-		border-radius: 50%;
-	}
-	button {
-		padding-right: 0 !important;
-	}
-}
 .fixed-icon {
 	background-size: 60% 100%;
 	background-repeat: no-repeat;

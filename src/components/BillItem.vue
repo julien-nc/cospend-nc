@@ -237,9 +237,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.billitem {
+	padding: 8px 7px;
+}
+
 .countdown {
 	position: relative;
-	left: -30px;
+	left: -40px;
 	top: -12px;
 }
 
@@ -268,5 +272,12 @@ export default {
 .itemAvatar {
 	position: absolute !important;
 	left: 0;
+}
+
+.deleteBillIcon {
+	border-radius: 50%;
+	&:hover {
+		background-color: var(--color-main-background);
+	}
 }
 </style>

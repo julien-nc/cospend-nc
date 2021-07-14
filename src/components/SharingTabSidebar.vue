@@ -44,9 +44,11 @@
 				<span class="username">
 					{{ t('cospend', 'Add public link') }}
 				</span>
-				<ActionButton class="addLinkButton"
-					icon="icon-add"
-					:aria-label="t('cospend', 'Add link')" />
+				<Actions>
+					<ActionButton
+						icon="icon-add"
+						:aria-label="t('cospend', 'Add link')" />
+				</Actions>
 			</li>
 			<li v-for="access in linkShares" :key="access.id">
 				<div class="avatardiv icon icon-public-white" />
@@ -54,12 +56,15 @@
 					<span>{{ t('cospend', 'Public link') + (access.label ? ' (' + access.label + ')' : '') }}</span>
 				</span>
 
-				<ActionButton
-					v-tooltip.bottom="{ content: t('cospend', 'Copied!'), show: linkCopied[access.id], trigger: 'manual' }"
-					class="copyLinkButton"
-					:icon="(linkCopied[access.id]) ? 'icon-checkmark-color' : 'icon-clippy'"
-					:aria-label="t('cospend', 'Copy link')"
-					@click="copyLink(access)" />
+				<Actions>
+					<ActionLink
+						:href="generatePublicLink(access)"
+						target="_blank"
+						:icon="linkCopied[access.id] ? 'icon-checkmark-color' : 'icon-clippy'"
+						@click.stop.prevent="copyLink(access)">
+						{{ linkCopied[access.id] ? t('cospend', 'Link copied') : t('cospend', 'Copy to clipboard') }}
+					</ActionLink>
+				</Actions>
 
 				<Actions
 					:force-menu="true"
@@ -181,12 +186,15 @@
 					<span>{{ t('cospend', 'Password protected access') }}</span>
 				</span>
 
-				<ActionButton
-					v-tooltip.bottom="{ content: t('cospend', 'Copied!'), show: guestLinkCopied, trigger: 'manual' }"
-					class="copyLinkButton"
-					:icon="guestLinkCopied ? 'icon-checkmark-color' : 'icon-clippy'"
-					:aria-label="t('cospend', 'Copy link')"
-					@click="copyPasswordLink" />
+				<Actions>
+					<ActionLink
+						:href="guestLink"
+						target="_blank"
+						:icon="guestLinkCopied ? 'icon-checkmark-color' : 'icon-clippy'"
+						@click.stop.prevent="copyPasswordLink">
+						{{ guestLinkCopied ? t('cospend', 'Link copied') : t('cospend', 'Copy to clipboard') }}
+					</ActionLink>
+				</Actions>
 
 				<Actions
 					:force-menu="true"
@@ -246,6 +254,7 @@ import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
 import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
+import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
@@ -270,6 +279,7 @@ export default {
 		ActionButton,
 		ActionRadio,
 		ActionInput,
+		ActionLink,
 		Multiselect,
 	},
 
@@ -366,6 +376,9 @@ export default {
 				return false
 			})
 		},
+		guestLink() {
+			return window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/loginproject/' + this.projectId)
+		},
 	},
 
 	mounted() {
@@ -428,6 +441,7 @@ export default {
 				newShAccess.id = response.data.id
 				if (sh.type === constants.SHARE_TYPE.PUBLIC_LINK) {
 					newShAccess.token = response.data.token
+					this.copyLink(newShAccess)
 				} else {
 					newShAccess.name = response.data.name
 					if (sh.type === constants.SHARE_TYPE.USER) {
@@ -488,8 +502,11 @@ export default {
 				console.error(error)
 			})
 		},
+		generatePublicLink(access) {
+			return window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/s/' + access.token)
+		},
 		async copyLink(access) {
-			const publicLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/s/' + access.token)
+			const publicLink = this.generatePublicLink(access)
 			try {
 				await this.$copyText(publicLink)
 				this.$set(this.linkCopied, access.id, true)
@@ -514,7 +531,7 @@ export default {
 			}
 		},
 		async copyPasswordLink() {
-			const guestLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/loginproject/' + this.projectId)
+			const guestLink = this.guestLink
 			try {
 				await this.$copyText(guestLink)
 				this.guestLinkCopied = true

@@ -200,7 +200,6 @@ OC.L10N.register(
     "Show disabled members" : "Показать неактивных участников",
     "Global stats" : "Общая статистика",
     "Who paid (outside circle) and spent (inside pie)?" : "Кто платил (внешний круг) и траты (внутренняя диаграмма)?",
-    "What was paid per category?" : "Что было оплачено по категориям?",
     "Credit card" : "Кредитная карта",
     "Cash" : "Наличные",
     "Check" : "Чек",

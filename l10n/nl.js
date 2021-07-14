@@ -132,7 +132,6 @@ OC.L10N.register(
     "Show disabled members" : "Uitgeschakelde deelnemers weergeven",
     "Global stats" : "Globale statistieken",
     "Who paid (outside circle) and spent (inside pie)?" : "Wie heeft betaald (buitencirkel) en uitgegeven (binnencirkel)?",
-    "What was paid per category?" : "Wat werd per categorie betaald?",
     "Credit card" : "Kredietkaart",
     "Cash" : "Contant",
     "Check" : "Cheque",

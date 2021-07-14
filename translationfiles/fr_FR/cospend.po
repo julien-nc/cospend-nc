@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-07-14 16:38+0200\n"
-"PO-Revision-Date: 2021-07-14 14:39\n"
+"PO-Revision-Date: 2021-07-14 14:44\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -1848,11 +1848,11 @@ msgstr "Qui a payé pour cette catégorie?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:352
 msgid "Select a category"
-msgstr ""
+msgstr "Sélectionnez une catégorie"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:353
 msgid "What did she/he pay for?"
-msgstr ""
+msgstr "Pour quoi a-t-il/elle payé?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:354
 msgid "Select a member"
@@ -1888,11 +1888,11 @@ msgstr "Qui a payé (cercle extérieur) et dépensé (camembert intérieur) ?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:362
 msgid "How much was paid per category?"
-msgstr ""
+msgstr "Combien a été payé par catégorie ?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:363
 msgid "How much was paid per payment mode?"
-msgstr ""
+msgstr "Combien a été payé par mode de paiement ?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:366
 msgid "No recent activity"

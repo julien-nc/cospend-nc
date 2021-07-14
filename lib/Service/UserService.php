@@ -16,6 +16,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IGroupManager;
 use OCP\IDBConnection;
 
+use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\ProjectMapper;
 
 class UserService {
@@ -52,7 +53,7 @@ class UserService {
 		$qb->select('userid')
 			->from('cospend_shares', 's')
 			->where(
-				$qb->expr()->eq('type', $qb->createNamedParameter('u', IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -70,7 +71,7 @@ class UserService {
 		$qb->select('userid')
 			->from('cospend_shares', 's')
 			->where(
-				$qb->expr()->eq('type', $qb->createNamedParameter('g', IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))

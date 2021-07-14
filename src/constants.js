@@ -13,6 +13,13 @@ export const MEMBER_WEIGHT_EDITION = 2
 export const PROJECT_NAME_EDITION = 1
 export const PROJECT_PASSWORD_EDITION = 2
 
+export const SHARE_TYPE = {
+	PUBLIC_LINK: 'l',
+	USER: 'u',
+	GROUP: 'g',
+	CIRCLE: 'c',
+}
+
 export const FREQUENCY = {
 	NO: 'n',
 	DAILY: 'd',

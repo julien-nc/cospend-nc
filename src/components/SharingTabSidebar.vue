@@ -13,11 +13,11 @@
 			@search-change="asyncFind"
 			@input="clickShareeItem">
 			<template #option="{option}">
-				<Avatar v-if="option.type === 'u'"
+				<Avatar v-if="option.type === constants.SHARE_TYPE.USER"
 					class="avatar-option"
 					:user="option.user"
 					:show-user-status="false" />
-				<Avatar v-else-if="['g', 'c'].includes(option.type)"
+				<Avatar v-else-if="[constants.SHARE_TYPE.GROUP, constants.SHARE_TYPE.CIRCLE].includes(option.type)"
 					class="avatar-option"
 					:display-name="option.name"
 					:is-no-user="true"
@@ -25,9 +25,9 @@
 				<span class="multiselect-name">
 					{{ option.displayName }}
 				</span>
-				<span v-if="option.icon && option.type !== 'c'"
+				<span v-if="option.icon && option.type !== constants.SHARE_TYPE.CIRCLE"
 					:class="{ icon: true, [option.icon]: true, 'multiselect-icon': true }" />
-				<span v-else-if="option.icon && option.type === 'c'"
+				<span v-else-if="option.icon && option.type === constants.SHARE_TYPE.CIRCLE"
 					:class="{ icon: true, [option.icon]: true, 'multiselect-icon': true }"
 					:style="'background-image: url(' + circleMultiselectIconUrl + ')'" />
 			</template>
@@ -106,14 +106,14 @@
 			</li>
 			<li v-for="access in ugcShares" :key="access.id">
 				<Avatar
-					v-if="access.type==='u'"
+					v-if="access.type === constants.SHARE_TYPE.USER"
 					:user="access.userid"
 					:disable-menu="true"
 					:disable-tooltip="true" />
-				<div v-if="access.type==='g'"
+				<div v-if="access.type === constants.SHARE_TYPE.GROUP"
 					class="avatardiv icon icon-group"
 					:style="'background-image: url(' + groupIconUrl + ')'" />
-				<div v-if="access.type==='c'"
+				<div v-if="access.type === constants.SHARE_TYPE.CIRCLE"
 					class="avatardiv icon fixed-icon"
 					:style="'background-image: url(' + circleIconUrl + ')'" />
 				<span class="username">
@@ -265,6 +265,7 @@ export default {
 
 	data() {
 		return {
+			constants,
 			selectedSharee: null,
 			sharees: [],
 			guestLinkCopied: false,
@@ -291,10 +292,10 @@ export default {
 			return this.project.shares
 		},
 		linkShares() {
-			return this.shares.filter((sh) => { return sh.type === 'l' })
+			return this.shares.filter((sh) => { return sh.type === constants.SHARE_TYPE.PUBLIC_LINK })
 		},
 		ugcShares() {
-			return this.shares.filter((sh) => { return sh.type !== 'l' })
+			return this.shares.filter((sh) => { return sh.type !== constants.SHARE_TYPE.PUBLIC_LINK })
 		},
 		projectId() {
 			return this.project.id
@@ -314,11 +315,11 @@ export default {
 					value: item.value,
 					multiselectKey: item.type + ':' + item.id,
 				}
-				if (item.type === 'g') {
+				if (item.type === constants.SHARE_TYPE.GROUP) {
 					sharee.icon = 'icon-group'
 					sharee.isNoUser = true
 				}
-				if (item.type === 'c') {
+				if (item.type === constants.SHARE_TYPE.CIRCLE) {
 					sharee.icon = 'icon-circle'
 					sharee.isNoUser = true
 				}
@@ -329,17 +330,17 @@ export default {
 		unallocatedSharees() {
 			return this.sharees.filter((sharee) => {
 				let foundIndex
-				if (sharee.type === 'u') {
+				if (sharee.type === constants.SHARE_TYPE.USER) {
 					foundIndex = this.shares.findIndex((access) => {
-						return access.userid === sharee.id && access.type === 'u'
+						return access.userid === sharee.id && access.type === constants.SHARE_TYPE.USER
 					})
-				} else if (sharee.type === 'g') {
+				} else if (sharee.type === constants.SHARE_TYPE.GROUP) {
 					foundIndex = this.shares.findIndex((access) => {
-						return access.groupid === sharee.id && access.type === 'g'
+						return access.groupid === sharee.id && access.type === constants.SHARE_TYPE.GROUP
 					})
-				} else if (sharee.type === 'c') {
+				} else if (sharee.type === constants.SHARE_TYPE.CIRCLE) {
 					foundIndex = this.shares.findIndex((access) => {
-						return access.circleid === sharee.id && access.type === 'c'
+						return access.circleid === sharee.id && access.type === constants.SHARE_TYPE.CIRCLE
 					})
 				}
 				if (foundIndex === -1) {
@@ -358,7 +359,7 @@ export default {
 			// i must be able to edit, have at least perms of the access, have at least same perms as what i want to set
 			// and i can't edit myself
 			return this.editionAccess && this.myAccessLevel >= access.accesslevel && this.myAccessLevel >= level
-				&& (access.type !== 'u' || !this.isCurrentUser(access.userid))
+				&& (access.type !== constants.SHARE_TYPE.USER || !this.isCurrentUser(access.userid))
 		},
 		asyncFind(query) {
 			this.query = query
@@ -386,10 +387,10 @@ export default {
 						value: displayName,
 						label: displayName,
 						type: s.source === 'users'
-							? 'u'
+							? constants.SHARE_TYPE.USER
 							: s.source === 'groups'
-								? 'g'
-								: 'c',
+								? constants.SHARE_TYPE.GROUP
+								: constants.SHARE_TYPE.CIRCLE,
 					}
 				})
 			}).catch((error) => {
@@ -408,15 +409,15 @@ export default {
 					manually_added: sh.manually_added,
 				}
 				newShAccess.id = response.data.id
-				if (sh.type === 'l') {
+				if (sh.type === constants.SHARE_TYPE.PUBLIC_LINK) {
 					newShAccess.token = response.data.token
 				} else {
 					newShAccess.name = response.data.name
-					if (sh.type === 'u') {
+					if (sh.type === constants.SHARE_TYPE.USER) {
 						newShAccess.userid = sh.user
-					} else if (sh.type === 'g') {
+					} else if (sh.type === constants.SHARE_TYPE.GROUP) {
 						newShAccess.groupid = sh.user
-					} else if (sh.type === 'c') {
+					} else if (sh.type === constants.SHARE_TYPE.CIRCLE) {
 						newShAccess.circleid = sh.user
 					}
 				}
@@ -469,7 +470,7 @@ export default {
 			}
 		},
 		addLink() {
-			this.addSharedAccess({ type: 'l' })
+			this.addSharedAccess({ type: constants.SHARE_TYPE.PUBLIC_LINK })
 		},
 		setPassword() {
 			const password = this.$refs.newPasswordInput.value

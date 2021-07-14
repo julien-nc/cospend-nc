@@ -190,7 +190,7 @@ export default {
 		},
 		access() {
 			for (let i = 0; i < this.project.shares.length; i++) {
-				if (this.project.shares[i].type === 'u' && this.project.shares[i].userid === this.member.userid) {
+				if (this.project.shares[i].type === constants.SHARE_TYPE.USER && this.project.shares[i].userid === this.member.userid) {
 					return this.project.shares[i]
 				}
 			}
@@ -299,7 +299,7 @@ export default {
 				// add a shared access
 				const sh = {
 					user: this.member.userid,
-					type: 'u',
+					type: constants.SHARE_TYPE.USER,
 					accesslevel: level,
 					manually_added: true,
 				}

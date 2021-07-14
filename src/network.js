@@ -560,16 +560,16 @@ export function addSharedAccess(projectid, sh) {
 		manually_added: sh.manually_added,
 	}
 	let url
-	if (sh.type === 'u') {
+	if (sh.type === constants.SHARE_TYPE.USER) {
 		req.userid = sh.user
 		url = generateUrl('/apps/cospend/projects/' + projectid + '/user-share')
-	} else if (sh.type === 'g') {
+	} else if (sh.type === constants.SHARE_TYPE.GROUP) {
 		req.groupid = sh.user
 		url = generateUrl('/apps/cospend/projects/' + projectid + '/group-share')
-	} else if (sh.type === 'c') {
+	} else if (sh.type === constants.SHARE_TYPE.CIRCLE) {
 		req.circleid = sh.user
 		url = generateUrl('/apps/cospend/projects/' + projectid + '/circle-share')
-	} else if (sh.type === 'l') {
+	} else if (sh.type === constants.SHARE_TYPE.PUBLIC_LINK) {
 		url = generateUrl('/apps/cospend/projects/' + projectid + '/public-share')
 	}
 	return axios.post(url, req)
@@ -586,13 +586,13 @@ export function setAccessLevel(projectid, access, level) {
 export function deleteAccess(projectid, access) {
 	const shid = access.id
 	let url
-	if (access.type === 'u') {
+	if (access.type === constants.SHARE_TYPE.USER) {
 		url = generateUrl('/apps/cospend/projects/' + projectid + '/user-share/' + shid)
-	} else if (access.type === 'g') {
+	} else if (access.type === constants.SHARE_TYPE.GROUP) {
 		url = generateUrl('/apps/cospend/projects/' + projectid + '/group-share/' + shid)
-	} else if (access.type === 'c') {
+	} else if (access.type === constants.SHARE_TYPE.CIRCLE) {
 		url = generateUrl('/apps/cospend/projects/' + projectid + '/circle-share/' + shid)
-	} else if (access.type === 'l') {
+	} else if (access.type === constants.SHARE_TYPE.PUBLIC_LINK) {
 		url = generateUrl('/apps/cospend/projects/' + projectid + '/public-share/' + shid)
 	}
 	return axios.delete(url)

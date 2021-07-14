@@ -62,6 +62,11 @@ class Application extends App implements IBootstrap {
 	public const ACCESS_MAINTENER = 3;
 	public const ACCESS_ADMIN = 4;
 
+	public const SHARE_TYPE_PUBLIC_LINK = 'l';
+	public const SHARE_TYPE_USER = 'u';
+	public const SHARE_TYPE_GROUP = 'g';
+	public const SHARE_TYPE_CIRCLE = 'c';
+
 	/**
 	 * Constructor
 	 *

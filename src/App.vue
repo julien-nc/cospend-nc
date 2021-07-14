@@ -629,12 +629,12 @@ export default {
 		},
 		addParticipantAccess(projectid, memberid, userid) {
 			const foundIndex = this.projects[projectid].shares.findIndex((access) => {
-				return access.userid === userid && access.type === 'u'
+				return access.userid === userid && access.type === constants.SHARE_TYPE.USER
 			})
 			if (userid !== this.projects[projectid].userid && foundIndex === -1) {
 				const sh = {
 					user: userid,
-					type: 'u',
+					type: constants.SHARE_TYPE.USER,
 					accesslevel: 2,
 					manually_added: false,
 				}

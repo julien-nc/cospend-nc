@@ -9,11 +9,15 @@
 				class="addBillItem"
 				icon="icon-add"
 				:title="t('cospend', 'New bill')"
-				@click="onAddBillClicked" />
-			<button v-if="editionAccess && bills.length > 0"
-				v-tooltip.left="{ content: multiToggleText }"
-				:class="{ icon: true, 'icon-toggle-filelist': !selectMode, 'icon-close': selectMode, 'top-right-icon': true }"
-				@click="toggleSelectMode" />
+				@click="onAddBillClicked">
+				<template slot="actions">
+					<ActionButton v-show="editionAccess && bills.length > 0"
+						:icon="selectMode ? 'icon-close' : 'icon-toggle-filelist'"
+						@click="toggleSelectMode">
+						{{ multiToggleText }}
+					</ActionButton>
+				</template>
+			</AppNavigationItem>
 		</div>
 		<transition name="fade">
 			<div v-if="selectMode"
@@ -59,10 +63,14 @@
 						{{ pm.icon + ' ' + pm.name }}
 					</option>
 				</select>
-				<button v-if="selectedBillIds.length > 0 && deletionEnabled"
-					v-tooltip.left="{ content: t('cospend', 'Delete selected bills') }"
-					class="icon icon-delete multiDelete"
-					@click="deleteSelection" />
+				<Actions v-show="selectedBillIds.length > 0 && deletionEnabled">
+					<ActionButton
+						icon="icon-delete"
+						class="multiDelete"
+						@click="deleteSelection">
+						{{ t('cospend', 'Delete selected bills') }}
+					</ActionButton>
+				</Actions>
 				<p v-if="selectedBillIds.length === 0"
 					class="multiSelectHint">
 					{{ t('cospend', 'Multi select mode: Select bills to make grouped actions') }}
@@ -107,6 +115,8 @@
 </template>
 
 <script>
+import Actions from '@nextcloud/vue/dist/Components/Actions'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import BillItem from './components/BillItem'
@@ -121,7 +131,7 @@ export default {
 	name: 'BillList',
 
 	components: {
-		BillItem, AppNavigationItem, EmptyContent, InfiniteLoading,
+		BillItem, AppNavigationItem, Actions, ActionButton, EmptyContent, InfiniteLoading,
 	},
 
 	props: {
@@ -378,32 +388,6 @@ export default {
 
 .loading-icon {
 	margin-top: 16px;
-}
-
-.top-right-icon {
-	position: absolute;
-	top: 2px;
-	right: 0;
-}
-
-.icon {
-	width: 44px;
-	height: 44px;
-	border-radius: var(--border-radius-pill);
-	opacity: .5;
-
-	&.icon-delete,
-	&.icon-close,
-	&.icon-toggle-filelist {
-		background-color: transparent;
-		border: none;
-		margin: 0;
-	}
-	&:hover,
-	&:focus {
-		opacity: 1;
-		background-color: var(--color-background-hover);
-	}
 }
 
 .selectionOptions {

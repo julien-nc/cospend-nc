@@ -81,6 +81,7 @@
 import ClickOutside from 'vue-click-outside'
 import AppNavigationMemberItem from './AppNavigationMemberItem'
 
+import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 
@@ -94,6 +95,7 @@ export default {
 		AppNavigationMemberItem,
 		AppNavigationItem,
 		ActionButton,
+		Actions,
 	},
 	directives: {
 		ClickOutside,

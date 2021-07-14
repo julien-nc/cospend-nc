@@ -172,6 +172,7 @@ export default {
 .memberItem {
 	height: 44px;
 	padding-left: 30px !important;
+	padding-right: 0 !important;
 }
 
 ::v-deep .icon-reimburse {

@@ -510,5 +510,6 @@ h3 {
 
 .memberItem {
 	height: 44px;
+	padding-right: 0 !important;
 }
 </style>

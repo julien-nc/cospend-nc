@@ -181,7 +181,10 @@ input[type=number] {
     background-color: var(--color-background-dark) !important;
 }
 .app-navigation-entry-share {
-    display: none;
+	display: none;
+}
+.app-navigation-entry {
+    padding-right: 0 !important;
 }
 .shareinput {
     width: 100%;

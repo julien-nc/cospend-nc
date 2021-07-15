@@ -2,7 +2,7 @@
 	<div id="mbLink">
 		<h3>
 			<span class="icon-phone" />
-			<span class="tcontent">{{ t('cospend', 'MoneyBuster link/QRCode for project {name}', {name: project.name}) }}</span>
+			<span class="tcontent">{{ t('cospend', 'MoneyBuster link/QRCode for project {name}', {name: project.name}, undefined, { escape: false }) }}</span>
 			<button class="icon icon-info"
 				@click="onInfo1Clicked" />
 		</h3>

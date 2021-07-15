@@ -382,7 +382,8 @@
 						<div v-for="ower in activatedOrOwer"
 							:key="ower.id"
 							class="owerEntry">
-							<div class="owerAvatar">
+							<div class="owerAvatar"
+								v-on="(editionAccess && members[ower.id].activated) ? { click: () => onOwerAvatarClick(ower.id) } : {}">
 								<ColoredAvatar
 									class="itemAvatar"
 									:color="getMemberColor(ower.id)"
@@ -420,7 +421,8 @@
 						<div v-for="ower in activatedOrOwer"
 							:key="ower.id"
 							class="owerEntry">
-							<div class="owerAvatar">
+							<div class="owerAvatar"
+								@click="onOwerAvatarClick(ower.id)">
 								<ColoredAvatar
 									class="itemAvatar"
 									:color="getMemberColor(ower.id)"
@@ -850,6 +852,14 @@ export default {
 	},
 
 	methods: {
+		onOwerAvatarClick(owerId) {
+			if (this.myBill.owerIds.includes(owerId)) {
+				const index = this.myBill.owerIds.findIndex(elem => owerId === elem)
+				this.myBill.owerIds.splice(index, 1)
+			} else {
+				this.myBill.owerIds.push(owerId)
+			}
+		},
 		memberSelected(selected) {
 			this.myBill.payer_id = selected.id
 			this.onBillEdited(null, false)
@@ -1564,5 +1574,15 @@ export default {
 
 .memberMultiSelect {
 	height: 44px;
+}
+
+::v-deep .owerAvatar {
+	cursor: pointer;
+	div {
+		cursor: pointer;
+		div {
+			cursor: pointer;
+		}
+	}
 }
 </style>

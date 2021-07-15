@@ -61,7 +61,6 @@
 			</h3>
 			<Multiselect
 				v-if="maintenerAccess"
-				ref="userMultiselect"
 				v-model="selectedAddUser"
 				class="addUserInput"
 				label="displayName"

@@ -106,19 +106,45 @@
 				</div>
 				<div class="bill-payer">
 					<label for="payer"><a class="icon icon-user" />{{ t('cospend', 'Who paid?') }}</label>
-					<select
-						id="payer"
-						v-model="myBill.payer_id"
-						class="input-bill-payer"
+					<Multiselect
+						id="memberMultiSelect"
+						:value="selectedMemberItem"
+						class="memberMultiSelect"
+						label="displayName"
+						track-by="multiselectKey"
 						:disabled="!editionAccess || (!isNewBill && !members[myBill.payer_id].activated)"
-						@input="onBillEdited">
-						<option v-for="member in activatedOrPayer"
-							:key="member.id"
-							:value="member.id"
-							:selected="member.id === myBill.payer_id || (isNewBill && currentUser && member.userid === currentUser.uid)">
-							{{ myGetSmartMemberName(member.id) }}
-						</option>
-					</select>
+						:placeholder="t('cospend', 'Choose a member')"
+						:options="formattedMembers"
+						:user-select="true"
+						:internal-search="true"
+						@input="memberSelected">
+						<template #option="{option}">
+							<ColoredAvatar
+								class="itemAvatar"
+								:color="option.color"
+								:size="34"
+								:disable-menu="true"
+								:disable-tooltip="true"
+								:show-user-status="false"
+								:is-no-user="option.userid === undefined || option.userid === '' || option.userid === null"
+								:user="option.userid"
+								:display-name="option.name" />
+							<span class="select-display-name">{{ option.displayName }}</span>
+						</template>
+						<template #singleLabel="{option}">
+							<ColoredAvatar
+								class="itemAvatar"
+								:color="option.color"
+								:size="34"
+								:disable-menu="true"
+								:disable-tooltip="true"
+								:show-user-status="false"
+								:is-no-user="option.userid === undefined || option.userid === '' || option.userid === null"
+								:user="option.userid"
+								:display-name="option.name" />
+							<span class="select-display-name">{{ option.displayName }}</span>
+						</template>
+					</Multiselect>
 				</div>
 				<div class="bill-date">
 					<label for="date"><a class="icon icon-calendar-dark" />{{ t('cospend', 'When?') }}</label>
@@ -521,6 +547,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { getLocale } from '@nextcloud/l10n'
 import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
 import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import ColoredAvatar from './components/ColoredAvatar'
 import {
 	showSuccess,
@@ -537,7 +564,7 @@ export default {
 	name: 'BillForm',
 
 	components: {
-		DatetimePicker, AppContentDetails, ColoredAvatar,
+		DatetimePicker, AppContentDetails, ColoredAvatar, Multiselect,
 	},
 
 	props: {
@@ -583,6 +610,29 @@ export default {
 	},
 
 	computed: {
+		selectedMemberItem() {
+			const member = this.members[this.myBill.payer_id]
+			return {
+				id: member.id,
+				name: member.name,
+				displayName: this.myGetSmartMemberName(member.id),
+				userid: member.userid,
+				color: member.color,
+				multiselectKey: member.id,
+			}
+		},
+		formattedMembers() {
+			return this.activatedOrPayer.map(member => {
+				return {
+					id: member.id,
+					name: member.name,
+					displayName: this.myGetSmartMemberName(member.id),
+					userid: member.userid,
+					color: member.color,
+					multiselectKey: member.id,
+				}
+			})
+		},
 		useTime() {
 			return cospend.useTime
 		},
@@ -808,6 +858,10 @@ export default {
 	},
 
 	methods: {
+		memberSelected(selected) {
+			this.myBill.payer_id = selected.id
+			this.onBillEdited(null, false)
+		},
 		stringify(date) {
 			return this.useTime
 				? moment(date).locale(this.locale).format('LLL')
@@ -950,7 +1004,7 @@ export default {
 					// eslint-disable-next-line
 					calc = parseFloat(eval(this.currentFormula).toFixed(12))
 				} catch (err) {
-					console.debug(err)
+					console.error(err)
 				}
 				this.myBill.amount = isNaN(calc) ? 0 : calc
 				this.currentFormula = null
@@ -968,7 +1022,7 @@ export default {
 					// eslint-disable-next-line
 					calc = parseFloat(eval(val).toFixed(12))
 				} catch (err) {
-					console.debug(err)
+					console.error(err)
 				}
 				if (!isNaN(calc)) {
 					e.target.value = calc
@@ -983,7 +1037,7 @@ export default {
 					// eslint-disable-next-line
 					calc = parseFloat(eval(val).toFixed(12))
 				} catch (err) {
-					console.debug(err)
+					console.error(err)
 				}
 				if (!isNaN(calc)) {
 					e.target.value = calc
@@ -1117,10 +1171,8 @@ export default {
 					return
 				} else {
 					this.nbBillsLeftToCreate = nbBills
-					console.debug('BBBBB')
 					for (const mid in this.owerCustomShareAmount) {
 						const amount = this.owerCustomShareAmount[mid]
-						console.debug(amount)
 						if (amount !== 0.0) {
 							this.createBill('customShare', myBill.what, amount, myBill.payer_id, myBill.timestamp, [mid], myBill.repeat,
 								myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.repeatfreq, myBill.comment)
@@ -1388,6 +1440,14 @@ export default {
 	}
 }
 
+.bill-left {
+	width: 450px;
+}
+
+.bill-right {
+	width: 300px;
+}
+
 .bill-left,
 .bill-right {
 	padding: 0px 15px 0px 15px;
@@ -1480,6 +1540,10 @@ export default {
 	margin-top: 25px;
 }
 
+.bill-payer {
+	margin-bottom: 5px;
+}
+
 .bill-amount .icon-cospend,
 .bill-currency-convert .icon-currencies {
 	display: inline-block;
@@ -1499,5 +1563,14 @@ export default {
 
 .checkbox-line {
 	line-height: 44px;
+}
+
+.select-display-name {
+	margin-left: 5px;
+	margin-right: auto;
+}
+
+.memberMultiSelect {
+	height: 44px;
 }
 </style>

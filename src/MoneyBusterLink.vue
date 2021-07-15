@@ -89,7 +89,7 @@ import {
 } from '@nextcloud/dialogs'
 import cospend from './state'
 import * as network from './network'
-import { hexToBrighterHex } from './utils'
+import { hexToDarkerHex, getComplementaryColor } from './utils'
 
 export default {
 	name: 'MoneyBusterLink',
@@ -110,7 +110,7 @@ export default {
 			password: '',
 			validPassword: null,
 			qrcodeColor: cospend.themeColorDark,
-			qrcodeImageUrl: generateUrl('/svg/cospend/cospend_square_bg?color=' + hexToBrighterHex(cospend.themeColorDark).replace('#', '')),
+			qrcodeImageUrl: generateUrl('/svg/cospend/cospend_square_bg?color=' + hexToDarkerHex(getComplementaryColor(cospend.themeColorDark)).replace('#', '')),
 			readonly: true,
 		}
 	},

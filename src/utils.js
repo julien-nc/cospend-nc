@@ -105,6 +105,12 @@ export function hexToBrighterHex(hex, raiseTo = 140) {
 	return rgbToHex(rgb.r, rgb.g, rgb.b)
 }
 
+export function getComplementaryColor(hex) {
+	const rgb = hexToRgb(hex)
+	return rgbToHex(255 - rgb.r, 255 - rgb.g, 255 - rgb.b)
+
+}
+
 // this formula was found here : https://stackoverflow.com/a/596243/7692836
 function getColorBrightness(rgb) {
 	return 0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b

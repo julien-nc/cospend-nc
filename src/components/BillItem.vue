@@ -280,4 +280,22 @@ export default {
 		background-color: var(--color-main-background);
 	}
 }
+
+.billItemDisabledMask.disabled {
+	display: block;
+	width: 105%;
+	height: 105%;
+	background-image: url('../../css/images/forbidden.svg');
+	margin: -1px 0 0 -1px;
+	position: absolute;
+}
+
+.billItemRepeatMask.show {
+	display: block;
+	width: 16px;
+	height: 16px;
+	background-image: var(--icon-play-next-000);
+	margin: 33px 0 0 -4px;
+	position: absolute;
+}
 </style>

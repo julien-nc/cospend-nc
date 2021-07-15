@@ -142,6 +142,7 @@
 								:is-no-user="option.userid === undefined || option.userid === '' || option.userid === null"
 								:user="option.userid"
 								:display-name="option.name" />
+							<div v-if="!option.activated" class="payerDisabledMask disabled" />
 							<span class="select-display-name">{{ option.displayName }}</span>
 						</template>
 					</Multiselect>
@@ -1591,5 +1592,14 @@ export default {
 			cursor: pointer;
 		}
 	}
+}
+
+.payerDisabledMask.disabled {
+	display: block;
+	width: 36px;
+	height: 36px;
+	background-image: url('../css/images/forbidden.svg');
+	margin: -1px 0 0 -1px;
+	position: absolute;
 }
 </style>

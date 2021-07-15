@@ -92,13 +92,13 @@ export function hexToDarkerHex(hex, lowerTo = 100) {
 export function hexToBrighterHex(hex, raiseTo = 140) {
 	const rgb = hexToRgb(hex)
 	while (getColorBrightness(rgb) < raiseTo) {
-		if (rgb.r > 0) {
+		if (rgb.r < 255) {
 			rgb.r++
 		}
-		if (rgb.g > 0) {
+		if (rgb.g < 255) {
 			rgb.g++
 		}
-		if (rgb.b > 0) {
+		if (rgb.b < 255) {
 			rgb.b++
 		}
 	}

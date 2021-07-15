@@ -388,4 +388,8 @@ export default {
 	margin-top: 0px !important;
 }
 */
+
+::v-deep .app-navigation-entry__title {
+	padding: 0 !important;
+}
 </style>

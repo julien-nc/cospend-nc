@@ -588,6 +588,7 @@ export default {
 
 				this.projects[projectid].nb_bills = response.data.nb_bills
 				this.projects[projectid].total_spent = response.data.total_spent
+				this.projects[projectid].lastchanged = response.data.lastchanged
 				// category order
 				for (const cid in this.projects[projectid].categories) {
 					this.projects[projectid].categories[cid].order = response.data.categories[cid]?.order

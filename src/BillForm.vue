@@ -111,7 +111,7 @@
 						:value="selectedMemberItem"
 						class="memberMultiSelect"
 						label="displayName"
-						track-by="multiselectKey"
+						track-by="id"
 						:disabled="!editionAccess || (!isNewBill && !members[myBill.payer_id].activated)"
 						:placeholder="t('cospend', 'Choose a member')"
 						:options="formattedMembers"
@@ -613,23 +613,15 @@ export default {
 		selectedMemberItem() {
 			const member = this.members[this.myBill.payer_id]
 			return {
-				id: member.id,
-				name: member.name,
+				...member,
 				displayName: this.myGetSmartMemberName(member.id),
-				userid: member.userid,
-				color: member.color,
-				multiselectKey: member.id,
 			}
 		},
 		formattedMembers() {
 			return this.activatedOrPayer.map(member => {
 				return {
-					id: member.id,
-					name: member.name,
+					...member,
 					displayName: this.myGetSmartMemberName(member.id),
-					userid: member.userid,
-					color: member.color,
-					multiselectKey: member.id,
 				}
 			})
 		},

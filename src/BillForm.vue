@@ -1443,11 +1443,11 @@ export default {
 }
 
 .bill-left {
-	width: 450px;
+	width: 550px;
 }
 
 .bill-right {
-	width: 300px;
+	width: 400px;
 }
 
 .bill-left,
@@ -1570,10 +1570,17 @@ export default {
 .select-display-name {
 	margin-left: 5px;
 	margin-right: auto;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .memberMultiSelect {
 	height: 44px;
+}
+
+::v-deep #memberMultiSelect {
+	padding: 0 !important;
 }
 
 ::v-deep .owerAvatar {

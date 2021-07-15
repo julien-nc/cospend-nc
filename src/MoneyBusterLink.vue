@@ -10,7 +10,7 @@
 			{{ t('cospend', 'Old link') }}, MoneyBuster &lt;= 0.1.7
 		</h3>
 		<div class="qrcode-div-nopass">
-			<QRCode render="canvas"
+			<QRCode render="svg"
 				:link="noPassLink"
 				:fgcolor="qrcodeColor"
 				:image-url="qrcodeImageUrl"
@@ -22,7 +22,7 @@
 			{{ t('cospend', 'New link') }}, MoneyBuster &gt;= 0.1.8, PayForMe &gt;= 0.0.2
 		</h3>
 		<div class="qrcode-div-nopass">
-			<QRCode render="canvas"
+			<QRCode render="svg"
 				:link="noPassProtocolLink"
 				:fgcolor="qrcodeColor"
 				:image-url="qrcodeImageUrl"
@@ -57,7 +57,7 @@
 			<div class="qrcode-div-pass">
 				<QRCode
 					v-if="validPassword"
-					render="canvas"
+					render="svg"
 					:link="passLink"
 					:fgcolor="qrcodeColor"
 					:image-url="qrcodeImageUrl"
@@ -70,7 +70,7 @@
 			<div class="qrcode-div-pass">
 				<QRCode
 					v-if="validPassword"
-					render="canvas"
+					render="svg"
 					:link="passProtocolLink"
 					:fgcolor="qrcodeColor"
 					:image-url="qrcodeImageUrl"

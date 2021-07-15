@@ -73,9 +73,9 @@ function rgbToHex(r, g, b) {
 	return '#' + componentToHex(parseInt(r)) + componentToHex(parseInt(g)) + componentToHex(parseInt(b))
 }
 
-export function hexToDarkerHex(hex) {
+export function hexToDarkerHex(hex, lowerTo = 100) {
 	const rgb = hexToRgb(hex)
-	while (getColorBrightness(rgb) > 100) {
+	while (getColorBrightness(rgb) > lowerTo) {
 		if (rgb.r > 0) {
 			rgb.r--
 		}
@@ -84,6 +84,22 @@ export function hexToDarkerHex(hex) {
 		}
 		if (rgb.b > 0) {
 			rgb.b--
+		}
+	}
+	return rgbToHex(rgb.r, rgb.g, rgb.b)
+}
+
+export function hexToBrighterHex(hex, raiseTo = 140) {
+	const rgb = hexToRgb(hex)
+	while (getColorBrightness(rgb) < raiseTo) {
+		if (rgb.r > 0) {
+			rgb.r++
+		}
+		if (rgb.g > 0) {
+			rgb.g++
+		}
+		if (rgb.b > 0) {
+			rgb.b++
 		}
 	}
 	return rgbToHex(rgb.r, rgb.g, rgb.b)

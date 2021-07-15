@@ -83,12 +83,13 @@
 
 <script>
 import QRCode from './components/QRCode'
-import { generateUrl, imagePath } from '@nextcloud/router'
+import { generateUrl } from '@nextcloud/router'
 import {
 	showError,
 } from '@nextcloud/dialogs'
 import cospend from './state'
 import * as network from './network'
+import { hexToBrighterHex } from './utils'
 
 export default {
 	name: 'MoneyBusterLink',
@@ -109,7 +110,7 @@ export default {
 			password: '',
 			validPassword: null,
 			qrcodeColor: cospend.themeColorDark,
-			qrcodeImageUrl: imagePath('cospend', 'cospend.png'),
+			qrcodeImageUrl: generateUrl('/svg/cospend/cospend_square_bg?color=' + hexToBrighterHex(cospend.themeColorDark).replace('#', '')),
 			readonly: true,
 		}
 	},

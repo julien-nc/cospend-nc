@@ -167,7 +167,7 @@
 						id="payment-mode"
 						v-model="myBill.paymentmode"
 						:disabled="!editionAccess"
-						@input="onBillEdited">
+						@input="onBillEdited($event, false)">
 						<option value="n">
 							{{ t('cospend', 'None') }}
 						</option>
@@ -187,7 +187,7 @@
 						id="category"
 						v-model="myBill.categoryid"
 						:disabled="!editionAccess"
-						@input="onBillEdited">
+						@input="onBillEdited($event, false)">
 						<option value="0">
 							{{ t('cospend', 'None') }}
 						</option>

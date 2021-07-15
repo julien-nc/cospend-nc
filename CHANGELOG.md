@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 1.3.9 – 2021-07-14
+## 1.3.10 – 2021-07-15
 ### Added
 - public link labels
 - new member monthly spent stats table/chart
@@ -17,15 +17,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - new average column for category and payment mode monthly stat tables
 
 ### Changed
+- nicer payer selection
+- improve style almost everywhere
 - improve stats line charts style
 - improve stats tables design (sticky header and first column)
 - round numbers in line charts tooltips
-- use new DB query methods
-- adapt to new Circles management
 - bump min NC version to 22
 - don't fetch dashboard widget content if tab is not visible
-- improve activity and notifications icons
-- improve notifications content
+- improve activity and notifications icons and content
 - allow empty bill title on creation and edition
   [#28](https://github.com/eneiluj/cospend-nc/issues/28) @whtv
 

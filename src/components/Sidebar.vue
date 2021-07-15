@@ -134,7 +134,20 @@ export default {
 					nbActiveMembers++
 				}
 			}
-			return t('cospend', '{nb} bills, {nm} active members, {ns} spent', { nb: nbBills, nm: nbActiveMembers, ns: spent.toFixed(2) })
+			if (this.project.currencyname) {
+				return t('cospend', '{nb} bills, {nbMembers} active members, {spentAmount} {currency} spent', {
+					nb: nbBills,
+					nbMembers: nbActiveMembers,
+					currency: this.project.currencyname,
+					spentAmount: spent.toFixed(2),
+				})
+			} else {
+				return t('cospend', '{nb} bills, {nbMembers} active members, {spentAmount} spent', {
+					nb: nbBills,
+					nbMembers: nbActiveMembers,
+					spentAmount: spent.toFixed(2),
+				})
+			}
 		},
 		editionAccess() {
 			return this.project.myaccesslevel >= constants.ACCESS.MAINTENER

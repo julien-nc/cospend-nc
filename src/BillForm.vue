@@ -156,6 +156,9 @@
 						:placeholder="t('cospend', 'When?')"
 						:minute-step="1"
 						:show-second="false"
+						:show-timezone-select="true"
+						:highlight-timezone="true"
+						:timezone-id.sync="tz"
 						:formatter="format"
 						:disabled="!editionAccess"
 						:confirm="true" />
@@ -595,6 +598,7 @@ export default {
 			progAmountChange: false,
 			showHint: false,
 			locale: getLocale(),
+			tz: '',
 			format: {
 				stringify: this.stringify,
 				parse: this.parse,
@@ -757,8 +761,13 @@ export default {
 				return this.billDateObject
 			},
 			set(value) {
+				console.debug('SEEEEEEET')
+				console.debug(value)
+				console.debug(this.tz)
+				console.debug(this.locale)
 				const ts = moment(value).unix()
 				if (!isNaN(ts)) {
+					console.debug('TIMESTAMP IS ' + ts)
 					this.myBill.timestamp = ts
 					this.onBillEdited(null, false)
 				}
@@ -871,6 +880,8 @@ export default {
 				: moment(date).locale(this.locale).format('LL')
 		},
 		parse(value) {
+			console.debug('PARSE')
+			console.debug(value)
 			return this.useTime
 				? moment(value, 'LLL', this.locale).toDate()
 				: moment(value, 'LL', this.locale).toDate()

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-07-17 13:07+0200\n"
-"PO-Revision-Date: 2021-07-17 11:09\n"
+"PO-Revision-Date: 2021-07-17 12:04\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -233,7 +233,7 @@ msgstr "Vous n'êtes pas autorisé à donner ce niveau d'accès partagé"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1804
 msgid "You are not allowed to edit this shared access"
-msgstr ""
+msgstr "Vous n'êtes pas autorisé à modifier cet accès partagé"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1824
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1838
@@ -808,7 +808,7 @@ msgstr "Qui a payé ?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:32
 msgid "Choose a member"
-msgstr ""
+msgstr "Choisissez un membre"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:33
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:34
@@ -1685,16 +1685,16 @@ msgstr "Lien public"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:283
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:298
 msgid "Link copied"
-msgstr ""
+msgstr "Lien copié"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:283
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:298
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Copier dans le presse-papiers"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:284
 msgid "Label"
-msgstr ""
+msgstr "Label"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:289
 msgid "Delete link"
@@ -1702,7 +1702,7 @@ msgstr "Supprimer le lien"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:290
 msgid "Add another link"
-msgstr ""
+msgstr "Ajouter un autre lien"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:291
 msgid "Project owner"
@@ -1722,11 +1722,11 @@ msgstr "Nouveau mot de passe du projet"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:306
 msgid "Shared access label saved"
-msgstr ""
+msgstr "Label d'accès partagé enregistrée"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:307
 msgid "Failed to edit shared access"
-msgstr ""
+msgstr "Impossible de modifier l'accès partagé"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:309
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:311
@@ -1763,11 +1763,11 @@ msgstr "Devises"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} {currency} spent"
-msgstr ""
+msgstr "{nb} factures, {nbMembers} membres actifs, {spentAmount} {currency} dépensés"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:319
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} spent"
-msgstr ""
+msgstr "{nb} factures, {nbMembers} membres actifs, {spentAmount} dépensés"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:320
 msgid "Member/Month"

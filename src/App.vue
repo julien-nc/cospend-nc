@@ -13,7 +13,6 @@
 			@share-clicked="onShareClicked"
 			@new-member-clicked="onNewMemberClicked"
 			@member-edited="onMemberEdited"
-			@project-edited="onProjectEdited"
 			@create-project="onCreateProject"
 			@project-imported="onProjectImported"
 			@save-option="onSaveOption"
@@ -216,7 +215,6 @@ export default {
 	},
 	methods: {
 		onNavMemberClick(projectId, memberId) {
-			console.debug('click on ' + projectId + ' : ' + memberId)
 			if (this.selectedMemberId === memberId) {
 				this.selectedMemberId = null
 			} else if (this.currentProjectId === projectId) {

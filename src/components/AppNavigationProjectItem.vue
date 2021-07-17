@@ -144,8 +144,10 @@ export default {
 	beforeMount() {
 	},
 	methods: {
-		onProjectClick() {
-			this.$emit('project-clicked', this.project.id)
+		onProjectClick(e) {
+			if (e.target.tagName === 'SPAN') {
+				this.$emit('project-clicked', this.project.id)
+			}
 		},
 		onMemberClick(memberId) {
 			this.$emit('member-click', memberId)

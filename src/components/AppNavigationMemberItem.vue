@@ -2,8 +2,11 @@
 	<AppNavigationItem v-show="memberVisible"
 		:class="{ memberItem: true, selectedmember: selected }"
 		:title="nameTitle"
+		:editable="true"
+		:edit-label="t('cospend', 'Rename member')"
 		:force-menu="false"
-		@click="$emit('click')">
+		@update:title="onRename"
+		@click="onClick">
 		<div v-if="maintenerAccess"
 			slot="icon"
 			class="memberItemAvatar">
@@ -50,13 +53,6 @@
 				@click="onMenuColorClick">
 				{{ t('cospend', 'Change color') }}
 			</ActionButton>
-			<ActionInput
-				ref="nameInput"
-				type="text"
-				icon="icon-rename"
-				:value="member.name"
-				:disabled="false"
-				@submit="onNameSubmit" />
 			<ActionInput
 				ref="weightInput"
 				icon="icon-quota"
@@ -237,6 +233,11 @@ export default {
 	},
 
 	methods: {
+		onClick(e) {
+			if (e.target.tagName === 'SPAN') {
+				this.$emit('click')
+			}
+		},
 		getDeletionText() {
 			const balance = this.member.balance
 			const closeToZero = (balance < 0.01 && balance > -0.01)
@@ -258,8 +259,7 @@ export default {
 				this.deleteAccessOfUser()
 			}
 		},
-		onNameSubmit() {
-			const newName = this.$refs.nameInput.$el.querySelector('input[type="text"]').value
+		onRename(newName) {
 			// check if name already exists
 			const members = cospend.projects[this.projectId].members
 			for (const mid in members) {

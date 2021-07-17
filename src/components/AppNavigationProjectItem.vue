@@ -17,7 +17,7 @@
 	<AppNavigationItem v-else
 		:icon="selected ? 'icon-folder' : 'icon-filetype-folder-drag-accept'"
 		:title="project.name"
-		:class="{'selectedproject': selected}"
+		:class="{ selectedproject: selected }"
 		:allow-collapse="true"
 		:open="selected"
 		:force-menu="false"
@@ -69,9 +69,11 @@
 				:key="member.id"
 				class="memberItem"
 				:member="member"
+				:selected="selectedMemberId === member.id"
 				:project-id="project.id"
 				:in-navigation="true"
 				:precision="precision"
+				@click="onMemberClick(member.id)"
 				@member-edited="onMemberEdited" />
 		</template>
 	</AppNavigationItem>
@@ -113,6 +115,10 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+		selectedMemberId: {
+			type: Number,
+			default: null,
+		},
 	},
 	data() {
 		return {
@@ -140,6 +146,9 @@ export default {
 	methods: {
 		onProjectClick() {
 			this.$emit('project-clicked', this.project.id)
+		},
+		onMemberClick(memberId) {
+			this.$emit('member-click', memberId)
 		},
 		onDeleteProjectClick() {
 			this.deleting = true

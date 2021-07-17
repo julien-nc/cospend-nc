@@ -20,6 +20,7 @@
 				:project="projects[id]"
 				:members="projects[id].members"
 				:selected="id === selectedProjectId"
+				:selected-member-id="selectedMemberId"
 				@project-clicked="onProjectClicked"
 				@delete-project="onDeleteProject"
 				@stats-clicked="onStatsClicked"
@@ -27,7 +28,8 @@
 				@detail-clicked="onDetailClicked"
 				@share-clicked="onShareClicked"
 				@new-member-clicked="onNewMemberClicked"
-				@member-edited="onMemberEdited" />
+				@member-edited="onMemberEdited"
+				@member-click="$emit('member-click', id, $event)" />
 		</template>
 		<template slot="footer">
 			<AppNavigationSettings>
@@ -143,6 +145,10 @@ export default {
 		selectedProjectId: {
 			type: String,
 			default: '',
+		},
+		selectedMemberId: {
+			type: Number,
+			default: null,
 		},
 		loading: {
 			type: Boolean,
@@ -280,6 +286,18 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+::v-deep .selectedproject,
+::v-deep .selectedmember {
+	> a,
+	> div {
+		background: var(--color-background-dark, lightgrey);
+	}
+
+	> a {
+		font-weight: bold;
+	}
+}
+
 #app-settings-content {
 	p {
 		margin-top: 20px;

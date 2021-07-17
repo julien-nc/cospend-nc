@@ -3,6 +3,7 @@
 		<CospendNavigation
 			:projects="projects"
 			:selected-project-id="currentProjectId"
+			:selected-member-id="selectedMemberId"
 			:loading="projectsLoading"
 			@project-clicked="onProjectClicked"
 			@delete-project="onDeleteProject"
@@ -15,7 +16,8 @@
 			@project-edited="onProjectEdited"
 			@create-project="onCreateProject"
 			@project-imported="onProjectImported"
-			@save-option="onSaveOption" />
+			@save-option="onSaveOption"
+			@member-click="onNavMemberClick" />
 		<AppContent>
 			<div v-if="shouldShowDetailsToggle"
 				id="app-details-toggle"
@@ -144,6 +146,7 @@ export default {
 			filterQuery: null,
 			showSidebar: false,
 			activeSidebarTab: 'sharing',
+			selectedMemberId: null,
 		}
 	},
 	computed: {
@@ -160,13 +163,17 @@ export default {
 			return (this.currentBill !== null) ? this.currentBill.id : -1
 		},
 		currentBills() {
-			return (this.currentProjectId && this.currentProjectId in this.billLists)
-				? (
-					this.filterQuery
-						? this.getFilteredBills(this.billLists[this.currentProjectId])
-						: this.billLists[this.currentProjectId]
-				)
-				: []
+			if (this.currentProjectId && this.currentProjectId in this.billLists) {
+				let result = this.billLists[this.currentProjectId]
+				if (this.selectedMemberId) {
+					result = result.filter(b => b.payer_id === this.selectedMemberId)
+				}
+				if (this.filterQuery) {
+					result = this.getFilteredBills(result)
+				}
+				return result
+			}
+			return []
 		},
 		currentMembers() {
 			return (this.currentProjectId && this.currentProjectId in this.members)
@@ -208,6 +215,14 @@ export default {
 		unsubscribe('nextcloud:unified-search.reset', this.cleanSearch)
 	},
 	methods: {
+		onNavMemberClick(projectId, memberId) {
+			console.debug('click on ' + projectId + ' : ' + memberId)
+			if (this.selectedMemberId === memberId) {
+				this.selectedMemberId = null
+			} else if (this.currentProjectId === projectId) {
+				this.selectedMemberId = memberId
+			}
+		},
 		onActiveSidebarTabChanged(newActive) {
 			this.activeSidebarTab = newActive
 		},
@@ -386,6 +401,7 @@ export default {
 		selectProject(projectid, save = true) {
 			this.mode = 'edition'
 			this.currentBill = null
+			this.selectedMemberId = null
 			this.getBills(projectid)
 			if (save) {
 				network.saveOptionValue({ selectedProject: projectid })

@@ -154,13 +154,6 @@ input[type=number] {
 	transform: rotate(180deg);
 	border-radius: 50%;
 }
-.selectedproject > a ,
-.selectedproject > div {
-	background: var(--color-background-dark, lightgrey);
-}
-.selectedproject > a {
-	font-weight: bold;
-}
 .selectedbill {
 	background-color: var(--color-background-dark) !important;
 }

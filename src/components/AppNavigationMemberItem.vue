@@ -1,8 +1,9 @@
 <template>
 	<AppNavigationItem v-show="memberVisible"
-		class="memberItem"
+		:class="{ memberItem: true, selectedmember: selected }"
 		:title="nameTitle"
-		:force-menu="false">
+		:force-menu="false"
+		@click="$emit('click')">
 		<div v-if="maintenerAccess"
 			slot="icon"
 			class="memberItemAvatar">
@@ -152,6 +153,10 @@ export default {
 		projectId: {
 			type: String,
 			required: true,
+		},
+		selected: {
+			type: Boolean,
+			default: false,
 		},
 		inNavigation: {
 			type: Boolean,

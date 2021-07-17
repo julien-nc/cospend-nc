@@ -170,6 +170,7 @@ export default {
 			selectedMember: null,
 			newProjectName: '',
 			query: '',
+			currentUser: getCurrentUser(),
 		}
 	},
 	computed: {
@@ -216,7 +217,7 @@ export default {
 		},
 		formatedUsersAffect() {
 			// avoid simple member here
-			return this.unallocatedUsersAffect.map(item => {
+			const result = this.unallocatedUsersAffect.map(item => {
 				return {
 					user: item.id,
 					name: item.name,
@@ -227,6 +228,27 @@ export default {
 					multiselectKey: item.type + ':' + item.id,
 				}
 			})
+
+			// add current user (who is absent from autocomplete suggestions)
+			// if it matches the query
+			if (this.currentUser && this.query) {
+				const lowerCurrent = this.currentUser.displayName.toLowerCase()
+				const lowerQuery = this.query.toLowerCase()
+				// don't add it if it's selected
+				if (lowerCurrent.match(lowerQuery)) {
+					result.push({
+						user: this.currentUser.uid,
+						name: this.currentUser.displayName,
+						displayName: this.currentUser.displayName,
+						icon: 'icon-user',
+						type: 'u',
+						value: this.currentUser.displayName,
+						multiselectKey: 'u:' + this.currentUser.uid,
+					})
+				}
+			}
+
+			return result
 		},
 		unallocatedUsersAffect() {
 			const memberList = Object.values(this.members)
@@ -241,7 +263,7 @@ export default {
 			})
 		},
 		formatedUsers() {
-			return this.unallocatedUsers.map(item => {
+			const result = this.unallocatedUsers.map(item => {
 				return {
 					user: item.id,
 					name: item.name,
@@ -252,6 +274,27 @@ export default {
 					multiselectKey: item.type + ':' + item.id,
 				}
 			})
+
+			// add current user (who is absent from autocomplete suggestions)
+			// if it matches the query
+			if (this.currentUser && this.query) {
+				const lowerCurrent = this.currentUser.displayName.toLowerCase()
+				const lowerQuery = this.query.toLowerCase()
+				// don't add it if it's selected
+				if (lowerCurrent.match(lowerQuery)) {
+					result.push({
+						user: this.currentUser.uid,
+						name: this.currentUser.displayName,
+						displayName: this.currentUser.displayName,
+						icon: 'icon-user',
+						type: 'u',
+						value: this.currentUser.displayName,
+						multiselectKey: 'u:' + this.currentUser.uid,
+					})
+				}
+			}
+
+			return result
 		},
 		unallocatedUsers() {
 			// prepend simple user

@@ -65,7 +65,7 @@
 			<AppNavigationItem v-if="members.length === 0"
 				icon="icon-category-disabled"
 				:title="t('cospend', 'No members yet')" />
-			<AppNavigationMemberItem v-for="member in members"
+			<AppNavigationMemberItem v-for="member in sortedMembers"
 				:key="member.id"
 				class="memberItem"
 				:member="member"
@@ -89,7 +89,7 @@ import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 
 import cospend from '../state'
 import * as constants from '../constants'
-import { Timer } from '../utils'
+import { Timer, strcmp } from '../utils'
 
 export default {
 	name: 'AppNavigationProjectItem',
@@ -119,6 +119,10 @@ export default {
 			type: Number,
 			default: null,
 		},
+		memberOrder: {
+			type: String,
+			default: 'name',
+		},
 	},
 	data() {
 		return {
@@ -139,6 +143,22 @@ export default {
 		precision() {
 			// here we determine how much precision is necessary to display correct balances (#117)
 			return this.project.precision
+		},
+		sortedMembers() {
+			if (this.memberOrder === 'name') {
+				return this.members.slice().sort((a, b) => {
+					return strcmp(a.name, b.name)
+				})
+			} else if (this.memberOrder === 'balance') {
+				return this.members.slice().sort((a, b) => {
+					return a.balance > b.balance
+						? -1
+						: a.balance < b.balance
+							? 1
+							: 0
+				})
+			}
+			return this.members
 		},
 	},
 	beforeMount() {

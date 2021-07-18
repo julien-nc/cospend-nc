@@ -21,6 +21,7 @@
 				:members="projects[id].members"
 				:selected="id === selectedProjectId"
 				:selected-member-id="selectedMemberId"
+				:member-order="memberOrder"
 				@project-clicked="onProjectClicked"
 				@delete-project="onDeleteProject"
 				@stats-clicked="onStatsClicked"
@@ -67,7 +68,7 @@
 				</div>
 				<div id="sort-order">
 					<label for="sort-select">
-						{{ t('cospend', 'Sort projects by') }}
+						{{ t('cospend', 'Projects order') }}
 					</label>
 					<select id="sort-select" v-model="sortOrder" @change="onSortOrderChange">
 						<option value="name">
@@ -75,6 +76,19 @@
 						</option>
 						<option value="change">
 							{{ t('cospend', 'Last activity') }}
+						</option>
+					</select>
+				</div>
+				<div id="sort-member-order">
+					<label for="sort-member-select">
+						{{ t('cospend', 'Members order') }}
+					</label>
+					<select id="sort-member-select" v-model="memberOrder" @change="onMemberOrderChange">
+						<option value="name">
+							{{ t('cospend', 'Name') }}
+						</option>
+						<option value="balance">
+							{{ t('cospend', 'Balance') }}
 						</option>
 					</select>
 				</div>
@@ -162,6 +176,7 @@ export default {
 			outputDir: cospend.outputDirectory,
 			pageIsPublic: cospend.pageIsPublic,
 			sortOrder: cospend.sortOrder || 'name',
+			memberOrder: cospend.memberOrder || 'name',
 			maxPrecision: cospend.maxPrecision || 2,
 			useTime: cospend.useTime,
 		}
@@ -249,6 +264,10 @@ export default {
 		},
 		onSortOrderChange() {
 			this.$emit('save-option', 'sortOrder', this.sortOrder)
+		},
+		onMemberOrderChange() {
+			this.$emit('save-option', 'memberOrder', this.memberOrder)
+			cospend.memberOrder = this.memberOrder
 		},
 		onMaxPrecisionChange() {
 			this.$emit('save-option', 'maxPrecision', this.maxPrecision)
@@ -338,12 +357,14 @@ export default {
 }
 
 #max-precision label,
+#sort-member-order label,
 #sort-order label {
 	line-height: 38px;
 	padding-left: 15px;
 }
 
 #max-precision,
+#sort-member-order,
 #sort-order {
 	display: grid;
 	grid-template: 1fr / 1fr 1fr;

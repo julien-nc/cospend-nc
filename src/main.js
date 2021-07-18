@@ -68,6 +68,8 @@ function getOptionValuesSuccess(response) {
 				cospend.outputDirectory = optionsValues[k]
 			} else if (k === 'sortOrder') {
 				cospend.sortOrder = optionsValues[k]
+			} else if (k === 'memberOrder') {
+				cospend.memberOrder = optionsValues[k]
 			} else if (k === 'maxPrecision') {
 				cospend.maxPrecision = optionsValues[k]
 			} else if (k === 'useTime') {

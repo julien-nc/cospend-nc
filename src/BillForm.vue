@@ -788,23 +788,18 @@ export default {
 			}
 			return mList
 		},
+		sortedMembers() {
+			return Object.keys(this.members).sort((a, b) => {
+				const ma = this.members[a]
+				const mb = this.members[b]
+				return strcmp(ma.name, mb.name)
+			}).map(mid => this.members[mid])
+		},
 		activatedOrPayer() {
-			const mList = []
-			for (const mid in this.members) {
-				if (this.members[mid].activated || parseInt(mid) === this.myBill.payer_id) {
-					mList.push(this.members[mid])
-				}
-			}
-			return mList
+			return this.sortedMembers.filter(m => (this.members[m.id].activated || parseInt(m.id) === this.myBill.payer_id))
 		},
 		activatedOrOwer() {
-			const mList = []
-			for (const mid in this.members) {
-				if (this.members[mid].activated || this.myBill.owerIds.indexOf(parseInt(mid)) !== -1) {
-					mList.push(this.members[mid])
-				}
-			}
-			return mList
+			return this.sortedMembers.filter(m => (this.members[m.id].activated || this.myBill.owerIds.includes(m.id)))
 		},
 		sortedCategories() {
 			const allCategories = Object.values(cospend.projects[this.projectId].categories)

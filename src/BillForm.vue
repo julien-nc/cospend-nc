@@ -184,27 +184,18 @@
 					<label for="category">
 						<a class="icon icon-category-app-bundles" />{{ t('cospend', 'Category') }}
 					</label>
-					<select
-						id="category"
-						v-model="myBill.categoryid"
+					<Multiselect
+						id="categoryMultiSelect"
+						:value="selectedCategoryItem"
+						class="categoryMultiSelect"
+						label="name"
+						track-by="id"
 						:disabled="!editionAccess"
-						@input="onBillEdited($event, false)">
-						<option value="0">
-							{{ t('cospend', 'None') }}
-						</option>
-						<option
-							v-for="category in sortedCategories"
-							:key="category.id"
-							:value="category.id">
-							{{ category.icon + ' ' + category.name }}
-						</option>
-						<option
-							v-for="(category, catid) in hardCodedCategories"
-							:key="catid"
-							:value="catid">
-							{{ category.icon + ' ' + category.name }}
-						</option>
-					</select>
+						:placeholder="t('cospend', 'Choose a category')"
+						:options="formattedCategories"
+						:user-select="false"
+						:internal-search="true"
+						@input="categorySelected" />
 				</div>
 				<div class="bill-comment">
 					<label for="comment">
@@ -634,6 +625,33 @@ export default {
 				}
 			})
 		},
+		selectedCategoryItem() {
+			const category = getCategory(this.projectId, this.myBill.categoryid)
+			return {
+				id: category.id,
+				name: category.icon + ' ' + category.name,
+			}
+		},
+		formattedCategories() {
+			const noCat = getCategory(this.projectId, 0)
+			const categoryItems = [{
+				name: noCat.name,
+				id: 0,
+			}]
+			categoryItems.push(...this.sortedCategories.map((c) => {
+				return {
+					name: c.icon + ' ' + c.name,
+					id: c.id,
+				}
+			}))
+			categoryItems.push(...Object.values(this.hardCodedCategories).map((c) => {
+				return {
+					name: c.icon + ' ' + c.name,
+					id: c.id,
+				}
+			}))
+			return categoryItems
+		},
 		useTime() {
 			return cospend.useTime
 		},
@@ -867,6 +885,10 @@ export default {
 		},
 		memberSelected(selected) {
 			this.myBill.payer_id = selected.id
+			this.onBillEdited(null, false)
+		},
+		categorySelected(selected) {
+			this.myBill.categoryid = selected.id
 			this.onBillEdited(null, false)
 		},
 		stringify(date) {

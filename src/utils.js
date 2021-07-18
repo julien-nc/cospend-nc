@@ -33,6 +33,7 @@ export function getCategory(projectid, catId) {
 	}
 
 	return {
+		id: catId,
 		name,
 		icon,
 		color,

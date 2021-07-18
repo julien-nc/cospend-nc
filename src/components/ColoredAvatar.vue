@@ -1,8 +1,11 @@
 <template>
-	<Avatar
+	<Avatar v-if="showMe"
 		class="avatar"
+		:is-no-user="isNoUser"
+		:show-user-status="showUserStatus"
 		:style="cssVars"
 		v-bind="$attrs" />
+	<div v-else />
 </template>
 
 <script>
@@ -20,10 +23,19 @@ export default {
 			type: String,
 			default: '',
 		},
+		isNoUser: {
+			type: Boolean,
+			default: false,
+		},
+		showUserStatus: {
+			type: Boolean,
+			default: true,
+		},
 	},
 
 	data() {
 		return {
+			showMe: true,
 		}
 	},
 
@@ -31,6 +43,19 @@ export default {
 		cssVars() {
 			return {
 				'--member-bg-color': '#' + this.color,
+			}
+		},
+	},
+
+	watch: {
+		isNoUser(val) {
+			// trick to re-render the avatar in case isNoUser changes
+			// re-render only if we show the user status (which is what's not rendered correctly)
+			if (this.showUserStatus) {
+				this.showMe = false
+				this.$nextTick(() => {
+					this.showMe = true
+				})
 			}
 		},
 	},

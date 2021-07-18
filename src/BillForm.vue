@@ -198,6 +198,12 @@
 							:value="category.id">
 							{{ category.icon + ' ' + category.name }}
 						</option>
+						<option
+							v-for="(category, catid) in hardCodedCategories"
+							:key="catid"
+							:value="catid">
+							{{ category.icon + ' ' + category.name }}
+						</option>
 					</select>
 				</div>
 				<div class="bill-comment">
@@ -801,7 +807,7 @@ export default {
 			return mList
 		},
 		sortedCategories() {
-			const allCategories = Object.values(cospend.projects[this.projectId].categories).concat(Object.values(cospend.hardCodedCategories))
+			const allCategories = Object.values(cospend.projects[this.projectId].categories)
 			return [
 				constants.SORT_ORDER.MANUAL,
 				constants.SORT_ORDER.MOST_USED,
@@ -821,6 +827,9 @@ export default {
 						return strcmp(a.name, b.name)
 					})
 					: allCategories
+		},
+		hardCodedCategories() {
+			return cospend.hardCodedCategories
 		},
 		currencies() {
 			return cospend.projects[this.projectId].currencies

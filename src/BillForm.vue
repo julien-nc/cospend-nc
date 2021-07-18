@@ -164,21 +164,18 @@
 					<label for="payment-mode">
 						<a class="icon icon-tag" />{{ t('cospend', 'Payment mode') }}
 					</label>
-					<select
-						id="payment-mode"
-						v-model="myBill.paymentmode"
+					<Multiselect
+						id="paymentModeMultiSelect"
+						:value="selectedPaymentModeItem"
+						class="paymentModeMultiSelect"
+						label="name"
+						track-by="id"
 						:disabled="!editionAccess"
-						@input="onBillEdited($event, false)">
-						<option value="n">
-							{{ t('cospend', 'None') }}
-						</option>
-						<option
-							v-for="(pm, id) in paymentModes"
-							:key="id"
-							:value="id">
-							{{ pm.icon + ' ' + pm.name }}
-						</option>
-					</select>
+						:placeholder="t('cospend', 'Choose a payment mode')"
+						:options="formattedPaymentModes"
+						:user-select="false"
+						:internal-search="true"
+						@input="paymentModeSelected" />
 				</div>
 				<div class="bill-category">
 					<label for="category">
@@ -625,17 +622,47 @@ export default {
 				}
 			})
 		},
-		selectedCategoryItem() {
-			const category = getCategory(this.projectId, this.myBill.categoryid)
+		selectedPaymentModeItem() {
+			const paymentMode = cospend.paymentModes[this.myBill.paymentmode] || {
+				icon: '',
+				name: t('cospend', 'None'),
+			}
 			return {
-				id: category.id,
-				name: category.icon + ' ' + category.name,
+				id: this.myBill.paymentmode,
+				name: paymentMode.icon + ' ' + paymentMode.name,
+			}
+		},
+		formattedPaymentModes() {
+			const pmItems = [{
+				name: t('cospend', 'None'),
+				id: 'n',
+			}]
+			pmItems.push(...Object.keys(this.paymentModes).map((pmId) => {
+				const pm = this.paymentModes[pmId]
+				return {
+					name: pm.icon + ' ' + pm.name,
+					id: pmId,
+				}
+			}))
+			return pmItems
+		},
+		selectedCategoryItem() {
+			if (this.myBill.categoryid === 0) {
+				return {
+					id: 0,
+					name: t('cospend', 'None'),
+				}
+			} else {
+				const category = getCategory(this.projectId, this.myBill.categoryid)
+				return {
+					id: category.id,
+					name: category.icon + ' ' + category.name,
+				}
 			}
 		},
 		formattedCategories() {
-			const noCat = getCategory(this.projectId, 0)
 			const categoryItems = [{
-				name: noCat.name,
+				name: t('cospend', 'None'),
 				id: 0,
 			}]
 			categoryItems.push(...this.sortedCategories.map((c) => {
@@ -885,6 +912,10 @@ export default {
 		},
 		memberSelected(selected) {
 			this.myBill.payer_id = selected.id
+			this.onBillEdited(null, false)
+		},
+		paymentModeSelected(selected) {
+			this.myBill.paymentmode = selected.id
 			this.onBillEdited(null, false)
 		},
 		categorySelected(selected) {
@@ -1563,6 +1594,11 @@ export default {
 	grid-template: 1fr / 5fr 7fr;
 }
 
+.bill-payment-mode,
+.bill-category {
+	margin: 8px 0 8px 0;
+}
+
 .bill-repeat,
 .bill-payer,
 .bill-amount {
@@ -1606,8 +1642,10 @@ export default {
 	height: 44px;
 }
 
+::v-deep #categoryMultiSelect,
+::v-deep #paymentModeMultiSelect,
 ::v-deep #memberMultiSelect {
-	padding: 0 !important;
+	padding: 0 0 0 5px !important;
 }
 
 ::v-deep .owerAvatar {

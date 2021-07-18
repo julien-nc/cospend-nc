@@ -179,11 +179,11 @@ export default {
 .one-category-edit {
 	flex-grow: 1;
 	display: grid;
-	grid-template: 1fr / 44px 44px 3fr 42px 42px;
+	grid-template: 1fr / 1fr 1fr 6fr 42px 42px;
 	height: 40px;
 	border-radius: 15px;
 	background-color: var(--color-background-dark);
-	margin-right: 15px;
+	margin-right: 20px;
 }
 
 .one-category-edit label,
@@ -202,7 +202,7 @@ export default {
 .one-category-label {
 	flex-grow: 1;
 	display: grid;
-	grid-template: 1fr / 1fr 1fr 6fr 42px 42px 15px;
+	grid-template: 1fr / 1fr 1fr 6fr 42px 42px 20px;
 }
 
 .editCategoryOk,

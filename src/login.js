@@ -16,7 +16,7 @@ import { generateUrl } from '@nextcloud/router'
 'use strict'
 
 document.addEventListener('DOMContentLoaded', function(event) {
-	const pageUrlWithProjectid = (document.URL.indexOf('/loginproject') !== -1)
+	const pageUrlWithProjectid = (document.URL.includes('/loginproject'))
 	const pidInput = document.getElementById('projectidInput')
 	const pwdInput = document.getElementById('passwordInput')
 

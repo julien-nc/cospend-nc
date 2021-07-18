@@ -79,7 +79,7 @@ function getOptionValuesSuccess(response) {
 }
 
 document.addEventListener('DOMContentLoaded', function(event) {
-	cospend.pageIsPublic = (document.URL.indexOf('/cospend/project') !== -1 || document.URL.indexOf('/cospend/s/') !== -1)
+	cospend.pageIsPublic = (document.URL.includes('/cospend/project') || document.URL.includes('/cospend/s/'))
 	if (!cospend.pageIsPublic) {
 		restoreOptions()
 	} else {

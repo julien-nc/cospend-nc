@@ -19,7 +19,7 @@ export default {
 			type: String,
 			default: 'image',
 			validator(value) {
-				return ['image', 'canvas', 'svg'].indexOf(value) !== -1
+				return ['image', 'canvas', 'svg'].includes(value)
 			},
 		},
 		fgcolor: {

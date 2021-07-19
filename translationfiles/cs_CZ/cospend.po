@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-07-17 13:07+0200\n"
-"PO-Revision-Date: 2021-07-17 11:10\n"
+"PO-Revision-Date: 2021-07-19 12:07\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -233,7 +233,7 @@ msgstr "Nemáte oprávnění k poskytnutí takové úrovně sdíleného přístu
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1804
 msgid "You are not allowed to edit this shared access"
-msgstr ""
+msgstr "Nemáte oprávnění pro upravení tohoto sdíleného přístupu"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1824
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1838
@@ -810,7 +810,7 @@ msgstr "Kdo zaplatil?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:32
 msgid "Choose a member"
-msgstr ""
+msgstr "Zvolte člena"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:33
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:34
@@ -1111,7 +1111,7 @@ msgstr "Účet se nepodařilo uložit"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:110
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:111
 msgid "Failed to save bills"
-msgstr ""
+msgstr "Nepodařilo se uložit účty"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "Bills edited"
@@ -1166,11 +1166,11 @@ msgstr "Ruční"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:122
 msgid "Most used"
-msgstr ""
+msgstr "Nejpoužívanější"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:123
 msgid "Most recently used"
-msgstr ""
+msgstr "Naposledy použité"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:124
 msgid "Add category"
@@ -1689,16 +1689,16 @@ msgstr "Veřejný odkaz"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:283
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:298
 msgid "Link copied"
-msgstr ""
+msgstr "Odkaz zkopírován"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:283
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:298
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Zkopírovat do schránky"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:284
 msgid "Label"
-msgstr ""
+msgstr "Štítek"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:289
 msgid "Delete link"
@@ -1706,7 +1706,7 @@ msgstr "Smazat odkaz"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:290
 msgid "Add another link"
-msgstr ""
+msgstr "Přidat další odkaz"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:291
 msgid "Project owner"
@@ -1726,11 +1726,11 @@ msgstr "Heslo pro nový projekt"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:306
 msgid "Shared access label saved"
-msgstr ""
+msgstr "Štítek sdíleného přístupu uložen"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:307
 msgid "Failed to edit shared access"
-msgstr ""
+msgstr "Upravení sdíleného přístupu se nezdařilo"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:309
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:311
@@ -1767,11 +1767,11 @@ msgstr "Měny"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} {currency} spent"
-msgstr ""
+msgstr "{nb} účtů, {nbMembers} aktivních členů, {spentAmount} {currency} utraceno"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:319
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} spent"
-msgstr ""
+msgstr "{nb} účtů, {nbMembers} aktivních členů, {spentAmount} utraceno"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:320
 msgid "Member/Month"
@@ -1881,11 +1881,11 @@ msgstr "Kdo v této kategorii platil?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:356
 msgid "Select a category"
-msgstr ""
+msgstr "Vyberte kategorii"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:357
 msgid "What did she/he pay for?"
-msgstr ""
+msgstr "Za co platil(a)?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:358
 msgid "Select a member"
@@ -1921,11 +1921,11 @@ msgstr "Kdo platil (vnější kruh) a utrácel (vnitřní koláčový graf)?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:366
 msgid "How much was paid per category?"
-msgstr ""
+msgstr "Kolik bylo placeno v jednotlivých kategoriích?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:367
 msgid "How much was paid per payment mode?"
-msgstr ""
+msgstr "Kolik bylo placeno v jednotlivých režimech plateb?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:370
 msgid "No recent activity"

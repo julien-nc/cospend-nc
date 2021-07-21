@@ -18,9 +18,9 @@
 			@save-option="onSaveOption"
 			@member-click="onNavMemberClick" />
 		<AppContent
-			:list-max-width="40"
-			:list-min-width="15"
-			:list-size="20"
+			:list-max-width="showSidebar ? 40 : 50"
+			:list-min-width="showSidebar ? 30 : 20"
+			:list-size="showSidebar ? 30 : 20"
 			:show-details="shouldShowDetailsToggle"
 			@update:showDetails="showList">
 			<template slot="list">

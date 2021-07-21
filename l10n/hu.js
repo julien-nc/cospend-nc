@@ -206,7 +206,6 @@ OC.L10N.register(
     "Edit" : "Szerkesztés",
     "Categories" : "Kategóriák",
     "Currencies" : "Pénznemek",
-    "{nb} bills, {nm} active members, {ns} spent" : "{nb} számlák, {nm} aktív tag, {ns} költés",
     "Member/Month" : "Tag / hónap",
     "All members" : "Minden tag",
     "Maximum date" : "Végdátum",

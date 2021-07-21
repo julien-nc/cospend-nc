@@ -8,7 +8,7 @@ Umožňuje vytvářet projekty s členy a účty. Každý z členů má zůstate
 
 Členové projektu jsou nezávislí na uživatelích z Nextcloud. K projektům mohou přistupovat a upravovat je i lidé bez účtu v Nextcloud. Každý projekt má identifikátor a heslo pro přístup hostů.
 
-Android klient pro [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) je [k dispozici v repozitáři F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) a v katalogu [Google Play](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
+Android klient [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) je [k dispozici v repozitáři F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) a v katalogu [Google Play](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
 Ve vývoji je také iOS klient [PayForMe](https://github.com/mayflower/PayForMe)!
 

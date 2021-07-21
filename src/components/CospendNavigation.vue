@@ -92,7 +92,8 @@
 						</option>
 					</select>
 				</div>
-				<div id="max-precision">
+				<div id="max-precision"
+					:title="t('cospend', 'Maximum decimal precision to display balances')">
 					<label for="precision">
 						{{ t('cospend', 'Maximum precision') }}
 					</label>

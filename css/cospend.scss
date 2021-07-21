@@ -5,15 +5,10 @@ body {
 #app {
 	width: 100%;
 }
-@media only screen and (min-width:1024px) {
-	#app-details-toggle {
-		display: none !important;
-	}
-	#bill-list {
-		max-width: 400px;
-	}
-	#app-content {
-		transform: none !important;
+@media only screen and (max-width: 1024px) {
+	// fix max height being unset in mobile view by server style
+	.app-content-list {
+		max-height: calc(100vh - 50px) !important;
 	}
 }
 #projectid, #password {
@@ -129,30 +124,6 @@ input[type=number] {
 	background-position: 10px center;
 	width: 100%;
 	text-align: left;
-}
-#bill-list > .deleted {
-	background-color: var(--color-background-darker);
-}
-#app-navigation-toggle {
-	border-radius: 50%;
-	background-color: var(--color-background-darker);
-	opacity: 1 !important;
-}
-#app-navigation-toggle:hover {
-	background-color: var(--color-background-darker);
-}
-#app-details-toggle {
-	position: fixed;
-	display: inline-block;
-	left: 44px;
-	width: 44px;
-	height: 44px;
-	z-index: 1500;
-	background-color: var(--color-background-darker);
-	cursor: pointer;
-	opacity: 0.6;
-	transform: rotate(180deg);
-	border-radius: 50%;
 }
 .selectedbill {
 	background-color: var(--color-background-dark) !important;

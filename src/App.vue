@@ -17,13 +17,13 @@
 			@project-imported="onProjectImported"
 			@save-option="onSaveOption"
 			@member-click="onNavMemberClick" />
-		<AppContent>
-			<div v-if="shouldShowDetailsToggle"
-				id="app-details-toggle"
-				class="icon-confirm"
-				tabindex="0"
-				@click="showList" />
-			<div id="app-content-wrapper">
+		<AppContent
+			:list-max-width="40"
+			:list-min-width="15"
+			:list-size="20"
+			:show-details="shouldShowDetailsToggle"
+			@update:showDetails="showList">
+			<template slot="list">
 				<BillList
 					v-if="currentProjectId"
 					:loading="billsLoading"
@@ -40,29 +40,29 @@
 					@multi-bill-edit="onMultiBillEdit"
 					@reset-selection="onResetSelection"
 					@new-bill-clicked="onNewBillClicked" />
-				<BillForm
-					v-if="currentBill !== null && mode === 'edition'"
-					:bill="currentBill"
-					:members="currentMembers"
-					:edition-access="editionAccess"
-					@bill-created="onBillCreated"
-					@bill-saved="onBillSaved"
-					@custom-bills-created="onCustomBillsCreated"
-					@perso-bills-created="onPersoBillsCreated"
-					@repeat-bill-now="onRepeatBillNow" />
-				<Statistics
-					v-else-if="mode === 'stats'"
-					:project-id="currentProjectId" />
-				<Settlement
-					v-else-if="mode === 'settle'"
-					:project-id="currentProjectId"
-					@auto-settled="onAutoSettled" />
-				<EmptyContent v-else
-					class="central-empty-content"
-					icon="icon-cospend">
-					{{ t('cospend', 'No bill selected') }}
-				</EmptyContent>
-			</div>
+			</template>
+			<BillForm
+				v-if="currentBill !== null && mode === 'edition'"
+				:bill="currentBill"
+				:members="currentMembers"
+				:edition-access="editionAccess"
+				@bill-created="onBillCreated"
+				@bill-saved="onBillSaved"
+				@custom-bills-created="onCustomBillsCreated"
+				@perso-bills-created="onPersoBillsCreated"
+				@repeat-bill-now="onRepeatBillNow" />
+			<Statistics
+				v-else-if="mode === 'stats'"
+				:project-id="currentProjectId" />
+			<Settlement
+				v-else-if="mode === 'settle'"
+				:project-id="currentProjectId"
+				@auto-settled="onAutoSettled" />
+			<EmptyContent v-else-if="!isMobile"
+				class="central-empty-content"
+				icon="icon-cospend">
+				{{ t('cospend', 'No bill selected') }}
+			</EmptyContent>
 			<div
 				class="content-buttons">
 				<button
@@ -113,6 +113,7 @@ import { rgbObjToHex, slugify } from './utils'
 import Content from '@nextcloud/vue/dist/Components/Content'
 import AppContent from '@nextcloud/vue/dist/Components/AppContent'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import isMobile from '@nextcloud/vue/dist/Mixins/isMobile'
 
 export default {
 	name: 'App',
@@ -127,6 +128,7 @@ export default {
 		AppContent,
 		EmptyContent,
 	},
+	mixins: [isMobile],
 	provide() {
 		return {
 		}
@@ -150,7 +152,7 @@ export default {
 	},
 	computed: {
 		shouldShowDetailsToggle() {
-			return (this.currentBill || this.mode !== 'edition')
+			return ((this.currentBill && this.currentBill !== null) || this.mode !== 'edition')
 		},
 		currentProjectId() {
 			return this.cospend.currentProjectId
@@ -756,8 +758,8 @@ export default {
 	}
 }*/
 .content-buttons {
-	position: absolute !important;
-	top: 6px;
+	position: fixed !important;
+	top: 56px;
 	right: 6px;
 	button {
 		width: 44px;

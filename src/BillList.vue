@@ -1,7 +1,6 @@
 <template>
-	<div id="bill-list"
-		ref="list"
-		:class="{ 'app-content-list': true, 'showdetails': shouldShowDetails }">
+	<AppContentList
+		ref="list">
 		<div>
 			<AppNavigationItem
 				v-if="editionAccess && twoActiveMembers"
@@ -111,10 +110,11 @@
 				{{ t('cospend', 'No more bills') }}
 			</template>
 		</InfiniteLoading>
-	</div>
+	</AppContentList>
 </template>
 
 <script>
+import AppContentList from '@nextcloud/vue/dist/Components/AppContentList'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
@@ -131,7 +131,7 @@ export default {
 	name: 'BillList',
 
 	components: {
-		BillItem, AppNavigationItem, Actions, ActionButton, EmptyContent, InfiniteLoading,
+		BillItem, AppContentList, AppNavigationItem, Actions, ActionButton, EmptyContent, InfiniteLoading,
 	},
 
 	props: {
@@ -243,7 +243,7 @@ export default {
 		projectId() {
 			this.selectMode = false
 			this.selectedBillIds = []
-			this.$refs.list.scrollTo(0, 0)
+			this.$refs.list?.$el.scrollTo(0, 0)
 		},
 	},
 

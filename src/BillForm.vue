@@ -1501,7 +1501,7 @@ export default {
 }
 
 .bill-left {
-	width: 550px;
+	width: 500px;
 }
 
 .bill-right {

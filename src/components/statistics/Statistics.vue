@@ -575,6 +575,7 @@ export default {
 					// lineTension: 0.2,
 					pointRadius: 0,
 					data: paid,
+					hidden: parseInt(catId) === 0,
 				}
 				/*
 				if (index === 0) {
@@ -617,6 +618,7 @@ export default {
 					// lineTension: 0.2,
 					pointRadius: 0,
 					data: paid,
+					hidden: pmId === 'n',
 				}
 				/*
 				if (index === 0) {

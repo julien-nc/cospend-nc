@@ -53,12 +53,18 @@
 		<div>
 			<br><hr>
 			<h3>
-				<span class="icon-user" />
+				<span class="icon icon-user" />
 				<span class="tcontent">
-					{{ t('cospend', 'Member list') }}
+					{{ t('cospend', 'Members') }}
 				</span>
 				<button class="icon icon-info" @click="onInfoAddClicked" />
 			</h3>
+			<h4>
+				<span class="icon icon-add" />
+				<span class="tcontent">
+					{{ t('cospend', 'Add a member') }}
+				</span>
+			</h4>
 			<Multiselect
 				v-if="maintenerAccess"
 				v-model="selectedAddUser"
@@ -82,6 +88,12 @@
 						:user="option.user" />
 					<span class="select-display-name">{{ option.displayName }}</span>
 					<span :class="option.icon + ' select-icon'" />
+				</template>
+				<template #noOptions>
+					{{ t('Cospend', 'No recommendations. Start typing.') }}
+				</template>
+				<template #noResult>
+					{{ t('approval', 'No result.') }}
 				</template>
 			</Multiselect>
 			<AppNavigationMemberItem
@@ -466,6 +478,7 @@ export default {
 
 .addUserInput {
 	width: 100%;
+	margin: 0 0 20px 0;
 }
 
 #affectDiv {
@@ -506,7 +519,7 @@ export default {
 	z-index: 0;
 }
 
-h3 {
+h3, h4 {
 	display: flex;
 	margin-bottom: 20px;
 
@@ -539,6 +552,10 @@ h3 {
 			background-color: var(--color-background-hover);
 		}
 	}
+}
+
+h4 {
+	margin: 0;
 }
 
 .select-display-name {

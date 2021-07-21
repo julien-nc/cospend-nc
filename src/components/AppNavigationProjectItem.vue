@@ -62,9 +62,10 @@
 			</ActionButton>
 		</template>
 		<template #default>
-			<AppNavigationItem v-if="members.length === 0"
-				icon="icon-category-disabled"
-				:title="t('cospend', 'No members yet')" />
+			<AppNavigationItem v-if="members.length < 2"
+				icon="icon-add"
+				:title="t('cospend', 'Add a member')"
+				@click="onAddMemberClick" />
 			<AppNavigationMemberItem v-for="member in sortedMembers"
 				:key="member.id"
 				class="memberItem"

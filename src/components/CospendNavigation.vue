@@ -1,13 +1,12 @@
 <template>
 	<AppNavigation>
 		<template slot="list">
-			<div v-if="!pageIsPublic && !loading">
-				<AppNavigationNewItem
-					icon="icon-add"
-					:title="t('cospend', 'New project')"
-					:edit-placeholder="t('cospend', 'New project name')"
-					@new-item="$emit('create-project', $event)" />
-			</div>
+			<AppNavigationNewItem v-if="!pageIsPublic && !loading"
+				class="addProjectItem"
+				icon="icon-add"
+				:title="t('cospend', 'New project')"
+				:edit-placeholder="t('cospend', 'New project name')"
+				@new-item="$emit('create-project', $event)" />
 			<h2 v-if="loading"
 				class="icon-loading-small loading-icon" />
 			<EmptyContent v-else-if="sortedProjectIds.length === 0"
@@ -306,6 +305,16 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.addProjectItem {
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+	background-color: var(--color-main-background);
+	&:hover {
+		background-color: var(--color-background-hover);
+	}
+}
+
 ::v-deep .selectedproject,
 ::v-deep .selectedmember {
 	> a,

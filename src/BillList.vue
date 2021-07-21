@@ -1,7 +1,7 @@
 <template>
 	<AppContentList
 		ref="list">
-		<div>
+		<div class="list-header">
 			<AppNavigationItem
 				v-if="editionAccess && twoActiveMembers"
 				v-show="!loading"
@@ -17,65 +17,65 @@
 					</ActionButton>
 				</template>
 			</AppNavigationItem>
+			<transition name="fade">
+				<div v-if="selectMode"
+					class="selectionOptions">
+					<select v-show="selectedBillIds.length > 0"
+						v-model="selectedCategory"
+						class="category-select"
+						@input="onCategoryChange">
+						<option value="placeholder">
+							{{ t('cospend', 'Assign category') }}
+						</option>
+						<option value="0">
+							{{ t('cospend', 'None') }}
+						</option>
+						<option
+							v-for="category in sortedCategories"
+							:key="category.id"
+							:value="category.id">
+							{{ category.icon + ' ' + category.name }}
+						</option>
+						<option
+							v-for="(category, catid) in hardCodedCategories"
+							:key="catid"
+							:value="catid">
+							{{ category.icon + ' ' + category.name }}
+						</option>
+					</select>
+					<select v-show="selectedBillIds.length > 0"
+						v-model="selectedPaymentMode"
+						class="paymentmode-select"
+						:disabled="!editionAccess"
+						@input="onPaymentModeChange">
+						<option value="placeholder">
+							{{ t('cospend', 'Assign payment mode') }}
+						</option>
+						<option value="n">
+							{{ t('cospend', 'None') }}
+						</option>
+						<option
+							v-for="(pm, id) in paymentModes"
+							:key="id"
+							:value="id">
+							{{ pm.icon + ' ' + pm.name }}
+						</option>
+					</select>
+					<Actions v-show="selectedBillIds.length > 0 && deletionEnabled">
+						<ActionButton
+							icon="icon-delete"
+							class="multiDelete"
+							@click="deleteSelection">
+							{{ t('cospend', 'Delete selected bills') }}
+						</ActionButton>
+					</Actions>
+					<p v-if="selectedBillIds.length === 0"
+						class="multiSelectHint">
+						{{ t('cospend', 'Multi select mode: Select bills to make grouped actions') }}
+					</p>
+				</div>
+			</transition>
 		</div>
-		<transition name="fade">
-			<div v-if="selectMode"
-				class="selectionOptions">
-				<select v-show="selectedBillIds.length > 0"
-					v-model="selectedCategory"
-					class="category-select"
-					@input="onCategoryChange">
-					<option value="placeholder">
-						{{ t('cospend', 'Assign category') }}
-					</option>
-					<option value="0">
-						{{ t('cospend', 'None') }}
-					</option>
-					<option
-						v-for="category in sortedCategories"
-						:key="category.id"
-						:value="category.id">
-						{{ category.icon + ' ' + category.name }}
-					</option>
-					<option
-						v-for="(category, catid) in hardCodedCategories"
-						:key="catid"
-						:value="catid">
-						{{ category.icon + ' ' + category.name }}
-					</option>
-				</select>
-				<select v-show="selectedBillIds.length > 0"
-					v-model="selectedPaymentMode"
-					class="paymentmode-select"
-					:disabled="!editionAccess"
-					@input="onPaymentModeChange">
-					<option value="placeholder">
-						{{ t('cospend', 'Assign payment mode') }}
-					</option>
-					<option value="n">
-						{{ t('cospend', 'None') }}
-					</option>
-					<option
-						v-for="(pm, id) in paymentModes"
-						:key="id"
-						:value="id">
-						{{ pm.icon + ' ' + pm.name }}
-					</option>
-				</select>
-				<Actions v-show="selectedBillIds.length > 0 && deletionEnabled">
-					<ActionButton
-						icon="icon-delete"
-						class="multiDelete"
-						@click="deleteSelection">
-						{{ t('cospend', 'Delete selected bills') }}
-					</ActionButton>
-				</Actions>
-				<p v-if="selectedBillIds.length === 0"
-					class="multiSelectHint">
-					{{ t('cospend', 'Multi select mode: Select bills to make grouped actions') }}
-				</p>
-			</div>
-		</transition>
 		<h3 v-if="!twoActiveMembers"
 			class="nomember">
 			{{ t('cospend', 'Add at least 2 members to start creating bills') }}
@@ -259,6 +259,7 @@ export default {
 			}
 		},
 		onAddBillClicked() {
+			this.$refs.list?.$el.scrollTo(0, 0)
 			this.$emit('new-bill-clicked')
 		},
 		onItemClicked(bill) {
@@ -370,6 +371,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.list-header {
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+	background-color: var(--color-main-background);
+}
+
 .addBillItem {
 	padding-left: 40px;
 	padding-right: 44px;

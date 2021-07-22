@@ -130,11 +130,12 @@ class PageController extends ApiController {
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedImageDomain('*')
 			->addAllowedMediaDomain('*')
-			//->addAllowedChildSrcDomain('*')
+//			->addAllowedChildSrcDomain('*')
 			->addAllowedFrameDomain('*')
 			->addAllowedWorkerSrcDomain('*')
 			//->allowInlineScript(true)
-//			->allowEvalScript(true)
+			// to make eval work in frontend
+			->allowEvalScript(true)
 			->addAllowedObjectDomain('*')
 			->addAllowedScriptDomain('*')
 			->addAllowedConnectDomain('*');

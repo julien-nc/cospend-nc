@@ -967,6 +967,9 @@ export default {
 				} else {
 					this.saveBill()
 				}
+			} else if (this.isNewBill) {
+				// apply new bill changes immediately (to display them in bill list item)
+				this.$emit('bill-saved', this.bill, this.myBill)
 			}
 		},
 		isBillValidForSaveOrNormal() {

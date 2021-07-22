@@ -115,10 +115,10 @@ export default {
 		},
 		payerColor() {
 			return (this.bill.payer_id === 0 || this.bill.id === 0)
-				? ''
+				? '000000'
 				: this.members[this.bill.payer_id]
 					? this.members[this.bill.payer_id].color
-					: ''
+					: '000000'
 		},
 		payerName() {
 			return (this.bill.payer_id === 0 || this.bill.id === 0)

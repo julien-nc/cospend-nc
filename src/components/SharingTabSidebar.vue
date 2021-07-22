@@ -226,21 +226,21 @@
 				</Actions>
 			</li>
 		</ul>
-		<form v-if="myAccessLevel === 4"
-			id="newPasswordForm"
-			@submit.prevent.stop="setPassword">
-			<label for="newPasswordInput">{{ t('cospend', 'New project password') }}</label>
-			<div>
+		<div class="enterPassword">
+			<form v-if="myAccessLevel === 4"
+				id="newPasswordForm"
+				@submit.prevent.stop="setPassword">
 				<input id="newPasswordInput"
 					ref="newPasswordInput"
-					value=""
+					v-model="newGuestPassword"
 					type="password"
 					autocomplete="off"
+					:placeholder="t('cospend', 'New project password')"
 					:readonly="newPasswordReadonly"
 					@focus="newPasswordReadonly = false; $event.target.select()">
 				<input type="submit" value="" class="icon-confirm">
-			</div>
-		</form>
+			</form>
+		</div>
 		<br><hr><br>
 		<MoneyBusterLink
 			:project="project" />
@@ -297,6 +297,7 @@ export default {
 			sharees: [],
 			guestLinkCopied: false,
 			linkCopied: {},
+			newGuestPassword: '',
 			newPasswordReadonly: true,
 			addingPublicLink: false,
 			groupIconUrl: generateUrl('/svg/core/actions/group?color=000000'),
@@ -523,9 +524,9 @@ export default {
 			this.addSharedAccess({ type: constants.SHARE_TYPE.PUBLIC_LINK })
 		},
 		setPassword() {
-			const password = this.$refs.newPasswordInput.value
-			if (password) {
-				this.$emit('project-edited', this.projectId, password)
+			if (this.newGuestPassword) {
+				this.$emit('project-edited', this.projectId, this.newGuestPassword)
+				this.newGuestPassword = ''
 			} else {
 				showError(t('cospend', 'Password should not be empty.'))
 			}
@@ -612,15 +613,25 @@ export default {
 	height: 32px;
 }
 
-#newPasswordForm div {
-	width: 48%;
-	display: inline-block;
+::v-deep .enterPassword {
+	order: 1;
+	display: flex;
+	margin-left: auto;
+	margin-right: auto;
+	height: 44px;
+	width: 250px;
+	form {
+		display: flex;
+		flex-grow: 1;
+		input[type='password'] {
+			flex-grow: 1;
+		}
+	}
 }
 
-#newPasswordForm label {
-	text-align: center;
-	display: inline-block;
+#newPasswordForm {
 	width: 48%;
+	display: flex;
 }
 
 .avatardiv.icon-public-white {

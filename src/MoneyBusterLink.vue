@@ -181,22 +181,6 @@ export default {
 	margin: 0 auto;
 }
 
-.enterPassword {
-	order: 1;
-	display: flex;
-	margin-left: auto;
-	margin-right: auto;
-	height: 44px;
-	width: 250px;
-	form {
-		display: flex;
-		flex-grow: 1;
-		input[type='password'] {
-			flex-grow: 1;
-		}
-	}
-}
-
 #mbPasswordLabel1,
 #mbPasswordLabel2,
 #mbUrlHintLabel1,

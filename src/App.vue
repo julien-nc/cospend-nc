@@ -475,7 +475,7 @@ export default {
 					}
 				} else {
 					if (!response.data.myaccesslevel) {
-						response.data.myaccesslevel = response.guestaccesslevel
+						response.data.myaccesslevel = response.data.guestaccesslevel
 					}
 					this.addProject(response.data)
 					this.selectProject(response.data.id, false)

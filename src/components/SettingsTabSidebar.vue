@@ -91,10 +91,10 @@
 					<span :class="option.icon + ' select-icon'" />
 				</template>
 				<template #noOptions>
-					{{ t('Cospend', 'No recommendations. Start typing.') }}
+					{{ t('cospend', 'No recommendations. Start typing.') }}
 				</template>
 				<template #noResult>
-					{{ t('approval', 'No result.') }}
+					{{ t('cospend', 'No result.') }}
 				</template>
 			</Multiselect>
 			<AppNavigationMemberItem

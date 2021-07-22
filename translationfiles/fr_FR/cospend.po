@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-07-21 18:50+0200\n"
-"PO-Revision-Date: 2021-07-21 16:51\n"
+"PO-Revision-Date: 2021-07-22 13:38\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -824,7 +824,7 @@ msgstr "Mode de paiement"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:36
 msgid "Choose a payment mode"
-msgstr ""
+msgstr "Choisissez un mode de paiement"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:37
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:342
@@ -833,7 +833,7 @@ msgstr "Catégorie"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:38
 msgid "Choose a category"
-msgstr ""
+msgstr "Choisissez une catégorie"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:39
 msgid "Comment"
@@ -1086,7 +1086,7 @@ msgstr "Supprimer les factures sélectionnées"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:105
 msgid "Multi select mode: Select bills to make grouped actions"
-msgstr "Mode sélection multiple : Sélectionnez les factures pour effectuer des actions groupées"
+msgstr "Mode sélection multiple : Sélectionnez des factures pour effectuer des actions groupées"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:106
 msgid "Add at least 2 members to start creating bills"
@@ -1451,7 +1451,7 @@ msgstr "Assurez-vous que le remboursement « réel » a été effectué entre ce
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:208
 msgid "Rename member"
-msgstr ""
+msgstr "Renommer le membre"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:209
 msgid "Change color"
@@ -1530,7 +1530,7 @@ msgstr "Plan de remboursement de projet"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:226
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:277
 msgid "Add a member"
-msgstr ""
+msgstr "Ajouter un membre"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "Everyone"
@@ -1588,7 +1588,7 @@ msgstr "/N'importe où"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:248
 msgid "Projects order"
-msgstr ""
+msgstr "Ordre des projets"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:250
 msgid "Last activity"
@@ -1596,11 +1596,11 @@ msgstr "Dernière activité"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:251
 msgid "Members order"
-msgstr ""
+msgstr "Ordre des membres"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:254
 msgid "Maximum decimal precision to display balances"
-msgstr ""
+msgstr "Précision décimale maximale pour afficher les soldes"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:255
 msgid "Maximum precision"
@@ -1652,15 +1652,15 @@ msgstr "Exporter le projet"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:276
 msgid "Members"
-msgstr ""
+msgstr "Membres"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:278
 msgid "No recommendations. Start typing."
-msgstr ""
+msgstr "Aucune recommandation. Commencez à écrire."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:279
 msgid "No result."
-msgstr ""
+msgstr "Aucun résultat."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:280
 msgid "Associate a project member with a Nextcloud user"

@@ -79,27 +79,27 @@
 						{{ t('cospend', 'Label') }}
 					</ActionInput>
 					<ActionRadio name="accessLevel"
-						:disabled="!canSetAccessLevel(1, access)"
-						:checked="access.accesslevel === 1"
-						@change="clickAccessLevel(access, 1)">
+						:disabled="!canSetAccessLevel(constants.ACCESS.VIEWER, access)"
+						:checked="access.accesslevel === constants.ACCESS.VIEWER"
+						@change="clickAccessLevel(access, constants.ACCESS.VIEWER)">
 						{{ t('cospend', 'Viewer') }}
 					</ActionRadio>
 					<ActionRadio name="accessLevel"
-						:disabled="!canSetAccessLevel(2, access)"
-						:checked="access.accesslevel === 2"
-						@change="clickAccessLevel(access, 2)">
+						:disabled="!canSetAccessLevel(constants.ACCESS.PARTICIPANT, access)"
+						:checked="access.accesslevel === constants.ACCESS.PARTICIPANT"
+						@change="clickAccessLevel(access, constants.ACCESS.PARTICIPANT)">
 						{{ t('cospend', 'Participant') }}
 					</ActionRadio>
 					<ActionRadio name="accessLevel"
-						:disabled="!canSetAccessLevel(3, access)"
-						:checked="access.accesslevel === 3"
-						@change="clickAccessLevel(access, 3)">
+						:disabled="!canSetAccessLevel(constants.ACCESS.MAINTENER, access)"
+						:checked="access.accesslevel === constants.ACCESS.MAINTENER"
+						@change="clickAccessLevel(access, constants.ACCESS.MAINTENER)">
 						{{ t('cospend', 'Maintainer') }}
 					</ActionRadio>
 					<ActionRadio name="accessLevel"
-						:disabled="!canSetAccessLevel(4, access)"
-						:checked="access.accesslevel === 4"
-						@change="clickAccessLevel(access, 4)">
+						:disabled="!canSetAccessLevel(constants.ACCESS.ADMIN, access)"
+						:checked="access.accesslevel === constants.ACCESS.ADMIN"
+						@change="clickAccessLevel(access, constants.ACCESS.ADMIN)">
 						{{ t('cospend', 'Admin') }}
 					</ActionRadio>
 					<ActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
@@ -144,27 +144,27 @@
 					:force-menu="true"
 					placement="bottom">
 					<ActionRadio name="accessLevel"
-						:disabled="!canSetAccessLevel(1, access)"
-						:checked="access.accesslevel === 1"
-						@change="clickAccessLevel(access, 1)">
+						:disabled="!canSetAccessLevel(constants.ACCESS.VIEWER, access)"
+						:checked="access.accesslevel === constants.ACCESS.VIEWER"
+						@change="clickAccessLevel(access, constants.ACCESS.VIEWER)">
 						{{ t('cospend', 'Viewer') }}
 					</ActionRadio>
 					<ActionRadio name="accessLevel"
-						:disabled="!canSetAccessLevel(2, access)"
-						:checked="access.accesslevel === 2"
-						@change="clickAccessLevel(access, 2)">
+						:disabled="!canSetAccessLevel(constants.ACCESS.PARTICIPANT, access)"
+						:checked="access.accesslevel === constants.ACCESS.PARTICIPANT"
+						@change="clickAccessLevel(access, constants.ACCESS.PARTICIPANT)">
 						{{ t('cospend', 'Participant') }}
 					</ActionRadio>
 					<ActionRadio name="accessLevel"
-						:disabled="!canSetAccessLevel(3, access)"
-						:checked="access.accesslevel === 3"
-						@change="clickAccessLevel(access, 3)">
+						:disabled="!canSetAccessLevel(constants.ACCESS.MAINTENER, access)"
+						:checked="access.accesslevel === constants.ACCESS.MAINTENER"
+						@change="clickAccessLevel(access, constants.ACCESS.MAINTENER)">
 						{{ t('cospend', 'Maintainer') }}
 					</ActionRadio>
 					<ActionRadio name="accessLevel"
-						:disabled="!canSetAccessLevel(4, access)"
-						:checked="access.accesslevel === 4"
-						@change="clickAccessLevel(access, 4)">
+						:disabled="!canSetAccessLevel(constants.ACCESS.ADMIN, access)"
+						:checked="access.accesslevel === constants.ACCESS.ADMIN"
+						@change="clickAccessLevel(access, constants.ACCESS.ADMIN)">
 						{{ t('cospend', 'Admin') }}
 					</ActionRadio>
 					<ActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
@@ -200,34 +200,34 @@
 					:force-menu="true"
 					placement="bottom">
 					<ActionRadio name="guestAccessLevel"
-						:disabled="myAccessLevel < 4"
-						:checked="project.guestaccesslevel === 1"
-						@change="clickGuestAccessLevel(1)">
+						:disabled="myAccessLevel < constants.ACCESS.ADMIN"
+						:checked="project.guestaccesslevel === constants.ACCESS.VIEWER"
+						@change="clickGuestAccessLevel(constants.ACCESS.VIEWER)">
 						{{ t('cospend', 'Viewer') }}
 					</ActionRadio>
 					<ActionRadio name="guestAccessLevel"
-						:disabled="myAccessLevel < 4"
-						:checked="project.guestaccesslevel === 2"
-						@change="clickGuestAccessLevel(2)">
+						:disabled="myAccessLevel < constants.ACCESS.ADMIN"
+						:checked="project.guestaccesslevel === constants.ACCESS.PARTICIPANT"
+						@change="clickGuestAccessLevel(constants.ACCESS.PARTICIPANT)">
 						{{ t('cospend', 'Participant') }}
 					</ActionRadio>
 					<ActionRadio name="guestAccessLevel"
-						:disabled="myAccessLevel < 4"
-						:checked="project.guestaccesslevel === 3"
-						@change="clickGuestAccessLevel(3)">
+						:disabled="myAccessLevel < constants.ACCESS.ADMIN"
+						:checked="project.guestaccesslevel === constants.ACCESS.MAINTENER"
+						@change="clickGuestAccessLevel(constants.ACCESS.MAINTENER)">
 						{{ t('cospend', 'Maintainer') }}
 					</ActionRadio>
 					<ActionRadio name="guestAccessLevel"
-						:disabled="myAccessLevel < 4"
-						:checked="project.guestaccesslevel === 4"
-						@change="clickGuestAccessLevel(4)">
+						:disabled="myAccessLevel < constants.ACCESS.ADMIN"
+						:checked="project.guestaccesslevel === constants.ACCESS.ADMIN"
+						@change="clickGuestAccessLevel(constants.ACCESS.ADMIN)">
 						{{ t('cospend', 'Admin') }}
 					</ActionRadio>
 				</Actions>
 			</li>
 		</ul>
 		<div class="enterPassword">
-			<form v-if="myAccessLevel === 4"
+			<form v-if="myAccessLevel === constants.ACCESS.ADMIN"
 				id="newPasswordForm"
 				@submit.prevent.stop="setPassword">
 				<input id="newPasswordInput"

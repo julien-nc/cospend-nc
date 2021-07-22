@@ -1,6 +1,7 @@
 /* jshint esversion: 6 */
 
 export const ACCESS = {
+	NO_ACCESS: 0,
 	VIEWER: 1,
 	PARTICIPANT: 2,
 	MAINTENER: 3,

@@ -74,41 +74,41 @@
 			<ActionRadio
 				v-if="showShareEdition"
 				name="accessLevel"
-				:disabled="!canSetAccessLevel(0, access)"
+				:disabled="!canSetAccessLevel(constants.ACCESS.NO_ACCESS, access)"
 				:checked="!access"
-				@change="clickAccessLevel(0)">
+				@change="clickAccessLevel(constants.ACCESS.NO_ACCESS)">
 				{{ t('cospend', 'No access') }}
 			</ActionRadio>
 			<ActionRadio
 				v-if="showShareEdition"
 				name="accessLevel"
-				:disabled="!canSetAccessLevel(1, access)"
-				:checked="access && access.accesslevel === 1"
-				@change="clickAccessLevel(1)">
+				:disabled="!canSetAccessLevel(constants.ACCESS.VIEWER, access)"
+				:checked="access && access.accesslevel === constants.ACCESS.VIEWER"
+				@change="clickAccessLevel(constants.ACCESS.VIEWER)">
 				{{ t('cospend', 'Viewer') }}
 			</ActionRadio>
 			<ActionRadio
 				v-if="showShareEdition"
 				name="accessLevel"
-				:disabled="!canSetAccessLevel(2, access)"
-				:checked="access && access.accesslevel === 2"
-				@change="clickAccessLevel(2)">
+				:disabled="!canSetAccessLevel(constants.ACCESS.PARTICIPANT, access)"
+				:checked="access && access.accesslevel === constants.ACCESS.PARTICIPANT"
+				@change="clickAccessLevel(constants.ACCESS.PARTICIPANT)">
 				{{ t('cospend', 'Participant') }}
 			</ActionRadio>
 			<ActionRadio
 				v-if="showShareEdition"
 				name="accessLevel"
-				:disabled="!canSetAccessLevel(3, access)"
-				:checked="access && access.accesslevel === 3"
-				@change="clickAccessLevel(3)">
+				:disabled="!canSetAccessLevel(constants.ACCESS.MAINTENER, access)"
+				:checked="access && access.accesslevel === constants.ACCESS.MAINTENER"
+				@change="clickAccessLevel(constants.ACCESS.MAINTENER)">
 				{{ t('cospend', 'Maintainer') }}
 			</ActionRadio>
 			<ActionRadio
 				v-if="showShareEdition"
 				name="accessLevel"
-				:disabled="!canSetAccessLevel(4, access)"
-				:checked="access && access.accesslevel === 4"
-				@change="clickAccessLevel(4)">
+				:disabled="!canSetAccessLevel(constants.ACCESS.ADMIN, access)"
+				:checked="access && access.accesslevel === constants.ACCESS.ADMIN"
+				@change="clickAccessLevel(constants.ACCESS.ADMIN)">
 				{{ t('cospend', 'Admin') }}
 			</ActionRadio>
 		</template>
@@ -165,6 +165,7 @@ export default {
 	},
 	data() {
 		return {
+			constants,
 		}
 	},
 	computed: {

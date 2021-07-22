@@ -266,7 +266,7 @@ export default {
 }
 
 .app-content-list-item-details {
-	max-width: 115px !important;
+	max-width: 125px !important;
 }
 
 .itemAvatar {

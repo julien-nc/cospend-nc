@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 1.3.10 – 2021-07-15
 ### Added
+- now possible to change bill list width (drag right side)
+- click on member => filter bills
+- new setting to choose member order in navigation (balance or name)
 - public link labels
 - new member monthly spent stats table/chart
   [#58](https://github.com/eneiluj/cospend-nc/issues/58) @Raspikabek
@@ -17,7 +20,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - new average column for category and payment mode monthly stat tables
 
 ### Changed
-- nicer payer selection
+- improve QRCode design, embed svg image with complementary color
+- make link management consistent with Files app
+- improve payer/category/paymentMode selection in bill edition
 - improve style almost everywhere
 - improve stats line charts style
 - improve stats tables design (sticky header and first column)

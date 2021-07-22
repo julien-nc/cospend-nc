@@ -1856,9 +1856,11 @@ class ProjectService {
 	 * Get number of bills in a project
 	 *
 	 * @param string $projectId
+	 * @param int|null $payerId
 	 * @return int
+	 * @throws \OCP\DB\Exception
 	 */
-	public function getNbBills(string $projectId): int {
+	public function getNbBills(string $projectId, ?int $payerId = null): int {
 		$nb = 0;
 		$qb = $this->db->getQueryBuilder();
 		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_bills')
@@ -1866,6 +1868,11 @@ class ProjectService {
 		   ->where(
 			   $qb->expr()->eq('bi.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 		   );
+		if ($payerId !== null) {
+			$qb->andWhere(
+				$qb->expr()->eq('payerid', $qb->createNamedParameter($payerId, IQueryBuilder::PARAM_INT))
+			);
+		}
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
 			$nb = (int) $row['count_bills'];
@@ -1891,7 +1898,7 @@ class ProjectService {
 	 */
 	public function getBillsWithLimit(string $projectId, ?int $tsMin = null, ?int $tsMax = null, ?string $paymentMode = null, ?int $category = null,
 							  ?float $amountMin = null, ?float $amountMax = null, ?int $lastchanged = null, ?int $limit = null,
-							  bool $reverse = false, int $offset = 0): array {
+							  bool $reverse = false, int $offset = 0, ?int $payerId = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
 					'paymentmode', 'categoryid', 'lastchanged', 'repeatallactive',
@@ -1901,17 +1908,22 @@ class ProjectService {
 			   $qb->expr()->eq('bi.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 		   );
 		// take bills that have changed after $lastchanged
-		if ($lastchanged !== null && is_numeric($lastchanged)) {
+		if ($lastchanged !== null) {
 			$qb->andWhere(
-				$qb->expr()->gt('bi.lastchanged', $qb->createNamedParameter(intval($lastchanged), IQueryBuilder::PARAM_INT))
+				$qb->expr()->gt('bi.lastchanged', $qb->createNamedParameter($lastchanged, IQueryBuilder::PARAM_INT))
 			);
 		}
-		if (is_numeric($tsMin)) {
+		if ($payerId !== null) {
+			$qb->andWhere(
+				$qb->expr()->eq('payerid', $qb->createNamedParameter($payerId, IQueryBuilder::PARAM_INT))
+			);
+		}
+		if ($tsMin !== null) {
 			$qb->andWhere(
 				$qb->expr()->gte('timestamp', $qb->createNamedParameter($tsMin, IQueryBuilder::PARAM_INT))
 			);
 		}
-		if (is_numeric($tsMax)) {
+		if ($tsMax !== null) {
 			$qb->andWhere(
 				$qb->expr()->lte('timestamp', $qb->createNamedParameter($tsMax, IQueryBuilder::PARAM_INT))
 			);
@@ -2043,11 +2055,13 @@ class ProjectService {
 	 * @param int|null $lastchanged
 	 * @param int|null $limit
 	 * @param bool $reverse
+	 * @param int|null $payerId
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
 	public function getBills(string $projectId, ?int $tsMin = null, ?int $tsMax = null, ?string $paymentMode = null, ?int $category = null,
 							  ?float $amountMin = null, ?float $amountMax = null, ?int $lastchanged = null, ?int $limit = null,
-							  bool $reverse = false): array {
+							  bool $reverse = false, ?int $payerId = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('bi.id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
 					'paymentmode', 'categoryid', 'bi.lastchanged', 'repeatallactive', 'repeatuntil', 'repeatfreq',
@@ -2059,17 +2073,22 @@ class ProjectService {
 			   $qb->expr()->eq('bi.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 		   );
 		// take bills that have changed after $lastchanged
-		if ($lastchanged !== null && is_numeric($lastchanged)) {
+		if ($lastchanged !== null) {
 			$qb->andWhere(
-				$qb->expr()->gt('bi.lastchanged', $qb->createNamedParameter(intval($lastchanged), IQueryBuilder::PARAM_INT))
+				$qb->expr()->gt('bi.lastchanged', $qb->createNamedParameter($lastchanged, IQueryBuilder::PARAM_INT))
 			);
 		}
-		if (is_numeric($tsMin)) {
+		if ($payerId !== null) {
+			$qb->andWhere(
+				$qb->expr()->eq('bi.payerid', $qb->createNamedParameter($payerId, IQueryBuilder::PARAM_INT))
+			);
+		}
+		if ($tsMin !== null) {
 			$qb->andWhere(
 				$qb->expr()->gte('timestamp', $qb->createNamedParameter($tsMin, IQueryBuilder::PARAM_INT))
 			);
 		}
-		if (is_numeric($tsMax)) {
+		if ($tsMax !== null) {
 			$qb->andWhere(
 				$qb->expr()->lte('timestamp', $qb->createNamedParameter($tsMax, IQueryBuilder::PARAM_INT))
 			);

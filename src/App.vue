@@ -222,6 +222,11 @@ export default {
 			} else if (this.currentProjectId === projectId) {
 				this.selectedMemberId = memberId
 			}
+			// deselect current bill
+			this.currentBill = null
+			// we load bills from scratch to make sure we get the correct total number of bills
+			// and infinite scroll works fine
+			this.getBills(cospend.currentProjectId)
 		},
 		onActiveSidebarTabChanged(newActive) {
 			this.activeSidebarTab = newActive
@@ -417,39 +422,48 @@ export default {
 			this.getBills(projectid)
 		},
 		onNewBillClicked() {
-			// find potentially existing new bill
-			const billList = this.billLists[cospend.currentProjectId]
-			const found = billList.findIndex((bill) => { return bill.id === 0 })
-			if (found === -1) {
-				const payerId = this.defaultPayerId
-				// select all owers
-				const owerIds = []
-				for (const mid in this.currentMembers) {
-					if (this.currentMembers[mid].activated) {
-						owerIds.push(this.currentMembers[mid].id)
-					}
-				}
-				this.currentBill = {
-					id: 0,
-					what: '',
-					timestamp: moment().hour(0).minute(0).second(0).unix(),
-					amount: 0.0,
-					payer_id: payerId,
-					repeat: 'n',
-					owers: [],
-					owerIds,
-					paymentmode: 'n',
-					categoryid: 0,
-					comment: '',
-				}
-				this.billLists[cospend.currentProjectId].unshift(this.currentBill)
-				this.currentProject.nbBills++
+			// if a member is selected: deselect member and get full bill list
+			// then call onNewBillClicked again
+			if (this.selectedMemberId) {
+				this.selectedMemberId = null
+				this.getBills(cospend.currentProjectId, null, () => { this.onNewBillClicked() })
 			} else {
-				this.currentBill = billList[found]
+				// find potentially existing new bill
+				const billList = this.billLists[cospend.currentProjectId]
+				const found = billList.findIndex((bill) => {
+					return bill.id === 0
+				})
+				if (found === -1) {
+					const payerId = this.defaultPayerId
+					// select all owers
+					const owerIds = []
+					for (const mid in this.currentMembers) {
+						if (this.currentMembers[mid].activated) {
+							owerIds.push(this.currentMembers[mid].id)
+						}
+					}
+					this.currentBill = {
+						id: 0,
+						what: '',
+						timestamp: moment().hour(0).minute(0).second(0).unix(),
+						amount: 0.0,
+						payer_id: payerId,
+						repeat: 'n',
+						owers: [],
+						owerIds,
+						paymentmode: 'n',
+						categoryid: 0,
+						comment: '',
+					}
+					this.billLists[cospend.currentProjectId].unshift(this.currentBill)
+					this.currentProject.nbBills++
+				} else {
+					this.currentBill = billList[found]
+				}
+				// select new bill in case it was not selected yet
+				// this.selectedBillId = billid
+				this.mode = 'edition'
 			}
-			// select new bill in case it was not selected yet
-			// this.selectedBillId = billid
-			this.mode = 'edition'
 		},
 		onBillClicked(billid) {
 			const billList = this.billLists[cospend.currentProjectId]
@@ -488,9 +502,9 @@ export default {
 				)
 			})
 		},
-		getBills(projectid, selectBillId = null) {
+		getBills(projectid, selectBillId = null, callback = null) {
 			this.billsLoading = true
-			network.getBills(projectid, 0, 50).then((response) => {
+			network.getBills(projectid, 0, 50, this.selectedMemberId).then((response) => {
 				this.currentProject.nbBills = response.data.nb_bills
 				this.bills[projectid] = {}
 				this.$set(this.billLists, projectid, response.data.bills)
@@ -501,17 +515,21 @@ export default {
 				if (selectBillId !== null && this.bills[projectid][selectBillId]) {
 					this.currentBill = this.bills[projectid][selectBillId]
 				}
+				if (callback) {
+					callback()
+				}
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to get bills')
 					+ ': ' + error.response?.request?.responseText
 				)
+				console.error(error)
 			}).then(() => {
 				this.billsLoading = false
 			})
 		},
 		loadMoreBills(projectid, state) {
-			network.getBills(projectid, this.billLists[projectid].length, 20).then((response) => {
+			network.getBills(projectid, this.billLists[projectid].length, 20, this.selectedMemberId).then((response) => {
 				this.currentProject.nbBills = response.data.nb_bills
 				if (!response.data.bills || response.data.bills.length === 0) {
 					state.complete()

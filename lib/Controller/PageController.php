@@ -745,21 +745,30 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 *
+	 * @param string $projectid
+	 * @param int|null $lastchanged
+	 * @param int|null $offset
+	 * @param int|null $limit
+	 * @param bool $reverse
+	 * @param int|null $payerId
+	 * @return DataResponse
 	 */
 	public function webGetBills(string $projectid, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null,
-								bool $reverse = false): DataResponse {
+								bool $reverse = false, ?int $payerId = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			if ($limit) {
 				$bills = $this->projectService->getBillsWithLimit(
-					$projectid, null, null, null, null, null, null, $lastchanged, $limit, $reverse, $offset
+					$projectid, null, null, null, null, null, null,
+					$lastchanged, $limit, $reverse, $offset, $payerId
 				);
 			} else {
 				$bills = $this->projectService->getBills(
-					$projectid, null, null, null, null, null, null, $lastchanged, null, $reverse
+					$projectid, null, null, null, null, null, null,
+					$lastchanged, null, $reverse, $payerId
 				);
 			}
 			$result = [
-				'nb_bills' => $this->projectService->getNbBills($projectid),
+				'nb_bills' => $this->projectService->getNbBills($projectid, $payerId),
 				'bills' => $bills,
 			];
 			return new DataResponse($result);
@@ -1006,22 +1015,33 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 * @CORS
+	 *
+	 * @param string $projectid
+	 * @param string $password
+	 * @param int|null $lastchanged
+	 * @param int|null $offset
+	 * @param int|null $limit
+	 * @param bool $reverse
+	 * @param int|null $payerId
+	 * @return DataResponse
 	 */
 	public function apiv3GetBills(string $projectid, string $password, ?int $lastchanged = null,
-								?int $offset = 0, ?int $limit = null, bool $reverse = false): DataResponse {
+								?int $offset = 0, ?int $limit = null, bool $reverse = false, ?int $payerId = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
 			if ($limit) {
 				$bills = $this->projectService->getBillsWithLimit(
-					$projectid, null, null, null, null, null, null, $lastchanged, $limit, $reverse, $offset
+					$projectid, null, null, null, null, null, null,
+					$lastchanged, $limit, $reverse, $offset, $payerId
 				);
 			} else {
 				$bills = $this->projectService->getBills(
-					$projectid, null, null, null, null, null, null, $lastchanged, null, $reverse
+					$projectid, null, null, null, null, null, null,
+					$lastchanged, null, $reverse, $payerId
 				);
 			}
 			$result = [
-				'nb_bills' => $this->projectService->getNbBills($projectid),
+				'nb_bills' => $this->projectService->getNbBills($projectid, $payerId),
 				'bills' => $bills,
 			];
 			return new DataResponse($result);

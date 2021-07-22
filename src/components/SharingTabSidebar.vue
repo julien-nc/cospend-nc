@@ -479,7 +479,7 @@ export default {
 		submitLabel(access, e) {
 			const label = e.target.value
 			network.editSharedAccess(this.projectId, access, label).then((response) => {
-				access.label = label
+				this.$set(access, 'label', label)
 				showSuccess(t('cospend', 'Shared access label saved'))
 			}).catch((error) => {
 				showError(

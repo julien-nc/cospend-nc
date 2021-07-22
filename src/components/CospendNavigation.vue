@@ -309,6 +309,7 @@ export default {
 	position: sticky;
 	top: 0;
 	z-index: 1000;
+	border-bottom: 1px solid var(--color-border);
 	background-color: var(--color-main-background);
 	&:hover {
 		background-color: var(--color-background-hover);

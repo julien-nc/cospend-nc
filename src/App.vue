@@ -73,6 +73,7 @@
 		</AppContent>
 		<Sidebar
 			v-if="currentProjectId"
+			ref="sidebar"
 			:project-id="currentProjectId"
 			:bills="currentBills"
 			:members="currentMembers"
@@ -377,6 +378,7 @@ export default {
 			this.currentBill = null
 			this.activeSidebarTab = 'project-settings'
 			this.showSidebar = true
+			this.$nextTick(() => { this.$refs.sidebar.focusOnAddMember() })
 		},
 		onNewMember(projectid, name, userid = null) {
 			if (this.getMemberNames(projectid).includes(name)) {

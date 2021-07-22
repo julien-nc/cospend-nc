@@ -67,6 +67,7 @@
 			</h4>
 			<Multiselect
 				v-if="maintenerAccess"
+				ref="addUserInput"
 				v-model="selectedAddUser"
 				class="addUserInput"
 				label="displayName"
@@ -428,6 +429,10 @@ export default {
 				+ ' ' + t('cospend', 'You can cut the link with a Nextcloud user by renaming the member.'),
 				t('cospend', 'Info')
 			)
+		},
+		focusOnAddMember() {
+			console.debug(this.$refs.addUserInput)
+			this.$refs.addUserInput.$el?.focus()
 		},
 	},
 }

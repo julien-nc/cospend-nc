@@ -32,6 +32,7 @@
 			:name="t('cospend', 'Settings')"
 			:order="2">
 			<SettingsTabSidebar
+				ref="settingsTab"
 				:project="project"
 				@project-edited="onProjectEdited"
 				@user-added="onUserAdded"
@@ -174,6 +175,9 @@ export default {
 		},
 		onCategoryDeleted(catid) {
 			this.$emit('category-deleted', catid)
+		},
+		focusOnAddMember() {
+			this.$refs.settingsTab.focusOnAddMember()
 		},
 	},
 }

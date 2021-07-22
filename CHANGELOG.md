@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 1.3.10 – 2021-07-15
+## 1.3.10 – 2021-07-22
 ### Added
 - now possible to change bill list width (drag right side)
 - click on member => filter bills

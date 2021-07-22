@@ -376,6 +376,23 @@ export default {
 	top: 0;
 	z-index: 1000;
 	background-color: var(--color-main-background);
+	border-bottom: 1px solid var(--color-border);
+
+	.selectionOptions {
+		display: flex;
+
+		select {
+			margin-top: 5px;
+		}
+		.multiDelete {
+			margin-left: auto;
+		}
+
+		.paymentmode-select,
+		.category-select {
+			width: 40%;
+		}
+	}
 }
 
 .addBillItem {
@@ -396,22 +413,6 @@ export default {
 
 .loading-icon {
 	margin-top: 16px;
-}
-
-.selectionOptions {
-	display: flex;
-
-	select {
-		margin-top: 5px;
-	}
-	.multiDelete {
-		margin-left: auto;
-	}
-
-	.paymentmode-select,
-	.category-select {
-		width: 40%;
-	}
 }
 
 .multiSelectHint {

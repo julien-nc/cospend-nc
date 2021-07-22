@@ -1064,8 +1064,9 @@ export default {
 			if (isNaN(this.currentFormula)) {
 				let calc = 'a'
 				try {
+					const saneFormula = this.currentFormula.replace(/[^-()\d/*+.]/g, '')
 					// eslint-disable-next-line
-					calc = parseFloat(eval(this.currentFormula).toFixed(12))
+					calc = parseFloat(eval(saneFormula).toFixed(12))
 				} catch (err) {
 					console.error(err)
 				}
@@ -1082,8 +1083,9 @@ export default {
 			if (isNaN(val)) {
 				let calc = 'a'
 				try {
+					const saneFormula = val.replace(/[^-()\d/*+.]/g, '')
 					// eslint-disable-next-line
-					calc = parseFloat(eval(val).toFixed(12))
+					calc = parseFloat(eval(saneFormula).toFixed(12))
 				} catch (err) {
 					console.error(err)
 				}
@@ -1097,8 +1099,9 @@ export default {
 			if (isNaN(val)) {
 				let calc = 'a'
 				try {
+					const saneFormula = val.replace(/[^-()\d/*+.]/g, '')
 					// eslint-disable-next-line
-					calc = parseFloat(eval(val).toFixed(12))
+					calc = parseFloat(eval(saneFormula).toFixed(12))
 				} catch (err) {
 					console.error(err)
 				}

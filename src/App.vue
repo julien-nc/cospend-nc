@@ -14,7 +14,6 @@
 			@new-member-clicked="onNewMemberClicked"
 			@member-edited="onMemberEdited"
 			@create-project="onCreateProject"
-			@project-imported="onProjectImported"
 			@save-option="onSaveOption"
 			@member-click="onNavMemberClick" />
 		<AppContent
@@ -72,6 +71,7 @@
 			</div>
 		</AppContent>
 		<CospendSettingsDialog
+			@project-imported="onProjectImported"
 			@save-option="onSaveOption" />
 		<Sidebar
 			v-if="currentProjectId"

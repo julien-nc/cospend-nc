@@ -290,7 +290,7 @@ export function checkPassword(projectid, password, successCB) {
 		})
 }
 
-export function importProject(targetPath, isSplitWise, successCB) {
+export function importProject(targetPath, isSplitWise) {
 	const req = {
 		params: {
 			path: targetPath,
@@ -302,16 +302,7 @@ export function importProject(targetPath, isSplitWise, successCB) {
 	} else {
 		url = generateUrl('/apps/cospend/import-csv-project')
 	}
-	axios.get(url, req)
-		.then((response) => {
-			successCB(response.data)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to import project file')
-				+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
-			)
-		})
+	return axios.get(url, req)
 }
 
 export function addCategory(projectid, name, icon, color, order) {

@@ -39,28 +39,6 @@
 					</button>
 				</div>
 			</div>
-			<AppNavigationSettings>
-				<AppNavigationItem
-					v-if="!pageIsPublic"
-					v-show="true"
-					:title="t('cospend', 'Import csv project')"
-					icon="icon-download"
-					class="buttonItem"
-					@click="onImportClick" />
-				<AppNavigationItem
-					v-if="!pageIsPublic"
-					v-show="true"
-					icon="icon-download"
-					class="buttonItem"
-					:title="t('cospend', 'Import SplitWise project')"
-					@click="onImportSWClick" />
-				<AppNavigationItem
-					v-show="true"
-					icon="icon-clippy"
-					class="buttonItem"
-					:title="t('cospend', 'Guest access link')"
-					@click="onGuestLinkClick" />
-			</AppNavigationSettings>
 		</template>
 	</AppNavigation>
 </template>
@@ -70,28 +48,21 @@ import AppNavigationProjectItem from './AppNavigationProjectItem'
 
 import cospend from '../state'
 import * as constants from '../constants'
-import * as network from '../network'
 import { strcmp } from '../utils'
 
 import ClickOutside from 'vue-click-outside'
 
 import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
-import AppNavigationSettings from '@nextcloud/vue/dist/Components/AppNavigationSettings'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import AppNavigationNewItem from '@nextcloud/vue/dist/Components/AppNavigationNewItem'
 
 import { emit } from '@nextcloud/event-bus'
-import { generateUrl } from '@nextcloud/router'
-import { showSuccess, showError } from '@nextcloud/dialogs'
 
 export default {
 	name: 'CospendNavigation',
 	components: {
 		AppNavigationProjectItem,
 		AppNavigation,
-		AppNavigationItem,
-		AppNavigationSettings,
 		EmptyContent,
 		AppNavigationNewItem,
 	},
@@ -153,45 +124,6 @@ export default {
 		},
 		closeMenu() {
 			this.opened = false
-		},
-		onImportClick() {
-			OC.dialogs.filepicker(
-				t('cospend', 'Choose csv project file'),
-				(targetPath) => {
-					this.importProject(targetPath)
-				},
-				false,
-				['text/csv'],
-				true
-			)
-		},
-		onImportSWClick() {
-			OC.dialogs.filepicker(
-				t('cospend', 'Choose SplitWise project file'),
-				(targetPath) => {
-					this.importProject(targetPath, true)
-				},
-				false,
-				['text/csv'],
-				true
-			)
-		},
-		importProject(targetPath, isSplitWise = false) {
-			network.importProject(targetPath, isSplitWise, this.importProjectSuccess)
-		},
-		importProjectSuccess(response) {
-			this.$emit('project-imported', response)
-			showSuccess(t('cospend', 'Project imported.'))
-		},
-		async onGuestLinkClick() {
-			try {
-				const guestLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/login')
-				await this.$copyText(guestLink)
-				showSuccess(t('cospend', 'Guest link copied to clipboard.'))
-			} catch (error) {
-				console.debug(error)
-				showError(t('cospend', 'Guest link could not be copied to clipboard.'))
-			}
 		},
 		onProjectClicked(projectid) {
 			this.$emit('project-clicked', projectid)

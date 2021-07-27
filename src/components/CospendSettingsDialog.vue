@@ -32,7 +32,29 @@
 			</h3>
 		</AppSettingsSection>
 		<AppSettingsSection v-if="!pageIsPublic"
-			:title="t('spreed', 'Export directory')"
+			:title="t('spreed', 'Import projects')"
+			class="app-settings-section">
+			<button @click="onImportClick">
+				<span :class="{ icon: true, 'icon-download': !importingProject, 'icon-loading-small': importingProject }" />
+				{{ t('cospend', 'Import csv project') }}
+			</button>
+			<button @click="onImportSWClick">
+				<span :class="{ icon: true, 'icon-download': !importingSWProject, 'icon-loading-small': importingSWProject }" />
+				{{ t('cospend', 'Import SplitWise project') }}
+			</button>
+		</AppSettingsSection>
+		<AppSettingsSection v-if="!pageIsPublic"
+			:title="t('spreed', 'Guest access')"
+			class="app-settings-section">
+			<a :href="guestLink" @click.prevent.stop="onGuestLinkClick">
+				<button>
+					<span class="icon icon-clippy" />
+					{{ t('cospend', 'Copy guest access link') }}
+				</button>
+			</a>
+		</AppSettingsSection>
+		<AppSettingsSection v-if="!pageIsPublic"
+			:title="t('spreed', 'Export location')"
 			class="app-settings-section">
 			<h3 class="app-settings-section__hint">
 				{{ t('cospend', 'Select export directory') }}
@@ -110,10 +132,12 @@
 
 <script>
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { getFilePickerBuilder } from '@nextcloud/dialogs'
+import { getFilePickerBuilder, showError, showSuccess } from '@nextcloud/dialogs'
 import AppSettingsDialog from '@nextcloud/vue/dist/Components/AppSettingsDialog'
 import AppSettingsSection from '@nextcloud/vue/dist/Components/AppSettingsSection'
 import cospend from '../state'
+import * as network from '../network'
+import { generateUrl } from '@nextcloud/router'
 
 export default {
 	name: 'CospendSettingsDialog',
@@ -132,6 +156,9 @@ export default {
 			memberOrder: cospend.memberOrder || 'name',
 			maxPrecision: cospend.maxPrecision || 2,
 			useTime: cospend.useTime ?? true,
+			guestLink: window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/login'),
+			importingProject: false,
+			importingSWProject: false,
 		}
 	},
 
@@ -185,6 +212,59 @@ export default {
 		onUseTimeChange(e) {
 			this.$emit('save-option', 'useTime', e.target.checked ? '1' : '0')
 			cospend.useTime = e.target.checked
+		},
+		onImportClick() {
+			OC.dialogs.filepicker(
+				t('cospend', 'Choose csv project file'),
+				(targetPath) => {
+					this.importProject(targetPath)
+				},
+				false,
+				['text/csv'],
+				true
+			)
+		},
+		onImportSWClick() {
+			OC.dialogs.filepicker(
+				t('cospend', 'Choose SplitWise project file'),
+				(targetPath) => {
+					this.importProject(targetPath, true)
+				},
+				false,
+				['text/csv'],
+				true
+			)
+		},
+		importProject(targetPath, isSplitWise = false) {
+			if (isSplitWise) {
+				this.importingSWProject = true
+			} else {
+				this.importingProject = true
+			}
+			network.importProject(targetPath, isSplitWise).then((response) => {
+				this.$emit('project-imported', response.data)
+				showSuccess(t('cospend', 'Project imported'))
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to import project file')
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+				)
+			}).then(() => {
+				if (isSplitWise) {
+					this.importingSWProject = false
+				} else {
+					this.importingProject = false
+				}
+			})
+		},
+		async onGuestLinkClick() {
+			try {
+				await this.$copyText(this.guestLink)
+				showSuccess(t('cospend', 'Guest link copied to clipboard.'))
+			} catch (error) {
+				console.debug(error)
+				showError(t('cospend', 'Guest link could not be copied to clipboard.'))
+			}
 		},
 	},
 }

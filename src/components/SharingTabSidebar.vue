@@ -75,7 +75,7 @@
 						icon="icon-edit"
 						:value="access.label"
 						:disabled="!editionAccess || myAccessLevel < access.accesslevel"
-						@change="submitLabel(access, $event)">
+						@submit="submitLabel(access, $event)">
 						{{ t('cospend', 'Label') }}
 					</ActionInput>
 					<ActionRadio name="accessLevel"
@@ -477,7 +477,7 @@ export default {
 			})
 		},
 		submitLabel(access, e) {
-			const label = e.target.value
+			const label = e.target[1].value
 			network.editSharedAccess(this.projectId, access, label).then((response) => {
 				this.$set(access, 'label', label)
 				showSuccess(t('cospend', 'Shared access label saved'))

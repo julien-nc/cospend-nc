@@ -12,6 +12,7 @@
 namespace OCA\Cospend\Controller;
 
 use DateTime;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IL10N;
 
@@ -85,6 +86,10 @@ class PageController extends ApiController {
 	 * @var string|null
 	 */
 	private $userId;
+	/**
+	 * @var IInitialState
+	 */
+	private $initialStateService;
 
 	public function __construct(string $appName,
 								IRequest $request,
@@ -97,6 +102,7 @@ class PageController extends ApiController {
 								ActivityManager $activityManager,
 								IDBConnection $dbconnection,
 								IRootFolder $root,
+								IInitialState $initialStateService,
 								?string $userId){
 		parent::__construct($appName, $request,
 							'PUT, POST, GET, DELETE, PATCH, OPTIONS',
@@ -112,6 +118,7 @@ class PageController extends ApiController {
 		$this->dbconnection = $dbconnection;
 		$this->root = $root;
 		$this->userId = $userId;
+		$this->initialStateService = $initialStateService;
 	}
 
 	/**
@@ -120,13 +127,7 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 */
 	public function index(): TemplateResponse {
-		// PARAMS to view
-		$params = [
-			'projectid' => '',
-			'password' => '',
-			'username' => $this->userId,
-		];
-		$response = new TemplateResponse('cospend', 'main', $params);
+		$response = new TemplateResponse('cospend', 'main', []);
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedImageDomain('*')
 			->addAllowedMediaDomain('*')
@@ -235,12 +236,10 @@ class PageController extends ApiController {
 	public function publicShareLinkPage(string $token): PublicTemplateResponse {
 		$result = $this->projectService->getProjectInfoFromShareToken($token);
 		if ($result['projectid'] !== null) {
-			// PARAMS to view
-			$params = [
-				'projectid' => $result['projectid'],
-				'password' => $token,
-			];
-			$response = new PublicTemplateResponse('cospend', 'main', $params);
+			$this->initialStateService->provideInitialState('projectid', $result['projectid']);
+			$this->initialStateService->provideInitialState('password', $token);
+
+			$response = new PublicTemplateResponse('cospend', 'main', []);
 			$response->setHeaderTitle($this->trans->t('Cospend public access'));
 			$response->setHeaderDetails($this->trans->t('Project %s', [$result['projectid']]));
 			$response->setFooterVisible(false);
@@ -285,12 +284,9 @@ class PageController extends ApiController {
 	 */
 	public function pubProject(string $projectid, string $password): PublicTemplateResponse {
 		if ($this->checkLogin($projectid, $password)) {
-			// PARAMS to view
-			$params = [
-				'projectid' => $projectid,
-				'password' => $password,
-			];
-			$response = new PublicTemplateResponse('cospend', 'main', $params);
+			$this->initialStateService->provideInitialState('projectid', $projectid);
+			$this->initialStateService->provideInitialState('password', $password);
+			$response = new PublicTemplateResponse('cospend', 'main', []);
 			$response->setHeaderTitle($this->trans->t('Cospend public access'));
 			$response->setHeaderDetails($this->trans->t('Project %s', [$projectid]));
 			$response->setFooterVisible(false);

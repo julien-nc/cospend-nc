@@ -17,6 +17,7 @@ import App from './App'
 import { showError } from '@nextcloud/dialogs'
 import { getRequestToken } from '@nextcloud/auth'
 import { generateFilePath } from '@nextcloud/router'
+import { loadState } from '@nextcloud/initial-state'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 import vueAwesomeCountdown from 'vue-awesome-countdown'
 import VueClipboard from 'vue-clipboard2'
@@ -84,8 +85,8 @@ document.addEventListener('DOMContentLoaded', function(event) {
 	if (!cospend.pageIsPublic) {
 		restoreOptions()
 	} else {
-		cospend.projectid = document.getElementById('projectid').textContent
-		cospend.password = document.getElementById('password').textContent
+		cospend.projectid = loadState('cospend', 'projectid')
+		cospend.password = loadState('cospend', 'password')
 		cospend.restoredCurrentProjectId = cospend.projectid
 		main()
 	}

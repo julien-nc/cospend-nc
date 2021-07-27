@@ -20,7 +20,7 @@
 				:members="projects[id].members"
 				:selected="id === selectedProjectId"
 				:selected-member-id="selectedMemberId"
-				:member-order="memberOrder"
+				:member-order="cospend.memberOrder"
 				@project-clicked="onProjectClicked"
 				@delete-project="onDeleteProject"
 				@stats-clicked="onStatsClicked"
@@ -32,6 +32,13 @@
 				@member-click="$emit('member-click', id, $event)" />
 		</template>
 		<template slot="footer">
+			<div id="app-settings">
+				<div id="app-settings-header">
+					<button class="settings-button" @click="showSettings">
+						{{ t('Cospend', 'Cospend settings') }}
+					</button>
+				</div>
+			</div>
 			<AppNavigationSettings>
 				<AppNavigationItem
 					v-if="!pageIsPublic"
@@ -53,75 +60,20 @@
 					class="buttonItem"
 					:title="t('cospend', 'Guest access link')"
 					@click="onGuestLinkClick" />
-				<div v-if="!pageIsPublic"
-					class="output-dir">
-					<button class="icon-folder"
-						@click="onOutputDirClick">
-						{{ t('cospend', 'Change output directory') }}
-					</button>
-					<input v-model="outputDir"
-						:placeholder="t('cospend', '/Anywhere')"
-						type="text"
-						readonly
-						@click="onOutputDirClick">
-				</div>
-				<div id="sort-order">
-					<label for="sort-select">
-						{{ t('cospend', 'Projects order') }}
-					</label>
-					<select id="sort-select" v-model="sortOrder" @change="onSortOrderChange">
-						<option value="name">
-							{{ t('cospend', 'Name') }}
-						</option>
-						<option value="change">
-							{{ t('cospend', 'Last activity') }}
-						</option>
-					</select>
-				</div>
-				<div id="sort-member-order">
-					<label for="sort-member-select">
-						{{ t('cospend', 'Members order') }}
-					</label>
-					<select id="sort-member-select" v-model="memberOrder" @change="onMemberOrderChange">
-						<option value="name">
-							{{ t('cospend', 'Name') }}
-						</option>
-						<option value="balance">
-							{{ t('cospend', 'Balance') }}
-						</option>
-					</select>
-				</div>
-				<div id="max-precision"
-					:title="t('cospend', 'Maximum decimal precision to display balances')">
-					<label for="precision">
-						{{ t('cospend', 'Maximum precision') }}
-					</label>
-					<input id="precision"
-						v-model.number="maxPrecision"
-						type="number"
-						min="2"
-						max="10"
-						step="1"
-						@input="onMaxPrecisionChange">
-				</div>
-				<div id="use-time">
-					<input id="use-time-input"
-						v-model="useTime"
-						class="checkbox"
-						type="checkbox"
-						@input="onUseTimeChange">
-					<label for="use-time-input">
-						{{ t('cospend', 'Use time in dates') }}
-					</label>
-				</div>
 			</AppNavigationSettings>
 		</template>
 	</AppNavigation>
 </template>
 
 <script>
-import ClickOutside from 'vue-click-outside'
 import AppNavigationProjectItem from './AppNavigationProjectItem'
+
+import cospend from '../state'
+import * as constants from '../constants'
+import * as network from '../network'
+import { strcmp } from '../utils'
+
+import ClickOutside from 'vue-click-outside'
 
 import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
 import AppNavigationSettings from '@nextcloud/vue/dist/Components/AppNavigationSettings'
@@ -129,14 +81,9 @@ import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import AppNavigationNewItem from '@nextcloud/vue/dist/Components/AppNavigationNewItem'
 
+import { emit } from '@nextcloud/event-bus'
 import { generateUrl } from '@nextcloud/router'
-import cospend from '../state'
-import * as constants from '../constants'
-import {
-	showSuccess,
-	showError,
-} from '@nextcloud/dialogs'
-import * as network from '../network'
+import { showSuccess, showError } from '@nextcloud/dialogs'
 
 export default {
 	name: 'CospendNavigation',
@@ -173,23 +120,19 @@ export default {
 		return {
 			opened: false,
 			creating: false,
-			outputDir: cospend.outputDirectory,
+			cospend,
 			pageIsPublic: cospend.pageIsPublic,
-			sortOrder: cospend.sortOrder || 'name',
-			memberOrder: cospend.memberOrder || 'name',
-			maxPrecision: cospend.maxPrecision || 2,
-			useTime: cospend.useTime,
 		}
 	},
 	computed: {
 		sortedProjectIds() {
-			if (this.sortOrder === 'name') {
+			if (this.cospend.sortOrder === 'name') {
 				return Object.keys(this.projects).sort((a, b) => {
-					return this.projects[a].name.toLowerCase() > this.projects[b].name.toLowerCase()
+					return strcmp(this.projects[a].name, this.projects[b].name)
 				})
-			} else if (this.sortOrder === 'change') {
+			} else if (this.cospend.sortOrder === 'change') {
 				return Object.keys(this.projects).sort((a, b) => {
-					return this.projects[a].lastchanged < this.projects[b].lastchanged
+					return this.projects[b].lastchanged - this.projects[a].lastchanged
 				})
 			} else {
 				return Object.keys(this.projects)
@@ -202,6 +145,9 @@ export default {
 	beforeMount() {
 	},
 	methods: {
+		showSettings() {
+			emit('show-settings')
+		},
 		toggleMenu() {
 			this.opened = !this.opened
 		},
@@ -246,36 +192,6 @@ export default {
 				console.debug(error)
 				showError(t('cospend', 'Guest link could not be copied to clipboard.'))
 			}
-		},
-		onOutputDirClick() {
-			OC.dialogs.filepicker(
-				t('maps', 'Choose where to write output files (stats, settlement, export)'),
-				(targetPath) => {
-					if (targetPath === '') {
-						targetPath = '/'
-					}
-					this.outputDir = targetPath
-					this.$emit('save-option', 'outputDirectory', targetPath)
-				},
-				false,
-				'httpd/unix-directory',
-				true
-			)
-		},
-		onSortOrderChange() {
-			this.$emit('save-option', 'sortOrder', this.sortOrder)
-		},
-		onMemberOrderChange() {
-			this.$emit('save-option', 'memberOrder', this.memberOrder)
-			cospend.memberOrder = this.memberOrder
-		},
-		onMaxPrecisionChange() {
-			this.$emit('save-option', 'maxPrecision', this.maxPrecision)
-			cospend.maxPrecision = this.maxPrecision
-		},
-		onUseTimeChange(e) {
-			this.$emit('save-option', 'useTime', e.target.checked ? '1' : '0')
-			cospend.useTime = e.target.checked
 		},
 		onProjectClicked(projectid) {
 			this.$emit('project-clicked', projectid)
@@ -336,20 +252,6 @@ export default {
 	}
 }
 
-.output-dir {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.output-dir button {
-	width: 59% !important;
-}
-
-.output-dir input {
-	width: 39% !important;
-}
-
 .project-create {
 	order: 1;
 	display: flex;
@@ -365,20 +267,6 @@ export default {
 
 .buttonItem {
 	border-bottom: solid 1px var(--color-border);
-}
-
-#max-precision label,
-#sort-member-order label,
-#sort-order label {
-	line-height: 38px;
-	padding-left: 15px;
-}
-
-#max-precision,
-#sort-member-order,
-#sort-order {
-	display: grid;
-	grid-template: 1fr / 1fr 1fr;
 }
 
 .loading-icon {

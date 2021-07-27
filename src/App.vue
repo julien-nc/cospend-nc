@@ -71,6 +71,8 @@
 					@click="onMainDetailClicked" />
 			</div>
 		</AppContent>
+		<CospendSettingsDialog
+			@save-option="onSaveOption" />
 		<Sidebar
 			v-if="currentProjectId"
 			ref="sidebar"
@@ -91,14 +93,6 @@
 </template>
 
 <script>
-import CospendNavigation from './components/CospendNavigation'
-import BillForm from './BillForm'
-import BillList from './BillList'
-import Statistics from './components/statistics/Statistics'
-import Settlement from './Settlement'
-import Sidebar from './components/Sidebar'
-import cospend from './state'
-import * as network from './network'
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
@@ -109,17 +103,29 @@ import {
 	showInfo,
 } from '@nextcloud/dialogs'
 import '@nextcloud/dialogs/styles/toast.scss'
-import * as constants from './constants'
-import { rgbObjToHex, slugify } from './utils'
 import Content from '@nextcloud/vue/dist/Components/Content'
 import AppContent from '@nextcloud/vue/dist/Components/AppContent'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile'
 
+import CospendNavigation from './components/CospendNavigation'
+import CospendSettingsDialog from './components/CospendSettingsDialog'
+import BillForm from './BillForm'
+import BillList from './BillList'
+import Statistics from './components/statistics/Statistics'
+import Settlement from './Settlement'
+import Sidebar from './components/Sidebar'
+
+import cospend from './state'
+import * as network from './network'
+import * as constants from './constants'
+import { rgbObjToHex, slugify } from './utils'
+
 export default {
 	name: 'App',
 	components: {
 		CospendNavigation,
+		CospendSettingsDialog,
 		BillList,
 		BillForm,
 		Statistics,

@@ -5,6 +5,12 @@ body {
 #app {
 	width: 100%;
 }
+// one solution to fix category multiselect being hidden (overflow of surrounding element)
+.splitpanes__pane-details {
+	// this works but is sketchy
+	// overflow: visible !important;
+	height: auto;
+}
 @media only screen and (max-width: 1024px) {
 	// fix max height being unset in mobile view by server style
 	.app-content-list {

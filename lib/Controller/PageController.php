@@ -12,7 +12,6 @@
 namespace OCA\Cospend\Controller;
 
 use DateTime;
-use OCA\Cospend\AppInfo\Application;
 use OCP\IConfig;
 use OCP\IL10N;
 
@@ -35,6 +34,7 @@ use OCP\IDBConnection;
 use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Service\ProjectService;
 use OCA\Cospend\Activity\ActivityManager;
+use OCA\Cospend\AppInfo\Application;
 
 function endswith($string, $test) {
 	$strlen = strlen($string);

@@ -17,6 +17,7 @@
  */
 namespace OCA\Cospend\Controller;
 
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IServerContainer;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -164,6 +165,7 @@ class PageNUtilsControllerTest extends TestCase {
 			$this->activityManager,
 			$sc->getDatabaseConnection(),
 			$c->get(IRootFolder::class),
+			$c->get(IInitialState::class),
 			'test'
 		);
 
@@ -199,6 +201,7 @@ class PageNUtilsControllerTest extends TestCase {
 			$this->activityManager,
 			$sc->getDatabaseConnection(),
 			$c->get(IRootFolder::class),
+			$c->get(IInitialState::class),
 			'test2'
 		);
 

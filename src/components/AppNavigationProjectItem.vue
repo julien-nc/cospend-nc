@@ -152,11 +152,7 @@ export default {
 				})
 			} else if (this.memberOrder === 'balance') {
 				return this.members.slice().sort((a, b) => {
-					return a.balance > b.balance
-						? -1
-						: a.balance < b.balance
-							? 1
-							: 0
+					return b.balance - a.balance
 				})
 			}
 			return this.members

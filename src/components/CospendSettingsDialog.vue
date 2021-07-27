@@ -70,20 +70,22 @@
 		<AppSettingsSection
 			:title="t('spreed', 'Sort criterias')"
 			class="app-settings-section">
-			<h3 class="app-settings-section__hint">
-				{{ t('cospend', 'How projects are sorted in navigation sidebar') }}
-			</h3>
-			<label for="sort-select">
-				{{ t('cospend', 'Projects order') }}
-			</label>
-			<select id="sort-select" v-model="sortOrder" @change="onSortOrderChange">
-				<option value="name">
-					{{ t('cospend', 'Name') }}
-				</option>
-				<option value="change">
-					{{ t('cospend', 'Last activity') }}
-				</option>
-			</select>
+			<div v-if="!pageIsPublic">
+				<h3 class="app-settings-section__hint">
+					{{ t('cospend', 'How projects are sorted in navigation sidebar') }}
+				</h3>
+				<label for="sort-select">
+					{{ t('cospend', 'Projects order') }}
+				</label>
+				<select id="sort-select" v-model="sortOrder" @change="onSortOrderChange">
+					<option value="name">
+						{{ t('cospend', 'Name') }}
+					</option>
+					<option value="change">
+						{{ t('cospend', 'Last activity') }}
+					</option>
+				</select>
+			</div>
 			<h3 class="app-settings-section__hint">
 				{{ t('cospend', 'How members are sorted') }}
 			</h3>

@@ -28,6 +28,8 @@ const cospend = {
 	},
 	hardCodedCategories: constants.hardCodedCategories,
 	paymentModes: constants.paymentModes,
+	memberOrder: 'name',
+	useTime: true,
 }
 
 export default cospend

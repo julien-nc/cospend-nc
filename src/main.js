@@ -57,7 +57,6 @@ function restoreOptions() {
 }
 
 function getOptionValuesSuccess(response) {
-	cospend.useTime = true
 	let optionsValues = {}
 	optionsValues = response.values
 	if (optionsValues) {

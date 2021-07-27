@@ -72,6 +72,7 @@
 		</AppContent>
 		<CospendSettingsDialog
 			@project-imported="onProjectImported"
+			@update-max-precision="onUpdateMaxPrecision"
 			@save-option="onSaveOption" />
 		<Sidebar
 			v-if="currentProjectId"
@@ -621,12 +622,13 @@ export default {
 		},
 		updateProjectInfo(projectid) {
 			network.updateProjectInfo(projectid).then((response) => {
+				this.projects[projectid].balance = response.data.balance
 				let balance
 				for (const memberid in response.data.balance) {
 					balance = response.data.balance[memberid]
 					this.$set(this.members[projectid][memberid], 'balance', balance)
 				}
-				this.updateProjectPrecision(projectid, response.data.balance)
+				this.updateProjectPrecision(projectid)
 
 				this.projects[projectid].nb_bills = response.data.nb_bills
 				this.projects[projectid].total_spent = response.data.total_spent
@@ -642,7 +644,11 @@ export default {
 				)
 			})
 		},
-		updateProjectPrecision(projectid, balances) {
+		onUpdateMaxPrecision() {
+			this.updateProjectPrecision(this.currentProjectId)
+		},
+		updateProjectPrecision(projectid) {
+			const balances = this.projects[projectid].balance
 			const balanceArray = Object.values(balances)
 			let precision = 1
 			let sum

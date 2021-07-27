@@ -208,6 +208,7 @@ export default {
 		onMaxPrecisionChange() {
 			this.$emit('save-option', 'maxPrecision', this.maxPrecision)
 			cospend.maxPrecision = this.maxPrecision
+			this.$emit('update-max-precision')
 		},
 		onUseTimeChange(e) {
 			this.$emit('save-option', 'useTime', e.target.checked ? '1' : '0')

@@ -8,7 +8,7 @@
 			:identifier="projectId"
 			@infinite="infiniteHandler">
 			<template #no-results>
-				{{ t('cospend', 'No activity') }}
+				{{ t('cospend', 'No more activity') }}
 			</template>
 			<template #no-more>
 				{{ t('cospend', 'No more activity') }}
@@ -70,20 +70,25 @@ export default {
 			}
 			axios.get(generateOcsUrl('apps/activity/api/v2/activity') + '/cospend' + '?' + params).then((response) => {
 				const allNewActivities = response.data.ocs.data
-				const filteredActivities = this.filter(response.data.ocs.data)
+				const newFilteredActivities = this.filter(response.data.ocs.data)
 				if (state) {
-					if (filteredActivities.length > 0) {
+					if (newFilteredActivities.length > 0) {
 						state.loaded()
 					}
 					if (allNewActivities.length === 0) {
 						state.complete()
 					}
 				}
-				if (filteredActivities.length > 0) {
-					this.activities.push(...filteredActivities)
-				} else if (allNewActivities.length > 0) {
-					// if we got nothing related to current project but still got something
-					// then get more entries
+				if (newFilteredActivities.length > 0) {
+					this.activities.push(...newFilteredActivities)
+				}
+				// if we got something but either
+				// - nothing related to current project
+				// - OR we still don't have 50 good ones
+				// then get more entries
+				if (allNewActivities.length > 0
+					&& (newFilteredActivities.length === 0 || this.activities.length < 50)
+				) {
 					const newSince = allNewActivities[allNewActivities.length - 1].activity_id
 					this.getActivity(newSince, state)
 				}

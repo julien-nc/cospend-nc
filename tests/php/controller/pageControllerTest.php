@@ -166,6 +166,7 @@ class PageNUtilsControllerTest extends TestCase {
 			$sc->getDatabaseConnection(),
 			$c->get(IRootFolder::class),
 			$c->get(IInitialState::class),
+			$c->get(IAppManager::class),
 			'test'
 		);
 
@@ -202,6 +203,7 @@ class PageNUtilsControllerTest extends TestCase {
 			$sc->getDatabaseConnection(),
 			$c->get(IRootFolder::class),
 			$c->get(IInitialState::class),
+			$c->get(IAppManager::class),
 			'test2'
 		);
 

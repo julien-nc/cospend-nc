@@ -52,7 +52,6 @@ export default {
 	},
 
 	mounted() {
-		console.debug(this.activity.icon)
 	},
 
 	methods: {

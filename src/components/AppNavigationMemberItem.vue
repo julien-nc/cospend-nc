@@ -2,7 +2,7 @@
 	<AppNavigationItem v-show="memberVisible"
 		:class="{ memberItem: true, selectedmember: selected }"
 		:title="nameTitle"
-		:editable="true"
+		:editable="maintenerAccess"
 		:edit-label="t('cospend', 'Rename member')"
 		:force-menu="false"
 		@update:title="onRename"

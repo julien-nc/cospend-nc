@@ -32,6 +32,7 @@
     "npm": ">=7.0.0"
   },
   "dependencies": {
+    "@juliushaertl/vue-richtext": "^1.0.1",
     "@nextcloud/auth": "^1.3.0",
     "@nextcloud/axios": "^1.6.0",
     "@nextcloud/dialogs": "^3.1.1",

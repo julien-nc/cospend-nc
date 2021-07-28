@@ -263,6 +263,9 @@ class CospendProvider implements IProvider {
 		if (array_key_exists('who', $subjectParams)) {
 			if ($subjectParams['type'] === Application::SHARE_TYPE_USER) {
 				$user = $this->userManager->get($subjectParams['who']);
+				if ($user === null) {
+					throw new InvalidArgumentException();
+				}
 				$params['who'] = [
 					'type' => 'user',
 					'id' => $subjectParams['who'],
@@ -270,6 +273,9 @@ class CospendProvider implements IProvider {
 				];
 			} elseif ($subjectParams['type'] === Application::SHARE_TYPE_GROUP) {
 				$group = $this->groupManager->get($subjectParams['who']);
+				if ($group === null) {
+					throw new InvalidArgumentException();
+				}
 				$params['who'] = [
 					'type' => 'highlight',
 					'id' => $subjectParams['who'],
@@ -286,6 +292,7 @@ class CospendProvider implements IProvider {
 						$circleName = $circle->getDisplayName();
 						$displayName = $this->l10n->t('circle %1$s', [$circleName]);
 					} catch (\OCA\Circles\Exceptions\CircleNotFoundException $e) {
+						throw new InvalidArgumentException();
 					}
 					$circlesManager->stopSession();
 				}

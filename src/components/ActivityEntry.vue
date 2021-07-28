@@ -12,7 +12,9 @@
 		<span v-else>
 			{{ activity.subject }}
 		</span>
-		<span class="time">
+		<span
+			v-tooltip.top="{ content: formattedTime }"
+			class="time">
 			{{ relativeTime }}
 		</span>
 	</div>
@@ -62,6 +64,9 @@ export default {
 		},
 		relativeTime() {
 			return moment(this.activity.datetime).fromNow()
+		},
+		formattedTime() {
+			return moment(this.activity.datetime).format('LLL')
 		},
 		subjectRich() {
 			const actionUserIsMe = this.userIsMe(this.activity.subject_rich[1]?.user?.id)
@@ -131,7 +136,7 @@ export default {
 .activity-entry {
 	display: flex;
 	align-items: center;
-	margin: 8px 0 8px 0;
+	margin: 10px 0 10px 0;
 	&:hover {
 		background-color: var(--color-background-hover);
 	}

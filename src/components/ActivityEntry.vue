@@ -160,4 +160,8 @@ export default {
 		text-align: right;
 	}
 }
+
+::v-deep .user-bubble__wrapper {
+	margin-bottom: -2px;
+}
 </style>

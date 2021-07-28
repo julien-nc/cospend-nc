@@ -7,3 +7,4 @@ js/
 .vscode-upload.json
 .*.sw*
 node_modules
+js/*hot-update.*

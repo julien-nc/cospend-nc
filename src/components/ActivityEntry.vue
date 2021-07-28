@@ -146,6 +146,7 @@ export default {
 	.subject {
 		flex-grow: 1;
 		width: -webkit-fill-available;
+		width: -moz-available;
 	}
 	.time {
 		width: 130px;

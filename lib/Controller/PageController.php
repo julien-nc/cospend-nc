@@ -12,6 +12,7 @@
 namespace OCA\Cospend\Controller;
 
 use DateTime;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -90,6 +91,10 @@ class PageController extends ApiController {
 	 * @var IInitialState
 	 */
 	private $initialStateService;
+	/**
+	 * @var IAppManager
+	 */
+	private $appManager;
 
 	public function __construct(string $appName,
 								IRequest $request,
@@ -103,6 +108,7 @@ class PageController extends ApiController {
 								IDBConnection $dbconnection,
 								IRootFolder $root,
 								IInitialState $initialStateService,
+								IAppManager $appManager,
 								?string $userId){
 		parent::__construct($appName, $request,
 							'PUT, POST, GET, DELETE, PATCH, OPTIONS',
@@ -119,6 +125,7 @@ class PageController extends ApiController {
 		$this->root = $root;
 		$this->userId = $userId;
 		$this->initialStateService = $initialStateService;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -127,6 +134,8 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 */
 	public function index(): TemplateResponse {
+		$activityEnabled = $this->appManager->isEnabledForUser('activity');
+		$this->initialStateService->provideInitialState('activity_enabled', $activityEnabled ? '1' : '0');
 		$response = new TemplateResponse('cospend', 'main', []);
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedImageDomain('*')

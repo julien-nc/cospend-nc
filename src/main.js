@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 	cospend.pageIsPublic = (document.URL.includes('/cospend/project') || document.URL.includes('/cospend/s/'))
 	if (!cospend.pageIsPublic) {
 		restoreOptions()
+		cospend.activity_enabled = loadState('cospend', 'activity_enabled') === '1'
 	} else {
 		cospend.projectid = loadState('cospend', 'projectid')
 		cospend.password = loadState('cospend', 'password')

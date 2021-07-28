@@ -2371,49 +2371,48 @@ class ProjectService {
 	}
 
 	/**
-	 * Get project list for a given NC user
+	 * For all projects the user has access to, get id => name
 	 *
 	 * @param string $userId
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
-	public function getProjects(string $userId): array {
-		$projectids = [];
+	public function getProjectNames(string $userId): array {
+		$projectNames= [];
 
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('id')
-		   ->from('cospend_projects', 'p')
-		   ->where(
-			   $qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
-		   );
+		$qb->select('id', 'name')
+			->from('cospend_projects', 'p')
+			->where(
+				$qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
+			);
 		$req = $qb->executeQuery();
 
 		while ($row = $req->fetch()){
-			$dbProjectId = $row['id'];
-			$projectids[] = $dbProjectId;
+			$projectNames[$row['id']] = $row['name'];
 		}
 		$req->closeCursor();
 
 		$qb = $qb->resetQueryParts();
 
 		// shared with user
-		$qb->select('p.id')
-		   ->from('cospend_projects', 'p')
-		   ->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
-		   ->where(
-			   $qb->expr()->eq('s.userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
-		   )
-		   ->andWhere(
-			   $qb->expr()->eq('s.type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
-		   );
+		$qb->select('p.id', 'p.name')
+			->from('cospend_projects', 'p')
+			->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
+			->where(
+				$qb->expr()->eq('s.userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('s.type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
+			);
 		$req = $qb->executeQuery();
 
 		while ($row = $req->fetch()){
-			$dbProjectId = $row['id'];
 			// avoid putting twice the same project
 			// this can happen with a share loop
-			if (!in_array($dbProjectId, $projectids)) {
-				$projectids[] = $dbProjectId;
+			if (!isset($projectNames[$row['id']])) {
+				$projectNames[$row['id']] = $row['name'];
 			}
 		}
 		$req->closeCursor();
@@ -2425,11 +2424,11 @@ class ProjectService {
 		// get group with which a project is shared
 		$candidateGroupIds = [];
 		$qb->select('userid')
-		   ->from('cospend_shares', 's')
-		   ->where(
-			   $qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
-		   )
-		   ->groupBy('userid');
+			->from('cospend_shares', 's')
+			->where(
+				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
+			)
+			->groupBy('userid');
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()){
 			$groupId = $row['userid'];
@@ -2443,7 +2442,7 @@ class ProjectService {
 			$group = $this->groupManager->get($candidateGroupId);
 			if ($group !== null && $group->inGroup($userO)) {
 				// get projects shared with this group
-				$qb->select('p.id')
+				$qb->select('p.id', 'p.name')
 					->from('cospend_projects', 'p')
 					->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
 					->where(
@@ -2455,11 +2454,10 @@ class ProjectService {
 				$req = $qb->executeQuery();
 
 				while ($row = $req->fetch()){
-					$dbProjectId = $row['id'];
 					// avoid putting twice the same project
 					// this can happen with a share loop
-					if (!in_array($dbProjectId, $projectids)) {
-						$projectids[] = $dbProjectId;
+					if (!isset($projectNames[$row['id']])) {
+						$projectNames[$row['id']] = $row['name'];
 					}
 				}
 				$req->closeCursor();
@@ -2472,11 +2470,11 @@ class ProjectService {
 			// get circles with which a project is shared
 			$candidateCircleIds = [];
 			$qb->select('userid')
-			->from('cospend_shares', 's')
-			->where(
-				$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
-			)
-			->groupBy('userid');
+				->from('cospend_shares', 's')
+				->where(
+					$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
+				)
+				->groupBy('userid');
 			$req = $qb->executeQuery();
 			while ($row = $req->fetch()){
 				$circleId = $row['userid'];
@@ -2489,7 +2487,7 @@ class ProjectService {
 			foreach ($candidateCircleIds as $candidateCircleId) {
 				if ($this->isUserInCircle($userId, $candidateCircleId)) {
 					// get projects shared with this circle
-					$qb->select('p.id')
+					$qb->select('p.id', 'p.name')
 						->from('cospend_projects', 'p')
 						->innerJoin('p', 'cospend_shares', 's', $qb->expr()->eq('p.id', 's.projectid'))
 						->where(
@@ -2501,11 +2499,10 @@ class ProjectService {
 					$req = $qb->executeQuery();
 
 					while ($row = $req->fetch()){
-						$dbProjectId = $row['id'];
 						// avoid putting twice the same project
 						// this can happen with a share loop or multiple shares
-						if (!in_array($dbProjectId, $projectids)) {
-							$projectids[] = $dbProjectId;
+						if (!isset($projectNames[$row['id']])) {
+							$projectNames[$row['id']] = $row['name'];
 						}
 					}
 					$req->closeCursor();
@@ -2513,6 +2510,17 @@ class ProjectService {
 				}
 			}
 		}
+		return $projectNames;
+	}
+
+	/**
+	 * Get detailed project list for a given NC user
+	 *
+	 * @param string $userId
+	 * @return array
+	 */
+	public function getProjects(string $userId): array {
+		$projectids = array_keys($this->getProjectNames($userId));
 
 		// get the projects
 		$projects = [];

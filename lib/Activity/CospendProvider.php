@@ -27,6 +27,7 @@ use Exception;
 use InvalidArgumentException;
 
 use OCA\Cospend\AppInfo\Application;
+use OCA\Cospend\Service\ProjectService;
 use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
 use OCP\IConfig;
@@ -58,6 +59,10 @@ class CospendProvider implements IProvider {
 	 * @var IAppManager
 	 */
 	private $appManager;
+	/**
+	 * @var array
+	 */
+	private $projectNames;
 
 	public function __construct(IURLGenerator $urlGenerator,
 								ActivityManager $activityManager,
@@ -66,6 +71,7 @@ class CospendProvider implements IProvider {
 								IAppManager $appManager,
 								IL10N $l10n,
 								IConfig $config,
+								ProjectService $projectService,
 								?string $userId) {
 		$this->userId = $userId;
 		$this->urlGenerator = $urlGenerator;
@@ -75,6 +81,7 @@ class CospendProvider implements IProvider {
 		$this->config = $config;
 		$this->groupManager = $groupManager;
 		$this->appManager = $appManager;
+		$this->projectNames = $projectService->getProjectNames($userId);
 	}
 
 	/**
@@ -234,7 +241,7 @@ class CospendProvider implements IProvider {
 			$params[$paramName] = [
 				'type' => 'highlight',
 				'id' => $subjectParams[$paramName]['id'],
-				'name' => $subjectParams[$paramName]['name'],
+				'name' => $this->projectNames[$subjectParams[$paramName]['id']] ?? $subjectParams[$paramName]['name'],
 				'link' => $this->cospendUrl('?project=' . $subjectParams[$paramName]['id']),
 			];
 		}

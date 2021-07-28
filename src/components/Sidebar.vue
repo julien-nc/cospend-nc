@@ -40,11 +40,19 @@
 				@new-simple-member="onNewSimpleMember"
 				@export-clicked="onExportClicked" />
 		</AppSidebarTab>
+		<AppSidebarTab v-if="!pageIsPublic && activityEnabled"
+			id="activity"
+			:name="t('cospend', 'Activity')"
+			:icon="'icon-activity'"
+			:order="3">
+			<ActivityTabSidebar
+				:project-id="projectId" />
+		</AppSidebarTab>
 		<AppSidebarTab
 			id="categories"
 			:name="t('cospend', 'Categories')"
 			:icon="'icon-category-app-bundles'"
-			:order="3">
+			:order="4">
 			<CategoryManagement
 				:project-id="projectId"
 				@project-edited="onProjectEdited"
@@ -54,17 +62,11 @@
 			id="currencies"
 			:name="t('cospend', 'Currencies')"
 			:icon="'icon-tab-currencies'"
-			:order="4">
+			:order="5">
 			<CurrencyManagement
 				:project-id="projectId"
 				@project-edited="onProjectEdited" />
 		</AppSidebarTab>
-		<!--AppSidebarTab :id="'comments'" :name="'Comments'" :icon="'icon-comment'"
-			:order="3"
-			v-if="false"
-			>
-			this is the comments tab
-		</AppSidebarTab-->
 	</AppSidebar>
 </template>
 
@@ -79,13 +81,22 @@ import SharingTabSidebar from './SharingTabSidebar'
 import SettingsTabSidebar from './SettingsTabSidebar'
 import CategoryManagement from '../CategoryManagement'
 import CurrencyManagement from '../CurrencyManagement'
+import ActivityTabSidebar from './ActivityTabSidebar'
 import cospend from '../state'
 import * as constants from '../constants'
 
 export default {
 	name: 'Sidebar',
 	components: {
-		ActionButton, AppSidebar, AppSidebarTab, ActionLink, SharingTabSidebar, SettingsTabSidebar, CategoryManagement, CurrencyManagement,
+		ActionButton,
+		AppSidebar,
+		AppSidebarTab,
+		ActionLink,
+		SharingTabSidebar,
+		SettingsTabSidebar,
+		CategoryManagement,
+		CurrencyManagement,
+		ActivityTabSidebar,
 	},
 	props: {
 		show: {
@@ -117,6 +128,9 @@ export default {
 	computed: {
 		pageIsPublic() {
 			return cospend.pageIsPublic
+		},
+		activityEnabled() {
+			return cospend.activity_enabled
 		},
 		project() {
 			return cospend.projects[this.projectId]
@@ -195,5 +209,10 @@ export default {
 	-webkit-mask-position: center 0;
 	min-width: 44px !important;
 	min-height: 18px !important;
+}
+
+::v-deep .icon-activity {
+	background-image: var(--icon-activity-activity-dark-000);
+	background-size: 20px;
 }
 </style>

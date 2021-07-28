@@ -30,6 +30,7 @@ const cospend = {
 	paymentModes: constants.paymentModes,
 	memberOrder: 'name',
 	useTime: true,
+	activity_enabled: false,
 }
 
 export default cospend

@@ -190,7 +190,7 @@ export default {
 				.startAt(this.outputDir)
 				.build()
 			picker.pick()
-				.then(async(path) => {
+				.then(async (path) => {
 					if (path === '') {
 						path = '/'
 					}

@@ -7,5 +7,8 @@ module.exports = {
 	},
 	extends: [
 		'@nextcloud'
-	]
+	],
+	rules: {
+		'jsdoc/require-jsdoc': 'off'
+	}
 }

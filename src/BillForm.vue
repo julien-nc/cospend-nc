@@ -105,7 +105,7 @@
 					</div>
 				</div>
 				<div class="bill-payer">
-					<label for="payer"><a class="icon icon-user" />{{ t('cospend', 'Who paid?') }}</label>
+					<label><a class="icon icon-user" />{{ t('cospend', 'Who paid?') }}</label>
 					<Multiselect
 						id="memberMultiSelect"
 						:value="selectedMemberItem"
@@ -148,7 +148,7 @@
 					</Multiselect>
 				</div>
 				<div class="bill-date">
-					<label for="date"><a class="icon icon-calendar-dark" />{{ t('cospend', 'When?') }}</label>
+					<label><a class="icon icon-calendar-dark" />{{ t('cospend', 'When?') }}</label>
 					<DatetimePicker v-if="showDatePicker"
 						v-model="billDatetime"
 						class="datetime-picker"
@@ -161,7 +161,7 @@
 						:confirm="true" />
 				</div>
 				<div class="bill-payment-mode">
-					<label for="payment-mode">
+					<label>
 						<a class="icon icon-tag" />{{ t('cospend', 'Payment mode') }}
 					</label>
 					<Multiselect
@@ -178,7 +178,7 @@
 						@input="paymentModeSelected" />
 				</div>
 				<div class="bill-category">
-					<label for="category">
+					<label>
 						<a class="icon icon-category-app-bundles" />{{ t('cospend', 'Category') }}
 					</label>
 					<Multiselect
@@ -530,7 +530,7 @@
 					:title="t('cospend', 'Press Shift+Enter to validate')"
 					@click="onCreateClick">
 					<span class="icon-confirm" />
-					<span id="owerValidateText">{{ createBillButtonText }}</span>
+					<span id="owerValidateText2">{{ createBillButtonText }}</span>
 				</button>
 			</div>
 		</div>

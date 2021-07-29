@@ -25,7 +25,7 @@
 		:show-navigation="true"
 		container="#content-vue">
 		<AppSettingsSection
-			:title="t('spreed', 'About Cospend')"
+			:title="t('cospend', 'About Cospend')"
 			class="app-settings-section">
 			<h3 class="app-settings-section__hint">
 				{{ t('cospend', 'Thanks for using Cospend') + ' ♥' }}
@@ -77,7 +77,7 @@
 			</a>
 		</AppSettingsSection>
 		<AppSettingsSection v-if="!pageIsPublic"
-			:title="t('spreed', 'Import projects')"
+			:title="t('cospend', 'Import projects')"
 			class="app-settings-section">
 			<button @click="onImportClick">
 				<span :class="{ icon: true, 'icon-download': !importingProject, 'icon-loading-small': importingProject }" />
@@ -89,7 +89,7 @@
 			</button>
 		</AppSettingsSection>
 		<AppSettingsSection v-if="!pageIsPublic"
-			:title="t('spreed', 'Guest access')"
+			:title="t('cospend', 'Guest access')"
 			class="app-settings-section">
 			<a :href="guestLink" @click.prevent.stop="onGuestLinkClick">
 				<button>
@@ -99,7 +99,7 @@
 			</a>
 		</AppSettingsSection>
 		<AppSettingsSection v-if="!pageIsPublic"
-			:title="t('spreed', 'Export location')"
+			:title="t('cospend', 'Export location')"
 			class="app-settings-section">
 			<h3 class="app-settings-section__hint">
 				{{ t('cospend', 'Select export directory') }}
@@ -113,7 +113,7 @@
 				@click="onOutputDirClick">
 		</AppSettingsSection>
 		<AppSettingsSection
-			:title="t('spreed', 'Sort criterias')"
+			:title="t('cospend', 'Sort criterias')"
 			class="app-settings-section">
 			<div v-if="!pageIsPublic">
 				<h3 class="app-settings-section__hint">
@@ -147,7 +147,7 @@
 			</select>
 		</AppSettingsSection>
 		<AppSettingsSection
-			:title="t('spreed', 'Misc')"
+			:title="t('cospend', 'Misc')"
 			class="app-settings-section">
 			<h3 class="app-settings-section__hint">
 				{{ t('cospend', 'Maximum decimal precision to show in balances') }}

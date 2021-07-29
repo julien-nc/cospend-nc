@@ -35,7 +35,7 @@
 			<div id="app-settings">
 				<div id="app-settings-header">
 					<button class="settings-button" @click="showSettings">
-						{{ t('Cospend', 'Cospend settings') }}
+						{{ t('cospend', 'Cospend settings') }}
 					</button>
 				</div>
 			</div>

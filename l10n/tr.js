@@ -35,7 +35,6 @@ OC.L10N.register(
     "Deactivate" : "Devre dışı bırak",
     "Reactivate" : "Yeniden aktive et",
     "Add member" : "Üye ekle",
-    "Guest access link" : "Misafir erişim linki",
     "Member/Month" : "Üye/Ay",
     "All members" : "Tüm üyeler",
     "Maximum amount" : "Maksimum tutar",

@@ -56,7 +56,6 @@ OC.L10N.register(
     "Viewer" : "Разглеждачка",
     "Add member" : "Добавяне на участник",
     "New project" : "Нов проект",
-    "Guest access link" : "Връзка за достъп за гости",
     "Settings" : "Настройки",
     "Member/Month" : "Участник/месец",
     "All members" : "Всички участници",

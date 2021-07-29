@@ -147,8 +147,6 @@ OC.L10N.register(
     "Add member" : "Aggiungi membro",
     "Member list is not up to date. Reloading in 5 sec." : "La lista dei membri non è aggiornata. Ricarica tra 5 sec.",
     "New project" : "Nuovo progetto",
-    "Guest access link" : "Link di accesso ospite",
-    "Change output directory" : "Cambia cartella di output",
     "Choose csv project file" : "Scegli il file del progetto csv",
     "Add public link" : "Aggiungi link pubblico",
     "Failed to edit guest access level" : "Impossibile modificare il livello di accesso ospite",

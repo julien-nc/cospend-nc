@@ -30,6 +30,51 @@
 			<h3 class="app-settings-section__hint">
 				{{ t('cospend', 'Thanks for using Cospend') + ' ♥' }}
 			</h3>
+			<h3 class="app-settings-section__hint">
+				{{ t('cospend', 'Bug/issue tracker') + ': ' }}
+			</h3>
+			<a href="https://github.com/eneiluj/cospend-nc/issues"
+				target="_blank"
+				class="external">
+				https://github.com/eneiluj/cospend-nc/issues
+				<span class="icon icon-external" />
+			</a>
+			<h3 class="app-settings-section__hint">
+				{{ t('cospend', 'Translation') + ': ' }}
+			</h3>
+			<a href="https://crowdin.com/project/moneybuster"
+				target="_blank"
+				class="external">
+				https://crowdin.com/project/moneybuster
+				<span class="icon icon-external" />
+			</a>
+			<h3 class="app-settings-section__hint">
+				{{ t('cospend', 'User documentation') + ': ' }}
+			</h3>
+			<a href="https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md"
+				target="_blank"
+				class="external">
+				https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md
+				<span class="icon icon-external" />
+			</a>
+			<h3 class="app-settings-section__hint">
+				{{ t('cospend', 'Admin documentation') + ': ' }}
+			</h3>
+			<a href="https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md"
+				target="_blank"
+				class="external">
+				https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md
+				<span class="icon icon-external" />
+			</a>
+			<h3 class="app-settings-section__hint">
+				{{ t('cospend', 'Developer documentation') + ': ' }}
+			</h3>
+			<a href="https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md"
+				target="_blank"
+				class="external">
+				https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md
+				<span class="icon icon-external" />
+			</a>
 		</AppSettingsSection>
 		<AppSettingsSection v-if="!pageIsPublic"
 			:title="t('spreed', 'Import projects')"
@@ -274,6 +319,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+a span.icon {
+	display: inline-block;
+	margin-bottom: -3px;
+}
 
 .wrapper {
 	overflow-y: scroll;

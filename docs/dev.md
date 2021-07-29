@@ -1,10 +1,20 @@
 # Development environment
 
-Clone this repository and run:
+Clone this repository and build:
 
 ``` bash
-npm install
+cd /var/www/.../nextcloud/apps
+git clone https://github.com/eneiluj/cospend-nc cospend
+cd cospend
+npm ci
 npm run watch
+```
+
+Or if you want to use HMR (hot module replacement),
+install the [Nextcloud HMR Enabler app](https://github.com/nextcloud/hmr_enabler)
+and run this in cospend directory:
+``` bash
+npm run serve
 ```
 
 # Public API

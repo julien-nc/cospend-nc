@@ -12,10 +12,10 @@ jobs:
       APP_ID: cospend
     runs-on: ubuntu-latest
     steps:
-      - name: Use Node 12
+      - name: Use Node 14
         uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2

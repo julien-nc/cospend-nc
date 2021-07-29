@@ -699,10 +699,6 @@ export default {
 				} else {
 					this.currentFormula = val
 				}
-				// update custom share ower amounts
-				if (this.isNewBill && this.newBillMode === 'customShare') {
-					this.owerCustomShareAmount = this.getOwersCustomShareAmount()
-				}
 			},
 		},
 		selectAllNoneOwers: {
@@ -1057,6 +1053,10 @@ export default {
 			// here, do nothing if we are typing a formula or if
 			if (this.currentFormula === null) {
 				this.onBillEdited()
+				// update custom share ower amounts
+				if (this.isNewBill && this.newBillMode === 'customShare') {
+					this.owerCustomShareAmount = this.getOwersCustomShareAmount()
+				}
 			}
 		},
 		onAmountEnterPressed() {
@@ -1073,6 +1073,10 @@ export default {
 				this.myBill.amount = isNaN(calc) ? 0 : calc
 				this.currentFormula = null
 				this.onBillEdited(null, false)
+				// update custom share ower amounts
+				if (this.isNewBill && this.newBillMode === 'customShare') {
+					this.owerCustomShareAmount = this.getOwersCustomShareAmount()
+				}
 			}
 		},
 		onPersoAmountInput(e) {

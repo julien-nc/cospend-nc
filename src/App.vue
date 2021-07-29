@@ -62,7 +62,7 @@
 				icon="icon-cospend">
 				{{ t('cospend', 'No bill selected') }}
 			</EmptyContent>
-			<div
+			<div v-if="!isMobile"
 				class="content-buttons">
 				<button
 					v-tooltip.bottom="{ content: t('cospend', 'Toggle sidebar') }"

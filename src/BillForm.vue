@@ -57,7 +57,7 @@
 					class="bill-link-button">
 					<div />
 					<button id="addFileLinkButton" @click="onGeneratePubLinkClick">
-						<span class="icon-public" />{{ t('cospend', 'Attach public link to personal file') }}
+						<span class="icon-public" />{{ t('cospend', 'Attach share link to personal file') }}
 					</button>
 				</div>
 				<div class="bill-amount">
@@ -1423,7 +1423,7 @@ export default {
 				this.onBillEdited()
 			}).catch((error) => {
 				showError(
-					t('cospend', 'Failed to generate public link to file')
+					t('cospend', 'Failed to generate share link to file')
 					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
 				)
 			})

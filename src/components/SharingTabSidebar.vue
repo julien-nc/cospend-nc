@@ -42,18 +42,19 @@
 				@click="addLink">
 				<div :class="'avatardiv icon icon-public-white' + (addingPublicLink ? ' loading' : '')" />
 				<span class="username">
-					{{ t('cospend', 'Add public link') }}
+					{{ t('cospend', 'Share link') }}
 				</span>
 				<Actions>
 					<ActionButton
-						icon="icon-add"
-						:aria-label="t('cospend', 'Add link')" />
+						icon="icon-add">
+						{{ t('cospend', 'Create a new share link') }}
+					</ActionButton>
 				</Actions>
 			</li>
 			<li v-for="access in linkShares" :key="access.id">
 				<div class="avatardiv icon icon-public-white" />
 				<span class="username">
-					<span>{{ t('cospend', 'Public link') + (access.label ? ' (' + access.label + ')' : '') }}</span>
+					<span>{{ t('cospend', 'Share link') + (access.label ? ' (' + access.label + ')' : '') }}</span>
 				</span>
 
 				<Actions>

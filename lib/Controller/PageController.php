@@ -870,7 +870,7 @@ class PageController extends ApiController {
 			}
 		} else {
 			return new DataResponse(
-				['message' => $this->trans->t('Bad password or public link')],
+				['message' => $this->trans->t('Bad password or share link')],
 				400
 			);
 		}

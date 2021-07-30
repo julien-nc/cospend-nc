@@ -20,12 +20,6 @@ const cospend = {
 	// indexed by projectid, then by memberid
 	members: {},
 	projects: {},
-	pubLinkData: {
-		type: constants.SHARE_TYPE.PUBLIC_LINK,
-		name: null,
-		label: t('cospend', 'Add public link'),
-		value: '',
-	},
 	hardCodedCategories: constants.hardCodedCategories,
 	paymentModes: constants.paymentModes,
 	memberOrder: 'name',

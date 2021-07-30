@@ -97,19 +97,11 @@ class ProjectService {
 	/**
 	 * @var array
 	 */
-	private $defaultCategoryNames;
-	/**
-	 * @var string[]
-	 */
-	private $defaultCategoryIcons;
-	/**
-	 * @var string[]
-	 */
-	private $defaultCategoryColors;
-	/**
-	 * @var array
-	 */
 	private $hardCodedCategoryNames;
+	/**
+	 * @var array[]
+	 */
+	private $defaultCategories;
 
 	public function __construct (IL10N $trans,
 								IConfig $config,
@@ -138,44 +130,62 @@ class ProjectService {
 		$this->notificationManager = $notificationManager;
 		$this->db = $db;
 
-		$this->defaultCategoryNames = [
-			'-1' => $this->trans->t('Grocery'),
-			'-2' => $this->trans->t('Bar/Party'),
-			'-3' => $this->trans->t('Rent'),
-			'-4' => $this->trans->t('Bill'),
-			'-5' => $this->trans->t('Excursion/Culture'),
-			'-6' => $this->trans->t('Health'),
-			'-10' => $this->trans->t('Shopping'),
-			'-12' => $this->trans->t('Restaurant'),
-			'-13' => $this->trans->t('Accommodation'),
-			'-14' => $this->trans->t('Transport'),
-			'-15' => $this->trans->t('Sport')
-		];
-		$this->defaultCategoryIcons = [
-			'-1'  => '🛒',
-			'-2'  => '🎉',
-			'-3'  => '🏠',
-			'-4'  => '🌩',
-			'-5'  => '🚸',
-			'-6'  => '💚',
-			'-10' => '🛍',
-			'-12' => '🍴',
-			'-13' => '🛌',
-			'-14' => '🚌',
-			'-15' => '🎾'
-		];
-		$this->defaultCategoryColors = [
-			'-1'  => '#ffaa00',
-			'-2'  => '#aa55ff',
-			'-3'  => '#da8733',
-			'-4'  => '#4aa6b0',
-			'-5'  => '#0055ff',
-			'-6'  => '#bf090c',
-			'-10' => '#e167d1',
-			'-12' => '#d0d5e1',
-			'-13' => '#5de1a3',
-			'-14' => '#6f2ee1',
-			'-15' => '#69e177'
+		$this->defaultCategories = [
+			[
+				'name' => $this->trans->t('Grocery'),
+				'icon' => '🛒',
+				'color' => '#ffaa00',
+			],
+			[
+				'name' => $this->trans->t('Bar/Party'),
+				'icon' => '🎉',
+				'color' => '#aa55ff',
+			],
+			[
+				'name' => $this->trans->t('Rent'),
+				'icon' => '🏠',
+				'color' => '#da8733',
+			],
+			[
+				'name' => $this->trans->t('Bill'),
+				'icon' => '🌩',
+				'color' => '#4aa6b0',
+			],
+			[
+				'name' => $this->trans->t('Excursion/Culture'),
+				'icon' => '🚸',
+				'color' => '#0055ff',
+			],
+			[
+				'name' => $this->trans->t('Health'),
+				'icon' => '💚',
+				'color' => '#bf090c',
+			],
+			[
+				'name' => $this->trans->t('Shopping'),
+				'icon' => '🛍',
+				'color' => '#e167d1',
+			],
+			[
+				'name' => $this->trans->t('Restaurant'),
+				'icon' => '🍴',
+				'color' => '#d0d5e1',
+			],
+			[
+				'name' => $this->trans->t('Accommodation'),
+				'icon' => '🛌',
+				'color' => '#5de1a3',
+			],
+			[
+				'name' => $this->trans->t('Transport'),
+				'icon' => '🚌',
+				'color' => '#6f2ee1',
+			],
+			[
+				'name' => $this->trans->t('Sport'),
+				'icon' => '🎾',
+				'color' => '#69e177',
+			],
 		];
 
 		$this->hardCodedCategoryNames = [
@@ -473,15 +483,16 @@ class ProjectService {
 
 			// create default categories
 			if ($createDefaultCategories) {
-				foreach ($this->defaultCategoryNames as $strId => $catName) {
-					$icon = urlencode($this->defaultCategoryIcons[$strId]);
-					$color = $this->defaultCategoryColors[$strId];
+				foreach ($this->defaultCategories as $category) {
+					$icon = urlencode($category['icon']);
+					$color = $category['color'];
+					$name = $category['name'];
 					$qb->insert('cospend_project_categories')
 						->values([
 							'projectid' => $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR),
 							'encoded_icon' => $qb->createNamedParameter($icon, IQueryBuilder::PARAM_STR),
 							'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
-							'name' => $qb->createNamedParameter($catName, IQueryBuilder::PARAM_STR)
+							'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR)
 						]);
 					$qb->executeStatement();
 					$qb = $qb->resetQueryParts();

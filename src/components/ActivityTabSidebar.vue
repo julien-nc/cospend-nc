@@ -4,7 +4,7 @@
 			v-for="a in activities"
 			:key="a.activity_id"
 			:activity="a" />
-		<InfiniteLoading v-if="activities.length > 0"
+		<InfiniteLoading v-if="activities.length >= 50"
 			:identifier="projectId"
 			@infinite="infiniteHandler">
 			<template #no-results>

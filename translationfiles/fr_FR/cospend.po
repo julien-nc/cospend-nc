@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-07-30 15:33+0200\n"
-"PO-Revision-Date: 2021-07-30 13:34\n"
+"PO-Revision-Date: 2021-07-31 13:35\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -225,7 +225,7 @@ msgstr "Projet introuvable"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:873
 msgid "Bad password or share link"
-msgstr ""
+msgstr "Mauvais mot de passe ou lien de partage"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1807
 msgid "You are not allowed to give such shared access level"
@@ -791,7 +791,7 @@ msgstr "De quoi traite la facture ?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:26
 msgid "Attach share link to personal file"
-msgstr ""
+msgstr "Joindre un lien de partage vers un fichier personnel"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:28
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:30
@@ -1039,7 +1039,7 @@ msgstr "Choisissez un fichier"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:91
 msgid "Failed to generate share link to file"
-msgstr ""
+msgstr "Impossible de générer le lien de partage vers le fichier"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:92
 msgid "This is just a currency converter. Bill amount can be entered in another currency and then converted to \"{maincur}\". Value is always stored in \"{maincur}\"."
@@ -1819,11 +1819,11 @@ msgstr "Partager le projet avec un utilisateur, un groupe ou un cercle …"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:322
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:324
 msgid "Share link"
-msgstr ""
+msgstr "Lien de partage"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:323
 msgid "Create a new share link"
-msgstr ""
+msgstr "Créer un nouveau lien de partage"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:325
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:340

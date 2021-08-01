@@ -1203,10 +1203,18 @@ class PageController extends ApiController {
 													 $repeatuntil, $timestamp, $comment, $repeatfreq);
 			if (isset($result['inserted_id'])) {
 				$billObj = $this->billMapper->find($result['inserted_id']);
+				if (is_null($publicShareInfo['accesslevel'])) {
+					$authorFullText = $this->trans->t('Guest access');
+				} elseif ($publicShareInfo['label']) {
+					$authorName = $publicShareInfo['label'];
+					$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
+				} else {
+					$authorFullText = $this->trans->t('Share link');
+				}
 				$this->activityManager->triggerEvent(
 					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
 					ActivityManager::SUBJECT_BILL_CREATE,
-					[]
+					['author' => $authorFullText]
 				);
 				return new DataResponse($result['inserted_id']);
 			} else {
@@ -1337,6 +1345,14 @@ class PageController extends ApiController {
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_PARTICIPANT)
 			|| ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= Application::ACCESS_PARTICIPANT)
 		) {
+			if (is_null($publicShareInfo['accesslevel'])) {
+				$authorFullText = $this->trans->t('Guest access');
+			} elseif ($publicShareInfo['label']) {
+				$authorName = $publicShareInfo['label'];
+				$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
+			} else {
+				$authorFullText = $this->trans->t('Share link');
+			}
 			foreach ($billIds as $billid) {
 				$result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
 														$amount, $repeat, $paymentmode, $categoryid,
@@ -1346,7 +1362,7 @@ class PageController extends ApiController {
 					$this->activityManager->triggerEvent(
 						ActivityManager::COSPEND_OBJECT_BILL, $billObj,
 						ActivityManager::SUBJECT_BILL_UPDATE,
-						[]
+						['author' => $authorFullText]
 					);
 				} else {
 					return new DataResponse($result, 400);
@@ -1415,10 +1431,18 @@ class PageController extends ApiController {
 			$result = $this->projectService->deleteBill($projectid, $billid);
 			if (isset($result['success'])) {
 				if (!is_null($billObj)) {
+					if (is_null($publicShareInfo['accesslevel'])) {
+						$authorFullText = $this->trans->t('Guest access');
+					} elseif ($publicShareInfo['label']) {
+						$authorName = $publicShareInfo['label'];
+						$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
+					} else {
+						$authorFullText = $this->trans->t('Share link');
+					}
 					$this->activityManager->triggerEvent(
 						ActivityManager::COSPEND_OBJECT_BILL, $billObj,
 						ActivityManager::SUBJECT_BILL_DELETE,
-						[]
+						['author' => $authorFullText]
 					);
 				}
 				return new DataResponse('OK');
@@ -1445,6 +1469,14 @@ class PageController extends ApiController {
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_PARTICIPANT)
 			|| ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= Application::ACCESS_PARTICIPANT)
 		) {
+			if (is_null($publicShareInfo['accesslevel'])) {
+				$authorFullText = $this->trans->t('Guest access');
+			} elseif ($publicShareInfo['label']) {
+				$authorName = $publicShareInfo['label'];
+				$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
+			} else {
+				$authorFullText = $this->trans->t('Share link');
+			}
 			foreach ($billIds as $billid) {
 				$billObj = null;
 				if ($this->projectService->getBill($projectid, $billid) !== null) {
@@ -1459,7 +1491,7 @@ class PageController extends ApiController {
 						$this->activityManager->triggerEvent(
 							ActivityManager::COSPEND_OBJECT_BILL, $billObj,
 							ActivityManager::SUBJECT_BILL_DELETE,
-							[]
+							['author' => $authorFullText]
 						);
 					}
 				}

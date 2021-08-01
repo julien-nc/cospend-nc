@@ -1295,10 +1295,18 @@ class PageController extends ApiController {
 													  $repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq);
 			if (isset($result['edited_bill_id'])) {
 				$billObj = $this->billMapper->find($billid);
+				if (is_null($publicShareInfo['accesslevel'])) {
+					$authorFullText = $this->trans->t('Guest access');
+				} elseif ($publicShareInfo['label']) {
+					$authorName = $publicShareInfo['label'];
+					$authorFullText = $this->trans->t('Share link (%s)', [$authorName]);
+				} else {
+					$authorFullText = $this->trans->t('Share link');
+				}
 				$this->activityManager->triggerEvent(
 					ActivityManager::COSPEND_OBJECT_BILL, $billObj,
 					ActivityManager::SUBJECT_BILL_UPDATE,
-					[]
+					['author' => $authorFullText]
 				);
 
 				return new DataResponse($result['edited_bill_id']);

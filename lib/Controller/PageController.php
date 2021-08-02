@@ -852,7 +852,6 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiGetProjectInfo(string $projectid, string $password): DataResponse {
-		error_log('apiGetProjectInfo PASSSSSWWWWWW "' . $password . '"');
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
 			$projectInfo = $this->projectService->getProjectInfo($projectid);
@@ -960,7 +959,6 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiGetMembers(string $projectid, string $password, ?int $lastchanged = null): DataResponse {
-		error_log('PASSSSSWWWWWW "' . $password . '"');
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
 			$members = $this->projectService->getMembers($projectid, null, $lastchanged);

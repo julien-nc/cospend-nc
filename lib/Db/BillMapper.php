@@ -58,7 +58,6 @@ class BillMapper extends QBMapper {
 			throw new Exception('Bill ' . $id . ' not found');
 		}
 
-		error_log('22222 found projectid ' . $row['projectid']);
 		return $row['projectid'];
 	}
 }

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-07-30 15:33+0200\n"
-"PO-Revision-Date: 2021-07-30 13:34\n"
+"PO-Revision-Date: 2021-08-02 13:52\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -225,7 +225,7 @@ msgstr "Projekt nenalezen"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:873
 msgid "Bad password or share link"
-msgstr ""
+msgstr "Špatné heslo nebo odkaz pro sdílení"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1807
 msgid "You are not allowed to give such shared access level"
@@ -793,7 +793,7 @@ msgstr "Čeho se tato účtenka týká?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:26
 msgid "Attach share link to personal file"
-msgstr ""
+msgstr "Připojit odkaz na sdílení k osobnímu souboru"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:28
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:30

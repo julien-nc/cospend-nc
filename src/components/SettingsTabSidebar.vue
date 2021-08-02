@@ -59,7 +59,8 @@
 				</span>
 				<button class="icon icon-info" @click="onInfoAddClicked" />
 			</h3>
-			<h4>
+			<h4
+				v-if="maintenerAccess">
 				<span class="icon icon-add" />
 				<span class="tcontent">
 					{{ t('cospend', 'Add a member') }}
@@ -312,6 +313,7 @@ export default {
 		unallocatedUsers() {
 			// prepend simple user
 			const result = []
+			console.debug('unallocatedUsers query ' + this.query)
 			if (this.query) {
 				result.push({
 					id: '',
@@ -346,8 +348,8 @@ export default {
 			this.$emit('project-edited', this.projectId)
 		},
 		asyncFind(query) {
+			this.query = query
 			if (!this.pageIsPublic) {
-				this.query = query
 				if (query === '') {
 					this.users = []
 					return

@@ -5,6 +5,7 @@
   * [What is a bill :dollar: ?](#s1-4)
 * [Add a project](#s2)
   * [Guest access](#s2-1)
+    * [Guest access permissions](#s2-1-1)
 * [Add a member](#s3)
 * [Add a bill](#s4)
 * [Project statistics](#s5)
@@ -69,6 +70,15 @@ The project ID and password are important to provide access to people who don't 
 This link looks like `https://YOUR.NEXTCLOUD.ORG/index.php/apps/cospend/login` or `https://YOUR.NEXTCLOUD.ORG/index.php/apps/cospend/loginproject/PROJECT_ID` . Just put the correct values for YOUR.NEXTCLOUD.ORG and PROJECT_ID and you're good to go.
 
 This link is accessible in projects context menu => "guest link".
+
+## <a id='s2-1-1' />Guest access permissions
+
+There are 4 levels of guest link permissions : 
+
+* Viewer : read-only access
+* Participant : can create, modify or delete bills
+* Maintainer : same as participant, + can create, modify, deactivate or delete a project member, and can create, modify and delete categories and currencies
+* Admin : same as maintainer, + can rename and delete project, can enable/disable bill deletion and auto-export, can modify categories order
 
 # <a id='s3' />Add a member
 

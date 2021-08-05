@@ -38,8 +38,9 @@
 			<button
 				v-else
 				id="duplicate-bill"
-				v-tooltip.bottom="{ content: t('cospend', 'Duplicate bill') }"
+				v-tooltip.bottom="{ content: payerDisabled ? t('cospend', 'Impossible to duplicate a bill with a disabled payer') : t('cospend', 'Duplicate bill') }"
 				style="display: inline-block;"
+				:disabled="payerDisabled"
 				@click="onDuplicate">
 				<span class="icon-play-add" />
 			</button>

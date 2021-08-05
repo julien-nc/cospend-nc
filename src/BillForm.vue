@@ -1456,7 +1456,16 @@ export default {
 			)
 		},
 		onDuplicate() {
-			this.$emit('duplicate-bill', this.myBill)
+			const owers = this.myBill.owers.filter((o) => {
+				return o.activated
+			})
+			const owerIds = owers.map(o => o.id)
+			const billWithoutDisabledOwers = {
+				...this.myBill,
+				owers,
+				owerIds,
+			}
+			this.$emit('duplicate-bill', billWithoutDisabledOwers)
 		},
 	},
 }

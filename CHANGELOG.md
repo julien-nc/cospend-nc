@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.3.11 – 2021-08-05
+### Added
+- Project activity sidebar tab
+
+### Changed
+- move navigation settings to a modal dialog
+
+### Fixed
+- issue with decimal numbers in new bill custom share mode
+  [#20](https://github.com/eneiluj/cospend-nc/issues/20) @mayonezo
+- add member in public pages
+  [#68](https://github.com/eneiluj/cospend-nc/issues/68) @la-balisa
+
 ## 1.3.10 – 2021-07-22
 ### Added
 - now possible to change bill list width (drag right side)

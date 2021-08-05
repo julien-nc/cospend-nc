@@ -35,6 +35,14 @@
 					{{ createBillButtonText }}
 				</span>
 			</button>
+			<button
+				v-else
+				id="duplicate-bill"
+				v-tooltip.bottom="{ content: t('cospend', 'Duplicate bill') }"
+				style="display: inline-block;"
+				@click="onDuplicate">
+				<span class="icon-play-add" />
+			</button>
 		</h2>
 		<div class="bill-form">
 			<div class="bill-left">
@@ -1446,6 +1454,9 @@ export default {
 					+ ' ' + t('cospend', 'You can also manually repeat the current bill with the "Repeat now" button.'),
 				t('cospend', 'Info')
 			)
+		},
+		onDuplicate() {
+			this.$emit('duplicate-bill', this.myBill)
 		},
 	},
 }

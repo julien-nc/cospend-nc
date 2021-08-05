@@ -49,6 +49,7 @@
 				@bill-saved="onBillSaved"
 				@custom-bills-created="onCustomBillsCreated"
 				@perso-bills-created="onPersoBillsCreated"
+				@duplicate-bill="onDuplicateBill"
 				@repeat-bill-now="onRepeatBillNow" />
 			<Statistics
 				v-else-if="mode === 'stats'"
@@ -317,6 +318,9 @@ export default {
 				console.error(error)
 			})
 		},
+		onDuplicateBill(bill) {
+			this.onNewBillClicked(bill)
+		},
 		onBillSaved(bill, changedBill) {
 			Object.assign(bill, changedBill)
 			this.updateProjectInfo(cospend.currentProjectId)
@@ -430,12 +434,12 @@ export default {
 		onAutoSettled(projectid) {
 			this.getBills(projectid)
 		},
-		onNewBillClicked() {
+		onNewBillClicked(bill = null) {
 			// if a member is selected: deselect member and get full bill list
 			// then call onNewBillClicked again
 			if (this.selectedMemberId) {
 				this.selectedMemberId = null
-				this.getBills(cospend.currentProjectId, null, () => { this.onNewBillClicked() })
+				this.getBills(cospend.currentProjectId, null, () => { this.onNewBillClicked(bill) })
 			} else {
 				// find potentially existing new bill
 				const billList = this.billLists[cospend.currentProjectId]
@@ -443,31 +447,44 @@ export default {
 					return bill.id === 0
 				})
 				if (found === -1) {
-					const payerId = this.defaultPayerId
-					// select all owers
-					const owerIds = []
-					for (const mid in this.currentMembers) {
-						if (this.currentMembers[mid].activated) {
-							owerIds.push(this.currentMembers[mid].id)
+					if (bill) {
+						this.currentBill = {
+							...bill,
+							id: 0,
 						}
-					}
-					this.currentBill = {
-						id: 0,
-						what: '',
-						timestamp: moment().hour(0).minute(0).second(0).unix(),
-						amount: 0.0,
-						payer_id: payerId,
-						repeat: 'n',
-						owers: [],
-						owerIds,
-						paymentmode: 'n',
-						categoryid: 0,
-						comment: '',
+					} else {
+						const payerId = this.defaultPayerId
+						// select all owers
+						const owerIds = []
+						for (const mid in this.currentMembers) {
+							if (this.currentMembers[mid].activated) {
+								owerIds.push(this.currentMembers[mid].id)
+							}
+						}
+						this.currentBill = {
+							id: 0,
+							what: '',
+							timestamp: moment().hour(0).minute(0).second(0).unix(),
+							amount: 0.0,
+							payer_id: payerId,
+							repeat: 'n',
+							owers: [],
+							owerIds,
+							paymentmode: 'n',
+							categoryid: 0,
+							comment: '',
+						}
 					}
 					this.billLists[cospend.currentProjectId].unshift(this.currentBill)
 					this.currentProject.nbBills++
 				} else {
 					this.currentBill = billList[found]
+					if (bill) {
+						Object.assign(this.currentBill, {
+							...bill,
+							id: 0,
+						})
+					}
 				}
 				// select new bill in case it was not selected yet
 				// this.selectedBillId = billid

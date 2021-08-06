@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## 1.3.12 – 2021-08-05
 ### Added
 - button to duplicate selected bill as new bill
+  [#70](https://github.com/eneiluj/cospend-nc/issues/70) @TtuxX
+
+### Fixed
+- issues with issing accessibility stuff in public pages or when accessibility app is not installed
+  [#70](https://github.com/eneiluj/cospend-nc/issues/70) @TtuxX
+  [#68](https://github.com/eneiluj/cospend-nc/issues/68) @la-balisa
 
 ## 1.3.11 – 2021-08-05
 ### Added

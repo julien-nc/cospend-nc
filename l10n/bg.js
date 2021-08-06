@@ -9,7 +9,6 @@ OC.L10N.register(
     "Access denied" : "Достъпът е отказан",
     "Unauthorized action" : "Неупълномощено действие",
     "Project not found" : "Проектът не е намерен",
-    "Bad password or public link" : "Лоша парола или публичен линк",
     "Rent" : "Наем",
     "Excursion/Culture" : "Екскурзия/култура",
     "Invalid date" : "Недействителна дата",

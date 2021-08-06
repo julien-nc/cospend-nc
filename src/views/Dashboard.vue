@@ -48,7 +48,7 @@ export default {
 			cospendUrl: generateUrl('/apps/cospend'),
 			loop: null,
 			state: 'loading',
-			darkThemeColor: OCA.Accessibility.theme === 'dark' ? '181818' : 'ffffff',
+			darkThemeColor: OCA.Accessibility?.theme === 'dark' ? '181818' : 'ffffff',
 			windowVisibility: true,
 		}
 	},

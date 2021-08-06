@@ -304,7 +304,7 @@ export default {
 			groupIconUrl: generateUrl('/svg/core/actions/group?color=000000'),
 			passwordIconUrl: generateUrl('/svg/core/actions/password?color=000000'),
 			circleIconUrl: generateUrl('/svg/circles/circles?color=000000'),
-			circleMultiselectIconUrl: OCA.Accessibility.theme === 'dark'
+			circleMultiselectIconUrl: OCA.Accessibility?.theme === 'dark'
 				? generateUrl('/svg/circles/circles?color=ffffff')
 				: generateUrl('/svg/circles/circles?color=000000'),
 		}

@@ -29,7 +29,7 @@ import RichText from '@juliushaertl/vue-richtext'
 
 import UserBubble from '@nextcloud/vue/dist/Components/UserBubble'
 
-const isDarkTheme = OCA.Accessibility.theme === 'dark'
+const isDarkTheme = OCA.Accessibility?.theme === 'dark'
 const icons = {
 	bill_update: generateUrl('/svg/core/actions/rename?color=' + (isDarkTheme ? 'FFFFFF' : '000000')),
 	bill_delete: generateUrl('/svg/core/actions/delete?color=E9322D'),

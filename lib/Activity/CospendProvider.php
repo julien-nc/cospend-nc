@@ -81,7 +81,10 @@ class CospendProvider implements IProvider {
 		$this->config = $config;
 		$this->groupManager = $groupManager;
 		$this->appManager = $appManager;
-		$this->projectNames = $projectService->getProjectNames($userId);
+		$this->projectNames = [];
+		if (!is_null($userId)) {
+			$this->projectNames = $projectService->getProjectNames($userId);
+		}
 	}
 
 	/**

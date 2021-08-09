@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 1.3.13 – 2021-08-09
+### Fixed
+- fix error when user ID is null in activity provider
+  [#74](https://github.com/eneiluj/cospend-nc/issues/74) @arifer612
+  [#75](https://github.com/eneiluj/cospend-nc/issues/75) @apg1980
+
 ## 1.3.12 – 2021-08-05
 ### Added
 - button to duplicate selected bill as new bill

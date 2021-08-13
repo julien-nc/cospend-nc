@@ -3,7 +3,7 @@
 		ref="list">
 		<div class="list-header">
 			<AppNavigationItem
-				v-if="editionAccess && twoActiveMembers"
+				v-if="editionAccess && oneActiveMember"
 				v-show="!loading"
 				class="addBillItem"
 				icon="icon-add"
@@ -76,7 +76,7 @@
 				</div>
 			</transition>
 		</div>
-		<h3 v-if="!twoActiveMembers"
+		<h3 v-if="!oneActiveMember"
 			class="nomember">
 			{{ t('cospend', 'Add at least 2 members to start creating bills') }}
 		</h3>
@@ -188,7 +188,7 @@ export default {
 		shouldShowDetails() {
 			return (this.mode !== 'edition' || this.selectedBillId !== -1)
 		},
-		twoActiveMembers() {
+		oneActiveMember() {
 			let c = 0
 			const members = this.cospend.projects[this.projectId].members
 			for (const mid in members) {
@@ -196,7 +196,7 @@ export default {
 					c++
 				}
 			}
-			return (c >= 2)
+			return (c >= 1)
 		},
 		categories() {
 			return cospend.projects[this.projectId].categories

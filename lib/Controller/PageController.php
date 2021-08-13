@@ -896,7 +896,7 @@ class PageController extends ApiController {
 		} else {
 			return new DataResponse(
 				['message' => $this->trans->t('Unauthorized action')],
-				403
+				401
 			);
 		}
 	}

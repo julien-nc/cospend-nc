@@ -62,7 +62,7 @@
 			</ActionButton>
 		</template>
 		<template #default>
-			<AppNavigationItem v-if="members.length < 2"
+			<AppNavigationItem v-if="members.length < 1"
 				icon="icon-add"
 				:title="t('cospend', 'Add a member')"
 				@click="onAddMemberClick" />

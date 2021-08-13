@@ -197,10 +197,11 @@
 						label="name"
 						track-by="id"
 						:disabled="!editionAccess"
-						:placeholder="t('cospend', 'Choose a category')"
+						:placeholder="t('cospend', 'Choose or add a category')"
 						:options="formattedCategories"
 						:user-select="false"
 						:internal-search="true"
+						@search-change="categoryQueryChanged"
 						@input="categorySelected" />
 				</div>
 				<div class="bill-comment">
@@ -612,6 +613,7 @@ export default {
 			owerCustomShareAmount: {},
 			ignoreWeights: false,
 			showDatePicker: true,
+			categoryQuery: '',
 		}
 	},
 
@@ -686,6 +688,13 @@ export default {
 					id: c.id,
 				}
 			}))
+			if (this.categoryQuery && !this.sortedCategories.find((c) => { return strcmp(c.name, this.categoryQuery) === 0 })) {
+				categoryItems.push({
+					isNewCategory: true,
+					name: '➕ ' + t('cospend', 'Add category "{name}"', { name: this.categoryQuery }),
+					id: -1,
+				})
+			}
 			return categoryItems
 		},
 		useTime() {
@@ -923,9 +932,38 @@ export default {
 			this.myBill.paymentmode = selected.id
 			this.onBillEdited(null, false)
 		},
+		categoryQueryChanged(query) {
+			this.categoryQuery = query
+		},
 		categorySelected(selected) {
-			this.myBill.categoryid = selected.id
-			this.onBillEdited(null, false)
+			if (!selected.isNewCategory) {
+				this.myBill.categoryid = selected.id
+				this.onBillEdited(null, false)
+			} else {
+				// add a category
+				const name = this.categoryQuery
+				const icon = '✨'
+				const color = '#000000'
+				const order = this.sortedCategories.length
+				network.addCategory(this.project.id, name, icon, color, order).then((response) => {
+					const newCategoryId = response.data
+					this.$set(cospend.projects[this.projectId].categories, newCategoryId, {
+						name,
+						icon,
+						color,
+						id: newCategoryId,
+					})
+					this.myBill.categoryid = newCategoryId
+					this.onBillEdited(null, false)
+				}).catch((error) => {
+					showError(
+						t('cospend', 'Failed to add category')
+						+ ': ' + error.response?.request?.responseText
+					)
+					console.error(error)
+				})
+			}
+			this.categoryQuery = ''
 		},
 		stringify(date) {
 			return this.useTime

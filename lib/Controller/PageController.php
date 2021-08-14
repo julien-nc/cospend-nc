@@ -491,12 +491,12 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 *
 	 */
-	public function webGetProjectStatistics(string $projectid, ?int $tsMin = null, ?int $tsMax = null, ?string $paymentMode = null,
+	public function webGetProjectStatistics(string $projectid, ?int $tsMin = null, ?int $tsMax = null, ?int $paymentModeId = null,
 											?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
 											string $showDisabled = '1', ?int $currencyId = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			$result = $this->projectService->getProjectStatistics(
-				$projectid, 'lowername', $tsMin, $tsMax, $paymentMode,
+				$projectid, 'lowername', $tsMin, $tsMax, $paymentModeId,
 				$category, $amountMin, $amountMax, $showDisabled === '1', $currencyId
 			);
 			return new DataResponse($result);
@@ -594,13 +594,14 @@ class PageController extends ApiController {
 	 *
 	 */
 	public function webEditBill(string $projectid, int $billid, ?string $date = null, ?string $what = null, ?int $payer = null,
-								?string $payed_for = null, ?float $amount = null, ?string $repeat = null, ?string $paymentmode = null,
+								?string $payed_for = null, ?float $amount = null, ?string $repeat = null,
+								?string $paymentmode = null, ?int $paymentmodeid = null,
 								?int $categoryid = null, ?int $repeatallactive = null, ?string $repeatuntil = null,
 								?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		if ($userAccessLevel >= Application::ACCESS_PARTICIPANT) {
 			$result =  $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
-													   $amount, $repeat, $paymentmode, $categoryid,
+													   $amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
 													   $repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq);
 			if (isset($result['edited_bill_id'])) {
 				$billObj = $this->billMapper->find($billid);
@@ -645,14 +646,15 @@ class PageController extends ApiController {
 	 */
 	public function webEditBills(string $projectid, array $billIds, ?int $categoryid = null, ?string $date = null,
 								?string $what = null, ?int $payer = null, ?string $payed_for = null,
-								?float $amount = null, ?string $repeat = null, ?string $paymentmode = null,
+								?float $amount = null, ?string $repeat = null,
+								 ?string $paymentmode = null, ?int $paymentmodeid = null,
 								?int $repeatallactive = null, ?string $repeatuntil = null, ?int $timestamp = null,
 								?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		if ($userAccessLevel >= Application::ACCESS_PARTICIPANT) {
 			foreach ($billIds as $billid) {
 				$result =  $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
-														$amount, $repeat, $paymentmode, $categoryid,
+														$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
 														$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq);
 				if (isset($result['edited_bill_id'])) {
 					$billObj = $this->billMapper->find($billid);
@@ -701,12 +703,12 @@ class PageController extends ApiController {
 	 *
 	 */
 	public function webAddBill(string $projectid, ?string $date = null, ?string $what = null, ?int $payer = null, ?string $payed_for = null,
-							?float $amount = null, ?string $repeat = null, ?string $paymentmode = null, ?int $categoryid = null,
-							?int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null, ?string $comment = null,
-							?int $repeatfreq = null): DataResponse {
+							?float $amount = null, ?string $repeat = null, ?string $paymentmode = null, ?int $paymentmodeid = null,
+							?int $categoryid = null, ?int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
+							?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_PARTICIPANT) {
 			$result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
-													 $repeat, $paymentmode, $categoryid, $repeatallactive,
+													 $repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
 													 $repeatuntil, $timestamp, $comment, $repeatfreq);
 			if (isset($result['inserted_id'])) {
 				$billObj = $this->billMapper->find($result['inserted_id']);
@@ -1190,7 +1192,8 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiAddBill(string $projectid, string $password, ?string $date = null, ?string $what = null, ?int $payer = null,
-							?string $payed_for = null, ?float $amount = null, string $repeat = 'n', ?string $paymentmode = null,
+							?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
+							?string $paymentmode = null, ?int $paymentmodeid = null,
 							?int $categoryid = null, ?int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
 							?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
@@ -1199,7 +1202,7 @@ class PageController extends ApiController {
 			|| ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= Application::ACCESS_PARTICIPANT)
 		) {
 			$result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
-													 $repeat, $paymentmode, $categoryid, $repeatallactive,
+													 $repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
 													 $repeatuntil, $timestamp, $comment, $repeatfreq);
 			if (isset($result['inserted_id'])) {
 				$billObj = $this->billMapper->find($result['inserted_id']);
@@ -1234,12 +1237,13 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiPrivAddBill(string $projectid, ?string $date = null, ?string $what = null, ?int $payer = null,
-								?string $payed_for = null, ?float $amount = null, string $repeat = 'n', ?string $paymentmode = null,
+								?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
+								?string $paymentmode = null, ?int $paymentmodeid = null,
 								?int $categoryid = null, ?int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
 								?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_PARTICIPANT) {
 			$result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
-													 $repeat, $paymentmode, $categoryid, $repeatallactive,
+													 $repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
 													 $repeatuntil, $timestamp, $comment, $repeatfreq);
 			if (isset($result['inserted_id'])) {
 				$billObj = $this->billMapper->find($result['inserted_id']);
@@ -1290,7 +1294,8 @@ class PageController extends ApiController {
 	 */
 	public function apiEditBill(string $projectid, string $password, int $billid, ?string $date = null, ?string $what = null,
 								?int $payer = null, ?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
-								?string $paymentmode = null, ?int $categoryid = null, ?int $repeatallactive = null,
+								?string $paymentmode = null, ?int $paymentmodeid = null,
+								?int $categoryid = null, ?int $repeatallactive = null,
 								?string $repeatuntil = null, ?int $timestamp = null, ?string $comment = null,
 								?int $repeatfreq = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
@@ -1299,7 +1304,7 @@ class PageController extends ApiController {
 			|| ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= Application::ACCESS_PARTICIPANT)
 		) {
 			$result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
-													  $amount, $repeat, $paymentmode, $categoryid,
+													  $amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
 													  $repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq);
 			if (isset($result['edited_bill_id'])) {
 				$billObj = $this->billMapper->find($billid);
@@ -1337,7 +1342,8 @@ class PageController extends ApiController {
 	 */
 	public function apiEditBills(string $projectid, string $password, array $billIds, ?int $categoryid = null, ?string $date = null,
 								?string $what = null, ?int $payer = null, ?string $payed_for = null, ?float $amount = null,
-								?string $repeat = 'n', ?string $paymentmode = null, ?int $repeatallactive = null,
+								?string $repeat = 'n', ?string $paymentmode = null, ?int $paymentmodeid = null,
+								?int $repeatallactive = null,
 								?string $repeatuntil = null, ?int $timestamp = null, ?string $comment = null,
 								?int $repeatfreq = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
@@ -1355,7 +1361,7 @@ class PageController extends ApiController {
 			}
 			foreach ($billIds as $billid) {
 				$result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
-														$amount, $repeat, $paymentmode, $categoryid,
+														$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
 														$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq);
 				if (isset($result['edited_bill_id'])) {
 					$billObj = $this->billMapper->find($billid);
@@ -1384,12 +1390,13 @@ class PageController extends ApiController {
 	 */
 	public function apiPrivEditBill(string $projectid, int $billid, ?string $date = null, ?string $what = null,
 								?int $payer = null, ?string $payed_for = null, ?float $amount = null, ?string $repeat = 'n',
-								?string $paymentmode = null, ?int $categoryid = null, ?int $repeatallactive = null,
+								?string $paymentmode = null, ?int $paymentmodeid = null,
+								?int $categoryid = null, ?int $repeatallactive = null,
 								?string $repeatuntil = null, ?int $timestamp = null, ?string $comment=null,
 								?int $repeatfreq = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_PARTICIPANT) {
 			$result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
-													  $amount, $repeat, $paymentmode, $categoryid,
+													  $amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
 													  $repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq);
 			if (isset($result['edited_bill_id'])) {
 				$billObj = $this->billMapper->find($billid);
@@ -1703,13 +1710,16 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiGetProjectStatistics(string $projectid, string $password, ?int $tsMin = null, ?int $tsMax = null,
-											?string $paymentMode = null, ?int $category = null,
+											?string $paymentMode = null, ?int $paymentModeId = null, ?int $category = null,
 											?float $amountMin = null, ?float $amountMax=null,
 											string $showDisabled = '1', ?int $currencyId = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
+			if (!is_null($paymentMode) && is_null($paymentModeId)) {
+				$paymentModeId = Application::PAYMENT_MODE_ID_CONVERSION[$paymentMode] ?? null;
+			}
 			$result = $this->projectService->getProjectStatistics(
-				$projectid, 'lowername', $tsMin, $tsMax, $paymentMode,
+				$projectid, 'lowername', $tsMin, $tsMax, $paymentModeId,
 				$category, $amountMin, $amountMax, $showDisabled === '1', $currencyId
 			);
 			return new DataResponse($result);
@@ -1726,12 +1736,16 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivGetProjectStatistics(string $projectid, ?int $tsMin = null, ?int $tsMax = null, ?string $paymentMode = null,
+	public function apiPrivGetProjectStatistics(string $projectid, ?int $tsMin = null, ?int $tsMax = null,
+											?string $paymentMode = null, ?int $paymentModeId = null,
 											?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
 											string $showDisabled = '1', ?int $currencyId = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+			if (!is_null($paymentMode) && is_null($paymentModeId)) {
+				$paymentModeId = Application::PAYMENT_MODE_ID_CONVERSION[$paymentMode] ?? null;
+			}
 			$result = $this->projectService->getProjectStatistics(
-				$projectid, 'lowername', $tsMin, $tsMax, $paymentMode,
+				$projectid, 'lowername', $tsMin, $tsMax, $paymentModeId,
 				$category, $amountMin, $amountMax, $showDisabled === '1', $currencyId
 			);
 			return new DataResponse($result);
@@ -2604,12 +2618,17 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function exportCsvStatistics(string $projectid, ?int $tsMin = null, ?int $tsMax = null, ?string $paymentMode = null,
+	public function exportCsvStatistics(string $projectid, ?int $tsMin = null, ?int $tsMax = null,
+										?string $paymentMode = null, ?int $paymentModeId = null,
 										?int $category = null, ?float $amountMin = null, ?float $amountMax = null, int $showDisabled = 1,
 										?int $currencyId = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
+			if (!is_null($paymentMode) && is_null($paymentModeId)) {
+				$paymentModeId = Application::PAYMENT_MODE_ID_CONVERSION[$paymentMode] ?? null;
+			}
+			// TODO adapt exportCsvStatistics
 			$result = $this->projectService->exportCsvStatistics($projectid, $this->userId, $tsMin, $tsMax,
-																 $paymentMode, $category, $amountMin, $amountMax,
+																 $paymentModeId, $category, $amountMin, $amountMax,
 																 $showDisabled !== 0, $currencyId);
 			if (isset($result['path'])) {
 				return new DataResponse($result);

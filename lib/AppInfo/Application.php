@@ -56,6 +56,24 @@ class Application extends App implements IBootstrap {
 	public const SHARE_TYPE_GROUP = 'g';
 	public const SHARE_TYPE_CIRCLE = 'c';
 
+	public const PAYMENT_MODE_ID_CONVERSION = [
+		'n' => 0,
+		'c' => -1,
+		'b' => -2,
+		'f' => -3,
+		't' => -4,
+		'o' => -5,
+	];
+
+	public const PAYMENT_MODE_ID_CONVERSION_REVERSE = [
+		0 => 'n',
+		-1 => 'c',
+		-2 => 'b',
+		-3 => 'f',
+		-4 => 't',
+		-5 => 'o',
+	];
+
 	/**
 	 * Constructor
 	 *

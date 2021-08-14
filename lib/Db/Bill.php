@@ -26,6 +26,7 @@ class Bill extends Entity {
 	protected $amount;
 	protected $categoryid;
 	protected $paymentmode;
+	protected $paymentmodeid;
 	protected $lastchanged;
 	protected $repeatuntil;
 	protected $repeatfreq;
@@ -42,6 +43,7 @@ class Bill extends Entity {
 		$this->addType('projectid', 'string');
 		$this->addType('categoryid', 'integer');
 		$this->addType('paymentmode', 'string');
+		$this->addType('paymentmodeid', 'integer');
 		$this->addType('lastchanged', 'integer');
 		$this->addType('repeatuntil', 'string');
 		$this->addType('repeatfreq', 'integer');

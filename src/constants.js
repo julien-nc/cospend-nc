@@ -47,6 +47,34 @@ export const hardCodedCategories = {
 	},
 }
 
+export const hardCodedPaymentModes = {
+	'-1': {
+		name: t('cospend', 'Credit card'),
+		icon: '💳',
+		color: '#FF7F50',
+	},
+	'-2': {
+		name: t('cospend', 'Cash'),
+		icon: '💵',
+		color: '#556B2F',
+	},
+	'-3': {
+		name: t('cospend', 'Check'),
+		icon: '🎫',
+		color: '#A9A9A9',
+	},
+	'-4': {
+		name: t('cospend', 'Transfer'),
+		icon: '⇄',
+		color: '#00CED1',
+	},
+	'-5': {
+		name: t('cospend', 'Online service'),
+		icon: '🌎',
+		color: '#9932CC',
+	},
+}
+
 export const paymentModes = {
 	c: {
 		name: t('cospend', 'Credit card'),

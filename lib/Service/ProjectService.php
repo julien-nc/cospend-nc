@@ -191,6 +191,14 @@ class ProjectService {
 		$this->hardCodedCategoryNames = [
 			'-11' => $this->trans->t('Reimbursement'),
 		];
+
+		$this->hardCodedPaymentModeNames = [
+			'-1' => $this->trans->t('Credit card'),
+			'-2' => $this->trans->t('Cash'),
+			'-3' => $this->trans->t('Check'),
+			'-4' => $this->trans->t('Transfer'),
+			'-5' => $this->trans->t('Online service'),
+		];
 	}
 
 	/**
@@ -516,50 +524,30 @@ class ProjectService {
 		if ($projectToDelete !== null) {
 			$qb = $this->db->getQueryBuilder();
 
+			// TODO do that with one request
 			// delete project bills
 			$bills = $this->getBills($projectid);
 			foreach ($bills as $bill) {
 				$this->deleteBillOwersOfBill($bill['id']);
 			}
 
-			$qb->delete('cospend_bills')
-				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
-				);
-			$qb->executeStatement();
-			$qb = $qb->resetQueryParts();
+			$associatedTableNames = [
+				'cospend_bills',
+				'cospend_members',
+				'cospend_shares',
+				'cospend_currencies',
+				'cospend_project_categories',
+				'cospend_project_paymentmodes'
+			];
 
-			// delete project members
-			$qb->delete('cospend_members')
-				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
-				);
-			$qb->executeStatement();
-			$qb = $qb->resetQueryParts();
-
-			// delete shares
-			$qb->delete('cospend_shares')
-				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
-				);
-			$qb->executeStatement();
-			$qb = $qb->resetQueryParts();
-
-			// delete currencies
-			$qb->delete('cospend_currencies')
-				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
-				);
-			$qb->executeStatement();
-			$qb = $qb->resetQueryParts();
-
-			// delete categories
-			$qb->delete('cospend_project_categories')
-				->where(
-					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
-				);
-			$qb->executeStatement();
-			$qb = $qb->resetQueryParts();
+			foreach ($associatedTableNames as $tableName) {
+				$qb->delete($tableName)
+					->where(
+						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					);
+				$qb->executeStatement();
+				$qb = $qb->resetQueryParts();
+			}
 
 			// delete project
 			$qb->delete('cospend_projects')
@@ -621,7 +609,8 @@ class ProjectService {
 			}
 			$balance = $this->getBalance($dbProjectId);
 			$currencies = $this->getCurrencies($dbProjectId);
-			$categories = $this->getCategories($dbProjectId);
+			$categories = $this->getCategoriesOrPaymentModes($dbProjectId);
+			$paymentModes = $this->getCategoriesOrPaymentModes($dbProjectId, false);
 			// get all shares
 			$userShares = $this->getUserShares($dbProjectId);
 			$groupShares = $this->getGroupShares($dbProjectId);
@@ -646,6 +635,7 @@ class ProjectService {
 				'shares' => $shares,
 				'currencies' => $currencies,
 				'categories' => $categories,
+				'paymentmodes' => $paymentModes,
 				'deletion_disabled' => $dbDeletionDisabled,
 				'categorysort' => $dbCategorySort,
 			];
@@ -698,17 +688,18 @@ class ProjectService {
 	 * @param string|null $memberOrder
 	 * @param int|null $tsMin
 	 * @param int|null $tsMax
-	 * @param string|null $paymentMode
+	 * @param int|null $paymentModeId
 	 * @param int|null $category
 	 * @param float|null $amountMin
 	 * @param float|null $amountMax
 	 * @param bool|null $showDisabled
 	 * @param int|null $currencyId
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
 	public function getProjectStatistics(string $projectId, ?string $memberOrder = null, ?int $tsMin = null, ?int $tsMax = null,
-										  ?string $paymentMode = null, ?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
-										  bool $showDisabled = true, ?int $currencyId = null): array {
+										?int $paymentModeId = null, ?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
+										bool $showDisabled = true, ?int $currencyId = null): array {
 		$timeZone = $this->dateTimeZone->getTimeZone();
 		$membersWeight = [];
 		$membersNbBills = [];
@@ -725,7 +716,8 @@ class ProjectService {
 			$currency = $this->getCurrency($projectId, $currencyId);
 		}
 
-		$projectCategories = $this->getCategories($projectId);
+		$projectCategories = $this->getCategoriesOrPaymentModes($projectId);
+		$projectPaymentModes = $this->getCategoriesOrPaymentModes($projectId, false);
 
 		// get the real global balances with no filters
 		$balances = $this->getBalance($projectId);
@@ -761,7 +753,7 @@ class ProjectService {
 		}
 
 		// compute stats
-		$bills = $this->getBills($projectId, $tsMin, $tsMax, $paymentMode, $category, $amountMin, $amountMax);
+		$bills = $this->getBills($projectId, $tsMin, $tsMax, $paymentModeId, $category, $amountMin, $amountMax);
 
 		/*
 		$firstBillTs = $bills[0]['timestamp'];
@@ -982,16 +974,25 @@ class ProjectService {
 			$categoryStats[$categoryId] += $amount;
 
 			// payment mode
-			$paymentMode = $bill['paymentmode'] ?: 'n';
-			if (!array_key_exists($paymentMode, $paymentModeStats)) {
-				$paymentModeStats[$paymentMode] = 0;
+			$paymentModeId = $bill['paymentmodeid'];
+			if (!array_key_exists(strval($paymentModeId), $this->hardCodedPaymentModeNames) &&
+				!array_key_exists(strval($paymentModeId), $projectPaymentModes)
+			) {
+				$paymentModeId = 0;
 			}
-			$paymentModeStats[$paymentMode] += $amount;
+			$amount = $bill['amount'];
+			if (!array_key_exists($paymentModeId, $paymentModeStats)) {
+				$paymentModeStats[$paymentModeId] = 0;
+			}
+			$paymentModeStats[$paymentModeId] += $amount;
 		}
 		// convert if necessary
 		if ($currency !== null) {
 			foreach ($categoryStats as $catId => $val) {
 				$categoryStats[$catId] = ($val === 0.0) ? 0 : $val / $currency['exchange_rate'];
+			}
+			foreach ($paymentModeStats as $pmId => $val) {
+				$paymentModeStats[$pmId] = ($val === 0.0) ? 0 : $val / $currency['exchange_rate'];
 			}
 		}
 		// compute category per member stats
@@ -1043,14 +1044,14 @@ class ProjectService {
 			$categoryMonthlyStats[$categoryId][$month] += $amount;
 
 			// payment mode
-			$paymentMode = $bill['paymentmode'] ?: 'n';
-			if (!array_key_exists($paymentMode, $paymentModeMonthlyStats)) {
-				$paymentModeMonthlyStats[$paymentMode] = [];
+			$paymentModeId = $bill['paymentmodeid'];
+			if (!array_key_exists($paymentModeId, $paymentModeMonthlyStats)) {
+				$paymentModeMonthlyStats[$paymentModeId] = [];
 			}
-			if (!array_key_exists($month, $paymentModeMonthlyStats[$paymentMode])) {
-				$paymentModeMonthlyStats[$paymentMode][$month] = 0;
+			if (!array_key_exists($month, $paymentModeMonthlyStats[$paymentModeId])) {
+				$paymentModeMonthlyStats[$paymentModeId][$month] = 0;
 			}
-			$paymentModeMonthlyStats[$paymentMode][$month] += $amount;
+			$paymentModeMonthlyStats[$paymentModeId][$month] += $amount;
 		}
 		// average per month
 		foreach ($categoryMonthlyStats as $catId => $monthValues) {
@@ -1076,9 +1077,9 @@ class ProjectService {
 					$categoryMonthlyStats[$catId][$month] = ($val === 0.0) ? 0 : $val / $currency['exchange_rate'];
 				}
 			}
-			foreach ($paymentModeMonthlyStats as $pm => $pmStat) {
+			foreach ($paymentModeMonthlyStats as $pmId => $pmStat) {
 				foreach ($pmStat as $month => $val) {
-					$paymentModeMonthlyStats[$pm][$month] = ($val === 0.0) ? 0 : $val / $currency['exchange_rate'];
+					$paymentModeMonthlyStats[$pmId][$month] = ($val === 0.0) ? 0 : $val / $currency['exchange_rate'];
 				}
 			}
 		}
@@ -1110,6 +1111,7 @@ class ProjectService {
 	 * @param float|null $amount
 	 * @param string|null $repeat
 	 * @param string|null $paymentmode
+	 * @param int|null $paymentmodeid
 	 * @param int|null $categoryid
 	 * @param int|null $repeatallactive
 	 * @param string|null $repeatuntil
@@ -1117,11 +1119,12 @@ class ProjectService {
 	 * @param string|null $comment
 	 * @param int|null $repeatfreq
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
 	public function addBill(string $projectid, ?string $date, ?string $what, ?int $payer, ?string $payed_for,
-							?float $amount, ?string $repeat, ?string $paymentmode = null, ?int $categoryid = null,
-							?int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
-							?string $comment = null, ?int $repeatfreq = null): array {
+							?float $amount, ?string $repeat, ?string $paymentmode = null, ?int $paymentmodeid = null,
+							?int $categoryid = null, ?int $repeatallactive = 0, ?string $repeatuntil = null,
+							?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null): array {
 		if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
 			return ['repeat' => $this->trans->t('Invalid value')];
 		}
@@ -1169,6 +1172,12 @@ class ProjectService {
 				return ['payed_for' => $this->trans->t('Not a valid choice')];
 			}
 		}
+		// payment mode
+		if (!is_null($paymentmode)) {
+			$paymentmodeid = Application::PAYMENT_MODE_ID_CONVERSION[$paymentmode] ?? 0;
+		} elseif (!is_null($paymentmodeid)) {
+			$paymentmode = Application::PAYMENT_MODE_ID_CONVERSION_REVERSE[$paymentmodeid] ?? 'n';
+		}
 
 		// last modification timestamp is now
 		$ts = (new DateTime())->getTimestamp();
@@ -1187,8 +1196,9 @@ class ProjectService {
 				'repeatallactive' => $qb->createNamedParameter($repeatallactive, IQueryBuilder::PARAM_INT),
 				'repeatuntil' => $qb->createNamedParameter($repeatuntil, IQueryBuilder::PARAM_STR),
 				'repeatfreq' => $qb->createNamedParameter($repeatfreq ?? 1, IQueryBuilder::PARAM_INT),
-				'categoryid' => $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT),
-				'paymentmode' => $qb->createNamedParameter($paymentmode, IQueryBuilder::PARAM_STR),
+				'categoryid' => $qb->createNamedParameter($categoryid ?? 0, IQueryBuilder::PARAM_INT),
+				'paymentmode' => $qb->createNamedParameter($paymentmode ?? 'n', IQueryBuilder::PARAM_STR),
+				'paymentmodeid' => $qb->createNamedParameter($paymentmodeid ?? 0, IQueryBuilder::PARAM_INT),
 				'lastchanged' => $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT)
 			]);
 		$qb->executeStatement();
@@ -2548,15 +2558,30 @@ class ProjectService {
 	 * Get categories of a given project
 	 *
 	 * @param string $projectid
+	 * @param bool $getCategories
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
-	private function getCategories(string $projectid): array {
-		$categories = [];
+	private function getCategoriesOrPaymentModes(string $projectid, bool $getCategories = true): array {
+		$elements = [];
 
 		$qb = $this->db->getQueryBuilder();
 
+		if ($getCategories) {
+			$sortOrderField = 'categorysort';
+			$billTableField = 'categoryid';
+			$dbTable = 'cospend_project_categories';
+			$alias = 'cat';
+		} else {
+			// TODO add a paymentmodesort field in project table
+			$sortOrderField = 'categorysort';
+			$billTableField = 'paymentmodeid';
+			$dbTable = 'cospend_project_paymentmodes';
+			$alias = 'pm';
+		}
+
 		// get sort method
-		$qb->select('categorysort')
+		$qb->select($sortOrderField)
 			->from('cospend_projects', 'p')
 			->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -2564,7 +2589,7 @@ class ProjectService {
 		$req = $qb->executeQuery();
 		$sortMethod = Application::SORT_ORDER_ALPHA;
 		while ($row = $req->fetch()) {
-			$sortMethod = $row['categorysort'];
+			$sortMethod = $row[$sortOrderField];
 			break;
 		}
 		$req->closeCursor();
@@ -2572,7 +2597,7 @@ class ProjectService {
 
 		if ($sortMethod === Application::SORT_ORDER_MANUAL || $sortMethod === Application::SORT_ORDER_ALPHA) {
 			$qb->select('name', 'id', 'encoded_icon', 'color', 'order')
-				->from('cospend_project_categories', 'c')
+				->from($dbTable, 'c')
 				->where(
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 				);
@@ -2583,7 +2608,7 @@ class ProjectService {
 				$dbColor = $row['color'];
 				$dbId = intval($row['id']);
 				$dbOrder = intval($row['order']);
-				$categories[$dbId] = [
+				$elements[$dbId] = [
 					'name' => $dbName,
 					'icon' => $dbIcon,
 					'color' => $dbColor,
@@ -2594,9 +2619,9 @@ class ProjectService {
 			$req->closeCursor();
 			$qb->resetQueryParts();
 		} elseif ($sortMethod === Application::SORT_ORDER_MOST_USED || $sortMethod === Application::SORT_ORDER_MOST_RECENTLY_USED) {
-			// get all categories
+			// get all categories/paymentmodes
 			$qb->select('name', 'id', 'encoded_icon', 'color')
-				->from('cospend_project_categories', 'c')
+				->from($dbTable, 'c')
 				->where(
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 				);
@@ -2606,7 +2631,7 @@ class ProjectService {
 				$dbIcon = urldecode($row['encoded_icon']);
 				$dbColor = $row['color'];
 				$dbId = intval($row['id']);
-				$categories[$dbId] = [
+				$elements[$dbId] = [
 					'name' => $dbName,
 					'icon' => $dbIcon,
 					'color' => $dbColor,
@@ -2621,14 +2646,14 @@ class ProjectService {
 				// sort by most used
 				// first get list of most used
 				$mostUsedOrder = [];
-				$qb->select('cat.id')
-					->from('cospend_project_categories', 'cat')
-					->innerJoin('cat', 'cospend_bills', 'bill', $qb->expr()->eq('cat.id', 'bill.categoryid'))
+				$qb->select($alias . '.id')
+					->from($dbTable, $alias)
+					->innerJoin($alias, 'cospend_bills', 'bill', $qb->expr()->eq($alias . '.id', 'bill.' . $billTableField))
 					->where(
-						$qb->expr()->eq('cat.projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+						$qb->expr()->eq($alias . '.projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 					)
-					->orderBy($qb->func()->count('cat.id'), 'DESC')
-					->groupBy('cat.id');
+					->orderBy($qb->func()->count($alias . '.id'), 'DESC')
+					->groupBy($alias . '.id');
 				$req = $qb->executeQuery();
 				$order = 0;
 				while ($row = $req->fetch()) {
@@ -2638,21 +2663,21 @@ class ProjectService {
 				$req->closeCursor();
 				$qb->resetQueryParts();
 				// affect order
-				foreach ($categories as $cid => $cat) {
+				foreach ($elements as $cid => $cat) {
 					// fallback order is more than max order
-					$categories[$cid]['order'] = $mostUsedOrder[$cid] ?? $order;
+					$elements[$cid]['order'] = $mostUsedOrder[$cid] ?? $order;
 				}
 			} elseif ($sortMethod === Application::SORT_ORDER_MOST_RECENTLY_USED) {
 				// sort by most recently used
 				$mostUsedOrder = [];
-				$qb->select('cat.id')
-					->from('cospend_project_categories', 'cat')
-					->innerJoin('cat', 'cospend_bills', 'bill', $qb->expr()->eq('cat.id', 'bill.categoryid'))
+				$qb->select($alias . '.id')
+					->from($dbTable, $alias)
+					->innerJoin($alias, 'cospend_bills', 'bill', $qb->expr()->eq($alias . '.id', 'bill.' . $billTableField))
 					->where(
-						$qb->expr()->eq('cat.projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+						$qb->expr()->eq($alias . '.projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 					)
 					->orderBy($qb->func()->max('bill.timestamp'), 'DESC')
-					->groupBy('cat.id');
+					->groupBy($alias . '.id');
 				$req = $qb->executeQuery();
 				$order = 0;
 				while ($row = $req->fetch()) {
@@ -2662,14 +2687,14 @@ class ProjectService {
 				$req->closeCursor();
 				$qb->resetQueryParts();
 				// affect order
-				foreach ($categories as $cid => $cat) {
+				foreach ($elements as $elemId => $element) {
 					// fallback order is more than max order
-					$categories[$cid]['order'] = $mostUsedOrder[$cid] ?? $order;
+					$elements[$elemId]['order'] = $mostUsedOrder[$elemId] ?? $order;
 				}
 			}
 		}
 
-		return $categories;
+		return $elements;
 	}
 
 	/**
@@ -3117,6 +3142,7 @@ class ProjectService {
 	 * @param float|null $amount
 	 * @param string|null $repeat
 	 * @param string|null $paymentmode
+	 * @param int|null $paymentmodeid
 	 * @param int|null $categoryid
 	 * @param int|null $repeatallactive
 	 * @param string|null $repeatuntil
@@ -3124,11 +3150,12 @@ class ProjectService {
 	 * @param string|null $comment
 	 * @param int|null $repeatfreq
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
 	public function editBill(string $projectid, int $billid, ?string $date, ?string $what, ?int $payer, ?string $payed_for,
-							  ?float $amount, ?string $repeat, ?string $paymentmode = null, ?int $categoryid = null,
-							  ?int $repeatallactive = null, ?string $repeatuntil = null, ?int $timestamp = null,
-							  ?string $comment = null, ?int $repeatfreq = null): array {
+							?float $amount, ?string $repeat, ?string $paymentmode = null, ?int $paymentmodeid = null,
+							?int $categoryid = null, ?int $repeatallactive = null, ?string $repeatuntil = null,
+							?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->update('cospend_bills');
 
@@ -3181,6 +3208,12 @@ class ProjectService {
 		}
 		if ($paymentmode !== null) {
 			$qb->set('paymentmode', $qb->createNamedParameter($paymentmode, IQueryBuilder::PARAM_STR));
+			// set new pm ID from old char
+			$qb->set('paymentmodeid', $qb->createNamedParameter(Application::PAYMENT_MODE_ID_CONVERSION[$paymentmode] ?? 0, IQueryBuilder::PARAM_INT));
+		} elseif ($paymentmodeid !== null) {
+			$qb->set('paymentmodeid', $qb->createNamedParameter($paymentmodeid, IQueryBuilder::PARAM_INT));
+			// set old pm if it's a hardcoded one, otherwise -> n
+			$qb->set('paymentmode', $qb->createNamedParameter(Application::PAYMENT_MODE_ID_CONVERSION_REVERSE[$paymentmodeid] ?? 'n', IQueryBuilder::PARAM_STR));
 		}
 		if ($categoryid !== null) {
 			$qb->set('categoryid', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT));

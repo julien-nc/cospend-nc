@@ -40,6 +40,30 @@ export function getCategory(projectid, catId) {
 	}
 }
 
+export function getPaymentMode(projectid, pmId) {
+	let icon, name, color
+	if (pmId in cospend.hardCodedPaymentModes) {
+		name = cospend.hardCodedPaymentModes[pmId].name
+		icon = cospend.hardCodedPaymentModes[pmId].icon
+		color = cospend.hardCodedPaymentModes[pmId].color
+	} else if (pmId in cospend.projects[projectid].paymentmodes) {
+		name = cospend.projects[projectid].paymentmodes[pmId].name || ''
+		icon = cospend.projects[projectid].paymentmodes[pmId].icon || ''
+		color = cospend.projects[projectid].paymentmodes[pmId].color || 'red'
+	} else {
+		name = t('cospend', 'No payment mode')
+		icon = ''
+		color = '#000000'
+	}
+
+	return {
+		id: pmId,
+		name,
+		icon,
+		color,
+	}
+}
+
 export function strcmp(a, b) {
 	const la = a.toLowerCase()
 	const lb = b.toLowerCase()

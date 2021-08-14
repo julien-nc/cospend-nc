@@ -562,7 +562,7 @@ import {
 } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import {
-	delay, getCategory, getSmartMemberName, strcmp,
+	delay, getCategory, getPaymentMode, getSmartMemberName, strcmp,
 } from './utils'
 import * as network from './network'
 import * as constants from './constants'
@@ -634,27 +634,48 @@ export default {
 			})
 		},
 		selectedPaymentModeItem() {
-			const paymentMode = cospend.paymentModes[this.myBill.paymentmode] || {
-				icon: '',
-				name: t('cospend', 'None'),
-			}
-			return {
-				id: this.myBill.paymentmode,
-				name: paymentMode.icon + ' ' + paymentMode.name,
+			if (this.myBill.paymentmodeid === 0) {
+				return {
+					id: 0,
+					name: t('cospend', 'None'),
+				}
+			} else {
+				const paymentmode = getPaymentMode(this.projectId, this.myBill.paymentmodeid)
+				return {
+					id: paymentmode.id,
+					name: paymentmode.icon + ' ' + paymentmode.name,
+				}
 			}
 		},
 		formattedPaymentModes() {
 			const pmItems = [{
 				name: t('cospend', 'None'),
-				id: 'n',
+				id: 0,
 			}]
-			pmItems.push(...Object.keys(this.paymentModes).map((pmId) => {
-				const pm = this.paymentModes[pmId]
+			console.debug('this.sortedPaymentModes')
+			console.debug(this.sortedPaymentModes)
+			pmItems.push(...this.sortedPaymentModes.map((pm) => {
 				return {
 					name: pm.icon + ' ' + pm.name,
-					id: pmId,
+					id: pm.id,
 				}
 			}))
+			pmItems.push(...Object.values(this.hardCodedPaymentModes).map((pm) => {
+				return {
+					name: pm.icon + ' ' + pm.name,
+					id: pm.id,
+				}
+			}))
+			// TODO implement add pm from bill form
+			/*
+			if (this.pmQuery && !this.sortedCategories.find((c) => { return strcmp(c.name, this.pmQuery) === 0 })) {
+				pmItems.push({
+					isNewpm: true,
+					name: '➕ ' + t('cospend', 'Add pm "{name}"', { name: this.pmQuery }),
+					id: -1,
+				})
+			}
+			*/
 			return pmItems
 		},
 		selectedCategoryItem() {
@@ -808,8 +829,8 @@ export default {
 			if (parseInt(this.myBill.categoryid) !== 0) {
 				categoryChar = getCategory(this.projectId, this.myBill.categoryid).icon + ' '
 			}
-			if (this.myBill.paymentmode && this.myBill.paymentmode !== 'n') {
-				paymentmodeChar = cospend.paymentModes[this.myBill.paymentmode].icon + ' '
+			if (parseInt(this.myBill.paymentmodeid) !== 0) {
+				paymentmodeChar = getPaymentMode(this.projectId, this.myBill.paymentmodeid).icon + ' '
 			}
 			const whatFormatted = paymentmodeChar + categoryChar + this.myBill.what.replace(/https?:\/\/[^\s]+/gi, '')
 			return t('cospend', 'Bill : {what}', { what: whatFormatted }, undefined, { escape: false })
@@ -860,6 +881,29 @@ export default {
 		activatedOrOwer() {
 			return this.sortedMembers.filter(m => (this.members[m.id].activated || this.myBill.owerIds.includes(m.id)))
 		},
+		sortedPaymentModes() {
+			const allPaymentModes = Object.values(cospend.projects[this.projectId].paymentmodes)
+			// TODO use pm specific order and not category one
+			return [
+				constants.SORT_ORDER.MANUAL,
+				constants.SORT_ORDER.MOST_USED,
+				constants.SORT_ORDER.MOST_RECENTLY_USED,
+			].includes(this.project.categorysort)
+				? allPaymentModes.sort((a, b) => {
+					return a.order === b.order
+						? strcmp(a.name, b.name)
+						: a.order > b.order
+							? 1
+							: a.order < b.order
+								? -1
+								: 0
+				})
+				: this.project.categorysort === constants.SORT_ORDER.ALPHA
+					? allPaymentModes.sort((a, b) => {
+						return strcmp(a.name, b.name)
+					})
+					: allPaymentModes
+		},
 		sortedCategories() {
 			const allCategories = Object.values(cospend.projects[this.projectId].categories)
 			return [
@@ -885,11 +929,11 @@ export default {
 		hardCodedCategories() {
 			return cospend.hardCodedCategories
 		},
+		hardCodedPaymentModes() {
+			return cospend.hardCodedPaymentModes
+		},
 		currencies() {
 			return cospend.projects[this.projectId].currencies
-		},
-		paymentModes() {
-			return cospend.paymentModes
 		},
 		createBillButtonText() {
 			return this.newBillMode === 'normal' ? t('cospend', 'Create the bill') : t('cospend', 'Create the bills')
@@ -929,7 +973,9 @@ export default {
 			this.onBillEdited(null, false)
 		},
 		paymentModeSelected(selected) {
-			this.myBill.paymentmode = selected.id
+			console.debug('selected')
+			console.debug(selected)
+			this.myBill.paymentmodeid = selected.id
 			this.onBillEdited(null, false)
 		},
 		categoryQueryChanged(query) {
@@ -1180,7 +1226,7 @@ export default {
 			if (this.isBillValidForSaveOrNormal()) {
 				const myBill = this.myBill
 				this.createBill('normal', myBill.what, myBill.amount, myBill.payer_id, myBill.timestamp, myBill.owerIds, myBill.repeat,
-					myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.repeatfreq, myBill.comment)
+					myBill.paymentmodeid, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.repeatfreq, myBill.comment)
 			} else {
 				showError(t('cospend', 'Bill values are not valid.'))
 			}
@@ -1221,14 +1267,14 @@ export default {
 					part = persoParts[mid]
 					if (!isNaN(part) && part !== 0.0) {
 						this.createBill('perso', myBill.what, part, myBill.payer_id, myBill.timestamp, [mid], myBill.repeat,
-							myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.repeatfreq, myBill.comment)
+							myBill.paymentmodeid, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.repeatfreq, myBill.comment)
 					}
 				}
 
 				// create main bill
 				if (tmpAmount > 0.0) {
 					this.createBill('mainPerso', myBill.what, tmpAmount, myBill.payer_id, myBill.timestamp, myBill.owerIds, myBill.repeat,
-						myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.repeatfreq, myBill.comment)
+						myBill.paymentmodeid, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.repeatfreq, myBill.comment)
 				}
 				this.newBillMode = 'normal'
 			} else {
@@ -1259,7 +1305,7 @@ export default {
 						am = customAmounts[mid]
 						if (am !== 0.0) {
 							this.createBill('custom', myBill.what, am, myBill.payer_id, myBill.timestamp, [mid], myBill.repeat,
-								myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.repeatfreq, myBill.comment)
+								myBill.paymentmodeid, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.repeatfreq, myBill.comment)
 						}
 					}
 				}
@@ -1292,7 +1338,7 @@ export default {
 						const amount = this.owerCustomShareAmount[mid]
 						if (amount !== 0.0) {
 							this.createBill('customShare', myBill.what, amount, myBill.payer_id, myBill.timestamp, [mid], myBill.repeat,
-								myBill.paymentmode, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.repeatfreq, myBill.comment)
+								myBill.paymentmodeid, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.repeatfreq, myBill.comment)
 						}
 					}
 				}
@@ -1303,7 +1349,7 @@ export default {
 			}
 		},
 		createBill(mode = null, what = null, amount = null, payer_id = null, timestamp = null, owerIds = null, repeat = null,
-			paymentmode = null, categoryid = null, repeatallactive = null,
+			paymentmodeid = null, categoryid = null, repeatallactive = null,
 			repeatuntil = null, repeatfreq = null, comment = null) {
 			if (mode === null) {
 				mode = this.newBillMode
@@ -1319,7 +1365,7 @@ export default {
 				repeatallactive,
 				repeatuntil,
 				repeatfreq: repeatfreq ? parseInt(repeatfreq) : 1,
-				paymentmode,
+				paymentmodeid,
 				categoryid,
 			}
 			const req = {
@@ -1333,7 +1379,7 @@ export default {
 				repeatallactive: repeatallactive ? 1 : 0,
 				repeatuntil,
 				repeatfreq: repeatfreq ? parseInt(repeatfreq) : 1,
-				paymentmode,
+				paymentmodeid,
 				categoryid,
 			}
 			this.billLoading = true

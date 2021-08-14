@@ -52,7 +52,7 @@ import cospend from '../state'
 import { generateUrl } from '@nextcloud/router'
 import moment from '@nextcloud/moment'
 import ColoredAvatar from './ColoredAvatar'
-import { reload, Timer, getCategory, getSmartMemberName } from '../utils'
+import { reload, Timer, getCategory, getPaymentMode, getSmartMemberName } from '../utils'
 
 export default {
 	name: 'BillItem',
@@ -141,8 +141,8 @@ export default {
 			if (parseInt(this.bill.categoryid) !== 0) {
 				categoryChar = getCategory(this.projectId, this.bill.categoryid).icon + ' '
 			}
-			if (this.bill.paymentmode && this.bill.paymentmode !== 'n') {
-				paymentmodeChar = cospend.paymentModes[this.bill.paymentmode].icon + ' '
+			if (parseInt(this.bill.paymentmodeid) !== 0) {
+				paymentmodeChar = getPaymentMode(this.projectId, this.bill.paymentmodeid).icon + ' '
 			}
 			return paymentmodeChar + categoryChar + this.bill.what.replace(/https?:\/\/[^\s]+/gi, '') + linkChars
 		},

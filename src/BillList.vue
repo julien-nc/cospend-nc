@@ -51,11 +51,17 @@
 						<option value="placeholder">
 							{{ t('cospend', 'Assign payment mode') }}
 						</option>
-						<option value="n">
+						<option value="0">
 							{{ t('cospend', 'None') }}
 						</option>
 						<option
-							v-for="(pm, id) in paymentModes"
+							v-for="pm in sortedPaymentModes"
+							:key="pm.id"
+							:value="pm.id">
+							{{ pm.icon + ' ' + pm.name }}
+						</option>
+						<option
+							v-for="(pm, id) in hardCodedPaymentModes"
 							:key="id"
 							:value="id">
 							{{ pm.icon + ' ' + pm.name }}
@@ -201,6 +207,29 @@ export default {
 		categories() {
 			return cospend.projects[this.projectId].categories
 		},
+		sortedPaymentModes() {
+			const allPaymentModes = Object.values(cospend.projects[this.projectId].paymentmodes)
+			// TODO use specific sort order for pm instead of category one
+			return [
+				constants.SORT_ORDER.MANUAL,
+				constants.SORT_ORDER.MOST_USED,
+				constants.SORT_ORDER.MOST_RECENTLY_USED,
+			].includes(this.project.categorysort)
+				? allPaymentModes.sort((a, b) => {
+					return a.order === b.order
+						? strcmp(a.name, b.name)
+						: a.order > b.order
+							? 1
+							: a.order < b.order
+								? -1
+								: 0
+				})
+				: this.project.categorysort === constants.SORT_ORDER.ALPHA
+					? allPaymentModes.sort((a, b) => {
+						return strcmp(a.name, b.name)
+					})
+					: allPaymentModes
+		},
 		sortedCategories() {
 			const allCategories = Object.values(cospend.projects[this.projectId].categories)
 			return [
@@ -223,8 +252,8 @@ export default {
 					})
 					: allCategories
 		},
-		paymentModes() {
-			return cospend.paymentModes
+		hardCodedPaymentModes() {
+			return cospend.hardCodedPaymentModes
 		},
 		hardCodedCategories() {
 			return cospend.hardCodedCategories
@@ -314,10 +343,10 @@ export default {
 			}
 		},
 		onPaymentModeChange(e) {
-			const paymentmode = e.target.value
+			const paymentmodeid = e.target.value
 			if (this.selectedBillIds.length > 0) {
-				network.saveBills(this.projectId, this.selectedBillIds, null, paymentmode).then((response) => {
-					this.saveBillsSuccess(this.selectedBillIds, null, paymentmode)
+				network.saveBills(this.projectId, this.selectedBillIds, null, paymentmodeid).then((response) => {
+					this.saveBillsSuccess(this.selectedBillIds, null, paymentmodeid)
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to save bills')
@@ -326,8 +355,8 @@ export default {
 				})
 			}
 		},
-		saveBillsSuccess(billIds, categoryid, paymentmode) {
-			this.$emit('multi-bill-edit', billIds, categoryid, paymentmode)
+		saveBillsSuccess(billIds, categoryid, paymentmodeid) {
+			this.$emit('multi-bill-edit', billIds, categoryid, paymentmodeid)
 			showSuccess(t('cospend', 'Bills edited'))
 			this.selectedCategory = 'placeholder'
 			this.selectedPaymentMode = 'placeholder'

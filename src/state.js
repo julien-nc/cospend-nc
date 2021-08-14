@@ -21,6 +21,7 @@ const cospend = {
 	members: {},
 	projects: {},
 	hardCodedCategories: constants.hardCodedCategories,
+	hardCodedPaymentModes: constants.hardCodedPaymentModes,
 	paymentModes: constants.paymentModes,
 	memberOrder: 'name',
 	useTime: true,

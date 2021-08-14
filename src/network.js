@@ -202,7 +202,7 @@ export function saveBill(projectid, bill) {
 		repeatallactive: bill.repeatallactive ? 1 : 0,
 		repeatuntil: bill.repeatuntil,
 		repeatfreq: bill.repeatfreq ? bill.repeatfreq : 1,
-		paymentmode: bill.paymentmode,
+		paymentmodeid: bill.paymentmodeid,
 		categoryid: bill.categoryid,
 	}
 	let url
@@ -214,7 +214,7 @@ export function saveBill(projectid, bill) {
 	return axios.put(url, req)
 }
 
-export function saveBills(projectid, billIds, categoryid, paymentmode) {
+export function saveBills(projectid, billIds, categoryid, paymentmodeid) {
 	const req = {
 		what: null,
 		comment: null,
@@ -225,7 +225,7 @@ export function saveBills(projectid, billIds, categoryid, paymentmode) {
 		repeat: null,
 		repeatallactive: null,
 		repeatuntil: null,
-		paymentmode,
+		paymentmodeid,
 		categoryid,
 		billIds,
 	}

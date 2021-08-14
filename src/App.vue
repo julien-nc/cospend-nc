@@ -293,15 +293,15 @@ export default {
 				this.updateProjectInfo(cospend.currentProjectId)
 			}
 		},
-		onMultiBillEdit(billIds, categoryid, paymentmode) {
+		onMultiBillEdit(billIds, categoryid, paymentmodeid) {
 			if (categoryid !== null) {
 				billIds.forEach(id => {
 					this.bills[cospend.currentProjectId][id].categoryid = categoryid
 				})
 			}
-			if (paymentmode !== null) {
+			if (paymentmodeid !== null) {
 				billIds.forEach(id => {
-					this.bills[cospend.currentProjectId][id].paymentmode = paymentmode
+					this.bills[cospend.currentProjectId][id].paymentmodeid = paymentmodeid
 				})
 			}
 		},
@@ -654,6 +654,10 @@ export default {
 				// category order
 				for (const cid in this.projects[projectid].categories) {
 					this.projects[projectid].categories[cid].order = response.data.categories[cid]?.order
+				}
+				// payment mode order
+				for (const pmid in this.projects[projectid].paymentmodes) {
+					this.projects[projectid].paymentmodes[pmid].order = response.data.paymentmodes[pmid]?.order
 				}
 			}).catch((error) => {
 				showError(

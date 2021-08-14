@@ -766,12 +766,12 @@ class PageController extends ApiController {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			if ($limit) {
 				$bills = $this->projectService->getBillsWithLimit(
-					$projectid, null, null, null, null, null, null,
+					$projectid, null, null, null, null, null, null, null,
 					$lastchanged, $limit, $reverse, $offset, $payerId
 				);
 			} else {
 				$bills = $this->projectService->getBills(
-					$projectid, null, null, null, null, null, null,
+					$projectid, null, null, null, null, null, null, null,
 					$lastchanged, null, $reverse, $payerId
 				);
 			}
@@ -1002,11 +1002,11 @@ class PageController extends ApiController {
 		if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
 			if ($limit) {
 				$bills = $this->projectService->getBillsWithLimit(
-					$projectid, null, null, null, null, null, null, $lastchanged, $limit, $reverse, $offset
+					$projectid, null, null, null, null, null, null, null, $lastchanged, $limit, $reverse, $offset
 				);
 			} else {
 				$bills = $this->projectService->getBills(
-					$projectid, null, null, null, null, null, null, $lastchanged, null, $reverse
+					$projectid, null, null, null, null, null, null, null, $lastchanged, null, $reverse
 				);
 			}
 			return new DataResponse($bills);
@@ -1039,12 +1039,12 @@ class PageController extends ApiController {
 		if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
 			if ($limit) {
 				$bills = $this->projectService->getBillsWithLimit(
-					$projectid, null, null, null, null, null, null,
+					$projectid, null, null, null, null, null, null, null,
 					$lastchanged, $limit, $reverse, $offset, $payerId
 				);
 			} else {
 				$bills = $this->projectService->getBills(
-					$projectid, null, null, null, null, null, null,
+					$projectid, null, null, null, null, null, null, null,
 					$lastchanged, null, $reverse, $payerId
 				);
 			}
@@ -1068,7 +1068,7 @@ class PageController extends ApiController {
 	 */
 	public function apiPrivGetBills(string $projectid, ?int $lastchanged = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-			$bills = $this->projectService->getBills($projectid, null, null, null, null, null, null, $lastchanged);
+			$bills = $this->projectService->getBills($projectid, null, null, null, null, null, null, null, $lastchanged);
 			$billIds = $this->projectService->getAllBillIds($projectid);
 			$ts = (new DateTime())->getTimestamp();
 			return new DataResponse([
@@ -1093,7 +1093,7 @@ class PageController extends ApiController {
 	public function apiv2GetBills(string $projectid, string $password, ?int $lastchanged = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
-			$bills = $this->projectService->getBills($projectid, null, null, null, null, null, null, $lastchanged);
+			$bills = $this->projectService->getBills($projectid, null, null, null, null, null, null, null, $lastchanged);
 			$billIds = $this->projectService->getAllBillIds($projectid);
 			$ts = (new DateTime())->getTimestamp();
 			return new DataResponse([
@@ -2626,7 +2626,6 @@ class PageController extends ApiController {
 			if (!is_null($paymentMode) && is_null($paymentModeId)) {
 				$paymentModeId = Application::PAYMENT_MODE_ID_CONVERSION[$paymentMode] ?? null;
 			}
-			// TODO adapt exportCsvStatistics
 			$result = $this->projectService->exportCsvStatistics($projectid, $this->userId, $tsMin, $tsMax,
 																 $paymentModeId, $category, $amountMin, $amountMax,
 																 $showDisabled !== 0, $currencyId);

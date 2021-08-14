@@ -753,7 +753,7 @@ class ProjectService {
 		}
 
 		// compute stats
-		$bills = $this->getBills($projectId, $tsMin, $tsMax, $paymentModeId, $category, $amountMin, $amountMax);
+		$bills = $this->getBills($projectId, $tsMin, $tsMax, null, $paymentModeId, $category, $amountMin, $amountMax);
 
 		/*
 		$firstBillTs = $bills[0]['timestamp'];
@@ -1396,7 +1396,7 @@ class ProjectService {
 
 		// get the bill
 		$qb->select('id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
-					'repeatallactive', 'paymentmode', 'categoryid', 'repeatuntil', 'repeatfreq')
+					'repeatallactive', 'paymentmode', 'paymentmodeid', 'categoryid', 'repeatuntil', 'repeatfreq')
 		   ->from('cospend_bills', 'b')
 		   ->where(
 			   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -1418,6 +1418,7 @@ class ProjectService {
 			$dbRepeatFreq = (int) $row['repeatfreq'];
 			$dbPayerId = intval($row['payerid']);
 			$dbPaymentMode = $row['paymentmode'];
+			$dbPaymentModeId = $row['paymentmodeid'];
 			$dbCategoryId = intval($row['categoryid']);
 			$bill = [
 				'id' => $dbBillId,
@@ -1434,6 +1435,7 @@ class ProjectService {
 				'repeatuntil' => $dbRepeatUntil,
 				'repeatfreq' => $dbRepeatFreq,
 				'paymentmode' => $dbPaymentMode,
+				'paymentmodeid' => $dbPaymentModeId,
 				'categoryid' => $dbCategoryId
 			];
 		}
@@ -1917,12 +1919,14 @@ class ProjectService {
 	 * @param int $offset
 	 * @return array
 	 */
-	public function getBillsWithLimit(string $projectId, ?int $tsMin = null, ?int $tsMax = null, ?string $paymentMode = null, ?int $category = null,
-							  ?float $amountMin = null, ?float $amountMax = null, ?int $lastchanged = null, ?int $limit = null,
+	public function getBillsWithLimit(string $projectId, ?int $tsMin = null, ?int $tsMax = null,
+							  ?string $paymentMode = null, ?int $paymentModeId = null,
+							  ?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
+							  ?int $lastchanged = null, ?int $limit = null,
 							  bool $reverse = false, int $offset = 0, ?int $payerId = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
-					'paymentmode', 'categoryid', 'lastchanged', 'repeatallactive',
+					'paymentmode', 'paymentmodeid', 'categoryid', 'lastchanged', 'repeatallactive',
 					'repeatuntil', 'repeatfreq')
 		   ->from('cospend_bills', 'bi')
 		   ->where(
@@ -1952,6 +1956,10 @@ class ProjectService {
 		if ($paymentMode !== null && $paymentMode !== '' && $paymentMode !== 'n') {
 			$qb->andWhere(
 				$qb->expr()->eq('paymentmode', $qb->createNamedParameter($paymentMode, IQueryBuilder::PARAM_STR))
+			);
+		} elseif (!is_null($paymentModeId)) {
+			$qb->andWhere(
+				$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($paymentModeId, IQueryBuilder::PARAM_INT))
 			);
 		}
 		if ($category !== null && $category !== 0) {
@@ -2000,6 +2008,7 @@ class ProjectService {
 			$dbRepeat = $row['repeat'];
 			$dbPayerId = intval($row['payerid']);
 			$dbPaymentMode = $row['paymentmode'];
+			$dbPaymentModeId = $row['paymentmodeid'];
 			$dbCategoryId = intval($row['categoryid']);
 			$dbLastchanged = intval($row['lastchanged']);
 			$dbRepeatAllActive = intval($row['repeatallactive']);
@@ -2017,6 +2026,7 @@ class ProjectService {
 				'owerIds' => [],
 				'repeat' => $dbRepeat,
 				'paymentmode' => $dbPaymentMode,
+				'paymentmodeid' => $dbPaymentModeId,
 				'categoryid' => $dbCategoryId,
 				'lastchanged' => $dbLastchanged,
 				'repeatallactive' => $dbRepeatAllActive,
@@ -2080,12 +2090,14 @@ class ProjectService {
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getBills(string $projectId, ?int $tsMin = null, ?int $tsMax = null, ?string $paymentMode = null, ?int $category = null,
-							  ?float $amountMin = null, ?float $amountMax = null, ?int $lastchanged = null, ?int $limit = null,
-							  bool $reverse = false, ?int $payerId = null): array {
+	public function getBills(string $projectId, ?int $tsMin = null, ?int $tsMax = null,
+							?string $paymentMode = null, ?int $paymentModeId = null,
+							?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
+							?int $lastchanged = null, ?int $limit = null,
+							bool $reverse = false, ?int $payerId = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('bi.id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
-					'paymentmode', 'categoryid', 'bi.lastchanged', 'repeatallactive', 'repeatuntil', 'repeatfreq',
+					'paymentmode', 'paymentmodeid', 'categoryid', 'bi.lastchanged', 'repeatallactive', 'repeatuntil', 'repeatfreq',
 					'memberid', 'm.name', 'm.weight', 'm.activated')
 		   ->from('cospend_bill_owers', 'bo')
 		   ->innerJoin('bo', 'cospend_bills', 'bi', $qb->expr()->eq('bo.billid', 'bi.id'))
@@ -2117,6 +2129,10 @@ class ProjectService {
 		if ($paymentMode !== null && $paymentMode !== '' && $paymentMode !== 'n') {
 			$qb->andWhere(
 				$qb->expr()->eq('paymentmode', $qb->createNamedParameter($paymentMode, IQueryBuilder::PARAM_STR))
+			);
+		} elseif (!is_null($paymentModeId)) {
+			$qb->andWhere(
+				$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($paymentModeId, IQueryBuilder::PARAM_INT))
 			);
 		}
 		if ($category !== null && $category !== 0) {
@@ -2167,6 +2183,7 @@ class ProjectService {
 				$dbRepeat = $row['repeat'];
 				$dbPayerId = intval($row['payerid']);
 				$dbPaymentMode = $row['paymentmode'];
+				$dbPaymentModeId = $row['paymentmodeid'];
 				$dbCategoryId = intval($row['categoryid']);
 				$dbLastchanged = intval($row['lastchanged']);
 				$dbRepeatAllActive = intval($row['repeatallactive']);
@@ -2184,6 +2201,7 @@ class ProjectService {
 					'owerIds' => [],
 					'repeat' => $dbRepeat,
 					'paymentmode' => $dbPaymentMode,
+					'paymentmodeid' => $dbPaymentModeId,
 					'categoryid' => $dbCategoryId,
 					'lastchanged' => $dbLastchanged,
 					'repeatallactive' => $dbRepeatAllActive,
@@ -3417,10 +3435,13 @@ class ProjectService {
 			}
 		}
 
-		$addBillResult = $this->addBill($projectid, null, $bill['what'], $bill['payer_id'],
-									$owerIdsStr, $bill['amount'], $bill['repeat'], $bill['paymentmode'],
-									$bill['categoryid'], $bill['repeatallactive'], $bill['repeatuntil'],
-									$datetime->getTimestamp(), $bill['comment'], $bill['repeatfreq']);
+		$addBillResult = $this->addBill(
+			$projectid, null, $bill['what'], $bill['payer_id'],
+			$owerIdsStr, $bill['amount'], $bill['repeat'],
+			$bill['paymentmode'], $bill['paymentmodeid'],
+			$bill['categoryid'], $bill['repeatallactive'], $bill['repeatuntil'],
+			$datetime->getTimestamp(), $bill['comment'], $bill['repeatfreq']
+		);
 
 		$newBillId = $addBillResult['inserted_id'] ?? 0;
 
@@ -4653,7 +4674,7 @@ class ProjectService {
 	 * @return array
 	 */
 	public function exportCsvStatistics(string $projectid, string $userId, ?int $tsMin = null, ?int $tsMax = null,
-										?string $paymentMode = null, ?int $category = null,
+										?int $paymentModeId = null, ?int $category = null,
 										?float $amountMin = null, ?float $amountMax = null,
 										bool $showDisabled = true, ?int $currencyId = null): array {
 		// create export directory if needed
@@ -4671,13 +4692,27 @@ class ProjectService {
 		}
 		$file = $folder->newFile($projectid.'-stats.csv');
 		$handler = $file->fopen('w');
-		fwrite($handler, $this->trans->t('Member name').','. $this->trans->t('Paid').','. $this->trans->t('Spent').','. $this->trans->t('Balance')."\n");
-		$allStats = $this->getProjectStatistics($projectid, 'lowername', $tsMin, $tsMax, $paymentMode,
-												$category, $amountMin, $amountMax, $showDisabled, $currencyId);
+		fwrite(
+			$handler,
+			$this->trans->t('Member name'). ','
+				. $this->trans->t('Paid') . ','
+				. $this->trans->t('Spent') . ','
+				. $this->trans->t('Balance') . "\n"
+		);
+		$allStats = $this->getProjectStatistics(
+			$projectid, 'lowername', $tsMin, $tsMax, $paymentModeId,
+			$category, $amountMin, $amountMax, $showDisabled, $currencyId
+		);
 		$stats = $allStats['stats'];
 
 		foreach ($stats as $stat) {
-			fwrite($handler, '"'.$stat['member']['name'].'",'.floatval($stat['paid']).','.floatval($stat['spent']).','.floatval($stat['balance'])."\n");
+			fwrite(
+				$handler,
+				'"' . $stat['member']['name'] . '",'
+					. floatval($stat['paid']) . ','
+					. floatval($stat['spent']) . ','
+					. floatval($stat['balance']) . "\n"
+			);
 		}
 
 		fclose($handler);
@@ -4721,7 +4756,10 @@ class ProjectService {
 		}
 		$file = $folder->newFile($filename);
 		$handler = $file->fopen('w');
-		fwrite($handler, "what,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,repeatfreq,repeatallactive,repeatuntil,categoryid,paymentmode,comment\n");
+		fwrite(
+			$handler,
+			"what,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,repeatfreq,repeatallactive,repeatuntil,categoryid,paymentmode,paymentmodeid,comment\n"
+		);
 		$members = $projectInfo['members'];
 		$memberIdToName = [];
 		$memberIdToWeight = [];
@@ -4730,8 +4768,15 @@ class ProjectService {
 			$memberIdToName[$member['id']] = $member['name'];
 			$memberIdToWeight[$member['id']] = $member['weight'];
 			$memberIdToActive[$member['id']] = intval($member['activated']);
-			fwrite($handler, 'deleteMeIfYouWant,1,1970-01-01,0,"'.$member['name'].'",'.floatval($member['weight']).','.
-							  intval($member['activated']).',"'.$member['name'].'",n,,,,,,'."\n");
+			fwrite(
+				$handler,
+				'deleteMeIfYouWant,1,1970-01-01,0,"'
+					. $member['name'] . '",'
+					. floatval($member['weight']) . ','
+					. intval($member['activated']) . ',"'
+					. $member['name'] . '",n,,,,,,,'
+					. "\n"
+			);
 		}
 		$bills = $this->getBills($projectid);
 		foreach ($bills as $bill) {
@@ -4747,12 +4792,26 @@ class ProjectService {
 			$payer_active = $memberIdToActive[$payer_id];
 			$dateTime = DateTime::createFromFormat('U', $bill['timestamp']);
 			$oldDateStr = $dateTime->format('Y-m-d');
-			fwrite($handler, '"'.$bill['what'].'",'.floatval($bill['amount']).','.$oldDateStr.','.$bill['timestamp'].
-							 ',"'.$payer_name.'",'.
-							 floatval($payer_weight).','.$payer_active.',"'.$owersTxt.'",'.$bill['repeat'].
-							 ','.$bill['repeatfreq'].','.$bill['repeatallactive'].','.
-							 $bill['repeatuntil'].','.$bill['categoryid'].','.$bill['paymentmode'].
-							 ',"'.urlencode($bill['comment']).'"'."\n");
+			fwrite(
+				$handler,
+				'"' . $bill['what'] . '",'
+					. floatval($bill['amount']) . ','
+					. $oldDateStr . ','
+					. $bill['timestamp'] . ',"'
+					. $payer_name . '",'
+					. floatval($payer_weight) . ','
+					. $payer_active . ',"'
+					. $owersTxt . '",'
+					. $bill['repeat'] . ','
+					. $bill['repeatfreq'] . ','
+					. $bill['repeatallactive'] .','
+					. $bill['repeatuntil'] . ','
+					. $bill['categoryid'] . ','
+					. $bill['paymentmode'] . ','
+					. $bill['paymentmodeid'] . ',"'
+					. urlencode($bill['comment']) . '"'
+					. "\n"
+			);
 		}
 
 		// write categories
@@ -4882,6 +4941,7 @@ class ProjectService {
 								$repeat = array_key_exists('repeat', $columns) ? $data[$columns['repeat']] : 'n';
 								$categoryid = array_key_exists('categoryid', $columns) ? intval($data[$columns['categoryid']]) : null;
 								$paymentmode = array_key_exists('paymentmode', $columns) ? $data[$columns['paymentmode']] : null;
+								$paymentmodeid = array_key_exists('paymentmodeid', $columns) ? $data[$columns['paymentmodeid']] : null;
 								$repeatallactive = array_key_exists('repeatallactive', $columns) ? $data[$columns['repeatallactive']] : 0;
 								$repeatuntil = array_key_exists('repeatuntil', $columns) ? $data[$columns['repeatuntil']] : null;
 								$repeatfreq = array_key_exists('repeatfreq', $columns) ? $data[$columns['repeatfreq']] : 1;
@@ -4922,6 +4982,7 @@ class ProjectService {
 										'payer_name' => $payer_name,
 										'owers' => $owersArray,
 										'paymentmode' => $paymentmode,
+										'paymentmodeid' => $paymentmodeid,
 										'categoryid' => $categoryid,
 										'repeat' => $repeat,
 										'repeatuntil' => $repeatuntil,
@@ -4993,7 +5054,8 @@ class ProjectService {
 						$owerIdsStr = implode(',', $owerIds);
 						$addBillResult = $this->addBill($projectid, null, $bill['what'], $payerId,
 														$owerIdsStr, $bill['amount'], $bill['repeat'],
-														$bill['paymentmode'], $catId, $bill['repeatallactive'],
+														$bill['paymentmode'], $bill['paymentmodeid'],
+														$catId, $bill['repeatallactive'],
 														$bill['repeatuntil'], $bill['timestamp'], $bill['comment'], $bill['repeatfreq']);
 						if (!isset($addBillResult['inserted_id'])) {
 							$this->deleteProject($projectid);
@@ -5328,7 +5390,7 @@ class ProjectService {
 		$term = strtolower($term);
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('b.id', 'what', 'comment', 'amount', 'timestamp',
-					'paymentmode', 'categoryid', 'pr.currencyname')
+					'paymentmode', 'paymentmodeid', 'categoryid', 'pr.currencyname')
 		   ->from('cospend_bills', 'b')
 		   ->innerJoin('b', 'cospend_projects', 'pr', $qb->expr()->eq('b.projectid', 'pr.id'))
 		   ->where(
@@ -5354,6 +5416,7 @@ class ProjectService {
 			$dbTimestamp = intval($row['timestamp']);
 			$dbComment = $row['comment'];
 			$dbPaymentMode = $row['paymentmode'];
+			$dbPaymentModeId = $row['paymentmodeid'];
 			$dbCategoryId = intval($row['categoryid']);
 			$dbProjectCurrencyName = $row['currencyname'];
 			$bills[] = [
@@ -5364,6 +5427,7 @@ class ProjectService {
 				'timestamp' => $dbTimestamp,
 				'comment' => $dbComment,
 				'paymentmode' => $dbPaymentMode,
+				'paymentmodeid' => $dbPaymentModeId,
 				'categoryid' => $dbCategoryId,
 				'currencyname' => $dbProjectCurrencyName,
 			];
@@ -5389,7 +5453,7 @@ class ProjectService {
 		$bills = [];
 		foreach ($projects as $project) {
 			$pid = $project['id'];
-			$bl = $this->getBills($pid, null, null, null, null, null, null, $since, 20, true);
+			$bl = $this->getBills($pid, null, null, null, null, null, null, null, $since, 20, true);
 
 			// get members by id
 			$membersById = [];

@@ -53,10 +53,11 @@
 			:name="t('cospend', 'Categories')"
 			:icon="'icon-category-app-bundles'"
 			:order="4">
-			<CategoryManagement
+			<CategoryOrPmManagement
 				:project-id="projectId"
+				type="category"
 				@project-edited="onProjectEdited"
-				@category-deleted="onCategoryDeleted" />
+				@element-deleted="onCategoryDeleted" />
 		</AppSidebarTab>
 		<AppSidebarTab
 			id="currencies"
@@ -79,7 +80,7 @@ import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import { generateUrl } from '@nextcloud/router'
 import SharingTabSidebar from './SharingTabSidebar'
 import SettingsTabSidebar from './SettingsTabSidebar'
-import CategoryManagement from '../CategoryManagement'
+import CategoryOrPmManagement from '../CategoryOrPmManagement'
 import CurrencyManagement from '../CurrencyManagement'
 import ActivityTabSidebar from './ActivityTabSidebar'
 import cospend from '../state'
@@ -94,7 +95,7 @@ export default {
 		ActionLink,
 		SharingTabSidebar,
 		SettingsTabSidebar,
-		CategoryManagement,
+		CategoryOrPmManagement,
 		CurrencyManagement,
 		ActivityTabSidebar,
 	},

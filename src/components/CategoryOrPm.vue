@@ -74,7 +74,7 @@ import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
 import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker'
 
 export default {
-	name: 'Category',
+	name: 'CategoryOrPm',
 
 	components: {
 		ColorPicker, EmojiPicker,

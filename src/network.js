@@ -318,47 +318,55 @@ export function addCategory(projectid, name, icon, color, order) {
 	return axios.post(url, req)
 }
 
-export function deleteCategory(projectid, categoryid, successCB) {
-	let url
-	if (!cospend.pageIsPublic) {
-		url = generateUrl('/apps/cospend/projects/' + projectid + '/category/' + categoryid)
-	} else {
-		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/category/' + categoryid)
+export function addPaymentMode(projectid, name, icon, color, order) {
+	const req = {
+		name,
+		icon,
+		color,
+		order,
 	}
-	axios.delete(url)
-		.then((response) => {
-			successCB(categoryid)
-		})
-		.catch((error) => {
-			showError(
-				t('cospend', 'Failed to delete category')
-				+ ': ' + error.response.request.responseText
-			)
-		})
+	const url = cospend.pageIsPublic
+		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/paymentmode')
+		: generateUrl('/apps/cospend/projects/' + projectid + '/paymentmode')
+	return axios.post(url, req)
 }
 
-export function editCategory(projectid, category, backupCategory, failCB) {
+export function deleteCategory(projectid, categoryid) {
+	const url = cospend.pageIsPublic
+		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/category/' + categoryid)
+		: generateUrl('/apps/cospend/projects/' + projectid + '/category/' + categoryid)
+	return axios.delete(url)
+}
+
+export function deletePaymentMode(projectid, pmid) {
+	const url = cospend.pageIsPublic
+		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/paymentmode/' + pmid)
+		: generateUrl('/apps/cospend/projects/' + projectid + '/paymentmode/' + pmid)
+	return axios.delete(url)
+}
+
+export function editCategory(projectid, category, backupCategory) {
 	const req = {
 		name: category.name,
 		icon: category.icon,
 		color: category.color,
 	}
-	let url
-	if (!cospend.pageIsPublic) {
-		url = generateUrl('/apps/cospend/projects/' + projectid + '/category/' + category.id)
-	} else {
-		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/category/' + category.id)
+	const url = cospend.pageIsPublic
+		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/category/' + category.id)
+		: generateUrl('/apps/cospend/projects/' + projectid + '/category/' + category.id)
+	return axios.put(url, req)
+}
+
+export function editPaymentMode(projectid, pm, backupPm) {
+	const req = {
+		name: pm.name,
+		icon: pm.icon,
+		color: pm.color,
 	}
-	axios.put(url, req)
-		.then((response) => {
-		})
-		.catch((error) => {
-			failCB(category, backupCategory)
-			showError(
-				t('cospend', 'Failed to edit category')
-				+ ': ' + error.response.request.responseText
-			)
-		})
+	const url = cospend.pageIsPublic
+		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/paymentmode/' + pm.id)
+		: generateUrl('/apps/cospend/projects/' + projectid + '/paymentmode/' + pm.id)
+	return axios.put(url, req)
 }
 
 export function saveCategoryOrder(projectid, order) {
@@ -369,6 +377,17 @@ export function saveCategoryOrder(projectid, order) {
 	const url = cospend.pageIsPublic
 		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/category-order')
 		: generateUrl('/apps/cospend/projects/' + projectid + '/category-order')
+	return axios.put(url, req)
+}
+
+export function savePaymentModeOrder(projectid, order) {
+	const req = {
+		projectid,
+		order,
+	}
+	const url = cospend.pageIsPublic
+		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password + '/paymentmode-order')
+		: generateUrl('/apps/cospend/projects/' + projectid + '/paymentmode-order')
 	return axios.put(url, req)
 }
 

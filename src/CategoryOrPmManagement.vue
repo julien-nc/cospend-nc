@@ -60,7 +60,7 @@
 				<hr>
 			</div>
 			<label>
-				<a :class="{ icon: true, 'icon-category-app-bundles': (type === 'category'), 'icon-add': (type !== 'category') }" />{{ listLabel }}
+				<a :class="{ icon: true, 'icon-category-app-bundles': (type === 'category'), 'icon-tag': (type !== 'category') }" />{{ listLabel }}
 			</label>
 			<br>
 			<label v-if="elements && editionAccess" class="hint">
@@ -250,9 +250,23 @@ export default {
 		},
 		onDeleteElement(element) {
 			if (this.type === 'category') {
-				network.deleteCategory(this.project.id, element.id, this.deleteElementSuccess)
+				network.deleteCategory(this.project.id, element.id).then((response) => {
+					this.deleteElementSuccess(element.id)
+				}).catch((error) => {
+					showError(
+						t('cospend', 'Failed to delete category')
+						+ ': ' + error.response.request.responseText
+					)
+				})
 			} else {
-				network.deletePaymentMode(this.project.id, element.id, this.deleteElementSuccess)
+				network.deletePaymentMode(this.project.id, element.id).then((response) => {
+					this.deleteElementSuccess(element.id)
+				}).catch((error) => {
+					showError(
+						t('cospend', 'Failed to delete payment mode')
+						+ ': ' + error.response.request.responseText
+					)
+				})
 			}
 		},
 		deleteElementSuccess(elementid) {
@@ -273,7 +287,14 @@ export default {
 			element.icon = icon
 			element.color = color
 			if (this.type === 'category') {
-				network.editCategory(this.project.id, element, backupElement, this.editElementFail)
+				network.editCategory(this.project.id, element, backupElement).then((response) => {
+				}).catch((error) => {
+					this.editElementFail(element, backupElement)
+					showError(
+						t('cospend', 'Failed to edit category')
+						+ ': ' + error.response.request.responseText
+					)
+				})
 			} else {
 				network.editPaymentMode(this.project.id, element, backupElement, this.editElementFail)
 			}

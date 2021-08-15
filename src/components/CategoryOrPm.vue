@@ -1,27 +1,27 @@
 <template>
-	<div class="one-category">
+	<div class="one-element">
 		<span v-if="draggable"
 			class="icon icon-move" />
 		<div v-show="!editMode"
-			class="one-category-label">
+			class="one-element-label">
 			<div class="colorDot"
-				:style="{ backgroundColor: category.color }" />
-			<label class="one-category-label-label">{{ category.icon || '' }}</label>
-			<label class="one-category-label-label">{{ category.name }}</label>
+				:style="{ backgroundColor: element.color }" />
+			<label class="one-element-label-label">{{ element.icon || '' }}</label>
+			<label class="one-element-label-label">{{ element.name }}</label>
 			<input v-show="editionAccess"
 				v-tooltip.top="{ content: t('cospend', 'Edit') }"
 				type="submit"
 				value=""
-				class="icon-rename editOneCategory icon"
+				class="icon-rename editOneElement icon"
 				@click="onClickEdit">
 			<input v-show="editionAccess"
 				v-tooltip.top="{ content: t('cospend', 'Delete') }"
 				type="submit"
 				value=""
-				:class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteOneCategory icon'"
+				:class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteOneElement icon'"
 				@click="onClickDelete">
 			<label v-if="timerOn"
-				class="one-category-label-label">
+				class="one-element-label-label">
 				<vac :end-time="new Date().getTime() + (7000)">
 					<template #process="{ timeObj }">
 						<span>{{ `${timeObj.s}` }}</span>
@@ -30,7 +30,7 @@
 			</label>
 		</div>
 		<div v-if="editMode"
-			class="one-category-edit">
+			class="one-element-edit">
 			<ColorPicker ref="col"
 				class="app-navigation-entry-bullet-wrapper"
 				value=""
@@ -53,16 +53,16 @@
 				v-model="name"
 				type="text"
 				maxlength="300"
-				class="editCategoryNameInput"
-				:placeholder="t('cospend', 'Category name')"
+				class="editElementNameInput"
+				:placeholder="t('cospend', 'Name')"
 				@focus="$event.target.select()">
 			<button
 				v-tooltip.top="{ content: t('cospend', 'Cancel') }"
-				class="editCategoryClose icon-history icon"
+				class="editElementClose icon-history icon"
 				@click="onClickCancel" />
 			<button
 				v-tooltip.top="{ content: t('cospend', 'Save') }"
-				class="editCategoryOk icon-checkmark icon"
+				class="editElementOk icon-checkmark icon"
 				@click="onClickEditOk" />
 		</div>
 	</div>
@@ -81,7 +81,7 @@ export default {
 	},
 
 	props: {
-		category: {
+		element: {
 			type: Object,
 			required: true,
 		},
@@ -101,9 +101,9 @@ export default {
 			timerOn: false,
 			timer: null,
 			// initial data
-			color: this.category.color,
-			name: this.category.name,
-			icon: this.category.icon,
+			color: this.element.color,
+			name: this.element.name,
+			icon: this.element.icon,
 		}
 	},
 
@@ -123,9 +123,9 @@ export default {
 		},
 		onClickCancel() {
 			this.editMode = false
-			this.name = this.category.name
-			this.color = this.category.color
-			this.icon = this.category.icon
+			this.name = this.element.name
+			this.color = this.element.color
+			this.icon = this.element.icon
 		},
 		onClickDelete() {
 			if (this.timerOn) {
@@ -136,12 +136,12 @@ export default {
 				this.timerOn = true
 				this.timer = new Timer(() => {
 					this.timerOn = false
-					this.$emit('delete', this.category)
+					this.$emit('delete', this.element)
 				}, 7000)
 			}
 		},
 		onClickEditOk() {
-			this.$emit('edit', this.category, this.name, this.icon, this.color)
+			this.$emit('edit', this.element, this.name, this.icon, this.color)
 			this.editMode = false
 		},
 	},
@@ -149,7 +149,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.one-category {
+.one-element {
 	display: flex;
 
 	.icon-move {
@@ -176,7 +176,7 @@ export default {
 	}
 }
 
-.one-category-edit {
+.one-element-edit {
 	flex-grow: 1;
 	display: grid;
 	grid-template: 1fr / 1fr 1fr 6fr 42px 42px;
@@ -186,37 +186,36 @@ export default {
 	margin-right: 20px;
 }
 
-.one-category-edit label,
-#add-category label,
-.one-category-label label {
+.one-element-edit label,
+.one-element-label label {
 	line-height: 40px;
 }
 
-.one-category-label input[type=submit] {
+.one-element-label input[type=submit] {
 	border-radius: 50% !important;
 	width: 40px !important;
 	height: 40px;
 	margin-top: 0px;
 }
 
-.one-category-label {
+.one-element-label {
 	flex-grow: 1;
 	display: grid;
 	grid-template: 1fr / 1fr 1fr 6fr 42px 42px 20px;
 }
 
-.editCategoryOk,
-.editCategoryClose {
+.editElementOk,
+.editElementClose {
 	margin-top: 0px;
 	height: 40px;
 }
 
-.editCategoryOk {
+.editElementOk {
 	background-color: #46ba61;
 	color: white;
 }
 
-.one-category-label-icon {
+.one-element-label-icon {
 	font-size: 22px;
 }
 

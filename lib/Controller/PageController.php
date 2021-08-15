@@ -1947,6 +1947,250 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
+	public function addPaymentMode(string $projectid, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+			$result = $this->projectService->addPaymentMode($projectid, $name, $icon, $color, $order);
+			if (is_numeric($result)) {
+				return new DataResponse($result);
+			} else {
+				return new DataResponse($result, 400);
+			}
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage payment modes')],
+				403
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 * @CORS
+	 */
+	public function apiAddPaymentMode(string $projectid, string $password, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
+		if (
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_MAINTENER)
+			|| ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= Application::ACCESS_MAINTENER)
+		) {
+			$result = $this->projectService->addPaymentMode($projectid, $name, $icon, $color, $order);
+			if (is_numeric($result)) {
+				return new DataResponse($result);
+			} else {
+				return new DataResponse($result, 400);
+			}
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage payment modes')],
+				401
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @CORS
+	 */
+	public function apiPrivAddPaymentMode(string $projectid, string $name, ?string $icon = null, ?string $color = null): DataResponse {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+			$result = $this->projectService->addPaymentMode($projectid, $name, $icon, $color);
+			if (is_numeric($result)) {
+				return new DataResponse($result);
+			} else {
+				return new DataResponse($result, 400);
+			}
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage payment modes')],
+				403
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	public function editPaymentMode(string $projectid, int $pmid, ?string $name = null,
+								 ?string $icon = null, ?string $color = null): DataResponse {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+			$result = $this->projectService->editPaymentMode($projectid, $pmid, $name, $icon, $color);
+			if (is_array($result)) {
+				return new DataResponse($result);
+			} else {
+				return new DataResponse($result, 400);
+			}
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage payment modes')],
+				403
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	public function savePaymentModeOrder(string $projectid, array $order): DataResponse {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+			if ($this->projectService->savePaymentModeOrder($projectid, $order)) {
+				return new DataResponse(true);
+			} else {
+				return new DataResponse(false, 400);
+			}
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage payment modes')],
+				403
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 * @CORS
+	 */
+	public function apiEditPaymentMode(string $projectid, string $password, int $pmid, ?string $name = null,
+									?string $icon = null, ?string $color = null): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
+		if (
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_MAINTENER)
+			|| ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= Application::ACCESS_MAINTENER)
+		) {
+			$result = $this->projectService->editPaymentMode($projectid, $pmid, $name, $icon, $color);
+			if (is_array($result)) {
+				return new DataResponse($result);
+			} else {
+				return new DataResponse($result, 403);
+			}
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage payment modes')],
+				401
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 * @CORS
+	 */
+	public function apiSavePaymentModeOrder(string $projectid, string $password, array $order): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
+		if (
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_MAINTENER)
+			|| ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= Application::ACCESS_MAINTENER)
+		) {
+			if ($this->projectService->savePaymentModeOrder($projectid, $order)) {
+				return new DataResponse(true);
+			} else {
+				return new DataResponse(false, 403);
+			}
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage payment modes')],
+				401
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @CORS
+	 */
+	public function apiPrivEditPaymentMode(string $projectid, int $pmid, ?string $name = null,
+										?string $icon = null, ?string $color = null): DataResponse {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+			$result = $this->projectService->editPaymentMode($projectid, $pmid, $name, $icon, $color);
+			if (is_array($result)) {
+				return new DataResponse($result);
+			} else {
+				return new DataResponse($result, 403);
+			}
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage payment modes')],
+				403
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	public function deletePaymentMode(string $projectid, int $pmid): DataResponse {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+			$result = $this->projectService->deletePaymentMode($projectid, $pmid);
+			if (isset($result['success'])) {
+				return new DataResponse($pmid);
+			} else {
+				return new DataResponse($result, 400);
+			}
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage payment modes')],
+				403
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 * @CORS
+	 */
+	public function apiDeletePaymentMode(string $projectid, string $password, int $pmid): DataResponse {
+		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
+		if (
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_MAINTENER)
+			|| ($publicShareInfo['accesslevel'] !== null && $publicShareInfo['accesslevel'] >= Application::ACCESS_MAINTENER)
+		) {
+			$result = $this->projectService->deletePaymentMode($projectid, $pmid);
+			if (isset($result['success'])) {
+				return new DataResponse($pmid);
+			} else {
+				return new DataResponse($result, 400);
+			}
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage payment modes')],
+				401
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @CORS
+	 */
+	public function apiPrivDeletePaymentMode(string $projectid, int $pmid): DataResponse {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+			$result = $this->projectService->deletePaymentMode($projectid, $pmid);
+			if (isset($result['success'])) {
+				return new DataResponse($pmid);
+			} else {
+				return new DataResponse($result, 400);
+			}
+		} else {
+			return new DataResponse(
+				['message' => $this->trans->t('You are not allowed to manage payment modes')],
+				403
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
 	public function addCategory(string $projectid, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
 			$result = $this->projectService->addCategory($projectid, $name, $icon, $color, $order);

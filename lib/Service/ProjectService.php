@@ -3563,6 +3563,173 @@ class ProjectService {
 	}
 
 	/**
+	 * @param string $projectid
+	 * @param string $name
+	 * @param string|null $icon
+	 * @param string $color
+	 * @param int|null $order
+	 * @return int
+	 */
+	public function addPaymentMode(string $projectid, string $name, ?string $icon, string $color, ?int $order = 0): int {
+		$qb = $this->db->getQueryBuilder();
+
+		$encIcon = $icon;
+		if ($icon !== null && $icon !== '') {
+			$encIcon = urlencode($icon);
+		}
+		$qb->insert('cospend_project_paymentmodes')
+			->values([
+				'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
+				'encoded_icon' => $qb->createNamedParameter($encIcon, IQueryBuilder::PARAM_STR),
+				'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
+				'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
+				'order' => $qb->createNamedParameter(is_null($order) ? 0 : $order, IQueryBuilder::PARAM_INT)
+			]);
+		$qb->executeStatement();
+		$qb = $qb->resetQueryParts();
+
+		return $qb->getLastInsertId();
+	}
+
+	/**
+	 * @param string $projectId
+	 * @param int $pmid
+	 * @return array|null
+	 * @throws \OCP\DB\Exception
+	 */
+	private function getPaymentMode(string $projectId, int $pmid): ?array {
+		$pm = null;
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('id', 'name', 'projectid', 'encoded_icon', 'color')
+			->from('cospend_project_paymentmodes', 'pm')
+			->where(
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('id', $qb->createNamedParameter($pmid, IQueryBuilder::PARAM_INT))
+			);
+		$req = $qb->executeQuery();
+
+		while ($row = $req->fetch()) {
+			$dbPmId = (int) $row['id'];
+			$dbName = $row['name'];
+			$dbIcon = urldecode($row['encoded_icon']);
+			$dbColor = $row['color'];
+			$pm = [
+				'name' => $dbName,
+				'icon' => $dbIcon,
+				'color' => $dbColor,
+				'id' => $dbPmId,
+				'projectid' => $projectId,
+			];
+			break;
+		}
+		$req->closeCursor();
+		$qb->resetQueryParts();
+		return $pm;
+	}
+
+	/**
+	 * @param string $projectid
+	 * @param int $pmid
+	 * @return array
+	 */
+	public function deletePaymentMode(string $projectid, int $pmid): array {
+		$pmToDelete = $this->getPaymentMode($projectid, $pmid);
+		if ($pmToDelete !== null) {
+			$qb = $this->db->getQueryBuilder();
+			$qb->delete('cospend_project_paymentmodes')
+				->where(
+					$qb->expr()->eq('id', $qb->createNamedParameter($pmid, IQueryBuilder::PARAM_INT))
+				)
+				->andWhere(
+					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+				);
+			$qb->executeStatement();
+			$qb->resetQueryParts();
+
+			// then get rid of this category in bills
+			$qb = $this->db->getQueryBuilder();
+			$qb->update('cospend_bills');
+			$qb->set('paymentmodeid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT));
+			$qb->where(
+				$qb->expr()->eq('categoryid', $qb->createNamedParameter($pmid, IQueryBuilder::PARAM_INT))
+			)
+				->andWhere(
+					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+				);
+			$qb->executeStatement();
+			$qb->resetQueryParts();
+
+			return ['success' => true];
+		} else {
+			return ['message' => $this->trans->t('Not found')];
+		}
+	}
+
+	/**
+	 * @param string $projectid
+	 * @param array $order
+	 * @return bool
+	 */
+	public function savePaymentModeOrder(string $projectid, array $order): bool {
+		$qb = $this->db->getQueryBuilder();
+		foreach ($order as $o) {
+			$qb->update('cospend_project_paymentmodes');
+			$qb->set('order', $qb->createNamedParameter($o['order'], IQueryBuilder::PARAM_INT));
+			$qb->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($o['id'], IQueryBuilder::PARAM_INT))
+			)
+				->andWhere(
+					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+				);
+			$qb->executeStatement();
+			$qb = $qb->resetQueryParts();
+		}
+		return true;
+	}
+
+	/**
+	 * @param string $projectid
+	 * @param int $pmid
+	 * @param string|null $name
+	 * @param string|null $icon
+	 * @param string|null $color
+	 * @return array
+	 */
+	public function editPaymentMode(string $projectid, int $pmid, ?string $name = null,
+								 ?string $icon = null, ?string $color = null): array {
+		if ($name !== null && $name !== '') {
+			$encIcon = $icon;
+			if ($icon !== null && $icon !== '') {
+				$encIcon = urlencode($icon);
+			}
+			if ($this->getPaymentMode($projectid, $pmid) !== null) {
+				$qb = $this->db->getQueryBuilder();
+				$qb->update('cospend_project_paymentmodes');
+				$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
+				$qb->set('encoded_icon', $qb->createNamedParameter($encIcon, IQueryBuilder::PARAM_STR));
+				$qb->set('color', $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR));
+				$qb->where(
+					$qb->expr()->eq('id', $qb->createNamedParameter($pmid, IQueryBuilder::PARAM_INT))
+				)
+					->andWhere(
+						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					);
+				$qb->executeStatement();
+				$qb->resetQueryParts();
+
+				return $this->getPaymentMode($projectid, $pmid);
+			} else {
+				return ['message' => $this->trans->t('This project has no such payment mode')];
+			}
+		} else {
+			return ['message' => $this->trans->t('Incorrect field values')];
+		}
+	}
+
+	/**
 	 * Add a new category
 	 *
 	 * @param string $projectid
@@ -3731,7 +3898,7 @@ class ProjectService {
 
 				return $this->getCategory($projectid, $categoryid);
 			} else {
-				return ['message' => $this->trans->t('This project have no such category')];
+				return ['message' => $this->trans->t('This project has no such category')];
 			}
 		} else {
 			return ['message' => $this->trans->t('Incorrect field values')];

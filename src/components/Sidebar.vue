@@ -60,10 +60,21 @@
 				@element-deleted="onCategoryDeleted" />
 		</AppSidebarTab>
 		<AppSidebarTab
+			id="paymentmodes"
+			:name="t('cospend', 'Payment modes')"
+			:icon="'icon-tag'"
+			:order="5">
+			<CategoryOrPmManagement
+				:project-id="projectId"
+				type="paymentmode"
+				@project-edited="onProjectEdited"
+				@element-deleted="onPaymentModeDeleted" />
+		</AppSidebarTab>
+		<AppSidebarTab
 			id="currencies"
 			:name="t('cospend', 'Currencies')"
 			:icon="'icon-tab-currencies'"
-			:order="5">
+			:order="6">
 			<CurrencyManagement
 				:project-id="projectId"
 				@project-edited="onProjectEdited" />
@@ -190,6 +201,9 @@ export default {
 		},
 		onCategoryDeleted(catid) {
 			this.$emit('category-deleted', catid)
+		},
+		onPaymentModeDeleted(catid) {
+			this.$emit('paymentmode-deleted', catid)
 		},
 		focusOnAddMember() {
 			this.$refs.settingsTab.focusOnAddMember()

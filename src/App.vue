@@ -780,6 +780,15 @@ export default {
 				}
 			}
 		},
+		onPaymentModeDeleted(pmid) {
+			let bill
+			for (const bid in this.bills[this.currentProjectId]) {
+				bill = this.bills[this.currentProjectId][bid]
+				if (bill.paymentmodeid === pmid) {
+					bill.paymentmodeid = 0
+				}
+			}
+		},
 		showList() {
 			this.currentBill = null
 			this.mode = 'edition'

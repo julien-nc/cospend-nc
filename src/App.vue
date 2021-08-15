@@ -90,6 +90,7 @@
 			@member-edited="onMemberEdited"
 			@new-member="onNewMember"
 			@export-clicked="onExportClicked"
+			@paymentmode-deleted="onPaymentModeDeleted"
 			@category-deleted="onCategoryDeleted" />
 	</Content>
 </template>

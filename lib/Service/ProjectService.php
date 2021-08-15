@@ -1999,19 +1999,19 @@ class ProjectService {
 
 		$bills = [];
 		while ($row = $req->fetch()){
-			$dbBillId = intval($row['id']);
-			$dbAmount = floatval($row['amount']);
+			$dbBillId = (int) $row['id'];
+			$dbAmount = (float) $row['amount'];
 			$dbWhat = $row['what'];
 			$dbComment = $row['comment'];
 			$dbTimestamp = $row['timestamp'];
 			$dbDate = DateTime::createFromFormat('U', $dbTimestamp);
 			$dbRepeat = $row['repeat'];
-			$dbPayerId = intval($row['payerid']);
+			$dbPayerId = (int) $row['payerid'];
 			$dbPaymentMode = $row['paymentmode'];
-			$dbPaymentModeId = $row['paymentmodeid'];
-			$dbCategoryId = intval($row['categoryid']);
-			$dbLastchanged = intval($row['lastchanged']);
-			$dbRepeatAllActive = intval($row['repeatallactive']);
+			$dbPaymentModeId = (int) $row['paymentmodeid'];
+			$dbCategoryId = (int) $row['categoryid'];
+			$dbLastchanged = (int) $row['lastchanged'];
+			$dbRepeatAllActive = (int) $row['repeatallactive'];
 			$dbRepeatUntil = $row['repeatuntil'];
 			$dbRepeatFreq = (int) $row['repeatfreq'];
 			$bills[] = [
@@ -2172,21 +2172,21 @@ class ProjectService {
 		// ordered list of bill ids
 		$orderedBillIds = [];
 		while ($row = $req->fetch()){
-			$dbBillId = intval($row['id']);
+			$dbBillId = (int) $row['id'];
 			// if first time we see the bill : add it to bill list
 			if (!array_key_exists($dbBillId, $billDict)) {
-				$dbAmount = floatval($row['amount']);
+				$dbAmount = (float) $row['amount'];
 				$dbWhat = $row['what'];
 				$dbComment = $row['comment'];
 				$dbTimestamp = $row['timestamp'];
 				$dbDate = DateTime::createFromFormat('U', $dbTimestamp);
 				$dbRepeat = $row['repeat'];
-				$dbPayerId = intval($row['payerid']);
+				$dbPayerId = (int) $row['payerid'];
 				$dbPaymentMode = $row['paymentmode'];
-				$dbPaymentModeId = $row['paymentmodeid'];
-				$dbCategoryId = intval($row['categoryid']);
-				$dbLastchanged = intval($row['lastchanged']);
-				$dbRepeatAllActive = intval($row['repeatallactive']);
+				$dbPaymentModeId = (int) $row['paymentmodeid'];
+				$dbCategoryId = (int) $row['categoryid'];
+				$dbLastchanged = (int) $row['lastchanged'];
+				$dbRepeatAllActive = (int) $row['repeatallactive'];
 				$dbRepeatUntil = $row['repeatuntil'];
 				$dbRepeatFreq = (int) $row['repeatfreq'];
 				$billDict[$dbBillId] = [

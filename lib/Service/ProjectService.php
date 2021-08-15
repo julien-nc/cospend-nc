@@ -3649,12 +3649,12 @@ class ProjectService {
 			$qb->executeStatement();
 			$qb->resetQueryParts();
 
-			// then get rid of this category in bills
+			// then get rid of this pm in bills
 			$qb = $this->db->getQueryBuilder();
 			$qb->update('cospend_bills');
 			$qb->set('paymentmodeid', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT));
 			$qb->where(
-				$qb->expr()->eq('categoryid', $qb->createNamedParameter($pmid, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($pmid, IQueryBuilder::PARAM_INT))
 			)
 				->andWhere(
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))

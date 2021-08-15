@@ -184,6 +184,7 @@
 						:options="formattedPaymentModes"
 						:user-select="false"
 						:internal-search="true"
+						@search-change="pmQueryChanged"
 						@input="paymentModeSelected" />
 				</div>
 				<div class="bill-category">
@@ -614,6 +615,7 @@ export default {
 			ignoreWeights: false,
 			showDatePicker: true,
 			categoryQuery: '',
+			pmQuery: '',
 		}
 	},
 
@@ -652,8 +654,6 @@ export default {
 				name: t('cospend', 'None'),
 				id: 0,
 			}]
-			console.debug('this.sortedPaymentModes')
-			console.debug(this.sortedPaymentModes)
 			pmItems.push(...this.sortedPaymentModes.map((pm) => {
 				return {
 					name: pm.icon + ' ' + pm.name,
@@ -666,16 +666,13 @@ export default {
 					id: pm.id,
 				}
 			}))
-			// TODO implement add pm from bill form
-			/*
-			if (this.pmQuery && !this.sortedCategories.find((c) => { return strcmp(c.name, this.pmQuery) === 0 })) {
+			if (this.pmQuery && !this.sortedPaymentModes.find((pm) => { return strcmp(pm.name, this.pmQuery) === 0 })) {
 				pmItems.push({
-					isNewpm: true,
-					name: '➕ ' + t('cospend', 'Add pm "{name}"', { name: this.pmQuery }),
-					id: -1,
+					isNewPm: true,
+					name: '➕ ' + t('cospend', 'Add payment mode "{name}"', { name: this.pmQuery }),
+					id: -999,
 				})
 			}
-			*/
 			return pmItems
 		},
 		selectedCategoryItem() {
@@ -973,10 +970,37 @@ export default {
 			this.onBillEdited(null, false)
 		},
 		paymentModeSelected(selected) {
-			console.debug('selected')
-			console.debug(selected)
-			this.myBill.paymentmodeid = selected.id
-			this.onBillEdited(null, false)
+			if (!selected.isNewPm) {
+				this.myBill.paymentmodeid = selected.id
+				this.onBillEdited(null, false)
+			} else {
+				// add a pm
+				const name = this.pmQuery
+				const icon = '🏷'
+				const color = '#000000'
+				const order = this.sortedPaymentModes.length
+				network.addPaymentMode(this.project.id, name, icon, color, order).then((response) => {
+					const newPmId = response.data
+					this.$set(cospend.projects[this.projectId].paymentmodes, newPmId, {
+						name,
+						icon,
+						color,
+						id: newPmId,
+					})
+					this.myBill.paymentmodeid = newPmId
+					this.onBillEdited(null, false)
+				}).catch((error) => {
+					showError(
+						t('cospend', 'Failed to add payment mode')
+						+ ': ' + error.response?.request?.responseText
+					)
+					console.error(error)
+				})
+			}
+			this.pmQuery = ''
+		},
+		pmQueryChanged(query) {
+			this.pmQuery = query
 		},
 		categoryQueryChanged(query) {
 			this.categoryQuery = query

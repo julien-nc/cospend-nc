@@ -216,18 +216,13 @@ export default {
 ::v-deep .icon-tab-currencies {
 	background-color: var(--color-main-text);
 	padding: 0 !important;
-	mask: url('./../../img/currency.svg') no-repeat;
+	mask: url('../../img/currency.svg') no-repeat;
 	mask-size: 18px 18px;
 	mask-position: center 7px;
-	-webkit-mask: url('./../../img/currency.svg') no-repeat;
+	-webkit-mask: url('../../img/currency.svg') no-repeat;
 	-webkit-mask-size: 18px 18px;
 	-webkit-mask-position: center 0;
 	min-width: 44px !important;
 	min-height: 18px !important;
-}
-
-::v-deep .icon-activity {
-	background-image: var(--icon-activity-activity-dark-000);
-	background-size: 20px;
 }
 </style>

@@ -247,3 +247,12 @@ a.billitem .app-content-list-item-icon {
 	min-height: 0 !important;
 	max-height: 0 !important;
 }
+
+.icon-activity {
+	background-image: url('../img/activity-dark.svg');
+	background-size: 20px;
+}
+
+body.theme--dark .icon-activity {
+	background-image: url('../img/activity.svg');
+}

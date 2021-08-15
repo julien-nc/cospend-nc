@@ -63,7 +63,7 @@
 				<a :class="{ icon: true, 'icon-category-app-bundles': (type === 'category'), 'icon-tag': (type !== 'category') }" />{{ listLabel }}
 			</label>
 			<br>
-			<label v-if="elements && editionAccess" class="hint">
+			<label v-if="elements && editionAccess && sortOrderValue === constants.SORT_ORDER.MANUAL" class="hint">
 				<span class="icon icon-info" />{{ dragText }}
 			</label>
 			<div v-if="elements && editionAccess && sortOrderValue === constants.SORT_ORDER.MANUAL"
@@ -363,7 +363,8 @@ export default {
 
 .addElementOk {
 	margin-top: 0px;
-
+	width: 40px;
+	height: 40px;
 	border-radius: var(--border-radius-pill);
 	opacity: .5;
 

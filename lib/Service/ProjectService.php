@@ -2137,7 +2137,7 @@ class ProjectService {
 			$qb->andWhere(
 				$qb->expr()->eq('paymentmode', $qb->createNamedParameter($paymentMode, IQueryBuilder::PARAM_STR))
 			);
-		} elseif (!is_null($paymentModeId)) {
+		} elseif (!is_null($paymentModeId) && $paymentModeId !== 0) {
 			$qb->andWhere(
 				$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($paymentModeId, IQueryBuilder::PARAM_INT))
 			);
@@ -4838,13 +4838,17 @@ class ProjectService {
 	 * @param string $userId
 	 * @param int|null $tsMin
 	 * @param int|null $tsMax
-	 * @param string|null $paymentMode
+	 * @param int|null $paymentModeId
 	 * @param int|null $category
 	 * @param float|null $amountMin
 	 * @param float|null $amountMax
 	 * @param bool $showDisabled
 	 * @param int|null $currencyId
 	 * @return array
+	 * @throws \OCP\DB\Exception
+	 * @throws \OCP\Files\NotFoundException
+	 * @throws \OCP\Files\NotPermittedException
+	 * @throws \OC\User\NoUserException
 	 */
 	public function exportCsvStatistics(string $projectid, string $userId, ?int $tsMin = null, ?int $tsMax = null,
 										?int $paymentModeId = null, ?int $category = null,

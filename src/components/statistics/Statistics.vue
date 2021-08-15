@@ -29,13 +29,18 @@
 			<select id="payment-mode-stats"
 				ref="paymentModeFilter"
 				@change="getStats">
-				<option value="n"
+				<option value="0"
 					:selected="true">
 					{{ t('cospend', 'All') }}
 				</option>
-				<option v-for="(pm, id) in paymentModes"
-					:key="id"
-					:value="id">
+				<option v-for="pm in sortedPaymentModes"
+					:key="pm.id"
+					:value="pm.id">
+					{{ pm.icon + ' ' + pm.name }}
+				</option>
+				<option v-for="(pm, pmid) in hardCodedPaymentModes"
+					:key="pmid"
+					:value="pmid">
 					{{ pm.icon + ' ' + pm.name }}
 				</option>
 			</select>
@@ -367,8 +372,7 @@ import moment from '@nextcloud/moment'
 import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
 import ColoredAvatar from '../ColoredAvatar'
 
-import { getCategory, getSmartMemberName, strcmp } from '../../utils'
-import { paymentModes } from '../../constants'
+import { getCategory, getPaymentMode, getSmartMemberName, strcmp } from '../../utils'
 import cospend from '../../state'
 import * as network from '../../network'
 import MemberMonthly from './MemberMonthly'
@@ -409,6 +413,34 @@ export default {
 		members() {
 			return cospend.members[this.projectId]
 		},
+		paymentmodes() {
+			return cospend.projects[this.projectId].paymentmodes
+		},
+		sortedPaymentModes() {
+			if ([
+				constants.SORT_ORDER.MANUAL,
+				constants.SORT_ORDER.MOST_USED,
+				constants.SORT_ORDER.MOST_RECENTLY_USED,
+			].includes(this.project.paymentmodesort)) {
+				return Object.values(this.paymentmodes).slice().sort((a, b) => {
+					return a.order === b.order
+						? strcmp(a.name, b.name)
+						: a.order > b.order
+							? 1
+							: a.order < b.order
+								? -1
+								: 0
+				})
+			} else if (this.project.paymentmodesort === constants.SORT_ORDER.ALPHA) {
+				return Object.values(this.paymentmodes).slice().sort((a, b) => {
+					return strcmp(a.name, b.name)
+				})
+			}
+			return []
+		},
+		hardCodedPaymentModes() {
+			return cospend.hardCodedPaymentModes
+		},
 		categories() {
 			return cospend.projects[this.projectId].categories
 		},
@@ -439,9 +471,6 @@ export default {
 		},
 		currencies() {
 			return cospend.projects[this.projectId].currencies
-		},
-		paymentModes() {
-			return cospend.paymentModes
 		},
 		membersPaidForData() {
 			const rows = []
@@ -484,11 +513,8 @@ export default {
 			return sortedCategoryIds
 		},
 		monthlyCategoryStats() {
-			const data = []
-			let elem
-
-			this.sortedMonthlyCategoryIds.forEach((catid) => {
-				elem = {
+			return this.sortedMonthlyCategoryIds.map((catid) => {
+				const elem = {
 					id: catid,
 					name: this.getCategoryNameIcon(catid),
 					color: this.myGetCategory(catid).color,
@@ -496,25 +522,31 @@ export default {
 				for (const month in this.stats.categoryMonthlyStats[catid]) {
 					elem[month] = this.stats.categoryMonthlyStats[catid][month]
 				}
-				data.push(elem)
+				return elem
 			})
-			return data
+		},
+		sortedMonthlyPaymentModeIds() {
+			const sortedPaymentModeIds = this.sortedPaymentModes.filter((pm) => {
+				return this.stats.paymentModeMonthlyStats[pm.id]
+			}).map(pm => pm.id)
+			const monthlyPmIds = Object.keys(this.stats.paymentModeMonthlyStats).map(id => parseInt(id))
+			const diff = [...monthlyPmIds].filter(pmid => !sortedPaymentModeIds.includes(pmid))
+			sortedPaymentModeIds.push(...diff)
+			return sortedPaymentModeIds
 		},
 		monthlyPaymentModeStats() {
-			const data = []
-			let elem
-			for (const pmId in this.stats.paymentModeMonthlyStats) {
-				elem = {
-					id: pmId,
-					name: this.getPaymentModeNameIcon(pmId),
-					color: this.myGetPaymentMode(pmId).color,
+			return this.sortedMonthlyPaymentModeIds.map((pmid) => {
+				console.debug(this.myGetPaymentMode(pmid))
+				const elem = {
+					id: pmid,
+					name: this.getPaymentModeNameIcon(pmid),
+					color: this.myGetPaymentMode(pmid).color,
 				}
-				for (const month in this.stats.paymentModeMonthlyStats[pmId]) {
-					elem[month] = this.stats.paymentModeMonthlyStats[pmId][month]
+				for (const month in this.stats.paymentModeMonthlyStats[pmid]) {
+					elem[month] = this.stats.paymentModeMonthlyStats[pmid][month]
 				}
-				data.push(elem)
-			}
-			return data
+				return elem
+			})
 		},
 		baseLineChartOptions() {
 			return {
@@ -592,10 +624,11 @@ export default {
 		},
 		monthlyPaymentModeChartData() {
 			const paymentModeDatasets = []
-			let paymentMode
+			let pm
 			// let index = 0
-			for (const pmId in this.stats.paymentModeMonthlyStats) {
-				paymentMode = this.myGetPaymentMode(pmId)
+
+			this.sortedMonthlyPaymentModeIds.forEach((pmId) => {
+				pm = this.myGetPaymentMode(pmId)
 
 				// Build time series:
 				const paid = []
@@ -609,16 +642,16 @@ export default {
 
 				const dataset = {
 					id: pmId,
-					label: paymentMode.icon + ' ' + paymentMode.name,
+					label: pm.icon + ' ' + pm.name,
 					// FIXME hacky way to change alpha channel:
-					backgroundColor: paymentMode.color + '4D',
-					pointBackgroundColor: paymentMode.color,
-					borderColor: paymentMode.color,
-					pointHighlightStroke: paymentMode.color,
+					backgroundColor: pm.color + '4D',
+					pointBackgroundColor: pm.color,
+					borderColor: pm.color,
+					pointHighlightStroke: pm.color,
 					// lineTension: 0.2,
 					pointRadius: 0,
 					data: paid,
-					hidden: pmId === 'n',
+					hidden: parseInt(pmId) === 0,
 				}
 				/*
 				if (index === 0) {
@@ -627,7 +660,7 @@ export default {
 				index++
 				*/
 				paymentModeDatasets.push(dataset)
-			}
+			})
 			return {
 				labels: this.stats.realMonths,
 				datasets: paymentModeDatasets,
@@ -697,6 +730,15 @@ export default {
 				},
 			}
 		},
+		sortedPaymentModeStatsIds() {
+			const sortedPaymentModeIds = this.sortedPaymentModes.filter((pm) => {
+				return this.stats.paymentModeStats[pm.id]
+			}).map(pm => pm.id)
+			const pmIds = Object.keys(this.stats.paymentModeStats).map(id => parseInt(id))
+			const diff = [...pmIds].filter(pmid => !sortedPaymentModeIds.includes(pmid))
+			sortedPaymentModeIds.push(...diff)
+			return sortedPaymentModeIds
+		},
 		paymentModePieData() {
 			const paymentModeData = {
 				datasets: [{
@@ -706,14 +748,14 @@ export default {
 				labels: [],
 			}
 			let paid, paymentMode
-			for (const pmId in this.stats.paymentModeStats) {
+			this.sortedPaymentModeStatsIds.forEach((pmId) => {
 				paid = this.stats.paymentModeStats[pmId].toFixed(2)
 				paymentMode = this.myGetPaymentMode(pmId)
 
 				paymentModeData.datasets[0].data.push(paid)
 				paymentModeData.datasets[0].backgroundColor.push(paymentMode.color)
 				paymentModeData.labels.push(paymentMode.icon + ' ' + paymentMode.name)
-			}
+			})
 			return paymentModeData
 		},
 		paymentModePieOptions() {
@@ -798,11 +840,7 @@ export default {
 
 	methods: {
 		myGetPaymentMode(pmId) {
-			return paymentModes[pmId] ?? {
-				name: t('cospend', 'None'),
-				icon: '',
-				color: 'black',
-			}
+			return getPaymentMode(this.projectId, pmId)
 		},
 		getPaymentModeNameIcon(pmId) {
 			const paymentMode = this.myGetPaymentMode(pmId)
@@ -860,7 +898,7 @@ export default {
 			const dateMax = this.$refs.dateMaxFilter.value
 			const tsMin = (dateMin !== '') ? moment(dateMin).unix() : null
 			const tsMax = (dateMax !== '') ? moment(dateMax).unix() + (24 * 60 * 60) - 1 : null
-			const paymentMode = this.$refs.paymentModeFilter.value
+			const paymentModeId = this.$refs.paymentModeFilter.value
 			const category = this.$refs.categoryFilter.value
 			const amountMin = this.$refs.amountMinFilter.value || null
 			const amountMax = this.$refs.amountMaxFilter.value || null
@@ -869,7 +907,7 @@ export default {
 			const req = {
 				tsMin,
 				tsMax,
-				paymentMode,
+				paymentModeId,
 				category,
 				amountMin,
 				amountMax,
@@ -879,7 +917,7 @@ export default {
 			const isFiltered = (
 				   (dateMin !== null && dateMin !== '')
 				|| (dateMax !== null && dateMax !== '')
-				|| (paymentMode !== null && paymentMode !== 'n')
+				|| (paymentModeId !== null && parseInt(paymentModeId) !== 0)
 				|| (category !== null && parseInt(category) !== 0)
 				|| (amountMin !== null && amountMin !== '')
 				|| (amountMax !== null && amountMax !== '')
@@ -899,7 +937,7 @@ export default {
 			const dateMax = this.$refs.dateMaxFilter.value
 			const tsMin = (dateMin !== '') ? moment(dateMin).unix() : null
 			const tsMax = (dateMax !== '') ? moment(dateMax).unix() + (24 * 60 * 60) - 1 : null
-			const paymentMode = this.$refs.paymentModeFilter.value
+			const paymentModeId = this.$refs.paymentModeFilter.value
 			const category = this.$refs.categoryFilter.value
 			const amountMin = this.$refs.amountMinFilter.value
 			const amountMax = this.$refs.amountMaxFilter.value
@@ -908,7 +946,7 @@ export default {
 			const req = {
 				tsMin,
 				tsMax,
-				paymentMode,
+				paymentModeId,
 				category,
 				amountMin,
 				amountMax,

@@ -173,13 +173,11 @@ export function editProject(project, password) {
 		currencyname: project.currencyname,
 		deletion_disabled: project.deletion_disabled,
 		categorysort: project.categorysort,
+		paymentmodesort: project.paymentmodesort,
 	}
-	let url
-	if (!cospend.pageIsPublic) {
-		url = generateUrl('/apps/cospend/projects/' + projectid)
-	} else {
-		url = generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password)
-	}
+	const url = cospend.pageIsPublic
+		? generateUrl('/apps/cospend/api/projects/' + cospend.projectid + '/' + cospend.password)
+		: generateUrl('/apps/cospend/projects/' + projectid)
 	return axios.put(url, req)
 }
 

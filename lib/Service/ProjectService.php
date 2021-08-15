@@ -575,7 +575,7 @@ class ProjectService {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('id', 'password', 'name', 'email', 'userid', 'lastchanged', 'guestaccesslevel',
-					'autoexport', 'currencyname', 'deletiondisabled', 'categorysort')
+					'autoexport', 'currencyname', 'deletiondisabled', 'categorysort', 'paymentmodesort')
 		   ->from('cospend_projects', 'p')
 		   ->where(
 			   $qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -594,6 +594,7 @@ class ProjectService {
 			$dbCurrencyName = $row['currencyname'];
 			$dbDeletionDisabled = intval($row['deletiondisabled']) === 1;
 			$dbCategorySort = $row['categorysort'];
+			$dbPaymentModeSort = $row['paymentmodesort'];
 			break;
 		}
 		$req->closeCursor();
@@ -638,6 +639,7 @@ class ProjectService {
 				'paymentmodes' => $paymentModes,
 				'deletion_disabled' => $dbDeletionDisabled,
 				'categorysort' => $dbCategorySort,
+				'paymentmodesort' => $dbPaymentModeSort,
 			];
 		}
 
@@ -1767,11 +1769,13 @@ class ProjectService {
 	 * @param string|null $currencyname
 	 * @param bool|null $deletion_disabled
 	 * @param string|null $categorysort
+	 * @param string|null $paymentmodesort
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
 	public function editProject(string $projectid, string $name, ?string $contact_email = null, ?string $password = null,
 								?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
-								?string $categorysort = null): array {
+								?string $categorysort = null, ?string $paymentmodesort = null): array {
 		if ($name === null || $name === '') {
 			return ['name' => [$this->trans->t('Name field is required')]];
 		}
@@ -1795,6 +1799,9 @@ class ProjectService {
 		}
 		if ($categorysort !== null && $categorysort !== '') {
 			$qb->set('categorysort', $qb->createNamedParameter($categorysort, IQueryBuilder::PARAM_STR));
+		}
+		if ($paymentmodesort !== null && $paymentmodesort !== '') {
+			$qb->set('paymentmodesort', $qb->createNamedParameter($paymentmodesort, IQueryBuilder::PARAM_STR));
 		}
 		if ($deletion_disabled !== null) {
 			$qb->set('deletiondisabled', $qb->createNamedParameter($deletion_disabled ? 1 : 0, IQueryBuilder::PARAM_INT));
@@ -2591,8 +2598,7 @@ class ProjectService {
 			$dbTable = 'cospend_project_categories';
 			$alias = 'cat';
 		} else {
-			// TODO add a paymentmodesort field in project table
-			$sortOrderField = 'categorysort';
+			$sortOrderField = 'paymentmodesort';
 			$billTableField = 'paymentmodeid';
 			$dbTable = 'cospend_project_paymentmodes';
 			$alias = 'pm';

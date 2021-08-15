@@ -17,7 +17,7 @@ use OCP\IL10N;
 /**
  * Auto-generated migration step: Please modify to your needs!
  */
-class Version010314Date20210814170534 extends SimpleMigrationStep {
+class Version010314Date20210815170535 extends SimpleMigrationStep {
 
 	/** @var IDBConnection */
 	private $connection;
@@ -83,11 +83,22 @@ class Version010314Date20210814170534 extends SimpleMigrationStep {
 		}
 
 		$table = $schema->getTable('cospend_bills');
-		$table->addColumn('paymentmodeid', Types::INTEGER, [
-			'notnull' => true,
-			'length' => 4,
-			'default' => 0,
-		]);
+		if (!$table->hasColumn('paymentmodeid')) {
+			$table->addColumn('paymentmodeid', Types::INTEGER, [
+				'notnull' => true,
+				'length' => 4,
+				'default' => 0,
+			]);
+		}
+
+		$table = $schema->getTable('cospend_projects');
+		if (!$table->hasColumn('paymentmodesort')) {
+			$table->addColumn('paymentmodesort', Types::STRING, [
+				'notnull' => true,
+				'length' => 1,
+				'default' => 'a',
+			]);
+		}
 
 		return $schema;
 	}

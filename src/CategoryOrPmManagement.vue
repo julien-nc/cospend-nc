@@ -166,8 +166,7 @@ export default {
 		sortOrderValue() {
 			return this.type === 'category'
 				? this.project.categorysort || constants.SORT_ORDER.MANUAL
-				// TODO use specific sort order for pm, not cat one
-				: this.project.categorysort || constants.SORT_ORDER.MANUAL
+				: this.project.paymentmodesort || constants.SORT_ORDER.MANUAL
 		},
 		elements() {
 			return this.type === 'category'
@@ -344,8 +343,7 @@ export default {
 			if (this.type === 'category') {
 				cospend.projects[this.projectId].categorysort = e.target.value
 			} else {
-				// TODO u know what
-				cospend.projects[this.projectId].categorysort = e.target.value
+				cospend.projects[this.projectId].paymentmodesort = e.target.value
 			}
 			this.$emit('project-edited', this.projectId)
 		},

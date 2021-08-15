@@ -214,7 +214,7 @@ export default {
 				constants.SORT_ORDER.MANUAL,
 				constants.SORT_ORDER.MOST_USED,
 				constants.SORT_ORDER.MOST_RECENTLY_USED,
-			].includes(this.project.categorysort)
+			].includes(this.project.paymentmodesort)
 				? allPaymentModes.sort((a, b) => {
 					return a.order === b.order
 						? strcmp(a.name, b.name)
@@ -224,7 +224,7 @@ export default {
 								? -1
 								: 0
 				})
-				: this.project.categorysort === constants.SORT_ORDER.ALPHA
+				: this.project.paymentmodesort === constants.SORT_ORDER.ALPHA
 					? allPaymentModes.sort((a, b) => {
 						return strcmp(a.name, b.name)
 					})

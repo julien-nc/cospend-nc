@@ -25,6 +25,7 @@ class Project extends Entity {
 	protected $guestaccesslevel;
 	protected $deletiondisabled;
 	protected $categorysort;
+	protected $paymentmodesort;
 	protected $currencyname;
 
 	public function __construct() {
@@ -38,6 +39,7 @@ class Project extends Entity {
 		$this->addType('guestaccesslevel', 'integer');
 		$this->addType('deletiondisabled', 'integer');
 		$this->addType('categorysort', 'string');
+		$this->addType('paymentmodesort', 'string');
 		$this->addType('currencyname', 'string');
 	}
 }

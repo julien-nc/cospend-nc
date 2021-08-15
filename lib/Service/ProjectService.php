@@ -1496,7 +1496,7 @@ class ProjectService {
 			$billTitle = $memberIdToName[$fromId].' → '.$memberIdToName[$toId];
 			$addBillResult = $this->addBill(
 				$projectid, null, $billTitle, $fromId, $toId, $amount,
-				'n', 'n', Application::CAT_REIMBURSEMENT,
+				'n', 'n', 0, Application::CAT_REIMBURSEMENT,
 				0, null, $ts
 			);
 			if (!isset($addBillResult['inserted_id'])) {
@@ -5401,7 +5401,7 @@ class ProjectService {
 							$catId = $catNameToId[$bill['category_name']];
 						}
 						$addBillResult = $this->addBill($projectid, null, $bill['what'], $payerId, $owerIdsStr, $bill['amount'], 'n',
-														null, $catId, 0, null, $bill['timestamp']);
+														null, 0, $catId, 0, null, $bill['timestamp']);
 						if (!isset($addBillResult['inserted_id'])) {
 							$this->deleteProject($projectid);
 							return ['message' => $this->trans->t('Error when adding bill %1$s', [$bill['what']])];

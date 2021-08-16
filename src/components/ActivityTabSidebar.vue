@@ -68,7 +68,12 @@ export default {
 			if (since) {
 				params.append('since', since)
 			}
+			const requestProjectId = this.projectId
 			axios.get(generateOcsUrl('apps/activity/api/v2/activity') + '/cospend' + '?' + params).then((response) => {
+				if (this.projectId !== requestProjectId) {
+					console.debug('Stopping activity request processing because project ID has changed during a request')
+					return
+				}
 				const allNewActivities = response.data.ocs.data
 				const newFilteredActivities = this.filter(response.data.ocs.data)
 				if (state) {
@@ -93,9 +98,10 @@ export default {
 					this.getActivity(newSince, state)
 				}
 			}).catch((error) => {
-				console.error(error)
 				if (state && error.response?.status === 304) {
 					state.complete()
+				} else if (error.response?.status !== 304) {
+					console.error(error)
 				}
 			})
 		},

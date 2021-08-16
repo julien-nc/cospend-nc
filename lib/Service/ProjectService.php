@@ -1175,10 +1175,10 @@ class ProjectService {
 			}
 		}
 		// payment mode
-		if (!is_null($paymentmode)) {
-			$paymentmodeid = Application::PAYMENT_MODE_ID_CONVERSION[$paymentmode] ?? 0;
-		} elseif (!is_null($paymentmodeid)) {
+		if (!is_null($paymentmodeid)) {
 			$paymentmode = Application::PAYMENT_MODE_ID_CONVERSION_REVERSE[$paymentmodeid] ?? 'n';
+		} elseif (!is_null($paymentmode)) {
+			$paymentmodeid = Application::PAYMENT_MODE_ID_CONVERSION[$paymentmode] ?? 0;
 		}
 
 		// last modification timestamp is now
@@ -3230,14 +3230,14 @@ class ProjectService {
 		if ($repeatallactive !== null) {
 			$qb->set('repeatallactive', $qb->createNamedParameter($repeatallactive, IQueryBuilder::PARAM_INT));
 		}
-		if ($paymentmode !== null) {
-			$qb->set('paymentmode', $qb->createNamedParameter($paymentmode, IQueryBuilder::PARAM_STR));
-			// set new pm ID from old char
-			$qb->set('paymentmodeid', $qb->createNamedParameter(Application::PAYMENT_MODE_ID_CONVERSION[$paymentmode] ?? 0, IQueryBuilder::PARAM_INT));
-		} elseif ($paymentmodeid !== null) {
+		if ($paymentmodeid !== null) {
 			$qb->set('paymentmodeid', $qb->createNamedParameter($paymentmodeid, IQueryBuilder::PARAM_INT));
 			// set old pm if it's a hardcoded one, otherwise -> n
 			$qb->set('paymentmode', $qb->createNamedParameter(Application::PAYMENT_MODE_ID_CONVERSION_REVERSE[$paymentmodeid] ?? 'n', IQueryBuilder::PARAM_STR));
+		} elseif ($paymentmode !== null) {
+			$qb->set('paymentmode', $qb->createNamedParameter($paymentmode, IQueryBuilder::PARAM_STR));
+			// set new pm ID from old char
+			$qb->set('paymentmodeid', $qb->createNamedParameter(Application::PAYMENT_MODE_ID_CONVERSION[$paymentmode] ?? 0, IQueryBuilder::PARAM_INT));
 		}
 		if ($categoryid !== null) {
 			$qb->set('categoryid', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT));

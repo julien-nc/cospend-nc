@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-07-30 15:33+0200\n"
-"PO-Revision-Date: 2021-07-30 13:34\n"
+"PO-Revision-Date: 2021-08-16 12:55\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -225,7 +225,7 @@ msgstr "Projekt nicht gefunden"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:873
 msgid "Bad password or share link"
-msgstr ""
+msgstr "Falsches Passwort oder Link"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1807
 msgid "You are not allowed to give such shared access level"
@@ -233,7 +233,7 @@ msgstr "Du bist nicht berechtigt, einen solchen Freigabe-Zugriff zu vergeben"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1830
 msgid "You are not allowed to edit this shared access"
-msgstr ""
+msgstr "Du bist nicht berechtigt, Änderungen an diesem geteilten Zugriff durchzuführen"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1850
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1864
@@ -350,7 +350,7 @@ msgstr "Sport"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:114
 msgid "Cospend project shared"
-msgstr ""
+msgstr "Cospend Projekt geteilt"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:115
 #, php-format
@@ -360,11 +360,11 @@ msgstr "Nutzer \"%s\" hat Cospend-Projekt \"%s\" mit dir geteilt."
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:125
 #, php-format
 msgid "{user} shared project %s with you"
-msgstr ""
+msgstr "{user} hat das Projekt %s mit dir geteilt"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:143
 msgid "Cospend project share removed"
-msgstr ""
+msgstr "Cospend Projektfreigabe entfernt"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:144
 #, php-format
@@ -374,12 +374,12 @@ msgstr "Nutzer \"%s\" teilt das Cospend-Projekt \"%s\" nicht mehr mit dir."
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:156
 #, php-format
 msgid "{user} stopped sharing project %s with you"
-msgstr ""
+msgstr "{user} hat die Freigabe des Projektes %s gestoppt"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Search/CospendSearchProvider.php:196
 #, php-format
 msgid "in %1$s"
-msgstr ""
+msgstr "in %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:192
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:206
@@ -791,7 +791,7 @@ msgstr "Wofür ist die Ausgabe?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:26
 msgid "Attach share link to personal file"
-msgstr ""
+msgstr "Öffentlichen Link an persönliche Datei anhängen"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:28
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:30
@@ -805,11 +805,11 @@ msgstr "Konvertiere in"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:31
 msgid "Who paid?"
-msgstr ""
+msgstr "Wer hat gezahlt?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:32
 msgid "Choose a member"
-msgstr ""
+msgstr "Mitglied auswählen"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:33
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:34
@@ -824,7 +824,7 @@ msgstr "Zahlungsmittel"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:36
 msgid "Choose a payment mode"
-msgstr ""
+msgstr "Wähle eine Zahlungsmethode"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:37
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:373
@@ -833,7 +833,7 @@ msgstr "Kategorie"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:38
 msgid "Choose a category"
-msgstr ""
+msgstr "Wähle eine Kategorie"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:39
 msgid "Comment"
@@ -881,7 +881,7 @@ msgstr "Jährlich"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:50
 msgid "Frequency"
-msgstr ""
+msgstr "Wiederholung"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:51
 msgid "Leave empty for maximum frequency"
@@ -1121,7 +1121,7 @@ msgstr "Löschen der Ausgabe nicht möglich"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:114
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:115
 msgid "Failed to save bills"
-msgstr ""
+msgstr "Speichern der Ausgabe nicht möglich"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:116
 msgid "Bills edited"
@@ -1174,11 +1174,11 @@ msgstr "Manuell"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:126
 msgid "Most used"
-msgstr ""
+msgstr "Meist verwendet"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:127
 msgid "Most recently used"
-msgstr ""
+msgstr "Zuletzt verwendet"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:128
 msgid "Add category"
@@ -1452,56 +1452,56 @@ msgstr "Stelle sicher, dass die \"echte\" Rückerstattung zwischen diesen 2 Mitg
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:208
 msgid "{user} have updated the bill {billName}"
-msgstr ""
+msgstr "{user} haben die Ausgabe {billName} aktualisiert"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:209
 msgid "{user} has updated the bill {billName}"
-msgstr ""
+msgstr "{user} hat die Ausgabe {billName} aktualisiert"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:210
 msgid "{user} have created a new bill {billName}"
-msgstr ""
+msgstr "{user} haben die Ausgabe {billName} erstellt"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:211
 msgid "{user} has created a new bill {billName}"
-msgstr ""
+msgstr "{user} hat die Ausgabe {billName} erstellt"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:212
 msgid "{user} have deleted the bill {billName}"
-msgstr ""
+msgstr "{user} haben die Ausgabe {billName} gelöscht"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:213
 msgid "{user} has deleted the bill {billName}"
-msgstr ""
+msgstr "{user} hat die Ausgabe {billName} gelöscht"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:214
 msgid "{user} have shared the project with {who}"
-msgstr ""
+msgstr "{user} haben das Projekt mit {who} geteilt"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:215
 msgid "{user} has shared the project with {who}"
-msgstr ""
+msgstr "{user} hat das Projekt mit {who} geteilt"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:216
 msgid "{user} have removed {who} from the project"
-msgstr ""
+msgstr "{user} haben {who} aus dem Projekt entfernt"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "{user} has removed {who} from the project"
-msgstr ""
+msgstr "{user} hat {who} aus dem Projekt entfernt"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:219
 msgid "you"
-msgstr ""
+msgstr "du"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:220
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:221
 msgid "No more activity"
-msgstr ""
+msgstr "Keine weiteren Aktivitäten"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:222
 msgid "Rename member"
-msgstr ""
+msgstr "Mitglied umbenennen"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:223
 msgid "Change color"
@@ -1580,7 +1580,7 @@ msgstr "Projektabrechnung"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:240
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:307
 msgid "Add a member"
-msgstr ""
+msgstr "Mitglied hinzufügen"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:241
 msgid "Everyone"
@@ -1618,15 +1618,15 @@ msgstr "Noch keine Projekte"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:257
 msgid "Cospend settings"
-msgstr ""
+msgstr "Cospend Einstellungen"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:258
 msgid "About Cospend"
-msgstr ""
+msgstr "Über Cospend"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:259
 msgid "Thanks for using Cospend"
-msgstr ""
+msgstr "Danke, dass du Cospend verwendest"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:260
 msgid "Bug/issue tracker"
@@ -1634,23 +1634,23 @@ msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:261
 msgid "Translation"
-msgstr ""
+msgstr "Übersetzung"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:262
 msgid "User documentation"
-msgstr ""
+msgstr "Benutzer-Dokumentation"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:263
 msgid "Admin documentation"
-msgstr ""
+msgstr "Admin-Dokumentation"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:264
 msgid "Developer documentation"
-msgstr ""
+msgstr "Entwickler-Dokumentation"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:265
 msgid "Import projects"
-msgstr ""
+msgstr "Projekte importieren"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:266
 msgid "Import csv project"
@@ -1662,31 +1662,31 @@ msgstr "SplitWise Projekt importieren"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:268
 msgid "Guest access"
-msgstr ""
+msgstr "Gastzugriff"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:269
 msgid "Copy guest access link"
-msgstr ""
+msgstr "Link für Gastzugang kopieren"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:270
 msgid "Export location"
-msgstr ""
+msgstr "Ort exportieren"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:271
 msgid "Select export directory"
-msgstr ""
+msgstr "Wähle das Exportverzeichnis"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:272
 msgid "Sort criterias"
-msgstr ""
+msgstr "Sortierkriterien"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:273
 msgid "How projects are sorted in navigation sidebar"
-msgstr ""
+msgstr "Wie Projekte in der Navigationsleiste sortiert werden"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:274
 msgid "Projects order"
-msgstr ""
+msgstr "Projektreihenfolge"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:276
 msgid "Last activity"
@@ -1694,7 +1694,7 @@ msgstr "Letzte Aktivität"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:277
 msgid "How members are sorted"
-msgstr ""
+msgstr "Wie Mitglieder sortiert werden"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:278
 msgid "Members order"

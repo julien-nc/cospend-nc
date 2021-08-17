@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ## 1.3.13 – 2021-08-09
+### Added
+- category and payment mode creation directly in bill form multiselect
+- custom payment modes
+  [#69](https://github.com/eneiluj/cospend-nc/issues/69) @AllesMeins
+
+### Changed
+- set current time as default to new bills
+  [#73](https://github.com/eneiluj/cospend-nc/issues/73) @TtuxX
+- allow bill creation with only one member
+  [#62](https://github.com/eneiluj/cospend-nc/issues/62) @hellojaccc
+  [#18](https://github.com/eneiluj/cospend-nc/issues/18) @xetyr
+
 ### Fixed
 - fix error when user ID is null in activity provider
   [#74](https://github.com/eneiluj/cospend-nc/issues/74) @arifer612

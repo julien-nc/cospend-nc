@@ -5080,28 +5080,28 @@ class ProjectService {
 							for ($c = 0; $c < $nbCol; $c++) {
 								$columns[$data[$c]] = $c;
 							}
-							if (array_key_exists('what', $columns) and
-								array_key_exists('amount', $columns) and
-								(array_key_exists('date', $columns) || array_key_exists('timestamp', $columns)) and
-								array_key_exists('payer_name', $columns) and
-								array_key_exists('payer_weight', $columns) and
-								array_key_exists('owers', $columns)
+							if (array_key_exists('what', $columns)
+								&& array_key_exists('amount', $columns)
+								&& (array_key_exists('date', $columns) || array_key_exists('timestamp', $columns))
+								&& array_key_exists('payer_name', $columns)
+								&& array_key_exists('payer_weight', $columns)
+								&& array_key_exists('owers', $columns)
 							) {
 								$currentSection = 'bills';
-							} elseif (array_key_exists('icon', $columns) and
-								array_key_exists('color', $columns) and
-								array_key_exists('paymentmodeid', $columns) and
-								array_key_exists('paymentmodename', $columns)
+							} elseif (array_key_exists('icon', $columns)
+								&& array_key_exists('color', $columns)
+								&& array_key_exists('paymentmodeid', $columns)
+								&& array_key_exists('paymentmodename', $columns)
 							) {
 								$currentSection = 'paymentmodes';
-							} elseif (array_key_exists('icon', $columns) and
-									 array_key_exists('color', $columns) and
-									 array_key_exists('categoryid', $columns) and
-									 array_key_exists('categoryname', $columns)
+							} elseif (array_key_exists('icon', $columns)
+									 && array_key_exists('color', $columns)
+									 && array_key_exists('categoryid', $columns)
+									 && array_key_exists('categoryname', $columns)
 							) {
 								$currentSection = 'categories';
-							} elseif (array_key_exists('exchange_rate', $columns) and
-									 array_key_exists('currencyname', $columns)
+							} elseif (array_key_exists('exchange_rate', $columns)
+									 && array_key_exists('currencyname', $columns)
 							) {
 								$currentSection = 'currencies';
 							} else {
@@ -5339,11 +5339,11 @@ class ProjectService {
 							for ($c=0; $c < $nbCol; $c++) {
 								$columns[$data[$c]] = $c;
 							}
-							if (!array_key_exists('Date', $columns) or
-								!array_key_exists('Description', $columns) or
-								!array_key_exists('Category', $columns) or
-								!array_key_exists('Cost', $columns) or
-								!array_key_exists('Currency', $columns)
+							if (!array_key_exists('Date', $columns)
+								|| !array_key_exists('Description', $columns)
+								|| !array_key_exists('Category', $columns)
+								|| !array_key_exists('Cost', $columns)
+								|| !array_key_exists('Currency', $columns)
 							) {
 								fclose($handle);
 								return ['message' => $this->trans->t('Malformed CSV, bad column names')];
@@ -5405,9 +5405,9 @@ class ProjectService {
 								'owers' => $owersList
 							];
 							// manage categories
-							if (array_key_exists('Category', $columns) and
-								$data[$columns['Category']] !== null and
-								$data[$columns['Category']] !== '') {
+							if (array_key_exists('Category', $columns)
+								&& $data[$columns['Category']] !== null
+								&& $data[$columns['Category']] !== '') {
 								$catName = $data[$columns['Category']];
 								if (!in_array($catName, $categoryNames)) {
 									$categoryNames[] = $catName;
@@ -5463,8 +5463,8 @@ class ProjectService {
 						$owerIdsStr = implode(',', $owerIds);
 						// category
 						$catId = null;
-						if (array_key_exists('category_name', $bill) and
-							array_key_exists($bill['category_name'], $catNameToId)) {
+						if (array_key_exists('category_name', $bill)
+							&& array_key_exists($bill['category_name'], $catNameToId)) {
 							$catId = $catNameToId[$bill['category_name']];
 						}
 						$addBillResult = $this->addBill($projectid, null, $bill['what'], $payerId, $owerIdsStr, $bill['amount'], 'n',

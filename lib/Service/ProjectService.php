@@ -5095,13 +5095,13 @@ class ProjectService {
 							) {
 								$currentSection = 'paymentmodes';
 							} elseif (array_key_exists('icon', $columns)
-									 && array_key_exists('color', $columns)
-									 && array_key_exists('categoryid', $columns)
-									 && array_key_exists('categoryname', $columns)
+								 && array_key_exists('color', $columns)
+								 && array_key_exists('categoryid', $columns)
+								 && array_key_exists('categoryname', $columns)
 							) {
 								$currentSection = 'categories';
 							} elseif (array_key_exists('exchange_rate', $columns)
-									 && array_key_exists('currencyname', $columns)
+								 && array_key_exists('currencyname', $columns)
 							) {
 								$currentSection = 'currencies';
 							} else {
@@ -5286,11 +5286,13 @@ class ProjectService {
 							$owerIds[] = $memberNameToId[$owerName];
 						}
 						$owerIdsStr = implode(',', $owerIds);
-						$addBillResult = $this->addBill($projectid, null, $bill['what'], $payerId,
-														$owerIdsStr, $bill['amount'], $bill['repeat'],
-														$bill['paymentmode'], $pmId,
-														$catId, $bill['repeatallactive'],
-														$bill['repeatuntil'], $bill['timestamp'], $bill['comment'], $bill['repeatfreq']);
+						$addBillResult = $this->addBill(
+							$projectid, null, $bill['what'], $payerId,
+							$owerIdsStr, $bill['amount'], $bill['repeat'],
+							$bill['paymentmode'], $pmId,
+							$catId, $bill['repeatallactive'],
+							$bill['repeatuntil'], $bill['timestamp'], $bill['comment'], $bill['repeatfreq']
+						);
 						if (!isset($addBillResult['inserted_id'])) {
 							$this->deleteProject($projectid);
 							return ['message' => $this->trans->t('Error when adding bill %1$s', [$bill['what']])];
@@ -5467,8 +5469,11 @@ class ProjectService {
 							&& array_key_exists($bill['category_name'], $catNameToId)) {
 							$catId = $catNameToId[$bill['category_name']];
 						}
-						$addBillResult = $this->addBill($projectid, null, $bill['what'], $payerId, $owerIdsStr, $bill['amount'], 'n',
-														null, 0, $catId, 0, null, $bill['timestamp']);
+						$addBillResult = $this->addBill(
+							$projectid, null, $bill['what'], $payerId, $owerIdsStr,
+							$bill['amount'], 'n',null, 0, $catId,
+							0, null, $bill['timestamp']
+						);
 						if (!isset($addBillResult['inserted_id'])) {
 							$this->deleteProject($projectid);
 							return ['message' => $this->trans->t('Error when adding bill %1$s', [$bill['what']])];

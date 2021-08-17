@@ -4997,7 +4997,31 @@ class ProjectService {
 			fwrite($handler, "\n");
 			fwrite($handler, "categoryname,categoryid,icon,color\n");
 			foreach ($categories as $id => $cat) {
-				fwrite($handler, '"'.$cat['name'].'",'.intval($id).',"'.$cat['icon'].'","'.$cat['color'].'"'."\n");
+				fwrite(
+					$handler,
+					'"' . $cat['name'] . '",' .
+						intval($id) . ',"' .
+						$cat['icon'] . '","' .
+						$cat['color'] . '"' .
+						"\n"
+				);
+			}
+		}
+
+		// write payment modes
+		$paymentModes = $projectInfo['paymentmodes'];
+		if (count($paymentModes) > 0) {
+			fwrite($handler, "\n");
+			fwrite($handler, "paymentmodename,paymentmodeid,icon,color\n");
+			foreach ($paymentModes as $id => $pm) {
+				fwrite(
+					$handler,
+					'"' . $pm['name'] . '",' .
+						intval($id) . ',"' .
+						$pm['icon'] . '","' .
+						$pm['color'] . '"' .
+						"\n"
+				);
 			}
 		}
 
@@ -5007,9 +5031,9 @@ class ProjectService {
 			fwrite($handler, "\n");
 			fwrite($handler, "currencyname,exchange_rate\n");
 			// main currency
-			fwrite($handler, '"'.$projectInfo['currencyname'].'",1'."\n");
+			fwrite($handler, '"' . $projectInfo['currencyname'] . '",1' . "\n");
 			foreach ($currencies as $cur) {
-				fwrite($handler, '"'.$cur['name'].'",'.floatval($cur['exchange_rate'])."\n");
+				fwrite($handler, '"' . $cur['name'] . '",' . floatval($cur['exchange_rate']) . "\n");
 			}
 		}
 
@@ -5040,6 +5064,8 @@ class ProjectService {
 					$mainCurrencyName = null;
 					$categories = [];
 					$categoryIdConv = [];
+					$paymentModes = [];
+					$paymentModeIdConv = [];
 					$previousLineEmpty = false;
 					$currentSection = null;
 					$row = 0;
@@ -5063,6 +5089,12 @@ class ProjectService {
 							) {
 								$currentSection = 'bills';
 							} elseif (array_key_exists('icon', $columns) and
+								array_key_exists('color', $columns) and
+								array_key_exists('paymentmodeid', $columns) and
+								array_key_exists('paymentmodename', $columns)
+							) {
+								$currentSection = 'paymentmodes';
+							} elseif (array_key_exists('icon', $columns) and
 									 array_key_exists('color', $columns) and
 									 array_key_exists('categoryid', $columns) and
 									 array_key_exists('categoryname', $columns)
@@ -5077,7 +5109,7 @@ class ProjectService {
 								return ['message' => $this->trans->t('Malformed CSV, bad column names at line %1$s', [$row + 1])];
 							}
 						} else {
-							// normal line : bill or category
+							// normal line: bill/category/payment mode/currency
 							$previousLineEmpty = false;
 							if ($currentSection === 'categories') {
 								$icon = $data[$columns['icon']];
@@ -5089,6 +5121,17 @@ class ProjectService {
 									'color' => $color,
 									'id' => $categoryid,
 									'name' => $categoryname,
+								];
+							} elseif ($currentSection === 'paymentmodes') {
+								$icon = $data[$columns['icon']];
+								$color = $data[$columns['color']];
+								$paymentmodeid = $data[$columns['paymentmodeid']];
+								$paymentmodename = $data[$columns['paymentmodename']];
+								$paymentModes[] = [
+									'icon' => $icon,
+									'color' => $color,
+									'id' => $paymentmodeid,
+									'name' => $paymentmodename,
 								];
 							} elseif ($currentSection === 'currencies') {
 								$name = $data[$columns['currencyname']];
@@ -5190,6 +5233,15 @@ class ProjectService {
 					if ($mainCurrencyName !== null) {
 						$this->editProject($projectid, $projectName, null, null, null, $mainCurrencyName);
 					}
+					// add payment modes
+					foreach ($paymentModes as $pm) {
+						$insertedPmId = $this->addPaymentMode($projectid, $pm['name'], $pm['icon'], $pm['color']);
+						if (!is_numeric($insertedPmId)) {
+							$this->deleteProject($projectid);
+							return ['message' => $this->trans->t('Error when adding payment mode %1$s', [$pm['name']])];
+						}
+						$paymentModeIdConv[$pm['id']] = $insertedPmId;
+					}
 					// add categories
 					foreach ($categories as $cat) {
 						$insertedCatId = $this->addCategory($projectid, $cat['name'], $cat['icon'], $cat['color']);
@@ -5223,6 +5275,11 @@ class ProjectService {
 						if (is_numeric($catId) && intval($catId) > 0) {
 							$catId = $categoryIdConv[$catId];
 						}
+						// manage payment mode id if this is a custom payment mode
+						$pmId = $bill['paymentmodeid'];
+						if (is_numeric($pmId) && intval($pmId) > 0) {
+							$pmId = $paymentModeIdConv[$pmId];
+						}
 						$payerId = $memberNameToId[$bill['payer_name']];
 						$owerIds = [];
 						foreach ($bill['owers'] as $owerName) {
@@ -5231,7 +5288,7 @@ class ProjectService {
 						$owerIdsStr = implode(',', $owerIds);
 						$addBillResult = $this->addBill($projectid, null, $bill['what'], $payerId,
 														$owerIdsStr, $bill['amount'], $bill['repeat'],
-														$bill['paymentmode'], $bill['paymentmodeid'],
+														$bill['paymentmode'], $pmId,
 														$catId, $bill['repeatallactive'],
 														$bill['repeatuntil'], $bill['timestamp'], $bill['comment'], $bill['repeatfreq']);
 						if (!isset($addBillResult['inserted_id'])) {

@@ -74,6 +74,30 @@ class Application extends App implements IBootstrap {
 		-5 => 'o',
 	];
 
+	public const HARDCODED_CATEGORIES = [
+		-11 => [
+			'icon' => '💰',
+		],
+	];
+
+	public const HARDCODED_PAYMENT_MODES = [
+		-1 => [
+			'icon' => '💳',
+		],
+		-2 => [
+			'icon' => '💵',
+		],
+		-3 => [
+			'icon' => '🎫',
+		],
+		-4 => [
+			'icon' => '⇄',
+		],
+		-5 => [
+			'icon' => '🌎',
+		],
+	];
+
 	/**
 	 * Constructor
 	 *

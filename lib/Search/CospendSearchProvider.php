@@ -159,7 +159,7 @@ class CospendSearchProvider implements IProvider {
 //			$projectName = $projectsById[$projectId]['name'];
 			return new CospendSearchResultEntry(
 				$thumbnailUrl,
-				$this->getMainText($bill),
+				$this->getMainText($bill, $projectsById[$projectId]),
 				$this->getSubline($bill, $projectsById[$projectId]),
 				$this->getDeepLinkToCospendApp($projectId),
 				'',
@@ -176,12 +176,36 @@ class CospendSearchProvider implements IProvider {
 
 	/**
 	 * @param array $bill
+	 * @param array $project
 	 * @return string
 	 */
-	protected function getMainText(array $bill): string {
-		$currency = $bill['currencyname'] ?? '💰';
+	protected function getMainText(array $bill, array $project): string {
+		$currency = $bill['currencyname'] ?? '';
+		$currency = $currency ? ' ' . $currency : '';
 		$what = $this->truncate($bill['what'], 24);
-		return $what. ' ('. $bill['amount'] . ' ' . $currency . ')';
+		$catPmChars = '';
+		if (isset($bill['categoryid'])
+			&& !is_null($bill['categoryid'])
+			&& $bill['categoryid'] !== 0
+		) {
+			if (isset($project['categories'][$bill['categoryid']])) {
+				$catPmChars .= $project['categories'][$bill['categoryid']]['icon'] . ' ';
+			} elseif (isset(Application::HARDCODED_CATEGORIES[$bill['categoryid']])) {
+				$catPmChars .= 	Application::HARDCODED_CATEGORIES[$bill['categoryid']]['icon'];
+			}
+		}
+		if (isset($bill['paymentmodeid'])
+			&& !is_null($bill['paymentmodeid'])
+			&& $bill['paymentmodeid'] !== 0
+		) {
+			if (isset($project['paymentmodes'][$bill['paymentmodeid']])) {
+				$catPmChars .= $project['paymentmodes'][$bill['paymentmodeid']]['icon'] . ' ';
+			} elseif (isset(Application::HARDCODED_PAYMENT_MODES[$bill['paymentmodeid']])) {
+				$catPmChars .= 	Application::HARDCODED_PAYMENT_MODES[$bill['paymentmodeid']]['icon'];
+			}
+		}
+		$amount = number_format($bill['amount'], 2);
+		return $what. ' ('. $amount . $currency . ') ' . $catPmChars;
 	}
 
 	/**

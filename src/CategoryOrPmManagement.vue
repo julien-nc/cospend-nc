@@ -92,7 +92,7 @@
 					@edit="onEditElement" />
 			</div>
 			<div v-else>
-				{{ t('cospend', 'No elements to display') }}
+				{{ t('cospend', 'Nothing to display') }}
 			</div>
 		</div>
 	</div>
@@ -219,7 +219,7 @@ export default {
 			const color = this.newColor
 			const order = this.elementList.length
 			if (name === null || name === '') {
-				showError(t('cospend', 'Name should not be empty.'))
+				showError(t('cospend', 'Name should not be empty'))
 				return
 			}
 			const func = this.type === 'category'
@@ -229,7 +229,7 @@ export default {
 				this.addElementSuccess(response.data, name, icon, color)
 			}).catch((error) => {
 				showError(
-					t('cospend', 'Failed to add element')
+					t('cospend', 'Failed to add {name}', { name })
 					+ ': ' + error.response?.request?.responseText
 				)
 			})
@@ -242,7 +242,7 @@ export default {
 				color,
 				id: response,
 			})
-			showSuccess(t('cospend', 'Element {n} added.', { n: name }))
+			showSuccess(t('cospend', '{name} was added', { name }))
 			this.$refs.newName.value = ''
 			this.newColor = '#000000'
 			this.newIcon = '🙂'
@@ -274,7 +274,7 @@ export default {
 		},
 		onEditElement(element, name, icon, color) {
 			if (name === null || name === '') {
-				showError(t('cospend', 'Name should not be empty.'))
+				showError(t('cospend', 'Name should not be empty'))
 				return
 			}
 			const backupElement = {

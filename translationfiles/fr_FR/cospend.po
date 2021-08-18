@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2021-08-18 15:25+0200\n"
-"PO-Revision-Date: 2021-08-18 13:26\n"
+"POT-Creation-Date: 2021-08-18 17:06+0200\n"
+"PO-Revision-Date: 2021-08-18 15:07\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -243,7 +243,7 @@ msgstr "Accès invité"
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1492
 #, php-format
 msgid "Share link (%s)"
-msgstr ""
+msgstr "Lien de partage (%s)"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1224
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1326
@@ -280,7 +280,7 @@ msgstr "Vous n'êtes pas autorisé à modifier le niveau d'accès des invités"
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2173
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2194
 msgid "You are not allowed to manage payment modes"
-msgstr ""
+msgstr "Vous n'êtes pas autorisé à gérer les modes de paiement"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2213
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2240
@@ -567,7 +567,7 @@ msgstr "Non trouvé"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3731
 msgid "This project has no such payment mode"
-msgstr ""
+msgstr "Ce projet n'a pas ce mode de paiement"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3734
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3910
@@ -577,7 +577,7 @@ msgstr "Valeurs de champs incorrectes"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3907
 msgid "This project has no such category"
-msgstr ""
+msgstr "Ce projet n'a pas cette catégorie"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4029
 msgid "This project have no such currency"
@@ -716,7 +716,7 @@ msgstr "Erreur à la création du projet, %1$s"
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5241
 #, php-format
 msgid "Error when adding payment mode %1$s"
-msgstr ""
+msgstr "Erreur lors de l'ajout du mode de paiement %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5250
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5445
@@ -866,11 +866,11 @@ msgstr "Appuyez sur Maj+Entrée pour valider"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:24
 msgid "Impossible to duplicate a bill with a disabled payer"
-msgstr ""
+msgstr "Impossible de dupliquer une facture avec un payeur désactivé"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:24
 msgid "Duplicate bill"
-msgstr ""
+msgstr "Dupliquer la facture"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:25
 msgid "What?"
@@ -924,7 +924,7 @@ msgstr "Catégorie"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:39
 msgid "Choose or add a category"
-msgstr ""
+msgstr "Choisir ou ajouter une catégorie"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:40
 msgid "Comment"
@@ -1062,11 +1062,11 @@ msgstr "Aucun"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:74
 msgid "Add payment mode \"{name}\""
-msgstr ""
+msgstr "Ajouter le mode de paiement \"{name}\""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:77
 msgid "Add category \"{name}\""
-msgstr ""
+msgstr "Ajouter la catégorie \"{name}\""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:78
 msgid "Bill : {what}"
@@ -1082,7 +1082,7 @@ msgstr "Créer les factures"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:80
 msgid "Failed to add payment mode"
-msgstr ""
+msgstr "Impossible d'ajouter le mode de paiement"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:81
 msgid "Failed to add category"
@@ -1294,7 +1294,7 @@ msgid "Icon"
 msgstr "Icône"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:134
-msgid "No elements to display"
+msgid "Nothing to display"
 msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:135
@@ -1303,7 +1303,7 @@ msgstr "Méthode de tri des catégories"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "Payment mode sort method"
-msgstr ""
+msgstr "Méthode de tri des modes de paiement"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:136
 msgid "Add category"
@@ -1311,7 +1311,7 @@ msgstr "Ajouter une catégorie"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:136
 msgid "Add payment mode"
-msgstr ""
+msgstr "Ajouter un mode de paiement"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:137
 msgid "Category name"
@@ -1319,7 +1319,7 @@ msgstr "Nom de la catégorie"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:137
 msgid "Payment mode name"
-msgstr ""
+msgstr "Nom du mode de paiement"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:138
 msgid "Add this category"
@@ -1327,7 +1327,7 @@ msgstr "Ajouter cette catégorie"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:138
 msgid "Add this payment mode"
-msgstr ""
+msgstr "Ajouter ce mode de paiement"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:139
 msgid "Category list"
@@ -1335,7 +1335,7 @@ msgstr "Liste des Catégories"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:139
 msgid "Payment mode list"
-msgstr ""
+msgstr "Liste des modes de paiement"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:140
 msgid "Drag categories to set manual order"
@@ -1343,19 +1343,19 @@ msgstr "Faites glisser les catégories pour définir l'ordre manuel"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:140
 msgid "Drag payment modes to set manual order"
-msgstr ""
+msgstr "Faites glisser les modes de paiement pour définir l'ordre manuel"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:141
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:146
-msgid "Name should not be empty."
+msgid "Name should not be empty"
 msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:142
-msgid "Failed to add element"
+msgid "Failed to add {name}"
 msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:143
-msgid "Element {n} added."
+msgid "{name} was added"
 msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:144

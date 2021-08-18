@@ -12,6 +12,10 @@ OC.L10N.register(
     "Accommodation" : "Konaklama",
     "Transport" : "Ulaşım",
     "Sport" : "Spor",
+    "Credit card" : "Kredi kartı",
+    "Cash" : "Nakit",
+    "Check" : "Çek",
+    "Transfer" : "Havale",
     "Failed to create project" : "Proje oluşturalamadı",
     "Deleted project {id}" : "{id} projesi silindi",
     "Failed to delete project" : "Proje silinemedi",
@@ -42,10 +46,6 @@ OC.L10N.register(
     "Main project's currency" : "Ana proje dövizi",
     "Show disabled members" : "Devre dışı bırakılmış üyeleri göster",
     "Global stats" : "Genel veriler",
-    "Credit card" : "Kredi kartı",
-    "Cash" : "Nakit",
-    "Check" : "Çek",
-    "Transfer" : "Havale",
     "No category" : "Kategori yok"
 },
 "nplurals=2; plural=(n != 1);");

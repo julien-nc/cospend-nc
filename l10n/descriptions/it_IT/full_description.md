@@ -1,6 +1,6 @@
 # Nextcloud Cospend 💰
 
-Nextcloud Cospend è un budget manager condiviso/di gruppo. E' stato ispirato dal grande [IHateMoney](https://github.com/spiral-project/ihatemoney/).
+Nextcloud Cospend è un budget manager condiviso/di gruppo. É stato ispirato dal grande [IHateMoney](https://github.com/spiral-project/ihatemoney/).
 
 Puoi usarlo quando condividi una casa, quando vai in vacanza con gli amici, ogni volta che condividi i soldi con gli altri.
 
@@ -10,7 +10,7 @@ I membri del progetto sono indipendenti dagli utenti Nextcloud. I progetti sono 
 
 Il client per Android [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) è [disponibile su F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) e sul [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
-[PayForMe](https://github.com/mayflower/PayForMe) Client iOS attualmente in fase di sviluppo!
+[PayForMe](https://github.com/mayflower/PayForMe) é un client iOS attualmente in fase di sviluppo!
 
 ## Funzioni
 
@@ -28,7 +28,7 @@ Il client per Android [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) è [
 * 🔗 genera link/codice QR per importare facilmente progetti in MoneyBuster
 * 🗲 implementa le notifiche e il flusso di attività di Nextcloud
 
-This app is tested on Nextcloud 20+ with Firefox 57+ and Chromium.
+Questa applicazione é testata su Nextcloud 20+ con Firefox 57+ e Chromium.
 
 Questa app è in fase di sviluppo.
 
@@ -36,16 +36,16 @@ Questa app è in fase di sviluppo.
 
 ⚒ Scopri altri modi per aiutare nelle linee guida per [contributi](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
-## Documentation
+## Documentazione
 
-* [User documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
-* [Admin documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
-* [Developer documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
+* [Documentazione utente](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
+* [Documentazione admin](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
+* [Documentazione sviluppatori](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
 * [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
-* [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
+* [AUTORI](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## Problemi noti
 
-* it does not make you rich
+* Non ti rende ricco
 
-Any feedback will be appreciated.
+Ogni feedback é apprezzato.

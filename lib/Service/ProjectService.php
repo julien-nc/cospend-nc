@@ -2423,8 +2423,12 @@ class ProjectService {
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getProjectNames(string $userId): array {
-		$projectNames= [];
+	public function getProjectNames(?string $userId): array {
+		if (is_null($userId)) {
+			return [];
+		}
+
+		$projectNames = [];
 
 		$qb = $this->db->getQueryBuilder();
 

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-08-18 17:06+0200\n"
-"PO-Revision-Date: 2021-08-18 15:07\n"
+"PO-Revision-Date: 2021-08-19 15:04\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -1295,7 +1295,7 @@ msgstr "Icône"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:134
 msgid "Nothing to display"
-msgstr ""
+msgstr "Rien à afficher"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "Category sort method"
@@ -1348,15 +1348,15 @@ msgstr "Faites glisser les modes de paiement pour définir l'ordre manuel"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:141
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:146
 msgid "Name should not be empty"
-msgstr ""
+msgstr "Le nom ne doit pas être vide"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:142
 msgid "Failed to add {name}"
-msgstr ""
+msgstr "Impossible d'ajouter {name}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:143
 msgid "{name} was added"
-msgstr ""
+msgstr "{name} a été ajouté"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:144
 msgid "Failed to delete category"
@@ -1364,7 +1364,7 @@ msgstr "Impossible de supprimer la catégorie"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:145
 msgid "Failed to delete payment mode"
-msgstr ""
+msgstr "Impossible de supprimer le mode de paiement"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:147
 msgid "Failed to edit category"
@@ -1372,7 +1372,7 @@ msgstr "Impossible d'éditer la catégorie"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:148
 msgid "Order saved"
-msgstr ""
+msgstr "Ordre enregistré"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:149
 msgid "Main currency"
@@ -2039,7 +2039,7 @@ msgstr "Catégories"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:368
 msgid "Payment modes"
-msgstr ""
+msgstr "Modes de paiement"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:369
 msgid "Currencies"
@@ -2301,7 +2301,7 @@ msgstr "Pas de catégorie"
 
 #: /var/www/html/dev/server22/apps/cospend/src/utils.js:54
 msgid "No payment mode"
-msgstr ""
+msgstr "Aucun mode de paiement"
 
 #: /var/www/html/dev/server22/apps/cospend/templates/admin.php:9
 #: /var/www/html/dev/server22/apps/cospend/templates/admin.php:18

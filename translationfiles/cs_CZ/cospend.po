@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-08-18 17:06+0200\n"
-"PO-Revision-Date: 2021-08-20 20:48\n"
+"PO-Revision-Date: 2021-08-21 20:46\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -234,7 +234,7 @@ msgstr "Špatné heslo nebo odkaz pro sdílení"
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1489
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:276
 msgid "Guest access"
-msgstr ""
+msgstr "Přístup pro hosty"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1222
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1324
@@ -243,7 +243,7 @@ msgstr ""
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1492
 #, php-format
 msgid "Share link (%s)"
-msgstr ""
+msgstr "Odkaz pro sdílení (%s)"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1224
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1326
@@ -253,7 +253,7 @@ msgstr ""
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:330
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:332
 msgid "Share link"
-msgstr ""
+msgstr "Odkaz pro sdílení"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1870
 msgid "You are not allowed to give such shared access level"
@@ -280,7 +280,7 @@ msgstr "Nemáte oprávnění k upravování úrovně přístupu hosta"
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2173
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2194
 msgid "You are not allowed to manage payment modes"
-msgstr ""
+msgstr "Nemáte oprávnění ke správě režimů plateb"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2213
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2240
@@ -567,7 +567,7 @@ msgstr "Nenalezeno"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3731
 msgid "This project has no such payment mode"
-msgstr ""
+msgstr "Tento projekt nemá žádný takový režim platby"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3734
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3910
@@ -577,7 +577,7 @@ msgstr "Neplatné hodnoty v kolonce"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3907
 msgid "This project has no such category"
-msgstr ""
+msgstr "Tento projekt nemá žádnou takovou kategorii"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4029
 msgid "This project have no such currency"
@@ -716,7 +716,7 @@ msgstr "Chyba při vytváření projektu, %1$s"
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5241
 #, php-format
 msgid "Error when adding payment mode %1$s"
-msgstr ""
+msgstr "Chyba při přidávání režimu platby %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5250
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5445
@@ -868,11 +868,11 @@ msgstr "Ověříte stisknutím Shift+Enter"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:24
 msgid "Impossible to duplicate a bill with a disabled payer"
-msgstr ""
+msgstr "Není možné duplikovat účet s deaktivovaným plátcem"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:24
 msgid "Duplicate bill"
-msgstr ""
+msgstr "Duplikovat účet"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:25
 msgid "What?"
@@ -917,7 +917,7 @@ msgstr "Režim platby"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:37
 msgid "Choose a payment mode"
-msgstr ""
+msgstr "Vyberte režim platby"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:38
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:382
@@ -926,7 +926,7 @@ msgstr "Kategorie"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:39
 msgid "Choose or add a category"
-msgstr ""
+msgstr "Vyberte nebo přidejte kategorii"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:40
 msgid "Comment"
@@ -1064,11 +1064,11 @@ msgstr "Žádné"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:74
 msgid "Add payment mode \"{name}\""
-msgstr ""
+msgstr "Přidat režim platby „{name}“"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:77
 msgid "Add category \"{name}\""
-msgstr ""
+msgstr "Přidat kategorii „{name}“"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:78
 msgid "Bill : {what}"
@@ -1084,7 +1084,7 @@ msgstr "Vytvořit účty"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:80
 msgid "Failed to add payment mode"
-msgstr ""
+msgstr "Nepodařilo se přidat režim platby"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:81
 msgid "Failed to add category"
@@ -1147,7 +1147,7 @@ msgstr "Vyberte soubor"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:96
 msgid "Failed to generate share link to file"
-msgstr ""
+msgstr "Nepodařilo se vytvořit odkaz pro sdílení souboru"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:97
 msgid "This is just a currency converter. Bill amount can be entered in another currency and then converted to \"{maincur}\". Value is always stored in \"{maincur}\"."
@@ -1299,7 +1299,7 @@ msgstr "Ikona"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:134
 msgid "Nothing to display"
-msgstr ""
+msgstr "Nic k zobrazení"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "Category sort method"
@@ -1307,7 +1307,7 @@ msgstr "Metoda řazení kategorií"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "Payment mode sort method"
-msgstr ""
+msgstr "Způsob řazení režimů plateb"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:136
 msgid "Add category"
@@ -1315,7 +1315,7 @@ msgstr "Přidat kategorii"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:136
 msgid "Add payment mode"
-msgstr ""
+msgstr "Přidat režim platby"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:137
 msgid "Category name"
@@ -1323,7 +1323,7 @@ msgstr "Název kategorie"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:137
 msgid "Payment mode name"
-msgstr ""
+msgstr "Název pro režim platby"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:138
 msgid "Add this category"
@@ -1331,7 +1331,7 @@ msgstr "Přidat tuto kategorii"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:138
 msgid "Add this payment mode"
-msgstr ""
+msgstr "Přidat tento režim platby"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:139
 msgid "Category list"
@@ -1339,7 +1339,7 @@ msgstr "Seznam kategorií"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:139
 msgid "Payment mode list"
-msgstr ""
+msgstr "Seznam režimů plateb"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:140
 msgid "Drag categories to set manual order"
@@ -1347,20 +1347,20 @@ msgstr "Ruční pořadí vytvoříte přetahováním kategorií"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:140
 msgid "Drag payment modes to set manual order"
-msgstr ""
+msgstr "Pokud chcete režimy platby seřadit ručně, provedete to přetahováním"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:141
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:146
 msgid "Name should not be empty"
-msgstr ""
+msgstr "Název je třeba vyplnit"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:142
 msgid "Failed to add {name}"
-msgstr ""
+msgstr "Nepodařilo se přidat {name}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:143
 msgid "{name} was added"
-msgstr ""
+msgstr "{name} byl přidán"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:144
 msgid "Failed to delete category"
@@ -1368,7 +1368,7 @@ msgstr "Kategorii se nepodařilo smazat"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:145
 msgid "Failed to delete payment mode"
-msgstr ""
+msgstr "Režim platby se nepodařilo smazat"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:147
 msgid "Failed to edit category"
@@ -1376,7 +1376,7 @@ msgstr "Kategorii se nepodařilo upravit"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:148
 msgid "Order saved"
-msgstr ""
+msgstr "Pořadí uloženo"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:149
 msgid "Main currency"
@@ -1598,43 +1598,43 @@ msgstr "Ujistěte se, že mezi těmito dvěma členy byla v reálném životě p
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:216
 msgid "{user} have updated the bill {billName}"
-msgstr ""
+msgstr "{user} aktualizoval(a) účet {billName}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "{user} has updated the bill {billName}"
-msgstr ""
+msgstr "{user} aktualizoval(a) účet {billName}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:218
 msgid "{user} have created a new bill {billName}"
-msgstr ""
+msgstr "{user} vytvořila(a) účet {billName}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:219
 msgid "{user} has created a new bill {billName}"
-msgstr ""
+msgstr "{user} vytvořil(a) nový účet {billName}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:220
 msgid "{user} have deleted the bill {billName}"
-msgstr ""
+msgstr "{user} smazal(a) účet {billName}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:221
 msgid "{user} has deleted the bill {billName}"
-msgstr ""
+msgstr "{user} smazal(a) účet {billName}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:222
 msgid "{user} have shared the project with {who}"
-msgstr ""
+msgstr "{user} nasdílel(a) účet uživateli {who}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:223
 msgid "{user} has shared the project with {who}"
-msgstr ""
+msgstr "{user} nasdílel(a) účet uživateli {who}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:224
 msgid "{user} have removed {who} from the project"
-msgstr ""
+msgstr "{user} odebral(a) uživatel {who} z projektu"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:225
 msgid "{user} has removed {who} from the project"
-msgstr ""
+msgstr "{user} odebral(a) uživatel {who} z projektu"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "you"
@@ -1808,27 +1808,27 @@ msgstr "Importovat SplitWise projekt"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:277
 msgid "Copy guest access link"
-msgstr ""
+msgstr "Zkopírovat odkaz pro přístup hosta"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:278
 msgid "Export location"
-msgstr ""
+msgstr "Kam exportovat"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:279
 msgid "Select export directory"
-msgstr ""
+msgstr "Vyberte složku pro export"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:280
 msgid "Sort criterias"
-msgstr ""
+msgstr "Kritéria pro řazení"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:281
 msgid "How projects are sorted in navigation sidebar"
-msgstr ""
+msgstr "Jak řadit projekty v postranním panelu navigace"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:282
 msgid "Projects order"
-msgstr ""
+msgstr "Pořadí projektů"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:284
 msgid "Last activity"
@@ -1836,19 +1836,19 @@ msgstr "Poslední aktivita"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:285
 msgid "How members are sorted"
-msgstr ""
+msgstr "Způsob řazení členů"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:286
 msgid "Members order"
-msgstr ""
+msgstr "Pořadí členů"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:289
 msgid "Misc"
-msgstr ""
+msgstr "Různé"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:290
 msgid "Maximum decimal precision to show in balances"
-msgstr ""
+msgstr "Počet desetinných míst, které zobrazovat v bilancích"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:291
 msgid "Maximum precision"
@@ -1856,7 +1856,7 @@ msgstr "Maximální přesnost"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:292
 msgid "Do you want to see and choose time in bill dates?"
-msgstr ""
+msgstr "Chcete vidět a vybrat čas v termínech účtu?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:293
 msgid "Use time in dates"
@@ -1876,7 +1876,7 @@ msgstr "Zvolte soubor s projektem SplitWise"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:297
 msgid "Project imported"
-msgstr ""
+msgstr "Projekt naimportován"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:298
 msgid "Failed to import project file"
@@ -1908,7 +1908,7 @@ msgstr "Exportovat projekt"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "Members"
-msgstr ""
+msgstr "Členové"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:316
 msgid "No recommendations. Start typing."

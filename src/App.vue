@@ -474,6 +474,7 @@ export default {
 							owerIds,
 							paymentmode: 'n',
 							categoryid: 0,
+							paymentmodeid: 0,
 							comment: '',
 						}
 					}

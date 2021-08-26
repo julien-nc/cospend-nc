@@ -9,6 +9,7 @@ module.exports = {
 		'@nextcloud'
 	],
 	rules: {
-		'jsdoc/require-jsdoc': 'off'
+		'jsdoc/require-jsdoc': 'off',
+		'jsdoc/tag-lines': 'off'
 	}
 }

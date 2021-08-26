@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-## 1.3.13 – 2021-08-09
+## 1.3.14 – 2021-08-09
 ### Added
 - category and payment mode creation directly in bill form multiselect
 - custom payment modes

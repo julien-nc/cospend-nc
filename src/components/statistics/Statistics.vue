@@ -38,11 +38,6 @@
 					:value="pm.id">
 					{{ pm.icon + ' ' + pm.name }}
 				</option>
-				<option v-for="(pm, pmid) in hardCodedPaymentModes"
-					:key="pmid"
-					:value="pmid">
-					{{ pm.icon + ' ' + pm.name }}
-				</option>
 			</select>
 			<label for="category-stats">
 				<a class="icon icon-category-app-bundles" />
@@ -437,9 +432,6 @@ export default {
 				})
 			}
 			return []
-		},
-		hardCodedPaymentModes() {
-			return cospend.hardCodedPaymentModes
 		},
 		categories() {
 			return cospend.projects[this.projectId].categories

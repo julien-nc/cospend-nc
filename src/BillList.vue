@@ -60,12 +60,6 @@
 							:value="pm.id">
 							{{ pm.icon + ' ' + pm.name }}
 						</option>
-						<option
-							v-for="(pm, id) in hardCodedPaymentModes"
-							:key="id"
-							:value="id">
-							{{ pm.icon + ' ' + pm.name }}
-						</option>
 					</select>
 					<Actions v-show="selectedBillIds.length > 0 && deletionEnabled">
 						<ActionButton
@@ -251,9 +245,6 @@ export default {
 						return strcmp(a.name, b.name)
 					})
 					: allCategories
-		},
-		hardCodedPaymentModes() {
-			return cospend.hardCodedPaymentModes
 		},
 		hardCodedCategories() {
 			return cospend.hardCodedCategories

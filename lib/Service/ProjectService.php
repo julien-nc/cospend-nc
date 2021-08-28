@@ -188,16 +188,41 @@ class ProjectService {
 			],
 		];
 
-		$this->hardCodedCategoryNames = [
-			'-11' => $this->trans->t('Reimbursement'),
+		$this->defaultPaymentModes = [
+			[
+				'name' => $this->trans->t('Credit card'),
+				'icon' => '💳',
+				'color' => '#FF7F50',
+				'old_id' => 'c',
+			],
+			[
+				'name' => $this->trans->t('Cash'),
+				'icon' => '💵',
+				'color' => '#556B2F',
+				'old_id' => 'b',
+			],
+			[
+				'name' => $this->trans->t('Check'),
+				'icon' => '🎫',
+				'color' => '#A9A9A9',
+				'old_id' => 'f',
+			],
+			[
+				'name' => $this->trans->t('Transfer'),
+				'icon' => '⇄',
+				'color' => '#00CED1',
+				'old_id' => 't',
+			],
+			[
+				'name' => $this->trans->t('Online service'),
+				'icon' => '🌎',
+				'color' => '#9932CC',
+				'old_id' => 'o',
+			],
 		];
 
-		$this->hardCodedPaymentModeNames = [
-			'-1' => $this->trans->t('Credit card'),
-			'-2' => $this->trans->t('Cash'),
-			'-3' => $this->trans->t('Check'),
-			'-4' => $this->trans->t('Transfer'),
-			'-5' => $this->trans->t('Online service'),
+		$this->hardCodedCategoryNames = [
+			'-11' => $this->trans->t('Reimbursement'),
 		];
 	}
 
@@ -447,7 +472,7 @@ class ProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function createProject(string $name, string $id, ?string $password, ?string $contact_email, string $userid = '',
-								  bool $createDefaultCategories = true): array {
+								  bool $createDefaultCategories = true, bool $createDefaultPaymentModes = true): array {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('id')
@@ -500,7 +525,27 @@ class ProjectService {
 							'projectid' => $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR),
 							'encoded_icon' => $qb->createNamedParameter($icon, IQueryBuilder::PARAM_STR),
 							'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
-							'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR)
+							'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
+						]);
+					$qb->executeStatement();
+					$qb = $qb->resetQueryParts();
+				}
+			}
+
+			// create default payment modes
+			if ($createDefaultPaymentModes) {
+				foreach ($this->defaultPaymentModes as $pm) {
+					$icon = urlencode($pm['icon']);
+					$color = $pm['color'];
+					$name = $pm['name'];
+					$oldId = $pm['old_id'];
+					$qb->insert('cospend_project_paymentmodes')
+						->values([
+							'projectid' => $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR),
+							'encoded_icon' => $qb->createNamedParameter($icon, IQueryBuilder::PARAM_STR),
+							'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
+							'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
+							'old_id' => $qb->createNamedParameter($oldId, IQueryBuilder::PARAM_STR),
 						]);
 					$qb->executeStatement();
 					$qb = $qb->resetQueryParts();
@@ -977,9 +1022,7 @@ class ProjectService {
 
 			// payment mode
 			$paymentModeId = $bill['paymentmodeid'];
-			if (!array_key_exists(strval($paymentModeId), $this->hardCodedPaymentModeNames) &&
-				!array_key_exists(strval($paymentModeId), $projectPaymentModes)
-			) {
+			if (!array_key_exists(strval($paymentModeId), $projectPaymentModes)) {
 				$paymentModeId = 0;
 			}
 			$amount = $bill['amount'];
@@ -1120,13 +1163,20 @@ class ProjectService {
 	 * @param int|null $timestamp
 	 * @param string|null $comment
 	 * @param int|null $repeatfreq
+	 * @param array|null $paymentModes
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
 	public function addBill(string $projectid, ?string $date, ?string $what, ?int $payer, ?string $payed_for,
 							?float $amount, ?string $repeat, ?string $paymentmode = null, ?int $paymentmodeid = null,
 							?int $categoryid = null, ?int $repeatallactive = 0, ?string $repeatuntil = null,
-							?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null): array {
+							?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null,
+							?array $paymentModes = null): array {
+		// if we don't have the payment modes, get them now
+		if (is_null($paymentModes)) {
+			$paymentModes = $this->getCategoriesOrPaymentModes($projectid, false);
+		}
+
 		if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
 			return ['repeat' => $this->trans->t('Invalid value')];
 		}
@@ -1176,9 +1226,20 @@ class ProjectService {
 		}
 		// payment mode
 		if (!is_null($paymentmodeid)) {
-			$paymentmode = Application::PAYMENT_MODE_ID_CONVERSION_REVERSE[$paymentmodeid] ?? 'n';
+			// is the old_id set for this payment mode? if yes, use it for old 'paymentmode' column
+			$paymentmode = 'n';
+			if (isset($paymentModes[$paymentmodeid]) && $paymentModes[$paymentmodeid]['old_id']) {
+				$paymentmode = $paymentModes[$paymentmodeid]['old_id'];
+			}
 		} elseif (!is_null($paymentmode)) {
-			$paymentmodeid = Application::PAYMENT_MODE_ID_CONVERSION[$paymentmode] ?? 0;
+			// is there a pm with this old id? if yes, use it for new id
+			$paymentmodeid = 0;
+			foreach ($paymentModes as $id => $pm) {
+				if ($pm['old_id'] === $paymentmode) {
+					$paymentmodeid = $id;
+					break;
+				}
+			}
 		}
 
 		// last modification timestamp is now
@@ -1491,6 +1552,7 @@ class ProjectService {
 			$ts = (new DateTime())->getTimestamp();
 		}
 
+		$paymentModes = [];
 		foreach ($transactions as $transaction) {
 			$fromId = $transaction['from'];
 			$toId = $transaction['to'];
@@ -1499,7 +1561,7 @@ class ProjectService {
 			$addBillResult = $this->addBill(
 				$projectid, null, $billTitle, $fromId, $toId, $amount,
 				'n', 'n', 0, Application::CAT_REIMBURSEMENT,
-				0, null, $ts
+				0, null, $ts, null, null, $paymentModes
 			);
 			if (!isset($addBillResult['inserted_id'])) {
 				return ['message' => $this->trans->t('Error when adding a bill')];
@@ -2591,7 +2653,7 @@ class ProjectService {
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	private function getCategoriesOrPaymentModes(string $projectid, bool $getCategories = true): array {
+	public function getCategoriesOrPaymentModes(string $projectid, bool $getCategories = true): array {
 		$elements = [];
 
 		$qb = $this->db->getQueryBuilder();
@@ -2624,8 +2686,12 @@ class ProjectService {
 		$qb->resetQueryParts();
 
 		if ($sortMethod === Application::SORT_ORDER_MANUAL || $sortMethod === Application::SORT_ORDER_ALPHA) {
-			$qb->select('name', 'id', 'encoded_icon', 'color', 'order')
-				->from($dbTable, 'c')
+			if ($getCategories) {
+				$qb = $qb->select('name', 'id', 'encoded_icon', 'color', 'order');
+			} else {
+				$qb = $qb->select('name', 'id', 'encoded_icon', 'color', 'order', 'old_id');
+			}
+			$qb->from($dbTable, 'c')
 				->where(
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 				);
@@ -2634,8 +2700,8 @@ class ProjectService {
 				$dbName = $row['name'];
 				$dbIcon = urldecode($row['encoded_icon']);
 				$dbColor = $row['color'];
-				$dbId = intval($row['id']);
-				$dbOrder = intval($row['order']);
+				$dbId = (int) $row['id'];
+				$dbOrder = (int) $row['order'];
 				$elements[$dbId] = [
 					'name' => $dbName,
 					'icon' => $dbIcon,
@@ -2643,13 +2709,20 @@ class ProjectService {
 					'id' => $dbId,
 					'order' => $dbOrder,
 				];
+				if (!$getCategories) {
+					$elements[$dbId]['old_id'] = $row['old_id'];
+				}
 			}
 			$req->closeCursor();
 			$qb->resetQueryParts();
 		} elseif ($sortMethod === Application::SORT_ORDER_MOST_USED || $sortMethod === Application::SORT_ORDER_MOST_RECENTLY_USED) {
 			// get all categories/paymentmodes
-			$qb->select('name', 'id', 'encoded_icon', 'color')
-				->from($dbTable, 'c')
+			if ($getCategories) {
+				$qb = $qb->select('name', 'id', 'encoded_icon', 'color');
+			} else {
+				$qb = $qb->select('name', 'id', 'encoded_icon', 'color', 'old_id');
+			}
+			$qb->from($dbTable, 'c')
 				->where(
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 				);
@@ -2658,7 +2731,7 @@ class ProjectService {
 				$dbName = $row['name'];
 				$dbIcon = urldecode($row['encoded_icon']);
 				$dbColor = $row['color'];
-				$dbId = intval($row['id']);
+				$dbId = (int) $row['id'];
 				$elements[$dbId] = [
 					'name' => $dbName,
 					'icon' => $dbIcon,
@@ -2666,6 +2739,9 @@ class ProjectService {
 					'id' => $dbId,
 					'order' => null,
 				];
+				if (!$getCategories) {
+					$elements[$dbId]['old_id'] = $row['old_id'];
+				}
 			}
 			$req->closeCursor();
 			$qb->resetQueryParts();
@@ -3177,13 +3253,20 @@ class ProjectService {
 	 * @param int|null $timestamp
 	 * @param string|null $comment
 	 * @param int|null $repeatfreq
+	 * @param array|null $paymentModes
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
 	public function editBill(string $projectid, int $billid, ?string $date, ?string $what, ?int $payer, ?string $payed_for,
 							?float $amount, ?string $repeat, ?string $paymentmode = null, ?int $paymentmodeid = null,
 							?int $categoryid = null, ?int $repeatallactive = null, ?string $repeatuntil = null,
-							?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null): array {
+							?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null,
+							?array $paymentModes = null): array {
+		// if we don't have the payment modes, get them now
+		if (is_null($paymentModes)) {
+			$paymentModes = $this->getCategoriesOrPaymentModes($projectid, false);
+		}
+
 		$qb = $this->db->getQueryBuilder();
 		$qb->update('cospend_bills');
 
@@ -3234,14 +3317,26 @@ class ProjectService {
 		if ($repeatallactive !== null) {
 			$qb->set('repeatallactive', $qb->createNamedParameter($repeatallactive, IQueryBuilder::PARAM_INT));
 		}
-		if ($paymentmodeid !== null) {
+		// payment mode
+		if (!is_null($paymentmodeid)) {
+			// is the old_id set for this payment mode? if yes, use it for old 'paymentmode' column
+			$paymentmode = 'n';
+			if (isset($paymentModes[$paymentmodeid]) && $paymentModes[$paymentmodeid]['old_id']) {
+				$paymentmode = $paymentModes[$paymentmodeid]['old_id'];
+			}
 			$qb->set('paymentmodeid', $qb->createNamedParameter($paymentmodeid, IQueryBuilder::PARAM_INT));
-			// set old pm if it's a hardcoded one, otherwise -> n
-			$qb->set('paymentmode', $qb->createNamedParameter(Application::PAYMENT_MODE_ID_CONVERSION_REVERSE[$paymentmodeid] ?? 'n', IQueryBuilder::PARAM_STR));
-		} elseif ($paymentmode !== null) {
 			$qb->set('paymentmode', $qb->createNamedParameter($paymentmode, IQueryBuilder::PARAM_STR));
-			// set new pm ID from old char
-			$qb->set('paymentmodeid', $qb->createNamedParameter(Application::PAYMENT_MODE_ID_CONVERSION[$paymentmode] ?? 0, IQueryBuilder::PARAM_INT));
+		} elseif (!is_null($paymentmode)) {
+			// is there a pm with this old id? if yes, use it for new id
+			$paymentmodeid = 0;
+			foreach ($paymentModes as $id => $pm) {
+				if ($pm['old_id'] === $paymentmode) {
+					$paymentmodeid = $id;
+					break;
+				}
+			}
+			$qb->set('paymentmodeid', $qb->createNamedParameter($paymentmodeid, IQueryBuilder::PARAM_INT));
+			$qb->set('paymentmode', $qb->createNamedParameter($paymentmode, IQueryBuilder::PARAM_STR));
 		}
 		if ($categoryid !== null) {
 			$qb->set('categoryid', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT));
@@ -5228,8 +5323,11 @@ class ProjectService {
 					$projectName = str_replace('.csv', '', $file->getName());
 					$projectid = slugify($projectName);
 					$createDefaultCategories = (count($categories) === 0);
-					$projResult = $this->createProject($projectName, $projectid, '', $userEmail, $userId,
-													   $createDefaultCategories);
+					$createDefaultPaymentModes = (count($paymentModes) === 0);
+					$projResult = $this->createProject(
+						$projectName, $projectid, '', $userEmail, $userId,
+						$createDefaultCategories, $createDefaultPaymentModes
+					);
 					if (!isset($projResult['id'])) {
 						return ['message' => $this->trans->t('Error in project creation, %1$s', [$projResult['message'] ?? ''])];
 					}
@@ -5272,6 +5370,7 @@ class ProjectService {
 						}
 						$memberNameToId[$memberName] = $insertedMember['id'];
 					}
+					$dbPaymentModes = $this->getCategoriesOrPaymentModes($projectid, false);
 					// add bills
 					foreach ($bills as $bill) {
 						// manage category id if this is a custom category
@@ -5295,7 +5394,8 @@ class ProjectService {
 							$owerIdsStr, $bill['amount'], $bill['repeat'],
 							$bill['paymentmode'], $pmId,
 							$catId, $bill['repeatallactive'],
-							$bill['repeatuntil'], $bill['timestamp'], $bill['comment'], $bill['repeatfreq']
+							$bill['repeatuntil'], $bill['timestamp'], $bill['comment'], $bill['repeatfreq'],
+							$dbPaymentModes
 						);
 						if (!isset($addBillResult['inserted_id'])) {
 							$this->deleteProject($projectid);
@@ -5435,8 +5535,10 @@ class ProjectService {
 					$projectid = slugify($projectName);
 					// create default categories only if none are found in the CSV
 					$createDefaultCategories = (count($categoryNames) === 0);
-					$projResult = $this->createProject($projectName, $projectid, '', $userEmail,
-													   $userId, $createDefaultCategories);
+					$projResult = $this->createProject(
+						$projectName, $projectid, '', $userEmail,
+						$userId, $createDefaultCategories
+					);
 					if (!isset($projResult['id'])) {
 						return ['message' => $this->trans->t('Error in project creation, %1$s', [$projResult['message'] ?? ''])];
 					}
@@ -5476,7 +5578,7 @@ class ProjectService {
 						$addBillResult = $this->addBill(
 							$projectid, null, $bill['what'], $payerId, $owerIdsStr,
 							$bill['amount'], 'n',null, 0, $catId,
-							0, null, $bill['timestamp']
+							0, null, $bill['timestamp'], null, null, []
 						);
 						if (!isset($addBillResult['inserted_id'])) {
 							$this->deleteProject($projectid);

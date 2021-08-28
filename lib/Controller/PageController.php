@@ -38,13 +38,6 @@ use OCA\Cospend\Service\ProjectService;
 use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\AppInfo\Application;
 
-function endswith($string, $test) {
-	$strlen = strlen($string);
-	$testlen = strlen($test);
-	if ($testlen > $strlen) return false;
-	return substr_compare($string, $test, $strlen - $testlen, $testlen) === 0;
-}
-
 class PageController extends ApiController {
 
 	/**
@@ -652,10 +645,14 @@ class PageController extends ApiController {
 								?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		if ($userAccessLevel >= Application::ACCESS_PARTICIPANT) {
+			$paymentModes = $this->projectService->getCategoriesOrPaymentModes($projectid, false);
 			foreach ($billIds as $billid) {
-				$result =  $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
-														$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
-														$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq);
+				$result =  $this->projectService->editBill(
+					$projectid, $billid, $date, $what, $payer, $payed_for,
+					$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
+					$repeatallactive, $repeatuntil, $timestamp, $comment,
+					$repeatfreq, $paymentModes
+				);
 				if (isset($result['edited_bill_id'])) {
 					$billObj = $this->billMapper->find($billid);
 					$this->activityManager->triggerEvent(
@@ -1368,10 +1365,13 @@ class PageController extends ApiController {
 			} else {
 				$authorFullText = $this->trans->t('Share link');
 			}
+			$paymentModes = $this->projectService->getCategoriesOrPaymentModes($projectid, false);
 			foreach ($billIds as $billid) {
-				$result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
-														$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
-														$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq);
+				$result = $this->projectService->editBill(
+					$projectid, $billid, $date, $what, $payer, $payed_for,
+					$amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
+					$repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq, $paymentModes
+				);
 				if (isset($result['edited_bill_id'])) {
 					$billObj = $this->billMapper->find($billid);
 					$this->activityManager->triggerEvent(
@@ -1719,14 +1719,11 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiGetProjectStatistics(string $projectid, string $password, ?int $tsMin = null, ?int $tsMax = null,
-											?string $paymentMode = null, ?int $paymentModeId = null, ?int $category = null,
+											?int $paymentModeId = null, ?int $category = null,
 											?float $amountMin = null, ?float $amountMax=null,
 											string $showDisabled = '1', ?int $currencyId = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($password);
 		if ($this->checkLogin($projectid, $password) || $publicShareInfo['accesslevel'] !== null) {
-			if (!is_null($paymentMode) && is_null($paymentModeId)) {
-				$paymentModeId = Application::PAYMENT_MODE_ID_CONVERSION[$paymentMode] ?? null;
-			}
 			$result = $this->projectService->getProjectStatistics(
 				$projectid, 'lowername', $tsMin, $tsMax, $paymentModeId,
 				$category, $amountMin, $amountMax, $showDisabled === '1', $currencyId
@@ -1746,13 +1743,10 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiPrivGetProjectStatistics(string $projectid, ?int $tsMin = null, ?int $tsMax = null,
-											?string $paymentMode = null, ?int $paymentModeId = null,
+											?int $paymentModeId = null,
 											?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
 											string $showDisabled = '1', ?int $currencyId = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-			if (!is_null($paymentMode) && is_null($paymentModeId)) {
-				$paymentModeId = Application::PAYMENT_MODE_ID_CONVERSION[$paymentMode] ?? null;
-			}
 			$result = $this->projectService->getProjectStatistics(
 				$projectid, 'lowername', $tsMin, $tsMax, $paymentModeId,
 				$category, $amountMin, $amountMax, $showDisabled === '1', $currencyId
@@ -2872,16 +2866,15 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 */
 	public function exportCsvStatistics(string $projectid, ?int $tsMin = null, ?int $tsMax = null,
-										?string $paymentMode = null, ?int $paymentModeId = null,
-										?int $category = null, ?float $amountMin = null, ?float $amountMax = null, int $showDisabled = 1,
+										?int $paymentModeId = null, ?int $category = null,
+										?float $amountMin = null, ?float $amountMax = null, int $showDisabled = 1,
 										?int $currencyId = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-			if (!is_null($paymentMode) && is_null($paymentModeId)) {
-				$paymentModeId = Application::PAYMENT_MODE_ID_CONVERSION[$paymentMode] ?? null;
-			}
-			$result = $this->projectService->exportCsvStatistics($projectid, $this->userId, $tsMin, $tsMax,
-																 $paymentModeId, $category, $amountMin, $amountMax,
-																 $showDisabled !== 0, $currencyId);
+			$result = $this->projectService->exportCsvStatistics(
+				$projectid, $this->userId, $tsMin, $tsMax,
+				$paymentModeId, $category, $amountMin, $amountMax,
+				$showDisabled !== 0, $currencyId
+			);
 			if (isset($result['path'])) {
 				return new DataResponse($result);
 			} else {

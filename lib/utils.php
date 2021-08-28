@@ -1,5 +1,5 @@
 <?php
-function endswith($string, $test) {
+function endswith($string, $test): bool {
 	$strlen = strlen($string);
 	$testlen = strlen($test);
 	if ($testlen > $strlen) return false;
@@ -135,7 +135,6 @@ function slugify($text) {
 	$str = preg_replace('/\s+/', '-', $str);
 	$str = preg_replace('/-+/', '-', $str);
 	$str = preg_replace('/^-+/', '', $str);
-	$str = preg_replace('/-+$/', '', $str);
-	return $str;
+	return preg_replace('/-+$/', '', $str);
 }
 ?>

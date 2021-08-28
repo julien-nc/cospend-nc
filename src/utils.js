@@ -42,11 +42,7 @@ export function getCategory(projectid, catId) {
 
 export function getPaymentMode(projectid, pmId) {
 	let icon, name, color
-	if (pmId in cospend.hardCodedPaymentModes) {
-		name = cospend.hardCodedPaymentModes[pmId].name
-		icon = cospend.hardCodedPaymentModes[pmId].icon
-		color = cospend.hardCodedPaymentModes[pmId].color
-	} else if (pmId in cospend.projects[projectid].paymentmodes) {
+	if (pmId in cospend.projects[projectid].paymentmodes) {
 		name = cospend.projects[projectid].paymentmodes[pmId].name || ''
 		icon = cospend.projects[projectid].paymentmodes[pmId].icon || ''
 		color = cospend.projects[projectid].paymentmodes[pmId].color || 'red'

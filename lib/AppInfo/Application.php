@@ -56,15 +56,6 @@ class Application extends App implements IBootstrap {
 	public const SHARE_TYPE_GROUP = 'g';
 	public const SHARE_TYPE_CIRCLE = 'c';
 
-	public const PAYMENT_MODE_ID_CONVERSION = [
-		'n' => 0,
-		'c' => -1,
-		'b' => -2,
-		'f' => -3,
-		't' => -4,
-		'o' => -5,
-	];
-
 	public const PAYMENT_MODE_ID_CONVERSION_REVERSE = [
 		0 => 'n',
 		-1 => 'c',
@@ -77,24 +68,6 @@ class Application extends App implements IBootstrap {
 	public const HARDCODED_CATEGORIES = [
 		-11 => [
 			'icon' => '💰',
-		],
-	];
-
-	public const HARDCODED_PAYMENT_MODES = [
-		-1 => [
-			'icon' => '💳',
-		],
-		-2 => [
-			'icon' => '💵',
-		],
-		-3 => [
-			'icon' => '🎫',
-		],
-		-4 => [
-			'icon' => '⇄',
-		],
-		-5 => [
-			'icon' => '🌎',
 		],
 	];
 

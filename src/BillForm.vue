@@ -660,12 +660,6 @@ export default {
 					id: pm.id,
 				}
 			}))
-			pmItems.push(...Object.values(this.hardCodedPaymentModes).map((pm) => {
-				return {
-					name: pm.icon + ' ' + pm.name,
-					id: pm.id,
-				}
-			}))
 			if (this.pmQuery && !this.sortedPaymentModes.find((pm) => { return strcmp(pm.name, this.pmQuery) === 0 })) {
 				pmItems.push({
 					isNewPm: true,
@@ -924,9 +918,6 @@ export default {
 		},
 		hardCodedCategories() {
 			return cospend.hardCodedCategories
-		},
-		hardCodedPaymentModes() {
-			return cospend.hardCodedPaymentModes
 		},
 		currencies() {
 			return cospend.projects[this.projectId].currencies

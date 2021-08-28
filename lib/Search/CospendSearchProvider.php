@@ -200,8 +200,6 @@ class CospendSearchProvider implements IProvider {
 		) {
 			if (isset($project['paymentmodes'][$bill['paymentmodeid']])) {
 				$catPmChars .= $project['paymentmodes'][$bill['paymentmodeid']]['icon'] . ' ';
-			} elseif (isset(Application::HARDCODED_PAYMENT_MODES[$bill['paymentmodeid']])) {
-				$catPmChars .= 	Application::HARDCODED_PAYMENT_MODES[$bill['paymentmodeid']]['icon'];
 			}
 		}
 		$amount = number_format($bill['amount'], 2);

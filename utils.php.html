@@ -62,11 +62,11 @@
        </div>
 </td>
        <td class="danger small"><div align="right">0.00%</div></td>
-       <td class="danger small"><div align="right">0&nbsp;/&nbsp;17</div></td>
+       <td class="danger small"><div align="right">0&nbsp;/&nbsp;16</div></td>
       </tr>
 
       <tr>
-       <td class="danger" colspan="4"><a href="#2"><abbr title="endswith($string, $test)">endswith</abbr></a></td>
+       <td class="danger" colspan="4"><a href="#2"><abbr title="endswith($string, $test): bool">endswith</abbr></a></td>
        <td class="danger big">       <div class="progress">
          <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="0.00" aria-valuemin="0" aria-valuemax="100" style="width: 0.00%">
            <span class="sr-only">0.00% covered (danger)</span>
@@ -104,7 +104,7 @@
        </div>
 </td>
        <td class="danger small"><div align="right">0.00%</div></td>
-       <td class="danger small"><div align="right">0&nbsp;/&nbsp;13</div></td>
+       <td class="danger small"><div align="right">0&nbsp;/&nbsp;12</div></td>
       </tr>
 
 
@@ -114,7 +114,7 @@
 <table id="code" class="table table-borderless table-condensed">
 <tbody>
     <tr class=" d-flex"><td  class="col-1 text-right"><a id="1" href="#1">1</a></td><td class="col-11 codeLine"><span class="default">&lt;?php</span></td></tr>
-    <tr class=" d-flex"><td  class="col-1 text-right"><a id="2" href="#2">2</a></td><td class="col-11 codeLine"><span class="keyword">function</span><span class="default">&nbsp;</span><span class="default">endswith</span><span class="keyword">(</span><span class="default">$string</span><span class="keyword">,</span><span class="default">&nbsp;</span><span class="default">$test</span><span class="keyword">)</span><span class="default">&nbsp;</span><span class="keyword">{</span></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="2" href="#2">2</a></td><td class="col-11 codeLine"><span class="keyword">function</span><span class="default">&nbsp;</span><span class="default">endswith</span><span class="keyword">(</span><span class="default">$string</span><span class="keyword">,</span><span class="default">&nbsp;</span><span class="default">$test</span><span class="keyword">)</span><span class="keyword">:</span><span class="default">&nbsp;</span><span class="default">bool</span><span class="default">&nbsp;</span><span class="keyword">{</span></td></tr>
     <tr class="danger d-flex"><td  class="col-1 text-right"><a id="3" href="#3">3</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$strlen</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">strlen</span><span class="keyword">(</span><span class="default">$string</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
     <tr class="danger d-flex"><td  class="col-1 text-right"><a id="4" href="#4">4</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$testlen</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">strlen</span><span class="keyword">(</span><span class="default">$test</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
     <tr class="danger d-flex"><td  class="col-1 text-right"><a id="5" href="#5">5</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">if</span><span class="default">&nbsp;</span><span class="keyword">(</span><span class="default">$testlen</span><span class="default">&nbsp;</span><span class="keyword">&gt;</span><span class="default">&nbsp;</span><span class="default">$strlen</span><span class="keyword">)</span><span class="default">&nbsp;</span><span class="keyword">return</span><span class="default">&nbsp;</span><span class="default">false</span><span class="keyword">;</span></td></tr>
@@ -250,10 +250,9 @@
     <tr class="danger d-flex"><td  class="col-1 text-right"><a id="135" href="#135">135</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$str</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">preg_replace</span><span class="keyword">(</span><span class="default">'/\s+/'</span><span class="keyword">,</span><span class="default">&nbsp;</span><span class="default">'-'</span><span class="keyword">,</span><span class="default">&nbsp;</span><span class="default">$str</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
     <tr class="danger d-flex"><td  class="col-1 text-right"><a id="136" href="#136">136</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$str</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">preg_replace</span><span class="keyword">(</span><span class="default">'/-+/'</span><span class="keyword">,</span><span class="default">&nbsp;</span><span class="default">'-'</span><span class="keyword">,</span><span class="default">&nbsp;</span><span class="default">$str</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
     <tr class="danger d-flex"><td  class="col-1 text-right"><a id="137" href="#137">137</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$str</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">preg_replace</span><span class="keyword">(</span><span class="default">'/^-+/'</span><span class="keyword">,</span><span class="default">&nbsp;</span><span class="default">''</span><span class="keyword">,</span><span class="default">&nbsp;</span><span class="default">$str</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
-    <tr class="danger d-flex"><td  class="col-1 text-right"><a id="138" href="#138">138</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$str</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">preg_replace</span><span class="keyword">(</span><span class="default">'/-+$/'</span><span class="keyword">,</span><span class="default">&nbsp;</span><span class="default">''</span><span class="keyword">,</span><span class="default">&nbsp;</span><span class="default">$str</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
-    <tr class="danger d-flex"><td  class="col-1 text-right"><a id="139" href="#139">139</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">return</span><span class="default">&nbsp;</span><span class="default">$str</span><span class="keyword">;</span></td></tr>
-    <tr class="warning d-flex"><td  class="col-1 text-right"><a id="140" href="#140">140</a></td><td class="col-11 codeLine"><span class="keyword">}</span></td></tr>
-    <tr class=" d-flex"><td  class="col-1 text-right"><a id="141" href="#141">141</a></td><td class="col-11 codeLine"><span class="default">?&gt;</span></td></tr>
+    <tr class="danger d-flex"><td  class="col-1 text-right"><a id="138" href="#138">138</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">return</span><span class="default">&nbsp;</span><span class="default">preg_replace</span><span class="keyword">(</span><span class="default">'/-+$/'</span><span class="keyword">,</span><span class="default">&nbsp;</span><span class="default">''</span><span class="keyword">,</span><span class="default">&nbsp;</span><span class="default">$str</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
+    <tr class="warning d-flex"><td  class="col-1 text-right"><a id="139" href="#139">139</a></td><td class="col-11 codeLine"><span class="keyword">}</span></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="140" href="#140">140</a></td><td class="col-11 codeLine"><span class="default">?&gt;</span></td></tr>
 
 </tbody>
 </table>
@@ -264,7 +263,7 @@
     <h4>Legend</h4>
     <p><span class="success"><strong>Executed</strong></span><span class="danger"><strong>Not Executed</strong></span><span class="warning"><strong>Dead Code</strong></span></p>
     <p>
-     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 9.2.6</a> using <a href="https://secure.php.net/" target="_top">PHP 7.4.22</a> with <a href="https://xdebug.org/">Xdebug 3.0.4</a> and <a href="https://phpunit.de/">PHPUnit 9.5.8</a> at Thu Aug 26 21:29:50 UTC 2021.</small>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 9.2.6</a> using <a href="https://secure.php.net/" target="_top">PHP 7.4.22</a> with <a href="https://xdebug.org/">Xdebug 3.0.4</a> and <a href="https://phpunit.de/">PHPUnit 9.5.8</a> at Sat Aug 28 23:55:47 UTC 2021.</small>
     </p>
     <a title="Back to the top" id="toplink" href="#">
         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="16" viewBox="0 0 12 16"><path fill-rule="evenodd" d="M12 11L6 5l-6 6h12z"/></svg>

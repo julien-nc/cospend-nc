@@ -1,5 +1,5 @@
 <template>
-	<div class="manage-element">
+	<div class="manage-elements">
 		<div>
 			<div id="order-selection">
 				<label for="order-select">
@@ -26,9 +26,9 @@
 			</div>
 			<hr>
 			<div v-show="editionAccess">
-				<label>
+				<h3>
 					<a class="icon icon-add" />{{ addElementLabel }}
-				</label>
+				</h3>
 				<div class="add-element">
 					<ColorPicker class="app-navigation-entry-bullet-wrapper" value="" @input="updateAddColor">
 						<div
@@ -59,14 +59,13 @@
 				</div>
 				<hr>
 			</div>
-			<label>
-				<a :class="{ icon: true, 'icon-category-app-bundles': (type === 'category'), 'icon-tag': (type !== 'category') }" />{{ listLabel }}
-			</label>
-			<br>
-			<label v-if="elements && editionAccess && sortOrderValue === constants.SORT_ORDER.MANUAL" class="hint">
+			<h3>
+				<a :class="{ icon: true, [icon]: true }" />{{ listLabel }}
+			</h3>
+			<label v-if="hasElements && editionAccess && sortOrderValue === constants.SORT_ORDER.MANUAL" class="hint">
 				<span class="icon icon-info" />{{ dragText }}
 			</label>
-			<div v-if="elements && editionAccess && sortOrderValue === constants.SORT_ORDER.MANUAL"
+			<div v-if="hasElements && editionAccess && sortOrderValue === constants.SORT_ORDER.MANUAL"
 				class="element-list">
 				<Container @drop="onDrop">
 					<Draggable
@@ -81,7 +80,7 @@
 					</Draggable>
 				</Container>
 			</div>
-			<div v-else-if="elements"
+			<div v-else-if="hasElements"
 				class="element-list">
 				<CategoryOrPm
 					v-for="element in sortedElements"
@@ -92,7 +91,12 @@
 					@edit="onEditElement" />
 			</div>
 			<div v-else>
-				{{ t('cospend', 'Nothing to display') }}
+				<EmptyContent
+					:icon="icon">
+					<template #desc>
+						{{ emptyContentText }}
+					</template>
+				</EmptyContent>
 			</div>
 		</div>
 	</div>
@@ -101,6 +105,7 @@
 <script>
 import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
 import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import {
 	showSuccess,
 	showError,
@@ -118,7 +123,7 @@ export default {
 	name: 'CategoryOrPmManagement',
 
 	components: {
-		CategoryOrPm, ColorPicker, EmojiPicker, Container, Draggable,
+		CategoryOrPm, ColorPicker, EmojiPicker, Container, Draggable, EmptyContent,
 	},
 
 	props: {
@@ -145,6 +150,9 @@ export default {
 		project() {
 			return cospend.projects[this.projectId]
 		},
+		icon() {
+			return this.type === 'category' ? 'icon-category-app-bundles' : 'icon-tag'
+		},
 		sortOrderLabel() {
 			return this.type === 'category' ? t('cospend', 'Category sort method') : t('cospend', 'Payment mode sort method')
 		},
@@ -162,6 +170,9 @@ export default {
 		},
 		dragText() {
 			return this.type === 'category' ? t('cospend', 'Drag categories to set manual order') : t('cospend', 'Drag payment modes to set manual order')
+		},
+		emptyContentText() {
+			return this.type === 'category' ? t('cospend', 'No custom categories') : t('cospend', 'No custom payment modes')
 		},
 		sortOrderValue() {
 			return this.type === 'category'
@@ -181,6 +192,9 @@ export default {
 		},
 		elementList() {
 			return Object.values(this.elements)
+		},
+		hasElements() {
+			return this.elementList.length > 0
 		},
 		sortedElements() {
 			if ([
@@ -353,8 +367,6 @@ export default {
 
 <style scoped lang="scss">
 .manage-elements {
-	margin-left: 20px;
-
 	.icon {
 		line-height: 44px;
 		padding: 0 12px 0 25px;

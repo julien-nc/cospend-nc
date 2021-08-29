@@ -179,7 +179,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 						]);
 					$req = $qb->executeStatement();
 					$qb = $qb->resetQueryParts();
-					$insertedCategoryId = intval($qb->getLastInsertId());
+					$insertedCategoryId = $qb->getLastInsertId();
 
 					// convert category ids in existing bills
 					$qb->update('cospend_bills')
@@ -189,7 +189,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 							$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 						)
 						->andWhere(
-							$qb->expr()->eq('categoryid', $qb->createNamedParameter(intval($strId), IQueryBuilder::PARAM_INT))
+							$qb->expr()->eq('categoryid', $qb->createNamedParameter((int) $strId, IQueryBuilder::PARAM_INT))
 						);
 					$qb->executeStatement();
 					$qb = $qb->resetQueryParts();

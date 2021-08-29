@@ -339,7 +339,7 @@ class ProjectService {
 				$qb = $this->db->getQueryBuilder();
 				// is the project shared with the user ?
 				$qb->select('userid', 'projectid', 'accesslevel')
-					->from('cospend_shares', 's')
+					->from('cospend_shares')
 					->where(
 						$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_USER, IQueryBuilder::PARAM_STR))
 					)
@@ -354,7 +354,7 @@ class ProjectService {
 				$dbAccessLevel = null;
 				while ($row = $req->fetch()) {
 					$dbProjectId = $row['projectid'];
-					$dbAccessLevel = intval($row['accesslevel']);
+					$dbAccessLevel = (int) $row['accesslevel'];
 					break;
 				}
 				$req->closeCursor();
@@ -368,7 +368,7 @@ class ProjectService {
 				$userO = $this->userManager->get($userid);
 
 				$qb->select('userid', 'accesslevel')
-					->from('cospend_shares', 's')
+					->from('cospend_shares')
 					->where(
 						$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_GROUP, IQueryBuilder::PARAM_STR))
 					)
@@ -378,7 +378,7 @@ class ProjectService {
 				$req = $qb->executeQuery();
 				while ($row = $req->fetch()){
 					$groupId = $row['userid'];
-					$dbAccessLevel = intval($row['accesslevel']);
+					$dbAccessLevel = (int) $row['accesslevel'];
 					if ($this->groupManager->groupExists($groupId)
 						&& $this->groupManager->get($groupId)->inGroup($userO)
 						&& $dbAccessLevel > $result
@@ -393,7 +393,7 @@ class ProjectService {
 				$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 				if ($circlesEnabled) {
 					$qb->select('userid', 'accesslevel')
-						->from('cospend_shares', 's')
+						->from('cospend_shares')
 						->where(
 							$qb->expr()->eq('type', $qb->createNamedParameter(Application::SHARE_TYPE_CIRCLE, IQueryBuilder::PARAM_STR))
 						)
@@ -403,7 +403,7 @@ class ProjectService {
 					$req = $qb->executeQuery();
 					while ($row = $req->fetch()) {
 						$circleId = $row['userid'];
-						$dbAccessLevel = intval($row['accesslevel']);
+						$dbAccessLevel = (int) $row['accesslevel'];
 						if ($this->isUserInCircle($userid, $circleId) && $dbAccessLevel > $result) {
 							$result = $dbAccessLevel;
 						}
@@ -424,7 +424,7 @@ class ProjectService {
 	public function getGuestAccessLevel(string $projectid): int {
 		$projectInfo = $this->getProjectInfo($projectid);
 		if ($projectInfo !== null) {
-			return intval($projectInfo['guestaccesslevel']);
+			return (int) $projectInfo['guestaccesslevel'];
 		} else {
 			return Application::NO_ACCESS;
 		}
@@ -441,7 +441,7 @@ class ProjectService {
 		$result = 0;
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('accesslevel')
-		   ->from('cospend_shares', 's')
+		   ->from('cospend_shares')
 		   ->where(
 			   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 		   )
@@ -450,7 +450,7 @@ class ProjectService {
 		   );
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()){
-			$result = intval($row['accesslevel']);
+			$result = (int) $row['accesslevel'];
 			break;
 		}
 		$req->closeCursor();
@@ -621,7 +621,7 @@ class ProjectService {
 
 		$qb->select('id', 'password', 'name', 'email', 'userid', 'lastchanged', 'guestaccesslevel',
 					'autoexport', 'currencyname', 'deletiondisabled', 'categorysort', 'paymentmodesort')
-		   ->from('cospend_projects', 'p')
+		   ->from('cospend_projects')
 		   ->where(
 			   $qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 		   );
@@ -633,11 +633,11 @@ class ProjectService {
 			$dbName = $row['name'];
 			$dbEmail= $row['email'];
 			$dbUserId = $row['userid'];
-			$dbGuestAccessLevel = intval($row['guestaccesslevel']);
-			$dbLastchanged = intval($row['lastchanged']);
+			$dbGuestAccessLevel = (int) $row['guestaccesslevel'];
+			$dbLastchanged = (int) $row['lastchanged'];
 			$dbAutoexport= $row['autoexport'];
 			$dbCurrencyName = $row['currencyname'];
-			$dbDeletionDisabled = intval($row['deletiondisabled']) === 1;
+			$dbDeletionDisabled = ((int) $row['deletiondisabled']) === 1;
 			$dbCategorySort = $row['categorysort'];
 			$dbPaymentModeSort = $row['paymentmodesort'];
 			break;
@@ -793,7 +793,7 @@ class ProjectService {
 			$memberId = $member['id'];
 			$allMembersIds[] = $memberId;
 			// only take enabled members or those with non-zero balance
-			$mBalance = floatval($membersBalance[$memberId]);
+			$mBalance = (float) $membersBalance[$memberId];
 			if ($showDisabled || $member['activated'] || $mBalance >= 0.01 || $mBalance <= -0.01) {
 				$membersToDisplay[$memberId] = $member;
 			}
@@ -1197,7 +1197,7 @@ class ProjectService {
 				}
 			}
 		} else {
-			$dateTs = intval($timestamp);
+			$dateTs = (int) $timestamp;
 		}
 		if ($what === null) {
 			$what = '';
@@ -1334,7 +1334,7 @@ class ProjectService {
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated')
-		   ->from('cospend_members', 'm')
+		   ->from('cospend_members')
 		   ->where(
 			   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 		   )
@@ -1344,11 +1344,11 @@ class ProjectService {
 		$req = $qb->executeQuery();
 
 		while ($row = $req->fetch()) {
-			$dbMemberId = intval($row['id']);
-			$dbWeight = floatval($row['weight']);
+			$dbMemberId = (int) $row['id'];
+			$dbWeight = (float) $row['weight'];
 			$dbUserid = $row['userid'];
 			$dbName = $row['name'];
-			$dbActivated = intval($row['activated']);
+			$dbActivated = (int) $row['activated'];
 			$dbColor = $row['color'];
 			if ($dbColor === null) {
 				$av = $this->avatarManager->getGuestAvatar($dbName);
@@ -1358,12 +1358,12 @@ class ProjectService {
 			}
 
 			$member = [
-					'activated' => ($dbActivated === 1),
-					'userid' => $dbUserid,
-					'name' => $dbName,
-					'id' => $dbMemberId,
-					'weight' => $dbWeight,
-					'color' => $dbColor
+				'activated' => ($dbActivated === 1),
+				'userid' => $dbUserid,
+				'name' => $dbName,
+				'id' => $dbMemberId,
+				'weight' => $dbWeight,
+				'color' => $dbColor,
 			];
 			break;
 		}
@@ -1384,7 +1384,7 @@ class ProjectService {
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'userid', 'name', 'email', 'password', 'currencyname', 'autoexport', 'guestaccesslevel', 'lastchanged')
-		   ->from('cospend_projects', 'p')
+		   ->from('cospend_projects')
 		   ->where(
 			   $qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 		   );
@@ -1398,8 +1398,8 @@ class ProjectService {
 			$dbEmail = $row['email'];
 			$dbCurrencyName = $row['currencyname'];
 			$dbAutoexport = $row['autoexport'];
-			$dbLastchanged = intval($row['lastchanged']);
-			$dbGuestAccessLevel = intval($row['guestaccesslevel']);
+			$dbLastchanged = (int) $row['lastchanged'];
+			$dbGuestAccessLevel = (int) $row['guestaccesslevel'];
 			$project = [
 				'id' => $dbId,
 				'name' => $dbName,
@@ -1409,7 +1409,7 @@ class ProjectService {
 				'lastchanged' => $dbLastchanged,
 				'currencyname' => $dbCurrencyName,
 				'autoexport' => $dbAutoexport,
-				'guestaccesslevel' => $dbGuestAccessLevel
+				'guestaccesslevel' => $dbGuestAccessLevel,
 			];
 			break;
 		}
@@ -1442,15 +1442,15 @@ class ProjectService {
 		$req = $qb->executeQuery();
 
 		while ($row = $req->fetch()){
-			$dbWeight = floatval($row['weight']);
+			$dbWeight = (float) $row['weight'];
 			$dbName = $row['name'];
-			$dbActivated = (intval($row['activated']) === 1);
-			$dbOwerId= intval($row['memberid']);
+			$dbActivated = (((int) $row['activated']) === 1);
+			$dbOwerId= (int) $row['memberid'];
 			$billOwers[] = [
 				'id' => $dbOwerId,
 				'weight' => $dbWeight,
 				'name' => $dbName,
-				'activated' => $dbActivated
+				'activated' => $dbActivated,
 			];
 			$billOwerIds[] = $dbOwerId;
 		}
@@ -1460,7 +1460,7 @@ class ProjectService {
 		// get the bill
 		$qb->select('id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
 					'repeatallactive', 'paymentmode', 'paymentmodeid', 'categoryid', 'repeatuntil', 'repeatfreq')
-		   ->from('cospend_bills', 'b')
+		   ->from('cospend_bills')
 		   ->where(
 			   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 		   )
@@ -1469,8 +1469,8 @@ class ProjectService {
 		   );
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()){
-			$dbBillId = intval($row['id']);
-			$dbAmount = floatval($row['amount']);
+			$dbBillId = (int) $row['id'];
+			$dbAmount = (float) $row['amount'];
 			$dbWhat = $row['what'];
 			$dbComment = $row['comment'];
 			$dbTimestamp = $row['timestamp'];
@@ -1479,10 +1479,10 @@ class ProjectService {
 			$dbRepeatAllActive = $row['repeatallactive'];
 			$dbRepeatUntil = $row['repeatuntil'];
 			$dbRepeatFreq = (int) $row['repeatfreq'];
-			$dbPayerId = intval($row['payerid']);
+			$dbPayerId = (int) $row['payerid'];
 			$dbPaymentMode = $row['paymentmode'];
 			$dbPaymentModeId = $row['paymentmodeid'];
-			$dbCategoryId = intval($row['categoryid']);
+			$dbCategoryId = (int) $row['categoryid'];
 			$bill = [
 				'id' => $dbBillId,
 				'amount' => $dbAmount,
@@ -1499,7 +1499,7 @@ class ProjectService {
 				'repeatfreq' => $dbRepeatFreq,
 				'paymentmode' => $dbPaymentMode,
 				'paymentmodeid' => $dbPaymentModeId,
-				'categoryid' => $dbCategoryId
+				'categoryid' => $dbCategoryId,
 			];
 		}
 		$req->closeCursor();
@@ -1556,7 +1556,7 @@ class ProjectService {
 		foreach ($transactions as $transaction) {
 			$fromId = $transaction['from'];
 			$toId = $transaction['to'];
-			$amount = round(floatval($transaction['amount']), $precision);
+			$amount = round((float) $transaction['amount'], $precision);
 			$billTitle = $memberIdToName[$fromId].' → '.$memberIdToName[$toId];
 			$addBillResult = $this->addBill(
 				$projectid, null, $billTitle, $fromId, $toId, $amount,
@@ -2121,15 +2121,15 @@ class ProjectService {
 			$qb->setFirstResult(0);
 			$req = $qb->executeQuery();
 			while ($row = $req->fetch()){
-				$dbWeight = floatval($row['weight']);
+				$dbWeight = (float) $row['weight'];
 				$dbName = $row['name'];
-				$dbActivated = (intval($row['activated']) === 1);
-				$dbOwerId= intval($row['memberid']);
+				$dbActivated = ((int) $row['activated']) === 1;
+				$dbOwerId= (int) $row['memberid'];
 				$billOwers[] = [
 					'id' => $dbOwerId,
 					'weight' => $dbWeight,
 					'name' => $dbName,
-					'activated' => $dbActivated
+					'activated' => $dbActivated,
 				];
 				$billOwerIds[] = $dbOwerId;
 			}
@@ -2281,10 +2281,10 @@ class ProjectService {
 				$orderedBillIds[] = $dbBillId;
 			}
 			// anyway add an ower
-			$dbWeight = floatval($row['weight']);
+			$dbWeight = (float) $row['weight'];
 			$dbName = $row['name'];
-			$dbActivated = (intval($row['activated']) === 1);
-			$dbOwerId= intval($row['memberid']);
+			$dbActivated = ((int) $row['activated']) === 1;
+			$dbOwerId= (int) $row['memberid'];
 			$billDict[$dbBillId]['owers'][] = [
 				'id' => $dbOwerId,
 				'weight' => $dbWeight,
@@ -2351,7 +2351,7 @@ class ProjectService {
 		}
 
 		$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated', 'lastchanged')
-		   ->from('cospend_members', 'm')
+		   ->from('cospend_members')
 		   ->where(
 			   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 		   );
@@ -2364,12 +2364,12 @@ class ProjectService {
 		$req = $qb->executeQuery();
 
 		while ($row = $req->fetch()){
-			$dbMemberId = intval($row['id']);
-			$dbWeight = floatval($row['weight']);
+			$dbMemberId = (int) $row['id'];
+			$dbWeight = (float) $row['weight'];
 			$dbUserid = $row['userid'];
 			$dbName = $row['name'];
-			$dbActivated = intval($row['activated']);
-			$dbLastchanged = intval($row['lastchanged']);
+			$dbActivated = (int) $row['activated'];
+			$dbLastchanged = (int) $row['lastchanged'];
 			$dbColor = $row['color'];
 			if ($dbColor === null) {
 				$av = $this->avatarManager->getGuestAvatar($dbName);
@@ -2379,13 +2379,13 @@ class ProjectService {
 			}
 
 			$members[] = [
-				'activated' => ($dbActivated === 1),
+				'activated' => $dbActivated === 1,
 				'userid' => $dbUserid,
 				'name' => $dbName,
 				'id' => $dbMemberId,
 				'weight' => $dbWeight,
 				'color' => $dbColor,
-				'lastchanged' => $dbLastchanged
+				'lastchanged' => $dbLastchanged,
 			];
 		}
 		$req->closeCursor();
@@ -2812,15 +2812,15 @@ class ProjectService {
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('name', 'id', 'exchange_rate')
-		   ->from('cospend_currencies', 'c')
+		   ->from('cospend_currencies')
 		   ->where(
 			   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 		   );
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()){
 			$dbName = $row['name'];
-			$dbId = intval($row['id']);
-			$dbExchangeRate = floatval($row['exchange_rate']);
+			$dbId = (int) $row['id'];
+			$dbExchangeRate = (float) $row['exchange_rate'];
 			$currencies[] = [
 				'name' => $dbName,
 				'exchange_rate' => $dbExchangeRate,
@@ -2846,7 +2846,7 @@ class ProjectService {
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('projectid', 'userid', 'id', 'accesslevel', 'manually_added')
-		   ->from('cospend_shares', 'sh')
+		   ->from('cospend_shares')
 		   ->where(
 			   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 		   )
@@ -2857,8 +2857,8 @@ class ProjectService {
 		while ($row = $req->fetch()){
 			$dbuserId = $row['userid'];
 			$dbId = $row['id'];
-			$dbAccessLevel = intval($row['accesslevel']);
-			$dbManuallyAdded = intval($row['manually_added']);
+			$dbAccessLevel = (int) $row['accesslevel'];
+			$dbManuallyAdded = (int) $row['manually_added'];
 			if (array_key_exists($dbuserId, $userIdToName)) {
 				$name = $userIdToName[$dbuserId];
 			} else {
@@ -2903,7 +2903,7 @@ class ProjectService {
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('projectid', 'userid', 'id', 'accesslevel', 'label')
-		   ->from('cospend_shares', 'sh')
+		   ->from('cospend_shares')
 		   ->where(
 			   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 		   )
@@ -2919,7 +2919,7 @@ class ProjectService {
 		while ($row = $req->fetch()){
 			$dbToken = $row['userid'];
 			$dbId = $row['id'];
-			$dbAccessLevel = intval($row['accesslevel']);
+			$dbAccessLevel = (int) $row['accesslevel'];
 			$dbLabel = $row['label'];
 			$shares[] = [
 				'token' => $dbToken,
@@ -2948,7 +2948,7 @@ class ProjectService {
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('projectid', 'accesslevel', 'label')
-		   ->from('cospend_shares', 'sh')
+		   ->from('cospend_shares')
 		   ->where(
 			   $qb->expr()->eq('userid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
 		   )
@@ -2959,7 +2959,7 @@ class ProjectService {
 		while ($row = $req->fetch()){
 			$projectId = $row['projectid'];
 			$label = $row['label'];
-			$accessLevel = intval($row['accesslevel']);
+			$accessLevel = (int) $row['accesslevel'];
 			break;
 		}
 		$req->closeCursor();
@@ -2985,7 +2985,7 @@ class ProjectService {
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('projectid', 'userid', 'id', 'accesslevel')
-		   ->from('cospend_shares', 'sh')
+		   ->from('cospend_shares')
 		   ->where(
 			   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 		   )
@@ -2996,7 +2996,7 @@ class ProjectService {
 		while ($row = $req->fetch()){
 			$dbGroupId = $row['userid'];
 			$dbId = $row['id'];
-			$dbAccessLevel = intval($row['accesslevel']);
+			$dbAccessLevel = (int) $row['accesslevel'];
 			if (array_key_exists($dbGroupId, $groupIdToName)) {
 				$name = $groupIdToName[$dbGroupId];
 			} else {
@@ -3041,7 +3041,7 @@ class ProjectService {
 			$circlesManager->startSuperSession();
 			$qb = $this->db->getQueryBuilder();
 			$qb->select('projectid', 'userid', 'id', 'accesslevel')
-				->from('cospend_shares', 'sh')
+				->from('cospend_shares')
 				->where(
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 				)
@@ -3052,7 +3052,7 @@ class ProjectService {
 			while ($row = $req->fetch()) {
 				$dbCircleId = $row['userid'];
 				$dbId = $row['id'];
-				$dbAccessLevel = intval($row['accesslevel']);
+				$dbAccessLevel = (int) $row['accesslevel'];
 				try {
 					$circle = $circlesManager->getCircle($dbCircleId);
 					$shares[] = [
@@ -3147,7 +3147,7 @@ class ProjectService {
 		$member = null;
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated')
-		   ->from('cospend_members', 'm')
+		   ->from('cospend_members')
 		   ->where(
 			   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 		   )
@@ -3157,11 +3157,11 @@ class ProjectService {
 		$req = $qb->executeQuery();
 
 		while ($row = $req->fetch()){
-			$dbMemberId = intval($row['id']);
-			$dbWeight = floatval($row['weight']);
+			$dbMemberId = (int) $row['id'];
+			$dbWeight = (float) $row['weight'];
 			$dbUserid = $row['userid'];
 			$dbName = $row['name'];
-			$dbActivated= intval($row['activated']);
+			$dbActivated= (int) $row['activated'];
 			$dbColor = $row['color'];
 			if ($dbColor === null) {
 				$av = $this->avatarManager->getGuestAvatar($dbName);
@@ -3170,12 +3170,12 @@ class ProjectService {
 				$dbColor = $this->hexToRgb($dbColor);
 			}
 			$member = [
-					'activated' => ($dbActivated === 1),
-					'userid' => $dbUserid,
-					'name' => $dbName,
-					'id' => $dbMemberId,
-					'weight' => $dbWeight,
-					'color' => $dbColor
+				'activated' => $dbActivated === 1,
+				'userid' => $dbUserid,
+				'name' => $dbName,
+				'id' => $dbMemberId,
+				'weight' => $dbWeight,
+				'color' => $dbColor,
 			];
 			break;
 		}
@@ -3196,7 +3196,7 @@ class ProjectService {
 		if ($userid !== null) {
 			$qb = $this->db->getQueryBuilder();
 			$qb->select('id', 'userid', 'name', 'weight', 'color', 'activated')
-			   ->from('cospend_members', 'm')
+			   ->from('cospend_members')
 			   ->where(
 				   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			   )
@@ -3206,11 +3206,11 @@ class ProjectService {
 			$req = $qb->executeQuery();
 
 			while ($row = $req->fetch()){
-				$dbMemberId = intval($row['id']);
-				$dbWeight = floatval($row['weight']);
+				$dbMemberId = (int) $row['id'];
+				$dbWeight = (float) $row['weight'];
 				$dbUserid = $row['userid'];
 				$dbName = $row['name'];
-				$dbActivated= intval($row['activated']);
+				$dbActivated= (int) $row['activated'];
 				$dbColor = $row['color'];
 				if ($dbColor === null) {
 					$av = $this->avatarManager->getGuestAvatar($dbName);
@@ -3219,12 +3219,12 @@ class ProjectService {
 					$dbColor = $this->hexToRgb($dbColor);
 				}
 				$member = [
-						'activated' => ($dbActivated === 1),
-						'userid' => $dbUserid,
-						'name' => $dbName,
-						'id' => $dbMemberId,
-						'weight' => $dbWeight,
-						'color' => $dbColor
+					'activated' => $dbActivated === 1,
+					'userid' => $dbUserid,
+					'name' => $dbName,
+					'id' => $dbMemberId,
+					'weight' => $dbWeight,
+					'color' => $dbColor,
 				];
 				break;
 			}
@@ -3511,7 +3511,7 @@ class ProjectService {
 		$bill = $this->getBill($projectid, $billid);
 
 		$owerIds = [];
-		if (intval($bill['repeatallactive']) === 1) {
+		if (((int) $bill['repeatallactive']) === 1) {
 			$pInfo = $this->getProjectInfo($projectid);
 			foreach ($pInfo['active_members'] as $am) {
 				$owerIds[] = $am['id'];
@@ -3601,9 +3601,9 @@ class ProjectService {
 				break;
 
 			case Application::FREQUENCY_SEMI_MONTHLY:
-				$day = intval($billDate->format('d'));
-				$month = intval($billDate->format('m'));
-				$year = intval($billDate->format('Y'));
+				$day = (int) $billDate->format('d');
+				$month = (int) $billDate->format('m');
+				$year = (int) $billDate->format('Y');
 
 				$nextDate = new DateTime();
 				// first of next month
@@ -3624,9 +3624,9 @@ class ProjectService {
 
 			case Application::FREQUENCY_MONTHLY:
 				$freq = ($bill['repeatfreq'] < 2) ? 1 : $bill['repeatfreq'];
-				$billMonth = intval($billDate->format('m'));
+				$billMonth = (int) $billDate->format('m');
 				$yearDelta = intdiv($billMonth + $freq - 1, 12);
-				$nextYear = intval($billDate->format('Y')) + $yearDelta;
+				$nextYear = ((int) $billDate->format('Y')) + $yearDelta;
 				$nextMonth = (($billMonth + $freq - 1) % 12) + 1;
 
 				// same day of month if possible, otherwise at end of month
@@ -3634,8 +3634,8 @@ class ProjectService {
 				// to get the time
 				$nextDate->setTimestamp($billDate->getTimestamp());
 				$nextDate->setDate($nextYear, $nextMonth, 1);
-				$billDay = intval($billDate->format('d'));
-				$nbDaysInNextMonth = intval($nextDate->format('t'));
+				$billDay = (int) $billDate->format('d');
+				$nbDaysInNextMonth = (int) $nextDate->format('t');
 				if ($billDay > $nbDaysInNextMonth) {
 					$nextDate->setDate($nextYear, $nextMonth, $nbDaysInNextMonth);
 				} else {
@@ -3645,9 +3645,9 @@ class ProjectService {
 
 			case Application::FREQUENCY_YEARLY:
 				$freq = ($bill['repeatfreq'] < 2) ? 1 : $bill['repeatfreq'];
-				$billYear = intval($billDate->format('Y'));
-				$billMonth = intval($billDate->format('m'));
-				$billDay = intval($billDate->format('d'));
+				$billYear = (int) $billDate->format('Y');
+				$billMonth = (int) $billDate->format('m');
+				$billDay = (int) $billDate->format('d');
 				$nextYear = $billYear + $freq;
 
 				// same day of month if possible, otherwise at end of month + same month
@@ -3655,7 +3655,7 @@ class ProjectService {
 				// to get the time
 				$nextDate->setTimestamp($billDate->getTimestamp());
 				$nextDate->setDate($nextYear, $billMonth, 1);
-				$nbDaysInNextMonth = intval($nextDate->format('t'));
+				$nbDaysInNextMonth = (int) $nextDate->format('t');
 				if ($billDay > $nbDaysInNextMonth) {
 					$nextDate->setDate($nextYear, $billMonth, $nbDaysInNextMonth);
 				} else {
@@ -3877,7 +3877,7 @@ class ProjectService {
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'name', 'projectid', 'encoded_icon', 'color')
-		   ->from('cospend_project_categories', 'c')
+		   ->from('cospend_project_categories')
 		   ->where(
 			   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 		   )
@@ -3887,16 +3887,16 @@ class ProjectService {
 		$req = $qb->executeQuery();
 
 		while ($row = $req->fetch()) {
-			$dbCategoryId = intval($row['id']);
+			$dbCategoryId = (int) $row['id'];
 			$dbName = $row['name'];
 			$dbIcon = urldecode($row['encoded_icon']);
 			$dbColor = $row['color'];
 			$category = [
-					'name' => $dbName,
-					'icon' => $dbIcon,
-					'color' => $dbColor,
-					'id' => $dbCategoryId,
-					'projectid' => $projectId
+				'name' => $dbName,
+				'icon' => $dbIcon,
+				'color' => $dbColor,
+				'id' => $dbCategoryId,
+				'projectid' => $projectId,
 			];
 			break;
 		}
@@ -4045,7 +4045,7 @@ class ProjectService {
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'name', 'exchange_rate', 'projectid')
-		   ->from('cospend_currencies', 'c')
+		   ->from('cospend_currencies')
 		   ->where(
 			   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 		   )
@@ -4055,14 +4055,14 @@ class ProjectService {
 		$req = $qb->executeQuery();
 
 		while ($row = $req->fetch()) {
-			$dbCurrencyId = intval($row['id']);
-			$dbRate = floatval($row['exchange_rate']);
+			$dbCurrencyId = (int) $row['id'];
+			$dbRate = (float) $row['exchange_rate'];
 			$dbName = $row['name'];
 			$currency = [
-					'name' => $dbName,
-					'id' => $dbCurrencyId,
-					'exchange_rate' => $dbRate,
-					'projectid' => $projectId
+				'name' => $dbName,
+				'id' => $dbCurrencyId,
+				'exchange_rate' => $dbRate,
+				'projectid' => $projectId,
 			];
 			break;
 		}
@@ -4899,7 +4899,13 @@ class ProjectService {
 		}
 
 		foreach ($transactions as $transaction) {
-			fwrite($handler, '"'.$memberIdToName[$transaction['from']].'","'.$memberIdToName[$transaction['to']].'",'.floatval($transaction['amount'])."\n");
+			fwrite(
+				$handler,
+				'"' . $memberIdToName[$transaction['from']]
+					. '","' . $memberIdToName[$transaction['to']]
+					. '",' . (float) $transaction['amount']
+					. "\n"
+			);
 		}
 
 		fclose($handler);
@@ -4970,10 +4976,11 @@ class ProjectService {
 		$handler = $file->fopen('w');
 		fwrite(
 			$handler,
-			$this->trans->t('Member name'). ','
-				. $this->trans->t('Paid') . ','
-				. $this->trans->t('Spent') . ','
-				. $this->trans->t('Balance') . "\n"
+			$this->trans->t('Member name')
+				. ',' . $this->trans->t('Paid')
+				. ',' . $this->trans->t('Spent')
+				. ',' . $this->trans->t('Balance')
+				. "\n"
 		);
 		$allStats = $this->getProjectStatistics(
 			$projectid, 'lowername', $tsMin, $tsMax, $paymentModeId,
@@ -4984,10 +4991,11 @@ class ProjectService {
 		foreach ($stats as $stat) {
 			fwrite(
 				$handler,
-				'"' . $stat['member']['name'] . '",'
-					. floatval($stat['paid']) . ','
-					. floatval($stat['spent']) . ','
-					. floatval($stat['balance']) . "\n"
+				'"' . $stat['member']['name']
+					. '",' . (float) $stat['paid']
+					. ',' . (float) $stat['spent']
+					. ',' . (float) $stat['balance']
+					. "\n"
 			);
 		}
 
@@ -5043,13 +5051,13 @@ class ProjectService {
 		foreach ($members as $member) {
 			$memberIdToName[$member['id']] = $member['name'];
 			$memberIdToWeight[$member['id']] = $member['weight'];
-			$memberIdToActive[$member['id']] = intval($member['activated']);
+			$memberIdToActive[$member['id']] = (int) $member['activated'];
 			fwrite(
 				$handler,
 				'deleteMeIfYouWant,1,1970-01-01,0,"'
 					. $member['name'] . '",'
-					. floatval($member['weight']) . ','
-					. intval($member['activated']) . ',"'
+					. (float) $member['weight'] . ','
+					. (int) $member['activated'] . ',"'
 					. $member['name'] . '",n,,,,,,,'
 					. "\n"
 			);
@@ -5071,11 +5079,11 @@ class ProjectService {
 			fwrite(
 				$handler,
 				'"' . $bill['what'] . '",'
-					. floatval($bill['amount']) . ','
+					. (float) $bill['amount'] . ','
 					. $oldDateStr . ','
 					. $bill['timestamp'] . ',"'
 					. $payer_name . '",'
-					. floatval($payer_weight) . ','
+					. (float) $payer_weight . ','
 					. $payer_active . ',"'
 					. $owersTxt . '",'
 					. $bill['repeat'] . ','
@@ -5099,7 +5107,7 @@ class ProjectService {
 				fwrite(
 					$handler,
 					'"' . $cat['name'] . '",' .
-						intval($id) . ',"' .
+						(int) $id . ',"' .
 						$cat['icon'] . '","' .
 						$cat['color'] . '"' .
 						"\n"
@@ -5116,7 +5124,7 @@ class ProjectService {
 				fwrite(
 					$handler,
 					'"' . $pm['name'] . '",' .
-						intval($id) . ',"' .
+						(int) $id . ',"' .
 						$pm['icon'] . '","' .
 						$pm['color'] . '"' .
 						"\n"
@@ -5132,7 +5140,12 @@ class ProjectService {
 			// main currency
 			fwrite($handler, '"' . $projectInfo['currencyname'] . '",1' . "\n");
 			foreach ($currencies as $cur) {
-				fwrite($handler, '"' . $cur['name'] . '",' . floatval($cur['exchange_rate']) . "\n");
+				fwrite(
+					$handler,
+					'"' . $cur['name']
+						. '",' . (float) $cur['exchange_rate']
+						. "\n"
+				);
 			}
 		}
 
@@ -5235,7 +5248,7 @@ class ProjectService {
 							} elseif ($currentSection === 'currencies') {
 								$name = $data[$columns['currencyname']];
 								$exchange_rate = $data[$columns['exchange_rate']];
-								if (floatval($exchange_rate) === 1.0) {
+								if (((float) $exchange_rate) === 1.0) {
 									$mainCurrencyName = $name;
 								} else {
 									$currencies[] = [
@@ -5258,7 +5271,7 @@ class ProjectService {
 								$owers = $data[$columns['owers']];
 								$payer_active = array_key_exists('payer_active', $columns) ? $data[$columns['payer_active']] : 1;
 								$repeat = array_key_exists('repeat', $columns) ? $data[$columns['repeat']] : 'n';
-								$categoryid = array_key_exists('categoryid', $columns) ? intval($data[$columns['categoryid']]) : null;
+								$categoryid = array_key_exists('categoryid', $columns) ? (int) $data[$columns['categoryid']] : null;
 								$paymentmode = array_key_exists('paymentmode', $columns) ? $data[$columns['paymentmode']] : null;
 								$paymentmodeid = array_key_exists('paymentmodeid', $columns) ? $data[$columns['paymentmodeid']] : null;
 								$repeatallactive = array_key_exists('repeatallactive', $columns) ? $data[$columns['repeatallactive']] : 0;
@@ -5267,9 +5280,9 @@ class ProjectService {
 								$comment = array_key_exists('comment', $columns) ? urldecode($data[$columns['comment']] ?? '') : null;
 
 								// manage members
-								$membersActive[$payer_name] = intval($payer_active);
+								$membersActive[$payer_name] = (int) $payer_active;
 								if (is_numeric($payer_weight)) {
-									$membersWeight[$payer_name] = floatval($payer_weight);
+									$membersWeight[$payer_name] = (float) $payer_weight;
 								} else {
 									fclose($handle);
 									return ['message' => $this->trans->t('Malformed CSV, bad payer weight on line %1$s', [$row + 1])];
@@ -5375,12 +5388,12 @@ class ProjectService {
 					foreach ($bills as $bill) {
 						// manage category id if this is a custom category
 						$catId = $bill['categoryid'];
-						if (is_numeric($catId) && intval($catId) > 0) {
+						if (is_numeric($catId) && (int) $catId > 0) {
 							$catId = $categoryIdConv[$catId];
 						}
 						// manage payment mode id if this is a custom payment mode
 						$pmId = $bill['paymentmodeid'];
-						if (is_numeric($pmId) && intval($pmId) > 0) {
+						if (is_numeric($pmId) && (int) $pmId > 0) {
 							$pmId = $paymentModeIdConv[$pmId];
 						}
 						$payerId = $memberNameToId[$bill['payer_name']];
@@ -5621,7 +5634,7 @@ class ProjectService {
 
 		// last week
 		$now = new DateTime();
-		while (intval($now->format('N')) !== 1) {
+		while (((int) $now->format('N')) !== 1) {
 			$now->modify('-1 day');
 		}
 		$y = $now->format('Y');
@@ -5636,7 +5649,7 @@ class ProjectService {
 
 		// last month
 		$now = new DateTime();
-		while (intval($now->format('d')) !== 1) {
+		while (((int) $now->format('d')) !== 1) {
 			$now->modify('-1 day');
 		}
 		$y = $now->format('Y');
@@ -5645,12 +5658,12 @@ class ProjectService {
 		$dateMonthMax = new DateTime($y.'-'.$m.'-'.$d);
 		$maxMonthTimestamp = $dateMonthMax->getTimestamp();
 		$now->modify('-1 day');
-		while (intval($now->format('d')) !== 1) {
+		while (((int) $now->format('d')) !== 1) {
 			$now->modify('-1 day');
 		}
-		$y = intval($now->format('Y'));
-		$m = intval($now->format('m'));
-		$d = intval($now->format('d'));
+		$y = (int) $now->format('Y');
+		$m = (int) $now->format('m');
+		$d = (int) $now->format('d');
 		$dateMonthMin = new DateTime($y.'-'.$m.'-'.$d);
 		$minMonthTimestamp = $dateMonthMin->getTimestamp();
 		$monthlySuffix = '_'.$this->trans->t('monthly').'_'.$dateMonthMin->format('Y-m');
@@ -5671,13 +5684,13 @@ class ProjectService {
 			$uid = $u->getUID();
 			$outPath = $this->config->getUserValue($uid, 'cospend', 'outputDirectory', '/Cospend');
 
-			$qb->select('p.id', 'p.name', 'p.autoexport')
-				->from('cospend_projects', 'p')
+			$qb->select('id', 'name', 'autoexport')
+				->from('cospend_projects')
 				->where(
 					$qb->expr()->eq('userid', $qb->createNamedParameter($uid, IQueryBuilder::PARAM_STR))
 				)
 				->andWhere(
-					$qb->expr()->neq('p.autoexport', $qb->createNamedParameter('n', IQueryBuilder::PARAM_STR))
+					$qb->expr()->neq('autoexport', $qb->createNamedParameter('n', IQueryBuilder::PARAM_STR))
 				);
 			$req = $qb->executeQuery();
 
@@ -5755,14 +5768,14 @@ class ProjectService {
 		// bills by id
 		$bills = [];
 		while ($row = $req->fetch()){
-			$dbBillId = intval($row['id']);
-			$dbAmount = floatval($row['amount']);
+			$dbBillId = (int) $row['id'];
+			$dbAmount = (float) $row['amount'];
 			$dbWhat = $row['what'];
-			$dbTimestamp = intval($row['timestamp']);
+			$dbTimestamp = (int) $row['timestamp'];
 			$dbComment = $row['comment'];
 			$dbPaymentMode = $row['paymentmode'];
-			$dbPaymentModeId = $row['paymentmodeid'];
-			$dbCategoryId = intval($row['categoryid']);
+			$dbPaymentModeId = (int) $row['paymentmodeid'];
+			$dbCategoryId = (int) $row['categoryid'];
 			$dbProjectCurrencyName = $row['currencyname'];
 			$bills[] = [
 				'id' => $dbBillId,

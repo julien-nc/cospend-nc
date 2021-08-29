@@ -283,13 +283,13 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
-		$idMember1 = intval($data['id']);
+		$idMember1 = (int) $data['id'];
 
 		$resp = $this->pageController->webAddMember('superproj', 'robert');
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
-		$idMember2 = intval($data['id']);
+		$idMember2 = (int) $data['id'];
 
 		// create member with unauthorized user
 		$resp = $this->pageController2->webAddMember('superproj', 'bobby');
@@ -342,13 +342,13 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
-		$idBill1 = intval($data);
+		$idBill1 = (int) $data;
 
 		$resp = $this->pageController->webAddBill('superproj', '2019-01-25', 'agua', $idMember2, $idMember1, 12.3, 'n');
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
-		$idBill2 = intval($data);
+		$idBill2 = (int) $data;
 
 		$resp = $this->pageController->webAddBill('superprojdoesnotexist', '2019-01-20', 'lala', $idMember2, $idMember1, 12.3, 'n');
 		$status = $resp->getStatus();

@@ -817,7 +817,7 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiCreateProject(string $name, string $id, ?string $password = null, ?string $contact_email = null): DataResponse {
-		$allow = intval($this->config->getAppValue('cospend', 'allowAnonymousCreation'));
+		$allow = (int) $this->config->getAppValue('cospend', 'allowAnonymousCreation', '0');
 		if ($allow) {
 			$result = $this->projectService->createProject($name, $id, $password, $contact_email);
 			if (isset($result['id'])) {

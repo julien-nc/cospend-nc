@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2021-08-29 18:32+0200\n"
-"PO-Revision-Date: 2021-08-29 16:33\n"
+"POT-Creation-Date: 2021-08-29 18:53+0200\n"
+"PO-Revision-Date: 2021-08-29 16:54\n"
 "Last-Translator: \n"
 "Language-Team: Greek\n"
 "Language: el_GR\n"
@@ -1097,11 +1097,11 @@ msgid "You"
 msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:83
-msgid "Impossible to save bill, invalid values."
+msgid "Impossible to save bill, invalid values"
 msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:84
-msgid "Bill saved."
+msgid "Bill saved"
 msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:85
@@ -1110,20 +1110,17 @@ msgstr "Αποτυχία αποθήκευσης λογαριασμού"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:86
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:88
-msgid "Bill values are not valid."
-msgstr ""
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:87
-msgid "Personal parts are bigger than the paid amount."
-msgstr ""
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:89
-msgid "There is no custom amount."
-msgstr ""
-
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:90
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:92
 msgid "Bill values are not valid"
+msgstr ""
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:87
+msgid "Personal parts are bigger than the paid amount"
+msgstr ""
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:89
+msgid "There is no custom amount"
 msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:91
@@ -1342,11 +1339,11 @@ msgid "Drag payment modes to set manual order"
 msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:140
-msgid "No custom categories"
+msgid "No categories"
 msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:140
-msgid "No custom payment modes"
+msgid "No payment modes"
 msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:141

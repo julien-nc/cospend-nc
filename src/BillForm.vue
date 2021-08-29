@@ -1091,13 +1091,13 @@ export default {
 				return
 			}
 			if (!this.isBillValidForSaveOrNormal()) {
-				showError(t('cospend', 'Impossible to save bill, invalid values.'))
+				showError(t('cospend', 'Impossible to save bill, invalid values'))
 			} else {
 				this.billLoading = true
 				network.saveBill(this.projectId, this.myBill).then((response) => {
 					// to update balances
 					this.$emit('bill-saved', this.bill, this.myBill)
-					showSuccess(t('cospend', 'Bill saved.'))
+					showSuccess(t('cospend', 'Bill saved'))
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to save bill')
@@ -1242,7 +1242,7 @@ export default {
 				this.createBill('normal', myBill.what, myBill.amount, myBill.payer_id, myBill.timestamp, myBill.owerIds, myBill.repeat,
 					myBill.paymentmodeid, myBill.categoryid, myBill.repeatallactive, myBill.repeatuntil, myBill.repeatfreq, myBill.comment)
 			} else {
-				showError(t('cospend', 'Bill values are not valid.'))
+				showError(t('cospend', 'Bill values are not valid'))
 			}
 		},
 		createEquiPersoBill() {
@@ -1259,7 +1259,7 @@ export default {
 					}
 				}
 				if (tmpAmount < 0.0) {
-					showError(t('cospend', 'Personal parts are bigger than the paid amount.'))
+					showError(t('cospend', 'Personal parts are bigger than the paid amount'))
 					return
 				}
 
@@ -1292,7 +1292,7 @@ export default {
 				}
 				this.newBillMode = 'normal'
 			} else {
-				showError(t('cospend', 'Bill values are not valid.'))
+				showError(t('cospend', 'Bill values are not valid'))
 			}
 		},
 		createCustomAmountBill() {
@@ -1310,7 +1310,7 @@ export default {
 					}
 				}
 				if (total === 0.0) {
-					showError(t('cospend', 'There is no custom amount.'))
+					showError(t('cospend', 'There is no custom amount'))
 					return
 				} else {
 					this.nbBillsLeftToCreate = nbBills

@@ -172,7 +172,7 @@ export default {
 			return this.type === 'category' ? t('cospend', 'Drag categories to set manual order') : t('cospend', 'Drag payment modes to set manual order')
 		},
 		emptyContentText() {
-			return this.type === 'category' ? t('cospend', 'No custom categories') : t('cospend', 'No custom payment modes')
+			return this.type === 'category' ? t('cospend', 'No categories') : t('cospend', 'No payment modes')
 		},
 		sortOrderValue() {
 			return this.type === 'category'

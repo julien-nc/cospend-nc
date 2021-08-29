@@ -244,7 +244,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to add {name}', { name })
-					+ ': ' + error.response?.request?.responseText
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
 				)
 			})
 		},

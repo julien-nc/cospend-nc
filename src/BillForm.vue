@@ -620,6 +620,9 @@ export default {
 	},
 
 	computed: {
+		maintenerAccess() {
+			return this.project.myaccesslevel >= constants.ACCESS.MAINTENER
+		},
 		selectedMemberItem() {
 			const member = this.members[this.myBill.payer_id]
 			return {
@@ -660,7 +663,10 @@ export default {
 					id: pm.id,
 				}
 			}))
-			if (this.pmQuery && !this.sortedPaymentModes.find((pm) => { return strcmp(pm.name, this.pmQuery) === 0 })) {
+			if (this.maintenerAccess
+				&& this.pmQuery
+				&& !this.sortedPaymentModes.find((pm) => { return strcmp(pm.name, this.pmQuery) === 0 })
+			) {
 				pmItems.push({
 					isNewPm: true,
 					name: '➕ ' + t('cospend', 'Add payment mode "{name}"', { name: this.pmQuery }),
@@ -700,7 +706,10 @@ export default {
 					id: c.id,
 				}
 			}))
-			if (this.categoryQuery && !this.sortedCategories.find((c) => { return strcmp(c.name, this.categoryQuery) === 0 })) {
+			if (this.maintenerAccess
+				&& this.categoryQuery
+				&& !this.sortedCategories.find((c) => { return strcmp(c.name, this.categoryQuery) === 0 })
+			) {
 				categoryItems.push({
 					isNewCategory: true,
 					name: '➕ ' + t('cospend', 'Add category "{name}"', { name: this.categoryQuery }),
@@ -982,7 +991,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to add payment mode')
-						+ ': ' + error.response?.request?.responseText
+						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
 					)
 					console.error(error)
 				})

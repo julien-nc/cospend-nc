@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2021-08-29 18:32+0200\n"
-"PO-Revision-Date: 2021-08-29 16:33\n"
+"POT-Creation-Date: 2021-08-29 18:53+0200\n"
+"PO-Revision-Date: 2021-08-29 16:54\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -1097,12 +1097,12 @@ msgid "You"
 msgstr "Vous"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:83
-msgid "Impossible to save bill, invalid values."
-msgstr "Impossible d'enregistrer la facture, valeurs invalides."
+msgid "Impossible to save bill, invalid values"
+msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:84
-msgid "Bill saved."
-msgstr "Facture enregistrée."
+msgid "Bill saved"
+msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:85
 msgid "Failed to save bill"
@@ -1110,21 +1110,18 @@ msgstr "Échec de la sauvegarde de la facture"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:86
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:88
-msgid "Bill values are not valid."
-msgstr "Les valeurs de la facture sont invalides."
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:87
-msgid "Personal parts are bigger than the paid amount."
-msgstr "Les parts personnelles sont plus grosses que le montant payé."
-
-#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:89
-msgid "There is no custom amount."
-msgstr "Il n'y a pas de montant personnalisé."
-
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:90
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:92
 msgid "Bill values are not valid"
 msgstr "Les valeurs de la facture sont invalides"
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:87
+msgid "Personal parts are bigger than the paid amount"
+msgstr ""
+
+#: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:89
+msgid "There is no custom amount"
+msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:91
 msgid "There is no custom share number"
@@ -1342,11 +1339,11 @@ msgid "Drag payment modes to set manual order"
 msgstr "Faites glisser les modes de paiement pour définir l'ordre manuel"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:140
-msgid "No custom categories"
+msgid "No categories"
 msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:140
-msgid "No custom payment modes"
+msgid "No payment modes"
 msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:141

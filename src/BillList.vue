@@ -86,7 +86,7 @@
 		</EmptyContent>
 		<h2 v-show="loading"
 			class="icon-loading-small loading-icon" />
-		<transition-group name="list">
+		<transition-group v-if="!loading" name="list">
 			<BillItem
 				v-for="(bill, index) in bills"
 				:key="bill.id"
@@ -100,7 +100,7 @@
 				@clicked="onItemClicked"
 				@delete="onItemDeleted" />
 		</transition-group>
-		<InfiniteLoading v-if="bills.length > 30"
+		<InfiniteLoading v-if="!loading && bills.length > 30"
 			:identifier="projectId"
 			@infinite="infiniteHandler">
 			<template #no-results>

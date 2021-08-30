@@ -525,6 +525,7 @@ export default {
 				}
 				this.projectsLoading = false
 			}).catch((error) => {
+				console.debug(error)
 				showError(
 					t('cospend', 'Failed to get projects')
 					+ ': ' + error.response.request.responseText

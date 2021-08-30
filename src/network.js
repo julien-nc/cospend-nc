@@ -369,7 +369,6 @@ export function editPaymentMode(projectid, pm, backupPm) {
 
 export function saveCategoryOrder(projectid, order) {
 	const req = {
-		projectid,
 		order,
 	}
 	const url = cospend.pageIsPublic
@@ -380,7 +379,6 @@ export function saveCategoryOrder(projectid, order) {
 
 export function savePaymentModeOrder(projectid, order) {
 	const req = {
-		projectid,
 		order,
 	}
 	const url = cospend.pageIsPublic

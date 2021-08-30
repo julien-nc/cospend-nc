@@ -88,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 	} else {
 		cospend.projectid = loadState('cospend', 'projectid')
 		cospend.password = loadState('cospend', 'password')
+		// TODO restore project when accessed via token, following projectid is wrong as it's a token
 		cospend.restoredCurrentProjectId = cospend.projectid
 		main()
 	}

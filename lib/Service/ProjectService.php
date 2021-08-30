@@ -2941,13 +2941,11 @@ class ProjectService {
 	 * @param string $token
 	 * @return array
 	 */
-	public function getProjectInfoFromShareToken(string $token): array {
-		$projectId = null;
-		$accessLevel = null;
-		$label = null;
+	public function getProjectInfoFromShareToken(string $token): ?array {
+		$projectInfo = null;
 
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('projectid', 'accesslevel', 'label')
+		$qb->select('projectid', 'accesslevel', 'label', 'password')
 		   ->from('cospend_shares')
 		   ->where(
 			   $qb->expr()->eq('userid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
@@ -2959,17 +2957,20 @@ class ProjectService {
 		while ($row = $req->fetch()){
 			$projectId = $row['projectid'];
 			$label = $row['label'];
+			$password = $row['password'];
 			$accessLevel = (int) $row['accesslevel'];
+			$projectInfo =  [
+				'projectid' => $projectId,
+				'accesslevel' => $accessLevel,
+				'label' => $label,
+				'password' => $password,
+			];
 			break;
 		}
 		$req->closeCursor();
 		$qb->resetQueryParts();
 
-		return [
-			'projectid' => $projectId,
-			'accesslevel' => $accessLevel,
-			'label' => $label,
-		];
+		return $projectInfo;
 	}
 
 	/**

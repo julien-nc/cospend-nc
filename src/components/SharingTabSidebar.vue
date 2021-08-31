@@ -78,13 +78,21 @@
 						@submit="submitLabel(access, $event)">
 						{{ t('cospend', 'Label') }}
 					</ActionInput>
+					<ActionCheckbox
+						:checked="access.password !== null"
+						:disabled="!editionAccess || myAccessLevel < access.accesslevel"
+						@check="onPasswordCheck(access, $event)"
+						@uncheck="onPasswordUncheck(access, $event)">
+						{{ t('cospend', 'Password protect') }}
+					</ActionCheckbox>
 					<ActionInput
+						v-if="access.password !== null"
 						type="password"
 						icon="icon-password"
 						:value="access.password"
 						:disabled="!editionAccess || myAccessLevel < access.accesslevel"
 						@submit="submitPassword(access, $event)">
-						{{ t('cospend', 'Password') }}
+						{{ t('cospend', 'Set link password') }}
 					</ActionInput>
 					<ActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.VIEWER, access)"
@@ -262,6 +270,7 @@ import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
 import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
+import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
 import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 
 import { getCurrentUser } from '@nextcloud/auth'
@@ -287,6 +296,7 @@ export default {
 		ActionButton,
 		ActionRadio,
 		ActionInput,
+		ActionCheckbox,
 		ActionLink,
 		Multiselect,
 	},
@@ -484,10 +494,23 @@ export default {
 				console.error(error)
 			})
 		},
+		onPasswordCheck(access) {
+			this.$set(access, 'password', '')
+		},
+		onPasswordUncheck(access) {
+			this.savePassword(access, '')
+		},
 		submitPassword(access, e) {
 			const password = e.target[1].value
+			this.savePassword(access, password)
+		},
+		savePassword(access, password) {
 			network.editSharedAccess(this.projectId, access, null, password).then((response) => {
-				this.$set(access, 'password', password)
+				if (password === '') {
+					this.$set(access, 'password', null)
+				} else {
+					this.$set(access, 'password', password)
+				}
 				showSuccess(t('cospend', 'Share link saved'))
 			}).catch((error) => {
 				showError(

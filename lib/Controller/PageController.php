@@ -827,7 +827,7 @@ class PageController extends ApiController {
 				);
 			}
 			$result = [
-				'nb_bills' => $this->projectService->getNbBills($projectid, $payerId),
+				'nb_bills' => $this->projectService->getNbBills($projectid, $payerId, $categoryId),
 				'bills' => $bills,
 			];
 			return new DataResponse($result);

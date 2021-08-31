@@ -736,7 +736,7 @@ class ProjectService {
 	 * @param int|null $tsMin
 	 * @param int|null $tsMax
 	 * @param int|null $paymentModeId
-	 * @param int|null $category
+	 * @param int|null $categoryId
 	 * @param float|null $amountMin
 	 * @param float|null $amountMax
 	 * @param bool|null $showDisabled
@@ -745,8 +745,8 @@ class ProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getProjectStatistics(string $projectId, ?string $memberOrder = null, ?int $tsMin = null, ?int $tsMax = null,
-										?int $paymentModeId = null, ?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
-										bool $showDisabled = true, ?int $currencyId = null): array {
+										 ?int   $paymentModeId = null, ?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
+										 bool   $showDisabled = true, ?int $currencyId = null): array {
 		$timeZone = $this->dateTimeZone->getTimeZone();
 		$membersWeight = [];
 		$membersNbBills = [];
@@ -800,7 +800,7 @@ class ProjectService {
 		}
 
 		// compute stats
-		$bills = $this->getBills($projectId, $tsMin, $tsMax, null, $paymentModeId, $category, $amountMin, $amountMax);
+		$bills = $this->getBills($projectId, $tsMin, $tsMax, null, $paymentModeId, $categoryId, $amountMin, $amountMax);
 
 		/*
 		$firstBillTs = $bills[0]['timestamp'];
@@ -1008,17 +1008,17 @@ class ProjectService {
 		$paymentModeStats = [];
 		foreach ($bills as $bill) {
 			// category
-			$categoryId = $bill['categoryid'];
-			if (!array_key_exists(strval($categoryId), $this->hardCodedCategoryNames) &&
-				!array_key_exists(strval($categoryId), $projectCategories)
+			$billCategoryId = $bill['categoryid'];
+			if (!array_key_exists(strval($billCategoryId), $this->hardCodedCategoryNames) &&
+				!array_key_exists(strval($billCategoryId), $projectCategories)
 			) {
-				$categoryId = 0;
+				$billCategoryId = 0;
 			}
 			$amount = $bill['amount'];
-			if (!array_key_exists($categoryId, $categoryStats)) {
-				$categoryStats[$categoryId] = 0;
+			if (!array_key_exists($billCategoryId, $categoryStats)) {
+				$categoryStats[$billCategoryId] = 0;
 			}
-			$categoryStats[$categoryId] += $amount;
+			$categoryStats[$billCategoryId] += $amount;
 
 			// payment mode
 			$paymentModeId = $bill['paymentmodeid'];
@@ -1044,21 +1044,21 @@ class ProjectService {
 		$categoryMemberStats = [];
 		foreach ($bills as $bill) {
 			$payerId = $bill['payer_id'];
-			$categoryId = $bill['categoryid'];
-			if (!array_key_exists(strval($categoryId), $this->hardCodedCategoryNames) &&
-				!array_key_exists(strval($categoryId), $projectCategories)
+			$billCategoryId = $bill['categoryid'];
+			if (!array_key_exists(strval($billCategoryId), $this->hardCodedCategoryNames) &&
+				!array_key_exists(strval($billCategoryId), $projectCategories)
 			) {
-				$categoryId = 0;
+				$billCategoryId = 0;
 			}
 			$amount = $bill['amount'];
-			if (!array_key_exists($categoryId, $categoryMemberStats)) {
-				$categoryMemberStats[$categoryId] = [];
+			if (!array_key_exists($billCategoryId, $categoryMemberStats)) {
+				$categoryMemberStats[$billCategoryId] = [];
 				foreach ($membersToDisplay as $memberId => $member) {
-					$categoryMemberStats[$categoryId][$memberId] = 0;
+					$categoryMemberStats[$billCategoryId][$memberId] = 0;
 				}
 			}
 			if (array_key_exists($payerId, $membersToDisplay)) {
-				$categoryMemberStats[$categoryId][$payerId] += $amount;
+				$categoryMemberStats[$billCategoryId][$payerId] += $amount;
 			}
 		}
 		// convert if necessary
@@ -1079,14 +1079,14 @@ class ProjectService {
 			$month = $date->format('Y-m');
 
 			// category
-			$categoryId = $bill['categoryid'];
-			if (!array_key_exists($categoryId, $categoryMonthlyStats)) {
-				$categoryMonthlyStats[$categoryId] = [];
+			$billCategoryId = $bill['categoryid'];
+			if (!array_key_exists($billCategoryId, $categoryMonthlyStats)) {
+				$categoryMonthlyStats[$billCategoryId] = [];
 			}
-			if (!array_key_exists($month, $categoryMonthlyStats[$categoryId])) {
-				$categoryMonthlyStats[$categoryId][$month] = 0;
+			if (!array_key_exists($month, $categoryMonthlyStats[$billCategoryId])) {
+				$categoryMonthlyStats[$billCategoryId][$month] = 0;
 			}
-			$categoryMonthlyStats[$categoryId][$month] += $amount;
+			$categoryMonthlyStats[$billCategoryId][$month] += $amount;
 
 			// payment mode
 			$paymentModeId = $bill['paymentmodeid'];
@@ -2199,7 +2199,7 @@ class ProjectService {
 			$qb->andWhere(
 				$qb->expr()->eq('paymentmode', $qb->createNamedParameter($paymentMode, IQueryBuilder::PARAM_STR))
 			);
-		} elseif (!is_null($paymentModeId) && $paymentModeId !== 0) {
+		} elseif (!is_null($paymentModeId)) {
 			$qb->andWhere(
 				$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($paymentModeId, IQueryBuilder::PARAM_INT))
 			);

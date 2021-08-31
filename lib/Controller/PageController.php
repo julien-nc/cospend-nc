@@ -534,12 +534,12 @@ class PageController extends ApiController {
 	 *
 	 */
 	public function webGetProjectStatistics(string $projectid, ?int $tsMin = null, ?int $tsMax = null, ?int $paymentModeId = null,
-											?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
+											?int   $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
 											string $showDisabled = '1', ?int $currencyId = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			$result = $this->projectService->getProjectStatistics(
 				$projectid, 'lowername', $tsMin, $tsMax, $paymentModeId,
-				$category, $amountMin, $amountMax, $showDisabled === '1', $currencyId
+				$categoryId, $amountMin, $amountMax, $showDisabled === '1', $currencyId
 			);
 			return new DataResponse($result);
 		} else {
@@ -1830,7 +1830,7 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiGetProjectStatistics(string $projectid, string $password, ?int $tsMin = null, ?int $tsMax = null,
-											?int $paymentModeId = null, ?int $category = null,
+											?int   $paymentModeId = null, ?int $categoryId = null,
 											?float $amountMin = null, ?float $amountMax=null,
 											string $showDisabled = '1', ?int $currencyId = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
@@ -1840,7 +1840,7 @@ class PageController extends ApiController {
 		) {
 			$result = $this->projectService->getProjectStatistics(
 				$publicShareInfo['projectid'] ?? $projectid, 'lowername', $tsMin, $tsMax,
-				$paymentModeId, $category, $amountMin, $amountMax, $showDisabled === '1', $currencyId
+				$paymentModeId, $categoryId, $amountMin, $amountMax, $showDisabled === '1', $currencyId
 			);
 			return new DataResponse($result);
 		} else {
@@ -1857,13 +1857,13 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiPrivGetProjectStatistics(string $projectid, ?int $tsMin = null, ?int $tsMax = null,
-											?int $paymentModeId = null,
-											?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
-											string $showDisabled = '1', ?int $currencyId = null): DataResponse {
+												?int   $paymentModeId = null,
+												?int   $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
+												string $showDisabled = '1', ?int $currencyId = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			$result = $this->projectService->getProjectStatistics(
 				$projectid, 'lowername', $tsMin, $tsMax, $paymentModeId,
-				$category, $amountMin, $amountMax, $showDisabled === '1', $currencyId
+				$categoryId, $amountMin, $amountMax, $showDisabled === '1', $currencyId
 			);
 			return new DataResponse($result);
 		} else {

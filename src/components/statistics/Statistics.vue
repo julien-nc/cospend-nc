@@ -29,9 +29,12 @@
 			<select id="payment-mode-stats"
 				ref="paymentModeFilter"
 				@change="getStats">
-				<option value="0"
+				<option value="null"
 					:selected="true">
 					{{ t('cospend', 'All') }}
+				</option>
+				<option value="0">
+					{{ t('cospend', 'No payment mode') }}
 				</option>
 				<option v-for="pm in sortedPaymentModes"
 					:key="pm.id"
@@ -46,8 +49,11 @@
 			<select id="category-stats"
 				ref="categoryFilter"
 				@change="getStats">
-				<option value="0">
+				<option value="null">
 					{{ t('cospend', 'All') }}
+				</option>
+				<option value="0">
+					{{ t('cospend', 'No category') }}
 				</option>
 				<option value="-100"
 					:selected="true">
@@ -890,8 +896,8 @@ export default {
 			const dateMax = this.$refs.dateMaxFilter.value
 			const tsMin = (dateMin !== '') ? moment(dateMin).unix() : null
 			const tsMax = (dateMax !== '') ? moment(dateMax).unix() + (24 * 60 * 60) - 1 : null
-			const paymentModeId = this.$refs.paymentModeFilter.value
-			const category = this.$refs.categoryFilter.value
+			const paymentModeId = this.$refs.paymentModeFilter.value === 'null' ? null : parseInt(this.$refs.paymentModeFilter.value)
+			const categoryId = this.$refs.categoryFilter.value === 'null' ? null : parseInt(this.$refs.categoryFilter.value)
 			const amountMin = this.$refs.amountMinFilter.value || null
 			const amountMax = this.$refs.amountMaxFilter.value || null
 			const showDisabled = this.$refs.showDisabledFilter.checked
@@ -900,7 +906,7 @@ export default {
 				tsMin,
 				tsMax,
 				paymentModeId,
-				category,
+				categoryId,
 				amountMin,
 				amountMax,
 				showDisabled: showDisabled ? '1' : '0',
@@ -909,8 +915,8 @@ export default {
 			const isFiltered = (
 				   (dateMin !== null && dateMin !== '')
 				|| (dateMax !== null && dateMax !== '')
-				|| (paymentModeId !== null && parseInt(paymentModeId) !== 0)
-				|| (category !== null && parseInt(category) !== 0)
+				|| (paymentModeId !== null)
+				|| (categoryId !== null)
 				|| (amountMin !== null && amountMin !== '')
 				|| (amountMax !== null && amountMax !== '')
 			)

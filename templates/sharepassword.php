@@ -17,8 +17,6 @@ style('cospend', 'login');
 			}
 			?>
 
-			<!--label for="projecttokenInput" id="projecttokenlabel"><?php p($l->t('Project share token')); ?></label>
-			<br/-->
 			<input id="projecttokenInput" name="projecttoken" type="hidden" maxlength="64" value="<?php
 			if (array_key_exists('projecttoken', $_)) {
 				p($_['projecttoken']);

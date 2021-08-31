@@ -333,7 +333,7 @@ class PageController extends ApiController {
 				$this->initialStateService->provideInitialState('password', $password);
 
 				$response = new PublicTemplateResponse('cospend', 'main', []);
-				$response->setHeaderTitle($this->trans->t('Cospend link access'));
+				$response->setHeaderTitle($this->trans->t('Cospend shared link access'));
 				$response->setHeaderDetails($this->trans->t('Project %s', [$info['projectid']]));
 				$response->setFooterVisible(false);
 				$csp = new ContentSecurityPolicy();

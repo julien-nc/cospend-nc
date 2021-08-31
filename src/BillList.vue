@@ -15,8 +15,41 @@
 						@click="toggleSelectMode">
 						{{ multiToggleText }}
 					</ActionButton>
+					<ActionButton v-show="editionAccess && bills.length > 0"
+						:icon="filterMode ? 'icon-close' : 'icon-filter'"
+						@click="toggleFilterMode">
+						{{ filterToggleText }}
+					</ActionButton>
 				</template>
 			</AppNavigationItem>
+			<transition name="fade">
+				<div v-if="filterMode"
+					class="filterOptions">
+					<select
+						:value="selectedCategoryFilter"
+						class="category-select"
+						@input="onFilterCategoryChange">
+						<option value="placeholder">
+							{{ t('cospend', 'All categories') }}
+						</option>
+						<option value="0">
+							{{ t('cospend', 'None') }}
+						</option>
+						<option
+							v-for="category in sortedCategories"
+							:key="category.id"
+							:value="category.id">
+							{{ category.icon + ' ' + category.name }}
+						</option>
+						<option
+							v-for="(category, catid) in hardCodedCategories"
+							:key="catid"
+							:value="catid">
+							{{ category.icon + ' ' + category.name }}
+						</option>
+					</select>
+				</div>
+			</transition>
 			<transition name="fade">
 				<div v-if="selectMode"
 					class="selectionOptions">
@@ -163,6 +196,10 @@ export default {
 			type: String,
 			required: true,
 		},
+		selectedCategoryFilter: {
+			type: String,
+			required: true,
+		},
 	},
 
 	data() {
@@ -172,6 +209,8 @@ export default {
 			selectedCategory: 'placeholder',
 			selectedPaymentMode: 'placeholder',
 			selectedBillIds: [],
+			filterMode: false,
+			selectedFilterCategory: '0',
 		}
 	},
 
@@ -254,6 +293,11 @@ export default {
 				? t('cospend', 'Leave multiple selection mode')
 				: t('cospend', 'Enter multiple selection mode')
 		},
+		filterToggleText() {
+			return this.filterMode
+				? t('cospend', 'Close filters')
+				: t('cospend', 'Open filters')
+		},
 		deletionEnabled() {
 			return !cospend.projects[this.projectId].deletion_disabled
 		},
@@ -311,6 +355,16 @@ export default {
 					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
 				)
 			})
+		},
+		toggleFilterMode() {
+			this.filterMode = !this.filterMode
+			if (!this.filterMode) {
+				this.$emit('reset-filters')
+			}
+		},
+		onFilterCategoryChange(e) {
+			const categoryid = e.target.value
+			this.$emit('set-category-filter', categoryid)
 		},
 		toggleSelectMode() {
 			this.selectMode = !this.selectMode

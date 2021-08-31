@@ -2031,7 +2031,7 @@ class ProjectService {
 				$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($paymentModeId, IQueryBuilder::PARAM_INT))
 			);
 		}
-		if ($category !== null && $category !== 0) {
+		if ($category !== null) {
 			if ($category === -100) {
 				$or = $qb->expr()->orx();
 				$or->add($qb->expr()->isNull('categoryid'));
@@ -2204,7 +2204,7 @@ class ProjectService {
 				$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($paymentModeId, IQueryBuilder::PARAM_INT))
 			);
 		}
-		if ($category !== null && $category !== 0) {
+		if ($category !== null) {
 			if ($category === -100) {
 				$or = $qb->expr()->orx();
 				$or->add($qb->expr()->isNull('categoryid'));

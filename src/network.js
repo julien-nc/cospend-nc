@@ -83,13 +83,14 @@ export function getProjects() {
 	return axios.get(url, req)
 }
 
-export function getBills(projectid, offset, limit, payerId = null) {
+export function getBills(projectid, offset, limit, payerId = null, categoryId = null) {
 	const req = {
 		params: {
 			offset,
 			limit,
 			reverse: true,
 			payerId,
+			categoryId,
 		},
 	}
 	const url = cospend.pageIsPublic

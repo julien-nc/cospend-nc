@@ -32,6 +32,9 @@
 					:selected-bill-id="selectedBillId"
 					:edition-access="editionAccess"
 					:mode="mode"
+					:selected-category-filter="selectedCategoryFilter"
+					@reset-filters="onResetFilters"
+					@set-category-filter="onSetCategoryFilter"
 					@load-more-bills="loadMoreBills"
 					@item-clicked="onBillClicked"
 					@item-deleted="onBillDeleted"
@@ -155,6 +158,7 @@ export default {
 			billsLoading: false,
 			currentBill: null,
 			filterQuery: null,
+			selectedCategoryFilter: 'placeholder',
 			showSidebar: false,
 			activeSidebarTab: 'sharing',
 			selectedMemberId: null,
@@ -178,6 +182,10 @@ export default {
 				let result = this.billLists[this.currentProjectId]
 				if (this.selectedMemberId) {
 					result = result.filter(b => b.payer_id === this.selectedMemberId)
+				}
+				if (this.selectedCategoryFilter !== 'placeholder') {
+					const filterCatId = parseInt(this.selectedCategoryFilter)
+					result = result.filter(b => b.categoryid === filterCatId)
 				}
 				if (this.filterQuery) {
 					result = this.getFilteredBills(result)
@@ -226,6 +234,21 @@ export default {
 		unsubscribe('nextcloud:unified-search.reset', this.cleanSearch)
 	},
 	methods: {
+		onResetFilters() {
+			this.selectedCategoryFilter = 'placeholder'
+			this.onFilterChange()
+		},
+		onSetCategoryFilter(catId) {
+			this.selectedCategoryFilter = catId
+			this.onFilterChange()
+		},
+		onFilterChange() {
+			// deselect current bill
+			this.currentBill = null
+			// we load bills from scratch to make sure we get the correct total number of bills
+			// and infinite scroll works fine
+			this.getBills(cospend.currentProjectId)
+		},
 		onNavMemberClick(projectId, memberId) {
 			if (this.selectedMemberId === memberId) {
 				this.selectedMemberId = null
@@ -421,6 +444,7 @@ export default {
 			this.mode = 'edition'
 			this.currentBill = null
 			this.selectedMemberId = null
+			this.selectedCategoryFilter = 'placeholder'
 			this.getBills(projectid)
 			if (save) {
 				network.saveOptionValue({ selectedProject: projectid })
@@ -438,8 +462,9 @@ export default {
 		onNewBillClicked(bill = null) {
 			// if a member is selected: deselect member and get full bill list
 			// then call onNewBillClicked again
-			if (this.selectedMemberId) {
+			if (this.selectedMemberId || this.selectedCategoryFilter !== 'placeholder') {
 				this.selectedMemberId = null
+				this.selectedCategoryFilter = 'placeholder'
 				this.getBills(cospend.currentProjectId, null, () => { this.onNewBillClicked(bill) })
 			} else {
 				// find potentially existing new bill
@@ -534,7 +559,8 @@ export default {
 		},
 		getBills(projectid, selectBillId = null, callback = null) {
 			this.billsLoading = true
-			network.getBills(projectid, 0, 50, this.selectedMemberId).then((response) => {
+			const catFilter = this.selectedCategoryFilter === 'placeholder' ? null : this.selectedCategoryFilter
+			network.getBills(projectid, 0, 50, this.selectedMemberId, catFilter).then((response) => {
 				this.currentProject.nbBills = response.data.nb_bills
 				this.bills[projectid] = {}
 				this.$set(this.billLists, projectid, response.data.bills)
@@ -559,7 +585,8 @@ export default {
 			})
 		},
 		loadMoreBills(projectid, state) {
-			network.getBills(projectid, this.billLists[projectid].length, 20, this.selectedMemberId).then((response) => {
+			const catFilter = this.selectedCategoryFilter === 'placeholder' ? null : this.selectedCategoryFilter
+			network.getBills(projectid, this.billLists[projectid].length, 20, this.selectedMemberId, catFilter).then((response) => {
 				this.currentProject.nbBills = response.data.nb_bills
 				if (!response.data.bills || response.data.bills.length === 0) {
 					state.complete()

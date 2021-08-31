@@ -25,6 +25,7 @@
 			<template slot="list">
 				<BillList
 					v-if="currentProjectId"
+					ref="billList"
 					:loading="billsLoading"
 					:project-id="currentProjectId"
 					:total-bill-number="currentProject.nbBills || 0"
@@ -33,8 +34,10 @@
 					:edition-access="editionAccess"
 					:mode="mode"
 					:selected-category-filter="selectedCategoryFilter"
+					:selected-payment-mode-filter="selectedPaymentModeFilter"
 					@reset-filters="onResetFilters"
 					@set-category-filter="onSetCategoryFilter"
+					@set-paymentmode-filter="onSetPaymentModeFilter"
 					@load-more-bills="loadMoreBills"
 					@item-clicked="onBillClicked"
 					@item-deleted="onBillDeleted"
@@ -159,6 +162,7 @@ export default {
 			currentBill: null,
 			filterQuery: null,
 			selectedCategoryFilter: 'placeholder',
+			selectedPaymentModeFilter: 'placeholder',
 			showSidebar: false,
 			activeSidebarTab: 'sharing',
 			selectedMemberId: null,
@@ -186,6 +190,10 @@ export default {
 				if (this.selectedCategoryFilter !== 'placeholder') {
 					const filterCatId = parseInt(this.selectedCategoryFilter)
 					result = result.filter(b => b.categoryid === filterCatId)
+				}
+				if (this.selectedPaymentModeFilter !== 'placeholder') {
+					const filterPmId = parseInt(this.selectedPaymentModeFilter)
+					result = result.filter(b => b.paymentmodeid === filterPmId)
 				}
 				if (this.filterQuery) {
 					result = this.getFilteredBills(result)
@@ -236,10 +244,15 @@ export default {
 	methods: {
 		onResetFilters() {
 			this.selectedCategoryFilter = 'placeholder'
+			this.selectedPaymentModeFilter = 'placeholder'
 			this.onFilterChange()
 		},
 		onSetCategoryFilter(catId) {
 			this.selectedCategoryFilter = catId
+			this.onFilterChange()
+		},
+		onSetPaymentModeFilter(pmId) {
+			this.selectedPaymentModeFilter = pmId
 			this.onFilterChange()
 		},
 		onFilterChange() {
@@ -445,6 +458,7 @@ export default {
 			this.currentBill = null
 			this.selectedMemberId = null
 			this.selectedCategoryFilter = 'placeholder'
+			this.selectedPaymentModeFilter = 'placeholder'
 			this.getBills(projectid)
 			if (save) {
 				network.saveOptionValue({ selectedProject: projectid })
@@ -462,9 +476,14 @@ export default {
 		onNewBillClicked(bill = null) {
 			// if a member is selected: deselect member and get full bill list
 			// then call onNewBillClicked again
-			if (this.selectedMemberId || this.selectedCategoryFilter !== 'placeholder') {
+			if (this.selectedMemberId
+				|| this.selectedCategoryFilter !== 'placeholder'
+				|| this.selectedPaymentModeFilter !== 'placeholder'
+			) {
 				this.selectedMemberId = null
 				this.selectedCategoryFilter = 'placeholder'
+				this.selectedPaymentModeFilter = 'placeholder'
+				this.$refs.billList.toggleFilterMode(false)
 				this.getBills(cospend.currentProjectId, null, () => { this.onNewBillClicked(bill) })
 			} else {
 				// find potentially existing new bill
@@ -560,7 +579,8 @@ export default {
 		getBills(projectid, selectBillId = null, callback = null) {
 			this.billsLoading = true
 			const catFilter = this.selectedCategoryFilter === 'placeholder' ? null : this.selectedCategoryFilter
-			network.getBills(projectid, 0, 50, this.selectedMemberId, catFilter).then((response) => {
+			const pmFilter = this.selectedPaymentModeFilter === 'placeholder' ? null : this.selectedPaymentModeFilter
+			network.getBills(projectid, 0, 50, this.selectedMemberId, catFilter, pmFilter).then((response) => {
 				this.currentProject.nbBills = response.data.nb_bills
 				this.bills[projectid] = {}
 				this.$set(this.billLists, projectid, response.data.bills)
@@ -586,7 +606,8 @@ export default {
 		},
 		loadMoreBills(projectid, state) {
 			const catFilter = this.selectedCategoryFilter === 'placeholder' ? null : this.selectedCategoryFilter
-			network.getBills(projectid, this.billLists[projectid].length, 20, this.selectedMemberId, catFilter).then((response) => {
+			const pmFilter = this.selectedPaymentModeFilter === 'placeholder' ? null : this.selectedPaymentModeFilter
+			network.getBills(projectid, this.billLists[projectid].length, 20, this.selectedMemberId, catFilter, pmFilter).then((response) => {
 				this.currentProject.nbBills = response.data.nb_bills
 				if (!response.data.bills || response.data.bills.length === 0) {
 					state.complete()

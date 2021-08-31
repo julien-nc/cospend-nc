@@ -48,6 +48,23 @@
 							{{ category.icon + ' ' + category.name }}
 						</option>
 					</select>
+					<select
+						:value="selectedPaymentModeFilter"
+						class="paymentmode-select"
+						@input="onFilterPaymentModeChange">
+						<option value="placeholder">
+							{{ t('cospend', 'All payment modes') }}
+						</option>
+						<option value="0">
+							{{ t('cospend', 'None') }}
+						</option>
+						<option
+							v-for="pm in sortedPaymentModes"
+							:key="pm.id"
+							:value="pm.id">
+							{{ pm.icon + ' ' + pm.name }}
+						</option>
+					</select>
 				</div>
 			</transition>
 			<transition name="fade">
@@ -197,6 +214,10 @@ export default {
 			required: true,
 		},
 		selectedCategoryFilter: {
+			type: String,
+			required: true,
+		},
+		selectedPaymentModeFilter: {
 			type: String,
 			required: true,
 		},
@@ -356,15 +377,19 @@ export default {
 				)
 			})
 		},
-		toggleFilterMode() {
+		toggleFilterMode(emit = true) {
 			this.filterMode = !this.filterMode
-			if (!this.filterMode) {
+			if (emit && !this.filterMode) {
 				this.$emit('reset-filters')
 			}
 		},
 		onFilterCategoryChange(e) {
 			const categoryid = e.target.value
 			this.$emit('set-category-filter', categoryid)
+		},
+		onFilterPaymentModeChange(e) {
+			const paymentModeId = e.target.value
+			this.$emit('set-paymentmode-filter', paymentModeId)
 		},
 		toggleSelectMode() {
 			this.selectMode = !this.selectMode

@@ -813,21 +813,21 @@ class PageController extends ApiController {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function webGetBills(string $projectid, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null,
-								bool $reverse = false, ?int $payerId = null, ?int $categoryId = null): DataResponse {
+								bool $reverse = false, ?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			if ($limit) {
 				$bills = $this->projectService->getBillsWithLimit(
-					$projectid, null, null, null, null, $categoryId, null, null,
+					$projectid, null, null, null, $paymentModeId, $categoryId, null, null,
 					$lastchanged, $limit, $reverse, $offset, $payerId
 				);
 			} else {
 				$bills = $this->projectService->getBills(
-					$projectid, null, null, null, null, $categoryId, null, null,
+					$projectid, null, null, null, $paymentModeId, $categoryId, null, null,
 					$lastchanged, null, $reverse, $payerId
 				);
 			}
 			$result = [
-				'nb_bills' => $this->projectService->getNbBills($projectid, $payerId, $categoryId),
+				'nb_bills' => $this->projectService->getNbBills($projectid, $payerId, $categoryId, $paymentModeId),
 				'bills' => $bills,
 			];
 			return new DataResponse($result);
@@ -1107,7 +1107,7 @@ class PageController extends ApiController {
 	 */
 	public function apiv3GetBills(string $projectid, string $password, ?int $lastchanged = null,
 								?int $offset = 0, ?int $limit = null, bool $reverse = false,
-								?int $payerId = null, ?int $categoryId = null): DataResponse {
+								?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if ($this->checkLogin($projectid, $password)
 			|| ($publicShareInfo !== null
@@ -1116,18 +1116,18 @@ class PageController extends ApiController {
 			if ($limit) {
 				$bills = $this->projectService->getBillsWithLimit(
 					$publicShareInfo['projectid'] ?? $projectid, null, null,
-					null, null, $categoryId, null, null,
+					null, $paymentModeId, $categoryId, null, null,
 					$lastchanged, $limit, $reverse, $offset, $payerId
 				);
 			} else {
 				$bills = $this->projectService->getBills(
 					$publicShareInfo['projectid'] ?? $projectid, null, null,
-					null, null, $categoryId, null, null,
+					null, $paymentModeId, $categoryId, null, null,
 					$lastchanged, null, $reverse, $payerId
 				);
 			}
 			$result = [
-				'nb_bills' => $this->projectService->getNbBills($publicShareInfo['projectid'] ?? $projectid, $payerId),
+				'nb_bills' => $this->projectService->getNbBills($publicShareInfo['projectid'] ?? $projectid, $payerId, $categoryId, $paymentModeId),
 				'bills' => $bills,
 			];
 			return new DataResponse($result);

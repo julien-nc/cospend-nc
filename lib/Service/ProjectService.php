@@ -1952,7 +1952,7 @@ class ProjectService {
 	 * @return int
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getNbBills(string $projectId, ?int $payerId = null, ?int $categoryId = null): int {
+	public function getNbBills(string $projectId, ?int $payerId = null, ?int $categoryId = null, ?int $paymentModeId = null): int {
 		$nb = 0;
 		$qb = $this->db->getQueryBuilder();
 		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_bills')
@@ -1968,6 +1968,11 @@ class ProjectService {
 		if ($categoryId !== null) {
 			$qb->andWhere(
 				$qb->expr()->eq('categoryid', $qb->createNamedParameter($categoryId, IQueryBuilder::PARAM_INT))
+			);
+		}
+		if ($paymentModeId !== null) {
+			$qb->andWhere(
+				$qb->expr()->eq('paymentmodeid', $qb->createNamedParameter($paymentModeId, IQueryBuilder::PARAM_INT))
 			);
 		}
 		$req = $qb->executeQuery();

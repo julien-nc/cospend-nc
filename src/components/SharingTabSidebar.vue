@@ -71,13 +71,20 @@
 					:force-menu="true"
 					placement="bottom">
 					<ActionInput
-						ref="labelInput"
 						type="text"
 						icon="icon-edit"
 						:value="access.label"
 						:disabled="!editionAccess || myAccessLevel < access.accesslevel"
 						@submit="submitLabel(access, $event)">
 						{{ t('cospend', 'Label') }}
+					</ActionInput>
+					<ActionInput
+						type="password"
+						icon="icon-password"
+						:value="access.password"
+						:disabled="!editionAccess || myAccessLevel < access.accesslevel"
+						@submit="submitPassword(access, $event)">
+						{{ t('cospend', 'Password') }}
 					</ActionInput>
 					<ActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.VIEWER, access)"
@@ -477,14 +484,27 @@ export default {
 				console.error(error)
 			})
 		},
-		submitLabel(access, e) {
-			const label = e.target[1].value
-			network.editSharedAccess(this.projectId, access, label).then((response) => {
-				this.$set(access, 'label', label)
-				showSuccess(t('cospend', 'Shared access label saved'))
+		submitPassword(access, e) {
+			const password = e.target[1].value
+			network.editSharedAccess(this.projectId, access, null, password).then((response) => {
+				this.$set(access, 'password', password)
+				showSuccess(t('cospend', 'Share link saved'))
 			}).catch((error) => {
 				showError(
-					t('cospend', 'Failed to edit shared access')
+					t('cospend', 'Failed to edit share link')
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+				)
+				console.error(error)
+			})
+		},
+		submitLabel(access, e) {
+			const label = e.target[1].value
+			network.editSharedAccess(this.projectId, access, label, null).then((response) => {
+				this.$set(access, 'label', label)
+				showSuccess(t('cospend', 'Share link saved'))
+			}).catch((error) => {
+				showError(
+					t('cospend', 'Failed to edit share link')
 					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
 				)
 				console.error(error)

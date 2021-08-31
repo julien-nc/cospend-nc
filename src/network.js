@@ -590,9 +590,10 @@ export function setAccessLevel(projectid, access, level) {
 	return axios.put(url, req)
 }
 
-export function editSharedAccess(projectid, access, label) {
+export function editSharedAccess(projectid, access, label, password) {
 	const req = {
 		label,
+		password,
 	}
 	const url = generateUrl('/apps/cospend/projects/' + projectid + '/share-access/' + access.id)
 	return axios.put(url, req)

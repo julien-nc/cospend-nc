@@ -2902,7 +2902,7 @@ class ProjectService {
 		$shares = [];
 
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('projectid', 'userid', 'id', 'accesslevel', 'label')
+		$qb->select('projectid', 'userid', 'id', 'accesslevel', 'label', 'password')
 		   ->from('cospend_shares')
 		   ->where(
 			   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
@@ -2921,11 +2921,13 @@ class ProjectService {
 			$dbId = $row['id'];
 			$dbAccessLevel = (int) $row['accesslevel'];
 			$dbLabel = $row['label'];
+			$dbPassword = $row['password'];
 			$shares[] = [
 				'token' => $dbToken,
 				'id' => $dbId,
 				'accesslevel' => $dbAccessLevel,
 				'label' => $dbLabel,
+				'password' => $dbPassword,
 				'type' => Application::SHARE_TYPE_PUBLIC_LINK,
 			];
 		}
@@ -4353,7 +4355,7 @@ class ProjectService {
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function editShareAccess(string $projectid, int $shid, ?string $label = null): array {
+	public function editShareAccess(string $projectid, int $shid, ?string $label = null, ?string $password = null): array {
 		// check if user share exists
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'projectid')
@@ -4373,10 +4375,21 @@ class ProjectService {
 		$req->closeCursor();
 		$qb = $qb->resetQueryParts();
 
-		if ($dbId !== null) {
-			$qb->update('cospend_shares')
-				->set('label', $qb->createNamedParameter($label, IQueryBuilder::PARAM_STR))
-				->where(
+		if (!is_null($dbId) && (!is_null($label) || !is_null($password))) {
+			$qb->update('cospend_shares');
+			if (!is_null($label)) {
+				if ($label === '') {
+					$label = null;
+				}
+				$qb->set('label', $qb->createNamedParameter($label, IQueryBuilder::PARAM_STR));
+			}
+			if (!is_null($password)) {
+				if ($password === '') {
+					$password = null;
+				}
+				$qb->set('password', $qb->createNamedParameter($password, IQueryBuilder::PARAM_STR));
+			}
+			$qb->where(
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 				)
 				->andWhere(

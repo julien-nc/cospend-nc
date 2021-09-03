@@ -11,20 +11,23 @@
 				@click="onAddBillClicked">
 				<template slot="actions">
 					<ActionButton v-show="editionAccess && bills.length > 0"
-						:icon="selectMode ? 'icon-close' : 'icon-toggle-filelist'"
-						@click="toggleSelectMode">
-						{{ multiToggleText }}
-					</ActionButton>
-					<ActionButton v-show="editionAccess && bills.length > 0"
 						:icon="filterMode ? 'icon-close' : 'icon-filter'"
+						:close-after-click="true"
 						@click="toggleFilterMode">
 						{{ filterToggleText }}
+					</ActionButton>
+					<ActionButton v-show="editionAccess && bills.length > 0"
+						:icon="selectMode ? 'icon-close' : 'icon-toggle-filelist'"
+						:close-after-click="true"
+						@click="toggleSelectMode">
+						{{ multiToggleText }}
 					</ActionButton>
 				</template>
 			</AppNavigationItem>
 			<transition name="fade">
 				<div v-if="filterMode"
 					class="filterOptions">
+					<span class="icon icon-filter" />
 					<select
 						:value="selectedCategoryFilter"
 						class="category-select"
@@ -70,6 +73,8 @@
 			<transition name="fade">
 				<div v-if="selectMode"
 					class="selectionOptions">
+					<span v-show="selectedBillIds.length > 0"
+						class="icon icon-toggle-filelist" />
 					<select v-show="selectedBillIds.length > 0"
 						v-model="selectedCategory"
 						class="category-select"
@@ -478,18 +483,23 @@ export default {
 	border-bottom: 1px solid var(--color-border);
 
 	.selectionOptions {
-		display: flex;
-
 		select {
 			margin-top: 5px;
 		}
 		.multiDelete {
 			margin-left: auto;
 		}
+	}
 
-		.paymentmode-select,
-		.category-select {
-			width: 40%;
+	.selectionOptions,
+	.filterOptions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		border-top: 1px solid var(--color-border);
+		> span.icon {
+			width: 44px;
+			height: 44px;
 		}
 	}
 }

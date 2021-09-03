@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-09-04 00:26+0200\n"
-"PO-Revision-Date: 2021-09-03 22:30\n"
+"PO-Revision-Date: 2021-09-03 22:37\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -792,11 +792,11 @@ msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:1
 msgid "Project {name}"
-msgstr ""
+msgstr "Projet {name}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:1
 msgid "Select a project"
-msgstr ""
+msgstr "Sélectionnez un projet"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "Toggle sidebar"
@@ -1208,7 +1208,7 @@ msgstr "Toutes les catégories"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:107
 msgid "All payment modes"
-msgstr ""
+msgstr "Tous les modes de paiement"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:109
 msgid "Assign category"
@@ -1232,7 +1232,7 @@ msgstr "Ajoutez au moins 2 membres pour commencer à créer des factures"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:116
 msgid "No bills to show"
-msgstr ""
+msgstr "Aucune facture à afficher"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:117
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:118
@@ -1961,11 +1961,11 @@ msgstr "Partager le projet avec un utilisateur, un groupe ou un cercle …"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:323
 msgid "Scan this QRCode with your mobile device to add project \"{name}\" in MoneyBuster or PayForMe"
-msgstr ""
+msgstr "Scannez ce QRCode avec votre appareil mobile pour ajouter le projet \"{name}\" dans MoneyBuster ou PayForMe"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:324
 msgid "QRCode content: "
-msgstr ""
+msgstr "Contenu du QRCode : "
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:326
 msgid "Create a new share link"
@@ -1983,7 +1983,7 @@ msgstr "Copier dans le presse-papiers"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:329
 msgid "Show QRCode for mobile clients"
-msgstr ""
+msgstr "Afficher le QRCode pour les clients mobiles"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:330
 msgid "Label"
@@ -2019,7 +2019,7 @@ msgstr "Accès protégé par mot de passe"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:345
 msgid "(deprecated)"
-msgstr ""
+msgstr "(obsolète)"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:352
 msgid "New project password"
@@ -2054,7 +2054,7 @@ msgstr "Impossible de modifier le niveau d'accès invité"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:365
 msgid "Password protected access is now deprecated. You can use the share links instead, they can be password protected too."
-msgstr ""
+msgstr "L'accès protégé par mot de passe est maintenant obsolète. Vous pouvez utiliser les liens de partage à la place, ils peuvent également être protégés par mot de passe."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:367
 msgid "Sharing"

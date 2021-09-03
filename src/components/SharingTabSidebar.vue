@@ -33,6 +33,21 @@
 			</template>
 		</Multiselect>
 
+		<Modal v-if="shareLinkQrcodeUrl" @close="closeQrcodeModal">
+			<div class="qrcode-modal-content">
+				<div class="qrcode-wrapper">
+					<QRCode render="svg"
+						:link="shareLinkQrcodeUrl"
+						:fgcolor="qrcodeColor"
+						:image-url="qrcodeImageUrl"
+						:rounded="100" />
+				</div>
+				<p>
+					{{ shareLinkQrcodeUrl }}
+				</p>
+			</div>
+		</Modal>
+
 		<ul
 			id="shareWithList"
 			ref="shareWithList"
@@ -64,6 +79,16 @@
 						:icon="linkCopied[access.id] ? 'icon-checkmark-color' : 'icon-clippy'"
 						@click.stop.prevent="copyLink(access)">
 						{{ linkCopied[access.id] ? t('cospend', 'Link copied') : t('cospend', 'Copy to clipboard') }}
+					</ActionLink>
+				</Actions>
+
+				<Actions>
+					<ActionLink
+						:href="generateCospendLink(access)"
+						target="_blank"
+						icon="icon-qrcode"
+						@click.stop.prevent="displayCospendLinkQRCode(access)">
+						{{ t('cospend', 'Show QRCode for mobile clients') }}
 					</ActionLink>
 				</Actions>
 
@@ -272,6 +297,7 @@ import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
 import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
 import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
 import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
+import Modal from '@nextcloud/vue/dist/Components/Modal'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
@@ -280,11 +306,12 @@ import {
 	showError,
 } from '@nextcloud/dialogs'
 import MoneyBusterLink from '../MoneyBusterLink'
+import QRCode from './QRCode'
 import cospend from '../state'
 import * as constants from '../constants'
 import * as network from '../network'
 import axios from '@nextcloud/axios'
-import { Timer } from '../utils'
+import { getComplementaryColor, hexToDarkerHex, Timer } from '../utils'
 
 export default {
 	name: 'SharingTabSidebar',
@@ -299,6 +326,8 @@ export default {
 		ActionCheckbox,
 		ActionLink,
 		Multiselect,
+		Modal,
+		QRCode,
 	},
 
 	props: {
@@ -324,6 +353,9 @@ export default {
 			circleMultiselectIconUrl: OCA.Accessibility?.theme === 'dark'
 				? generateUrl('/svg/circles/circles?color=ffffff')
 				: generateUrl('/svg/circles/circles?color=000000'),
+			shareLinkQrcodeUrl: null,
+			qrcodeColor: cospend.themeColorDark,
+			qrcodeImageUrl: generateUrl('/svg/cospend/cospend_square_bg?color=' + hexToDarkerHex(getComplementaryColor(cospend.themeColorDark)).replace('#', '')),
 		}
 	},
 
@@ -564,6 +596,17 @@ export default {
 				showError(t('cospend', 'Link could not be copied to clipboard.'))
 			}
 		},
+		generateCospendLink(access) {
+			return 'cospend://' + window.location.host
+				+ generateUrl('').replace('/index.php', '')
+				+ access.token + '/' + encodeURIComponent(access.password || 'no-pass')
+		},
+		displayCospendLinkQRCode(access) {
+			this.shareLinkQrcodeUrl = this.generateCospendLink(access)
+		},
+		closeQrcodeModal() {
+			this.shareLinkQrcodeUrl = null
+		},
 		addLink() {
 			this.addSharedAccess({ type: constants.SHARE_TYPE.PUBLIC_LINK })
 		},
@@ -606,6 +649,26 @@ export default {
 <style scoped lang="scss">
 .add-public-link-line * {
 	cursor: pointer;
+}
+
+.icon-qrcode {
+	background-image: url('../../img/qrcode.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.qrcode-modal-content {
+	margin: 12px;
+	.qrcode-wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	p {
+		max-width: 400px;
+		overflow-wrap: anywhere;
+		user-select: text;
+	}
 }
 
 .shareInput {

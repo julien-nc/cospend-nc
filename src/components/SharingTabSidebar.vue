@@ -42,8 +42,13 @@
 						:image-url="qrcodeImageUrl"
 						:rounded="100" />
 				</div>
+				<hr>
 				<p>
-					{{ shareLinkQrcodeUrl }}
+					{{ t('cospend', 'Scan this QRCode with your mobile device to add project "{name}" in MoneyBuster or PayForMe', { name: project.name }) }}
+				</p>
+				<hr>
+				<p>
+					{{ t('cospend', 'QRCode content: ') + shareLinkQrcodeUrl }}
 				</p>
 			</div>
 		</Modal>
@@ -224,8 +229,16 @@
 				<div class="avatardiv icon icon-password fixed-icon"
 					:style="'background-image: url(' + passwordIconUrl + ')'" />
 				<span class="username">
-					<span>{{ t('cospend', 'Password protected access') }}</span>
+					<span>{{ t('cospend', 'Password protected access') + ' ' + t('cospend', '(deprecated)') }}</span>
 				</span>
+
+				<Actions>
+					<ActionButton
+						icon="icon-info"
+						@click="oldLinkInfoClick">
+						{{ t('cospend', 'More information') }}
+					</ActionButton>
+				</Actions>
 
 				<Actions>
 					<ActionLink
@@ -282,9 +295,6 @@
 				<input type="submit" value="" class="icon-confirm">
 			</form>
 		</div>
-		<br><hr><br>
-		<MoneyBusterLink
-			:project="project" />
 	</div>
 </template>
 
@@ -305,7 +315,6 @@ import {
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
-import MoneyBusterLink from '../MoneyBusterLink'
 import QRCode from './QRCode'
 import cospend from '../state'
 import * as constants from '../constants'
@@ -317,7 +326,6 @@ export default {
 	name: 'SharingTabSidebar',
 
 	components: {
-		MoneyBusterLink,
 		Avatar,
 		Actions,
 		ActionButton,
@@ -642,6 +650,12 @@ export default {
 					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
 				)
 			})
+		},
+		oldLinkInfoClick() {
+			OC.dialogs.info(
+				t('cospend', 'Password protected access is now deprecated. You can use the share links instead, they can be password protected too.'),
+				t('cospend', 'Info')
+			)
 		},
 	},
 }

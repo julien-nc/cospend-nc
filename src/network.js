@@ -278,18 +278,6 @@ export function deleteBills(projectid, billIds) {
 	return axios.delete(url, req)
 }
 
-export function checkPassword(projectid, password, successCB) {
-	const url = generateUrl('/apps/cospend/checkpassword/' + projectid + '/' + password)
-	axios.get(url)
-		.then((response) => {
-			successCB(response.data)
-		})
-		.catch((error) => {
-			showError(t('cospend', 'Failed to check password.'))
-			console.debug(error)
-		})
-}
-
 export function importProject(targetPath, isSplitWise) {
 	const req = {
 		params: {

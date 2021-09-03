@@ -124,6 +124,7 @@
 						@submit="submitPassword(access, $event)">
 						{{ t('cospend', 'Set link password') }}
 					</ActionInput>
+					<ActionSeparator />
 					<ActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.VIEWER, access)"
 						:checked="access.accesslevel === constants.ACCESS.VIEWER"
@@ -148,6 +149,7 @@
 						@change="clickAccessLevel(access, constants.ACCESS.ADMIN)">
 						{{ t('cospend', 'Admin') }}
 					</ActionRadio>
+					<ActionSeparator />
 					<ActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
 						icon="icon-delete"
 						@click="clickDeleteAccess(access)">
@@ -307,6 +309,7 @@ import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
 import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
 import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
 import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
+import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 
 import { getCurrentUser } from '@nextcloud/auth'
@@ -333,6 +336,7 @@ export default {
 		ActionInput,
 		ActionCheckbox,
 		ActionLink,
+		ActionSeparator,
 		Multiselect,
 		Modal,
 		QRCode,

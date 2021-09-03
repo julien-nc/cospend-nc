@@ -137,7 +137,7 @@
 		</h3>
 		<EmptyContent v-else-if="bills.length === 0 && !loading"
 			icon="icon-cospend-raw">
-			{{ t('cospend', 'No bills yet') }}
+			{{ t('cospend', 'No bills to show') }}
 		</EmptyContent>
 		<h2 v-show="loading"
 			class="icon-loading-small loading-icon" />
@@ -382,8 +382,12 @@ export default {
 				)
 			})
 		},
-		toggleFilterMode(emit = true) {
-			this.filterMode = !this.filterMode
+		toggleFilterMode(emit = true, enabled = null) {
+			if (enabled === null) {
+				this.filterMode = !this.filterMode
+			} else {
+				this.filterMode = enabled
+			}
 			if (emit && !this.filterMode) {
 				this.$emit('reset-filters')
 			}

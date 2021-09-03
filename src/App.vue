@@ -67,7 +67,7 @@
 			<EmptyContent v-else-if="!isMobile"
 				class="central-empty-content"
 				icon="icon-cospend">
-				{{ t('cospend', 'No bill selected') }}
+				{{ currentProjectId ? t('cospend', 'Project {name}', { name: currentProjectId }) : t('cospend', 'Select a project') }}
 			</EmptyContent>
 			<div v-if="!isMobile"
 				class="content-buttons">
@@ -483,7 +483,7 @@ export default {
 				this.selectedMemberId = null
 				this.selectedCategoryFilter = 'placeholder'
 				this.selectedPaymentModeFilter = 'placeholder'
-				this.$refs.billList.toggleFilterMode(false)
+				this.$refs.billList.toggleFilterMode(false, false)
 				this.getBills(cospend.currentProjectId, null, () => { this.onNewBillClicked(bill) })
 			} else {
 				// find potentially existing new bill
@@ -659,6 +659,7 @@ export default {
 		},
 		createProject(name, id) {
 			network.createProject(name, id).then((response) => {
+				this.$refs.billList.toggleFilterMode(false, false)
 				this.addProject(response.data)
 				this.selectProject(response.data.id)
 			}).catch((error) => {
@@ -681,7 +682,9 @@ export default {
 					window.location.replace(redirectUrl)
 				}
 				showSuccess(t('cospend', 'Deleted project {id}', { id: projectid }))
-				this.deselectProject()
+				if (this.currentProjectId === projectid) {
+					this.deselectProject()
+				}
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to delete project')

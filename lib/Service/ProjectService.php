@@ -5205,8 +5205,9 @@ class ProjectService {
 					$previousLineEmpty = false;
 					$currentSection = null;
 					$row = 0;
-					while (($data = fgetcsv($handle, 1000, ',')) !== false) {
-						if ($data === [null]) {
+					while (($data = fgetcsv($handle, 0, ',')) !== false) {
+						$uni = array_unique($data);
+						if ($data === [null] || (count($uni) === 1 && $uni[0] === '')) {
 							$previousLineEmpty = true;
 						} elseif ($row === 0 || $previousLineEmpty) {
 							// determine which section we're entering
@@ -5214,7 +5215,9 @@ class ProjectService {
 							$nbCol = count($data);
 							$columns = [];
 							for ($c = 0; $c < $nbCol; $c++) {
-								$columns[$data[$c]] = $c;
+								if ($data[$c] !== '') {
+									$columns[$data[$c]] = $c;
+								}
 							}
 							if (array_key_exists('what', $columns)
 								&& array_key_exists('amount', $columns)

@@ -5,11 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-## 1.3.14 – 2021-08-09
+## 1.3.16 – 2021-09-04
 ### Added
 - category and payment mode creation directly in bill form multiselect
 - custom payment modes
   [#69](https://github.com/eneiluj/cospend-nc/issues/69) @AllesMeins
+- password protection for share links
+  [#9](https://github.com/eneiluj/cospend-nc/issues/9) @simonspa
+- bill list filters (category and payment mode)
+  [#80](https://github.com/eneiluj/cospend-nc/issues/80) @webflo-dev
+- QRCode for share links (to add the project in mobile clients)
 
 ### Changed
 - set current time as default to new bills
@@ -17,6 +22,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - allow bill creation with only one member
   [#62](https://github.com/eneiluj/cospend-nc/issues/62) @hellojaccc
   [#18](https://github.com/eneiluj/cospend-nc/issues/18) @xetyr
+- many design improvements
+- progressively get rid of public access stuff
+- fix import with files that were edited with LibreOffice like software
+  [#79](https://github.com/eneiluj/cospend-nc/issues/79) @TtuxX
+- change export format, keep import compatible with the old one
 
 ### Fixed
 - fix error when user ID is null in activity provider

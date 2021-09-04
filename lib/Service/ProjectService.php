@@ -2384,6 +2384,11 @@ class ProjectService {
 			if ($dbColor === null) {
 				$av = $this->avatarManager->getGuestAvatar($dbName);
 				$dbColor = $av->avatarBackgroundColor($dbName);
+				$dbColor = [
+					'r' => $dbColor->{'r'},
+					'g' => $dbColor->{'g'},
+					'b' => $dbColor->{'b'},
+				];
 			} else {
 				$dbColor = $this->hexToRgb($dbColor);
 			}
@@ -5064,9 +5069,10 @@ class ProjectService {
 		}
 		$file = $folder->newFile($filename);
 		$handler = $file->fopen('w');
+		// members
 		fwrite(
 			$handler,
-			"what,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,repeatfreq,repeatallactive,repeatuntil,categoryid,paymentmode,paymentmodeid,comment\n"
+			"name,weight,active,color\n"
 		);
 		$members = $projectInfo['members'];
 		$memberIdToName = [];
@@ -5076,23 +5082,29 @@ class ProjectService {
 			$memberIdToName[$member['id']] = $member['name'];
 			$memberIdToWeight[$member['id']] = $member['weight'];
 			$memberIdToActive[$member['id']] = (int) $member['activated'];
+			$c = $member['color'];
 			fwrite(
 				$handler,
-				'deleteMeIfYouWant,1,1970-01-01,0,"'
-					. $member['name'] . '",'
+				'"' . $member['name'] . '",'
 					. (float) $member['weight'] . ','
 					. (int) $member['activated'] . ',"'
-					. $member['name'] . '",n,,,,,,,'
+					. sprintf("#%02x%02x%02x", $c['r'] ?? 0, $c['g'] ?? 0, $c['b'] ?? 0) . '"'
 					. "\n"
 			);
 		}
+		// bills
+		fwrite($handler, "\n");
+		fwrite(
+			$handler,
+			"what,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,repeatfreq,repeatallactive,repeatuntil,categoryid,paymentmode,paymentmodeid,comment\n"
+		);
 		$bills = $this->getBills($projectid);
 		foreach ($bills as $bill) {
 			$owerNames = [];
 			foreach ($bill['owers'] as $ower) {
 				$owerNames[] = $ower['name'];
 			}
-			$owersTxt = implode(', ', $owerNames);
+			$owersTxt = implode(',', $owerNames);
 
 			$payer_id = $bill['payer_id'];
 			$payer_name = $memberIdToName[$payer_id];
@@ -5193,8 +5205,7 @@ class ProjectService {
 			if ($file->getType() === FileInfo::TYPE_FILE) {
 				if (($handle = $file->fopen('r')) !== false) {
 					$columns = [];
-					$membersWeight = [];
-					$membersActive = [];
+					$membersByName = [];
 					$bills = [];
 					$currencies = [];
 					$mainCurrencyName = null;
@@ -5227,6 +5238,12 @@ class ProjectService {
 								&& array_key_exists('owers', $columns)
 							) {
 								$currentSection = 'bills';
+							} elseif (array_key_exists('name', $columns)
+								&& array_key_exists('weight', $columns)
+								&& array_key_exists('active', $columns)
+								&& array_key_exists('color', $columns)
+							) {
+								$currentSection = 'members';
 							} elseif (array_key_exists('icon', $columns)
 								&& array_key_exists('color', $columns)
 								&& array_key_exists('paymentmodeid', $columns)
@@ -5283,6 +5300,25 @@ class ProjectService {
 										'exchange_rate' => $exchange_rate,
 									];
 								}
+							} elseif ($currentSection === 'members') {
+								$name = $data[$columns['name']];
+								$weight = $data[$columns['weight']];
+								$active = $data[$columns['active']];
+								$color = $data[$columns['color']];
+								if (strlen($name) > 1
+									&& is_numeric($weight)
+									&& is_numeric($active)
+									&& preg_match('/^#[0-9A-Fa-f]+$/', $color) !== false
+								) {
+									$membersByName[$name] = [
+										'weight' => $weight,
+										'active' => (int) $active !== 0,
+										'color' => $color,
+									];
+								} else {
+									fclose($handle);
+									return ['message' => $this->trans->t('Malformed CSV, invalid member on line %1$s', [$row + 1])];
+								}
 							} elseif ($currentSection === 'bills') {
 								$what = $data[$columns['what']];
 								$amount = $data[$columns['amount']];
@@ -5295,7 +5331,7 @@ class ProjectService {
 								}
 								$payer_name = $data[$columns['payer_name']];
 								$payer_weight = $data[$columns['payer_weight']];
-								$owers = $data[$columns['owers']];
+								$owers = preg_replace('/\s+/', '', $data[$columns['owers']]);
 								$payer_active = array_key_exists('payer_active', $columns) ? $data[$columns['payer_active']] : 1;
 								$repeat = array_key_exists('repeat', $columns) ? $data[$columns['repeat']] : 'n';
 								$categoryid = array_key_exists('categoryid', $columns) ? (int) $data[$columns['categoryid']] : null;
@@ -5307,31 +5343,39 @@ class ProjectService {
 								$comment = array_key_exists('comment', $columns) ? urldecode($data[$columns['comment']] ?? '') : null;
 
 								// manage members
-								$membersActive[$payer_name] = (int) $payer_active;
-								if (is_numeric($payer_weight)) {
-									$membersWeight[$payer_name] = (float) $payer_weight;
-								} else {
-									fclose($handle);
-									return ['message' => $this->trans->t('Malformed CSV, bad payer weight on line %1$s', [$row + 1])];
+								if (!isset($membersByName[$payer_name])) {
+									$membersByName[$payer_name] = [
+										'active' => ((int) $payer_active) !== 0,
+										'weight' => 1.0,
+										'color' => null,
+									];
+									if (is_numeric($payer_weight)) {
+										$membersByName[$payer_name]['weight'] = (float) $payer_weight;
+									} else {
+										fclose($handle);
+										return ['message' => $this->trans->t('Malformed CSV, invalid payer weight on line %1$s', [$row + 1])];
+									}
 								}
 								if (strlen($owers) === 0) {
 									fclose($handle);
-									return ['message' => $this->trans->t('Malformed CSV, bad owers on line %1$s', [$row + 1])];
+									return ['message' => $this->trans->t('Malformed CSV, invalid owers on line %1$s', [$row + 1])];
 								}
 								if ($what !== 'deleteMeIfYouWant') {
-									$owersArray = explode(', ', $owers);
+									$owersArray = explode(',', $owers);
 									foreach ($owersArray as $ower) {
 										if (strlen($ower) === 0) {
 											fclose($handle);
-											return ['message' => $this->trans->t('Malformed CSV, bad owers on line %1$s', [$row + 1])];
+											return ['message' => $this->trans->t('Malformed CSV, invalid owers on line %1$s', [$row + 1])];
 										}
-										if (!array_key_exists($ower, $membersWeight)) {
-											$membersWeight[$ower] = 1.0;
+										if (!isset($membersByName[$ower])) {
+											$membersByName[$ower]['weight'] = 1.0;
+											$membersByName[$ower]['active'] = true;
+											$membersByName[$ower]['color'] = null;
 										}
 									}
 									if (!is_numeric($amount)) {
 										fclose($handle);
-										return ['message' => $this->trans->t('Malformed CSV, bad amount on line %1$s', [$row + 1])];
+										return ['message' => $this->trans->t('Malformed CSV, invalid amount on line %1$s', [$row + 1])];
 									}
 									$bills[] = [
 										'what' => $what,
@@ -5402,8 +5446,10 @@ class ProjectService {
 						}
 					}
 					// add members
-					foreach ($membersWeight as $memberName => $weight) {
-						$insertedMember = $this->addMember($projectid, $memberName, $weight, $membersActive[$memberName]);
+					foreach ($membersByName as $memberName => $member) {
+						$insertedMember = $this->addMember(
+							$projectid, $memberName, $member['weight'], $member['active'], $member['color'] ?? null
+						);
 						if (!is_array($insertedMember)) {
 							$this->deleteProject($projectid);
 							return ['message' => $this->trans->t('Error when adding member %1$s', [$memberName])];

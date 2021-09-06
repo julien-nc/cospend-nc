@@ -296,7 +296,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$level = $this->projectService->getGuestAccessLevel('superproj');
 		$this->assertEquals(Application::ACCESS_PARTICIPANT, $level);
 		$level = $this->projectService->getGuestAccessLevel('superproj_doesnotexist');
-		$this->assertEquals(Application::ACCESS_PARTICIPANT, $level);
+		$this->assertEquals(Application::NO_ACCESS, $level);
 
 		// get members
 		$resp = $this->pageController->webGetProjects();

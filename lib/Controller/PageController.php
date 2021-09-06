@@ -421,7 +421,7 @@ class PageController extends ApiController {
 		$result = $this->projectService->createProject($name, $id, $password, $userEmail, $this->userId);
 		if (isset($result['id'])) {
 			$projInfo = $this->projectService->getProjectInfo($result['id']);
-			$projInfo['myaccesslevel'] = Application::ACCESS_ADMIN;
+			$projInfo['myaccesslevel'] = Application::ACCESS_LEVELS['admin'];
 			return new DataResponse($projInfo);
 		} else {
 			return new DataResponse($result, 400);
@@ -433,7 +433,7 @@ class PageController extends ApiController {
 	 *
 	 */
 	public function webDeleteProject(string $projectid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_ADMIN) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['admin']) {
 			$result = $this->projectService->deleteProject($projectid);
 			if (!isset($result['error'])) {
 				return new DataResponse($result);
@@ -453,7 +453,7 @@ class PageController extends ApiController {
 	 *
 	 */
 	public function webDeleteBill(string $projectid, int $billid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_PARTICIPANT) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
 			$billObj = null;
 			if ($this->projectService->getBill($projectid, $billid) !== null) {
 				$billObj = $this->billMapper->find($billid);
@@ -485,7 +485,7 @@ class PageController extends ApiController {
 	 *
 	 */
 	public function webDeleteBills(string $projectid, array $billIds): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_PARTICIPANT) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
 			foreach ($billIds as $billid) {
 				$billObj = null;
 				if ($this->projectService->getBill($projectid, $billid) !== null) {
@@ -609,7 +609,7 @@ class PageController extends ApiController {
 	public function webEditMember(string $projectid, int $memberid, ?string $name = null,
 								?float $weight = null, $activated = null, ?string $color = null,
 								?string $userid = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			if ($activated === 'true') {
 				$activated = true;
 			} elseif ($activated === 'false') {
@@ -641,7 +641,7 @@ class PageController extends ApiController {
 								?int $categoryid = null, ?int $repeatallactive = null, ?string $repeatuntil = null,
 								?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
-		if ($userAccessLevel >= Application::ACCESS_PARTICIPANT) {
+		if ($userAccessLevel >= Application::ACCESS_LEVELS['participant']) {
 			$result =  $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
 													   $amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
 													   $repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq);
@@ -671,7 +671,7 @@ class PageController extends ApiController {
 	 */
 	public function webRepeatBill(string $projectid, int $billid): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
-		if ($userAccessLevel >= Application::ACCESS_PARTICIPANT) {
+		if ($userAccessLevel >= Application::ACCESS_LEVELS['participant']) {
 			$result = $this->projectService->cronRepeatBills($billid);
 			return new DataResponse($result);
 		} else {
@@ -693,7 +693,7 @@ class PageController extends ApiController {
 								?int $repeatallactive = null, ?string $repeatuntil = null, ?int $timestamp = null,
 								?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
-		if ($userAccessLevel >= Application::ACCESS_PARTICIPANT) {
+		if ($userAccessLevel >= Application::ACCESS_LEVELS['participant']) {
 			$paymentModes = $this->projectService->getCategoriesOrPaymentModes($projectid, false);
 			foreach ($billIds as $billid) {
 				$result =  $this->projectService->editBill(
@@ -729,7 +729,7 @@ class PageController extends ApiController {
 	public function webEditProject(string $projectid, string $name, ?string $contact_email = null, ?string $password = null,
 									?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
 									?string $categorysort = null, ?string $paymentmodesort = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_ADMIN) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['admin']) {
 			$result = $this->projectService->editProject(
 				$projectid, $name, $contact_email, $password, $autoexport,
 				$currencyname, $deletion_disabled, $categorysort, $paymentmodesort
@@ -755,7 +755,7 @@ class PageController extends ApiController {
 							?float $amount = null, ?string $repeat = null, ?string $paymentmode = null, ?int $paymentmodeid = null,
 							?int $categoryid = null, ?int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
 							?string $comment = null, ?int $repeatfreq = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_PARTICIPANT) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
 			$result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
 													 $repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
 													 $repeatuntil, $timestamp, $comment, $repeatfreq);
@@ -784,7 +784,7 @@ class PageController extends ApiController {
 	 */
 	public function webAddMember(string $projectid, string $name, ?string $userid = null,
 								float $weight = 1, int $active = 1, ?string $color=null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->addMember($projectid, $name, $weight, $active !== 0, $color, $userid);
 			if (!isset($result['error'])) {
 				return new DataResponse($result);
@@ -968,10 +968,10 @@ class PageController extends ApiController {
 									?bool $deletion_disabled = null, ?string $categorysort = null, ?string $paymentmodesort = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $passwd) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_ADMIN)
+			($this->checkLogin($projectid, $passwd) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['admin'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $passwd === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_ADMIN)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['admin'])
 		) {
 			$result = $this->projectService->editProject(
 				$publicShareInfo['projectid'] ?? $projectid, $name, $contact_email, $password, $autoexport,
@@ -998,7 +998,7 @@ class PageController extends ApiController {
 	public function apiPrivSetProjectInfo(string $projectid, string $name, ?string $contact_email = null, ?string $password = null,
 										?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
 										?string $categorysort = null, ?string $paymentmodesort = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_ADMIN) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['admin']) {
 			$result = $this->projectService->editProject(
 				$projectid, $name, $contact_email, $password, $autoexport,
 				$currencyname, $deletion_disabled, $categorysort, $paymentmodesort
@@ -1203,10 +1203,10 @@ class PageController extends ApiController {
 								float $weight = 1, int $active = 1, ?string $color = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_MAINTENER)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['maintainer'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_MAINTENER)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
 		) {
 			$result = $this->projectService->addMember(
 				$publicShareInfo['projectid'] ?? $projectid, $name, $weight, $active !== 0, $color, null
@@ -1234,10 +1234,10 @@ class PageController extends ApiController {
 									?string $color = null, ?string $userid = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_MAINTENER)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['maintainer'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_MAINTENER)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
 		) {
 			$result = $this->projectService->addMember(
 				$publicShareInfo['projectid'] ?? $projectid, $name, $weight, $active !== 0, $color, $userid
@@ -1262,7 +1262,7 @@ class PageController extends ApiController {
 	 */
 	public function apiPrivAddMember(string $projectid, string $name, float $weight = 1, int $active = 1,
 									?string $color = null, ?string $userid = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->addMember($projectid, $name, $weight, $active !== 0, $color, $userid);
 			if (!isset($result['error'])) {
 				return new DataResponse($result['id']);
@@ -1290,10 +1290,10 @@ class PageController extends ApiController {
 							?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_PARTICIPANT)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['participant'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_PARTICIPANT)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
 		) {
 			$result = $this->projectService->addBill(
 				$publicShareInfo['projectid'] ?? $projectid, $date, $what, $payer, $payed_for, $amount,
@@ -1337,7 +1337,7 @@ class PageController extends ApiController {
 								?string $paymentmode = null, ?int $paymentmodeid = null,
 								?int $categoryid = null, ?int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
 								?string $comment = null, ?int $repeatfreq = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_PARTICIPANT) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
 			$result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
 													 $repeat, $paymentmode, $paymentmodeid, $categoryid, $repeatallactive,
 													 $repeatuntil, $timestamp, $comment, $repeatfreq);
@@ -1369,10 +1369,10 @@ class PageController extends ApiController {
 	public function apiRepeatBill(string $projectid, string $password, int $billid): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_PARTICIPANT)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['participant'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_PARTICIPANT)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
 		) {
 			// TODO check if bill is in this project
 			$result = $this->projectService->cronRepeatBills($billid);
@@ -1399,10 +1399,10 @@ class PageController extends ApiController {
 								?int $repeatfreq = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_PARTICIPANT)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['participant'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_PARTICIPANT)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
 		) {
 			$result = $this->projectService->editBill(
 				$publicShareInfo['projectid'] ?? $projectid, $billid, $date, $what, $payer, $payed_for,
@@ -1451,10 +1451,10 @@ class PageController extends ApiController {
 								?int $repeatfreq = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_PARTICIPANT)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['participant'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_PARTICIPANT)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
 		) {
 			if (is_null($publicShareInfo)) {
 				$authorFullText = $this->trans->t('Guest access');
@@ -1502,7 +1502,7 @@ class PageController extends ApiController {
 								?int $categoryid = null, ?int $repeatallactive = null,
 								?string $repeatuntil = null, ?int $timestamp = null, ?string $comment=null,
 								?int $repeatfreq = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_PARTICIPANT) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
 			$result = $this->projectService->editBill($projectid, $billid, $date, $what, $payer, $payed_for,
 													  $amount, $repeat, $paymentmode, $paymentmodeid, $categoryid,
 													  $repeatallactive, $repeatuntil, $timestamp, $comment, $repeatfreq);
@@ -1535,10 +1535,10 @@ class PageController extends ApiController {
 	public function apiDeleteBill(string $projectid, string $password, int $billid): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_PARTICIPANT)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['participant'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_PARTICIPANT)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
 		) {
 			$billObj = null;
 			if ($this->projectService->getBill($publicShareInfo['projectid'] ?? $projectid, $billid) !== null) {
@@ -1583,10 +1583,10 @@ class PageController extends ApiController {
 	public function apiDeleteBills(string $projectid, string $password, array $billIds): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_PARTICIPANT)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['participant'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_PARTICIPANT)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
 		) {
 			if (is_null($publicShareInfo)) {
 				$authorFullText = $this->trans->t('Guest access');
@@ -1630,7 +1630,7 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiPrivDeleteBill(string $projectid, int $billid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_PARTICIPANT) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
 			$billObj = null;
 			if ($this->projectService->getBill($projectid, $billid) !== null) {
 				$billObj = $this->billMapper->find($billid);
@@ -1666,10 +1666,10 @@ class PageController extends ApiController {
 	public function apiDeleteMember(string $projectid, string $password, int $memberid): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_MAINTENER)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['maintainer'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_MAINTENER)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
 		) {
 			$result = $this->projectService->deleteMember($publicShareInfo['projectid'] ?? $projectid, $memberid);
 			if (isset($result['success'])) {
@@ -1691,7 +1691,7 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiPrivDeleteMember(string $projectid, int $memberid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->deleteMember($projectid, $memberid);
 			if (isset($result['success'])) {
 				return new DataResponse('OK');
@@ -1715,10 +1715,10 @@ class PageController extends ApiController {
 	public function apiDeleteProject(string $projectid, string $password): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_ADMIN)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['admin'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_ADMIN)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['admin'])
 		) {
 			$result = $this->projectService->deleteProject($publicShareInfo['projectid'] ?? $projectid);
 			if (!isset($result['error'])) {
@@ -1740,7 +1740,7 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiPrivDeleteProject(string $projectid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_ADMIN) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['admin']) {
 			$result = $this->projectService->deleteProject($projectid);
 			if (!isset($result['error'])) {
 				return new DataResponse($result);
@@ -1766,10 +1766,10 @@ class PageController extends ApiController {
 								?string $color = null, ?string $userid = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_MAINTENER)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['maintainer'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_MAINTENER)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
 		) {
 			if ($activated === 'true') {
 				$activated = true;
@@ -1801,7 +1801,7 @@ class PageController extends ApiController {
 	 */
 	public function apiPrivEditMember(string $projectid, int $memberid, ?string $name = null, ?float $weight = null,
 									$activated = null, ?string $color = null, ?string $userid = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			if ($activated === 'true') {
 				$activated = true;
 			} elseif ($activated === 'false') {
@@ -1925,10 +1925,10 @@ class PageController extends ApiController {
 									int $precision = 2, ?int $maxTimestamp = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_PARTICIPANT)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['participant'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_PARTICIPANT)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
 		) {
 			$result = $this->projectService->autoSettlement(
 				$publicShareInfo['projectid'] ?? $projectid, $centeredOn, $precision, $maxTimestamp
@@ -1952,7 +1952,7 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiPrivAutoSettlement(string $projectid, ?int $centeredOn = null, int $precision = 2, ?int $maxTimestamp = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_PARTICIPANT) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
 			$result = $this->projectService->autoSettlement($projectid, $centeredOn, $precision, $maxTimestamp);
 			if (isset($result['success'])) {
 				return new DataResponse('OK');
@@ -1975,7 +1975,7 @@ class PageController extends ApiController {
 		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
 		// allow edition if user is at least participant and has greater or equal access level than target
 		// user can't give higher access level than his/her level (do not downgrade one)
-		if ($userAccessLevel >= Application::ACCESS_PARTICIPANT && $userAccessLevel >= $accesslevel && $userAccessLevel >= $shareAccessLevel) {
+		if ($userAccessLevel >= Application::ACCESS_LEVELS['participant'] && $userAccessLevel >= $accesslevel && $userAccessLevel >= $shareAccessLevel) {
 			$result = $this->projectService->editShareAccessLevel($projectid, $shid, $accesslevel);
 			if (isset($result['success'])) {
 				return new DataResponse('OK');
@@ -1998,7 +1998,7 @@ class PageController extends ApiController {
 		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
 		// allow edition if user is at least participant and has greater or equal access level than target
 		// user can't give higher access level than his/her level (do not downgrade one)
-		if ($userAccessLevel >= Application::ACCESS_PARTICIPANT && $userAccessLevel >= $shareAccessLevel) {
+		if ($userAccessLevel >= Application::ACCESS_LEVELS['participant'] && $userAccessLevel >= $shareAccessLevel) {
 			$result = $this->projectService->editShareAccess($projectid, $shid, $label, $password);
 			if (isset($result['success'])) {
 				return new DataResponse('OK');
@@ -2018,7 +2018,7 @@ class PageController extends ApiController {
 	 */
 	public function editGuestAccessLevel(string $projectid, int $accesslevel): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
-		if ($userAccessLevel >= Application::ACCESS_ADMIN) {
+		if ($userAccessLevel >= Application::ACCESS_LEVELS['admin']) {
 			$result = $this->projectService->editGuestAccessLevel($projectid, $accesslevel);
 			if (isset($result['success'])) {
 				return new DataResponse('OK');
@@ -2046,7 +2046,7 @@ class PageController extends ApiController {
 		);
 		//if ($this->checkLogin($projectid, $password)) {
 		//    $guestAccessLevel = $this->projectService->getGuestAccessLevel($projectid);
-		//    if ($guestAccessLevel >= Application::ACCESS_PARTICIPANT and $guestAccessLevel >= $accesslevel) {
+		//    if ($guestAccessLevel >= Application::ACCESS_LEVELS['participant'] and $guestAccessLevel >= $accesslevel) {
 		//        $result = $this->projectService->editGuestAccessLevel($projectid, $accesslevel);
 		//        if ($result === 'OK') {
 		//            return new DataResponse($result);
@@ -2074,7 +2074,7 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 */
 	public function addPaymentMode(string $projectid, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->addPaymentMode($projectid, $name, $icon, $color, $order);
 			if (is_numeric($result)) {
 				return new DataResponse($result);
@@ -2098,10 +2098,10 @@ class PageController extends ApiController {
 	public function apiAddPaymentMode(string $projectid, string $password, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_MAINTENER)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['maintainer'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_MAINTENER)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
 		) {
 			$result = $this->projectService->addPaymentMode(
 				$publicShareInfo['projectid'] ?? $projectid, $name, $icon, $color, $order
@@ -2125,7 +2125,7 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiPrivAddPaymentMode(string $projectid, string $name, ?string $icon = null, ?string $color = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->addPaymentMode($projectid, $name, $icon, $color);
 			if (is_numeric($result)) {
 				return new DataResponse($result);
@@ -2145,7 +2145,7 @@ class PageController extends ApiController {
 	 */
 	public function editPaymentMode(string $projectid, int $pmid, ?string $name = null,
 								 ?string $icon = null, ?string $color = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->editPaymentMode($projectid, $pmid, $name, $icon, $color);
 			if (is_array($result)) {
 				return new DataResponse($result);
@@ -2164,7 +2164,7 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 */
 	public function savePaymentModeOrder(string $projectid, array $order): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			if ($this->projectService->savePaymentModeOrder($projectid, $order)) {
 				return new DataResponse(true);
 			} else {
@@ -2188,10 +2188,10 @@ class PageController extends ApiController {
 									?string $icon = null, ?string $color = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_MAINTENER)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['maintainer'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_MAINTENER)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
 		) {
 			$result = $this->projectService->editPaymentMode(
 				$publicShareInfo['projectid'] ?? $projectid, $pmid, $name, $icon, $color
@@ -2218,10 +2218,10 @@ class PageController extends ApiController {
 	public function apiSavePaymentModeOrder(string $projectid, string $password, array $order): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_MAINTENER)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['maintainer'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_MAINTENER)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
 		) {
 			if ($this->projectService->savePaymentModeOrder($publicShareInfo['projectid'] ?? $projectid, $order)) {
 				return new DataResponse(true);
@@ -2243,7 +2243,7 @@ class PageController extends ApiController {
 	 */
 	public function apiPrivEditPaymentMode(string $projectid, int $pmid, ?string $name = null,
 										?string $icon = null, ?string $color = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->editPaymentMode($projectid, $pmid, $name, $icon, $color);
 			if (is_array($result)) {
 				return new DataResponse($result);
@@ -2262,7 +2262,7 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 */
 	public function deletePaymentMode(string $projectid, int $pmid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->deletePaymentMode($projectid, $pmid);
 			if (isset($result['success'])) {
 				return new DataResponse($pmid);
@@ -2286,10 +2286,10 @@ class PageController extends ApiController {
 	public function apiDeletePaymentMode(string $projectid, string $password, int $pmid): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_MAINTENER)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['maintainer'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_MAINTENER)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
 		) {
 			$result = $this->projectService->deletePaymentMode($publicShareInfo['projectid'] ?? $projectid, $pmid);
 			if (isset($result['success'])) {
@@ -2311,7 +2311,7 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiPrivDeletePaymentMode(string $projectid, int $pmid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->deletePaymentMode($projectid, $pmid);
 			if (isset($result['success'])) {
 				return new DataResponse($pmid);
@@ -2330,7 +2330,7 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 */
 	public function addCategory(string $projectid, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->addCategory($projectid, $name, $icon, $color, $order);
 			if (is_numeric($result)) {
 				return new DataResponse($result);
@@ -2354,10 +2354,10 @@ class PageController extends ApiController {
 	public function apiAddCategory(string $projectid, string $password, string $name, ?string $icon, string $color, ?int $order = 0): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_MAINTENER)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['maintainer'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_MAINTENER)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
 		) {
 			$result = $this->projectService->addCategory(
 				$publicShareInfo['projectid'] ?? $projectid, $name, $icon, $color, $order
@@ -2382,7 +2382,7 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiPrivAddCategory(string $projectid, string $name, ?string $icon = null, ?string $color = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->addCategory($projectid, $name, $icon, $color);
 			if (is_numeric($result)) {
 				// inserted category id
@@ -2403,7 +2403,7 @@ class PageController extends ApiController {
 	 */
 	public function editCategory(string $projectid, int $categoryid, ?string $name = null,
 								?string $icon = null, ?string $color = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->editCategory($projectid, $categoryid, $name, $icon, $color);
 			if (is_array($result)) {
 				return new DataResponse($result);
@@ -2422,7 +2422,7 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 */
 	public function saveCategoryOrder(string $projectid, array $order): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			if ($this->projectService->saveCategoryOrder($projectid, $order)) {
 				return new DataResponse(true);
 			} else {
@@ -2446,10 +2446,10 @@ class PageController extends ApiController {
 									?string $icon = null, ?string $color = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_MAINTENER)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['maintainer'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_MAINTENER)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
 		) {
 			$result = $this->projectService->editCategory(
 				$publicShareInfo['projectid'] ?? $projectid, $categoryid, $name, $icon, $color
@@ -2476,10 +2476,10 @@ class PageController extends ApiController {
 	public function apiSaveCategoryOrder(string $projectid, string $password, array $order): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_MAINTENER)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['maintainer'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_MAINTENER)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
 		) {
 			if ($this->projectService->saveCategoryOrder($publicShareInfo['projectid'] ?? $projectid, $order)) {
 				return new DataResponse(true);
@@ -2501,7 +2501,7 @@ class PageController extends ApiController {
 	 */
 	public function apiPrivEditCategory(string $projectid, int $categoryid, ?string $name = null,
 										?string $icon = null, ?string $color = null): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->editCategory($projectid, $categoryid, $name, $icon, $color);
 			if (is_array($result)) {
 				return new DataResponse($result);
@@ -2520,7 +2520,7 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 */
 	public function deleteCategory(string $projectid, int $categoryid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->deleteCategory($projectid, $categoryid);
 			if (isset($result['success'])) {
 				return new DataResponse($categoryid);
@@ -2544,10 +2544,10 @@ class PageController extends ApiController {
 	public function apiDeleteCategory(string $projectid, string $password, int $categoryid): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_MAINTENER)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['maintainer'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_MAINTENER)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
 		) {
 			$result = $this->projectService->deleteCategory($publicShareInfo['projectid'] ?? $projectid, $categoryid);
 			if (isset($result['success'])) {
@@ -2569,7 +2569,7 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiPrivDeleteCategory(string $projectid, int $categoryid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->deleteCategory($projectid, $categoryid);
 			if (isset($result['success'])) {
 				return new DataResponse($categoryid);
@@ -2588,7 +2588,7 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 */
 	public function addCurrency(string $projectid, string $name, float $rate): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->addCurrency($projectid, $name, $rate);
 			if (is_numeric($result)) {
 				return new DataResponse($result);
@@ -2612,10 +2612,10 @@ class PageController extends ApiController {
 	public function apiAddCurrency(string $projectid, string $password, string $name, float $rate): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_MAINTENER)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['maintainer'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_MAINTENER)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
 		) {
 			$result = $this->projectService->addCurrency($publicShareInfo['projectid'] ?? $projectid, $name, $rate);
 			if (is_numeric($result)) {
@@ -2638,7 +2638,7 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiPrivAddCurrency(string $projectid, string $name, float $rate): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->addCurrency($projectid, $name, $rate);
 			if (is_numeric($result)) {
 				// inserted bill id
@@ -2658,7 +2658,7 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 */
 	public function editCurrency(string $projectid, int $currencyid, string $name, float $rate): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->editCurrency($projectid, $currencyid, $name, $rate);
 			if (!isset($result['message'])) {
 				return new DataResponse($result);
@@ -2682,10 +2682,10 @@ class PageController extends ApiController {
 	public function apiEditCurrency(string $projectid, string $password, int $currencyid, string $name, float $rate): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_MAINTENER)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['maintainer'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_MAINTENER)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
 		) {
 			$result = $this->projectService->editCurrency(
 				$publicShareInfo['projectid'] ?? $projectid, $currencyid, $name, $rate
@@ -2709,7 +2709,7 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiPrivEditCurrency(string $projectid, int $currencyid, string $name, float $rate): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->editCurrency($projectid, $currencyid, $name, $rate);
 			if (!isset($result['message'])) {
 				return new DataResponse($result);
@@ -2728,7 +2728,7 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 */
 	public function deleteCurrency(string $projectid, int $currencyid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->deleteCurrency($projectid, $currencyid);
 			if (isset($result['success'])) {
 				return new DataResponse($currencyid);
@@ -2752,10 +2752,10 @@ class PageController extends ApiController {
 	public function apiDeleteCurrency(string $projectid, string $password, int $currencyid): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
-			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_MAINTENER)
+			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['maintainer'])
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password'])
-				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_MAINTENER)
+				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['maintainer'])
 		) {
 			$result = $this->projectService->deleteCurrency($publicShareInfo['projectid'] ?? $projectid, $currencyid);
 			if (isset($result['success'])) {
@@ -2777,7 +2777,7 @@ class PageController extends ApiController {
 	 * @CORS
 	 */
 	public function apiPrivDeleteCurrency(string $projectid, int $currencyid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_MAINTENER) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['maintainer']) {
 			$result = $this->projectService->deleteCurrency($projectid, $currencyid);
 			if (isset($result['success'])) {
 				return new DataResponse($currencyid);
@@ -2795,9 +2795,9 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function addUserShare(string $projectid, string $userid, int $accesslevel = Application::ACCESS_PARTICIPANT,
+	public function addUserShare(string $projectid, string $userid, int $accesslevel = Application::ACCESS_LEVELS['participant'],
 								bool $manually_added = true): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_PARTICIPANT) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
 			$result = $this->projectService->addUserShare($projectid, $userid, $this->userId, $accesslevel, $manually_added);
 			if (!isset($result['message'])) {
 				return new DataResponse($result);
@@ -2819,7 +2819,7 @@ class PageController extends ApiController {
 		// allow to delete share if user perms are at least participant AND if this share perms are <= user perms
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
-		if ($userAccessLevel >= Application::ACCESS_PARTICIPANT && $userAccessLevel >= $shareAccessLevel) {
+		if ($userAccessLevel >= Application::ACCESS_LEVELS['participant'] && $userAccessLevel >= $shareAccessLevel) {
 			$result = $this->projectService->deleteUserShare($projectid, $shid, $this->userId);
 			if (isset($result['success'])) {
 				return new DataResponse('OK');
@@ -2838,7 +2838,7 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 */
 	public function addPublicShare(string $projectid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_PARTICIPANT) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
 			$result = $this->projectService->addPublicShare($projectid);
 			if (is_array($result)) {
 				return new DataResponse($result);
@@ -2859,7 +2859,7 @@ class PageController extends ApiController {
 	public function deletePublicShare(string $projectid, int $shid): DataResponse {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
-		if ($userAccessLevel >= Application::ACCESS_PARTICIPANT && $userAccessLevel >= $shareAccessLevel) {
+		if ($userAccessLevel >= Application::ACCESS_LEVELS['participant'] && $userAccessLevel >= $shareAccessLevel) {
 			$result = $this->projectService->deletePublicShare($projectid, $shid);
 			if (isset($result['success'])) {
 				return new DataResponse('OK');
@@ -2878,7 +2878,7 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 */
 	public function addGroupShare(string $projectid, string $groupid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_PARTICIPANT) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
 			$result = $this->projectService->addGroupShare($projectid, $groupid, $this->userId);
 			if (!isset($result['message'])) {
 				return new DataResponse($result);
@@ -2900,7 +2900,7 @@ class PageController extends ApiController {
 		// allow to delete share if user perms are at least participant AND if this share perms are <= user perms
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
-		if ($userAccessLevel >= Application::ACCESS_PARTICIPANT && $userAccessLevel >= $shareAccessLevel) {
+		if ($userAccessLevel >= Application::ACCESS_LEVELS['participant'] && $userAccessLevel >= $shareAccessLevel) {
 			$result = $this->projectService->deleteGroupShare($projectid, $shid, $this->userId);
 			if (isset($result['success'])) {
 				return new DataResponse('OK');
@@ -2919,7 +2919,7 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 */
 	public function addCircleShare(string $projectid, string $circleid): DataResponse {
-		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_PARTICIPANT) {
+		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
 			$result = $this->projectService->addCircleShare($projectid, $circleid, $this->userId);
 			if (!isset($result['message'])) {
 				return new DataResponse($result);
@@ -2941,7 +2941,7 @@ class PageController extends ApiController {
 		// allow to delete share if user perms are at least participant AND if this share perms are <= user perms
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
-		if ($userAccessLevel >= Application::ACCESS_PARTICIPANT && $userAccessLevel >= $shareAccessLevel) {
+		if ($userAccessLevel >= Application::ACCESS_LEVELS['participant'] && $userAccessLevel >= $shareAccessLevel) {
 			$result = $this->projectService->deleteCircleShare($projectid, $shid, $this->userId);
 			if (isset($result['success'])) {
 				return new DataResponse('OK');
@@ -3073,7 +3073,7 @@ class PageController extends ApiController {
 		$result = $this->projectService->importCsvProject($path, $this->userId);
 		if (isset($result['project_id'])) {
 			$projInfo = $this->projectService->getProjectInfo($result['project_id']);
-			$projInfo['myaccesslevel'] = Application::ACCESS_ADMIN;
+			$projInfo['myaccesslevel'] = Application::ACCESS_LEVELS['admin'];
 			return new DataResponse($projInfo);
 		} else {
 			return new DataResponse($result, 400);
@@ -3087,7 +3087,7 @@ class PageController extends ApiController {
 		$result = $this->projectService->importSWProject($path, $this->userId);
 		if (isset($result['project_id'])) {
 			$projInfo = $this->projectService->getProjectInfo($result['project_id']);
-			$projInfo['myaccesslevel'] = Application::ACCESS_ADMIN;
+			$projInfo['myaccesslevel'] = Application::ACCESS_LEVELS['admin'];
 			return new DataResponse($projInfo);
 		} else {
 			return new DataResponse($result, 400);

@@ -321,9 +321,9 @@ class PageNUtilsControllerTest extends TestCase {
 
 		// guest access level
 		$level = $this->projectService->getGuestAccessLevel('superproj');
-		$this->assertEquals(Application::ACCESS_PARTICIPANT, $level);
+		$this->assertEquals(Application::ACCESS_LEVELS['participant'], $level);
 		$level = $this->projectService->getGuestAccessLevel('superproj_doesnotexist');
-		$this->assertEquals(Application::NO_ACCESS, $level);
+		$this->assertEquals(Application::ACCESS_LEVELS['none'], $level);
 
 		// get members
 		$resp = $this->pageController->webGetProjects();
@@ -442,7 +442,12 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertTrue(in_array($idBill1, $ids));
 
 		// edit bill
-		$resp = $this->pageController->webEditBill('superproj', $idBill1, '2019-01-20', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, 'n');
+		$resp = $this->pageController->webEditBill(
+			'superproj', $idBill1, '2019-01-20', 'boomerang', $idMember1,
+			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['monthly'], null,
+			null, null, null, null,
+			null, 'newcom', 2
+		);
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 

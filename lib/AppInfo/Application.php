@@ -32,29 +32,37 @@ class Application extends App implements IBootstrap {
 
 	public const CAT_REIMBURSEMENT = -11;
 
-	public const SORT_ORDER_ALPHA = 'a';
-	public const SORT_ORDER_MANUAL = 'm';
-	public const SORT_ORDER_MOST_USED = 'u';
-	public const SORT_ORDER_MOST_RECENTLY_USED = 'r';
+	public const SORT_ORDERS = [
+		'alpha' => 'a',
+		'manual' => 'm',
+		'most_used' => 'u',
+		'most_recently_used' => 'r',
+	];
 
-	public const FREQUENCY_NO = 'n';
-	public const FREQUENCY_DAILY = 'd';
-	public const FREQUENCY_WEEKLY = 'w';
-	public const FREQUENCY_BI_WEEKLY = 'b';
-	public const FREQUENCY_SEMI_MONTHLY = 's';
-	public const FREQUENCY_MONTHLY = 'm';
-	public const FREQUENCY_YEARLY = 'y';
+	public const FREQUENCIES = [
+		'no' => 'n',
+		'daily' => 'd',
+		'weekly' => 'w',
+		'bi_weekly' => 'b',
+		'semi_monthly' => 's',
+		'monthly' => 'm',
+		'yearly' => 'y',
+	];
 
-	public const NO_ACCESS = 0;
-	public const ACCESS_VIEWER = 1;
-	public const ACCESS_PARTICIPANT = 2;
-	public const ACCESS_MAINTENER = 3;
-	public const ACCESS_ADMIN = 4;
+	public const ACCESS_LEVELS = [
+		'none' => 0,
+		'viewer' => 1,
+		'participant' => 2,
+		'maintainer' => 3,
+		'admin' => 4,
+	];
 
-	public const SHARE_TYPE_PUBLIC_LINK = 'l';
-	public const SHARE_TYPE_USER = 'u';
-	public const SHARE_TYPE_GROUP = 'g';
-	public const SHARE_TYPE_CIRCLE = 'c';
+	public const SHARE_TYPES = [
+		'public_link' => 'l',
+		'user' => 'u',
+		'group' => 'g',
+		'circle' => 'c',
+	];
 
 	public const PAYMENT_MODE_ID_CONVERSION = [
 		'n' => 0,

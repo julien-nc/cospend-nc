@@ -2331,7 +2331,7 @@ class ProjectService {
 		$req = $qb->executeQuery();
 
 		while ($row = $req->fetch()){
-			$billIds[] = $row['id'];
+			$billIds[] = (int) $row['id'];
 		}
 		$req->closeCursor();
 		$qb->resetQueryParts();

@@ -133,6 +133,26 @@ class PageNUtilsControllerTest extends TestCase {
 			'test2'
 		);
 
+		$this->projectService = new ProjectService(
+			$sc->getL10N($c->get('AppName')),
+			$sc->getConfig(),
+			new ProjectMapper(
+				$sc->getDatabaseConnection()
+			),
+			new BillMapper(
+				$sc->getDatabaseConnection()
+			),
+			$this->activityManager,
+			$sc->getAvatarManager(),
+			$c->get(IUserManager::class),
+			$c->get(IAppManager::class),
+			$c->get(IGroupManager::class),
+			$sc->getDateTimeZone(),
+			$c->get(IRootFolder::class),
+			$c->get(INotificationManager::class),
+			$sc->getDatabaseConnection()
+		);
+
 		$this->pageController = new PageController(
 			$this->appName,
 			$this->request,
@@ -143,25 +163,7 @@ class PageNUtilsControllerTest extends TestCase {
 			new BillMapper(
 				$sc->getDatabaseConnection()
 			),
-			new ProjectService(
-				$sc->getL10N($c->get('AppName')),
-				$sc->getConfig(),
-				new ProjectMapper(
-					$sc->getDatabaseConnection()
-				),
-				new BillMapper(
-					$sc->getDatabaseConnection()
-				),
-				$this->activityManager,
-				$sc->getAvatarManager(),
-				$c->get(IUserManager::class),
-				$c->get(IAppManager::class),
-				$c->get(IGroupManager::class),
-				$sc->getDateTimeZone(),
-				$c->get(IRootFolder::class),
-				$c->get(INotificationManager::class),
-				$sc->getDatabaseConnection()
-			),
+			$this->projectService,
 			$this->activityManager,
 			$sc->getDatabaseConnection(),
 			$c->get(IRootFolder::class),
@@ -180,25 +182,7 @@ class PageNUtilsControllerTest extends TestCase {
 			new BillMapper(
 				$sc->getDatabaseConnection()
 			),
-			new ProjectService(
-				$sc->getL10N($c->get('AppName')),
-				$sc->getConfig(),
-				new ProjectMapper(
-					$sc->getDatabaseConnection()
-				),
-				new BillMapper(
-					$sc->getDatabaseConnection()
-				),
-				$this->activityManager,
-				$sc->getAvatarManager(),
-				$c->get(IUserManager::class),
-				$c->get(IAppManager::class),
-				$c->get(IGroupManager::class),
-				$sc->getDateTimeZone(),
-				$c->get(IRootFolder::class),
-				$c->get(INotificationManager::class),
-				$sc->getDatabaseConnection()
-			),
+			$this->projectService,
 			$this->activityManager,
 			$sc->getDatabaseConnection(),
 			$c->get(IRootFolder::class),
@@ -296,6 +280,24 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(403, $status);
 
+		// create project with no contact email
+		$result = $this->projectService->createProject('dummy proj', 'dummyproj', 'pwd', null, 'test');
+		$this->assertTrue(isset($result['id']));
+		$this->assertEquals('dummyproj', $result['id']);
+		// delete this project
+		$result = $this->projectService->deleteProject('dummyproj');
+		$this->assertTrue(isset($result['message']));
+		$this->assertEquals('DELETED', $result['message']);
+		// delete unexisting project
+		$result = $this->projectService->deleteProject('dummyproj2');
+		$this->assertTrue(isset($result['error']));
+
+		// guest access level
+		$level = $this->projectService->getGuestAccessLevel('superproj');
+		$this->assertEquals(Application::ACCESS_PARTICIPANT, $level);
+		$level = $this->projectService->getGuestAccessLevel('superproj_doesnotexist');
+		$this->assertEquals(Application::ACCESS_PARTICIPANT, $level);
+
 		// get members
 		$resp = $this->pageController->webGetProjects();
 		$status = $resp->getStatus();
@@ -378,6 +380,10 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
 
+		// get all bill ids
+		$ids = $this->projectService->getAllBillIds('superproj');
+		$this->assertTrue(in_array($idBill1, $ids));
+
 		// edit bill
 		$resp = $this->pageController->webEditBill('superproj', $idBill1, '2019-01-20', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, 'n');
 		$status = $resp->getStatus();
@@ -411,6 +417,12 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
 
+		// currencies
+		$result = $this->projectService->editProject('superproj', 'SuperProj', null, null, null, 'euro');
+		$this->assertTrue(isset($result['success']));
+		$currencyId = $this->projectService->addCurrency('superproj', 'dollar', 1.5);
+		$this->assertTrue($currencyId > 0);
+
 		// get project stats
 
 		$resp = $this->pageController->webGetProjectStatistics('superprojdoesnotexist');
@@ -441,6 +453,14 @@ class PageNUtilsControllerTest extends TestCase {
 		}
 		$this->assertEquals(true, $id1Found);
 		$this->assertEquals(true, $id2Found);
+
+		// stats with currency
+		$resp = $this->pageController->webGetProjectStatistics(
+			'superproj', null, null, null, null,
+			null, null, null, $currencyId
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
 
 		// get project settlement plan
 
@@ -505,7 +525,16 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
 		$nbBills = count($data['bills']);
-		$this->assertEquals(true, ($nbBills > 0));
+		$this->assertTrue($nbBills > 0);
+
+		// get bills with limit
+		$resp = $this->pageController->webGetBills('superproj', null, null, $nbBills - 1);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$limitedNbBills = count($data['bills']);
+		$this->assertTrue($limitedNbBills < $nbBills);
+		$this->assertEquals($nbBills - 1, $limitedNbBills);
 
 		// DELETE BILL
 		$resp = $this->pageController->webDeleteBill('superproj', $idBill1);

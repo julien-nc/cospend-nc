@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2021-09-04 00:26+0200\n"
-"PO-Revision-Date: 2021-09-03 22:31\n"
+"POT-Creation-Date: 2021-09-06 18:21+0200\n"
+"PO-Revision-Date: 2021-09-06 16:25\n"
 "Last-Translator: \n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -130,12 +130,12 @@ msgstr ""
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2989
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2992
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2995
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5445
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5448
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5451
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5627
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5630
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5633
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5494
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5497
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5500
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5676
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5679
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5682
 msgid "Access denied"
 msgstr "Odmowa dostępu"
 
@@ -501,10 +501,10 @@ msgstr "Średnia miesięcznie"
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1184
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1217
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1221
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3315
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3365
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3385
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3389
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3320
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3370
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3390
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3394
 msgid "Invalid value"
 msgstr "Nieprawidłowa wartość"
 
@@ -524,8 +524,8 @@ msgstr "To pole jest wymagane"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1212
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1224
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3374
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3392
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3379
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3397
 msgid "Not a valid choice"
 msgstr "Nieprawidłowy wybór"
 
@@ -575,214 +575,223 @@ msgstr "Obciążenie nie jest poprawną wartością dziesiętną"
 msgid "This project already has this member"
 msgstr "Ten projekt ma już tego członka"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3292
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3297
 msgid "There is no such bill"
 msgstr "Nie ma takiego rachunku"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3785
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3957
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4110
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3790
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3962
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4115
 msgid "Not found"
 msgstr "Nie znaleziono"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3843
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3848
 msgid "This project has no such payment mode"
 msgstr ""
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3846
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4022
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4144
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3851
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4027
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4149
 msgid "Incorrect field values"
 msgstr "Nieprawidłowe wartości pola"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4019
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4024
 msgid "This project has no such category"
 msgstr ""
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4141
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4146
 msgid "This project have no such currency"
 msgstr "Ten projekt nie ma takiej waluty"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4239
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4244
 msgid "You are not authorized to give such access level"
 msgstr "Nie masz uprawnień do nadania takiego poziomu dostępu"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4242
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4247
 msgid "Already shared with this user"
 msgstr "Udostępniono już temu użytkownikowi"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4245
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4250
 msgid "Impossible to share the project with its owner"
 msgstr "Nie można udostępnić projektu jego właścicielowi"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4248
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4253
 msgid "No such user"
 msgstr "Nie ma takiego użytkownika"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4355
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4413
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4525
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4734
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4879
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4360
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4418
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4530
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4739
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4884
 msgid "No such share"
 msgstr "Nie ma takiego udziału"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4609
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4614
 msgid "No such shared access"
 msgstr "Brak takiego wspólnego dostępu"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4671
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4676
 msgid "Already shared with this group"
 msgstr "Już udostępniono tej grupie"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4674
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4679
 msgid "No such group"
 msgstr "Nie ma takiej grupy"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4812
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4817
 msgid "Already shared with this circle"
 msgstr "Już współdzielone z tym okręgiem"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4816
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4821
 msgid "No such circle"
 msgstr "Nie ma takiego okręgu"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4819
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4824
 msgid "Circles app is not enabled"
 msgstr "Aplikacja Circles nie jest włączona"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4911
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4916
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "Who pays?"
 msgstr "Kto płaci?"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4912
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4917
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:185
 msgid "To whom?"
 msgstr "Do kogo?"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4913
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4918
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:28
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:186
 msgid "How much?"
 msgstr "Ile?"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4954
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4959
 #, php-format
 msgid "%1$s is not a folder"
 msgstr "%1$s nie jest folderem"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4956
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4961
 #, php-format
 msgid "%1$s is not writeable"
 msgstr "%1$s nie jest zapisywalny"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4961
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4966
 #, php-format
 msgid "Impossible to create %1$s"
 msgstr "Nie można utworzyć %1$s"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5003
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5008
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:189
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:397
 msgid "Member name"
 msgstr "Nazwa członka"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5004
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5009
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:398
 msgid "Paid"
 msgstr "Zapłacone"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5005
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5010
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:399
 msgid "Spent"
 msgstr "Wydane"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5006
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5011
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:190
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:281
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:401
 msgid "Balance"
 msgstr "Saldo"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5245
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5265
 #, php-format
 msgid "Malformed CSV, bad column names at line %1$s"
 msgstr "Niepoprawnie sformułowany plik CSV, złe nazwy kolumn w wierszu %1$s"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5312
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5320
 #, php-format
-msgid "Malformed CSV, bad payer weight on line %1$s"
-msgstr "Niepoprawnie sformułowany plik CSV, nieprawidłowe obciążenie płatnika w wierszu %1$s"
+msgid "Malformed CSV, invalid member on line %1$s"
+msgstr ""
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5316
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5323
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5356
 #, php-format
-msgid "Malformed CSV, bad owers on line %1$s"
-msgstr "Niepoprawnie sformułowany plik CSV, złe nazwy kolumn w wierszu %1$s"
+msgid "Malformed CSV, invalid payer weight on line %1$s"
+msgstr ""
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5331
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5541
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5361
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5368
 #, php-format
-msgid "Malformed CSV, bad amount on line %1$s"
-msgstr "Niepoprawnie sformułowany plik CSV, nieprawidłowa kwota w wierszu %1$s"
+msgid "Malformed CSV, invalid owers on line %1$s"
+msgstr ""
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5369
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5580
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5378
+#, php-format
+msgid "Malformed CSV, invalid amount on line %1$s"
+msgstr ""
+
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5416
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5629
 #, php-format
 msgid "Error in project creation, %1$s"
 msgstr "Błąd w tworzeniu projektu, %1$s"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5380
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5427
 #, php-format
 msgid "Error when adding payment mode %1$s"
 msgstr ""
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5389
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5588
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5436
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5637
 #, php-format
 msgid "Error when adding category %1$s"
 msgstr "Błąd podczas dodawania kategorii %1$s"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5398
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5445
 #, php-format
 msgid "Error when adding currency %1$s"
 msgstr "Błąd podczas dodawania waluty %1$s"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5406
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5597
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5455
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5646
 #, php-format
 msgid "Error when adding member %1$s"
 msgstr "Błąd podczas dodawania członka %1$s"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5439
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5622
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5488
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5671
 #, php-format
 msgid "Error when adding bill %1$s"
 msgstr "Błąd podczas dodawania rachunku %1$s"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5492
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5541
 msgid "Malformed CSV, bad column names"
 msgstr "Niepoprawnie sformułowany plik CSV, złe nazwy kolumn"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5503
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5552
 msgid "Malformed CSV, cannot have an empty ower"
 msgstr "Niepoprawnie sformułowany plik CSV, nie może mieć pustego wiersza"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5535
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5584
 #, php-format
 msgid "Malformed CSV, no payer on line %1$s"
 msgstr "Niepoprawnie sformułowany plik CSV, brak płatnika w wierszu %1$s"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5657
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5590
+#, php-format
+msgid "Malformed CSV, bad amount on line %1$s"
+msgstr "Niepoprawnie sformułowany plik CSV, nieprawidłowa kwota w wierszu %1$s"
+
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5706
 msgid "daily"
 msgstr "dziennie"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5672
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5721
 msgid "weekly"
 msgstr "tygodniowo"
 
-#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5693
+#: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5742
 msgid "monthly"
 msgstr "miesięcznie"
 

@@ -457,7 +457,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// stats with currency
 		$resp = $this->pageController->webGetProjectStatistics(
 			'superproj', null, null, null, null,
-			null, null, null, $currencyId
+			null, null, '1', $currencyId
 		);
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);

@@ -275,6 +275,33 @@ class PageNUtilsControllerTest extends TestCase {
 		$data = $resp->getData();
 		$idMember2 = (int) $data['id'];
 
+		$resp = $this->pageController->webAddMember('superproj', 'robert3');
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idMember3 = (int) $data['id'];
+
+		// delete the member
+		$resp = $this->pageController->webEditMember('superproj', $idMember3, null, null, false);
+		$this->assertNull($resp->getData());
+		$this->assertNull($this->projectService->getMemberById('superproj', $idMember3));
+
+		$resp = $this->pageController->webAddMember('superproj', 'robert4', 'test', 1.2, 0, '#123456');
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idMember4 = (int) $data['id'];
+
+		$member = $this->projectService->getMemberByUserid('superproj', 'test');
+		$this->assertNotNull($member);
+		$this->assertTrue(isset($member['name']));
+		$this->assertEquals('robert4', $member['name']);
+
+		// delete the member
+		$result = $this->projectService->deleteMember('superproj', $idMember4);
+		$this->assertTrue(isset($result['success']));
+		$this->assertNull($this->projectService->getMemberById('superproj', $idMember3));
+
 		// create member with unauthorized user
 		$resp = $this->pageController2->webAddMember('superproj', 'bobby');
 		$status = $resp->getStatus();
@@ -351,6 +378,36 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
 		$idBill2 = (int) $data;
+
+		// with null data
+		$resp = $this->pageController->webAddBill(
+			'superproj', '2019-01-25', null, $idMember2, $idMember1, 12.3, 'n',
+			null, null, null, 0, ''
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idBill3 = (int) $data;
+
+		$bills = $this->projectService->getBillsOfMember($idMember2);
+		$this->assertTrue(in_array($idBill3, $bills));
+
+		$this->projectService->deleteBill('superproj', $idBill3);
+
+		// more invalid data
+		$resp = $this->pageController->webAddBill(
+			'superproj', '2019-01-25', null, null, $idMember1, 12.3, 'n',
+			null, null, null, 0, '', null,
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(400, $status);
+
+		$resp = $this->pageController->webAddBill(
+			'superproj', '2019-01-25', null, $idMember2, $idMember1, null, 'n',
+			null, null, null, 0, '', null,
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(400, $status);
 
 		$resp = $this->pageController->webAddBill('superprojdoesnotexist', '2019-01-20', 'lala', $idMember2, $idMember1, 12.3, 'n');
 		$status = $resp->getStatus();
@@ -542,6 +599,11 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
 		$this->assertEquals('OK', $data);
+
+		// delete bill that does not exist
+		$resp = $this->pageController->webDeleteBill('superproj', -1);
+		$status = $resp->getStatus();
+		$this->assertEquals(404, $status);
 
 		// DELETE BILL of unexisting project
 		$resp = $this->pageController->webDeleteBill('superprojLALA', $idBill1);

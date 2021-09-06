@@ -2002,7 +2002,7 @@ class ProjectService {
 							  ?string $paymentMode = null, ?int $paymentModeId = null,
 							  ?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
 							  ?int $lastchanged = null, ?int $limit = null,
-							  bool $reverse = false, int $offset = 0, ?int $payerId = null): array {
+							  bool $reverse = false, ?int $offset = 0, ?int $payerId = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
 					'paymentmode', 'paymentmodeid', 'categoryid', 'lastchanged', 'repeatallactive',

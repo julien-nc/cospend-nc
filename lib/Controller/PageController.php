@@ -726,7 +726,7 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 *
 	 */
-	public function webEditProject(string $projectid, string $name, ?string $contact_email = null, ?string $password = null,
+	public function webEditProject(string $projectid, ?string $name = null, ?string $contact_email = null, ?string $password = null,
 									?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
 									?string $categorysort = null, ?string $paymentmodesort = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['admin']) {
@@ -963,7 +963,7 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiSetProjectInfo(string $projectid, string $passwd, string $name, ?string $contact_email = null,
+	public function apiSetProjectInfo(string $projectid, string $passwd, ?string $name = null, ?string $contact_email = null,
 									?string $password = null, ?string $autoexport = null, ?string $currencyname = null,
 									?bool $deletion_disabled = null, ?string $categorysort = null, ?string $paymentmodesort = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
@@ -995,7 +995,7 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivSetProjectInfo(string $projectid, string $name, ?string $contact_email = null, ?string $password = null,
+	public function apiPrivSetProjectInfo(string $projectid, ?string $name = null, ?string $contact_email = null, ?string $password = null,
 										?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
 										?string $categorysort = null, ?string $paymentmodesort = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['admin']) {

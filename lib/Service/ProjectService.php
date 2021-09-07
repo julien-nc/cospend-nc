@@ -1829,7 +1829,7 @@ class ProjectService {
 	 * Edit a project
 	 *
 	 * @param string $projectid
-	 * @param string $name
+	 * @param string|null $name
 	 * @param string|null $contact_email
 	 * @param string|null $password
 	 * @param string|null $autoexport
@@ -1840,15 +1840,18 @@ class ProjectService {
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function editProject(string $projectid, string $name, ?string $contact_email = null, ?string $password = null,
+	public function editProject(string $projectid, ?string $name = null, ?string $contact_email = null, ?string $password = null,
 								?string $autoexport = null, ?string $currencyname = null, ?bool $deletion_disabled = null,
 								?string $categorysort = null, ?string $paymentmodesort = null): array {
-		if ($name === null || $name === '') {
-			return ['name' => [$this->trans->t('Name field is required')]];
-		}
-
 		$qb = $this->db->getQueryBuilder();
 		$qb->update('cospend_projects');
+
+		if ($name !== null) {
+			if ($name === '') {
+				return ['name' => [$this->trans->t('Name can\'t be empty')]];
+			}
+			$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
+		}
 
 		if ($contact_email !== null && $contact_email !== '') {
 			if (filter_var($contact_email, FILTER_VALIDATE_EMAIL)) {
@@ -1883,7 +1886,6 @@ class ProjectService {
 		if ($this->getProjectById($projectid) !== null) {
 			$ts = (new DateTime())->getTimestamp();
 			$qb->set('lastchanged', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT));
-			$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
 			$qb->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
 			);

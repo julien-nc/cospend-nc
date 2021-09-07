@@ -1191,10 +1191,11 @@ class ProjectService {
 			if ($date === null || $date === '') {
 				return ['message' => $this->trans->t('Timestamp (or date) field is required')];
 			} else {
-				$dateTs = strtotime($date);
-				if ($dateTs === false) {
+				$datetime = DateTime::createFromFormat('Y-m-d', $date);
+				if ($datetime === false) {
 					return ['date' => $this->trans->t('Invalid date')];
 				}
+				$dateTs = $datetime->getTimestamp();
 			}
 		} else {
 			$dateTs = (int) $timestamp;
@@ -3355,8 +3356,9 @@ class ProjectService {
 		if ($timestamp !== null) {
 			$qb->set('timestamp', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT));
 		} elseif ($date !== null && $date !== '') {
-			$dateTs = strtotime($date);
-			if ($dateTs !== false) {
+			$datetime = DateTime::createFromFormat('Y-m-d', $date);
+			if ($datetime !== false) {
+				$dateTs = $datetime->getTimestamp();
 				$qb->set('timestamp', $qb->createNamedParameter($dateTs, IQueryBuilder::PARAM_INT));
 			} else {
 				return ['date' => $this->trans->t('Invalid value')];
@@ -5314,12 +5316,20 @@ class ProjectService {
 							} elseif ($currentSection === 'bills') {
 								$what = $data[$columns['what']];
 								$amount = $data[$columns['amount']];
+								$timestamp = null;
 								// priority to timestamp
 								if (array_key_exists('timestamp', $columns)) {
 									$timestamp = $data[$columns['timestamp']];
 								} elseif (array_key_exists('date', $columns)) {
 									$date = $data[$columns['date']];
-									$timestamp = strtotime($date);
+									$datetime = DateTime::createFromFormat('Y-m-d', $date);
+									if ($datetime !== false) {
+										$timestamp = $datetime->getTimestamp();
+									}
+								}
+								if ($timestamp === null) {
+									fclose($handle);
+									return ['message' => $this->trans->t('Malformed CSV, missing or invalid date/timestamp on line %1$s', [$row + 1])];
 								}
 								$payer_name = $data[$columns['payer_name']];
 								$payer_weight = $data[$columns['payer_weight']];
@@ -5556,9 +5566,14 @@ class ProjectService {
 							$what = $data[$columns['Description']];
 							$amount = $data[$columns['Cost']];
 							$date = $data[$columns['Date']];
-							$timestamp = strtotime($date);
+							$datetime = DateTime::createFromFormat('Y-m-d', $date);
+							if ($datetime === false) {
+								fclose($handle);
+								return ['message' => $this->trans->t('Malformed CSV, missing or invalid date/timestamp on line %1$s', [$row])];
+							}
+							$timestamp = $datetime->getTimestamp();
 							$l = 0;
-							for ($c=5; $c < $nbCol; $c++){
+							for ($c = 5; $c < $nbCol; $c++){
 								if (max($data[$c], 0) !== 0){
 									$payer_name = $owersArray[$c-5];
 								}
@@ -5573,6 +5588,7 @@ class ProjectService {
 								}
 							}
 							if (!isset($payer_name) || empty($payer_name)) {
+								fclose($handle);
 								return ['message' => $this->trans->t('Malformed CSV, no payer on line %1$s', [$row])];
 							}
 //							$payer_weight = 1;

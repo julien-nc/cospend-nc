@@ -443,19 +443,40 @@ class PageNUtilsControllerTest extends TestCase {
 
 		// edit bill
 		$resp = $this->pageController->webEditBill(
-			'superproj', $idBill1, '2019-01-20', 'boomerang', $idMember1,
+			'superproj', $idBill1, '2019-01-20', 'boomerang', $idMember2,
 			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['monthly'], null,
-			null, null, null, null,
+			null, null, 1, '2021-09-10',
 			null, 'newcom', 2
 		);
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
+
+		// check bill values
+		$bill = $this->projectService->getBill('superproj', $idBill1);
+		$this->assertNotNull($bill);
+		$this->assertEquals('boomerang', $bill['what']);
+		$this->assertEquals('2019-01-20', $bill['date']);
+		$this->assertEquals($idMember2, $bill['payer_id']);
+		$this->assertEquals(99, $bill['amount']);
+		$this->assertEquals(Application::FREQUENCIES['monthly'], $bill['repeat']);
+		$this->assertEquals('n', $bill['paymentmode']);
+		$this->assertEquals(0, $bill['paymentmodeid']);
+		$this->assertEquals(0, $bill['categoryid']);
 
 		$resp = $this->pageController->webEditBill('superprojdoesnotexist', $idBill1, '2019-01-20', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, 'n');
 		$status = $resp->getStatus();
 		$this->assertEquals(403, $status);
 
 		$resp = $this->pageController->webEditBill('superproj', -1, '2019-01-20', 'boomerang', $idMember1, $idMember1.','.$idMember2, 99, 'n');
+		$status = $resp->getStatus();
+		$this->assertEquals(400, $status);
+
+		$resp = $this->pageController->webEditBill(
+			'superproj', $idBill1, '2019-01-20', 'boomerang', $idMember1,
+			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['monthly'] . 'wrong_value', null,
+			null, null, null, null,
+			null, 'newcom', 2
+		);
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
 

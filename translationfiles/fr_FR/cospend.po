@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-09-06 18:21+0200\n"
-"PO-Revision-Date: 2021-09-06 16:25\n"
+"PO-Revision-Date: 2021-09-07 16:30\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -713,23 +713,23 @@ msgstr "CSV mal formé, mauvais nom de colonne à la ligne %1$s"
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5320
 #, php-format
 msgid "Malformed CSV, invalid member on line %1$s"
-msgstr ""
+msgstr "CSV mal formé, membre invalide à la ligne %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5356
 #, php-format
 msgid "Malformed CSV, invalid payer weight on line %1$s"
-msgstr ""
+msgstr "CSV mal formé, poids du payeur invalide à la ligne %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5361
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5368
 #, php-format
 msgid "Malformed CSV, invalid owers on line %1$s"
-msgstr ""
+msgstr "CSV mal formé, participants invalides à la ligne %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5378
 #, php-format
 msgid "Malformed CSV, invalid amount on line %1$s"
-msgstr ""
+msgstr "CSV mal formé, montant invalide à la ligne %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5416
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5629

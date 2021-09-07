@@ -500,6 +500,7 @@ export default {
 					accesslevel: constants.ACCESS.PARTICIPANT,
 					type: sh.type,
 					manually_added: sh.manually_added,
+					password: sh.password,
 				}
 				newShAccess.id = response.data.id
 				if (sh.type === constants.SHARE_TYPE.PUBLIC_LINK) {
@@ -620,7 +621,10 @@ export default {
 			this.shareLinkQrcodeUrl = null
 		},
 		addLink() {
-			this.addSharedAccess({ type: constants.SHARE_TYPE.PUBLIC_LINK })
+			this.addSharedAccess({
+				type: constants.SHARE_TYPE.PUBLIC_LINK,
+				password: null,
+			})
 		},
 		setPassword() {
 			if (this.newGuestPassword) {

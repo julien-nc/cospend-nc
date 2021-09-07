@@ -18,6 +18,7 @@
 namespace OCA\Cospend\Controller;
 
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IConfig;
 use OCP\IServerContainer;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -91,7 +92,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->container = $this->app->getContainer();
 		$c = $this->container;
 		$sc = $c->get(IServerContainer::class);
-		$this->config = $sc->getConfig();
+		$this->config = $c->get(IConfig::class);
 
 		$this->activityManager = new ActivityManager(
 			$sc->getActivityManager(),
@@ -517,6 +518,34 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertTrue(count($bill['owerIds']) === 2);
 		$this->assertTrue(in_array($idMember1, $bill['owerIds']));
 		$this->assertTrue(in_array($idMember2, $bill['owerIds']));
+
+		// set cat/pm order
+		$this->projectService->editProject(
+			'superproj', 'proj', null, null,
+			null, null, null,
+			Application::SORT_ORDERS['most_used'], Application::SORT_ORDERS['most_used']
+		);
+		// check categories/pm
+		$cats = $this->projectService->getCategoriesOrPaymentModes('superproj', true);
+		$this->assertTrue(count($cats) === count($this->projectService->defaultCategories) + 2);
+		$this->assertTrue($cats[$idCat2]['order'] === 0);
+		$pms = $this->projectService->getCategoriesOrPaymentModes('superproj', false);
+		$this->assertTrue(count($pms) === count($this->projectService->defaultPaymentModes) + 2);
+		$this->assertTrue($pms[$idPm2]['order'] === 0);
+
+		// set cat/pm order
+		$this->projectService->editProject(
+			'superproj', 'proj', null, null,
+			null, null, null,
+			Application::SORT_ORDERS['most_recently_used'], Application::SORT_ORDERS['most_recently_used']
+		);
+		// check categories/pm
+		$cats = $this->projectService->getCategoriesOrPaymentModes('superproj', true);
+		$this->assertEquals(count($this->projectService->defaultCategories) + 2, count($cats));
+		$this->assertEquals(0, $cats[$idCat2]['order']);
+		$pms = $this->projectService->getCategoriesOrPaymentModes('superproj', false);
+		$this->assertEquals(count($this->projectService->defaultPaymentModes) + 2, count($pms));
+		$this->assertEquals(0, $pms[$idPm2]['order']);
 
 		$resp = $this->pageController->webEditBill(
 			'superproj', $idBill1, null, 'boomerang', $idMember2,

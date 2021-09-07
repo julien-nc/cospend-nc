@@ -101,7 +101,11 @@ class ProjectService {
 	/**
 	 * @var array[]
 	 */
-	private $defaultCategories;
+	public $defaultCategories;
+	/**
+	 * @var array[]
+	 */
+	public $defaultPaymentModes;
 
 	public function __construct (IL10N $trans,
 								IConfig $config,

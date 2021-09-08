@@ -1565,7 +1565,7 @@ class ProjectService {
 			$billTitle = $memberIdToName[$fromId].' → '.$memberIdToName[$toId];
 			$addBillResult = $this->addBill(
 				$projectid, null, $billTitle, $fromId, $toId, $amount,
-				'n', 'n', 0, Application::CAT_REIMBURSEMENT,
+				Application::FREQUENCIES['no'], 'n', 0, Application::CAT_REIMBURSEMENT,
 				0, null, $ts, null, null, $paymentModes
 			);
 			if (!isset($addBillResult['inserted_id'])) {
@@ -3451,7 +3451,7 @@ class ProjectService {
 			$qb->select('id', 'projectid', 'what', 'timestamp', 'amount', 'payerid', 'repeat', 'repeatallactive', 'repeatfreq')
 				->from('cospend_bills', 'b')
 				->where(
-					$qb->expr()->neq('repeat', $qb->createNamedParameter('n', IQueryBuilder::PARAM_STR))
+					$qb->expr()->neq('repeat', $qb->createNamedParameter(Application::FREQUENCIES['no'], IQueryBuilder::PARAM_STR))
 				);
 			// we only repeat one bill
 			if (!is_null($billId)) {
@@ -3497,6 +3497,10 @@ class ProjectService {
 				$diff = $now->diff($nextDate);
 				if ($nextDate->format('Y-m-d') === $now->format('Y-m-d') || $diff->invert) {
 					$newBillId = $this->repeatBill($bill['projectid'], $bill['id'], $nextDate);
+					// bill was not repeated (because of disabled owers or repeatuntil)
+					if ($newBillId === null) {
+						continue;
+					}
 					if (!array_key_exists($bill['projectid'], $projects)) {
 						$projects[$bill['projectid']] = $this->getProjectInfo($bill['projectid']);
 					}
@@ -3544,17 +3548,24 @@ class ProjectService {
 		$owerIdsStr = implode(',', $owerIds);
 		// if all owers are disabled, don't try to repeat the bill and remove repeat flag
 		if (count($owerIds) === 0) {
-			$this->editBill($projectid, $billid, null, $bill['what'], $bill['payer_id'], null,
-							$bill['amount'], 'n', null, null, 0, null);
+			$this->editBill(
+				$projectid, $billid, null, null, null, null,
+				null, Application::FREQUENCIES['no'], null, null,
+				null, null
+			);
 			return null;
 		}
 
-		// if bill should be repeated until...
+		// if bill should be repeated only until...
 		if ($bill['repeatuntil'] !== null && $bill['repeatuntil'] !== '') {
-			$untilDate = new DateTime($bill['repeatuntil']);
-			// TODO improve this, maybe don't produce bill after repeatuntil...
-			if ($datetime >= $untilDate) {
-				$bill['repeat'] = 'n';
+			$untilDate = DateTime::createFromFormat('Y-m-d', $bill['repeatuntil']);
+			if ($datetime > $untilDate) {
+				$this->editBill(
+					$projectid, $billid, null, null, null, null,
+					null, Application::FREQUENCIES['no'], null, null,
+					null, null
+				);
+				return null;
 			}
 		}
 
@@ -3577,7 +3588,7 @@ class ProjectService {
 
 		// now we can remove repeat flag on original bill
 		$this->editBill($projectid, $billid, null, $bill['what'], $bill['payer_id'], null,
-						$bill['amount'], 'n', null, null, 0, null);
+						$bill['amount'], Application::FREQUENCIES['no'], null, null, null, null);
 		return $newBillId;
 	}
 
@@ -5341,7 +5352,7 @@ class ProjectService {
 								$payer_weight = $data[$columns['payer_weight']];
 								$owers = preg_replace('/\s+/', '', $data[$columns['owers']]);
 								$payer_active = array_key_exists('payer_active', $columns) ? $data[$columns['payer_active']] : 1;
-								$repeat = array_key_exists('repeat', $columns) ? $data[$columns['repeat']] : 'n';
+								$repeat = array_key_exists('repeat', $columns) ? $data[$columns['repeat']] : Application::FREQUENCIES['no'];
 								$categoryid = array_key_exists('categoryid', $columns) ? (int) $data[$columns['categoryid']] : null;
 								$paymentmode = array_key_exists('paymentmode', $columns) ? $data[$columns['paymentmode']] : null;
 								$paymentmodeid = array_key_exists('paymentmodeid', $columns) ? $data[$columns['paymentmodeid']] : null;
@@ -5677,7 +5688,7 @@ class ProjectService {
 						}
 						$addBillResult = $this->addBill(
 							$projectid, null, $bill['what'], $payerId, $owerIdsStr,
-							$bill['amount'], 'n',null, 0, $catId,
+							$bill['amount'], Application::FREQUENCIES['no'],null, 0, $catId,
 							0, null, $bill['timestamp'], null, null, []
 						);
 						if (!isset($addBillResult['inserted_id'])) {
@@ -5777,7 +5788,7 @@ class ProjectService {
 					$qb->expr()->eq('userid', $qb->createNamedParameter($uid, IQueryBuilder::PARAM_STR))
 				)
 				->andWhere(
-					$qb->expr()->neq('autoexport', $qb->createNamedParameter('n', IQueryBuilder::PARAM_STR))
+					$qb->expr()->neq('autoexport', $qb->createNamedParameter(Application::FREQUENCIES['no'], IQueryBuilder::PARAM_STR))
 				);
 			$req = $qb->executeQuery();
 

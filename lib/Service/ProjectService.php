@@ -3731,7 +3731,7 @@ class ProjectService {
 	 * @return array|null
 	 * @throws \OCP\DB\Exception
 	 */
-	private function getPaymentMode(string $projectId, int $pmid): ?array {
+	public function getPaymentMode(string $projectId, int $pmid): ?array {
 		$pm = null;
 
 		$qb = $this->db->getQueryBuilder();
@@ -3901,7 +3901,7 @@ class ProjectService {
 	 * @param int $categoryid
 	 * @return array|null
 	 */
-	private function getCategory(string $projectId, int $categoryid): ?array {
+	public function getCategory(string $projectId, int $categoryid): ?array {
 		$category = null;
 
 		$qb = $this->db->getQueryBuilder();

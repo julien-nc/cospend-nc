@@ -317,6 +317,23 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$idCat2 = $resp->getData();
+		$resp = $this->pageController->addCategory('superproj', 'cat3', 'a', '#456789', 4);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$idCat3 = $resp->getData();
+
+		// delete category
+		$res = $this->projectService->deleteCategory('superproj', $idCat3);
+		$this->assertTrue(isset($res['success']));
+		$cat3 = $this->projectService->getCategory('superproj', $idCat3);
+		$this->assertNull($cat3);
+
+		// check cat values
+		$cat2 = $this->projectService->getCategory('superproj', $idCat2);
+		$this->assertNotNull($cat2);
+		$this->assertEquals('cat2', $cat2['name']);
+		$this->assertEquals('a', $cat2['icon']);
+		$this->assertEquals('#456789', $cat2['color']);
 
 		$resp = $this->pageController->addPaymentMode('superproj', 'pm1', 'i', '#123465', 2);
 		$status = $resp->getStatus();
@@ -326,6 +343,23 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$idPm2 = $resp->getData();
+		$resp = $this->pageController->addPaymentMode('superproj', 'pm3', 'a', '#456789', 4);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$idPm3 = $resp->getData();
+
+		// delete pm
+		$res = $this->projectService->deletePaymentMode('superproj', $idPm3);
+		$this->assertTrue(isset($res['success']));
+		$pm3 = $this->projectService->getPaymentMode('superproj', $idPm3);
+		$this->assertNull($pm3);
+
+		// check pm values
+		$pm2 = $this->projectService->getPaymentMode('superproj', $idPm2);
+		$this->assertNotNull($pm2);
+		$this->assertEquals('pm2', $pm2['name']);
+		$this->assertEquals('a', $pm2['icon']);
+		$this->assertEquals('#456789', $pm2['color']);
 
 		// create project with no contact email
 		$result = $this->projectService->createProject('dummy proj', 'dummyproj', 'pwd', null, 'test');

@@ -341,6 +341,8 @@ class PageNUtilsControllerTest extends TestCase {
 
 		$res = $this->projectService->editCategory('superproj', $idCat2, 'cat2_renamed', 'b', '#987654');
 		$this->assertFalse(isset($res['message']));
+		$res = $this->projectService->editCategory('superproj', $idCat2, '', 'b', '#987654');
+		$this->assertTrue(isset($res['message']));
 		$res = $this->projectService->editCategory('superproj', -1, 'cat2_renamed', 'b', '#987654');
 		$this->assertTrue(isset($res['message']));
 		$cat2 = $this->projectService->getCategory('superproj', $idCat2);
@@ -381,6 +383,8 @@ class PageNUtilsControllerTest extends TestCase {
 
 		$res = $this->projectService->editPaymentMode('superproj', $idPm2, 'pm2_renamed', 'b', '#987654');
 		$this->assertFalse(isset($res['message']));
+		$res = $this->projectService->editPaymentMode('superproj', $idPm2, '', 'b', '#987654');
+		$this->assertTrue(isset($res['message']));
 		$res = $this->projectService->editPaymentMode('superproj', -1, 'pm2_renamed', 'b', '#987654');
 		$this->assertTrue(isset($res['message']));
 		$pm2 = $this->projectService->getPaymentMode('superproj', $idPm2);

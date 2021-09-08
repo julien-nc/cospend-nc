@@ -328,12 +328,26 @@ class PageNUtilsControllerTest extends TestCase {
 		$cat3 = $this->projectService->getCategory('superproj', $idCat3);
 		$this->assertNull($cat3);
 
+		$res = $this->projectService->deleteCategory('superproj', -1);
+		$this->assertFalse(isset($res['success']));
+		$this->assertTrue(isset($res['message']));
+
 		// check cat values
 		$cat2 = $this->projectService->getCategory('superproj', $idCat2);
 		$this->assertNotNull($cat2);
 		$this->assertEquals('cat2', $cat2['name']);
 		$this->assertEquals('a', $cat2['icon']);
 		$this->assertEquals('#456789', $cat2['color']);
+
+		$res = $this->projectService->editCategory('superproj', $idCat2, 'cat2_renamed', 'b', '#987654');
+		$this->assertFalse(isset($res['message']));
+		$res = $this->projectService->editCategory('superproj', -1, 'cat2_renamed', 'b', '#987654');
+		$this->assertTrue(isset($res['message']));
+		$cat2 = $this->projectService->getCategory('superproj', $idCat2);
+		$this->assertNotNull($cat2);
+		$this->assertEquals('cat2_renamed', $cat2['name']);
+		$this->assertEquals('b', $cat2['icon']);
+		$this->assertEquals('#987654', $cat2['color']);
 
 		$resp = $this->pageController->addPaymentMode('superproj', 'pm1', 'i', '#123465', 2);
 		$status = $resp->getStatus();
@@ -354,12 +368,26 @@ class PageNUtilsControllerTest extends TestCase {
 		$pm3 = $this->projectService->getPaymentMode('superproj', $idPm3);
 		$this->assertNull($pm3);
 
+		$res = $this->projectService->deletePaymentMode('superproj', -1);
+		$this->assertFalse(isset($res['success']));
+		$this->assertTrue(isset($res['message']));
+
 		// check pm values
 		$pm2 = $this->projectService->getPaymentMode('superproj', $idPm2);
 		$this->assertNotNull($pm2);
 		$this->assertEquals('pm2', $pm2['name']);
 		$this->assertEquals('a', $pm2['icon']);
 		$this->assertEquals('#456789', $pm2['color']);
+
+		$res = $this->projectService->editPaymentMode('superproj', $idPm2, 'pm2_renamed', 'b', '#987654');
+		$this->assertFalse(isset($res['message']));
+		$res = $this->projectService->editPaymentMode('superproj', -1, 'pm2_renamed', 'b', '#987654');
+		$this->assertTrue(isset($res['message']));
+		$pm2 = $this->projectService->getPaymentMode('superproj', $idPm2);
+		$this->assertNotNull($pm2);
+		$this->assertEquals('pm2_renamed', $pm2['name']);
+		$this->assertEquals('b', $pm2['icon']);
+		$this->assertEquals('#987654', $pm2['color']);
 
 		// create project with no contact email
 		$result = $this->projectService->createProject('dummy proj', 'dummyproj', 'pwd', null, 'test');

@@ -1127,11 +1127,50 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals(400, $status);
 
 		// repeat bills
+		// bill with no enabled owers
+		$resp = $this->pageController->webEditBill(
+			'superproj', $idBill2, '2019-02-02', 'kangaroo', $idMember2,
+			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['yearly'], null,
+			$idPm2, $idCat2, 0, '2021-03-10',
+			null, 'newcom', 1
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		// disable users
+		$resp = $this->pageController->webEditMember('superproj', $idMember1, null, null, false);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$this->assertFalse(isset($data['message']));
+		$this->assertTrue(isset($data['id']));
+		$resp = $this->pageController->webEditMember('superproj', $idMember2, null, null, false);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$this->assertFalse(isset($data['message']));
+		$this->assertTrue(isset($data['id']));
+		// repeat
+		$repeated = $this->projectService->cronRepeatBills($idBill2);
+		$this->assertEquals(0, count($repeated));
+		// enable users
+		$resp = $this->pageController->webEditMember('superproj', $idMember1, null, null, true);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$this->assertFalse(isset($data['message']));
+		$this->assertTrue(isset($data['id']));
+		$resp = $this->pageController->webEditMember('superproj', $idMember2, null, null, true);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$this->assertFalse(isset($data['message']));
+		$this->assertTrue(isset($data['id']));
+
 		// yearly
 		$resp = $this->pageController->webEditBill(
 			'superproj', $idBill2, '2019-02-02', 'kangaroo', $idMember2,
 			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['yearly'], null,
-			$idPm2, $idCat2, 1, '2021-03-10',
+			$idPm2, $idCat2, 0, '2021-03-10',
 			null, 'newcom', 1
 		);
 		$status = $resp->getStatus();
@@ -1289,6 +1328,64 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
 
 		$this->assertEquals(5, count($repeated));
+		foreach ($repeated as $r) {
+			$bill = $this->projectService->getBill('superproj', $r['new_bill_id']);
+			$this->assertNotNull($bill);
+			$this->assertEquals('kangaroo', $bill['what']);
+			$this->assertEquals($idMember2, $bill['payer_id']);
+			$this->assertEquals($idCat2, $bill['categoryid']);
+			$this->assertEquals($idPm2, $bill['paymentmodeid']);
+			$this->assertEquals('newcom', $bill['comment']);
+			$this->assertEquals(99, $bill['amount']);
+			$this->projectService->deleteBill('superproj', $r['new_bill_id']);
+		}
+
+		// weekly
+		$resp = $this->pageController->webEditBill(
+			'superproj', $idBill2, '2019-03-02', 'kangaroo', $idMember2,
+			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['weekly'], null,
+			$idPm2, $idCat2, 1, '2019-03-18',
+			null, 'newcom', 1
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+
+		$repeated = $this->projectService->cronRepeatBills($idBill2);
+		// check repeated bill repeat value
+		$repeatedBill = $this->projectService->getBill('superproj', $idBill2);
+		$this->assertNotNull($repeatedBill);
+		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
+
+		$this->assertEquals(2, count($repeated));
+		foreach ($repeated as $r) {
+			$bill = $this->projectService->getBill('superproj', $r['new_bill_id']);
+			$this->assertNotNull($bill);
+			$this->assertEquals('kangaroo', $bill['what']);
+			$this->assertEquals($idMember2, $bill['payer_id']);
+			$this->assertEquals($idCat2, $bill['categoryid']);
+			$this->assertEquals($idPm2, $bill['paymentmodeid']);
+			$this->assertEquals('newcom', $bill['comment']);
+			$this->assertEquals(99, $bill['amount']);
+			$this->projectService->deleteBill('superproj', $r['new_bill_id']);
+		}
+
+		// weekly freq 2
+		$resp = $this->pageController->webEditBill(
+			'superproj', $idBill2, '2019-03-02', 'kangaroo', $idMember2,
+			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['weekly'], null,
+			$idPm2, $idCat2, 1, '2019-03-18',
+			null, 'newcom', 2
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+
+		$repeated = $this->projectService->cronRepeatBills($idBill2);
+		// check repeated bill repeat value
+		$repeatedBill = $this->projectService->getBill('superproj', $idBill2);
+		$this->assertNotNull($repeatedBill);
+		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
+
+		$this->assertEquals(1, count($repeated));
 		foreach ($repeated as $r) {
 			$bill = $this->projectService->getBill('superproj', $r['new_bill_id']);
 			$this->assertNotNull($bill);

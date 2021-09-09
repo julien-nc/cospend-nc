@@ -268,19 +268,19 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
-		$idMember1 = (int) $data['id'];
+		$idMember1 = $data['id'];
 
 		$resp = $this->pageController->webAddMember('superproj', 'robert');
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
-		$idMember2 = (int) $data['id'];
+		$idMember2 = $data['id'];
 
 		$resp = $this->pageController->webAddMember('superproj', 'robert3');
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
-		$idMember3 = (int) $data['id'];
+		$idMember3 = $data['id'];
 
 		// delete the member
 		$resp = $this->pageController->webEditMember('superproj', $idMember3, null, null, false);
@@ -291,7 +291,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
-		$idMember4 = (int) $data['id'];
+		$idMember4 = $data['id'];
 
 		$member = $this->projectService->getMemberByUserid('superproj', 'test');
 		$this->assertNotNull($member);
@@ -461,7 +461,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
-		$idBill1 = (int) $data;
+		$idBill1 = $data;
 
 		// check bill values
 		$bill = $this->projectService->getBill('superproj', $idBill1);
@@ -489,7 +489,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
-		$idBill2 = (int) $data;
+		$idBill2 = $data;
 
 		// with null data
 		$resp = $this->pageController->webAddBill(
@@ -499,12 +499,66 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
-		$idBill3 = (int) $data;
+		$idBill3 = $data;
 
 		$bills = $this->projectService->getBillsOfMember($idMember2);
 		$this->assertTrue(in_array($idBill3, $bills));
 
 		$this->projectService->deleteBill('superproj', $idBill3);
+
+		// check payment mode old id is set when using one default payment mode
+		// get a default payment mode
+		$pms = $this->projectService->getCategoriesOrPaymentModes('superproj', false);
+		$oneDefPm = null;
+		foreach ($pms as $pm) {
+			if (isset($pm['old_id']) && $pm['old_id'] !== null && $pm['old_id'] !== '') {
+				$oneDefPm = $pm;
+				break;
+			}
+		}
+		$this->assertNotNull($oneDefPm);
+		// add a bill with this payment mode
+		$resp = $this->pageController->webAddBill(
+			'superproj', '2019-01-22', 'boomerang', $idMember1,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, $oneDefPm['id'], $idCat1,
+			0, '2049-01-01'
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idBillPm = $data;
+
+		$bill = $this->projectService->getBill('superproj', $idBillPm);
+		$this->assertNotNull($bill);
+		$this->assertEquals($oneDefPm['old_id'], $bill['paymentmode']);
+		$this->assertEquals($oneDefPm['id'], $bill['paymentmodeid']);
+
+		// check the same with bill edition
+		// get another default payment mode
+		$otherDefPm = null;
+		foreach ($pms as $pm) {
+			if (isset($pm['old_id']) && $pm['old_id'] !== null && $pm['old_id'] !== '' && $pm['old_id'] !== $oneDefPm['old_id']) {
+				$otherDefPm = $pm;
+				break;
+			}
+		}
+		$this->assertNotNull($otherDefPm);
+		// edit a bill with this payment mode
+		$resp = $this->pageController->webEditBill(
+			'superproj', $idBillPm, '2019-01-22', 'boomerang', $idMember1,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, $otherDefPm['id'], $idCat1,
+			0, '2049-01-01'
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$this->assertEquals($idBillPm, $data);
+
+		$bill = $this->projectService->getBill('superproj', $idBillPm);
+		$this->assertNotNull($bill);
+		$this->assertEquals($otherDefPm['old_id'], $bill['paymentmode']);
+		$this->assertEquals($otherDefPm['id'], $bill['paymentmodeid']);
+		$this->projectService->deleteBill('superproj', $idBillPm);
 
 		// more invalid data
 		$resp = $this->pageController->webAddBill(
@@ -616,7 +670,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$resp = $this->pageController->webEditBill(
 			'superproj', $idBill1, null, 'boomerang', $idMember2,
 			$idMember1.','.$idMember2, 99, Application::FREQUENCIES['monthly'], null,
-			null, null, 1, null,
+			null, null, 1, '',
 			123456789, 'newcom', 2
 		);
 		$status = $resp->getStatus();
@@ -681,6 +735,8 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals('dolrenamed', $res['name']);
 		$this->assertEquals(2, $res['exchange_rate']);
 		$this->assertEquals($currencyId2, $res['id']);
+		$res = $this->projectService->editCurrency('superproj', $currencyId2, '', 0);
+		$this->assertTrue(isset($res['message']));
 		$res = $this->projectService->editCurrency('superproj', -1, 'dolrenamed', 2);
 		$this->assertTrue(isset($res['message']));
 		$res = $this->projectService->deleteCurrency('superproj', $currencyId2);

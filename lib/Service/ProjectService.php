@@ -1233,7 +1233,10 @@ class ProjectService {
 		if (!is_null($paymentmodeid)) {
 			// is the old_id set for this payment mode? if yes, use it for old 'paymentmode' column
 			$paymentmode = 'n';
-			if (isset($paymentModes[$paymentmodeid]) && $paymentModes[$paymentmodeid]['old_id']) {
+			if (isset($paymentModes[$paymentmodeid], $paymentModes[$paymentmodeid]['old_id'])
+				&& $paymentModes[$paymentmodeid]['old_id'] !== null
+				&& $paymentModes[$paymentmodeid]['old_id'] !== ''
+			) {
 				$paymentmode = $paymentModes[$paymentmodeid]['old_id'];
 			}
 		} elseif (!is_null($paymentmode)) {
@@ -3338,7 +3341,10 @@ class ProjectService {
 		if (!is_null($paymentmodeid)) {
 			// is the old_id set for this payment mode? if yes, use it for old 'paymentmode' column
 			$paymentmode = 'n';
-			if (isset($paymentModes[$paymentmodeid]) && $paymentModes[$paymentmodeid]['old_id']) {
+			if (isset($paymentModes[$paymentmodeid], $paymentModes[$paymentmodeid]['old_id'])
+				&& $paymentModes[$paymentmodeid]['old_id'] !== null
+				&& $paymentModes[$paymentmodeid]['old_id'] !== ''
+			) {
 				$paymentmode = $paymentModes[$paymentmodeid]['old_id'];
 			}
 			$qb->set('paymentmodeid', $qb->createNamedParameter($paymentmodeid, IQueryBuilder::PARAM_INT));

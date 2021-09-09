@@ -2920,7 +2920,7 @@ class ProjectService {
 	 * @param int|null $maxAccessLevel
 	 * @return array
 	 */
-	private function getPublicShares(string $projectid, ?int $maxAccessLevel = null): array {
+	public function getPublicShares(string $projectid, ?int $maxAccessLevel = null): array {
 		$shares = [];
 
 		$qb = $this->db->getQueryBuilder();

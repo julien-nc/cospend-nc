@@ -674,6 +674,57 @@ class PageNUtilsControllerTest extends TestCase {
 		$currencyId = $this->projectService->addCurrency('superproj', 'dollar', 1.5);
 		$this->assertTrue($currencyId > 0);
 
+		$currencyId2 = $this->projectService->addCurrency('superproj', 'dollar2', 1.5);
+		$this->assertTrue($currencyId2 > 0);
+		$res = $this->projectService->editCurrency('superproj', $currencyId2, 'dolrenamed', 2);
+		$this->assertFalse(isset($res['message']));
+		$this->assertEquals('dolrenamed', $res['name']);
+		$this->assertEquals(2, $res['exchange_rate']);
+		$this->assertEquals($currencyId2, $res['id']);
+		$res = $this->projectService->editCurrency('superproj', -1, 'dolrenamed', 2);
+		$this->assertTrue(isset($res['message']));
+		$res = $this->projectService->deleteCurrency('superproj', $currencyId2);
+		$this->assertTrue(isset($res['success']));
+		$res = $this->projectService->deleteCurrency('superproj', -1);
+		$this->assertFalse(isset($res['success']));
+		$this->assertTrue(isset($res['message']));
+
+		// share link
+		$res = $this->projectService->addPublicShare('superproj');
+		$this->assertTrue(isset($res['token'], $res['id']));
+		$this->assertTrue($res['id'] > 0);
+		$shareLinkId = $res['id'];
+		$shareLinkToken = $res['token'];
+		$res = $this->projectService->addPublicShare('superproj');
+		$this->assertTrue(isset($res['id'], $res['token']));
+		$this->assertTrue($res['id'] > 0);
+		$shareLinkId2 = $res['id'];
+		$res = $this->projectService->deletePublicShare('superproj', $shareLinkId2);
+		$this->assertTrue(isset($res['success']));
+		$res = $this->projectService->deletePublicShare('superproj', -1);
+		$this->assertFalse(isset($res['success']));
+		$this->assertTrue(isset($res['message']));
+
+		$res = $this->projectService->editShareAccess('superproj', $shareLinkId, 'lala', 'passpass');
+		$this->assertTrue(isset($res['success']));
+		$this->assertFalse(isset($res['message']));
+		$res = $this->projectService->editShareAccessLevel('superproj', $shareLinkId, Application::ACCESS_LEVELS['admin']);
+		$this->assertTrue(isset($res['success']));
+		$this->assertFalse(isset($res['message']));
+		$res = $this->projectService->editShareAccess('superproj', -1, 'lala', 'passpass');
+		$this->assertFalse(isset($res['success']));
+		$this->assertTrue(isset($res['message']));
+		$res = $this->projectService->editShareAccessLevel('superproj', -1, Application::ACCESS_LEVELS['admin']);
+		$this->assertFalse(isset($res['success']));
+		$this->assertTrue(isset($res['message']));
+		$res = $this->projectService->getPublicShares('superproj');
+		$this->assertEquals(1, count($res));
+		$this->assertEquals($shareLinkToken, $res[0]['token']);
+		$this->assertEquals('lala', $res[0]['label']);
+		$this->assertEquals('passpass', $res[0]['password']);
+		$this->assertEquals(Application::ACCESS_LEVELS['admin'], $res[0]['accesslevel']);
+		$this->assertEquals($shareLinkId, $res[0]['id']);
+
 		// get project stats
 
 		$resp = $this->pageController->webGetProjectStatistics('superprojdoesnotexist');

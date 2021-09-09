@@ -753,7 +753,7 @@ class PageController extends ApiController {
 	 */
 	public function webAddBill(string $projectid, ?string $date = null, ?string $what = null, ?int $payer = null, ?string $payed_for = null,
 							?float $amount = null, ?string $repeat = null, ?string $paymentmode = null, ?int $paymentmodeid = null,
-							?int $categoryid = null, ?int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
+							?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
 							?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
 			$result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,
@@ -1286,7 +1286,7 @@ class PageController extends ApiController {
 	public function apiAddBill(string $projectid, string $password, ?string $date = null, ?string $what = null, ?int $payer = null,
 							?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
 							?string $paymentmode = null, ?int $paymentmodeid = null,
-							?int $categoryid = null, ?int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
+							?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
 							?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
@@ -1335,7 +1335,7 @@ class PageController extends ApiController {
 	public function apiPrivAddBill(string $projectid, ?string $date = null, ?string $what = null, ?int $payer = null,
 								?string $payed_for = null, ?float $amount = null, string $repeat = 'n',
 								?string $paymentmode = null, ?int $paymentmodeid = null,
-								?int $categoryid = null, ?int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
+								?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null, ?int $timestamp = null,
 								?string $comment = null, ?int $repeatfreq = null): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
 			$result = $this->projectService->addBill($projectid, $date, $what, $payer, $payed_for, $amount,

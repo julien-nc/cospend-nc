@@ -327,6 +327,11 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(403, $status);
 
+		// create member with invalid color
+		$resp = $this->pageController->webAddMember('superproj', 'jojo', null, 1.2, 1, '#zz');
+		$status = $resp->getStatus();
+		$this->assertEquals(400, $status);
+
 		// add categories and payment modes
 		$resp = $this->pageController->addCategory('superproj', 'cat1', 'i', '#123465', 2);
 		$status = $resp->getStatus();
@@ -459,7 +464,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals(403, $status);
 
 		// edit member
-		$resp = $this->pageController->webEditMember('superproj', $idMember1, 'roberto', 1.2, true, '', 'test');
+		$resp = $this->pageController->webEditMember('superproj', $idMember1, 'roberto', 1.2, true, '#112233', 'test');
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
@@ -502,6 +507,14 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals(400, $status);
 		$data = $resp->getData();
 		$this->assertTrue(isset($data['name']));
+		$this->assertFalse(isset($data['id']));
+
+		// invalid color
+		$resp = $this->pageController->webEditMember('superproj', $idMember1, 'robertvalid', 1, true, '#zz');
+		$status = $resp->getStatus();
+		$this->assertEquals(400, $status);
+		$data = $resp->getData();
+		$this->assertTrue(isset($data['color']));
 		$this->assertFalse(isset($data['id']));
 
 		// invalid weight
@@ -620,6 +633,27 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals($otherDefPm['id'], $bill['paymentmodeid']);
 		$this->projectService->deleteBill('superproj', $idBillPm);
 
+		// add bill with old pm id, it should affect the matching default pm
+		$resp = $this->pageController->webAddBill(
+			'superproj', '2019-01-22', 'boomerang', $idMember1,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'],
+			'c', null, $idCat1,
+			0, '2049-01-01'
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idBillOldPmId = $data;
+		$bill = $this->projectService->getBill('superproj', $idBillOldPmId);
+		$this->assertNotNull($bill);
+		$this->assertEquals('c', $bill['paymentmode']);
+		$this->assertTrue(isset($bill['paymentmodeid']));
+		$pmId = $bill['paymentmodeid'];
+		$pm = $this->projectService->getPaymentMode('superproj', $pmId);
+		$this->assertNotNull($pm);
+		$this->assertEquals('c', $pm['old_id']);
+		$this->projectService->deleteBill('superproj', $idBillOldPmId);
+
 		// more invalid data
 		$resp = $this->pageController->webAddBill(
 			'superproj', '2019-01-25', null, null, $idMember1, 12.3, 'n',
@@ -639,29 +673,61 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(403, $status);
 
+		$resp = $this->pageController->webAddBill('superproj', 'aa-aa', 'lala', $idMember2, $idMember1, 12.3, 'n');
+		$status = $resp->getStatus();
+		$this->assertEquals(400, $status);
+		$data = $resp->getData();
+		$this->assertTrue(isset($data['date']));
+		$this->assertFalse(isset($data['inserted_id']));
+
 		$resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', -1, $idMember1, 12.3, 'n');
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
+		$data = $resp->getData();
+		$this->assertTrue(isset($data['payer']));
+		$this->assertFalse(isset($data['inserted_id']));
 
 		$resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', $idMember2, -1, 12.3, 'n');
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
+		$data = $resp->getData();
+		$this->assertTrue(isset($data['payed_for']));
+		$this->assertFalse(isset($data['inserted_id']));
 
 		$resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', $idMember2, '', 12.3, 'n');
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
+		$data = $resp->getData();
+		$this->assertTrue(isset($data['payed_for']));
+		$this->assertFalse(isset($data['inserted_id']));
 
 		$resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', $idMember2, $idMember1, 12.3, '');
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
+		$data = $resp->getData();
+		$this->assertTrue(isset($data['repeat']));
+		$this->assertFalse(isset($data['inserted_id']));
+
+		$resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', $idMember2, $idMember1, 12.3, 'zzz');
+		$status = $resp->getStatus();
+		$this->assertEquals(400, $status);
+		$data = $resp->getData();
+		$this->assertTrue(isset($data['repeat']));
+		$this->assertFalse(isset($data['inserted_id']));
 
 		$resp = $this->pageController->webAddBill('superproj', '', 'lala', $idMember2, $idMember1, 12.3, 'n');
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
+		$data = $resp->getData();
+		$this->assertTrue(isset($data['message']));
+		$this->assertFalse(isset($data['inserted_id']));
 
 		$resp = $this->pageController->webAddBill('superproj', '2019-01-20', 'lala', $idMember2, $idMember1.',aa', 12.3, 'n');
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
+		$data = $resp->getData();
+		$this->assertTrue(isset($data['payed_for']));
+		$this->assertFalse(isset($data['inserted_id']));
 
 		// get all bill ids
 		$ids = $this->projectService->getAllBillIds('superproj');
@@ -969,6 +1035,27 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(403, $status);
 
+		// delete bill when deletion is disabled
+		$resp = $this->pageController->webEditProject(
+			'superproj', null, null, null,
+			null, null, true,
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		// try to delete a bill
+		$resp = $this->pageController->webDeleteBill('superproj', $idBill1);
+		$status = $resp->getStatus();
+		$this->assertEquals(404, $status);
+		$data = $resp->getData();
+		$this->assertTrue(isset($data['message']));
+		// reset bill deletion in project
+		$resp = $this->pageController->webEditProject(
+			'superproj', null, null, null,
+			null, null, false,
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+
 		// check number of bills again
 		$resp = $this->pageController->webGetBills('superproj');
 		$status = $resp->getStatus();
@@ -984,7 +1071,7 @@ class PageNUtilsControllerTest extends TestCase {
 		// EDIT PROJECT
 		$resp = $this->pageController->webEditProject(
 			'superproj', 'newname', 'email@yep.yop', 'new password',
-			Application::FREQUENCIES['monthly'], 'euro', null,
+			Application::FREQUENCIES['monthly'], '', false,
 			Application::SORT_ORDERS['manual'], Application::SORT_ORDERS['manual']
 		);
 		$status = $resp->getStatus();
@@ -997,8 +1084,13 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
 
-		// project does not exist
+		// user can't edit this project (test is not the owner of superprojLALA)
 		$resp = $this->pageController->webEditProject('superprojLALA', 'newname', 'new email', 'new password');
+		$status = $resp->getStatus();
+		$this->assertEquals(403, $status);
+
+		// project does not exist
+		$resp = $this->pageController->webEditProject('doesnotexit', 'newname', 'new email', 'new password');
 		$status = $resp->getStatus();
 		$this->assertEquals(403, $status);
 

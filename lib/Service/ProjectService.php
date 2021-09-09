@@ -1173,7 +1173,7 @@ class ProjectService {
 	 */
 	public function addBill(string $projectid, ?string $date, ?string $what, ?int $payer, ?string $payed_for,
 							?float $amount, ?string $repeat, ?string $paymentmode = null, ?int $paymentmodeid = null,
-							?int $categoryid = null, ?int $repeatallactive = 0, ?string $repeatuntil = null,
+							?int $categoryid = null, int $repeatallactive = 0, ?string $repeatuntil = null,
 							?int $timestamp = null, ?string $comment = null, ?int $repeatfreq = null,
 							?array $paymentModes = null): array {
 		// if we don't have the payment modes, get them now
@@ -1183,9 +1183,8 @@ class ProjectService {
 
 		if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
 			return ['repeat' => $this->trans->t('Invalid value')];
-		}
-		if ($repeatallactive === null) {
-			return ['repeatallactive' => $this->trans->t('Invalid value')];
+		} elseif (!in_array($repeat, array_values(Application::FREQUENCIES))) {
+			return ['repeat' => $this->trans->t('Invalid frequency')];
 		}
 		if ($repeatuntil !== null && $repeatuntil === '') {
 			$repeatuntil = null;
@@ -1772,6 +1771,7 @@ class ProjectService {
 				$qb->resetQueryParts();
 				return [];
 			}
+
 			if (!is_null($name)) {
 				if (strpos($name, '/') !== false) {
 					return ['name' => $this->trans->t('Invalid member name')];
@@ -1783,6 +1783,18 @@ class ProjectService {
 					}
 				}
 			}
+
+			if ($color !== null) {
+				if ($color === ''
+					|| ((strlen($color) === 4 || strlen($color) === 7)
+						&& preg_match('/^#[0-9A-Fa-f]+/', $color) !== false)
+				) {
+					// fine
+				} else {
+					return ['color' => $this->trans->t('Invalid value')];
+				}
+			}
+
 			$qb->update('cospend_members');
 			if ($weight !== null) {
 				if ($weight > 0.0) {
@@ -1934,12 +1946,25 @@ class ProjectService {
 				if (strpos($name, '/') !== false) {
 					return ['error' => $this->trans->t('Invalid member name')];
 				}
+
 				$weightToInsert = 1.0;
 				if ($weight !== null) {
 					if ($weight > 0.0) {
 						$weightToInsert = $weight;
 					} else {
 						return ['error' => $this->trans->t('Weight is not a valid decimal value')];
+					}
+				}
+
+				if ($color !== null) {
+					if ($color === '') {
+						$color = null;
+					} elseif ((strlen($color) === 4 || strlen($color) === 7)
+						&& preg_match('/^#[0-9A-Fa-f]+/', $color) !== false
+					) {
+						// fine
+					} else {
+						return ['error' => $this->trans->t('Invalid color value')];
 					}
 				}
 
@@ -3755,7 +3780,7 @@ class ProjectService {
 		$pm = null;
 
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'name', 'projectid', 'encoded_icon', 'color')
+		$qb->select('id', 'name', 'projectid', 'encoded_icon', 'color', 'old_id')
 			->from('cospend_project_paymentmodes', 'pm')
 			->where(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
@@ -3770,12 +3795,14 @@ class ProjectService {
 			$dbName = $row['name'];
 			$dbIcon = urldecode($row['encoded_icon']);
 			$dbColor = $row['color'];
+			$dbOldId = $row['old_id'];
 			$pm = [
 				'name' => $dbName,
 				'icon' => $dbIcon,
 				'color' => $dbColor,
 				'id' => $dbPmId,
 				'projectid' => $projectId,
+				'old_id' => $dbOldId,
 			];
 			break;
 		}

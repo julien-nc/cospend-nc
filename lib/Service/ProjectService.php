@@ -1773,12 +1773,14 @@ class ProjectService {
 				return [];
 			}
 			if (!is_null($name)) {
-				// get existing member with this name
-				$memberWithSameName = $this->getMemberByName($projectid, $member['name']);
 				if (strpos($name, '/') !== false) {
 					return ['name' => $this->trans->t('Invalid member name')];
-				} elseif ($memberWithSameName && $memberWithSameName['id'] !== $memberid) {
-					return ['name' => $this->trans->t('Name already exists')];
+				} else {
+					// get existing member with this name
+					$memberWithSameName = $this->getMemberByName($projectid, $name);
+					if ($memberWithSameName && $memberWithSameName['id'] !== $memberid) {
+						return ['name' => $this->trans->t('Name already exists')];
+					}
 				}
 			}
 			$qb->update('cospend_members');
@@ -1868,13 +1870,25 @@ class ProjectService {
 			$qb->set('password', $qb->createNamedParameter($dbPassword, IQueryBuilder::PARAM_STR));
 		}
 		if ($autoexport !== null && $autoexport !== '') {
-			$qb->set('autoexport', $qb->createNamedParameter($autoexport, IQueryBuilder::PARAM_STR));
+			if (in_array($autoexport, array_values(Application::FREQUENCIES))) {
+				$qb->set('autoexport', $qb->createNamedParameter($autoexport, IQueryBuilder::PARAM_STR));
+			} else {
+				return ['autoexport' => [$this->trans->t('Invalid frequency')]];
+			}
 		}
 		if ($categorysort !== null && $categorysort !== '') {
-			$qb->set('categorysort', $qb->createNamedParameter($categorysort, IQueryBuilder::PARAM_STR));
+			if (in_array($categorysort, array_values(Application::SORT_ORDERS))) {
+				$qb->set('categorysort', $qb->createNamedParameter($categorysort, IQueryBuilder::PARAM_STR));
+			} else {
+				return ['categorysort' => [$this->trans->t('Invalid sort order')]];
+			}
 		}
 		if ($paymentmodesort !== null && $paymentmodesort !== '') {
-			$qb->set('paymentmodesort', $qb->createNamedParameter($paymentmodesort, IQueryBuilder::PARAM_STR));
+			if (in_array($paymentmodesort, array_values(Application::SORT_ORDERS))) {
+				$qb->set('paymentmodesort', $qb->createNamedParameter($paymentmodesort, IQueryBuilder::PARAM_STR));
+			} else {
+				return ['paymentmodesort' => [$this->trans->t('Invalid sort order')]];
+			}
 		}
 		if ($deletion_disabled !== null) {
 			$qb->set('deletiondisabled', $qb->createNamedParameter($deletion_disabled ? 1 : 0, IQueryBuilder::PARAM_INT));

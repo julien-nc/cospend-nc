@@ -282,6 +282,25 @@ class PageNUtilsControllerTest extends TestCase {
 		$data = $resp->getData();
 		$idMember3 = $data['id'];
 
+		// already exists
+		$res = $this->projectService->addMember('superproj', 'robert3');
+		$this->assertTrue(isset($res['error']));
+		$this->assertFalse(isset($res['id']));
+
+		// invalid name
+		$res = $this->projectService->addMember('superproj', 'robert/4');
+		$this->assertTrue(isset($res['error']));
+		$this->assertFalse(isset($res['id']));
+
+		$res = $this->projectService->addMember('superproj', '');
+		$this->assertTrue(isset($res['error']));
+		$this->assertFalse(isset($res['id']));
+
+		// invalid weight
+		$res = $this->projectService->addMember('superproj', 'robert4', 0.0);
+		$this->assertTrue(isset($res['error']));
+		$this->assertFalse(isset($res['id']));
+
 		// delete the member
 		$resp = $this->pageController->webEditMember('superproj', $idMember3, null, null, false);
 		$this->assertNull($resp->getData());
@@ -440,17 +459,58 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals(403, $status);
 
 		// edit member
-		$resp = $this->pageController->webEditMember('superproj', $idMember1, 'roberto', 1, true);
+		$resp = $this->pageController->webEditMember('superproj', $idMember1, 'roberto', 1.2, true, '', 'test');
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$this->assertFalse(isset($data['message']));
+		$this->assertTrue(isset($data['id']));
+		$this->assertEquals('test', $data['userid']);
+		$this->assertEquals('roberto', $data['name']);
+		$this->assertEquals(1.2, $data['weight']);
+		$this->assertTrue($data['activated']);
+		$resp = $this->pageController->webEditMember('superproj', $idMember1, 'roberto', 1, true, '', 'test');
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 
 		$resp = $this->pageController->webEditMember('superprojdoesnotexist', $idMember1, 'roberto', 1, true);
 		$status = $resp->getStatus();
 		$this->assertEquals(403, $status);
+		$data = $resp->getData();
+		$this->assertTrue(isset($data['message']));
+		$this->assertFalse(isset($data['id']));
 
+		// member does not exist
 		$resp = $this->pageController->webEditMember('superproj', -1, 'roberto', 1, true);
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
+		$data = $resp->getData();
+		$this->assertTrue(isset($data['name']));
+		$this->assertFalse(isset($data['id']));
+
+		// name the user like an existing user
+		$resp = $this->pageController->webEditMember('superproj', $idMember1, 'robert', 1, true);
+		$status = $resp->getStatus();
+		$this->assertEquals(400, $status);
+		$data = $resp->getData();
+		$this->assertTrue(isset($data['name']));
+		$this->assertFalse(isset($data['id']));
+
+		// invalid name
+		$resp = $this->pageController->webEditMember('superproj', $idMember1, 'robert/invalid', 1, true);
+		$status = $resp->getStatus();
+		$this->assertEquals(400, $status);
+		$data = $resp->getData();
+		$this->assertTrue(isset($data['name']));
+		$this->assertFalse(isset($data['id']));
+
+		// invalid weight
+		$resp = $this->pageController->webEditMember('superproj', $idMember1, 'robert3', 0, true);
+		$status = $resp->getStatus();
+		$this->assertEquals(400, $status);
+		$data = $resp->getData();
+		$this->assertTrue(isset($data['weight']));
+		$this->assertFalse(isset($data['id']));
 
 		// create bills
 		$resp = $this->pageController->webAddBill(
@@ -801,8 +861,7 @@ class PageNUtilsControllerTest extends TestCase {
 				$this->assertEquals(99, $stat['paid']);
 				$this->assertEquals((99/2 + 12.3), $stat['spent']);
 				$id1Found = true;
-			}
-			else if ($stat['member']['id'] === $idMember2) {
+			} elseif ($stat['member']['id'] === $idMember2) {
 				$this->assertEquals((12.3 - 99/2), $stat['balance']);
 				$this->assertEquals(12.3, $stat['paid']);
 				$this->assertEquals(99/2, $stat['spent']);
@@ -866,8 +925,7 @@ class PageNUtilsControllerTest extends TestCase {
 				$this->assertEquals(99, $stat['paid']);
 				$this->assertEquals((99/2 + 12.3) + (99/2 - 12.3), $stat['spent']);
 				$id1Found = true;
-			}
-			else if ($stat['member']['id'] === $idMember2) {
+			} elseif ($stat['member']['id'] === $idMember2) {
 				$this->assertEquals(0, $stat['balance']);
 				$this->assertEquals(12.3 + (99/2 - 12.3), $stat['paid']);
 				$this->assertEquals(99/2, $stat['spent']);
@@ -924,21 +982,55 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals(403, $status);
 
 		// EDIT PROJECT
-		$resp = $this->pageController->webEditProject('superproj', 'newname', 'email@yep.yop', 'new password');
+		$resp = $this->pageController->webEditProject(
+			'superproj', 'newname', 'email@yep.yop', 'new password',
+			Application::FREQUENCIES['monthly'], 'euro', null,
+			Application::SORT_ORDERS['manual'], Application::SORT_ORDERS['manual']
+		);
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
 		$this->assertEquals('UPDATED', $data);
 
+		// invalid email
 		$resp = $this->pageController->webEditProject('superproj', 'newname', 'invalid email!', 'new password');
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
 
+		// project does not exist
 		$resp = $this->pageController->webEditProject('superprojLALA', 'newname', 'new email', 'new password');
 		$status = $resp->getStatus();
 		$this->assertEquals(403, $status);
 
+		// invalid name
 		$resp = $this->pageController->webEditProject('superproj', '', 'new email', 'new password');
+		$status = $resp->getStatus();
+		$this->assertEquals(400, $status);
+
+		// invalid category sort
+		$resp = $this->pageController->webEditProject(
+			'superproj', 'newname', 'email@yep.yop', 'new password',
+			Application::FREQUENCIES['monthly'], 'euro', null,
+			'zzz', Application::SORT_ORDERS['manual']
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(400, $status);
+
+		// invalid payment mode sort
+		$resp = $this->pageController->webEditProject(
+			'superproj', 'newname', 'email@yep.yop', 'new password',
+			Application::FREQUENCIES['monthly'], 'euro', null,
+			Application::SORT_ORDERS['manual'], 'zzz'
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(400, $status);
+
+		// invalid auto export frequency
+		$resp = $this->pageController->webEditProject(
+			'superproj', 'newname', 'email@yep.yop', 'new password',
+			'zzz', 'euro', null,
+			Application::SORT_ORDERS['manual'], Application::SORT_ORDERS['manual']
+		);
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
 
@@ -1200,10 +1292,42 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals(403, $status);
 
 		// share the project with second user
-		$resp = $this->pageController->addUserShare('projtodel', 'test2');
+		$resp = $this->pageController->addUserShare('projtodel', 'test2', Application::ACCESS_LEVELS['maintainer']);
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$shareId2 = $resp->getData()['id'];
+		// already shared
+		$resp = $this->pageController->addUserShare('projtodel', 'test2', Application::ACCESS_LEVELS['maintainer']);
+		$status = $resp->getStatus();
+		$this->assertEquals(400, $status);
+		$data = $resp->getData();
+		$this->assertTrue(isset($data['message']));
+		$this->assertFalse(isset($data['id']));
+		// non-existing user
+		$resp = $this->pageController->addUserShare('projtodel', 'test2_doesnotexist', Application::ACCESS_LEVELS['maintainer']);
+		$status = $resp->getStatus();
+		$this->assertEquals(400, $status);
+		$data = $resp->getData();
+		$this->assertTrue(isset($data['message']));
+		$this->assertFalse(isset($data['id']));
+
+		// share the project with owner
+		$resp = $this->pageController->addUserShare('projtodel', 'test');
+		$status = $resp->getStatus();
+		$this->assertEquals(400, $status);
+		$data = $resp->getData();
+		$this->assertTrue(isset($data['message']));
+		$this->assertFalse(isset($data['id']));
+
+		// make someone having shared access share to someone else with higher access level
+		// in this case, test2 shares to test3 with admin access
+		$res = $this->projectService->addUserShare('projtodel', 'test3', 'test2', Application::ACCESS_LEVELS['admin']);
+		$this->assertTrue(isset($res['message']));
+		$this->assertFalse(isset($res['id']));
+		// but with equal access level, it's fine
+		$res = $this->projectService->addUserShare('projtodel', 'test3', 'test2', Application::ACCESS_LEVELS['maintainer']);
+		$this->assertFalse(isset($res['message']));
+		$this->assertTrue(isset($res['id']));
 
 		// get projects of second user
 		$resp = $this->pageController2->webGetProjects();

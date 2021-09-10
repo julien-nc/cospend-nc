@@ -64,10 +64,12 @@
 				</div>
 				<div v-if="!pageIsPublic"
 					class="bill-link-button">
-					<div />
-					<button id="addFileLinkButton" @click="onGeneratePubLinkClick">
-						<span class="icon-public" />{{ t('cospend', 'Attach share link to personal file') }}
-					</button>
+					<label>&nbsp;</label>
+					<div class="link-button">
+						<button class="addFileLinkButton" @click="onGeneratePubLinkClick">
+							<span class="icon-public" />{{ t('cospend', 'Attach share link to personal file') }}
+						</button>
+					</div>
 				</div>
 				<div class="bill-amount">
 					<label for="amount">
@@ -118,7 +120,7 @@
 					<Multiselect
 						id="memberMultiSelect"
 						:value="selectedMemberItem"
-						class="memberMultiSelect"
+						class="memberMultiSelect multiSelect"
 						label="displayName"
 						track-by="id"
 						:disabled="!editionAccess || (!isNewBill && !members[myBill.payer_id].activated)"
@@ -176,7 +178,7 @@
 					<Multiselect
 						id="paymentModeMultiSelect"
 						:value="selectedPaymentModeItem"
-						class="paymentModeMultiSelect"
+						class="paymentModeMultiSelect  multiSelect"
 						label="name"
 						track-by="id"
 						:disabled="!editionAccess"
@@ -194,7 +196,7 @@
 					<Multiselect
 						id="categoryMultiSelect"
 						:value="selectedCategoryItem"
-						class="categoryMultiSelect"
+						class="categoryMultiSelect  multiSelect"
 						label="name"
 						track-by="id"
 						:disabled="!editionAccess"
@@ -302,14 +304,15 @@
 							@input="onBillEdited">
 					</div>
 					<div v-if="editionAccess && !isNewBill"
-						class="bill-repeat-until">
-						<label />
-						<button
-							class="repeat-now"
-							@click="$emit('repeat-bill-now', myBill.id)">
-							<span class="icon icon-play-next" />
-							{{ t('cospend', 'Repeat now') }}
-						</button>
+						class="bill-repeat-now">
+						<label>&nbsp;</label>
+						<div class="repeat-now">
+							<button
+								@click="$emit('repeat-bill-now', myBill.id)">
+								<span class="icon icon-play-next" />
+								{{ t('cospend', 'Repeat now') }}
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -1618,10 +1621,16 @@ export default {
 	vertical-align: middle;
 }
 
-.bill-left select,
-.bill-left textarea,
-.bill-left input {
-	width: 100%;
+.bill-left {
+	select,
+	textarea,
+	.datetime-picker,
+	.multiSelect,
+	.repeat-now,
+	.link-button,
+	input {
+		width: 250px;
+	}
 }
 
 .bill-form-content {
@@ -1641,14 +1650,6 @@ export default {
 			padding: 0 12px 0 25px;
 		}
 	}
-}
-
-.bill-left {
-	width: 500px;
-}
-
-.bill-right {
-	width: 400px;
 }
 
 .bill-left,
@@ -1717,24 +1718,39 @@ export default {
 	flex-grow: 100;
 }
 
-.datetime-picker {
-	width: 100%;
-}
-
 .bill-date,
 .bill-payment-mode,
 .bill-category,
 .bill-repeat,
 .bill-repeat-until,
 .bill-repeat-freq,
+.bill-repeat-now,
 .bill-payer,
 .bill-amount,
 .bill-currency-convert,
 .bill-comment,
 .bill-link-button,
 .bill-what {
-	display: grid;
-	grid-template: 1fr / 5fr 7fr;
+	display: flex;
+	flex-wrap: wrap;
+
+	> label {
+		width: 200px;
+	}
+}
+
+.bill-repeat-now,
+.bill-link-button {
+	label {
+		height: 0px;
+	}
+}
+
+.repeat-now,
+.link-button {
+	display: flex;
+	flex-direction: column;
+	align-items: end;
 }
 
 .bill-payment-mode,

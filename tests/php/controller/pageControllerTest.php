@@ -263,8 +263,12 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(400, $status);
 
+		// get project names
+		$res = $this->projectService->getProjectNames(null);
+		$this->assertEquals(0, count($res));
+
 		// create members
-		$resp = $this->pageController->webAddMember('superproj', 'bobby');
+		$resp = $this->pageController->webAddMember('superproj', 'bobby', null, 1, 1, '');
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
@@ -281,6 +285,12 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
 		$idMember3 = $data['id'];
+
+		// get members
+		$members = $this->projectService->getMembers('superproj', 'name', 0);
+		$this->assertEquals(3, $members);
+		$members = $this->projectService->getMembers('superproj', 'name', 9999999999999999);
+		$this->assertEquals(0, $members);
 
 		// already exists
 		$res = $this->projectService->addMember('superproj', 'robert3');
@@ -474,9 +484,11 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals('roberto', $data['name']);
 		$this->assertEquals(1.2, $data['weight']);
 		$this->assertTrue($data['activated']);
-		$resp = $this->pageController->webEditMember('superproj', $idMember1, 'roberto', 1, true, '', 'test');
+		$resp = $this->pageController->webEditMember('superproj', $idMember1, 'roberto', 1, true, '', '');
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$this->assertEquals(null, $data['userid']);
 
 		$resp = $this->pageController->webEditMember('superprojdoesnotexist', $idMember1, 'roberto', 1, true);
 		$status = $resp->getStatus();
@@ -1094,6 +1106,10 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(403, $status);
 
+		$res = $this->projectService->editProject('blabla', 'plop');
+		$this->assertTrue(isset($res['message']));
+		$this->assertFalse(isset($res['success']));
+
 		// invalid name
 		$resp = $this->pageController->webEditProject('superproj', '', 'new email', 'new password');
 		$status = $resp->getStatus();
@@ -1587,6 +1603,132 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
 		$this->assertEquals('DELETED', $data['message'] ?? '');
+	}
+
+	public function testSearchBills() {
+		$resp = $this->pageController->webCreateProject('superprojS', 'SuperProj', 'toto');
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$this->assertEquals('superprojS', $data['id']);
+		$resp = $this->pageController->webAddMember('superprojS', 'bobby');
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idMember1 = $data['id'];
+		$resp = $this->pageController->webAddMember('superprojS', 'robert');
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idMember2 = $data['id'];
+
+		// search bills
+		$resp = $this->pageController->webAddBill(
+			'superprojS', '2019-01-22', 'one', $idMember1,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, null, null,
+			0, '2049-01-01', null, 'super comment 1'
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idBillSearch1 = $data;
+		$resp = $this->pageController->webAddBill(
+			'superprojS', '2019-01-22', 'two', $idMember1,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, null, null,
+			0, '2049-01-01', null, 'ultra comment 2'
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idBillSearch2 = $data;
+		$resp = $this->pageController->webAddBill(
+			'superprojS', '2019-01-22', 'three', $idMember1,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, null, null,
+			0, '2049-01-01', null, 'mega comment 3'
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idBillSearch3 = $data;
+
+		$bills = $this->projectService->searchBills('superprojS', 'mega');
+		$this->assertEquals(1, count($bills));
+		$this->assertEquals($idBillSearch3, $bills[0]['id']);
+		$bills = $this->projectService->searchBills('superprojS', 'two');
+		$this->assertEquals(1, count($bills));
+		$this->assertEquals($idBillSearch2, $bills[0]['id']);
+
+		$resp = $this->pageController->webDeleteProject('superprojS');
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+	}
+
+	public function testgetNbBills() {
+		$resp = $this->pageController->webCreateProject('superprojS', 'SuperProj', 'toto');
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$this->assertEquals('superprojS', $data['id']);
+		$resp = $this->pageController->webAddMember('superprojS', 'bobby');
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idMember1 = $data['id'];
+		$resp = $this->pageController->webAddMember('superprojS', 'robert');
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idMember2 = $data['id'];
+		$resp = $this->pageController->addCategory('superprojS', 'cat1', 'i', '#123465', 2);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$idCat1 = $resp->getData();
+		$resp = $this->pageController->addPaymentMode('superprojS', 'pm1', 'i', '#123465', 2);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$idPm1 = $resp->getData();
+
+		// search bills
+		$resp = $this->pageController->webAddBill(
+			'superprojS', '2019-01-22', 'one', $idMember1,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, $idPm1, $idCat1,
+			0, '2049-01-01', null, 'super comment 1'
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idBill1 = $data;
+		$resp = $this->pageController->webAddBill(
+			'superprojS', '2019-01-22', 'two', $idMember2,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, null, $idCat1,
+			0, '2049-01-01', null, 'ultra comment 2'
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idBill2 = $data;
+		$resp = $this->pageController->webAddBill(
+			'superprojS', '2019-01-22', 'three', $idMember1,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, null, null,
+			0, '2049-01-01', null, 'mega comment 3'
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idBill3 = $data;
+
+		$nbBills = $this->projectService->getNbBills('superprojS', $idMember1);
+		$this->assertEquals(2, $nbBills);
+		$nbBills = $this->projectService->getNbBills('superprojS', $idMember2);
+		$this->assertEquals(1, $nbBills);
+		$nbBills = $this->projectService->getNbBills('superprojS', null, $idCat1);
+		$this->assertEquals(2, $nbBills);
+		$nbBills = $this->projectService->getNbBills('superprojS', null, null, $idPm1);
+		$this->assertEquals(1, $nbBills);
+
+		$resp = $this->pageController->webDeleteProject('superprojS');
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
 	}
 
 }

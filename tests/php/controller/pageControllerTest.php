@@ -334,7 +334,10 @@ class PageNUtilsControllerTest extends TestCase {
 		// delete the member
 		$result = $this->projectService->deleteMember('superproj', $idMember4);
 		$this->assertTrue(isset($result['success']));
-		$this->assertNull($this->projectService->getMemberById('superproj', $idMember3));
+		$this->assertNull($this->projectService->getMemberById('superproj', $idMember4));
+
+		$result = $this->projectService->deleteMember('superproj', -1);
+		$this->assertFalse(isset($result['success']));
 
 		// create member with unauthorized user
 		$resp = $this->pageController2->webAddMember('superproj', 'bobby');
@@ -1542,6 +1545,10 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertTrue(isset($data['message']));
 		$this->assertFalse(isset($data['id']));
 
+		$resp = $this->projectService->addUserShare('projtodel', 'test', 'test2');
+		$this->assertTrue(isset($resp['message']));
+		$this->assertFalse(isset($resp['id']));
+
 		// make someone having shared access share to someone else with higher access level
 		// in this case, test2 shares to test3 with admin access
 		$res = $this->projectService->addUserShare('projtodel', 'test3', 'test2', Application::ACCESS_LEVELS['admin']);
@@ -1749,4 +1756,146 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals(200, $status);
 	}
 
+	public function createAndPopulateProject($projectId) {
+		$resp = $this->pageController->webCreateProject($projectId, 'SuperProj', 'toto');
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$this->assertEquals($projectId, $data['id']);
+		$resp = $this->pageController->webAddMember($projectId, 'member1');
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idMember1 = $data['id'];
+		$resp = $this->pageController->webAddMember($projectId, 'member2');
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idMember2 = $data['id'];
+		$resp = $this->pageController->webAddMember($projectId, 'member3');
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idMember3 = $data['id'];
+		$resp = $this->pageController->webAddMember($projectId, 'member4');
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idMember4 = $data['id'];
+		$resp = $this->pageController->addCategory($projectId, 'cat1', 'i', '#123465', 2);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$idCat1 = $resp->getData();
+		$resp = $this->pageController->addPaymentMode($projectId, 'pm1', 'i', '#123465', 2);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$idPm1 = $resp->getData();
+
+		// search bills
+		$resp = $this->pageController->webAddBill(
+			$projectId, '2019-01-22', 'one', $idMember1,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, $idPm1, $idCat1,
+			0, '2049-01-01', null, 'super comment 1'
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idBill1 = $data;
+		$resp = $this->pageController->webAddBill(
+			$projectId, '2019-01-22', 'two', $idMember2,
+			$idMember1.','.$idMember3, 22.5, Application::FREQUENCIES['no'], null, null, $idCat1,
+			0, '2049-01-01', null, 'ultra comment 2'
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idBill2 = $data;
+		$resp = $this->pageController->webAddBill(
+			$projectId, '2019-01-22', 'three', $idMember1,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], null, null, null,
+			0, '2049-01-01', null, 'mega comment 3'
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$idBill3 = $data;
+
+		return $this->projectService->getProjectInfo($projectId);
+	}
+
+	public function testGetSettlement() {
+		$project = $this->createAndPopulateProject('testGetSettlement');
+		$member1 = $this->projectService->getMemberByName('testGetSettlement', 'member1');
+		$idMember1 = $member1['id'];
+		$member2 = $this->projectService->getMemberByName('testGetSettlement', 'member2');
+		$idMember2 = $member2['id'];
+		$member3 = $this->projectService->getMemberByName('testGetSettlement', 'member3');
+		$idMember3 = $member3['id'];
+		$member4 = $this->projectService->getMemberByName('testGetSettlement', 'member4');
+		$idMember4 = $member4['id'];
+
+		$resp = $this->pageController->webGetProjectSettlement('testGetSettlement', $idMember3);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$respData = $resp->getData();
+		$data = $respData['transactions'];
+		foreach ($data as $transaction) {
+			$this->assertTrue($transaction['from'] === $idMember3 || $transaction['to'] === $idMember3);
+		}
+
+		// member who is not involved in any bill
+		$resp = $this->pageController->webGetProjectSettlement('testGetSettlement', $idMember4);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$respData = $resp->getData();
+		$data = $respData['transactions'];
+		foreach ($data as $transaction) {
+			$this->assertTrue($transaction['from'] === $idMember4 || $transaction['to'] === $idMember4);
+		}
+
+		$this->projectService->deleteProject('testGetSettlement');
+	}
+
+	public function testDeleteMember() {
+		$projectId = 'tdm';
+		$project = $this->createAndPopulateProject($projectId);
+		$member1 = $this->projectService->getMemberByName($projectId, 'member1');
+		$idMember1 = $member1['id'];
+		$member2 = $this->projectService->getMemberByName($projectId, 'member2');
+		$idMember2 = $member2['id'];
+		$member3 = $this->projectService->getMemberByName($projectId, 'member3');
+		$idMember3 = $member3['id'];
+		$member4 = $this->projectService->getMemberByName($projectId, 'member4');
+		$idMember4 = $member4['id'];
+
+		$result = $this->projectService->deleteMember($projectId, $idMember1);
+		$this->assertTrue(isset($result['success']));
+		$member = $this->projectService->getMemberById($projectId, $idMember1);
+		$this->assertNotNull($member);
+		$this->assertFalse($member['activated']);
+
+		$result = $this->projectService->deleteMember($projectId, $idMember4);
+		$this->assertTrue(isset($result['success']));
+		$this->assertNull($this->projectService->getMemberById($projectId, $idMember4));
+
+		$result = $this->projectService->deleteMember($projectId, -1);
+		$this->assertFalse(isset($result['success']));
+
+		$this->projectService->deleteProject($projectId);
+	}
+
+	public function testShareLink() {
+		$projectId = 'tsl';
+		$project = $this->createAndPopulateProject($projectId);
+
+		$result = $this->projectService->addPublicShare($projectId);
+		$this->assertTrue(isset($result['token']));
+		$this->assertTrue(isset($result['id']));
+		$token = $result['token'];
+
+		$projInfo = $this->projectService->getProjectInfoFromShareToken($token);
+		$this->assertEquals($projectId, $projInfo['projectid']);
+
+		$this->projectService->deleteProject($projectId);
+	}
 }

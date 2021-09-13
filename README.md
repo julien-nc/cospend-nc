@@ -72,3 +72,18 @@ Any feedback will be appreciated.
 ![2](https://github.com/eneiluj/cospend-nc/raw/master/img/screenshots/cospend2.jpg)
 ![3](https://github.com/eneiluj/cospend-nc/raw/master/img/screenshots/cospend3.jpg)
 ![4](https://github.com/eneiluj/cospend-nc/raw/master/img/screenshots/cospend4.jpg)
+
+## Nightly
+
+:warning: Make sure to only use nightly builds on test Nextcloud instances.
+
+To install the latest nightly, you can either
+* download it from https://apps.nextcloud.com/apps/cospend and replace
+the app directory manually in `nextcloud/apps`
+(make sure you give cospend directory's ownership to your webserver user)
+* use this occ command:
+```
+occ app:update --allow-unstable cospend
+```
+When you want to get back to stable releases,
+just disable and remove the app from app settings and reinstall it. You won't loose any data.

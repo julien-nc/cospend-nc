@@ -274,9 +274,6 @@ class PageNUtilsControllerTest extends TestCase {
 		$data = $resp->getData();
 		$idMember1 = $data['id'];
 
-		$member = $this->projectService->getMemberByUserid('superproj', $idMember1);
-		$this->assertNotNull($member['color']);
-
 		$resp = $this->pageController->webAddMember('superproj', 'robert');
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
@@ -329,6 +326,10 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertNotNull($member);
 		$this->assertTrue(isset($member['name']));
 		$this->assertEquals('robert4', $member['name']);
+
+		$this->projectService->editMember('superproj', $idMember4, null, null, null, null, '');
+		$member = $this->projectService->getMemberByUserid('superproj', $idMember4);
+		$this->assertNotNull($member['color']);
 
 		// delete the member
 		$result = $this->projectService->deleteMember('superproj', $idMember4);

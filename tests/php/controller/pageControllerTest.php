@@ -288,9 +288,9 @@ class PageNUtilsControllerTest extends TestCase {
 
 		// get members
 		$members = $this->projectService->getMembers('superproj', 'name', 0);
-		$this->assertEquals(3, $members);
+		$this->assertEquals(3, count($members));
 		$members = $this->projectService->getMembers('superproj', 'name', 9999999999999999);
-		$this->assertEquals(0, $members);
+		$this->assertEquals(0, count($members));
 
 		// already exists
 		$res = $this->projectService->addMember('superproj', 'robert3');

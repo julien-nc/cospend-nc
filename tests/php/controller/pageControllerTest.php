@@ -274,6 +274,9 @@ class PageNUtilsControllerTest extends TestCase {
 		$data = $resp->getData();
 		$idMember1 = $data['id'];
 
+		$member = $this->projectService->getMemberByUserid('superproj', $idMember1);
+		$this->assertNotNull($member['color']);
+
 		$resp = $this->pageController->webAddMember('superproj', 'robert');
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
@@ -643,6 +646,20 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertNotNull($bill);
 		$this->assertEquals($otherDefPm['old_id'], $bill['paymentmode']);
 		$this->assertEquals($otherDefPm['id'], $bill['paymentmodeid']);
+
+		$resp = $this->pageController->webEditBill(
+			'superproj', $idBillPm, '2019-01-22', 'boomerang', $idMember1,
+			$idMember1.','.$idMember2, 22.5, Application::FREQUENCIES['no'], $oneDefPm['old_id'], null, $idCat1,
+			0, '2049-01-01'
+		);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+		$this->assertEquals($idBillPm, $data);
+		$bill = $this->projectService->getBill('superproj', $idBillPm);
+		$this->assertNotNull($bill);
+		$this->assertEquals($oneDefPm['old_id'], $bill['paymentmode']);
+		$this->assertEquals($oneDefPm['id'], $bill['paymentmodeid']);
 		$this->projectService->deleteBill('superproj', $idBillPm);
 
 		// add bill with old pm id, it should affect the matching default pm

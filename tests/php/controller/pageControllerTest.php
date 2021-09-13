@@ -328,7 +328,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals('robert4', $member['name']);
 
 		$this->projectService->editMember('superproj', $idMember4, null, null, null, null, '');
-		$member = $this->projectService->getMemberByUserid('superproj', $idMember4);
+		$member = $this->projectService->getMemberByUserid('superproj', 'test');
 		$this->assertNotNull($member['color']);
 
 		// delete the member

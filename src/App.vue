@@ -426,7 +426,7 @@ export default {
 			this.currentBill = null
 			this.activeSidebarTab = 'project-settings'
 			this.showSidebar = true
-			this.$nextTick(() => { this.$refs.sidebar.focusOnAddMember() })
+			this.$nextTick(() => { this.$refs.sidebar?.focusOnAddMember() })
 		},
 		onNewMember(projectid, name, userid = null) {
 			if (this.getMemberNames(projectid).includes(name)) {
@@ -483,7 +483,7 @@ export default {
 				this.selectedMemberId = null
 				this.selectedCategoryFilter = 'placeholder'
 				this.selectedPaymentModeFilter = 'placeholder'
-				this.$refs.billList.toggleFilterMode(false, false)
+				this.$refs.billList?.toggleFilterMode(false, false)
 				this.getBills(cospend.currentProjectId, null, () => { this.onNewBillClicked(bill) })
 			} else {
 				// find potentially existing new bill
@@ -659,10 +659,11 @@ export default {
 		},
 		createProject(name, id) {
 			network.createProject(name, id).then((response) => {
-				this.$refs.billList.toggleFilterMode(false, false)
+				this.$refs.billList?.toggleFilterMode(false, false)
 				this.addProject(response.data)
 				this.selectProject(response.data.id)
 			}).catch((error) => {
+				console.error(error)
 				showError(
 					t('cospend', 'Failed to create project')
 					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)

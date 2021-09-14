@@ -16,9 +16,9 @@ OC.L10N.register(
     "Not a valid choice" : "Няма действителен избор",
     "Invalid member name" : "Невалидно име на участник",
     "This project have no such member" : "Този проект няма такъв участник",
-    "Name field is required" : "Името на полето се изисква",
     "Invalid email address" : "Недействителен адрес на електронна поща",
     "There is no such project" : "Няма такъв проект",
+    "Name field is required" : "Името на полето се изисква",
     "Incorrect field values" : "Неправилни стойности в полето",
     "This project have no such currency" : "Този проект няма такава валута",
     "No such user" : "Няма такъв потребител",
@@ -60,11 +60,11 @@ OC.L10N.register(
     "Minimum date" : "Минимална дата",
     "Maximum date" : "Максимална дата",
     "All" : "Всички",
+    "No category" : "Няма категория",
     "Minimum amount" : "Минимална сума",
     "Maximum amount" : "Максимална сума",
     "Global stats" : "Глобална статистика",
     "Category/Month" : "Категория/месец",
-    "No category" : "Няма категория",
     "Authentication" : "Удостоверяване"
 },
 "nplurals=2; plural=(n != 1);");

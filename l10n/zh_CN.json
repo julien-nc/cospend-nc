@@ -48,7 +48,6 @@
     "New bill" : "新建账单",
     "Failed to delete bill" : "删除账单失败",
     "Delete" : "删除",
-    "MoneyBuster link/QRCode for project {name}" : "项目 {name} 的 MoneyBuster 链接/二维码",
     "Settlement of project {name}" : "项目 {name} 的结算",
     "Export" : "导出",
     "Add these payments to project" : "添加这些付款到项目",

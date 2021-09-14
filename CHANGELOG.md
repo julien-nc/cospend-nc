@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-## 1.3.16 – 2021-09-04
+## 1.3.16 – 2021-09-14
 ### Added
 - category and payment mode creation directly in bill form multiselect
 - custom payment modes
@@ -32,6 +32,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix error when user ID is null in activity provider
   [#74](https://github.com/eneiluj/cospend-nc/issues/74) @arifer612
   [#75](https://github.com/eneiluj/cospend-nc/issues/75) @apg1980
+  [#83](https://github.com/eneiluj/cospend-nc/issues/83) @Thovi98
+- make bill form left column a bit more responsive
+  [#82](https://github.com/eneiluj/cospend-nc/issues/82) @siccovansas
 
 ## 1.3.12 – 2021-08-05
 ### Added

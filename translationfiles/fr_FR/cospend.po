@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-09-14 10:59+0200\n"
-"PO-Revision-Date: 2021-09-14 09:00\n"
+"PO-Revision-Date: 2021-09-14 09:11\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -511,7 +511,7 @@ msgstr "Valeur invalide"
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1187
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1888
 msgid "Invalid frequency"
-msgstr ""
+msgstr "Fréquence invalide"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1195
 msgid "Timestamp (or date) field is required"
@@ -560,7 +560,7 @@ msgstr "Ce membre n'est pas dans ce projet"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1868
 msgid "Name can't be empty"
-msgstr ""
+msgstr "Le nom ne peut pas être vide"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1877
 msgid "Invalid email address"
@@ -569,7 +569,7 @@ msgstr "Adresse email invalide"
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1895
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1902
 msgid "Invalid sort order"
-msgstr ""
+msgstr "Ordre de tri invalide"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1926
 msgid "There is no such project"
@@ -581,7 +581,7 @@ msgstr "Le poids n'est pas une valeur décimale valide"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1967
 msgid "Invalid color value"
-msgstr ""
+msgstr "Valeur de couleur invalide"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1989
 msgid "This project already has this member"
@@ -735,7 +735,7 @@ msgstr "CSV mal formé, membre invalide à la ligne %1$s"
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5636
 #, php-format
 msgid "Malformed CSV, missing or invalid date/timestamp on line %1$s"
-msgstr ""
+msgstr "CSV mal formé, date/timestamp manquant ou invalide à la ligne %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5422
 #, php-format

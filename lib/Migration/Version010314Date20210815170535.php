@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace OCA\Cospend\Migration;
 
 use Closure;
-use OCA\Cospend\AppInfo\Application;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
 use OCP\Migration\SimpleMigrationStep;
@@ -114,7 +113,15 @@ class Version010314Date20210815170535 extends SimpleMigrationStep {
 		$ts = (new \DateTime())->getTimestamp();
 
 		// convert pm ids in existing bills
-		foreach (Application::PAYMENT_MODE_ID_CONVERSION as $old => $new) {
+		$PAYMENT_MODE_ID_CONVERSION = [
+			'n' => 0,
+			'c' => -1,
+			'b' => -2,
+			'f' => -3,
+			't' => -4,
+			'o' => -5,
+		];
+		foreach ($PAYMENT_MODE_ID_CONVERSION as $old => $new) {
 			$qb->update('cospend_bills')
 				->set('paymentmodeid', $qb->createNamedParameter($new, IQueryBuilder::PARAM_INT))
 				->set('lastchanged', $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT))

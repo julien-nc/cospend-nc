@@ -201,6 +201,7 @@ OC.L10N.register(
     "Leave empty for maximum frequency" : "Laisser vide pour la fréquence maximale",
     "Include all active members on repeat" : "Inclure tous les membres actifs lors de la répétition",
     "Repeat until" : "Répéter jusqu'à",
+    "No limit" : "Pas de limite",
     "Repeat now" : "Répéter maintenant",
     "Bill type" : "Type de facture",
     "Classic, even split" : "Classique, partage équitable",

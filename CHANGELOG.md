@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 1.3.19 – 2021-09-17
+### Changed
+- use DatetimePicker component for "repeat until"
+ 
+### Fixed
+- strange scroll issue in settings dialog
+
 ## 1.3.18 – 2021-09-14
 ### Added
 - category and payment mode creation directly in bill form multiselect

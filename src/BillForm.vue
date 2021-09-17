@@ -300,6 +300,7 @@
 							class="datetime-picker"
 							type="date"
 							:clearable="true"
+							:disabled-date="isRepeatUntilDateDisabled"
 							:placeholder="t('cospend', 'No limit')"
 							:formatter="formatRepeatUntil"
 							:readonly="!editionAccess"
@@ -844,8 +845,11 @@ export default {
 			const whatFormatted = paymentmodeChar + categoryChar + this.myBill.what.replace(/https?:\/\/[^\s]+/gi, '')
 			return t('cospend', 'Bill : {what}', { what: whatFormatted }, undefined, { escape: false })
 		},
+		billDateMoment() {
+			return moment.unix(this.myBill.timestamp)
+		},
 		billDateObject() {
-			return moment.unix(this.myBill.timestamp).toDate()
+			return this.billDateMoment.toDate()
 		},
 		billDatetime: {
 			get() {
@@ -981,6 +985,9 @@ export default {
 	},
 
 	methods: {
+		isRepeatUntilDateDisabled(date) {
+			return moment(date).isBefore(this.billDateMoment)
+		},
 		onOwerAvatarClick(owerId) {
 			if (this.myBill.owerIds.includes(owerId)) {
 				const index = this.myBill.owerIds.findIndex(elem => owerId === elem)

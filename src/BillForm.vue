@@ -167,7 +167,7 @@
 						:placeholder="t('cospend', 'When?')"
 						:minute-step="1"
 						:show-second="false"
-						:formatter="format"
+						:formatter="formatWhen"
 						:disabled="!editionAccess"
 						:confirm="true" />
 				</div>
@@ -292,16 +292,18 @@
 						<br>
 					</div>
 					<div class="bill-repeat-until">
-						<label for="repeatuntil">
+						<label>
 							<a class="icon icon-pause" />{{ t('cospend', 'Repeat until') }}
 						</label>
-						<input
-							id="repeatuntil"
-							v-model="myBill.repeatuntil"
+						<DatetimePicker v-if="showDatePicker"
+							v-model="billStringRepeatUntil"
+							class="datetime-picker"
 							type="date"
-							class="input-bill-repeatuntil"
+							:clearable="true"
+							:placeholder="t('cospend', 'No limit')"
+							:formatter="formatRepeatUntil"
 							:readonly="!editionAccess"
-							@input="onBillEdited">
+							:confirm="true" />
 					</div>
 					<div v-if="editionAccess && !isNewBill"
 						class="bill-repeat-now">
@@ -603,8 +605,12 @@ export default {
 			progAmountChange: false,
 			showHint: false,
 			locale: getLocale(),
-			format: {
+			formatWhen: {
 				stringify: this.stringify,
+				parse: this.parse,
+			},
+			formatRepeatUntil: {
+				stringify: this.stringifyRepeatUntil,
 				parse: this.parse,
 			},
 			currentFormula: null,
@@ -853,6 +859,22 @@ export default {
 				}
 			},
 		},
+		billStringRepeatUntil: {
+			get() {
+				return this.myBill.repeatuntil
+					? moment(this.myBill.repeatuntil).toDate()
+					: null
+			},
+			set(value) {
+				if (value === null) {
+					this.myBill.repeatuntil = ''
+				} else {
+					const mom = moment(value)
+					this.myBill.repeatuntil = mom.format('YYYY-MM-DD')
+				}
+				this.onBillEdited(null, false)
+			},
+		},
 		activatedMembers() {
 			const mList = []
 			for (const mid in this.members) {
@@ -1036,6 +1058,9 @@ export default {
 				})
 			}
 			this.categoryQuery = ''
+		},
+		stringifyRepeatUntil(date) {
+			return moment(date).locale(this.locale).format('LL')
 		},
 		stringify(date) {
 			return this.useTime

@@ -21,6 +21,7 @@
 
 <template>
 	<AppSettingsDialog
+		class="cospend-settings-dialog"
 		:open.sync="showSettings"
 		:show-navigation="true"
 		container="#content-vue">

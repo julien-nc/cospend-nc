@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-09-17 16:12+0200\n"
-"PO-Revision-Date: 2021-09-17 14:13\n"
+"PO-Revision-Date: 2021-09-18 14:32\n"
 "Last-Translator: \n"
 "Language-Team: Bulgarian\n"
 "Language: bg_BG\n"
@@ -1044,7 +1044,7 @@ msgstr "Повтаряй до"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:55
 msgid "No limit"
-msgstr ""
+msgstr "Без ограничения"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:56
 msgid "Repeat now"
@@ -1622,80 +1622,80 @@ msgstr "Автоматичното изплащане ще създаде сме
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:204
 msgid "This feature is useful when a member with a negative balance wants to get out of the project but you don't want to make a full settlement plan."
-msgstr ""
+msgstr "Тази функция е полезна, когато даден член с отрицателно салдо иска да напусне проекта, а Вие не желаете да правите план за цялостно изплащане."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:205
 msgid "Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money."
-msgstr ""
+msgstr "Изберете платец, който желае да получи нулево салдо, после получател, който ще бъде единственият за получаване на сумите за възстановяване."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:206
 msgid "Make sure the \"real\" reimbursement has been done between those 2 members in real life. Then press \"Create bill\" to automatically create the corresponding bill."
-msgstr ""
+msgstr "Уверете се, че в реалния живот „истинското“ възстановяване е извършено между тези двама членове. След това натиснете „Създаване на сметка“ за автоматично създаване на съответната сметка."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:210
 msgid "{user} have updated the bill {billName}"
-msgstr ""
+msgstr "{user} актуализира сметката {billName}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:211
 msgid "{user} has updated the bill {billName}"
-msgstr ""
+msgstr "{user} актуализира сметката {billName}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:212
 msgid "{user} have created a new bill {billName}"
-msgstr ""
+msgstr "{user} създаде нова сметка {billName}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:213
 msgid "{user} has created a new bill {billName}"
-msgstr ""
+msgstr "{user} създаде нова сметка {billName}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:214
 msgid "{user} have deleted the bill {billName}"
-msgstr ""
+msgstr "{user} изтри сметката {billName}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:215
 msgid "{user} has deleted the bill {billName}"
-msgstr ""
+msgstr "{user} изтри сметката {billName}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:216
 msgid "{user} have shared the project with {who}"
-msgstr ""
+msgstr "{user} сподели проекта с {who}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "{user} has shared the project with {who}"
-msgstr ""
+msgstr "{user} сподели проекта с {who}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:218
 msgid "{user} have removed {who} from the project"
-msgstr ""
+msgstr "{user} извади {who} от проекта"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:219
 msgid "{user} has removed {who} from the project"
-msgstr ""
+msgstr "{user} извади {who} от проекта"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:221
 msgid "you"
-msgstr ""
+msgstr "вие"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:222
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:223
 msgid "No more activity"
-msgstr ""
+msgstr "Няма друга дейност"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:224
 msgid "Rename member"
-msgstr ""
+msgstr "Преименуване на член"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:225
 msgid "Change color"
-msgstr ""
+msgstr "Смяна на цвета"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:226
 msgid "Weight"
-msgstr ""
+msgstr "Дял"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "No access"
-msgstr ""
+msgstr "Няма достъп"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:228
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:334
@@ -1709,14 +1709,14 @@ msgstr "Разглеждачка"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:342
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:350
 msgid "Participant"
-msgstr ""
+msgstr "Участник"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:230
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:336
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:343
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:351
 msgid "Maintainer"
-msgstr ""
+msgstr "Поддържащо лице"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:231
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:337
@@ -1936,85 +1936,85 @@ msgstr "Дезактивирано изтриване на сметки"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:302
 msgid "Automatic export"
-msgstr ""
+msgstr "Автоматично изнасяне"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:307
 msgid "Export project"
-msgstr ""
+msgstr "Изнасяне на проекта"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:308
 msgid "Members"
-msgstr ""
+msgstr "Членове"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:310
 msgid "No recommendations. Start typing."
-msgstr ""
+msgstr "Няма препоръки. Започни да пишеш."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:311
 msgid "No result."
-msgstr ""
+msgstr "Няма резултат."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:312
 msgid "Associate a project member with a Nextcloud user"
-msgstr ""
+msgstr "Свързване на член по проекта с потребител на Nextcloud"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:313
 msgid "Choose a Nextcloud user"
-msgstr ""
+msgstr "Избиране на потребител на Nextcloud"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "New member name"
-msgstr ""
+msgstr "Име на нов член"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "New member (or Nextcloud user) name"
-msgstr ""
+msgstr "Име на нов член (или потребител на Nextcloud)"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:316
 msgid "Create simple member"
-msgstr ""
+msgstr "Създаване на обикновен потребител"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:317
 msgid "Failed to add member."
-msgstr ""
+msgstr "Неуспешно добавяне на потребител."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab."
-msgstr ""
+msgstr "Можете да добавите обикновен потребител или потребител на Nextcloud към проекта. В контекстното меню можете да дадете достъп на потребител на Nextcloud до проекта. Можете също така да дадете достъп на потребители на Nextcloud, които не са членове в раздела „Споделяне“."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:320
 msgid "Choose a project member, then a Nextcloud user to associate with."
-msgstr ""
+msgstr "Избиране на член в проекта, след което потребител на Nextcloud, с когото да бъде свързан."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:321
 msgid "You can cut the link with a Nextcloud user by renaming the member."
-msgstr ""
+msgstr "Можете да изрежете хипервръзката с потребител на Nextcloud, като преименувате члена."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:323
 msgid "Share project with a user, group or circle …"
-msgstr ""
+msgstr "Споделяне на проект с потребител, група или кръг..."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:324
 msgid "Scan this QRCode with your mobile device to add project \"{name}\" in MoneyBuster or PayForMe"
-msgstr ""
+msgstr "Сканирайте този QR код с мобилното си устройство, за да добавите проекта {name} в MoneyBuster или PayForMe"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:325
 msgid "QRCode content: "
-msgstr ""
+msgstr "Съдържание на QR кода: "
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:327
 msgid "Create a new share link"
-msgstr ""
+msgstr "Създаване на нова хипервръзка за споделяне"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:329
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:348
 msgid "Link copied"
-msgstr ""
+msgstr "Копирана хипервръзка"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:329
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:348
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Копиране в клипборда"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:330
 msgid "Show QRCode for mobile clients"
@@ -2161,7 +2161,7 @@ msgstr "Няма категория"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:390
 msgid "All except reimbursement"
-msgstr ""
+msgstr "Всички освен възстановените суми"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:391
 msgid "Minimum amount"
@@ -2173,11 +2173,11 @@ msgstr "Максимална сума"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:393
 msgid "Currency of statistic values"
-msgstr ""
+msgstr "Валута на статичните стойности"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:394
 msgid "Main project's currency"
-msgstr ""
+msgstr "Основна валута на проекта"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:395
 msgid "Show disabled members"
@@ -2395,21 +2395,21 @@ msgstr "Удостоверяване"
 
 #: /var/www/html/dev/server22/apps/cospend/templates/logincontent.php:7
 msgid "Wrong project Id or password"
-msgstr ""
+msgstr "Грешен идентификационен номер на проекта или парола"
 
 #: /var/www/html/dev/server22/apps/cospend/templates/logincontent.php:12
 msgid "Project ID/name"
-msgstr ""
+msgstr "Идентификационен номер/име на проекта"
 
 #: /var/www/html/dev/server22/apps/cospend/templates/logincontent.php:21
 msgid "Project password (aka Access code)"
-msgstr ""
+msgstr "Парола за проекта (известна още като „Код за достъп“)"
 
 #: /var/www/html/dev/server22/apps/cospend/templates/sharepassword.php:15
 msgid "Wrong link password"
-msgstr ""
+msgstr "Грешна парола за хипервръзката"
 
 #: /var/www/html/dev/server22/apps/cospend/templates/sharepassword.php:27
 msgid "Share link password"
-msgstr ""
+msgstr "Споделяне на паролата за хипервръзката"
 

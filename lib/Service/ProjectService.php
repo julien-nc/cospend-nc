@@ -1785,9 +1785,10 @@ class ProjectService {
 			}
 
 			if ($color !== null) {
+				$color = preg_replace('/^#/', '', $color);
 				if ($color === ''
-					|| ((strlen($color) === 4 || strlen($color) === 7)
-						&& preg_match('/^#[0-9A-Fa-f]+/', $color) !== false)
+					|| ((strlen($color) === 3 || strlen($color) === 6)
+						&& preg_match('/^[0-9A-Fa-f]+/', $color) !== false)
 				) {
 					// fine
 				} else {

@@ -99,7 +99,7 @@
 				</template>
 			</Multiselect>
 			<AppNavigationMemberItem
-				v-for="member in project.members"
+				v-for="member in sortedMembers"
 				:key="member.id"
 				:member="member"
 				:project-id="project.id"
@@ -156,12 +156,14 @@ import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 
-import { getCurrentUser } from '@nextcloud/auth'
-import { showError } from '@nextcloud/dialogs'
-import cospend from '../state'
-import * as constants from '../constants'
 import { generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
+import { getCurrentUser } from '@nextcloud/auth'
+import { showError } from '@nextcloud/dialogs'
+
+import cospend from '../state'
+import * as constants from '../constants'
+import { getSortedMembers } from '../utils'
 import AppNavigationMemberItem from './AppNavigationMemberItem'
 
 export default {
@@ -205,6 +207,9 @@ export default {
 		},
 		memberList() {
 			return this.project.members
+		},
+		sortedMembers() {
+			return getSortedMembers(this.memberList, cospend.memberOrder)
 		},
 		activeMembers() {
 			return this.memberList.filter((member) => { return member.activated })

@@ -16,6 +16,19 @@ export function getSmartMemberName(projectid, memberid) {
 		: getMemberName(projectid, memberid)
 }
 
+export function getSortedMembers(members, order) {
+	if (order === 'name') {
+		return members.slice().sort((a, b) => {
+			return strcmp(a.name, b.name)
+		})
+	} else if (order === 'balance') {
+		return members.slice().sort((a, b) => {
+			return b.balance - a.balance
+		})
+	}
+	return members
+}
+
 export function getCategory(projectid, catId) {
 	let icon, name, color
 	if (catId in cospend.hardCodedCategories) {

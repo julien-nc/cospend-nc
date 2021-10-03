@@ -90,7 +90,7 @@ import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 
 import cospend from '../state'
 import * as constants from '../constants'
-import { Timer, strcmp } from '../utils'
+import { Timer, getSortedMembers } from '../utils'
 
 export default {
 	name: 'AppNavigationProjectItem',
@@ -146,16 +146,7 @@ export default {
 			return this.project.precision
 		},
 		sortedMembers() {
-			if (this.memberOrder === 'name') {
-				return this.members.slice().sort((a, b) => {
-					return strcmp(a.name, b.name)
-				})
-			} else if (this.memberOrder === 'balance') {
-				return this.members.slice().sort((a, b) => {
-					return b.balance - a.balance
-				})
-			}
-			return this.members
+			return getSortedMembers(this.members, this.memberOrder)
 		},
 	},
 	beforeMount() {

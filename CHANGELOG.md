@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 1.4.0 – 2021-10-03
+### Fixed
+- member order in sidebar
+  [#89](https://github.com/eneiluj/cospend-nc/issues/89) @valkalon
+
 ## 1.3.19 – 2021-09-17
 ### Changed
 - use DatetimePicker component for "repeat until"

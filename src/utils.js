@@ -83,6 +83,18 @@ export function strcmp(a, b) {
 			: 0
 }
 
+export function evalAlgebricFormula(formula) {
+	let calc = 'a'
+	try {
+		const saneFormula = formula.replace(/[^-()\d/*+.]/g, '')
+		// eslint-disable-next-line
+		calc = parseFloat(eval(saneFormula).toFixed(12))
+	} catch (err) {
+		console.error(err)
+	}
+	return calc
+}
+
 function hexToRgb(hex) {
 	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
 	return result

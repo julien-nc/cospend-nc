@@ -569,7 +569,7 @@ import {
 } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import {
-	delay, getCategory, getPaymentMode, getSmartMemberName, strcmp,
+	delay, getCategory, getPaymentMode, getSmartMemberName, strcmp, evalAlgebricFormula,
 } from './utils'
 import * as network from './network'
 import * as constants from './constants'
@@ -1213,14 +1213,7 @@ export default {
 		onAmountEnterPressed() {
 			// try to evaluate the current algebric formula
 			if (isNaN(this.currentFormula)) {
-				let calc = 'a'
-				try {
-					const saneFormula = this.currentFormula.replace(/[^-()\d/*+.]/g, '')
-					// eslint-disable-next-line
-					calc = parseFloat(eval(saneFormula).toFixed(12))
-				} catch (err) {
-					console.error(err)
-				}
+				const calc = evalAlgebricFormula(this.currentFormula)
 				this.myBill.amount = isNaN(calc) ? 0 : calc
 				this.currentFormula = null
 				this.onBillEdited(null, false)
@@ -1231,19 +1224,14 @@ export default {
 			}
 		},
 		onPersoAmountInput(e) {
-			e.target.value = e.target.value.replace(/,/g, '.')
+			if (e.data === ',') {
+				e.target.value = e.target.value.replace(/,/g, '.')
+			}
 		},
 		onPersoAmountEnterPressed(e) {
 			const val = e.target.value.replace(/,/g, '.')
 			if (isNaN(val)) {
-				let calc = 'a'
-				try {
-					const saneFormula = val.replace(/[^-()\d/*+.]/g, '')
-					// eslint-disable-next-line
-					calc = parseFloat(eval(saneFormula).toFixed(12))
-				} catch (err) {
-					console.error(err)
-				}
+				const calc = evalAlgebricFormula(val)
 				if (!isNaN(calc)) {
 					e.target.value = calc
 				}
@@ -1252,14 +1240,7 @@ export default {
 		onCustomAmountEnterPressed(e) {
 			const val = e.target.value.replace(/,/g, '.')
 			if (isNaN(val)) {
-				let calc = 'a'
-				try {
-					const saneFormula = val.replace(/[^-()\d/*+.]/g, '')
-					// eslint-disable-next-line
-					calc = parseFloat(eval(saneFormula).toFixed(12))
-				} catch (err) {
-					console.error(err)
-				}
+				const calc = evalAlgebricFormula(val)
 				if (!isNaN(calc)) {
 					e.target.value = calc
 					this.onCustomAmountChange(e)
@@ -1485,13 +1466,21 @@ export default {
 		getCustomAmounts() {
 			const result = {}
 			this.activatedOrOwer.forEach((member) => {
-				const val = this.$refs['amountdum' + member.id][0].value.replace(/,/g, '.')
-				result[member.id] = parseFloat(val) || 0
+				const field = this.$refs['amountdum' + member.id][0]
+				const val = field.value.replace(/,/g, '.')
+				if (val.search('\\+|-|/|\\*') !== -1) {
+					const calc = evalAlgebricFormula(val)
+					result[member.id] = isNaN(calc) ? 0 : calc
+				} else {
+					result[member.id] = parseFloat(val) || 0
+				}
 			})
 			return result
 		},
 		onCustomAmountChange(e) {
-			e.target.value = e.target.value.replace(/,/g, '.')
+			if (e.data === ',') {
+				e.target.value = e.target.value.replace(/,/g, '.')
+			}
 
 			const customAmounts = this.getCustomAmounts()
 			let am

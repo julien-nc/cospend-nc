@@ -236,6 +236,7 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 */
 	public function publicShareLinkPage(string $token): PublicTemplateResponse {
+		$isMain = false;
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($token);
 		if (!is_null($publicShareInfo)) {
 			$isPasswordProtected = !is_null($publicShareInfo['password'] ?? null);
@@ -252,6 +253,7 @@ class PageController extends ApiController {
 
 				$response = new PublicTemplateResponse('cospend', 'main', []);
 				$response->setHeaderDetails($this->trans->t('Project %s', [$publicShareInfo['projectid']]));
+				$isMain = true;
 			}
 			$response->setHeaderTitle($this->trans->t('Cospend shared link access'));
 			$response->setFooterVisible(false);
@@ -267,10 +269,12 @@ class PageController extends ApiController {
 			//->addAllowedChildSrcDomain('*')
 			->addAllowedFrameDomain('*')
 			->addAllowedWorkerSrcDomain('*')
-			//->allowEvalScript(true)
 			->addAllowedObjectDomain('*')
 			->addAllowedScriptDomain('*')
 			->addAllowedConnectDomain('*');
+		if ($isMain) {
+			$csp->allowEvalScript(true);
+		}
 		$response->setContentSecurityPolicy($csp);
 		return $response;
 	}
@@ -295,7 +299,7 @@ class PageController extends ApiController {
 					//->addAllowedChildSrcDomain('*')
 					->addAllowedFrameDomain('*')
 					->addAllowedWorkerSrcDomain('*')
-					//				->allowEvalScript(true)
+					->allowEvalScript(true)
 					->addAllowedObjectDomain('*')
 					->addAllowedScriptDomain('*')
 					->addAllowedConnectDomain('*');
@@ -342,7 +346,7 @@ class PageController extends ApiController {
 					//->addAllowedChildSrcDomain('*')
 					->addAllowedFrameDomain('*')
 					->addAllowedWorkerSrcDomain('*')
-					//->allowEvalScript(true)
+					->allowEvalScript(true)
 					->addAllowedObjectDomain('*')
 					->addAllowedScriptDomain('*')
 					->addAllowedConnectDomain('*');

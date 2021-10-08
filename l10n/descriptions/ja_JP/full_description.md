@@ -2,7 +2,7 @@
 
 NextcloudのCospendはグループ予算管理ツールです。 [IHateMoney](https://github.com/spiral-project/ihatemoney/)というツールから影響を受け、開発されました。
 
-You can use it when you share a house, when you go on vacation with friends, whenever you share money with others.
+友人との旅行の際や、家賃の支払いなど他人との割り勘などを管理する際に使用できます。
 
 It lets you create projects with members and bills. Each member has a balance computed from the project bills. This way you can see who owes the group and who the group owes. Ultimately you can ask for a settlement plan telling you which payments to make to reset members balances.
 

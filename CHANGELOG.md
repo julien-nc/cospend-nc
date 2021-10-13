@@ -5,8 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-## 1.4.0 – 2021-10-03
+## 1.4.0 – 2021-10-13
 ### Fixed
+- amount formula evaluation, replace comas only when a coma is typed
+  [#86](https://github.com/eneiluj/cospend-nc/issues/86) @aniqueta
+- member edition/deletion failure because of color check
+  [#90](https://github.com/eneiluj/cospend-nc/issues/90) @quizilkend
+  [#92](https://github.com/eneiluj/cospend-nc/issues/92) @datenangebot
 - member order in sidebar
   [#89](https://github.com/eneiluj/cospend-nc/issues/89) @valkalon
 

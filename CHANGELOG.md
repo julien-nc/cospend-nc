@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ## 1.4.0 – 2021-10-13
+
 ### Fixed
 - amount formula evaluation, replace comas only when a coma is typed
   [#86](https://github.com/eneiluj/cospend-nc/issues/86) @aniqueta

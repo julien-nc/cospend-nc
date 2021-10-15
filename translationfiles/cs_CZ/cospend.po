@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-09-17 16:12+0200\n"
-"PO-Revision-Date: 2021-09-17 14:13\n"
+"PO-Revision-Date: 2021-10-15 18:41\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -105,7 +105,7 @@ msgstr "Zadejte identifikátor a heslo projektu"
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:358
 #, php-format
 msgid "Enter link password of project %s"
-msgstr ""
+msgstr "Zadejte heslo odkazu na projekt %s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:254
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:290
@@ -118,11 +118,11 @@ msgstr "Projekt %s"
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:336
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:357
 msgid "Cospend shared link access"
-msgstr ""
+msgstr "Přístup ke sdílenému odkazuj Cospend"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:260
 msgid "No such share link"
-msgstr ""
+msgstr "Žádný takový odkaz pro sdílení"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:261
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:312
@@ -141,7 +141,7 @@ msgstr "Přístup odepřen"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:375
 msgid "No such share link or public access"
-msgstr ""
+msgstr "Žádný takový odkaz pro sdílení nebo veřejný přístup"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:445
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:954
@@ -511,7 +511,7 @@ msgstr "Neplatná hodnota"
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1187
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1888
 msgid "Invalid frequency"
-msgstr ""
+msgstr "Neplatná četnost"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1195
 msgid "Timestamp (or date) field is required"
@@ -560,7 +560,7 @@ msgstr "Tento projekt nemá žádného takového člena"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1868
 msgid "Name can't be empty"
-msgstr ""
+msgstr "Název nemůže být prázdný"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1877
 msgid "Invalid email address"
@@ -569,7 +569,7 @@ msgstr "Neplatná e-mailová adresa"
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1895
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1902
 msgid "Invalid sort order"
-msgstr ""
+msgstr "Neplatné pořadí řazení"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1926
 msgid "There is no such project"
@@ -581,7 +581,7 @@ msgstr "Poměr není platná desítková hodnota"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1967
 msgid "Invalid color value"
-msgstr ""
+msgstr "Neplatná barevná hodnota"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1989
 msgid "This project already has this member"
@@ -729,29 +729,29 @@ msgstr "Pokažené CSV, chybné názvy sloupců na řádku %1$s"
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5378
 #, php-format
 msgid "Malformed CSV, invalid member on line %1$s"
-msgstr ""
+msgstr "Pokažené CSV, neplatný člen na řádku %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5396
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5636
 #, php-format
 msgid "Malformed CSV, missing or invalid date/timestamp on line %1$s"
-msgstr ""
+msgstr "Pokažené CSV, chybějící nebo neplatné datum / časové razítko na řádku %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5422
 #, php-format
 msgid "Malformed CSV, invalid payer weight on line %1$s"
-msgstr ""
+msgstr "Pokažené CSV, neplatný váha plátce na řádku %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5427
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5434
 #, php-format
 msgid "Malformed CSV, invalid owers on line %1$s"
-msgstr ""
+msgstr "Pokažené CSV, neplatní dlužníci na řádku %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5444
 #, php-format
 msgid "Malformed CSV, invalid amount on line %1$s"
-msgstr ""
+msgstr "Pokažené CSV, neplatná částka na řádku %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5482
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5701
@@ -823,11 +823,11 @@ msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:1
 msgid "Project {name}"
-msgstr ""
+msgstr "Projekt {name}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:1
 msgid "Select a project"
-msgstr ""
+msgstr "Vyberte projekt"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "Toggle sidebar"
@@ -1046,7 +1046,7 @@ msgstr "Opakovat dokud"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:55
 msgid "No limit"
-msgstr ""
+msgstr "Bez omezení"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:56
 msgid "Repeat now"
@@ -1162,11 +1162,11 @@ msgstr "Vy"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:84
 msgid "Impossible to save bill, invalid values"
-msgstr ""
+msgstr "Účet není možné uložit – neplatné hodnoty"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:85
 msgid "Bill saved"
-msgstr ""
+msgstr "Účet uložen"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:86
 msgid "Failed to save bill"
@@ -1181,11 +1181,11 @@ msgstr "Hodnoty na účtu nejsou platné"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:88
 msgid "Personal parts are bigger than the paid amount"
-msgstr ""
+msgstr "Osobní podíly jsou větší než zaplacená částka"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:90
 msgid "There is no custom amount"
-msgstr ""
+msgstr "Není zde žádná uživatelsky určená částka"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:92
 msgid "There is no custom share number"
@@ -1241,11 +1241,11 @@ msgstr "Nový účet"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:106
 msgid "All categories"
-msgstr ""
+msgstr "Všechny kategorie"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:108
 msgid "All payment modes"
-msgstr ""
+msgstr "Všechny režimy platby"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:110
 msgid "Assign category"
@@ -1269,7 +1269,7 @@ msgstr "Aby bylo možné začít s vytvářením účtů, je třeba přidat ales
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:117
 msgid "No bills to show"
-msgstr ""
+msgstr "Žádné účty k zobrazení"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:118
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:119
@@ -1286,11 +1286,11 @@ msgstr "Vstoupit do režimu vícenásobného výběru"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:122
 msgid "Close filters"
-msgstr ""
+msgstr "Zavřít filtry"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:123
 msgid "Open filters"
-msgstr ""
+msgstr "Otevřít filtry"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:124
 msgid "Bill deleted"
@@ -1421,11 +1421,11 @@ msgstr "Pokud chcete režimy platby seřadit ručně, provedete to přetahován�
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:147
 msgid "No categories"
-msgstr ""
+msgstr "Žádné kategorie"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:147
 msgid "No payment modes"
-msgstr ""
+msgstr "Žádný režim platby"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:148
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:153
@@ -2000,11 +2000,11 @@ msgstr "Sdílejte projekt s uživatelem, skupinou nebo okruhem…"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:324
 msgid "Scan this QRCode with your mobile device to add project \"{name}\" in MoneyBuster or PayForMe"
-msgstr ""
+msgstr "Naskenujte tento QR kód mobilním zařízením a přidejte projekt „{name}“ do MoneyBuster nebo PayForMe"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:325
 msgid "QRCode content: "
-msgstr ""
+msgstr "Obsah QR kódu: "
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:327
 msgid "Create a new share link"
@@ -2022,7 +2022,7 @@ msgstr "Zkopírovat do schránky"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:330
 msgid "Show QRCode for mobile clients"
-msgstr ""
+msgstr "Zobrazit QR kód pro mobilní klienty"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:331
 msgid "Label"
@@ -2030,11 +2030,11 @@ msgstr "Štítek"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:332
 msgid "Password protect"
-msgstr ""
+msgstr "Ochránit heslem"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:333
 msgid "Set link password"
-msgstr ""
+msgstr "Nastavit heslo odkazu"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:338
 msgid "Delete link"
@@ -2058,7 +2058,7 @@ msgstr "Přístup chráněný heslem"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:346
 msgid "(deprecated)"
-msgstr ""
+msgstr "(zastaralé)"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:353
 msgid "New project password"
@@ -2067,12 +2067,12 @@ msgstr "Heslo pro nový projekt"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:356
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:358
 msgid "Share link saved"
-msgstr ""
+msgstr "Odkaz na sdílení uložen"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:357
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:359
 msgid "Failed to edit share link"
-msgstr ""
+msgstr "Upravení odkazu pro sdílení se nezdařilo"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:361
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:363
@@ -2093,7 +2093,7 @@ msgstr "Nepodařilo se upravit úroveň přístupu hosta"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:366
 msgid "Password protected access is now deprecated. You can use the share links instead, they can be password protected too."
-msgstr ""
+msgstr "Přístup chráněný heslem je nyní zastaralý. Místo toho můžete použít sdílené odkazy, mohou být také chráněny heslem."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:368
 msgid "Sharing"
@@ -2411,9 +2411,9 @@ msgstr "Heslo k projektu (neboli přístupový kód)"
 
 #: /var/www/html/dev/server22/apps/cospend/templates/sharepassword.php:15
 msgid "Wrong link password"
-msgstr ""
+msgstr "Nesprávné heslo k odkazu"
 
 #: /var/www/html/dev/server22/apps/cospend/templates/sharepassword.php:27
 msgid "Share link password"
-msgstr ""
+msgstr "Heslo k odkazu pro sdílení"
 

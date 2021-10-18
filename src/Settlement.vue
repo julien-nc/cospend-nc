@@ -193,7 +193,7 @@
 			</select>
 			→
 			<select id="individual-receiver" v-model="individualReceiverId" @change="onChangeIndividual">
-				<option value="0">
+				<option :value="0">
 					{{ t('cospend', 'Receiver') }}
 				</option>
 				<option
@@ -459,7 +459,7 @@ export default {
 				what: t('cospend', 'Reimbursement'),
 				timestamp: moment().unix(),
 				payer: this.individualPayerId,
-				payed_for: this.individualReceiverId,
+				payed_for: '' + this.individualReceiverId,
 				amount: -this.members[this.individualPayerId].balance,
 				repeat: 'n',
 				categoryid: '-11',
@@ -467,6 +467,7 @@ export default {
 			network.createBill(this.projectId, req).then((response) => {
 				this.$emit('auto-settled', this.projectId)
 				this.individualPayerId = 0
+				this.individualReceiverId = 0
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to create bill')

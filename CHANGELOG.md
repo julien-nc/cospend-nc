@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 1.4.2 – 2021-11-02
+### Changed
+- bump js libs
+- update translations
+
+### Fixed
+- individual settlement bugs
+  [#94](https://github.com/eneiluj/cospend-nc/issues/94) @redpixy
+
 ## 1.4.1 – 2021-10-13
 ### Fixed
 - amount formula evaluation, replace comas only when a coma is typed

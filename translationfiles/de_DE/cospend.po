@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-09-17 16:12+0200\n"
-"PO-Revision-Date: 2021-09-17 14:13\n"
+"PO-Revision-Date: 2021-10-26 08:21\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -105,7 +105,7 @@ msgstr "Projekt-ID/Name und Passwort eingeben"
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:358
 #, php-format
 msgid "Enter link password of project %s"
-msgstr ""
+msgstr "Link-Passwort für Projekt %s eingeben"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:254
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:290
@@ -245,7 +245,7 @@ msgstr "Projekt nicht gefunden"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:929
 msgid "Bad password or share link"
-msgstr "Falsches Passwort oder Link"
+msgstr "Falsches Passwort oder Freigabe-Link"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1306
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1415
@@ -273,7 +273,7 @@ msgstr ""
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:326
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:328
 msgid "Share link"
-msgstr ""
+msgstr "Link teilen"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1987
 msgid "You are not allowed to give such shared access level"
@@ -827,7 +827,7 @@ msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:1
 msgid "Select a project"
-msgstr ""
+msgstr "Projekt auswählen"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "Toggle sidebar"
@@ -1267,7 +1267,7 @@ msgstr "Füge mindestens zwei Mitglieder hinzu, um Ausgaben zu erstellen"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:117
 msgid "No bills to show"
-msgstr ""
+msgstr "Keine Rechnungen vorhanden"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:118
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:119
@@ -1377,7 +1377,7 @@ msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:142
 msgid "Add category"
-msgstr "Katagorie hinzufügen"
+msgstr "Kategorie hinzufügen"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:142
 msgid "Add payment mode"
@@ -2054,7 +2054,7 @@ msgstr "Passwortgeschützter Zugriff"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:346
 msgid "(deprecated)"
-msgstr ""
+msgstr "(veraltet)"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:353
 msgid "New project password"
@@ -2089,7 +2089,7 @@ msgstr "Bearbeitung der Gastzugriffsebene fehlgeschlagen"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:366
 msgid "Password protected access is now deprecated. You can use the share links instead, they can be password protected too."
-msgstr ""
+msgstr "Der passwortgeschützte Zugriff ist veraltet. Stattdessen kannst du Freigabe-Links nutzen, die auch mit einem Passwortschutz versehen werden können."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:368
 msgid "Sharing"
@@ -2241,7 +2241,7 @@ msgstr "Wer hat für diese Kategorie bezahlt?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:414
 msgid "Select a category"
-msgstr ""
+msgstr "Kategorie auswählen"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:415
 msgid "What did she/he pay for?"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-09-17 16:12+0200\n"
-"PO-Revision-Date: 2021-09-17 14:14\n"
+"PO-Revision-Date: 2021-11-05 11:34\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "Language: it_IT\n"
@@ -105,7 +105,7 @@ msgstr "Inserisci id progetto e password"
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:358
 #, php-format
 msgid "Enter link password of project %s"
-msgstr ""
+msgstr "Inserire la password del progetto « %s»"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:254
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:290
@@ -122,7 +122,7 @@ msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:260
 msgid "No such share link"
-msgstr ""
+msgstr "Link di condivisione inesistente"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:261
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:312
@@ -511,7 +511,7 @@ msgstr "Valore non valido"
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1187
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1888
 msgid "Invalid frequency"
-msgstr ""
+msgstr "Frequenza non valida"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1195
 msgid "Timestamp (or date) field is required"

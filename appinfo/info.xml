@@ -3,7 +3,7 @@
 	<id>cospend</id>
 	<name>Cospend</name>
 	<summary> </summary><description> </description>
-	<version>1.4.2</version>
+	<version>1.4.3</version>
 	<licence>agpl</licence>
 	<author mail="eneiluj@posteo.net">Julien Veyssier</author>
 	<namespace>Cospend</namespace>
@@ -21,10 +21,7 @@
 	<screenshot>https://github.com/eneiluj/cospend-nc/raw/master/img/screenshots/cospend3.jpg</screenshot>
 	<screenshot>https://github.com/eneiluj/cospend-nc/raw/master/img/screenshots/cospend4.jpg</screenshot>
 	<dependencies>
-		<database min-version="9.4">pgsql</database>
-		<database>sqlite</database>
-		<database min-version="5.5">mysql</database>
-		<nextcloud min-version="22" max-version="23"/>
+		<nextcloud min-version="22" max-version="24"/>
 	</dependencies>
 	<background-jobs>
 		<job>OCA\Cospend\Cron\RepeatBills</job>

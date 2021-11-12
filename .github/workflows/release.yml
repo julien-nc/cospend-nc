@@ -13,9 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Use Node 14
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 14
+
+      - name: Set up npm
+        run: npm i -g npm
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -61,7 +64,7 @@ jobs:
           php ~/html/nextcloud/occ maintenance:mode --off
           cd ~/html/nextcloud/apps/${APP_ID}
           echo "###### make"
-          webserveruser=runner occ_dir=~/html/nextcloud make > /dev/null
+          make
           echo "###### make appstore"
           tag=${{ steps.tag.outputs.currenttag }}
           version=${tag/v/}

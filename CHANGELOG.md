@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 1.4.3 – 2021-11-12
+### Changed
+- shorten category and paymentMode tables names to avoid crash on fresh install
+- improve release action
+- clarify JS dependencies
+
 ## 1.4.2 – 2021-11-02
 ### Changed
 - bump js libs

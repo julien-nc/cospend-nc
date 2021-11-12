@@ -59,7 +59,7 @@ class Version010206Date20201223134353 extends SimpleMigrationStep {
 			]);
 		}
 
-		$table = $schema->getTable('cospend_project_categories');
+		$table = $schema->getTable('cospend_categories');
 		if (!$table->hasColumn('order')) {
 			$table->addColumn('order', 'integer', [
 				'notnull' => true,

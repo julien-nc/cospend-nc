@@ -524,7 +524,7 @@ class ProjectService {
 					$icon = urlencode($category['icon']);
 					$color = $category['color'];
 					$name = $category['name'];
-					$qb->insert('cospend_project_categories')
+					$qb->insert('cospend_categories')
 						->values([
 							'projectid' => $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR),
 							'encoded_icon' => $qb->createNamedParameter($icon, IQueryBuilder::PARAM_STR),
@@ -543,7 +543,7 @@ class ProjectService {
 					$color = $pm['color'];
 					$name = $pm['name'];
 					$oldId = $pm['old_id'];
-					$qb->insert('cospend_project_paymentmodes')
+					$qb->insert('cospend_paymentmodes')
 						->values([
 							'projectid' => $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR),
 							'encoded_icon' => $qb->createNamedParameter($icon, IQueryBuilder::PARAM_STR),
@@ -585,8 +585,8 @@ class ProjectService {
 				'cospend_members',
 				'cospend_shares',
 				'cospend_currencies',
-				'cospend_project_categories',
-				'cospend_project_paymentmodes'
+				'cospend_categories',
+				'cospend_paymentmodes'
 			];
 
 			foreach ($associatedTableNames as $tableName) {
@@ -2726,12 +2726,12 @@ class ProjectService {
 		if ($getCategories) {
 			$sortOrderField = 'categorysort';
 			$billTableField = 'categoryid';
-			$dbTable = 'cospend_project_categories';
+			$dbTable = 'cospend_categories';
 			$alias = 'cat';
 		} else {
 			$sortOrderField = 'paymentmodesort';
 			$billTableField = 'paymentmodeid';
-			$dbTable = 'cospend_project_paymentmodes';
+			$dbTable = 'cospend_paymentmodes';
 			$alias = 'pm';
 		}
 
@@ -3757,7 +3757,7 @@ class ProjectService {
 		if ($icon !== null && $icon !== '') {
 			$encIcon = urlencode($icon);
 		}
-		$qb->insert('cospend_project_paymentmodes')
+		$qb->insert('cospend_paymentmodes')
 			->values([
 				'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
 				'encoded_icon' => $qb->createNamedParameter($encIcon, IQueryBuilder::PARAM_STR),
@@ -3782,7 +3782,7 @@ class ProjectService {
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'name', 'projectid', 'encoded_icon', 'color', 'old_id')
-			->from('cospend_project_paymentmodes', 'pm')
+			->from('cospend_paymentmodes', 'pm')
 			->where(
 				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			)
@@ -3821,7 +3821,7 @@ class ProjectService {
 		$pmToDelete = $this->getPaymentMode($projectid, $pmid);
 		if ($pmToDelete !== null) {
 			$qb = $this->db->getQueryBuilder();
-			$qb->delete('cospend_project_paymentmodes')
+			$qb->delete('cospend_paymentmodes')
 				->where(
 					$qb->expr()->eq('id', $qb->createNamedParameter($pmid, IQueryBuilder::PARAM_INT))
 				)
@@ -3858,7 +3858,7 @@ class ProjectService {
 	public function savePaymentModeOrder(string $projectid, array $order): bool {
 		$qb = $this->db->getQueryBuilder();
 		foreach ($order as $o) {
-			$qb->update('cospend_project_paymentmodes');
+			$qb->update('cospend_paymentmodes');
 			$qb->set('order', $qb->createNamedParameter($o['order'], IQueryBuilder::PARAM_INT));
 			$qb->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($o['id'], IQueryBuilder::PARAM_INT))
@@ -3889,7 +3889,7 @@ class ProjectService {
 			}
 			if ($this->getPaymentMode($projectid, $pmid) !== null) {
 				$qb = $this->db->getQueryBuilder();
-				$qb->update('cospend_project_paymentmodes');
+				$qb->update('cospend_paymentmodes');
 				$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
 				$qb->set('encoded_icon', $qb->createNamedParameter($encIcon, IQueryBuilder::PARAM_STR));
 				$qb->set('color', $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR));
@@ -3928,7 +3928,7 @@ class ProjectService {
 		if ($icon !== null && $icon !== '') {
 			$encIcon = urlencode($icon);
 		}
-		$qb->insert('cospend_project_categories')
+		$qb->insert('cospend_categories')
 			->values([
 				'projectid' => $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR),
 				'encoded_icon' => $qb->createNamedParameter($encIcon, IQueryBuilder::PARAM_STR),
@@ -3954,7 +3954,7 @@ class ProjectService {
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'name', 'projectid', 'encoded_icon', 'color')
-		   ->from('cospend_project_categories')
+		   ->from('cospend_categories')
 		   ->where(
 			   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 		   )
@@ -3993,7 +3993,7 @@ class ProjectService {
 		$categoryToDelete = $this->getCategory($projectid, $categoryid);
 		if ($categoryToDelete !== null) {
 			$qb = $this->db->getQueryBuilder();
-			$qb->delete('cospend_project_categories')
+			$qb->delete('cospend_categories')
 			   ->where(
 				   $qb->expr()->eq('id', $qb->createNamedParameter($categoryid, IQueryBuilder::PARAM_INT))
 			   )
@@ -4032,7 +4032,7 @@ class ProjectService {
 	public function saveCategoryOrder(string $projectid, array $order): bool {
 		$qb = $this->db->getQueryBuilder();
 		foreach ($order as $o) {
-			$qb->update('cospend_project_categories');
+			$qb->update('cospend_categories');
 			$qb->set('order', $qb->createNamedParameter($o['order'], IQueryBuilder::PARAM_INT));
 			$qb->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($o['id'], IQueryBuilder::PARAM_INT))
@@ -4065,7 +4065,7 @@ class ProjectService {
 			}
 			if ($this->getCategory($projectid, $categoryid) !== null) {
 				$qb = $this->db->getQueryBuilder();
-				$qb->update('cospend_project_categories');
+				$qb->update('cospend_categories');
 				$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
 				$qb->set('encoded_icon', $qb->createNamedParameter($encIcon, IQueryBuilder::PARAM_STR));
 				$qb->set('color', $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR));

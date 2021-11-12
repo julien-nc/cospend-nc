@@ -48,8 +48,8 @@ class Version010314Date20210815170535 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		if (!$schema->hasTable('cospend_project_paymentmodes')) {
-			$table = $schema->createTable('cospend_project_paymentmodes');
+		if (!$schema->hasTable('cospend_paymentmodes')) {
+			$table = $schema->createTable('cospend_paymentmodes');
 			$table->addColumn('id', Types::INTEGER, [
 				'autoincrement' => true,
 				'notnull' => true,

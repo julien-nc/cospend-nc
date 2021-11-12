@@ -46,7 +46,7 @@ class Version010314Date20210828143421 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
-		$table = $schema->getTable('cospend_project_paymentmodes');
+		$table = $schema->getTable('cospend_paymentmodes');
 		if (!$table->hasColumn('old_id')) {
 			$table->addColumn('old_id', Types::STRING, [
 				'notnull' => false,
@@ -126,7 +126,7 @@ class Version010314Date20210828143421 extends SimpleMigrationStep {
 			// is there at least one default payment mode already?
 			$oneDefaultFound = false;
 			$qb->select('name')
-				->from('cospend_project_paymentmodes')
+				->from('cospend_paymentmodes')
 				->where(
 					$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				);
@@ -145,7 +145,7 @@ class Version010314Date20210828143421 extends SimpleMigrationStep {
 			if (!$oneDefaultFound) {
 				foreach ($defaultPaymentModes as $pm) {
 					// insert new default pm
-					$qb->insert('cospend_project_paymentmodes')
+					$qb->insert('cospend_paymentmodes')
 						->values([
 							'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
 							'encoded_icon' => $qb->createNamedParameter(urlencode($pm['icon']), IQueryBuilder::PARAM_STR),

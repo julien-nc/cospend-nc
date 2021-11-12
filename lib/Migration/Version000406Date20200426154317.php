@@ -46,7 +46,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
-		$table = $schema->getTable('cospend_project_categories');
+		$table = $schema->getTable('cospend_categories');
 		$table->addColumn('encoded_icon', 'string', [
 			'notnull' => false,
 			'length' => 64,
@@ -66,7 +66,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 		// first, copy icon -> encoded_icon
 		$categoryIconDict = [];
 		$qb->select('c.id', 'c.icon')
-		   ->from('cospend_project_categories', 'c');
+		   ->from('cospend_categories', 'c');
 		$req = $qb->executeQuery();
 
 		while ($row = $req->fetch()) {
@@ -76,7 +76,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 		$qb = $qb->resetQueryParts();
 
 		foreach ($categoryIconDict as $id => $icon) {
-			$qb->update('cospend_project_categories');
+			$qb->update('cospend_categories');
 			$qb->set('encoded_icon', $qb->createNamedParameter(urlencode($icon), IQueryBuilder::PARAM_STR));
 			$qb->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT))
@@ -149,7 +149,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 			// is there at least one default category already?
 			$oneDefaultFound = false;
 			$qb->select('c.name')
-			   ->from('cospend_project_categories', 'c')
+			   ->from('cospend_categories', 'c')
 			   ->where(
 				   $qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 			   );
@@ -170,7 +170,7 @@ class Version000406Date20200426154317 extends SimpleMigrationStep {
 					$icon = $categoryEncodedIcons[$strId];
 					$color = $categoryColors[$strId];
 					// insert new default category
-					$qb->insert('cospend_project_categories')
+					$qb->insert('cospend_categories')
 						->values([
 							'projectid' => $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR),
 							'encoded_icon' => $qb->createNamedParameter($icon, IQueryBuilder::PARAM_STR),

@@ -32,7 +32,7 @@ class Version000406Date20200426163311 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		$table = $schema->getTable('cospend_project_categories');
+		$table = $schema->getTable('cospend_categories');
 		$table->dropColumn('icon');
 
 		return $schema;

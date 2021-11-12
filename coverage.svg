@@ -9,7 +9,7 @@
     </mask>
     <g mask="url(#anybadge_1)">
         <path fill="#555" d="M0 0h65v20H0z"/>
-        <path fill="#fe7d37" d="M65 0h53v20H65z"/>
+        <path fill="#e05d44" d="M65 0h53v20H65z"/>
         <path fill="url(#b)" d="M0 0h118v20H0z"/>
     </g>
     <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
@@ -17,7 +17,7 @@
         <text x="32.5" y="14">coverage</text>
     </g>
     <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
-        <text x="92.5" y="15" fill="#010101" fill-opacity=".3">50.50%</text>
-        <text x="91.5" y="14">50.50%</text>
+        <text x="92.5" y="15" fill="#010101" fill-opacity=".3">49.97%</text>
+        <text x="91.5" y="14">49.97%</text>
     </g>
 </svg>

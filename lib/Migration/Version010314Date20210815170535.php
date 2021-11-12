@@ -78,7 +78,7 @@ class Version010314Date20210815170535 extends SimpleMigrationStep {
 				'length' => 4,
 				'default' => 0,
 			]);
-			$table->setPrimaryKey(['id']);
+			$table->setPrimaryKey(['id'], 'cpi');
 		}
 
 		$table = $schema->getTable('cospend_bills');

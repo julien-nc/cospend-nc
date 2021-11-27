@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-09-17 16:12+0200\n"
-"PO-Revision-Date: 2021-09-17 14:14\n"
+"PO-Revision-Date: 2021-11-27 11:14\n"
 "Last-Translator: \n"
 "Language-Team: Hungarian\n"
 "Language: hu_HU\n"
@@ -105,7 +105,7 @@ msgstr "Projekt azonosító és jelszó megadása"
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:358
 #, php-format
 msgid "Enter link password of project %s"
-msgstr ""
+msgstr "Hivatkozás jelszavának megadása a %s projekthez"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:254
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:290
@@ -118,11 +118,11 @@ msgstr "Projekt %s"
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:336
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:357
 msgid "Cospend shared link access"
-msgstr ""
+msgstr "Cospendben megosztott hivatkozás elérése"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:260
 msgid "No such share link"
-msgstr ""
+msgstr "Nincs ilyen megosztási hivatkozás"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:261
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:312
@@ -141,7 +141,7 @@ msgstr "Hozzáférés megtagadva"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:375
 msgid "No such share link or public access"
-msgstr ""
+msgstr "Nincs ilyen megosztási hivatkozás vagy nyilvános elérés"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:445
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:954
@@ -170,7 +170,7 @@ msgstr ""
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1943
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1964
 msgid "Unauthorized action"
-msgstr "Jogtalan művelet"
+msgstr "Jogosulatlan művelet"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:477
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:510
@@ -183,19 +183,19 @@ msgstr "Nincs jogosultságod hozzáférni ennek a projektnek az információihoz
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:547
 msgid "You are not allowed to get this project's statistics"
-msgstr "Nem vagy jogosult hogy hozzáférj ehhez a projekt statisztikához"
+msgstr "Nem vagy jogosult hogy hozzáférj ehhez a projekt statisztikáihoz"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:564
 msgid "You are not allowed to get this project's settlement"
-msgstr "Nem vagy jogosult hogy hozzáférj ehhez a megszilárdított projekthez"
+msgstr "Nem vagy jogosult hogy hozzáférj ennek a projektnek az elszámolásához"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:584
 msgid "You are not allowed to settle this project automatically"
-msgstr "Nem vagy jogosult hogy megszilárdítsd ezt a projektet automatikusan"
+msgstr "Nem vagy jogosult hogy elszámold ezt a projektet automatikusan"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:599
 msgid "You are not allowed to access this project"
-msgstr "Nincs jogosultsága a projekt eléréséhez"
+msgstr "Nincs jogosultságod a projekt eléréséhez"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:628
 msgid "You are not allowed to edit this member"
@@ -232,7 +232,7 @@ msgstr "Nincs jogosultságod tagot hozzáadni"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:836
 msgid "You are not allowed to get the bill list"
-msgstr "Nem jogosult a számla lista elérésére"
+msgstr "Nem vagy jogosult a számlák listájának elérésére"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:881
 msgid "Anonymous project creation is not allowed on this server"
@@ -245,7 +245,7 @@ msgstr "Projekt nem található"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:929
 msgid "Bad password or share link"
-msgstr ""
+msgstr "Hibás jelszó vagy megosztási hivatkozás"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1306
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1415
@@ -254,7 +254,7 @@ msgstr ""
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1592
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:270
 msgid "Guest access"
-msgstr ""
+msgstr "Vendég hozzáférés"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1309
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1418
@@ -263,7 +263,7 @@ msgstr ""
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1595
 #, php-format
 msgid "Share link (%s)"
-msgstr ""
+msgstr "Hivatkozás megosztása (%s)"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1311
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1420
@@ -273,7 +273,7 @@ msgstr ""
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:326
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:328
 msgid "Share link"
-msgstr ""
+msgstr "Hivatkozás megosztása"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:1987
 msgid "You are not allowed to give such shared access level"
@@ -281,7 +281,7 @@ msgstr "Nem vagy jogosult, hogy ilyen megosztási szintet adj"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2010
 msgid "You are not allowed to edit this shared access"
-msgstr ""
+msgstr "Nem vagy jogosult, hogy szerkeszd ezt a megosztási hozzáférést"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2030
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2044
@@ -300,7 +300,7 @@ msgstr "Nincs jogosultságod szerkeszteni a vendég szintet"
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2302
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2323
 msgid "You are not allowed to manage payment modes"
-msgstr ""
+msgstr "Nincs jogosultságod a fizetési módok kezeléséhez"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2342
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:2373
@@ -341,7 +341,7 @@ msgstr "Nem vagy jogosult, hogy létrehozz megosztási hozzáférést"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:3013
 msgid "You are not allowed to export this project settlement"
-msgstr "Nem vagy jogosult hogy exportáld ezt a megszilárdított projektet"
+msgstr "Nem vagy jogosult hogy exportáld ezt a projekt-elszámolást"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Controller/PageController.php:3039
 msgid "You are not allowed to export this project statistics"
@@ -353,7 +353,7 @@ msgstr "Nincs jogosultságod exportálni ezt a projektet"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Dashboard/CospendWidget.php:59
 msgid "Cospend activity"
-msgstr "Cospend aktivitás"
+msgstr "Cospend tevékenységek"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Migration/Version000406Date20200426154317.php:92
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:139
@@ -442,36 +442,36 @@ msgstr "Online szolgáltatás"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:114
 msgid "Cospend project shared"
-msgstr ""
+msgstr "Cospend projekt megosztva"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:115
 #, php-format
 msgid "User \"%s\" shared Cospend project \"%s\" with you."
-msgstr "%s megosztotta veled %s nevű Cospend projektet veled."
+msgstr "%s megosztotta veled %s nevű Cospend projektet."
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:125
 #, php-format
 msgid "{user} shared project %s with you"
-msgstr ""
+msgstr "{user} megosztotta veled a %s projektet"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:143
 msgid "Cospend project share removed"
-msgstr ""
+msgstr "Cospend projekt megosztása visszavonva"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:144
 #, php-format
 msgid "User \"%s\" stopped sharing Cospend project \"%s\" with you."
-msgstr "%s leállította a megosztást veled %s nevű Cospend projektnél."
+msgstr "%s visszavonta a megosztást a %s nevű Cospend projekt esetében."
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Notification/Notifier.php:156
 #, php-format
 msgid "{user} stopped sharing project %s with you"
-msgstr ""
+msgstr "{user} visszavonta a megosztást a %s projekt esetében"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Search/CospendSearchProvider.php:218
 #, php-format
 msgid "in %1$s"
-msgstr ""
+msgstr "%1$s múlva"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:229
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:208
@@ -511,7 +511,7 @@ msgstr "Érvénytelen érték"
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1187
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1888
 msgid "Invalid frequency"
-msgstr ""
+msgstr "Érvénytelen gyakoriság"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1195
 msgid "Timestamp (or date) field is required"
@@ -535,7 +535,7 @@ msgstr "Érvénytelen választás"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1547
 msgid "Error when getting project settlement transactions"
-msgstr "Hiba a projekt megszilárdítási tranzakciók beszerzésekor"
+msgstr "Hiba a projektelszámolási tranzakciók beszerzésekor"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1574
 msgid "Error when adding a bill"
@@ -560,7 +560,7 @@ msgstr "Ennek a projektnek nincs ilyen tagja"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1868
 msgid "Name can't be empty"
-msgstr ""
+msgstr "A név nem lehet üres"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1877
 msgid "Invalid email address"
@@ -569,7 +569,7 @@ msgstr "Helytelen e-mail cím"
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1895
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1902
 msgid "Invalid sort order"
-msgstr ""
+msgstr "Érvénytelen sorrendezés"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1926
 msgid "There is no such project"
@@ -581,7 +581,7 @@ msgstr "Súly nem egy érvényes decimális érték"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1967
 msgid "Invalid color value"
-msgstr ""
+msgstr "Érvénytelen színérték"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:1989
 msgid "This project already has this member"
@@ -603,7 +603,7 @@ msgstr "Nem található"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3906
 msgid "This project has no such payment mode"
-msgstr ""
+msgstr "Ennek a projektnek nincs ilyen fizetési módja"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:3909
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4085
@@ -613,7 +613,7 @@ msgstr "Helytelen mező érték"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4082
 msgid "This project has no such category"
-msgstr ""
+msgstr "Ebben a projektben nincs ilyen kategória"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4204
 msgid "This project have no such currency"
@@ -670,152 +670,152 @@ msgstr "Circles applikáció nincs engedélyezve"
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4974
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:185
 msgid "Who pays?"
-msgstr ""
+msgstr "Ki fizetett?"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4975
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:186
 msgid "To whom?"
-msgstr ""
+msgstr "Kinek?"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:4976
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:28
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:187
 msgid "How much?"
-msgstr ""
+msgstr "Mennyit?"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5017
 #, php-format
 msgid "%1$s is not a folder"
-msgstr ""
+msgstr "%1$s nem egy mappa"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5019
 #, php-format
 msgid "%1$s is not writeable"
-msgstr ""
+msgstr "%1$s nem írható"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5024
 #, php-format
 msgid "Impossible to create %1$s"
-msgstr ""
+msgstr "Lehetetlen létrehozni: %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5066
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:190
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:398
 msgid "Member name"
-msgstr ""
+msgstr "Tag neve"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5067
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:399
 msgid "Paid"
-msgstr ""
+msgstr "Kifizetett"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5068
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:400
 msgid "Spent"
-msgstr ""
+msgstr "Elköltött"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5069
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:191
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:282
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:402
 msgid "Balance"
-msgstr ""
+msgstr "Egyenleg"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5323
 #, php-format
 msgid "Malformed CSV, bad column names at line %1$s"
-msgstr ""
+msgstr "Rossz formátumú CSV, hibás oszlopnév a %1$s. sorban"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5378
 #, php-format
 msgid "Malformed CSV, invalid member on line %1$s"
-msgstr ""
+msgstr "Rossz formátumú CSV, hibás tag a %1$s. sorban"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5396
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5636
 #, php-format
 msgid "Malformed CSV, missing or invalid date/timestamp on line %1$s"
-msgstr ""
+msgstr "Rossz formátumú CSV, hibás dátum/időbélyeg a %1$s. sorban"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5422
 #, php-format
 msgid "Malformed CSV, invalid payer weight on line %1$s"
-msgstr ""
+msgstr "Rossz formátumú CSV, hibás fizetősúlyozás a %1$s. sorban"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5427
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5434
 #, php-format
 msgid "Malformed CSV, invalid owers on line %1$s"
-msgstr ""
+msgstr "Rossz formátumú CSV, hibás tartozó a %1$s. sorban"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5444
 #, php-format
 msgid "Malformed CSV, invalid amount on line %1$s"
-msgstr ""
+msgstr "Rossz formátumú CSV, hibás összeg a %1$s. sorban"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5482
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5701
 #, php-format
 msgid "Error in project creation, %1$s"
-msgstr ""
+msgstr "Hiba a projekt létrehozása során, %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5493
 #, php-format
 msgid "Error when adding payment mode %1$s"
-msgstr ""
+msgstr "Hiba a fizetési mód hozzáadása során %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5502
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5709
 #, php-format
 msgid "Error when adding category %1$s"
-msgstr ""
+msgstr "Hiba a kategória hozzáadása során %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5511
 #, php-format
 msgid "Error when adding currency %1$s"
-msgstr ""
+msgstr "Hiba a pénznem hozzáadása során %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5521
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5718
 #, php-format
 msgid "Error when adding member %1$s"
-msgstr ""
+msgstr "Hiba tag hozzáadása során %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5554
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5743
 #, php-format
 msgid "Error when adding bill %1$s"
-msgstr ""
+msgstr "Hiba számla hozzáadása során %1$s"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5607
 msgid "Malformed CSV, bad column names"
-msgstr ""
+msgstr "Rossz formátumú CSV, hibás oszlopnevek"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5618
 msgid "Malformed CSV, cannot have an empty ower"
-msgstr ""
+msgstr "Rossz formátumú CSV, hiányzó tartozó"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5656
 #, php-format
 msgid "Malformed CSV, no payer on line %1$s"
-msgstr ""
+msgstr "Rossz formátumú CSV, nincs fizetó a %1$s. sorban"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5662
 #, php-format
 msgid "Malformed CSV, bad amount on line %1$s"
-msgstr ""
+msgstr "Rossz formátumú CSV, rossz összeg a %1$s. sorban"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5778
 msgid "daily"
-msgstr ""
+msgstr "napi"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5793
 msgid "weekly"
-msgstr ""
+msgstr "heti"
 
 #: /var/www/html/dev/server22/apps/cospend/lib/Service/ProjectService.php:5814
 msgid "monthly"
-msgstr ""
+msgstr "havi"
 
 #: /var/www/html/dev/server22/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:3
 msgid " "
@@ -823,23 +823,23 @@ msgstr ""
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:1
 msgid "Project {name}"
-msgstr ""
+msgstr "Projekt {name}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:1
 msgid "Select a project"
-msgstr ""
+msgstr "Projekt kiválasztása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Oldalsáv átkapcsolása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "Nothing to repeat"
-msgstr ""
+msgstr "Nincs mit ismételni"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:4
 msgid "Member {name} already exists"
-msgstr ""
+msgstr "{name} tag már létezik"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:5
 msgid "Failed to get projects"
@@ -848,11 +848,11 @@ msgstr "A projektek betöltése sikertelen"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:6
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Failed to get bills"
-msgstr ""
+msgstr "Számlák betöltése sikertelen"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:8
 msgid "Invalid project name"
-msgstr ""
+msgstr "Érvénytelen projektnév"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:9
 msgid "Failed to create project"
@@ -872,33 +872,33 @@ msgstr "Nem sikerült frissíteni az egyenlegeket"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:13
 msgid "Created member {name}"
-msgstr ""
+msgstr "{name} tagot létrehoztuk"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:14
 msgid "Failed to add member"
-msgstr ""
+msgstr "Nem sikerült hozzáadni a tagot"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:15
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:235
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:354
 msgid "Failed to add shared access"
-msgstr ""
+msgstr "Nem sikerült hozzáadni a megosztott hozzáférést"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:16
 msgid "Failed to save member"
-msgstr ""
+msgstr "Nem sikerült menteni a tagot"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:17
 msgid "Member deleted."
-msgstr ""
+msgstr "A tagot töröltük."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:18
 msgid "Member saved."
-msgstr ""
+msgstr "A tagot elmentettük."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:19
 msgid "Project saved"
-msgstr ""
+msgstr "Projektet elmentettük"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:20
 msgid "Failed to edit project"
@@ -907,25 +907,25 @@ msgstr "A projekt szerkesztése sikertelen"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:21
 msgid "{nb} bill was created"
 msgid_plural "{nb} bills were created"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{nb} számla létrehozva"
+msgstr[1] "{nb} számla létrehozva"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:22
 msgid "link"
-msgstr ""
+msgstr "hivatkozás"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:23
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:72
 msgid "Press Shift+Enter to validate"
-msgstr ""
+msgstr "Nyomj Shift+Entert az érvényesítéshez"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:24
 msgid "Impossible to duplicate a bill with a disabled payer"
-msgstr ""
+msgstr "Nem lehet duplikálni a számlát egy letiltott fizetővel"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:24
 msgid "Duplicate bill"
-msgstr ""
+msgstr "Számla duplikálása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:25
 msgid "What?"
@@ -933,18 +933,18 @@ msgstr "Mi?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:26
 msgid "What is the bill about?"
-msgstr ""
+msgstr "Miről szól a számla?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:27
 msgid "Attach share link to personal file"
-msgstr ""
+msgstr "Megosztási hivatkozás csatolása személyes fájlhoz"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:29
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:31
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:50
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:347
 msgid "More information"
-msgstr ""
+msgstr "Több információ"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:30
 msgid "Convert to"
@@ -952,11 +952,11 @@ msgstr "Konvertálás"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:32
 msgid "Who paid?"
-msgstr ""
+msgstr "Ki fizetett?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:33
 msgid "Choose a member"
-msgstr ""
+msgstr "Válassz egy tagot"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:34
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:35
@@ -971,7 +971,7 @@ msgstr "Fizetési mód"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:37
 msgid "Choose a payment mode"
-msgstr ""
+msgstr "Válassz fizetési módot"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:38
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:387
@@ -980,15 +980,15 @@ msgstr "Kategória"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:39
 msgid "Choose or add a category"
-msgstr ""
+msgstr "Válassz vagy adj hozzá egy kategóriát"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:40
 msgid "Comment"
-msgstr ""
+msgstr "Megjegyzés"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:41
 msgid "More details about the bill (300 char. max)"
-msgstr ""
+msgstr "Több részlet a számláról (300 karakter max.)"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:42
 msgid "Repeat"
@@ -1011,11 +1011,11 @@ msgstr "Hetente"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:46
 msgid "Bi-weekly (every 2 weeks)"
-msgstr ""
+msgstr "Kéthetente (minden 2. hét)"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:47
 msgid "Semi-monthly (twice a month)"
-msgstr ""
+msgstr "Félhavonta (kétszer havonta)"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:48
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:306
@@ -1028,15 +1028,15 @@ msgstr "Évente"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:51
 msgid "Frequency"
-msgstr ""
+msgstr "Gyakoriság"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:52
 msgid "Leave empty for maximum frequency"
-msgstr ""
+msgstr "Hagyd üresen a legnagyobb gyakorisághoz"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:53
 msgid "Include all active members on repeat"
-msgstr ""
+msgstr "Minden aktív tag beszámítása ismétléskor"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:54
 msgid "Repeat until"
@@ -1044,11 +1044,11 @@ msgstr "Ismétlés eddig"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:55
 msgid "No limit"
-msgstr ""
+msgstr "Korlátlan"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:56
 msgid "Repeat now"
-msgstr ""
+msgstr "Ismétlés most"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:57
 msgid "Bill type"
@@ -1068,27 +1068,27 @@ msgstr "Egyéni értékben tartozás tagonként"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:61
 msgid "Custom share per member"
-msgstr ""
+msgstr "Egyéni részesedés tagonként"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:62
 msgid "Ignore member weights"
-msgstr ""
+msgstr "Tagi súlyozás figyelmen kívül hagyása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:63
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
-msgstr "Klasszikus mód: Válasszon egy szereplőt, írja be a számla összegét és válassz ki, ki fizeti a számlát, ezután a számla egyenlően lesz elosztva a kiválasztott szereplők között. Példa: Étteremben egy ember fizet, de közös megegyezés alapján egyenlően mindenki között elosztják."
+msgstr "Klasszikus mód: Válassz egy fizetőt, írd be a számla összegét és válaszd ki, ki állja a költést, ezután a számla egyenlően lesz elosztva a kiválasztott tagok között. Példa: Étteremben egy ember fizet, de közös megegyezés alapján egyenlően mindenki között elosztják."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:64
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
-msgstr ""
+msgstr "Klasszikus+egyéni mód: Ez a mód a klasszikushoz hasonlít. Válassz egy fizetőt és írd be a számla összegét arról, amennyit valójában kifizettek. Aztán válaszd ki, kit terhel a számla és opcionálisan állíts be egy értéket az extra egyéni terhelésekről. Több számlát készítünk majd: egyet a megosztott költésről, egyet pedig az egyéni terhelésekről. Valós példa: Elmegyünk bevásárolni, olyan dolgokat veszünk, ami mindenkit terhel, de valaki berakott még valamit személyeset (pl. egy pólót) magának, melyet a többiek nem akarnak közösen fizetni."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:65
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
-msgstr "Egyéni mód, egyenlőtlen elosztás: Válasszon egy fizetőt, hagyja figyelmen kívül a fizetett összeget (le van tiltva) és írjon be egyéni tartozásokat minden érintett szereplőnek. Végül nyomja meg a létrehozást. A számla létre lesz hozva. Példa: Étteremben egy ember fizet, de az szereplők nagyobb értékkülönbségben ettek, így egyenlőtlenül kell elosztani a számlát is."
+msgstr "Egyéni mód, egyenlőtlen elosztás: Válassz egy fizetőt, hagyd figyelmen kívül a fizetett összeget (le van tiltva) és írj be egyéni tartozásokat minden érintett szereplőhöz. Végül nyomd meg a \"Számlák létrehozása\" gombot. Több számlát hozunk létre. Példa: Étteremben egy ember fizet, de a szereplők fogyasztásai között nagy értékkülönbségek vannak."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:66
 msgid "Custom share mode, uneven split: Choose a payer, set the bill amount and enter a custom share number for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: Someone pays an electricity bill for the month but one member was only there during half the month. This member should then pay half a share (0.5) while the others pay a full share (1)."
-msgstr "Egyéni megosztás mód, egyenetlen felosztás: Válasszon fizetőt, állítsa be a számla összegét, és adjon meg egyedi megosztás számot minden érintett tag számára. Ezután nyomja meg a \"Számlák létrehozása\" gombot. Több számla készül. Valódi életpélda: Valaki fizet egy hónapra villanyszámlát, de az egyik tag csak a hónap felében volt ott. Ennek a tagnak akkor fizetnie kell egy részt (0,5), míg a többieknek a teljes részt (1)."
+msgstr "Egyéni megosztás mód, egyenetlen felosztás: Válassz fizetőt, állítsd be a számla összegét és adj meg egy egyedi számot a megosztáshoz minden érintett tag számára. Ezután nyomd meg a \"Számlák létrehozása\" gombot. Több számla készül. Valódi példa: Valaki fizet egy hónapnyi villanyszámlát, de az egyik tag csak a hónap felében volt ott. Ennek a tagnak akkor csak fél részt (0,5), míg a többieknek teljes részt (1) kell fizetni."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:67
 msgid "For whom?"
@@ -1096,7 +1096,7 @@ msgstr "Kinek?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:68
 msgid "All/None"
-msgstr "Minden/semmi"
+msgstr "Mindenki/senki"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:69
 msgid "Personal amount"
@@ -1108,7 +1108,7 @@ msgstr "Egyéni összeg"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:71
 msgid "Custom share number"
-msgstr "Egyéni megosztás száma"
+msgstr "Egyéni részesedés aránya"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:73
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:74
@@ -1124,11 +1124,11 @@ msgstr "Egyik sem"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:75
 msgid "Add payment mode \"{name}\""
-msgstr ""
+msgstr "Fizetési mód \"{name}\" hozzáadása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:78
 msgid "Add category \"{name}\""
-msgstr ""
+msgstr "Kategória \"{name}\" hozzáadása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:79
 msgid "Bill : {what}"
@@ -1144,7 +1144,7 @@ msgstr "Számlák létrehozása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:81
 msgid "Failed to add payment mode"
-msgstr ""
+msgstr "Fizetési mód hozzáadása sikertelen"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:82
 msgid "Failed to add category"
@@ -1156,38 +1156,38 @@ msgstr "Hiba kategória hozzáadása közben"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:426
 #: /var/www/html/dev/server22/apps/cospend/src/utils.js:15
 msgid "You"
-msgstr "Ön"
+msgstr "Te"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:84
 msgid "Impossible to save bill, invalid values"
-msgstr ""
+msgstr "Lehetetlen elmenteni a számlát, érvénytelen értékek"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:85
 msgid "Bill saved"
-msgstr ""
+msgstr "Elmentettük a számlát"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:86
 msgid "Failed to save bill"
-msgstr ""
+msgstr "Nem tudtuk menteni a számlát"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:87
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:89
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:91
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:93
 msgid "Bill values are not valid"
-msgstr "A számlák értékei érvénytelenek"
+msgstr "A számla értékei érvénytelenek"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:88
 msgid "Personal parts are bigger than the paid amount"
-msgstr ""
+msgstr "Az egyéni részösszegek nagyobbak, mint a teljes összeg"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:90
 msgid "There is no custom amount"
-msgstr ""
+msgstr "Nincs egyéni összeg"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:92
 msgid "There is no custom share number"
-msgstr "Nincs egyéni megosztás száma"
+msgstr "Nincs egyéni részesedés aránya"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:94
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:209
@@ -1204,7 +1204,7 @@ msgstr "Fájl kiválasztása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:97
 msgid "Failed to generate share link to file"
-msgstr ""
+msgstr "Fájlt megosztó hivatkozás generálása sikertelen"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:98
 msgid "This is just a currency converter. Bill amount can be entered in another currency and then converted to \"{maincur}\". Value is always stored in \"{maincur}\"."
@@ -1223,15 +1223,15 @@ msgstr "Infó"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:100
 msgid "You can type simple math operations and validate by pressing Enter key."
-msgstr "Beírhat egyszerű matematikai műveleteket és érvényesítheti az Enter billentyűvel."
+msgstr "Beírhatsz egyszerű matematikai műveleteket és ellenőrizhetsz az Enter billentyűvel."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:102
 msgid "Bill repetition process runs once a day as a background job. If your bills are not automatically repeated, ask your Nextcloud administrator to check if \"Cron\" method is selected in admin settings."
-msgstr "A számlaismétlési folyamat naponta egyszer fut háttérmunkaként. Ha a számlái nem ismétlődnek meg automatikusan, kérje meg a Nextcloud rendszergazdáját, hogy ellenőrizze, hogy a \"Cron\" módszer van-e kiválasztva az adminisztrátori beállításokban."
+msgstr "A számlaismétlési folyamat naponta egyszer fut le háttérfeladatként. Ha a számláid nem ismétlődnek meg automatikusan, kérd meg a Nextcloud rendszergazdáját, hogy ellenőrizze, hogy a \"Cron\" módszer van-e kiválasztva az adminisztrátori beállításokban."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:103
 msgid "You can also manually repeat the current bill with the \"Repeat now\" button."
-msgstr "Az aktuális számlát manuálisan is megismételheti az \"Ismétlés most\" gombbal."
+msgstr "Az aktuális számlát manuálisan is megismételheted az \"Ismétlés most\" gombbal."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:105
 msgid "New bill"
@@ -1239,15 +1239,15 @@ msgstr "Új számla"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:106
 msgid "All categories"
-msgstr ""
+msgstr "Összes kategória"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:108
 msgid "All payment modes"
-msgstr ""
+msgstr "Összes fizetési mód"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:110
 msgid "Assign category"
-msgstr "Hozzáadás kategóriához"
+msgstr "Kategória hozzárendelése"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "Assign payment mode"
@@ -1263,11 +1263,11 @@ msgstr "Többválasztásos mód: Számlák kiválasztása csoportosított művel
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:116
 msgid "Add at least 2 members to start creating bills"
-msgstr "Adjon hozzá legalább 2 tagot a számlák készítéséhez"
+msgstr "Adj hozzá legalább 2 tagot, hogy számlákat készíthess"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:117
 msgid "No bills to show"
-msgstr ""
+msgstr "Nincs megjeleníthető számla"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:118
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:119
@@ -1280,15 +1280,15 @@ msgstr "Kilépés a többszörös kiválasztási módból"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:121
 msgid "Enter multiple selection mode"
-msgstr "Lépjen be többszörös kiválasztási módba"
+msgstr "Belépés a többszörös kiválasztási módba"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:122
 msgid "Close filters"
-msgstr ""
+msgstr "Szűrők bezárása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:123
 msgid "Open filters"
-msgstr ""
+msgstr "Szűrők megnyitása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:124
 msgid "Bill deleted"
@@ -1301,7 +1301,7 @@ msgstr "Nem sikerült törölni a számlát"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:126
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:127
 msgid "Failed to save bills"
-msgstr ""
+msgstr "Nem sikerült menteni a számlákat"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:128
 msgid "Bills edited"
@@ -1332,12 +1332,12 @@ msgstr "Számlák törölve"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:133
 msgid "Failed to delete bills"
-msgstr ""
+msgstr "Nem sikerült törölni a számlákat"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:134
 msgid "Are you sure you want to delete {nb} bill?"
 msgid_plural "Are you sure you want to delete {nb} bills?"
-msgstr[0] ""
+msgstr[0] "Biztosan törölni szeretnél {nb} számlát?"
 msgstr[1] "Biztosan törölni szeretné a(z) {nb} számlákat?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:135
@@ -1350,11 +1350,11 @@ msgstr "Kézi"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:137
 msgid "Most used"
-msgstr ""
+msgstr "Legtöbbet használt"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:138
 msgid "Most recently used"
-msgstr ""
+msgstr "Legutóbb használt"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:139
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:250
@@ -1373,7 +1373,7 @@ msgstr "Kategória rendezési módszer"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:141
 msgid "Payment mode sort method"
-msgstr ""
+msgstr "Fizetési mód sorrendezési módszere"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:142
 msgid "Add category"
@@ -1381,7 +1381,7 @@ msgstr "Kategória hozzáadása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:142
 msgid "Add payment mode"
-msgstr ""
+msgstr "Fizetési mód hozzáadása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:143
 msgid "Category name"
@@ -1389,15 +1389,15 @@ msgstr "Kategória neve"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:143
 msgid "Payment mode name"
-msgstr ""
+msgstr "Fizetési mód neve"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:144
 msgid "Add this category"
-msgstr "Kategória hozzáadása"
+msgstr "Add hozzá ezt a kategóriát"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:144
 msgid "Add this payment mode"
-msgstr ""
+msgstr "Add hozzá ezt a fizetési módot"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:145
 msgid "Category list"
@@ -1405,74 +1405,74 @@ msgstr "Kategória lista"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:145
 msgid "Payment mode list"
-msgstr ""
+msgstr "Fizetési mód lista"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:146
 msgid "Drag categories to set manual order"
-msgstr "Húzza a kategóriákat a kézi sorrend beállításához"
+msgstr "Húzd a kategóriákat a kézi sorrend beállításához"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:146
 msgid "Drag payment modes to set manual order"
-msgstr ""
+msgstr "Húzd a fizetési módokat a kézi sorrend beállításához"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:147
 msgid "No categories"
-msgstr ""
+msgstr "Nincsenek kategóriák"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:147
 msgid "No payment modes"
-msgstr ""
+msgstr "Nincsenek fizetési módok"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:148
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:153
 msgid "Name should not be empty"
-msgstr ""
+msgstr "A név nem lehet üres"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:149
 msgid "Failed to add {name}"
-msgstr ""
+msgstr "Nem sikerült {name} -t hozzáadni"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:150
 msgid "{name} was added"
-msgstr ""
+msgstr "{name} -t hozzáadtuk"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:151
 msgid "Failed to delete category"
-msgstr ""
+msgstr "Nem sikerült törölni a kategóriát"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:152
 msgid "Failed to delete payment mode"
-msgstr ""
+msgstr "Nem sikerült törölni a fizetési módot"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:154
 msgid "Failed to edit category"
-msgstr ""
+msgstr "Nem sikerült szerkeszteni a kategóriát"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:155
 msgid "Order saved"
-msgstr ""
+msgstr "Elmentettük a sorrendet"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:156
 msgid "Main currency"
-msgstr ""
+msgstr "Fő pénznem"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:158
 msgid "Set main currency name"
-msgstr ""
+msgstr "Fő pénznem beállítása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:159
 msgid "Main currency name"
-msgstr ""
+msgstr "Fő pénznem neve"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:161
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:255
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:299
 msgid "Save"
-msgstr ""
+msgstr "Mentés"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:162
 msgid "Add currency"
-msgstr ""
+msgstr "Pénznem hozzáadása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:163
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:253
@@ -1484,44 +1484,44 @@ msgstr "Név"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:164
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:297
 msgid "Currency name"
-msgstr ""
+msgstr "Pénznem neve"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:165
 msgid "Exchange rate to main currency"
-msgstr ""
+msgstr "Váltási árfolyam a fő pénznemre"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:166
 msgid "(1 of this currency = X of main currency)"
-msgstr ""
+msgstr "(1 ebből a pénznemből = X a fő pénznemből)"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:167
 msgid "Add this currency"
-msgstr ""
+msgstr "Add hozzá ezt a pénznemet"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:168
 msgid "Currency list"
-msgstr ""
+msgstr "Pénznemek listája"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:169
 msgid "No currencies to display"
-msgstr ""
+msgstr "Nincs megjeleníthető pénznem"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:170
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:173
 msgid "Currency name should not be empty."
-msgstr ""
+msgstr "A pénznem neve nem lehet üres."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:171
 msgid "Exchange rate should be a number."
-msgstr ""
+msgstr "A váltási árfolyamnak számnak kell lennie."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:172
 msgid "Currency {n} added."
-msgstr ""
+msgstr "A {n} pénznemet felvettük."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:174
 msgid "Settlement of project {name}"
-msgstr "{name} projekt szilárdítmánya"
+msgstr "{name} projekt elszámolása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:175
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:381
@@ -1534,156 +1534,156 @@ msgstr "Fizetések hozzáadása a projekthez"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:177
 msgid "Center settlement on"
-msgstr ""
+msgstr "Elszámolás a következőre"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:178
 msgid "Nobody (optimal)"
-msgstr ""
+msgstr "Senki (optimális)"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:179
 msgid "Settlement date"
-msgstr ""
+msgstr "Elszámolás dátuma"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:181
 msgid "Set to beginning of this day"
-msgstr ""
+msgstr "Beállítás ennek a napnak kezdetére"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:182
 msgid "Set to beginning of this week"
-msgstr ""
+msgstr "Beállítás ennek a hétnek a kezdetére"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Set to beginning of this month"
-msgstr ""
+msgstr "Beállítás ennek a hónapnak a kezdetére"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "Settlement plan on {date}"
-msgstr ""
+msgstr "Elszámolási terv {date} -n"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "Settlement plan"
-msgstr ""
+msgstr "Elszámolási terv"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:188
 msgid "No transactions found"
-msgstr ""
+msgstr "Nem található tranzakció"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:189
 msgid "Balances on {date}"
-msgstr ""
+msgstr "Egyenlegek {date} -n"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:189
 msgid "Balances"
-msgstr ""
+msgstr "Egyenlegek"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:192
 msgid "No balances found"
-msgstr ""
+msgstr "Nincs egyenleg"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:193
 msgid "Individual reimbursement"
-msgstr ""
+msgstr "Egyéni visszafizetés"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:194
 msgid "Payer"
-msgstr ""
+msgstr "Fizető"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:195
 msgid "Receiver"
-msgstr ""
+msgstr "Kedvezményezett"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:196
 msgid "Create bill ({amount})"
-msgstr ""
+msgstr "Számla létrehozása ({amount}) összeggel"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:197
 msgid "Failed to get settlement"
-msgstr ""
+msgstr "Nem sikerült az elszámolást betölteni"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:198
 msgid "Project settlement bills added."
-msgstr ""
+msgstr "Hozzáadtuk a projekt elszámolószámláit."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:199
 msgid "Project settlement exported in {path}"
-msgstr ""
+msgstr "A projekt elszámolását a {path} útvonalra exportáltuk"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:200
 msgid "Set a maximum date to only consider bills until then."
-msgstr ""
+msgstr "Végső dátum beállítása csak korábbi számlák fogadása céljából."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:201
 msgid "Useful if you want to settle at a precise date and ignore the bills created since then."
-msgstr ""
+msgstr "Hasznos, ha egy pontos napon akarsz elszámolni és el akarod vetni a későbbi számlákat."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:202
 msgid "Automatic settlement will create bills one second before the maximum date."
-msgstr ""
+msgstr "Az automatikus elszámolás a számlákat egy másodperccel a végső dátum előtt fogja létrehozni."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:204
 msgid "This feature is useful when a member with a negative balance wants to get out of the project but you don't want to make a full settlement plan."
-msgstr ""
+msgstr "Ez a funkció akkor hasznos, ha egy tagnak negatív egyenlege van és ki akar szállni a projektből, de te nem szeretnél teljes elszámolási tervet."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:205
 msgid "Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money."
-msgstr ""
+msgstr "Válassz egy fizetőt, aki zéró egyenleget szeretne, aztán egy kedvezményezettet, aki az egyetlenként kapja majd a visszafizetett pénzt."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:206
 msgid "Make sure the \"real\" reimbursement has been done between those 2 members in real life. Then press \"Create bill\" to automatically create the corresponding bill."
-msgstr ""
+msgstr "Győződj meg róla, hogy a tényleges visszafizetés valójában megtörtént a két tag között. Aztán kattints a \"Számla létrehozása\" gombra, hogy automatikusan létrehozzuk a kapcsolódó számlát."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:210
 msgid "{user} have updated the bill {billName}"
-msgstr ""
+msgstr "{user} frissítette {billName} számlát"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:211
 msgid "{user} has updated the bill {billName}"
-msgstr ""
+msgstr "{user} frissítette {billName} számlát"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:212
 msgid "{user} have created a new bill {billName}"
-msgstr ""
+msgstr "{user} létrehozta {billName} új számlát"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:213
 msgid "{user} has created a new bill {billName}"
-msgstr ""
+msgstr "{user} létrehozta {billName} új számlát"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:214
 msgid "{user} have deleted the bill {billName}"
-msgstr ""
+msgstr "{user} törölte {billName} számlát"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:215
 msgid "{user} has deleted the bill {billName}"
-msgstr ""
+msgstr "{user} törölte {billName} számlát"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:216
 msgid "{user} have shared the project with {who}"
-msgstr ""
+msgstr "{user} megosztotta a projektet vele {who}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "{user} has shared the project with {who}"
-msgstr ""
+msgstr "{user} megosztotta a projektet vele {who}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:218
 msgid "{user} have removed {who} from the project"
-msgstr ""
+msgstr "{user} törölte {who} -t a projejktből"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:219
 msgid "{user} has removed {who} from the project"
-msgstr ""
+msgstr "{user} törölte {who} -t a projejktből"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:221
 msgid "you"
-msgstr ""
+msgstr "te"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:222
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:223
 msgid "No more activity"
-msgstr ""
+msgstr "Nincs más aktivitás"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:224
 msgid "Rename member"
-msgstr ""
+msgstr "Tag átnevezése"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:225
 msgid "Change color"
@@ -1735,17 +1735,17 @@ msgstr "Újraaktiválás"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:234
 msgid "A member is already named like that."
-msgstr "Egy tagot már így neveznek el."
+msgstr "Egy tagot már így neveznek."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:236
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:355
 msgid "Failed to edit shared access level"
-msgstr ""
+msgstr "Nem sikerült szerkeszteni a megosztási hozzáférés szintjét"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:237
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:360
 msgid "Failed to delete shared access"
-msgstr ""
+msgstr "Nem sikerült törölni a megosztási hozzáférést"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:238
 msgid "Add member"
@@ -1757,12 +1757,12 @@ msgstr "Statisztika"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:240
 msgid "Project settlement"
-msgstr "Projekt elszámolás"
+msgstr "Projekt elszámolása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:242
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:309
 msgid "Add a member"
-msgstr ""
+msgstr "Tag hozzáadása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:243
 msgid "Everyone"
@@ -1788,320 +1788,320 @@ msgstr "Szerkesztés"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:256
 msgid "New project"
-msgstr ""
+msgstr "Új projekt"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:257
 msgid "New project name"
-msgstr ""
+msgstr "Új projekt neve"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:258
 msgid "No projects yet"
-msgstr ""
+msgstr "Nincs még projekt"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:259
 msgid "Cospend settings"
-msgstr ""
+msgstr "Cospend beállításai"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:260
 msgid "About Cospend"
-msgstr ""
+msgstr "A Cospendről"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:261
 msgid "Thanks for using Cospend"
-msgstr ""
+msgstr "Köszönjük, hogy a Cospendet használod"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:262
 msgid "Bug/issue tracker"
-msgstr ""
+msgstr "Hibakövető"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:263
 msgid "Translation"
-msgstr ""
+msgstr "Fordítás"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:264
 msgid "User documentation"
-msgstr ""
+msgstr "Felhasználói dokumentáció"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:265
 msgid "Admin documentation"
-msgstr ""
+msgstr "Rendszergazdai dokumentáció"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:266
 msgid "Developer documentation"
-msgstr ""
+msgstr "Fejlesztői dokumentáció"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:267
 msgid "Import projects"
-msgstr ""
+msgstr "Projektek importálása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:268
 msgid "Import csv project"
-msgstr ""
+msgstr "CSV projekt importálása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:269
 msgid "Import SplitWise project"
-msgstr ""
+msgstr "SplitWise projekt importálása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:271
 msgid "Copy guest access link"
-msgstr ""
+msgstr "Vendégelérési hivatkozás másolása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:272
 msgid "Export location"
-msgstr ""
+msgstr "Hely exportálása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:273
 msgid "Select export directory"
-msgstr ""
+msgstr "Export könyvtár kiválasztása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:274
 msgid "Sort criterias"
-msgstr ""
+msgstr "Sorrendezési kritériumok"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:275
 msgid "How projects are sorted in navigation sidebar"
-msgstr ""
+msgstr "Hogyan rendezzük sorba a projekteket a navigációs oldalsávon"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:276
 msgid "Projects order"
-msgstr ""
+msgstr "Projektsorrend"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:278
 msgid "Last activity"
-msgstr ""
+msgstr "Utolsó aktivitás"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:279
 msgid "How members are sorted"
-msgstr ""
+msgstr "Hogyan rendezzük sorba a tagokat"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:280
 msgid "Members order"
-msgstr ""
+msgstr "Tagsorrend"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:283
 msgid "Misc"
-msgstr ""
+msgstr "Egyéb"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:284
 msgid "Maximum decimal precision to show in balances"
-msgstr ""
+msgstr "Maximális decimális pontosság egyenlegek esetén"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:285
 msgid "Maximum precision"
-msgstr ""
+msgstr "Maximális pontosság"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:286
 msgid "Do you want to see and choose time in bill dates?"
-msgstr ""
+msgstr "Szeretnél időt beállítani és megjeleníteni a számlák dátumaiban?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:287
 msgid "Use time in dates"
-msgstr ""
+msgstr "Idő használata a dátumokban"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:288
 msgid "Choose where to write output files (stats, settlement, export)"
-msgstr ""
+msgstr "Válaszd ki, hová kerüljenek a kimeneti fájlok (statisztika, elszámolás, projekt)"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:289
 msgid "Choose csv project file"
-msgstr ""
+msgstr "Válassz CSV projekt fájlt"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:290
 msgid "Choose SplitWise project file"
-msgstr ""
+msgstr "Válassz SplitWise projekt fájlt"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:291
 msgid "Project imported"
-msgstr ""
+msgstr "Importáltuk a projektet"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:292
 msgid "Failed to import project file"
-msgstr ""
+msgstr "Nem sikerült importálni a projektet"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:293
 msgid "Guest link copied to clipboard."
-msgstr ""
+msgstr "A vendéghivatkozást a vágólapra másoltuk."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:294
 msgid "Guest link could not be copied to clipboard."
-msgstr ""
+msgstr "Nem tudjuk a vendéghivatkozást a vágólapra másolni."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:300
 msgid "Rename project {n}"
-msgstr ""
+msgstr "{n} projekt átnevezése"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:301
 msgid "Disable bill deletion"
-msgstr ""
+msgstr "Számlatörlés tiltása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:302
 msgid "Automatic export"
-msgstr ""
+msgstr "Automatikus exportálás"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:307
 msgid "Export project"
-msgstr ""
+msgstr "Projekt exportálása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:308
 msgid "Members"
-msgstr ""
+msgstr "Tagok"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:310
 msgid "No recommendations. Start typing."
-msgstr ""
+msgstr "Nincs javaslat. Kezdj gépelni."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:311
 msgid "No result."
-msgstr ""
+msgstr "Nincs eredmény."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:312
 msgid "Associate a project member with a Nextcloud user"
-msgstr ""
+msgstr "Projekttag Nextcloud felhasználóval való társítása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:313
 msgid "Choose a Nextcloud user"
-msgstr ""
+msgstr "Válassz egy Nextcloud felhasználót"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "New member name"
-msgstr ""
+msgstr "Új tag neve"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "New member (or Nextcloud user) name"
-msgstr ""
+msgstr "Új tag (vagy Nextcloud felhasználó) neve"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:316
 msgid "Create simple member"
-msgstr ""
+msgstr "Sima tag létrehozása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:317
 msgid "Failed to add member."
-msgstr ""
+msgstr "Nem sikerült a tag hozzáadása."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab."
-msgstr ""
+msgstr "A projekthez sima tagot és Nextcloud felhasználót is hozzáadhatsz. Nextcloud felhasználók számára a menüben adhatsz hozzáférést a projekthez. Nem tag Nextcloud felhasználóknak is adhatsz hozzáférést a Megosztás fülön keresztül."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:320
 msgid "Choose a project member, then a Nextcloud user to associate with."
-msgstr ""
+msgstr "Válassz egy projekttagot, aztán pedig egy Nextcloud felhasználót, akivel társítani szeretnéd a tagot."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:321
 msgid "You can cut the link with a Nextcloud user by renaming the member."
-msgstr ""
+msgstr "Megszüntetheted a társítást a Nextcloud felhasználóval, ha átnevezed a tagot."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:323
 msgid "Share project with a user, group or circle …"
-msgstr ""
+msgstr "Projekt megosztása egy felhasználóval, csoporttal vagy körrel …"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:324
 msgid "Scan this QRCode with your mobile device to add project \"{name}\" in MoneyBuster or PayForMe"
-msgstr ""
+msgstr "Olvasd be ezt a QR-kódot a mobiloddal a \"{name}\" projekt hozzáadásához a MoneyBuster vagy PayForMe appokban"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:325
 msgid "QRCode content: "
-msgstr ""
+msgstr "QR-kód tartalma: "
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:327
 msgid "Create a new share link"
-msgstr ""
+msgstr "Új megosztási hivatkozás létrehozása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:329
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:348
 msgid "Link copied"
-msgstr ""
+msgstr "Hivatkozás másolva"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:329
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:348
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Másolás a vágólapra"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:330
 msgid "Show QRCode for mobile clients"
-msgstr ""
+msgstr "QR-kód mutatása mobil kliensek számára"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:331
 msgid "Label"
-msgstr ""
+msgstr "Címke"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:332
 msgid "Password protect"
-msgstr ""
+msgstr "Védelem jelszóval"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:333
 msgid "Set link password"
-msgstr ""
+msgstr "Hivatkozás jelszavának beállítása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:338
 msgid "Delete link"
-msgstr ""
+msgstr "Hivatkozás törlése"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:339
 msgid "Add another link"
-msgstr ""
+msgstr "Másik hivatkozás hozzáadása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:340
 msgid "Project owner"
-msgstr ""
+msgstr "Projekt tulajdonosa"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:345
 msgid "Delete access"
-msgstr ""
+msgstr "Hozzáférés törlése"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:346
 msgid "Password protected access"
-msgstr ""
+msgstr "Jelszóval védett hozzáférés"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:346
 msgid "(deprecated)"
-msgstr ""
+msgstr "(elavult)"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:353
 msgid "New project password"
-msgstr ""
+msgstr "Új projektjelszó"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:356
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:358
 msgid "Share link saved"
-msgstr ""
+msgstr "Megosztási hivatkozás elmentve"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:357
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:359
 msgid "Failed to edit share link"
-msgstr ""
+msgstr "Nem sikerült szerkeszteni a megosztási hivatkozást"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:361
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:363
 msgid "Link could not be copied to clipboard."
-msgstr ""
+msgstr "Nem tudtuk a hivatkozást a vágólapra másolni."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:362
 msgid "Password should not be empty."
-msgstr ""
+msgstr "A jelszó nem lehet üres."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:364
 msgid "Guest access level changed."
-msgstr ""
+msgstr "Vendégelérési szint megváltoztatva."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:365
 msgid "Failed to edit guest access level"
-msgstr ""
+msgstr "Nem tudtuk szerkeszteni a vendégelérési szintet"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:366
 msgid "Password protected access is now deprecated. You can use the share links instead, they can be password protected too."
-msgstr ""
+msgstr "A jelszóvédett hozzáférés elavult. Használhatsz helyette megosztási hivatkozást, melyet szintén lehet jelszóval védeni."
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:368
 msgid "Sharing"
-msgstr ""
+msgstr "Megosztás"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:369
 msgid "Settings"
-msgstr ""
+msgstr "Beállítások"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:370
 msgid "Activity"
-msgstr ""
+msgstr "Aktivitás"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:371
 msgid "Categories"
@@ -2109,7 +2109,7 @@ msgstr "Kategóriák"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:372
 msgid "Payment modes"
-msgstr ""
+msgstr "Fizetési módok"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:373
 msgid "Currencies"
@@ -2117,15 +2117,15 @@ msgstr "Pénznemek"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:374
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} {currency} spent"
-msgstr ""
+msgstr "{nb} számla, {nbMembers} aktív tag, {spentAmount} {currency} elköltve"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:375
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} spent"
-msgstr ""
+msgstr "{nb} számla, {nbMembers} aktív tag, {spentAmount} elköltve"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:376
 msgid "Member/Month"
-msgstr "Tag / hónap"
+msgstr "Tag/Hónap"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:377
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:378
@@ -2134,15 +2134,15 @@ msgstr "Minden tag"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:380
 msgid "Statistics of project {name}"
-msgstr ""
+msgstr "{name} projekt statisztikái"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:382
 msgid "Minimum date"
-msgstr ""
+msgstr "Kezdő dátum"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:383
 msgid "Maximum date"
-msgstr "Végdátum"
+msgstr "Utolsó dátum"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:385
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:388
@@ -2152,16 +2152,16 @@ msgstr "Összes"
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:386
 #: /var/www/html/dev/server22/apps/cospend/src/utils.js:50
 msgid "No payment mode"
-msgstr ""
+msgstr "Nincs fizetési mód"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:389
 #: /var/www/html/dev/server22/apps/cospend/src/utils.js:30
 msgid "No category"
-msgstr ""
+msgstr "Nincs kategória"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:390
 msgid "All except reimbursement"
-msgstr "Mindez a visszatérítés kivételével"
+msgstr "Minden a visszatérítés kivételével"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:391
 msgid "Minimum amount"
@@ -2185,7 +2185,7 @@ msgstr "Letiltott tagok megjelenítése"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:396
 msgid "Total paid by all the members: {t}"
-msgstr ""
+msgstr "Az összes tag által fizetett összeg: {t}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:397
 msgid "Global stats"
@@ -2197,23 +2197,23 @@ msgstr "Szűrt egyenleg"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:403
 msgid "Monthly paid per member"
-msgstr ""
+msgstr "Havi kifizetés tagonként"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:404
 msgid "Payments per member per month"
-msgstr "Fizetések tagonként havonta"
+msgstr "Kifizetés tagonként havonta"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:405
 msgid "Monthly spent per member"
-msgstr ""
+msgstr "Havi költés tagonként"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:406
 msgid "Spendings per member per month"
-msgstr ""
+msgstr "Költés tagonként havonta"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:407
 msgid "Monthly paid per category"
-msgstr ""
+msgstr "Havi kifizetés kategóriánként"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:408
 msgid "Payments per category per month"
@@ -2221,19 +2221,19 @@ msgstr "Kifizetések kategóriánként havonta"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:409
 msgid "Category/Month"
-msgstr "Kategória / hónap"
+msgstr "Kategória/Hónap"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:410
 msgid "Monthly paid per payment mode"
-msgstr ""
+msgstr "Havi kifizetés fizetési módonként"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:411
 msgid "Payments per payment mode per month"
-msgstr "Fizetések fizetési módonként havonta"
+msgstr "Kifizetések fizetési módonként havonta"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:412
 msgid "Payment mode/Month"
-msgstr "Fizetési mód / hónap"
+msgstr "Fizetési mód/Hónap"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:413
 msgid "Who paid for this category?"
@@ -2241,11 +2241,11 @@ msgstr "Ki fizette ezt a kategóriát?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:414
 msgid "Select a category"
-msgstr ""
+msgstr "Válassz kategóriát"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:415
 msgid "What did she/he pay for?"
-msgstr ""
+msgstr "Kinek fizetett?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:416
 msgid "Select a member"
@@ -2261,7 +2261,7 @@ msgstr "fizetett"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:419
 msgid "Total paid"
-msgstr ""
+msgstr "Kifizetés összesen"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:420
 msgid "Total owed"
@@ -2273,7 +2273,7 @@ msgstr "{name} összes tartozása"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:422
 msgid "Total paid by {name}"
-msgstr ""
+msgstr "{name} összes kifizetése"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:423
 msgid "Who paid (outside circle) and spent (inside pie)?"
@@ -2281,11 +2281,11 @@ msgstr "Ki fizetett (külső kör) és költött (belső torta)?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:424
 msgid "How much was paid per category?"
-msgstr ""
+msgstr "Mennyit fizettek kategóriánként?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:425
 msgid "How much was paid per payment mode?"
-msgstr ""
+msgstr "Mennyit fizettek fizetési módonként?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:427
 msgid "No recent activity"
@@ -2293,7 +2293,7 @@ msgstr "Nincs friss tevékenység"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:428
 msgid "Go to Cospend"
-msgstr "Menjen a Cospend oldalra"
+msgstr "Menj a Cospend oldalra"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:429
 msgid "{user} shared {project} with {who}"
@@ -2305,15 +2305,15 @@ msgstr "{user} megszüntette a(z) {project} megosztását vele: {who}"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:431
 msgid "{user} created {bill}"
-msgstr "{user} létrehozta a következőt: {bill}"
+msgstr "{user} létrehozta a {bill} számlát"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:432
 msgid "{user} deleted {bill}"
-msgstr "{user} törölte {bill}"
+msgstr "{user} törölte {bill} számlát"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:433
 msgid "{user} edited {bill}"
-msgstr "{user} szerkesztette {bill}"
+msgstr "{user} szerkesztette {bill} számlát"
 
 #: /var/www/html/dev/server22/apps/cospend/src/main.js:55
 msgid "Failed to restore options values."

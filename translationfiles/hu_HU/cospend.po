@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-09-17 16:12+0200\n"
-"PO-Revision-Date: 2021-11-27 11:14\n"
+"PO-Revision-Date: 2021-11-28 11:11\n"
 "Last-Translator: \n"
 "Language-Team: Hungarian\n"
 "Language: hu_HU\n"
@@ -2341,75 +2341,75 @@ msgstr "Nem sikerült exportálni a projektet"
 
 #: /var/www/html/dev/server22/apps/cospend/src/network.js:398
 msgid "Failed to add currency"
-msgstr ""
+msgstr "Nem sikerült a pénznem hozzáadása"
 
 #: /var/www/html/dev/server22/apps/cospend/src/network.js:417
 msgid "Failed to delete currency"
-msgstr ""
+msgstr "Nem sikerült a pénznem törlése"
 
 #: /var/www/html/dev/server22/apps/cospend/src/network.js:440
 msgid "Failed to edit currency"
-msgstr ""
+msgstr "Nem sikerült a pénznem szerkesztése"
 
 #: /var/www/html/dev/server22/apps/cospend/src/network.js:461
 msgid "Failed to get statistics."
-msgstr ""
+msgstr "Nem sikerült a statisztika betöltése."
 
 #: /var/www/html/dev/server22/apps/cospend/src/network.js:476
 msgid "Project statistics exported in {path}"
-msgstr ""
+msgstr "Projektstatisztikát a {path} útvonalra exportáltuk"
 
 #: /var/www/html/dev/server22/apps/cospend/src/network.js:480
 msgid "Failed to export project statistics"
-msgstr ""
+msgstr "Nem sikerült a projektstatisztika exportálása"
 
 #: /var/www/html/dev/server22/apps/cospend/src/network.js:528
 msgid "Failed to add project settlement bills"
-msgstr ""
+msgstr "Nem sikerült a projektelszámolás számláinak hozzáadása"
 
 #: /var/www/html/dev/server22/apps/cospend/src/network.js:548
 msgid "Failed to export project settlement"
-msgstr ""
+msgstr "Nem sikerült a projektelszámolás exportálása"
 
 #: /var/www/html/dev/server22/apps/cospend/templates/admin.php:9
 #: /var/www/html/dev/server22/apps/cospend/templates/admin.php:18
 msgid "Allow guests to create projects"
-msgstr ""
+msgstr "Vendégek számára projektlétrehozás engedélyezése"
 
 #: /var/www/html/dev/server22/apps/cospend/templates/admin.php:10
 msgid "Enabling this option will allow any visitor to create a project without having to log in."
-msgstr ""
+msgstr "Az opció engedélyezése minden vendég számára lehetővé teszi projekt létrehozását bejelentkezés nélkül."
 
 #: /var/www/html/dev/server22/apps/cospend/templates/admin.php:11
 msgid "This can be useful if you are in a local network and want to let anybody create a project."
-msgstr ""
+msgstr "Ez hasznos lehet, ha helyi hálózaton vagy és mindenki számára engedélyeznéd a projektlétrehozást."
 
 #: /var/www/html/dev/server22/apps/cospend/templates/admin.php:12
 msgid "Or maybe you are very generous and want to allow the entire world to use Cospend without having an account on your Nextcloud instance."
-msgstr ""
+msgstr "Vagy esetleg annyira nagylelkű vagy, hogy az egész világ számára meg akarod engedni a Cospend használatát Nextcloudos fiók nélkül is."
 
 #: /var/www/html/dev/server22/apps/cospend/templates/logincontent.php:2
 #: /var/www/html/dev/server22/apps/cospend/templates/sharepassword.php:10
 msgid "Authentication"
-msgstr ""
+msgstr "Azonosítás"
 
 #: /var/www/html/dev/server22/apps/cospend/templates/logincontent.php:7
 msgid "Wrong project Id or password"
-msgstr ""
+msgstr "Rossz projekt id vagy jelszó"
 
 #: /var/www/html/dev/server22/apps/cospend/templates/logincontent.php:12
 msgid "Project ID/name"
-msgstr ""
+msgstr "Projekt ID/név"
 
 #: /var/www/html/dev/server22/apps/cospend/templates/logincontent.php:21
 msgid "Project password (aka Access code)"
-msgstr ""
+msgstr "Projekt jelszó (azaz Elérési kód)"
 
 #: /var/www/html/dev/server22/apps/cospend/templates/sharepassword.php:15
 msgid "Wrong link password"
-msgstr ""
+msgstr "Rossz hivatkozásjelszó"
 
 #: /var/www/html/dev/server22/apps/cospend/templates/sharepassword.php:27
 msgid "Share link password"
-msgstr ""
+msgstr "Hivatkozásjelszó megosztása"
 

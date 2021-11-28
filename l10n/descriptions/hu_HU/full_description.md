@@ -1,29 +1,29 @@
 # Nextcloud Cospend 💰
 
-Nextcloud Cospend is a group/shared budget manager. It was inspired by the great [IHateMoney](https://github.com/spiral-project/ihatemoney/).
+A Nextcloud Cospend egy csoportos/megosztott költségkezelő. A nagy [IHateMoney](https://github.com/spiral-project/ihatemoney/) inspirálta.
 
-You can use it when you share a house, when you go on vacation with friends, whenever you share money with others.
+Használhatod, ha közös házban laksz mással, ha barátokkal vakációzol, bármikor, amikor másokkal osztasz meg pénzt.
 
-It lets you create projects with members and bills. Each member has a balance computed from the project bills. This way you can see who owes the group and who the group owes. Ultimately you can ask for a settlement plan telling you which payments to make to reset members balances.
+Létre tudsz hozni projekteket tagokkal és számlákkal. Minden tagnak van egy egyenlege, melyet a projekt számláiból számítunk ki. Így láthatod, ki tartozik a csoportnak és a csoport kinek tartozik. Végül kérhetsz elszámolási tervet, mely megmondja, milyen kifizetésekre van szükség, hogy a tagok egyenlege visszaálljon.
 
-Project members are independent from Nextcloud users. Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
+A projekttagok függetlenek a Nextcloud felhasználóitól. A projekteket Nextcloud fiókkal nem rendelkező emberek is elérhetik és módosíthatják. Minden projektnek van egy azonosítója (ID) és egy jelszava a vendégeléréshez.
 
-[MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) and on the [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
+A [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android kliens elérhető [F-Droid-on](https://f-droid.org/packages/net.eneiluj.moneybuster/) és a [Play store-ban](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
-[PayForMe](https://github.com/mayflower/PayForMe) iOS client is currently being developped!
+A [PayForMe](https://github.com/mayflower/PayForMe) iOS klienst épp most fejlesztjük!
 
-## Features
+## Funkciók
 
-* ✎ create/edit/delete projects, members, bills, bill categories, currencies
-* ⚖ check member balances
-* 🗠 display project statistics
-* ♻ display settlement plan
-* 🎇 automatically create reimbursement bills from settlement plan
-* 🗓 create recurring bills (daily/weekly/monthly/yearly)
-* 📊 optionally provide custom amount for each member in new bills
-* 🔗 link bills with personal files (picture of physical bill for example)
-* 👩 guest access for people outside Nextcloud
-* 👫 share projects with Nextcloud users/groups/circles
+* ✎ projektek létrehozása/szerkesztése/törlése, tagok, számlák, számlakategóriák, pénznemek
+* ⚖ tagok egyenlegeinek ellenőrzése
+* 🗠 projektstatisztika megjelenítése
+* ♻ elszámolási terv megjelenítése
+* 🎇 elszámolási tervből visszafizetési számlák automatikus készítése
+* 🗓 ismétlődő számlák készítése (napi/heti/havi/éves)
+* 📊 minden tagnak egyéni összeg megadható az új számlákon
+* 🔗 számlák saját fájlokhoz kapcsolása (pl. a fizikai számla fotója)
+* 👩 vendégelérés a Nextcloudon kívüli emberek számára
+* 👫 projektek megosztása Nextcloud felhasználókkal/csoportokkal/körökkel
 * 🖫 import/export projects as csv (compatible with csv files from IHateMoney)
 * 🔗 generate link/QRCode to easily import projects in MoneyBuster
 * 🗲 implement Nextcloud notifications and activity stream

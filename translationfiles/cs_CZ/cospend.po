@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-09-17 16:12+0200\n"
-"PO-Revision-Date: 2021-10-15 18:41\n"
+"PO-Revision-Date: 2021-11-29 11:11\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -2382,15 +2382,15 @@ msgstr "Umožnit hostům vytvářet projekty"
 
 #: /var/www/html/dev/server22/apps/cospend/templates/admin.php:10
 msgid "Enabling this option will allow any visitor to create a project without having to log in."
-msgstr "Povolení této volby umožní všem návštěvníkům vytvořit projekt bez nutnosti přihlášení se."
+msgstr "Povolení této volby umožní libovolnému návštěvníkovi vytvořit projekt, aniž by se kvůli tomu potřeboval přihlašovat k Nextcloud."
 
 #: /var/www/html/dev/server22/apps/cospend/templates/admin.php:11
 msgid "This can be useful if you are in a local network and want to let anybody create a project."
-msgstr "To může být užitečné, pokud jste v místní síti a chcete umožnit komukoliv vytvořit projekt."
+msgstr "Toto se může hodit, pokud je tato instance přístupná výhradně z místní sítě (tedy nikoli z Internetu) a chcete umožnit komukoliv vytvořit projekt."
 
 #: /var/www/html/dev/server22/apps/cospend/templates/admin.php:12
 msgid "Or maybe you are very generous and want to allow the entire world to use Cospend without having an account on your Nextcloud instance."
-msgstr "Nebo možná jste velmi velkorysí a chcete celému světu umožnit používat Cospend bez účtu na vaší instanci Nextcloud."
+msgstr "(Nebo jste možná velmi velkorysí a chcete celému světu umožnit používat Cospend na vaší instanci Nextcloud i bez účtu na ní ;-) )"
 
 #: /var/www/html/dev/server22/apps/cospend/templates/logincontent.php:2
 #: /var/www/html/dev/server22/apps/cospend/templates/sharepassword.php:10

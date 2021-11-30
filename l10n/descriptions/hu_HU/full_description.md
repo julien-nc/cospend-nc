@@ -24,28 +24,28 @@ A [PayForMe](https://github.com/mayflower/PayForMe) iOS klienst épp most fejles
 * 🔗 számlák saját fájlokhoz kapcsolása (pl. a fizikai számla fotója)
 * 👩 vendégelérés a Nextcloudon kívüli emberek számára
 * 👫 projektek megosztása Nextcloud felhasználókkal/csoportokkal/körökkel
-* 🖫 import/export projects as csv (compatible with csv files from IHateMoney)
-* 🔗 generate link/QRCode to easily import projects in MoneyBuster
-* 🗲 implement Nextcloud notifications and activity stream
+* 🖫 Projektek importálása/exportálása csv-ként (kompatibilis az IHateMoney csv fájljaival)
+* 🔗 hivatkozás/QR-kód előállítása projektek MoneyBusterbe történő könnyű importálásához
+* 🗲 Nextcloud értesítések és aktivitásfolyam megvalósítása
 
-This app is tested on Nextcloud 20+ with Firefox 57+ and Chromium.
+Ezt az alkalmazást Nextcloud 20+-on teszteljük Firefox 57+ és Chromium böngészőkkel.
 
-This app is under development.
+Ez az alkalmazás fejlesztés alatt áll.
 
-🌍 Help us to translate this app on [Nextcloud-Cospend/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
+🌍 Segíts nekünk a fordításban a [Nextcloud-Cospend/MoneyBuster Crowdin projektben](https://crowdin.com/project/moneybuster).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
+⚒ Nézd meg, még miben segíthetsz a [hozzájárulási szabályainkban](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING. md).
 
-## Documentation
+## Dokumentáció
 
-* [User documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
-* [Admin documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
-* [Developer documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
-* [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
-* [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
+* [Felhasználói dokumentáció](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
+* [Rendszergazdai dokumentáció](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
+* [Fejlesztői dokumentáció](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
+* [VÁLTOZÁSOK](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [SZERZŐK](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
-## Known issues
+## Ismert problémák
 
-* it does not make you rich
+* nem leszel tőle gazdag
 
-Any feedback will be appreciated.
+Bármilyen visszajelzést nagyra értékelünk.

@@ -214,15 +214,19 @@ export default {
 			let payerId = -1
 			const members = this.members[this.currentProjectId]
 			if (members && Object.keys(members).length > 0) {
-				if (cospend.pageIsPublic) {
-					payerId = Object.keys(members)[0]
-				} else {
-					payerId = Object.keys(members)[0]
+				for (const mid in members) {
+					if (members[mid].activated) {
+						payerId = mid
+						break
+					}
+				}
+				if (!cospend.pageIsPublic) {
 					let member
 					for (const mid in members) {
 						member = members[mid]
 						if (member.userid === getCurrentUser().uid) {
 							payerId = member.id
+							break
 						}
 					}
 				}

@@ -53,6 +53,7 @@
 					</label>
 					<input
 						id="what"
+						ref="what"
 						v-model="myBill.what"
 						type="text"
 						maxlength="300"
@@ -976,12 +977,17 @@ export default {
 				...this.bill,
 				owerIds: [...this.bill.owerIds],
 			}
+			this.$refs.what.focus()
 		},
 		useTime() {
 			// re-render date picker after type change
 			this.showDatePicker = false
 			this.$nextTick(() => { this.showDatePicker = true })
 		},
+	},
+
+	mounted() {
+		this.$refs.what.focus()
 	},
 
 	methods: {

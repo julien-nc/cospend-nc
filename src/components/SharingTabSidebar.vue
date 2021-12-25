@@ -31,6 +31,9 @@
 					:class="{ icon: true, [option.icon]: true, 'multiselect-icon': true }"
 					:style="'background-image: url(' + circleMultiselectIconUrl + ')'" />
 			</template>
+			<template #noOptions>
+				{{ t('cospend', 'Start typing to search') }}
+			</template>
 		</Multiselect>
 
 		<Modal v-if="shareLinkQrcodeUrl" @close="closeQrcodeModal">

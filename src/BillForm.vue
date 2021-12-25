@@ -118,46 +118,13 @@
 				</div>
 				<div class="bill-payer">
 					<label><a class="icon icon-user" />{{ t('cospend', 'Who paid?') }}</label>
-					<Multiselect
+					<MemberMultiSelect
 						id="memberMultiSelect"
 						:value="selectedMemberItem"
-						class="memberMultiSelect multiSelect"
-						label="displayName"
-						track-by="id"
 						:disabled="!editionAccess || (!isNewBill && !members[myBill.payer_id].activated)"
 						:placeholder="t('cospend', 'Choose a member')"
 						:options="formattedMembers"
-						:user-select="true"
-						:internal-search="true"
-						@input="memberSelected">
-						<template #option="{option}">
-							<ColoredAvatar
-								class="itemAvatar"
-								:color="option.color"
-								:size="34"
-								:disable-menu="true"
-								:disable-tooltip="true"
-								:show-user-status="false"
-								:is-no-user="option.userid === undefined || option.userid === '' || option.userid === null"
-								:user="option.userid"
-								:display-name="option.name" />
-							<span class="select-display-name">{{ option.displayName }}</span>
-						</template>
-						<template #singleLabel="{option}">
-							<ColoredAvatar
-								class="itemAvatar"
-								:color="option.color"
-								:size="34"
-								:disable-menu="true"
-								:disable-tooltip="true"
-								:show-user-status="false"
-								:is-no-user="option.userid === undefined || option.userid === '' || option.userid === null"
-								:user="option.userid"
-								:display-name="option.name" />
-							<div v-if="!option.activated" class="payerDisabledMask disabled" />
-							<span class="select-display-name">{{ option.displayName }}</span>
-						</template>
-					</Multiselect>
+						@input="memberSelected" />
 				</div>
 				<div class="bill-date">
 					<label><a class="icon icon-calendar-dark" />{{ t('cospend', 'When?') }}</label>
@@ -564,6 +531,7 @@ import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
 import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import ColoredAvatar from './components/ColoredAvatar'
+import MemberMultiSelect from './components/MemberMultiSelect'
 import {
 	showSuccess,
 	showError,
@@ -579,7 +547,7 @@ export default {
 	name: 'BillForm',
 
 	components: {
-		DatetimePicker, AppContentDetails, ColoredAvatar, Multiselect,
+		DatetimePicker, AppContentDetails, ColoredAvatar, Multiselect, MemberMultiSelect,
 	},
 
 	props: {
@@ -1816,21 +1784,9 @@ export default {
 	line-height: 44px;
 }
 
-.select-display-name {
-	margin-left: 5px;
-	margin-right: auto;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	white-space: nowrap;
-}
-
-.memberMultiSelect {
-	height: 44px;
-}
-
 ::v-deep #categoryMultiSelect,
 ::v-deep #paymentModeMultiSelect,
-::v-deep #memberMultiSelect {
+::v-deep #memberMultiSelect input {
 	padding: 0 0 0 5px !important;
 }
 
@@ -1842,14 +1798,5 @@ export default {
 			cursor: pointer;
 		}
 	}
-}
-
-.payerDisabledMask.disabled {
-	display: block;
-	width: 36px;
-	height: 36px;
-	background-image: url('../css/images/forbidden.svg');
-	margin: -1px 0 0 -1px;
-	position: absolute;
 }
 </style>

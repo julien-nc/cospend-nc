@@ -270,19 +270,12 @@
 			<label for="memberPerCategorySelect">
 				{{ t('cospend', 'What did she/he pay for?') }}
 			</label>
-			<select v-if="stats"
-				id="memberPerCategorySelect"
-				ref="memberPerCategorySelect"
-				v-model="selectedMemberId">
-				<option disabled value="-1">
-					{{ t('cospend', 'Select a member') }}
-				</option>
-				<option v-for="mid in stats.memberIds"
-					:key="mid"
-					:value="mid">
-					{{ myGetSmartMemberName(mid) }}
-				</option>
-			</select>
+			<MemberMultiSelect v-if="stats"
+				id="memberPerCategoryMultiSelect"
+				:value="selectedMemberItem"
+				:placeholder="t('cospend', 'Select a member')"
+				:options="formattedMembers"
+				@input="memberSelected" />
 		</div>
 		<div id="memberPerCategoryChart">
 			<PieChartJs v-if="stats && (selectedMemberId !== -1)"
@@ -372,6 +365,7 @@
 import moment from '@nextcloud/moment'
 import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
 import ColoredAvatar from '../ColoredAvatar'
+import MemberMultiSelect from '../MemberMultiSelect'
 
 import { getCategory, getPaymentMode, getSmartMemberName, strcmp } from '../../utils'
 import cospend from '../../state'
@@ -385,7 +379,7 @@ export default {
 	name: 'Statistics',
 
 	components: {
-		ColoredAvatar, PieChartJs, AppContentDetails, MemberMonthly, Monthly,
+		ColoredAvatar, MemberMultiSelect, PieChartJs, AppContentDetails, MemberMonthly, Monthly,
 	},
 
 	props: {
@@ -413,6 +407,24 @@ export default {
 		},
 		members() {
 			return cospend.members[this.projectId]
+		},
+		formattedMembers() {
+			return Object.values(this.members).map(member => {
+				return {
+					...member,
+					displayName: this.myGetSmartMemberName(member.id),
+				}
+			})
+		},
+		selectedMemberItem() {
+			if (this.selectedMemberId === -1) {
+				return null
+			}
+			const member = this.members[this.selectedMemberId]
+			return {
+				...member,
+				displayName: this.myGetSmartMemberName(member.id),
+			}
 		},
 		paymentmodes() {
 			return cospend.projects[this.projectId].paymentmodes
@@ -837,6 +849,9 @@ export default {
 	},
 
 	methods: {
+		memberSelected(selected) {
+			this.selectedMemberId = selected.id
+		},
 		myGetPaymentMode(pmId) {
 			return getPaymentMode(this.projectId, pmId)
 		},
@@ -1106,5 +1121,13 @@ export default {
 
 .loading-stats-animation {
 	height: 70px;
+}
+
+::v-deep #memberPerCategoryMultiSelect input {
+	padding: 0 0 0 5px !important;
+}
+
+#memberPerCategoryMultiSelect {
+	width: 250px;
 }
 </style>

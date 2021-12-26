@@ -1,6 +1,5 @@
 <template>
 	<Multiselect
-		id="memberMultiSelect"
 		:value="value"
 		class="memberMultiSelect multiSelect"
 		label="displayName"
@@ -22,6 +21,7 @@
 				:is-no-user="option.userid === undefined || option.userid === '' || option.userid === null"
 				:user="option.userid"
 				:display-name="option.name" />
+			<div v-if="!option.activated" class="payerDisabledMask disabled" />
 			<span class="select-display-name">{{ option.displayName }}</span>
 		</template>
 		<template #singleLabel="{option}">
@@ -68,7 +68,7 @@ export default {
 		},
 		value: {
 			type: Object,
-			required: true,
+			default: () => null,
 		},
 	},
 

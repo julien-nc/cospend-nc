@@ -439,9 +439,6 @@ export default {
 				this.createMember(projectid, name, userid)
 			}
 		},
-		onMemberEdited(projectid, memberid) {
-			this.editMember(projectid, memberid)
-		},
 		onProjectEdited(projectid, password = null) {
 			this.editProject(projectid, password)
 		},
@@ -786,7 +783,17 @@ export default {
 				})
 			}
 		},
-		editMember(projectid, memberid) {
+		deleteNewBill() {
+			const billList = this.billLists[cospend.currentProjectId]
+			const newBill = billList.find((bill) => {
+				return bill.id === 0
+			})
+			if (newBill) {
+				this.onBillDeleted(newBill)
+			}
+		},
+		onMemberEdited(projectid, memberid) {
+			this.deleteNewBill()
 			const member = this.members[projectid][memberid]
 			network.editMember(projectid, member).then((response) => {
 				this.editMemberSuccess(projectid, memberid, response.data)

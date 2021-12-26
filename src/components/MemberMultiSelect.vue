@@ -1,12 +1,12 @@
 <template>
 	<Multiselect
-		:value="value"
+		:value="selectedMemberItem"
 		class="memberMultiSelect multiSelect"
 		label="displayName"
 		track-by="id"
 		:disabled="disabled"
 		:placeholder="placeholder"
-		:options="options"
+		:options="formattedOptions"
 		:user-select="true"
 		:internal-search="true"
 		@input="onMemberSelected">
@@ -44,6 +44,7 @@
 <script>
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import ColoredAvatar from './ColoredAvatar'
+import { getSmartMemberName } from '../utils'
 
 export default {
 	name: 'MemberMultiSelect',
@@ -54,6 +55,10 @@ export default {
 	},
 
 	props: {
+		projectId: {
+			type: String,
+			required: true,
+		},
 		disabled: {
 			type: Boolean,
 			default: false,
@@ -62,7 +67,7 @@ export default {
 			type: String,
 			required: true,
 		},
-		options: {
+		members: {
 			type: Array,
 			required: true,
 		},
@@ -76,9 +81,35 @@ export default {
 		return {}
 	},
 
+	computed: {
+		formattedOptions() {
+			return this.members.map(member => {
+				return {
+					...member,
+					displayName: this.myGetSmartMemberName(member),
+				}
+			})
+		},
+		selectedMemberItem() {
+			return this.value
+				? {
+					...this.value,
+					displayName: this.myGetSmartMemberName(this.value),
+				}
+				: null
+		},
+	},
+
 	methods: {
 		onMemberSelected(selected) {
 			this.$emit('input', selected)
+		},
+		myGetSmartMemberName(member) {
+			let smartName = getSmartMemberName(this.projectId, member.id)
+			if (smartName === t('cospend', 'You')) {
+				smartName += ' (' + member.name + ')'
+			}
+			return smartName
 		},
 	},
 }

@@ -272,9 +272,10 @@
 			</label>
 			<MemberMultiSelect v-if="stats"
 				id="memberPerCategoryMultiSelect"
-				:value="selectedMemberItem"
+				:project-id="projectId"
+				:value="selectedMember"
 				:placeholder="t('cospend', 'Select a member')"
-				:options="formattedMembers"
+				:members="membersArray"
 				@input="memberSelected" />
 		</div>
 		<div id="memberPerCategoryChart">
@@ -408,23 +409,14 @@ export default {
 		members() {
 			return cospend.members[this.projectId]
 		},
-		formattedMembers() {
-			return Object.values(this.members).map(member => {
-				return {
-					...member,
-					displayName: this.myGetSmartMemberName(member.id),
-				}
-			})
+		membersArray() {
+			return Object.values(this.members)
 		},
-		selectedMemberItem() {
+		selectedMember() {
 			if (this.selectedMemberId === -1) {
 				return null
 			}
-			const member = this.members[this.selectedMemberId]
-			return {
-				...member,
-				displayName: this.myGetSmartMemberName(member.id),
-			}
+			return this.members[this.selectedMemberId]
 		},
 		paymentmodes() {
 			return cospend.projects[this.projectId].paymentmodes

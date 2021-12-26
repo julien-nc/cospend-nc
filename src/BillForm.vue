@@ -120,10 +120,11 @@
 					<label><a class="icon icon-user" />{{ t('cospend', 'Who paid?') }}</label>
 					<MemberMultiSelect
 						id="memberMultiSelect"
-						:value="selectedMemberItem"
+						:project-id="projectId"
+						:value="selectedMember"
 						:disabled="!editionAccess || (!isNewBill && !members[myBill.payer_id].activated)"
 						:placeholder="t('cospend', 'Choose a member')"
-						:options="formattedMembers"
+						:members="activatedOrPayer"
 						@input="memberSelected" />
 				</div>
 				<div class="bill-date">
@@ -602,20 +603,8 @@ export default {
 		maintenerAccess() {
 			return this.project.myaccesslevel >= constants.ACCESS.MAINTENER
 		},
-		selectedMemberItem() {
-			const member = this.members[this.myBill.payer_id]
-			return {
-				...member,
-				displayName: this.myGetSmartMemberName(member.id),
-			}
-		},
-		formattedMembers() {
-			return this.activatedOrPayer.map(member => {
-				return {
-					...member,
-					displayName: this.myGetSmartMemberName(member.id),
-				}
-			})
+		selectedMember() {
+			return this.members[this.myBill.payer_id]
 		},
 		selectedPaymentModeItem() {
 			if (this.myBill.paymentmodeid === 0) {

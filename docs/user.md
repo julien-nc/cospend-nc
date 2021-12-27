@@ -25,7 +25,7 @@ A project contains members and bills. A project is a way to manage what is spent
 
 ## <a id='s1-2' />What are balances :balance_scale: ?
 
-The balance value represents the situation of a member in a project. A positive balance indicates that the member payed more for the group than the grouped payed for him/her. By keeping an eye on the balance, one can stop taking care of exactly how much he/she owes to each project member.
+The balance value represents the situation of a member in a project. A positive balance indicates that the member payed more for the group than the grouped payed for them. By keeping an eye on the balance, one can stop taking care of exactly how much they owe to each project member.
 
 If member A has a negative balance, -10 for example, it just means A owes 10$ to the group. Any payment of 10$ to the group (or a sub part of the group) will bring the balance back to zero. It does not matter who it was payed for.
 
@@ -43,7 +43,7 @@ The only difference is the effect on other members balances:
 
 ## <a id='s1-3' />What is a member :ok_woman: ?
 
-A member has a name, a weight and can be activated or not. When a member is disabled, it cannot be part of a new bill (as a payer or an ower). A disabled member will appear in member list until his/her balance reaches 0.
+A member has a name, a weight and can be activated or not. When a member is disabled, it cannot be part of a new bill (as a payer or an ower). A disabled member will appear in member list until their balance reaches 0.
 
 A member can be one real person. This is the most common case. Just add one member for each person in the group you want to manage.
 

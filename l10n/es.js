@@ -404,7 +404,7 @@ OC.L10N.register(
     "Payment mode/Month" : "Modo de pago/mes",
     "Who paid for this category?" : "¿Quién pagó por esta categoría?",
     "Select a category" : "Seleccione una categoría",
-    "What did she/he pay for?" : "¿Qué pagó?",
+    "What did they pay for?" : "¿Qué pagó?",
     "Select a member" : "Selecciona un miembro",
     "Who paid for whom?" : "¿Quién pagó por quién?",
     "paid for" : "pagó por",

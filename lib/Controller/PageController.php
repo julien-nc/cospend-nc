@@ -1978,7 +1978,7 @@ class PageController extends ApiController {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
 		// allow edition if user is at least participant and has greater or equal access level than target
-		// user can't give higher access level than his/her level (do not downgrade one)
+		// user can't give higher access level than their level (do not downgrade one)
 		if ($userAccessLevel >= Application::ACCESS_LEVELS['participant'] && $userAccessLevel >= $accesslevel && $userAccessLevel >= $shareAccessLevel) {
 			$result = $this->projectService->editShareAccessLevel($projectid, $shid, $accesslevel);
 			if (isset($result['success'])) {
@@ -2001,7 +2001,7 @@ class PageController extends ApiController {
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 		$shareAccessLevel = $this->projectService->getShareAccessLevel($projectid, $shid);
 		// allow edition if user is at least participant and has greater or equal access level than target
-		// user can't give higher access level than his/her level (do not downgrade one)
+		// user can't give higher access level than their level (do not downgrade one)
 		if ($userAccessLevel >= Application::ACCESS_LEVELS['participant'] && $userAccessLevel >= $shareAccessLevel) {
 			$result = $this->projectService->editShareAccess($projectid, $shid, $label, $password);
 			if (isset($result['success'])) {

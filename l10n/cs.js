@@ -483,7 +483,7 @@ OC.L10N.register(
     "Payment mode/Month" : "Režim platby/měsíc",
     "Who paid for this category?" : "Kdo v této kategorii platil?",
     "Select a category" : "Vyberte kategorii",
-    "What did she/he pay for?" : "Za co platil(a)?",
+    "What did they pay for?" : "Za co platil(a)?",
     "Select a member" : "Vybrat člena",
     "Who paid for whom?" : "Kdo za koho zaplatil?",
     "paid for" : "zaplaceno za",

@@ -483,7 +483,7 @@ OC.L10N.register(
     "Payment mode/Month" : "Начин на плащане/месец",
     "Who paid for this category?" : "Кой е платил за тази категория?",
     "Select a category" : "Избиране на категория",
-    "What did she/he pay for?" : "За какво е платил/а тя/той?",
+    "What did they pay for?" : "За какво е платил/а тя/той?",
     "Select a member" : "Избиране на член",
     "Who paid for whom?" : "Кой е платил за кого?",
     "paid for" : "платено за",

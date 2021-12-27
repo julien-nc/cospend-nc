@@ -2248,7 +2248,7 @@ msgid "Select a category"
 msgstr "Vyberte kategorii"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:415
-msgid "What did she/he pay for?"
+msgid "What did they pay for?"
 msgstr "Za co platil(a)?"
 
 #: /var/www/html/dev/server22/apps/cospend/specialVueFakeDummyForL10nScript.js:416

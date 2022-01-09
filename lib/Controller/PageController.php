@@ -921,6 +921,9 @@ class PageController extends ApiController {
 				// for public link share: set the visible access level for frontend
 				if ($publicShareInfo['accesslevel'] !== null) {
 					$projectInfo['myaccesslevel'] = $publicShareInfo['accesslevel'];
+				} else {
+					// my access level is the guest one
+					$projectInfo['myaccesslevel'] = $projectInfo['guestaccesslevel'];
 				}
 				return new DataResponse($projectInfo);
 			} else {

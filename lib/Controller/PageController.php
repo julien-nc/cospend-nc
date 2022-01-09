@@ -524,6 +524,7 @@ class PageController extends ApiController {
 	public function webGetProjectInfo(string $projectid): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			$projectInfo = $this->projectService->getProjectInfo($projectid);
+			$projectInfo['myaccesslevel'] = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 			return new DataResponse($projectInfo);
 		} else {
 			return new DataResponse(
@@ -946,6 +947,7 @@ class PageController extends ApiController {
 			$projectInfo = $this->projectService->getProjectInfo($projectid);
 			if ($projectInfo !== null) {
 				unset($projectInfo['userid']);
+				$projectInfo['myaccesslevel'] = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 				return new DataResponse($projectInfo);
 			} else {
 				return new DataResponse(

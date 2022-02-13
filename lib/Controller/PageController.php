@@ -403,7 +403,7 @@ class PageController extends ApiController {
 			$req = $qb->executeQuery();
 			$dbPassword = null;
 			$row = $req->fetch();
-			if ($row !== null) {
+			if ($row !== false) {
 				$dbPassword = $row['password'];
 			}
 			$req->closeCursor();
@@ -919,7 +919,7 @@ class PageController extends ApiController {
 			if ($projectInfo !== null) {
 				unset($projectInfo['userid']);
 				// for public link share: set the visible access level for frontend
-				if ($publicShareInfo['accesslevel'] !== null) {
+				if ($publicShareInfo !== null) {
 					$projectInfo['myaccesslevel'] = $publicShareInfo['accesslevel'];
 				} else {
 					// my access level is the guest one

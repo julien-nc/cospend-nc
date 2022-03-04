@@ -10,13 +10,13 @@
 				:title="t('cospend', 'New bill')"
 				@click="onAddBillClicked">
 				<template #actions>
-					<ActionButton v-show="editionAccess && bills.length > 0"
+					<ActionButton v-show="(editionAccess && bills.length > 0) || filterMode"
 						:icon="filterMode ? 'icon-close' : 'icon-filter'"
 						:close-after-click="true"
 						@click="toggleFilterMode">
 						{{ filterToggleText }}
 					</ActionButton>
-					<ActionButton v-show="editionAccess && bills.length > 0"
+					<ActionButton v-show="(editionAccess && bills.length > 0) || selectMode"
 						:icon="selectMode ? 'icon-close' : 'icon-toggle-filelist'"
 						:close-after-click="true"
 						@click="toggleSelectMode">

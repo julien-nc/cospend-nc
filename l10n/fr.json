@@ -421,6 +421,7 @@
     "Choose a project member, then a Nextcloud user to associate with." : "Choisissez un membre du projet, puis un utilisateur Nextcloud à associer.",
     "You can cut the link with a Nextcloud user by renaming the member." : "Vous pouvez couper le lien avec un utilisateur Nextcloud en renommant le membre.",
     "Share project with a user, group or circle …" : "Partager le projet avec un utilisateur, un groupe ou un cercle …",
+    "Start typing to search" : "Commencez à taper pour rechercher",
     "Scan this QRCode with your mobile device to add project \"{name}\" in MoneyBuster or PayForMe" : "Scannez ce QRCode avec votre appareil mobile pour ajouter le projet \"{name}\" dans MoneyBuster ou PayForMe",
     "QRCode content: " : "Contenu du QRCode : ",
     "Create a new share link" : "Créer un nouveau lien de partage",

@@ -196,9 +196,9 @@
 					<div class="field-with-info">
 						<select
 							id="repeatbill"
-							v-model="myBill.repeat"
+							:value="myBill.repeat"
 							:disabled="!editionAccess"
-							@input="onBillEdited">
+							@input="onRepeatChanged">
 							<option :value="constants.FREQUENCY.NO" selected="selected">
 								{{ t('cospend', 'No') }}
 							</option>
@@ -237,24 +237,24 @@
 						<div class="field-with-info">
 							<input
 								id="repeat-freq"
-								v-model.number="myBill.repeatfreq"
+								:value="myBill.repeatfreq"
 								type="number"
 								class="input-repeat-freq"
 								min="1"
 								step="1"
 								:placeholder="t('cospend', 'Leave empty for maximum frequency')"
 								:readonly="!editionAccess"
-								@input="onBillEdited">
+								@input="onRepeatFreqChanged">
 						</div>
 					</div>
 					<div class="bill-repeat-include">
 						<input
 							id="repeatallactive"
-							v-model="myBill.repeatallactive"
+							:checked="myBill.repeatallactive"
 							class="checkbox"
 							type="checkbox"
 							:disabled="!editionAccess"
-							@input="onBillEdited">
+							@input="onRepeatAllActiveChanged">
 						<label for="repeatallactive" class="checkboxlabel">
 							{{ t('cospend', 'Include all active members on repeat') }}
 						</label>
@@ -964,6 +964,18 @@ export default {
 				this.myBill.payer_id = selected.id
 				this.onBillEdited(null, false)
 			}
+		},
+		onRepeatChanged(e) {
+			this.myBill.repeat = e.target.value
+			this.onBillEdited(null, false)
+		},
+		onRepeatFreqChanged(e) {
+			this.myBill.repeatfreq = parseInt(e.target.value)
+			this.onBillEdited(null, false)
+		},
+		onRepeatAllActiveChanged(e) {
+			this.myBill.repeatallactive = e.target.checked
+			this.onBillEdited(null, false)
 		},
 		paymentModeSelected(selected) {
 			if (!selected.isNewPm) {

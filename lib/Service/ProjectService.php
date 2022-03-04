@@ -2132,7 +2132,7 @@ class ProjectService {
 			$dbAmount = (float) $row['amount'];
 			$dbWhat = $row['what'];
 			$dbComment = $row['comment'];
-			$dbTimestamp = $row['timestamp'];
+			$dbTimestamp = (int) $row['timestamp'];
 			$dbDate = DateTime::createFromFormat('U', $dbTimestamp);
 			$dbRepeat = $row['repeat'];
 			$dbPayerId = (int) $row['payerid'];
@@ -2307,7 +2307,7 @@ class ProjectService {
 				$dbAmount = (float) $row['amount'];
 				$dbWhat = $row['what'];
 				$dbComment = $row['comment'];
-				$dbTimestamp = $row['timestamp'];
+				$dbTimestamp = (int) $row['timestamp'];
 				$dbDate = DateTime::createFromFormat('U', $dbTimestamp);
 				$dbRepeat = $row['repeat'];
 				$dbPayerId = (int) $row['payerid'];

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-03-04 12:03+0100\n"
-"PO-Revision-Date: 2022-03-04 11:06\n"
+"PO-Revision-Date: 2022-03-04 11:08\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -1997,7 +1997,7 @@ msgstr "Partager le projet avec un utilisateur, un groupe ou un cercle …"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:325
 msgid "Start typing to search"
-msgstr ""
+msgstr "Commencez à taper pour rechercher"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:326
 msgid "Scan this QRCode with your mobile device to add project \"{name}\" in MoneyBuster or PayForMe"

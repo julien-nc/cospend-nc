@@ -960,8 +960,10 @@ export default {
 			}
 		},
 		memberSelected(selected) {
-			this.myBill.payer_id = selected.id
-			this.onBillEdited(null, false)
+			if (selected) {
+				this.myBill.payer_id = selected.id
+				this.onBillEdited(null, false)
+			}
 		},
 		paymentModeSelected(selected) {
 			if (!selected.isNewPm) {

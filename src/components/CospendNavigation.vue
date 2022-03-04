@@ -1,6 +1,6 @@
 <template>
 	<AppNavigation>
-		<template slot="list">
+		<template #list>
 			<AppNavigationNewItem v-if="!pageIsPublic && !loading"
 				class="addProjectItem"
 				icon="icon-add"
@@ -31,7 +31,7 @@
 				@member-edited="onMemberEdited"
 				@member-click="$emit('member-click', id, $event)" />
 		</template>
-		<template slot="footer">
+		<template #footer>
 			<div id="app-settings">
 				<div id="app-settings-header">
 					<button class="settings-button" @click="showSettings">

@@ -3,7 +3,7 @@
 		title="Are you sure?"
 		:undo="true"
 		@undo="cancelDeletion">
-		<template slot="counter">
+		<template #counter>
 			<vac :end-time="new Date().getTime() + (7000)">
 				<template #process="{ timeObj }">
 					<span>{{ `${timeObj.s}` }}</span>
@@ -22,7 +22,7 @@
 		:open="selected"
 		:force-menu="false"
 		@click="onProjectClick">
-		<template slot="counter">
+		<template #counter>
 			<Actions>
 				<ActionButton v-if="!pageIsPublic"
 					icon="icon-shared"
@@ -36,7 +36,7 @@
 					@click="onDetailClick" />
 			</Actions>
 		</template>
-		<template slot="actions">
+		<template #actions>
 			<ActionButton v-if="maintenerAccess"
 				icon="icon-user"
 				@click="onAddMemberClick">

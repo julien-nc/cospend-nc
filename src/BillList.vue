@@ -9,7 +9,7 @@
 				icon="icon-add"
 				:title="t('cospend', 'New bill')"
 				@click="onAddBillClicked">
-				<template slot="actions">
+				<template #actions>
 					<ActionButton v-show="editionAccess && bills.length > 0"
 						:icon="filterMode ? 'icon-close' : 'icon-filter'"
 						:close-after-click="true"

@@ -245,19 +245,12 @@
 			<label for="categoryMemberSelect">
 				{{ t('cospend', 'Who paid for this category?') }}
 			</label>
-			<select v-if="stats"
+			<CategoryMultiSelect v-if="stats"
 				id="categoryMemberSelect"
-				ref="categoryMemberSelect"
-				v-model="selectedCategoryId">
-				<option disabled value="-1">
-					{{ t('cospend', 'Select a category') }}
-				</option>
-				<option v-for="catid in sortedCategoryStatsIds"
-					:key="catid"
-					:value="catid">
-					{{ getCategoryNameIcon(catid) }}
-				</option>
-			</select>
+				:value="selectedCategory"
+				:categories="sortedCategoryStats"
+				:placeholder="t('cospend', 'Select a category')"
+				@input="categorySelected" />
 		</div>
 		<div id="categoryMemberChart">
 			<PieChartJs v-if="stats && (selectedCategoryId !== -1)"
@@ -367,6 +360,7 @@ import moment from '@nextcloud/moment'
 import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
 import ColoredAvatar from '../ColoredAvatar'
 import MemberMultiSelect from '../MemberMultiSelect'
+import CategoryMultiSelect from '../CategoryMultiSelect'
 
 import { getCategory, getPaymentMode, getSmartMemberName, strcmp } from '../../utils'
 import cospend from '../../state'
@@ -380,7 +374,7 @@ export default {
 	name: 'Statistics',
 
 	components: {
-		ColoredAvatar, MemberMultiSelect, PieChartJs, AppContentDetails, MemberMonthly, Monthly,
+		ColoredAvatar, MemberMultiSelect, PieChartJs, AppContentDetails, MemberMonthly, Monthly, CategoryMultiSelect,
 	},
 
 	props: {
@@ -417,6 +411,12 @@ export default {
 				return null
 			}
 			return this.members[this.selectedMemberId]
+		},
+		selectedCategory() {
+			if (this.selectedCategoryId === -1) {
+				return null
+			}
+			return cospend.projects[this.projectId].categories[this.selectedCategoryId]
 		},
 		paymentmodes() {
 			return cospend.projects[this.projectId].paymentmodes
@@ -704,6 +704,11 @@ export default {
 			sortedCategoryIds.push(...diff)
 			return sortedCategoryIds
 		},
+		sortedCategoryStats() {
+			return this.sortedCategories.filter((cat) => {
+				return this.sortedCategoryStatsIds.includes(cat.id)
+			})
+		},
 		categoryPieData() {
 			const categoryData = {
 				datasets: [{
@@ -842,7 +847,14 @@ export default {
 
 	methods: {
 		memberSelected(selected) {
-			this.selectedMemberId = selected.id
+			if (selected?.id) {
+				this.selectedMemberId = selected.id
+			}
+		},
+		categorySelected(selected) {
+			if (selected?.id) {
+				this.selectedCategoryId = selected.id
+			}
 		},
 		myGetPaymentMode(pmId) {
 			return getPaymentMode(this.projectId, pmId)

@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 1.4.4 – 2022-03-04
+### Added
+- new MemberMultiSelect component (used in stats and bill form)
+- new CategoryMultiSelect component (only used in stats for the moment)
+
+### Changed
+- update JS deps
+- improve CI tests: multiple DB systems, php versions, server branches
+
+### Fixed
+- avoid disabled members as default payers when creating a bill
+- remove pending new bill if a member is edited
+- provide access level on getProjectInfo web and private API endpoints
+- provide guest access level as 'myaccesslevel' in public API
+- typos leading to warning logs
+  [#121](https://github.com/eneiluj/cospend-nc/issues/121) @daniel1v
+
 ## 1.4.3 – 2021-11-12
 ### Changed
 - shorten category and paymentMode tables names to avoid crash on fresh install

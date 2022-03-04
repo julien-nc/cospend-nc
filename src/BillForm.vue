@@ -1352,7 +1352,7 @@ export default {
 				showError(t('cospend', 'Bill values are not valid'))
 			}
 		},
-		createBill(mode = null, what = null, amount = null, payer_id = null, timestamp = null, owerIds = null, repeat = null,
+		createBill(mode = null, what = null, amount = null, payerId = null, timestamp = null, owerIds = null, repeat = null,
 			paymentmodeid = null, categoryid = null, repeatallactive = null,
 			repeatuntil = null, repeatfreq = null, comment = null) {
 			if (mode === null) {
@@ -1362,7 +1362,7 @@ export default {
 				what,
 				comment,
 				timestamp,
-				payer_id,
+				payer_id: payerId,
 				owerIds,
 				amount,
 				repeat,
@@ -1376,7 +1376,7 @@ export default {
 				what,
 				comment,
 				timestamp,
-				payer: payer_id,
+				payer: payerId,
 				payed_for: owerIds.join(','),
 				amount,
 				repeat,

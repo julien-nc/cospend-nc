@@ -116,20 +116,20 @@
 					<button class="icon icon-info" @click="onInfoAssociateClicked" />
 				</h3>
 				<div id="affectDiv">
-					<select v-model="selectedMember">
-						<option v-for="member in activeMembers"
-							:key="member.id"
-							:value="member.id">
-							{{ member.name }}
-						</option>
-					</select>
+					<MemberMultiSelect
+						id="memberMultiSelect"
+						:project-id="project.id"
+						:value="selectedMember"
+						:placeholder="t('cospend', 'Choose a member')"
+						:members="activeMembers"
+						@input="affectMemberSelected" />
 					<Multiselect
 						v-if="maintenerAccess"
 						v-model="selectedAffectUser"
 						class="affectUserInput"
 						label="displayName"
 						track-by="multiselectKey"
-						:disabled="!selectedMember"
+						:disabled="!selectedMemberId"
 						:placeholder="t('cospend', 'Choose a Nextcloud user')"
 						:options="formatedUsersAffect"
 						:user-select="true"
@@ -165,11 +165,12 @@ import cospend from '../state'
 import * as constants from '../constants'
 import { getSortedMembers } from '../utils'
 import AppNavigationMemberItem from './AppNavigationMemberItem'
+import MemberMultiSelect from './MemberMultiSelect'
 
 export default {
 	name: 'SettingsTabSidebar',
 	components: {
-		Multiselect, AppNavigationItem, AppNavigationMemberItem, Avatar,
+		Multiselect, AppNavigationItem, AppNavigationMemberItem, Avatar, MemberMultiSelect,
 	},
 	props: {
 		project: {
@@ -183,7 +184,7 @@ export default {
 			selectedAddUser: null,
 			selectedAffectUser: null,
 			users: [],
-			selectedMember: null,
+			selectedMemberId: null,
 			newProjectName: '',
 			query: '',
 			currentUser: getCurrentUser(),
@@ -233,6 +234,9 @@ export default {
 			return this.pageIsPublic
 				? t('cospend', 'New member name')
 				: t('cospend', 'New member (or Nextcloud user) name')
+		},
+		selectedMember() {
+			return this.members[this.selectedMemberId]
 		},
 		formatedUsersAffect() {
 			// avoid simple member here
@@ -318,7 +322,6 @@ export default {
 		unallocatedUsers() {
 			// prepend simple user
 			const result = []
-			console.debug('unallocatedUsers query ' + this.query)
 			if (this.query) {
 				result.push({
 					id: '',
@@ -351,6 +354,9 @@ export default {
 		onAutoExportSet(e) {
 			cospend.projects[this.projectId].autoexport = e.target.value
 			this.$emit('project-edited', this.projectId)
+		},
+		affectMemberSelected(selectedMember) {
+			this.selectedMemberId = selectedMember.id
 		},
 		asyncFind(query) {
 			this.query = query
@@ -396,10 +402,10 @@ export default {
 			this.selectedAddUser = null
 		},
 		clickAffectUserItem() {
-			const member = this.members[this.selectedMember]
+			const member = this.members[this.selectedMemberId]
 			this.$set(member, 'userid', this.selectedAffectUser.user)
 			this.$set(member, 'name', this.selectedAffectUser.name)
-			this.$emit('member-edited', this.projectId, this.selectedMember)
+			this.$emit('member-edited', this.projectId, this.selectedMemberId)
 			this.selectedAffectUser = null
 		},
 		onMemberEdited(memberid) {
@@ -438,7 +444,6 @@ export default {
 			)
 		},
 		focusOnAddMember() {
-			console.debug(this.$refs.addUserInput)
 			this.$refs.addUserInput.$el?.focus()
 		},
 	},

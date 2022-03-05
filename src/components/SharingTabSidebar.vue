@@ -36,7 +36,9 @@
 			</template>
 		</Multiselect>
 
-		<Modal v-if="shareLinkQrcodeUrl" @close="closeQrcodeModal">
+		<Modal v-if="shareLinkQrcodeUrl"
+			size="small"
+			@close="closeQrcodeModal">
 			<div class="qrcode-modal-content">
 				<div class="qrcode-wrapper">
 					<QRCode render="svg"

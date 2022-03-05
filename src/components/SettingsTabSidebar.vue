@@ -92,10 +92,11 @@
 					<span :class="option.icon + ' select-icon'" />
 				</template>
 				<template #noOptions>
-					{{ t('cospend', 'No recommendations. Start typing.') }}
+					{{ t('cospend', 'Enter a member name') }}
 				</template>
+				<!-- this slot is not forwarded yet -->
 				<template #noResult>
-					{{ t('cospend', 'No result.') }}
+					{{ t('cospend', 'No result') }}
 				</template>
 			</Multiselect>
 			<AppNavigationMemberItem
@@ -118,6 +119,7 @@
 				<div id="affectDiv">
 					<MemberMultiSelect
 						id="memberMultiSelect"
+						class="affectMemberInput"
 						:project-id="project.id"
 						:value="selectedMember"
 						:placeholder="t('cospend', 'Choose a member')"
@@ -143,6 +145,9 @@
 								:user="option.user" />
 							<span class="select-display-name">{{ option.displayName }}</span>
 							<span :class="option.icon + ' select-icon'" />
+						</template>
+						<template #noOptions>
+							{{ t('cospend', 'Type to search users') }}
 						</template>
 					</Multiselect>
 				</div>
@@ -502,11 +507,7 @@ export default {
 	display: flex;
 }
 
-#affectDiv select {
-	margin-top: 0px;
-}
-
-#affectDiv select,
+.affectMemberInput,
 .affectUserInput {
 	width: 49%;
 }

@@ -229,78 +229,85 @@
 			</li>
 		</ul>
 		<hr><br>
-		<ul
-			id="guestList"
-			class="shareWithList">
-			<li>
-				<div class="avatardiv icon icon-password fixed-icon"
-					:style="'background-image: url(' + passwordIconUrl + ')'" />
-				<span class="username">
-					<span>{{ t('cospend', 'Password protected access') + ' ' + t('cospend', '(deprecated)') }}</span>
-				</span>
+		<div class="passwordAccessSwitch"
+			@click="toggleShowPasswordAccess">
+			<span :class="{ icon: true, 'icon-triangle-e': !showPasswordAccess, 'icon-triangle-s': showPasswordAccess }" />
+			{{ t('cospend', 'Show deprecated password protected access') }}
+		</div>
+		<div v-if="showPasswordAccess">
+			<ul
+				id="guestList"
+				class="shareWithList">
+				<li>
+					<div class="avatardiv icon icon-password fixed-icon"
+						:style="'background-image: url(' + passwordIconUrl + ')'" />
+					<span class="username">
+						<span>{{ t('cospend', 'Password protected access') }}</span>
+					</span>
 
-				<Actions>
-					<ActionButton
-						icon="icon-info"
-						@click="oldLinkInfoClick">
-						{{ t('cospend', 'More information') }}
-					</ActionButton>
-				</Actions>
+					<Actions>
+						<ActionButton
+							icon="icon-info"
+							@click="oldLinkInfoClick">
+							{{ t('cospend', 'More information') }}
+						</ActionButton>
+					</Actions>
 
-				<Actions>
-					<ActionLink
-						:href="guestLink"
-						target="_blank"
-						:icon="guestLinkCopied ? 'icon-checkmark-color' : 'icon-clippy'"
-						@click.stop.prevent="copyPasswordLink">
-						{{ guestLinkCopied ? t('cospend', 'Link copied') : t('cospend', 'Copy to clipboard') }}
-					</ActionLink>
-				</Actions>
+					<Actions>
+						<ActionLink
+							:href="guestLink"
+							target="_blank"
+							:icon="guestLinkCopied ? 'icon-checkmark-color' : 'icon-clippy'"
+							@click.stop.prevent="copyPasswordLink">
+							{{ guestLinkCopied ? t('cospend', 'Link copied') : t('cospend', 'Copy to clipboard') }}
+						</ActionLink>
+					</Actions>
 
-				<Actions
-					:force-menu="true"
-					placement="bottom">
-					<ActionRadio name="guestAccessLevel"
-						:disabled="myAccessLevel < constants.ACCESS.ADMIN"
-						:checked="project.guestaccesslevel === constants.ACCESS.VIEWER"
-						@change="clickGuestAccessLevel(constants.ACCESS.VIEWER)">
-						{{ t('cospend', 'Viewer') }}
-					</ActionRadio>
-					<ActionRadio name="guestAccessLevel"
-						:disabled="myAccessLevel < constants.ACCESS.ADMIN"
-						:checked="project.guestaccesslevel === constants.ACCESS.PARTICIPANT"
-						@change="clickGuestAccessLevel(constants.ACCESS.PARTICIPANT)">
-						{{ t('cospend', 'Participant') }}
-					</ActionRadio>
-					<ActionRadio name="guestAccessLevel"
-						:disabled="myAccessLevel < constants.ACCESS.ADMIN"
-						:checked="project.guestaccesslevel === constants.ACCESS.MAINTENER"
-						@change="clickGuestAccessLevel(constants.ACCESS.MAINTENER)">
-						{{ t('cospend', 'Maintainer') }}
-					</ActionRadio>
-					<ActionRadio name="guestAccessLevel"
-						:disabled="myAccessLevel < constants.ACCESS.ADMIN"
-						:checked="project.guestaccesslevel === constants.ACCESS.ADMIN"
-						@change="clickGuestAccessLevel(constants.ACCESS.ADMIN)">
-						{{ t('cospend', 'Admin') }}
-					</ActionRadio>
-				</Actions>
-			</li>
-		</ul>
-		<div class="enterPassword">
-			<form v-if="myAccessLevel === constants.ACCESS.ADMIN"
-				id="newPasswordForm"
-				@submit.prevent.stop="setPassword">
-				<input id="newPasswordInput"
-					ref="newPasswordInput"
-					v-model="newGuestPassword"
-					type="password"
-					autocomplete="off"
-					:placeholder="t('cospend', 'New project password')"
-					:readonly="newPasswordReadonly"
-					@focus="newPasswordReadonly = false; $event.target.select()">
-				<input type="submit" value="" class="icon-confirm">
-			</form>
+					<Actions
+						:force-menu="true"
+						placement="bottom">
+						<ActionRadio name="guestAccessLevel"
+							:disabled="myAccessLevel < constants.ACCESS.ADMIN"
+							:checked="project.guestaccesslevel === constants.ACCESS.VIEWER"
+							@change="clickGuestAccessLevel(constants.ACCESS.VIEWER)">
+							{{ t('cospend', 'Viewer') }}
+						</ActionRadio>
+						<ActionRadio name="guestAccessLevel"
+							:disabled="myAccessLevel < constants.ACCESS.ADMIN"
+							:checked="project.guestaccesslevel === constants.ACCESS.PARTICIPANT"
+							@change="clickGuestAccessLevel(constants.ACCESS.PARTICIPANT)">
+							{{ t('cospend', 'Participant') }}
+						</ActionRadio>
+						<ActionRadio name="guestAccessLevel"
+							:disabled="myAccessLevel < constants.ACCESS.ADMIN"
+							:checked="project.guestaccesslevel === constants.ACCESS.MAINTENER"
+							@change="clickGuestAccessLevel(constants.ACCESS.MAINTENER)">
+							{{ t('cospend', 'Maintainer') }}
+						</ActionRadio>
+						<ActionRadio name="guestAccessLevel"
+							:disabled="myAccessLevel < constants.ACCESS.ADMIN"
+							:checked="project.guestaccesslevel === constants.ACCESS.ADMIN"
+							@change="clickGuestAccessLevel(constants.ACCESS.ADMIN)">
+							{{ t('cospend', 'Admin') }}
+						</ActionRadio>
+					</Actions>
+				</li>
+			</ul>
+			<div class="enterPassword">
+				<form v-if="myAccessLevel === constants.ACCESS.ADMIN"
+					id="newPasswordForm"
+					@submit.prevent.stop="setPassword">
+					<input id="newPasswordInput"
+						ref="newPasswordInput"
+						v-model="newGuestPassword"
+						type="password"
+						autocomplete="off"
+						:placeholder="t('cospend', 'Set project password')"
+						:readonly="newPasswordReadonly"
+						@focus="newPasswordReadonly = false; $event.target.select()">
+					<input type="submit" value="" class="icon-confirm">
+				</form>
+			</div>
 		</div>
 	</div>
 </template>
@@ -373,6 +380,7 @@ export default {
 			shareLinkQrcodeUrl: null,
 			qrcodeColor: cospend.themeColorDark,
 			qrcodeImageUrl: generateUrl('/svg/cospend/cospend_square_bg?color=' + hexToDarkerHex(getComplementaryColor(cospend.themeColorDark)).replace('#', '')),
+			showPasswordAccess: false,
 		}
 	},
 
@@ -453,6 +461,9 @@ export default {
 	},
 
 	methods: {
+		toggleShowPasswordAccess() {
+			this.showPasswordAccess = !this.showPasswordAccess
+		},
 		canSetAccessLevel(level, access) {
 			// i must be able to edit, have at least perms of the access, have at least same perms as what i want to set
 			// and i can't edit myself
@@ -770,5 +781,13 @@ export default {
 
 .avatardiv.icon-public-white {
 	background-color: var(--color-primary);
+}
+
+.passwordAccessSwitch {
+	cursor: pointer;
+	display: flex;
+	span {
+		margin-right: 8px;
+	}
 }
 </style>

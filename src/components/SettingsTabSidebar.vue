@@ -361,7 +361,9 @@ export default {
 			this.$emit('project-edited', this.projectId)
 		},
 		affectMemberSelected(selectedMember) {
-			this.selectedMemberId = selectedMember.id
+			if (selectedMember !== null) {
+				this.selectedMemberId = selectedMember.id
+			}
 		},
 		asyncFind(query) {
 			this.query = query

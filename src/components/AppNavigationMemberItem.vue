@@ -340,17 +340,21 @@ export default {
 			}
 		},
 		deleteAccess() {
+			const accessId = this.access.id
 			network.deleteAccess(this.projectId, this.access).then((response) => {
-				this.deleteAccessSuccess(this.access)
+				this.deleteAccessSuccess(accessId)
 			}).catch((error) => {
+				console.error(error)
 				showError(
 					t('cospend', 'Failed to delete shared access')
 					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
 				)
 			})
 		},
-		deleteAccessSuccess() {
-			const index = this.project.shares.indexOf(this.access)
+		deleteAccessSuccess(accessId) {
+			const index = this.project.shares.findIndex(sh => {
+				return sh.id === accessId
+			})
 			this.project.shares.splice(index, 1)
 		},
 	},

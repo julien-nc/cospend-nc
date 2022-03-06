@@ -2921,7 +2921,7 @@ class ProjectService {
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()){
 			$dbuserId = $row['userid'];
-			$dbId = $row['id'];
+			$dbId = (int) $row['id'];
 			$dbAccessLevel = (int) $row['accesslevel'];
 			$dbManuallyAdded = (int) $row['manually_added'];
 			if (array_key_exists($dbuserId, $userIdToName)) {
@@ -2983,7 +2983,7 @@ class ProjectService {
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()){
 			$dbToken = $row['userid'];
-			$dbId = $row['id'];
+			$dbId = (int) $row['id'];
 			$dbAccessLevel = (int) $row['accesslevel'];
 			$dbLabel = $row['label'];
 			$dbPassword = $row['password'];
@@ -3063,7 +3063,7 @@ class ProjectService {
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()){
 			$dbGroupId = $row['userid'];
-			$dbId = $row['id'];
+			$dbId = (int) $row['id'];
 			$dbAccessLevel = (int) $row['accesslevel'];
 			if (array_key_exists($dbGroupId, $groupIdToName)) {
 				$name = $groupIdToName[$dbGroupId];
@@ -3119,7 +3119,7 @@ class ProjectService {
 			$req = $qb->executeQuery();
 			while ($row = $req->fetch()) {
 				$dbCircleId = $row['userid'];
-				$dbId = $row['id'];
+				$dbId = (int) $row['id'];
 				$dbAccessLevel = (int) $row['accesslevel'];
 				try {
 					$circle = $circlesManager->getCircle($dbCircleId);

@@ -27,76 +27,114 @@
 			<transition name="fade">
 				<div v-if="filterMode"
 					class="filterOptions">
-					<span class="icon icon-filter" />
-					<CategoryMultiSelect
-						:value="selectedCategoryFilter"
-						:categories="sortedFilterCategories"
-						:placeholder="t('cospend', 'Select a category')"
-						@input="onFilterCategoryChange" />
-					<PaymentModeMultiSelect
-						:value="selectedPaymentModeFilter"
-						:payment-modes="sortedFilterPms"
-						:placeholder="t('cospend', 'Select a payment mode')"
-						@input="onFilterPaymentModeChange" />
+					<div class="header">
+						<span class="icon icon-filter" />
+						<span>{{ t('cospend', 'Filters') }}</span>
+						<Actions>
+							<ActionButton
+								icon="icon-close"
+								class="rightCloseButton"
+								@click="filterMode = false">
+								{{ t('cospend', 'Close filters') }}
+							</ActionButton>
+						</Actions>
+					</div>
+					<div class="multiselect-container">
+						<CategoryMultiSelect
+							:value="selectedCategoryFilter"
+							:categories="sortedFilterCategories"
+							:placeholder="t('cospend', 'Select a category')"
+							@input="onFilterCategoryChange" />
+						<PaymentModeMultiSelect
+							:value="selectedPaymentModeFilter"
+							:payment-modes="sortedFilterPms"
+							:placeholder="t('cospend', 'Select a payment mode')"
+							@input="onFilterPaymentModeChange" />
+					</div>
 				</div>
 			</transition>
 			<transition name="fade">
 				<div v-if="selectMode"
 					class="selectionOptions">
-					<span v-show="selectedBillIds.length > 0"
-						class="icon icon-toggle-filelist" />
-					<select v-show="selectedBillIds.length > 0"
-						v-model="selectedCategory"
-						class="category-select"
-						@input="onCategoryChange">
-						<option value="placeholder">
-							{{ t('cospend', 'Assign category') }}
-						</option>
-						<option value="0">
-							{{ t('cospend', 'None') }}
-						</option>
-						<option
-							v-for="category in sortedCategories"
-							:key="category.id"
-							:value="category.id">
-							{{ category.icon + ' ' + category.name }}
-						</option>
-						<option
-							v-for="(category, catid) in hardCodedCategories"
-							:key="catid"
-							:value="catid">
-							{{ category.icon + ' ' + category.name }}
-						</option>
-					</select>
-					<select v-show="selectedBillIds.length > 0"
-						v-model="selectedPaymentMode"
-						class="paymentmode-select"
-						:disabled="!editionAccess"
-						@input="onPaymentModeChange">
-						<option value="placeholder">
-							{{ t('cospend', 'Assign payment mode') }}
-						</option>
-						<option value="0">
-							{{ t('cospend', 'None') }}
-						</option>
-						<option
-							v-for="pm in sortedPaymentModes"
-							:key="pm.id"
-							:value="pm.id">
-							{{ pm.icon + ' ' + pm.name }}
-						</option>
-					</select>
-					<Actions v-show="selectedBillIds.length > 0 && deletionEnabled">
-						<ActionButton
-							icon="icon-delete"
-							class="multiDelete"
-							@click="deleteSelection">
-							{{ t('cospend', 'Delete selected bills') }}
-						</ActionButton>
-					</Actions>
+					<div v-show="selectedBillIds.length > 0">
+						<div class="header">
+							<span class="icon icon-toggle-filelist" />
+							<span>{{ t('cospend', 'Multi select actions') }}</span>
+							<Actions>
+								<ActionButton
+									icon="icon-close"
+									class="rightCloseButton"
+									@click="selectMode = false">
+									{{ t('cospend', 'Leave multiple select mode') }}
+								</ActionButton>
+							</Actions>
+						</div>
+						<div class="multiselect-container">
+							<select
+								v-model="selectedCategory"
+								class="category-select"
+								@input="onCategoryChange">
+								<option value="placeholder">
+									{{ t('cospend', 'Assign category') }}
+								</option>
+								<option value="0">
+									{{ t('cospend', 'None') }}
+								</option>
+								<option
+									v-for="category in sortedCategories"
+									:key="category.id"
+									:value="category.id">
+									{{ category.icon + ' ' + category.name }}
+								</option>
+								<option
+									v-for="(category, catid) in hardCodedCategories"
+									:key="catid"
+									:value="catid">
+									{{ category.icon + ' ' + category.name }}
+								</option>
+							</select>
+							<select
+								v-model="selectedPaymentMode"
+								class="paymentmode-select"
+								:disabled="!editionAccess"
+								@input="onPaymentModeChange">
+								<option value="placeholder">
+									{{ t('cospend', 'Assign payment mode') }}
+								</option>
+								<option value="0">
+									{{ t('cospend', 'None') }}
+								</option>
+								<option
+									v-for="pm in sortedPaymentModes"
+									:key="pm.id"
+									:value="pm.id">
+									{{ pm.icon + ' ' + pm.name }}
+								</option>
+							</select>
+							<Actions v-show="deletionEnabled">
+								<ActionButton
+									icon="icon-delete"
+									class="multiDelete"
+									@click="deleteSelection">
+									{{ t('cospend', 'Delete selected bills') }}
+								</ActionButton>
+							</Actions>
+						</div>
+					</div>
 					<p v-if="selectedBillIds.length === 0"
 						class="multiSelectHint">
-						{{ t('cospend', 'Multi select mode: Select bills to make grouped actions') }}
+						<span>
+							{{ t('cospend', 'Multi select mode: Select bills to make grouped actions') }}
+						</span>
+						<br>
+						<Actions>
+							<ActionButton
+								icon="icon-close"
+								class="rightCloseButton"
+								@click="selectMode = false">
+								{{ t('cospend', 'Leave multiple select mode') }}
+							</ActionButton>
+						</Actions>
 					</p>
 				</div>
 			</transition>
@@ -509,17 +547,42 @@ export default {
 		.multiDelete {
 			margin-left: auto;
 		}
+		> div {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+		}
 	}
 
 	.selectionOptions,
 	.filterOptions {
+		width: 100%;
 		display: flex;
-		flex-wrap: wrap;
+		flex-direction: column;
+		//flex-wrap: wrap;
 		align-items: center;
 		border-top: 1px solid var(--color-border);
-		> span.icon {
+		padding: 0 0 10px 0;
+		.header {
+			display: flex;
+			align-items: center;
+			width: 100%;
+		}
+		span.icon {
 			width: 44px;
 			height: 44px;
+		}
+		.rightCloseButton {
+			margin-left: auto;
+		}
+		.multiselect-container {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			padding: 0 10px 0 10px;
+			.multiselect {
+				width: 100%;
+			}
 		}
 	}
 }
@@ -545,11 +608,11 @@ export default {
 }
 
 .multiSelectHint {
-	text-align: center;
+	display: flex;
+	//text-align: center;
 	width: 100%;
-	font-weight: bold;
 	min-height: 44px;
-	padding: 10px 0 10px 0;
+	padding: 10px 0 0 10px;
 }
 
 ::v-deep .icon-cospend-raw {

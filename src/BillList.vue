@@ -3,14 +3,13 @@
 		ref="list">
 		<div class="list-header">
 			<AppNavigationItem
-				v-if="editionAccess && oneActiveMember"
 				v-show="!loading"
 				class="addBillItem"
-				icon="icon-add"
-				:title="t('cospend', 'New bill')"
+				:icon="(editionAccess && oneActiveMember) ? 'icon-add' : ''"
+				:title="(editionAccess && oneActiveMember) ? t('cospend', 'New bill') : ''"
 				@click="onAddBillClicked">
 				<template #actions>
-					<ActionButton v-show="(editionAccess && bills.length > 0) || filterMode"
+					<ActionButton v-show="bills.length > 0 || filterMode"
 						:icon="filterMode ? 'icon-close' : 'icon-filter'"
 						:close-after-click="true"
 						@click="toggleFilterMode">
@@ -70,47 +69,17 @@
 							</Actions>
 						</div>
 						<div class="multiselect-container">
-							<select
-								v-model="selectedCategory"
-								class="category-select"
-								@input="onCategoryChange">
-								<option value="placeholder">
-									{{ t('cospend', 'Assign category') }}
-								</option>
-								<option value="0">
-									{{ t('cospend', 'None') }}
-								</option>
-								<option
-									v-for="category in sortedCategories"
-									:key="category.id"
-									:value="category.id">
-									{{ category.icon + ' ' + category.name }}
-								</option>
-								<option
-									v-for="(category, catid) in hardCodedCategories"
-									:key="catid"
-									:value="catid">
-									{{ category.icon + ' ' + category.name }}
-								</option>
-							</select>
-							<select
-								v-model="selectedPaymentMode"
-								class="paymentmode-select"
+							<CategoryMultiSelect
+								:value="selectedCategoryMultiAction"
+								:categories="sortedMultiActionCategories"
+								:placeholder="t('cospend', 'Assign a category')"
+								@input="onMultiActionCategoryChange" />
+							<PaymentModeMultiSelect
+								:value="selectedPaymentModeMultiAction"
+								:payment-modes="sortedMultiActionPms"
+								:placeholder="t('cospend', 'Assign a payment mode')"
 								:disabled="!editionAccess"
-								@input="onPaymentModeChange">
-								<option value="placeholder">
-									{{ t('cospend', 'Assign payment mode') }}
-								</option>
-								<option value="0">
-									{{ t('cospend', 'None') }}
-								</option>
-								<option
-									v-for="pm in sortedPaymentModes"
-									:key="pm.id"
-									:value="pm.id">
-									{{ pm.icon + ' ' + pm.name }}
-								</option>
-							</select>
+								@input="onMultiActionPaymentModeChange" />
 							<Actions v-show="deletionEnabled">
 								<ActionButton
 									icon="icon-delete"
@@ -244,8 +213,8 @@ export default {
 		return {
 			cospend,
 			selectMode: false,
-			selectedCategory: 'placeholder',
-			selectedPaymentMode: 'placeholder',
+			selectedCategoryMultiAction: null,
+			selectedPaymentModeMultiAction: null,
 			selectedBillIds: [],
 			filterMode: false,
 		}
@@ -320,6 +289,16 @@ export default {
 				return pm.id === this.selectedPaymentModeIdFilter
 			})
 		},
+		sortedMultiActionPms() {
+			return [
+				{
+					id: 0,
+					icon: '',
+					name: t('cospend', 'No payment mode'),
+				},
+				...this.sortedPaymentModes,
+			]
+		},
 		sortedCategories() {
 			const allCategories = Object.values(cospend.projects[this.projectId].categories)
 			return [
@@ -363,6 +342,17 @@ export default {
 				return c.id === this.selectedCategoryIdFilter
 			})
 		},
+		sortedMultiActionCategories() {
+			return [
+				{
+					id: 0,
+					icon: '',
+					name: t('cospend', 'No category'),
+				},
+				...this.sortedCategories,
+				...Object.values(this.hardCodedCategories),
+			]
+		},
 		hardCodedCategories() {
 			return cospend.hardCodedCategories
 		},
@@ -384,6 +374,7 @@ export default {
 	watch: {
 		projectId() {
 			this.selectMode = false
+			this.filterMode = false
 			this.selectedBillIds = []
 			this.$refs.list?.$el.scrollTo(0, 0)
 		},
@@ -401,6 +392,9 @@ export default {
 			}
 		},
 		onAddBillClicked() {
+			if (!this.editionAccess || !this.oneActiveMember) {
+				return
+			}
 			this.$refs.list?.$el.scrollTo(0, 0)
 			this.$emit('new-bill-clicked')
 		},
@@ -462,8 +456,11 @@ export default {
 				this.selectedBillIds = []
 			}
 		},
-		onCategoryChange(e) {
-			const categoryid = e.target.value
+		onMultiActionCategoryChange(selected) {
+			if (selected === null) {
+				return
+			}
+			const categoryid = selected.id
 			if (this.selectedBillIds.length > 0) {
 				network.saveBills(this.projectId, this.selectedBillIds, categoryid, null).then((response) => {
 					this.saveBillsSuccess(this.selectedBillIds, categoryid, null)
@@ -475,8 +472,11 @@ export default {
 				})
 			}
 		},
-		onPaymentModeChange(e) {
-			const paymentmodeid = e.target.value
+		onMultiActionPaymentModeChange(selected) {
+			if (selected === null) {
+				return
+			}
+			const paymentmodeid = selected.id
 			if (this.selectedBillIds.length > 0) {
 				network.saveBills(this.projectId, this.selectedBillIds, null, paymentmodeid).then((response) => {
 					this.saveBillsSuccess(this.selectedBillIds, null, paymentmodeid)
@@ -491,8 +491,6 @@ export default {
 		saveBillsSuccess(billIds, categoryid, paymentmodeid) {
 			this.$emit('multi-bill-edit', billIds, categoryid, paymentmodeid)
 			showSuccess(t('cospend', 'Bills edited'))
-			this.selectedCategory = 'placeholder'
-			this.selectedPaymentMode = 'placeholder'
 		},
 		deleteSelection() {
 			if (this.selectedBillIds.length > 0) {
@@ -559,7 +557,6 @@ export default {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
-		//flex-wrap: wrap;
 		align-items: center;
 		border-top: 1px solid var(--color-border);
 		padding: 0 0 10px 0;
@@ -609,7 +606,6 @@ export default {
 
 .multiSelectHint {
 	display: flex;
-	//text-align: center;
 	width: 100%;
 	min-height: 44px;
 	padding: 10px 0 0 10px;

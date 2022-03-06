@@ -26,22 +26,12 @@
 				<a class="icon icon-tag" />
 				{{ t('cospend', 'Payment mode') }}
 			</label>
-			<select id="payment-mode-stats"
-				ref="paymentModeFilter"
-				@change="getStats">
-				<option value="null"
-					:selected="true">
-					{{ t('cospend', 'All') }}
-				</option>
-				<option value="0">
-					{{ t('cospend', 'No payment mode') }}
-				</option>
-				<option v-for="pm in sortedPaymentModes"
-					:key="pm.id"
-					:value="pm.id">
-					{{ pm.icon + ' ' + pm.name }}
-				</option>
-			</select>
+			<PaymentModeMultiSelect
+				id="payment-mode-stats"
+				:value="selectedFilterPm"
+				:payment-modes="sortedFilterPms"
+				:placeholder="t('cospend', 'Select a payment mode')"
+				@input="paymentModeFilterSelected" />
 			<label for="category-stats">
 				<a class="icon icon-category-app-bundles" />
 				{{ t('cospend', 'Category') }}
@@ -351,12 +341,13 @@ import MemberMonthly from './MemberMonthly'
 import Monthly from './Monthly'
 import PieChartJs from '../PieChartJs'
 import * as constants from '../../constants'
+import PaymentModeMultiSelect from '../PaymentModeMultiSelect'
 
 export default {
 	name: 'Statistics',
 
 	components: {
-		ColoredAvatar, MemberMultiSelect, PieChartJs, AppContentDetails, MemberMonthly, Monthly, CategoryMultiSelect,
+		ColoredAvatar, MemberMultiSelect, PieChartJs, AppContentDetails, MemberMonthly, Monthly, CategoryMultiSelect, PaymentModeMultiSelect,
 	},
 
 	props: {
@@ -373,6 +364,11 @@ export default {
 				id: -100,
 				icon: '',
 				name: t('cospend', 'All except reimbursement'),
+			},
+			selectedFilterPm: {
+				id: null,
+				icon: '',
+				name: t('cospend', 'All'),
 			},
 			selectedCategoryId: -1,
 			selectedMemberId: -1,
@@ -412,6 +408,21 @@ export default {
 				},
 				...this.sortedCategories,
 				...Object.values(this.hardCodedCategories),
+			]
+		},
+		sortedFilterPms() {
+			return [
+				{
+					id: null,
+					icon: '',
+					name: t('cospend', 'All'),
+				},
+				{
+					id: 0,
+					icon: '',
+					name: t('cospend', 'No payment mode'),
+				},
+				...this.sortedPaymentModes,
 			]
 		},
 		selectedMember() {
@@ -868,6 +879,10 @@ export default {
 			this.selectedFilterCategory = selected
 			this.getStats()
 		},
+		paymentModeFilterSelected(selected) {
+			this.selectedFilterPm = selected
+			this.getStats()
+		},
 		categorySelected(selected) {
 			if (selected?.id) {
 				this.selectedCategoryId = selected.id
@@ -932,7 +947,7 @@ export default {
 			const dateMax = this.$refs.dateMaxFilter.value
 			const tsMin = (dateMin !== '') ? moment(dateMin).unix() : null
 			const tsMax = (dateMax !== '') ? moment(dateMax).unix() + (24 * 60 * 60) - 1 : null
-			const paymentModeId = this.$refs.paymentModeFilter.value === 'null' ? null : parseInt(this.$refs.paymentModeFilter.value)
+			const paymentModeId = this.selectedFilterPm.id
 			const categoryId = this.selectedFilterCategory.id
 			const amountMin = this.$refs.amountMinFilter.value || null
 			const amountMax = this.$refs.amountMaxFilter.value || null
@@ -971,7 +986,7 @@ export default {
 			const dateMax = this.$refs.dateMaxFilter.value
 			const tsMin = (dateMin !== '') ? moment(dateMin).unix() : null
 			const tsMax = (dateMax !== '') ? moment(dateMax).unix() + (24 * 60 * 60) - 1 : null
-			const paymentModeId = this.$refs.paymentModeFilter.value
+			const paymentModeId = this.selectedFilterPm.id
 			const category = this.selectedFilterCategory.id
 			const amountMin = this.$refs.amountMinFilter.value
 			const amountMax = this.$refs.amountMaxFilter.value

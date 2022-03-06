@@ -51,23 +51,12 @@
 							{{ category.icon + ' ' + category.name }}
 						</option>
 					</select>
-					<select
-						:value="selectedPaymentModeFilter"
-						class="paymentmode-select"
-						@input="onFilterPaymentModeChange">
-						<option value="placeholder">
-							{{ t('cospend', 'All payment modes') }}
-						</option>
-						<option value="0">
-							{{ t('cospend', 'None') }}
-						</option>
-						<option
-							v-for="pm in sortedPaymentModes"
-							:key="pm.id"
-							:value="pm.id">
-							{{ pm.icon + ' ' + pm.name }}
-						</option>
-					</select>
+					<PaymentModeMultiSelect
+						id="payment-mode-stats"
+						:value="selectedFilterPm"
+						:payment-modes="sortedFilterPms"
+						:placeholder="t('cospend', 'Select a payment mode')"
+						@input="onFilterPaymentModeChange" />
 				</div>
 			</transition>
 			<transition name="fade">
@@ -174,7 +163,10 @@ import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+
 import BillItem from './components/BillItem'
+import PaymentModeMultiSelect from './components/PaymentModeMultiSelect'
+
 import InfiniteLoading from 'vue-infinite-loading'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import cospend from './state'
@@ -186,7 +178,7 @@ export default {
 	name: 'BillList',
 
 	components: {
-		BillItem, AppContentList, AppNavigationItem, Actions, ActionButton, EmptyContent, InfiniteLoading,
+		BillItem, AppContentList, AppNavigationItem, Actions, ActionButton, EmptyContent, InfiniteLoading, PaymentModeMultiSelect,
 	},
 
 	props: {
@@ -223,8 +215,8 @@ export default {
 			required: true,
 		},
 		selectedPaymentModeFilter: {
-			type: String,
-			required: true,
+			type: Number,
+			default: null,
 		},
 	},
 
@@ -288,6 +280,26 @@ export default {
 						return strcmp(a.name, b.name)
 					})
 					: allPaymentModes
+		},
+		sortedFilterPms() {
+			return [
+				{
+					id: null,
+					icon: '',
+					name: t('cospend', 'All payment modes'),
+				},
+				{
+					id: 0,
+					icon: '',
+					name: t('cospend', 'No payment mode'),
+				},
+				...this.sortedPaymentModes,
+			]
+		},
+		selectedFilterPm() {
+			return this.sortedFilterPms.find(pm => {
+				return pm.id === this.selectedPaymentModeFilter
+			})
 		},
 		sortedCategories() {
 			const allCategories = Object.values(cospend.projects[this.projectId].categories)
@@ -396,9 +408,10 @@ export default {
 			const categoryid = e.target.value
 			this.$emit('set-category-filter', categoryid)
 		},
-		onFilterPaymentModeChange(e) {
-			const paymentModeId = e.target.value
-			this.$emit('set-paymentmode-filter', paymentModeId)
+		onFilterPaymentModeChange(selected) {
+			if (selected !== null) {
+				this.$emit('set-paymentmode-filter', selected.id)
+			}
 		},
 		toggleSelectMode() {
 			this.selectMode = !this.selectMode

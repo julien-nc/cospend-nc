@@ -162,7 +162,7 @@ export default {
 			currentBill: null,
 			filterQuery: null,
 			selectedCategoryFilter: 'placeholder',
-			selectedPaymentModeFilter: 'placeholder',
+			selectedPaymentModeFilter: null,
 			showSidebar: false,
 			activeSidebarTab: 'sharing',
 			selectedMemberId: null,
@@ -191,8 +191,8 @@ export default {
 					const filterCatId = parseInt(this.selectedCategoryFilter)
 					result = result.filter(b => b.categoryid === filterCatId)
 				}
-				if (this.selectedPaymentModeFilter !== 'placeholder') {
-					const filterPmId = parseInt(this.selectedPaymentModeFilter)
+				if (this.selectedPaymentModeFilter !== null) {
+					const filterPmId = this.selectedPaymentModeFilter
 					result = result.filter(b => b.paymentmodeid === filterPmId)
 				}
 				if (this.filterQuery) {
@@ -248,7 +248,7 @@ export default {
 	methods: {
 		onResetFilters() {
 			this.selectedCategoryFilter = 'placeholder'
-			this.selectedPaymentModeFilter = 'placeholder'
+			this.selectedPaymentModeFilter = null
 			this.onFilterChange()
 		},
 		onSetCategoryFilter(catId) {
@@ -459,7 +459,7 @@ export default {
 			this.currentBill = null
 			this.selectedMemberId = null
 			this.selectedCategoryFilter = 'placeholder'
-			this.selectedPaymentModeFilter = 'placeholder'
+			this.selectedPaymentModeFilter = null
 			this.getBills(projectid)
 			if (save) {
 				network.saveOptionValue({ selectedProject: projectid })
@@ -479,11 +479,11 @@ export default {
 			// then call onNewBillClicked again
 			if (this.selectedMemberId
 				|| this.selectedCategoryFilter !== 'placeholder'
-				|| this.selectedPaymentModeFilter !== 'placeholder'
+				|| this.selectedPaymentModeFilter !== null
 			) {
 				this.selectedMemberId = null
 				this.selectedCategoryFilter = 'placeholder'
-				this.selectedPaymentModeFilter = 'placeholder'
+				this.selectedPaymentModeFilter = null
 				this.$refs.billList?.toggleFilterMode(false, false)
 				this.getBills(cospend.currentProjectId, null, () => { this.onNewBillClicked(bill) })
 			} else {
@@ -580,7 +580,7 @@ export default {
 		getBills(projectid, selectBillId = null, callback = null) {
 			this.billsLoading = true
 			const catFilter = this.selectedCategoryFilter === 'placeholder' ? null : this.selectedCategoryFilter
-			const pmFilter = this.selectedPaymentModeFilter === 'placeholder' ? null : this.selectedPaymentModeFilter
+			const pmFilter = this.selectedPaymentModeFilter
 			network.getBills(projectid, 0, 50, this.selectedMemberId, catFilter, pmFilter).then((response) => {
 				this.currentProject.nbBills = response.data.nb_bills
 				this.bills[projectid] = {}
@@ -607,7 +607,7 @@ export default {
 		},
 		loadMoreBills(projectid, state) {
 			const catFilter = this.selectedCategoryFilter === 'placeholder' ? null : this.selectedCategoryFilter
-			const pmFilter = this.selectedPaymentModeFilter === 'placeholder' ? null : this.selectedPaymentModeFilter
+			const pmFilter = this.selectedPaymentModeFilter
 			network.getBills(projectid, this.billLists[projectid].length, 20, this.selectedMemberId, catFilter, pmFilter).then((response) => {
 				this.currentProject.nbBills = response.data.nb_bills
 				if (!response.data.bills || response.data.bills.length === 0) {

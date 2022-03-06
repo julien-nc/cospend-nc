@@ -1135,8 +1135,8 @@ class ProjectService {
 
 		return [
 			'stats' => $statistics,
-			'memberMonthlyPaidStats' => $memberMonthlyPaidStats,
-			'memberMonthlySpentStats' => $memberMonthlySpentStats,
+			'memberMonthlyPaidStats' => count($memberMonthlyPaidStats) > 0 ? $memberMonthlyPaidStats : null,
+			'memberMonthlySpentStats' => count($memberMonthlySpentStats) > 0 ? $memberMonthlySpentStats : null,
 			'categoryStats' => $categoryStats,
 			'categoryMonthlyStats' => $categoryMonthlyStats,
 			'paymentModeStats' => $paymentModeStats,

@@ -46,30 +46,12 @@
 				<a class="icon icon-category-app-bundles" />
 				{{ t('cospend', 'Category') }}
 			</label>
-			<select id="category-stats"
-				ref="categoryFilter"
-				@change="getStats">
-				<option value="null">
-					{{ t('cospend', 'All') }}
-				</option>
-				<option value="0">
-					{{ t('cospend', 'No category') }}
-				</option>
-				<option value="-100"
-					:selected="true">
-					{{ t('cospend', 'All except reimbursement') }}
-				</option>
-				<option v-for="category in sortedCategories"
-					:key="category.id"
-					:value="category.id">
-					{{ category.icon + ' ' + category.name }}
-				</option>
-				<option v-for="(category, catid) in hardCodedCategories"
-					:key="catid"
-					:value="catid">
-					{{ category.icon + ' ' + category.name }}
-				</option>
-			</select>
+			<CategoryMultiSelect
+				id="category-stats"
+				:value="selectedFilterCategory"
+				:categories="sortedFilterCategories"
+				:placeholder="t('cospend', 'Select a category')"
+				@input="categoryFilterSelected" />
 			<label for="amount-min-stats">{{ t('cospend', 'Minimum amount') }}: </label>
 			<input id="amount-min-stats"
 				ref="amountMinFilter"
@@ -176,7 +158,7 @@
 			{{ t('cospend', 'Monthly paid per member') }}
 		</h2>
 		<MemberMonthly v-if="stats"
-			:stats="stats.memberMonthlyPaidStats"
+			:stats="stats.memberMonthlyPaidStats || {}"
 			:project-id="projectId"
 			:member-ids="stats.memberIds"
 			:real-months="stats.realMonths"
@@ -188,7 +170,7 @@
 			{{ t('cospend', 'Monthly spent per member') }}
 		</h2>
 		<MemberMonthly v-if="stats"
-			:stats="stats.memberMonthlySpentStats"
+			:stats="stats.memberMonthlySpentStats || {}"
 			:project-id="projectId"
 			:member-ids="stats.memberIds"
 			:real-months="stats.realMonths"
@@ -387,6 +369,11 @@ export default {
 	data() {
 		return {
 			stats: null,
+			selectedFilterCategory: {
+				id: -100,
+				icon: '',
+				name: t('cospend', 'All except reimbursement'),
+			},
 			selectedCategoryId: -1,
 			selectedMemberId: -1,
 			isFiltered: true,
@@ -405,6 +392,27 @@ export default {
 		},
 		membersArray() {
 			return Object.values(this.members)
+		},
+		sortedFilterCategories() {
+			return [
+				{
+					id: null,
+					icon: '',
+					name: t('cospend', 'All'),
+				},
+				{
+					id: 0,
+					icon: '',
+					name: t('cospend', 'No category'),
+				},
+				{
+					id: -100,
+					icon: '',
+					name: t('cospend', 'All except reimbursement'),
+				},
+				...this.sortedCategories,
+				...Object.values(this.hardCodedCategories),
+			]
 		},
 		selectedMember() {
 			if (this.selectedMemberId === -1) {
@@ -539,7 +547,6 @@ export default {
 		},
 		monthlyPaymentModeStats() {
 			return this.sortedMonthlyPaymentModeIds.map((pmid) => {
-				console.debug(this.myGetPaymentMode(pmid))
 				const elem = {
 					id: pmid,
 					name: this.getPaymentModeNameIcon(pmid),
@@ -857,8 +864,11 @@ export default {
 				this.selectedMemberId = selected.id
 			}
 		},
+		categoryFilterSelected(selected) {
+			this.selectedFilterCategory = selected
+			this.getStats()
+		},
 		categorySelected(selected) {
-			console.debug('cat selecteeddddd', selected)
 			if (selected?.id) {
 				this.selectedCategoryId = selected.id
 			}
@@ -923,7 +933,7 @@ export default {
 			const tsMin = (dateMin !== '') ? moment(dateMin).unix() : null
 			const tsMax = (dateMax !== '') ? moment(dateMax).unix() + (24 * 60 * 60) - 1 : null
 			const paymentModeId = this.$refs.paymentModeFilter.value === 'null' ? null : parseInt(this.$refs.paymentModeFilter.value)
-			const categoryId = this.$refs.categoryFilter.value === 'null' ? null : parseInt(this.$refs.categoryFilter.value)
+			const categoryId = this.selectedFilterCategory.id
 			const amountMin = this.$refs.amountMinFilter.value || null
 			const amountMax = this.$refs.amountMaxFilter.value || null
 			const showDisabled = this.$refs.showDisabledFilter.checked
@@ -962,7 +972,7 @@ export default {
 			const tsMin = (dateMin !== '') ? moment(dateMin).unix() : null
 			const tsMax = (dateMax !== '') ? moment(dateMax).unix() + (24 * 60 * 60) - 1 : null
 			const paymentModeId = this.$refs.paymentModeFilter.value
-			const category = this.$refs.categoryFilter.value
+			const category = this.selectedFilterCategory.id
 			const amountMin = this.$refs.amountMinFilter.value
 			const amountMax = this.$refs.amountMaxFilter.value
 			const showDisabled = this.$refs.showDisabledFilter.checked

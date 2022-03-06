@@ -417,6 +417,7 @@ export default {
 				return null
 			}
 			return cospend.projects[this.projectId].categories[this.selectedCategoryId]
+				?? this.hardCodedCategories[this.selectedCategoryId]
 		},
 		paymentmodes() {
 			return cospend.projects[this.projectId].paymentmodes
@@ -705,9 +706,14 @@ export default {
 			return sortedCategoryIds
 		},
 		sortedCategoryStats() {
-			return this.sortedCategories.filter((cat) => {
+			const cats = this.sortedCategories.filter((cat) => {
 				return this.sortedCategoryStatsIds.includes(cat.id)
 			})
+			const hardcodedCats = Object.values(this.hardCodedCategories).filter((cat) => {
+				return this.sortedCategoryStatsIds.includes(cat.id)
+			})
+			cats.push(...hardcodedCats)
+			return cats
 		},
 		categoryPieData() {
 			const categoryData = {
@@ -852,6 +858,7 @@ export default {
 			}
 		},
 		categorySelected(selected) {
+			console.debug('cat selecteeddddd', selected)
 			if (selected?.id) {
 				this.selectedCategoryId = selected.id
 			}

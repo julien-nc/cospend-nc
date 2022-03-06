@@ -2,7 +2,7 @@
 	<Multiselect
 		:value="selectedCategoryItem"
 		class="categoryMultiSelect multiSelect"
-		label="name"
+		label="displayName"
 		track-by="id"
 		:disabled="disabled"
 		:placeholder="placeholder"
@@ -49,16 +49,16 @@ export default {
 		formattedOptions() {
 			return this.categories.map(c => {
 				return {
-					name: c.icon + ' ' + c.name,
-					id: c.id,
+					...c,
+					displayName: c.icon + ' ' + c.name,
 				}
 			})
 		},
 		selectedCategoryItem() {
 			return this.value
 				? {
-					name: this.value.icon + ' ' + this.value.name,
-					id: this.value.id,
+					...this.value,
+					displayName: this.value.icon + ' ' + this.value.name,
 				}
 				: null
 		},

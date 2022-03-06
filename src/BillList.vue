@@ -28,32 +28,13 @@
 				<div v-if="filterMode"
 					class="filterOptions">
 					<span class="icon icon-filter" />
-					<select
+					<CategoryMultiSelect
 						:value="selectedCategoryFilter"
-						class="category-select"
-						@input="onFilterCategoryChange">
-						<option value="placeholder">
-							{{ t('cospend', 'All categories') }}
-						</option>
-						<option value="0">
-							{{ t('cospend', 'None') }}
-						</option>
-						<option
-							v-for="category in sortedCategories"
-							:key="category.id"
-							:value="category.id">
-							{{ category.icon + ' ' + category.name }}
-						</option>
-						<option
-							v-for="(category, catid) in hardCodedCategories"
-							:key="catid"
-							:value="catid">
-							{{ category.icon + ' ' + category.name }}
-						</option>
-					</select>
+						:categories="sortedFilterCategories"
+						:placeholder="t('cospend', 'Select a category')"
+						@input="onFilterCategoryChange" />
 					<PaymentModeMultiSelect
-						id="payment-mode-stats"
-						:value="selectedFilterPm"
+						:value="selectedPaymentModeFilter"
 						:payment-modes="sortedFilterPms"
 						:placeholder="t('cospend', 'Select a payment mode')"
 						@input="onFilterPaymentModeChange" />
@@ -166,6 +147,7 @@ import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 
 import BillItem from './components/BillItem'
 import PaymentModeMultiSelect from './components/PaymentModeMultiSelect'
+import CategoryMultiSelect from './components/CategoryMultiSelect'
 
 import InfiniteLoading from 'vue-infinite-loading'
 import { showSuccess, showError } from '@nextcloud/dialogs'
@@ -178,7 +160,7 @@ export default {
 	name: 'BillList',
 
 	components: {
-		BillItem, AppContentList, AppNavigationItem, Actions, ActionButton, EmptyContent, InfiniteLoading, PaymentModeMultiSelect,
+		BillItem, AppContentList, AppNavigationItem, Actions, ActionButton, EmptyContent, InfiniteLoading, PaymentModeMultiSelect, CategoryMultiSelect,
 	},
 
 	props: {
@@ -210,11 +192,11 @@ export default {
 			type: String,
 			required: true,
 		},
-		selectedCategoryFilter: {
-			type: String,
-			required: true,
+		selectedCategoryIdFilter: {
+			type: Number,
+			default: null,
 		},
-		selectedPaymentModeFilter: {
+		selectedPaymentModeIdFilter: {
 			type: Number,
 			default: null,
 		},
@@ -228,7 +210,6 @@ export default {
 			selectedPaymentMode: 'placeholder',
 			selectedBillIds: [],
 			filterMode: false,
-			selectedFilterCategory: '0',
 		}
 	},
 
@@ -296,9 +277,9 @@ export default {
 				...this.sortedPaymentModes,
 			]
 		},
-		selectedFilterPm() {
+		selectedPaymentModeFilter() {
 			return this.sortedFilterPms.find(pm => {
-				return pm.id === this.selectedPaymentModeFilter
+				return pm.id === this.selectedPaymentModeIdFilter
 			})
 		},
 		sortedCategories() {
@@ -322,6 +303,27 @@ export default {
 						return strcmp(a.name, b.name)
 					})
 					: allCategories
+		},
+		sortedFilterCategories() {
+			return [
+				{
+					id: null,
+					icon: '',
+					name: t('cospend', 'All categories'),
+				},
+				{
+					id: 0,
+					icon: '',
+					name: t('cospend', 'No category'),
+				},
+				...this.sortedCategories,
+				...Object.values(this.hardCodedCategories),
+			]
+		},
+		selectedCategoryFilter() {
+			return this.sortedFilterCategories.find(c => {
+				return c.id === this.selectedCategoryIdFilter
+			})
 		},
 		hardCodedCategories() {
 			return cospend.hardCodedCategories
@@ -404,9 +406,10 @@ export default {
 				this.$emit('reset-filters')
 			}
 		},
-		onFilterCategoryChange(e) {
-			const categoryid = e.target.value
-			this.$emit('set-category-filter', categoryid)
+		onFilterCategoryChange(selected) {
+			if (selected !== null) {
+				this.$emit('set-category-filter', selected.id)
+			}
 		},
 		onFilterPaymentModeChange(selected) {
 			if (selected !== null) {

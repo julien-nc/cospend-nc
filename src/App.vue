@@ -33,8 +33,8 @@
 					:selected-bill-id="selectedBillId"
 					:edition-access="editionAccess"
 					:mode="mode"
-					:selected-category-filter="selectedCategoryFilter"
-					:selected-payment-mode-filter="selectedPaymentModeFilter"
+					:selected-category-id-filter="selectedCategoryFilter"
+					:selected-payment-mode-id-filter="selectedPaymentModeFilter"
 					@reset-filters="onResetFilters"
 					@set-category-filter="onSetCategoryFilter"
 					@set-paymentmode-filter="onSetPaymentModeFilter"
@@ -161,7 +161,7 @@ export default {
 			billsLoading: false,
 			currentBill: null,
 			filterQuery: null,
-			selectedCategoryFilter: 'placeholder',
+			selectedCategoryFilter: null,
 			selectedPaymentModeFilter: null,
 			showSidebar: false,
 			activeSidebarTab: 'sharing',
@@ -187,8 +187,8 @@ export default {
 				if (this.selectedMemberId) {
 					result = result.filter(b => b.payer_id === this.selectedMemberId)
 				}
-				if (this.selectedCategoryFilter !== 'placeholder') {
-					const filterCatId = parseInt(this.selectedCategoryFilter)
+				if (this.selectedCategoryFilter !== null) {
+					const filterCatId = this.selectedCategoryFilter
 					result = result.filter(b => b.categoryid === filterCatId)
 				}
 				if (this.selectedPaymentModeFilter !== null) {
@@ -247,7 +247,7 @@ export default {
 	},
 	methods: {
 		onResetFilters() {
-			this.selectedCategoryFilter = 'placeholder'
+			this.selectedCategoryFilter = null
 			this.selectedPaymentModeFilter = null
 			this.onFilterChange()
 		},
@@ -458,7 +458,7 @@ export default {
 			this.mode = 'edition'
 			this.currentBill = null
 			this.selectedMemberId = null
-			this.selectedCategoryFilter = 'placeholder'
+			this.selectedCategoryFilter = null
 			this.selectedPaymentModeFilter = null
 			this.getBills(projectid)
 			if (save) {
@@ -478,11 +478,11 @@ export default {
 			// if a member is selected: deselect member and get full bill list
 			// then call onNewBillClicked again
 			if (this.selectedMemberId
-				|| this.selectedCategoryFilter !== 'placeholder'
+				|| this.selectedCategoryFilter !== null
 				|| this.selectedPaymentModeFilter !== null
 			) {
 				this.selectedMemberId = null
-				this.selectedCategoryFilter = 'placeholder'
+				this.selectedCategoryFilter = null
 				this.selectedPaymentModeFilter = null
 				this.$refs.billList?.toggleFilterMode(false, false)
 				this.getBills(cospend.currentProjectId, null, () => { this.onNewBillClicked(bill) })
@@ -579,7 +579,7 @@ export default {
 		},
 		getBills(projectid, selectBillId = null, callback = null) {
 			this.billsLoading = true
-			const catFilter = this.selectedCategoryFilter === 'placeholder' ? null : this.selectedCategoryFilter
+			const catFilter = this.selectedCategoryFilter
 			const pmFilter = this.selectedPaymentModeFilter
 			network.getBills(projectid, 0, 50, this.selectedMemberId, catFilter, pmFilter).then((response) => {
 				this.currentProject.nbBills = response.data.nb_bills
@@ -606,7 +606,7 @@ export default {
 			})
 		},
 		loadMoreBills(projectid, state) {
-			const catFilter = this.selectedCategoryFilter === 'placeholder' ? null : this.selectedCategoryFilter
+			const catFilter = this.selectedCategoryFilter
 			const pmFilter = this.selectedPaymentModeFilter
 			network.getBills(projectid, this.billLists[projectid].length, 20, this.selectedMemberId, catFilter, pmFilter).then((response) => {
 				this.currentProject.nbBills = response.data.nb_bills

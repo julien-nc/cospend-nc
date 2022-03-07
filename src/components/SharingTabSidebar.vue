@@ -626,7 +626,8 @@ export default {
 			}
 		},
 		generateCospendLink(access) {
-			return 'cospend://' + window.location.host
+			return (window.location.protocol === 'http:' ? 'cospend+http://' : 'cospend://')
+				+ window.location.host
 				+ generateUrl('').replace('/index.php', '')
 				+ access.token + '/' + encodeURIComponent(access.password || 'no-pass')
 		},

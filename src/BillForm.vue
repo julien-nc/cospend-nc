@@ -128,8 +128,12 @@
 						@input="memberSelected" />
 				</div>
 				<div class="bill-date">
-					<label><a class="icon icon-calendar-dark" />{{ t('cospend', 'When?') }}</label>
+					<label for="dateInput">
+						<a class="icon icon-calendar-dark" />
+						{{ t('cospend', 'When?') }}
+					</label>
 					<DatetimePicker v-if="showDatePicker"
+						id="dateInput"
 						v-model="billDatetime"
 						class="datetime-picker"
 						:type="useTime ? 'datetime' : 'date'"
@@ -141,7 +145,7 @@
 						:confirm="true" />
 				</div>
 				<div class="bill-payment-mode">
-					<label>
+					<label for="paymentModeMultiSelect">
 						<a class="icon icon-tag" />{{ t('cospend', 'Payment mode') }}
 					</label>
 					<Multiselect
@@ -159,7 +163,7 @@
 						@input="paymentModeSelected" />
 				</div>
 				<div class="bill-category">
-					<label>
+					<label for="categoryMultiSelect">
 						<a class="icon icon-category-app-bundles" />{{ t('cospend', 'Category') }}
 					</label>
 					<Multiselect

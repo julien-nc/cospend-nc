@@ -5257,7 +5257,7 @@ class ProjectService {
 	 * @return array
 	 */
 	public function importCsvProject(string $path, string $userId): array {
-		$cleanPath = str_replace(array('../', '..\\'), '',  $path);
+		$cleanPath = str_replace(['../', '..\\'], '',  $path);
 		$userFolder = $this->root->getUserFolder($userId);
 		if ($userFolder->nodeExists($cleanPath)) {
 			$file = $userFolder->get($cleanPath);
@@ -5398,7 +5398,7 @@ class ProjectService {
 								}
 								$payer_name = $data[$columns['payer_name']];
 								$payer_weight = $data[$columns['payer_weight']];
-								$owers = preg_replace('/\s+/', '', $data[$columns['owers']]);
+								$owers = $data[$columns['owers']];
 								$payer_active = array_key_exists('payer_active', $columns) ? $data[$columns['payer_active']] : 1;
 								$repeat = array_key_exists('repeat', $columns) ? $data[$columns['repeat']] : Application::FREQUENCIES['no'];
 								$categoryid = array_key_exists('categoryid', $columns) ? (int) $data[$columns['categoryid']] : null;

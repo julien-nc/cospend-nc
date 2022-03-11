@@ -5471,7 +5471,7 @@ class ProjectService {
 					// add project
 					$user = $this->userManager->get($userId);
 					$userEmail = $user->getEMailAddress();
-					$projectName = str_replace('.csv', '', $file->getName());
+					$projectName = preg_replace('/\.csv$/', '', $file->getName());
 					$projectid = slugify($projectName);
 					$createDefaultCategories = (count($categories) === 0);
 					$createDefaultPaymentModes = (count($paymentModes) === 0);
@@ -5576,7 +5576,7 @@ class ProjectService {
 	 * @return array
 	 */
 	public function importSWProject(string $path, string $userId): array {
-		$cleanPath = str_replace(array('../', '..\\'), '',  $path);
+		$cleanPath = str_replace(['../', '..\\'], '',  $path);
 		$userFolder = $this->root->getUserFolder($userId);
 		if ($userFolder->nodeExists($cleanPath)) {
 			$file = $userFolder->get($cleanPath);
@@ -5608,8 +5608,8 @@ class ProjectService {
 								return ['message' => $this->trans->t('Malformed CSV, bad column names')];
 							}
 							// manage members
-							$m=0;
-							for ($c=5; $c < $nbCol; $c++){
+							$m = 0;
+							for ($c = 5; $c < $nbCol; $c++){
 								$owersArray[$m] = $data[$c];
 								$m++;
 							}
@@ -5640,16 +5640,16 @@ class ProjectService {
 							$l = 0;
 							for ($c = 5; $c < $nbCol; $c++){
 								if (max($data[$c], 0) !== 0){
-									$payer_name = $owersArray[$c-5];
+									$payer_name = $owersArray[$c - 5];
 								}
 								if ($data[$c] === $amount){
 									continue;
 								} elseif ($data[$c] === -$amount){
 									$owersList = [];
-									$owersList[$l++] = $owersArray[$c-5];
+									$owersList[$l++] = $owersArray[$c - 5];
 									break;
 								} else {
-									$owersList[$l++] = $owersArray[$c-5];
+									$owersList[$l++] = $owersArray[$c - 5];
 								}
 							}
 							if (!isset($payer_name) || empty($payer_name)) {
@@ -5690,7 +5690,7 @@ class ProjectService {
 					// add project
 					$user = $this->userManager->get($userId);
 					$userEmail = $user->getEMailAddress();
-					$projectName = str_replace('.csv', '', $file->getName());
+					$projectName = preg_replace('/\.csv$/', '', $file->getName());
 					$projectid = slugify($projectName);
 					// create default categories only if none are found in the CSV
 					$createDefaultCategories = (count($categoryNames) === 0);

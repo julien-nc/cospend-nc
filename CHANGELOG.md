@@ -5,10 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-## 1.4.5 – 2022-03-08
-### Added
-- 
-
+## 1.4.5 – 2022-03-11
 ### Changed
 - improve filters and multi-select in bill list
 - immediate bill form save after editing repeat, freq and includeAllActive
@@ -24,6 +21,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix bill list 'new bill' visibility condition
 - fix auto share deletion when renaming a member linked with a user
 - fix multiselect issue when selecting the selected item
+- fix project import with spaces in member names
+  [#97](https://github.com/eneiluj/cospend-nc/issues/97) @mrclschstr
 
 ## 1.4.4 – 2022-03-04
 ### Added

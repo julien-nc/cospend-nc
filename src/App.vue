@@ -22,7 +22,7 @@
 			:list-size="showSidebar ? 30 : 20"
 			:show-details="shouldShowDetailsToggle"
 			@update:showDetails="showList">
-			<template #list>
+			<template slot="list">
 				<BillList
 					v-if="currentProjectId"
 					ref="billList"

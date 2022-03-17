@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-03-04 12:03+0100\n"
-"PO-Revision-Date: 2022-03-13 07:12\n"
+"PO-Revision-Date: 2022-03-17 09:15\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -19,43 +19,43 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Activity/ActivityManager.php:95
 msgid "You have created a new bill {bill} in project {project}"
-msgstr "Criou uma nova despesa {bill} no plano {project}"
+msgstr "Criou uma nova despesa {bill} no planeamento {project}"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Activity/ActivityManager.php:95
 msgid "{user} has created a new bill {bill} in project {project}"
-msgstr "{user} criou uma nova despesa {bill} no plano {project}"
+msgstr "{user} criou uma nova despesa {bill} no planeamento {project}"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Activity/ActivityManager.php:98
 msgid "You have deleted the bill {bill} of project {project}"
-msgstr "Eliminou a despesa {bill} do plano {project}"
+msgstr "Eliminou a despesa {bill} do planeamento {project}"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Activity/ActivityManager.php:98
 msgid "{user} has deleted the bill {bill} of project {project}"
-msgstr "{user} eliminou a despesa {bill} do plano {project}"
+msgstr "{user} eliminou a despesa {bill} do planeamento {project}"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Activity/ActivityManager.php:101
 msgid "You have shared the project {project} with {who}"
-msgstr "Partilhou o plano {project} com {who}"
+msgstr "Partilhou o planeamento {project} com {who}"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Activity/ActivityManager.php:101
 msgid "{user} has shared the project {project} with {who}"
-msgstr "{user} partilhou o plano {project} com {who}"
+msgstr "{user} partilhou o planeamento {project} com {who}"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Activity/ActivityManager.php:104
 msgid "You have removed {who} from the project {project}"
-msgstr "Removeu {who} do plano {project}"
+msgstr "Removeu {who} do planeamento {project}"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Activity/ActivityManager.php:104
 msgid "{user} has removed {who} from the project {project}"
-msgstr "{user} removeu {who} do plano {project}"
+msgstr "{user} removeu {who} do planeamento {project}"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Activity/ActivityManager.php:107
 msgid "You have updated the bill {bill} of project {project}"
-msgstr "Você modificou a despesa {bill} do plano {project}"
+msgstr "Você modificou a despesa {bill} do planeamento {project}"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Activity/ActivityManager.php:107
 msgid "{user} has updated the bill {bill} of project {project}"
-msgstr "{user} modificou a despesa {bill} do plano {project}"
+msgstr "{user} modificou a despesa {bill} do planeamento {project}"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Activity/ActivityManager.php:182
 msgid "A guest user"
@@ -95,7 +95,7 @@ msgstr "Acesso público do Cospend"
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:191
 #, php-format
 msgid "Enter password of project %s"
-msgstr "Insira a senha do plano %s"
+msgstr "Insira a senha do planeamento %s"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:218
 msgid "Enter project id and password"
@@ -105,14 +105,14 @@ msgstr "Insira o ID do projecto e a senha"
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:362
 #, php-format
 msgid "Enter link password of project %s"
-msgstr "Insira a senha de hiperligação do plano %s"
+msgstr "Insira a senha de hiperligação do planeamento %s"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:255
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:294
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:341
 #, php-format
 msgid "Project %s"
-msgstr "Plano %s"
+msgstr "Planeamento %s"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:258
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:340
@@ -179,7 +179,7 @@ msgstr "Não tem permissão para eliminar esta despesa"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:531
 msgid "You are not allowed to get this project's info"
-msgstr "Não tem permissão para obter informações deste plano"
+msgstr "Não tem permissão para obter informações deste planeamento"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:552
 msgid "You are not allowed to get this project's statistics"
@@ -187,15 +187,15 @@ msgstr "Não tem permissão para obter estatísticas deste projecto"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:569
 msgid "You are not allowed to get this project's settlement"
-msgstr "Não tem permissão para obter a liquidação deste plano"
+msgstr "Não tem permissão para obter a liquidação deste planeamento"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:589
 msgid "You are not allowed to settle this project automatically"
-msgstr "Não tem permissão para liquidar este plano automaticamente"
+msgstr "Não tem permissão para liquidar este planeamento automaticamente"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:604
 msgid "You are not allowed to access this project"
-msgstr "Não tem autorização para aceder a este plano"
+msgstr "Não tem autorização para aceder a este planeamento"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:633
 msgid "You are not allowed to edit this member"
@@ -221,7 +221,7 @@ msgstr "Não tem permissão para adicionar despesas"
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2899
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2940
 msgid "You are not allowed to edit this project"
-msgstr "Não tem permissão para editar este plano"
+msgstr "Não tem permissão para editar este planeamento"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:801
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1230
@@ -236,12 +236,12 @@ msgstr "Não tem permissão para obter a lista de despesas"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:886
 msgid "Anonymous project creation is not allowed on this server"
-msgstr "A criação de planos anónimos não é permitida neste servidor"
+msgstr "A criação de planeamentos anónimos não é permitida neste servidor"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:931
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:957
 msgid "Project not found"
-msgstr "Plano não encontrado"
+msgstr "Planeamento não encontrado"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:937
 msgid "Bad password or share link"
@@ -341,15 +341,15 @@ msgstr "Não tem permissão para adicionar acessos partilhados públicos"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:3022
 msgid "You are not allowed to export this project settlement"
-msgstr "Não tem permissão para exportar a liquidação deste plano"
+msgstr "Não tem permissão para exportar a liquidação deste planeamento"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:3048
 msgid "You are not allowed to export this project statistics"
-msgstr "Não tem permissão para exportar estatísticas deste plano"
+msgstr "Não tem permissão para exportar estatísticas deste planeamento"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:3072
 msgid "You are not allowed to export this project"
-msgstr "Não tem permissão para exportar este plano"
+msgstr "Não tem permissão para exportar este planeamento"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Dashboard/CospendWidget.php:59
 msgid "Cospend activity"
@@ -442,31 +442,31 @@ msgstr "Serviço online"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Notification/Notifier.php:114
 msgid "Cospend project shared"
-msgstr "Plano Cospend partilhado"
+msgstr "Planeamento Cospend partilhado"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Notification/Notifier.php:115
 #, php-format
 msgid "User \"%s\" shared Cospend project \"%s\" with you."
-msgstr "O utilizador \"%s\" partilhou o plano Cospend \"%s\" consigo."
+msgstr "O utilizador \"%s\" partilhou o planeamento Cospend \"%s\" consigo."
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Notification/Notifier.php:125
 #, php-format
 msgid "{user} shared project %s with you"
-msgstr "{user} partilhou o plano %s consigo"
+msgstr "{user} partilhou o planeamento %s consigo"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Notification/Notifier.php:143
 msgid "Cospend project share removed"
-msgstr "Partilha de plano removida"
+msgstr "Partilha de planeamento removida"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Notification/Notifier.php:144
 #, php-format
 msgid "User \"%s\" stopped sharing Cospend project \"%s\" with you."
-msgstr "O utilizador \"%s\" deixou de partilhar o plano Cospend \"%s\" consigo."
+msgstr "O utilizador \"%s\" deixou de partilhar o planeamento Cospend \"%s\" consigo."
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Notification/Notifier.php:156
 #, php-format
 msgid "{user} stopped sharing project %s with you"
-msgstr "{user} deixou de partilhar o plano %s consigo"
+msgstr "{user} deixou de partilhar o planeamento %s consigo"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Search/CospendSearchProvider.php:218
 #, php-format
@@ -556,7 +556,7 @@ msgstr "Não é um valor decimal válido"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1842
 msgid "This project have no such member"
-msgstr "Este plano não tem esse membro"
+msgstr "Este planeamento não tem esse membro"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1869
 msgid "Name can't be empty"
@@ -603,7 +603,7 @@ msgstr "Não foi encontrado"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3907
 msgid "This project has no such payment mode"
-msgstr "Este plano não possui essa forma de pagamento"
+msgstr "Este planeamento não possui essa forma de pagamento"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3910
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4086
@@ -613,7 +613,7 @@ msgstr "Valores de campo incorrectos"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4083
 msgid "This project has no such category"
-msgstr "Este plano não possui essa categoria"
+msgstr "Este planeamento não possui essa categoria"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4205
 msgid "This project have no such currency"
@@ -823,11 +823,11 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:1
 msgid "Project {name}"
-msgstr "Plano {name}"
+msgstr "Planeamento {name}"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:1
 msgid "Select a project"
-msgstr "Escolha um plano"
+msgstr "Escolha um planeamento"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "Toggle sidebar"
@@ -1522,7 +1522,7 @@ msgstr "A moeda {n} foi adicionada."
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:174
 msgid "Settlement of project {name}"
-msgstr "Liquidação do plano {name}"
+msgstr "Liquidação do planeamento {name}"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:175
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:383
@@ -1659,19 +1659,19 @@ msgstr "{user} eliminou a despesa {billName}"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:216
 msgid "{user} have shared the project with {who}"
-msgstr "{user} partilharam o plano com {who}"
+msgstr "{user} partilharam o planeamento com {who}"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "{user} has shared the project with {who}"
-msgstr "{user} partilhou o plano com {who}"
+msgstr "{user} partilhou o planeamento com {who}"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:218
 msgid "{user} have removed {who} from the project"
-msgstr "{user} removeram {who} do plano"
+msgstr "{user} removeram {who} do planeamento"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:219
 msgid "{user} has removed {who} from the project"
-msgstr "{user} removeu {who} do plano"
+msgstr "{user} removeu {who} do planeamento"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:221
 msgid "you"
@@ -1833,7 +1833,7 @@ msgstr "Documentação do programador"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:267
 msgid "Import projects"
-msgstr "Importar planos"
+msgstr "Importar planeamentos"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:268
 msgid "Import csv project"
@@ -1861,11 +1861,11 @@ msgstr "Critérios de ordenação"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:275
 msgid "How projects are sorted in navigation sidebar"
-msgstr "Forma de ordenação dos planos na barra de navegação lateral"
+msgstr "Forma de ordenação dos planeamentos na barra de navegação lateral"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:276
 msgid "Projects order"
-msgstr "Ordem dos planos"
+msgstr "Ordem dos planeamentos"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:278
 msgid "Last activity"
@@ -1913,7 +1913,7 @@ msgstr "Escolha o ficheiro de plano SplitWise"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:291
 msgid "Project imported"
-msgstr "Plano importado"
+msgstr "Planeamento importado"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:292
 msgid "Failed to import project file"
@@ -2001,7 +2001,7 @@ msgstr "Comece a escrever para pesquisar"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:326
 msgid "Scan this QRCode with your mobile device to add project \"{name}\" in MoneyBuster or PayForMe"
-msgstr "Leia este código QR com seu telemóvel para adicionar o plano \"{name}\" ao MoneyBuster ou ao PayForMe"
+msgstr "Leia este código QR com seu telemóvel para adicionar o planeamento \"{name}\" ao MoneyBuster ou ao PayForMe"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:327
 msgid "QRCode content: "
@@ -2370,7 +2370,7 @@ msgstr "Falha ao exportar estatísticas do plano"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/src/network.js:528
 msgid "Failed to add project settlement bills"
-msgstr "Ocorreu uma falha ao adicionar as notas de liquidação do plano"
+msgstr "Ocorreu uma falha ao adicionar as notas de liquidação do planeamento"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/src/network.js:548
 msgid "Failed to export project settlement"
@@ -2387,7 +2387,7 @@ msgstr "Habilitar esta opção permitirá que qualquer visitante crie um plano s
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/templates/admin.php:11
 msgid "This can be useful if you are in a local network and want to let anybody create a project."
-msgstr "Isto pode ser útil se estiver numa rede local e quiser deixar qualquer pessoa criar um plano."
+msgstr "Isto pode ser útil se estiver numa rede local e quiser deixar qualquer pessoa criar um planeamento."
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/templates/admin.php:12
 msgid "Or maybe you are very generous and want to allow the entire world to use Cospend without having an account on your Nextcloud instance."

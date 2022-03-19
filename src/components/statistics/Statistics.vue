@@ -233,7 +233,7 @@
 		<hr>
 		<div id="memberPerCategoryTitle">
 			<label for="memberPerCategorySelect">
-				{{ t('cospend', 'What did she/he pay for?') }}
+				{{ t('cospend', 'What did they pay for?') }}
 			</label>
 			<MemberMultiSelect v-if="stats"
 				id="memberPerCategoryMultiSelect"

@@ -1311,7 +1311,7 @@ class PageController extends ApiController {
 			);
 			if (isset($result['inserted_id'])) {
 				$billObj = $this->billMapper->find($result['inserted_id']);
-				if (is_null($publicShareInfo['accesslevel'])) {
+				if (is_null($publicShareInfo)) {
 					$authorFullText = $this->trans->t('Guest access');
 				} elseif ($publicShareInfo['label']) {
 					$authorName = $publicShareInfo['label'];
@@ -1420,7 +1420,7 @@ class PageController extends ApiController {
 			);
 			if (isset($result['edited_bill_id'])) {
 				$billObj = $this->billMapper->find($billid);
-				if (is_null($publicShareInfo['accesslevel'])) {
+				if (is_null($publicShareInfo)) {
 					$authorFullText = $this->trans->t('Guest access');
 				} elseif ($publicShareInfo['label']) {
 					$authorName = $publicShareInfo['label'];

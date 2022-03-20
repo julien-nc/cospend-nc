@@ -7,6 +7,22 @@
 				:title="t('cospend', 'New project')"
 				:edit-placeholder="t('cospend', 'New project name')"
 				@new-item="$emit('create-project', $event)" />
+			<Actions
+				class="importActionMenu"
+				:force-menu="true">
+				<ActionButton
+					icon="icon-download"
+					:close-after-click="true"
+					@click="onImportClick">
+					{{ t('cospend', 'Import csv project') }}
+				</ActionButton>
+				<ActionButton
+					icon="icon-download"
+					:close-after-click="true"
+					@click="onImportSWClick">
+					{{ t('cospend', 'Import SplitWise project') }}
+				</ActionButton>
+			</Actions>
 			<h2 v-if="loading"
 				class="icon-loading-small loading-icon" />
 			<EmptyContent v-else-if="sortedProjectIds.length === 0"
@@ -79,6 +95,7 @@ import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import AppNavigationNewItem from '@nextcloud/vue/dist/Components/AppNavigationNewItem'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import Actions from '@nextcloud/vue/dist/Components/Actions'
 
 import { emit } from '@nextcloud/event-bus'
 import { showSuccess } from '@nextcloud/dialogs'
@@ -92,6 +109,7 @@ export default {
 		AppNavigationNewItem,
 		AppNavigationItem,
 		ActionButton,
+		Actions,
 	},
 	directives: {
 		ClickOutside,
@@ -207,7 +225,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-.addProjectItem {
+::v-deep .addProjectItem {
 	position: sticky;
 	top: 0;
 	z-index: 1000;
@@ -216,6 +234,16 @@ export default {
 	&:hover {
 		background-color: var(--color-background-hover);
 	}
+	button {
+		z-index: 1002;
+	}
+}
+
+::v-deep .importActionMenu {
+	position: absolute !important;
+	top: 0;
+	right: 0;
+	z-index: 1001;
 }
 
 ::v-deep .selectedproject,

@@ -1,12 +1,33 @@
 <template>
 	<AppNavigation>
 		<template #list>
-			<AppNavigationNewItem v-if="!pageIsPublic && !loading"
+			<AppNavigationItem v-if="!pageIsPublic && !loading"
 				class="addProjectItem"
 				icon="icon-add"
+				:editable="true"
 				:title="t('cospend', 'New project')"
 				:edit-placeholder="t('cospend', 'New project name')"
-				@new-item="$emit('create-project', $event)" />
+				:edit-label="t('cospend', 'New empty project')"
+				:loading="importingProject"
+				:menu-open="importMenuOpen"
+				@click="importMenuOpen = true"
+				@update:title="$emit('create-project', $event)"
+				@update:menuOpen="updateImportMenuOpen">
+				<template #actions>
+					<ActionButton
+						icon="icon-download"
+						:close-after-click="true"
+						@click="onImportClick">
+						{{ t('cospend', 'Import csv project') }}
+					</ActionButton>
+					<ActionButton
+						icon="icon-download"
+						:close-after-click="true"
+						@click="onImportSWClick">
+						{{ t('cospend', 'Import SplitWise project') }}
+					</ActionButton>
+				</template>
+			</AppNavigationItem>
 			<h2 v-if="loading"
 				class="icon-loading-small loading-icon" />
 			<EmptyContent v-else-if="sortedProjectIds.length === 0"
@@ -32,28 +53,6 @@
 				@member-click="$emit('member-click', id, $event)" />
 		</template>
 		<template #footer>
-			<AppNavigationItem v-if="!pageIsPublic && !loading"
-				icon="icon-download"
-				:title="t('cospend', 'Import project')"
-				:loading="importingProject"
-				:menu-open="importMenuOpen"
-				@click="importMenuOpen = true"
-				@update:menuOpen="updateImportMenuOpen">
-				<template #actions>
-					<ActionButton
-						icon="icon-download"
-						:close-after-click="true"
-						@click="onImportClick">
-						{{ t('cospend', 'Import csv project') }}
-					</ActionButton>
-					<ActionButton
-						icon="icon-download"
-						:close-after-click="true"
-						@click="onImportSWClick">
-						{{ t('cospend', 'Import SplitWise project') }}
-					</ActionButton>
-				</template>
-			</AppNavigationItem>
 			<div id="app-settings">
 				<div id="app-settings-header">
 					<button class="settings-button" @click="showSettings">
@@ -76,7 +75,6 @@ import ClickOutside from 'vue-click-outside'
 
 import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import AppNavigationNewItem from '@nextcloud/vue/dist/Components/AppNavigationNewItem'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 
@@ -89,7 +87,6 @@ export default {
 		AppNavigationProjectItem,
 		AppNavigation,
 		EmptyContent,
-		AppNavigationNewItem,
 		AppNavigationItem,
 		ActionButton,
 	},

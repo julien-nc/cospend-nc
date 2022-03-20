@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-03-19 03:42+0100\n"
-"PO-Revision-Date: 2022-03-19 02:46\n"
+"PO-Revision-Date: 2022-03-20 02:51\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -1237,7 +1237,7 @@ msgstr "Nouvelle facture"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:106
 msgid "Filters"
-msgstr ""
+msgstr "Filtres"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:107
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:129
@@ -1253,24 +1253,24 @@ msgstr "Sélectionnez une catégorie"
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:109
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:397
 msgid "Select a payment mode"
-msgstr ""
+msgstr "Sélectionnez un mode de paiement"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:110
 msgid "Multi select actions"
-msgstr ""
+msgstr "Actions pour la sélection multiple"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:111
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:116
 msgid "Leave multiple select mode"
-msgstr ""
+msgstr "Sortir du mode sélection multiple"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "Assign a category"
-msgstr ""
+msgstr "Assigner une catégorie"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:113
 msgid "Assign a payment mode"
-msgstr ""
+msgstr "Assigner un mode de paiement"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:114
 msgid "Delete selected bills"
@@ -1985,11 +1985,11 @@ msgstr "Membres"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "Enter a member name"
-msgstr ""
+msgstr "Entrez un nom de membre"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:319
 msgid "No result"
-msgstr ""
+msgstr "Aucun résultat"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:320
 msgid "Associate a project member with a Nextcloud user"
@@ -2001,7 +2001,7 @@ msgstr "Choisissez un utilisateur Nextcloud"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:323
 msgid "Type to search users"
-msgstr ""
+msgstr "Tapez pour rechercher des utilisateurs"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:324
 msgid "New member name"
@@ -2095,7 +2095,7 @@ msgstr "Supprimer l'accès"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:357
 msgid "Show deprecated password protected access"
-msgstr ""
+msgstr "Afficher l'accès protégé par mot de passe (obsolète)"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:358
 msgid "Password protected access"
@@ -2103,7 +2103,7 @@ msgstr "Accès protégé par mot de passe"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:365
 msgid "Set project password"
-msgstr ""
+msgstr "Définir le mot de passe du projet"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:368
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:370
@@ -2267,7 +2267,7 @@ msgstr "Qui a payé pour cette catégorie?"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:424
 msgid "What did they pay for?"
-msgstr ""
+msgstr "Pour quoi a-t-il/elle payé?"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:425
 msgid "Select a member"

@@ -4,7 +4,53 @@ import cospend from './state'
 import { getCurrentUser } from '@nextcloud/auth'
 import {
 	showInfo,
+	showError,
 } from '@nextcloud/dialogs'
+import * as network from './network'
+
+export function importCospendProject(importBeginCallback, importSuccessCallback, importEndCallback) {
+	OC.dialogs.filepicker(
+		t('cospend', 'Choose csv project file'),
+		(targetPath) => {
+			importProject(targetPath, false, importBeginCallback, importSuccessCallback, importEndCallback)
+		},
+		false,
+		['text/csv'],
+		true
+	)
+}
+
+export function importSWProject(importBeginCallback, importSuccessCallback, importEndCallback) {
+	OC.dialogs.filepicker(
+		t('cospend', 'Choose SplitWise project file'),
+		(targetPath) => {
+			importProject(targetPath, true, importBeginCallback, importSuccessCallback, importEndCallback)
+		},
+		false,
+		['text/csv'],
+		true
+	)
+}
+
+export function importProject(targetPath, isSplitWise = false, importBeginCallback, importSuccessCallback, importEndCallback) {
+	if (importBeginCallback) {
+		importBeginCallback()
+	}
+	network.importProject(targetPath, isSplitWise).then((response) => {
+		if (importSuccessCallback) {
+			importSuccessCallback(response.data)
+		}
+	}).catch((error) => {
+		showError(
+			t('cospend', 'Failed to import project file')
+			+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+		)
+	}).then(() => {
+		if (importEndCallback) {
+			importEndCallback()
+		}
+	})
+}
 
 export function getMemberName(projectid, memberid) {
 	return cospend.members[projectid][memberid].name

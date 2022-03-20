@@ -32,6 +32,28 @@
 				@member-click="$emit('member-click', id, $event)" />
 		</template>
 		<template #footer>
+			<AppNavigationItem v-if="!pageIsPublic && !loading"
+				icon="icon-download"
+				:title="t('cospend', 'Import project')"
+				:loading="importingProject"
+				:menu-open="importMenuOpen"
+				@click="importMenuOpen = true"
+				@update:menuOpen="updateImportMenuOpen">
+				<template #actions>
+					<ActionButton
+						icon="icon-download"
+						:close-after-click="true"
+						@click="onImportClick">
+						{{ t('cospend', 'Import csv project') }}
+					</ActionButton>
+					<ActionButton
+						icon="icon-download"
+						:close-after-click="true"
+						@click="onImportSWClick">
+						{{ t('cospend', 'Import SplitWise project') }}
+					</ActionButton>
+				</template>
+			</AppNavigationItem>
 			<div id="app-settings">
 				<div id="app-settings-header">
 					<button class="settings-button" @click="showSettings">
@@ -48,15 +70,18 @@ import AppNavigationProjectItem from './AppNavigationProjectItem'
 
 import cospend from '../state'
 import * as constants from '../constants'
-import { strcmp } from '../utils'
+import { strcmp, importCospendProject, importSWProject } from '../utils'
 
 import ClickOutside from 'vue-click-outside'
 
 import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import AppNavigationNewItem from '@nextcloud/vue/dist/Components/AppNavigationNewItem'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 
 import { emit } from '@nextcloud/event-bus'
+import { showSuccess } from '@nextcloud/dialogs'
 
 export default {
 	name: 'CospendNavigation',
@@ -65,6 +90,8 @@ export default {
 		AppNavigation,
 		EmptyContent,
 		AppNavigationNewItem,
+		AppNavigationItem,
+		ActionButton,
 	},
 	directives: {
 		ClickOutside,
@@ -93,6 +120,8 @@ export default {
 			creating: false,
 			cospend,
 			pageIsPublic: cospend.pageIsPublic,
+			importMenuOpen: false,
+			importingProject: false,
 		}
 	},
 	computed: {
@@ -148,6 +177,31 @@ export default {
 		},
 		onMemberEdited(projectid, memberid) {
 			this.$emit('member-edited', projectid, memberid)
+		},
+		onImportClick() {
+			importCospendProject(() => {
+				this.importingProject = true
+			}, (data) => {
+				this.$emit('project-imported', data)
+				showSuccess(t('cospend', 'Project imported'))
+			}, () => {
+				this.importingProject = false
+			})
+		},
+		onImportSWClick() {
+			importSWProject(() => {
+				this.importingProject = true
+			}, (data) => {
+				this.$emit('project-imported', data)
+				showSuccess(t('cospend', 'Project imported'))
+			}, () => {
+				this.importingProject = false
+			})
+		},
+		updateImportMenuOpen(isOpen) {
+			if (!isOpen) {
+				this.importMenuOpen = false
+			}
 		},
 	},
 }

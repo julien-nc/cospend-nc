@@ -184,8 +184,8 @@ import { getFilePickerBuilder, showError, showSuccess } from '@nextcloud/dialogs
 import AppSettingsDialog from '@nextcloud/vue/dist/Components/AppSettingsDialog'
 import AppSettingsSection from '@nextcloud/vue/dist/Components/AppSettingsSection'
 import cospend from '../state'
-import * as network from '../network'
 import { generateUrl } from '@nextcloud/router'
+import { importCospendProject, importSWProject } from '../utils'
 
 export default {
 	name: 'CospendSettingsDialog',
@@ -263,47 +263,23 @@ export default {
 			cospend.useTime = e.target.checked
 		},
 		onImportClick() {
-			OC.dialogs.filepicker(
-				t('cospend', 'Choose csv project file'),
-				(targetPath) => {
-					this.importProject(targetPath)
-				},
-				false,
-				['text/csv'],
-				true
-			)
+			importCospendProject(() => {
+				this.importingProject = true
+			}, (data) => {
+				this.$emit('project-imported', data)
+				showSuccess(t('cospend', 'Project imported'))
+			}, () => {
+				this.importingProject = false
+			})
 		},
 		onImportSWClick() {
-			OC.dialogs.filepicker(
-				t('cospend', 'Choose SplitWise project file'),
-				(targetPath) => {
-					this.importProject(targetPath, true)
-				},
-				false,
-				['text/csv'],
-				true
-			)
-		},
-		importProject(targetPath, isSplitWise = false) {
-			if (isSplitWise) {
+			importSWProject(() => {
 				this.importingSWProject = true
-			} else {
-				this.importingProject = true
-			}
-			network.importProject(targetPath, isSplitWise).then((response) => {
-				this.$emit('project-imported', response.data)
+			}, (data) => {
+				this.$emit('project-imported', data)
 				showSuccess(t('cospend', 'Project imported'))
-			}).catch((error) => {
-				showError(
-					t('cospend', 'Failed to import project file')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
-				)
-			}).then(() => {
-				if (isSplitWise) {
-					this.importingSWProject = false
-				} else {
-					this.importingProject = false
-				}
+			}, () => {
+				this.importingSWProject = false
 			})
 		},
 		async onGuestLinkClick() {

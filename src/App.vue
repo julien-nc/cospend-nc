@@ -7,6 +7,7 @@
 			:loading="projectsLoading"
 			@project-clicked="onProjectClicked"
 			@delete-project="onDeleteProject"
+			@project-imported="onProjectImported"
 			@stats-clicked="onStatsClicked"
 			@settle-clicked="onSettleClicked"
 			@detail-clicked="onDetailClicked"

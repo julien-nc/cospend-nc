@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-03-19 03:42+0100\n"
-"PO-Revision-Date: 2022-03-19 02:46\n"
+"PO-Revision-Date: 2022-03-20 02:50\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -254,7 +254,7 @@ msgstr "Senha ou hiperligação de partilha errada"
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1601
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:277
 msgid "Guest access"
-msgstr "Acesso de convidado"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1318
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1427
@@ -373,7 +373,7 @@ msgstr "Aluguer"
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Migration/Version000406Date20200426154317.php:95
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:154
 msgid "Bill"
-msgstr "Despesa"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Migration/Version000406Date20200426154317.php:96
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:159
@@ -471,7 +471,7 @@ msgstr "{user} deixou de partilhar o planeamento %s consigo"
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Search/CospendSearchProvider.php:218
 #, php-format
 msgid "in %1$s"
-msgstr "em %1$s"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:229
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:215
@@ -511,7 +511,7 @@ msgstr "Valor inválido"
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1187
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1889
 msgid "Invalid frequency"
-msgstr "Frequência inválida"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1195
 msgid "Timestamp (or date) field is required"
@@ -569,7 +569,7 @@ msgstr "Endereço de email inválido"
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1896
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1903
 msgid "Invalid sort order"
-msgstr "Ordenação inválida"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1927
 msgid "There is no such project"
@@ -581,7 +581,7 @@ msgstr "O peso não é um valor decimal válido"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1968
 msgid "Invalid color value"
-msgstr "Cor inválida"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1990
 msgid "This project already has this member"
@@ -925,7 +925,7 @@ msgstr "Não é possível duplicar uma despesa com um pagador desabilitado"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:24
 msgid "Duplicate bill"
-msgstr "Duplicar despesa"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:25
 msgid "What?"
@@ -952,12 +952,12 @@ msgstr "Converter para"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:32
 msgid "Who paid?"
-msgstr "Quem pagou?"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:33
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:321
 msgid "Choose a member"
-msgstr "Escolha um membro"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:34
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:35
@@ -1045,7 +1045,7 @@ msgstr "Repetir até"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:55
 msgid "No limit"
-msgstr "Sem limite"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:56
 msgid "Repeat now"
@@ -1053,7 +1053,7 @@ msgstr "Repetir agora"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:57
 msgid "Bill type"
-msgstr "Tipo de despesa"
+msgstr "Tipo de factura"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:58
 msgid "Classic, even split"
@@ -1129,23 +1129,23 @@ msgstr "Adicionar a categoria \"{name}\""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:79
 msgid "Bill : {what}"
-msgstr "Despesa: {what}"
+msgstr "Factura: {what}"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:80
 msgid "Create the bill"
-msgstr "Criar a despesa"
+msgstr "Criar a factura"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:80
 msgid "Create the bills"
-msgstr "Criar as despesas"
+msgstr "Criar as facturas"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:81
 msgid "Failed to add payment mode"
-msgstr "Falha ao adicionar forma de pagamento"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:82
 msgid "Failed to add category"
-msgstr "Falha ao adicionar categoria"
+msgstr "Falhou a adição da categoria"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:83
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:227
@@ -1233,7 +1233,7 @@ msgstr "Também pode repetir manualmente esta despesa com o botão \"Repetir ago
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:105
 msgid "New bill"
-msgstr "Nova despesa"
+msgstr "Nova factura"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:106
 msgid "Filters"
@@ -1242,7 +1242,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:107
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:129
 msgid "Close filters"
-msgstr "Fechar filtros"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:108
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:399
@@ -1295,7 +1295,7 @@ msgstr "Não há mais despesas"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:121
 msgid "All payment modes"
-msgstr "Todas as formas de pagamento"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:122
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:123
@@ -1306,7 +1306,7 @@ msgstr "Nenhuma forma de pagamento"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:124
 msgid "All categories"
-msgstr "Todas as categorias"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:125
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:126
@@ -1325,7 +1325,7 @@ msgstr "Iniciar o modo de escolha múltipla"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:130
 msgid "Open filters"
-msgstr "Abrir filtros"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:131
 msgid "Bill deleted"
@@ -1387,11 +1387,11 @@ msgstr "Manual"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:144
 msgid "Most used"
-msgstr "Mais usado"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:145
 msgid "Most recently used"
-msgstr "Usado mais recentemente"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:146
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:257
@@ -1410,7 +1410,7 @@ msgstr "Método de ordenação de categorias"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:148
 msgid "Payment mode sort method"
-msgstr "Ordenar por forma de pagamento"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:149
 msgid "Add category"
@@ -1418,7 +1418,7 @@ msgstr "Adicionar categoria"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:149
 msgid "Add payment mode"
-msgstr "Adicionar forma de pagamento"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:150
 msgid "Category name"
@@ -1426,7 +1426,7 @@ msgstr "Nome da categoria"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:150
 msgid "Payment mode name"
-msgstr "Nome da forma de pagamento"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:151
 msgid "Add this category"
@@ -1434,7 +1434,7 @@ msgstr "Adicionar esta categoria"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:151
 msgid "Add this payment mode"
-msgstr "Adicionar esta forma de pagamento"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:152
 msgid "Category list"
@@ -1442,7 +1442,7 @@ msgstr "Lista de categorias"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:152
 msgid "Payment mode list"
-msgstr "Lista de formas de pagamento"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:153
 msgid "Drag categories to set manual order"
@@ -1450,15 +1450,15 @@ msgstr "Arraste as categorias para definir a ordem manualmente"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:153
 msgid "Drag payment modes to set manual order"
-msgstr "Arraste as formas de pagamento para configurar uma ordem manual"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:154
 msgid "No categories"
-msgstr "Sem categorias"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:154
 msgid "No payment modes"
-msgstr "Sem formas de pagamento"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:155
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:160
@@ -1467,11 +1467,11 @@ msgstr "O campo Nome não pode ficar em branco"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:156
 msgid "Failed to add {name}"
-msgstr "Falha ao adicionar {name}"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:157
 msgid "{name} was added"
-msgstr "{name} foi adicionado"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:158
 msgid "Failed to delete category"
@@ -1491,7 +1491,7 @@ msgstr "Ordem guardada"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:163
 msgid "Main currency"
-msgstr "Moeda principal"
+msgstr "Unidade monetária principal"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:165
 msgid "Set main currency name"
@@ -1499,7 +1499,7 @@ msgstr "Definir o nome da moeda principal"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:166
 msgid "Main currency name"
-msgstr "Nome da moeda principal"
+msgstr "Nome da unidade monetária principal"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:168
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:262
@@ -1509,7 +1509,7 @@ msgstr "Guardar"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:169
 msgid "Add currency"
-msgstr "Adicionar moeda"
+msgstr "Adicionar unidade monetária"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:170
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:260
@@ -1521,15 +1521,15 @@ msgstr "Nome"
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:171
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:304
 msgid "Currency name"
-msgstr "Nome da moeda"
+msgstr "Nome da unidade monetária"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:172
 msgid "Exchange rate to main currency"
-msgstr "Taxa de câmbio para a moeda principal"
+msgstr "Taxa de câmbio para a unidade monetária principal"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:173
 msgid "(1 of this currency = X of main currency)"
-msgstr "(1 desta moeda = X da moeda principal)"
+msgstr "(1 desta unidade monetária = X da unidade monetária principal)"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:174
 msgid "Add this currency"
@@ -1537,7 +1537,7 @@ msgstr "Adicionar esta moeda"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:175
 msgid "Currency list"
-msgstr "Lista de moedas"
+msgstr "Lista de unidades monetárias"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:176
 msgid "No currencies to display"
@@ -1607,11 +1607,11 @@ msgstr "Não foi encontrada qualquer transferência"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:196
 msgid "Balances on {date}"
-msgstr "Saldos em {date}"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:196
 msgid "Balances"
-msgstr "Saldos"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:199
 msgid "No balances found"
@@ -1623,11 +1623,11 @@ msgstr "Reembolso individual"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:201
 msgid "Payer"
-msgstr "Pagador"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:202
 msgid "Receiver"
-msgstr "Recebedor"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:203
 msgid "Create bill ({amount})"
@@ -1711,7 +1711,7 @@ msgstr "{user} removeu {who} do planeamento"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "you"
-msgstr "você"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:229
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:230
@@ -1720,7 +1720,7 @@ msgstr "Não há mais actividade"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:231
 msgid "Rename member"
-msgstr "Renomear membro"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:232
 msgid "Change color"
@@ -1837,15 +1837,15 @@ msgstr "Ainda não há planos"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:266
 msgid "Cospend settings"
-msgstr "Configurações do Cospend"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:267
 msgid "About Cospend"
-msgstr "Sobre o Cospend"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:268
 msgid "Thanks for using Cospend"
-msgstr "Obrigado por usar o Cospend"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:269
 msgid "Bug/issue tracker"
@@ -1853,7 +1853,7 @@ msgstr "Rastreio de erros"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:270
 msgid "Translation"
-msgstr "Tradução"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:271
 msgid "User documentation"
@@ -1861,7 +1861,7 @@ msgstr "Documentação do utilizador"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:272
 msgid "Admin documentation"
-msgstr "Documentação do administrador"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:273
 msgid "Developer documentation"
@@ -1909,11 +1909,11 @@ msgstr "Última atividade"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:286
 msgid "How members are sorted"
-msgstr "Como os membros são ordenados"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:287
 msgid "Members order"
-msgstr "Ordenação dos membros"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:290
 msgid "Misc"
@@ -1981,7 +1981,7 @@ msgstr "Exportar plano"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:316
 msgid "Members"
-msgstr "Membros"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "Enter a member name"
@@ -2067,15 +2067,15 @@ msgstr "Apresentar código QR para clientes no telemóvel"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:342
 msgid "Label"
-msgstr "Rótulo"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:343
 msgid "Password protect"
-msgstr "Proteger com senha"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:344
 msgid "Set link password"
-msgstr "Configurar senha de link"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:349
 msgid "Delete link"
@@ -2154,11 +2154,11 @@ msgstr "Categorias"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:384
 msgid "Payment modes"
-msgstr "Formas de pagamento"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:385
 msgid "Currencies"
-msgstr "Moedas"
+msgstr "Unidades monetárias"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:386
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} {currency} spent"
@@ -2211,7 +2211,7 @@ msgstr "Mostrar membros desabilitados"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:405
 msgid "Total paid by all the members: {t}"
-msgstr "Total pago por todos os membros: {t}"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:406
 msgid "Global stats"
@@ -2231,11 +2231,11 @@ msgstr "Pagamentos por membro por mês"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:414
 msgid "Monthly spent per member"
-msgstr "Gasto mensal por membro"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:415
 msgid "Spendings per member per month"
-msgstr "Gasto por membro por mês"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:416
 msgid "Monthly paid per category"
@@ -2283,7 +2283,7 @@ msgstr "pago para"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:428
 msgid "Total paid"
-msgstr "Total pago"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:429
 msgid "Total owed"
@@ -2295,7 +2295,7 @@ msgstr "Total em dívida por {name}"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:431
 msgid "Total paid by {name}"
-msgstr "Total pago por {name}"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:432
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:436
@@ -2314,11 +2314,11 @@ msgstr "Quem pagou (fora do círculo) e quem gastou (dentro do círculo)?"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:440
 msgid "How much was paid per category?"
-msgstr "Quanto foi pago por categoria?"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:441
 msgid "How much was paid per payment mode?"
-msgstr "Quanto foi pago por forma de pagamento?"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:443
 msgid "No recent activity"

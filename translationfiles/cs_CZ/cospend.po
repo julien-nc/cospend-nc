@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-03-19 03:42+0100\n"
-"PO-Revision-Date: 2022-03-19 02:46\n"
+"PO-Revision-Date: 2022-03-22 12:33\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -1239,7 +1239,7 @@ msgstr "Nový účet"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:106
 msgid "Filters"
-msgstr ""
+msgstr "Filtry"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:107
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:129
@@ -1255,24 +1255,24 @@ msgstr "Vyberte kategorii"
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:109
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:397
 msgid "Select a payment mode"
-msgstr ""
+msgstr "Vyberte platební metodu"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:110
 msgid "Multi select actions"
-msgstr ""
+msgstr "Mnohočetný výběr akcí"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:111
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:116
 msgid "Leave multiple select mode"
-msgstr ""
+msgstr "Opustit režim vícenásobného výběru"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "Assign a category"
-msgstr ""
+msgstr "Přiřadit kategorii"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:113
 msgid "Assign a payment mode"
-msgstr ""
+msgstr "Přiřadit režim platby"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:114
 msgid "Delete selected bills"
@@ -1989,11 +1989,11 @@ msgstr "Členové"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "Enter a member name"
-msgstr ""
+msgstr "Zadejte jméno člena"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:319
 msgid "No result"
-msgstr ""
+msgstr "Nic nenalezeno"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:320
 msgid "Associate a project member with a Nextcloud user"
@@ -2005,7 +2005,7 @@ msgstr "Zvolte uživatele z Nextcloud"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:323
 msgid "Type to search users"
-msgstr ""
+msgstr "Uživatele vyhledáte psaním"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:324
 msgid "New member name"
@@ -2099,7 +2099,7 @@ msgstr "Odstranit přístup"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:357
 msgid "Show deprecated password protected access"
-msgstr ""
+msgstr "Zobrazit zastaralý přístup, chráněný pouze heslem"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:358
 msgid "Password protected access"
@@ -2107,7 +2107,7 @@ msgstr "Přístup chráněný heslem"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:365
 msgid "Set project password"
-msgstr ""
+msgstr "Nastavit heslo pro projekt"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:368
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:370
@@ -2271,7 +2271,7 @@ msgstr "Kdo v této kategorii platil?"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:424
 msgid "What did they pay for?"
-msgstr ""
+msgstr "Za co platili?"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:425
 msgid "Select a member"

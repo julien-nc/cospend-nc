@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-03-19 03:42+0100\n"
-"PO-Revision-Date: 2022-03-20 02:50\n"
+"PO-Revision-Date: 2022-03-24 23:20\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -254,7 +254,7 @@ msgstr "Senha ou hiperligação de partilha errada"
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1601
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:277
 msgid "Guest access"
-msgstr ""
+msgstr "Acesso de convidado"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1318
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1427
@@ -373,7 +373,7 @@ msgstr "Aluguer"
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Migration/Version000406Date20200426154317.php:95
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:154
 msgid "Bill"
-msgstr ""
+msgstr "Despesa"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Migration/Version000406Date20200426154317.php:96
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:159
@@ -471,7 +471,7 @@ msgstr "{user} deixou de partilhar o planeamento %s consigo"
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Search/CospendSearchProvider.php:218
 #, php-format
 msgid "in %1$s"
-msgstr ""
+msgstr "em %1$s"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:229
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:215
@@ -511,7 +511,7 @@ msgstr "Valor inválido"
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1187
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1889
 msgid "Invalid frequency"
-msgstr ""
+msgstr "Frequência inválida"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1195
 msgid "Timestamp (or date) field is required"

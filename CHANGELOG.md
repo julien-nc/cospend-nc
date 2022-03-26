@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 1.4.6 – 2022-03-26
+### Changed
+- changed instances of 'she/he', 'his/hers', etc to 'they'/'them'/'their' @hexadecatrienoic
+- move project import in new project actions
+[#104](https://github.com/eneiluj/cospend-nc/issues/104) @derMart
+
+### Fixed
+- app-content not displayed when loaded in mobile view
+[#126](https://github.com/eneiluj/cospend-nc/issues/126) @brunothg
+- warning in API (edit and create bill)
+[#127](https://github.com/eneiluj/cospend-nc/issues/127) @rm76
+
 ## 1.4.5 – 2022-03-11
 ### Changed
 - improve filters and multi-select in bill list

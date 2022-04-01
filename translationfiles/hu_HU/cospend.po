@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-03-27 03:43+0200\n"
-"PO-Revision-Date: 2022-03-27 01:45\n"
+"PO-Revision-Date: 2022-04-01 15:54\n"
 "Last-Translator: \n"
 "Language-Team: Hungarian\n"
 "Language: hu_HU\n"
@@ -665,7 +665,7 @@ msgstr "Nincs ilyen kör"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4883
 msgid "Circles app is not enabled"
-msgstr "Circles applikáció nincs engedélyezve"
+msgstr "Körök alkalmazás nincs engedélyezve"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4975
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:192
@@ -1237,7 +1237,7 @@ msgstr "Új számla"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:106
 msgid "Filters"
-msgstr ""
+msgstr "Szűrők"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:107
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:129
@@ -1253,24 +1253,24 @@ msgstr "Válassz kategóriát"
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:109
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:400
 msgid "Select a payment mode"
-msgstr ""
+msgstr "Válassz egy fizetési módot"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:110
 msgid "Multi select actions"
-msgstr ""
+msgstr "Több művelet kiválasztása"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:111
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:116
 msgid "Leave multiple select mode"
-msgstr ""
+msgstr "Több művelet kiválasztásának elhagyása"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "Assign a category"
-msgstr ""
+msgstr "Kategória hozzárendelése"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:113
 msgid "Assign a payment mode"
-msgstr ""
+msgstr "Fizetési mód hozzárendelése"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:114
 msgid "Delete selected bills"
@@ -1833,7 +1833,7 @@ msgstr "Új projekt neve"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:265
 msgid "New empty project"
-msgstr ""
+msgstr "Új üres projekt"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:266
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:280
@@ -1982,11 +1982,11 @@ msgstr "Tagok"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:321
 msgid "Enter a member name"
-msgstr ""
+msgstr "Írd be a tag nevét"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:322
 msgid "No result"
-msgstr ""
+msgstr "Nincs találat"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:323
 msgid "Associate a project member with a Nextcloud user"
@@ -1998,7 +1998,7 @@ msgstr "Válassz egy Nextcloud felhasználót"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:326
 msgid "Type to search users"
-msgstr ""
+msgstr "Gépelj felhasználó kereséséhez"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:327
 msgid "New member name"
@@ -2034,7 +2034,7 @@ msgstr "Projekt megosztása egy felhasználóval, csoporttal vagy körrel …"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:337
 msgid "Start typing to search"
-msgstr ""
+msgstr "Kezdj gépelni a kereséshez"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:338
 msgid "Scan this QRCode with your mobile device to add project \"{name}\" in MoneyBuster or PayForMe"
@@ -2092,7 +2092,7 @@ msgstr "Hozzáférés törlése"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:360
 msgid "Show deprecated password protected access"
-msgstr ""
+msgstr "Elavult jelszóvédett elérés mutatása"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:361
 msgid "Password protected access"
@@ -2100,7 +2100,7 @@ msgstr "Jelszóval védett hozzáférés"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:368
 msgid "Set project password"
-msgstr ""
+msgstr "Projektjelszó beállítása"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:371
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:373
@@ -2264,7 +2264,7 @@ msgstr "Ki fizette ezt a kategóriát?"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:427
 msgid "What did they pay for?"
-msgstr ""
+msgstr "Miért fizettek?"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:428
 msgid "Select a member"

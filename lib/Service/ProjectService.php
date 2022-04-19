@@ -745,12 +745,13 @@ class ProjectService {
 	 * @param float|null $amountMax
 	 * @param bool|null $showDisabled
 	 * @param int|null $currencyId
+	 * @param int|null $payerId
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getProjectStatistics(string $projectId, ?string $memberOrder = null, ?int $tsMin = null, ?int $tsMax = null,
 										 ?int   $paymentModeId = null, ?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
-										 bool   $showDisabled = true, ?int $currencyId = null): array {
+										 bool   $showDisabled = true, ?int $currencyId = null, ?int $payerId = null): array {
 		$timeZone = $this->dateTimeZone->getTimeZone();
 		$membersWeight = [];
 		$membersNbBills = [];
@@ -804,7 +805,10 @@ class ProjectService {
 		}
 
 		// compute stats
-		$bills = $this->getBills($projectId, $tsMin, $tsMax, null, $paymentModeId, $categoryId, $amountMin, $amountMax);
+		$bills = $this->getBills(
+			$projectId, $tsMin, $tsMax, null, $paymentModeId, $categoryId,
+			$amountMin, $amountMax, null, null, false, $payerId
+		);
 
 		/*
 		$firstBillTs = $bills[0]['timestamp'];

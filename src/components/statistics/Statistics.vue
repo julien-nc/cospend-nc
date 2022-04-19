@@ -12,12 +12,18 @@
 			</button>
 		</h2>
 		<div id="stats-filters">
-			<label for="date-min-stats">{{ t('cospend', 'Minimum date') }}: </label>
+			<label for="date-min-stats">
+				<a class="icon icon-calendar-dark" />
+				{{ t('cospend', 'Minimum date') }}
+			</label>
 			<input id="date-min-stats"
 				ref="dateMinFilter"
 				type="date"
 				@change="getStats">
-			<label for="date-max-stats">{{ t('cospend', 'Maximum date') }}: </label>
+			<label for="date-max-stats">
+				<a class="icon icon-calendar-dark" />
+				{{ t('cospend', 'Maximum date') }}
+			</label>
 			<input id="date-max-stats"
 				ref="dateMaxFilter"
 				type="date"
@@ -42,17 +48,26 @@
 				:categories="sortedFilterCategories"
 				:placeholder="t('cospend', 'Select a category')"
 				@input="categoryFilterSelected" />
-			<label for="amount-min-stats">{{ t('cospend', 'Minimum amount') }}: </label>
+			<label for="amount-min-stats">
+				<a class="icon icon-cospend" />
+				{{ t('cospend', 'Minimum amount') }}
+			</label>
 			<input id="amount-min-stats"
 				ref="amountMinFilter"
 				type="number"
 				@change="getStats">
-			<label for="amount-max-stats">{{ t('cospend', 'Maximum amount') }}: </label>
+			<label for="amount-max-stats">
+				<a class="icon icon-cospend" />
+				{{ t('cospend', 'Maximum amount') }}
+			</label>
 			<input id="amount-max-stats"
 				ref="amountMaxFilter"
 				type="number"
 				@change="getStats">
-			<label for="currency-stats">{{ t('cospend', 'Currency of statistic values') }}: </label>
+			<label for="currency-stats">
+				<a class="icon icon-currencies" />
+				{{ t('cospend', 'Convert in currency') }}
+			</label>
 			<select id="currency-stats"
 				ref="currencySelect"
 				@change="getStats">
@@ -65,6 +80,17 @@
 					{{ currency.name }}
 				</option>
 			</select>
+			<label for="payer-stats">
+				<a class="icon icon-user" />
+				{{ t('cospend', 'Payer') }}
+			</label>
+			<MemberMultiSelect
+				id="memberMultiSelect"
+				:project-id="project.id"
+				:value="selectedFilterPayer"
+				:placeholder="t('cospend', 'Choose a member')"
+				:members="filterMembers"
+				@input="memberFilterSelected" />
 			<input id="showDisabled"
 				ref="showDisabledFilter"
 				type="checkbox"
@@ -370,6 +396,10 @@ export default {
 				icon: '',
 				name: t('cospend', 'All'),
 			},
+			selectedFilterPayer: {
+				id: null,
+				name: t('cospend', 'All members'),
+			},
 			selectedCategoryId: -1,
 			selectedMemberId: -1,
 			isFiltered: true,
@@ -388,6 +418,15 @@ export default {
 		},
 		membersArray() {
 			return Object.values(this.members)
+		},
+		filterMembers() {
+			return [
+				{
+					id: null,
+					name: t('cospend', 'All members'),
+				},
+				...this.membersArray,
+			]
 		},
 		sortedFilterCategories() {
 			return [
@@ -875,13 +914,23 @@ export default {
 				this.selectedMemberId = selected.id
 			}
 		},
+		memberFilterSelected(selected) {
+			if (selected !== null) {
+				this.selectedFilterPayer = selected
+				this.getStats()
+			}
+		},
 		categoryFilterSelected(selected) {
-			this.selectedFilterCategory = selected
-			this.getStats()
+			if (selected !== null) {
+				this.selectedFilterCategory = selected
+				this.getStats()
+			}
 		},
 		paymentModeFilterSelected(selected) {
-			this.selectedFilterPm = selected
-			this.getStats()
+			if (selected !== null) {
+				this.selectedFilterPm = selected
+				this.getStats()
+			}
 		},
 		categorySelected(selected) {
 			if (selected?.id) {
@@ -953,6 +1002,7 @@ export default {
 			const amountMax = this.$refs.amountMaxFilter.value || null
 			const showDisabled = this.$refs.showDisabledFilter.checked
 			const currencyId = this.$refs.currencySelect.value
+			const payerId = this.selectedFilterPayer.id
 			const req = {
 				tsMin,
 				tsMax,
@@ -962,6 +1012,7 @@ export default {
 				amountMax,
 				showDisabled: showDisabled ? '1' : '0',
 				currencyId,
+				payerId,
 			}
 			const isFiltered = (
 				   (dateMin !== null && dateMin !== '')
@@ -1029,6 +1080,14 @@ export default {
 
 #stats-filters label {
 	line-height: 40px;
+	display: flex;
+	a.icon {
+		margin: 0 10px 0 10px;
+	}
+	.icon-currencies,
+	.icon-cospend {
+		min-width: 16px !important;
+	}
 }
 
 #memberPerCategoryChart,
@@ -1048,6 +1107,7 @@ export default {
 }
 
 .checkboxlabel {
+	display: block !important;
 	grid-column: 3 / 5;
 }
 

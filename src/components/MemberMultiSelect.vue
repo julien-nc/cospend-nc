@@ -12,6 +12,7 @@
 		@input="onMemberSelected">
 		<template #option="{option}">
 			<ColoredAvatar
+				v-if="option.id"
 				class="itemAvatar"
 				:color="option.color"
 				:size="34"
@@ -21,11 +22,12 @@
 				:is-no-user="option.userid === undefined || option.userid === '' || option.userid === null"
 				:user="option.userid"
 				:display-name="option.name" />
-			<div v-if="!option.activated" class="payerDisabledMask disabled" />
+			<div v-if="option.id && !option.activated" class="payerDisabledMask disabled" />
 			<span class="select-display-name">{{ option.displayName }}</span>
 		</template>
 		<template #singleLabel="{option}">
 			<ColoredAvatar
+				v-if="option.id"
 				class="itemAvatar"
 				:color="option.color"
 				:size="34"
@@ -35,7 +37,7 @@
 				:is-no-user="option.userid === undefined || option.userid === '' || option.userid === null"
 				:user="option.userid"
 				:display-name="option.name" />
-			<div v-if="!option.activated" class="payerDisabledMask disabled" />
+			<div v-if="option.id && !option.activated" class="payerDisabledMask disabled" />
 			<span class="select-display-name">{{ option.displayName }}</span>
 		</template>
 	</Multiselect>
@@ -105,6 +107,9 @@ export default {
 			this.$emit('input', selected)
 		},
 		myGetSmartMemberName(member) {
+			if (member.id === null) {
+				return member.name
+			}
 			let smartName = getSmartMemberName(this.projectId, member.id)
 			if (smartName === t('cospend', 'You')) {
 				smartName += ' (' + member.name + ')'

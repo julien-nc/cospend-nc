@@ -99,6 +99,20 @@
 			<label for="showDisabled" class="checkboxlabel">
 				{{ t('cospend', 'Show disabled members') }}
 			</label>
+			<label for="prefChartType">
+				<a class="icon icon-category-monitoring" />
+				{{ t('cospend', 'Chart type') }}
+			</label>
+			<select
+				id="prefChartType"
+				v-model="preferredChartType">
+				<option value="pie">
+					{{ t('cospend', 'Pie') }}
+				</option>
+				<option value="bar">
+					{{ t('cospend', 'Bar') }}
+				</option>
+			</select>
 		</div>
 		<br>
 		<p v-if="stats"
@@ -219,23 +233,32 @@
 		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		<hr>
 		<div id="memberChart">
-			<PieChartJs v-if="stats"
+			<PieChartJs v-if="stats && preferredChartType === 'pie'"
 				:chart-data="memberPieData"
 				:options="memberPieOptions" />
+			<BarChartJs v-else-if="stats && preferredChartType === 'bar'"
+				:chart-data="memberPieData"
+				:options="memberBarOptions" />
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
 		<div id="categoryChart">
-			<PieChartJs v-if="stats"
+			<PieChartJs v-if="stats && preferredChartType === 'pie'"
 				:chart-data="categoryPieData"
 				:options="categoryPieOptions" />
+			<BarChartJs v-else-if="stats && preferredChartType === 'bar'"
+				:chart-data="categoryPieData"
+				:options="categoryBarOptions" />
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
 		<div id="paymentModeChart">
-			<PieChartJs v-if="stats"
+			<PieChartJs v-if="stats && preferredChartType === 'pie'"
 				:chart-data="paymentModePieData"
 				:options="paymentModePieOptions" />
+			<BarChartJs v-else-if="stats && preferredChartType === 'bar'"
+				:chart-data="paymentModePieData"
+				:options="paymentModeBarOptions" />
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
@@ -251,9 +274,12 @@
 				@input="categorySelected" />
 		</div>
 		<div id="categoryMemberChart">
-			<PieChartJs v-if="stats && (selectedCategoryId !== -1)"
+			<PieChartJs v-if="stats && (selectedCategoryId !== -1) && preferredChartType === 'pie'"
 				:chart-data="categoryMemberPieData"
 				:options="categoryMemberPieOptions" />
+			<BarChartJs v-else-if="stats && (selectedCategoryId !== -1) && preferredChartType === 'bar'"
+				:chart-data="categoryMemberPieData"
+				:options="categoryMemberBarOptions" />
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
@@ -270,9 +296,12 @@
 				@input="memberSelected" />
 		</div>
 		<div id="memberPerCategoryChart">
-			<PieChartJs v-if="stats && (selectedMemberId !== -1)"
+			<PieChartJs v-if="stats && (selectedMemberId !== -1) && preferredChartType === 'pie'"
 				:chart-data="memberPerCategoryPieData"
 				:options="memberPerCategoryPieOptions" />
+			<BarChartJs v-else-if="stats && (selectedMemberId !== -1) && preferredChartType === 'bar'"
+				:chart-data="memberPerCategoryPieData"
+				:options="memberPerCategoryBarOptions" />
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
@@ -366,6 +395,7 @@ import * as network from '../../network'
 import MemberMonthly from './MemberMonthly'
 import Monthly from './Monthly'
 import PieChartJs from '../PieChartJs'
+import BarChartJs from '../BarChartJs'
 import * as constants from '../../constants'
 import PaymentModeMultiSelect from '../PaymentModeMultiSelect'
 
@@ -373,7 +403,15 @@ export default {
 	name: 'Statistics',
 
 	components: {
-		ColoredAvatar, MemberMultiSelect, PieChartJs, AppContentDetails, MemberMonthly, Monthly, CategoryMultiSelect, PaymentModeMultiSelect,
+		ColoredAvatar,
+		MemberMultiSelect,
+		PieChartJs,
+		BarChartJs,
+		AppContentDetails,
+		MemberMonthly,
+		Monthly,
+		CategoryMultiSelect,
+		PaymentModeMultiSelect,
 	},
 
 	props: {
@@ -406,6 +444,7 @@ export default {
 			cospend,
 			exporting: false,
 			loadingStats: false,
+			preferredChartType: 'pie',
 		}
 	},
 
@@ -733,9 +772,11 @@ export default {
 				datasets: [{
 					data: this.stats.stats.map((stat) => stat.paid.toFixed(2)),
 					backgroundColor: memberBackgroundColors,
+					label: t('cospend', 'Payed'),
 				}, {
 					data: this.stats.stats.map((stat) => stat.spent.toFixed(2)),
 					backgroundColor: memberBackgroundColors,
+					label: t('cospend', 'Spent'),
 				}],
 				labels: this.stats.stats.map((stat) => stat.member.name),
 			}
@@ -751,6 +792,16 @@ export default {
 				legend: {
 					position: 'left',
 				},
+			}
+		},
+		memberBarOptions() {
+			return {
+				...this.memberPieOptions,
+				title: {
+					display: true,
+					text: t('cospend', 'Who paid and spent?'),
+				},
+				...this.barOptions,
 			}
 		},
 		sortedCategoryStatsIds() {
@@ -800,6 +851,12 @@ export default {
 				},
 			}
 		},
+		categoryBarOptions() {
+			return {
+				...this.categoryPieOptions,
+				...this.barOptions,
+			}
+		},
 		sortedPaymentModeStatsIds() {
 			const sortedPaymentModeIds = this.sortedPaymentModes.filter((pm) => {
 				return this.stats.paymentModeStats[pm.id]
@@ -837,6 +894,12 @@ export default {
 				},
 			}
 		},
+		paymentModeBarOptions() {
+			return {
+				...this.paymentModePieOptions,
+				...this.barOptions,
+			}
+		},
 		categoryMemberPieData() {
 			const catid = this.selectedCategoryId
 			const categoryData = {
@@ -867,6 +930,12 @@ export default {
 				},
 			}
 		},
+		categoryMemberBarOptions() {
+			return {
+				...this.categoryMemberPieOptions,
+				...this.barOptions,
+			}
+		},
 		memberPerCategoryPieData() {
 			const memberData = {
 				datasets: [{
@@ -890,6 +959,27 @@ export default {
 			return {
 				...this.memberPieOptions,
 				title: {
+					display: false,
+				},
+			}
+		},
+		memberPerCategoryBarOptions() {
+			return {
+				...this.memberPerCategoryPieOptions,
+				...this.barOptions,
+			}
+		},
+		barOptions() {
+			return {
+				scales: {
+					yAxes: [{
+						display: true,
+						ticks: {
+							beginAtZero: true,
+						},
+					}],
+				},
+				legend: {
 					display: false,
 				},
 			}

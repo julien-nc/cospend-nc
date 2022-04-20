@@ -17,10 +17,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['7.3', '7.4']
+        php-versions: ['7.3', '7.4', '8.0']
         databases: ['sqlite', 'mysql', 'pgsql']
-        server-versions: ['stable22', 'stable23', 'master']
+        server-versions: ['stable22', 'stable23', 'stable24', 'master']
         exclude:
+          - php-versions: 7.3
+            server-versions: stable24
           - php-versions: 7.3
             server-versions: master
 

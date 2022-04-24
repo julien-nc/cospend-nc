@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-03-27 03:43+0200\n"
-"PO-Revision-Date: 2022-03-29 01:39\n"
+"POT-Creation-Date: 2022-04-24 18:55+0200\n"
+"PO-Revision-Date: 2022-04-24 16:57\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -127,15 +127,15 @@ msgstr "Žádný takový odkaz pro sdílení"
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:263
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:316
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:380
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2998
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:3001
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:3004
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5561
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5564
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5567
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5749
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5752
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5755
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:3002
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:3005
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:3008
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5565
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5568
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5571
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5753
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5756
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5759
 msgid "Access denied"
 msgstr "Přístup odepřen"
 
@@ -144,31 +144,31 @@ msgid "No such share link or public access"
 msgstr "Žádný takový odkaz pro sdílení nebo veřejný přístup"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:449
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:963
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:996
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1022
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1044
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1061
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1096
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1145
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1168
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1199
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1532
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1580
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1630
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1663
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1691
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1712
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1740
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1761
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1800
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1829
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1857
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1880
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1904
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1921
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1952
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1973
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:964
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:997
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1023
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1045
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1062
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1097
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1146
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1169
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1200
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1533
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1581
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1631
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1664
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1692
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1713
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1741
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1762
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1801
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1830
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1860
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1884
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1908
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1925
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1956
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1977
 msgid "Unauthorized action"
 msgstr "Neoprávněná akce"
 
@@ -181,173 +181,173 @@ msgstr "Nemáte oprávnění smazat tento účet"
 msgid "You are not allowed to get this project's info"
 msgstr "Nemáte oprávnění k informacím o tomto projektu"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:552
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:553
 msgid "You are not allowed to get this project's statistics"
 msgstr "Nemáte oprávnění ke statistikám tohoto projektu"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:569
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:570
 msgid "You are not allowed to get this project's settlement"
 msgstr "Nemáte oprávnění k vypsání vypořádání tohoto projektu"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:589
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:590
 msgid "You are not allowed to settle this project automatically"
 msgstr "Nemáte oprávnění k provedení automatického vypořádání tohoto projektu"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:604
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:605
 msgid "You are not allowed to access this project"
 msgstr "Nemáte oprávnění k přístupu k tomuto projektu"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:633
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:634
 msgid "You are not allowed to edit this member"
 msgstr "Nemáte oprávnění upravovat tohoto člena"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:667
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:724
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1443
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1497
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:668
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:725
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1444
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1498
 msgid "You are not allowed to edit this bill"
 msgstr "Nemáte oprávnění upravovat tento účet"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:684
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:780
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1333
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1366
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1391
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:685
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:781
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1334
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1367
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1392
 msgid "You are not allowed to add bills"
 msgstr "Nemáte oprávnění přidávat účty"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:749
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2818
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2899
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2940
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:750
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2822
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2903
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2944
 msgid "You are not allowed to edit this project"
 msgstr "Nemáte oprávnění upravovat tento projekt"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:801
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1230
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1261
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1283
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:802
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1231
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1262
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1284
 msgid "You are not allowed to add members"
 msgstr "Nemáte oprávnění přidávat členy"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:841
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:842
 msgid "You are not allowed to get the bill list"
 msgstr "Nemáte oprávnění k seznamu účtů"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:886
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:887
 msgid "Anonymous project creation is not allowed on this server"
 msgstr "Na tomto serveru není umožněno vytváření anonymních projektů"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:931
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:957
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:932
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:958
 msgid "Project not found"
 msgstr "Projekt nenalezen"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:937
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:938
 msgid "Bad password or share link"
 msgstr "Špatné heslo nebo odkaz pro sdílení"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1315
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1424
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1469
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1561
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1601
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1316
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1425
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1470
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1562
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1602
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:282
 msgid "Guest access"
 msgstr "Přístup pro hosty"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1318
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1427
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1472
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1564
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1604
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1319
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1428
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1473
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1565
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1605
 #, php-format
 msgid "Share link (%s)"
 msgstr "Odkaz pro sdílení (%s)"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1320
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1429
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1474
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1566
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1606
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1321
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1430
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1475
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1567
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1607
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:340
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:342
 msgid "Share link"
 msgstr "Odkaz pro sdílení"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:1996
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2000
 msgid "You are not allowed to give such shared access level"
 msgstr "Nemáte oprávnění k poskytnutí takové úrovně sdíleného přístupu"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2019
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2023
 msgid "You are not allowed to edit this shared access"
 msgstr "Nemáte oprávnění pro upravení tohoto sdíleného přístupu"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2039
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2053
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2043
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2057
 msgid "You are not allowed to edit guest access level"
 msgstr "Nemáte oprávnění k upravování úrovně přístupu hosta"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2095
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2125
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2146
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2166
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2184
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2215
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2242
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2264
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2283
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2311
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2332
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2099
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2129
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2150
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2170
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2188
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2219
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2246
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2268
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2287
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2315
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2336
 msgid "You are not allowed to manage payment modes"
 msgstr "Nemáte oprávnění ke správě režimů plateb"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2351
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2382
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2404
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2424
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2442
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2473
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2500
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2522
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2541
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2569
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2590
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2355
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2386
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2408
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2428
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2446
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2477
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2504
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2526
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2545
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2573
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2594
 msgid "You are not allowed to manage categories"
 msgstr "Nemáte oprávnění ke správě kategorií"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2609
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2638
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2660
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2679
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2709
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2730
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2749
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2777
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2798
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2613
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2642
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2664
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2683
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2713
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2734
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2753
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2781
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2802
 msgid "You are not allowed to manage currencies"
 msgstr "Nemáte oprávnění ke správě měn"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2840
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2880
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2921
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2962
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2844
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2884
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2925
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2966
 msgid "You are not allowed to remove this shared access"
 msgstr "Nemáte oprávnění pro odebrání tohoto sdíleného přístupu"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2859
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:2863
 msgid "You are not allowed to add public shared accesses"
 msgstr "Nemáte oprávnění pro přidávání veřejných sdílených přístupů"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:3022
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:3026
 msgid "You are not allowed to export this project settlement"
 msgstr "Nemáte oprávnění pro export vypořádání tohoto projektu"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:3048
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:3052
 msgid "You are not allowed to export this project statistics"
 msgstr "Nemáte oprávnění pro export statistik tohoto projektu"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:3072
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Controller/PageController.php:3076
 msgid "You are not allowed to export this project"
 msgstr "Nemáte oprávnění pro export tohoto projektu"
 
@@ -489,331 +489,332 @@ msgid "A project with id \"%1$s\" already exists"
 msgstr "Identifikátor „%1$s“ už je používán pro jiný projekt"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:611
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1328
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1332
 msgid "Not Found"
 msgstr "Nenalezeno"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:953
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:957
 msgid "Average per month"
 msgstr "Průměr za měsíc"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1185
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1221
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1189
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1225
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1795
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3362
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3416
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3436
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1229
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1799
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3366
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3420
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3440
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3444
 msgid "Invalid value"
 msgstr "Neplatná hodnota"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1187
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1889
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1191
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1893
 msgid "Invalid frequency"
 msgstr "Neplatná četnost"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1195
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1199
 msgid "Timestamp (or date) field is required"
 msgstr "Je zapotřebí vyplnit kolonku časové razítko (nebo datum)"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1199
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1203
 msgid "Invalid date"
 msgstr "Neplatné datum"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1210
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1213
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1214
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1217
 msgid "This field is required"
 msgstr "Tuto kolonku je třeba vyplnit"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1216
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1228
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3425
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3443
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1220
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1232
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3429
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3447
 msgid "Not a valid choice"
 msgstr "Tato volba není přípustná"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1547
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1551
 msgid "Error when getting project settlement transactions"
 msgstr "Chyba při získávání transakcí zúčtování projektu"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1574
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1578
 msgid "Error when adding a bill"
 msgstr "Chyba při přidávání účtu"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1777
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1948
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1781
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1952
 msgid "Invalid member name"
 msgstr "Neplatné jméno člena"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1782
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1786
 msgid "Name already exists"
 msgstr "Název už existuje"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1804
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1808
 msgid "Not a valid decimal value"
 msgstr "Není platná desítková hodnota"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1842
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1846
 msgid "This project have no such member"
 msgstr "Tento projekt nemá žádného takového člena"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1869
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1873
 msgid "Name can't be empty"
 msgstr "Název nemůže být prázdný"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1878
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1882
 msgid "Invalid email address"
 msgstr "Neplatná e-mailová adresa"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1896
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1903
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1900
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1907
 msgid "Invalid sort order"
 msgstr "Neplatné pořadí řazení"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1927
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1931
 msgid "There is no such project"
 msgstr "Neexistuje takový projekt"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1956
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1960
 msgid "Weight is not a valid decimal value"
 msgstr "Poměr není platná desítková hodnota"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1968
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1972
 msgid "Invalid color value"
 msgstr "Neplatná barevná hodnota"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1990
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1994
 msgid "This project already has this member"
 msgstr "Tento člen už se v projektu nachází"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1993
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:1997
 msgid "Name field is required"
 msgstr "Kolonku pro název je třeba vyplnit"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3347
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3351
 msgid "There is no such bill"
 msgstr "Neexistuje takový účet"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3849
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4021
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4174
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3853
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4025
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4178
 msgid "Not found"
 msgstr "Nenalezeno"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3907
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3911
 msgid "This project has no such payment mode"
 msgstr "Tento projekt nemá žádný takový režim platby"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3910
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4086
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4208
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:3914
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4090
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4212
 msgid "Incorrect field values"
 msgstr "Neplatné hodnoty v kolonce"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4083
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4087
 msgid "This project has no such category"
 msgstr "Tento projekt nemá žádnou takovou kategorii"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4205
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4209
 msgid "This project have no such currency"
 msgstr "Tento projekt nemá žádnou takovou měnu"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4303
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4307
 msgid "You are not authorized to give such access level"
 msgstr "Nemáte oprávnění k poskytnutí takové úrovně přístupu"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4306
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4310
 msgid "Already shared with this user"
 msgstr "Tomuto uživateli už nasdíleno"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4309
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4313
 msgid "Impossible to share the project with its owner"
 msgstr "Není možné nasdílet projekt jeho vlastníkovi (nedává to smysl)"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4312
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4316
 msgid "No such user"
 msgstr "Žádný takový uživatel"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4419
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4477
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4589
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4798
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4943
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4423
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4481
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4593
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4802
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4947
 msgid "No such share"
 msgstr "Žádné takové sdílení"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4673
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4677
 msgid "No such shared access"
 msgstr "Žádný takový sdílený přístup"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4735
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4739
 msgid "Already shared with this group"
 msgstr "Už sdíleno této skupině"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4738
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4742
 msgid "No such group"
 msgstr "Žádná taková skupina"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4876
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4880
 msgid "Already shared with this circle"
 msgstr "Už sdíleno tomuto okruhu"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4880
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4884
 msgid "No such circle"
 msgstr "Žádný takový okruh"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4883
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4887
 msgid "Circles app is not enabled"
 msgstr "Aplikace Okruhy není zapnutá"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4975
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4979
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:192
 msgid "Who pays?"
 msgstr "Kdo platí?"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4976
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4980
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:193
 msgid "To whom?"
 msgstr "Komu?"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4977
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:4981
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:28
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:194
 msgid "How much?"
 msgstr "Kolik?"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5018
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5022
 #, php-format
 msgid "%1$s is not a folder"
 msgstr "%1$s není složka"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5020
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5024
 #, php-format
 msgid "%1$s is not writeable"
 msgstr "%1$s není přístupné pro zápis"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5025
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5029
 #, php-format
 msgid "Impossible to create %1$s"
 msgstr "Není možné vytvořit %1$s"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5067
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5071
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:197
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:410
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:415
 msgid "Member name"
 msgstr "Jméno člena"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5068
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:411
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5072
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:416
 msgid "Paid"
 msgstr "Zaplaceno"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5069
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:412
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5073
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:417
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:450
 msgid "Spent"
 msgstr "Utraceno"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5070
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5074
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:198
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:294
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:414
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:419
 msgid "Balance"
 msgstr "Zůstatek"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5324
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5328
 #, php-format
 msgid "Malformed CSV, bad column names at line %1$s"
 msgstr "Pokažené CSV, chybné názvy sloupců na řádku %1$s"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5379
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5383
 #, php-format
 msgid "Malformed CSV, invalid member on line %1$s"
 msgstr "Pokažené CSV, neplatný člen na řádku %1$s"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5397
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5637
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5401
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5641
 #, php-format
 msgid "Malformed CSV, missing or invalid date/timestamp on line %1$s"
 msgstr "Pokažené CSV, chybějící nebo neplatné datum / časové razítko na řádku %1$s"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5423
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5427
 #, php-format
 msgid "Malformed CSV, invalid payer weight on line %1$s"
 msgstr "Pokažené CSV, neplatný váha plátce na řádku %1$s"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5428
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5435
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5432
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5439
 #, php-format
 msgid "Malformed CSV, invalid owers on line %1$s"
 msgstr "Pokažené CSV, neplatní dlužníci na řádku %1$s"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5445
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5449
 #, php-format
 msgid "Malformed CSV, invalid amount on line %1$s"
 msgstr "Pokažené CSV, neplatná částka na řádku %1$s"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5483
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5702
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5487
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5706
 #, php-format
 msgid "Error in project creation, %1$s"
 msgstr "Chyba při vytváření projektu, %1$s"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5494
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5498
 #, php-format
 msgid "Error when adding payment mode %1$s"
 msgstr "Chyba při přidávání režimu platby %1$s"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5503
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5710
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5507
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5714
 #, php-format
 msgid "Error when adding category %1$s"
 msgstr "Chyba při přidávání kategorie %1$s"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5512
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5516
 #, php-format
 msgid "Error when adding currency %1$s"
 msgstr "Chyba při přidávání měny %1$s"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5522
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5719
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5526
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5723
 #, php-format
 msgid "Error when adding member %1$s"
 msgstr "Chyba při přidávání člena %1$s"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5555
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5744
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5559
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5748
 #, php-format
 msgid "Error when adding bill %1$s"
 msgstr "Chyba při přidávání účtu %1$s"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5608
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5612
 msgid "Malformed CSV, bad column names"
 msgstr "Pokažené CSV, chybné názvy sloupců"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5619
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5623
 msgid "Malformed CSV, cannot have an empty ower"
 msgstr "Pokažené CSV, nemůže mít prázdného dlužníka"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5657
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5661
 #, php-format
 msgid "Malformed CSV, no payer on line %1$s"
 msgstr "Pokažené CSV, žádný plátce na řádku %1$s"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5663
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5667
 #, php-format
 msgid "Malformed CSV, bad amount on line %1$s"
 msgstr "Pokažené CSV, chybná částka na řádku %1$s"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5779
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5783
 msgid "daily"
 msgstr "každý den"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5794
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5798
 msgid "weekly"
 msgstr "každý týden"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5815
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/lib/Service/ProjectService.php:5819
 msgid "monthly"
 msgstr "každý měsíc"
 
@@ -958,6 +959,7 @@ msgstr "Kdo zaplatil?"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:33
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:324
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:408
 msgid "Choose a member"
 msgstr "Zvolte člena"
 
@@ -1153,7 +1155,7 @@ msgstr "Kategorii se nepodařilo přidat"
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:310
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:394
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:445
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:455
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/src/utils.js:61
 msgid "You"
 msgstr "Vy"
@@ -1248,7 +1250,7 @@ msgstr "Zavřít filtry"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:108
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:402
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:426
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:431
 msgid "Select a category"
 msgstr "Vyberte kategorii"
 
@@ -1301,7 +1303,7 @@ msgstr "Všechny režimy platby"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:122
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:123
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:441
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:448
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/src/utils.js:109
 msgid "No payment mode"
 msgstr "Žádný režim platby"
@@ -1312,7 +1314,7 @@ msgstr "Všechny kategorie"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:125
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:126
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:438
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:445
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/src/utils.js:89
 msgid "No category"
 msgstr "Žádná kategorie"
@@ -1626,6 +1628,7 @@ msgid "Individual reimbursement"
 msgstr "Individuální úhrada"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:201
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:407
 msgid "Payer"
 msgstr "Plátce"
 
@@ -2175,6 +2178,8 @@ msgstr "Člen/měsíc"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:392
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:393
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:442
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:443
 msgid "All members"
 msgstr "Všichni členové"
 
@@ -2199,153 +2204,173 @@ msgid "Maximum amount"
 msgstr "Maximální částka"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:405
-msgid "Currency of statistic values"
-msgstr "Měna pro hodnoty ve statistikách"
+msgid "Convert in currency"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:406
 msgid "Main project's currency"
 msgstr "Hlavní měna projektu"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:407
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:409
 msgid "Show disabled members"
 msgstr "Zobrazit zneaktivněné členy"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:408
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:410
+msgid "Chart type"
+msgstr ""
+
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:411
+msgid "Pie"
+msgstr ""
+
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:412
+msgid "Bar"
+msgstr ""
+
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:413
 msgid "Total paid by all the members: {t}"
 msgstr "Celkem zaplaceno všemi členy: {t}"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:409
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:414
 msgid "Global stats"
 msgstr "Globální statistiky"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:413
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:418
 msgid "Filtered balance"
 msgstr "Filtrovaný zůstatek"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:415
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:420
 msgid "Monthly paid per member"
 msgstr "Jednotlivými členy měsíčně zaplaceno"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:416
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:421
 msgid "Payments per member per month"
 msgstr "Měsíční platby jednotlivých členů"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:417
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:422
 msgid "Monthly spent per member"
 msgstr "Měsíčně utraceno jednotlivými členy"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:418
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:423
 msgid "Spendings per member per month"
 msgstr "Útraty jednotlivých členů za měsíc"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:419
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:424
 msgid "Monthly paid per category"
 msgstr "Měsíčně zaplaceno v jednotlivých kategoriích"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:420
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:425
 msgid "Payments per category per month"
 msgstr "Platby v jednotlivých kategoriích za měsíc"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:421
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:426
 msgid "Category/Month"
 msgstr "Kategorie/měsíc"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:422
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:427
 msgid "Monthly paid per payment mode"
 msgstr "Měsíčně zaplaceno v jednotlivých režimech platby"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:423
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:428
 msgid "Payments per payment mode per month"
 msgstr "Platby v jednotlivých režimech za měsíc"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:424
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:429
 msgid "Payment mode/Month"
 msgstr "Režim platby/měsíc"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:425
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:430
 msgid "Who paid for this category?"
 msgstr "Kdo v této kategorii platil?"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:427
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:432
 msgid "What did they pay for?"
 msgstr "Za co platili?"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:428
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:433
 msgid "Select a member"
 msgstr "Vybrat člena"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:429
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:434
 msgid "Who paid for whom?"
 msgstr "Kdo za koho zaplatil?"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:430
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:435
 msgid "paid for"
 msgstr "zaplaceno za"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:431
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:436
 msgid "Total paid"
 msgstr "Celkem zaplaceno"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:432
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:437
 msgid "Total owed"
 msgstr "Celkem dluženo"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:433
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:438
 msgid "Total owed by {name}"
 msgstr "{name} celkem dluží"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:434
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:439
 msgid "Total paid by {name}"
 msgstr "{name} celkem zaplatil(a)"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:435
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:439
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:440
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:446
 msgid "All except reimbursement"
 msgstr "Vše kromě úhrady"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:436
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:437
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:440
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:441
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:444
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:447
 msgid "All"
 msgstr "Vše"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:442
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:449
+msgid "Payed"
+msgstr ""
+
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:451
 msgid "Who paid (outside circle) and spent (inside pie)?"
 msgstr "Kdo platil (vnější kruh) a utrácel (vnitřní koláčový graf)?"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:443
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:452
+msgid "Who paid and spent?"
+msgstr ""
+
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:453
 msgid "How much was paid per category?"
 msgstr "Kolik bylo placeno v jednotlivých kategoriích?"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:444
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:454
 msgid "How much was paid per payment mode?"
 msgstr "Kolik bylo placeno v jednotlivých režimech plateb?"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:446
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:456
 msgid "No recent activity"
 msgstr "Žádná nedávná aktivita"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:447
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:457
 msgid "Go to Cospend"
 msgstr "Přejít do Cospend"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:448
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:458
 msgid "{user} shared {project} with {who}"
 msgstr "{user} nasdíle(a) {project} uživateli {who}"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:449
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:459
 msgid "{user} unshared {project} with {who}"
 msgstr "{user} zrušil(a) sdílení {project} uživateli {who}"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:450
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:460
 msgid "{user} created {bill}"
 msgstr "{user} vytvořil(a) {bill}"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:451
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:461
 msgid "{user} deleted {bill}"
 msgstr "{user} odstranil(a) {bill}"
 
-#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:452
+#: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:462
 msgid "{user} edited {bill}"
 msgstr "{user} upravil(a) {bill}"
 

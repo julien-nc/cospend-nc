@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-04-24 18:55+0200\n"
-"PO-Revision-Date: 2022-04-24 16:57\n"
+"PO-Revision-Date: 2022-04-25 16:55\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -2201,7 +2201,7 @@ msgstr "Montant maximum"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:405
 msgid "Convert in currency"
-msgstr ""
+msgstr "Convertir en devise"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:406
 msgid "Main project's currency"
@@ -2213,15 +2213,15 @@ msgstr "Montrer les membres désactivés"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:410
 msgid "Chart type"
-msgstr ""
+msgstr "Type de graphique"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:411
 msgid "Pie"
-msgstr ""
+msgstr "Camembert"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:412
 msgid "Bar"
-msgstr ""
+msgstr "Histogramme"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:413
 msgid "Total paid by all the members: {t}"
@@ -2324,7 +2324,7 @@ msgstr "Tous"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:449
 msgid "Payed"
-msgstr ""
+msgstr "Payé"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:451
 msgid "Who paid (outside circle) and spent (inside pie)?"
@@ -2332,7 +2332,7 @@ msgstr "Qui a payé (cercle extérieur) et dépensé (camembert intérieur) ?"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:452
 msgid "Who paid and spent?"
-msgstr ""
+msgstr "Qui a payé et dépensé ?"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:453
 msgid "How much was paid per category?"

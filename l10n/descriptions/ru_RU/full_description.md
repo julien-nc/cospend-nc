@@ -28,7 +28,7 @@ Nextcloud Cospend - это менеджер группового/общего б
 * 🔗 создание ссылки/QRCode для легкого импорта проектов в MoneyBuster
 * реализация потока уведомлений и активности Nextcloud
 
-This app is tested on Nextcloud 20+ with Firefox 57+ and Chromium.
+Это приложение протестировано на Nextcloud 20+ с Firefox 57+ и Chromium.
 
 Это приложение находится в стадии разработки.
 
@@ -36,16 +36,16 @@ This app is tested on Nextcloud 20+ with Firefox 57+ and Chromium.
 
 ⚒ Посмотрите другие возможности для помощи проекту в [contribution guidelines](https://gitlab.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
 
-## Documentation
+## Документация
 
-* [User documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
-* [Admin documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
-* [Developer documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
-* [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
-* [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
+* [Пользовательская документация](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
+* [Документация по админу](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
+* [Документация для разработчиков](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
+* [ИСТОРИЯ ИЗМЕНЕНИЙ](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [АВТОРЫ](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## Известные проблемы
 
-* it does not make you rich
+* он не делает вас богатым
 
-Any feedback will be appreciated.
+Мы будем признательны за любую обратную связь.

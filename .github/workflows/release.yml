@@ -18,7 +18,7 @@ jobs:
           node-version: 14
 
       - name: Set up npm
-        run: npm i -g npm
+        run: npm i -g npm@^7.0.0
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2

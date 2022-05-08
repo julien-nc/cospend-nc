@@ -5912,6 +5912,21 @@ class ProjectService {
 		$or->add(
 			$qb->expr()->iLike('b.comment', $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($term) . '%', IQueryBuilder::PARAM_STR))
 		);
+		// search amount
+		$noCommaTerm = str_replace(',', '.', $term);
+		if (is_numeric($noCommaTerm)) {
+			$amount = (float) $noCommaTerm;
+			$amountMin = $amount - 1.0;
+			$amountMax = $amount + 1.0;
+			$andExpr = $qb->expr()->andX();
+			$andExpr->add(
+				$qb->expr()->gte('b.amount', $qb->createNamedParameter($amountMin, IQueryBuilder::PARAM_STR))
+			);
+			$andExpr->add(
+			   $qb->expr()->lte('b.amount', $qb->createNamedParameter($amountMax, IQueryBuilder::PARAM_STR))
+			);
+			$or->add($andExpr);
+		}
 		$qb->andWhere($or);
 		$qb->orderBy('timestamp', 'ASC');
 		$req = $qb->executeQuery();

@@ -312,10 +312,21 @@ export default {
 		},
 		getFilteredBills(billList) {
 			// Make sure to escape user input before creating regex from it:
-			const regex = new RegExp(this.filterQuery.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'i')
-			return billList.filter(bill => {
-				return regex.test(bill.what) || regex.test(bill.comment)
-			})
+			const cleanQuery = this.filterQuery.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+			const regex = new RegExp(cleanQuery, 'i')
+			if (isNaN(this.filterQuery)) {
+				return billList.filter(bill => {
+					return regex.test(bill.what) || regex.test(bill.comment)
+				})
+			} else {
+				const queryNumber = parseFloat(this.filterQuery)
+				const amountMin = queryNumber - 1.0
+				const amountMax = queryNumber + 1.0
+				return billList.filter(bill => {
+					return regex.test(bill.what) || regex.test(bill.comment)
+						|| (bill.amount >= amountMin && bill.amount <= amountMax)
+				})
+			}
 		},
 		cleanupBills() {
 			const i0 = this.billLists[cospend.currentProjectId].findIndex((bill) => { return bill.id === 0 })

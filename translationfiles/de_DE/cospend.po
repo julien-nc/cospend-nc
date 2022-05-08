@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-04-24 18:55+0200\n"
-"PO-Revision-Date: 2022-04-24 16:57\n"
+"PO-Revision-Date: 2022-05-08 13:53\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -1239,7 +1239,7 @@ msgstr "Neue Ausgabe"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:106
 msgid "Filters"
-msgstr ""
+msgstr "Filter"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:107
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:129
@@ -1255,24 +1255,24 @@ msgstr "Kategorie auswählen"
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:109
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:400
 msgid "Select a payment mode"
-msgstr ""
+msgstr "Wählen Sie eine Zahlungsmethode"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:110
 msgid "Multi select actions"
-msgstr ""
+msgstr "Mehrfachauswahl"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:111
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:116
 msgid "Leave multiple select mode"
-msgstr ""
+msgstr "Mehrfachauswahl verlassen"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "Assign a category"
-msgstr ""
+msgstr "Kategorie zuweisen"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:113
 msgid "Assign a payment mode"
-msgstr ""
+msgstr "Zahlungsmittel zuweisen"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:114
 msgid "Delete selected bills"
@@ -1836,7 +1836,7 @@ msgstr "Neuer Projektname"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:265
 msgid "New empty project"
-msgstr ""
+msgstr "Neues leeres Projekt"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:266
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:280
@@ -1985,11 +1985,11 @@ msgstr "Mitglieder"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:321
 msgid "Enter a member name"
-msgstr ""
+msgstr "Mitgliedsname eingeben"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:322
 msgid "No result"
-msgstr ""
+msgstr "Kein Ergebnis"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:323
 msgid "Associate a project member with a Nextcloud user"
@@ -2001,7 +2001,7 @@ msgstr "Nextcloud-Benutzer wählen"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:326
 msgid "Type to search users"
-msgstr ""
+msgstr "Beginne zu schreiben, um Benutzer zu suchen"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:327
 msgid "New member name"
@@ -2095,7 +2095,7 @@ msgstr "Zugriff löschen"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:360
 msgid "Show deprecated password protected access"
-msgstr ""
+msgstr "Veralteter passwortgeschützter Zugriff anzeigen"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:361
 msgid "Password protected access"
@@ -2103,7 +2103,7 @@ msgstr "Passwortgeschützter Zugriff"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:368
 msgid "Set project password"
-msgstr ""
+msgstr "Projektpasswort setzen"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:371
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:373
@@ -2201,7 +2201,7 @@ msgstr "Höchstbetrag"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:405
 msgid "Convert in currency"
-msgstr ""
+msgstr "Währung umrechnen"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:406
 msgid "Main project's currency"
@@ -2213,15 +2213,15 @@ msgstr "Deaktivierte Mitglieder anzeigen"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:410
 msgid "Chart type"
-msgstr ""
+msgstr "Diagrammtyp"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:411
 msgid "Pie"
-msgstr ""
+msgstr "Torte"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:412
 msgid "Bar"
-msgstr ""
+msgstr "Balken"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:413
 msgid "Total paid by all the members: {t}"
@@ -2281,7 +2281,7 @@ msgstr "Wer hat für diese Kategorie bezahlt?"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:432
 msgid "What did they pay for?"
-msgstr ""
+msgstr "Wofür hat er/sie bezahlt?"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:433
 msgid "Select a member"
@@ -2324,7 +2324,7 @@ msgstr "Alle"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:449
 msgid "Payed"
-msgstr ""
+msgstr "Bezahlt"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:451
 msgid "Who paid (outside circle) and spent (inside pie)?"
@@ -2332,7 +2332,7 @@ msgstr "Wer hat gezahlt (Außenkreis) und ausgegeben (Innenkreis)?"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:452
 msgid "Who paid and spent?"
-msgstr ""
+msgstr "Wer hat bezahlt und ausgegeben?"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:453
 msgid "How much was paid per category?"

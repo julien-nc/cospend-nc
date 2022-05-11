@@ -1056,6 +1056,7 @@ export default {
 				: moment(date).locale(this.locale).format('LL')
 		},
 		parse(value) {
+			// in case we detect another format
 			if (value.match(/^\d\d.\d\d.\d\d\d\d$/)) {
 				return moment(value, 'DD.MM.YYYY').toDate()
 			} else if (value.match(/^\d\d\/\d\d\/\d\d\d\d$/)) {

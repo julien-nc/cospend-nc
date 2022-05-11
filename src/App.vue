@@ -374,9 +374,11 @@ export default {
 		onDuplicateBill(bill) {
 			this.onNewBillClicked(bill)
 		},
-		onBillSaved(bill, changedBill) {
+		onBillSaved(bill, changedBill, updateProjectInfo = true) {
 			Object.assign(bill, changedBill)
-			this.updateProjectInfo(cospend.currentProjectId)
+			if (updateProjectInfo) {
+				this.updateProjectInfo(cospend.currentProjectId)
+			}
 		},
 		onCustomBillsCreated() {
 			this.currentBill = null

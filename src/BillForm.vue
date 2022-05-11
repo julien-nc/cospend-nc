@@ -1056,6 +1056,19 @@ export default {
 				: moment(date).locale(this.locale).format('LL')
 		},
 		parse(value) {
+			if (value.match(/^\d\d.\d\d.\d\d\d\d$/)) {
+				return moment(value, 'DD.MM.YYYY').toDate()
+			} else if (value.match(/^\d\d\/\d\d\/\d\d\d\d$/)) {
+				return moment(value, 'DD/MM/YYYY').toDate()
+			} else if (value.match(/^\d\d\d\d-\d\d-\d\d$/)) {
+				return moment(value, 'YYYY-MM-DD').toDate()
+			} else if (value.match(/^\d.\d.\d\d$/)) {
+				return moment(value, 'D.M.YY').toDate()
+			} else if (value.match(/^\d\/\d\/\d\d$/)) {
+				return moment(value, 'D/M/YY').toDate()
+			} else if (value.match(/^\d\d-\d-\d$/)) {
+				return moment(value, 'YY-M-D').toDate()
+			}
 			return this.useTime
 				? moment(value, 'LLL', this.locale).toDate()
 				: moment(value, 'LL', this.locale).toDate()

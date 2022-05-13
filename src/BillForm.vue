@@ -27,10 +27,12 @@
 			<button
 				v-if="isNewBill"
 				id="owerValidate"
-				style="display: inline-block;"
+				style="display: inline-flex;"
 				:title="t('cospend', 'Press Shift+Enter to validate')"
 				@click="onCreateClick">
-				<span class="icon-confirm" />
+				<CheckIcon
+					class="icon"
+					:size="16"/>
 				<span id="owerValidateText">
 					{{ createBillButtonText }}
 				</span>
@@ -39,10 +41,12 @@
 				v-else
 				v-tooltip.bottom="{ content: payerDisabled ? t('cospend', 'Impossible to duplicate a bill with a disabled payer') : t('cospend', 'Duplicate bill') }"
 				class="duplicate-bill"
-				style="display: inline-block;"
+				style="display: inline-flex;"
 				:disabled="payerDisabled"
 				@click="onDuplicate">
-				<span class="icon-play-add" />
+				<ContentDuplicateIcon
+					class="icon"
+					:size="16"/>
 			</button>
 		</h2>
 		<div class="bill-form">
@@ -558,7 +562,9 @@
 					id="owerValidate2"
 					:title="t('cospend', 'Press Shift+Enter to validate')"
 					@click="onCreateClick">
-					<span class="icon-confirm" />
+					<CheckIcon
+						class="icon"
+						:size="16"/>
 					<span id="owerValidateText2">{{ createBillButtonText }}</span>
 				</button>
 			</div>
@@ -570,6 +576,7 @@
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroup'
 import AccountIcon from 'vue-material-design-icons/Account'
 import TagIcon from 'vue-material-design-icons/Tag'
+import CheckIcon from 'vue-material-design-icons/Check'
 import CalendarIcon from 'vue-material-design-icons/Calendar'
 import CalendarEndIcon from 'vue-material-design-icons/CalendarEnd'
 import CounterIcon from 'vue-material-design-icons/Counter'
@@ -578,6 +585,7 @@ import ShapeIcon from 'vue-material-design-icons/Shape'
 import LinkVariantIcon from 'vue-material-design-icons/LinkVariant'
 import CommentTextIcon from 'vue-material-design-icons/CommentText'
 import RepeatIcon from 'vue-material-design-icons/Repeat'
+import ContentDuplicateIcon from 'vue-material-design-icons/ContentDuplicate'
 import CalendarSyncIcon from 'vue-material-design-icons/CalendarSync'
 import cospend from './state'
 import { generateUrl } from '@nextcloud/router'
@@ -620,6 +628,8 @@ export default {
 		CommentTextIcon,
 		RepeatIcon,
 		LinkVariantIcon,
+		CheckIcon,
+		ContentDuplicateIcon,
 	},
 
 	props: {
@@ -1689,9 +1699,9 @@ export default {
 		}
 	}
 	.duplicate-bill {
-		padding: 0;
 		width: 44px;
 		height: 44px;
+		padding: 12px;
 	}
 }
 
@@ -1714,6 +1724,14 @@ export default {
 	}
 }
 
+button {
+	display: flex;
+	align-items: center;
+	span.icon {
+		width: 22px;
+	}
+}
+
 .bill-form-content {
 	display: flex;
 	flex-direction: column;
@@ -1724,13 +1742,6 @@ export default {
 		margin-left: auto;
 		margin-right: auto;
 
-		button {
-			display: flex;
-			align-items: center;
-			span.icon {
-				width: 22px;
-			}
-		}
 		label:not(.checkboxlabel):not(.spentlabel) {
 			display: flex;
 			align-items: center;

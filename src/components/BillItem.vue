@@ -1,7 +1,5 @@
 <template>
 	<a href="#"
-		:billid="bill.id"
-		:projectid="projectId"
 		:class="{ 'app-content-list-item': true, billitem: true, selectedbill: selected, newBill: bill.id === 0}"
 		:title="itemTitle"
 		@click="onItemClick">
@@ -17,7 +15,9 @@
 				:user="payerUserId"
 				:display-name="payerName" />
 			<div v-if="payerDisabled" class="billItemDisabledMask disabled" />
-			<div v-if="bill.repeat !== 'n'" class="billItemRepeatMask show" />
+			<div v-if="bill.repeat !== 'n'" class="billItemRepeatMask show">
+				<CalendarSyncIcon :size="16" />
+			</div>
 		</div>
 		<div class="app-content-list-item-line-one">{{ billFormattedTitle }}</div>
 		<div class="app-content-list-item-line-two">{{ parseFloat(bill.amount).toFixed(2) }} ({{ smartPayerName }} → {{ smartOwerNames }})</div>
@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import CalendarSyncIcon from 'vue-material-design-icons/CalendarSync'
 import cospend from '../state'
 import { generateUrl } from '@nextcloud/router'
 import moment from '@nextcloud/moment'
@@ -59,6 +60,7 @@ export default {
 
 	components: {
 		ColoredAvatar,
+		CalendarSyncIcon,
 	},
 
 	props: {
@@ -292,9 +294,9 @@ export default {
 
 .billItemRepeatMask.show {
 	display: block;
+	color: var(--color-main-text);
 	width: 16px;
 	height: 16px;
-	background-image: var(--icon-play-next-000);
 	margin: 33px 0 0 -4px;
 	position: absolute;
 }

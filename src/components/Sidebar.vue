@@ -43,8 +43,10 @@
 		<AppSidebarTab v-if="!pageIsPublic && activityEnabled"
 			id="activity"
 			:name="t('cospend', 'Activity')"
-			:icon="'icon-activity'"
 			:order="3">
+			<template #icon>
+				<LightningBoltIcon :size="20" />
+			</template>
 			<ActivityTabSidebar
 				:project-id="projectId" />
 		</AppSidebarTab>
@@ -85,6 +87,7 @@
 </template>
 
 <script>
+import LightningBoltIcon from 'vue-material-design-icons/LightningBolt'
 import ShapeIcon from 'vue-material-design-icons/Shape'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
@@ -113,6 +116,7 @@ export default {
 		CurrencyManagement,
 		ActivityTabSidebar,
 		ShapeIcon,
+		LightningBoltIcon,
 	},
 	props: {
 		show: {

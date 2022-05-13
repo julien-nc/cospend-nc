@@ -218,7 +218,7 @@
 				</div>
 				<div class="bill-repeat">
 					<label for="repeatbill">
-						<RepeatIcon
+						<CalendarSyncIcon
 							class="icon"
 							:size="22"/>
 						{{ t('cospend', 'Repeat') }}
@@ -578,6 +578,7 @@ import ShapeIcon from 'vue-material-design-icons/Shape'
 import LinkVariantIcon from 'vue-material-design-icons/LinkVariant'
 import CommentTextIcon from 'vue-material-design-icons/CommentText'
 import RepeatIcon from 'vue-material-design-icons/Repeat'
+import CalendarSyncIcon from 'vue-material-design-icons/CalendarSync'
 import cospend from './state'
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -612,6 +613,7 @@ export default {
 		TagIcon,
 		CalendarIcon,
 		CalendarEndIcon,
+		CalendarSyncIcon,
 		CounterIcon,
 		TextLongIcon,
 		ShapeIcon,

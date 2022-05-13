@@ -49,7 +49,10 @@
 			<div class="bill-left">
 				<div class="bill-what">
 					<label for="what">
-						<a class="icon icon-tag" />{{ t('cospend', 'What?') }}
+						<TextLongIcon
+							class="icon"
+							:size="22"/>
+						{{ t('cospend', 'What?') }}
 					</label>
 					<input
 						id="what"
@@ -68,7 +71,10 @@
 					<label>&nbsp;</label>
 					<div class="link-button">
 						<button class="addFileLinkButton" @click="onGeneratePubLinkClick">
-							<span class="icon-public" />{{ t('cospend', 'Attach share link to personal file') }}
+							<LinkVariantIcon
+								class="icon"
+								:size="16"/>
+							{{ t('cospend', 'Attach share link to personal file') }}
 						</button>
 					</div>
 				</div>
@@ -97,7 +103,8 @@
 					v-if="project.currencyname && project.currencies.length > 0 && editionAccess"
 					class="bill-currency-convert">
 					<label for="bill-currency">
-						<a class="icon icon-currencies" />{{ t('cospend', 'Convert to') }}
+						<a class="icon icon-currencies" />
+						{{ t('cospend', 'Convert to') }}
 					</label>
 					<div class="field-with-info">
 						<select id="bill-currency" ref="currencySelect" @change="onCurrencyConvert">
@@ -117,7 +124,12 @@
 					</div>
 				</div>
 				<div class="bill-payer">
-					<label><a class="icon icon-user" />{{ t('cospend', 'Who paid?') }}</label>
+					<label>
+						<AccountIcon
+							class="icon"
+							:size="22"/>
+						{{ t('cospend', 'Who paid?') }}
+					</label>
 					<MemberMultiSelect
 						id="memberMultiSelect"
 						:project-id="projectId"
@@ -129,7 +141,9 @@
 				</div>
 				<div class="bill-date">
 					<label for="dateInput">
-						<a class="icon icon-calendar-dark" />
+						<CalendarIcon
+							class="icon"
+							:size="22"/>
 						{{ t('cospend', 'When?') }}
 					</label>
 					<DatetimePicker v-if="showDatePicker"
@@ -146,7 +160,10 @@
 				</div>
 				<div class="bill-payment-mode">
 					<label for="paymentModeMultiSelect">
-						<a class="icon icon-tag" />{{ t('cospend', 'Payment mode') }}
+						<TagIcon
+							class="icon"
+							:size="22"/>
+						{{ t('cospend', 'Payment mode') }}
 					</label>
 					<Multiselect
 						id="paymentModeMultiSelect"
@@ -164,7 +181,10 @@
 				</div>
 				<div class="bill-category">
 					<label for="categoryMultiSelect">
-						<a class="icon icon-category-app-bundles" />{{ t('cospend', 'Category') }}
+						<ShapeIcon
+							class="icon"
+							:size="22"/>
+						{{ t('cospend', 'Category') }}
 					</label>
 					<Multiselect
 						id="categoryMultiSelect"
@@ -182,7 +202,10 @@
 				</div>
 				<div class="bill-comment">
 					<label for="comment">
-						<a class="icon icon-comment" />{{ t('cospend', 'Comment') }}
+						<CommentTextIcon
+							class="icon"
+							:size="22"/>
+						{{ t('cospend', 'Comment') }}
 					</label>
 					<textarea
 						id="comment"
@@ -195,7 +218,10 @@
 				</div>
 				<div class="bill-repeat">
 					<label for="repeatbill">
-						<a class="icon icon-play-next" />{{ t('cospend', 'Repeat') }}
+						<RepeatIcon
+							class="icon"
+							:size="22"/>
+						{{ t('cospend', 'Repeat') }}
 					</label>
 					<div class="field-with-info">
 						<select
@@ -236,7 +262,10 @@
 					<div v-if="[constants.FREQUENCY.DAILY, constants.FREQUENCY.WEEKLY, constants.FREQUENCY.MONTHLY, constants.FREQUENCY.YEARLY].includes(myBill.repeat)"
 						class="bill-repeat-freq">
 						<label for="repeat-freq">
-							<a class="icon icon-category-monitoring" />{{ t('cospend', 'Frequency') }}
+							<CounterIcon
+								class="icon"
+								:size="22"/>
+							{{ t('cospend', 'Frequency') }}
 						</label>
 						<div class="field-with-info">
 							<input
@@ -266,7 +295,10 @@
 					</div>
 					<div class="bill-repeat-until">
 						<label>
-							<a class="icon icon-pause" />{{ t('cospend', 'Repeat until') }}
+							<CalendarEndIcon
+								class="icon"
+								:size="22"/>
+							{{ t('cospend', 'Repeat until') }}
 						</label>
 						<DatetimePicker v-if="showDatePicker"
 							v-model="billStringRepeatUntil"
@@ -285,7 +317,9 @@
 						<div class="repeat-now">
 							<button
 								@click="$emit('repeat-bill-now', myBill.id)">
-								<span class="icon icon-play-next" />
+								<RepeatIcon
+									class="icon"
+									:size="16"/>
 								{{ t('cospend', 'Repeat now') }}
 							</button>
 						</div>
@@ -349,7 +383,12 @@
 				</div>
 				<div class="bill-owers">
 					<label class="bill-owers-label">
-						<a class="icon icon-group" /><span>{{ t('cospend', 'For whom?') }}</span>
+						<AccountGroupIcon
+							class="icon"
+							:size="22"/>
+						<span>
+							{{ t('cospend', 'For whom?') }}
+						</span>
 					</label>
 					<div v-if="!['custom', 'customShare'].includes(newBillMode)"
 						class="owerAllNoneDiv">
@@ -528,6 +567,17 @@
 </template>
 
 <script>
+import AccountGroupIcon from 'vue-material-design-icons/AccountGroup'
+import AccountIcon from 'vue-material-design-icons/Account'
+import TagIcon from 'vue-material-design-icons/Tag'
+import CalendarIcon from 'vue-material-design-icons/Calendar'
+import CalendarEndIcon from 'vue-material-design-icons/CalendarEnd'
+import CounterIcon from 'vue-material-design-icons/Counter'
+import TextLongIcon from 'vue-material-design-icons/TextLong'
+import ShapeIcon from 'vue-material-design-icons/Shape'
+import LinkVariantIcon from 'vue-material-design-icons/LinkVariant'
+import CommentTextIcon from 'vue-material-design-icons/CommentText'
+import RepeatIcon from 'vue-material-design-icons/Repeat'
 import cospend from './state'
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -552,7 +602,22 @@ export default {
 	name: 'BillForm',
 
 	components: {
-		DatetimePicker, AppContentDetails, ColoredAvatar, Multiselect, MemberMultiSelect,
+		DatetimePicker,
+		AppContentDetails,
+		ColoredAvatar,
+		Multiselect,
+		MemberMultiSelect,
+		AccountIcon,
+		AccountGroupIcon,
+		TagIcon,
+		CalendarIcon,
+		CalendarEndIcon,
+		CounterIcon,
+		TextLongIcon,
+		ShapeIcon,
+		CommentTextIcon,
+		RepeatIcon,
+		LinkVariantIcon,
 	},
 
 	props: {
@@ -1657,11 +1722,20 @@ export default {
 		margin-left: auto;
 		margin-right: auto;
 
-		a.icon {
-			justify-content: space-between;
-			line-height: 44px;
-			min-height: 44px;
-			padding: 0 12px 0 25px;
+		button {
+			display: flex;
+			align-items: center;
+			span.icon {
+				width: 22px;
+			}
+		}
+		label:not(.checkboxlabel):not(.spentlabel) {
+			display: flex;
+			align-items: center;
+
+			span.icon {
+				width: 44px;
+			}
 		}
 	}
 }

@@ -51,8 +51,10 @@
 		<AppSidebarTab
 			id="categories"
 			:name="t('cospend', 'Categories')"
-			:icon="'icon-category-app-bundles'"
 			:order="4">
+			<template #icon>
+				<ShapeIcon :size="20" />
+			</template>
 			<CategoryOrPmManagement
 				:project-id="projectId"
 				type="category"
@@ -83,6 +85,7 @@
 </template>
 
 <script>
+import ShapeIcon from 'vue-material-design-icons/Shape'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
 import AppSidebarTab from '@nextcloud/vue/dist/Components/AppSidebarTab'
@@ -109,6 +112,7 @@ export default {
 		CategoryOrPmManagement,
 		CurrencyManagement,
 		ActivityTabSidebar,
+		ShapeIcon,
 	},
 	props: {
 		show: {

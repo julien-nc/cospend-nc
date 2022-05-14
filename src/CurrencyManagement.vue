@@ -1,8 +1,11 @@
 <template>
 	<div id="manage-currencies">
 		<div id="main-currency-div">
-			<label>
-				<a class="icon icon-tag" />{{ t('cospend', 'Main currency') }}
+			<label class="title-label">
+				<CurrencyUsdIcon
+					class="icon"
+					:size="22"/>
+				{{ t('cospend', 'Main currency') }}
 			</label>
 			<div v-show="!editMode"
 				id="main-currency-label">
@@ -42,8 +45,11 @@
 		<div id="currencies-div">
 			<div v-show="project.myaccesslevel >= constants.ACCESS.MAINTENER"
 				id="add-currency-div">
-				<label>
-					<a class="icon icon-add" />{{ t('cospend', 'Add currency') }}
+				<label class="title-label">
+					<PlusIcon
+						class="icon"
+						:size="22"/>
+					{{ t('cospend', 'Add currency') }}
 				</label>
 				<div id="add-currency">
 					<label for="addCurrencyNameInput">
@@ -100,6 +106,8 @@
 </template>
 
 <script>
+import PlusIcon from 'vue-material-design-icons/Plus'
+import CurrencyUsdIcon from 'vue-material-design-icons/CurrencyUsd'
 import {
 	showSuccess,
 	showError,
@@ -115,6 +123,8 @@ export default {
 
 	components: {
 		Currency,
+		CurrencyUsdIcon,
+		PlusIcon,
 	},
 
 	props: {
@@ -203,10 +213,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-#manage-currencies {
-	margin-left: 20px;
-}
-
 #manage-currencies .icon {
 	line-height: 44px;
 	padding: 0 12px 0 25px;
@@ -301,5 +307,12 @@ export default {
 
 #currency-list {
 	margin-left: 37px;
+}
+
+.title-label {
+	display: flex;
+	.icon {
+		padding-left: 12px !important;
+	}
 }
 </style>

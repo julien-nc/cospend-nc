@@ -22,6 +22,14 @@
 		:open="selected"
 		:force-menu="false"
 		@click="onProjectClick">
+		<template #icon>
+			<FolderIcon v-if="selected"
+				class="icon"
+				:size="16"/>
+			<FolderOutlineIcon v-else
+				class="icon"
+				:size="16"/>
+		</template>
 		<template #counter>
 			<Actions>
 				<ActionButton v-if="!pageIsPublic"
@@ -43,9 +51,13 @@
 				{{ t('cospend', 'Add member') }}
 			</ActionButton>
 			<ActionButton
-				icon="icon-category-monitoring"
 				:close-after-click="true"
 				@click="onStatsClick">
+				<template #icon>
+					<ChartLineIcon
+						class="icon"
+						:size="16"/>
+				</template>
 				{{ t('cospend', 'Statistics') }}
 			</ActionButton>
 			<ActionButton
@@ -81,6 +93,9 @@
 </template>
 
 <script>
+import FolderIcon from 'vue-material-design-icons/Folder'
+import FolderOutlineIcon from 'vue-material-design-icons/FolderOutline'
+import ChartLineIcon from 'vue-material-design-icons/ChartLine'
 import ClickOutside from 'vue-click-outside'
 import AppNavigationMemberItem from './AppNavigationMemberItem'
 
@@ -99,6 +114,9 @@ export default {
 		AppNavigationItem,
 		ActionButton,
 		Actions,
+		ChartLineIcon,
+		FolderIcon,
+		FolderOutlineIcon,
 	},
 	directives: {
 		ClickOutside,

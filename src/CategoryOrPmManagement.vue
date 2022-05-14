@@ -3,7 +3,9 @@
 		<div>
 			<div id="order-selection">
 				<label for="order-select">
-					<span class="icon icon-settings-dark" />
+					<SortIcon
+						class="icon"
+						:size="22"/>
 					<span>{{ sortOrderLabel }}</span>
 				</label>
 				<select id="order-select"
@@ -27,7 +29,10 @@
 			<hr>
 			<div v-show="editionAccess">
 				<h3>
-					<a class="icon icon-add" />{{ addElementLabel }}
+					<PlusIcon
+						class="icon"
+						:size="22"/>
+					{{ addElementLabel }}
 				</h3>
 				<div class="add-element">
 					<ColorPicker class="app-navigation-entry-bullet-wrapper" value="" @input="updateAddColor">
@@ -60,10 +65,17 @@
 				<hr>
 			</div>
 			<h3>
-				<a :class="{ icon: true, [icon]: true }" />{{ listLabel }}
+				<ShapeIcon v-if="type === 'category'"
+					class="icon"
+					:size="22"/>
+				<TagIcon v-else
+					class="icon"
+					:size="22"/>
+				{{ listLabel }}
 			</h3>
 			<label v-if="hasElements && editionAccess && sortOrderValue === constants.SORT_ORDER.MANUAL" class="hint">
-				<span class="icon icon-info" />{{ dragText }}
+				<span class="icon icon-info" />
+				{{ dragText }}
 			</label>
 			<div v-if="hasElements && editionAccess && sortOrderValue === constants.SORT_ORDER.MANUAL"
 				class="element-list">
@@ -91,8 +103,15 @@
 					@edit="onEditElement" />
 			</div>
 			<div v-else>
-				<EmptyContent
-					:icon="icon">
+				<EmptyContent>
+					<template #icon>
+						<ShapeIcon v-if="type === 'category'"
+							class="icon"
+							:size="22"/>
+						<TagIcon v-else
+							class="icon"
+							:size="22"/>
+					</template>
 					<template #desc>
 						{{ emptyContentText }}
 					</template>
@@ -103,6 +122,10 @@
 </template>
 
 <script>
+import SortIcon from 'vue-material-design-icons/Sort'
+import PlusIcon from 'vue-material-design-icons/Plus'
+import ShapeIcon from 'vue-material-design-icons/Shape'
+import TagIcon from 'vue-material-design-icons/Tag'
 import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
 import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
@@ -123,7 +146,16 @@ export default {
 	name: 'CategoryOrPmManagement',
 
 	components: {
-		CategoryOrPm, ColorPicker, EmojiPicker, Container, Draggable, EmptyContent,
+		CategoryOrPm,
+		ColorPicker,
+		EmojiPicker,
+		Container,
+		Draggable,
+		EmptyContent,
+		TagIcon,
+		ShapeIcon,
+		PlusIcon,
+		SortIcon,
 	},
 
 	props: {
@@ -366,10 +398,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
+h3 {
+	display: flex;
+}
+
 .manage-elements {
 	.icon {
 		line-height: 44px;
 		padding: 0 12px 0 25px;
+	}
+	h3 .icon {
+		padding-left: 12px;
 	}
 }
 
@@ -436,7 +475,10 @@ $clickable-area: 44px;
 
 #order-selection label,
 #order-selection select {
-	display: inline-block;
+	display: inline-flex;
 	width: 49%;
+	.icon {
+		padding-left: 12px;
+	}
 }
 </style>

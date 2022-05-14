@@ -1,19 +1,26 @@
 <template>
 	<AppContentDetails class="statistics-content">
 		<h2 id="statsTitle">
-			<span :class="{ 'icon-loading-small': exporting, 'icon-category-monitoring': !exporting, icon: true }" />
+			<span v-if="exporting" class="icon-loading-small" />
+			<ChartLineIcon v-else
+				class="icon"
+				:size="22"/>
 			{{ t('cospend', 'Statistics of project {name}', { name: project.name }, undefined, { escape: false }) }}
 			<button v-if="!cospend.pageIsPublic"
 				class="exportStats"
 				projectid="dum"
 				@click="onExportClick">
-				<span class="icon-save" />
+				<ContentSaveIcon
+					class="icon"
+					:size="16"/>
 				{{ t('cospend', 'Export') }}
 			</button>
 		</h2>
 		<div id="stats-filters">
 			<label for="date-min-stats">
-				<a class="icon icon-calendar-dark" />
+				<CalendarStartIcon
+					class="icon"
+					:size="22"/>
 				{{ t('cospend', 'Minimum date') }}
 			</label>
 			<input id="date-min-stats"
@@ -21,7 +28,9 @@
 				type="date"
 				@change="getStats">
 			<label for="date-max-stats">
-				<a class="icon icon-calendar-dark" />
+				<CalendarEndIcon
+					class="icon"
+					:size="22"/>
 				{{ t('cospend', 'Maximum date') }}
 			</label>
 			<input id="date-max-stats"
@@ -29,7 +38,9 @@
 				type="date"
 				@change="getStats">
 			<label for="payment-mode-stats">
-				<a class="icon icon-tag" />
+				<TagIcon
+					class="icon"
+					:size="22"/>
 				{{ t('cospend', 'Payment mode') }}
 			</label>
 			<PaymentModeMultiSelect
@@ -39,7 +50,9 @@
 				:placeholder="t('cospend', 'Select a payment mode')"
 				@input="paymentModeFilterSelected" />
 			<label for="category-stats">
-				<a class="icon icon-category-app-bundles" />
+				<ShapeIcon
+					class="icon"
+					:size="22"/>
 				{{ t('cospend', 'Category') }}
 			</label>
 			<CategoryMultiSelect
@@ -49,7 +62,9 @@
 				:placeholder="t('cospend', 'Select a category')"
 				@input="categoryFilterSelected" />
 			<label for="amount-min-stats">
-				<a class="icon icon-cospend" />
+				<CurrencyUsdIcon
+					class="icon"
+					:size="22"/>
 				{{ t('cospend', 'Minimum amount') }}
 			</label>
 			<input id="amount-min-stats"
@@ -57,7 +72,9 @@
 				type="number"
 				@change="getStats">
 			<label for="amount-max-stats">
-				<a class="icon icon-cospend" />
+				<CurrencyUsdIcon
+					class="icon"
+					:size="22"/>
 				{{ t('cospend', 'Maximum amount') }}
 			</label>
 			<input id="amount-max-stats"
@@ -81,7 +98,9 @@
 				</option>
 			</select>
 			<label for="payer-stats">
-				<a class="icon icon-user" />
+				<AccountIcon
+					class="icon"
+					:size="22"/>
 				{{ t('cospend', 'Payer') }}
 			</label>
 			<MemberMultiSelect
@@ -100,7 +119,9 @@
 				{{ t('cospend', 'Show disabled members') }}
 			</label>
 			<label for="prefChartType">
-				<a class="icon icon-category-monitoring" />
+				<ChartBarIcon
+					class="icon"
+					:size="22"/>
 				{{ t('cospend', 'Chart type') }}
 			</label>
 			<select
@@ -383,6 +404,15 @@
 </template>
 
 <script>
+import ChartLineIcon from 'vue-material-design-icons/ChartLine'
+import ChartBarIcon from 'vue-material-design-icons/ChartBar'
+import ContentSaveIcon from 'vue-material-design-icons/ContentSave'
+import CalendarEndIcon from 'vue-material-design-icons/CalendarEnd'
+import CalendarStartIcon from 'vue-material-design-icons/CalendarStart'
+import TagIcon from 'vue-material-design-icons/Tag'
+import ShapeIcon from 'vue-material-design-icons/Shape'
+import AccountIcon from 'vue-material-design-icons/Account'
+import CurrencyUsdIcon from 'vue-material-design-icons/CurrencyUsd'
 import moment from '@nextcloud/moment'
 import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
 import ColoredAvatar from '../ColoredAvatar'
@@ -412,6 +442,15 @@ export default {
 		Monthly,
 		CategoryMultiSelect,
 		PaymentModeMultiSelect,
+		CalendarStartIcon,
+		CalendarEndIcon,
+		ShapeIcon,
+		TagIcon,
+		AccountIcon,
+		ChartBarIcon,
+		ChartLineIcon,
+		CurrencyUsdIcon,
+		ContentSaveIcon,
 	},
 
 	props: {
@@ -1171,7 +1210,7 @@ export default {
 #stats-filters label {
 	line-height: 40px;
 	display: flex;
-	a.icon {
+	.icon {
 		margin: 0 10px 0 10px;
 	}
 	.icon-currencies,
@@ -1231,7 +1270,6 @@ export default {
 	button {
 		.icon {
 			min-height: 16px !important;
-			vertical-align: text-bottom;
 		}
 	}
 }

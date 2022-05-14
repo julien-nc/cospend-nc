@@ -55,12 +55,16 @@
 			</ActionButton>
 			<ActionInput
 				ref="weightInput"
-				icon="icon-quota"
 				type="number"
 				step="0.01"
 				:value="''"
 				:disabled="false"
 				@submit="onWeightSubmit">
+				<template #icon>
+					<WeightIcon
+						class="icon"
+						:size="16"/>
+				</template>
 				{{ t('cospend', 'Weight') }} ({{ member.weight }})
 			</ActionInput>
 			<ActionButton
@@ -116,6 +120,7 @@
 </template>
 
 <script>
+import WeightIcon from 'vue-material-design-icons/Weight'
 import ClickOutside from 'vue-click-outside'
 
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
@@ -136,7 +141,14 @@ import { showError } from '@nextcloud/dialogs'
 export default {
 	name: 'AppNavigationMemberItem',
 	components: {
-		AppNavigationItem, ActionButton, ActionRadio, ActionSeparator, ActionInput, ColorPicker, ColoredAvatar,
+		AppNavigationItem,
+		ActionButton,
+		ActionRadio,
+		ActionSeparator,
+		ActionInput,
+		ColorPicker,
+		ColoredAvatar,
+		WeightIcon,
 	},
 	directives: {
 		ClickOutside,

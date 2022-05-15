@@ -96,8 +96,10 @@
 					<ActionLink
 						:href="generateCospendLink(access)"
 						target="_blank"
-						icon="icon-qrcode"
 						@click.stop.prevent="displayCospendLinkQRCode(access)">
+						<template #icon>
+							<QrcodeIcon :size="20" />
+						</template>
 						{{ t('cospend', 'Show QRCode for mobile clients') }}
 					</ActionLink>
 				</Actions>
@@ -313,6 +315,7 @@
 </template>
 
 <script>
+import QrcodeIcon from 'vue-material-design-icons/Qrcode'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
@@ -325,7 +328,7 @@ import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 
 import { getCurrentUser } from '@nextcloud/auth'
-import { generateUrl, generateOcsUrl } from '@nextcloud/router'
+import { generateUrl, generateOcsUrl, imagePath } from '@nextcloud/router'
 import {
 	showSuccess,
 	showError,
@@ -352,6 +355,7 @@ export default {
 		Multiselect,
 		Modal,
 		QRCode,
+		QrcodeIcon,
 	},
 
 	props: {
@@ -379,7 +383,9 @@ export default {
 				: generateUrl('/svg/circles/circles?color=000000'),
 			shareLinkQrcodeUrl: null,
 			qrcodeColor: cospend.themeColorDark,
-			qrcodeImageUrl: generateUrl('/svg/cospend/cospend_square_bg?color=' + hexToDarkerHex(getComplementaryColor(cospend.themeColorDark)).replace('#', '')),
+			// the svg api is dead, glory to the svg api
+			// qrcodeImageUrl: generateUrl('/svg/cospend/cospend_square_bg?color=' + hexToDarkerHex(getComplementaryColor(cospend.themeColorDark)).replace('#', '')),
+			qrcodeImageUrl: imagePath('cospend', 'cospend_square_bg.svg'),
 			showPasswordAccess: false,
 		}
 	},
@@ -688,12 +694,6 @@ export default {
 <style scoped lang="scss">
 .add-public-link-line * {
 	cursor: pointer;
-}
-
-.icon-qrcode {
-	background-image: url('../../img/qrcode.svg');
-	background-repeat: no-repeat;
-	background-position: center;
 }
 
 .qrcode-modal-content {

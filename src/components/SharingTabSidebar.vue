@@ -25,11 +25,8 @@
 				<span class="multiselect-name">
 					{{ option.displayName }}
 				</span>
-				<span v-if="option.icon && option.type !== constants.SHARE_TYPE.CIRCLE"
+				<span v-if="option.icon"
 					:class="{ icon: true, [option.icon]: true, 'multiselect-icon': true }" />
-				<span v-else-if="option.icon && option.type === constants.SHARE_TYPE.CIRCLE"
-					:class="{ icon: true, [option.icon]: true, 'multiselect-icon': true }"
-					:style="'background-image: url(' + circleMultiselectIconUrl + ')'" />
 			</template>
 			<template #noOptions>
 				{{ t('cospend', 'Start typing to search') }}
@@ -98,7 +95,7 @@
 						target="_blank"
 						@click.stop.prevent="displayCospendLinkQRCode(access)">
 						<template #icon>
-							<QrcodeIcon :size="20" />
+							<QrcodeIcon :size="22" />
 						</template>
 						{{ t('cospend', 'Show QRCode for mobile clients') }}
 					</ActionLink>
@@ -185,12 +182,10 @@
 					:user="access.userid"
 					:disable-menu="true"
 					:disable-tooltip="true" />
-				<div v-if="access.type === constants.SHARE_TYPE.GROUP"
-					class="avatardiv icon icon-group"
-					:style="'background-image: url(' + groupIconUrl + ')'" />
-				<div v-if="access.type === constants.SHARE_TYPE.CIRCLE"
-					class="avatardiv icon fixed-icon"
-					:style="'background-image: url(' + circleIconUrl + ')'" />
+				<Avatar v-if="access.type === constants.SHARE_TYPE.GROUP"
+						icon-class="icon-group" />
+				<Avatar v-if="access.type === constants.SHARE_TYPE.CIRCLE"
+					icon-class="icon-circles" />
 				<span class="username">
 					<span>{{ access.name }}</span>
 				</span>
@@ -241,8 +236,7 @@
 				id="guestList"
 				class="shareWithList">
 				<li>
-					<div class="avatardiv icon icon-password fixed-icon"
-						:style="'background-image: url(' + passwordIconUrl + ')'" />
+					<LockIcon :size="22"/>
 					<span class="username">
 						<span>{{ t('cospend', 'Password protected access') }}</span>
 					</span>
@@ -315,6 +309,7 @@
 </template>
 
 <script>
+import LockIcon from 'vue-material-design-icons/Lock'
 import QrcodeIcon from 'vue-material-design-icons/Qrcode'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
@@ -356,6 +351,7 @@ export default {
 		Modal,
 		QRCode,
 		QrcodeIcon,
+		LockIcon,
 	},
 
 	props: {
@@ -375,12 +371,6 @@ export default {
 			newGuestPassword: '',
 			newPasswordReadonly: true,
 			addingPublicLink: false,
-			groupIconUrl: generateUrl('/svg/core/actions/group?color=000000'),
-			passwordIconUrl: generateUrl('/svg/core/actions/password?color=000000'),
-			circleIconUrl: generateUrl('/svg/circles/circles?color=000000'),
-			circleMultiselectIconUrl: OCA.Accessibility?.theme === 'dark'
-				? generateUrl('/svg/circles/circles?color=ffffff')
-				: generateUrl('/svg/circles/circles?color=000000'),
 			shareLinkQrcodeUrl: null,
 			qrcodeColor: cospend.themeColorDark,
 			// the svg api is dead, glory to the svg api
@@ -429,7 +419,7 @@ export default {
 					sharee.isNoUser = true
 				}
 				if (item.type === constants.SHARE_TYPE.CIRCLE) {
-					sharee.icon = 'icon-circle'
+					sharee.icon = 'icon-circles'
 					sharee.isNoUser = true
 				}
 				return sharee

@@ -104,9 +104,6 @@ export default {
 		billUrl() {
 			return generateUrl('/apps/cospend/p/{projectId}/b/{billId}', { projectId: this.projectId, billId: this.bill.id })
 		},
-		undoDeleteBillStyle() {
-			return 'opacity:1; background-image: url(' + generateUrl('/svg/core/actions/history?color=2AB4FF') + ');'
-		},
 		members() {
 			return cospend.members[this.projectId]
 		},

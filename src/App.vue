@@ -580,11 +580,16 @@ export default {
 				this.currentBill = this.bills[cospend.currentProjectId][billId]
 			}
 			this.mode = 'edition'
-			window.history.pushState(
-				null,
-				null,
-				generateUrl('/apps/cospend/p/{projectId}/b/{billId}', { projectId: cospend.currentProjectId, billId: billId })
-			)
+			if (!cospend.pageIsPublic) {
+				window.history.pushState(
+					null,
+					null,
+					generateUrl('/apps/cospend/p/{projectId}/b/{billId}', {
+						projectId: cospend.currentProjectId,
+						billId: billId
+					})
+				)
+			}
 		},
 		getProjects() {
 			this.projectsLoading = true
@@ -614,7 +619,7 @@ export default {
 			this.billsLoading = true
 			const catFilter = this.selectedCategoryFilter
 			const pmFilter = this.selectedPaymentModeFilter
-			network.getBills(projectid, 0, 50, this.selectedMemberId, catFilter, pmFilter).then((response) => {
+			network.getBills(projectid, 0, 50, this.selectedMemberId, catFilter, pmFilter, selectBillId).then((response) => {
 				this.currentProject.nbBills = response.data.nb_bills
 				this.bills[projectid] = {}
 				this.$set(this.billLists, projectid, response.data.bills)

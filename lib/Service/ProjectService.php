@@ -2053,10 +2053,11 @@ class ProjectService {
 	 * @return array
 	 */
 	public function getBillsWithLimit(string $projectId, ?int $tsMin = null, ?int $tsMax = null,
-							  ?string $paymentMode = null, ?int $paymentModeId = null,
-							  ?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
-							  ?int $lastchanged = null, ?int $limit = null,
-							  bool $reverse = false, ?int $offset = 0, ?int $payerId = null): array {
+							?string $paymentMode = null, ?int $paymentModeId = null,
+							?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
+							?int $lastchanged = null, ?int $limit = null,
+							bool $reverse = false, ?int $offset = 0, ?int $payerId = null,
+							?int $includeBillId = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
 					'paymentmode', 'paymentmodeid', 'categoryid', 'lastchanged', 'repeatallactive',
@@ -2131,43 +2132,34 @@ class ProjectService {
 		$req = $qb->executeQuery();
 
 		$bills = [];
+		$includeBillFound = false;
 		while ($row = $req->fetch()){
-			$dbBillId = (int) $row['id'];
-			$dbAmount = (float) $row['amount'];
-			$dbWhat = $row['what'];
-			$dbComment = $row['comment'];
-			$dbTimestamp = (int) $row['timestamp'];
-			$dbDate = DateTime::createFromFormat('U', $dbTimestamp);
-			$dbRepeat = $row['repeat'];
-			$dbPayerId = (int) $row['payerid'];
-			$dbPaymentMode = $row['paymentmode'];
-			$dbPaymentModeId = (int) $row['paymentmodeid'];
-			$dbCategoryId = (int) $row['categoryid'];
-			$dbLastchanged = (int) $row['lastchanged'];
-			$dbRepeatAllActive = (int) $row['repeatallactive'];
-			$dbRepeatUntil = $row['repeatuntil'];
-			$dbRepeatFreq = (int) $row['repeatfreq'];
-			$bills[] = [
-				'id' => $dbBillId,
-				'amount' => $dbAmount,
-				'what' => $dbWhat,
-				'comment' => $dbComment,
-				'timestamp' => $dbTimestamp,
-				'date' => $dbDate->format('Y-m-d'),
-				'payer_id' => $dbPayerId,
-				'owers' => [],
-				'owerIds' => [],
-				'repeat' => $dbRepeat,
-				'paymentmode' => $dbPaymentMode,
-				'paymentmodeid' => $dbPaymentModeId,
-				'categoryid' => $dbCategoryId,
-				'lastchanged' => $dbLastchanged,
-				'repeatallactive' => $dbRepeatAllActive,
-				'repeatuntil' => $dbRepeatUntil,
-				'repeatfreq' => $dbRepeatFreq,
-			];
+			if ($includeBillId !== null && $includeBillId === (int) $row['id']) {
+				$includeBillFound = true;
+			}
+			$bills[] = $this->getBillFromRow($row);
 		}
 		$req->closeCursor();
+
+		// look further if we want to include a specific bill
+		if ($includeBillId !== null && $includeBillFound === false && $limit && $offset === 0) {
+			$lastResultCount = count($bills);
+			while ($lastResultCount > 0 && $includeBillFound === false) {
+				$offset = $offset + $limit;
+				$qb->setFirstResult($offset);
+				$req = $qb->executeQuery();
+				$lastResultCount = 0;
+				while ($row = $req->fetch()){
+					if ($includeBillId === (int) $row['id']) {
+						$includeBillFound = true;
+					}
+					$lastResultCount++;
+					$bills[] = $this->getBillFromRow($row);
+				}
+				$req->closeCursor();
+			}
+		}
+
 		$qb = $qb->resetQueryParts();
 
 		// get owers
@@ -2204,6 +2196,43 @@ class ProjectService {
 		}
 
 		return $bills;
+	}
+
+	private function getBillFromRow(array $row): array {
+		$dbBillId = (int) $row['id'];
+		$dbAmount = (float) $row['amount'];
+		$dbWhat = $row['what'];
+		$dbComment = $row['comment'];
+		$dbTimestamp = (int) $row['timestamp'];
+		$dbDate = DateTime::createFromFormat('U', $dbTimestamp);
+		$dbRepeat = $row['repeat'];
+		$dbPayerId = (int) $row['payerid'];
+		$dbPaymentMode = $row['paymentmode'];
+		$dbPaymentModeId = (int) $row['paymentmodeid'];
+		$dbCategoryId = (int) $row['categoryid'];
+		$dbLastchanged = (int) $row['lastchanged'];
+		$dbRepeatAllActive = (int) $row['repeatallactive'];
+		$dbRepeatUntil = $row['repeatuntil'];
+		$dbRepeatFreq = (int) $row['repeatfreq'];
+		return [
+			'id' => $dbBillId,
+			'amount' => $dbAmount,
+			'what' => $dbWhat,
+			'comment' => $dbComment,
+			'timestamp' => $dbTimestamp,
+			'date' => $dbDate->format('Y-m-d'),
+			'payer_id' => $dbPayerId,
+			'owers' => [],
+			'owerIds' => [],
+			'repeat' => $dbRepeat,
+			'paymentmode' => $dbPaymentMode,
+			'paymentmodeid' => $dbPaymentModeId,
+			'categoryid' => $dbCategoryId,
+			'lastchanged' => $dbLastchanged,
+			'repeatallactive' => $dbRepeatAllActive,
+			'repeatuntil' => $dbRepeatUntil,
+			'repeatfreq' => $dbRepeatFreq,
+		];
 	}
 
 	/**

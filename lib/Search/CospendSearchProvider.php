@@ -161,7 +161,7 @@ class CospendSearchProvider implements IProvider {
 				$thumbnailUrl,
 				$this->getMainText($bill, $projectsById[$projectId]),
 				$this->getSubline($bill, $projectsById[$projectId]),
-				$this->getDeepLinkToCospendApp($projectId),
+				$this->getDeepLinkToCospendApp($projectId, $bill['id']),
 				'',
 				false
 			);
@@ -222,10 +222,11 @@ class CospendSearchProvider implements IProvider {
 	 * @param string $projectId
 	 * @return string
 	 */
-	protected function getDeepLinkToCospendApp(string $projectId): string {
+	protected function getDeepLinkToCospendApp(string $projectId, int $billId): string {
 		return $this->urlGenerator->getAbsoluteURL(
-			$this->urlGenerator->linkToRoute('cospend.page.index', [
-				'project' => $projectId
+			$this->urlGenerator->linkToRoute('cospend.page.indexBill', [
+				'projectId' => $projectId,
+				'billId' => $billId,
 			])
 		);
 	}

@@ -42,13 +42,6 @@ __webpack_public_path__ = generateFilePath('cospend', '', 'js/')
 'use strict'
 
 function restoreOptions() {
-	const paramString = window.location.search.substr(1)
-	// eslint-disable-next-line
-	const urlParams = new URLSearchParams(paramString)
-	const urlProjectId = urlParams.get('project')
-	if (urlProjectId) {
-		cospend.urlProjectId = urlProjectId
-	}
 	network.getOptionValues().then((response) => {
 		getOptionValuesSuccess(response.data)
 	}).catch((error) => {
@@ -77,6 +70,17 @@ function getOptionValuesSuccess(response) {
 			}
 		}
 	}
+	// get path restore projectId and billId, this overrides saved options
+	const restoredCurrentProjectId = loadState('cospend', 'pathProjectId')
+	if (restoredCurrentProjectId !== '') {
+		cospend.restoredCurrentProjectId = restoredCurrentProjectId
+	}
+	const restoredCurrentBillId = loadState('cospend', 'pathBillId')
+	if (restoredCurrentBillId !== 0) {
+		cospend.restoredCurrentBillId = restoredCurrentBillId
+	}
+	console.debug('restored project ID', cospend.restoredCurrentProjectId)
+	console.debug('restored bill ID', cospend.restoredCurrentBillId)
 	main()
 }
 

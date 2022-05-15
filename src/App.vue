@@ -289,7 +289,7 @@ export default {
 		onDetailClicked(projectid) {
 			const sameProj = cospend.currentProjectId === projectid
 			if (cospend.currentProjectId !== projectid) {
-				this.selectProject(projectid)
+				this.selectProject(projectid, true, true)
 			}
 			const sameTab = this.activeSidebarTab === 'project-settings'
 			this.showSidebar = (sameProj && sameTab) ? !this.showSidebar : true
@@ -298,7 +298,7 @@ export default {
 		onShareClicked(projectid) {
 			const sameProj = cospend.currentProjectId === projectid
 			if (cospend.currentProjectId !== projectid) {
-				this.selectProject(projectid)
+				this.selectProject(projectid, true, true)
 			}
 			const sameTab = this.activeSidebarTab === 'sharing'
 			this.showSidebar = (sameProj && sameTab) ? !this.showSidebar : true
@@ -410,7 +410,7 @@ export default {
 		},
 		onProjectClicked(projectid) {
 			if (cospend.currentProjectId !== projectid) {
-				this.selectProject(projectid)
+				this.selectProject(projectid, true, true)
 			}
 		},
 		onDeleteProject(projectid) {
@@ -425,21 +425,21 @@ export default {
 		},
 		onStatsClicked(projectid) {
 			if (cospend.currentProjectId !== projectid) {
-				this.selectProject(projectid)
+				this.selectProject(projectid, true, true)
 			}
 			this.currentBill = null
 			this.mode = 'stats'
 		},
 		onSettleClicked(projectid) {
 			if (cospend.currentProjectId !== projectid) {
-				this.selectProject(projectid)
+				this.selectProject(projectid, true, true)
 			}
 			this.currentBill = null
 			this.mode = 'settle'
 		},
 		onNewMemberClicked(projectid) {
 			if (cospend.currentProjectId !== projectid) {
-				this.selectProject(projectid)
+				this.selectProject(projectid, true, true)
 			}
 			this.currentBill = null
 			this.activeSidebarTab = 'project-settings'
@@ -468,17 +468,28 @@ export default {
 			}
 			return res
 		},
-		selectProject(projectid, save = true) {
+		selectProject(projectid, save = true, pushState = false, restoreSelectedBill = false) {
 			this.mode = 'edition'
 			this.currentBill = null
 			this.selectedMemberId = null
 			this.selectedCategoryFilter = null
 			this.selectedPaymentModeFilter = null
-			this.getBills(projectid)
+			if (restoreSelectedBill) {
+				this.getBills(projectid, cospend.restoredCurrentBillId)
+			} else {
+				this.getBills(projectid)
+			}
 			if (save) {
 				network.saveOptionValue({ selectedProject: projectid })
 			}
 			cospend.currentProjectId = projectid
+			if (pushState) {
+				window.history.pushState(
+					null,
+					null,
+					generateUrl('/apps/cospend/p/{projectId}', { projectId: cospend.currentProjectId })
+				)
+			}
 		},
 		deselectProject() {
 			this.mode = 'edition'
@@ -551,29 +562,37 @@ export default {
 				// select new bill in case it was not selected yet
 				// this.selectedBillId = billid
 				this.mode = 'edition'
+				window.history.pushState(
+					null,
+					null,
+					generateUrl('/apps/cospend/p/{projectId}/b/0', { projectId: cospend.currentProjectId })
+				)
 			}
 		},
-		onBillClicked(billid) {
+		onBillClicked(billId) {
 			const billList = this.billLists[cospend.currentProjectId]
-			if (billid === 0) {
+			if (billId === 0) {
 				const found = billList.findIndex((bill) => { return bill.id === 0 })
 				if (found !== -1) {
 					this.currentBill = billList[found]
 				}
 			} else {
-				this.currentBill = this.bills[cospend.currentProjectId][billid]
+				this.currentBill = this.bills[cospend.currentProjectId][billId]
 			}
 			this.mode = 'edition'
+			window.history.pushState(
+				null,
+				null,
+				generateUrl('/apps/cospend/p/{projectId}/b/{billId}', { projectId: cospend.currentProjectId, billId: billId })
+			)
 		},
 		getProjects() {
 			this.projectsLoading = true
 			network.getProjects().then((response) => {
 				if (!cospend.pageIsPublic) {
 					response.data.forEach((proj) => { this.addProject(proj) })
-					if (cospend.urlProjectId && cospend.urlProjectId in this.projects) {
-						this.selectProject(cospend.urlProjectId, false)
-					} else if (cospend.restoredCurrentProjectId !== null && cospend.restoredCurrentProjectId in this.projects) {
-						this.selectProject(cospend.restoredCurrentProjectId, false)
+					if (cospend.restoredCurrentProjectId !== null && cospend.restoredCurrentProjectId in this.projects) {
+						this.selectProject(cospend.restoredCurrentProjectId, false, true, true)
 					}
 				} else {
 					if (!response.data.myaccesslevel) {
@@ -605,6 +624,11 @@ export default {
 				this.updateProjectInfo(projectid)
 				if (selectBillId !== null && this.bills[projectid][selectBillId]) {
 					this.currentBill = this.bills[projectid][selectBillId]
+					window.history.pushState(
+						null,
+						null,
+						generateUrl('/apps/cospend/p/{projectId}/b/{billId}', { projectId: cospend.currentProjectId, billId: selectBillId })
+					)
 				}
 				if (callback) {
 					callback()
@@ -662,7 +686,7 @@ export default {
 		},
 		onProjectImported(project) {
 			this.addProject(project)
-			this.selectProject(project.id)
+			this.selectProject(project.id, true, true)
 		},
 		onCreateProject(name) {
 			if (!name) {
@@ -676,7 +700,7 @@ export default {
 			network.createProject(name, id).then((response) => {
 				this.$refs.billList?.toggleFilterMode(false, false)
 				this.addProject(response.data)
-				this.selectProject(response.data.id)
+				this.selectProject(response.data.id, true, true)
 			}).catch((error) => {
 				console.error(error)
 				showError(

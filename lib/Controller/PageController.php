@@ -122,13 +122,15 @@ class PageController extends ApiController {
 	}
 
 	/**
-	 * Welcome page
+	 * Main page
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function index(): TemplateResponse {
+	public function index(?string $projectId = null, ?int $billId = null): TemplateResponse {
 		$activityEnabled = $this->appManager->isEnabledForUser('activity');
 		$this->initialStateService->provideInitialState('activity_enabled', $activityEnabled ? '1' : '0');
+		$this->initialStateService->provideInitialState('pathProjectId', $projectId ?? '');
+		$this->initialStateService->provideInitialState('pathBillId', $billId ?? 0);
 		$response = new TemplateResponse('cospend', 'main', []);
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedImageDomain('*')
@@ -144,6 +146,24 @@ class PageController extends ApiController {
 			->addAllowedConnectDomain('*');
 		$response->setContentSecurityPolicy($csp);
 		return $response;
+	}
+
+	/**
+	 * Main page
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function indexProject(string $projectId): TemplateResponse {
+		return $this->index($projectId);
+	}
+
+	/**
+	 * Main page
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function indexBill(string $projectId, int $billId): TemplateResponse {
+		return $this->index($projectId, $billId);
 	}
 
 	/**

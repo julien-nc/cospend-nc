@@ -1,8 +1,8 @@
 <template>
-	<a href="#"
+	<a :href="billUrl"
 		:class="{ 'app-content-list-item': true, billitem: true, selectedbill: selected, newBill: bill.id === 0}"
 		:title="itemTitle"
-		@click="onItemClick">
+		@click.stop.prevent="onItemClick">
 		<div class="app-content-list-item-icon">
 			<ColoredAvatar
 				class="itemAvatar"
@@ -30,7 +30,7 @@
 		</span>
 		<div v-if="editionAccess && showDelete && (deletionEnabled || bill.id === 0)"
 			:class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteBillIcon'"
-			@click="onDeleteClick">
+			@click.prevent.stop="onDeleteClick">
 			<span v-if="timerOn" class="countdown">
 				<vac :end-time="new Date().getTime() + (7000)">
 					<template #process="{ timeObj }">
@@ -101,6 +101,9 @@ export default {
 	},
 
 	computed: {
+		billUrl() {
+			return generateUrl('/apps/cospend/p/{projectId}/b/{billId}', { projectId: this.projectId, billId: this.bill.id })
+		},
 		undoDeleteBillStyle() {
 			return 'opacity:1; background-image: url(' + generateUrl('/svg/core/actions/history?color=2AB4FF') + ');'
 		},

@@ -4,7 +4,7 @@ import * as constants from './constants'
 
 const cospend = {
 	restoredCurrentProjectId: null,
-	urlProjectId: null,
+	restoredCurrentBillId: null,
 	currentProjectId: null,
 	currentBill: null,
 	memberEditionMode: null,

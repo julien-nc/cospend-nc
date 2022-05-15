@@ -12,6 +12,8 @@
 return [
 	'routes' => [
 		['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
+		['name' => 'page#indexProject', 'url' => '/p/{projectId}', 'verb' => 'GET'],
+		['name' => 'page#indexBill', 'url' => '/p/{projectId}/b/{billId}', 'verb' => 'GET'],
 
 		['name' => 'page#getBillActivity', 'url' => '/bill-activity', 'verb' => 'GET'],
 

@@ -83,9 +83,15 @@
 					<ActionLink
 						:href="generatePublicLink(access)"
 						target="_blank"
-						:icon="linkCopied[access.id] ? 'icon-checkmark-color' : 'icon-clippy'"
 						@click.stop.prevent="copyLink(access)">
 						{{ linkCopied[access.id] ? t('cospend', 'Link copied') : t('cospend', 'Copy to clipboard') }}
+						<template #icon>
+							<ClipboardCheckOutlineIcon v-if="linkCopied[access.id]"
+								class="success"
+								:size="20"/>
+							<ClipboardArrowLeftOutlineIcon v-else
+								:size="20"/>
+						</template>
 					</ActionLink>
 				</Actions>
 
@@ -95,7 +101,7 @@
 						target="_blank"
 						@click.stop.prevent="displayCospendLinkQRCode(access)">
 						<template #icon>
-							<QrcodeIcon :size="22" />
+							<QrcodeIcon :size="20" />
 						</template>
 						{{ t('cospend', 'Show QRCode for mobile clients') }}
 					</ActionLink>
@@ -236,7 +242,7 @@
 				id="guestList"
 				class="shareWithList">
 				<li>
-					<LockIcon :size="22"/>
+					<LockIcon :size="20"/>
 					<span class="username">
 						<span>{{ t('cospend', 'Password protected access') }}</span>
 					</span>
@@ -253,8 +259,14 @@
 						<ActionLink
 							:href="guestLink"
 							target="_blank"
-							:icon="guestLinkCopied ? 'icon-checkmark-color' : 'icon-clippy'"
 							@click.stop.prevent="copyPasswordLink">
+							<template #icon>
+								<ClipboardCheckOutlineIcon v-if="guestLinkCopied"
+									class="success"
+									:size="20"/>
+								<ClipboardArrowLeftOutlineIcon v-else
+									:size="20"/>
+							</template>
 							{{ guestLinkCopied ? t('cospend', 'Link copied') : t('cospend', 'Copy to clipboard') }}
 						</ActionLink>
 					</Actions>
@@ -309,6 +321,8 @@
 </template>
 
 <script>
+import ClipboardArrowLeftOutlineIcon from 'vue-material-design-icons/ClipboardArrowLeftOutline'
+import ClipboardCheckOutlineIcon from 'vue-material-design-icons/ClipboardCheckOutline'
 import LockIcon from 'vue-material-design-icons/Lock'
 import QrcodeIcon from 'vue-material-design-icons/Qrcode'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
@@ -352,6 +366,8 @@ export default {
 		QRCode,
 		QrcodeIcon,
 		LockIcon,
+		ClipboardArrowLeftOutlineIcon,
+		ClipboardCheckOutlineIcon,
 	},
 
 	props: {
@@ -682,6 +698,10 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.success {
+	color: var(--color-success);
+}
+
 .add-public-link-line * {
 	cursor: pointer;
 }

@@ -55,7 +55,7 @@
 					<label for="what">
 						<TextLongIcon
 							class="icon"
-							:size="22"/>
+							:size="20"/>
 						{{ t('cospend', 'What?') }}
 					</label>
 					<input
@@ -131,7 +131,7 @@
 					<label>
 						<AccountIcon
 							class="icon"
-							:size="22"/>
+							:size="20"/>
 						{{ t('cospend', 'Who paid?') }}
 					</label>
 					<MemberMultiSelect
@@ -147,7 +147,7 @@
 					<label for="dateInput">
 						<CalendarIcon
 							class="icon"
-							:size="22"/>
+							:size="20"/>
 						{{ t('cospend', 'When?') }}
 					</label>
 					<DatetimePicker v-if="showDatePicker"
@@ -166,7 +166,7 @@
 					<label for="paymentModeMultiSelect">
 						<TagIcon
 							class="icon"
-							:size="22"/>
+							:size="20"/>
 						{{ t('cospend', 'Payment mode') }}
 					</label>
 					<Multiselect
@@ -187,7 +187,7 @@
 					<label for="categoryMultiSelect">
 						<ShapeIcon
 							class="icon"
-							:size="22"/>
+							:size="20"/>
 						{{ t('cospend', 'Category') }}
 					</label>
 					<Multiselect
@@ -208,7 +208,7 @@
 					<label for="comment">
 						<CommentTextIcon
 							class="icon"
-							:size="22"/>
+							:size="20"/>
 						{{ t('cospend', 'Comment') }}
 					</label>
 					<textarea
@@ -224,7 +224,7 @@
 					<label for="repeatbill">
 						<CalendarSyncIcon
 							class="icon"
-							:size="22"/>
+							:size="20"/>
 						{{ t('cospend', 'Repeat') }}
 					</label>
 					<div class="field-with-info">
@@ -268,7 +268,7 @@
 						<label for="repeat-freq">
 							<CounterIcon
 								class="icon"
-								:size="22"/>
+								:size="20"/>
 							{{ t('cospend', 'Frequency') }}
 						</label>
 						<div class="field-with-info">
@@ -301,7 +301,7 @@
 						<label>
 							<CalendarEndIcon
 								class="icon"
-								:size="22"/>
+								:size="20"/>
 							{{ t('cospend', 'Repeat until') }}
 						</label>
 						<DatetimePicker v-if="showDatePicker"
@@ -389,7 +389,7 @@
 					<label class="bill-owers-label">
 						<AccountGroupIcon
 							class="icon"
-							:size="22"/>
+							:size="20"/>
 						<span>
 							{{ t('cospend', 'For whom?') }}
 						</span>

@@ -5,7 +5,7 @@
 				<label for="order-select">
 					<SortIcon
 						class="icon"
-						:size="22"/>
+						:size="20"/>
 					<span>{{ sortOrderLabel }}</span>
 				</label>
 				<select id="order-select"
@@ -31,7 +31,7 @@
 				<h3>
 					<PlusIcon
 						class="icon"
-						:size="22"/>
+						:size="20"/>
 					{{ addElementLabel }}
 				</h3>
 				<div class="add-element">
@@ -67,10 +67,10 @@
 			<h3>
 				<ShapeIcon v-if="type === 'category'"
 					class="icon"
-					:size="22"/>
+					:size="20"/>
 				<TagIcon v-else
 					class="icon"
-					:size="22"/>
+					:size="20"/>
 				{{ listLabel }}
 			</h3>
 			<label v-if="hasElements && editionAccess && sortOrderValue === constants.SORT_ORDER.MANUAL" class="hint">
@@ -107,10 +107,10 @@
 					<template #icon>
 						<ShapeIcon v-if="type === 'category'"
 							class="icon"
-							:size="22"/>
+							:size="20"/>
 						<TagIcon v-else
 							class="icon"
-							:size="22"/>
+							:size="20"/>
 					</template>
 					<template #desc>
 						{{ emptyContentText }}

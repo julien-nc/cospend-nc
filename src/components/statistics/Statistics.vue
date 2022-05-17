@@ -4,7 +4,7 @@
 			<span v-if="exporting" class="icon-loading-small" />
 			<ChartLineIcon v-else
 				class="icon"
-				:size="22"/>
+				:size="20"/>
 			{{ t('cospend', 'Statistics of project {name}', { name: project.name }, undefined, { escape: false }) }}
 			<button v-if="!cospend.pageIsPublic"
 				class="exportStats"
@@ -20,7 +20,7 @@
 			<label for="date-min-stats">
 				<CalendarStartIcon
 					class="icon"
-					:size="22"/>
+					:size="20"/>
 				{{ t('cospend', 'Minimum date') }}
 			</label>
 			<input id="date-min-stats"
@@ -30,7 +30,7 @@
 			<label for="date-max-stats">
 				<CalendarEndIcon
 					class="icon"
-					:size="22"/>
+					:size="20"/>
 				{{ t('cospend', 'Maximum date') }}
 			</label>
 			<input id="date-max-stats"
@@ -40,7 +40,7 @@
 			<label for="payment-mode-stats">
 				<TagIcon
 					class="icon"
-					:size="22"/>
+					:size="20"/>
 				{{ t('cospend', 'Payment mode') }}
 			</label>
 			<PaymentModeMultiSelect
@@ -52,7 +52,7 @@
 			<label for="category-stats">
 				<ShapeIcon
 					class="icon"
-					:size="22"/>
+					:size="20"/>
 				{{ t('cospend', 'Category') }}
 			</label>
 			<CategoryMultiSelect
@@ -64,7 +64,7 @@
 			<label for="amount-min-stats">
 				<CurrencyUsdIcon
 					class="icon"
-					:size="22"/>
+					:size="20"/>
 				{{ t('cospend', 'Minimum amount') }}
 			</label>
 			<input id="amount-min-stats"
@@ -74,7 +74,7 @@
 			<label for="amount-max-stats">
 				<CurrencyUsdIcon
 					class="icon"
-					:size="22"/>
+					:size="20"/>
 				{{ t('cospend', 'Maximum amount') }}
 			</label>
 			<input id="amount-max-stats"
@@ -100,7 +100,7 @@
 			<label for="payer-stats">
 				<AccountIcon
 					class="icon"
-					:size="22"/>
+					:size="20"/>
 				{{ t('cospend', 'Payer') }}
 			</label>
 			<MemberMultiSelect
@@ -115,13 +115,11 @@
 				type="checkbox"
 				class="checkbox"
 				@change="getStats">
-			<label for="showDisabled" class="checkboxlabel">
-				{{ t('cospend', 'Show disabled members') }}
-			</label>
+			<label for="showDisabled" class="checkboxlabel">{{ t('cospend', 'Show disabled members') }}</label>
 			<label for="prefChartType">
 				<ChartBarIcon
 					class="icon"
-					:size="22"/>
+					:size="20"/>
 				{{ t('cospend', 'Chart type') }}
 			</label>
 			<select
@@ -1215,7 +1213,7 @@ export default {
 	}
 	.icon-currencies,
 	.icon-cospend {
-		min-width: 16px !important;
+		min-width: 20px !important;
 	}
 }
 
@@ -1238,6 +1236,9 @@ export default {
 .checkboxlabel {
 	display: block !important;
 	grid-column: 3 / 5;
+	&::before {
+		margin: 0 12px 0 12px !important;
+	}
 }
 
 .statistics-content {

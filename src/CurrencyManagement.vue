@@ -4,7 +4,7 @@
 			<label class="title-label">
 				<CurrencyUsdIcon
 					class="icon"
-					:size="22"/>
+					:size="20"/>
 				{{ t('cospend', 'Main currency') }}
 			</label>
 			<div v-show="!editMode"
@@ -48,7 +48,7 @@
 				<label class="title-label">
 					<PlusIcon
 						class="icon"
-						:size="22"/>
+						:size="20"/>
 					{{ t('cospend', 'Add currency') }}
 				</label>
 				<div id="add-currency">

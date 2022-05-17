@@ -15,7 +15,6 @@
 		</template>
 	</AppNavigationItem>
 	<AppNavigationItem v-else
-		:icon="selected ? 'icon-folder' : 'icon-filetype-folder-drag-accept'"
 		:title="project.name"
 		:class="{ selectedproject: selected }"
 		:allow-collapse="true"
@@ -24,10 +23,10 @@
 		@click="onProjectClick">
 		<template #icon>
 			<FolderIcon v-if="selected"
-				class="icon"
+				class="icon folder-icon"
 				:size="16"/>
 			<FolderOutlineIcon v-else
-				class="icon"
+				class="icon folder-icon"
 				:size="16"/>
 		</template>
 		<template #counter>
@@ -240,5 +239,9 @@ export default {
 		padding-right: 0 !important;
 		border-radius: 50%;
 	}
+}
+
+.folder-icon {
+	color: var(--color-primary);
 }
 </style>

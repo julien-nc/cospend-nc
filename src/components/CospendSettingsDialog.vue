@@ -81,12 +81,20 @@
 			:title="t('cospend', 'Import projects')"
 			class="app-settings-section">
 			<button @click="onImportClick">
-				<span :class="{ icon: true, 'icon-download': !importingProject, 'icon-loading-small': importingProject }" />
-				{{ t('cospend', 'Import csv project') }}
+				<span v-if="importingProject" class="icon icon-loading-small" />
+				<FileImportIcon v-else
+					:size="16"/>
+				<span class="label">
+					{{ t('cospend', 'Import csv project') }}
+				</span>
 			</button>
 			<button @click="onImportSWClick">
-				<span :class="{ icon: true, 'icon-download': !importingSWProject, 'icon-loading-small': importingSWProject }" />
-				{{ t('cospend', 'Import SplitWise project') }}
+				<span v-if="importingSWProject" class="icon icon-loading-small" />
+				<FileImportIcon v-else
+					:size="16"/>
+				<span class="label">
+					{{ t('cospend', 'Import SplitWise project') }}
+				</span>
 			</button>
 		</AppSettingsSection>
 		<AppSettingsSection v-if="!pageIsPublic"
@@ -94,8 +102,12 @@
 			class="app-settings-section">
 			<a :href="guestLink" @click.prevent.stop="onGuestLinkClick">
 				<button>
-					<span class="icon icon-clippy" />
-					{{ t('cospend', 'Copy guest access link') }}
+					<!--span class="icon icon-clippy" /-->
+					<ClipboardArrowLeftOutlineIcon
+						:size="18"/>
+					<span class="label">
+						{{ t('cospend', 'Copy guest access link') }}
+					</span>
 				</button>
 			</a>
 		</AppSettingsSection>
@@ -179,6 +191,8 @@
 </template>
 
 <script>
+import ClipboardArrowLeftOutlineIcon from 'vue-material-design-icons/ClipboardArrowLeftOutline'
+import FileImportIcon from 'vue-material-design-icons/FileImport'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { getFilePickerBuilder, showError, showSuccess } from '@nextcloud/dialogs'
 import AppSettingsDialog from '@nextcloud/vue/dist/Components/AppSettingsDialog'
@@ -193,6 +207,8 @@ export default {
 	components: {
 		AppSettingsDialog,
 		AppSettingsSection,
+		FileImportIcon,
+		ClipboardArrowLeftOutlineIcon,
 	},
 
 	data() {
@@ -296,14 +312,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-a span.icon {
-	display: inline-block;
-	margin-bottom: -3px;
-}
-
 .wrapper {
 	overflow-y: scroll;
 	padding: 20px;
+}
+
+button {
+	display: inline-flex;
+	align-items: center;
+	.label {
+		padding-left: 8px;
+	}
 }
 
 .app-settings-section {

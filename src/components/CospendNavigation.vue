@@ -15,15 +15,23 @@
 				@update:menuOpen="updateImportMenuOpen">
 				<template #actions>
 					<ActionButton
-						icon="icon-download"
 						:close-after-click="true"
 						@click="onImportClick">
+						<template #icon>
+							<FileImportIcon
+								class="icon"
+								:size="20"/>
+						</template>
 						{{ t('cospend', 'Import csv project') }}
 					</ActionButton>
 					<ActionButton
-						icon="icon-download"
 						:close-after-click="true"
 						@click="onImportSWClick">
+						<template #icon>
+							<FileImportIcon
+								class="icon"
+								:size="20"/>
+						</template>
 						{{ t('cospend', 'Import SplitWise project') }}
 					</ActionButton>
 				</template>
@@ -55,9 +63,18 @@
 		<template #footer>
 			<div id="app-settings">
 				<div id="app-settings-header">
-					<button class="settings-button" @click="showSettings">
+					<!--button class="settings-button" @click="showSettings">
 						{{ t('cospend', 'Cospend settings') }}
-					</button>
+					</button-->
+					<AppNavigationItem
+						:title="t('cospend', 'Cospend settings')"
+						@click="showSettings">
+						<template #icon>
+							<CogIcon
+								class="icon"
+								:size="16"/>
+						</template>
+					</AppNavigationItem>
 				</div>
 			</div>
 		</template>
@@ -73,6 +90,8 @@ import { strcmp, importCospendProject, importSWProject } from '../utils'
 
 import ClickOutside from 'vue-click-outside'
 
+import FileImportIcon from 'vue-material-design-icons/FileImport'
+import CogIcon from 'vue-material-design-icons/Cog'
 import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
@@ -89,6 +108,8 @@ export default {
 		EmptyContent,
 		AppNavigationItem,
 		ActionButton,
+		CogIcon,
+		FileImportIcon,
 	},
 	directives: {
 		ClickOutside,

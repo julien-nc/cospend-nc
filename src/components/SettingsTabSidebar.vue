@@ -24,7 +24,9 @@
 		</div>
 		<div id="autoExport">
 			<label for="autoExportSelect">
-				<span class="icon icon-schedule" />
+				<CalendarMonthIcon
+					class="material-icon"
+					:size="20" />
 				<span>{{ t('cospend', 'Automatic export') }}</span>
 			</label>
 			<select id="autoExportSelect"
@@ -46,10 +48,14 @@
 			</select>
 		</div>
 		<AppNavigationItem v-if="!pageIsPublic"
-			icon="icon-save"
 			class="exportItem"
 			:title="t('cospend', 'Export project')"
-			@click="onExportClick" />
+			@click="onExportClick">
+			<template #icon>
+				<ContentSaveIcon
+					:size="20"/>
+			</template>
+		</AppNavigationItem>
 		<div>
 			<br><hr>
 			<h3>
@@ -157,6 +163,8 @@
 </template>
 
 <script>
+import ContentSaveIcon from 'vue-material-design-icons/ContentSave'
+import CalendarMonthIcon from 'vue-material-design-icons/CalendarMonth'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
@@ -175,7 +183,13 @@ import MemberMultiSelect from './MemberMultiSelect'
 export default {
 	name: 'SettingsTabSidebar',
 	components: {
-		Multiselect, AppNavigationItem, AppNavigationMemberItem, Avatar, MemberMultiSelect,
+		Multiselect,
+		AppNavigationItem,
+		AppNavigationMemberItem,
+		Avatar,
+		MemberMultiSelect,
+		CalendarMonthIcon,
+		ContentSaveIcon,
 	},
 	props: {
 		project: {
@@ -461,19 +475,6 @@ export default {
 	width: 100%;
 }
 
-.icon-schedule {
-	background-color: var(--color-main-text);
-	padding: 0 !important;
-	mask: url('./../../img/schedule.svg') no-repeat;
-	mask-size: 16px auto;
-	mask-position: center;
-	-webkit-mask: url('./../../img/schedule.svg') no-repeat;
-	-webkit-mask-size: 16px auto;
-	-webkit-mask-position: center;
-	min-width: 44px !important;
-	min-height: 44px !important;
-}
-
 ::v-deep .icon-user-dollar {
 	background-color: var(--color-main-text);
 	padding: 0 !important;
@@ -485,19 +486,28 @@ export default {
 	-webkit-mask-position: center;
 }
 
-#autoExport span.icon {
-	display: inline-block;
-	min-width: 30px !important;
-	min-height: 18px !important;
-	width: 41px;
-	height: 18px;
-	vertical-align: sub;
-}
+#autoExport {
+	display: inline-flex;
+	align-items: center;
 
-#autoExport label,
-#autoExport select {
-	display: inline-block;
-	width: 49%;
+	span.icon {
+		display: inline-block;
+		min-width: 30px !important;
+		min-height: 18px !important;
+		width: 41px;
+		height: 18px;
+		vertical-align: sub;
+	}
+
+	label,
+	select {
+		display: inline-flex;
+		width: 49%;
+
+		.material-icon {
+			margin: 0 12px 0 12px;
+		}
+	}
 }
 
 .addUserInput {

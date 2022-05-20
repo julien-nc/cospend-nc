@@ -1,7 +1,9 @@
 <template>
 	<div class="activity-entry">
-		<span class="icon-activity-entry"
-			:style="{ 'background-image': 'url(\'' + iconUrl + '\')' }" />
+		<element :is="icon.component"
+			class="icon-activity-entry"
+			:style="icon.color ? 'color: ' + icon.color + ';' : ''"
+			:size="16" />
 		<span
 			v-if="subjectRich"
 			class="subject">
@@ -22,6 +24,10 @@
 
 <script>
 
+import PencilIcon from 'vue-material-design-icons/Pencil'
+import ShareVariantIcon from 'vue-material-design-icons/ShareVariant'
+import PlusIcon from 'vue-material-design-icons/Plus'
+import DeleteIcon from 'vue-material-design-icons/Delete'
 import { generateUrl } from '@nextcloud/router'
 import moment from '@nextcloud/moment'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -29,13 +35,24 @@ import RichText from '@juliushaertl/vue-richtext'
 
 import UserBubble from '@nextcloud/vue/dist/Components/UserBubble'
 
-const isDarkTheme = OCA.Accessibility?.theme === 'dark'
 const icons = {
-	bill_update: generateUrl('/svg/core/actions/rename?color=' + (isDarkTheme ? 'FFFFFF' : '000000')),
-	bill_delete: generateUrl('/svg/core/actions/delete?color=E9322D'),
-	bill_create: generateUrl('/svg/core/actions/add?color=46BA61'),
-	project_share: generateUrl('/svg/core/actions/share?color=' + (isDarkTheme ? 'FFFFFF' : '000000')),
-	project_unshare: generateUrl('/svg/core/actions/share?color=' + (isDarkTheme ? 'FFFFFF' : '000000')),
+	bill_update: {
+		component: PencilIcon,
+	},
+	bill_delete: {
+		component: DeleteIcon,
+		color: '#E9322D',
+	},
+	bill_create: {
+		component: PlusIcon,
+		color: '#46BA61',
+	},
+	project_share: {
+		component: ShareVariantIcon,
+	},
+	project_unshare: {
+		component: ShareVariantIcon,
+	},
 }
 
 export default {
@@ -45,6 +62,10 @@ export default {
 		RichText,
 		// eslint-disable-next-line
 		UserBubble,
+		ShareVariantIcon,
+		PencilIcon,
+		PlusIcon,
+		DeleteIcon,
 	},
 
 	props: {
@@ -59,8 +80,8 @@ export default {
 	},
 
 	computed: {
-		iconUrl() {
-			return icons[this.activity.link] ?? ''
+		icon() {
+			return icons[this.activity.link]
 		},
 		relativeTime() {
 			return moment(this.activity.datetime).fromNow()

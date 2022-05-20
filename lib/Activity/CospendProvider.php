@@ -203,13 +203,6 @@ class CospendProvider implements IProvider {
 	}
 
 	private function getIcon(IEvent $event): IEvent {
-		$theme = $this->config->getUserValue($this->userId, 'accessibility', 'theme');
-		$green = ($theme === 'dark')
-			? 'E9322D'
-			: '46BA61';
-		$red = ($theme === 'dark')
-			? '46BA61'
-			: 'E9322D';
 		$event->setIcon(
 			$this->urlGenerator->getAbsoluteURL(
 				$this->urlGenerator->imagePath('cospend', 'app_black.svg')
@@ -223,11 +216,15 @@ class CospendProvider implements IProvider {
 			);
 		} elseif (strpos($event->getSubject(), '_create') !== false) {
 			$event->setIcon(
-				$this->urlGenerator->getAbsoluteURL('/index.php/svg/core/actions/add?color=' . $green)
+				$this->urlGenerator->getAbsoluteURL(
+					$this->urlGenerator->imagePath('files', 'add-color.svg')
+				)
 			);
 		} elseif (strpos($event->getSubject(), '_delete') !== false) {
 			$event->setIcon(
-				$this->urlGenerator->getAbsoluteURL('/index.php/svg/core/actions/delete?color=' . $red)
+				$this->urlGenerator->getAbsoluteURL(
+					$this->urlGenerator->imagePath('files', 'delete-color.svg')
+				)
 			);
 		} elseif ($event->getSubject() === 'project_share' || $event->getSubject() === 'project_unshare') {
 			$event->setIcon(

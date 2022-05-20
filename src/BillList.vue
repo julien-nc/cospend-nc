@@ -5,20 +5,28 @@
 			<AppNavigationItem
 				v-show="!loading"
 				class="addBillItem"
-				:icon="(editionAccess && oneActiveMember) ? 'icon-add' : ''"
 				:title="(editionAccess && oneActiveMember) ? t('cospend', 'New bill') : ''"
 				@click="onAddBillClicked">
+				<template #icon>
+					<PlusIcon v-show="editionAccess && oneActiveMember" :size="20" />
+				</template>
 				<template #actions>
 					<ActionButton v-show="bills.length > 0 || filterMode"
-						:icon="filterMode ? 'icon-close' : 'icon-filter'"
 						:close-after-click="true"
 						@click="toggleFilterMode">
+						<template #icon>
+							<CloseIcon v-if="filterMode" :size="20" />
+							<FilterIcon v-else :size="20" />
+						</template>
 						{{ filterToggleText }}
 					</ActionButton>
 					<ActionButton v-show="(editionAccess && bills.length > 0) || selectMode"
-						:icon="selectMode ? 'icon-close' : 'icon-toggle-filelist'"
 						:close-after-click="true"
 						@click="toggleSelectMode">
+						<template #icon>
+							<CloseIcon v-if="selectMode" :size="20" />
+							<FormatListCheckboxIcon v-else :size="20" />
+						</template>
 						{{ multiToggleText }}
 					</ActionButton>
 				</template>
@@ -27,13 +35,15 @@
 				<div v-if="filterMode"
 					class="filterOptions">
 					<div class="header">
-						<span class="icon icon-filter" />
+						<FilterIcon class="icon" :size="20" />
 						<span>{{ t('cospend', 'Filters') }}</span>
 						<Actions>
 							<ActionButton
-								icon="icon-close"
 								class="rightCloseButton"
 								@click="filterMode = false">
+								<template #icon>
+									<CloseIcon :size="20" />
+								</template>
 								{{ t('cospend', 'Close filters') }}
 							</ActionButton>
 						</Actions>
@@ -57,13 +67,15 @@
 					class="selectionOptions">
 					<div v-show="selectedBillIds.length > 0">
 						<div class="header">
-							<span class="icon icon-toggle-filelist" />
+							<FormatListCheckboxIcon class="icon" :size="20" />
 							<span>{{ t('cospend', 'Multi select actions') }}</span>
 							<Actions>
 								<ActionButton
-									icon="icon-close"
 									class="rightCloseButton"
 									@click="selectMode = false">
+									<template #icon>
+										<CloseIcon :size="20" />
+									</template>
 									{{ t('cospend', 'Leave multiple select mode') }}
 								</ActionButton>
 							</Actions>
@@ -82,9 +94,11 @@
 								@input="onMultiActionPaymentModeChange" />
 							<Actions v-show="deletionEnabled">
 								<ActionButton
-									icon="icon-delete"
 									class="multiDelete"
 									@click="deleteSelection">
+									<template #icon>
+										<DeleteIcon :size="20" />
+									</template>
 									{{ t('cospend', 'Delete selected bills') }}
 								</ActionButton>
 							</Actions>
@@ -98,9 +112,11 @@
 						<br>
 						<Actions>
 							<ActionButton
-								icon="icon-close"
 								class="rightCloseButton"
 								@click="selectMode = false">
+								<template #icon>
+									<CloseIcon :size="20" />
+								</template>
 								{{ t('cospend', 'Leave multiple select mode') }}
 							</ActionButton>
 						</Actions>
@@ -146,6 +162,11 @@
 </template>
 
 <script>
+import DeleteIcon from 'vue-material-design-icons/Delete'
+import CloseIcon from 'vue-material-design-icons/Close'
+import FilterIcon from 'vue-material-design-icons/Filter'
+import FormatListCheckboxIcon from 'vue-material-design-icons/FormatListCheckbox'
+import PlusIcon from 'vue-material-design-icons/Plus'
 import AppContentList from '@nextcloud/vue/dist/Components/AppContentList'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
@@ -167,7 +188,20 @@ export default {
 	name: 'BillList',
 
 	components: {
-		BillItem, AppContentList, AppNavigationItem, Actions, ActionButton, EmptyContent, InfiniteLoading, PaymentModeMultiSelect, CategoryMultiSelect,
+		BillItem,
+		AppContentList,
+		AppNavigationItem,
+		Actions,
+		ActionButton,
+		EmptyContent,
+		InfiniteLoading,
+		PaymentModeMultiSelect,
+		CategoryMultiSelect,
+		PlusIcon,
+		CloseIcon,
+		DeleteIcon,
+		FilterIcon,
+		FormatListCheckboxIcon,
 	},
 
 	props: {
@@ -544,6 +578,9 @@ export default {
 		}
 		.multiDelete {
 			margin-left: auto;
+			&:hover {
+				color: var(--color-error);
+			}
 		}
 		> div {
 			width: 100%;

@@ -19,18 +19,22 @@
 		</template>
 		<AppSidebarTab v-if="!pageIsPublic"
 			id="sharing"
-			icon="icon-shared"
 			:name="t('cospend', 'Sharing')"
 			:order="1">
+			<template #icon>
+				<ShareVariantIcon :size="20" />
+			</template>
 			<SharingTabSidebar
 				:project="project"
 				@project-edited="onProjectEdited" />
 		</AppSidebarTab>
 		<AppSidebarTab
 			id="project-settings"
-			icon="icon-settings-dark"
 			:name="t('cospend', 'Settings')"
 			:order="2">
+			<template #icon>
+				<CogIcon :size="20" />
+			</template>
 			<SettingsTabSidebar
 				ref="settingsTab"
 				:project="project"
@@ -89,6 +93,8 @@
 <script>
 import LightningBoltIcon from 'vue-material-design-icons/LightningBolt'
 import ShapeIcon from 'vue-material-design-icons/Shape'
+import ShareVariantIcon from 'vue-material-design-icons/ShareVariant'
+import CogIcon from 'vue-material-design-icons/Cog'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
 import AppSidebarTab from '@nextcloud/vue/dist/Components/AppSidebarTab'
@@ -117,6 +123,8 @@ export default {
 		ActivityTabSidebar,
 		ShapeIcon,
 		LightningBoltIcon,
+		CogIcon,
+		ShareVariantIcon,
 	},
 	props: {
 		show: {

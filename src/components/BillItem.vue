@@ -29,8 +29,12 @@
 			<span>{{ billDate }}</span>
 		</span>
 		<div v-if="editionAccess && showDelete && (deletionEnabled || bill.id === 0)"
-			:class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteBillIcon'"
+			class="icon-plop deleteBillIcon"
+			:title="deleteIconTitle"
 			@click.prevent.stop="onDeleteClick">
+			<element :is="deleteIconComponent"
+				class="icon"
+				:size="20" />
 			<span v-if="timerOn" class="countdown">
 				<vac :end-time="new Date().getTime() + (7000)">
 					<template #process="{ timeObj }">
@@ -49,6 +53,8 @@
 
 <script>
 import CalendarSyncIcon from 'vue-material-design-icons/CalendarSync'
+import DeleteIcon from 'vue-material-design-icons/Delete'
+import UndoIcon from 'vue-material-design-icons/Undo'
 import cospend from '../state'
 import { generateUrl } from '@nextcloud/router'
 import moment from '@nextcloud/moment'
@@ -61,6 +67,8 @@ export default {
 	components: {
 		ColoredAvatar,
 		CalendarSyncIcon,
+		UndoIcon,
+		DeleteIcon,
 	},
 
 	props: {
@@ -207,6 +215,16 @@ export default {
 		counter() {
 			return '[' + this.index + '/' + this.nbbills + ']'
 		},
+		deleteIconComponent() {
+			return this.timerOn
+				? UndoIcon
+				: DeleteIcon
+		},
+		deleteIconTitle() {
+			return this.timerOn
+				? t('cospend', 'Cancel')
+				: t('cospend', 'Delete this bill')
+		},
 	},
 
 	mounted() {
@@ -245,8 +263,8 @@ export default {
 
 .countdown {
 	position: relative;
-	left: -40px;
-	top: -12px;
+	left: -50px;
+	top: 0;
 }
 
 .newBill {
@@ -278,8 +296,16 @@ export default {
 
 .deleteBillIcon {
 	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	padding: 12px 12px 12px 12px !important;
+	width: 44px !important;
+	height: 44px !important;
 	&:hover {
 		background-color: var(--color-main-background);
+		.delete-icon {
+			color: var(--color-error);
+		}
 	}
 }
 

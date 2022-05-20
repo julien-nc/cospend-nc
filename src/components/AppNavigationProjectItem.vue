@@ -32,15 +32,21 @@
 		<template #counter>
 			<Actions>
 				<ActionButton v-if="!pageIsPublic"
-					icon="icon-shared"
 					class="detailButton"
-					@click="onShareClick" />
+					@click="onShareClick">
+					<template #icon>
+						<ShareVariantIcon :size="20" />
+					</template>
+				</ActionButton>
 			</Actions>
 			<Actions>
 				<ActionButton
-					icon="icon-settings-dark"
 					class="detailButton"
-					@click="onDetailClick" />
+					@click="onDetailClick">
+					<template #icon>
+						<CogIcon :size="20" />
+					</template>
+				</ActionButton>
 			</Actions>
 		</template>
 		<template #actions>
@@ -92,6 +98,8 @@
 </template>
 
 <script>
+import ShareVariantIcon from 'vue-material-design-icons/ShareVariant'
+import CogIcon from 'vue-material-design-icons/Cog'
 import FolderIcon from 'vue-material-design-icons/Folder'
 import FolderOutlineIcon from 'vue-material-design-icons/FolderOutline'
 import ChartLineIcon from 'vue-material-design-icons/ChartLine'
@@ -116,6 +124,8 @@ export default {
 		ChartLineIcon,
 		FolderIcon,
 		FolderOutlineIcon,
+		CogIcon,
+		ShareVariantIcon,
 	},
 	directives: {
 		ClickOutside,

@@ -4,20 +4,24 @@
 			class="one-currency-label">
 			<label class="one-currency-label-label">{{ currency.name }}</label>
 			<label class="one-currency-label-label">(x{{ currency.exchange_rate }})</label>
-			<input v-show="editionAccess"
+			<Button v-show="editionAccess"
 				v-tooltip.top="{ content: t('cospend', 'Edit') }"
-				type="submit"
-				value=""
-				class="icon-rename editOneCurrency icon"
 				@click="onClickEdit">
-			<input v-show="editionAccess"
+				<template #icon>
+					<PencilIcon :size="20" />
+				</template>
+			</Button>
+			<Button v-show="editionAccess"
+				class="deleteCurrencyButton"
 				v-tooltip.top="{ content: t('cospend', 'Delete') }"
-				type="submit"
-				value=""
-				:class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteOneCurrency icon'"
 				@click="onClickDelete">
+				<template #icon>
+					<UndoIcon v-if="timerOn" :size="20" />
+					<DeleteIcon v-else class="delete-icon" :size="20" />
+				</template>
+			</Button>
 			<label v-if="timerOn"
-				class="one-currency-label-label">
+				class="one-currency-label-timer">
 				<vac :end-time="new Date().getTime() + (7000)">
 					<template #process="{ timeObj }">
 						<span>{{ `${timeObj.s}` }}</span>
@@ -40,25 +44,43 @@
 				class="editCurrencyRateInput"
 				step="0.0001"
 				min="0">
-			<button
+			<Button
 				v-tooltip.top="{ content: t('cospend', 'Cancel') }"
-				class="editCurrencyClose icon-history icon"
-				@click="onClickCancel" />
-			<button
+				@click="onClickCancel">
+				<template #icon>
+					<UndoIcon :size="20" />
+				</template>
+			</Button>
+			<Button
+				type="primary"
 				v-tooltip.top="{ content: t('cospend', 'Save') }"
-				class="editCurrencyOk icon-checkmark icon"
-				@click="onClickEditOk" />
+				@click="onClickEditOk">
+				<template #icon>
+					<CheckIcon :size="20" />
+				</template>
+			</Button>
 		</div>
 	</div>
 </template>
 
 <script>
+import Button from '@nextcloud/vue/dist/Components/Button'
+import PencilIcon from 'vue-material-design-icons/Pencil'
+import UndoIcon from 'vue-material-design-icons/Undo'
+import CheckIcon from 'vue-material-design-icons/Check'
+import DeleteIcon from 'vue-material-design-icons/Delete'
 import { Timer } from '../utils'
 
 export default {
 	name: 'Currency',
 
-	components: {},
+	components: {
+		PencilIcon,
+		DeleteIcon,
+		UndoIcon,
+		CheckIcon,
+		Button,
+	},
 
 	props: {
 		currency: {
@@ -117,12 +139,19 @@ export default {
 
 <style scoped lang="scss">
 .one-currency-edit {
-	display: grid;
-	grid-template: 1fr / 1fr 1fr 42px 42px;
-	height: 40px;
-	border-radius: 15px;
+	display: flex;
+	align-items: center;
+	border-radius: var(--border-radius-large);
 	background-color: var(--color-background-dark);
-	margin-right: 15px;
+	margin-right: 20px;
+	padding: 4px 0 4px 0;
+	> * {
+		margin: 0 4px 0 4px;
+	}
+	.editCurrencyNameInput,
+	.editCurrencyRateInput {
+		flex-grow: 1;
+	}
 }
 
 .one-currency-edit label,
@@ -130,16 +159,21 @@ export default {
 	line-height: 40px;
 }
 
-.one-currency-label input[type=submit] {
-	border-radius: 50% !important;
-	width: 40px !important;
-	height: 40px;
-	margin-top: 0px;
-}
-
 .one-currency-label {
-	display: grid;
-	grid-template: 1fr / 1fr 1fr 42px 42px 15px;
+	display: flex;
+	align-items: center;
+	margin-right: 20px;
+	padding: 4px 0 4px 0;
+	.one-currency-label-label {
+		width: 50%;
+	}
+	.one-currency-label-timer {
+		position: absolute;
+		right: 4px;
+	}
+	> * {
+		margin: 0 4px 0 4px;
+	}
 }
 
 .editCurrencyOk,
@@ -152,6 +186,12 @@ export default {
 .editCurrencyOk {
 	background-color: #46ba61;
 	color: white;
+}
+
+::v-deep .deleteCurrencyButton:hover {
+	.delete-icon {
+		color: var(--color-error);
+	}
 }
 
 .icon {

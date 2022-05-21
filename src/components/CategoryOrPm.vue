@@ -16,11 +16,12 @@
 				</template>
 			</Button>
 			<Button v-show="editionAccess"
+				class="deleteItemButton"
 				v-tooltip.top="{ content: t('cospend', 'Delete') }"
 				@click="onClickDelete">
 				<template #icon>
 					<UndoIcon v-if="timerOn" :size="20" />
-					<DeleteIcon v-else :size="20" />
+					<DeleteIcon v-else class="deleteItem" :size="20" />
 				</template>
 			</Button>
 			<label v-if="timerOn"
@@ -277,6 +278,12 @@ $clickable-area: 44px;
 	&:focus {
 		opacity: 1;
 		background-color: var(--color-background-hover);
+	}
+}
+
+::v-deep .deleteItemButton:hover {
+	.delete-icon {
+		color: var(--color-error);
 	}
 }
 

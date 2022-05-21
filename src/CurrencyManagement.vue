@@ -10,12 +10,13 @@
 			<div v-show="!editMode"
 				id="main-currency-label">
 				<label id="main-currency-label-label">{{ project.currencyname || t('cospend', 'None') }}</label>
-				<input v-show="project.myaccesslevel >= constants.ACCESS.MAINTENER"
+				<Button v-show="project.myaccesslevel >= constants.ACCESS.MAINTENER"
 					v-tooltip.top="{ content: t('cospend', 'Set main currency name') }"
-					type="submit"
-					value=""
-					class="icon icon-rename editMainCurrency"
 					@click="editMode=true; $nextTick(() => $refs.mainCurrencyEdit.focus());">
+					<template #icon>
+						<PencilIcon :size="20" />
+					</template>
+				</Button>
 			</div>
 			<div v-show="editMode"
 				id="main-currency-edit">
@@ -27,18 +28,21 @@
 					:value="project.currencyname || ''"
 					@keyup.enter="onEditMainOkClick"
 					@focus="$event.target.select()">
-				<input
+				<Button
 					v-tooltip.top="{ content: t('cospend', 'Cancel') }"
-					type="submit"
-					value=""
-					class="icon icon-history editMainCurrencyClose"
 					@click="editMode=false">
-				<input
+					<template #icon>
+						<UndoIcon :size="20" />
+					</template>
+				</Button>
+				<Button
 					v-tooltip.top="{ content: t('cospend', 'Save') }"
-					type="submit"
-					value=""
-					class="icon icon-checkmark editMainCurrencyOk"
+					type="primary"
 					@click="onEditMainOkClick">
+					<template #icon>
+						<CheckIcon :size="20" />
+					</template>
+				</Button>
 			</div>
 		</div>
 		<hr>
@@ -78,15 +82,21 @@
 						{{ t('cospend', '(1 of this currency = X of main currency)') }}
 					</label>
 				</div>
-				<button
-					v-tooltip.top="{ content: t('cospend', 'Add this currency') }"
-					class="icon icon-add-white addCurrencyOk"
-					@click="onAddCurrency" />
+				<div class="addCurrencyButtonWrapper">
+					<Button
+						type="primary"
+						v-tooltip.top="{ content: t('cospend', 'Add this currency') }"
+						@click="onAddCurrency">
+						<template #icon>
+							<CheckIcon :size="22" />
+						</template>
+					</Button>
+				</div>
 				<hr>
 			</div>
-			<br>
-			<label>
-				<a class="icon icon-currencies" />{{ t('cospend', 'Currency list') }}
+			<label class="currencyListLabel">
+				<a class="icon icon-currencies" />
+				{{ t('cospend', 'Currency list') }}
 			</label>
 			<div v-if="currencies.length"
 				id="currency-list">
@@ -106,7 +116,11 @@
 </template>
 
 <script>
+import Button from '@nextcloud/vue/dist/Components/Button'
+import PencilIcon from 'vue-material-design-icons/Pencil'
 import PlusIcon from 'vue-material-design-icons/Plus'
+import CheckIcon from 'vue-material-design-icons/Check'
+import UndoIcon from 'vue-material-design-icons/Undo'
 import CurrencyUsdIcon from 'vue-material-design-icons/CurrencyUsd'
 import {
 	showSuccess,
@@ -125,6 +139,10 @@ export default {
 		Currency,
 		CurrencyUsdIcon,
 		PlusIcon,
+		PencilIcon,
+		CheckIcon,
+		UndoIcon,
+		Button,
 	},
 
 	props: {
@@ -247,30 +265,14 @@ export default {
 }
 
 .editMainCurrencyInput {
-	width: 96%;
+	flex-grow: 1;
 }
 
 #main-currency-edit {
-	display: grid;
-	grid-template: 1fr / 80% 1fr 1fr;
-}
-
-.addCurrencyOk {
-	width: 44px;
-	height: 44px;
-
-	border-radius: var(--border-radius-pill);
-	opacity: .5;
-
-	&.icon {
-		background-color: var(--color-success);
-		border: none;
-		margin: 0 0 0 88%;
-	}
-
-	&:hover,
-	&:focus {
-		opacity: 1;
+	display: flex;
+	align-items: center;
+	> * {
+		margin: 0 4px 0 4px;
 	}
 }
 
@@ -290,6 +292,14 @@ export default {
 	grid-template: 1fr / 2fr 1fr;
 }
 
+.addCurrencyButtonWrapper {
+	width: 100%;
+	display: flex;
+	> * {
+		margin-left: auto;
+	}
+}
+
 .addCurrencyRateHint {
 	grid-column: 1/3;
 }
@@ -307,6 +317,11 @@ export default {
 
 #currency-list {
 	margin-left: 37px;
+}
+
+.currencyListLabel {
+	display: flex;
+	align-items: center;
 }
 
 .title-label {

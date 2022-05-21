@@ -456,13 +456,17 @@ h3 {
 .hint {
 	opacity: 0.7;
 }
+#order-selection {
+	display: flex;
+	align-items: center;
+	label,
+	select {
+		display: inline-flex;
+		width: 49%;
 
-#order-selection label,
-#order-selection select {
-	display: inline-flex;
-	width: 49%;
-	.icon {
-		padding-left: 12px;
+		.icon {
+			padding-left: 12px;
+		}
 	}
 }
 </style>

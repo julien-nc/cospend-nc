@@ -62,7 +62,9 @@
 			<li v-if="editionAccess && linkShares.length === 0"
 				class="add-public-link-line"
 				@click="addLink">
-				<div :class="'avatardiv icon icon-public-white' + (addingPublicLink ? ' loading' : '')" />
+				<div :class="'avatardiv link-icon' + (addingPublicLink ? ' loading' : '')">
+					<LinkVariantIcon :size="20" />
+				</div>
 				<span class="username">
 					{{ t('cospend', 'Share link') }}
 				</span>
@@ -74,7 +76,9 @@
 				</Actions>
 			</li>
 			<li v-for="access in linkShares" :key="access.id">
-				<div class="avatardiv icon icon-public-white" />
+				<div class="avatardiv link-icon">
+					<LinkVariantIcon :size="20" />
+				</div>
 				<span class="username">
 					<span>{{ t('cospend', 'Share link') + (access.label ? ' (' + access.label + ')' : '') }}</span>
 				</span>
@@ -112,10 +116,12 @@
 					placement="bottom">
 					<ActionInput
 						type="text"
-						icon="icon-edit"
 						:value="access.label"
 						:disabled="!editionAccess || myAccessLevel < access.accesslevel"
 						@submit="submitLabel(access, $event)">
+						<template #icon>
+							<TextBoxIcon :size="20" />
+						</template>
 						{{ t('cospend', 'Label') }}
 					</ActionInput>
 					<ActionCheckbox
@@ -128,10 +134,12 @@
 					<ActionInput
 						v-if="access.password !== null"
 						type="password"
-						icon="icon-password"
 						:value="access.password"
 						:disabled="!editionAccess || myAccessLevel < access.accesslevel"
 						@submit="submitPassword(access, $event)">
+						<template #icon>
+							<LockIcon :size="20" />
+						</template>
 						{{ t('cospend', 'Set link password') }}
 					</ActionInput>
 					<ActionSeparator />
@@ -161,14 +169,18 @@
 					</ActionRadio>
 					<ActionSeparator />
 					<ActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
-						icon="icon-delete"
 						@click="clickDeleteAccess(access)">
+						<template #icon>
+							<DeleteIcon :size="20" />
+						</template>
 						{{ t('cospend', 'Delete link') }}
 					</ActionButton>
 					<ActionButton v-if="editionAccess"
-						icon="icon-add"
 						:close-after-click="true"
 						@click="addLink">
+						<template #icon>
+							<PlusIcon :size="20" />
+						</template>
 						{{ t('cospend', 'Add another link') }}
 					</ActionButton>
 				</Actions>
@@ -224,19 +236,24 @@
 						{{ t('cospend', 'Admin') }}
 					</ActionRadio>
 					<ActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
-						icon="icon-delete"
 						@click="clickDeleteAccess(access)">
+						<template #icon>
+							<DeleteIcon :size="20" />
+						</template>
 						{{ t('cospend', 'Delete access') }}
 					</ActionButton>
 				</Actions>
 			</li>
 		</ul>
 		<hr><br>
-		<div class="passwordAccessSwitch"
+		<Button class="passwordAccessSwitch"
 			@click="toggleShowPasswordAccess">
-			<span :class="{ icon: true, 'icon-triangle-e': !showPasswordAccess, 'icon-triangle-s': showPasswordAccess }" />
+			<template #icon>
+				<MenuDownIcon v-if="showPasswordAccess" :size="20" />
+				<MenuRightIcon v-else :size="20" />
+			</template>
 			{{ t('cospend', 'Show deprecated password protected access') }}
-		</div>
+		</Button>
 		<div v-if="showPasswordAccess">
 			<ul
 				id="guestList"
@@ -324,6 +341,12 @@
 import ClipboardArrowLeftOutlineIcon from 'vue-material-design-icons/ClipboardArrowLeftOutline'
 import ClipboardCheckOutlineIcon from 'vue-material-design-icons/ClipboardCheckOutline'
 import LockIcon from 'vue-material-design-icons/Lock'
+import DeleteIcon from 'vue-material-design-icons/Delete'
+import PlusIcon from 'vue-material-design-icons/Plus'
+import MenuRightIcon from 'vue-material-design-icons/MenuRight'
+import MenuDownIcon from 'vue-material-design-icons/MenuDown'
+import TextBoxIcon from 'vue-material-design-icons/TextBox'
+import LinkVariantIcon from 'vue-material-design-icons/LinkVariant'
 import QrcodeIcon from 'vue-material-design-icons/Qrcode'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
@@ -335,6 +358,7 @@ import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
 import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
+import Button from '@nextcloud/vue/dist/Components/Button'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl, generateOcsUrl, imagePath } from '@nextcloud/router'
@@ -363,11 +387,18 @@ export default {
 		ActionSeparator,
 		Multiselect,
 		Modal,
+		Button,
 		QRCode,
 		QrcodeIcon,
 		LockIcon,
+		TextBoxIcon,
+		DeleteIcon,
+		PlusIcon,
+		MenuDownIcon,
+		MenuRightIcon,
 		ClipboardArrowLeftOutlineIcon,
 		ClipboardCheckOutlineIcon,
+		LinkVariantIcon,
 	},
 
 	props: {
@@ -790,8 +821,12 @@ export default {
 	display: flex;
 }
 
-.avatardiv.icon-public-white {
+.avatardiv.link-icon {
 	background-color: var(--color-primary);
+	color: white;
+	display: flex;
+	align-items: center;
+	padding: 6px 6px 6px 6px;
 }
 
 .passwordAccessSwitch {

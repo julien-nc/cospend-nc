@@ -70,8 +70,10 @@
 		<AppSidebarTab
 			id="paymentmodes"
 			:name="t('cospend', 'Payment modes')"
-			:icon="'icon-tag'"
 			:order="5">
+			<template #icon>
+				<TagIcon :size="20" />
+			</template>
 			<CategoryOrPmManagement
 				:project-id="projectId"
 				type="paymentmode"
@@ -93,6 +95,7 @@
 <script>
 import LightningBoltIcon from 'vue-material-design-icons/LightningBolt'
 import ShapeIcon from 'vue-material-design-icons/Shape'
+import TagIcon from 'vue-material-design-icons/Tag'
 import ShareVariantIcon from 'vue-material-design-icons/ShareVariant'
 import CogIcon from 'vue-material-design-icons/Cog'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
@@ -125,6 +128,7 @@ export default {
 		LightningBoltIcon,
 		CogIcon,
 		ShareVariantIcon,
+		TagIcon,
 	},
 	props: {
 		show: {

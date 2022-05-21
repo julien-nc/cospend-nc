@@ -39,7 +39,7 @@
 				target="_blank"
 				class="external">
 				https://github.com/eneiluj/cospend-nc/issues
-				<span class="icon icon-external" />
+				<OpenInNewIcon :size="16" />
 			</a>
 			<h3 class="app-settings-section__hint">
 				{{ t('cospend', 'Translation') + ': ' }}
@@ -48,7 +48,7 @@
 				target="_blank"
 				class="external">
 				https://crowdin.com/project/moneybuster
-				<span class="icon icon-external" />
+				<OpenInNewIcon :size="16" />
 			</a>
 			<h3 class="app-settings-section__hint">
 				{{ t('cospend', 'User documentation') + ': ' }}
@@ -57,7 +57,7 @@
 				target="_blank"
 				class="external">
 				https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md
-				<span class="icon icon-external" />
+				<OpenInNewIcon :size="16" />
 			</a>
 			<h3 class="app-settings-section__hint">
 				{{ t('cospend', 'Admin documentation') + ': ' }}
@@ -66,7 +66,7 @@
 				target="_blank"
 				class="external">
 				https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md
-				<span class="icon icon-external" />
+				<OpenInNewIcon :size="16" />
 			</a>
 			<h3 class="app-settings-section__hint">
 				{{ t('cospend', 'Developer documentation') + ': ' }}
@@ -75,7 +75,7 @@
 				target="_blank"
 				class="external">
 				https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md
-				<span class="icon icon-external" />
+				<OpenInNewIcon :size="16" />
 			</a>
 		</AppSettingsSection>
 		<AppSettingsSection v-if="!pageIsPublic"
@@ -194,6 +194,7 @@
 
 <script>
 import ClipboardArrowLeftOutlineIcon from 'vue-material-design-icons/ClipboardArrowLeftOutline'
+import OpenInNewIcon from 'vue-material-design-icons/OpenInNew'
 import FileImportIcon from 'vue-material-design-icons/FileImport'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { getFilePickerBuilder, showError, showSuccess } from '@nextcloud/dialogs'
@@ -211,6 +212,7 @@ export default {
 		AppSettingsSection,
 		FileImportIcon,
 		ClipboardArrowLeftOutlineIcon,
+		OpenInNewIcon,
 	},
 
 	data() {
@@ -324,6 +326,14 @@ button {
 	align-items: center;
 	.label {
 		padding-left: 8px;
+	}
+}
+
+a.external {
+	display: flex;
+	align-items: center;
+	> * {
+		margin: 0 2px 0 2px;
 	}
 }
 

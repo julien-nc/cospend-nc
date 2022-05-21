@@ -2,13 +2,16 @@
 	<div>
 		<br>
 		<div v-if="adminAccess" class="renameProject">
-			<form @submit.prevent.stop="onRenameProject">
-				<input
-					v-model="newProjectName"
-					:placeholder="t('cospend', 'Rename project {n}', { n: project.name }, undefined, { escape: false })"
-					type="text">
-				<input type="submit" value="" class="icon-confirm">
-			</form>
+			<input
+				v-model="newProjectName"
+				type="text"
+				:placeholder="t('cospend', 'Rename project {n}', { n: project.name }, undefined, { escape: false })"
+				@keyup.enter="onRenameProject">
+			<Button @click="onRenameProject">
+				<template #icon>
+					<CheckIcon :size="20" />
+				</template>
+			</Button>
 			<br>
 		</div>
 		<div v-if="adminAccess" class="deletion-disabled-line">
@@ -59,15 +62,18 @@
 		<div>
 			<br><hr>
 			<h3>
-				<span class="icon icon-user" />
+				<AccountIcon class="icon" :size="20" />
 				<span class="tcontent">
 					{{ t('cospend', 'Members') }}
 				</span>
-				<button class="icon icon-info" @click="onInfoAddClicked" />
+				<Button @click="onInfoAddClicked">
+					<template #icon>
+						<InformationVariantIcon :size="20" />
+					</template>
+				</Button>
 			</h3>
-			<h4
-				v-if="maintenerAccess">
-				<span class="icon icon-add" />
+			<h4 v-if="maintenerAccess">
+				<PlusIcon class="icon" :size="20" />
 				<span class="tcontent">
 					{{ t('cospend', 'Add a member') }}
 				</span>
@@ -116,11 +122,15 @@
 			<div v-if="!pageIsPublic && maintenerAccess">
 				<br><hr>
 				<h3>
-					<span class="icon-user" />
+					<AccountIcon class="icon" :size="20" />
 					<span class="tcontent">
 						{{ t('cospend', 'Associate a project member with a Nextcloud user') }}
 					</span>
-					<button class="icon icon-info" @click="onInfoAssociateClicked" />
+					<Button @click="onInfoAssociateClicked">
+						<template #icon>
+							<InformationVariantIcon :size="20" />
+						</template>
+					</Button>
 				</h3>
 				<div id="affectDiv">
 					<MemberMultiSelect
@@ -163,8 +173,13 @@
 </template>
 
 <script>
+import InformationVariantIcon from 'vue-material-design-icons/InformationVariant'
+import AccountIcon from 'vue-material-design-icons/Account'
+import CheckIcon from 'vue-material-design-icons/Check'
+import PlusIcon from 'vue-material-design-icons/Plus'
 import ContentSaveIcon from 'vue-material-design-icons/ContentSave'
 import CalendarMonthIcon from 'vue-material-design-icons/CalendarMonth'
+import Button from '@nextcloud/vue/dist/Components/Button'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
@@ -190,6 +205,11 @@ export default {
 		MemberMultiSelect,
 		CalendarMonthIcon,
 		ContentSaveIcon,
+		CheckIcon,
+		Button,
+		AccountIcon,
+		PlusIcon,
+		InformationVariantIcon,
 	},
 	props: {
 		project: {
@@ -524,17 +544,10 @@ export default {
 	width: 49%;
 }
 
-.renameProject,
-.newMember {
-	order: 1;
+.renameProject {
 	display: flex;
-	height: 44px;
-	form {
-		display: flex;
+	input[type='text'] {
 		flex-grow: 1;
-		input[type='text'] {
-			flex-grow: 1;
-		}
 	}
 }
 
@@ -558,29 +571,8 @@ h3, h4 {
 		padding-top: 12px;
 	}
 
-	> span.icon-user {
-		display: inline-block;
-		min-width: 40px;
-	}
-
-	.icon {
-		display: inline-block;
-		width: 44px;
-		height: 44px;
-		border-radius: var(--border-radius-pill);
-		opacity: .5;
-
-		&.icon-info {
-			background-color: transparent;
-			border: none;
-			margin: 0;
-		}
-
-		&:hover,
-		&:focus {
-			opacity: 1;
-			background-color: var(--color-background-hover);
-		}
+	> span.icon {
+		padding: 12px 12px 12px 12px;
 	}
 }
 

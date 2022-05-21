@@ -262,25 +262,6 @@ $clickable-area: 44px;
 	padding: 0;
 }
 
-.icon {
-	border-radius: var(--border-radius-pill);
-	opacity: .5;
-
-	&.icon-delete,
-	&.icon-rename,
-	&.icon-history {
-		background-color: transparent;
-		border: none;
-		margin: 0;
-	}
-
-	&:hover,
-	&:focus {
-		opacity: 1;
-		background-color: var(--color-background-hover);
-	}
-}
-
 ::v-deep .deleteItemButton:hover {
 	.delete-icon {
 		color: var(--color-error);

@@ -3,7 +3,6 @@
 		<template #list>
 			<AppNavigationItem v-if="!pageIsPublic && !loading"
 				class="addProjectItem"
-				icon="icon-add"
 				:editable="true"
 				:title="t('cospend', 'New project')"
 				:edit-placeholder="t('cospend', 'New project name')"
@@ -13,6 +12,9 @@
 				@click="importMenuOpen = true"
 				@update:title="$emit('create-project', $event)"
 				@update:menuOpen="updateImportMenuOpen">
+				<template #icon>
+					<PlusIcon :size="20" />
+				</template>
 				<template #actions>
 					<ActionButton
 						:close-after-click="true"
@@ -38,8 +40,10 @@
 			</AppNavigationItem>
 			<h2 v-if="loading"
 				class="icon-loading-small loading-icon" />
-			<EmptyContent v-else-if="sortedProjectIds.length === 0"
-				icon="icon-folder">
+			<EmptyContent v-else-if="sortedProjectIds.length === 0">
+				<template #icon>
+					<FolderIcon :size="20" />
+				</template>
 				{{ t('cospend', 'No projects yet') }}
 			</EmptyContent>
 			<AppNavigationProjectItem
@@ -90,6 +94,8 @@ import { strcmp, importCospendProject, importSWProject } from '../utils'
 
 import ClickOutside from 'vue-click-outside'
 
+import FolderIcon from 'vue-material-design-icons/Folder'
+import PlusIcon from 'vue-material-design-icons/Plus'
 import FileImportIcon from 'vue-material-design-icons/FileImport'
 import CogIcon from 'vue-material-design-icons/Cog'
 import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
@@ -110,6 +116,8 @@ export default {
 		ActionButton,
 		CogIcon,
 		FileImportIcon,
+		PlusIcon,
+		FolderIcon,
 	},
 	directives: {
 		ClickOutside,

@@ -193,23 +193,4 @@ export default {
 		color: var(--color-error);
 	}
 }
-
-.icon {
-	border-radius: var(--border-radius-pill);
-	opacity: .5;
-
-	&.icon-rename,
-	&.icon-delete,
-	&.icon-history {
-		background-color: transparent;
-		border: none;
-		margin: 0;
-	}
-
-	&:hover,
-	&:focus {
-		opacity: 1;
-		background-color: var(--color-background-hover);
-	}
-}
 </style>

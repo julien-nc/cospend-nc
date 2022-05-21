@@ -69,8 +69,10 @@
 					{{ t('cospend', 'Share link') }}
 				</span>
 				<Actions>
-					<ActionButton
-						icon="icon-add">
+					<ActionButton>
+						<template #icon>
+							<PlusIcon :size="20" />
+						</template>
 						{{ t('cospend', 'Create a new share link') }}
 					</ActionButton>
 				</Actions>
@@ -266,8 +268,10 @@
 
 					<Actions>
 						<ActionButton
-							icon="icon-info"
 							@click="oldLinkInfoClick">
+							<template #icon>
+								<InformationVariantIcon :size="20" />
+							</template>
 							{{ t('cospend', 'More information') }}
 						</ActionButton>
 					</Actions>
@@ -318,26 +322,29 @@
 					</Actions>
 				</li>
 			</ul>
-			<div class="enterPassword">
-				<form v-if="myAccessLevel === constants.ACCESS.ADMIN"
-					id="newPasswordForm"
-					@submit.prevent.stop="setPassword">
-					<input id="newPasswordInput"
-						ref="newPasswordInput"
-						v-model="newGuestPassword"
-						type="password"
-						autocomplete="off"
-						:placeholder="t('cospend', 'Set project password')"
-						:readonly="newPasswordReadonly"
-						@focus="newPasswordReadonly = false; $event.target.select()">
-					<input type="submit" value="" class="icon-confirm">
-				</form>
+			<div v-if="myAccessLevel === constants.ACCESS.ADMIN"
+				class="enterPassword">
+				<input
+					v-model="newGuestPassword"
+					type="password"
+					autocomplete="off"
+					:placeholder="t('cospend', 'Set project password')"
+					:readonly="newPasswordReadonly"
+					@focus="newPasswordReadonly = false; $event.target.select()"
+					@keyup.enter="setPassword">
+				<Button @click="setPassword">
+					<template #icon>
+						<CheckIcon :size="20" />
+					</template>
+				</Button>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import CheckIcon from 'vue-material-design-icons/Check'
+import InformationVariantIcon from 'vue-material-design-icons/InformationVariant'
 import ClipboardArrowLeftOutlineIcon from 'vue-material-design-icons/ClipboardArrowLeftOutline'
 import ClipboardCheckOutlineIcon from 'vue-material-design-icons/ClipboardCheckOutline'
 import LockIcon from 'vue-material-design-icons/Lock'
@@ -399,6 +406,8 @@ export default {
 		ClipboardArrowLeftOutlineIcon,
 		ClipboardCheckOutlineIcon,
 		LinkVariantIcon,
+		InformationVariantIcon,
+		CheckIcon,
 	},
 
 	props: {
@@ -800,25 +809,12 @@ export default {
 	height: 32px;
 }
 
-::v-deep .enterPassword {
-	order: 1;
+.enterPassword {
 	display: flex;
-	margin-left: auto;
-	margin-right: auto;
-	height: 44px;
-	width: 250px;
-	form {
-		display: flex;
+	align-items: center;
+	input {
 		flex-grow: 1;
-		input[type='password'] {
-			flex-grow: 1;
-		}
 	}
-}
-
-#newPasswordForm {
-	width: 48%;
-	display: flex;
 }
 
 .avatardiv.link-icon {
@@ -832,6 +828,7 @@ export default {
 .passwordAccessSwitch {
 	cursor: pointer;
 	display: flex;
+	margin-bottom: 16px;
 	span {
 		margin-right: 8px;
 	}

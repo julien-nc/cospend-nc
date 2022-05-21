@@ -20,11 +20,12 @@
 -->
 
 <template>
+	<div id="settings-container">
 	<AppSettingsDialog
 		class="cospend-settings-dialog"
 		:open.sync="showSettings"
 		:show-navigation="true"
-		container="#content-vue">
+		container="#settings-container">
 		<AppSettingsSection
 			:title="t('cospend', 'About Cospend')"
 			class="app-settings-section">
@@ -188,6 +189,7 @@
 			</label>
 		</AppSettingsSection>
 	</AppSettingsDialog>
+	</div>
 </template>
 
 <script>
@@ -348,4 +350,7 @@ button {
 	}
 }
 
+::v-deep .cospend-settings-dialog .modal-container {
+	display: flex !important;
+}
 </style>

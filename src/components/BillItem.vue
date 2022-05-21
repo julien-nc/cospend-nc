@@ -1,7 +1,6 @@
 <template>
 	<a :href="billUrl"
 		:class="{ 'app-content-list-item': true, billitem: true, selectedbill: selected, newBill: bill.id === 0}"
-		:title="itemTitle"
 		@click.stop.prevent="onItemClick">
 		<div class="app-content-list-item-icon">
 			<ColoredAvatar
@@ -29,8 +28,8 @@
 			<span>{{ billDate }}</span>
 		</span>
 		<div v-if="editionAccess && showDelete && (deletionEnabled || bill.id === 0)"
+			v-tooltip.bottom="{ content: deleteIconTitle }"
 			class="icon-plop deleteBillIcon"
-			:title="deleteIconTitle"
 			@click.prevent.stop="onDeleteClick">
 			<element :is="deleteIconComponent"
 				class="icon"

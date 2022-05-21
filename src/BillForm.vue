@@ -24,30 +24,26 @@
 				target="blank">
 				[🔗 {{ t('cospend', 'link') }}]
 			</a>
-			<button
+			<Button
 				v-if="isNewBill"
-				id="owerValidate"
-				style="display: inline-flex;"
-				:title="t('cospend', 'Press Shift+Enter to validate')"
+				type="primary"
+				v-tooltip.bottom="{ content: t('cospend', 'Press Shift+Enter to validate') }"
 				@click="onCreateClick">
-				<CheckIcon
-					class="icon"
-					:size="16"/>
-				<span id="owerValidateText">
+				<template #icon>
+					<CheckIcon :size="20" />
+				</template>
+				<span>
 					{{ createBillButtonText }}
 				</span>
-			</button>
-			<button
-				v-else
+			</Button>
+			<Button v-else
 				v-tooltip.bottom="{ content: payerDisabled ? t('cospend', 'Impossible to duplicate a bill with a disabled payer') : t('cospend', 'Duplicate bill') }"
-				class="duplicate-bill"
-				style="display: inline-flex;"
 				:disabled="payerDisabled"
 				@click="onDuplicate">
-				<ContentDuplicateIcon
-					class="icon"
-					:size="16"/>
-			</button>
+				<template #icon>
+					<ContentDuplicateIcon :size="20" />
+				</template>
+			</Button>
 		</h2>
 		<div class="bill-form">
 			<div class="bill-left">
@@ -97,10 +93,12 @@
 							@input="onAmountChanged"
 							@keyup.enter="onAmountEnterPressed"
 							@focus="$event.target.select()">
-						<button
-							v-tooltip.top="{ content: t('cospend', 'More information') }"
-							class="icon-info infoButton"
-							@click="onAmountInfoClicked" />
+						<Button @click="onAmountInfoClicked"
+							v-tooltip.top="{ content: t('cospend', 'More information') }">
+							<template #icon>
+								<InformationVariantIcon :size="20" />
+							</template>
+						</Button>
 					</div>
 				</div>
 				<div
@@ -121,10 +119,12 @@
 								{{ currency.name }} ⇒ {{ project.currencyname }} (x{{ currency.exchange_rate }})
 							</option>
 						</select>
-						<button
-							v-tooltip.top="{ content: t('cospend', 'More information') }"
-							class="icon-info infoButton"
-							@click="onConvertInfoClicked" />
+						<Button @click="onConvertInfoClicked"
+							v-tooltip.top="{ content: t('cospend', 'More information') }">
+							<template #icon>
+								<InformationVariantIcon :size="20" />
+							</template>
+						</Button>
 					</div>
 				</div>
 				<div class="bill-payer">
@@ -255,10 +255,12 @@
 								{{ t('cospend', 'Yearly') }}
 							</option>
 						</select>
-						<button
-							v-tooltip.top="{ content: t('cospend', 'More information') }"
-							class="icon-info infoButton"
-							@click="onRepeatInfoClicked" />
+						<Button @click="onRepeatInfoClicked"
+								v-tooltip.top="{ content: t('cospend', 'More information') }">
+							<template #icon>
+								<InformationVariantIcon :size="20" />
+							</template>
+						</Button>
 					</div>
 				</div>
 				<div v-if="myBill.repeat !== 'n'"
@@ -557,16 +559,18 @@
 						</div>
 					</div>
 				</div>
-				<button
+				<Button
 					v-if="isNewBill"
-					id="owerValidate2"
-					:title="t('cospend', 'Press Shift+Enter to validate')"
+					type="primary"
+					v-tooltip.bottom="{ content: t('cospend', 'Press Shift+Enter to validate') }"
 					@click="onCreateClick">
-					<CheckIcon
-						class="icon"
-						:size="16"/>
-					<span id="owerValidateText2">{{ createBillButtonText }}</span>
-				</button>
+					<template #icon>
+						<CheckIcon :size="20" />
+					</template>
+					<span>
+						{{ createBillButtonText }}
+					</span>
+				</Button>
 			</div>
 		</div>
 	</AppContentDetails>
@@ -587,6 +591,8 @@ import CommentTextIcon from 'vue-material-design-icons/CommentText'
 import RepeatIcon from 'vue-material-design-icons/Repeat'
 import ContentDuplicateIcon from 'vue-material-design-icons/ContentDuplicate'
 import CalendarSyncIcon from 'vue-material-design-icons/CalendarSync'
+import InformationVariantIcon from 'vue-material-design-icons/InformationVariant'
+import Button from '@nextcloud/vue/dist/Components/Button'
 import cospend from './state'
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -616,6 +622,7 @@ export default {
 		ColoredAvatar,
 		Multiselect,
 		MemberMultiSelect,
+		Button,
 		AccountIcon,
 		AccountGroupIcon,
 		TagIcon,
@@ -630,6 +637,7 @@ export default {
 		LinkVariantIcon,
 		CheckIcon,
 		ContentDuplicateIcon,
+		InformationVariantIcon,
 	},
 
 	props: {
@@ -1677,7 +1685,13 @@ export default {
 .bill-title {
 	padding: 20px 0px 20px 0px;
 	text-align: center;
-	margin-left: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	> * {
+		margin: 0 10px 0 10px;
+	}
 
 	.billFormAvatar {
 		display: inline-block;
@@ -1768,12 +1782,6 @@ button {
 	cursor: pointer;
 	padding: 5px;
 	min-height: 0px;
-}
-
-#owerValidate,
-#owerValidate2 {
-	background-color: #46ba61;
-	color: white;
 }
 
 .owerAllNoneDiv div {

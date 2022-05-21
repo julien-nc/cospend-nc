@@ -2,18 +2,21 @@
 	<AppContentDetails class="settlement-content">
 		<h2 id="settlementTitle">
 			<span :class="{ 'icon-reimburse': !loading, icon: true, 'icon-loading-small': loading }" />
-			{{ t('cospend', 'Settlement of project {name}', { name: project.name }, undefined, { escape: false }) }}
-			<button class="exportSettlement" @click="onExportClick">
-				<span class="icon-save" />
+			<span>
+				{{ t('cospend', 'Settlement of project {name}', { name: project.name }, undefined, { escape: false }) }}
+			</span>
+			<Button @click="onExportClick">
+				<template #icon>
+					<ContentSaveIcon :size="20" />
+				</template>
 				{{ t('cospend', 'Export') }}
-			</button>
-			<button
-				v-if="editionAccess"
-				class="autoSettlement"
-				@click="onAutoSettleClick">
-				<span class="icon-add" />
-				{{ t('cospend', 'Add these payments to project') }}
-			</button>
+			</Button>
+			<Button v-if="editionAccess" @click="onAutoSettleClick">
+				<template #icon>
+					<PlusIcon :size="20" />
+				</template>
+				{{ t('cospend', 'Add these payments to the project') }}
+			</Button>
 		</h2>
 		<div id="settlement-options">
 			<div id="center-settle-div" class="centered-option">
@@ -31,9 +34,14 @@
 				</select>
 			</div>
 			<div id="max-date-settle-div" class="centered-option">
-				<label for="max-date">{{ t('cospend', 'Settlement date') }}</label>
-				<button class="icon icon-info"
-					@click="onDateInfoClicked" />
+				<label for="max-date">
+					{{ t('cospend', 'Settlement date') }}
+				</label>
+				<Button @click="onDateInfoClicked">
+					<template #icon>
+						<InformationVariantIcon :size="20" />
+					</template>
+				</Button>
 				<DatetimePicker
 					id="max-date"
 					v-model="maxDate"
@@ -46,18 +54,24 @@
 					:clearable="true"
 					confirm
 					@change="onChangeMaxDate" />
-				<button
-					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this day') }"
-					class="icon day-icon icon-calendar-dark"
-					@click="onDayBeginningClicked" />
-				<button
-					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this week') }"
-					class="icon week-icon icon-calendar-dark"
-					@click="onWeekBeginningClicked" />
-				<button
-					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this month') }"
-					class="icon month-icon icon-calendar-dark"
-					@click="onMonthBeginningClicked" />
+				<Button @click="onDayBeginningClicked"
+					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this day') }">
+					<template #icon>
+						<CalendarTodayIcon :size="20" />
+					</template>
+				</Button>
+				<Button @click="onWeekBeginningClicked"
+					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this week') }">
+					<template #icon>
+						<CalendarWeekIcon :size="20" />
+					</template>
+				</Button>
+				<Button @click="onMonthBeginningClicked"
+					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this month') }">
+					<template #icon>
+						<CalendarMonthIcon :size="20" />
+					</template>
+				</Button>
 			</div>
 		</div>
 		<hr>
@@ -175,8 +189,11 @@
 
 		<hr>
 		<h2 class="individualTitle">
-			<button class="icon icon-info"
-				@click="onIndividualInfoClicked" />
+			<Button @click="onIndividualInfoClicked">
+				<template #icon>
+					<InformationVariantIcon :size="20" />
+				</template>
+			</Button>
 			<span>{{ t('cospend', 'Individual reimbursement') }}</span>
 		</h2>
 		<div id="individual-form">
@@ -203,15 +220,22 @@
 					{{ member.name }}
 				</option>
 			</select>
-			<button v-if="individualPayerId && individualReceiverId"
+			<Button v-if="individualPayerId && individualReceiverId"
 				@click="createIndividual">
 				{{ t('cospend', 'Create bill ({amount})', { amount: (-members[individualPayerId].balance).toFixed(precision) }) }}
-			</button>
+			</Button>
 		</div>
 	</AppContentDetails>
 </template>
 
 <script>
+import Button from '@nextcloud/vue/dist/Components/Button'
+import InformationVariantIcon from 'vue-material-design-icons/InformationVariant'
+import ContentSaveIcon from 'vue-material-design-icons/ContentSave'
+import PlusIcon from 'vue-material-design-icons/Plus'
+import CalendarTodayIcon from 'vue-material-design-icons/CalendarToday'
+import CalendarWeekIcon from 'vue-material-design-icons/CalendarWeek'
+import CalendarMonthIcon from 'vue-material-design-icons/CalendarMonth'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import { getLocale } from '@nextcloud/l10n'
@@ -229,7 +253,17 @@ export default {
 	name: 'Settlement',
 
 	components: {
-		ColoredAvatar, AppContentDetails, DatetimePicker, EmptyContent,
+		ColoredAvatar,
+		AppContentDetails,
+		DatetimePicker,
+		EmptyContent,
+		Button,
+		ContentSaveIcon,
+		PlusIcon,
+		InformationVariantIcon,
+		CalendarTodayIcon,
+		CalendarWeekIcon,
+		CalendarMonthIcon,
 	},
 
 	props: {
@@ -485,23 +519,14 @@ export default {
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		margin: 10px 0 10px 0;
+
+		> * {
+			margin: 0 5px 0 5px;
+		}
 
 		label {
 			margin-right: 5px;
-		}
-
-		.icon {
-			&.day-icon {
-				background-size: 12px;
-			}
-
-			&.week-icon {
-				background-size: 15px;
-			}
-
-			&.month-icon {
-				background-size: 20px;
-			}
 		}
 	}
 }
@@ -509,27 +534,6 @@ export default {
 .settlement-content {
 	margin-left: auto;
 	margin-right: auto;
-
-	.icon {
-		display: inline-block;
-		width: 44px;
-		height: 44px;
-		border-radius: var(--border-radius-pill);
-		opacity: .5;
-
-		&.icon-calendar-dark,
-		&.icon-info {
-			background-color: transparent;
-			border: none;
-			margin: 0;
-		}
-
-		&:hover,
-		&:focus {
-			opacity: 1;
-			background-color: var(--color-background-hover);
-		}
-	}
 
 	>h2,
 	>h3 {
@@ -539,6 +543,10 @@ export default {
 	.individualTitle {
 		display: flex;
 		align-items: center;
+		justify-content: center;
+		> * {
+			margin: 0 5px 0 5px;
+		}
 	}
 
 	#individual-form {
@@ -549,22 +557,14 @@ export default {
 	}
 }
 
-::v-deep #settlementTitle {
-	text-align: left;
+#settlementTitle {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
 	padding: 20px 0px 20px 0px;
-
-	.icon {
-		min-width: 23px !important;
-		min-height: 23px !important;
-		width: 30px;
-		vertical-align: middle;
-		display: inline-block;
-	}
-	button {
-		.icon {
-			min-height: 16px !important;
-			vertical-align: text-bottom;
-		}
+	> * {
+		margin: 0 10px 0 10px;
 	}
 }
 

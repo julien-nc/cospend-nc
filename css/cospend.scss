@@ -180,84 +180,9 @@ a.billitem .app-content-list-item-icon {
 }
 /* this is not applied if done in a vue component */
 .memberColorPicker .trigger {
-	height: 25px !important;
-}
-.fixed-icon {
-	background-size: 60% 100%;
-	background-repeat: no-repeat;
-	background-position: center;
+	height: 100% !important;
 }
 /* dirty hack to make things right in settings sidebar */
 .multiselect__content-wrapper {
 	z-index: 10000 !important;
 }
-
-// fade transition
-.fade {
-	&-enter {
-		opacity: 0;
-	}
-	&-enter-to {
-		opacity: 1;
-	}
-	&-leave {
-		opacity: 1;
-	}
-	&-leave-to {
-		opacity: 0;
-	}
-	&-enter-active,
-	&-leave-active {
-		transition: all 150ms ease-in-out;
-	}
-}
-
-.slide-right-leave-active,
-.slide-right-enter-active {
-	transition-duration: var(--animation-quick);
-	transition-property: min-width, max-width;
-}
-
-.slide-right-enter-to,
-.slide-right-leave {
-	min-width: 300px;
-	max-width: 500px;
-}
-
-.slide-right-enter,
-.slide-right-leave-to {
-	min-width: 0 !important;
-	max-width: 0 !important;
-}
-
-.slide-down-leave-active,
-.slide-down-enter-active {
-	transition-duration: var(--animation-quick);
-	transition-property: min-height, max-height;
-}
-
-.slide-down-enter-to,
-.slide-down-leave {
-	min-height: 300px;
-	max-height: 500px;
-}
-
-.slide-down-enter,
-.slide-down-leave-to {
-	min-height: 0 !important;
-	max-height: 0 !important;
-}
-
-.icon-activity {
-	background-image: url('../img/activity-dark.svg');
-	background-size: 20px;
-}
-
-body.theme--dark .icon-activity {
-	background-image: url('../img/activity.svg');
-}
-
-.cospend-settings-dialog .modal-container {
-	display: flex !important;
-}
-

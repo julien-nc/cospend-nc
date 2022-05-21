@@ -7,21 +7,24 @@
 			<div class="colorDot"
 				:style="{ backgroundColor: element.color }" />
 			<label class="one-element-label-label">{{ element.icon || '' }}</label>
-			<label class="one-element-label-label">{{ element.name }}</label>
-			<input v-show="editionAccess"
+			<label class="one-element-label-label label-label">{{ element.name }}</label>
+			<Button v-show="editionAccess"
 				v-tooltip.top="{ content: t('cospend', 'Edit') }"
-				type="submit"
-				value=""
-				class="icon-rename editOneElement icon"
 				@click="onClickEdit">
-			<input v-show="editionAccess"
+				<template #icon>
+					<PencilIcon :size="20" />
+				</template>
+			</Button>
+			<Button v-show="editionAccess"
 				v-tooltip.top="{ content: t('cospend', 'Delete') }"
-				type="submit"
-				value=""
-				:class="(timerOn ? 'icon-history' : 'icon-delete') + ' deleteOneElement icon'"
 				@click="onClickDelete">
+				<template #icon>
+					<UndoIcon v-if="timerOn" :size="20" />
+					<DeleteIcon v-else :size="20" />
+				</template>
+			</Button>
 			<label v-if="timerOn"
-				class="one-element-label-label">
+				class="one-element-label-timer">
 				<vac :end-time="new Date().getTime() + (7000)">
 					<template #process="{ timeObj }">
 						<span>{{ `${timeObj.s}` }}</span>
@@ -35,19 +38,20 @@
 				class="app-navigation-entry-bullet-wrapper"
 				value=""
 				@input="updateColor">
-				<div
+				<Button
 					v-tooltip.top="{ content: t('cospend', 'Color') }"
-					:style="{ backgroundColor: color }"
-					class="color0 icon-colorpicker" />
+					:style="{ backgroundColor: color }">
+					<template #icon>
+						<PaletteIcon :size="20" />
+					</template>
+				</Button>
 			</ColorPicker>
 			<EmojiPicker :show-preview="true"
 				@select="selectEmoji">
-				<button
-					v-tooltip.top="{ content: t('cospend', 'Icon') }"
-					class="edit-icon-button"
-					:title="t('cospend', 'Icon')">
+				<Button class="emojiButton"
+						v-tooltip.top="{ content: t('cospend', 'Icon') }">
 					{{ icon }}
-				</button>
+				</Button>
 			</EmojiPicker>
 			<input ref="cname"
 				v-model="name"
@@ -56,19 +60,32 @@
 				class="editElementNameInput"
 				:placeholder="t('cospend', 'Name')"
 				@focus="$event.target.select()">
-			<button
+			<Button
 				v-tooltip.top="{ content: t('cospend', 'Cancel') }"
-				class="editElementClose icon-history icon"
-				@click="onClickCancel" />
-			<button
+				@click="onClickCancel">
+				<template #icon>
+					<UndoIcon :size="20" />
+				</template>
+			</Button>
+			<Button
+				type="primary"
 				v-tooltip.top="{ content: t('cospend', 'Save') }"
-				class="editElementOk icon-checkmark icon"
-				@click="onClickEditOk" />
+				@click="onClickEditOk">
+				<template #icon>
+					<CheckIcon :size="20" />
+				</template>
+			</Button>
 		</div>
 	</div>
 </template>
 
 <script>
+import Button from '@nextcloud/vue/dist/Components/Button'
+import PaletteIcon from 'vue-material-design-icons/Palette'
+import PencilIcon from 'vue-material-design-icons/Pencil'
+import UndoIcon from 'vue-material-design-icons/Undo'
+import CheckIcon from 'vue-material-design-icons/Check'
+import DeleteIcon from 'vue-material-design-icons/Delete'
 import { Timer } from '../utils'
 import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
 import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker'
@@ -77,7 +94,14 @@ export default {
 	name: 'CategoryOrPm',
 
 	components: {
-		ColorPicker, EmojiPicker,
+		ColorPicker,
+		EmojiPicker,
+		PaletteIcon,
+		PencilIcon,
+		DeleteIcon,
+		UndoIcon,
+		CheckIcon,
+		Button,
 	},
 
 	props: {
@@ -155,7 +179,7 @@ export default {
 	.icon-move {
 		cursor: grab;
 		width: 44px;
-		height: 44px;
+		height: 52px;
 		border-radius: 50%;
 		text-align: center;
 		line-height: 44px;
@@ -178,41 +202,36 @@ export default {
 
 .one-element-edit {
 	flex-grow: 1;
-	display: grid;
-	grid-template: 1fr / 1fr 1fr 6fr 42px 42px;
-	height: 40px;
+	display: flex;
+	align-items: center;
+	padding: 4px 0 4px 0;
 	border-radius: 15px;
 	background-color: var(--color-background-dark);
 	margin-right: 20px;
-}
-
-.one-element-edit label,
-.one-element-label label {
-	line-height: 40px;
-}
-
-.one-element-label input[type=submit] {
-	border-radius: 50% !important;
-	width: 40px !important;
-	height: 40px;
-	margin-top: 0px;
+	.editElementNameInput {
+		flex-grow: 1;
+	}
+	> * {
+		margin: 0 4px 0 4px;
+	}
 }
 
 .one-element-label {
 	flex-grow: 1;
-	display: grid;
-	grid-template: 1fr / 1fr 1fr 6fr 42px 42px 20px;
-}
-
-.editElementOk,
-.editElementClose {
-	margin-top: 0px;
-	height: 40px;
-}
-
-.editElementOk {
-	background-color: #46ba61;
-	color: white;
+	display: flex;
+	align-items: center;
+	padding: 4px 0 4px 0;
+	margin-right: 20px;
+	> * {
+		margin: 0 4px 0 4px;
+	}
+	.label-label {
+		flex-grow: 1;
+	}
+	.one-element-label-timer {
+		position: absolute;
+		right: -5px;
+	}
 }
 
 .one-element-label-icon {
@@ -232,7 +251,6 @@ $clickable-area: 44px;
 	width: calc(#{$clickable-area} - 20px);
 	height: calc(#{$clickable-area} - 20px);
 	border-radius: 50%;
-	margin-top: 8px;
 }
 
 .edit-icon-button {
@@ -260,5 +278,11 @@ $clickable-area: 44px;
 		opacity: 1;
 		background-color: var(--color-background-hover);
 	}
+}
+
+::v-deep .emojiButton * {
+	margin: 0 !important;
+	margin-left: 0 !important;
+	margin-right: 0 !important;
 }
 </style>

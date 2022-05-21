@@ -36,18 +36,20 @@
 				</h3>
 				<div class="add-element">
 					<ColorPicker class="app-navigation-entry-bullet-wrapper" value="" @input="updateAddColor">
-						<div
+						<Button
 							v-tooltip.top="{ content: t('cospend', 'Color') }"
-							class="color0 icon-colorpicker clickable"
-							:style="{ backgroundColor: newColor }" />
+							:style="{ backgroundColor: newColor }">
+							<template #icon>
+								<PaletteIcon :size="20" />
+							</template>
+						</Button>
 					</ColorPicker>
 					<EmojiPicker :show-preview="true"
 						@select="selectEmoji">
-						<button
-							v-tooltip.top="{ content: t('cospend', 'Icon') }"
-							class="add-icon-button">
+						<Button class="emojiButton"
+							v-tooltip.top="{ content: t('cospend', 'Icon') }">
 							{{ newIcon }}
-						</button>
+						</Button>
 					</EmojiPicker>
 					<input ref="newName"
 						type="text"
@@ -57,10 +59,14 @@
 						:placeholder="newNamePlaceholder"
 						@focus="$event.target.select()"
 						@keyup.enter="onAddElement">
-					<button
+					<Button
+						type="primary"
 						v-tooltip.top="{ content: addTooltip }"
-						class="icon icon-add-white addElementOk"
-						@click="onAddElement" />
+						@click="onAddElement">
+						<template #icon>
+							<PlusIcon :size="20" />
+						</template>
+					</Button>
 				</div>
 				<hr>
 			</div>
@@ -122,6 +128,8 @@
 </template>
 
 <script>
+import Button from '@nextcloud/vue/dist/Components/Button'
+import PaletteIcon from 'vue-material-design-icons/Palette'
 import SortIcon from 'vue-material-design-icons/Sort'
 import PlusIcon from 'vue-material-design-icons/Plus'
 import ShapeIcon from 'vue-material-design-icons/Shape'
@@ -156,6 +164,8 @@ export default {
 		ShapeIcon,
 		PlusIcon,
 		SortIcon,
+		PaletteIcon,
+		Button,
 	},
 
 	props: {
@@ -412,44 +422,22 @@ h3 {
 	}
 }
 
-.addElementOk {
-	margin-top: 0px;
-	width: 40px;
-	height: 40px;
-	border-radius: var(--border-radius-pill);
-	opacity: .5;
-
-	&.icon {
-		background-color: var(--color-success);
-		border: none;
-		margin: 0;
-	}
-
-	&:hover,
-	&:focus {
-		opacity: 1;
-	}
-}
-
 .element-list {
 	margin-left: 37px;
 }
 
-$clickable-area: 44px;
-
-.color0 {
-	width: calc(#{$clickable-area} - 6px);
-	height: calc(#{$clickable-area} - 6px);
-	background-size: 14px;
-	border-radius: 50%;
+::v-deep .emojiButton * {
+	margin: 0 !important;
+	margin-left: 0 !important;
+	margin-right: 0 !important;
 }
 
 .add-element {
-	display: grid;
-	grid-template: 1fr / 44px 44px 4fr 44px;
+	display: flex;
+	align-items: center;
 	padding: 10px 10px 10px 20px;
-	label {
-		line-height: 40px;
+	> * {
+		margin: 0 4px 0 4px;
 	}
 }
 
@@ -467,10 +455,6 @@ $clickable-area: 44px;
 
 .hint {
 	opacity: 0.7;
-}
-
-.clickable {
-	cursor: pointer;
 }
 
 #order-selection label,

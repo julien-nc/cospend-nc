@@ -5,7 +5,7 @@
 				<ColoredAvatar
 					class="itemAvatar"
 					:color="payerColor"
-					:size="50"
+					:size="44"
 					:disable-menu="true"
 					:disable-tooltip="true"
 					:show-user-status="false"
@@ -70,12 +70,13 @@
 					class="bill-link-button">
 					<label>&nbsp;</label>
 					<div class="link-button">
-						<button class="addFileLinkButton" @click="onGeneratePubLinkClick">
-							<LinkVariantIcon
-								class="icon"
-								:size="16"/>
+						<Button @click="onGeneratePubLinkClick">
+							<template #icon>
+								<LinkVariantIcon
+									:size="16"/>
+							</template>
 							{{ t('cospend', 'Attach share link to personal file') }}
-						</button>
+						</Button>
 					</div>
 				</div>
 				<div class="bill-amount">
@@ -321,13 +322,15 @@
 						class="bill-repeat-now">
 						<label>&nbsp;</label>
 						<div class="repeat-now">
-							<button
+							<Button
 								@click="$emit('repeat-bill-now', myBill.id)">
-								<RepeatIcon
-									class="icon"
-									:size="16"/>
+								<template #icon>
+									<RepeatIcon
+										class="icon"
+										:size="16"/>
+								</template>
 								{{ t('cospend', 'Repeat now') }}
-							</button>
+							</Button>
 						</div>
 					</div>
 				</div>
@@ -338,25 +341,31 @@
 					<label class="bill-owers-label">
 						<a class="icon icon-toggle-filelist" /><span>{{ t('cospend', 'Bill type') }}</span>
 					</label><br>
-					<select
-						id="billtype"
-						v-model="newBillMode">
-						<option value="normal" :selected="true">
-							{{ t('cospend', 'Classic, even split') }}
-						</option>
-						<option value="perso">
-							{{ t('cospend', 'Even split with optional personal parts') }}
-						</option>
-						<option value="custom">
-							{{ t('cospend', 'Custom owed amount per member') }}
-						</option>
-						<option value="customShare">
-							{{ t('cospend', 'Custom share per member') }}
-						</option>
-					</select>
-					<button id="modehintbutton" @click="onHintClick">
-						<span class="icon-details" />
-					</button>
+					<div id="billTypeLine">
+						<select
+							id="billtype"
+							v-model="newBillMode">
+							<option value="normal" :selected="true">
+								{{ t('cospend', 'Classic, even split') }}
+							</option>
+							<option value="perso">
+								{{ t('cospend', 'Even split with optional personal parts') }}
+							</option>
+							<option value="custom">
+								{{ t('cospend', 'Custom owed amount per member') }}
+							</option>
+							<option value="customShare">
+								{{ t('cospend', 'Custom share per member') }}
+							</option>
+						</select>
+						<Button
+							v-tooltip.bottom="{ content: t('cospend', 'More information') }"
+							@click="onHintClick">
+							<template #icon>
+								<InformationVariantIcon :size="20" />
+							</template>
+						</Button>
+					</div>
 					<div v-if="isNewBill && newBillMode === 'customShare'" class="checkbox-line">
 						<input
 							id="ignore-weights"
@@ -1696,7 +1705,7 @@ export default {
 	.billFormAvatar {
 		display: inline-block;
 		vertical-align: middle;
-		height: 52px;
+		height: 46px;
 		.itemAvatar {
 			display: block;
 			position: relative;
@@ -1704,12 +1713,12 @@ export default {
 			top: 0px;
 		}
 		.disabledMask {
-			width: 52px;
-			height: 52px;
+			width: 46px;
+			height: 46px;
 			display: block;
 			position: relative;
 			left: -1px;
-			top: -51px;
+			top: -45px;
 		}
 	}
 	.duplicate-bill {
@@ -1860,11 +1869,19 @@ button {
 	display: flex;
 	flex-direction: column;
 	align-items: end;
+	margin-top: 10px;
+	> * {
+		width: 100%;
+	}
 }
 
 .bill-payment-mode,
 .bill-category {
 	margin: 8px 0 8px 0;
+}
+
+.bill-currency-convert {
+	margin-top: 10px;
 }
 
 .bill-repeat,
@@ -1896,6 +1913,10 @@ button {
 
 .checkbox-line {
 	line-height: 44px;
+}
+
+#billTypeLine {
+	display: flex;
 }
 
 ::v-deep #categoryMultiSelect,

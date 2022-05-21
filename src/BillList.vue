@@ -65,7 +65,7 @@
 			<transition name="fade">
 				<div v-if="selectMode"
 					class="selectionOptions">
-					<div v-show="selectedBillIds.length > 0">
+					<div>
 						<div class="header">
 							<FormatListCheckboxIcon class="icon" :size="20" />
 							<span>{{ t('cospend', 'Multi select actions') }}</span>
@@ -82,45 +82,35 @@
 						</div>
 						<div class="multiselect-container">
 							<CategoryMultiSelect
+								:disabled="selectedBillIds.length === 0 || !editionAccess"
 								:value="selectedCategoryMultiAction"
 								:categories="sortedMultiActionCategories"
 								:placeholder="t('cospend', 'Assign a category')"
 								@input="onMultiActionCategoryChange" />
 							<PaymentModeMultiSelect
+								:disabled="selectedBillIds.length === 0 || !editionAccess"
 								:value="selectedPaymentModeMultiAction"
 								:payment-modes="sortedMultiActionPms"
 								:placeholder="t('cospend', 'Assign a payment mode')"
-								:disabled="!editionAccess"
 								@input="onMultiActionPaymentModeChange" />
-							<Actions v-show="deletionEnabled">
-								<ActionButton
-									class="multiDelete"
-									@click="deleteSelection">
-									<template #icon>
-										<DeleteIcon :size="20" />
-									</template>
-									{{ t('cospend', 'Delete selected bills') }}
-								</ActionButton>
-							</Actions>
+							<div class="multiSelectFooter">
+								<span v-show="selectedBillIds.length === 0">
+									<InformationVariantIcon :size="20" />
+									{{ t('cospend', 'Select bills to make grouped actions') }}
+								</span>
+								<Actions v-show="deletionEnabled">
+									<ActionButton
+										class="multiDelete"
+										@click="deleteSelection">
+										<template #icon>
+											<DeleteIcon :size="20" />
+										</template>
+										{{ t('cospend', 'Delete selected bills') }}
+									</ActionButton>
+								</Actions>
+							</div>
 						</div>
 					</div>
-					<p v-if="selectedBillIds.length === 0"
-						class="multiSelectHint">
-						<span>
-							{{ t('cospend', 'Multi select mode: Select bills to make grouped actions') }}
-						</span>
-						<br>
-						<Actions>
-							<ActionButton
-								class="rightCloseButton"
-								@click="selectMode = false">
-								<template #icon>
-									<CloseIcon :size="20" />
-								</template>
-								{{ t('cospend', 'Leave multiple select mode') }}
-							</ActionButton>
-						</Actions>
-					</p>
 				</div>
 			</transition>
 		</div>
@@ -162,6 +152,7 @@
 </template>
 
 <script>
+import InformationVariantIcon from 'vue-material-design-icons/InformationVariant'
 import DeleteIcon from 'vue-material-design-icons/Delete'
 import CloseIcon from 'vue-material-design-icons/Close'
 import FilterIcon from 'vue-material-design-icons/Filter'
@@ -202,6 +193,7 @@ export default {
 		DeleteIcon,
 		FilterIcon,
 		FormatListCheckboxIcon,
+		InformationVariantIcon,
 	},
 
 	props: {
@@ -586,6 +578,14 @@ export default {
 			width: 100%;
 			display: flex;
 			flex-direction: column;
+		}
+		.multiSelectFooter {
+			display: flex;
+			align-items: center;
+			span {
+				display: flex;
+				align-items: center;
+			}
 		}
 	}
 

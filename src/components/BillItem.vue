@@ -43,15 +43,16 @@
 			</span>
 		</div>
 		<div v-if="editionAccess && !showDelete" class="icon-selector">
-			<input type="checkbox"
-				:readonly="true"
-				:checked="selected">
+			<CheckboxMarkedIcon v-if="selected" class="selected" :size="20" />
+			<CheckboxBlankOutlineIcon v-else :size="20" />
 		</div>
 	</a>
 </template>
 
 <script>
 import CalendarSyncIcon from 'vue-material-design-icons/CalendarSync'
+import CheckboxMarkedIcon from 'vue-material-design-icons/CheckboxMarked'
+import CheckboxBlankOutlineIcon from 'vue-material-design-icons/CheckboxBlankOutline'
 import DeleteIcon from 'vue-material-design-icons/Delete'
 import UndoIcon from 'vue-material-design-icons/Undo'
 import cospend from '../state'
@@ -68,6 +69,8 @@ export default {
 		CalendarSyncIcon,
 		UndoIcon,
 		DeleteIcon,
+		CheckboxBlankOutlineIcon,
+		CheckboxMarkedIcon,
 	},
 
 	props: {
@@ -251,6 +254,9 @@ export default {
 				}
 			}
 		},
+		onSelectorClick(e) {
+			this.$nextTick(() => this.onItemClick())
+		},
 	},
 }
 </script>
@@ -276,10 +282,15 @@ export default {
 .icon-selector {
 	opacity: 1 !important;
 
-	input {
+	.selected {
+		color: var(--color-success);
+	}
+
+	* {
+		width: 20px;
 		position: relative;
-		top: -17px;
-		right: 10px;
+		top: -8px;
+		right: 6px;
 		cursor: pointer;
 	}
 }

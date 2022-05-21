@@ -74,8 +74,10 @@
 				class="content-buttons">
 				<button
 					v-tooltip.bottom="{ content: t('cospend', 'Toggle sidebar') }"
-					class="icon-menu-sidebar"
-					@click="onMainDetailClicked" />
+					class="iconButton"
+					@click="onMainDetailClicked">
+					<MenuOpenIcon :size="20" />
+				</button>
 			</div>
 		</AppContent>
 		<CospendSettingsDialog
@@ -103,6 +105,7 @@
 </template>
 
 <script>
+import MenuOpenIcon from 'vue-material-design-icons/MenuOpen'
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
@@ -144,6 +147,7 @@ export default {
 		Content,
 		AppContent,
 		EmptyContent,
+		MenuOpenIcon,
 	},
 	mixins: [isMobile],
 	provide() {
@@ -998,15 +1002,8 @@ export default {
 	min-height: 44px !important;
 }
 
-::v-deep .icon-save {
-	background-color: var(--color-main-text);
-	padding: 0 !important;
-	mask: url('./../img/save.svg') no-repeat;
-	mask-size: 18px 18px;
-	mask-position: center;
-	-webkit-mask: url('./../img/save.svg') no-repeat;
-	-webkit-mask-size: 18px 18px;
-	-webkit-mask-position: center;
+.iconButton {
+	padding: 0;
 }
 </style>
 

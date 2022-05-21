@@ -51,8 +51,10 @@
 		</template>
 		<template #actions>
 			<ActionButton v-if="maintenerAccess"
-				icon="icon-user"
 				@click="onAddMemberClick">
+				<template #icon>
+					<AccountIcon :size="16" />
+				</template>
 				{{ t('cospend', 'Add member') }}
 			</ActionButton>
 			<ActionButton
@@ -72,17 +74,22 @@
 				{{ t('cospend', 'Project settlement') }}
 			</ActionButton>
 			<ActionButton v-if="adminAccess"
-				icon="icon-delete"
 				:close-after-click="true"
 				@click="onDeleteProjectClick">
+				<template #icon>
+					<DeleteIcon :size="16" />
+				</template>
 				{{ t('cospend', 'Delete') }}
 			</ActionButton>
 		</template>
 		<template #default>
 			<AppNavigationItem v-if="members.length < 1"
-				icon="icon-add"
 				:title="t('cospend', 'Add a member')"
-				@click="onAddMemberClick" />
+				@click="onAddMemberClick">
+				<template #icon>
+					<PlusIcon :size="16" />
+				</template>
+			</AppNavigationItem>
 			<AppNavigationMemberItem v-for="member in sortedMembers"
 				:key="member.id"
 				class="memberItem"
@@ -100,6 +107,9 @@
 <script>
 import ShareVariantIcon from 'vue-material-design-icons/ShareVariant'
 import CogIcon from 'vue-material-design-icons/Cog'
+import PlusIcon from 'vue-material-design-icons/Plus'
+import DeleteIcon from 'vue-material-design-icons/Delete'
+import AccountIcon from 'vue-material-design-icons/Account'
 import FolderIcon from 'vue-material-design-icons/Folder'
 import FolderOutlineIcon from 'vue-material-design-icons/FolderOutline'
 import ChartLineIcon from 'vue-material-design-icons/ChartLine'
@@ -126,6 +136,9 @@ export default {
 		FolderOutlineIcon,
 		CogIcon,
 		ShareVariantIcon,
+		AccountIcon,
+		PlusIcon,
+		DeleteIcon,
 	},
 	directives: {
 		ClickOutside,

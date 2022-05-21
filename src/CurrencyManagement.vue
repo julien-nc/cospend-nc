@@ -242,28 +242,6 @@ export default {
 	padding: 0 12px 0 25px !important;
 }
 
-.editMainCurrencyOk,
-.editMainCurrencyClose,
-.editMainCurrency {
-	width: 40px !important;
-	height: 40px;
-	margin-top: 0px;
-	border-radius: var(--border-radius-pill);
-	opacity: .5;
-
-	&.icon-rename {
-		background-color: transparent;
-		border: none;
-		margin: 0;
-	}
-
-	&:hover,
-	&:focus {
-		opacity: 1;
-		background-color: var(--color-background-hover);
-	}
-}
-
 .editMainCurrencyInput {
 	flex-grow: 1;
 }

@@ -80,8 +80,8 @@
 				{{ listLabel }}
 			</h3>
 			<label v-if="hasElements && editionAccess && sortOrderValue === constants.SORT_ORDER.MANUAL" class="hint">
-				<span class="icon icon-info" />
-				{{ dragText }}
+				<InformationVariantIcon :size="20" />
+				<span>{{ dragText }}</span>
 			</label>
 			<div v-if="hasElements && editionAccess && sortOrderValue === constants.SORT_ORDER.MANUAL"
 				class="element-list">
@@ -129,6 +129,7 @@
 
 <script>
 import Button from '@nextcloud/vue/dist/Components/Button'
+import InformationVariantIcon from 'vue-material-design-icons/InformationVariant'
 import PaletteIcon from 'vue-material-design-icons/Palette'
 import SortIcon from 'vue-material-design-icons/Sort'
 import PlusIcon from 'vue-material-design-icons/Plus'
@@ -165,6 +166,7 @@ export default {
 		PlusIcon,
 		SortIcon,
 		PaletteIcon,
+		InformationVariantIcon,
 		Button,
 	},
 
@@ -191,9 +193,6 @@ export default {
 	computed: {
 		project() {
 			return cospend.projects[this.projectId]
-		},
-		icon() {
-			return this.type === 'category' ? 'icon-category-app-bundles' : 'icon-tag'
 		},
 		sortOrderLabel() {
 			return this.type === 'category' ? t('cospend', 'Category sort method') : t('cospend', 'Payment mode sort method')
@@ -441,20 +440,16 @@ h3 {
 	}
 }
 
-.add-icon-button {
-	margin-top: 0px;
-	padding: 0;
-	border-radius: 50%;
-	width: 40px;
-	height: 40px;
-}
-
 .new-name {
 	width: 90%;
 }
 
 .hint {
 	opacity: 0.7;
+	display: flex;
+	span {
+		margin-left: 10px;
+	}
 }
 #order-selection {
 	display: flex;

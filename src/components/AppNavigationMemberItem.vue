@@ -49,8 +49,11 @@
 		</template>
 		<template v-if="maintenerAccess"
 			slot="actions">
-			<ActionButton icon="icon-palette"
+			<ActionButton
 				@click="onMenuColorClick">
+				<template #icon>
+					<PaletteIcon :size="16" />
+				</template>
 				{{ t('cospend', 'Change color') }}
 			</ActionButton>
 			<ActionInput
@@ -68,9 +71,12 @@
 				{{ t('cospend', 'Weight') }} ({{ member.weight }})
 			</ActionInput>
 			<ActionButton
-				:icon="member.activated ? 'icon-delete' : 'icon-history'"
 				:close-after-click="true"
 				@click="onDeleteMemberClick">
+				<template #icon>
+					<DeleteIcon v-if="member.activated" :size="16" />
+					<UndoIcon v-else :size="16" />
+				</template>
 				{{ getDeletionText() }}
 			</ActionButton>
 
@@ -120,6 +126,9 @@
 </template>
 
 <script>
+import PaletteIcon from 'vue-material-design-icons/Palette'
+import DeleteIcon from 'vue-material-design-icons/Delete'
+import UndoIcon from 'vue-material-design-icons/Undo'
 import WeightIcon from 'vue-material-design-icons/Weight'
 import ClickOutside from 'vue-click-outside'
 
@@ -149,6 +158,9 @@ export default {
 		ColorPicker,
 		ColoredAvatar,
 		WeightIcon,
+		PaletteIcon,
+		DeleteIcon,
+		UndoIcon,
 	},
 	directives: {
 		ClickOutside,
@@ -386,19 +398,6 @@ export default {
 .itemAvatar {
 	margin-top: 16px;
 	margin-right: 2px;
-}
-
-::v-deep .icon-palette {
-	background-color: var(--color-main-text);
-	padding: 0 !important;
-	mask: url('./../../img/palette.svg') no-repeat;
-	mask-size: 18px 18px;
-	mask-position: center;
-	-webkit-mask: url('./../../img/palette.svg') no-repeat;
-	-webkit-mask-size: 18px 18px;
-	-webkit-mask-position: center;
-	min-width: 44px !important;
-	min-height: 44px !important;
 }
 
 .balance.alone {

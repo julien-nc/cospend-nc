@@ -40,7 +40,7 @@
 						<Actions>
 							<ActionButton
 								class="rightCloseButton"
-								@click="filterMode = false">
+								@click="toggleFilterMode(true, false)">
 								<template #icon>
 									<CloseIcon :size="20" />
 								</template>
@@ -72,7 +72,7 @@
 							<Actions>
 								<ActionButton
 									class="rightCloseButton"
-									@click="selectMode = false">
+									@click="toggleSelectMode">
 									<template #icon>
 										<CloseIcon :size="20" />
 									</template>

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-04-24 18:55+0200\n"
-"PO-Revision-Date: 2022-04-24 16:57\n"
+"PO-Revision-Date: 2022-05-22 22:29\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -2201,7 +2201,7 @@ msgstr "Montante máximo"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:405
 msgid "Convert in currency"
-msgstr ""
+msgstr "Converter em moeda"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:406
 msgid "Main project's currency"
@@ -2213,15 +2213,15 @@ msgstr "Mostrar membros desabilitados"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:410
 msgid "Chart type"
-msgstr ""
+msgstr "Tipo de gráfico"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:411
 msgid "Pie"
-msgstr ""
+msgstr "Circular"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:412
 msgid "Bar"
-msgstr ""
+msgstr "Barras"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:413
 msgid "Total paid by all the members: {t}"
@@ -2324,7 +2324,7 @@ msgstr "Todas"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:449
 msgid "Payed"
-msgstr ""
+msgstr "Pagas"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:451
 msgid "Who paid (outside circle) and spent (inside pie)?"
@@ -2332,7 +2332,7 @@ msgstr "Quem pagou (fora do círculo) e quem gastou (dentro do círculo)?"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:452
 msgid "Who paid and spent?"
-msgstr ""
+msgstr "Quem pagou e quem gastou?"
 
 #: /datadisk/tera/julien/html/dev/server24/apps/cospend/specialVueFakeDummyForL10nScript.js:453
 msgid "How much was paid per category?"

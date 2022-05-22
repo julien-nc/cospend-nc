@@ -2057,7 +2057,7 @@ class ProjectService {
 							?int $category = null, ?float $amountMin = null, ?float $amountMax = null,
 							?int $lastchanged = null, ?int $limit = null,
 							bool $reverse = false, ?int $offset = 0, ?int $payerId = null,
-							?int $includeBillId = null): array {
+							?int $includeBillId = null, ?string $searchTerm = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'what', 'comment', 'timestamp', 'amount', 'payerid', 'repeat',
 					'paymentmode', 'paymentmodeid', 'categoryid', 'lastchanged', 'repeatallactive',
@@ -2117,6 +2117,10 @@ class ProjectService {
 		   $qb->andWhere(
 			   $qb->expr()->lte('amount', $qb->createNamedParameter($amountMax, IQueryBuilder::PARAM_STR))
 		   );
+		}
+		// handle the search term (what, comment, amount+-1)
+		if ($searchTerm !== null && $searchTerm !== '') {
+			$qb = $this->applyBillSearchTermCondition($qb, $searchTerm, 'bi');
 		}
 		if ($reverse) {
 			$qb->orderBy('timestamp', 'DESC');
@@ -5925,7 +5929,6 @@ class ProjectService {
 	 * @return array
 	 */
 	public function searchBills(string $projectId, string $term): array {
-		$term = strtolower($term);
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('b.id', 'what', 'comment', 'amount', 'timestamp',
 					'paymentmode', 'paymentmodeid', 'categoryid', 'pr.currencyname')
@@ -5934,29 +5937,7 @@ class ProjectService {
 		   ->where(
 			   $qb->expr()->eq('b.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 		   );
-		$or = $qb->expr()->orx();
-		$or->add(
-			$qb->expr()->iLike('b.what', $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($term) . '%', IQueryBuilder::PARAM_STR))
-		);
-		$or->add(
-			$qb->expr()->iLike('b.comment', $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($term) . '%', IQueryBuilder::PARAM_STR))
-		);
-		// search amount
-		$noCommaTerm = str_replace(',', '.', $term);
-		if (is_numeric($noCommaTerm)) {
-			$amount = (float) $noCommaTerm;
-			$amountMin = $amount - 1.0;
-			$amountMax = $amount + 1.0;
-			$andExpr = $qb->expr()->andX();
-			$andExpr->add(
-				$qb->expr()->gte('b.amount', $qb->createNamedParameter($amountMin, IQueryBuilder::PARAM_STR))
-			);
-			$andExpr->add(
-			   $qb->expr()->lte('b.amount', $qb->createNamedParameter($amountMax, IQueryBuilder::PARAM_STR))
-			);
-			$or->add($andExpr);
-		}
-		$qb->andWhere($or);
+		$qb = $this->applyBillSearchTermCondition($qb, $term, 'b');
 		$qb->orderBy('timestamp', 'ASC');
 		$req = $qb->executeQuery();
 
@@ -5989,6 +5970,34 @@ class ProjectService {
 		$qb->resetQueryParts();
 
 		return $bills;
+	}
+
+	private function applyBillSearchTermCondition(IQueryBuilder $qb, string $term, string $billTableAlias): IQueryBuilder {
+		$term = strtolower($term);
+		$or = $qb->expr()->orx();
+		$or->add(
+			$qb->expr()->iLike($billTableAlias . '.what', $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($term) . '%', IQueryBuilder::PARAM_STR))
+		);
+		$or->add(
+			$qb->expr()->iLike($billTableAlias . '.comment', $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($term) . '%', IQueryBuilder::PARAM_STR))
+		);
+		// search amount
+		$noCommaTerm = str_replace(',', '.', $term);
+		if (is_numeric($noCommaTerm)) {
+			$amount = (float) $noCommaTerm;
+			$amountMin = $amount - 1.0;
+			$amountMax = $amount + 1.0;
+			$andExpr = $qb->expr()->andX();
+			$andExpr->add(
+				$qb->expr()->gte($billTableAlias . '.amount', $qb->createNamedParameter($amountMin, IQueryBuilder::PARAM_STR))
+			);
+			$andExpr->add(
+				$qb->expr()->lte($billTableAlias . '.amount', $qb->createNamedParameter($amountMax, IQueryBuilder::PARAM_STR))
+			);
+			$or->add($andExpr);
+		}
+		$qb->andWhere($or);
+		return $qb;
 	}
 
 	/**

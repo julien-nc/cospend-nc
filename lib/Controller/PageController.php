@@ -840,12 +840,12 @@ class PageController extends ApiController {
 	 */
 	public function webGetBills(string $projectid, ?int $lastchanged = null, ?int $offset = 0, ?int $limit = null,
 								bool $reverse = false, ?int $payerId = null, ?int $categoryId = null,
-								?int $paymentModeId = null, ?int $includeBillId = null): DataResponse {
+								?int $paymentModeId = null, ?int $includeBillId = null, ?string $searchTerm = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			if ($limit) {
 				$bills = $this->projectService->getBillsWithLimit(
 					$projectid, null, null, null, $paymentModeId, $categoryId, null, null,
-					$lastchanged, $limit, $reverse, $offset, $payerId, $includeBillId
+					$lastchanged, $limit, $reverse, $offset, $payerId, $includeBillId, $searchTerm
 				);
 			} else {
 				$bills = $this->projectService->getBills(
@@ -1139,7 +1139,7 @@ class PageController extends ApiController {
 	public function apiv3GetBills(string $projectid, string $password, ?int $lastchanged = null,
 								?int $offset = 0, ?int $limit = null, bool $reverse = false,
 								?int $payerId = null, ?int $categoryId = null,
-								?int $paymentModeId = null, ?int $includeBillId = null): DataResponse {
+								?int $paymentModeId = null, ?int $includeBillId = null, ?string $searchTerm = null): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if ($this->checkLogin($projectid, $password)
 			|| ($publicShareInfo !== null
@@ -1149,7 +1149,7 @@ class PageController extends ApiController {
 				$bills = $this->projectService->getBillsWithLimit(
 					$publicShareInfo['projectid'] ?? $projectid, null, null,
 					null, $paymentModeId, $categoryId, null, null,
-					$lastchanged, $limit, $reverse, $offset, $payerId, $includeBillId
+					$lastchanged, $limit, $reverse, $offset, $payerId, $includeBillId, $searchTerm
 				);
 			} else {
 				$bills = $this->projectService->getBills(

@@ -189,6 +189,9 @@ export default {
 		currentBills() {
 			if (this.currentProjectId && this.currentProjectId in this.billLists) {
 				let result = this.billLists[this.currentProjectId]
+				// not necessary anymore because we only get what we want from the server
+				// by including filters in the query
+				/*
 				if (this.selectedMemberId) {
 					result = result.filter(b => b.payer_id === this.selectedMemberId)
 				}
@@ -203,6 +206,7 @@ export default {
 				if (this.filterQuery) {
 					result = this.getFilteredBills(result)
 				}
+				*/
 				return result
 			}
 			return []
@@ -310,9 +314,11 @@ export default {
 		},
 		filter({ query }) {
 			this.filterQuery = query
+			this.onFilterChange()
 		},
 		cleanSearch() {
 			this.filterQuery = null
+			this.onFilterChange()
 		},
 		getFilteredBills(billList) {
 			// Make sure to escape user input before creating regex from it:
@@ -623,7 +629,10 @@ export default {
 			this.billsLoading = true
 			const catFilter = this.selectedCategoryFilter
 			const pmFilter = this.selectedPaymentModeFilter
-			network.getBills(projectid, 0, 50, this.selectedMemberId, catFilter, pmFilter, selectBillId).then((response) => {
+			const searchTerm = this.filterQuery
+			network.getBills(
+				projectid, 0, 50, this.selectedMemberId, catFilter, pmFilter, selectBillId, searchTerm
+			).then((response) => {
 				this.currentProject.nbBills = response.data.nb_bills
 				this.bills[projectid] = {}
 				this.$set(this.billLists, projectid, response.data.bills)
@@ -655,7 +664,11 @@ export default {
 		loadMoreBills(projectid, state) {
 			const catFilter = this.selectedCategoryFilter
 			const pmFilter = this.selectedPaymentModeFilter
-			network.getBills(projectid, this.billLists[projectid].length, 20, this.selectedMemberId, catFilter, pmFilter).then((response) => {
+			const searchTerm = this.filterQuery
+			network.getBills(
+				projectid, this.billLists[projectid].length, 20, this.selectedMemberId,
+				catFilter, pmFilter, null, searchTerm
+			).then((response) => {
 				this.currentProject.nbBills = response.data.nb_bills
 				if (!response.data.bills || response.data.bills.length === 0) {
 					state.complete()

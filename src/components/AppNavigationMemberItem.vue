@@ -52,7 +52,7 @@
 			<ActionButton
 				@click="onMenuColorClick">
 				<template #icon>
-					<PaletteIcon :size="16" />
+					<PaletteIcon :size="20" />
 				</template>
 				{{ t('cospend', 'Change color') }}
 			</ActionButton>
@@ -66,7 +66,7 @@
 				<template #icon>
 					<WeightIcon
 						class="icon"
-						:size="16"/>
+						:size="20"/>
 				</template>
 				{{ t('cospend', 'Weight') }} ({{ member.weight }})
 			</ActionInput>
@@ -74,8 +74,8 @@
 				:close-after-click="true"
 				@click="onDeleteMemberClick">
 				<template #icon>
-					<DeleteIcon v-if="member.activated" :size="16" />
-					<UndoIcon v-else :size="16" />
+					<DeleteIcon v-if="member.activated" :size="20" />
+					<UndoIcon v-else :size="20" />
 				</template>
 				{{ getDeletionText() }}
 			</ActionButton>

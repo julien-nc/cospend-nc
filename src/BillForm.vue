@@ -73,7 +73,7 @@
 						<Button @click="onGeneratePubLinkClick">
 							<template #icon>
 								<LinkVariantIcon
-									:size="16"/>
+									:size="20"/>
 							</template>
 							{{ t('cospend', 'Attach share link to personal file') }}
 						</Button>
@@ -327,7 +327,7 @@
 								<template #icon>
 									<RepeatIcon
 										class="icon"
-										:size="16"/>
+										:size="20"/>
 								</template>
 								{{ t('cospend', 'Repeat now') }}
 							</Button>

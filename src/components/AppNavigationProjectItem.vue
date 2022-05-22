@@ -24,10 +24,10 @@
 		<template #icon>
 			<FolderIcon v-if="selected"
 				class="icon folder-icon"
-				:size="16"/>
+				:size="20"/>
 			<FolderOutlineIcon v-else
 				class="icon folder-icon"
-				:size="16"/>
+				:size="20"/>
 		</template>
 		<template #counter>
 			<Actions>
@@ -53,7 +53,7 @@
 			<ActionButton v-if="maintenerAccess"
 				@click="onAddMemberClick">
 				<template #icon>
-					<AccountIcon :size="16" />
+					<AccountIcon :size="20" />
 				</template>
 				{{ t('cospend', 'Add member') }}
 			</ActionButton>
@@ -63,7 +63,7 @@
 				<template #icon>
 					<ChartLineIcon
 						class="icon"
-						:size="16"/>
+						:size="20"/>
 				</template>
 				{{ t('cospend', 'Statistics') }}
 			</ActionButton>
@@ -77,7 +77,7 @@
 				:close-after-click="true"
 				@click="onDeleteProjectClick">
 				<template #icon>
-					<DeleteIcon :size="16" />
+					<DeleteIcon :size="20" />
 				</template>
 				{{ t('cospend', 'Delete') }}
 			</ActionButton>
@@ -87,7 +87,7 @@
 				:title="t('cospend', 'Add a member')"
 				@click="onAddMemberClick">
 				<template #icon>
-					<PlusIcon :size="16" />
+					<PlusIcon :size="20" />
 				</template>
 			</AppNavigationItem>
 			<AppNavigationMemberItem v-for="member in sortedMembers"

@@ -76,7 +76,7 @@
 						<template #icon>
 							<CogIcon
 								class="icon"
-								:size="16"/>
+								:size="20"/>
 						</template>
 					</AppNavigationItem>
 				</div>

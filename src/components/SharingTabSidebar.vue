@@ -25,8 +25,15 @@
 				<span class="multiselect-name">
 					{{ option.displayName }}
 				</span>
-				<span v-if="option.icon"
-					:class="{ icon: true, [option.icon]: true, 'multiselect-icon': true }" />
+				<div v-if="option.type === constants.SHARE_TYPE.USER" class="multiselect-icon">
+					<AccountIcon :size="20" />
+				</div>
+				<div v-else-if="option.type === constants.SHARE_TYPE.GROUP" class="multiselect-icon">
+					<AccountGroupIcon :size="20" />
+				</div>
+				<div v-else-if="option.type === constants.SHARE_TYPE.CIRCLE" class="multiselect-icon">
+					<GoogleCirclesCommunitiesIcon :size="20" />
+				</div>
 			</template>
 			<template #noOptions>
 				{{ t('cospend', 'Start typing to search') }}
@@ -202,10 +209,14 @@
 					:user="access.userid"
 					:disable-menu="true"
 					:disable-tooltip="true" />
-				<Avatar v-if="access.type === constants.SHARE_TYPE.GROUP"
-						icon-class="icon-group" />
-				<Avatar v-if="access.type === constants.SHARE_TYPE.CIRCLE"
-					icon-class="icon-circles" />
+				<div v-if="access.type === constants.SHARE_TYPE.GROUP"
+					 class="avatardiv link-icon">
+					<AccountGroupIcon :size="20" />
+				</div>
+				<div v-if="access.type === constants.SHARE_TYPE.CIRCLE"
+					class="avatardiv link-icon">
+					<GoogleCirclesCommunitiesIcon :size="20" />
+				</div>
 				<span class="username">
 					<span>{{ access.name }}</span>
 				</span>
@@ -343,6 +354,9 @@
 </template>
 
 <script>
+import GoogleCirclesCommunitiesIcon from 'vue-material-design-icons/GoogleCirclesCommunities'
+import AccountIcon from 'vue-material-design-icons/Account'
+import AccountGroupIcon from 'vue-material-design-icons/AccountGroup'
 import CheckIcon from 'vue-material-design-icons/Check'
 import InformationVariantIcon from 'vue-material-design-icons/InformationVariant'
 import ClipboardArrowLeftOutlineIcon from 'vue-material-design-icons/ClipboardArrowLeftOutline'
@@ -408,6 +422,9 @@ export default {
 		LinkVariantIcon,
 		InformationVariantIcon,
 		CheckIcon,
+		AccountIcon,
+		AccountGroupIcon,
+		GoogleCirclesCommunitiesIcon,
 	},
 
 	props: {
@@ -460,25 +477,15 @@ export default {
 		},
 		formatedSharees() {
 			return this.unallocatedSharees.map(item => {
-				const sharee = {
+				return {
 					user: item.id,
 					manually_added: true,
 					name: item.name,
 					displayName: item.label,
-					icon: 'icon-user',
 					type: item.type,
 					value: item.value,
 					multiselectKey: item.type + ':' + item.id,
 				}
-				if (item.type === constants.SHARE_TYPE.GROUP) {
-					sharee.icon = 'icon-group'
-					sharee.isNoUser = true
-				}
-				if (item.type === constants.SHARE_TYPE.CIRCLE) {
-					sharee.icon = 'icon-circles'
-					sharee.isNoUser = true
-				}
-				return sharee
 			})
 		},
 		// those with which the project is not shared yet
@@ -771,12 +778,6 @@ export default {
 	}
 	.multiselect-icon {
 		opacity: 0.5;
-	}
-	.icon-circle {
-		background-image: var(--icon-circles-circles-000);
-		background-size: 100% 100%;
-		background-repeat: no-repeat;
-		background-position: center;
 	}
 }
 

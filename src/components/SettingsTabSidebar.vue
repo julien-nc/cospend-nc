@@ -101,7 +101,12 @@
 						:show-user-status="false"
 						:user="option.user" />
 					<span class="select-display-name">{{ option.displayName }}</span>
-					<span :class="option.icon + ' select-icon'" />
+					<div v-if="option.type === 'u'" class="select-icon">
+						<AccountIcon :size="20" />
+					</div>
+					<div v-else-if="option.type === 's'" class="select-icon">
+						<AccountPlusIcon :size="20" />
+					</div>
 				</template>
 				<template #noOptions>
 					{{ t('cospend', 'Enter a member name') }}
@@ -161,6 +166,9 @@
 								:user="option.user" />
 							<span class="select-display-name">{{ option.displayName }}</span>
 							<span :class="option.icon + ' select-icon'" />
+							<div class="select-icon">
+								<AccountIcon :size="20" />
+							</div>
 						</template>
 						<template #noOptions>
 							{{ t('cospend', 'Type to search users') }}
@@ -175,6 +183,7 @@
 <script>
 import InformationVariantIcon from 'vue-material-design-icons/InformationVariant'
 import AccountIcon from 'vue-material-design-icons/Account'
+import AccountPlusIcon from 'vue-material-design-icons/AccountPlus'
 import CheckIcon from 'vue-material-design-icons/Check'
 import PlusIcon from 'vue-material-design-icons/Plus'
 import ContentSaveIcon from 'vue-material-design-icons/ContentSave'
@@ -208,6 +217,7 @@ export default {
 		CheckIcon,
 		Button,
 		AccountIcon,
+		AccountPlusIcon,
 		PlusIcon,
 		InformationVariantIcon,
 	},
@@ -284,7 +294,6 @@ export default {
 					user: item.id,
 					name: item.name,
 					displayName: item.label,
-					icon: 'icon-user',
 					type: item.type,
 					value: item.value,
 					multiselectKey: item.type + ':' + item.id,
@@ -302,7 +311,6 @@ export default {
 						user: this.currentUser.uid,
 						name: this.currentUser.displayName,
 						displayName: this.currentUser.displayName,
-						icon: 'icon-user',
 						type: 'u',
 						value: this.currentUser.displayName,
 						multiselectKey: 'u:' + this.currentUser.uid,
@@ -330,7 +338,6 @@ export default {
 					user: item.id,
 					name: item.name,
 					displayName: item.label,
-					icon: item.type === 'u' ? 'icon-user' : 'icon-user-dollar',
 					type: item.type,
 					value: item.value,
 					multiselectKey: item.type + ':' + item.id,
@@ -348,7 +355,6 @@ export default {
 						user: this.currentUser.uid,
 						name: this.currentUser.displayName,
 						displayName: this.currentUser.displayName,
-						icon: 'icon-user',
 						type: 'u',
 						value: this.currentUser.displayName,
 						multiselectKey: 'u:' + this.currentUser.uid,
@@ -493,17 +499,6 @@ export default {
 <style scoped lang="scss">
 #autoExport {
 	width: 100%;
-}
-
-::v-deep .icon-user-dollar {
-	background-color: var(--color-main-text);
-	padding: 0 !important;
-	mask: url('./../../img/icon-user-dollar.svg') no-repeat;
-	mask-size: 16px auto;
-	mask-position: center;
-	-webkit-mask: url('./../../img/icon-user-dollar.svg') no-repeat;
-	-webkit-mask-size: 16px auto;
-	-webkit-mask-position: center;
 }
 
 #autoExport {

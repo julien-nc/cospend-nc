@@ -339,8 +339,12 @@
 				<div v-if="isNewBill"
 					class="bill-type">
 					<label class="bill-owers-label">
-						<a class="icon icon-toggle-filelist" /><span>{{ t('cospend', 'Bill type') }}</span>
-					</label><br>
+						<FormatListBulletedTypeIcon
+							class="icon"
+							:size="20"/>
+						{{ t('cospend', 'Bill type') }}
+					</label>
+					<br>
 					<div id="billTypeLine">
 						<select
 							id="billtype"
@@ -586,6 +590,7 @@
 </template>
 
 <script>
+import FormatListBulletedTypeIcon from 'vue-material-design-icons/FormatListBulletedType'
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroup'
 import AccountIcon from 'vue-material-design-icons/Account'
 import TagIcon from 'vue-material-design-icons/Tag'
@@ -647,6 +652,7 @@ export default {
 		CheckIcon,
 		ContentDuplicateIcon,
 		InformationVariantIcon,
+		FormatListBulletedTypeIcon,
 	},
 
 	props: {
@@ -1787,10 +1793,13 @@ button {
 	margin-left: 5px;
 }
 
-.bill-owers input {
-	cursor: pointer;
-	padding: 5px;
-	min-height: 0px;
+.bill-owers {
+	margin-top: 12px;
+	input {
+		cursor: pointer;
+		padding: 5px;
+		min-height: 0px;
+	}
 }
 
 .owerAllNoneDiv div {

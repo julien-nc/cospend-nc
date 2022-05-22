@@ -81,35 +81,36 @@
 		<AppSettingsSection v-if="!pageIsPublic"
 			:title="t('cospend', 'Import projects')"
 			class="app-settings-section">
-			<button @click="onImportClick">
-				<span v-if="importingProject" class="icon icon-loading-small" />
-				<FileImportIcon v-else
-					:size="16"/>
-				<span class="label">
+			<div class="oneLine">
+				<Button @click="onImportClick">
+					<template #icon>
+						<FileImportIcon
+							:class="{ 'icon-loading': importingProject }"
+							:size="20"/>
+					</template>
 					{{ t('cospend', 'Import csv project') }}
-				</span>
-			</button>
-			<button @click="onImportSWClick">
-				<span v-if="importingSWProject" class="icon icon-loading-small" />
-				<FileImportIcon v-else
-					:size="16"/>
-				<span class="label">
+				</Button>
+				<Button @click="onImportSWClick">
+					<template #icon>
+						<FileImportIcon
+							:class="{ 'icon-loading': importingSWProject }"
+							:size="20"/>
+					</template>
 					{{ t('cospend', 'Import SplitWise project') }}
-				</span>
-			</button>
+				</Button>
+			</div>
 		</AppSettingsSection>
 		<AppSettingsSection v-if="!pageIsPublic"
 			:title="t('cospend', 'Guest access')"
 			class="app-settings-section">
 			<a :href="guestLink" @click.prevent.stop="onGuestLinkClick">
-				<button>
-					<!--span class="icon icon-clippy" /-->
-					<ClipboardArrowLeftOutlineIcon
-						:size="18"/>
-					<span class="label">
-						{{ t('cospend', 'Copy guest access link') }}
-					</span>
-				</button>
+				<Button>
+					<template #icon>
+						<ClipboardArrowLeftOutlineIcon
+							:size="20"/>
+					</template>
+					{{ t('cospend', 'Copy guest access link') }}
+				</Button>
 			</a>
 		</AppSettingsSection>
 		<AppSettingsSection v-if="!pageIsPublic"
@@ -196,6 +197,7 @@
 import ClipboardArrowLeftOutlineIcon from 'vue-material-design-icons/ClipboardArrowLeftOutline'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew'
 import FileImportIcon from 'vue-material-design-icons/FileImport'
+import Button from '@nextcloud/vue/dist/Components/Button'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { getFilePickerBuilder, showError, showSuccess } from '@nextcloud/dialogs'
 import AppSettingsDialog from '@nextcloud/vue/dist/Components/AppSettingsDialog'
@@ -210,6 +212,7 @@ export default {
 	components: {
 		AppSettingsDialog,
 		AppSettingsSection,
+		Button,
 		FileImportIcon,
 		ClipboardArrowLeftOutlineIcon,
 		OpenInNewIcon,
@@ -357,6 +360,14 @@ a.external {
 
 	.shortcut-description {
 		width: calc(100% - 160px);
+	}
+
+	.oneLine {
+		display: flex;
+		align-items: center;
+		> * {
+			margin: 0 4px 0 4px;
+		}
 	}
 }
 

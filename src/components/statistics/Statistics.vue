@@ -1,20 +1,20 @@
 <template>
 	<AppContentDetails class="statistics-content">
 		<h2 id="statsTitle">
-			<span v-if="exporting" class="icon-loading-small" />
-			<ChartLineIcon v-else
-				class="icon"
+			<ChartLineIcon
 				:size="20"/>
 			{{ t('cospend', 'Statistics of project {name}', { name: project.name }, undefined, { escape: false }) }}
-			<button v-if="!cospend.pageIsPublic"
+			<Button v-if="!cospend.pageIsPublic"
 				class="exportStats"
 				projectid="dum"
 				@click="onExportClick">
-				<ContentSaveIcon
-					class="icon"
-					:size="16"/>
+				<template #icon>
+					<ContentSaveIcon
+						:class="{ 'icon-loading': exporting }"
+						:size="20"/>
+				</template>
 				{{ t('cospend', 'Export') }}
-			</button>
+			</Button>
 		</h2>
 		<div id="stats-filters">
 			<label for="date-min-stats">
@@ -411,6 +411,7 @@ import TagIcon from 'vue-material-design-icons/Tag'
 import ShapeIcon from 'vue-material-design-icons/Shape'
 import AccountIcon from 'vue-material-design-icons/Account'
 import CurrencyUsdIcon from 'vue-material-design-icons/CurrencyUsd'
+import Button from '@nextcloud/vue/dist/Components/Button'
 import moment from '@nextcloud/moment'
 import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
 import ColoredAvatar from '../ColoredAvatar'
@@ -436,6 +437,7 @@ export default {
 		PieChartJs,
 		BarChartJs,
 		AppContentDetails,
+		Button,
 		MemberMonthly,
 		Monthly,
 		CategoryMultiSelect,
@@ -1191,7 +1193,13 @@ export default {
 
 <style scoped lang="scss">
 #statsTitle {
-	padding: 20px 0px 20px 0px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 12px;
+	> * {
+		margin: 0 8px 0 8px;
+	}
 }
 
 #stats-filters {
@@ -1254,24 +1262,6 @@ export default {
 
 	.totalPayedText {
 		text-align: center;
-	}
-}
-
-::v-deep #statsTitle {
-	text-align: center;
-	padding: 20px 0px 20px 20px;
-
-	.icon {
-		min-width: 23px !important;
-		min-height: 23px !important;
-		width: 30px;
-		vertical-align: middle;
-		display: inline-block;
-	}
-	button {
-		.icon {
-			min-height: 16px !important;
-		}
 	}
 }
 

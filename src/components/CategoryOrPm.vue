@@ -1,7 +1,8 @@
 <template>
 	<div class="one-element">
-		<span v-if="draggable"
-			class="icon icon-move" />
+		<CursorMoveIcon v-if="draggable"
+			class="icon move-icon"
+			:size="20" />
 		<div v-show="!editMode"
 			class="one-element-label">
 			<div class="colorDot"
@@ -82,6 +83,7 @@
 
 <script>
 import Button from '@nextcloud/vue/dist/Components/Button'
+import CursorMoveIcon from 'vue-material-design-icons/CursorMove'
 import PaletteIcon from 'vue-material-design-icons/Palette'
 import PencilIcon from 'vue-material-design-icons/Pencil'
 import UndoIcon from 'vue-material-design-icons/Undo'
@@ -102,6 +104,7 @@ export default {
 		DeleteIcon,
 		UndoIcon,
 		CheckIcon,
+		CursorMoveIcon,
 		Button,
 	},
 
@@ -177,27 +180,9 @@ export default {
 .one-element {
 	display: flex;
 
-	.icon-move {
+	.move-icon {
+		margin-right: 12px;
 		cursor: grab;
-		width: 44px;
-		height: 52px;
-		border-radius: 50%;
-		text-align: center;
-		line-height: 44px;
-		font-size: 25px;
-		&:hover {
-			background-color: black;
-		}
-		background-color: var(--color-main-text);
-		padding: 0 !important;
-		mask: url('./../../img/move.svg') no-repeat;
-		mask-size: 18px 18px;
-		mask-position: center;
-		-webkit-mask: url('./../../img/move.svg') no-repeat;
-		-webkit-mask-size: 18px 18px;
-		-webkit-mask-position: center;
-		min-width: 44px !important;
-		min-height: 44px !important;
 	}
 }
 
@@ -252,14 +237,6 @@ $clickable-area: 44px;
 	width: calc(#{$clickable-area} - 20px);
 	height: calc(#{$clickable-area} - 20px);
 	border-radius: 50%;
-}
-
-.edit-icon-button {
-	border-radius: var(--border-radius-pill);
-	height: 40px;
-	width: 40px;
-	margin: 0;
-	padding: 0;
 }
 
 ::v-deep .deleteItemButton:hover {

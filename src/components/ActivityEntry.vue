@@ -1,7 +1,7 @@
 <template>
 	<div class="activity-entry">
 		<element :is="icon.component"
-			class="icon-activity-entry"
+			class="activity-entry-icon"
 			:style="icon.color ? 'color: ' + icon.color + ';' : ''"
 			:size="16" />
 		<span
@@ -162,7 +162,8 @@ export default {
 		background-color: var(--color-background-hover);
 	}
 
-	.icon-activity-entry {
+	.activity-entry-icon {
+		display: flex !important;
 		min-width: 16px;
 		min-height: 16px;
 		opacity: 0.5;

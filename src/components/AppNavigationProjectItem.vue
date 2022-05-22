@@ -68,9 +68,11 @@
 				{{ t('cospend', 'Statistics') }}
 			</ActionButton>
 			<ActionButton
-				icon="icon-reimburse"
 				:close-after-click="true"
 				@click="onSettleClick">
+				<template #icon>
+					<ReimburseIcon :size="20" />
+				</template>
 				{{ t('cospend', 'Project settlement') }}
 			</ActionButton>
 			<ActionButton v-if="adminAccess"
@@ -123,10 +125,12 @@ import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import cospend from '../state'
 import * as constants from '../constants'
 import { Timer, getSortedMembers } from '../utils'
+import ReimburseIcon from './ReimburseIcon'
 
 export default {
 	name: 'AppNavigationProjectItem',
 	components: {
+		ReimburseIcon,
 		AppNavigationMemberItem,
 		AppNavigationItem,
 		ActionButton,
@@ -238,19 +242,6 @@ export default {
 	height: 44px;
 	padding-left: 30px !important;
 	padding-right: 0 !important;
-}
-
-::v-deep .icon-reimburse {
-	background-color: var(--color-main-text);
-	padding: 0 !important;
-	mask: url('./../../img/reimburse.svg') no-repeat;
-	mask-size: 18px 18px;
-	mask-position: center;
-	-webkit-mask: url('./../../img/reimburse.svg') no-repeat;
-	-webkit-mask-size: 18px 18px;
-	-webkit-mask-position: center;
-	min-width: 44px !important;
-	min-height: 44px !important;
 }
 
 ::v-deep .detailButton {

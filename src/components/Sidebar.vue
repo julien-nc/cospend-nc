@@ -83,8 +83,10 @@
 		<AppSidebarTab
 			id="currencies"
 			:name="t('cospend', 'Currencies')"
-			:icon="'icon-tab-currencies'"
 			:order="6">
+			<template #icon>
+				<CurrencyIcon :size="20" />
+			</template>
 			<CurrencyManagement
 				:project-id="projectId"
 				@project-edited="onProjectEdited" />
@@ -111,10 +113,12 @@ import CurrencyManagement from '../CurrencyManagement'
 import ActivityTabSidebar from './ActivityTabSidebar'
 import cospend from '../state'
 import * as constants from '../constants'
+import CurrencyIcon from './CurrencyIcon'
 
 export default {
 	name: 'Sidebar',
 	components: {
+		CurrencyIcon,
 		ActionButton,
 		AppSidebar,
 		AppSidebarTab,
@@ -233,16 +237,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .icon-tab-currencies {
-	background-color: var(--color-main-text);
-	padding: 0 !important;
-	mask: url('../../img/currency.svg') no-repeat;
-	mask-size: 18px 18px;
-	mask-position: center 7px;
-	-webkit-mask: url('../../img/currency.svg') no-repeat;
-	-webkit-mask-size: 18px 18px;
-	-webkit-mask-position: center 0;
-	min-width: 44px !important;
-	min-height: 18px !important;
-}
 </style>

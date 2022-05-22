@@ -81,7 +81,10 @@
 				</div>
 				<div class="bill-amount">
 					<label for="amount">
-						<a class="icon icon-cospend" />{{ t('cospend', 'How much?') }}
+						<CospendIcon
+							class="icon"
+							:size="20" />
+						{{ t('cospend', 'How much?') }}
 					</label>
 					<div class="field-with-info">
 						<input
@@ -106,7 +109,8 @@
 					v-if="project.currencyname && project.currencies.length > 0 && editionAccess"
 					class="bill-currency-convert">
 					<label for="bill-currency">
-						<a class="icon icon-currencies" />
+						<CurrencyIcon class="icon"
+							:size="20" />
 						{{ t('cospend', 'Convert to') }}
 					</label>
 					<div class="field-with-info">
@@ -626,11 +630,15 @@ import {
 } from './utils'
 import * as network from './network'
 import * as constants from './constants'
+import CospendIcon from './components/CospendIcon'
+import CurrencyIcon from './components/CurrencyIcon'
 
 export default {
 	name: 'BillForm',
 
 	components: {
+		CurrencyIcon,
+		CospendIcon,
 		DatetimePicker,
 		AppContentDetails,
 		ColoredAvatar,
@@ -1734,13 +1742,6 @@ export default {
 	}
 }
 
-.icon-cospend,
-.icon-currencies {
-	min-width: 23px !important;
-	min-height: 23px !important;
-	vertical-align: middle;
-}
-
 .bill-left {
 	select,
 	textarea,
@@ -1901,12 +1902,6 @@ button {
 
 .bill-payer {
 	margin-bottom: 5px;
-}
-
-.bill-amount .icon-cospend,
-.bill-currency-convert .icon-currencies {
-	display: inline-block;
-	padding-left: 34px !important;
 }
 
 .bill-repeat-include {

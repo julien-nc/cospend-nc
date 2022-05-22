@@ -4,8 +4,10 @@
 		:show-more-text="title"
 		:loading="state === 'loading'">
 		<template #empty-content>
-			<EmptyContent
-				icon="icon-cospend">
+			<EmptyContent>
+				<template #icon>
+					<CospendIcon />
+				</template>
 				<template #desc>
 					{{ t('cospend', 'No recent activity') }}
 					<div class="empty-content-button">
@@ -26,11 +28,13 @@ import { getCurrentUser } from '@nextcloud/auth'
 import moment from '@nextcloud/moment'
 import { DashboardWidget } from '@nextcloud/vue-dashboard'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import CospendIcon from '../components/CospendIcon'
 
 export default {
 	name: 'Dashboard',
 
 	components: {
+		CospendIcon,
 		DashboardWidget, EmptyContent,
 	},
 

@@ -118,8 +118,10 @@
 			class="nomember">
 			{{ t('cospend', 'Add at least 2 members to start creating bills') }}
 		</h3>
-		<EmptyContent v-else-if="bills.length === 0 && !loading"
-			icon="icon-cospend-raw">
+		<EmptyContent v-else-if="bills.length === 0 && !loading">
+			<template #icon>
+				<CospendIcon />
+			</template>
 			{{ t('cospend', 'No bills to show') }}
 		</EmptyContent>
 		<h2 v-show="loading"
@@ -174,11 +176,13 @@ import cospend from './state'
 import * as network from './network'
 import * as constants from './constants'
 import { strcmp } from './utils'
+import CospendIcon from './components/CospendIcon'
 
 export default {
 	name: 'BillList',
 
 	components: {
+		CospendIcon,
 		BillItem,
 		AppContentList,
 		AppNavigationItem,
@@ -646,19 +650,6 @@ export default {
 	width: 100%;
 	min-height: 44px;
 	padding: 10px 0 0 10px;
-}
-
-::v-deep .icon-cospend-raw {
-	background-color: var(--color-main-text);
-	padding: 0 !important;
-	mask: url('./../img/app_black.svg') no-repeat;
-	mask-size: 64px auto;
-	mask-position: center;
-	-webkit-mask: url('./../img/app_black.svg') no-repeat;
-	-webkit-mask-size: 64px auto;
-	-webkit-mask-position: center;
-	min-width: 44px !important;
-	min-height: 44px !important;
 }
 
 .list-enter-active,

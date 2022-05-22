@@ -95,7 +95,7 @@
 				<hr>
 			</div>
 			<label class="currencyListLabel">
-				<a class="icon icon-currencies" />
+				<CurrencyIcon class="icon" :size="20" />
 				{{ t('cospend', 'Currency list') }}
 			</label>
 			<div v-if="currencies.length"
@@ -131,11 +131,13 @@ import cospend from './state'
 import Currency from './components/Currency'
 import * as constants from './constants'
 import * as network from './network'
+import CurrencyIcon from './components/CurrencyIcon'
 
 export default {
 	name: 'CurrencyManagement',
 
 	components: {
+		CurrencyIcon,
 		Currency,
 		CurrencyUsdIcon,
 		PlusIcon,
@@ -233,13 +235,7 @@ export default {
 <style scoped lang="scss">
 #manage-currencies .icon {
 	line-height: 44px;
-	padding: 0 12px 0 25px;
-}
-
-#manage-currencies .icon-currencies {
-	min-height: 18px !important;
-	display: inline-block;
-	padding: 0 12px 0 25px !important;
+	padding: 0 12px 0 12px;
 }
 
 .editMainCurrencyInput {

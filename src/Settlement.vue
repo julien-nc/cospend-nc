@@ -1,7 +1,7 @@
 <template>
 	<AppContentDetails class="settlement-content">
 		<h2 id="settlementTitle">
-			<span :class="{ 'icon-reimburse': !loading, icon: true, 'icon-loading-small': loading }" />
+			<ReimburseIcon :class="{ 'icon-loading': loading }" :size="20" />
 			<span>
 				{{ t('cospend', 'Settlement of project {name}', { name: project.name }, undefined, { escape: false }) }}
 			</span>
@@ -134,8 +134,10 @@
 			</tbody>
 		</v-table>
 		<EmptyContent v-else
-			class="central-empty-content"
-			icon="icon-reimburse">
+			class="central-empty-content">
+			<template #icon>
+				<ReimburseIcon />
+			</template>
 			{{ t('cospend', 'No transactions found') }}
 		</EmptyContent>
 
@@ -182,8 +184,10 @@
 			<tfoot />
 		</v-table>
 		<EmptyContent v-else
-			class="central-empty-content"
-			icon="icon-cospend">
+			class="central-empty-content">
+			<template #icon>
+				<CospendIcon />
+			</template>
 			{{ t('cospend', 'No balances found') }}
 		</EmptyContent>
 
@@ -248,11 +252,15 @@ import { getSmartMemberName } from './utils'
 import cospend from './state'
 import * as constants from './constants'
 import * as network from './network'
+import CospendIcon from './components/CospendIcon'
+import ReimburseIcon from './components/ReimburseIcon'
 
 export default {
 	name: 'Settlement',
 
 	components: {
+		ReimburseIcon,
+		CospendIcon,
 		ColoredAvatar,
 		AppContentDetails,
 		DatetimePicker,

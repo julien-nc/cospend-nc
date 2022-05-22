@@ -82,7 +82,7 @@
 				type="number"
 				@change="getStats">
 			<label for="currency-stats">
-				<a class="icon icon-currencies" />
+				<CurrencyIcon class="icon" :size="20" />
 				{{ t('cospend', 'Convert in currency') }}
 			</label>
 			<select id="currency-stats"
@@ -427,11 +427,13 @@ import PieChartJs from '../PieChartJs'
 import BarChartJs from '../BarChartJs'
 import * as constants from '../../constants'
 import PaymentModeMultiSelect from '../PaymentModeMultiSelect'
+import CurrencyIcon from '../CurrencyIcon'
 
 export default {
 	name: 'Statistics',
 
 	components: {
+		CurrencyIcon,
 		ColoredAvatar,
 		MemberMultiSelect,
 		PieChartJs,
@@ -1218,10 +1220,6 @@ export default {
 	display: flex;
 	.icon {
 		margin: 0 10px 0 10px;
-	}
-	.icon-currencies,
-	.icon-cospend {
-		min-width: 20px !important;
 	}
 }
 

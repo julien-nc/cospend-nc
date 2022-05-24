@@ -253,6 +253,7 @@ export default {
 
 	> a {
 		font-weight: bold;
+		color: var(--color-primary);
 	}
 }
 

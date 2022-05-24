@@ -1,6 +1,6 @@
 <template>
 	<AppNavigationItem v-if="deleting"
-		title="Are you sure?"
+		:title="t('cospend', 'Are you sure?')"
 		:undo="true"
 		@undo="cancelDeletion">
 		<template #counter>
@@ -23,7 +23,7 @@
 		@click="onProjectClick">
 		<template #icon>
 			<FolderIcon v-if="selected"
-				class="icon folder-icon"
+				class="icon folder-icon-primary"
 				:size="20"/>
 			<FolderOutlineIcon v-else
 				class="icon folder-icon"
@@ -197,9 +197,7 @@ export default {
 	},
 	methods: {
 		onProjectClick(e) {
-			if (e.target.tagName === 'SPAN') {
-				this.$emit('project-clicked', this.project.id)
-			}
+			this.$emit('project-clicked', this.project.id)
 		},
 		onMemberClick(memberId) {
 			this.$emit('member-click', memberId)
@@ -255,7 +253,7 @@ export default {
 	}
 }
 
-.folder-icon {
+.folder-icon-primary {
 	color: var(--color-primary);
 }
 </style>

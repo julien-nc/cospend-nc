@@ -259,7 +259,7 @@ export default {
 
 	methods: {
 		onClick(e) {
-			if (e.target.tagName === 'SPAN') {
+			if (e.target.tagName !== 'DIV') {
 				this.$emit('click')
 			}
 		},

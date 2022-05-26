@@ -489,7 +489,7 @@ export default {
 			this.selectedCategoryFilter = null
 			this.selectedPaymentModeFilter = null
 			if (restoreSelectedBill) {
-				this.getBills(projectid, cospend.restoredCurrentBillId)
+				this.getBills(projectid, cospend.restoredCurrentBillId, null, false)
 			} else {
 				this.getBills(projectid)
 			}
@@ -611,7 +611,7 @@ export default {
 				if (!cospend.pageIsPublic) {
 					response.data.forEach((proj) => { this.addProject(proj) })
 					if (cospend.restoredCurrentProjectId !== null && cospend.restoredCurrentProjectId in this.projects) {
-						this.selectProject(cospend.restoredCurrentProjectId, false, true, true)
+						this.selectProject(cospend.restoredCurrentProjectId, false, false, true)
 					}
 				} else {
 					if (!response.data.myaccesslevel) {
@@ -629,7 +629,7 @@ export default {
 				)
 			})
 		},
-		getBills(projectid, selectBillId = null, callback = null) {
+		getBills(projectid, selectBillId = null, callback = null, pushState = true) {
 			this.billsLoading = true
 			const catFilter = this.selectedCategoryFilter
 			const pmFilter = this.selectedPaymentModeFilter
@@ -646,11 +646,16 @@ export default {
 				this.updateProjectInfo(projectid)
 				if (selectBillId !== null && this.bills[projectid][selectBillId]) {
 					this.currentBill = this.bills[projectid][selectBillId]
-					window.history.pushState(
-						null,
-						null,
-						generateUrl('/apps/cospend/p/{projectId}/b/{billId}', { projectId: cospend.currentProjectId, billId: selectBillId })
-					)
+					if (pushState) {
+						window.history.pushState(
+							null,
+							null,
+							generateUrl('/apps/cospend/p/{projectId}/b/{billId}', {
+								projectId: cospend.currentProjectId,
+								billId: selectBillId,
+							})
+						)
+					}
 				}
 				if (callback) {
 					callback()

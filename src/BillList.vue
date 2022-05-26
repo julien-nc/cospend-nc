@@ -127,7 +127,7 @@
 		<h2 v-show="loading"
 			class="icon-loading-small loading-icon" />
 		<transition-group v-if="!loading" name="list">
-			<BillItem
+			<BillListItem
 				v-for="(bill, index) in bills"
 				:key="bill.id"
 				:bill="bill"
@@ -177,11 +177,13 @@ import * as network from './network'
 import * as constants from './constants'
 import { strcmp } from './utils'
 import CospendIcon from './components/CospendIcon'
+import BillListItem from './components/BillListItem'
 
 export default {
 	name: 'BillList',
 
 	components: {
+		BillListItem,
 		CospendIcon,
 		BillItem,
 		AppContentList,

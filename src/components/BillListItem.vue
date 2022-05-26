@@ -1,10 +1,18 @@
 <template>
-	<a :href="billUrl"
-		:class="{ 'app-content-list-item': true, billitem: true, selectedbill: selected, newBill: bill.id === 0}"
+	<ListItem
+		:class="{ newBill: bill.id === 0}"
+		:title="billFormattedTitle"
+		:active="selected"
+		:details="billDetails"
+		:counter-number="deleteCounter"
+		:force-display-actions="true"
 		@click.stop.prevent="onItemClick">
-		<div class="app-content-list-item-icon">
+		<template #subtitle>
+			{{ parseFloat(bill.amount).toFixed(2) }} ({{ smartPayerName }} → {{ smartOwerNames }})
+		</template>
+		<template #icon>
 			<ColoredAvatar
-				class="itemAvatar"
+				:class="{ newBillAvatar: bill.id === 0 }"
 				:color="payerColor"
 				:size="40"
 				:disable-menu="true"
@@ -17,36 +25,26 @@
 			<div v-if="bill.repeat !== 'n'" class="billItemRepeatMask show">
 				<CalendarSyncIcon :size="16" />
 			</div>
-		</div>
-		<div class="app-content-list-item-line-one">{{ billFormattedTitle }}</div>
-		<div class="app-content-list-item-line-two">{{ parseFloat(bill.amount).toFixed(2) }} ({{ smartPayerName }} → {{ smartOwerNames }})</div>
-		<span class="app-content-list-item-details">
-			<span v-if="selected"
-				class="bill-counter">
-				{{ counter }}
-			</span>
-			<span>{{ billDate }}</span>
-		</span>
-		<div v-if="editionAccess && showDelete && (deletionEnabled || bill.id === 0)"
-			v-tooltip.bottom="{ content: deleteIconTitle }"
-			class="icon-plop deleteBillIcon"
-			@click.prevent.stop="onDeleteClick">
-			<element :is="deleteIconComponent"
-				class="icon"
-				:size="20" />
-			<span v-if="timerOn" class="countdown">
-				<vac :end-time="new Date().getTime() + (7000)">
-					<template #process="{ timeObj }">
-						<span>{{ `${timeObj.s}` }}</span>
-					</template>
-				</vac>
-			</span>
-		</div>
-		<div v-if="editionAccess && !showDelete" class="icon-selector">
-			<CheckboxMarkedIcon v-if="selected" class="selected" :size="20" />
-			<CheckboxBlankOutlineIcon v-else :size="20" />
-		</div>
-	</a>
+		</template>
+		<template #actions>
+			<ActionButton v-if="editionAccess && showDelete && (deletionEnabled || bill.id === 0)"
+				:close-after-click="true"
+				@click="onDeleteClick">
+				<template #icon>
+					<component :is="deleteIconComponent"
+						class="icon"
+						:size="20" />
+				</template>
+				{{ deleteIconTitle }}
+			</ActionButton>
+		</template>
+		<template #extra>
+			<div v-if="editionAccess && !showDelete" class="icon-selector">
+				<CheckboxMarkedIcon v-if="selected" class="selected" :size="20" />
+				<CheckboxBlankOutlineIcon v-else :size="20" />
+			</div>
+		</template>
+	</ListItem>
 </template>
 
 <script>
@@ -58,19 +56,23 @@ import UndoIcon from 'vue-material-design-icons/Undo'
 import cospend from '../state'
 import { generateUrl } from '@nextcloud/router'
 import moment from '@nextcloud/moment'
+import ListItem from '@nextcloud/vue/dist/Components/ListItem'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ColoredAvatar from './ColoredAvatar'
 import { reload, Timer, getCategory, getPaymentMode, getSmartMemberName } from '../utils'
 
 export default {
-	name: 'BillItem',
+	name: 'BillListItem',
 
 	components: {
+		ListItem,
 		ColoredAvatar,
 		CalendarSyncIcon,
 		UndoIcon,
 		DeleteIcon,
 		CheckboxBlankOutlineIcon,
 		CheckboxMarkedIcon,
+		ActionButton,
 	},
 
 	props: {
@@ -105,12 +107,15 @@ export default {
 	},
 	data() {
 		return {
-			timerOn: false,
+			deleteCounter: 0,
 			timer: null,
 		}
 	},
 
 	computed: {
+		timerOn() {
+			return this.deleteCounter > 0
+		},
 		billUrl() {
 			return generateUrl('/apps/cospend/p/{projectId}/b/{billId}', { projectId: this.projectId, billId: this.bill.id })
 		},
@@ -206,15 +211,7 @@ export default {
 			const billMom = moment.unix(this.bill.timestamp)
 			return billMom.format('L')
 		},
-		billTime() {
-			const billMom = moment.unix(this.bill.timestamp)
-			return billMom.format('LT')
-		},
-		itemTitle() {
-			return this.billFormattedTitle + '\n' + parseFloat(this.bill.amount).toFixed(2) + '\n'
-				+ this.billDate + ' ' + this.billTime + '\n' + this.smartPayerName + ' → ' + this.smartOwerNames
-		},
-		counter() {
+		billIndexText() {
 			return '[' + this.index + '/' + this.nbbills + ']'
 		},
 		deleteIconComponent() {
@@ -227,6 +224,11 @@ export default {
 				? t('cospend', 'Cancel')
 				: t('cospend', 'Delete this bill')
 		},
+		billDetails() {
+			return this.selected
+				? this.billIndexText + ' ' + this.billDate
+				: this.billDate
+		},
 	},
 
 	mounted() {
@@ -237,21 +239,32 @@ export default {
 			this.$emit('clicked', this.bill)
 		},
 		onDeleteClick(e) {
-			e.stopPropagation()
+			// stop timer
 			if (this.timerOn) {
-				this.timerOn = false
-				this.timer.pause()
-				delete this.timer
+				this.deleteCounter = 0
+				if (this.timer) {
+					this.timer.pause()
+					delete this.timer
+				}
 			} else {
 				if (this.bill.id === 0) {
 					this.$emit('delete', this.bill)
 				} else {
-					this.timerOn = true
-					this.timer = new Timer(() => {
-						this.timerOn = false
-						this.$emit('delete', this.bill)
-					}, 7000)
+					// start timer
+					this.deleteCounter = 7
+					this.timerLoop()
 				}
+			}
+		},
+		timerLoop() {
+			// on each loop, check if finished or not
+			if (this.timerOn) {
+				this.timer = new Timer(() => {
+					this.deleteCounter--
+					this.timerLoop()
+				}, 1000)
+			} else {
+				this.$emit('delete', this.bill)
 			}
 		},
 		onSelectorClick(e) {
@@ -262,73 +275,29 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.billitem {
-	padding: 8px 7px;
-}
-
-.countdown {
-	position: relative;
-	left: -50px;
-	top: 0;
-}
-
-.newBill {
-	font-style: italic;
-	.itemAvatar {
-		font-style: normal;
-	}
+::v-deep .newBillAvatar * {
+	color: var(--color-main-text) !important;
 }
 
 .icon-selector {
-	opacity: 1 !important;
-
-	.selected {
-		color: var(--color-success);
-	}
-
-	* {
-		width: 20px;
-		position: relative;
-		top: -8px;
-		right: 6px;
-		cursor: pointer;
-	}
-}
-
-.app-content-list-item-details {
-	max-width: 125px !important;
-}
-
-.itemAvatar {
-	position: absolute !important;
-	left: 0;
-}
-
-.deleteBillIcon {
-	border-radius: 50%;
 	display: flex;
-	align-items: center;
-	padding: 12px 12px 12px 12px !important;
-	width: 44px !important;
-	height: 44px !important;
-	&:hover {
-		background-color: var(--color-main-background);
-		.delete-icon {
-			color: var(--color-error);
-		}
-	}
-}
-
-.billItemDisabledMask.disabled {
-	display: block;
-	width: 105%;
-	height: 105%;
-	background-image: url('../../css/images/forbidden.svg');
-	margin: -1px 0 0 -1px;
+	justify-content: right;
+	padding-right: 8px;
 	position: absolute;
+	right: 14px;
+	bottom: 12px;
 }
 
-.billItemRepeatMask.show {
+::v-deep .billItemDisabledMask.disabled {
+	display: block;
+	width: 42px;
+	height: 42px;
+	background: url('../../css/images/forbidden.svg') no-repeat;
+	position: absolute;
+	left: 7px;
+}
+
+::v-deep .billItemRepeatMask.show {
 	display: block;
 	color: var(--color-main-text);
 	width: 16px;

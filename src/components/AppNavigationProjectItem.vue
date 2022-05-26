@@ -24,10 +24,10 @@
 		<template #icon>
 			<FolderIcon v-if="selected"
 				class="icon folder-icon-primary"
-				:size="20"/>
+				:size="20" />
 			<FolderOutlineIcon v-else
 				class="icon folder-icon"
-				:size="20"/>
+				:size="20" />
 		</template>
 		<template #counter>
 			<Actions>
@@ -63,7 +63,7 @@
 				<template #icon>
 					<ChartLineIcon
 						class="icon"
-						:size="20"/>
+						:size="20" />
 				</template>
 				{{ t('cospend', 'Statistics') }}
 			</ActionButton>

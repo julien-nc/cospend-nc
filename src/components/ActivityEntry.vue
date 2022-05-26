@@ -28,7 +28,6 @@ import PencilIcon from 'vue-material-design-icons/Pencil'
 import ShareVariantIcon from 'vue-material-design-icons/ShareVariant'
 import PlusIcon from 'vue-material-design-icons/Plus'
 import DeleteIcon from 'vue-material-design-icons/Delete'
-import { generateUrl } from '@nextcloud/router'
 import moment from '@nextcloud/moment'
 import { getCurrentUser } from '@nextcloud/auth'
 import RichText from '@juliushaertl/vue-richtext'
@@ -167,7 +166,6 @@ export default {
 		min-width: 16px;
 		min-height: 16px;
 		opacity: 0.5;
-		display: inline-block;
 		margin-right: 10px;
 	}
 	.subject {

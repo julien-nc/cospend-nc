@@ -1,15 +1,19 @@
 <template>
 	<span :aria-hidden="!title"
-        :aria-label="title"
-        class="material-design-icon currency-icon"
-        role="img"
-        v-bind="$attrs"
-        @click="$emit('click', $event)">
+		:aria-label="title"
+		class="material-design-icon currency-icon"
+		role="img"
+		v-bind="$attrs"
+		@click="$emit('click', $event)">
 		<svg
 			:fill="fillColor"
 			:width="size"
 			:height="size"
-			enable-background="new 0 0 611.994 611.994" version="1.1" viewBox="0 0 611.99 611.99" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+			enable-background="new 0 0 611.994 611.994"
+			version="1.1"
+			viewBox="0 0 611.99 611.99"
+			xml:space="preserve"
+			xmlns="http://www.w3.org/2000/svg">
 			<path d="m452.84 204.08 51.866 51.879c31.067 31.067 31.067 76.989 31.067 76.989l8.253-13.832c13.589-22.782 23.998-50.126 22.264-72.613-2.834-36.806-26.045-65.167-39.921-79.037l-18.464-18.457 36.71-36.716-132.89-4.747 4.753 132.89 36.364-36.352z" />
 			<path d="m159.15 409.88-51.872-51.859c-31.067-31.08-31.067-76.996-31.067-76.996l-8.253 13.825c-13.582 22.776-23.998 50.126-22.264 72.607 2.834 36.819 26.038 65.179 39.928 79.043l18.457 18.464-36.716 36.71 132.9 4.747-4.753-132.88-36.359 36.338z" />
 			<path d="m180.56 115.22c0 4.632 1.766 8.157 5.304 10.582 3.525 2.425 8.88 4.306 16.039 5.624v-31.752c-8.042 0.889-13.621 2.681-16.704 5.38-3.091 2.7-4.639 6.084-4.639 10.166z" />
@@ -26,6 +30,7 @@ export default {
 	props: {
 		title: {
 			type: String,
+			default: '',
 		},
 		fillColor: {
 			type: String,
@@ -33,8 +38,8 @@ export default {
 		},
 		size: {
 			type: Number,
-			default: 24
-		}
+			default: 24,
+		},
 	},
 }
 </script>

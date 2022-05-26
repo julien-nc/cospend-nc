@@ -101,9 +101,9 @@
 						<template #icon>
 							<ClipboardCheckOutlineIcon v-if="linkCopied[access.id]"
 								class="success"
-								:size="20"/>
+								:size="20" />
 							<ClipboardArrowLeftOutlineIcon v-else
-								:size="20"/>
+								:size="20" />
 						</template>
 					</ActionLink>
 				</Actions>
@@ -210,7 +210,7 @@
 					:disable-menu="true"
 					:disable-tooltip="true" />
 				<div v-if="access.type === constants.SHARE_TYPE.GROUP"
-					 class="avatardiv link-icon">
+					class="avatardiv link-icon">
 					<AccountGroupIcon :size="20" />
 				</div>
 				<div v-if="access.type === constants.SHARE_TYPE.CIRCLE"
@@ -272,7 +272,7 @@
 				id="guestList"
 				class="shareWithList">
 				<li>
-					<LockIcon :size="20"/>
+					<LockIcon :size="20" />
 					<span class="username">
 						<span>{{ t('cospend', 'Password protected access') }}</span>
 					</span>
@@ -295,9 +295,9 @@
 							<template #icon>
 								<ClipboardCheckOutlineIcon v-if="guestLinkCopied"
 									class="success"
-									:size="20"/>
+									:size="20" />
 								<ClipboardArrowLeftOutlineIcon v-else
-									:size="20"/>
+									:size="20" />
 							</template>
 							{{ guestLinkCopied ? t('cospend', 'Link copied') : t('cospend', 'Copy to clipboard') }}
 						</ActionLink>
@@ -392,7 +392,7 @@ import cospend from '../state'
 import * as constants from '../constants'
 import * as network from '../network'
 import axios from '@nextcloud/axios'
-import { getComplementaryColor, hexToDarkerHex, Timer } from '../utils'
+import { Timer } from '../utils'
 
 export default {
 	name: 'SharingTabSidebar',

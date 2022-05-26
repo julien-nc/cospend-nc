@@ -2,7 +2,7 @@
 	<AppContentDetails class="statistics-content">
 		<h2 id="statsTitle">
 			<ChartLineIcon
-				:size="20"/>
+				:size="20" />
 			{{ t('cospend', 'Statistics of project {name}', { name: project.name }, undefined, { escape: false }) }}
 			<Button v-if="!cospend.pageIsPublic"
 				class="exportStats"
@@ -11,7 +11,7 @@
 				<template #icon>
 					<ContentSaveIcon
 						:class="{ 'icon-loading': exporting }"
-						:size="20"/>
+						:size="20" />
 				</template>
 				{{ t('cospend', 'Export') }}
 			</Button>
@@ -20,7 +20,7 @@
 			<label for="date-min-stats">
 				<CalendarStartIcon
 					class="icon"
-					:size="20"/>
+					:size="20" />
 				{{ t('cospend', 'Minimum date') }}
 			</label>
 			<input id="date-min-stats"
@@ -30,7 +30,7 @@
 			<label for="date-max-stats">
 				<CalendarEndIcon
 					class="icon"
-					:size="20"/>
+					:size="20" />
 				{{ t('cospend', 'Maximum date') }}
 			</label>
 			<input id="date-max-stats"
@@ -40,7 +40,7 @@
 			<label for="payment-mode-stats">
 				<TagIcon
 					class="icon"
-					:size="20"/>
+					:size="20" />
 				{{ t('cospend', 'Payment mode') }}
 			</label>
 			<PaymentModeMultiSelect
@@ -52,7 +52,7 @@
 			<label for="category-stats">
 				<ShapeIcon
 					class="icon"
-					:size="20"/>
+					:size="20" />
 				{{ t('cospend', 'Category') }}
 			</label>
 			<CategoryMultiSelect
@@ -64,7 +64,7 @@
 			<label for="amount-min-stats">
 				<CurrencyUsdIcon
 					class="icon"
-					:size="20"/>
+					:size="20" />
 				{{ t('cospend', 'Minimum amount') }}
 			</label>
 			<input id="amount-min-stats"
@@ -74,7 +74,7 @@
 			<label for="amount-max-stats">
 				<CurrencyUsdIcon
 					class="icon"
-					:size="20"/>
+					:size="20" />
 				{{ t('cospend', 'Maximum amount') }}
 			</label>
 			<input id="amount-max-stats"
@@ -100,7 +100,7 @@
 			<label for="payer-stats">
 				<AccountIcon
 					class="icon"
-					:size="20"/>
+					:size="20" />
 				{{ t('cospend', 'Payer') }}
 			</label>
 			<MemberMultiSelect
@@ -119,7 +119,7 @@
 			<label for="prefChartType">
 				<ChartBarIcon
 					class="icon"
-					:size="20"/>
+					:size="20" />
 				{{ t('cospend', 'Chart type') }}
 			</label>
 			<select

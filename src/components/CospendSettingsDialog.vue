@@ -21,175 +21,175 @@
 
 <template>
 	<div id="settings-container">
-	<AppSettingsDialog
-		class="cospend-settings-dialog"
-		:open.sync="showSettings"
-		:show-navigation="true"
-		container="#settings-container">
-		<AppSettingsSection
-			:title="t('cospend', 'About Cospend')"
-			class="app-settings-section">
-			<h3 class="app-settings-section__hint">
-				{{ t('cospend', 'Thanks for using Cospend') + ' ♥' }}
-			</h3>
-			<h3 class="app-settings-section__hint">
-				{{ t('cospend', 'Bug/issue tracker') + ': ' }}
-			</h3>
-			<a href="https://github.com/eneiluj/cospend-nc/issues"
-				target="_blank"
-				class="external">
-				https://github.com/eneiluj/cospend-nc/issues
-				<OpenInNewIcon :size="16" />
-			</a>
-			<h3 class="app-settings-section__hint">
-				{{ t('cospend', 'Translation') + ': ' }}
-			</h3>
-			<a href="https://crowdin.com/project/moneybuster"
-				target="_blank"
-				class="external">
-				https://crowdin.com/project/moneybuster
-				<OpenInNewIcon :size="16" />
-			</a>
-			<h3 class="app-settings-section__hint">
-				{{ t('cospend', 'User documentation') + ': ' }}
-			</h3>
-			<a href="https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md"
-				target="_blank"
-				class="external">
-				https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md
-				<OpenInNewIcon :size="16" />
-			</a>
-			<h3 class="app-settings-section__hint">
-				{{ t('cospend', 'Admin documentation') + ': ' }}
-			</h3>
-			<a href="https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md"
-				target="_blank"
-				class="external">
-				https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md
-				<OpenInNewIcon :size="16" />
-			</a>
-			<h3 class="app-settings-section__hint">
-				{{ t('cospend', 'Developer documentation') + ': ' }}
-			</h3>
-			<a href="https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md"
-				target="_blank"
-				class="external">
-				https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md
-				<OpenInNewIcon :size="16" />
-			</a>
-		</AppSettingsSection>
-		<AppSettingsSection v-if="!pageIsPublic"
-			:title="t('cospend', 'Import projects')"
-			class="app-settings-section">
-			<div class="oneLine">
-				<Button @click="onImportClick">
-					<template #icon>
-						<FileImportIcon
-							:class="{ 'icon-loading': importingProject }"
-							:size="20"/>
-					</template>
-					{{ t('cospend', 'Import csv project') }}
-				</Button>
-				<Button @click="onImportSWClick">
-					<template #icon>
-						<FileImportIcon
-							:class="{ 'icon-loading': importingSWProject }"
-							:size="20"/>
-					</template>
-					{{ t('cospend', 'Import SplitWise project') }}
-				</Button>
-			</div>
-		</AppSettingsSection>
-		<AppSettingsSection v-if="!pageIsPublic"
-			:title="t('cospend', 'Guest access')"
-			class="app-settings-section">
-			<a :href="guestLink" @click.prevent.stop="onGuestLinkClick">
-				<Button>
-					<template #icon>
-						<ClipboardArrowLeftOutlineIcon
-							:size="20"/>
-					</template>
-					{{ t('cospend', 'Copy guest access link') }}
-				</Button>
-			</a>
-		</AppSettingsSection>
-		<AppSettingsSection v-if="!pageIsPublic"
-			:title="t('cospend', 'Export location')"
-			class="app-settings-section">
-			<h3 class="app-settings-section__hint">
-				{{ t('cospend', 'Select export directory') }}
-			</h3>
-			<input
-				type="text"
-				class="app-settings-section__input"
-				:value="outputDir"
-				:disabled="false"
-				:readonly="true"
-				@click="onOutputDirClick">
-		</AppSettingsSection>
-		<AppSettingsSection
-			:title="t('cospend', 'Sort criterias')"
-			class="app-settings-section">
-			<div v-if="!pageIsPublic">
+		<AppSettingsDialog
+			class="cospend-settings-dialog"
+			:open.sync="showSettings"
+			:show-navigation="true"
+			container="#settings-container">
+			<AppSettingsSection
+				:title="t('cospend', 'About Cospend')"
+				class="app-settings-section">
 				<h3 class="app-settings-section__hint">
-					{{ t('cospend', 'How projects are sorted in navigation sidebar') }}
+					{{ t('cospend', 'Thanks for using Cospend') + ' ♥' }}
 				</h3>
-				<label for="sort-select">
-					{{ t('cospend', 'Projects order') }}
+				<h3 class="app-settings-section__hint">
+					{{ t('cospend', 'Bug/issue tracker') + ': ' }}
+				</h3>
+				<a href="https://github.com/eneiluj/cospend-nc/issues"
+					target="_blank"
+					class="external">
+					https://github.com/eneiluj/cospend-nc/issues
+					<OpenInNewIcon :size="16" />
+				</a>
+				<h3 class="app-settings-section__hint">
+					{{ t('cospend', 'Translation') + ': ' }}
+				</h3>
+				<a href="https://crowdin.com/project/moneybuster"
+					target="_blank"
+					class="external">
+					https://crowdin.com/project/moneybuster
+					<OpenInNewIcon :size="16" />
+				</a>
+				<h3 class="app-settings-section__hint">
+					{{ t('cospend', 'User documentation') + ': ' }}
+				</h3>
+				<a href="https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md"
+					target="_blank"
+					class="external">
+					https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md
+					<OpenInNewIcon :size="16" />
+				</a>
+				<h3 class="app-settings-section__hint">
+					{{ t('cospend', 'Admin documentation') + ': ' }}
+				</h3>
+				<a href="https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md"
+					target="_blank"
+					class="external">
+					https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md
+					<OpenInNewIcon :size="16" />
+				</a>
+				<h3 class="app-settings-section__hint">
+					{{ t('cospend', 'Developer documentation') + ': ' }}
+				</h3>
+				<a href="https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md"
+					target="_blank"
+					class="external">
+					https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md
+					<OpenInNewIcon :size="16" />
+				</a>
+			</AppSettingsSection>
+			<AppSettingsSection v-if="!pageIsPublic"
+				:title="t('cospend', 'Import projects')"
+				class="app-settings-section">
+				<div class="oneLine">
+					<Button @click="onImportClick">
+						<template #icon>
+							<FileImportIcon
+								:class="{ 'icon-loading': importingProject }"
+								:size="20" />
+						</template>
+						{{ t('cospend', 'Import csv project') }}
+					</Button>
+					<Button @click="onImportSWClick">
+						<template #icon>
+							<FileImportIcon
+								:class="{ 'icon-loading': importingSWProject }"
+								:size="20" />
+						</template>
+						{{ t('cospend', 'Import SplitWise project') }}
+					</Button>
+				</div>
+			</AppSettingsSection>
+			<AppSettingsSection v-if="!pageIsPublic"
+				:title="t('cospend', 'Guest access')"
+				class="app-settings-section">
+				<a :href="guestLink" @click.prevent.stop="onGuestLinkClick">
+					<Button>
+						<template #icon>
+							<ClipboardArrowLeftOutlineIcon
+								:size="20" />
+						</template>
+						{{ t('cospend', 'Copy guest access link') }}
+					</Button>
+				</a>
+			</AppSettingsSection>
+			<AppSettingsSection v-if="!pageIsPublic"
+				:title="t('cospend', 'Export location')"
+				class="app-settings-section">
+				<h3 class="app-settings-section__hint">
+					{{ t('cospend', 'Select export directory') }}
+				</h3>
+				<input
+					type="text"
+					class="app-settings-section__input"
+					:value="outputDir"
+					:disabled="false"
+					:readonly="true"
+					@click="onOutputDirClick">
+			</AppSettingsSection>
+			<AppSettingsSection
+				:title="t('cospend', 'Sort criterias')"
+				class="app-settings-section">
+				<div v-if="!pageIsPublic">
+					<h3 class="app-settings-section__hint">
+						{{ t('cospend', 'How projects are sorted in navigation sidebar') }}
+					</h3>
+					<label for="sort-select">
+						{{ t('cospend', 'Projects order') }}
+					</label>
+					<select id="sort-select" v-model="sortOrder" @change="onSortOrderChange">
+						<option value="name">
+							{{ t('cospend', 'Name') }}
+						</option>
+						<option value="change">
+							{{ t('cospend', 'Last activity') }}
+						</option>
+					</select>
+				</div>
+				<h3 class="app-settings-section__hint">
+					{{ t('cospend', 'How members are sorted') }}
+				</h3>
+				<label for="sort-member-select">
+					{{ t('cospend', 'Members order') }}
 				</label>
-				<select id="sort-select" v-model="sortOrder" @change="onSortOrderChange">
+				<select id="sort-member-select" v-model="memberOrder" @change="onMemberOrderChange">
 					<option value="name">
 						{{ t('cospend', 'Name') }}
 					</option>
-					<option value="change">
-						{{ t('cospend', 'Last activity') }}
+					<option value="balance">
+						{{ t('cospend', 'Balance') }}
 					</option>
 				</select>
-			</div>
-			<h3 class="app-settings-section__hint">
-				{{ t('cospend', 'How members are sorted') }}
-			</h3>
-			<label for="sort-member-select">
-				{{ t('cospend', 'Members order') }}
-			</label>
-			<select id="sort-member-select" v-model="memberOrder" @change="onMemberOrderChange">
-				<option value="name">
-					{{ t('cospend', 'Name') }}
-				</option>
-				<option value="balance">
-					{{ t('cospend', 'Balance') }}
-				</option>
-			</select>
-		</AppSettingsSection>
-		<AppSettingsSection
-			:title="t('cospend', 'Misc')"
-			class="app-settings-section">
-			<h3 class="app-settings-section__hint">
-				{{ t('cospend', 'Maximum decimal precision to show in balances') }}
-			</h3>
-			<label for="precision">
-				{{ t('cospend', 'Maximum precision') }}
-			</label>
-			<input id="precision"
-				v-model.number="maxPrecision"
-				type="number"
-				min="2"
-				max="10"
-				step="1"
-				@input="onMaxPrecisionChange">
-			<h3 class="app-settings-section__hint">
-				{{ t('cospend', 'Do you want to see and choose time in bill dates?') }}
-			</h3>
-			<input id="use-time-cb"
-				v-model="useTime"
-				class="checkbox"
-				type="checkbox"
-				@input="onUseTimeChange">
-			<label for="use-time-cb">
-				{{ t('cospend', 'Use time in dates') }}
-			</label>
-		</AppSettingsSection>
-	</AppSettingsDialog>
+			</AppSettingsSection>
+			<AppSettingsSection
+				:title="t('cospend', 'Misc')"
+				class="app-settings-section">
+				<h3 class="app-settings-section__hint">
+					{{ t('cospend', 'Maximum decimal precision to show in balances') }}
+				</h3>
+				<label for="precision">
+					{{ t('cospend', 'Maximum precision') }}
+				</label>
+				<input id="precision"
+					v-model.number="maxPrecision"
+					type="number"
+					min="2"
+					max="10"
+					step="1"
+					@input="onMaxPrecisionChange">
+				<h3 class="app-settings-section__hint">
+					{{ t('cospend', 'Do you want to see and choose time in bill dates?') }}
+				</h3>
+				<input id="use-time-cb"
+					v-model="useTime"
+					class="checkbox"
+					type="checkbox"
+					@input="onUseTimeChange">
+				<label for="use-time-cb">
+					{{ t('cospend', 'Use time in dates') }}
+				</label>
+			</AppSettingsSection>
+		</AppSettingsDialog>
 	</div>
 </template>
 

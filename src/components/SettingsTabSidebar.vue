@@ -56,7 +56,7 @@
 			@click="onExportClick">
 			<template #icon>
 				<ContentSaveIcon
-					:size="20"/>
+					:size="20" />
 			</template>
 		</AppNavigationItem>
 		<div>
@@ -499,9 +499,6 @@ export default {
 <style scoped lang="scss">
 #autoExport {
 	width: 100%;
-}
-
-#autoExport {
 	display: inline-flex;
 	align-items: center;
 

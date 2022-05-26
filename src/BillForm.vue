@@ -26,8 +26,8 @@
 			</a>
 			<Button
 				v-if="isNewBill"
-				type="primary"
 				v-tooltip.bottom="{ content: t('cospend', 'Press Shift+Enter to validate') }"
+				type="primary"
 				@click="onCreateClick">
 				<template #icon>
 					<CheckIcon :size="20" />
@@ -51,7 +51,7 @@
 					<label for="what">
 						<TextLongIcon
 							class="icon"
-							:size="20"/>
+							:size="20" />
 						{{ t('cospend', 'What?') }}
 					</label>
 					<input
@@ -73,7 +73,7 @@
 						<Button @click="onGeneratePubLinkClick">
 							<template #icon>
 								<LinkVariantIcon
-									:size="20"/>
+									:size="20" />
 							</template>
 							{{ t('cospend', 'Attach share link to personal file') }}
 						</Button>
@@ -97,8 +97,9 @@
 							@input="onAmountChanged"
 							@keyup.enter="onAmountEnterPressed"
 							@focus="$event.target.select()">
-						<Button @click="onAmountInfoClicked"
-							v-tooltip.top="{ content: t('cospend', 'More information') }">
+						<Button
+							v-tooltip.top="{ content: t('cospend', 'More information') }"
+							@click="onAmountInfoClicked">
 							<template #icon>
 								<InformationVariantIcon :size="20" />
 							</template>
@@ -124,8 +125,9 @@
 								{{ currency.name }} ⇒ {{ project.currencyname }} (x{{ currency.exchange_rate }})
 							</option>
 						</select>
-						<Button @click="onConvertInfoClicked"
-							v-tooltip.top="{ content: t('cospend', 'More information') }">
+						<Button
+							v-tooltip.top="{ content: t('cospend', 'More information') }"
+							@click="onConvertInfoClicked">
 							<template #icon>
 								<InformationVariantIcon :size="20" />
 							</template>
@@ -136,7 +138,7 @@
 					<label>
 						<AccountIcon
 							class="icon"
-							:size="20"/>
+							:size="20" />
 						{{ t('cospend', 'Who paid?') }}
 					</label>
 					<MemberMultiSelect
@@ -152,7 +154,7 @@
 					<label for="dateInput">
 						<CalendarIcon
 							class="icon"
-							:size="20"/>
+							:size="20" />
 						{{ t('cospend', 'When?') }}
 					</label>
 					<DatetimePicker v-if="showDatePicker"
@@ -171,7 +173,7 @@
 					<label for="paymentModeMultiSelect">
 						<TagIcon
 							class="icon"
-							:size="20"/>
+							:size="20" />
 						{{ t('cospend', 'Payment mode') }}
 					</label>
 					<Multiselect
@@ -192,7 +194,7 @@
 					<label for="categoryMultiSelect">
 						<ShapeIcon
 							class="icon"
-							:size="20"/>
+							:size="20" />
 						{{ t('cospend', 'Category') }}
 					</label>
 					<Multiselect
@@ -213,7 +215,7 @@
 					<label for="comment">
 						<CommentTextIcon
 							class="icon"
-							:size="20"/>
+							:size="20" />
 						{{ t('cospend', 'Comment') }}
 					</label>
 					<textarea
@@ -229,7 +231,7 @@
 					<label for="repeatbill">
 						<CalendarSyncIcon
 							class="icon"
-							:size="20"/>
+							:size="20" />
 						{{ t('cospend', 'Repeat') }}
 					</label>
 					<div class="field-with-info">
@@ -260,8 +262,9 @@
 								{{ t('cospend', 'Yearly') }}
 							</option>
 						</select>
-						<Button @click="onRepeatInfoClicked"
-								v-tooltip.top="{ content: t('cospend', 'More information') }">
+						<Button
+							v-tooltip.top="{ content: t('cospend', 'More information') }"
+							@click="onRepeatInfoClicked">
 							<template #icon>
 								<InformationVariantIcon :size="20" />
 							</template>
@@ -275,7 +278,7 @@
 						<label for="repeat-freq">
 							<CounterIcon
 								class="icon"
-								:size="20"/>
+								:size="20" />
 							{{ t('cospend', 'Frequency') }}
 						</label>
 						<div class="field-with-info">
@@ -308,7 +311,7 @@
 						<label>
 							<CalendarEndIcon
 								class="icon"
-								:size="20"/>
+								:size="20" />
 							{{ t('cospend', 'Repeat until') }}
 						</label>
 						<DatetimePicker v-if="showDatePicker"
@@ -331,7 +334,7 @@
 								<template #icon>
 									<RepeatIcon
 										class="icon"
-										:size="20"/>
+										:size="20" />
 								</template>
 								{{ t('cospend', 'Repeat now') }}
 							</Button>
@@ -345,7 +348,7 @@
 					<label class="bill-owers-label">
 						<FormatListBulletedTypeIcon
 							class="icon"
-							:size="20"/>
+							:size="20" />
 						{{ t('cospend', 'Bill type') }}
 					</label>
 					<br>
@@ -408,7 +411,7 @@
 					<label class="bill-owers-label">
 						<AccountGroupIcon
 							class="icon"
-							:size="20"/>
+							:size="20" />
 						<span>
 							{{ t('cospend', 'For whom?') }}
 						</span>
@@ -578,8 +581,8 @@
 				</div>
 				<Button
 					v-if="isNewBill"
-					type="primary"
 					v-tooltip.bottom="{ content: t('cospend', 'Press Shift+Enter to validate') }"
+					type="primary"
 					@click="onCreateClick">
 					<template #icon>
 						<CheckIcon :size="20" />

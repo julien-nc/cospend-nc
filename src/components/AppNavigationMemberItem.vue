@@ -66,7 +66,7 @@
 				<template #icon>
 					<WeightIcon
 						class="icon"
-						:size="20"/>
+						:size="20" />
 				</template>
 				{{ t('cospend', 'Weight') }} ({{ member.weight }})
 			</ActionInput>

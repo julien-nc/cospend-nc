@@ -83,9 +83,11 @@ export function getProjects() {
 	return axios.get(url, req)
 }
 
-export function getBills(projectid, offset, limit,
-						payerId = null, categoryId = null, paymentModeId = null,
-						includeBillId = null, searchTerm = null) {
+export function getBills(
+	projectid, offset, limit,
+	payerId = null, categoryId = null, paymentModeId = null,
+	includeBillId = null, searchTerm = null
+) {
 	const req = {
 		params: {
 			offset,

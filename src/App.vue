@@ -192,7 +192,7 @@ export default {
 		},
 		currentBills() {
 			if (this.currentProjectId && this.currentProjectId in this.billLists) {
-				let result = this.billLists[this.currentProjectId]
+				const result = this.billLists[this.currentProjectId]
 				// not necessary anymore because we only get what we want from the server
 				// by including filters in the query
 				/*
@@ -600,7 +600,7 @@ export default {
 					null,
 					generateUrl('/apps/cospend/p/{projectId}/b/{billId}', {
 						projectId: cospend.currentProjectId,
-						billId: billId
+						billId,
 					})
 				)
 			}

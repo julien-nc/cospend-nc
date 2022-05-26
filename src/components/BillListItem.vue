@@ -6,7 +6,7 @@
 		:details="billDetails"
 		:counter-number="deleteCounter"
 		:force-display-actions="true"
-		@click.stop.prevent="onItemClick">
+		@click="onItemClick">
 		<template #subtitle>
 			{{ parseFloat(bill.amount).toFixed(2) }} ({{ smartPayerName }} → {{ smartOwerNames }})
 		</template>

@@ -17,8 +17,8 @@
 				</template>
 			</Button>
 			<Button v-show="editionAccess"
-				class="deleteItemButton"
 				v-tooltip.top="{ content: t('cospend', 'Delete') }"
+				class="deleteItemButton"
 				@click="onClickDelete">
 				<template #icon>
 					<UndoIcon v-if="timerOn" :size="20" />
@@ -50,8 +50,9 @@
 			</ColorPicker>
 			<EmojiPicker :show-preview="true"
 				@select="selectEmoji">
-				<Button class="emojiButton"
-						v-tooltip.top="{ content: t('cospend', 'Icon') }">
+				<Button
+					v-tooltip.top="{ content: t('cospend', 'Icon') }"
+					class="emojiButton">
 					{{ icon }}
 				</Button>
 			</EmojiPicker>
@@ -70,8 +71,8 @@
 				</template>
 			</Button>
 			<Button
-				type="primary"
 				v-tooltip.top="{ content: t('cospend', 'Save') }"
+				type="primary"
 				@click="onClickEditOk">
 				<template #icon>
 					<CheckIcon :size="20" />

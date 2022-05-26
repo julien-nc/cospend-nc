@@ -35,7 +35,8 @@ export default {
 
 	components: {
 		CospendIcon,
-		DashboardWidget, EmptyContent,
+		DashboardWidget,
+		EmptyContent,
 	},
 
 	props: {

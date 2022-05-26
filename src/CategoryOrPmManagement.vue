@@ -5,7 +5,7 @@
 				<label for="order-select">
 					<SortIcon
 						class="icon"
-						:size="20"/>
+						:size="20" />
 					<span>{{ sortOrderLabel }}</span>
 				</label>
 				<select id="order-select"
@@ -31,7 +31,7 @@
 				<h3>
 					<PlusIcon
 						class="icon"
-						:size="20"/>
+						:size="20" />
 					{{ addElementLabel }}
 				</h3>
 				<div class="add-element">
@@ -46,8 +46,9 @@
 					</ColorPicker>
 					<EmojiPicker :show-preview="true"
 						@select="selectEmoji">
-						<Button class="emojiButton"
-							v-tooltip.top="{ content: t('cospend', 'Icon') }">
+						<Button
+							v-tooltip.top="{ content: t('cospend', 'Icon') }"
+							class="emojiButton">
 							{{ newIcon }}
 						</Button>
 					</EmojiPicker>
@@ -60,8 +61,8 @@
 						@focus="$event.target.select()"
 						@keyup.enter="onAddElement">
 					<Button
-						type="primary"
 						v-tooltip.top="{ content: addTooltip }"
+						type="primary"
 						@click="onAddElement">
 						<template #icon>
 							<PlusIcon :size="20" />
@@ -73,10 +74,10 @@
 			<h3>
 				<ShapeIcon v-if="type === 'category'"
 					class="icon"
-					:size="20"/>
+					:size="20" />
 				<TagIcon v-else
 					class="icon"
-					:size="20"/>
+					:size="20" />
 				{{ listLabel }}
 			</h3>
 			<label v-if="hasElements && editionAccess && sortOrderValue === constants.SORT_ORDER.MANUAL" class="hint">
@@ -113,10 +114,10 @@
 					<template #icon>
 						<ShapeIcon v-if="type === 'category'"
 							class="icon"
-							:size="20"/>
+							:size="20" />
 						<TagIcon v-else
 							class="icon"
-							:size="20"/>
+							:size="20" />
 					</template>
 					<template #desc>
 						{{ emptyContentText }}
@@ -451,6 +452,7 @@ h3 {
 		margin-left: 10px;
 	}
 }
+
 #order-selection {
 	display: flex;
 	align-items: center;

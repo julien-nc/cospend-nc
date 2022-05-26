@@ -54,20 +54,23 @@
 					:clearable="true"
 					confirm
 					@change="onChangeMaxDate" />
-				<Button @click="onDayBeginningClicked"
-					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this day') }">
+				<Button
+					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this day') }"
+					@click="onDayBeginningClicked">
 					<template #icon>
 						<CalendarTodayIcon :size="20" />
 					</template>
 				</Button>
-				<Button @click="onWeekBeginningClicked"
-					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this week') }">
+				<Button
+					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this week') }"
+					@click="onWeekBeginningClicked">
 					<template #icon>
 						<CalendarWeekIcon :size="20" />
 					</template>
 				</Button>
-				<Button @click="onMonthBeginningClicked"
-					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this month') }">
+				<Button
+					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this month') }"
+					@click="onMonthBeginningClicked">
 					<template #icon>
 						<CalendarMonthIcon :size="20" />
 					</template>

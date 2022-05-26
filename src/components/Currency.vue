@@ -12,8 +12,8 @@
 				</template>
 			</Button>
 			<Button v-show="editionAccess"
-				class="deleteCurrencyButton"
 				v-tooltip.top="{ content: t('cospend', 'Delete') }"
+				class="deleteCurrencyButton"
 				@click="onClickDelete">
 				<template #icon>
 					<UndoIcon v-if="timerOn" :size="20" />
@@ -52,8 +52,8 @@
 				</template>
 			</Button>
 			<Button
-				type="primary"
 				v-tooltip.top="{ content: t('cospend', 'Save') }"
+				type="primary"
 				@click="onClickEditOk">
 				<template #icon>
 					<CheckIcon :size="20" />

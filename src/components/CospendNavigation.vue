@@ -22,7 +22,7 @@
 						<template #icon>
 							<FileImportIcon
 								class="icon"
-								:size="20"/>
+								:size="20" />
 						</template>
 						{{ t('cospend', 'Import csv project') }}
 					</ActionButton>
@@ -32,7 +32,7 @@
 						<template #icon>
 							<FileImportIcon
 								class="icon"
-								:size="20"/>
+								:size="20" />
 						</template>
 						{{ t('cospend', 'Import SplitWise project') }}
 					</ActionButton>
@@ -76,7 +76,7 @@
 						<template #icon>
 							<CogIcon
 								class="icon"
-								:size="20"/>
+								:size="20" />
 						</template>
 					</AppNavigationItem>
 				</div>

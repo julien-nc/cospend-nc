@@ -1,10 +1,10 @@
 <template>
 	<span :aria-hidden="!title"
-        :aria-label="title"
-        class="material-design-icon reimburse-icon"
-        role="img"
-        v-bind="$attrs"
-        @click="$emit('click', $event)">
+		:aria-label="title"
+		class="material-design-icon reimburse-icon"
+		role="img"
+		v-bind="$attrs"
+		@click="$emit('click', $event)">
 		<svg
 			:fill="fillColor"
 			:width="size"
@@ -25,6 +25,7 @@ export default {
 	props: {
 		title: {
 			type: String,
+			default: '',
 		},
 		fillColor: {
 			type: String,
@@ -32,8 +33,8 @@ export default {
 		},
 		size: {
 			type: Number,
-			default: 24
-		}
+			default: 24,
+		},
 	},
 }
 </script>

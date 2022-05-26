@@ -166,7 +166,6 @@ import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 
-import BillItem from './components/BillItem'
 import PaymentModeMultiSelect from './components/PaymentModeMultiSelect'
 import CategoryMultiSelect from './components/CategoryMultiSelect'
 
@@ -185,7 +184,6 @@ export default {
 	components: {
 		BillListItem,
 		CospendIcon,
-		BillItem,
 		AppContentList,
 		AppNavigationItem,
 		Actions,

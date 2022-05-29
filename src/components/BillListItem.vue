@@ -3,6 +3,7 @@
 		:class="{ newBill: bill.id === 0}"
 		:title="billFormattedTitle"
 		:active="selected"
+		:bold="selected"
 		:details="billDetails"
 		:counter-number="deleteCounter"
 		:force-display-actions="true"

@@ -5,6 +5,29 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 1.4.7 – 2022-05-30
+### Added
+- new "payer" stats filter
+- option to choose between pie chart and histograms for some stat charts
+- search and filter by amount
+  [#135](https://github.com/eneiluj/cospend-nc/issues/135) @Zaptro
+- parse some common date formats in bill edition form
+  [#139](https://github.com/eneiluj/cospend-nc/issues/139) @xstable
+- basic history state management
+
+### Changed
+- move to material design icons
+- many style improvements
+- filtering is now done on the server side
+  [#135](https://github.com/eneiluj/cospend-nc/issues/135) @Zaptro
+- use ListItem component from @nextcloud/vue
+
+### Fixed
+- bug when duplicating a bill that was just created
+  [#140](https://github.com/eneiluj/cospend-nc/issues/140) @xstable
+- get rid of SVG api requests as it's been removed in NC 25
+
 ## 1.4.6 – 2022-03-26
 ### Changed
 - changed instances of 'she/he', 'his/hers', etc to 'they'/'them'/'their' @hexadecatrienoic

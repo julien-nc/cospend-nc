@@ -155,7 +155,6 @@ OC.L10N.register(
     "Currency list" : "Valuta liste",
     "Settlement of project {name}" : "Afregning af projekt {name}",
     "Export" : "Eksporter",
-    "Add these payments to project" : "Tilføj disse betalinger til projektet",
     "Nobody (optimal)" : "Ingen (optimalt)",
     "Change color" : "Skift farve",
     "Deactivate" : "Deaktiver",
@@ -163,8 +162,6 @@ OC.L10N.register(
     "Add member" : "Tilføj medlem",
     "Member list is not up to date. Reloading in 5 sec." : "Medlemslisten er ikke opdateret. Genindlæser siden om 5 sek.",
     "New project" : "Nyt projekt",
-    "Choose csv project file" : "Vælg CSV projekt fil",
-    "Choose SplitWise project file" : "Vælg SplitWise projekt fil",
     "Settings" : "Indstillinger",
     "Statistics of project {name}" : "Statistikker for projekt {name}",
     "Filtered balance" : "Filtreret saldo",
@@ -175,6 +172,8 @@ OC.L10N.register(
     "Failed to edit currency" : "Valutaen kunne ikke redigeres",
     "Project statistics exported in {path}" : "Projektstatistikkerne blev eksporteret til {path}",
     "Failed to export project statistics" : "Projektstatistikkerne kunne ikke eksporteres",
+    "Choose csv project file" : "Vælg CSV projekt fil",
+    "Choose SplitWise project file" : "Vælg SplitWise projekt fil",
     "Allow guests to create projects" : "Tillad gæster at oprette projekter"
 },
 "nplurals=2; plural=(n != 1);");

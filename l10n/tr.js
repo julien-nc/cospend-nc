@@ -43,7 +43,6 @@ OC.L10N.register(
     "Member/Month" : "Üye/Ay",
     "All members" : "Tüm üyeler",
     "Maximum amount" : "Maksimum tutar",
-    "Currency of statistic values" : "İstatistik veri dövizi",
     "Main project's currency" : "Ana proje dövizi",
     "Show disabled members" : "Devre dışı bırakılmış üyeleri göster",
     "Global stats" : "Genel veriler"

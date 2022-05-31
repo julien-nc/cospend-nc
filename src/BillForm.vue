@@ -461,6 +461,7 @@
 								{{ ower.name }}
 							</label>
 							<label v-if="myBill.owerIds.includes(ower.id)"
+								:for="'dum' + ower.id"
 								class="spentlabel">
 								({{ owerAmount[ower.id] || 0 }})
 							</label>

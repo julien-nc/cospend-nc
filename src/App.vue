@@ -82,12 +82,10 @@
 			</EmptyContent>
 			<div v-if="!isMobile"
 				class="content-buttons">
-				<button
+				<Button
 					v-tooltip.bottom="{ content: t('cospend', 'Toggle sidebar') }"
-					class="iconButton"
-					@click="onMainDetailClicked">
-					<MenuOpenIcon :size="20" />
-				</button>
+					class="icon-menu"
+					@click="onMainDetailClicked" />
 			</div>
 		</AppContent>
 		<CospendSettingsDialog
@@ -116,7 +114,6 @@
 
 <script>
 import PlusIcon from 'vue-material-design-icons/Plus'
-import MenuOpenIcon from 'vue-material-design-icons/MenuOpen'
 import Button from '@nextcloud/vue/dist/Components/Button'
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -162,7 +159,6 @@ export default {
 		AppContent,
 		EmptyContent,
 		Button,
-		MenuOpenIcon,
 		PlusIcon,
 	},
 	mixins: [isMobile],
@@ -977,16 +973,6 @@ export default {
 	position: fixed !important;
 	top: 56px;
 	right: 6px;
-	button {
-		width: 44px;
-		height: 44px;
-		margin: 0;
-		background-color: transparent;
-		border: none;
-		&:hover {
-			background-color: var(--color-background-dark);
-		}
-	}
 }
 
 #app-content-wrapper {

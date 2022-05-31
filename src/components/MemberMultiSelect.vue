@@ -138,7 +138,7 @@ export default {
 	width: 36px;
 	height: 36px;
 	background-image: url('../../css/images/forbidden.svg');
-	margin: -1px 0 0 -1px;
+	margin: 0 0 0 -1px;
 	position: absolute;
 }
 </style>

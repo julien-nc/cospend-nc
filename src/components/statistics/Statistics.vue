@@ -1314,8 +1314,13 @@ export default {
 	margin-bottom: -3px;
 }
 
-::v-deep #paidForTable th.avatared .owerAvatar {
-	margin-left: 0;
+::v-deep #paidForTable th.avatared {
+	.owerAvatar {
+		margin-left: 0;
+	}
+	.disabledMask {
+		left: 0;
+	}
 }
 
 #paidForTable {

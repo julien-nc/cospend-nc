@@ -1813,10 +1813,15 @@ button {
 
 .owerAllNoneDiv,
 .owerEntry {
+	display: flex;
+	align-items: center;
 	height: 34px;
 	margin: 10px 0 10px 26px;
 	.owerAvatar {
 		width: 24px;
+	}
+	input {
+		margin-left: 8px;
 	}
 }
 

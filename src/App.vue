@@ -70,15 +70,17 @@
 				<template #icon>
 					<CospendIcon />
 				</template>
-				{{ currentProjectId ? t('cospend', 'Project {name}', { name: currentProjectId }) : t('cospend', 'Select a project') }}
-				<Button
-					class="emptyContentCreateBillButton"
-					@click="onNewBillClicked(null)">
-					<template #icon>
-						<PlusIcon :size="20" />
-					</template>
-					{{ t('cospend', 'Create a bill') }}
-				</Button>
+				<span class="emptyContentInnerWrapper">
+					{{ currentProjectId ? t('cospend', 'Project {name}', { name: currentProjectId }) : t('cospend', 'Select a project') }}
+					<Button
+						class="emptyContentCreateBillButton"
+						@click="onNewBillClicked(null)">
+						<template #icon>
+							<PlusIcon :size="20" />
+						</template>
+						{{ t('cospend', 'Create a bill') }}
+					</Button>
+				</span>
 			</EmptyContent>
 			<div v-if="!isMobile"
 				class="content-buttons">
@@ -986,6 +988,11 @@ export default {
 	.empty-content__icon {
 		mask-size: 64px auto;
 		-webkit-mask-size: 64px auto;
+	}
+	.emptyContentInnerWrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 }
 

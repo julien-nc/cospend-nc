@@ -311,7 +311,7 @@
 				:project-id="projectId"
 				:value="selectedMember"
 				:placeholder="t('cospend', 'Select a member')"
-				:members="membersArray"
+				:members="membersWithStatsArray"
 				@input="memberSelected" />
 		</div>
 		<div id="memberPerCategoryChart">
@@ -498,6 +498,14 @@ export default {
 		},
 		membersArray() {
 			return Object.values(this.members)
+		},
+		membersWithStatsArray() {
+			console.debug('SSSS', this.stats)
+			return this.stats
+				? this.membersArray.filter((member) => {
+					return this.stats.memberIds.includes(member.id)
+				})
+				: this.membersArray
 		},
 		filterMembers() {
 			return [

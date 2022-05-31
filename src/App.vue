@@ -358,6 +358,9 @@ export default {
 			}
 			if (mode === 'normal') {
 				this.updateProjectInfo(cospend.currentProjectId)
+				if (!select) {
+					this.currentBill = null
+				}
 			}
 		},
 		onMultiBillEdit(billIds, categoryid, paymentmodeid) {
@@ -399,6 +402,7 @@ export default {
 			this.updateProjectInfo(cospend.currentProjectId)
 		},
 		onPersoBillsCreated() {
+			this.currentBill = null
 			this.updateProjectInfo(cospend.currentProjectId)
 		},
 		onResetSelection() {

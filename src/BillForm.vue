@@ -1543,8 +1543,8 @@ export default {
 			const billid = response
 			billToCreate.id = billid
 			// only select the bill if it's a normal one or the main one in perso mode
-			const select = (mode === 'normal' || mode === 'mainPerso')
-			this.$emit('bill-created', billToCreate, select, mode)
+			// const select = (mode === 'normal' || mode === 'mainPerso')
+			this.$emit('bill-created', billToCreate, false, mode)
 			showSuccess(t('cospend', 'Bill created'))
 			// manage multiple creation
 			if (mode !== 'normal') {

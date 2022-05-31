@@ -405,6 +405,8 @@ export default {
 		},
 		onBillSaved(bill, changedBill, updateProjectInfo = true) {
 			Object.assign(bill, changedBill)
+			// this avoids having both bill object sharing the same owerIds array (pseudo deep copy)
+			bill.owerIds = [...changedBill.owerIds]
 			if (updateProjectInfo) {
 				this.updateProjectInfo(cospend.currentProjectId)
 			}

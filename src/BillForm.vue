@@ -448,14 +448,13 @@
 							</div>
 							<input
 								:id="'dum' + ower.id"
-								v-model="myBill.owerIds"
+								:checked="myBill.owerIds.includes(ower.id)"
 								:value="ower.id"
 								number
 								class="checkbox"
 								type="checkbox"
-								:owerid="ower.id"
 								:disabled="!editionAccess || !members[ower.id].activated"
-								@input="onBillEdited">
+								@input="onOwerChecked">
 							<label
 								class="checkboxlabel"
 								:for="'dum' + ower.id">
@@ -487,12 +486,12 @@
 							</div>
 							<input
 								:id="'dum' + ower.id"
-								v-model="myBill.owerIds"
+								:checked="myBill.owerIds.includes(ower.id)"
+								:value="ower.id"
 								class="checkbox"
 								type="checkbox"
-								:owerid="ower.id"
-								:value="ower.id"
-								number>
+								number
+								@input="onOwerChecked">
 							<label
 								class="checkboxlabel"
 								:for="'dum' + ower.id">
@@ -1210,6 +1209,19 @@ export default {
 			} else {
 				return this.members[mid].color
 			}
+		},
+		onOwerChecked(e) {
+			const value = parseInt(e.target.value)
+			if (e.target.checked) {
+				if (!this.myBill.owerIds.includes(value)) {
+					this.myBill.owerIds.push(value)
+				}
+			} else {
+				if (this.myBill.owerIds.includes(value)) {
+					this.myBill.owerIds.splice(this.myBill.owerIds.indexOf(value), 1)
+				}
+			}
+			this.onBillEdited(null, true)
 		},
 		onBillEdited(e, delayed = true) {
 			if (!this.isNewBill && !this.noBill) {

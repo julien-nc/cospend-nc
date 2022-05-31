@@ -71,6 +71,14 @@
 					<CospendIcon />
 				</template>
 				{{ currentProjectId ? t('cospend', 'Project {name}', { name: currentProjectId }) : t('cospend', 'Select a project') }}
+				<Button
+					class="emptyContentCreateBillButton"
+					@click="onNewBillClicked(null)">
+					<template #icon>
+						<PlusIcon :size="20" />
+					</template>
+					{{ t('cospend', 'Create a bill') }}
+				</Button>
 			</EmptyContent>
 			<div v-if="!isMobile"
 				class="content-buttons">
@@ -107,7 +115,9 @@
 </template>
 
 <script>
+import PlusIcon from 'vue-material-design-icons/Plus'
 import MenuOpenIcon from 'vue-material-design-icons/MenuOpen'
+import Button from '@nextcloud/vue/dist/Components/Button'
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
@@ -151,7 +161,9 @@ export default {
 		Content,
 		AppContent,
 		EmptyContent,
+		Button,
 		MenuOpenIcon,
+		PlusIcon,
 	},
 	mixins: [isMobile],
 	provide() {
@@ -991,6 +1003,10 @@ export default {
 
 .iconButton {
 	padding: 0;
+}
+
+.emptyContentCreateBillButton {
+	margin-top: 12px;
 }
 </style>
 

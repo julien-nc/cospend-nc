@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-05-30 00:08+0200\n"
-"PO-Revision-Date: 2022-06-01 18:30\n"
+"PO-Revision-Date: 2022-06-02 18:26\n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
@@ -337,7 +337,7 @@ msgstr "Вы не можете удалить этот общий доступ"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2885
 msgid "You are not allowed to add public shared accesses"
-msgstr "Вы не можете предоставлять общий доступ"
+msgstr "Свободная публикация не доступна для вашего аккаунта "
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:3048
 msgid "You are not allowed to export this project settlement"
@@ -1042,7 +1042,7 @@ msgstr "Не заполняйте поле для максимального к�
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:53
 msgid "Include all active members on repeat"
-msgstr "При повторе, добавить всех активных участников"
+msgstr "Повторное приглашение для всех активных участников"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:54
 msgid "Repeat until"
@@ -1074,7 +1074,7 @@ msgstr "Произвольная сумма платы за каждого уч�
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:61
 msgid "Custom share per member"
-msgstr "Персональный доступ каждому участнику"
+msgstr "Изменить уровень доступа участников"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:63
 msgid "Ignore member weights"
@@ -1086,7 +1086,7 @@ msgstr "Классический режим: Выберите плательщи
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:65
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
-msgstr ""
+msgstr "Индивидуальная классика: так же как и в классическом режиме можно выбрать того, кто оплатил покупки по факту, указать сумму и статью расходов, а потом выбрать как распределить личные и совместные траты между участниками. Например, мы собираемся на шашлыки, и все готовы скинуться на водку, мясо, свежие овощи и другие продукты для общего стола, а за нулевку, которую купили себе трезвенники скидываться никто не будет."
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:66
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
@@ -1094,7 +1094,7 @@ msgstr "Произвольный режим, неравное разделени
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:67
 msgid "Custom share mode, uneven split: Choose a payer, set the bill amount and enter a custom share number for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: Someone pays an electricity bill for the month but one member was only there during half the month. This member should then pay half a share (0.5) while the others pay a full share (1)."
-msgstr ""
+msgstr "Индивидуальный режим с любыми распределениями затрат: После указания получателя платежа, суммы и статьи расходов, можно задать любые пропорции разделения оплаты между участниками. Для этого задаем индивидуальные значения для каждого плательшика и создаем им счета на оплату, нажатием одной кнопки. Например оплата электричества и воды в коммунальной квартире с распределением между жильцами пропорцианально площади их комнат."
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:68
 msgid "For whom?"
@@ -1102,19 +1102,19 @@ msgstr "За кого?"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:69
 msgid "All/None"
-msgstr ""
+msgstr "Выбрать/Снять"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:70
 msgid "Personal amount"
-msgstr ""
+msgstr "Подитог"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:71
 msgid "Custom amount"
-msgstr ""
+msgstr "Перерасчет"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:72
 msgid "Custom share number"
-msgstr ""
+msgstr "Поменять доступный номер"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:74
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:75
@@ -1126,11 +1126,11 @@ msgstr "Никто"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:76
 msgid "Add payment mode \"{name}\""
-msgstr ""
+msgstr "Добавление способа оплаты: \"{name}\""
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:79
 msgid "Add category \"{name}\""
-msgstr ""
+msgstr "Добавить категорию: \"{name}\""
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:80
 msgid "Bill : {what}"
@@ -1146,7 +1146,7 @@ msgstr "Создать счета"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:82
 msgid "Failed to add payment mode"
-msgstr ""
+msgstr "Нк удалось добавить указанный способ оплаты "
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:83
 msgid "Failed to add category"
@@ -1163,11 +1163,11 @@ msgstr "Вы"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:85
 msgid "Impossible to save bill, invalid values"
-msgstr ""
+msgstr "Мы не можем сохранить счет из-за ошибок заполнения"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:86
 msgid "Bill saved"
-msgstr ""
+msgstr "Счет добавлен"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:87
 msgid "Failed to save bill"
@@ -1178,11 +1178,11 @@ msgstr "Не удалось сохранить счет"
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:92
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:94
 msgid "Bill values are not valid"
-msgstr ""
+msgstr "Проверьте данные, указанные в счете "
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:89
 msgid "Personal parts are bigger than the paid amount"
-msgstr ""
+msgstr "Вы собираете больше денег, чем в сумме счета"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:91
 msgid "There is no custom amount"
@@ -1978,7 +1978,7 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "Rename project {n}"
-msgstr ""
+msgstr "Переименовать проект"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Disable bill deletion"

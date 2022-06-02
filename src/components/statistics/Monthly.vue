@@ -143,16 +143,19 @@ export default {
 		top: 0;
 		z-index: 9;
 		background-color: var(--color-main-background);
-		&:first-child {
-			left: 0;
-			z-index: 10 !important;
-		}
 	}
 	th:first-child,
 	td:first-child {
 		position: sticky;
 		left: 0;
-		z-index: 8;
+		z-index: 10;
+		background-color: var(--color-main-background);
+	}
+	th:last-child,
+	td:last-child {
+		position: sticky;
+		right: 0;
+		z-index: 10;
 		background-color: var(--color-main-background);
 	}
 

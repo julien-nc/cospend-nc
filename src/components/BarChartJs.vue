@@ -1,22 +1,20 @@
 <script>
-import { Bar, mixins } from 'vue-chartjs'
+import { Bar } from 'vue-chartjs/legacy'
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 export default {
 	name: 'BarChartJs',
 	extends: Bar,
-	mixins: [mixins.reactiveProp],
 	props: {
 		chartData: {
 			type: Object,
 			required: true,
 		},
-		options: {
+		chartOptions: {
 			type: Object,
 			required: true,
 		},
-	},
-	mounted() {
-		this.renderChart(this.chartData, this.options)
 	},
 }
 </script>

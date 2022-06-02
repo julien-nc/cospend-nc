@@ -35,7 +35,7 @@
 			@mouseleave="selectedMonthlyCol = null">
 			<LineChartJs
 				:chart-data="myChartData"
-				:options="chartOptions" />
+				:chart-options="chartOptions" />
 		</div>
 	</div>
 </template>
@@ -91,9 +91,12 @@ export default {
 		chartOptions() {
 			return {
 				...this.baseLineChartOptions,
-				title: {
-					display: true,
-					text: this.chartTitle,
+				plugins: {
+					...this.baseLineChartOptions.plugins,
+					title: {
+						display: true,
+						text: this.chartTitle,
+					},
 				},
 				onHover: this.onMonthlyChartHover,
 			}
@@ -105,7 +108,7 @@ export default {
 					...ds,
 					order: datasetIsSelected ? -1 : undefined,
 					borderWidth: datasetIsSelected ? 5 : 3,
-					fill: datasetIsSelected ? 'origin' : undefined,
+					fill: datasetIsSelected ? 'origin' : false,
 				}
 			})
 			return {
@@ -123,8 +126,8 @@ export default {
 
 	methods: {
 		onMonthlyChartHover(event, data) {
-			if (data.length > 0 && data[0]._index !== undefined) {
-				this.selectedMonthlyCol = data[0]._index
+			if (data.length > 0 && data[0].index !== undefined) {
+				this.selectedMonthlyCol = data[0].index
 			}
 		},
 	},

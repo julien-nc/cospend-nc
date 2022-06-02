@@ -49,7 +49,7 @@
 			@mouseleave="selectedMemberMonthlyCol = null">
 			<LineChartJs v-if="stats"
 				:chart-data="memberMonthlyChartData"
-				:options="memberMonthlyChartOptions" />
+				:chart-options="memberMonthlyChartOptions" />
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 	</div>
@@ -66,7 +66,8 @@ export default {
 	name: 'MemberMonthly',
 
 	components: {
-		ColoredAvatar, LineChartJs,
+		ColoredAvatar,
+		LineChartJs,
 	},
 
 	props: {
@@ -158,7 +159,7 @@ export default {
 					// lineTension: 0.2,
 					order: datasetIsSelected ? -1 : undefined,
 					borderWidth: datasetIsSelected ? 5 : 3,
-					fill: datasetIsSelected ? 'origin' : undefined,
+					fill: datasetIsSelected ? 'origin' : false,
 					pointRadius: 0,
 					data: paid,
 					hidden: parseInt(mid) === 0,
@@ -179,9 +180,12 @@ export default {
 		memberMonthlyChartOptions() {
 			return {
 				...this.baseLineChartOptions,
-				title: {
-					display: true,
-					text: this.chartTitle,
+				plugins: {
+					...this.baseLineChartOptions.plugins,
+					title: {
+						display: true,
+						text: this.chartTitle,
+					},
 				},
 				onHover: this.onMemberMonthlyChartHover,
 			}
@@ -196,8 +200,8 @@ export default {
 
 	methods: {
 		onMemberMonthlyChartHover(event, data) {
-			if (data.length > 0 && data[0]._index !== undefined) {
-				this.selectedMemberMonthlyCol = data[0]._index
+			if (data.length > 0 && data[0].index !== undefined) {
+				this.selectedMemberMonthlyCol = data[0].index
 			}
 		},
 		isMemberDisabled(mid) {

@@ -1,22 +1,20 @@
 <script>
-import { Line, mixins } from 'vue-chartjs'
+import { Line } from 'vue-chartjs/legacy'
+import { Chart as ChartJS, Title, Tooltip, Legend, PointElement, CategoryScale, LinearScale, LineElement, Filler } from 'chart.js'
+ChartJS.register(Title, Tooltip, Legend, PointElement, CategoryScale, LinearScale, LineElement, Filler)
 
 export default {
 	name: 'LineChartJs',
 	extends: Line,
-	mixins: [mixins.reactiveProp],
 	props: {
 		chartData: {
 			type: Object,
 			required: true,
 		},
-		options: {
+		chartOptions: {
 			type: Object,
 			required: true,
 		},
-	},
-	mounted() {
-		this.renderChart(this.chartData, this.options)
 	},
 }
 </script>

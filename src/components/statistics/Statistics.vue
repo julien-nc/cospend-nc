@@ -254,30 +254,30 @@
 		<div id="memberChart">
 			<PieChartJs v-if="stats && preferredChartType === 'pie'"
 				:chart-data="memberPieData"
-				:options="memberPieOptions" />
+				:chart-options="memberPieOptions" />
 			<BarChartJs v-else-if="stats && preferredChartType === 'bar'"
 				:chart-data="memberPieData"
-				:options="memberBarOptions" />
+				:chart-options="memberBarOptions" />
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
 		<div id="categoryChart">
 			<PieChartJs v-if="stats && preferredChartType === 'pie'"
 				:chart-data="categoryPieData"
-				:options="categoryPieOptions" />
+				:chart-options="categoryPieOptions" />
 			<BarChartJs v-else-if="stats && preferredChartType === 'bar'"
 				:chart-data="categoryPieData"
-				:options="categoryBarOptions" />
+				:chart-options="categoryBarOptions" />
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
 		<div id="paymentModeChart">
 			<PieChartJs v-if="stats && preferredChartType === 'pie'"
 				:chart-data="paymentModePieData"
-				:options="paymentModePieOptions" />
-			<BarChartJs v-else-if="stats && preferredChartType === 'bar'"
+				:chart-options="paymentModePieOptions" />
+			<BarChartJs v-if="stats && preferredChartType === 'bar'"
 				:chart-data="paymentModePieData"
-				:options="paymentModeBarOptions" />
+				:chart-options="paymentModeBarOptions" />
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
@@ -295,10 +295,10 @@
 		<div id="categoryMemberChart">
 			<PieChartJs v-if="stats && (selectedCategoryId !== -1) && preferredChartType === 'pie'"
 				:chart-data="categoryMemberPieData"
-				:options="categoryMemberPieOptions" />
+				:chart-options="categoryMemberPieOptions" />
 			<BarChartJs v-else-if="stats && (selectedCategoryId !== -1) && preferredChartType === 'bar'"
 				:chart-data="categoryMemberPieData"
-				:options="categoryMemberBarOptions" />
+				:chart-options="categoryMemberBarOptions" />
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
@@ -317,10 +317,10 @@
 		<div id="memberPerCategoryChart">
 			<PieChartJs v-if="stats && (selectedMemberId !== -1) && preferredChartType === 'pie'"
 				:chart-data="memberPerCategoryPieData"
-				:options="memberPerCategoryPieOptions" />
+				:chart-options="memberPerCategoryPieOptions" />
 			<BarChartJs v-else-if="stats && (selectedMemberId !== -1) && preferredChartType === 'bar'"
 				:chart-data="memberPerCategoryPieData"
-				:options="memberPerCategoryBarOptions" />
+				:chart-options="memberPerCategoryBarOptions" />
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
 		<hr>
@@ -438,10 +438,10 @@ export default {
 		MemberMultiSelect,
 		PieChartJs,
 		BarChartJs,
-		AppContentDetails,
-		Button,
 		MemberMonthly,
 		Monthly,
+		AppContentDetails,
+		Button,
 		CategoryMultiSelect,
 		PaymentModeMultiSelect,
 		CalendarStartIcon,
@@ -702,13 +702,23 @@ export default {
 					line: {
 						// by default, fill lines to the previous dataset
 						// fill: '-1',
-						fill: false,
+						// fill: 'origin',
+						cubicInterpolationMode: 'monotone',
 					},
 				},
-				scales: {
-					yAxes: [{
-						// stacked: true,
-					}],
+				plugins: {
+					scales: {
+						y: {
+							// stacked: true,
+						},
+					},
+					legend: {
+						position: 'left',
+					},
+					tooltip: {
+						intersect: false,
+						mode: 'index',
+					},
 				},
 				responsive: true,
 				maintainAspectRatio: false,
@@ -716,13 +726,6 @@ export default {
 				hover: {
 					intersect: false,
 					mode: 'index',
-				},
-				tooltips: {
-					intersect: false,
-					mode: 'index',
-				},
-				legend: {
-					position: 'left',
 				},
 			}
 		},
@@ -832,25 +835,31 @@ export default {
 		},
 		memberPieOptions() {
 			return {
-				title: {
-					display: true,
-					text: t('cospend', 'Who paid (outside circle) and spent (inside pie)?'),
-				},
 				responsive: true,
 				showAllTooltips: false,
-				legend: {
-					position: 'left',
+				plugins: {
+					legend: {
+						position: 'left',
+					},
+					title: {
+						display: true,
+						text: t('cospend', 'Who paid (outside circle) and spent (inside pie)?'),
+					},
 				},
 			}
 		},
 		memberBarOptions() {
 			return {
 				...this.memberPieOptions,
-				title: {
-					display: true,
-					text: t('cospend', 'Who paid and spent?'),
-				},
 				...this.barOptions,
+				plugins: {
+					...this.memberPieOptions.plugins,
+					...this.barOptions.plugins,
+					title: {
+						display: true,
+						text: t('cospend', 'Who paid and spent?'),
+					},
+				},
 			}
 		},
 		sortedCategoryStatsIds() {
@@ -894,9 +903,12 @@ export default {
 		categoryPieOptions() {
 			return {
 				...this.memberPieOptions,
-				title: {
-					display: true,
-					text: t('cospend', 'How much was paid per category?'),
+				plugins: {
+					...this.memberPieOptions.plugins,
+					title: {
+						display: true,
+						text: t('cospend', 'How much was paid per category?'),
+					},
 				},
 			}
 		},
@@ -904,6 +916,10 @@ export default {
 			return {
 				...this.categoryPieOptions,
 				...this.barOptions,
+				plugins: {
+					...this.categoryPieOptions.plugins,
+					...this.barOptions.plugins,
+				},
 			}
 		},
 		sortedPaymentModeStatsIds() {
@@ -937,9 +953,12 @@ export default {
 		paymentModePieOptions() {
 			return {
 				...this.memberPieOptions,
-				title: {
-					display: true,
-					text: t('cospend', 'How much was paid per payment mode?'),
+				plugins: {
+					...this.memberPieOptions.plugins,
+					title: {
+						display: true,
+						text: t('cospend', 'How much was paid per payment mode?'),
+					},
 				},
 			}
 		},
@@ -947,6 +966,10 @@ export default {
 			return {
 				...this.paymentModePieOptions,
 				...this.barOptions,
+				plugins: {
+					...this.paymentModePieOptions.plugins,
+					...this.barOptions.plugins,
+				},
 			}
 		},
 		categoryMemberPieData() {
@@ -974,8 +997,11 @@ export default {
 		categoryMemberPieOptions() {
 			return {
 				...this.memberPieOptions,
-				title: {
-					display: false,
+				plugins: {
+					...this.memberPieOptions.plugins,
+					title: {
+						display: false,
+					},
 				},
 			}
 		},
@@ -983,6 +1009,10 @@ export default {
 			return {
 				...this.categoryMemberPieOptions,
 				...this.barOptions,
+				plugins: {
+					...this.categoryMemberPieOptions.plugins,
+					...this.barOptions.plugins,
+				},
 			}
 		},
 		memberPerCategoryPieData() {
@@ -1007,8 +1037,11 @@ export default {
 		memberPerCategoryPieOptions() {
 			return {
 				...this.memberPieOptions,
-				title: {
-					display: false,
+				plugins: {
+					...this.memberPieOptions.plugins,
+					title: {
+						display: false,
+					},
 				},
 			}
 		},
@@ -1016,20 +1049,24 @@ export default {
 			return {
 				...this.memberPerCategoryPieOptions,
 				...this.barOptions,
+				plugins: {
+					...this.memberPerCategoryPieOptions.plugins,
+					...this.barOptions.plugins,
+				},
 			}
 		},
 		barOptions() {
 			return {
 				scales: {
-					yAxes: [{
+					y: {
 						display: true,
-						ticks: {
-							beginAtZero: true,
-						},
-					}],
+						beginAtZero: true,
+					},
 				},
-				legend: {
-					display: false,
+				plugins: {
+					legend: {
+						display: false,
+					},
 				},
 			}
 		},

@@ -108,10 +108,9 @@ export default {
 		},
 		myChartData() {
 			if (this.selectedDataset) {
-				console.debug('SELECTED')
 				// row index
 				const selectedDatasetIndex = this.chartData.datasets.findIndex((ds) => {
-					return ds.id === this.selectedDataset || parseInt(ds.id) === this.selectedDataset
+					return ds.id === this.selectedDataset
 				})
 				// column index
 				const hoveredTableMonthIndex = this.chartData.labels.indexOf(this.hoveredTableMonth)
@@ -133,7 +132,6 @@ export default {
 					],
 				}
 			} else {
-				console.debug('noooooooooot SELECTED')
 				return {
 					labels: this.chartData.labels,
 					datasets: this.chartData.datasets,

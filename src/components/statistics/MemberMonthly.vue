@@ -1,54 +1,57 @@
 <template>
 	<div>
-		<v-table
-			class="memberMonthlyTable coloredTable avatarTable"
-			:data="memberMonthlyStats">
-			<thead slot="head">
-				<v-th sort-key="member.name">
-					{{ t('cospend', 'Member/Month') }}
-				</v-th>
-				<v-th v-for="(st, month) in stats"
-					:key="month"
-					:sort-key="month"
-					:class="{ selected: selectedMemberMonthlyCol === Object.keys(stats).indexOf(month) }">
-					{{ month }}
-				</v-th>
-			</thead>
-			<tbody slot="body" slot-scope="{displayData}">
-				<tr v-for="value in displayData"
-					:key="value.member.id"
-					:class="{ 'all-members': value.member.id === 0 }"
-					@mouseenter="selectedMemberDataset = value.member.id"
-					@mouseleave="selectedMemberDataset = null">
-					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
-						<div v-if="value.member.id !== 0"
-							class="owerAvatar">
-							<ColoredAvatar
-								class="itemAvatar"
-								:color="getMemberColor(value.member.id)"
-								:size="24"
-								:disable-menu="true"
-								:disable-tooltip="true"
-								:show-user-status="false"
-								:is-no-user="getMemberUserId(value.member.id) === ''"
-								:user="getMemberUserId(value.member.id)"
-								:display-name="getMemberName(value.member.id)" />
-							<div v-if="isMemberDisabled(value.member.id)" class="disabledMask" />
-						</div>{{ (value.member.id !== 0) ? myGetSmartMemberName(value.member.id) : value.member.name }}
-					</td>
-					<td v-for="(st, month) in stats"
+		<div class="tableWrapper"
+			@mouseleave="selectedMemberDataset = null ; hoveredTableMonth = null">
+			<v-table
+				class="memberMonthlyTable coloredTable avatarTable"
+				:data="memberMonthlyStats">
+				<thead slot="head">
+					<v-th sort-key="member.name">
+						{{ t('cospend', 'Member/Month') }}
+					</v-th>
+					<v-th v-for="(st, month) in stats"
 						:key="month"
-						:class="{ selected: selectedMemberMonthlyCol === Object.keys(stats).indexOf(month) }"
-						:style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
-						{{ value[month].toFixed(2) }}
-					</td>
-				</tr>
-			</tbody>
-		</v-table>
+						:sort-key="month"
+						:class="{ selected: selectedMemberMonthlyCol === Object.keys(stats).indexOf(month) }">
+						{{ month }}
+					</v-th>
+				</thead>
+				<tbody slot="body" slot-scope="{displayData}">
+					<tr v-for="value in displayData"
+						:key="value.member.id"
+						:class="{ 'all-members': value.member.id === 0 }"
+						@mouseenter="selectedMemberDataset = value.member.id">
+						<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
+							<div v-if="value.member.id !== 0"
+								class="owerAvatar">
+								<ColoredAvatar
+									class="itemAvatar"
+									:color="getMemberColor(value.member.id)"
+									:size="24"
+									:disable-menu="true"
+									:disable-tooltip="true"
+									:show-user-status="false"
+									:is-no-user="getMemberUserId(value.member.id) === ''"
+									:user="getMemberUserId(value.member.id)"
+									:display-name="getMemberName(value.member.id)" />
+								<div v-if="isMemberDisabled(value.member.id)" class="disabledMask" />
+							</div>{{ (value.member.id !== 0) ? myGetSmartMemberName(value.member.id) : value.member.name }}
+						</td>
+						<td v-for="(st, month) in stats"
+							:key="month"
+							:class="{ selected: selectedMemberMonthlyCol === Object.keys(stats).indexOf(month) }"
+							:style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'"
+							@mouseenter="hoveredTableMonth = month">
+							{{ value[month].toFixed(2) }}
+						</td>
+					</tr>
+				</tbody>
+			</v-table>
+		</div>
 		<div class="memberMonthlyChart"
 			@mouseleave="selectedMemberMonthlyCol = null">
 			<LineChartJs v-if="stats"
-				:chart-data="memberMonthlyChartData"
+				:chart-data="chartDataWithSelection"
 				:chart-options="memberMonthlyChartOptions" />
 			<div v-else-if="loadingStats" class="loading loading-stats-animation" />
 		</div>
@@ -103,6 +106,7 @@ export default {
 			loadingStats: false,
 			selectedMemberMonthlyCol: null,
 			selectedMemberDataset: null,
+			hoveredTableMonth: null,
 		}
 	},
 
@@ -124,10 +128,9 @@ export default {
 				return row
 			})
 		},
-		memberMonthlyChartData() {
+		chartData() {
 			const memberDatasets = []
 			let member
-			// let index = 0
 			const memberDict = {
 				...this.members,
 				0: {
@@ -148,8 +151,8 @@ export default {
 					continue
 				}
 
-				const datasetIsSelected = parseInt(mid) === this.selectedMemberDataset
 				const dataset = {
+					id: parseInt(mid),
 					label: member.name,
 					// FIXME hacky way to change alpha channel:
 					backgroundColor: '#' + member.color + '4D',
@@ -157,24 +160,50 @@ export default {
 					borderColor: '#' + member.color,
 					pointHighlightStroke: '#' + member.color,
 					// lineTension: 0.2,
-					order: datasetIsSelected ? -1 : undefined,
-					borderWidth: datasetIsSelected ? 5 : 3,
-					fill: datasetIsSelected ? 'origin' : false,
-					pointRadius: 0,
 					data: paid,
 					hidden: parseInt(mid) === 0,
+					pointRadius: Array(this.realMonths.length).fill(0),
+					fill: false,
+					order: 0,
+					borderWidth: 3,
 				}
-				/*
-				if (index === 0) {
-					dataset.fill = 'origin'
-				}
-				index++
-				*/
 				memberDatasets.push(dataset)
 			}
 			return {
 				labels: this.realMonths,
 				datasets: memberDatasets,
+			}
+		},
+		chartDataWithSelection() {
+			if (this.selectedMemberDataset) {
+				// row index
+				const selectedDatasetIndex = this.chartData.datasets.findIndex((ds) => {
+					return ds.id === this.selectedMemberDataset
+				})
+				// column index
+				const hoveredTableMonthIndex = this.chartData.labels.indexOf(this.hoveredTableMonth)
+				const selectedDatasetPointRadius = Array(this.chartData.labels.length).fill(0)
+				selectedDatasetPointRadius[hoveredTableMonthIndex] = 10
+
+				return {
+					labels: this.chartData.labels,
+					datasets: [
+						...this.chartData.datasets.slice(0, selectedDatasetIndex),
+						{
+							...this.chartData.datasets[selectedDatasetIndex],
+							pointRadius: selectedDatasetPointRadius,
+							order: -1,
+							borderWidth: 5,
+							fill: 'origin',
+						},
+						...this.chartData.datasets.slice(selectedDatasetIndex + 1, this.chartData.datasets.length),
+					],
+				}
+			} else {
+				return {
+					labels: this.chartData.labels,
+					datasets: this.chartData.datasets,
+				}
 			}
 		},
 		memberMonthlyChartOptions() {

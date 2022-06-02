@@ -747,7 +747,7 @@ export default {
 				}
 
 				const dataset = {
-					id: catId,
+					id: parseInt(catId),
 					label: category.icon + ' ' + category.name,
 					// FIXME hacky way to change alpha channel:
 					backgroundColor: category.color + '4D',
@@ -787,7 +787,7 @@ export default {
 				}
 
 				const dataset = {
-					id: pmId,
+					id: parseInt(pmId),
 					label: pm.icon + ' ' + pm.name,
 					// FIXME hacky way to change alpha channel:
 					backgroundColor: pm.color + '4D',

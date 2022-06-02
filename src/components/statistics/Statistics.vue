@@ -706,12 +706,12 @@ export default {
 						cubicInterpolationMode: 'monotone',
 					},
 				},
-				plugins: {
-					scales: {
-						y: {
-							// stacked: true,
-						},
+				scales: {
+					y: {
+						// stacked: true,
 					},
+				},
+				plugins: {
 					legend: {
 						position: 'left',
 					},

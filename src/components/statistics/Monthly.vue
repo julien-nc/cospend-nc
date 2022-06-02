@@ -1,38 +1,40 @@
 <template>
 	<div>
-		<v-table
-			class="monthlyTable coloredTable"
-			:data="tableData">
-			<thead slot="head">
-				<v-th sort-key="name">
-					{{ firstColumnTitle }}
-				</v-th>
-				<v-th v-for="month in distinctMonths"
-					:key="month"
-					:sort-key="month"
-					:class="{ selected: selectedMonthlyCol === distinctMonths.indexOf(month) }">
-					{{ month }}
-				</v-th>
-			</thead>
-			<tbody slot="body" slot-scope="{displayData}">
-				<tr v-for="vals in displayData"
-					:key="vals.id"
-					@mouseenter="selectedDataset = vals.id"
-					@mouseleave="selectedDataset = null">
-					<td :style="'border: 2px solid ' + vals.color + ';'">
-						{{ vals.name }}
-					</td>
-					<td v-for="month in distinctMonths"
+		<!-- mouseout does not work -->
+		<div class="tableWrapper"
+			@mouseleave="selectedDataset = null ; hoveredTableMonth = null">
+			<v-table
+				class="monthlyTable coloredTable"
+				:data="tableData">
+				<thead slot="head">
+					<v-th sort-key="name">
+						{{ firstColumnTitle }}
+					</v-th>
+					<v-th v-for="month in distinctMonths"
 						:key="month"
-						:class="{ selected: selectedMonthlyCol === distinctMonths.indexOf(month) }"
-						:style="'border: 2px solid ' + vals.color + ';'"
-						@mouseenter="hoveredTableMonth = month"
-						@mouseleave="hoveredTableMonth = null">
-						{{ (vals[month] || 0).toFixed(2) }}
-					</td>
-				</tr>
-			</tbody>
-		</v-table>
+						:sort-key="month"
+						:class="{ selected: selectedMonthlyCol === distinctMonths.indexOf(month) }">
+						{{ month }}
+					</v-th>
+				</thead>
+				<tbody slot="body" slot-scope="{displayData}">
+					<tr v-for="vals in displayData"
+						:key="vals.id"
+						@mouseenter="selectedDataset = vals.id">
+						<td :style="'border: 2px solid ' + vals.color + ';'">
+							{{ vals.name }}
+						</td>
+						<td v-for="month in distinctMonths"
+							:key="month"
+							:class="{ selected: selectedMonthlyCol === distinctMonths.indexOf(month) }"
+							:style="'border: 2px solid ' + vals.color + ';'"
+							@mouseenter="hoveredTableMonth = month">
+							{{ (vals[month] || 0).toFixed(2) }}
+						</td>
+					</tr>
+				</tbody>
+			</v-table>
+		</div>
 		<div id="categoryMonthlyChart"
 			@mouseleave="selectedMonthlyCol = null">
 			<LineChartJs
@@ -106,6 +108,7 @@ export default {
 		},
 		myChartData() {
 			if (this.selectedDataset) {
+				console.debug('SELECTED')
 				// row index
 				const selectedDatasetIndex = this.chartData.datasets.findIndex((ds) => {
 					return ds.id === this.selectedDataset || parseInt(ds.id) === this.selectedDataset
@@ -130,6 +133,7 @@ export default {
 					],
 				}
 			} else {
+				console.debug('noooooooooot SELECTED')
 				return {
 					labels: this.chartData.labels,
 					datasets: this.chartData.datasets,

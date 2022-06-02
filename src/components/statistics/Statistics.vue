@@ -732,7 +732,6 @@ export default {
 		monthlyCategoryChartData() {
 			const categoryDatasets = []
 			let category
-			// let index = 0
 
 			this.sortedMonthlyCategoryIds.forEach((catId) => {
 				category = this.myGetCategory(catId)
@@ -756,16 +755,13 @@ export default {
 					borderColor: category.color,
 					pointHighlightStroke: category.color,
 					// lineTension: 0.2,
-					pointRadius: 0,
 					data: paid,
 					hidden: parseInt(catId) === 0,
+					pointRadius: Array(this.stats.realMonths.length).fill(0),
+					fill: false,
+					order: 0,
+					borderWidth: 3,
 				}
-				/*
-				if (index === 0) {
-					dataset.fill = 'origin'
-				}
-				index++
-				*/
 				categoryDatasets.push(dataset)
 			})
 			return {
@@ -776,7 +772,6 @@ export default {
 		monthlyPaymentModeChartData() {
 			const paymentModeDatasets = []
 			let pm
-			// let index = 0
 
 			this.sortedMonthlyPaymentModeIds.forEach((pmId) => {
 				pm = this.myGetPaymentMode(pmId)
@@ -800,16 +795,13 @@ export default {
 					borderColor: pm.color,
 					pointHighlightStroke: pm.color,
 					// lineTension: 0.2,
-					pointRadius: 0,
 					data: paid,
 					hidden: parseInt(pmId) === 0,
+					pointRadius: Array(this.stats.realMonths.length).fill(0),
+					fill: false,
+					order: 0,
+					borderWidth: 3,
 				}
-				/*
-				if (index === 0) {
-					dataset.fill = 'origin'
-				}
-				index++
-				*/
 				paymentModeDatasets.push(dataset)
 			})
 			return {

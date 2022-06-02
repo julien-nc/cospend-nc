@@ -25,7 +25,9 @@
 					<td v-for="month in distinctMonths"
 						:key="month"
 						:class="{ selected: selectedMonthlyCol === distinctMonths.indexOf(month) }"
-						:style="'border: 2px solid ' + vals.color + ';'">
+						:style="'border: 2px solid ' + vals.color + ';'"
+						@mouseenter="hoveredTableMonth = month"
+						@mouseleave="hoveredTableMonth = null">
 						{{ (vals[month] || 0).toFixed(2) }}
 					</td>
 				</tr>
@@ -84,6 +86,7 @@ export default {
 			loadingStats: false,
 			selectedMonthlyCol: null,
 			selectedDataset: null,
+			hoveredTableMonth: null,
 		}
 	},
 
@@ -102,18 +105,35 @@ export default {
 			}
 		},
 		myChartData() {
-			const datasets = this.chartData.datasets.map((ds) => {
-				const datasetIsSelected = ds.id === this.selectedDataset || parseInt(ds.id) === this.selectedDataset
+			if (this.selectedDataset) {
+				// row index
+				const selectedDatasetIndex = this.chartData.datasets.findIndex((ds) => {
+					return ds.id === this.selectedDataset || parseInt(ds.id) === this.selectedDataset
+				})
+				// column index
+				const hoveredTableMonthIndex = this.chartData.labels.indexOf(this.hoveredTableMonth)
+				const selectedDatasetPointRadius = Array(this.chartData.labels.length).fill(0)
+				selectedDatasetPointRadius[hoveredTableMonthIndex] = 10
+
 				return {
-					...ds,
-					order: datasetIsSelected ? -1 : undefined,
-					borderWidth: datasetIsSelected ? 5 : 3,
-					fill: datasetIsSelected ? 'origin' : false,
+					labels: this.chartData.labels,
+					datasets: [
+						...this.chartData.datasets.slice(0, selectedDatasetIndex),
+						{
+							...this.chartData.datasets[selectedDatasetIndex],
+							pointRadius: selectedDatasetPointRadius,
+							order: -1,
+							borderWidth: 5,
+							fill: 'origin',
+						},
+						...this.chartData.datasets.slice(selectedDatasetIndex + 1, this.chartData.datasets.length),
+					],
 				}
-			})
-			return {
-				labels: this.chartData.labels,
-				datasets,
+			} else {
+				return {
+					labels: this.chartData.labels,
+					datasets: this.chartData.datasets,
+				}
 			}
 		},
 	},

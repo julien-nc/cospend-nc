@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 1.4.7 – 2022-05-30
+## 1.4.8 – 2022-06-07
 ### Added
 - new "payer" stats filter
 - option to choose between pie chart and histograms for some stat charts
@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   [#135](https://github.com/eneiluj/cospend-nc/issues/135) @Zaptro
 - parse some common date formats in bill edition form
   [#139](https://github.com/eneiluj/cospend-nc/issues/139) @xstable
-- basic history state management
+- basic history/path/url state management
 
 ### Changed
 - move to material design icons

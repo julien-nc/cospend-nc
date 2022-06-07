@@ -22,11 +22,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - filtering is now done on the server side
   [#135](https://github.com/eneiluj/cospend-nc/issues/135) @Zaptro
 - use ListItem component from @nextcloud/vue
+- reset selected bill after creation
+  [#146](https://github.com/eneiluj/cospend-nc/issues/146) @marcelklehr
+- use latest vue-chartjs and chartjs (4.1.1 and 3.8.0)
+- improve stats table style with sticky average column
+- emphasize hovered stat table cell in the related line chart
 
 ### Fixed
 - bug when duplicating a bill that was just created
   [#140](https://github.com/eneiluj/cospend-nc/issues/140) @xstable
 - get rid of SVG api requests as it's been removed in NC 25
+- bill owers effectiveness for new bills
 
 ## 1.4.6 – 2022-03-26
 ### Changed

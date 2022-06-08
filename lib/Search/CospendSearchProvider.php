@@ -151,14 +151,14 @@ class CospendSearchProvider implements IProvider {
 		// build formatted
 		$formattedResults = array_map(function (array $bill) use ($projectsById):CospendSearchResultEntry {
 			$projectId = $bill['projectId'];
-//			$projectName = $projectsById[$projectId]['name'];
+			$thumbnailUrl = $this->getThumbnailUrl($bill);
 			return new CospendSearchResultEntry(
-				'',
+				$thumbnailUrl,
 				$this->getMainText($bill, $projectsById[$projectId]),
 				$this->getSubline($bill, $projectsById[$projectId]),
 				$this->getDeepLinkToCospendApp($projectId, $bill['id']),
-				'icon-cospend-search-fallback',
-				false
+				$thumbnailUrl === '' ? 'icon-cospend-search-fallback' : '',
+				true
 			);
 		}, $resultBills);
 
@@ -224,6 +224,15 @@ class CospendSearchProvider implements IProvider {
 				'billId' => $billId,
 			])
 		);
+	}
+
+	protected function getThumbnailUrl(array $bill): string {
+		if ($bill['payer_user_id']) {
+			return $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $bill['payer_user_id'], 'size' => 44]);
+		} elseif ($bill['payer_name']) {
+			return $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $bill['payer_name'], 'size' => 44]);
+		}
+		return '';
 	}
 
 	/**

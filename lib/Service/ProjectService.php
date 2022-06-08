@@ -5930,11 +5930,15 @@ class ProjectService {
 	 */
 	public function searchBills(string $projectId, string $term): array {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('b.id', 'what', 'comment', 'amount', 'timestamp',
-					'paymentmode', 'paymentmodeid', 'categoryid', 'pr.currencyname')
-		   ->from('cospend_bills', 'b')
-		   ->innerJoin('b', 'cospend_projects', 'pr', $qb->expr()->eq('b.projectid', 'pr.id'))
-		   ->where(
+		$qb->select(
+				'b.id', 'what', 'comment', 'amount', 'timestamp',
+				'paymentmode', 'paymentmodeid', 'categoryid',
+				'pr.currencyname', 'me.name', 'me.userid'
+			)
+			->from('cospend_bills', 'b')
+			->innerJoin('b', 'cospend_projects', 'pr', $qb->expr()->eq('b.projectid', 'pr.id'))
+			->innerJoin('b', 'cospend_members', 'me', $qb->expr()->eq('b.payerid', 'me.id'))
+			->where(
 			   $qb->expr()->eq('b.projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 		   );
 		$qb = $this->applyBillSearchTermCondition($qb, $term, 'b');
@@ -5953,6 +5957,8 @@ class ProjectService {
 			$dbPaymentModeId = (int) $row['paymentmodeid'];
 			$dbCategoryId = (int) $row['categoryid'];
 			$dbProjectCurrencyName = $row['currencyname'];
+			$dbPayerName = $row['name'];
+			$dbPayerUserId = $row['userid'];
 			$bills[] = [
 				'id' => $dbBillId,
 				'projectId' => $projectId,
@@ -5964,6 +5970,8 @@ class ProjectService {
 				'paymentmodeid' => $dbPaymentModeId,
 				'categoryid' => $dbCategoryId,
 				'currencyname' => $dbProjectCurrencyName,
+				'payer_name' => $dbPayerName,
+				'payer_user_id' => $dbPayerUserId,
 			];
 		}
 		$req->closeCursor();

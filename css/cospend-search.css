@@ -1,0 +1,9 @@
+.icon-cospend-search-fallback {
+	background-image: url(./../img/app_black.svg);
+	filter: var(--background-invert-if-dark);
+}
+
+/* for NC <= 24 */
+body.theme--dark .icon-cospend-search-fallback {
+	background-image: url(./../img/app.svg);
+}

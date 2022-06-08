@@ -124,11 +124,6 @@ class CospendSearchProvider implements IProvider {
 		$offset = $query->getCursor();
 		$offset = $offset ? (int) $offset : 0;
 
-		$theme = $this->config->getUserValue($user->getUID(), 'accessibility', 'theme');
-		$thumbnailUrl = ($theme === 'dark') ?
-			$this->urlGenerator->imagePath('cospend', 'app.svg') :
-			$this->urlGenerator->imagePath('cospend', 'app_black.svg');
-
 		$resultBills = [];
 
 		// get user's projects
@@ -154,15 +149,15 @@ class CospendSearchProvider implements IProvider {
 		$resultBills = array_slice($resultBills, $offset, $limit);
 
 		// build formatted
-		$formattedResults = array_map(function (array $bill) use ($projectsById, $thumbnailUrl):CospendSearchResultEntry {
+		$formattedResults = array_map(function (array $bill) use ($projectsById):CospendSearchResultEntry {
 			$projectId = $bill['projectId'];
 //			$projectName = $projectsById[$projectId]['name'];
 			return new CospendSearchResultEntry(
-				$thumbnailUrl,
+				'',
 				$this->getMainText($bill, $projectsById[$projectId]),
 				$this->getSubline($bill, $projectsById[$projectId]),
 				$this->getDeepLinkToCospendApp($projectId, $bill['id']),
-				'',
+				'icon-cospend-search-fallback',
 				false
 			);
 		}, $resultBills);

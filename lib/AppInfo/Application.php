@@ -20,6 +20,7 @@ use OCP\Notification\IManager as INotificationManager;
 use OCA\Cospend\Search\CospendSearchProvider;
 use OCA\Cospend\Dashboard\CospendWidget;
 use OCA\Cospend\Notification\Notifier;
+use OCP\Util;
 
 /**
  * Class Application
@@ -91,7 +92,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
+		Util::addStyle(self::APP_ID, 'cospend-search');
 	}
-
 }
 

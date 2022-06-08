@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-05-30 00:08+0200\n"
-"PO-Revision-Date: 2022-05-29 22:11\n"
+"PO-Revision-Date: 2022-06-08 17:11\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -1276,7 +1276,7 @@ msgstr "Atribuir uma forma de pagamento"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:115
 msgid "Select bills to make grouped actions"
-msgstr ""
+msgstr "Escolha despesas para realizar operações agrupadas"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:116
 msgid "Delete selected bills"
@@ -1569,7 +1569,7 @@ msgstr "Exportar"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Add these payments to the project"
-msgstr ""
+msgstr "Adicionar estes pagamentos ao planeamento"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "Center settlement on"
@@ -1789,7 +1789,7 @@ msgstr "Falha ao eliminar acesso partilhado"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:245
 msgid "Are you sure?"
-msgstr ""
+msgstr "Tem a certeza?"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:246
 msgid "Add member"
@@ -1827,7 +1827,7 @@ msgstr "A lista de membros não está actualizada. Recarregando em 5 seg."
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:257
 msgid "Delete this bill"
-msgstr ""
+msgstr "Eliminar esta despesa"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:258
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:308

@@ -106,7 +106,10 @@
 				<a :href="guestLink" @click.prevent.stop="onGuestLinkClick">
 					<Button>
 						<template #icon>
-							<ClipboardArrowLeftOutlineIcon
+							<ClipboardCheckOutlineIcon v-if="guestLinkCopied"
+								class="success"
+								:size="20" />
+							<ClipboardArrowLeftOutlineIcon v-else
 								:size="20" />
 						</template>
 						{{ t('cospend', 'Copy guest access link') }}
@@ -194,6 +197,7 @@
 </template>
 
 <script>
+import ClipboardCheckOutlineIcon from 'vue-material-design-icons/ClipboardCheckOutline'
 import ClipboardArrowLeftOutlineIcon from 'vue-material-design-icons/ClipboardArrowLeftOutline'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew'
 import FileImportIcon from 'vue-material-design-icons/FileImport'
@@ -204,7 +208,7 @@ import AppSettingsDialog from '@nextcloud/vue/dist/Components/AppSettingsDialog'
 import AppSettingsSection from '@nextcloud/vue/dist/Components/AppSettingsSection'
 import cospend from '../state'
 import { generateUrl } from '@nextcloud/router'
-import { importCospendProject, importSWProject } from '../utils'
+import { importCospendProject, importSWProject, Timer } from '../utils'
 
 export default {
 	name: 'CospendSettingsDialog',
@@ -215,6 +219,7 @@ export default {
 		Button,
 		FileImportIcon,
 		ClipboardArrowLeftOutlineIcon,
+		ClipboardCheckOutlineIcon,
 		OpenInNewIcon,
 	},
 
@@ -230,6 +235,7 @@ export default {
 			guestLink: window.location.protocol + '//' + window.location.host + generateUrl('/apps/cospend/login'),
 			importingProject: false,
 			importingSWProject: false,
+			guestLinkCopied: false,
 		}
 	},
 
@@ -309,6 +315,11 @@ export default {
 			try {
 				await this.$copyText(this.guestLink)
 				showSuccess(t('cospend', 'Guest link copied to clipboard.'))
+				this.guestLinkCopied = true
+				// eslint-disable-next-line
+				new Timer(() => {
+					this.guestLinkCopied = false
+				}, 5000)
 			} catch (error) {
 				console.debug(error)
 				showError(t('cospend', 'Guest link could not be copied to clipboard.'))
@@ -319,6 +330,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.success {
+	color: var(--color-success);
+}
+
 .wrapper {
 	overflow-y: scroll;
 	padding: 20px;

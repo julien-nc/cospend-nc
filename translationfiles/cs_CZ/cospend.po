@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-05-30 00:08+0200\n"
-"PO-Revision-Date: 2022-05-29 22:11\n"
+"PO-Revision-Date: 2022-06-21 14:28\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -1278,7 +1278,7 @@ msgstr "Přiřadit režim platby"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:115
 msgid "Select bills to make grouped actions"
-msgstr ""
+msgstr "Vyberte účty, na kterých provést seskupené akce"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:116
 msgid "Delete selected bills"
@@ -1573,7 +1573,7 @@ msgstr "Exportovat"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Add these payments to the project"
-msgstr ""
+msgstr "Přidat tyto platby do projektu"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "Center settlement on"
@@ -1793,7 +1793,7 @@ msgstr "Nepodařilo se smazat sdílený přístup"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:245
 msgid "Are you sure?"
-msgstr ""
+msgstr "Opravdu to chcete?"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:246
 msgid "Add member"
@@ -1831,7 +1831,7 @@ msgstr "Seznam členů není aktuální. Za 5 sekund bude načten znovu."
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:257
 msgid "Delete this bill"
-msgstr ""
+msgstr "Smazat tento účet"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:258
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:308

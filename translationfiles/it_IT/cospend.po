@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-05-30 00:08+0200\n"
-"PO-Revision-Date: 2022-05-29 22:11\n"
+"PO-Revision-Date: 2022-06-22 14:57\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "Language: it_IT\n"
@@ -1240,7 +1240,7 @@ msgstr "Nuova spesa"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:107
 msgid "Filters"
-msgstr ""
+msgstr "Filtri"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:108
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:129
@@ -1268,7 +1268,7 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:113
 msgid "Assign a category"
-msgstr ""
+msgstr "Assegna una categoria"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:114
 msgid "Assign a payment mode"
@@ -1789,7 +1789,7 @@ msgstr "Impossibile eliminare l'accesso condiviso"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:245
 msgid "Are you sure?"
-msgstr ""
+msgstr "Sei sicuro?"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:246
 msgid "Add member"
@@ -1844,7 +1844,7 @@ msgstr "Nuovo nome del progetto"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:267
 msgid "New empty project"
-msgstr ""
+msgstr "Nuovo progetto vuoto"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:268
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:283
@@ -1998,7 +1998,7 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:325
 msgid "No result"
-msgstr ""
+msgstr "Nessun risultato"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:326
 msgid "Associate a project member with a Nextcloud user"
@@ -2010,7 +2010,7 @@ msgstr "Scegli un utente Nextcloud"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:329
 msgid "Type to search users"
-msgstr ""
+msgstr "Digita per cercare utenti"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:330
 msgid "New member name"
@@ -2112,7 +2112,7 @@ msgstr "Accesso protetto da password"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:371
 msgid "Set project password"
-msgstr ""
+msgstr "Imposta Password per il progetto"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:374
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:376
@@ -2222,7 +2222,7 @@ msgstr "Mostra membri disabilitati"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:413
 msgid "Chart type"
-msgstr ""
+msgstr "Tipo di grafico"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:414
 msgid "Pie"
@@ -2333,7 +2333,7 @@ msgstr "Tutti"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:452
 msgid "Payed"
-msgstr ""
+msgstr "Pagato"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:454
 msgid "Who paid (outside circle) and spent (inside pie)?"

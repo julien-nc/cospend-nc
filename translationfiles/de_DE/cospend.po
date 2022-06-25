@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-05-30 00:08+0200\n"
-"PO-Revision-Date: 2022-05-29 22:11\n"
+"PO-Revision-Date: 2022-06-25 14:43\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -27,7 +27,7 @@ msgstr "{user} hat eine neue Ausgabe {bill} im Projekt {project} erstellt"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:98
 msgid "You have deleted the bill {bill} of project {project}"
-msgstr "Du hast eine neue Ausgabe {bill} im Projekt {project} erstellt"
+msgstr "Du hast die Ausgabe {bill} im Projekt {project} gelöscht"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:98
 msgid "{user} has deleted the bill {bill} of project {project}"
@@ -1276,7 +1276,7 @@ msgstr "Zahlungsmittel zuweisen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:115
 msgid "Select bills to make grouped actions"
-msgstr ""
+msgstr "Ausgaben für gruppierte Aktionen auswählen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:116
 msgid "Delete selected bills"
@@ -1569,7 +1569,7 @@ msgstr "Exportieren"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Add these payments to the project"
-msgstr ""
+msgstr "Diese Zahlungen dem Projekt hinzufügen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "Center settlement on"
@@ -1789,7 +1789,7 @@ msgstr "Fehler beim Löschen des freigegebenen Zugriffs"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:245
 msgid "Are you sure?"
-msgstr ""
+msgstr "Bist du sicher?"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:246
 msgid "Add member"
@@ -1827,7 +1827,7 @@ msgstr "Mitgliederliste nicht aktuell. Wird in 5 Sek neu geladen."
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:257
 msgid "Delete this bill"
-msgstr ""
+msgstr "Diese Ausgabe löschen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:258
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:308
@@ -1910,7 +1910,7 @@ msgstr "Link für Gastzugang kopieren"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:287
 msgid "Export location"
-msgstr "Ort exportieren"
+msgstr "Speicherort von Exporten"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:288
 msgid "Select export directory"

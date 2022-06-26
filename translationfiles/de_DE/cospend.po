@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-05-30 00:08+0200\n"
-"PO-Revision-Date: 2022-06-25 14:43\n"
+"PO-Revision-Date: 2022-06-26 14:55\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -55,7 +55,7 @@ msgstr "Du hast die Ausgabe {bill} im Projekt {project} aktualisiert"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:107
 msgid "{user} has updated the bill {bill} of project {project}"
-msgstr "{user} hat die Ausgabe {bill} im Projekt {project} aktualisiert"
+msgstr "{user} hat die Abrechnung {bill} im Projekt {project} aktualisiert"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:182
 msgid "A guest user"
@@ -195,7 +195,7 @@ msgstr "Du bist nicht berechtigt, dieses Projekt automatisch zu begleichen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:625
 msgid "You are not allowed to access this project"
-msgstr "Keine Berechtigung, auf dieses Projekt zuzugreifen"
+msgstr "Du bist nicht berechtigt, auf dieses Projekt zuzugreifen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:654
 msgid "You are not allowed to edit this member"
@@ -214,7 +214,7 @@ msgstr "Du bist nicht berechtigt, diese Ausgabe zu bearbeiten"
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1389
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1414
 msgid "You are not allowed to add bills"
-msgstr "Du bist nicht berechtigt, Ausgabe hinzuzufügen"
+msgstr "Du bist nicht berechtigt, Ausgaben hinzuzufügen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:770
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2844
@@ -300,7 +300,7 @@ msgstr "Du bist nicht berechtigt, die Gastzugriffe zu bearbeiten"
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2337
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2358
 msgid "You are not allowed to manage payment modes"
-msgstr "Sie sind nicht berechtigt, Zahlungsarten zu verwalten"
+msgstr "Du bist nicht berechtigt, Zahlungsarten zu verwalten"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2377
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2408
@@ -621,7 +621,7 @@ msgstr "Dieses Projekt hat keine solche Währung"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4340
 msgid "You are not authorized to give such access level"
-msgstr "Sie sind nicht berechtigt, eine solche Zugriffsebene zu vergeben"
+msgstr "Du bist nicht berechtigt, eine solche Zugriffsebene zu vergeben"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4343
 msgid "Already shared with this user"
@@ -790,21 +790,21 @@ msgstr "Fehler beim Hinzufügen der Ausgabe %1$s"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5645
 msgid "Malformed CSV, bad column names"
-msgstr "Deformierte CSV, inkorrekte Spaltennamen"
+msgstr "Fehlerhaftes CSV, inkorrekte Spaltennamen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5656
 msgid "Malformed CSV, cannot have an empty ower"
-msgstr "Deformierte CSV, Schuldner darf nicht leer sein"
+msgstr "Fehlerhaftes CSV, Schuldner darf nicht leer sein"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5694
 #, php-format
 msgid "Malformed CSV, no payer on line %1$s"
-msgstr "Deformierte CSV, kein Zahler in Zeile %1$s"
+msgstr "Fehlerhaftes CSV, kein Zahler in Zeile %1$s"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5700
 #, php-format
 msgid "Malformed CSV, bad amount on line %1$s"
-msgstr "Deformierte CSV, inkorrekte Menge in Zeile %1$s"
+msgstr "Fehlerhaftes CSV, inkorrekter Betrag in Zeile %1$s"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5816
 msgid "daily"
@@ -1084,7 +1084,7 @@ msgstr "Klassischer Modus: Wähle einen Zahler aus, gebe einen Rechnungsbetrag e
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:65
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
-msgstr "Klassischer+persönlicher Modus: Dieser Modus ist dem klassischen Modus ähnlich. Wählen Sie einen Zahler und geben Sie einen Rechnungsbetrag ein, der dem tatsächlich gezahlten Betrag entspricht. Wählen Sie dann aus, wer von der Rechnung betroffen ist, und legen Sie optional für einige Mitglieder einen Betrag fest, der sich auf persönliche Dinge bezieht. Es werden mehrere Rechnungen erstellt: Eine für die gemeinsamen Ausgaben und eine für jeden persönlichen Teil. Beispiel aus dem wirklichen Leben: Wir gehen einkaufen, ein Teil der Einkäufe betrifft die Gruppe, aber jemand hat auch etwas Persönliches hinzugefügt (z. B. ein T-Shirt), das die anderen nicht gemeinsam bezahlen wollen."
+msgstr "Klassischer+persönlicher Modus: Dieser Modus ist dem klassischen Modus ähnlich. Wähle einen Zahler und gebe einen Rechnungsbetrag ein, der dem tatsächlich gezahlten Betrag entspricht. Wähle dann aus, wer von der Rechnung betroffen ist, und lege optional für einige Mitglieder einen Betrag fest, der sich auf persönliche Dinge bezieht. Es werden mehrere Rechnungen erstellt: Eine für die gemeinsamen Ausgaben und eine für jeden persönlichen Teil. Beispiel aus dem wirklichen Leben: Wir gehen einkaufen, ein Teil der Einkäufe betrifft die Gruppe, aber jemand hat auch etwas Persönliches hinzugefügt (z. B. ein T-Shirt), das die anderen nicht gemeinsam bezahlen wollen."
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:66
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
@@ -1092,7 +1092,7 @@ msgstr "Benutzerdefinierter Modus, ungleichmäßige Aufteilung: Wähle einen Zah
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:67
 msgid "Custom share mode, uneven split: Choose a payer, set the bill amount and enter a custom share number for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: Someone pays an electricity bill for the month but one member was only there during half the month. This member should then pay half a share (0.5) while the others pay a full share (1)."
-msgstr "Benutzerdefinierter Modus mit individueller Aufteilung: Wähle einen Zahler, setze den Rechnungsbetrag und außerdem einen individuellen Anteil für jedes betroffene Mitglied. Klicke dann „Ausgaben erstellen“; es werden mehrere Rechnungen erstellt. Praktisches Beispiel: Jemand bezahlt die Stromrechnung für den Monat, aber eines der Mitglieder war nur den halben Monat anwesend. Dieses Mitglied zahlt dann nur einen halben Anteil (0.5), während die übrigen einen vollen Anteil bezahlen (1)."
+msgstr "Benutzerdefinierter Modus mit individueller Aufteilung: Wähle einen Zahler, setze den Rechnungsbetrag und außerdem einen individuellen Anteil für jedes betroffene Mitglied. Klicke dann \"Ausgaben erstellen\"; es werden mehrere Rechnungen erstellt. Praktisches Beispiel: Jemand bezahlt die Stromrechnung für den Monat, aber eines der Mitglieder war nur den halben Monat anwesend. Dieses Mitglied zahlt dann nur einen halben Anteil (0.5), während die übrigen einen vollen Anteil bezahlen (1)."
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:68
 msgid "For whom?"
@@ -1224,7 +1224,7 @@ msgstr "Info"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:101
 msgid "You can type simple math operations and validate by pressing Enter key."
-msgstr "Sie können einfache mathematische Operationen eingeben und durch Drücken der Eingabe-Taste validieren."
+msgstr "Du kannst einfache mathematische Operationen eingeben und durch Drücken der Eingabe-Taste validieren."
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:103
 msgid "Bill repetition process runs once a day as a background job. If your bills are not automatically repeated, ask your Nextcloud administrator to check if \"Cron\" method is selected in admin settings."
@@ -1654,7 +1654,7 @@ msgstr "Setze ein Enddatum fest, bis zu diesem Ausgaben berücksichtigt werden s
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:208
 msgid "Useful if you want to settle at a precise date and ignore the bills created since then."
-msgstr "Nützlich, um ein bestimmten Datum festzulegen und später erstellte Ausgaben zu ignorieren."
+msgstr "Nützlich, um ein bestimmtes Datum festzulegen und später erstellte Ausgaben zu ignorieren."
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:209
 msgid "Automatic settlement will create bills one second before the maximum date."
@@ -1823,7 +1823,7 @@ msgstr "{member1} und {member2}"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:255
 msgid "Member list is not up to date. Reloading in 5 sec."
-msgstr "Mitgliederliste nicht aktuell. Wird in 5 Sek neu geladen."
+msgstr "Mitgliederliste nicht aktuell. Wird in 5 Sek. neu geladen."
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:257
 msgid "Delete this bill"
@@ -1854,7 +1854,7 @@ msgstr "CSV-Projekt importieren"
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:269
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:284
 msgid "Import SplitWise project"
-msgstr "SplitWise Projekt importieren"
+msgstr "SplitWise-Projekt importieren"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:270
 msgid "No projects yet"
@@ -1954,7 +1954,7 @@ msgstr "Maximale Genauigkeit"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:301
 msgid "Do you want to see and choose time in bill dates?"
-msgstr "Möchten Sie die Zeit in den Ausgabedaten sehen und auswählen?"
+msgstr "Möchtest du die Zeit in den Ausgabedaten sehen und auswählen?"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:302
 msgid "Use time in dates"
@@ -1966,11 +1966,11 @@ msgstr "Wähle, wo die Ausgabedateien gespeichert werden sollen (Statistiken, Ab
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:306
 msgid "Guest link copied to clipboard."
-msgstr "Gastzugang in Zwischenablage kopiert."
+msgstr "Gast-Link in Zwischenablage kopiert."
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:307
 msgid "Guest link could not be copied to clipboard."
-msgstr "Gastlink konnte nicht in die Zwischenablage kopiert werden."
+msgstr "Gast-Link konnte nicht in die Zwischenablage kopiert werden."
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "Rename project {n}"
@@ -2030,7 +2030,7 @@ msgstr "Mitglied konnte nicht hinzugefügt werden."
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:334
 msgid "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab."
-msgstr "Sie können dem Projekt ein einfaches Mitglied oder einen Nextcloud-Benutzer hinzufügen. Sie können Nextcloud Benutzern im Kontextmenü Zugriff auf das Projekt geben. Sie können im Teilen-Tab auch Zugriff für Nextcloud-Benutzer geben, die nicht Mitglieder sind."
+msgstr "Du kannst dem Projekt ein einfaches Mitglied oder einen Nextcloud-Benutzer hinzufügen. Du kannst Nextcloud-Benutzern im Kontextmenü Zugriff auf das Projekt geben. Du kannst im Teilen-Tab auch Zugriff für Nextcloud-Benutzer geben, die nicht Mitglieder sind."
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:336
 msgid "Choose a project member, then a Nextcloud user to associate with."
@@ -2038,7 +2038,7 @@ msgstr "Wählen Sie ein Projektmitglied, dann einen verbundenen Nextcloud-Benutz
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:337
 msgid "You can cut the link with a Nextcloud user by renaming the member."
-msgstr "Sie können die Verknüpfung mit einen Nextcloud-Benutzer kappen, indem Sie das Mitglied umbenennen."
+msgstr "Du kannst die Verknüpfung mit einem Nextcloud-Benutzer aufheben, indem du das Mitglied umbenennst."
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:339
 msgid "Share project with a user, group or circle …"
@@ -2050,7 +2050,7 @@ msgstr "Tippen um zu suchen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:341
 msgid "Scan this QRCode with your mobile device to add project \"{name}\" in MoneyBuster or PayForMe"
-msgstr "Scannen Sie diesen QRCode mit Ihrem Mobilgerät, um das Projekt \"{name}\" in MoneyBuster oder PayForMe hinzuzufügen"
+msgstr "Scanne diesen QRCode mit deinem Mobilgerät, um das Projekt \"{name}\" in MoneyBuster oder PayForMe hinzuzufügen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:342
 msgid "QRCode content: "
@@ -2437,11 +2437,11 @@ msgstr "Fehler beim Exportieren der Projektabrechnung"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/utils.js:13
 msgid "Choose csv project file"
-msgstr "Csv Projektdatei auswählen"
+msgstr "CSV-Projektdatei auswählen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/utils.js:25
 msgid "Choose SplitWise project file"
-msgstr "SplitWise Projektdatei auswählen"
+msgstr "SplitWise-Projektdatei auswählen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/utils.js:45
 msgid "Failed to import project file"
@@ -2458,7 +2458,7 @@ msgstr "Aktivieren dieser Option erlaubt es jedem Besucher ein Projekt zu erstel
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/templates/admin.php:11
 msgid "This can be useful if you are in a local network and want to let anybody create a project."
-msgstr "Dies kann nützlich sein, wenn du dich in einem lokalen Netzwerk befindest und jedem Nutzer ermöglichen willst ein Projekt zu erstellen."
+msgstr "Dies kann nützlich sein, wenn du dich in einem lokalen Netzwerk befindest und jedem Nutzer ermöglichen willst, ein Projekt zu erstellen."
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/templates/admin.php:12
 msgid "Or maybe you are very generous and want to allow the entire world to use Cospend without having an account on your Nextcloud instance."
@@ -2483,9 +2483,9 @@ msgstr "Projektpasswort (aka Zugangscode)"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/templates/sharepassword.php:15
 msgid "Wrong link password"
-msgstr "Falsches Link Passwort"
+msgstr "Falsches Link-Passwort"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/templates/sharepassword.php:27
 msgid "Share link password"
-msgstr "Link Passwort teilen"
+msgstr "Link-Passwort teilen"
 

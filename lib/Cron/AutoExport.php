@@ -23,8 +23,7 @@ class AutoExport extends TimedJob {
 	 * @param ITimeFactory $time
 	 * @param ProjectService $projectService
 	 */
-	public function __construct(ITimeFactory $time, ProjectService $projectService)
-	{
+	public function __construct(ITimeFactory $time, ProjectService $projectService) {
 		parent::__construct($time);
 		$this->projectService = $projectService;
 
@@ -36,8 +35,7 @@ class AutoExport extends TimedJob {
 	 * @param $argument
 	 * @return void
 	 */
-	protected function run($argument): void
-	{
+	protected function run($argument): void {
 		$this->projectService->cronAutoExport();
 	}
 }

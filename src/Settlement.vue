@@ -255,8 +255,8 @@ import { getSmartMemberName } from './utils'
 import cospend from './state'
 import * as constants from './constants'
 import * as network from './network'
-import CospendIcon from './components/CospendIcon'
-import ReimburseIcon from './components/ReimburseIcon'
+import CospendIcon from './components/icons/CospendIcon'
+import ReimburseIcon from './components/icons/ReimburseIcon'
 
 export default {
 	name: 'Settlement',

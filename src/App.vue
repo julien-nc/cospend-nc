@@ -144,7 +144,7 @@ import cospend from './state'
 import * as network from './network'
 import * as constants from './constants'
 import { rgbObjToHex, slugify } from './utils'
-import CospendIcon from './components/CospendIcon'
+import CospendIcon from './components/icons/CospendIcon'
 
 export default {
 	name: 'App',

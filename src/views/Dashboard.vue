@@ -28,7 +28,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import moment from '@nextcloud/moment'
 import { DashboardWidget } from '@nextcloud/vue-dashboard'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import CospendIcon from '../components/CospendIcon'
+import CospendIcon from '../components/icons/CospendIcon'
 
 export default {
 	name: 'Dashboard',

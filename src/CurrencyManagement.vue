@@ -131,7 +131,7 @@ import cospend from './state'
 import Currency from './components/Currency'
 import * as constants from './constants'
 import * as network from './network'
-import CurrencyIcon from './components/CurrencyIcon'
+import CurrencyIcon from './components/icons/CurrencyIcon'
 
 export default {
 	name: 'CurrencyManagement',

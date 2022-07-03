@@ -102,8 +102,8 @@
 							<ClipboardCheckOutlineIcon v-if="linkCopied[access.id]"
 								class="success"
 								:size="20" />
-							<ClipboardArrowLeftOutlineIcon v-else
-								:size="20" />
+							<ClippyIcon v-else
+								:size="16" />
 						</template>
 					</ActionLink>
 				</Actions>
@@ -296,8 +296,8 @@
 								<ClipboardCheckOutlineIcon v-if="guestLinkCopied"
 									class="success"
 									:size="20" />
-								<ClipboardArrowLeftOutlineIcon v-else
-									:size="20" />
+								<ClippyIcon v-else
+									:size="16" />
 							</template>
 							{{ guestLinkCopied ? t('cospend', 'Link copied') : t('cospend', 'Copy to clipboard') }}
 						</ActionLink>
@@ -359,7 +359,6 @@ import AccountIcon from 'vue-material-design-icons/Account'
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroup'
 import CheckIcon from 'vue-material-design-icons/Check'
 import InformationVariantIcon from 'vue-material-design-icons/InformationVariant'
-import ClipboardArrowLeftOutlineIcon from 'vue-material-design-icons/ClipboardArrowLeftOutline'
 import ClipboardCheckOutlineIcon from 'vue-material-design-icons/ClipboardCheckOutline'
 import LockIcon from 'vue-material-design-icons/Lock'
 import DeleteIcon from 'vue-material-design-icons/Delete'
@@ -393,11 +392,13 @@ import * as constants from '../constants'
 import * as network from '../network'
 import axios from '@nextcloud/axios'
 import { Timer } from '../utils'
+import ClippyIcon from './icons/ClippyIcon'
 
 export default {
 	name: 'SharingTabSidebar',
 
 	components: {
+		ClippyIcon,
 		Avatar,
 		Actions,
 		ActionButton,
@@ -417,7 +418,6 @@ export default {
 		PlusIcon,
 		MenuDownIcon,
 		MenuRightIcon,
-		ClipboardArrowLeftOutlineIcon,
 		ClipboardCheckOutlineIcon,
 		LinkVariantIcon,
 		InformationVariantIcon,

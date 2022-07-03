@@ -109,8 +109,8 @@
 							<ClipboardCheckOutlineIcon v-if="guestLinkCopied"
 								class="success"
 								:size="20" />
-							<ClipboardArrowLeftOutlineIcon v-else
-								:size="20" />
+							<ClippyIcon v-else
+								:size="16" />
 						</template>
 						{{ t('cospend', 'Copy guest access link') }}
 					</Button>
@@ -198,7 +198,6 @@
 
 <script>
 import ClipboardCheckOutlineIcon from 'vue-material-design-icons/ClipboardCheckOutline'
-import ClipboardArrowLeftOutlineIcon from 'vue-material-design-icons/ClipboardArrowLeftOutline'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew'
 import FileImportIcon from 'vue-material-design-icons/FileImport'
 import Button from '@nextcloud/vue/dist/Components/Button'
@@ -209,16 +208,17 @@ import AppSettingsSection from '@nextcloud/vue/dist/Components/AppSettingsSectio
 import cospend from '../state'
 import { generateUrl } from '@nextcloud/router'
 import { importCospendProject, importSWProject, Timer } from '../utils'
+import ClippyIcon from './icons/ClippyIcon'
 
 export default {
 	name: 'CospendSettingsDialog',
 
 	components: {
+		ClippyIcon,
 		AppSettingsDialog,
 		AppSettingsSection,
 		Button,
 		FileImportIcon,
-		ClipboardArrowLeftOutlineIcon,
 		ClipboardCheckOutlineIcon,
 		OpenInNewIcon,
 	},

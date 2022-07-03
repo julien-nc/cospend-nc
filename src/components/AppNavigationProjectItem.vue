@@ -125,7 +125,7 @@ import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import cospend from '../state'
 import * as constants from '../constants'
 import { Timer, getSortedMembers } from '../utils'
-import ReimburseIcon from './ReimburseIcon'
+import ReimburseIcon from './icons/ReimburseIcon'
 
 export default {
 	name: 'AppNavigationProjectItem',

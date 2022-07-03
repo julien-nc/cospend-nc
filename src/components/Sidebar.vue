@@ -113,7 +113,7 @@ import CurrencyManagement from '../CurrencyManagement'
 import ActivityTabSidebar from './ActivityTabSidebar'
 import cospend from '../state'
 import * as constants from '../constants'
-import CurrencyIcon from './CurrencyIcon'
+import CurrencyIcon from './icons/CurrencyIcon'
 
 export default {
 	name: 'Sidebar',

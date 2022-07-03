@@ -427,7 +427,7 @@ import PieChartJs from '../PieChartJs'
 import BarChartJs from '../BarChartJs'
 import * as constants from '../../constants'
 import PaymentModeMultiSelect from '../PaymentModeMultiSelect'
-import CurrencyIcon from '../CurrencyIcon'
+import CurrencyIcon from '../icons/CurrencyIcon'
 
 export default {
 	name: 'Statistics',

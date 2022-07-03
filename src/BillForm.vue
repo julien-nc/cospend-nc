@@ -633,8 +633,8 @@ import {
 } from './utils'
 import * as network from './network'
 import * as constants from './constants'
-import CospendIcon from './components/CospendIcon'
-import CurrencyIcon from './components/CurrencyIcon'
+import CospendIcon from './components/icons/CospendIcon'
+import CurrencyIcon from './components/icons/CurrencyIcon'
 
 export default {
 	name: 'BillForm',

@@ -37,6 +37,7 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Db\BillMapper;
+use Throwable;
 use function str_replace;
 
 class ProjectService {
@@ -5283,6 +5284,33 @@ class ProjectService {
 		fclose($handler);
 		$file->touch();
 		return ['path' => $outPath . '/' . $filename];
+	}
+
+	/**
+	 * Wrap the import process in an atomic DB transaction
+	 * This increases insert performance a lot
+	 *
+	 * importCsvProject() still takes care of cleaning up created entities in case of error
+	 * but this could be done by rollBack
+	 *
+	 * This could be done with TTransactional::atomic() when we drop support for NC < 24
+	 *
+	 * @param string $path
+	 * @param string $userId
+	 * @return array
+	 * @throws \OCP\DB\Exception
+	 * @throws \Throwable
+	 */
+	public function importCsvProjectAtomicWrapper(string $path, string $userId): array {
+		$this->db->beginTransaction();
+		try {
+			$result = $this->importCsvProject($path, $userId);
+			$this->db->commit();
+			return $result;
+		} catch (Throwable $e) {
+			$this->db->rollBack();
+			throw $e;
+		}
 	}
 
 	/**

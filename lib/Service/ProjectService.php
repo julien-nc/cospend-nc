@@ -32,13 +32,12 @@ use DateTimeImmutable;
 use DateInterval;
 use DateTime;
 
+use OCA\Cospend\Utils;
 use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Activity\ActivityManager;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Db\BillMapper;
 use function str_replace;
-
-require_once __DIR__ . '/../utils.php';
 
 class ProjectService {
 
@@ -1365,7 +1364,7 @@ class ProjectService {
 				$av = $this->avatarManager->getGuestAvatar($dbName);
 				$dbColor = $av->avatarBackgroundColor($dbName);
 			} else {
-				$dbColor = $this->hexToRgb($dbColor);
+				$dbColor = Utils::hexToRgb($dbColor);
 			}
 
 			$member = [
@@ -2477,7 +2476,7 @@ class ProjectService {
 					'b' => $dbColor->{'b'},
 				];
 			} else {
-				$dbColor = $this->hexToRgb($dbColor);
+				$dbColor = Utils::hexToRgb($dbColor);
 			}
 
 			$members[] = [
@@ -3272,7 +3271,7 @@ class ProjectService {
 				$av = $this->avatarManager->getGuestAvatar($dbName);
 				$dbColor = $av->avatarBackgroundColor($dbName);
 			} else {
-				$dbColor = $this->hexToRgb($dbColor);
+				$dbColor = Utils::hexToRgb($dbColor);
 			}
 			$member = [
 				'activated' => $dbActivated === 1,
@@ -3321,7 +3320,7 @@ class ProjectService {
 					$av = $this->avatarManager->getGuestAvatar($dbName);
 					$dbColor = $av->avatarBackgroundColor($dbName);
 				} else {
-					$dbColor = $this->hexToRgb($dbColor);
+					$dbColor = Utils::hexToRgb($dbColor);
 				}
 				$member = [
 					'activated' => $dbActivated === 1,
@@ -5156,7 +5155,7 @@ class ProjectService {
 		$filename = $projectid.'.csv';
 		if ($name !== null) {
 			$filename = $name;
-			if (!endswith($filename, '.csv')) {
+			if (!Utils::endswith($filename, '.csv')) {
 				$filename .= '.csv';
 			}
 		}
@@ -5509,7 +5508,7 @@ class ProjectService {
 					$user = $this->userManager->get($userId);
 					$userEmail = $user->getEMailAddress();
 					$projectName = preg_replace('/\.csv$/', '', $file->getName());
-					$projectid = slugify($projectName);
+					$projectid = Utils::slugify($projectName);
 					$createDefaultCategories = (count($categories) === 0);
 					$createDefaultPaymentModes = (count($paymentModes) === 0);
 					$projResult = $this->createProject(
@@ -5728,7 +5727,7 @@ class ProjectService {
 					$user = $this->userManager->get($userId);
 					$userEmail = $user->getEMailAddress();
 					$projectName = preg_replace('/\.csv$/', '', $file->getName());
-					$projectid = slugify($projectName);
+					$projectid = Utils::slugify($projectName);
 					// create default categories only if none are found in the CSV
 					$createDefaultCategories = (count($categoryNames) === 0);
 					$projResult = $this->createProject(
@@ -5900,25 +5899,6 @@ class ProjectService {
 			$req->closeCursor();
 			$qb = $qb->resetQueryParts();
 		}
-	}
-
-	/**
-	 * Convert hexadecimal color into RGB array
-	 *
-	 * @param string $color
-	 * @return array
-	 */
-	private function hexToRgb(string $color): array {
-		$color = str_replace('#', '', $color);
-		$split_hex_color = str_split($color, 2);
-		$r = hexdec($split_hex_color[0]);
-		$g = hexdec($split_hex_color[1]);
-		$b = hexdec($split_hex_color[2]);
-		return [
-			'r' => $r,
-			'g' => $g,
-			'b' => $b,
-		];
 	}
 
 	/**

@@ -78,15 +78,11 @@ class Application extends App implements IBootstrap {
 	 */
 	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_ID, $urlParams);
-
-		$container = $this->getContainer();
-
-		// content of app.php
-		$manager = $container->get(INotificationManager::class);
-		$manager->registerNotifierService(Notifier::class);
+		// $container = $this->getContainer();
 	}
 
 	public function register(IRegistrationContext $context): void {
+		$context->registerNotifierService(Notifier::class);
 		$context->registerSearchProvider(CospendSearchProvider::class);
 		$context->registerDashboardWidget(CospendWidget::class);
 	}

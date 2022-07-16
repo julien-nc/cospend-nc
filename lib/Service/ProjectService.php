@@ -12,6 +12,7 @@
 
 namespace OCA\Cospend\Service;
 
+use Exception;
 use OCP\Files\FileInfo;
 use OCP\IL10N;
 use OCP\IConfig;
@@ -2470,12 +2471,21 @@ class ProjectService {
 			$dbColor = $row['color'];
 			if ($dbColor === null) {
 				$av = $this->avatarManager->getGuestAvatar($dbName);
-				$dbColor = $av->avatarBackgroundColor($dbName);
-				$dbColor = [
-					'r' => $dbColor->{'r'},
-					'g' => $dbColor->{'g'},
-					'b' => $dbColor->{'b'},
-				];
+				$avatarBgColor = $av->avatarBackgroundColor($dbName);
+				try {
+					$dbColor = [
+						'r' => $avatarBgColor->{'r'},
+						'g' => $avatarBgColor->{'g'},
+						'b' => $avatarBgColor->{'b'},
+					];
+				} catch (Exception | Throwable $e) {
+					// NC >= 25
+					$dbColor = [
+						'r' => $avatarBgColor->red(),
+						'g' => $avatarBgColor->green(),
+						'b' => $avatarBgColor->blue(),
+					];
+				}
 			} else {
 				$dbColor = Utils::hexToRgb($dbColor);
 			}

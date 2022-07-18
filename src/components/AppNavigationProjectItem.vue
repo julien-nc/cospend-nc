@@ -252,8 +252,4 @@ export default {
 		border-radius: 50%;
 	}
 }
-
-.folder-icon-primary {
-	color: var(--color-primary);
-}
 </style>

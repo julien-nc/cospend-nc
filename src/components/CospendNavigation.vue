@@ -246,14 +246,14 @@ export default {
 
 ::v-deep .selectedproject,
 ::v-deep .selectedmember {
+	&.selectedmember,
 	> a,
 	> div {
-		background: var(--color-background-dark, lightgrey);
+		background: var(--color-primary-light, lightgrey);
 	}
 
 	> a {
 		font-weight: bold;
-		color: var(--color-primary);
 	}
 }
 

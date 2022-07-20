@@ -5504,14 +5504,15 @@ class ProjectService {
 								if ($what !== 'deleteMeIfYouWant') {
 									$owersArray = explode(',', $owers);
 									foreach ($owersArray as $ower) {
-										if (strlen($ower) === 0) {
+										$strippedOwer = trim($ower);
+										if (strlen($strippedOwer) === 0) {
 											fclose($handle);
 											return ['message' => $this->trans->t('Malformed CSV, invalid owers on line %1$s', [$row + 1])];
 										}
-										if (!isset($membersByName[$ower])) {
-											$membersByName[$ower]['weight'] = 1.0;
-											$membersByName[$ower]['active'] = true;
-											$membersByName[$ower]['color'] = null;
+										if (!isset($membersByName[$strippedOwer])) {
+											$membersByName[$strippedOwer]['weight'] = 1.0;
+											$membersByName[$strippedOwer]['active'] = true;
+											$membersByName[$strippedOwer]['color'] = null;
 										}
 									}
 									if (!is_numeric($amount)) {

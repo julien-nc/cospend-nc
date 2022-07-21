@@ -5434,7 +5434,7 @@ class ProjectService {
 									];
 								}
 							} elseif ($currentSection === 'members') {
-								$name = $data[$columns['name']];
+								$name = trim($data[$columns['name']]);
 								$weight = $data[$columns['weight']];
 								$active = $data[$columns['active']];
 								$color = $data[$columns['color']];
@@ -5614,7 +5614,8 @@ class ProjectService {
 						$payerId = $memberNameToId[$bill['payer_name']];
 						$owerIds = [];
 						foreach ($bill['owers'] as $owerName) {
-							$owerIds[] = $memberNameToId[$owerName];
+							$strippedOwer = trim($owerName);
+							$owerIds[] = $memberNameToId[$strippedOwer];
 						}
 						$owerIdsStr = implode(',', $owerIds);
 						$addBillResult = $this->addBill(

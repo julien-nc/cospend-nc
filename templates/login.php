@@ -1,7 +1,7 @@
 <?php
 $appId = OCA\Cospend\AppInfo\Application::APP_ID;
-script('cospend', $appId . '-login');
-style('cospend', 'login');
+\OCP\Util::addScript($appId, $appId . '-login');
+\OCP\Util::addStyle($appId, 'login');
 ?>
 
 <div id="app">

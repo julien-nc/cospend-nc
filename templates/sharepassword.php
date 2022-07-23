@@ -1,7 +1,7 @@
 <?php
 $appId = OCA\Cospend\AppInfo\Application::APP_ID;
-script('cospend', $appId . '-sharePassword');
-style('cospend', 'login');
+\OCP\Util::addScript($appId, $appId . '-sharePassword');
+\OCP\Util::addStyle($appId, 'login');
 ?>
 
 <div id="app">

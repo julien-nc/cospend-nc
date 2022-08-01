@@ -5685,7 +5685,7 @@ class ProjectService {
 							}
 							// manage members
 							$m = 0;
-							for ($c = 5; $c < $nbCol; $c++){
+							for ($c = 5; $c < $nbCol; $c++) {
 								$owersArray[$m] = $data[$c];
 								$m++;
 							}
@@ -5705,7 +5705,7 @@ class ProjectService {
 						} else {
 							// normal line : bill
 							$what = $data[$columns['Description']];
-							$amount = $data[$columns['Cost']];
+							$amount = (float) $data[$columns['Cost']];
 							$date = $data[$columns['Date']];
 							$datetime = DateTime::createFromFormat('Y-m-d', $date);
 							if ($datetime === false) {

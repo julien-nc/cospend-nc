@@ -1,8 +1,8 @@
 .icon-cospend {
-    background-image: url(./../img/app_black.svg);
+    background-image: url('../img/app_black.svg');
 }
 
 /* for NC <= 24 */
 body.theme--dark .icon-cospend {
-	background-image: url(./../img/app.svg);
+	background-image: url('../img/app.svg');
 }

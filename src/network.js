@@ -251,6 +251,13 @@ export function createBill(projectid, req) {
 	return axios.post(url, req)
 }
 
+export function moveBill (fromProjectId, billId, toProjectId) {
+	const req = {toProjectId};
+	const url = generateUrl ('/apps/cospend/projects/' + fromProjectId + '/bills/' + billId + '/move');
+
+	return axios.post(url, req);
+}
+
 export function generatePublicLinkToFile(targetPath) {
 	const req = {
 		path: targetPath,

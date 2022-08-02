@@ -38,6 +38,14 @@
 				</template>
 				{{ deleteIconTitle }}
 			</ActionButton>
+			<ActionButton
+				:close-after-click="true"
+				@click="onMoveClick">
+				<template #icon>
+					<SwapHorizontalIcon class="icon" :size="20" />
+				</template>
+				{{ moveIconTitle }}
+			</ActionButton>
 		</template>
 		<template #extra>
 			<div v-if="editionAccess && !showDelete" class="icon-selector">
@@ -59,6 +67,7 @@ import { generateUrl } from '@nextcloud/router'
 import moment from '@nextcloud/moment'
 import ListItem from '@nextcloud/vue/dist/Components/ListItem'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import SwapHorizontalIcon from 'vue-material-design-icons/SwapHorizontal'
 import ColoredAvatar from './ColoredAvatar'
 import { reload, Timer, getCategory, getPaymentMode, getSmartMemberName } from '../utils'
 
@@ -74,6 +83,7 @@ export default {
 		CheckboxBlankOutlineIcon,
 		CheckboxMarkedIcon,
 		ActionButton,
+		SwapHorizontalIcon
 	},
 
 	props: {
@@ -225,6 +235,9 @@ export default {
 				? t('cospend', 'Cancel')
 				: t('cospend', 'Delete this bill')
 		},
+		moveIconTitle() {
+			return t('cospend', 'Move bill');
+		},
 		billDetails() {
 			return this.selected
 				? this.billIndexText + ' ' + this.billDate
@@ -238,6 +251,9 @@ export default {
 	methods: {
 		onItemClick() {
 			this.$emit('clicked', this.bill)
+		},
+		onMoveClick(e) {
+			this.$emit('move');
 		},
 		onDeleteClick(e) {
 			// stop timer

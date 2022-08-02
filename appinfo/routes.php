@@ -137,6 +137,7 @@ return [
 		['name' => 'page#webEditMember', 'url' => '/projects/{projectid}/members/{memberid}', 'verb' => 'PUT'],
 		['name' => 'page#webGetBills', 'url' => '/projects/{projectid}/bills', 'verb' => 'GET'],
 		['name' => 'page#webAddBill', 'url' => '/projects/{projectid}/bills', 'verb' => 'POST'],
+		['name' => 'page#webMoveBill', 'url' => '/projects/{projectid}/bills/{billid}/move', 'verb' => 'POST'],
 		['name' => 'page#webRepeatBill', 'url' => '/projects/{projectid}/bills/{billid}/repeat', 'verb' => 'GET'],
 		['name' => 'page#webEditBill', 'url' => '/projects/{projectid}/bills/{billid}', 'verb' => 'PUT'],
 		['name' => 'page#webEditBills', 'url' => '/projects/{projectid}/bills', 'verb' => 'PUT'],

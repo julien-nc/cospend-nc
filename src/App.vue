@@ -45,7 +45,8 @@
 					@items-deleted="onBillsDeleted"
 					@multi-bill-edit="onMultiBillEdit"
 					@reset-selection="onResetSelection"
-					@new-bill-clicked="onNewBillClicked" />
+					@new-bill-clicked="onNewBillClicked"
+					@move-bill-clicked="onMoveBillClicked" />
 			</template>
 			<BillForm
 				v-if="currentBill !== null && mode === 'edition'"
@@ -58,6 +59,11 @@
 				@perso-bills-created="onPersoBillsCreated"
 				@duplicate-bill="onDuplicateBill"
 				@repeat-bill-now="onRepeatBillNow" />
+			<ProjectList
+				v-else-if="mode === 'move'"
+				:bill="currentBill"
+				:project-id="currentProjectId"
+				@item-moved="onBillMoved" />
 			<Statistics
 				v-else-if="mode === 'stats'"
 				:project-id="currentProjectId" />
@@ -139,6 +145,7 @@ import BillList from './BillList'
 import Statistics from './components/statistics/Statistics'
 import Settlement from './Settlement'
 import Sidebar from './components/Sidebar'
+import ProjectList from './components/ProjectList'
 
 import cospend from './state'
 import * as network from './network'
@@ -162,6 +169,7 @@ export default {
 		EmptyContent,
 		Button,
 		PlusIcon,
+		ProjectList
 	},
 	mixins: [isMobile],
 	provide() {
@@ -529,6 +537,10 @@ export default {
 		onAutoSettled(projectid) {
 			this.getBills(projectid)
 		},
+		onMoveBillClicked(bill) {
+			this.mode = 'move'
+			this.currentBill = bill
+		},
 		onNewBillClicked(bill = null) {
 			// if a member is selected: deselect member and get full bill list
 			// then call onNewBillClicked again
@@ -620,6 +632,12 @@ export default {
 					})
 				)
 			}
+		},
+		onBillMoved(newBillId, newProjectId) {
+			// set the selected bill id
+			cospend.restoredCurrentBillId = newBillId
+			// select the project
+			this.selectProject(newProjectId, false, true, true)
 		},
 		getProjects() {
 			this.projectsLoading = true
@@ -792,14 +810,8 @@ export default {
 				this.projects[projectid].nb_bills = response.data.nb_bills
 				this.projects[projectid].total_spent = response.data.total_spent
 				this.projects[projectid].lastchanged = response.data.lastchanged
-				// category order
-				for (const cid in this.projects[projectid].categories) {
-					this.projects[projectid].categories[cid].order = response.data.categories[cid]?.order
-				}
-				// payment mode order
-				for (const pmid in this.projects[projectid].paymentmodes) {
-					this.projects[projectid].paymentmodes[pmid].order = response.data.paymentmodes[pmid]?.order
-				}
+				this.projects[projectid].categories = response.data.categories
+				this.projects[projectid].paymentmodes = response.data.paymentmodes
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to update balances')

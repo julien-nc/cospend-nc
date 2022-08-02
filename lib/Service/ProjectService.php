@@ -1302,13 +1302,16 @@ class ProjectService {
 	 *
 	 * @param string $projectid
 	 * @param int $billid
+	 * @param bool $forcedelete Ignores any deletion protection and forces the deletion of the bill
 	 * @return array
 	 */
-	public function deleteBill(string $projectid, int $billid): array {
-		$project = $this->getProjectInfo($projectid);
-		$deletionDisabled = $project['deletion_disabled'];
-		if ($deletionDisabled) {
-			return ['message' => 'Forbidden'];
+	public function deleteBill(string $projectid, int $billid, bool $forcedelete = false): array {
+		if ($forcedelete == false) {
+			$project = $this->getProjectInfo($projectid);
+			$deletionDisabled = $project['deletion_disabled'];
+			if ($deletionDisabled) {
+				return ['message' => 'Forbidden'];
+			}
 		}
 		$billToDelete = $this->getBill($projectid, $billid);
 		if ($billToDelete !== null) {
@@ -3610,6 +3613,112 @@ class ProjectService {
 				}
 			}
 		}
+		return $result;
+	}
+
+	private function copyBillPaymentMethodOver (string $projectid, array $bill, string $toprojectid): int {
+		$originPayments = $this->getCategoriesOrPaymentModes($projectid, false);
+		$destinationPayments = $this->getCategoriesOrPaymentModes($toprojectid, false);
+
+		if ($bill ['paymentmodeid'] != 0)
+		{
+			$originPayment = array_filter ($originPayments, function ($val) use ($bill) { return $val ['id'] == $bill ['paymentmodeid']; });
+			$originPayment = array_shift ($originPayment);
+
+			// find a payment mode with the same name
+			$paymentNameMatches = array_filter ($destinationPayments, function ($val) use ($originPayment) { return $val ['name'] == $originPayment ['name']; });
+
+			// no payment mode match, means new mode
+			if (count ($paymentNameMatches) == 0)
+			{
+				return $this->addPaymentMode ($toprojectid, $originPayment ['name'], $originPayment ['icon'], $originPayment ['color']);
+			}
+			else
+			{
+				return array_shift ($paymentNameMatches) ['id'];
+			}
+		}
+
+		return $bill ['paymentmodeid'];
+	}
+
+	private function copyBillCategoryOver (string $projectid, array $bill, string $toprojectid): int {
+		$originCategories = $this->getCategoriesOrPaymentModes($projectid);
+		$destinationCategories = $this->getCategoriesOrPaymentModes($toprojectid);
+
+		if ($bill ['categoryid'] != 0)
+		{
+			$originCategory = array_filter ($originCategories, function ($val) use ($bill) { return $val ['id'] == $bill ['categoryid']; });
+			$originCategory = array_shift ($originCategory);
+
+			// find a category with the same name
+			$categoryNameMatches = array_filter ($destinationCategories, function ($val) use ($originCategory) { return $val ['name'] == $originCategory ['name']; });
+
+			// no category match, means new category
+			if (count ($categoryNameMatches) == 0)
+			{
+				return $this->addCategory ($toprojectid, $originCategory ['name'], $originCategory ['icon'], $originCategory ['color']);
+			}
+			else
+			{
+				return array_shift ($categoryNameMatches) ['id'];
+			}
+		}
+
+		return $bill ['categoryid'];
+	}
+
+	public function moveBill (string $projectid, int $billid, string $toprojectid): array {
+		$bill = $this->getBill ($projectid, $billid);
+
+		// get all members in all the projects and try to match them
+		$originMembers = $this->getMembers ($projectid, 'lowername');
+		$destinationMembers = $this->getMembers ($toprojectid, 'lowername');
+
+		// try to match them
+		$originalPayer = $originMembers;
+		$originalPayer = array_filter ($originalPayer, function ($val) use ($bill) { return $val ['id'] == $bill ['payer_id']; });
+		$originalPayer = array_shift ($originalPayer);
+
+		$newPayer = $destinationMembers;
+		$newPayer = array_filter ($newPayer, function ($val) use ($originalPayer) { return $val ['name'] == $originalPayer ['name']; });
+
+		if (count ($newPayer) < 1) {
+			return ['message' => $this->trans->t ('Cannot match payer')];
+		}
+
+		$newPayer = array_shift ($newPayer);
+
+		// match owers too, these do not mind that much, the user will be able to modify the new invoice just after moving it
+		$newOwers = array_filter ($destinationMembers, function ($member) use ($bill) {
+			$matches = array_filter ($bill ['owers'], function ($oldMember) use ($member) {
+				return $oldMember ['name'] == $member ['name'];
+			});
+
+			if (count ($matches) == 0)
+				return false;
+
+			return true;
+		});
+
+		$newCategoryId = $this->copyBillCategoryOver($projectid, $bill, $toprojectid);
+		$newPaymentId = $this->copyBillPaymentMethodOver($projectid, $bill, $toprojectid);
+
+		$result = $this->addBill(
+			$toprojectid, null, $bill['what'], $newPayer ['id'],
+			implode (',', array_column ($newOwers, 'id')), $bill['amount'], $bill['repeat'],
+			$bill['paymentmode'], $newPaymentId,
+			$newCategoryId, $bill['repeatallactive'], $bill['repeatuntil'],
+			$bill['timestamp'], $bill['comment'], $bill['repeatfreq']
+		);
+
+		if (!isset($result['inserted_id'])) {
+			return ['message' => $this->trans->t ('Cannot create new invoice: %1$s', $result ['message'])];
+		}
+
+		// remove the old bill
+		$this->deleteBill($projectid, $billid, true);
+
 		return $result;
 	}
 

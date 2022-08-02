@@ -138,7 +138,8 @@
 				:edition-access="editionAccess"
 				:show-delete="!selectMode"
 				@clicked="onItemClicked"
-				@delete="onItemDeleted" />
+				@delete="onItemDeleted"
+				@move="onItemMove(bill)" />
 		</transition-group>
 		<InfiniteLoading v-if="!loading && bills.length > 30"
 			:identifier="projectId"
@@ -446,6 +447,9 @@ export default {
 			} else {
 				this.deleteBill(bill)
 			}
+		},
+		onItemMove(bill) {
+			this.$emit('move-bill-clicked', bill);
 		},
 		deleteBill(bill) {
 			network.deleteBill(this.projectId, bill).then((response) => {

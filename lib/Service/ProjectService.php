@@ -5665,13 +5665,13 @@ class ProjectService {
 					$categoryNames = [];
 					$row = 0;
 					$nbCol = 0;
+
+					$columnNamesLineFound = false;
 					while (($data = fgetcsv($handle, 1000, ',')) !== false) {
-						$owersList = [];
-						$payer_name = '';
-						// first line : get column order
-						if ($row === 0) {
+						// look for column order line
+						if (!$columnNamesLineFound) {
 							$nbCol = count($data);
-							for ($c=0; $c < $nbCol; $c++) {
+							for ($c = 0; $c < $nbCol; $c++) {
 								$columns[$data[$c]] = $c;
 							}
 							if (!array_key_exists('Date', $columns)
@@ -5680,9 +5680,11 @@ class ProjectService {
 								|| !array_key_exists('Cost', $columns)
 								|| !array_key_exists('Currency', $columns)
 							) {
-								fclose($handle);
-								return ['message' => $this->trans->t('Malformed CSV, bad column names')];
+								$columns = [];
+								$row++;
+								continue;
 							}
+							$columnNamesLineFound = true;
 							// manage members
 							$m = 0;
 							for ($c = 5; $c < $nbCol; $c++) {
@@ -5772,6 +5774,10 @@ class ProjectService {
 						$row++;
 					}
 					fclose($handle);
+
+					if (!$columnNamesLineFound) {
+						return ['message' => $this->trans->t('Malformed CSV, impossible to find the column names')];
+					}
 
 					$memberNameToId = [];
 

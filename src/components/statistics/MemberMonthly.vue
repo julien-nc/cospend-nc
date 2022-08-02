@@ -290,9 +290,8 @@ export default {
 
 	th.selected,
 	td.selected {
-		background-color: var(--color-background-dark);
+		background-color: var(--color-primary-light);
 		font-weight: bold;
-		color: var(--color-success);
 	}
 	tr.all-members td:first-child {
 		padding: 0px 5px 0px 5px;

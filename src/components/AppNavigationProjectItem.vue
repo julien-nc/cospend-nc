@@ -29,27 +29,27 @@
 				class="icon folder-icon"
 				:size="20" />
 		</template>
-		<template #counter>
-			<Actions>
-				<ActionButton v-if="!pageIsPublic"
-					class="detailButton"
-					@click="onShareClick">
-					<template #icon>
-						<ShareVariantIcon :size="20" />
-					</template>
-				</ActionButton>
-			</Actions>
-			<Actions>
-				<ActionButton
-					class="detailButton"
-					@click="onDetailClick">
-					<template #icon>
-						<CogIcon :size="20" />
-					</template>
-				</ActionButton>
-			</Actions>
-		</template>
+		<!--template #counter>
+		</template-->
 		<template #actions>
+			<ActionButton
+				:close-after-click="true"
+				class="detailButton"
+				@click="onDetailClick">
+				<template #icon>
+					<CogIcon :size="20" />
+				</template>
+				{{ t('cospend', 'Settings') }}
+			</ActionButton>
+			<ActionButton v-if="!pageIsPublic"
+				:close-after-click="true"
+				class="detailButton"
+				@click="onShareClick">
+				<template #icon>
+					<ShareVariantIcon :size="20" />
+				</template>
+				{{ t('cospend', 'Share') }}
+			</ActionButton>
 			<ActionButton v-if="maintenerAccess"
 				@click="onAddMemberClick">
 				<template #icon>
@@ -118,7 +118,6 @@ import ChartLineIcon from 'vue-material-design-icons/ChartLine'
 import ClickOutside from 'vue-click-outside'
 import AppNavigationMemberItem from './AppNavigationMemberItem'
 
-import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 
@@ -134,7 +133,6 @@ export default {
 		AppNavigationMemberItem,
 		AppNavigationItem,
 		ActionButton,
-		Actions,
 		ChartLineIcon,
 		FolderIcon,
 		FolderOutlineIcon,

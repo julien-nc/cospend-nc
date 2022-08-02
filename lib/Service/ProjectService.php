@@ -5705,7 +5705,12 @@ class ProjectService {
 						} else {
 							// normal line : bill
 							$what = $data[$columns['Description']];
-							$amount = (float) $data[$columns['Cost']];
+							$cost = trim($data[$columns['Cost']]);
+							if (empty($cost)) {
+								// skip lines with no cost, it might be the balances line
+								$row++;
+								continue;
+							}
 							$date = $data[$columns['Date']];
 							$datetime = DateTime::createFromFormat('Y-m-d', $date);
 							if ($datetime === false) {
@@ -5713,49 +5718,56 @@ class ProjectService {
 								return ['message' => $this->trans->t('Malformed CSV, missing or invalid date/timestamp on line %1$s', [$row])];
 							}
 							$timestamp = $datetime->getTimestamp();
-							$l = 0;
-							for ($c = 5; $c < $nbCol; $c++){
-								if (max($data[$c], 0) !== 0){
-									$payer_name = $owersArray[$c - 5];
-								}
-								if ($data[$c] === $amount){
-									continue;
-								} elseif ($data[$c] === -$amount){
-									$owersList = [];
-									$owersList[$l++] = $owersArray[$c - 5];
-									break;
-								} else {
-									$owersList[$l++] = $owersArray[$c - 5];
-								}
-							}
-							if (!isset($payer_name) || empty($payer_name)) {
-								fclose($handle);
-								return ['message' => $this->trans->t('Malformed CSV, no payer on line %1$s', [$row])];
-							}
-//							$payer_weight = 1;
 
-							if (!is_numeric($amount)) {
-								fclose($handle);
-								return ['message' => $this->trans->t('Malformed CSV, bad amount on line %1$s', [$row])];
-							}
-							$bill = [
-								'what' => $what,
-								'timestamp' => $timestamp,
-								'amount' => $amount,
-								'payer_name' => $payer_name,
-								'owers' => $owersList
-							];
+							$categoryName = null;
 							// manage categories
 							if (array_key_exists('Category', $columns)
 								&& $data[$columns['Category']] !== null
 								&& $data[$columns['Category']] !== '') {
-								$catName = $data[$columns['Category']];
-								if (!in_array($catName, $categoryNames)) {
-									$categoryNames[] = $catName;
+								$categoryName = $data[$columns['Category']];
+								if (!in_array($categoryName, $categoryNames)) {
+									$categoryNames[] = $categoryName;
 								}
-								$bill['category_name'] = $catName;
 							}
-							$bills[] = $bill;
+
+							// new algorithm
+							// get those with a negative value, they will be the owers in generated bills
+							$negativeCols = [];
+							for ($c = 5; $c < $nbCol; $c++) {
+								$amount = $data[$c];
+								if (!is_numeric($amount)) {
+									fclose($handle);
+									return ['message' => $this->trans->t('Malformed CSV, bad amount on line %1$s', [$row])];
+								}
+								if ($amount < 0) {
+									$negativeCols[] = $c;
+								}
+							}
+							$owersList = array_map(static function($c) use ($owersArray) {
+								return $owersArray[$c - 5];
+							}, $negativeCols);
+							// each positive one: bill with member-specific amount (not the full amount), owers are the negative ones
+							for ($c = 5; $c < $nbCol; $c++) {
+								$amount = $data[$c];
+								if ($amount > 0) {
+									$payer_name = $owersArray[$c - 5];
+									if (empty($payer_name)) {
+										fclose($handle);
+										return ['message' => $this->trans->t('Malformed CSV, no payer on line %1$s', [$row])];
+									}
+									$bill = [
+										'what' => $what,
+										'timestamp' => $timestamp,
+										'amount' => $amount,
+										'payer_name' => $payer_name,
+										'owers' => $owersList
+									];
+									if ($categoryName !== null) {
+										$bill['category_name'] = $categoryName;
+									}
+									$bills[] = $bill;
+								}
+							}
 						}
 						$row++;
 					}
@@ -5779,13 +5791,13 @@ class ProjectService {
 					}
 					// add categories
 					$catNameToId = [];
-					foreach ($categoryNames as $catName) {
-						$insertedCatId = $this->addCategory($projectid, $catName, null, '#000000');
+					foreach ($categoryNames as $categoryName) {
+						$insertedCatId = $this->addCategory($projectid, $categoryName, null, '#000000');
 						if (!is_numeric($insertedCatId)) {
 							$this->deleteProject($projectid);
-							return ['message' => $this->trans->t('Error when adding category %1$s', [$catName])];
+							return ['message' => $this->trans->t('Error when adding category %1$s', [$categoryName])];
 						}
-						$catNameToId[$catName] = $insertedCatId;
+						$catNameToId[$categoryName] = $insertedCatId;
 					}
 					// add members
 					foreach ($membersWeight as $memberName => $weight) {

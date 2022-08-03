@@ -694,7 +694,7 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function webMoveBill (string $projectid, int $billid, string $toProjectId): DataResponse {
+	public function webMoveBill(string $projectid, int $billid, string $toProjectId): DataResponse {
 		// ensure the user has permission to access both projects
 		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 

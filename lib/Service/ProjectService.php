@@ -1308,8 +1308,7 @@ class ProjectService {
 	public function deleteBill(string $projectid, int $billid, bool $force = false): array {
 		if ($force === false) {
 			$project = $this->getProjectInfo($projectid);
-			$deletionDisabled = $project['deletion_disabled'];
-			if ($deletionDisabled) {
+			if ($project['deletion_disabled']) {
 				return ['message' => 'Forbidden'];
 			}
 		}
@@ -3622,13 +3621,13 @@ class ProjectService {
 
 		if ($bill['paymentmodeid'] !== 0) {
 			$originPayment = array_filter($originPayments, static function ($val) use ($bill) {
-				return $val['id'] == $bill['paymentmodeid'];
+				return $val['id'] === $bill['paymentmodeid'];
 			});
 			$originPayment = array_shift($originPayment);
 
 			// find a payment mode with the same name
 			$paymentNameMatches = array_filter($destinationPayments, static function ($val) use ($originPayment) {
-				return $val['name'] == $originPayment['name'];
+				return $val['name'] === $originPayment['name'];
 			});
 
 			// no payment mode match, means new mode
@@ -3695,12 +3694,13 @@ class ProjectService {
 
 		// match owers too, these do not mind that much, the user will be able to modify the new invoice just after moving it
 		$newOwers = array_filter($destinationMembers, static function ($member) use ($bill) {
-			$matches = array_filter($bill ['owers'], static function ($oldMember) use ($member) {
-				return $oldMember ['name'] === $member ['name'];
+			$matches = array_filter($bill['owers'], static function ($oldMember) use ($member) {
+				return $oldMember['name'] === $member['name'];
 			});
 
-			if (count($matches) === 0)
+			if (count($matches) === 0) {
 				return false;
+			}
 
 			return true;
 		});
@@ -3709,7 +3709,7 @@ class ProjectService {
 		$newPaymentId = $this->copyBillPaymentMethodOver($projectid, $bill, $toProjectId);
 
 		$result = $this->addBill(
-			$toProjectId, null, $bill['what'], $newPayer ['id'],
+			$toProjectId, null, $bill['what'], $newPayer['id'],
 			implode(',', array_column($newOwers, 'id')), $bill['amount'], $bill['repeat'],
 			$bill['paymentmode'], $newPaymentId,
 			$newCategoryId, $bill['repeatallactive'], $bill['repeatuntil'],

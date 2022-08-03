@@ -83,7 +83,7 @@ export default {
 		CheckboxBlankOutlineIcon,
 		CheckboxMarkedIcon,
 		ActionButton,
-		SwapHorizontalIcon
+		SwapHorizontalIcon,
 	},
 
 	props: {
@@ -236,7 +236,7 @@ export default {
 				: t('cospend', 'Delete this bill')
 		},
 		moveIconTitle() {
-			return t('cospend', 'Move bill');
+			return t('cospend', 'Move bill')
 		},
 		billDetails() {
 			return this.selected
@@ -253,7 +253,7 @@ export default {
 			this.$emit('clicked', this.bill)
 		},
 		onMoveClick(e) {
-			this.$emit('move');
+			this.$emit('move')
 		},
 		onDeleteClick(e) {
 			// stop timer

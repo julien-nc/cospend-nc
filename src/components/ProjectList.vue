@@ -4,11 +4,10 @@
 			{{ t('cospend', 'Move bill "{bill}" to a different project:', {bill: bill.what}) }}
 		</h3>
 		<ListItem v-for="(project, index) in cospend.projects"
+			v-show="project.id != projectId"
 			:key="project.id"
 			:title="project.name"
-			v-show="project.id != projectId"
-			@click="onProjectClicked(project)">
-		</ListItem>
+			@click="onProjectClicked(project)" />
 		<EmptyContent v-if="cospend.projects.length == 1 && cospend.projects[projectId]">
 			{{ t('cospend', 'Only one project available, which this bill already exists in') }}
 		</EmptyContent>
@@ -18,39 +17,39 @@
 	</AppContentList>
 </template>
 <script>
-import ListItem from "@nextcloud/vue/dist/Components/ListItem";
-import AppContentList from "@nextcloud/vue/dist/Components/AppContentList";
-import cospend from '../state';
-import * as network from '../network';
-import {showError, showSuccess} from "@nextcloud/dialogs";
+import ListItem from '@nextcloud/vue/dist/Components/ListItem'
+import AppContentList from '@nextcloud/vue/dist/Components/AppContentList'
+import cospend from '../state'
+import * as network from '../network'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 
 export default {
 	name: 'ProjectList',
 	components: {
 		ListItem,
-		AppContentList
+		AppContentList,
 	},
 	props: {
 		bill: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		projectId: {
 			type: String,
 			required: true,
 		},
 	},
-	created() {
-	},
 	data() {
 		return {
-			cospend
+			cospend,
 		}
+	},
+	created() {
 	},
 	methods: {
 		onProjectClicked(project) {
 			network.moveBill(this.projectId, this.bill.id, project.id).then(res => {
-				showSuccess(t('cospend', 'Bill moved to "{project}" successfully', {project: project.name}))
+				showSuccess(t('cospend', 'Bill moved to "{project}" successfully', { project: project.name }))
 				this.$emit('item-moved', res.data, project.id)
 			}).catch(error => {
 				console.error(error)

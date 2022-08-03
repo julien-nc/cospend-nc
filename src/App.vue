@@ -169,7 +169,7 @@ export default {
 		EmptyContent,
 		Button,
 		PlusIcon,
-		ProjectList
+		ProjectList,
 	},
 	mixins: [isMobile],
 	provide() {

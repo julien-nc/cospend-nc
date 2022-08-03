@@ -449,7 +449,7 @@ export default {
 			}
 		},
 		onItemMove(bill) {
-			this.$emit('move-bill-clicked', bill);
+			this.$emit('move-bill-clicked', bill)
 		},
 		deleteBill(bill) {
 			network.deleteBill(this.projectId, bill).then((response) => {

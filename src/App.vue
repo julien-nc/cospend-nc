@@ -59,11 +59,14 @@
 				@perso-bills-created="onPersoBillsCreated"
 				@duplicate-bill="onDuplicateBill"
 				@repeat-bill-now="onRepeatBillNow" />
-			<MoveToProjectList
-				v-else-if="mode === 'move'"
-				:bill="currentBill"
-				:project-id="currentProjectId"
-				@item-moved="onBillMoved" />
+			<Modal v-if="showMoveModal"
+				   size="normal"
+				   @close="showMoveModal = false">
+				<MoveToProjectList
+					:bill="billToMove"
+					:project-id="currentProjectId"
+					@item-moved="onBillMoved" />
+			</Modal>
 			<Statistics
 				v-else-if="mode === 'stats'"
 				:project-id="currentProjectId" />
@@ -137,6 +140,7 @@ import Content from '@nextcloud/vue/dist/Components/Content'
 import AppContent from '@nextcloud/vue/dist/Components/AppContent'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile'
+import Modal from '@nextcloud/vue/dist/Components/Modal'
 
 import CospendNavigation from './components/CospendNavigation'
 import CospendSettingsDialog from './components/CospendSettingsDialog'
@@ -170,6 +174,7 @@ export default {
 		Button,
 		PlusIcon,
 		MoveToProjectList,
+		Modal
 	},
 	mixins: [isMobile],
 	provide() {
@@ -193,6 +198,8 @@ export default {
 			showSidebar: false,
 			activeSidebarTab: 'sharing',
 			selectedMemberId: null,
+			showMoveModal: false,
+			billToMove: null
 		}
 	},
 	computed: {
@@ -538,8 +545,8 @@ export default {
 			this.getBills(projectid)
 		},
 		onMoveBillClicked(bill) {
-			this.mode = 'move'
-			this.currentBill = bill
+			this.showMoveModal = true
+			this.billToMove = bill
 		},
 		onNewBillClicked(bill = null) {
 			// if a member is selected: deselect member and get full bill list
@@ -634,6 +641,8 @@ export default {
 			}
 		},
 		onBillMoved(newBillId, newProjectId) {
+			// close the modal
+			this.showMoveModal = false
 			// set the selected bill id
 			cospend.restoredCurrentBillId = newBillId
 			// select the project

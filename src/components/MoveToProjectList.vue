@@ -1,20 +1,22 @@
 <template>
-	<AppContentList ref="list">
-		<h3>
-			{{ t('cospend', 'Move bill "{bill}" to a different project:', {bill: bill.what}) }}
-		</h3>
-		<ListItem v-for="(project, index) in cospend.projects"
-			v-show="project.id !== projectId"
-			:key="project.id"
-			:title="project.name"
-			@click="onProjectClicked(project)" />
+	<div>
+		<h2>
+			{{ t('cospend', 'Move bill "{bill}" to a different project:', { bill: bill.what }) }}
+		</h2>
+		<ul>
+			<ListItem v-for="(project) in cospend.projects"
+				v-show="project.id !== projectId"
+				:key="project.id"
+				:title="project.name"
+				@click="onProjectClicked(project)" />
+		</ul>
 		<EmptyContent v-if="cospend.projects.length === 1 && cospend.projects[projectId]">
 			{{ t('cospend', 'Only one project available, which this bill already exists in') }}
 		</EmptyContent>
 		<EmptyContent v-else-if="cospend.projects.length === 0">
 			{{ t('cospend', 'No projects found') }}
 		</EmptyContent>
-	</AppContentList>
+	</div>
 </template>
 <script>
 import ListItem from '@nextcloud/vue/dist/Components/ListItem'

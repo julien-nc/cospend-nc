@@ -24,7 +24,7 @@ import * as network from '../network'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 
 export default {
-	name: 'ProjectList',
+	name: 'MoveToProjectList',
 	components: {
 		ListItem,
 		AppContentList,

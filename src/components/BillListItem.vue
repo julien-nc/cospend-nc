@@ -38,7 +38,7 @@
 				</template>
 				{{ deleteIconTitle }}
 			</ActionButton>
-			<ActionButton
+			<ActionButton v-if="!timerOn"
 				:close-after-click="true"
 				@click="onMoveClick">
 				<template #icon>

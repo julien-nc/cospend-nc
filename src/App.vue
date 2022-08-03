@@ -59,7 +59,7 @@
 				@perso-bills-created="onPersoBillsCreated"
 				@duplicate-bill="onDuplicateBill"
 				@repeat-bill-now="onRepeatBillNow" />
-			<ProjectList
+			<MoveToProjectList
 				v-else-if="mode === 'move'"
 				:bill="currentBill"
 				:project-id="currentProjectId"
@@ -145,7 +145,7 @@ import BillList from './BillList'
 import Statistics from './components/statistics/Statistics'
 import Settlement from './Settlement'
 import Sidebar from './components/Sidebar'
-import ProjectList from './components/ProjectList'
+import MoveToProjectList from './components/MoveToProjectList'
 
 import cospend from './state'
 import * as network from './network'
@@ -169,7 +169,7 @@ export default {
 		EmptyContent,
 		Button,
 		PlusIcon,
-		ProjectList,
+		MoveToProjectList,
 	},
 	mixins: [isMobile],
 	provide() {

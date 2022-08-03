@@ -4,14 +4,14 @@
 			{{ t('cospend', 'Move bill "{bill}" to a different project:', {bill: bill.what}) }}
 		</h3>
 		<ListItem v-for="(project, index) in cospend.projects"
-			v-show="project.id != projectId"
+			v-show="project.id !== projectId"
 			:key="project.id"
 			:title="project.name"
 			@click="onProjectClicked(project)" />
-		<EmptyContent v-if="cospend.projects.length == 1 && cospend.projects[projectId]">
+		<EmptyContent v-if="cospend.projects.length === 1 && cospend.projects[projectId]">
 			{{ t('cospend', 'Only one project available, which this bill already exists in') }}
 		</EmptyContent>
-		<EmptyContent v-else-if="cospend.projects.length == 0">
+		<EmptyContent v-else-if="cospend.projects.length === 0">
 			{{ t('cospend', 'No projects found') }}
 		</EmptyContent>
 	</AppContentList>

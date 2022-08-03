@@ -696,27 +696,27 @@ class PageController extends ApiController {
 	 */
 	public function webMoveBill (string $projectid, int $billid, string $toProjectId): DataResponse {
 		// ensure the user has permission to access both projects
-		$userAccessLevel = $this->projectService->getUserMaxAccessLevel ($this->userId, $projectid);
+		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $projectid);
 
-		if ($userAccessLevel < Application::ACCESS_LEVELS ['participant']) {
-			return new DataResponse (['message' => $this->trans->t ('You are not allowed to edit this bill')], 403);
+		if ($userAccessLevel < Application::ACCESS_LEVELS['participant']) {
+			return new DataResponse(['message' => $this->trans->t('You are not allowed to edit this bill')], 403);
 		}
 
-		$userAccessLevel = $this->projectService->getUserMaxAccessLevel ($this->userId, $toProjectId);
+		$userAccessLevel = $this->projectService->getUserMaxAccessLevel($this->userId, $toProjectId);
 
-		if ($userAccessLevel < Application::ACCESS_LEVELS ['participant']) {
-			return new DataResponse (['message' => $this->trans->t ('You are not allowed to access the destination project')], 403);
+		if ($userAccessLevel < Application::ACCESS_LEVELS['participant']) {
+			return new DataResponse(['message' => $this->trans->t ('You are not allowed to access the destination project')], 403);
 		}
 
 		// update the bill information
-		$result = $this->projectService->moveBill ($projectid, $billid, $toProjectId);
+		$result = $this->projectService->moveBill($projectid, $billid, $toProjectId);
 
-		if (!isset ($result ['inserted_id'])) {
-			return new DataResponse ($result, 403);
+		if (!isset($result['inserted_id'])) {
+			return new DataResponse($result, 403);
 		}
 
 		// return a 200 response
-		return new DataResponse ($result ['inserted_id']);
+		return new DataResponse($result['inserted_id']);
 	}
 
 	/**

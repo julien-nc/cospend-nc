@@ -1,11 +1,10 @@
 <template>
-	<div>
+	<div class="project-list">
 		<h2>
 			{{ t('cospend', 'Move bill "{bill}" to a different project:', { bill: bill.what }) }}
 		</h2>
 		<ul>
-			<ListItem v-for="(project) in cospend.projects"
-				v-show="project.id !== projectId"
+			<ListItem v-for="(project) in allProjectsExceptOrigin"
 				:key="project.id"
 				:title="project.name"
 				@click="onProjectClicked(project)" />
@@ -20,7 +19,6 @@
 </template>
 <script>
 import ListItem from '@nextcloud/vue/dist/Components/ListItem'
-import AppContentList from '@nextcloud/vue/dist/Components/AppContentList'
 import cospend from '../state'
 import * as network from '../network'
 import { showError, showSuccess } from '@nextcloud/dialogs'
@@ -29,7 +27,6 @@ export default {
 	name: 'MoveToProjectList',
 	components: {
 		ListItem,
-		AppContentList,
 	},
 	props: {
 		bill: {
@@ -45,6 +42,17 @@ export default {
 		return {
 			cospend,
 		}
+	},
+	computed: {
+		allProjectsExceptOrigin() {
+			const projects = {}
+			Object.keys(cospend.projects).forEach(pid => {
+				if (pid !== this.projectId) {
+					projects[pid] = cospend.projects[pid]
+				}
+			})
+			return projects
+		},
 	},
 	created() {
 	},
@@ -64,3 +72,10 @@ export default {
 	},
 }
 </script>
+
+<style scoped lang="scss">
+.project-list {
+	padding: 12px;
+	width: 92%;
+}
+</style>

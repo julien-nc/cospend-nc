@@ -1483,37 +1483,23 @@ class ProjectService {
 			);
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()){
-			$dbBillId = (int) $row['id'];
-			$dbAmount = (float) $row['amount'];
-			$dbWhat = $row['what'];
-			$dbComment = $row['comment'];
-			$dbTimestamp = $row['timestamp'];
-			$dbDate = DateTime::createFromFormat('U', $dbTimestamp);
-			$dbRepeat = $row['repeat'];
-			$dbRepeatAllActive = $row['repeatallactive'];
-			$dbRepeatUntil = $row['repeatuntil'];
-			$dbRepeatFreq = (int) $row['repeatfreq'];
-			$dbPayerId = (int) $row['payerid'];
-			$dbPaymentMode = $row['paymentmode'];
-			$dbPaymentModeId = $row['paymentmodeid'];
-			$dbCategoryId = (int) $row['categoryid'];
 			$bill = [
-				'id' => $dbBillId,
-				'amount' => $dbAmount,
-				'what' => $dbWhat,
-				'comment' => $dbComment,
-				'date' => $dbDate->format('Y-m-d'),
-				'timestamp' => $dbTimestamp,
-				'payer_id' => $dbPayerId,
+				'id' => (int) $row['id'],
+				'amount' => (float) $row['amount'],
+				'what' => $row['what'],
+				'comment' => $row['comment'],
+				'date' => DateTime::createFromFormat('U', $row['timestamp'])->format('Y-m-d'),
+				'timestamp' => (int) $row['timestamp'],
+				'payer_id' => (int) $row['payerid'],
 				'owers' => $billOwers,
 				'owerIds' => $billOwerIds,
-				'repeat' => $dbRepeat,
-				'repeatallactive' => $dbRepeatAllActive,
-				'repeatuntil' => $dbRepeatUntil,
-				'repeatfreq' => $dbRepeatFreq,
-				'paymentmode' => $dbPaymentMode,
-				'paymentmodeid' => $dbPaymentModeId,
-				'categoryid' => $dbCategoryId,
+				'repeat' => $row['repeat'],
+				'repeatallactive' => (int) $row['repeatallactive'],
+				'repeatuntil' => $row['repeatuntil'],
+				'repeatfreq' => (int) $row['repeatfreq'],
+				'paymentmode' => $row['paymentmode'],
+				'paymentmodeid' => (int) $row['paymentmodeid'],
+				'categoryid' => (int) $row['categoryid'],
 			];
 		}
 		$req->closeCursor();
@@ -3615,7 +3601,7 @@ class ProjectService {
 		return $result;
 	}
 
-	private function copyBillPaymentMethodOver(string $projectid, array $bill, string $toProjectId): int {
+	private function copyBillPaymentModeOver(string $projectid, array $bill, string $toProjectId): int {
 		$originPayments = $this->getCategoriesOrPaymentModes($projectid, false);
 		$destinationPayments = $this->getCategoriesOrPaymentModes($toProjectId, false);
 
@@ -3706,7 +3692,7 @@ class ProjectService {
 		});
 
 		$newCategoryId = $this->copyBillCategoryOver($projectid, $bill, $toProjectId);
-		$newPaymentId = $this->copyBillPaymentMethodOver($projectid, $bill, $toProjectId);
+		$newPaymentId = $this->copyBillPaymentModeOver($projectid, $bill, $toProjectId);
 
 		$result = $this->addBill(
 			$toProjectId, null, $bill['what'], $newPayer['id'],

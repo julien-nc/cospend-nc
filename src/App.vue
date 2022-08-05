@@ -60,8 +60,8 @@
 				@duplicate-bill="onDuplicateBill"
 				@repeat-bill-now="onRepeatBillNow" />
 			<Modal v-if="showMoveModal"
-				   size="normal"
-				   @close="showMoveModal = false">
+				size="normal"
+				@close="showMoveModal = false">
 				<MoveToProjectList
 					:bill="billToMove"
 					:project-id="currentProjectId"
@@ -174,7 +174,7 @@ export default {
 		Button,
 		PlusIcon,
 		MoveToProjectList,
-		Modal
+		Modal,
 	},
 	mixins: [isMobile],
 	provide() {
@@ -199,7 +199,7 @@ export default {
 			activeSidebarTab: 'sharing',
 			selectedMemberId: null,
 			showMoveModal: false,
-			billToMove: null
+			billToMove: null,
 		}
 	},
 	computed: {

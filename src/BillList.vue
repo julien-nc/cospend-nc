@@ -136,7 +136,7 @@
 				:nbbills="nbBills"
 				:selected="isBillSelected(bill)"
 				:edition-access="editionAccess"
-				:show-delete="!selectMode"
+				:select-mode="selectMode"
 				@clicked="onItemClicked"
 				@delete="onItemDeleted"
 				@move="onItemMove(bill)" />

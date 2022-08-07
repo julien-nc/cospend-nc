@@ -28,7 +28,7 @@
 			</div>
 		</template>
 		<template #actions>
-			<ActionButton v-if="editionAccess && showDelete && (deletionEnabled || bill.id === 0)"
+			<ActionButton v-if="editionAccess && !selectMode && (deletionEnabled || bill.id === 0)"
 				:close-after-click="true"
 				@click="onDeleteClick">
 				<template #icon>
@@ -38,7 +38,7 @@
 				</template>
 				{{ deleteIconTitle }}
 			</ActionButton>
-			<ActionButton v-if="!timerOn"
+			<ActionButton v-if="editionAccess && !selectMode && !timerOn"
 				:close-after-click="true"
 				@click="onMoveClick">
 				<template #icon>
@@ -48,7 +48,7 @@
 			</ActionButton>
 		</template>
 		<template #extra>
-			<div v-if="editionAccess && !showDelete" class="icon-selector">
+			<div v-if="editionAccess && selectMode" class="icon-selector">
 				<CheckboxMarkedIcon v-if="selected" class="selected" :size="20" />
 				<CheckboxBlankOutlineIcon v-else :size="20" />
 			</div>
@@ -111,7 +111,7 @@ export default {
 			type: Boolean,
 			required: true,
 		},
-		showDelete: {
+		selectMode: {
 			type: Boolean,
 			default: true,
 		},

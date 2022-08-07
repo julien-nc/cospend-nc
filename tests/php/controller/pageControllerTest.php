@@ -219,6 +219,8 @@ class PageNUtilsControllerTest extends TestCase {
 		// in case there was a failure and something was not deleted
 		$resp = $this->pageController->webDeleteProject('superproj');
 		$resp = $this->pageController->webDeleteProject('projtodel');
+		$resp = $this->pageController->webDeleteProject('original');
+		$resp = $this->pageController->webDeleteProject('newproject');
 	}
 
 	public function testUtils() {
@@ -1898,4 +1900,91 @@ class PageNUtilsControllerTest extends TestCase {
 
 		$this->projectService->deleteProject($projectId);
 	}
-}
+
+	public function testMoveBill() {
+		$projectId = 'original';
+		$toProjectId = 'newproject';
+		$project = $this->createAndPopulateProject($projectId);
+		$toProject = $this->createAndPopulateProject($toProjectId);
+
+		// get the bills created for the first project
+		$bills = $this->projectService->getBills($projectId);
+
+		// take the first bill (it has a payment and a category) and move it
+		$bill = array_shift ($bills);
+
+		$resp = $this->pageController->webMoveBill($projectId, $bill['id'], $toProjectId);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$respData = $resp->getData();
+
+		// bill moved, ensure the new bill has the right data in it
+		$bill = $this->projectService->getBill($toProjectId, $respData);
+
+		$this->assertNotNull($bill);
+
+		$destCategory = array_pop($toProject['categories']);
+		$destPaymentMode = array_pop($toProject['paymentmodes']);
+
+		$this->assertEquals($destCategory['id'], $bill['categoryid']);
+		$this->assertEquals($destPaymentMode['id'], $bill['paymentmodeid']);
+
+		// get the next bill
+		$bill = array_shift($bills);
+
+		// create a new payment mode
+		$paymentMode = $this->projectService->addPaymentMode($projectId, 'new method', null, '#123123');
+		// create a new category
+		$category = $this->projectService->addCategory($projectId, 'new category', null, '#123123');
+		// ensure it has a new payment mode and category that do not exist in destination
+		$this->projectService->editBill(
+			$projectId, $bill['id'], null, null, null, null,
+			null, null, null, $paymentMode, $category, null
+		);
+
+		// finally move to the new project
+		$resp = $this->pageController->webMoveBill($projectId, $bill['id'], $toProjectId);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$respData = $resp->getData();
+
+		$bill = $this->projectService->getBill($toProjectId, $respData);
+
+		$this->assertNotEquals($bill['paymentmodeid'], $paymentMode);
+		$this->assertNotEquals($bill['categoryid'], $category);
+
+		// get the next bill
+		$bill = array_shift($bills);
+
+		// ensure the bill has multiple owerIds
+		$this->assertEquals(2, count($bill['owerIds']));
+
+		$originalMember = array_shift($project['members']);
+
+		// re-create destination project so It's completely empty
+		$this->projectService->deleteProject($toProjectId);
+		$resp = $this->pageController->webCreateProject($toProjectId, 'SuperProj', 'toto');
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+
+		// try to move the bill to the new project
+		$resp = $this->pageController->webMoveBill($projectId, $bill['id'], $toProjectId);
+		$status = $resp->getStatus();
+		$this->assertEquals(403, $status);
+
+		// now create the member in the destination project and try again
+		$newMemberId = $this->projectService->addMember($toProjectId, $originalMember['name']);
+
+		$resp = $this->pageController->webMoveBill($projectId, $bill['id'], $toProjectId);
+		$status = $resp->getStatus();
+		$this->assertEquals(200, $status);
+		$data = $resp->getData();
+
+		// get the new bill and check the owerIds info too
+		$bill = $this->projectService->getBill($toProjectId, $data);
+		$this->assertEquals(1, count($bill['owerIds']));
+
+		$this->projectService->deleteProject($projectId);
+		$this->projectService->deleteProject($toProjectId);
+	}
+};

@@ -1918,6 +1918,9 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals(200, $status);
 		$respData = $resp->getData();
 
+		// ensure they're not the same bill id
+		$this->assertNotEquals($bill['id'], $respData);
+
 		// bill moved, ensure the new bill has the right data in it
 		$bill = $this->projectService->getBill($toProjectId, $respData);
 
@@ -1974,6 +1977,10 @@ class PageNUtilsControllerTest extends TestCase {
 
 		// now create the member in the destination project and try again
 		$newMemberId = $this->projectService->addMember($toProjectId, $originalMember['name']);
+
+		// ensure no error happened when creating the new member
+		$this->assertFalse(isset($newMemberId['error']));
+		$this->assertEquals(2, count($bill['owerIds']));
 
 		$resp = $this->pageController->webMoveBill($projectId, $bill['id'], $toProjectId);
 		$status = $resp->getStatus();

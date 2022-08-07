@@ -9,26 +9,25 @@
 
 namespace OCA\Cospend\Cron;
 
-use OCA\Cospend\Service\ProjectService;
+use OCA\Cospend\Service\ExportService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 
 class AutoExport extends TimedJob {
 	/**
-	 * @var ProjectService
+	 * @var ExportService
 	 */
-	private $projectService;
+	private $exportService;
 
 	/**
 	 * @param ITimeFactory $time
-	 * @param ProjectService $projectService
+	 * @param ExportService $exportService
 	 */
-	public function __construct(ITimeFactory $time, ProjectService $projectService) {
+	public function __construct(ITimeFactory $time, ExportService $exportService) {
 		parent::__construct($time);
-		$this->projectService = $projectService;
 
-		// Run each day
-		$this->setInterval(24 * 60 * 60);
+		$this->exportService = $exportService;
+		$this->setInterval(24 * 60 * 60); // Run each day
 	}
 
 	/**
@@ -36,6 +35,6 @@ class AutoExport extends TimedJob {
 	 * @return void
 	 */
 	protected function run($argument): void {
-		$this->projectService->cronAutoExport();
+		$this->exportService->cronAutoExport();
 	}
 }

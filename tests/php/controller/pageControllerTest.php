@@ -1910,8 +1910,11 @@ class PageNUtilsControllerTest extends TestCase {
 		// get the bills created for the first project
 		$bills = $this->projectService->getBills($projectId);
 
-		// take the first bill (it has a payment and a category) and move it
-		$bill = array_shift ($bills);
+		// find the bill with payment method and category
+		$bill = array_filter($bills, static function ($bill) {
+			return $bill['paymentmodeid'] !== 0 && $bill['categoryid'] !== 0;
+		});
+		$bill = array_shift ($bill);
 
 		$resp = $this->pageController->webMoveBill($projectId, $bill['id'], $toProjectId);
 		$status = $resp->getStatus();
@@ -1932,8 +1935,11 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals($destCategory['id'], $bill['categoryid']);
 		$this->assertEquals($destPaymentMode['id'], $bill['paymentmodeid']);
 
-		// get the next bill
-		$bill = array_shift($bills);
+		// find the bill that does have a category but not a payment mode
+		$bill = array_filter($bills, static function ($bill) {
+			return $bill['paymentmodeid'] === 0 && $bill['categoryid'] !== 0;
+		});
+		$bill = array_shift($bill);
 
 		// create a new payment mode
 		$paymentMode = $this->projectService->addPaymentMode($projectId, 'new method', null, '#123123');
@@ -1956,8 +1962,11 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertNotEquals($bill['paymentmodeid'], $paymentMode);
 		$this->assertNotEquals($bill['categoryid'], $category);
 
-		// get the next bill
-		$bill = array_shift($bills);
+		// get the bill that has no category and no payment mode
+		$bill = array_filter($bills, static function ($bill) {
+			return $bill['paymentmodeid'] === 0 && $bill['categoryid'] === 0;
+		});
+		$bill = array_shift($bill);
 
 		// ensure the bill has multiple owerIds
 		$this->assertEquals(2, count($bill['owerIds']));
@@ -1990,6 +1999,9 @@ class PageNUtilsControllerTest extends TestCase {
 		// get the new bill and check the owerIds info too
 		$bill = $this->projectService->getBill($toProjectId, $data);
 		$this->assertEquals(1, count($bill['owerIds']));
+		// ensure payment mode and category are right too
+		$this->assertEquals(0, $bill['paymentmodeid']);
+		$this->assertEquals(0, $bill['categoryid']);
 
 		$this->projectService->deleteProject($projectId);
 		$this->projectService->deleteProject($toProjectId);

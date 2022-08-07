@@ -125,9 +125,6 @@ return [
 		['name' => 'page#getPublicFileShare', 'url' => '/getPublicFileShare', 'verb' => 'POST'],
 		['name' => 'page#importCsvProject', 'url' => '/import-csv-project', 'verb' => 'GET'],
 		['name' => 'page#importSWProject', 'url' => '/import-sw-project', 'verb' => 'GET'],
-		['name' => 'page#exportCsvProject', 'url' => '/export-csv-project/{projectid}', 'verb' => 'GET'],
-		['name' => 'page#exportCsvStatistics', 'url' => '/export-csv-statistics/{projectid}', 'verb' => 'GET'],
-		['name' => 'page#exportCsvSettlement', 'url' => '/export-csv-settlement/{projectid}', 'verb' => 'GET'],
 		['name' => 'page#webGetProjects', 'url' => '/projects', 'verb' => 'GET'],
 		['name' => 'page#webGetProjects2', 'url' => '/getProjects', 'verb' => 'POST'],
 		['name' => 'page#webCreateProject', 'url' => '/projects', 'verb' => 'POST'],
@@ -152,5 +149,9 @@ return [
 		['name' => 'page#pubLogin', 'url' => 'login', 'verb' => 'GET'],
 		['name' => 'page#pubProject', 'url' => 'project', 'verb' => 'POST'],
 		['name' => 'page#publicShareLinkPage', 'url' => 's/{token}', 'verb' => 'GET'],
+
+		['name' => 'export#exportCsvProject', 'url' => '/export-csv-project/{projectId}', 'verb' => 'GET'],
+		['name' => 'export#exportCsvSettlement', 'url' => '/export-csv-settlement/{projectId}', 'verb' => 'GET'],
+		['name' => 'export#exportCsvStatistics', 'url' => '/export-csv-statistics/{projectId}', 'verb' => 'GET'],
 	]
 ];

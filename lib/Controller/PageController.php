@@ -708,12 +708,29 @@ class PageController extends ApiController {
 			return new DataResponse(['message' => $this->trans->t ('You are not allowed to access the destination project')], 403);
 		}
 
+		// get current bill from mapper for the activity manager
+		$oldBillObj = $this->billMapper->find ($billid);
+
 		// update the bill information
 		$result = $this->projectService->moveBill($projectid, $billid, $toProjectId);
 
 		if (!isset($result['inserted_id'])) {
 			return new DataResponse($result, 403);
 		}
+
+		$newBillObj = $this->billMapper->find ($result ['inserted_id']);
+
+		// add delete activity record
+		$this->activityManager->triggerEvent (
+			ActivityManager::COSPEND_OBJECT_BILL, $oldBillObj,
+			ActivityManager::SUBJECT_BILL_DELETE, []
+		);
+
+		// add create activity record
+		$this->activityManager->triggerEvent (
+			ActivityManager::COSPEND_OBJECT_BILL, $newBillObj,
+			ActivityManager::SUBJECT_BILL_CREATE, []
+		);
 
 		// return a 200 response
 		return new DataResponse($result['inserted_id']);

@@ -111,7 +111,7 @@ export default {
 			type: Boolean,
 			required: true,
 		},
-		showDelete: {
+		selectMode: {
 			type: Boolean,
 			default: true,
 		},

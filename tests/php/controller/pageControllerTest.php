@@ -1914,7 +1914,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$bill = array_filter($bills, static function ($bill) {
 			return $bill['paymentmodeid'] !== 0 && $bill['categoryid'] !== 0;
 		});
-		$bill = array_shift ($bill);
+		$bill = array_shift($bill);
 
 		$resp = $this->pageController->webMoveBill($projectId, $bill['id'], $toProjectId);
 		$status = $resp->getStatus();

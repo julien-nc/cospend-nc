@@ -553,8 +553,34 @@ export default {
 			this.getBills(projectid)
 		},
 		onMoveBillClicked(bill) {
-			this.showMoveModal = true
-			this.billToMove = bill
+			if (this.isBillMovable(bill)) {
+				this.showMoveModal = true
+				this.billToMove = bill
+			} else {
+				showError(t('cospend', 'Impossible to move bill. No candidate project found.'))
+			}
+		},
+		isBillMovable(bill) {
+			// find a project with the same payer name
+			const payerName = this.currentMembers[bill.payer_id].name
+			let found = false
+			// every() stops if lambda returns false
+			Object.values(this.projects).every(p => {
+				if (p.id !== this.currentProjectId) {
+					if (this.projectHasMemberNamed(p.id, payerName)) {
+						found = true
+						return false
+					}
+				}
+				return true
+			})
+			return found
+		},
+		projectHasMemberNamed(projectId, nameQuery) {
+			const foundMember = Object.values(this.members[projectId]).find(m => {
+				return m.name === nameQuery
+			})
+			return !!foundMember
 		},
 		onNewBillClicked(bill = null) {
 			// if a member is selected: deselect member and get full bill list

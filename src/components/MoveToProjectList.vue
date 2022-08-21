@@ -4,7 +4,7 @@
 			{{ t('cospend', 'Move bill "{bill}" to a different project:', { bill: bill.what }) }}
 		</h2>
 		<ul>
-			<ListItem v-for="(project) in allProjectsExceptOrigin"
+			<ListItem v-for="(project) in candidateTargetProjects"
 				:key="project.id"
 				:title="project.name"
 				@click="onProjectClicked(project)" />
@@ -44,11 +44,13 @@ export default {
 		}
 	},
 	computed: {
-		allProjectsExceptOrigin() {
+		candidateTargetProjects() {
+			// only those with a member named like the bill payer
+			const payerName = cospend.members[this.projectId][this.bill.payer_id].name
 			const projects = {}
-			Object.keys(cospend.projects).forEach(pid => {
-				if (pid !== this.projectId) {
-					projects[pid] = cospend.projects[pid]
+			Object.values(cospend.projects).forEach(p => {
+				if (p.id !== this.projectId && this.projectHasMemberNamed(p.id, payerName)) {
+					projects[p.id] = cospend.projects[p.id]
 				}
 			})
 			return projects
@@ -57,6 +59,12 @@ export default {
 	created() {
 	},
 	methods: {
+		projectHasMemberNamed(projectId, nameQuery) {
+			const foundMember = Object.values(cospend.members[projectId]).find(m => {
+				return m.name === nameQuery
+			})
+			return !!foundMember
+		},
 		onProjectClicked(project) {
 			network.moveBill(this.projectId, this.bill.id, project.id).then(res => {
 				showSuccess(t('cospend', 'Bill moved to "{project}" successfully', { project: project.name }))

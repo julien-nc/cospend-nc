@@ -18,9 +18,9 @@
 	</div>
 </template>
 <script>
-import ListItem from '@nextcloud/vue/dist/Components/ListItem'
-import cospend from '../state'
-import * as network from '../network'
+import ListItem from '@nextcloud/vue/dist/Components/ListItem.js'
+import cospend from '../state.js'
+import * as network from '../network.js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 
 export default {

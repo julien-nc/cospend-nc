@@ -441,6 +441,14 @@ export default {
 		onProjectClicked(projectid) {
 			if (cospend.currentProjectId !== projectid) {
 				this.selectProject(projectid, true, true)
+			} else if (this.selectedMemberId !== null) {
+				// click on current selected project: deselect member
+				this.selectedMemberId = null
+				// deselect current bill
+				this.currentBill = null
+				// we load bills from scratch to make sure we get the correct total number of bills
+				// and infinite scroll works fine
+				this.getBills(cospend.currentProjectId)
 			}
 		},
 		onDeleteProject(projectid) {

@@ -257,6 +257,10 @@ export default {
 	}
 }
 
+::v-deep .selectedmember > a {
+	text-decoration: underline;
+}
+
 #app-settings-content {
 	p {
 		margin-top: 20px;

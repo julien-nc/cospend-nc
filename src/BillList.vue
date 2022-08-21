@@ -154,29 +154,29 @@
 </template>
 
 <script>
-import InformationVariantIcon from 'vue-material-design-icons/InformationVariant'
-import DeleteIcon from 'vue-material-design-icons/Delete'
-import CloseIcon from 'vue-material-design-icons/Close'
-import FilterIcon from 'vue-material-design-icons/Filter'
-import FormatListCheckboxIcon from 'vue-material-design-icons/FormatListCheckbox'
-import PlusIcon from 'vue-material-design-icons/Plus'
-import AppContentList from '@nextcloud/vue/dist/Components/AppContentList'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import InformationVariantIcon from 'vue-material-design-icons/InformationVariant.vue'
+import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+import CloseIcon from 'vue-material-design-icons/Close.vue'
+import FilterIcon from 'vue-material-design-icons/Filter.vue'
+import FormatListCheckboxIcon from 'vue-material-design-icons/FormatListCheckbox.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import AppContentList from '@nextcloud/vue/dist/Components/AppContentList.js'
+import Actions from '@nextcloud/vue/dist/Components/Actions.js'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton.js'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem.js'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent.js'
 
-import PaymentModeMultiSelect from './components/PaymentModeMultiSelect'
-import CategoryMultiSelect from './components/CategoryMultiSelect'
+import PaymentModeMultiSelect from './components/PaymentModeMultiSelect.vue'
+import CategoryMultiSelect from './components/CategoryMultiSelect.vue'
 
 import InfiniteLoading from 'vue-infinite-loading'
 import { showSuccess, showError } from '@nextcloud/dialogs'
-import cospend from './state'
-import * as network from './network'
-import * as constants from './constants'
-import { strcmp } from './utils'
-import CospendIcon from './components/icons/CospendIcon'
-import BillListItem from './components/BillListItem'
+import cospend from './state.js'
+import * as network from './network.js'
+import * as constants from './constants.js'
+import { strcmp } from './utils.js'
+import CospendIcon from './components/icons/CospendIcon.vue'
+import BillListItem from './components/BillListItem.vue'
 
 export default {
 	name: 'BillList',

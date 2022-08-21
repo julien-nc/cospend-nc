@@ -4,7 +4,7 @@
 			<ChartLineIcon
 				:size="20" />
 			{{ t('cospend', 'Statistics of project {name}', { name: project.name }, undefined, { escape: false }) }}
-			<Button v-if="!cospend.pageIsPublic"
+			<NcButton v-if="!cospend.pageIsPublic"
 				class="exportStats"
 				projectid="dum"
 				@click="onExportClick">
@@ -14,7 +14,7 @@
 						:size="20" />
 				</template>
 				{{ t('cospend', 'Export') }}
-			</Button>
+			</NcButton>
 		</h2>
 		<div id="stats-filters">
 			<label for="date-min-stats">
@@ -402,32 +402,32 @@
 </template>
 
 <script>
-import ChartLineIcon from 'vue-material-design-icons/ChartLine'
-import ChartBarIcon from 'vue-material-design-icons/ChartBar'
-import ContentSaveIcon from 'vue-material-design-icons/ContentSave'
-import CalendarEndIcon from 'vue-material-design-icons/CalendarEnd'
-import CalendarStartIcon from 'vue-material-design-icons/CalendarStart'
-import TagIcon from 'vue-material-design-icons/Tag'
-import ShapeIcon from 'vue-material-design-icons/Shape'
-import AccountIcon from 'vue-material-design-icons/Account'
-import CurrencyUsdIcon from 'vue-material-design-icons/CurrencyUsd'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import ChartLineIcon from 'vue-material-design-icons/ChartLine.vue'
+import ChartBarIcon from 'vue-material-design-icons/ChartBar.vue'
+import ContentSaveIcon from 'vue-material-design-icons/ContentSave.vue'
+import CalendarEndIcon from 'vue-material-design-icons/CalendarEnd.vue'
+import CalendarStartIcon from 'vue-material-design-icons/CalendarStart.vue'
+import TagIcon from 'vue-material-design-icons/Tag.vue'
+import ShapeIcon from 'vue-material-design-icons/Shape.vue'
+import AccountIcon from 'vue-material-design-icons/Account.vue'
+import CurrencyUsdIcon from 'vue-material-design-icons/CurrencyUsd.vue'
+import NcButton from '@nextcloud/vue/dist/Components/Button.js'
 import moment from '@nextcloud/moment'
-import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
-import ColoredAvatar from '../ColoredAvatar'
-import MemberMultiSelect from '../MemberMultiSelect'
-import CategoryMultiSelect from '../CategoryMultiSelect'
+import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails.js'
+import ColoredAvatar from '../ColoredAvatar.vue'
+import MemberMultiSelect from '../MemberMultiSelect.vue'
+import CategoryMultiSelect from '../CategoryMultiSelect.vue'
 
-import { getCategory, getPaymentMode, getSmartMemberName, strcmp } from '../../utils'
-import cospend from '../../state'
-import * as network from '../../network'
-import MemberMonthly from './MemberMonthly'
-import Monthly from './Monthly'
-import PieChartJs from '../PieChartJs'
-import BarChartJs from '../BarChartJs'
-import * as constants from '../../constants'
-import PaymentModeMultiSelect from '../PaymentModeMultiSelect'
-import CurrencyIcon from '../icons/CurrencyIcon'
+import { getCategory, getPaymentMode, getSmartMemberName, strcmp } from '../../utils.js'
+import cospend from '../../state.js'
+import * as network from '../../network.js'
+import MemberMonthly from './MemberMonthly.vue'
+import Monthly from './Monthly.vue'
+import PieChartJs from '../PieChartJs.vue'
+import BarChartJs from '../BarChartJs.vue'
+import * as constants from '../../constants.js'
+import PaymentModeMultiSelect from '../PaymentModeMultiSelect.vue'
+import CurrencyIcon from '../icons/CurrencyIcon.vue'
 
 export default {
 	name: 'Statistics',
@@ -441,7 +441,7 @@ export default {
 		MemberMonthly,
 		Monthly,
 		AppContentDetails,
-		Button,
+		NcButton,
 		CategoryMultiSelect,
 		PaymentModeMultiSelect,
 		CalendarStartIcon,

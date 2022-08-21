@@ -259,14 +259,14 @@
 			</li>
 		</ul>
 		<hr><br>
-		<Button class="passwordAccessSwitch"
+		<NcButton class="passwordAccessSwitch"
 			@click="toggleShowPasswordAccess">
 			<template #icon>
 				<MenuDownIcon v-if="showPasswordAccess" :size="20" />
 				<MenuRightIcon v-else :size="20" />
 			</template>
 			{{ t('cospend', 'Show deprecated password protected access') }}
-		</Button>
+		</NcButton>
 		<div v-if="showPasswordAccess">
 			<ul
 				id="guestList"
@@ -343,42 +343,42 @@
 					:readonly="newPasswordReadonly"
 					@focus="newPasswordReadonly = false; $event.target.select()"
 					@keyup.enter="setPassword">
-				<Button @click="setPassword">
+				<NcButton @click="setPassword">
 					<template #icon>
 						<CheckIcon :size="20" />
 					</template>
-				</Button>
+				</NcButton>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import GoogleCirclesCommunitiesIcon from 'vue-material-design-icons/GoogleCirclesCommunities'
-import AccountIcon from 'vue-material-design-icons/Account'
-import AccountGroupIcon from 'vue-material-design-icons/AccountGroup'
-import CheckIcon from 'vue-material-design-icons/Check'
-import InformationVariantIcon from 'vue-material-design-icons/InformationVariant'
-import ClipboardCheckOutlineIcon from 'vue-material-design-icons/ClipboardCheckOutline'
-import LockIcon from 'vue-material-design-icons/Lock'
-import DeleteIcon from 'vue-material-design-icons/Delete'
-import PlusIcon from 'vue-material-design-icons/Plus'
-import MenuRightIcon from 'vue-material-design-icons/MenuRight'
-import MenuDownIcon from 'vue-material-design-icons/MenuDown'
-import TextBoxIcon from 'vue-material-design-icons/TextBox'
-import LinkVariantIcon from 'vue-material-design-icons/LinkVariant'
-import QrcodeIcon from 'vue-material-design-icons/Qrcode'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
-import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
-import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
-import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator'
-import Modal from '@nextcloud/vue/dist/Components/Modal'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import GoogleCirclesCommunitiesIcon from 'vue-material-design-icons/GoogleCirclesCommunities.vue'
+import AccountIcon from 'vue-material-design-icons/Account.vue'
+import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
+import InformationVariantIcon from 'vue-material-design-icons/InformationVariant.vue'
+import ClipboardCheckOutlineIcon from 'vue-material-design-icons/ClipboardCheckOutline.vue'
+import LockIcon from 'vue-material-design-icons/Lock.vue'
+import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import MenuRightIcon from 'vue-material-design-icons/MenuRight.vue'
+import MenuDownIcon from 'vue-material-design-icons/MenuDown.vue'
+import TextBoxIcon from 'vue-material-design-icons/TextBox.vue'
+import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
+import QrcodeIcon from 'vue-material-design-icons/Qrcode.vue'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect.js'
+import Avatar from '@nextcloud/vue/dist/Components/Avatar.js'
+import Actions from '@nextcloud/vue/dist/Components/Actions.js'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton.js'
+import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio.js'
+import ActionInput from '@nextcloud/vue/dist/Components/ActionInput.js'
+import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox.js'
+import ActionLink from '@nextcloud/vue/dist/Components/ActionLink.js'
+import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator.js'
+import Modal from '@nextcloud/vue/dist/Components/Modal.js'
+import NcButton from '@nextcloud/vue/dist/Components/Button.js'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl, generateOcsUrl, imagePath } from '@nextcloud/router'
@@ -386,13 +386,13 @@ import {
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
-import QRCode from './QRCode'
-import cospend from '../state'
-import * as constants from '../constants'
-import * as network from '../network'
+import QRCode from './QRCode.vue'
+import cospend from '../state.js'
+import * as constants from '../constants.js'
+import * as network from '../network.js'
 import axios from '@nextcloud/axios'
-import { Timer } from '../utils'
-import ClippyIcon from './icons/ClippyIcon'
+import { Timer } from '../utils.js'
+import ClippyIcon from './icons/ClippyIcon.vue'
 
 export default {
 	name: 'SharingTabSidebar',
@@ -409,7 +409,7 @@ export default {
 		ActionSeparator,
 		Multiselect,
 		Modal,
-		Button,
+		NcButton,
 		QRCode,
 		QrcodeIcon,
 		LockIcon,

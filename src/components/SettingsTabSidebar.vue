@@ -7,11 +7,11 @@
 				type="text"
 				:placeholder="t('cospend', 'Rename project {n}', { n: project.name }, undefined, { escape: false })"
 				@keyup.enter="onRenameProject">
-			<Button @click="onRenameProject">
+			<NcButton @click="onRenameProject">
 				<template #icon>
 					<CheckIcon :size="20" />
 				</template>
-			</Button>
+			</NcButton>
 			<br>
 		</div>
 		<div v-if="adminAccess" class="deletion-disabled-line">
@@ -66,11 +66,11 @@
 				<span class="tcontent">
 					{{ t('cospend', 'Members') }}
 				</span>
-				<Button @click="onInfoAddClicked">
+				<NcButton @click="onInfoAddClicked">
 					<template #icon>
 						<InformationVariantIcon :size="20" />
 					</template>
-				</Button>
+				</NcButton>
 			</h3>
 			<h4 v-if="maintenerAccess">
 				<PlusIcon class="icon" :size="20" />
@@ -131,11 +131,11 @@
 					<span class="tcontent">
 						{{ t('cospend', 'Associate a project member with a Nextcloud user') }}
 					</span>
-					<Button @click="onInfoAssociateClicked">
+					<NcButton @click="onInfoAssociateClicked">
 						<template #icon>
 							<InformationVariantIcon :size="20" />
 						</template>
-					</Button>
+					</NcButton>
 				</h3>
 				<div id="affectDiv">
 					<MemberMultiSelect
@@ -181,28 +181,28 @@
 </template>
 
 <script>
-import InformationVariantIcon from 'vue-material-design-icons/InformationVariant'
-import AccountIcon from 'vue-material-design-icons/Account'
-import AccountPlusIcon from 'vue-material-design-icons/AccountPlus'
-import CheckIcon from 'vue-material-design-icons/Check'
-import PlusIcon from 'vue-material-design-icons/Plus'
-import ContentSaveIcon from 'vue-material-design-icons/ContentSave'
-import CalendarMonthIcon from 'vue-material-design-icons/CalendarMonth'
-import Button from '@nextcloud/vue/dist/Components/Button'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import InformationVariantIcon from 'vue-material-design-icons/InformationVariant.vue'
+import AccountIcon from 'vue-material-design-icons/Account.vue'
+import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import ContentSaveIcon from 'vue-material-design-icons/ContentSave.vue'
+import CalendarMonthIcon from 'vue-material-design-icons/CalendarMonth.vue'
+import NcButton from '@nextcloud/vue/dist/Components/Button.js'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect.js'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem.js'
+import Avatar from '@nextcloud/vue/dist/Components/Avatar.js'
 
 import { generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
 
-import cospend from '../state'
-import * as constants from '../constants'
-import { getSortedMembers } from '../utils'
-import AppNavigationMemberItem from './AppNavigationMemberItem'
-import MemberMultiSelect from './MemberMultiSelect'
+import cospend from '../state.js'
+import * as constants from '../constants.js'
+import { getSortedMembers } from '../utils.js'
+import AppNavigationMemberItem from './AppNavigationMemberItem.vue'
+import MemberMultiSelect from './MemberMultiSelect.vue'
 
 export default {
 	name: 'SettingsTabSidebar',
@@ -215,7 +215,7 @@ export default {
 		CalendarMonthIcon,
 		ContentSaveIcon,
 		CheckIcon,
-		Button,
+		NcButton,
 		AccountIcon,
 		AccountPlusIcon,
 		PlusIcon,

@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 
-import * as network from './network'
+import * as network from './network.js'
 
 (function() {
 	if (!OCA.Cospend) {

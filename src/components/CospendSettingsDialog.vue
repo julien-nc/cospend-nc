@@ -82,29 +82,29 @@
 				:title="t('cospend', 'Import projects')"
 				class="app-settings-section">
 				<div class="oneLine">
-					<Button @click="onImportClick">
+					<NcButton @click="onImportClick">
 						<template #icon>
 							<FileImportIcon
 								:class="{ 'icon-loading': importingProject }"
 								:size="20" />
 						</template>
 						{{ t('cospend', 'Import csv project') }}
-					</Button>
-					<Button @click="onImportSWClick">
+					</NcButton>
+					<NcButton @click="onImportSWClick">
 						<template #icon>
 							<FileImportIcon
 								:class="{ 'icon-loading': importingSWProject }"
 								:size="20" />
 						</template>
 						{{ t('cospend', 'Import SplitWise project') }}
-					</Button>
+					</NcButton>
 				</div>
 			</AppSettingsSection>
 			<AppSettingsSection v-if="!pageIsPublic"
 				:title="t('cospend', 'Guest access')"
 				class="app-settings-section">
 				<a :href="guestLink" @click.prevent.stop="onGuestLinkClick">
-					<Button>
+					<NcButton>
 						<template #icon>
 							<ClipboardCheckOutlineIcon v-if="guestLinkCopied"
 								class="success"
@@ -113,7 +113,7 @@
 								:size="16" />
 						</template>
 						{{ t('cospend', 'Copy guest access link') }}
-					</Button>
+					</NcButton>
 				</a>
 			</AppSettingsSection>
 			<AppSettingsSection v-if="!pageIsPublic"
@@ -197,18 +197,18 @@
 </template>
 
 <script>
-import ClipboardCheckOutlineIcon from 'vue-material-design-icons/ClipboardCheckOutline'
-import OpenInNewIcon from 'vue-material-design-icons/OpenInNew'
-import FileImportIcon from 'vue-material-design-icons/FileImport'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import ClipboardCheckOutlineIcon from 'vue-material-design-icons/ClipboardCheckOutline.vue'
+import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
+import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
+import NcButton from '@nextcloud/vue/dist/Components/Button.js'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { getFilePickerBuilder, showError, showSuccess } from '@nextcloud/dialogs'
-import AppSettingsDialog from '@nextcloud/vue/dist/Components/AppSettingsDialog'
-import AppSettingsSection from '@nextcloud/vue/dist/Components/AppSettingsSection'
-import cospend from '../state'
+import AppSettingsDialog from '@nextcloud/vue/dist/Components/AppSettingsDialog.js'
+import AppSettingsSection from '@nextcloud/vue/dist/Components/AppSettingsSection.js'
+import cospend from '../state.js'
 import { generateUrl } from '@nextcloud/router'
-import { importCospendProject, importSWProject, Timer } from '../utils'
-import ClippyIcon from './icons/ClippyIcon'
+import { importCospendProject, importSWProject, Timer } from '../utils.js'
+import ClippyIcon from './icons/ClippyIcon.vue'
 
 export default {
 	name: 'CospendSettingsDialog',
@@ -217,7 +217,7 @@ export default {
 		ClippyIcon,
 		AppSettingsDialog,
 		AppSettingsSection,
-		Button,
+		NcButton,
 		FileImportIcon,
 		ClipboardCheckOutlineIcon,
 		OpenInNewIcon,

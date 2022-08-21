@@ -24,7 +24,7 @@
 				target="blank">
 				[🔗 {{ t('cospend', 'link') }}]
 			</a>
-			<Button
+			<NcButton
 				v-if="isNewBill"
 				v-tooltip.bottom="{ content: t('cospend', 'Press Shift+Enter to validate') }"
 				type="primary"
@@ -35,15 +35,15 @@
 				<span>
 					{{ createBillButtonText }}
 				</span>
-			</Button>
-			<Button v-else
+			</NcButton>
+			<NcButton v-else
 				v-tooltip.bottom="{ content: payerDisabled ? t('cospend', 'Impossible to duplicate a bill with a disabled payer') : t('cospend', 'Duplicate bill') }"
 				:disabled="payerDisabled"
 				@click="onDuplicate">
 				<template #icon>
 					<ContentDuplicateIcon :size="20" />
 				</template>
-			</Button>
+			</NcButton>
 		</h2>
 		<div class="bill-form">
 			<div class="bill-left">
@@ -70,13 +70,13 @@
 					class="bill-link-button">
 					<label>&nbsp;</label>
 					<div class="link-button">
-						<Button @click="onGeneratePubLinkClick">
+						<NcButton @click="onGeneratePubLinkClick">
 							<template #icon>
 								<LinkVariantIcon
 									:size="20" />
 							</template>
 							{{ t('cospend', 'Attach share link to personal file') }}
-						</Button>
+						</NcButton>
 					</div>
 				</div>
 				<div class="bill-amount">
@@ -97,13 +97,13 @@
 							@input="onAmountChanged"
 							@keyup.enter="onAmountEnterPressed"
 							@focus="$event.target.select()">
-						<Button
+						<NcButton
 							v-tooltip.top="{ content: t('cospend', 'More information') }"
 							@click="onAmountInfoClicked">
 							<template #icon>
 								<InformationVariantIcon :size="20" />
 							</template>
-						</Button>
+						</NcButton>
 					</div>
 				</div>
 				<div
@@ -125,13 +125,13 @@
 								{{ currency.name }} ⇒ {{ project.currencyname }} (x{{ currency.exchange_rate }})
 							</option>
 						</select>
-						<Button
+						<NcButton
 							v-tooltip.top="{ content: t('cospend', 'More information') }"
 							@click="onConvertInfoClicked">
 							<template #icon>
 								<InformationVariantIcon :size="20" />
 							</template>
-						</Button>
+						</NcButton>
 					</div>
 				</div>
 				<div class="bill-payer">
@@ -262,13 +262,13 @@
 								{{ t('cospend', 'Yearly') }}
 							</option>
 						</select>
-						<Button
+						<NcButton
 							v-tooltip.top="{ content: t('cospend', 'More information') }"
 							@click="onRepeatInfoClicked">
 							<template #icon>
 								<InformationVariantIcon :size="20" />
 							</template>
-						</Button>
+						</NcButton>
 					</div>
 				</div>
 				<div v-if="myBill.repeat !== 'n'"
@@ -329,7 +329,7 @@
 						class="bill-repeat-now">
 						<label>&nbsp;</label>
 						<div class="repeat-now">
-							<Button
+							<NcButton
 								@click="$emit('repeat-bill-now', myBill.id)">
 								<template #icon>
 									<RepeatIcon
@@ -337,7 +337,7 @@
 										:size="20" />
 								</template>
 								{{ t('cospend', 'Repeat now') }}
-							</Button>
+							</NcButton>
 						</div>
 					</div>
 				</div>
@@ -369,13 +369,13 @@
 								{{ t('cospend', 'Custom share per member') }}
 							</option>
 						</select>
-						<Button
+						<NcButton
 							v-tooltip.bottom="{ content: t('cospend', 'More information') }"
 							@click="onHintClick">
 							<template #icon>
 								<InformationVariantIcon :size="20" />
 							</template>
-						</Button>
+						</NcButton>
 					</div>
 					<div v-if="isNewBill && newBillMode === 'customShare'" class="checkbox-line">
 						<input
@@ -579,7 +579,7 @@
 						</div>
 					</div>
 				</div>
-				<Button
+				<NcButton
 					v-if="isNewBill"
 					v-tooltip.bottom="{ content: t('cospend', 'Press Shift+Enter to validate') }"
 					type="primary"
@@ -590,39 +590,38 @@
 					<span>
 						{{ createBillButtonText }}
 					</span>
-				</Button>
+				</NcButton>
 			</div>
 		</div>
 	</AppContentDetails>
 </template>
 
 <script>
-import FormatListBulletedTypeIcon from 'vue-material-design-icons/FormatListBulletedType'
-import AccountGroupIcon from 'vue-material-design-icons/AccountGroup'
-import AccountIcon from 'vue-material-design-icons/Account'
-import TagIcon from 'vue-material-design-icons/Tag'
-import CheckIcon from 'vue-material-design-icons/Check'
-import CalendarIcon from 'vue-material-design-icons/Calendar'
-import CalendarEndIcon from 'vue-material-design-icons/CalendarEnd'
-import CounterIcon from 'vue-material-design-icons/Counter'
-import TextLongIcon from 'vue-material-design-icons/TextLong'
-import ShapeIcon from 'vue-material-design-icons/Shape'
-import LinkVariantIcon from 'vue-material-design-icons/LinkVariant'
-import CommentTextIcon from 'vue-material-design-icons/CommentText'
-import RepeatIcon from 'vue-material-design-icons/Repeat'
-import ContentDuplicateIcon from 'vue-material-design-icons/ContentDuplicate'
-import CalendarSyncIcon from 'vue-material-design-icons/CalendarSync'
-import InformationVariantIcon from 'vue-material-design-icons/InformationVariant'
-import Button from '@nextcloud/vue/dist/Components/Button'
-import cospend from './state'
+import FormatListBulletedTypeIcon from 'vue-material-design-icons/FormatListBulletedType.vue'
+import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
+import AccountIcon from 'vue-material-design-icons/Account.vue'
+import TagIcon from 'vue-material-design-icons/Tag.vue'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
+import CalendarIcon from 'vue-material-design-icons/Calendar.vue'
+import CalendarEndIcon from 'vue-material-design-icons/CalendarEnd.vue'
+import CounterIcon from 'vue-material-design-icons/Counter.vue'
+import TextLongIcon from 'vue-material-design-icons/TextLong.vue'
+import ShapeIcon from 'vue-material-design-icons/Shape.vue'
+import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
+import CommentTextIcon from 'vue-material-design-icons/CommentText.vue'
+import RepeatIcon from 'vue-material-design-icons/Repeat.vue'
+import ContentDuplicateIcon from 'vue-material-design-icons/ContentDuplicate.vue'
+import CalendarSyncIcon from 'vue-material-design-icons/CalendarSync.vue'
+import InformationVariantIcon from 'vue-material-design-icons/InformationVariant.vue'
+import NcButton from '@nextcloud/vue/dist/Components/Button.js'
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { getLocale } from '@nextcloud/l10n'
-import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
-import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
-import ColoredAvatar from './components/ColoredAvatar'
-import MemberMultiSelect from './components/MemberMultiSelect'
+import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker.js'
+import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails.js'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect.js'
+import ColoredAvatar from './components/ColoredAvatar.vue'
+import MemberMultiSelect from './components/MemberMultiSelect.vue'
 import {
 	showSuccess,
 	showError,
@@ -630,11 +629,12 @@ import {
 import moment from '@nextcloud/moment'
 import {
 	delay, getCategory, getPaymentMode, getSmartMemberName, strcmp, evalAlgebricFormula,
-} from './utils'
-import * as network from './network'
-import * as constants from './constants'
-import CospendIcon from './components/icons/CospendIcon'
-import CurrencyIcon from './components/icons/CurrencyIcon'
+} from './utils.js'
+import cospend from './state.js'
+import * as network from './network.js'
+import * as constants from './constants.js'
+import CospendIcon from './components/icons/CospendIcon.vue'
+import CurrencyIcon from './components/icons/CurrencyIcon.vue'
 
 export default {
 	name: 'BillForm',
@@ -647,7 +647,7 @@ export default {
 		ColoredAvatar,
 		Multiselect,
 		MemberMultiSelect,
-		Button,
+		NcButton,
 		AccountIcon,
 		AccountGroupIcon,
 		TagIcon,

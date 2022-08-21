@@ -1,5 +1,5 @@
 <template>
-	<Content app-name="cospend">
+	<NcContent app-name="cospend">
 		<CospendNavigation
 			:projects="projects"
 			:selected-project-id="currentProjectId"
@@ -72,19 +72,19 @@
 				</template>
 				<span class="emptyContentInnerWrapper">
 					{{ currentProjectId ? t('cospend', 'Project {name}', { name: currentProjectId }) : t('cospend', 'Select a project') }}
-					<Button
+					<NcButton
 						class="emptyContentCreateBillButton"
 						@click="onNewBillClicked(null)">
 						<template #icon>
 							<PlusIcon :size="20" />
 						</template>
 						{{ t('cospend', 'Create a bill') }}
-					</Button>
+					</NcButton>
 				</span>
 			</EmptyContent>
 			<div v-if="!isMobile"
 				class="content-buttons">
-				<Button
+				<NcButton
 					v-tooltip.bottom="{ content: t('cospend', 'Toggle sidebar') }"
 					class="icon-menu"
 					@click="onMainDetailClicked" />
@@ -111,12 +111,12 @@
 			@export-clicked="onExportClicked"
 			@paymentmode-deleted="onPaymentModeDeleted"
 			@category-deleted="onCategoryDeleted" />
-	</Content>
+	</NcContent>
 </template>
 
 <script>
-import PlusIcon from 'vue-material-design-icons/Plus'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import NcButton from '@nextcloud/vue/dist/Components/Button.js'
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
@@ -127,24 +127,24 @@ import {
 	showInfo,
 } from '@nextcloud/dialogs'
 import '@nextcloud/dialogs/styles/toast.scss'
-import Content from '@nextcloud/vue/dist/Components/Content'
-import AppContent from '@nextcloud/vue/dist/Components/AppContent'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import isMobile from '@nextcloud/vue/dist/Mixins/isMobile'
+import NcContent from '@nextcloud/vue/dist/Components/Content.js'
+import AppContent from '@nextcloud/vue/dist/Components/AppContent.js'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent.js'
+import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
 
-import CospendNavigation from './components/CospendNavigation'
-import CospendSettingsDialog from './components/CospendSettingsDialog'
-import BillForm from './BillForm'
-import BillList from './BillList'
-import Statistics from './components/statistics/Statistics'
-import Settlement from './Settlement'
-import Sidebar from './components/Sidebar'
+import CospendNavigation from './components/CospendNavigation.vue'
+import CospendSettingsDialog from './components/CospendSettingsDialog.vue'
+import BillForm from './BillForm.vue'
+import BillList from './BillList.vue'
+import Statistics from './components/statistics/Statistics.vue'
+import Settlement from './Settlement.vue'
+import Sidebar from './components/Sidebar.vue'
 
-import cospend from './state'
-import * as network from './network'
-import * as constants from './constants'
-import { rgbObjToHex, slugify } from './utils'
-import CospendIcon from './components/icons/CospendIcon'
+import cospend from './state.js'
+import * as network from './network.js'
+import * as constants from './constants.js'
+import { rgbObjToHex, slugify } from './utils.js'
+import CospendIcon from './components/icons/CospendIcon.vue'
 
 export default {
 	name: 'App',
@@ -157,10 +157,10 @@ export default {
 		Statistics,
 		Settlement,
 		Sidebar,
-		Content,
+		NcContent,
 		AppContent,
 		EmptyContent,
-		Button,
+		NcButton,
 		PlusIcon,
 	},
 	mixins: [isMobile],

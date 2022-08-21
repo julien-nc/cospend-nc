@@ -44,9 +44,9 @@
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
-import ColoredAvatar from './ColoredAvatar'
-import { getSmartMemberName } from '../utils'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect.js'
+import ColoredAvatar from './ColoredAvatar.vue'
+import { getSmartMemberName } from '../utils.js'
 
 export default {
 	name: 'MemberMultiSelect',

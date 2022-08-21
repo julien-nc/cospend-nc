@@ -45,8 +45,8 @@
 </template>
 
 <script>
-import cospend from '../../state'
-import LineChartJs from '../LineChartJs'
+import cospend from '../../state.js'
+import LineChartJs from '../LineChartJs.vue'
 
 export default {
 	name: 'Monthly',

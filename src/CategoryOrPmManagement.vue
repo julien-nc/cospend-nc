@@ -36,21 +36,21 @@
 				</h3>
 				<div class="add-element">
 					<ColorPicker class="app-navigation-entry-bullet-wrapper" value="" @input="updateAddColor">
-						<Button
+						<NcButton
 							v-tooltip.top="{ content: t('cospend', 'Color') }"
 							:style="{ backgroundColor: newColor }">
 							<template #icon>
 								<PaletteIcon :size="20" />
 							</template>
-						</Button>
+						</NcButton>
 					</ColorPicker>
 					<EmojiPicker :show-preview="true"
 						@select="selectEmoji">
-						<Button
+						<NcButton
 							v-tooltip.top="{ content: t('cospend', 'Icon') }"
 							class="emojiButton">
 							{{ newIcon }}
-						</Button>
+						</NcButton>
 					</EmojiPicker>
 					<input ref="newName"
 						type="text"
@@ -60,14 +60,14 @@
 						:placeholder="newNamePlaceholder"
 						@focus="$event.target.select()"
 						@keyup.enter="onAddElement">
-					<Button
+					<NcButton
 						v-tooltip.top="{ content: addTooltip }"
 						type="primary"
 						@click="onAddElement">
 						<template #icon>
 							<PlusIcon :size="20" />
 						</template>
-					</Button>
+					</NcButton>
 				</div>
 				<hr>
 			</div>
@@ -129,16 +129,16 @@
 </template>
 
 <script>
-import Button from '@nextcloud/vue/dist/Components/Button'
-import InformationVariantIcon from 'vue-material-design-icons/InformationVariant'
-import PaletteIcon from 'vue-material-design-icons/Palette'
-import SortIcon from 'vue-material-design-icons/Sort'
-import PlusIcon from 'vue-material-design-icons/Plus'
-import ShapeIcon from 'vue-material-design-icons/Shape'
-import TagIcon from 'vue-material-design-icons/Tag'
-import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
-import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import NcButton from '@nextcloud/vue/dist/Components/Button.js'
+import InformationVariantIcon from 'vue-material-design-icons/InformationVariant.vue'
+import PaletteIcon from 'vue-material-design-icons/Palette.vue'
+import SortIcon from 'vue-material-design-icons/Sort.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import ShapeIcon from 'vue-material-design-icons/Shape.vue'
+import TagIcon from 'vue-material-design-icons/Tag.vue'
+import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker.js'
+import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker.js'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent.js'
 import {
 	showSuccess,
 	showError,
@@ -146,11 +146,11 @@ import {
 
 import { Container, Draggable } from 'vue-smooth-dnd'
 
-import cospend from './state'
-import CategoryOrPm from './components/CategoryOrPm'
-import * as constants from './constants'
-import * as network from './network'
-import { strcmp } from './utils'
+import cospend from './state.js'
+import CategoryOrPm from './components/CategoryOrPm.vue'
+import * as constants from './constants.js'
+import * as network from './network.js'
+import { strcmp } from './utils.js'
 
 export default {
 	name: 'CategoryOrPmManagement',
@@ -168,7 +168,7 @@ export default {
 		SortIcon,
 		PaletteIcon,
 		InformationVariantIcon,
-		Button,
+		NcButton,
 	},
 
 	props: {

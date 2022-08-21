@@ -4,14 +4,14 @@
 			class="one-currency-label">
 			<label class="one-currency-label-label">{{ currency.name }}</label>
 			<label class="one-currency-label-label">(x{{ currency.exchange_rate }})</label>
-			<Button v-show="editionAccess"
+			<NcButton v-show="editionAccess"
 				v-tooltip.top="{ content: t('cospend', 'Edit') }"
 				@click="onClickEdit">
 				<template #icon>
 					<PencilIcon :size="20" />
 				</template>
-			</Button>
-			<Button v-show="editionAccess"
+			</NcButton>
+			<NcButton v-show="editionAccess"
 				v-tooltip.top="{ content: t('cospend', 'Delete') }"
 				class="deleteCurrencyButton"
 				@click="onClickDelete">
@@ -19,7 +19,7 @@
 					<UndoIcon v-if="timerOn" :size="20" />
 					<DeleteIcon v-else class="delete-icon" :size="20" />
 				</template>
-			</Button>
+			</NcButton>
 			<label v-if="timerOn"
 				class="one-currency-label-timer">
 				<vac :end-time="new Date().getTime() + (7000)">
@@ -44,32 +44,32 @@
 				class="editCurrencyRateInput"
 				step="0.0001"
 				min="0">
-			<Button
+			<NcButton
 				v-tooltip.top="{ content: t('cospend', 'Cancel') }"
 				@click="onClickCancel">
 				<template #icon>
 					<UndoIcon :size="20" />
 				</template>
-			</Button>
-			<Button
+			</NcButton>
+			<NcButton
 				v-tooltip.top="{ content: t('cospend', 'Save') }"
 				type="primary"
 				@click="onClickEditOk">
 				<template #icon>
 					<CheckIcon :size="20" />
 				</template>
-			</Button>
+			</NcButton>
 		</div>
 	</div>
 </template>
 
 <script>
-import Button from '@nextcloud/vue/dist/Components/Button'
-import PencilIcon from 'vue-material-design-icons/Pencil'
-import UndoIcon from 'vue-material-design-icons/Undo'
-import CheckIcon from 'vue-material-design-icons/Check'
-import DeleteIcon from 'vue-material-design-icons/Delete'
-import { Timer } from '../utils'
+import NcButton from '@nextcloud/vue/dist/Components/Button.js'
+import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import UndoIcon from 'vue-material-design-icons/Undo.vue'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
+import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+import { Timer } from '../utils.js'
 
 export default {
 	name: 'Currency',
@@ -79,7 +79,7 @@ export default {
 		DeleteIcon,
 		UndoIcon,
 		CheckIcon,
-		Button,
+		NcButton,
 	},
 
 	props: {

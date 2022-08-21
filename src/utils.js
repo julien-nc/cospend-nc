@@ -1,12 +1,10 @@
-/* jshint esversion: 6 */
-
-import cospend from './state'
+import cospend from './state.js'
 import { getCurrentUser } from '@nextcloud/auth'
 import {
 	showInfo,
 	showError,
 } from '@nextcloud/dialogs'
-import * as network from './network'
+import * as network from './network.js'
 
 export function importCospendProject(importBeginCallback, importSuccessCallback, importEndCallback) {
 	OC.dialogs.filepicker(

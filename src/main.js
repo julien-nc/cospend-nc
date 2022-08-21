@@ -12,19 +12,19 @@
  */
 
 import Vue from 'vue'
-import './bootstrap'
-import App from './App'
+import './bootstrap.js'
+import App from './App.vue'
 import { showError } from '@nextcloud/dialogs'
 import { getRequestToken } from '@nextcloud/auth'
 import { generateFilePath } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
 import vueAwesomeCountdown from 'vue-awesome-countdown'
 import VueClipboard from 'vue-clipboard2'
 import SmartTable from 'vuejs-smart-table'
-import { hexToDarkerHex } from './utils'
-import * as network from './network'
-import cospend from './state'
+import { hexToDarkerHex } from './utils.js'
+import * as network from './network.js'
+import cospend from './state.js'
 import '../css/cospend.scss'
 
 Vue.use(vueAwesomeCountdown, 'vac')

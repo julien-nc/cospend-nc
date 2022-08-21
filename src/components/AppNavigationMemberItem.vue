@@ -126,25 +126,25 @@
 </template>
 
 <script>
-import PaletteIcon from 'vue-material-design-icons/Palette'
-import DeleteIcon from 'vue-material-design-icons/Delete'
-import UndoIcon from 'vue-material-design-icons/Undo'
-import WeightIcon from 'vue-material-design-icons/Weight'
+import PaletteIcon from 'vue-material-design-icons/Palette.vue'
+import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+import UndoIcon from 'vue-material-design-icons/Undo.vue'
+import WeightIcon from 'vue-material-design-icons/Weight.vue'
 import ClickOutside from 'vue-click-outside'
 
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
-import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
-import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
-import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator'
-import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
-import ColoredAvatar from './ColoredAvatar'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton.js'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem.js'
+import ActionInput from '@nextcloud/vue/dist/Components/ActionInput.js'
+import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio.js'
+import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator.js'
+import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker.js'
+import ColoredAvatar from './ColoredAvatar.vue'
 
 import { getCurrentUser } from '@nextcloud/auth'
-import cospend from '../state'
-import * as constants from '../constants'
-import * as network from '../network'
-import { getSmartMemberName, delay } from '../utils'
+import cospend from '../state.js'
+import * as constants from '../constants.js'
+import * as network from '../network.js'
+import { getSmartMemberName, delay } from '../utils.js'
 import { showError } from '@nextcloud/dialogs'
 
 export default {

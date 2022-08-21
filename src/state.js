@@ -1,6 +1,4 @@
-/* jshint esversion: 6 */
-
-import * as constants from './constants'
+import * as constants from './constants.js'
 
 const cospend = {
 	restoredCurrentProjectId: null,

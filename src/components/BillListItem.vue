@@ -57,19 +57,19 @@
 </template>
 
 <script>
-import CalendarSyncIcon from 'vue-material-design-icons/CalendarSync'
-import CheckboxMarkedIcon from 'vue-material-design-icons/CheckboxMarked'
-import CheckboxBlankOutlineIcon from 'vue-material-design-icons/CheckboxBlankOutline'
-import DeleteIcon from 'vue-material-design-icons/Delete'
-import UndoIcon from 'vue-material-design-icons/Undo'
-import cospend from '../state'
+import CalendarSyncIcon from 'vue-material-design-icons/CalendarSync.vue'
+import CheckboxMarkedIcon from 'vue-material-design-icons/CheckboxMarked.vue'
+import CheckboxBlankOutlineIcon from 'vue-material-design-icons/CheckboxBlankOutline.vue'
+import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+import UndoIcon from 'vue-material-design-icons/Undo.vue'
+import SwapHorizontalIcon from 'vue-material-design-icons/SwapHorizontal.vue'
+import cospend from '../state.js'
 import { generateUrl } from '@nextcloud/router'
 import moment from '@nextcloud/moment'
-import ListItem from '@nextcloud/vue/dist/Components/ListItem'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import SwapHorizontalIcon from 'vue-material-design-icons/SwapHorizontal'
-import ColoredAvatar from './ColoredAvatar'
-import { reload, Timer, getCategory, getPaymentMode, getSmartMemberName } from '../utils'
+import ListItem from '@nextcloud/vue/dist/Components/ListItem.js'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton.js'
+import ColoredAvatar from './ColoredAvatar.vue'
+import { reload, Timer, getCategory, getPaymentMode, getSmartMemberName } from '../utils.js'
 
 export default {
 	name: 'BillListItem',
@@ -111,7 +111,7 @@ export default {
 			type: Boolean,
 			required: true,
 		},
-		selectMode: {
+		showDelete: {
 			type: Boolean,
 			default: true,
 		},

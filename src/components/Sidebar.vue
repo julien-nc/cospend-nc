@@ -95,25 +95,25 @@
 </template>
 
 <script>
-import LightningBoltIcon from 'vue-material-design-icons/LightningBolt'
-import ShapeIcon from 'vue-material-design-icons/Shape'
-import TagIcon from 'vue-material-design-icons/Tag'
-import ShareVariantIcon from 'vue-material-design-icons/ShareVariant'
-import CogIcon from 'vue-material-design-icons/Cog'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
-import AppSidebarTab from '@nextcloud/vue/dist/Components/AppSidebarTab'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
+import LightningBoltIcon from 'vue-material-design-icons/LightningBolt.vue'
+import ShapeIcon from 'vue-material-design-icons/Shape.vue'
+import TagIcon from 'vue-material-design-icons/Tag.vue'
+import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
+import CogIcon from 'vue-material-design-icons/Cog.vue'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton.js'
+import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar.js'
+import AppSidebarTab from '@nextcloud/vue/dist/Components/AppSidebarTab.js'
+import ActionLink from '@nextcloud/vue/dist/Components/ActionLink.js'
 
 import { generateUrl } from '@nextcloud/router'
-import SharingTabSidebar from './SharingTabSidebar'
-import SettingsTabSidebar from './SettingsTabSidebar'
-import CategoryOrPmManagement from '../CategoryOrPmManagement'
-import CurrencyManagement from '../CurrencyManagement'
-import ActivityTabSidebar from './ActivityTabSidebar'
-import cospend from '../state'
-import * as constants from '../constants'
-import CurrencyIcon from './icons/CurrencyIcon'
+import SharingTabSidebar from './SharingTabSidebar.vue'
+import SettingsTabSidebar from './SettingsTabSidebar.vue'
+import CategoryOrPmManagement from '../CategoryOrPmManagement.vue'
+import CurrencyManagement from '../CurrencyManagement.vue'
+import ActivityTabSidebar from './ActivityTabSidebar.vue'
+import cospend from '../state.js'
+import * as constants from '../constants.js'
+import CurrencyIcon from './icons/CurrencyIcon.vue'
 
 export default {
 	name: 'Sidebar',

@@ -86,22 +86,22 @@
 </template>
 
 <script>
-import AppNavigationProjectItem from './AppNavigationProjectItem'
+import AppNavigationProjectItem from './AppNavigationProjectItem.vue'
 
-import cospend from '../state'
-import * as constants from '../constants'
-import { strcmp, importCospendProject, importSWProject } from '../utils'
+import cospend from '../state.js'
+import * as constants from '../constants.js'
+import { strcmp, importCospendProject, importSWProject } from '../utils.js'
 
 import ClickOutside from 'vue-click-outside'
 
-import FolderIcon from 'vue-material-design-icons/Folder'
-import PlusIcon from 'vue-material-design-icons/Plus'
-import FileImportIcon from 'vue-material-design-icons/FileImport'
-import CogIcon from 'vue-material-design-icons/Cog'
-import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import FolderIcon from 'vue-material-design-icons/Folder.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
+import CogIcon from 'vue-material-design-icons/Cog.vue'
+import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation.js'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent.js'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem.js'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton.js'
 
 import { emit } from '@nextcloud/event-bus'
 import { showSuccess } from '@nextcloud/dialogs'
@@ -255,6 +255,10 @@ export default {
 	> a {
 		font-weight: bold;
 	}
+}
+
+::v-deep .selectedmember > a {
+	text-decoration: underline;
 }
 
 #app-settings-content {

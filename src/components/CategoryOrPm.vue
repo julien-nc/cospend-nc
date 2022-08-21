@@ -9,14 +9,14 @@
 				:style="{ backgroundColor: element.color }" />
 			<label class="one-element-label-label">{{ element.icon || '' }}</label>
 			<label class="one-element-label-label label-label">{{ element.name }}</label>
-			<Button v-show="editionAccess"
+			<NcButton v-show="editionAccess"
 				v-tooltip.top="{ content: t('cospend', 'Edit') }"
 				@click="onClickEdit">
 				<template #icon>
 					<PencilIcon :size="20" />
 				</template>
-			</Button>
-			<Button v-show="editionAccess"
+			</NcButton>
+			<NcButton v-show="editionAccess"
 				v-tooltip.top="{ content: t('cospend', 'Delete') }"
 				class="deleteItemButton"
 				@click="onClickDelete">
@@ -24,7 +24,7 @@
 					<UndoIcon v-if="timerOn" :size="20" />
 					<DeleteIcon v-else class="deleteItem" :size="20" />
 				</template>
-			</Button>
+			</NcButton>
 			<label v-if="timerOn"
 				class="one-element-label-timer">
 				<vac :end-time="new Date().getTime() + (7000)">
@@ -40,21 +40,21 @@
 				class="app-navigation-entry-bullet-wrapper"
 				value=""
 				@input="updateColor">
-				<Button
+				<NcButton
 					v-tooltip.top="{ content: t('cospend', 'Color') }"
 					:style="{ backgroundColor: color }">
 					<template #icon>
 						<PaletteIcon :size="20" />
 					</template>
-				</Button>
+				</NcButton>
 			</ColorPicker>
 			<EmojiPicker :show-preview="true"
 				@select="selectEmoji">
-				<Button
+				<NcButton
 					v-tooltip.top="{ content: t('cospend', 'Icon') }"
 					class="emojiButton">
 					{{ icon }}
-				</Button>
+				</NcButton>
 			</EmojiPicker>
 			<input ref="cname"
 				v-model="name"
@@ -63,36 +63,36 @@
 				class="editElementNameInput"
 				:placeholder="t('cospend', 'Name')"
 				@focus="$event.target.select()">
-			<Button
+			<NcButton
 				v-tooltip.top="{ content: t('cospend', 'Cancel') }"
 				@click="onClickCancel">
 				<template #icon>
 					<UndoIcon :size="20" />
 				</template>
-			</Button>
-			<Button
+			</NcButton>
+			<NcButton
 				v-tooltip.top="{ content: t('cospend', 'Save') }"
 				type="primary"
 				@click="onClickEditOk">
 				<template #icon>
 					<CheckIcon :size="20" />
 				</template>
-			</Button>
+			</NcButton>
 		</div>
 	</div>
 </template>
 
 <script>
-import Button from '@nextcloud/vue/dist/Components/Button'
-import CursorMoveIcon from 'vue-material-design-icons/CursorMove'
-import PaletteIcon from 'vue-material-design-icons/Palette'
-import PencilIcon from 'vue-material-design-icons/Pencil'
-import UndoIcon from 'vue-material-design-icons/Undo'
-import CheckIcon from 'vue-material-design-icons/Check'
-import DeleteIcon from 'vue-material-design-icons/Delete'
-import { Timer } from '../utils'
-import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
-import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker'
+import NcButton from '@nextcloud/vue/dist/Components/Button.js'
+import CursorMoveIcon from 'vue-material-design-icons/CursorMove.vue'
+import PaletteIcon from 'vue-material-design-icons/Palette.vue'
+import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import UndoIcon from 'vue-material-design-icons/Undo.vue'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
+import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+import { Timer } from '../utils.js'
+import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker.js'
+import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker.js'
 
 export default {
 	name: 'CategoryOrPm',
@@ -106,7 +106,7 @@ export default {
 		UndoIcon,
 		CheckIcon,
 		CursorMoveIcon,
-		Button,
+		NcButton,
 	},
 
 	props: {

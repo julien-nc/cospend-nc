@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import Avatar from '@nextcloud/vue/dist/Components/Avatar.js'
 
 export default {
 	name: 'ColoredAvatar',

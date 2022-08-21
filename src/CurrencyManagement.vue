@@ -10,13 +10,13 @@
 			<div v-show="!editMode"
 				id="main-currency-label">
 				<label id="main-currency-label-label">{{ project.currencyname || t('cospend', 'None') }}</label>
-				<Button v-show="project.myaccesslevel >= constants.ACCESS.MAINTENER"
+				<NcButton v-show="project.myaccesslevel >= constants.ACCESS.MAINTENER"
 					v-tooltip.top="{ content: t('cospend', 'Set main currency name') }"
 					@click="editMode=true; $nextTick(() => $refs.mainCurrencyEdit.focus());">
 					<template #icon>
 						<PencilIcon :size="20" />
 					</template>
-				</Button>
+				</NcButton>
 			</div>
 			<div v-show="editMode"
 				id="main-currency-edit">
@@ -28,21 +28,21 @@
 					:value="project.currencyname || ''"
 					@keyup.enter="onEditMainOkClick"
 					@focus="$event.target.select()">
-				<Button
+				<NcButton
 					v-tooltip.top="{ content: t('cospend', 'Cancel') }"
 					@click="editMode=false">
 					<template #icon>
 						<UndoIcon :size="20" />
 					</template>
-				</Button>
-				<Button
+				</NcButton>
+				<NcButton
 					v-tooltip.top="{ content: t('cospend', 'Save') }"
 					type="primary"
 					@click="onEditMainOkClick">
 					<template #icon>
 						<CheckIcon :size="20" />
 					</template>
-				</Button>
+				</NcButton>
 			</div>
 		</div>
 		<hr>
@@ -83,14 +83,14 @@
 					</label>
 				</div>
 				<div class="addCurrencyButtonWrapper">
-					<Button
+					<NcButton
 						v-tooltip.top="{ content: t('cospend', 'Add this currency') }"
 						type="primary"
 						@click="onAddCurrency">
 						<template #icon>
 							<CheckIcon :size="22" />
 						</template>
-					</Button>
+					</NcButton>
 				</div>
 				<hr>
 			</div>
@@ -116,22 +116,22 @@
 </template>
 
 <script>
-import Button from '@nextcloud/vue/dist/Components/Button'
-import PencilIcon from 'vue-material-design-icons/Pencil'
-import PlusIcon from 'vue-material-design-icons/Plus'
-import CheckIcon from 'vue-material-design-icons/Check'
-import UndoIcon from 'vue-material-design-icons/Undo'
-import CurrencyUsdIcon from 'vue-material-design-icons/CurrencyUsd'
+import NcButton from '@nextcloud/vue/dist/Components/Button.js'
+import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
+import UndoIcon from 'vue-material-design-icons/Undo.vue'
+import CurrencyUsdIcon from 'vue-material-design-icons/CurrencyUsd.vue'
 import {
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
 
-import cospend from './state'
-import Currency from './components/Currency'
-import * as constants from './constants'
-import * as network from './network'
-import CurrencyIcon from './components/icons/CurrencyIcon'
+import cospend from './state.js'
+import Currency from './components/Currency.vue'
+import * as constants from './constants.js'
+import * as network from './network.js'
+import CurrencyIcon from './components/icons/CurrencyIcon.vue'
 
 export default {
 	name: 'CurrencyManagement',
@@ -144,7 +144,7 @@ export default {
 		PencilIcon,
 		CheckIcon,
 		UndoIcon,
-		Button,
+		NcButton,
 	},
 
 	props: {

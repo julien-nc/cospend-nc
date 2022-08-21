@@ -27,8 +27,8 @@ import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import moment from '@nextcloud/moment'
 import { DashboardWidget } from '@nextcloud/vue-dashboard'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import CospendIcon from '../components/icons/CospendIcon'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent.js'
+import CospendIcon from '../components/icons/CospendIcon.vue'
 
 export default {
 	name: 'Dashboard',

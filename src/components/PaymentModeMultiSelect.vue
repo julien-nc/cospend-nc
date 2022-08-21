@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect.js'
 
 export default {
 	name: 'PaymentModeMultiSelect',

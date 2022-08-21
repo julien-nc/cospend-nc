@@ -59,11 +59,11 @@
 </template>
 
 <script>
-import ColoredAvatar from '../ColoredAvatar'
+import ColoredAvatar from '../ColoredAvatar.vue'
 
-import { getSmartMemberName } from '../../utils'
-import cospend from '../../state'
-import LineChartJs from '../LineChartJs'
+import { getSmartMemberName } from '../../utils.js'
+import cospend from '../../state.js'
+import LineChartJs from '../LineChartJs.vue'
 
 export default {
 	name: 'MemberMonthly',

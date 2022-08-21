@@ -5,18 +5,18 @@
 			<span>
 				{{ t('cospend', 'Settlement of project {name}', { name: project.name }, undefined, { escape: false }) }}
 			</span>
-			<Button @click="onExportClick">
+			<NcButton @click="onExportClick">
 				<template #icon>
 					<ContentSaveIcon :size="20" />
 				</template>
 				{{ t('cospend', 'Export') }}
-			</Button>
-			<Button v-if="editionAccess" @click="onAutoSettleClick">
+			</NcButton>
+			<NcButton v-if="editionAccess" @click="onAutoSettleClick">
 				<template #icon>
 					<PlusIcon :size="20" />
 				</template>
 				{{ t('cospend', 'Add these payments to the project') }}
-			</Button>
+			</NcButton>
 		</h2>
 		<div id="settlement-options">
 			<div id="center-settle-div" class="centered-option">
@@ -37,11 +37,11 @@
 				<label for="max-date">
 					{{ t('cospend', 'Settlement date') }}
 				</label>
-				<Button @click="onDateInfoClicked">
+				<NcButton @click="onDateInfoClicked">
 					<template #icon>
 						<InformationVariantIcon :size="20" />
 					</template>
-				</Button>
+				</NcButton>
 				<DatetimePicker
 					id="max-date"
 					v-model="maxDate"
@@ -54,27 +54,27 @@
 					:clearable="true"
 					confirm
 					@change="onChangeMaxDate" />
-				<Button
+				<NcButton
 					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this day') }"
 					@click="onDayBeginningClicked">
 					<template #icon>
 						<CalendarTodayIcon :size="20" />
 					</template>
-				</Button>
-				<Button
+				</NcButton>
+				<NcButton
 					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this week') }"
 					@click="onWeekBeginningClicked">
 					<template #icon>
 						<CalendarWeekIcon :size="20" />
 					</template>
-				</Button>
-				<Button
+				</NcButton>
+				<NcButton
 					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this month') }"
 					@click="onMonthBeginningClicked">
 					<template #icon>
 						<CalendarMonthIcon :size="20" />
 					</template>
-				</Button>
+				</NcButton>
 			</div>
 		</div>
 		<hr>
@@ -196,11 +196,11 @@
 
 		<hr>
 		<h2 class="individualTitle">
-			<Button @click="onIndividualInfoClicked">
+			<NcButton @click="onIndividualInfoClicked">
 				<template #icon>
 					<InformationVariantIcon :size="20" />
 				</template>
-			</Button>
+			</NcButton>
 			<span>{{ t('cospend', 'Individual reimbursement') }}</span>
 		</h2>
 		<div id="individual-form">
@@ -227,36 +227,36 @@
 					{{ member.name }}
 				</option>
 			</select>
-			<Button v-if="individualPayerId && individualReceiverId"
+			<NcButton v-if="individualPayerId && individualReceiverId"
 				@click="createIndividual">
 				{{ t('cospend', 'Create bill ({amount})', { amount: (-members[individualPayerId].balance).toFixed(precision) }) }}
-			</Button>
+			</NcButton>
 		</div>
 	</AppContentDetails>
 </template>
 
 <script>
-import Button from '@nextcloud/vue/dist/Components/Button'
-import InformationVariantIcon from 'vue-material-design-icons/InformationVariant'
-import ContentSaveIcon from 'vue-material-design-icons/ContentSave'
-import PlusIcon from 'vue-material-design-icons/Plus'
-import CalendarTodayIcon from 'vue-material-design-icons/CalendarToday'
-import CalendarWeekIcon from 'vue-material-design-icons/CalendarWeek'
-import CalendarMonthIcon from 'vue-material-design-icons/CalendarMonth'
+import InformationVariantIcon from 'vue-material-design-icons/InformationVariant.vue'
+import ContentSaveIcon from 'vue-material-design-icons/ContentSave.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import CalendarTodayIcon from 'vue-material-design-icons/CalendarToday.vue'
+import CalendarWeekIcon from 'vue-material-design-icons/CalendarWeek.vue'
+import CalendarMonthIcon from 'vue-material-design-icons/CalendarMonth.vue'
+import NcButton from '@nextcloud/vue/dist/Components/Button.js'
+import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails.js'
+import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker.js'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent.js'
+import ColoredAvatar from './components/ColoredAvatar.vue'
+
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import { getLocale } from '@nextcloud/l10n'
-import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails'
-import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import ColoredAvatar from './components/ColoredAvatar'
-
-import { getSmartMemberName } from './utils'
-import cospend from './state'
-import * as constants from './constants'
-import * as network from './network'
-import CospendIcon from './components/icons/CospendIcon'
-import ReimburseIcon from './components/icons/ReimburseIcon'
+import { getSmartMemberName } from './utils.js'
+import cospend from './state.js'
+import * as constants from './constants.js'
+import * as network from './network.js'
+import CospendIcon from './components/icons/CospendIcon.vue'
+import ReimburseIcon from './components/icons/ReimburseIcon.vue'
 
 export default {
 	name: 'Settlement',
@@ -268,7 +268,7 @@ export default {
 		AppContentDetails,
 		DatetimePicker,
 		EmptyContent,
-		Button,
+		NcButton,
 		ContentSaveIcon,
 		PlusIcon,
 		InformationVariantIcon,

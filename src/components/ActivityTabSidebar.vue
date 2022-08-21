@@ -20,7 +20,7 @@
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
 
-import ActivityEntry from './ActivityEntry'
+import ActivityEntry from './ActivityEntry.vue'
 
 import { generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'

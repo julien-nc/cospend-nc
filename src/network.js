@@ -1,7 +1,5 @@
-/* jshint esversion: 6 */
-
-import cospend from './state'
-import * as constants from './constants'
+import cospend from './state.js'
+import * as constants from './constants.js'
 import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import {

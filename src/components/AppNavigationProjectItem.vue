@@ -107,24 +107,24 @@
 </template>
 
 <script>
-import ShareVariantIcon from 'vue-material-design-icons/ShareVariant'
-import CogIcon from 'vue-material-design-icons/Cog'
-import PlusIcon from 'vue-material-design-icons/Plus'
-import DeleteIcon from 'vue-material-design-icons/Delete'
-import AccountIcon from 'vue-material-design-icons/Account'
-import FolderIcon from 'vue-material-design-icons/Folder'
-import FolderOutlineIcon from 'vue-material-design-icons/FolderOutline'
-import ChartLineIcon from 'vue-material-design-icons/ChartLine'
+import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
+import CogIcon from 'vue-material-design-icons/Cog.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+import AccountIcon from 'vue-material-design-icons/Account.vue'
+import FolderIcon from 'vue-material-design-icons/Folder.vue'
+import FolderOutlineIcon from 'vue-material-design-icons/FolderOutline.vue'
+import ChartLineIcon from 'vue-material-design-icons/ChartLine.vue'
 import ClickOutside from 'vue-click-outside'
-import AppNavigationMemberItem from './AppNavigationMemberItem'
+import AppNavigationMemberItem from './AppNavigationMemberItem.vue'
 
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton.js'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem.js'
 
-import cospend from '../state'
-import * as constants from '../constants'
-import { Timer, getSortedMembers } from '../utils'
-import ReimburseIcon from './icons/ReimburseIcon'
+import cospend from '../state.js'
+import * as constants from '../constants.js'
+import { Timer, getSortedMembers } from '../utils.js'
+import ReimburseIcon from './icons/ReimburseIcon.vue'
 
 export default {
 	name: 'AppNavigationProjectItem',

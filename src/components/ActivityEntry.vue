@@ -24,15 +24,15 @@
 
 <script>
 
-import PencilIcon from 'vue-material-design-icons/Pencil'
-import ShareVariantIcon from 'vue-material-design-icons/ShareVariant'
-import PlusIcon from 'vue-material-design-icons/Plus'
-import DeleteIcon from 'vue-material-design-icons/Delete'
+import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import moment from '@nextcloud/moment'
 import { getCurrentUser } from '@nextcloud/auth'
 import RichText from '@juliushaertl/vue-richtext'
 
-import UserBubble from '@nextcloud/vue/dist/Components/UserBubble'
+import UserBubble from '@nextcloud/vue/dist/Components/UserBubble.js'
 
 const icons = {
 	bill_update: {

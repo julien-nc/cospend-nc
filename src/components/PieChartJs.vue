@@ -1,5 +1,5 @@
 <script>
-import { Pie } from 'vue-chartjs/legacy'
+import { Pie } from 'vue-chartjs/legacy/index.js'
 import { Chart as ChartJS, Title, Tooltip, Legend, CategoryScale, LinearScale, ArcElement } from 'chart.js'
 ChartJS.register(Title, Tooltip, Legend, CategoryScale, LinearScale, ArcElement)
 

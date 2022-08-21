@@ -38,7 +38,7 @@
 				</template>
 				{{ deleteIconTitle }}
 			</ActionButton>
-			<ActionButton v-if="editionAccess && !selectMode && !timerOn"
+			<ActionButton v-if="!pageIsPublic && editionAccess && !selectMode && !timerOn"
 				:close-after-click="true"
 				@click="onMoveClick">
 				<template #icon>
@@ -154,6 +154,9 @@ export default {
 				: this.members[this.bill.payer_id]
 					? this.members[this.bill.payer_id].name
 					: ''
+		},
+		pageIsPublic() {
+			return cospend.pageIsPublic
 		},
 		deletionEnabled() {
 			return !cospend.projects[this.projectId].deletion_disabled

@@ -12,6 +12,7 @@ namespace OCA\Cospend\Service;
 use DateTime;
 use OC\User\NoUserException;
 use OCA\Cospend\AppInfo\Application;
+use OCA\Cospend\Exception\ErrorMessageException;
 use OCA\Cospend\Utils;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -136,9 +137,10 @@ class ExportService extends AbstractService {
 				$filename = $projectId . '.csv';
 			}
 
-			$file = $this->createExportFile($userFolder, $outputPath, $filename);
-			if (is_string($file)) {
-				return ['message' => $file];
+			try {
+				$file = $this->createExportFile($userFolder, $outputPath, $filename);
+			} catch (ErrorMessageException $exception) {
+				return ['message' => $exception->getMessage()];
 			}
 
 			$projectInfo = $this->projectService->getProjectInfo($projectId);
@@ -182,9 +184,10 @@ class ExportService extends AbstractService {
 			$outputPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
 			$filename = $projectId . '-settlement.csv';
 
-			$file = $this->createExportFile($userFolder, $outputPath, $filename);
-			if (is_string($file)) {
-				return ['message' => $file];
+			try {
+				$file = $this->createExportFile($userFolder, $outputPath, $filename);
+			} catch (ErrorMessageException $exception) {
+				return ['message' => $exception->getMessage()];
 			}
 
 			$settlement = $this->projectService->getProjectSettlement($projectId, $centeredOn, $maxTimestamp);
@@ -252,9 +255,10 @@ class ExportService extends AbstractService {
 			$outputPath = $this->config->getUserValue($userId, 'cospend', 'outputDirectory', '/Cospend');
 			$filename = $projectId . '-stats.csv';
 
-			$file = $this->createExportFile($userFolder, $outputPath, $filename);
-			if (is_string($file)) {
-				return ['message' => $file];
+			try {
+				$file = $this->createExportFile($userFolder, $outputPath, $filename);
+			} catch (ErrorMessageException $exception) {
+				return ['message' => $exception->getMessage()];
 			}
 
 			$allStats = $this->projectService->getProjectStatistics(
@@ -343,18 +347,14 @@ class ExportService extends AbstractService {
 	/**
 	 * Create and return the export file. If an error occurs, a error message string is returned.
 	 *
-	 * TODO: after dropping PHP 7.x support, use union return type 'Folder|string'
-	 *
 	 * @param Folder $userFolder
 	 * @param string $outPath
 	 * @param string $filename
-	 * @return File|string
+	 * @return File
+	 * @throws ErrorMessageException
 	 */
-	protected function createExportFile(Folder $userFolder, string $outPath, string $filename) {
+	protected function createExportFile(Folder $userFolder, string $outPath, string $filename): File {
 		$folder = $this->getExportDirectory($userFolder, $outPath);
-		if (is_string($folder)) {
-			return $folder;
-		}
 
 		try {
 			if ($folder->nodeExists($filename)) {
@@ -365,7 +365,7 @@ class ExportService extends AbstractService {
 		} catch (InvalidPathException|NotFoundException|NotPermittedException $exception) {
 			$this->logger->debug($exception->getMessage(), ['exception' => $exception]);
 
-			return $this->translation->t('Impossible to create %1$s', [$filename]);
+			throw new ErrorMessageException($this->translation->t('Impossible to create %1$s', [$filename]));
 		}
 	}
 
@@ -373,13 +373,12 @@ class ExportService extends AbstractService {
 	 * Return the directory where things will be exported. If the directory does not exist, it will be created.
 	 * If an error occurs, a error message string is returned.
 	 *
-	 * TODO: after dropping PHP 7.x support, use union return type 'Folder|string'
-	 *
 	 * @param Folder $userFolder
 	 * @param string $outPath
-	 * @return Folder|string
+	 * @return Folder
+	 * @throws ErrorMessageException
 	 */
-	protected function getExportDirectory(Folder $userFolder, string $outPath) {
+	protected function getExportDirectory(Folder $userFolder, string $outPath): Folder {
 		try {
 			if (!$userFolder->nodeExists($outPath)) {
 				$folder = $userFolder->newFolder($outPath);
@@ -389,13 +388,13 @@ class ExportService extends AbstractService {
 		} catch (NotFoundException|NotPermittedException $exception) {
 			$this->logger->debug($exception->getMessage(), ['exception' => $exception]);
 
-			return $this->translation->t('Impossible to create %1$s', [$outPath]);
+			throw new ErrorMessageException($this->translation->t('Impossible to create %1$s', [$outPath]));
 		}
 
 		if ($folder->getType() !== FileInfo::TYPE_FOLDER) {
-			return $this->translation->t('%1$s is not a folder', [$outPath]);
+			throw new ErrorMessageException($this->translation->t('%1$s is not a folder', [$outPath]));
 		} elseif (!$folder->isCreatable()) {
-			return $this->translation->t('%1$s is not writeable', [$outPath]);
+			throw new ErrorMessageException($this->translation->t('%1$s is not writeable', [$outPath]));
 		} else {
 			return $folder;
 		}

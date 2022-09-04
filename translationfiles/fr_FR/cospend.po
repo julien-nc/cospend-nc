@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-09-04 18:07+0200\n"
-"PO-Revision-Date: 2022-09-04 16:08\n"
+"POT-Creation-Date: 2022-09-04 18:28+0200\n"
+"PO-Revision-Date: 2022-09-04 16:29\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -211,7 +211,7 @@ msgstr "Vous n'êtes pas autorisé à éditer cette facture"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:708
 msgid "You are not allowed to access the destination project"
-msgstr ""
+msgstr "Vous n'êtes pas autorisé à accéder au projet de destination"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:750
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:846
@@ -602,11 +602,11 @@ msgstr "Cette facture n'existe pas"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3676
 msgid "Cannot match payer"
-msgstr ""
+msgstr "Impossible de trouver un payeur correspondant"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3706
 #, php-format
-msgid "Cannot create new invoice: %1$s"
+msgid "Cannot create new bill: %1$s"
 msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3995
@@ -818,7 +818,7 @@ msgstr "CSV mal formé, aucun participant à la ligne %1$s"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5878
 msgid "Malformed CSV, impossible to find the column names"
-msgstr ""
+msgstr "CSV mal formé, impossible de trouver les noms de colonnes"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5972
 msgid "daily"
@@ -846,7 +846,7 @@ msgstr "Sélectionnez un projet"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "Create a bill"
-msgstr ""
+msgstr "Créer une facture"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "Toggle sidebar"
@@ -862,7 +862,7 @@ msgstr "Le membre {name} existe déjà"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:6
 msgid "Impossible to move bill. No candidate project found."
-msgstr ""
+msgstr "Impossible de déplacer la facture. Aucun projet candidat trouvé."
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Failed to get projects"
@@ -1820,7 +1820,7 @@ msgstr "Paramètres"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:249
 msgid "Share"
-msgstr ""
+msgstr "Partager"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:250
 msgid "Add member"
@@ -1862,7 +1862,7 @@ msgstr "Supprimer cette facture"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:262
 msgid "Move bill"
-msgstr ""
+msgstr "Déplacer la facture"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:263
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:313
@@ -2009,23 +2009,23 @@ msgstr "Le lien invité n'a pas pu être copié dans le presse-papiers."
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:319
 msgid "Move bill \"{bill}\" to a different project:"
-msgstr ""
+msgstr "Déplacer la facture \"{bill}\" vers un projet différent :"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:320
-msgid "Only one project available, which this bill already exists in"
+msgid "Only one project available, in which this bill already exists"
 msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:321
 msgid "No projects found"
-msgstr ""
+msgstr "Aucun projet trouvé"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:322
 msgid "Bill moved to \"{project}\" successfully"
-msgstr ""
+msgstr "Facture déplacée vers \"{project}\" avec succès"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:323
 msgid "Failed to move bill"
-msgstr ""
+msgstr "Impossible de déplacer la facture"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:324
 msgid "Rename project {n}"

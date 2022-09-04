@@ -10,7 +10,7 @@
 				@click="onProjectClicked(project)" />
 		</ul>
 		<EmptyContent v-if="cospend.projects.length === 1 && cospend.projects[projectId]">
-			{{ t('cospend', 'Only one project available, which this bill already exists in') }}
+			{{ t('cospend', 'Only one project available, in which this bill already exists') }}
 		</EmptyContent>
 		<EmptyContent v-else-if="cospend.projects.length === 0">
 			{{ t('cospend', 'No projects found') }}

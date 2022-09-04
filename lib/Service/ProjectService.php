@@ -3703,7 +3703,7 @@ class ProjectService {
 		);
 
 		if (!isset($result['inserted_id'])) {
-			return ['message' => $this->trans->t('Cannot create new invoice: %1$s', $result['message'])];
+			return ['message' => $this->trans->t('Cannot create new bill: %1$s', $result['message'])];
 		}
 
 		// remove the old bill

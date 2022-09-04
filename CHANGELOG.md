@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 1.4.9 – 2022-09-04
+## 1.4.10 – 2022-09-04
 ### Added
 - move bill between projects
   [#165](https://github.com/eneiluj/cospend-nc/pull/165) @Almamu

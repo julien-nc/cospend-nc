@@ -6,6 +6,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.4.9 – 2022-09-04
+### Added
+- move bill between projects
+  [#165](https://github.com/eneiluj/cospend-nc/pull/165) @Almamu
+
+### Changed
+- better search icon (member or user avatar)
+- improve import performance by grouping the db requests in a transaction
+- click on current project: deselect user and reload bill list, emphasize selected member name
+  [#168](https://github.com/eneiluj/cospend-nc/issues/168) @siccovansas
+
+### Fixed
+- invisible colors for navigation items
+  [#160](https://github.com/eneiluj/cospend-nc/issues/160) @Ezwen
+- make import more resistant to malformed csv files
+  [#97](https://github.com/eneiluj/cospend-nc/issues/97) @mrclschstr
+- fix splitwise import
+  [#159](https://github.com/eneiluj/cospend-nc/issues/159) @iluvatyr
+
 ## 1.4.8 – 2022-06-07
 ### Added
 - new "payer" stats filter

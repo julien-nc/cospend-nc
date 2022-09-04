@@ -52,10 +52,10 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Use Node 14
+      - name: Use Node 16
         uses: actions/setup-node@v2
         with:
-          node-version: 14
+          node-version: 16
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2

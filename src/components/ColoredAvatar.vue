@@ -1,5 +1,5 @@
 <template>
-	<Avatar v-if="showMe"
+	<NcAvatar v-if="showMe"
 		class="avatar"
 		:is-no-user="isNoUser"
 		:show-user-status="showUserStatus"
@@ -9,13 +9,13 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar.js'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 
 export default {
 	name: 'ColoredAvatar',
 
 	components: {
-		Avatar,
+		NcAvatar,
 	},
 
 	props: {

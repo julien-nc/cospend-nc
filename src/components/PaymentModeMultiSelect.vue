@@ -1,5 +1,5 @@
 <template>
-	<Multiselect
+	<NcMultiselect
 		:value="selectedPmItem"
 		class="pmMultiSelect multiSelect"
 		label="displayName"
@@ -13,13 +13,13 @@
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect.js'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 
 export default {
 	name: 'PaymentModeMultiSelect',
 
 	components: {
-		Multiselect,
+		NcMultiselect,
 	},
 
 	props: {

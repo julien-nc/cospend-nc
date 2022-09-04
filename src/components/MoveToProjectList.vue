@@ -4,21 +4,21 @@
 			{{ t('cospend', 'Move bill "{bill}" to a different project:', { bill: bill.what }) }}
 		</h2>
 		<ul>
-			<ListItem v-for="(project) in candidateTargetProjects"
+			<NcListItem v-for="(project) in candidateTargetProjects"
 				:key="project.id"
 				:title="project.name"
 				@click="onProjectClicked(project)" />
 		</ul>
-		<EmptyContent v-if="cospend.projects.length === 1 && cospend.projects[projectId]">
+		<NcEmptyContent v-if="cospend.projects.length === 1 && cospend.projects[projectId]">
 			{{ t('cospend', 'Only one project available, in which this bill already exists') }}
-		</EmptyContent>
-		<EmptyContent v-else-if="cospend.projects.length === 0">
+		</NcEmptyContent>
+		<NcEmptyContent v-else-if="cospend.projects.length === 0">
 			{{ t('cospend', 'No projects found') }}
-		</EmptyContent>
+		</NcEmptyContent>
 	</div>
 </template>
 <script>
-import ListItem from '@nextcloud/vue/dist/Components/ListItem.js'
+import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
 import cospend from '../state.js'
 import * as network from '../network.js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
@@ -26,7 +26,7 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
 export default {
 	name: 'MoveToProjectList',
 	components: {
-		ListItem,
+		NcListItem,
 	},
 	props: {
 		bill: {

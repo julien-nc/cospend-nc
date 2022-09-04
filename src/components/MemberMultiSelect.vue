@@ -1,5 +1,5 @@
 <template>
-	<Multiselect
+	<NcMultiselect
 		:value="selectedMemberItem"
 		class="memberMultiSelect multiSelect"
 		label="displayName"
@@ -40,11 +40,11 @@
 			<div v-if="option.id && !option.activated" class="payerDisabledMask disabled" />
 			<span class="select-display-name">{{ option.displayName }}</span>
 		</template>
-	</Multiselect>
+	</NcMultiselect>
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect.js'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 import ColoredAvatar from './ColoredAvatar.vue'
 import { getSmartMemberName } from '../utils.js'
 
@@ -53,7 +53,7 @@ export default {
 
 	components: {
 		ColoredAvatar,
-		Multiselect,
+		NcMultiselect,
 	},
 
 	props: {

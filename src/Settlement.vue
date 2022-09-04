@@ -1,5 +1,5 @@
 <template>
-	<AppContentDetails class="settlement-content">
+	<NcAppContentDetails class="settlement-content">
 		<h2 id="settlementTitle">
 			<ReimburseIcon :class="{ 'icon-loading': loading }" :size="20" />
 			<span>
@@ -42,7 +42,7 @@
 						<InformationVariantIcon :size="20" />
 					</template>
 				</NcButton>
-				<DatetimePicker
+				<NcDatetimePicker
 					id="max-date"
 					v-model="maxDate"
 					class="datetime-picker"
@@ -136,13 +136,13 @@
 				</tr>
 			</tbody>
 		</v-table>
-		<EmptyContent v-else
+		<NcEmptyContent v-else
 			class="central-empty-content">
 			<template #icon>
 				<ReimburseIcon />
 			</template>
 			{{ t('cospend', 'No transactions found') }}
-		</EmptyContent>
+		</NcEmptyContent>
 
 		<h3>
 			{{ maxTs ? t('cospend', 'Balances on {date}', { date: formattedMaxDate }) : t('cospend', 'Balances') }}
@@ -186,13 +186,13 @@
 			</tbody>
 			<tfoot />
 		</v-table>
-		<EmptyContent v-else
+		<NcEmptyContent v-else
 			class="central-empty-content">
 			<template #icon>
 				<CospendIcon />
 			</template>
 			{{ t('cospend', 'No balances found') }}
-		</EmptyContent>
+		</NcEmptyContent>
 
 		<hr>
 		<h2 class="individualTitle">
@@ -232,7 +232,7 @@
 				{{ t('cospend', 'Create bill ({amount})', { amount: (-members[individualPayerId].balance).toFixed(precision) }) }}
 			</NcButton>
 		</div>
-	</AppContentDetails>
+	</NcAppContentDetails>
 </template>
 
 <script>
@@ -242,10 +242,15 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import CalendarTodayIcon from 'vue-material-design-icons/CalendarToday.vue'
 import CalendarWeekIcon from 'vue-material-design-icons/CalendarWeek.vue'
 import CalendarMonthIcon from 'vue-material-design-icons/CalendarMonth.vue'
-import NcButton from '@nextcloud/vue/dist/Components/Button.js'
-import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails.js'
-import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker.js'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent.js'
+
+import CospendIcon from './components/icons/CospendIcon.vue'
+import ReimburseIcon from './components/icons/ReimburseIcon.vue'
+
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDetails.js'
+import NcDatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker.js'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+
 import ColoredAvatar from './components/ColoredAvatar.vue'
 
 import { showSuccess, showError } from '@nextcloud/dialogs'
@@ -255,8 +260,6 @@ import { getSmartMemberName } from './utils.js'
 import cospend from './state.js'
 import * as constants from './constants.js'
 import * as network from './network.js'
-import CospendIcon from './components/icons/CospendIcon.vue'
-import ReimburseIcon from './components/icons/ReimburseIcon.vue'
 
 export default {
 	name: 'Settlement',
@@ -265,9 +268,9 @@ export default {
 		ReimburseIcon,
 		CospendIcon,
 		ColoredAvatar,
-		AppContentDetails,
-		DatetimePicker,
-		EmptyContent,
+		NcAppContentDetails,
+		NcDatetimePicker,
+		NcEmptyContent,
 		NcButton,
 		ContentSaveIcon,
 		PlusIcon,

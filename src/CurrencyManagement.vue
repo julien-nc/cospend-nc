@@ -116,22 +116,26 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/Button.js'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import CurrencyUsdIcon from 'vue-material-design-icons/CurrencyUsd.vue'
+
+import CurrencyIcon from './components/icons/CurrencyIcon.vue'
+
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+
+import Currency from './components/Currency.vue'
+
 import {
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
 
 import cospend from './state.js'
-import Currency from './components/Currency.vue'
 import * as constants from './constants.js'
 import * as network from './network.js'
-import CurrencyIcon from './components/icons/CurrencyIcon.vue'
 
 export default {
 	name: 'CurrencyManagement',

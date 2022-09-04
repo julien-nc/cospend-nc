@@ -1,5 +1,5 @@
 <template>
-	<AppNavigationItem v-show="memberVisible"
+	<NcAppNavigationItem v-show="memberVisible"
 		:class="{ memberItem: true, selectedmember: selected }"
 		:title="nameTitle"
 		:editable="maintenerAccess"
@@ -10,7 +10,7 @@
 		<div v-if="maintenerAccess"
 			slot="icon"
 			class="memberItemAvatar">
-			<ColorPicker ref="col"
+			<NcColorPicker ref="col"
 				class="app-navigation-entry-bullet-wrapper memberColorPicker"
 				:value="`#${member.color}`"
 				@input="updateColor">
@@ -26,7 +26,7 @@
 					:is-no-user="!isUser"
 					:user="member.userid || ''"
 					:display-name="member.name" />
-			</ColorPicker>
+			</NcColorPicker>
 		</div>
 		<div v-else
 			slot="icon"
@@ -49,14 +49,14 @@
 		</template>
 		<template v-if="maintenerAccess"
 			slot="actions">
-			<ActionButton
+			<NcActionButton
 				@click="onMenuColorClick">
 				<template #icon>
 					<PaletteIcon :size="20" />
 				</template>
 				{{ t('cospend', 'Change color') }}
-			</ActionButton>
-			<ActionInput
+			</NcActionButton>
+			<NcActionInput
 				ref="weightInput"
 				type="number"
 				step="0.01"
@@ -69,8 +69,8 @@
 						:size="20" />
 				</template>
 				{{ t('cospend', 'Weight') }} ({{ member.weight }})
-			</ActionInput>
-			<ActionButton
+			</NcActionInput>
+			<NcActionButton
 				:close-after-click="true"
 				@click="onDeleteMemberClick">
 				<template #icon>
@@ -78,51 +78,51 @@
 					<UndoIcon v-else :size="20" />
 				</template>
 				{{ getDeletionText() }}
-			</ActionButton>
+			</NcActionButton>
 
-			<ActionSeparator v-if="showShareEdition" />
-			<ActionRadio
+			<NcActionSeparator v-if="showShareEdition" />
+			<NcActionRadio
 				v-if="showShareEdition"
 				name="accessLevel"
 				:disabled="!canSetAccessLevel(constants.ACCESS.NO_ACCESS, access)"
 				:checked="!access"
 				@change="clickAccessLevel(constants.ACCESS.NO_ACCESS)">
 				{{ t('cospend', 'No access') }}
-			</ActionRadio>
-			<ActionRadio
+			</NcActionRadio>
+			<NcActionRadio
 				v-if="showShareEdition"
 				name="accessLevel"
 				:disabled="!canSetAccessLevel(constants.ACCESS.VIEWER, access)"
 				:checked="access && access.accesslevel === constants.ACCESS.VIEWER"
 				@change="clickAccessLevel(constants.ACCESS.VIEWER)">
 				{{ t('cospend', 'Viewer') }}
-			</ActionRadio>
-			<ActionRadio
+			</NcActionRadio>
+			<NcActionRadio
 				v-if="showShareEdition"
 				name="accessLevel"
 				:disabled="!canSetAccessLevel(constants.ACCESS.PARTICIPANT, access)"
 				:checked="access && access.accesslevel === constants.ACCESS.PARTICIPANT"
 				@change="clickAccessLevel(constants.ACCESS.PARTICIPANT)">
 				{{ t('cospend', 'Participant') }}
-			</ActionRadio>
-			<ActionRadio
+			</NcActionRadio>
+			<NcActionRadio
 				v-if="showShareEdition"
 				name="accessLevel"
 				:disabled="!canSetAccessLevel(constants.ACCESS.MAINTENER, access)"
 				:checked="access && access.accesslevel === constants.ACCESS.MAINTENER"
 				@change="clickAccessLevel(constants.ACCESS.MAINTENER)">
 				{{ t('cospend', 'Maintainer') }}
-			</ActionRadio>
-			<ActionRadio
+			</NcActionRadio>
+			<NcActionRadio
 				v-if="showShareEdition"
 				name="accessLevel"
 				:disabled="!canSetAccessLevel(constants.ACCESS.ADMIN, access)"
 				:checked="access && access.accesslevel === constants.ACCESS.ADMIN"
 				@change="clickAccessLevel(constants.ACCESS.ADMIN)">
 				{{ t('cospend', 'Admin') }}
-			</ActionRadio>
+			</NcActionRadio>
 		</template>
-	</AppNavigationItem>
+	</NcAppNavigationItem>
 </template>
 
 <script>
@@ -132,12 +132,13 @@ import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import WeightIcon from 'vue-material-design-icons/Weight.vue'
 import ClickOutside from 'vue-click-outside'
 
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton.js'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem.js'
-import ActionInput from '@nextcloud/vue/dist/Components/ActionInput.js'
-import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio.js'
-import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator.js'
-import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
+import NcActionRadio from '@nextcloud/vue/dist/Components/NcActionRadio.js'
+import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
+import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
+
 import ColoredAvatar from './ColoredAvatar.vue'
 
 import { getCurrentUser } from '@nextcloud/auth'
@@ -150,12 +151,12 @@ import { showError } from '@nextcloud/dialogs'
 export default {
 	name: 'AppNavigationMemberItem',
 	components: {
-		AppNavigationItem,
-		ActionButton,
-		ActionRadio,
-		ActionSeparator,
-		ActionInput,
-		ColorPicker,
+		NcAppNavigationItem,
+		NcActionButton,
+		NcActionRadio,
+		NcActionSeparator,
+		NcActionInput,
+		NcColorPicker,
 		ColoredAvatar,
 		WeightIcon,
 		PaletteIcon,

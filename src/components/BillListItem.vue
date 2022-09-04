@@ -1,5 +1,5 @@
 <template>
-	<ListItem
+	<NcListItem
 		:class="{ newBill: bill.id === 0}"
 		:title="billFormattedTitle"
 		:active="selected"
@@ -28,7 +28,7 @@
 			</div>
 		</template>
 		<template #actions>
-			<ActionButton v-if="editionAccess && !selectMode && (deletionEnabled || bill.id === 0)"
+			<NcActionButton v-if="editionAccess && !selectMode && (deletionEnabled || bill.id === 0)"
 				:close-after-click="true"
 				@click="onDeleteClick">
 				<template #icon>
@@ -37,15 +37,15 @@
 						:size="20" />
 				</template>
 				{{ deleteIconTitle }}
-			</ActionButton>
-			<ActionButton v-if="!pageIsPublic && editionAccess && !selectMode && !timerOn"
+			</NcActionButton>
+			<NcActionButton v-if="!pageIsPublic && editionAccess && !selectMode && !timerOn"
 				:close-after-click="true"
 				@click="onMoveClick">
 				<template #icon>
 					<SwapHorizontalIcon class="icon" :size="20" />
 				</template>
 				{{ moveIconTitle }}
-			</ActionButton>
+			</NcActionButton>
 		</template>
 		<template #extra>
 			<div v-if="editionAccess && selectMode" class="icon-selector">
@@ -53,7 +53,7 @@
 				<CheckboxBlankOutlineIcon v-else :size="20" />
 			</div>
 		</template>
-	</ListItem>
+	</NcListItem>
 </template>
 
 <script>
@@ -63,26 +63,29 @@ import CheckboxBlankOutlineIcon from 'vue-material-design-icons/CheckboxBlankOut
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import SwapHorizontalIcon from 'vue-material-design-icons/SwapHorizontal.vue'
+
+import ColoredAvatar from './ColoredAvatar.vue'
+
+import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+
 import cospend from '../state.js'
 import { generateUrl } from '@nextcloud/router'
 import moment from '@nextcloud/moment'
-import ListItem from '@nextcloud/vue/dist/Components/ListItem.js'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton.js'
-import ColoredAvatar from './ColoredAvatar.vue'
 import { reload, Timer, getCategory, getPaymentMode, getSmartMemberName } from '../utils.js'
 
 export default {
 	name: 'BillListItem',
 
 	components: {
-		ListItem,
+		NcListItem,
 		ColoredAvatar,
 		CalendarSyncIcon,
 		UndoIcon,
 		DeleteIcon,
 		CheckboxBlankOutlineIcon,
 		CheckboxMarkedIcon,
-		ActionButton,
+		NcActionButton,
 		SwapHorizontalIcon,
 	},
 

@@ -1,5 +1,5 @@
 <template>
-	<AppNavigationItem v-if="deleting"
+	<NcAppNavigationItem v-if="deleting"
 		:title="t('cospend', 'Are you sure?')"
 		:undo="true"
 		@undo="cancelDeletion">
@@ -13,8 +13,8 @@
 				</template-->
 			</vac>
 		</template>
-	</AppNavigationItem>
-	<AppNavigationItem v-else
+	</NcAppNavigationItem>
+	<NcAppNavigationItem v-else
 		:title="project.name"
 		:class="{ selectedproject: selected }"
 		:allow-collapse="true"
@@ -32,7 +32,7 @@
 		<!--template #counter>
 		</template-->
 		<template #actions>
-			<ActionButton
+			<NcActionButton
 				:close-after-click="true"
 				class="detailButton"
 				@click="onDetailClick">
@@ -40,8 +40,8 @@
 					<CogIcon :size="20" />
 				</template>
 				{{ t('cospend', 'Settings') }}
-			</ActionButton>
-			<ActionButton v-if="!pageIsPublic"
+			</NcActionButton>
+			<NcActionButton v-if="!pageIsPublic"
 				:close-after-click="true"
 				class="detailButton"
 				@click="onShareClick">
@@ -49,15 +49,15 @@
 					<ShareVariantIcon :size="20" />
 				</template>
 				{{ t('cospend', 'Share') }}
-			</ActionButton>
-			<ActionButton v-if="maintenerAccess"
+			</NcActionButton>
+			<NcActionButton v-if="maintenerAccess"
 				@click="onAddMemberClick">
 				<template #icon>
 					<AccountIcon :size="20" />
 				</template>
 				{{ t('cospend', 'Add member') }}
-			</ActionButton>
-			<ActionButton
+			</NcActionButton>
+			<NcActionButton
 				:close-after-click="true"
 				@click="onStatsClick">
 				<template #icon>
@@ -66,32 +66,32 @@
 						:size="20" />
 				</template>
 				{{ t('cospend', 'Statistics') }}
-			</ActionButton>
-			<ActionButton
+			</NcActionButton>
+			<NcActionButton
 				:close-after-click="true"
 				@click="onSettleClick">
 				<template #icon>
 					<ReimburseIcon :size="20" />
 				</template>
 				{{ t('cospend', 'Project settlement') }}
-			</ActionButton>
-			<ActionButton v-if="adminAccess"
+			</NcActionButton>
+			<NcActionButton v-if="adminAccess"
 				:close-after-click="true"
 				@click="onDeleteProjectClick">
 				<template #icon>
 					<DeleteIcon :size="20" />
 				</template>
 				{{ t('cospend', 'Delete') }}
-			</ActionButton>
+			</NcActionButton>
 		</template>
 		<template #default>
-			<AppNavigationItem v-if="members.length < 1"
+			<NcAppNavigationItem v-if="members.length < 1"
 				:title="t('cospend', 'Add a member')"
 				@click="onAddMemberClick">
 				<template #icon>
 					<PlusIcon :size="20" />
 				</template>
-			</AppNavigationItem>
+			</NcAppNavigationItem>
 			<AppNavigationMemberItem v-for="member in sortedMembers"
 				:key="member.id"
 				class="memberItem"
@@ -103,7 +103,7 @@
 				@click="onMemberClick(member.id)"
 				@member-edited="onMemberEdited" />
 		</template>
-	</AppNavigationItem>
+	</NcAppNavigationItem>
 </template>
 
 <script>
@@ -115,24 +115,26 @@ import AccountIcon from 'vue-material-design-icons/Account.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import FolderOutlineIcon from 'vue-material-design-icons/FolderOutline.vue'
 import ChartLineIcon from 'vue-material-design-icons/ChartLine.vue'
-import ClickOutside from 'vue-click-outside'
+
+import ReimburseIcon from './icons/ReimburseIcon.vue'
+
 import AppNavigationMemberItem from './AppNavigationMemberItem.vue'
 
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton.js'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 
+import ClickOutside from 'vue-click-outside'
 import cospend from '../state.js'
 import * as constants from '../constants.js'
 import { Timer, getSortedMembers } from '../utils.js'
-import ReimburseIcon from './icons/ReimburseIcon.vue'
 
 export default {
 	name: 'AppNavigationProjectItem',
 	components: {
 		ReimburseIcon,
 		AppNavigationMemberItem,
-		AppNavigationItem,
-		ActionButton,
+		NcAppNavigationItem,
+		NcActionButton,
 		ChartLineIcon,
 		FolderIcon,
 		FolderOutlineIcon,

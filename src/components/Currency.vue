@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/Button.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'

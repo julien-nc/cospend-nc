@@ -1,8 +1,8 @@
 <template>
-	<AppContentList
+	<NcAppContentList
 		ref="list">
 		<div class="list-header">
-			<AppNavigationItem
+			<NcAppNavigationItem
 				v-show="!loading"
 				class="addBillItem"
 				:title="(editionAccess && oneActiveMember) ? t('cospend', 'New bill') : ''"
@@ -11,7 +11,7 @@
 					<PlusIcon v-show="editionAccess && oneActiveMember" :size="20" />
 				</template>
 				<template #actions>
-					<ActionButton v-show="bills.length > 0 || filterMode"
+					<NcActionButton v-show="bills.length > 0 || filterMode"
 						:close-after-click="true"
 						@click="toggleFilterMode">
 						<template #icon>
@@ -19,8 +19,8 @@
 							<FilterIcon v-else :size="20" />
 						</template>
 						{{ filterToggleText }}
-					</ActionButton>
-					<ActionButton v-show="(editionAccess && bills.length > 0) || selectMode"
+					</NcActionButton>
+					<NcActionButton v-show="(editionAccess && bills.length > 0) || selectMode"
 						:close-after-click="true"
 						@click="toggleSelectMode">
 						<template #icon>
@@ -28,25 +28,25 @@
 							<FormatListCheckboxIcon v-else :size="20" />
 						</template>
 						{{ multiToggleText }}
-					</ActionButton>
+					</NcActionButton>
 				</template>
-			</AppNavigationItem>
+			</NcAppNavigationItem>
 			<transition name="fade">
 				<div v-if="filterMode"
 					class="filterOptions">
 					<div class="header">
 						<FilterIcon class="icon" :size="20" />
 						<span>{{ t('cospend', 'Filters') }}</span>
-						<Actions>
-							<ActionButton
+						<NcActions>
+							<NcActionButton
 								class="rightCloseButton"
 								@click="toggleFilterMode(true, false)">
 								<template #icon>
 									<CloseIcon :size="20" />
 								</template>
 								{{ t('cospend', 'Close filters') }}
-							</ActionButton>
-						</Actions>
+							</NcActionButton>
+						</NcActions>
 					</div>
 					<div class="multiselect-container">
 						<CategoryMultiSelect
@@ -69,16 +69,16 @@
 						<div class="header">
 							<FormatListCheckboxIcon class="icon" :size="20" />
 							<span>{{ t('cospend', 'Multi select actions') }}</span>
-							<Actions>
-								<ActionButton
+							<NcActions>
+								<NcActionButton
 									class="rightCloseButton"
 									@click="toggleSelectMode">
 									<template #icon>
 										<CloseIcon :size="20" />
 									</template>
 									{{ t('cospend', 'Leave multiple select mode') }}
-								</ActionButton>
-							</Actions>
+								</NcActionButton>
+							</NcActions>
 						</div>
 						<div class="multiselect-container">
 							<CategoryMultiSelect
@@ -98,16 +98,16 @@
 									<InformationVariantIcon :size="20" />
 									{{ t('cospend', 'Select bills to make grouped actions') }}
 								</span>
-								<Actions v-show="deletionEnabled">
-									<ActionButton
+								<NcActions v-show="deletionEnabled">
+									<NcActionButton
 										class="multiDelete"
 										@click="deleteSelection">
 										<template #icon>
 											<DeleteIcon :size="20" />
 										</template>
 										{{ t('cospend', 'Delete selected bills') }}
-									</ActionButton>
-								</Actions>
+									</NcActionButton>
+								</NcActions>
 							</div>
 						</div>
 					</div>
@@ -118,12 +118,12 @@
 			class="nomember">
 			{{ t('cospend', 'Add at least 2 members to start creating bills') }}
 		</h3>
-		<EmptyContent v-else-if="bills.length === 0 && !loading">
+		<NcEmptyContent v-else-if="bills.length === 0 && !loading">
 			<template #icon>
 				<CospendIcon />
 			</template>
 			{{ t('cospend', 'No bills to show') }}
-		</EmptyContent>
+		</NcEmptyContent>
 		<h2 v-show="loading"
 			class="icon-loading-small loading-icon" />
 		<transition-group v-if="!loading" name="list">
@@ -151,7 +151,7 @@
 				{{ t('cospend', 'No more bills') }}
 			</template>
 		</InfiniteLoading>
-	</AppContentList>
+	</NcAppContentList>
 </template>
 
 <script>
@@ -161,14 +161,18 @@ import CloseIcon from 'vue-material-design-icons/Close.vue'
 import FilterIcon from 'vue-material-design-icons/Filter.vue'
 import FormatListCheckboxIcon from 'vue-material-design-icons/FormatListCheckbox.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import AppContentList from '@nextcloud/vue/dist/Components/AppContentList.js'
-import Actions from '@nextcloud/vue/dist/Components/Actions.js'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton.js'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem.js'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent.js'
+
+import CospendIcon from './components/icons/CospendIcon.vue'
+
+import NcAppContentList from '@nextcloud/vue/dist/Components/NcAppContentList.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 
 import PaymentModeMultiSelect from './components/PaymentModeMultiSelect.vue'
 import CategoryMultiSelect from './components/CategoryMultiSelect.vue'
+import BillListItem from './components/BillListItem.vue'
 
 import InfiniteLoading from 'vue-infinite-loading'
 import { showSuccess, showError } from '@nextcloud/dialogs'
@@ -176,8 +180,6 @@ import cospend from './state.js'
 import * as network from './network.js'
 import * as constants from './constants.js'
 import { strcmp } from './utils.js'
-import CospendIcon from './components/icons/CospendIcon.vue'
-import BillListItem from './components/BillListItem.vue'
 
 export default {
 	name: 'BillList',
@@ -185,11 +187,11 @@ export default {
 	components: {
 		BillListItem,
 		CospendIcon,
-		AppContentList,
-		AppNavigationItem,
-		Actions,
-		ActionButton,
-		EmptyContent,
+		NcAppContentList,
+		NcAppNavigationItem,
+		NcActions,
+		NcActionButton,
+		NcEmptyContent,
 		InfiniteLoading,
 		PaymentModeMultiSelect,
 		CategoryMultiSelect,

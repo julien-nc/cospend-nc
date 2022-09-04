@@ -1,7 +1,7 @@
 <template>
-	<AppNavigation>
+	<NcAppNavigation>
 		<template #list>
-			<AppNavigationItem v-if="!pageIsPublic && !loading"
+			<NcAppNavigationItem v-if="!pageIsPublic && !loading"
 				class="addProjectItem"
 				:editable="true"
 				:title="t('cospend', 'New project')"
@@ -16,7 +16,7 @@
 					<PlusIcon :size="20" />
 				</template>
 				<template #actions>
-					<ActionButton
+					<NcActionButton
 						:close-after-click="true"
 						@click="onImportClick">
 						<template #icon>
@@ -25,8 +25,8 @@
 								:size="20" />
 						</template>
 						{{ t('cospend', 'Import csv project') }}
-					</ActionButton>
-					<ActionButton
+					</NcActionButton>
+					<NcActionButton
 						:close-after-click="true"
 						@click="onImportSWClick">
 						<template #icon>
@@ -35,17 +35,17 @@
 								:size="20" />
 						</template>
 						{{ t('cospend', 'Import SplitWise project') }}
-					</ActionButton>
+					</NcActionButton>
 				</template>
-			</AppNavigationItem>
+			</NcAppNavigationItem>
 			<h2 v-if="loading"
 				class="icon-loading-small loading-icon" />
-			<EmptyContent v-else-if="sortedProjectIds.length === 0">
+			<NcEmptyContent v-else-if="sortedProjectIds.length === 0">
 				<template #icon>
 					<FolderIcon :size="20" />
 				</template>
 				{{ t('cospend', 'No projects yet') }}
-			</EmptyContent>
+			</NcEmptyContent>
 			<AppNavigationProjectItem
 				v-for="id in sortedProjectIds"
 				:key="id"
@@ -70,7 +70,7 @@
 					<!--button class="settings-button" @click="showSettings">
 						{{ t('cospend', 'Cospend settings') }}
 					</button-->
-					<AppNavigationItem
+					<NcAppNavigationItem
 						:title="t('cospend', 'Cospend settings')"
 						@click="showSettings">
 						<template #icon>
@@ -78,14 +78,24 @@
 								class="icon"
 								:size="20" />
 						</template>
-					</AppNavigationItem>
+					</NcAppNavigationItem>
 				</div>
 			</div>
 		</template>
-	</AppNavigation>
+	</NcAppNavigation>
 </template>
 
 <script>
+import FolderIcon from 'vue-material-design-icons/Folder.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
+import CogIcon from 'vue-material-design-icons/Cog.vue'
+
+import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+
 import AppNavigationProjectItem from './AppNavigationProjectItem.vue'
 
 import cospend from '../state.js'
@@ -93,16 +103,6 @@ import * as constants from '../constants.js'
 import { strcmp, importCospendProject, importSWProject } from '../utils.js'
 
 import ClickOutside from 'vue-click-outside'
-
-import FolderIcon from 'vue-material-design-icons/Folder.vue'
-import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
-import CogIcon from 'vue-material-design-icons/Cog.vue'
-import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation.js'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent.js'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem.js'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton.js'
-
 import { emit } from '@nextcloud/event-bus'
 import { showSuccess } from '@nextcloud/dialogs'
 
@@ -110,10 +110,10 @@ export default {
 	name: 'CospendNavigation',
 	components: {
 		AppNavigationProjectItem,
-		AppNavigation,
-		EmptyContent,
-		AppNavigationItem,
-		ActionButton,
+		NcAppNavigation,
+		NcEmptyContent,
+		NcAppNavigationItem,
+		NcActionButton,
 		CogIcon,
 		FileImportIcon,
 		PlusIcon,

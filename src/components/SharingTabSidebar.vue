@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<Multiselect
+		<NcMultiselect
 			v-if="editionAccess"
 			v-model="selectedSharee"
 			class="shareInput"
@@ -13,11 +13,11 @@
 			@search-change="asyncFind"
 			@input="clickShareeItem">
 			<template #option="{option}">
-				<Avatar v-if="option.type === constants.SHARE_TYPE.USER"
+				<NcAvatar v-if="option.type === constants.SHARE_TYPE.USER"
 					class="avatar-option"
 					:user="option.user"
 					:show-user-status="false" />
-				<Avatar v-else-if="[constants.SHARE_TYPE.GROUP, constants.SHARE_TYPE.CIRCLE].includes(option.type)"
+				<NcAvatar v-else-if="[constants.SHARE_TYPE.GROUP, constants.SHARE_TYPE.CIRCLE].includes(option.type)"
 					class="avatar-option"
 					:display-name="option.name"
 					:is-no-user="true"
@@ -38,9 +38,9 @@
 			<template #noOptions>
 				{{ t('cospend', 'Start typing to search') }}
 			</template>
-		</Multiselect>
+		</NcMultiselect>
 
-		<Modal v-if="shareLinkQrcodeUrl"
+		<NcModal v-if="shareLinkQrcodeUrl"
 			size="small"
 			@close="closeQrcodeModal">
 			<div class="qrcode-modal-content">
@@ -60,7 +60,7 @@
 					{{ t('cospend', 'QRCode content: ') + shareLinkQrcodeUrl }}
 				</p>
 			</div>
-		</Modal>
+		</NcModal>
 
 		<ul
 			id="shareWithList"
@@ -75,14 +75,14 @@
 				<span class="username">
 					{{ t('cospend', 'Share link') }}
 				</span>
-				<Actions>
-					<ActionButton>
+				<NcActions>
+					<NcActionButton>
 						<template #icon>
 							<PlusIcon :size="20" />
 						</template>
 						{{ t('cospend', 'Create a new share link') }}
-					</ActionButton>
-				</Actions>
+					</NcActionButton>
+				</NcActions>
 			</li>
 			<li v-for="access in linkShares" :key="access.id">
 				<div class="avatardiv link-icon">
@@ -92,8 +92,8 @@
 					<span>{{ t('cospend', 'Share link') + (access.label ? ' (' + access.label + ')' : '') }}</span>
 				</span>
 
-				<Actions>
-					<ActionLink
+				<NcActions>
+					<NcActionLink
 						:href="generatePublicLink(access)"
 						target="_blank"
 						@click.stop.prevent="copyLink(access)">
@@ -105,11 +105,11 @@
 							<ClippyIcon v-else
 								:size="16" />
 						</template>
-					</ActionLink>
-				</Actions>
+					</NcActionLink>
+				</NcActions>
 
-				<Actions>
-					<ActionLink
+				<NcActions>
+					<NcActionLink
 						:href="generateCospendLink(access)"
 						target="_blank"
 						@click.stop.prevent="displayCospendLinkQRCode(access)">
@@ -117,13 +117,13 @@
 							<QrcodeIcon :size="20" />
 						</template>
 						{{ t('cospend', 'Show QRCode for mobile clients') }}
-					</ActionLink>
-				</Actions>
+					</NcActionLink>
+				</NcActions>
 
-				<Actions
+				<NcActions
 					:force-menu="true"
 					placement="bottom">
-					<ActionInput
+					<NcActionInput
 						type="text"
 						:value="access.label"
 						:disabled="!editionAccess || myAccessLevel < access.accesslevel"
@@ -132,15 +132,15 @@
 							<TextBoxIcon :size="20" />
 						</template>
 						{{ t('cospend', 'Label') }}
-					</ActionInput>
-					<ActionCheckbox
+					</NcActionInput>
+					<NcActionCheckbox
 						:checked="access.password !== null"
 						:disabled="!editionAccess || myAccessLevel < access.accesslevel"
 						@check="onPasswordCheck(access, $event)"
 						@uncheck="onPasswordUncheck(access, $event)">
 						{{ t('cospend', 'Password protect') }}
-					</ActionCheckbox>
-					<ActionInput
+					</NcActionCheckbox>
+					<NcActionInput
 						v-if="access.password !== null"
 						type="password"
 						:value="access.password"
@@ -150,52 +150,52 @@
 							<LockIcon :size="20" />
 						</template>
 						{{ t('cospend', 'Set link password') }}
-					</ActionInput>
-					<ActionSeparator />
-					<ActionRadio name="accessLevel"
+					</NcActionInput>
+					<NcActionSeparator />
+					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.VIEWER, access)"
 						:checked="access.accesslevel === constants.ACCESS.VIEWER"
 						@change="clickAccessLevel(access, constants.ACCESS.VIEWER)">
 						{{ t('cospend', 'Viewer') }}
-					</ActionRadio>
-					<ActionRadio name="accessLevel"
+					</NcActionRadio>
+					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.PARTICIPANT, access)"
 						:checked="access.accesslevel === constants.ACCESS.PARTICIPANT"
 						@change="clickAccessLevel(access, constants.ACCESS.PARTICIPANT)">
 						{{ t('cospend', 'Participant') }}
-					</ActionRadio>
-					<ActionRadio name="accessLevel"
+					</NcActionRadio>
+					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.MAINTENER, access)"
 						:checked="access.accesslevel === constants.ACCESS.MAINTENER"
 						@change="clickAccessLevel(access, constants.ACCESS.MAINTENER)">
 						{{ t('cospend', 'Maintainer') }}
-					</ActionRadio>
-					<ActionRadio name="accessLevel"
+					</NcActionRadio>
+					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.ADMIN, access)"
 						:checked="access.accesslevel === constants.ACCESS.ADMIN"
 						@change="clickAccessLevel(access, constants.ACCESS.ADMIN)">
 						{{ t('cospend', 'Admin') }}
-					</ActionRadio>
-					<ActionSeparator />
-					<ActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
+					</NcActionRadio>
+					<NcActionSeparator />
+					<NcActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
 						@click="clickDeleteAccess(access)">
 						<template #icon>
 							<DeleteIcon :size="20" />
 						</template>
 						{{ t('cospend', 'Delete link') }}
-					</ActionButton>
-					<ActionButton v-if="editionAccess"
+					</NcActionButton>
+					<NcActionButton v-if="editionAccess"
 						:close-after-click="true"
 						@click="addLink">
 						<template #icon>
 							<PlusIcon :size="20" />
 						</template>
 						{{ t('cospend', 'Add another link') }}
-					</ActionButton>
-				</Actions>
+					</NcActionButton>
+				</NcActions>
 			</li>
 			<li>
-				<Avatar :disable-menu="true" :disable-tooltip="true" :user="project.userid" />
+				<NcAvatar :disable-menu="true" :disable-tooltip="true" :user="project.userid" />
 				<span class="has-tooltip username">
 					{{ project.userid }}
 					<span class="project-owner-label">
@@ -204,7 +204,7 @@
 				</span>
 			</li>
 			<li v-for="access in ugcShares" :key="access.id">
-				<Avatar
+				<NcAvatar
 					v-if="access.type === constants.SHARE_TYPE.USER"
 					:user="access.userid"
 					:disable-menu="true"
@@ -221,41 +221,41 @@
 					<span>{{ access.name }}</span>
 				</span>
 
-				<Actions
+				<NcActions
 					:force-menu="true"
 					placement="bottom">
-					<ActionRadio name="accessLevel"
+					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.VIEWER, access)"
 						:checked="access.accesslevel === constants.ACCESS.VIEWER"
 						@change="clickAccessLevel(access, constants.ACCESS.VIEWER)">
 						{{ t('cospend', 'Viewer') }}
-					</ActionRadio>
-					<ActionRadio name="accessLevel"
+					</NcActionRadio>
+					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.PARTICIPANT, access)"
 						:checked="access.accesslevel === constants.ACCESS.PARTICIPANT"
 						@change="clickAccessLevel(access, constants.ACCESS.PARTICIPANT)">
 						{{ t('cospend', 'Participant') }}
-					</ActionRadio>
-					<ActionRadio name="accessLevel"
+					</NcActionRadio>
+					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.MAINTENER, access)"
 						:checked="access.accesslevel === constants.ACCESS.MAINTENER"
 						@change="clickAccessLevel(access, constants.ACCESS.MAINTENER)">
 						{{ t('cospend', 'Maintainer') }}
-					</ActionRadio>
-					<ActionRadio name="accessLevel"
+					</NcActionRadio>
+					<NcActionRadio name="accessLevel"
 						:disabled="!canSetAccessLevel(constants.ACCESS.ADMIN, access)"
 						:checked="access.accesslevel === constants.ACCESS.ADMIN"
 						@change="clickAccessLevel(access, constants.ACCESS.ADMIN)">
 						{{ t('cospend', 'Admin') }}
-					</ActionRadio>
-					<ActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
+					</NcActionRadio>
+					<NcActionButton v-if="editionAccess && myAccessLevel > access.accesslevel"
 						@click="clickDeleteAccess(access)">
 						<template #icon>
 							<DeleteIcon :size="20" />
 						</template>
 						{{ t('cospend', 'Delete access') }}
-					</ActionButton>
-				</Actions>
+					</NcActionButton>
+				</NcActions>
 			</li>
 		</ul>
 		<hr><br>
@@ -277,18 +277,18 @@
 						<span>{{ t('cospend', 'Password protected access') }}</span>
 					</span>
 
-					<Actions>
-						<ActionButton
+					<NcActions>
+						<NcActionButton
 							@click="oldLinkInfoClick">
 							<template #icon>
 								<InformationVariantIcon :size="20" />
 							</template>
 							{{ t('cospend', 'More information') }}
-						</ActionButton>
-					</Actions>
+						</NcActionButton>
+					</NcActions>
 
-					<Actions>
-						<ActionLink
+					<NcActions>
+						<NcActionLink
 							:href="guestLink"
 							target="_blank"
 							@click.stop.prevent="copyPasswordLink">
@@ -300,37 +300,37 @@
 									:size="16" />
 							</template>
 							{{ guestLinkCopied ? t('cospend', 'Link copied') : t('cospend', 'Copy to clipboard') }}
-						</ActionLink>
-					</Actions>
+						</NcActionLink>
+					</NcActions>
 
-					<Actions
+					<NcActions
 						:force-menu="true"
 						placement="bottom">
-						<ActionRadio name="guestAccessLevel"
+						<NcActionRadio name="guestAccessLevel"
 							:disabled="myAccessLevel < constants.ACCESS.ADMIN"
 							:checked="project.guestaccesslevel === constants.ACCESS.VIEWER"
 							@change="clickGuestAccessLevel(constants.ACCESS.VIEWER)">
 							{{ t('cospend', 'Viewer') }}
-						</ActionRadio>
-						<ActionRadio name="guestAccessLevel"
+						</NcActionRadio>
+						<NcActionRadio name="guestAccessLevel"
 							:disabled="myAccessLevel < constants.ACCESS.ADMIN"
 							:checked="project.guestaccesslevel === constants.ACCESS.PARTICIPANT"
 							@change="clickGuestAccessLevel(constants.ACCESS.PARTICIPANT)">
 							{{ t('cospend', 'Participant') }}
-						</ActionRadio>
-						<ActionRadio name="guestAccessLevel"
+						</NcActionRadio>
+						<NcActionRadio name="guestAccessLevel"
 							:disabled="myAccessLevel < constants.ACCESS.ADMIN"
 							:checked="project.guestaccesslevel === constants.ACCESS.MAINTENER"
 							@change="clickGuestAccessLevel(constants.ACCESS.MAINTENER)">
 							{{ t('cospend', 'Maintainer') }}
-						</ActionRadio>
-						<ActionRadio name="guestAccessLevel"
+						</NcActionRadio>
+						<NcActionRadio name="guestAccessLevel"
 							:disabled="myAccessLevel < constants.ACCESS.ADMIN"
 							:checked="project.guestaccesslevel === constants.ACCESS.ADMIN"
 							@change="clickGuestAccessLevel(constants.ACCESS.ADMIN)">
 							{{ t('cospend', 'Admin') }}
-						</ActionRadio>
-					</Actions>
+						</NcActionRadio>
+					</NcActions>
 				</li>
 			</ul>
 			<div v-if="myAccessLevel === constants.ACCESS.ADMIN"
@@ -368,17 +368,18 @@ import MenuDownIcon from 'vue-material-design-icons/MenuDown.vue'
 import TextBoxIcon from 'vue-material-design-icons/TextBox.vue'
 import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
 import QrcodeIcon from 'vue-material-design-icons/Qrcode.vue'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect.js'
-import Avatar from '@nextcloud/vue/dist/Components/Avatar.js'
-import Actions from '@nextcloud/vue/dist/Components/Actions.js'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton.js'
-import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio.js'
-import ActionInput from '@nextcloud/vue/dist/Components/ActionInput.js'
-import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox.js'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink.js'
-import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator.js'
-import Modal from '@nextcloud/vue/dist/Components/Modal.js'
-import NcButton from '@nextcloud/vue/dist/Components/Button.js'
+
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionRadio from '@nextcloud/vue/dist/Components/NcActionRadio.js'
+import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
+import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
+import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl, generateOcsUrl, imagePath } from '@nextcloud/router'
@@ -399,16 +400,16 @@ export default {
 
 	components: {
 		ClippyIcon,
-		Avatar,
-		Actions,
-		ActionButton,
-		ActionRadio,
-		ActionInput,
-		ActionCheckbox,
-		ActionLink,
-		ActionSeparator,
-		Multiselect,
-		Modal,
+		NcAvatar,
+		NcActions,
+		NcActionButton,
+		NcActionRadio,
+		NcActionInput,
+		NcActionCheckbox,
+		NcActionLink,
+		NcActionSeparator,
+		NcMultiselect,
+		NcModal,
 		NcButton,
 		QRCode,
 		QrcodeIcon,

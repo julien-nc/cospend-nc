@@ -50,7 +50,7 @@
 				</option>
 			</select>
 		</div>
-		<AppNavigationItem v-if="!pageIsPublic"
+		<NcAppNavigationItem v-if="!pageIsPublic"
 			class="exportItem"
 			:title="t('cospend', 'Export project')"
 			@click="onExportClick">
@@ -58,7 +58,7 @@
 				<ContentSaveIcon
 					:size="20" />
 			</template>
-		</AppNavigationItem>
+		</NcAppNavigationItem>
 		<div>
 			<br><hr>
 			<h3>
@@ -78,7 +78,7 @@
 					{{ t('cospend', 'Add a member') }}
 				</span>
 			</h4>
-			<Multiselect
+			<NcMultiselect
 				v-if="maintenerAccess"
 				ref="addUserInput"
 				v-model="selectedAddUser"
@@ -92,11 +92,11 @@
 				@search-change="asyncFind"
 				@input="clickAddUserItem">
 				<template #option="{option}">
-					<Avatar v-if="option.type === 's'"
+					<NcAvatar v-if="option.type === 's'"
 						:is-no-user="true"
 						:show-user-status="false"
 						:user="option.name" />
-					<Avatar v-else
+					<NcAvatar v-else
 						:is-no-user="false"
 						:show-user-status="false"
 						:user="option.user" />
@@ -115,7 +115,7 @@
 				<template #noResult>
 					{{ t('cospend', 'No result') }}
 				</template>
-			</Multiselect>
+			</NcMultiselect>
 			<AppNavigationMemberItem
 				v-for="member in sortedMembers"
 				:key="member.id"
@@ -146,7 +146,7 @@
 						:placeholder="t('cospend', 'Choose a member')"
 						:members="activeMembers"
 						@input="affectMemberSelected" />
-					<Multiselect
+					<NcMultiselect
 						v-if="maintenerAccess"
 						v-model="selectedAffectUser"
 						class="affectUserInput"
@@ -173,7 +173,7 @@
 						<template #noOptions>
 							{{ t('cospend', 'Type to search users') }}
 						</template>
-					</Multiselect>
+					</NcMultiselect>
 				</div>
 			</div>
 		</div>
@@ -188,29 +188,30 @@ import CheckIcon from 'vue-material-design-icons/Check.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import ContentSaveIcon from 'vue-material-design-icons/ContentSave.vue'
 import CalendarMonthIcon from 'vue-material-design-icons/CalendarMonth.vue'
-import NcButton from '@nextcloud/vue/dist/Components/Button.js'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect.js'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem.js'
-import Avatar from '@nextcloud/vue/dist/Components/Avatar.js'
+
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+
+import AppNavigationMemberItem from './AppNavigationMemberItem.vue'
+import MemberMultiSelect from './MemberMultiSelect.vue'
 
 import { generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
-
 import cospend from '../state.js'
 import * as constants from '../constants.js'
 import { getSortedMembers } from '../utils.js'
-import AppNavigationMemberItem from './AppNavigationMemberItem.vue'
-import MemberMultiSelect from './MemberMultiSelect.vue'
 
 export default {
 	name: 'SettingsTabSidebar',
 	components: {
-		Multiselect,
-		AppNavigationItem,
+		NcMultiselect,
+		NcAppNavigationItem,
 		AppNavigationMemberItem,
-		Avatar,
+		NcAvatar,
 		MemberMultiSelect,
 		CalendarMonthIcon,
 		ContentSaveIcon,

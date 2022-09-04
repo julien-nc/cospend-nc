@@ -17,7 +17,7 @@
 			@create-project="onCreateProject"
 			@save-option="onSaveOption"
 			@member-click="onNavMemberClick" />
-		<AppContent
+		<NcAppContent
 			:list-max-width="showSidebar ? 40 : 50"
 			:list-min-width="showSidebar ? 30 : 20"
 			:list-size="showSidebar ? 30 : 20"
@@ -59,14 +59,14 @@
 				@perso-bills-created="onPersoBillsCreated"
 				@duplicate-bill="onDuplicateBill"
 				@repeat-bill-now="onRepeatBillNow" />
-			<Modal v-if="showMoveModal"
+			<NcModal v-if="showMoveModal"
 				size="normal"
 				@close="showMoveModal = false">
 				<MoveToProjectList
 					:bill="billToMove"
 					:project-id="currentProjectId"
 					@item-moved="onBillMoved" />
-			</Modal>
+			</NcModal>
 			<Statistics
 				v-else-if="mode === 'stats'"
 				:project-id="currentProjectId" />
@@ -74,7 +74,7 @@
 				v-else-if="mode === 'settle'"
 				:project-id="currentProjectId"
 				@auto-settled="onAutoSettled" />
-			<EmptyContent v-else-if="!isMobile"
+			<NcEmptyContent v-else-if="!isMobile"
 				class="central-empty-content">
 				<template #icon>
 					<CospendIcon />
@@ -90,7 +90,7 @@
 						{{ t('cospend', 'Create a bill') }}
 					</NcButton>
 				</span>
-			</EmptyContent>
+			</NcEmptyContent>
 			<div v-if="!isMobile"
 				class="content-buttons">
 				<NcButton
@@ -98,7 +98,7 @@
 					class="icon-menu"
 					@click="onMainDetailClicked" />
 			</div>
-		</AppContent>
+		</NcAppContent>
 		<CospendSettingsDialog
 			@project-imported="onProjectImported"
 			@update-max-precision="onUpdateMaxPrecision"
@@ -125,22 +125,15 @@
 
 <script>
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import NcButton from '@nextcloud/vue/dist/Components/Button.js'
-import { generateUrl } from '@nextcloud/router'
-import { getCurrentUser } from '@nextcloud/auth'
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import moment from '@nextcloud/moment'
-import {
-	showSuccess,
-	showError,
-	showInfo,
-} from '@nextcloud/dialogs'
-import '@nextcloud/dialogs/styles/toast.scss'
-import NcContent from '@nextcloud/vue/dist/Components/Content.js'
-import AppContent from '@nextcloud/vue/dist/Components/AppContent.js'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent.js'
+
+import CospendIcon from './components/icons/CospendIcon.vue'
+
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
+import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
-import Modal from '@nextcloud/vue/dist/Components/Modal.js'
 
 import CospendNavigation from './components/CospendNavigation.vue'
 import CospendSettingsDialog from './components/CospendSettingsDialog.vue'
@@ -151,11 +144,20 @@ import Settlement from './Settlement.vue'
 import Sidebar from './components/Sidebar.vue'
 import MoveToProjectList from './components/MoveToProjectList.vue'
 
+import { generateUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import moment from '@nextcloud/moment'
+import {
+	showSuccess,
+	showError,
+	showInfo,
+} from '@nextcloud/dialogs'
+
 import cospend from './state.js'
 import * as network from './network.js'
 import * as constants from './constants.js'
 import { rgbObjToHex, slugify } from './utils.js'
-import CospendIcon from './components/icons/CospendIcon.vue'
 
 export default {
 	name: 'App',
@@ -169,12 +171,12 @@ export default {
 		Settlement,
 		Sidebar,
 		NcContent,
-		AppContent,
-		EmptyContent,
+		NcAppContent,
+		NcEmptyContent,
 		NcButton,
 		PlusIcon,
 		MoveToProjectList,
-		Modal,
+		NcModal,
 	},
 	mixins: [isMobile],
 	provide() {
@@ -1029,7 +1031,7 @@ export default {
 .content-buttons {
 	position: fixed !important;
 	top: 56px;
-	right: 6px;
+	right: 14px;
 }
 
 #app-content-wrapper {

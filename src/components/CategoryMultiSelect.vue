@@ -1,5 +1,5 @@
 <template>
-	<Multiselect
+	<NcMultiselect
 		:value="selectedCategoryItem"
 		class="categoryMultiSelect multiSelect"
 		label="displayName"
@@ -13,13 +13,13 @@
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect.js'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 
 export default {
 	name: 'CategoryMultiSelect',
 
 	components: {
-		Multiselect,
+		NcMultiselect,
 	},
 
 	props: {

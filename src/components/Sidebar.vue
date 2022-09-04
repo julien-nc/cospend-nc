@@ -1,5 +1,5 @@
 <template>
-	<AppSidebar v-show="show"
+	<NcAppSidebar v-show="show"
 		:title="title"
 		:compact="true"
 		:background="backgroundImageUrl"
@@ -9,15 +9,15 @@
 		@close="$emit('close')">
 		<!--template #description /-->
 		<template v-if="false" slot="secondary-actions">
-			<ActionButton icon="icon-edit" @click="alert('Edit')">
+			<NcActionButton icon="icon-edit" @click="alert('Edit')">
 				Edit
-			</ActionButton>
-			<ActionButton icon="icon-delete" @click="alert('Delete')">
+			</NcActionButton>
+			<NcActionButton icon="icon-delete" @click="alert('Delete')">
 				Delete
-			</ActionButton>
-			<ActionLink icon="icon-external" title="Link" href="https://nextcloud.com" />
+			</NcActionButton>
+			<NcActionLink icon="icon-external" title="Link" href="https://nextcloud.com" />
 		</template>
-		<AppSidebarTab v-if="!pageIsPublic"
+		<NcAppSidebarTab v-if="!pageIsPublic"
 			id="sharing"
 			:name="t('cospend', 'Sharing')"
 			:order="1">
@@ -27,8 +27,8 @@
 			<SharingTabSidebar
 				:project="project"
 				@project-edited="onProjectEdited" />
-		</AppSidebarTab>
-		<AppSidebarTab
+		</NcAppSidebarTab>
+		<NcAppSidebarTab
 			id="project-settings"
 			:name="t('cospend', 'Settings')"
 			:order="2">
@@ -43,8 +43,8 @@
 				@member-edited="onMemberEdited"
 				@new-simple-member="onNewSimpleMember"
 				@export-clicked="onExportClicked" />
-		</AppSidebarTab>
-		<AppSidebarTab v-if="!pageIsPublic && activityEnabled"
+		</NcAppSidebarTab>
+		<NcAppSidebarTab v-if="!pageIsPublic && activityEnabled"
 			id="activity"
 			:name="t('cospend', 'Activity')"
 			:order="3">
@@ -53,8 +53,8 @@
 			</template>
 			<ActivityTabSidebar
 				:project-id="projectId" />
-		</AppSidebarTab>
-		<AppSidebarTab
+		</NcAppSidebarTab>
+		<NcAppSidebarTab
 			id="categories"
 			:name="t('cospend', 'Categories')"
 			:order="4">
@@ -66,8 +66,8 @@
 				type="category"
 				@project-edited="onProjectEdited"
 				@element-deleted="onCategoryDeleted" />
-		</AppSidebarTab>
-		<AppSidebarTab
+		</NcAppSidebarTab>
+		<NcAppSidebarTab
 			id="paymentmodes"
 			:name="t('cospend', 'Payment modes')"
 			:order="5">
@@ -79,8 +79,8 @@
 				type="paymentmode"
 				@project-edited="onProjectEdited"
 				@element-deleted="onPaymentModeDeleted" />
-		</AppSidebarTab>
-		<AppSidebarTab
+		</NcAppSidebarTab>
+		<NcAppSidebarTab
 			id="currencies"
 			:name="t('cospend', 'Currencies')"
 			:order="6">
@@ -90,8 +90,8 @@
 			<CurrencyManagement
 				:project-id="projectId"
 				@project-edited="onProjectEdited" />
-		</AppSidebarTab>
-	</AppSidebar>
+		</NcAppSidebarTab>
+	</NcAppSidebar>
 </template>
 
 <script>
@@ -100,29 +100,32 @@ import ShapeIcon from 'vue-material-design-icons/Shape.vue'
 import TagIcon from 'vue-material-design-icons/Tag.vue'
 import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton.js'
-import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar.js'
-import AppSidebarTab from '@nextcloud/vue/dist/Components/AppSidebarTab.js'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink.js'
 
-import { generateUrl } from '@nextcloud/router'
+import CurrencyIcon from './icons/CurrencyIcon.vue'
+
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar.js'
+import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+
 import SharingTabSidebar from './SharingTabSidebar.vue'
 import SettingsTabSidebar from './SettingsTabSidebar.vue'
 import CategoryOrPmManagement from '../CategoryOrPmManagement.vue'
 import CurrencyManagement from '../CurrencyManagement.vue'
 import ActivityTabSidebar from './ActivityTabSidebar.vue'
+
+import { generateUrl } from '@nextcloud/router'
 import cospend from '../state.js'
 import * as constants from '../constants.js'
-import CurrencyIcon from './icons/CurrencyIcon.vue'
 
 export default {
 	name: 'Sidebar',
 	components: {
 		CurrencyIcon,
-		ActionButton,
-		AppSidebar,
-		AppSidebarTab,
-		ActionLink,
+		NcActionButton,
+		NcAppSidebar,
+		NcAppSidebarTab,
+		NcActionLink,
 		SharingTabSidebar,
 		SettingsTabSidebar,
 		CategoryOrPmManagement,

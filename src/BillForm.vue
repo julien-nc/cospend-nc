@@ -1,5 +1,5 @@
 <template>
-	<AppContentDetails class="bill-form-content">
+	<NcAppContentDetails class="bill-form-content">
 		<h2 class="bill-title">
 			<div class="billFormAvatar">
 				<ColoredAvatar
@@ -157,7 +157,7 @@
 							:size="20" />
 						{{ t('cospend', 'When?') }}
 					</label>
-					<DatetimePicker v-if="showDatePicker"
+					<NcDatetimePicker v-if="showDatePicker"
 						id="dateInput"
 						v-model="billDatetime"
 						class="datetime-picker"
@@ -176,7 +176,7 @@
 							:size="20" />
 						{{ t('cospend', 'Payment mode') }}
 					</label>
-					<Multiselect
+					<NcMultiselect
 						id="paymentModeMultiSelect"
 						:value="selectedPaymentModeItem"
 						class="paymentModeMultiSelect  multiSelect"
@@ -197,7 +197,7 @@
 							:size="20" />
 						{{ t('cospend', 'Category') }}
 					</label>
-					<Multiselect
+					<NcMultiselect
 						id="categoryMultiSelect"
 						:value="selectedCategoryItem"
 						class="categoryMultiSelect  multiSelect"
@@ -314,7 +314,7 @@
 								:size="20" />
 							{{ t('cospend', 'Repeat until') }}
 						</label>
-						<DatetimePicker v-if="showDatePicker"
+						<NcDatetimePicker v-if="showDatePicker"
 							v-model="billStringRepeatUntil"
 							class="datetime-picker"
 							type="date"
@@ -593,7 +593,7 @@
 				</NcButton>
 			</div>
 		</div>
-	</AppContentDetails>
+	</NcAppContentDetails>
 </template>
 
 <script>
@@ -613,15 +613,21 @@ import RepeatIcon from 'vue-material-design-icons/Repeat.vue'
 import ContentDuplicateIcon from 'vue-material-design-icons/ContentDuplicate.vue'
 import CalendarSyncIcon from 'vue-material-design-icons/CalendarSync.vue'
 import InformationVariantIcon from 'vue-material-design-icons/InformationVariant.vue'
-import NcButton from '@nextcloud/vue/dist/Components/Button.js'
+
+import CospendIcon from './components/icons/CospendIcon.vue'
+import CurrencyIcon from './components/icons/CurrencyIcon.vue'
+
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcDatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker.js'
+import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDetails.js'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+
+import ColoredAvatar from './components/ColoredAvatar.vue'
+import MemberMultiSelect from './components/MemberMultiSelect.vue'
+
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { getLocale } from '@nextcloud/l10n'
-import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker.js'
-import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails.js'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect.js'
-import ColoredAvatar from './components/ColoredAvatar.vue'
-import MemberMultiSelect from './components/MemberMultiSelect.vue'
 import {
 	showSuccess,
 	showError,
@@ -633,8 +639,6 @@ import {
 import cospend from './state.js'
 import * as network from './network.js'
 import * as constants from './constants.js'
-import CospendIcon from './components/icons/CospendIcon.vue'
-import CurrencyIcon from './components/icons/CurrencyIcon.vue'
 
 export default {
 	name: 'BillForm',
@@ -642,10 +646,10 @@ export default {
 	components: {
 		CurrencyIcon,
 		CospendIcon,
-		DatetimePicker,
-		AppContentDetails,
+		NcDatetimePicker,
+		NcAppContentDetails,
 		ColoredAvatar,
-		Multiselect,
+		NcMultiselect,
 		MemberMultiSelect,
 		NcButton,
 		AccountIcon,

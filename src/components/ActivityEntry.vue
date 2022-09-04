@@ -32,7 +32,7 @@ import moment from '@nextcloud/moment'
 import { getCurrentUser } from '@nextcloud/auth'
 import RichText from '@juliushaertl/vue-richtext'
 
-import UserBubble from '@nextcloud/vue/dist/Components/UserBubble.js'
+import NcUserBubble from '@nextcloud/vue/dist/Components/NcUserBubble.js'
 
 const icons = {
 	bill_update: {
@@ -59,8 +59,6 @@ export default {
 
 	components: {
 		RichText,
-		// eslint-disable-next-line
-		UserBubble,
 		ShareVariantIcon,
 		PencilIcon,
 		PlusIcon,
@@ -117,7 +115,7 @@ export default {
 			const params = {}
 			if (['bill_update', 'bill_create', 'bill_delete', 'project_share', 'project_unshare'].includes(this.activity.link)) {
 				params.user = {
-					component: UserBubble,
+					component: NcUserBubble,
 					props: {
 						user: this.activity.subject_rich[1]?.user?.id || undefined,
 						displayName: this.userIsMe(this.activity.subject_rich[1]?.user?.id)
@@ -128,7 +126,7 @@ export default {
 			}
 			if (['project_share', 'project_unshare'].includes(this.activity.link)) {
 				params.who = {
-					component: UserBubble,
+					component: NcUserBubble,
 					props: {
 						user: this.activity.subject_rich[1]?.who?.id || undefined,
 						displayName: this.userIsMe(this.activity.subject_rich[1]?.who?.id)

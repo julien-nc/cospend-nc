@@ -4,7 +4,7 @@
 		:show-more-text="title"
 		:loading="state === 'loading'">
 		<template #empty-content>
-			<EmptyContent>
+			<NcEmptyContent>
 				<template #icon>
 					<CospendIcon />
 				</template>
@@ -16,7 +16,7 @@
 						</a>
 					</div>
 				</template>
-			</EmptyContent>
+			</NcEmptyContent>
 		</template>
 	</DashboardWidget>
 </template>
@@ -27,7 +27,7 @@ import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import moment from '@nextcloud/moment'
 import { DashboardWidget } from '@nextcloud/vue-dashboard'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent.js'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import CospendIcon from '../components/icons/CospendIcon.vue'
 
 export default {
@@ -36,7 +36,7 @@ export default {
 	components: {
 		CospendIcon,
 		DashboardWidget,
-		EmptyContent,
+		NcEmptyContent,
 	},
 
 	props: {

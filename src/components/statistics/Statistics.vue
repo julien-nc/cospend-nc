@@ -1,5 +1,5 @@
 <template>
-	<AppContentDetails class="statistics-content">
+	<NcAppContentDetails class="statistics-content">
 		<h2 id="statsTitle">
 			<ChartLineIcon
 				:size="20" />
@@ -398,7 +398,7 @@
 			</tbody>
 		</v-table>
 		<div v-else-if="loadingStats" class="loading loading-stats-animation" />
-	</AppContentDetails>
+	</NcAppContentDetails>
 </template>
 
 <script>
@@ -411,23 +411,26 @@ import TagIcon from 'vue-material-design-icons/Tag.vue'
 import ShapeIcon from 'vue-material-design-icons/Shape.vue'
 import AccountIcon from 'vue-material-design-icons/Account.vue'
 import CurrencyUsdIcon from 'vue-material-design-icons/CurrencyUsd.vue'
-import NcButton from '@nextcloud/vue/dist/Components/Button.js'
-import moment from '@nextcloud/moment'
-import AppContentDetails from '@nextcloud/vue/dist/Components/AppContentDetails.js'
+
+import CurrencyIcon from '../icons/CurrencyIcon.vue'
+
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDetails.js'
+
 import ColoredAvatar from '../ColoredAvatar.vue'
 import MemberMultiSelect from '../MemberMultiSelect.vue'
 import CategoryMultiSelect from '../CategoryMultiSelect.vue'
-
-import { getCategory, getPaymentMode, getSmartMemberName, strcmp } from '../../utils.js'
-import cospend from '../../state.js'
-import * as network from '../../network.js'
+import PaymentModeMultiSelect from '../PaymentModeMultiSelect.vue'
 import MemberMonthly from './MemberMonthly.vue'
 import Monthly from './Monthly.vue'
 import PieChartJs from '../PieChartJs.vue'
 import BarChartJs from '../BarChartJs.vue'
+
+import moment from '@nextcloud/moment'
+import { getCategory, getPaymentMode, getSmartMemberName, strcmp } from '../../utils.js'
+import cospend from '../../state.js'
+import * as network from '../../network.js'
 import * as constants from '../../constants.js'
-import PaymentModeMultiSelect from '../PaymentModeMultiSelect.vue'
-import CurrencyIcon from '../icons/CurrencyIcon.vue'
 
 export default {
 	name: 'Statistics',
@@ -440,7 +443,7 @@ export default {
 		BarChartJs,
 		MemberMonthly,
 		Monthly,
-		AppContentDetails,
+		NcAppContentDetails,
 		NcButton,
 		CategoryMultiSelect,
 		PaymentModeMultiSelect,

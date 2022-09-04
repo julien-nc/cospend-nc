@@ -36,7 +36,7 @@
 		</div>
 		<div v-if="editMode"
 			class="one-element-edit">
-			<ColorPicker ref="col"
+			<NcColorPicker ref="col"
 				class="app-navigation-entry-bullet-wrapper"
 				value=""
 				@input="updateColor">
@@ -47,15 +47,15 @@
 						<PaletteIcon :size="20" />
 					</template>
 				</NcButton>
-			</ColorPicker>
-			<EmojiPicker :show-preview="true"
+			</NcColorPicker>
+			<NcEmojiPicker :show-preview="true"
 				@select="selectEmoji">
 				<NcButton
 					v-tooltip.top="{ content: t('cospend', 'Icon') }"
 					class="emojiButton">
 					{{ icon }}
 				</NcButton>
-			</EmojiPicker>
+			</NcEmojiPicker>
 			<input ref="cname"
 				v-model="name"
 				type="text"
@@ -83,23 +83,25 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/Button.js'
 import CursorMoveIcon from 'vue-material-design-icons/CursorMove.vue'
 import PaletteIcon from 'vue-material-design-icons/Palette.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
+import NcEmojiPicker from '@nextcloud/vue/dist/Components/NcEmojiPicker.js'
+
 import { Timer } from '../utils.js'
-import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker.js'
-import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker.js'
 
 export default {
 	name: 'CategoryOrPm',
 
 	components: {
-		ColorPicker,
-		EmojiPicker,
+		NcColorPicker,
+		NcEmojiPicker,
 		PaletteIcon,
 		PencilIcon,
 		DeleteIcon,

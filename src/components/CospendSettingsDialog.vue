@@ -21,12 +21,13 @@
 
 <template>
 	<div id="settings-container">
-		<AppSettingsDialog
+		<NcAppSettingsDialog
 			class="cospend-settings-dialog"
+			:title="t('cospend', 'Cospend settings')"
 			:open.sync="showSettings"
 			:show-navigation="true"
 			container="#settings-container">
-			<AppSettingsSection
+			<NcAppSettingsSection
 				id="about"
 				:title="t('cospend', 'About Cospend')"
 				class="app-settings-section">
@@ -78,8 +79,8 @@
 					https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md
 					<OpenInNewIcon :size="16" />
 				</a>
-			</AppSettingsSection>
-			<AppSettingsSection v-if="!pageIsPublic"
+			</NcAppSettingsSection>
+			<NcAppSettingsSection v-if="!pageIsPublic"
 				id="import"
 				:title="t('cospend', 'Import projects')"
 				class="app-settings-section">
@@ -101,8 +102,8 @@
 						{{ t('cospend', 'Import SplitWise project') }}
 					</NcButton>
 				</div>
-			</AppSettingsSection>
-			<AppSettingsSection v-if="!pageIsPublic"
+			</NcAppSettingsSection>
+			<NcAppSettingsSection v-if="!pageIsPublic"
 				id="guest-access"
 				:title="t('cospend', 'Guest access')"
 				class="app-settings-section">
@@ -118,8 +119,8 @@
 						{{ t('cospend', 'Copy guest access link') }}
 					</NcButton>
 				</a>
-			</AppSettingsSection>
-			<AppSettingsSection v-if="!pageIsPublic"
+			</NcAppSettingsSection>
+			<NcAppSettingsSection v-if="!pageIsPublic"
 				id="export"
 				:title="t('cospend', 'Export location')"
 				class="app-settings-section">
@@ -133,8 +134,8 @@
 					:disabled="false"
 					:readonly="true"
 					@click="onOutputDirClick">
-			</AppSettingsSection>
-			<AppSettingsSection
+			</NcAppSettingsSection>
+			<NcAppSettingsSection
 				id="sort"
 				:title="t('cospend', 'Sort criterias')"
 				class="app-settings-section">
@@ -168,8 +169,8 @@
 						{{ t('cospend', 'Balance') }}
 					</option>
 				</select>
-			</AppSettingsSection>
-			<AppSettingsSection
+			</NcAppSettingsSection>
+			<NcAppSettingsSection
 				id="misc"
 				:title="t('cospend', 'Misc')"
 				class="app-settings-section">
@@ -197,8 +198,8 @@
 				<label for="use-time-cb">
 					{{ t('cospend', 'Use time in dates') }}
 				</label>
-			</AppSettingsSection>
-		</AppSettingsDialog>
+			</NcAppSettingsSection>
+		</NcAppSettingsDialog>
 	</div>
 </template>
 
@@ -206,23 +207,26 @@
 import ClipboardCheckOutlineIcon from 'vue-material-design-icons/ClipboardCheckOutline.vue'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
-import NcButton from '@nextcloud/vue/dist/Components/Button.js'
+
+import ClippyIcon from './icons/ClippyIcon.vue'
+
+import NcAppSettingsDialog from '@nextcloud/vue/dist/Components/NcAppSettingsDialog.js'
+import NcAppSettingsSection from '@nextcloud/vue/dist/Components/NcAppSettingsSection.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { getFilePickerBuilder, showError, showSuccess } from '@nextcloud/dialogs'
-import AppSettingsDialog from '@nextcloud/vue/dist/Components/AppSettingsDialog.js'
-import AppSettingsSection from '@nextcloud/vue/dist/Components/AppSettingsSection.js'
 import cospend from '../state.js'
 import { generateUrl } from '@nextcloud/router'
 import { importCospendProject, importSWProject, Timer } from '../utils.js'
-import ClippyIcon from './icons/ClippyIcon.vue'
 
 export default {
 	name: 'CospendSettingsDialog',
 
 	components: {
 		ClippyIcon,
-		AppSettingsDialog,
-		AppSettingsSection,
+		NcAppSettingsDialog,
+		NcAppSettingsSection,
 		NcButton,
 		FileImportIcon,
 		ClipboardCheckOutlineIcon,

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-09-04 18:28+0200\n"
-"PO-Revision-Date: 2022-09-04 16:29\n"
+"PO-Revision-Date: 2022-09-04 16:31\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -607,7 +607,7 @@ msgstr "Impossible de trouver un payeur correspondant"
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3706
 #, php-format
 msgid "Cannot create new bill: %1$s"
-msgstr ""
+msgstr "Impossible de créer la nouvelle facture : %1$s"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3995
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4167
@@ -2013,7 +2013,7 @@ msgstr "Déplacer la facture \"{bill}\" vers un projet différent :"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:320
 msgid "Only one project available, in which this bill already exists"
-msgstr ""
+msgstr "Un seul projet disponible dans lequel cette facture existe déjà"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:321
 msgid "No projects found"

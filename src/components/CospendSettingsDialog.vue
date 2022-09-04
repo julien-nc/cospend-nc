@@ -27,6 +27,7 @@
 			:show-navigation="true"
 			container="#settings-container">
 			<AppSettingsSection
+				id="about"
 				:title="t('cospend', 'About Cospend')"
 				class="app-settings-section">
 				<h3 class="app-settings-section__hint">
@@ -79,6 +80,7 @@
 				</a>
 			</AppSettingsSection>
 			<AppSettingsSection v-if="!pageIsPublic"
+				id="import"
 				:title="t('cospend', 'Import projects')"
 				class="app-settings-section">
 				<div class="oneLine">
@@ -101,6 +103,7 @@
 				</div>
 			</AppSettingsSection>
 			<AppSettingsSection v-if="!pageIsPublic"
+				id="guest-access"
 				:title="t('cospend', 'Guest access')"
 				class="app-settings-section">
 				<a :href="guestLink" @click.prevent.stop="onGuestLinkClick">
@@ -117,6 +120,7 @@
 				</a>
 			</AppSettingsSection>
 			<AppSettingsSection v-if="!pageIsPublic"
+				id="export"
 				:title="t('cospend', 'Export location')"
 				class="app-settings-section">
 				<h3 class="app-settings-section__hint">
@@ -131,6 +135,7 @@
 					@click="onOutputDirClick">
 			</AppSettingsSection>
 			<AppSettingsSection
+				id="sort"
 				:title="t('cospend', 'Sort criterias')"
 				class="app-settings-section">
 				<div v-if="!pageIsPublic">
@@ -165,6 +170,7 @@
 				</select>
 			</AppSettingsSection>
 			<AppSettingsSection
+				id="misc"
 				:title="t('cospend', 'Misc')"
 				class="app-settings-section">
 				<h3 class="app-settings-section__hint">

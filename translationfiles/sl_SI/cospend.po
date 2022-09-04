@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-09-04 18:07+0200\n"
-"PO-Revision-Date: 2022-09-04 16:08\n"
+"POT-Creation-Date: 2022-09-04 18:28+0200\n"
+"PO-Revision-Date: 2022-09-04 16:29\n"
 "Last-Translator: \n"
 "Language-Team: Slovenian\n"
 "Language: sl_SI\n"
@@ -606,7 +606,7 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3706
 #, php-format
-msgid "Cannot create new invoice: %1$s"
+msgid "Cannot create new bill: %1$s"
 msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3995
@@ -2016,7 +2016,7 @@ msgid "Move bill \"{bill}\" to a different project:"
 msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:320
-msgid "Only one project available, which this bill already exists in"
+msgid "Only one project available, in which this bill already exists"
 msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:321

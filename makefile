@@ -101,6 +101,7 @@ build_release: clean
 	--exclude=screenshots \
 	--exclude=phpunit*xml \
 	--exclude=tests \
+	--exclude=/.editorconfig \
 	--exclude=ci \
 	--exclude=vendor/bin \
 	$(project_dir) $(sign_dir)/$(app_name)

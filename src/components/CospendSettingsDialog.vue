@@ -110,7 +110,7 @@
 				<a :href="guestLink" @click.prevent.stop="onGuestLinkClick">
 					<NcButton>
 						<template #icon>
-							<ClipboardCheckOutlineIcon v-if="guestLinkCopied"
+							<CheckIcon v-if="guestLinkCopied"
 								class="success"
 								:size="20" />
 							<ClippyIcon v-else
@@ -204,7 +204,7 @@
 </template>
 
 <script>
-import ClipboardCheckOutlineIcon from 'vue-material-design-icons/ClipboardCheckOutline.vue'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
 
@@ -229,7 +229,7 @@ export default {
 		NcAppSettingsSection,
 		NcButton,
 		FileImportIcon,
-		ClipboardCheckOutlineIcon,
+		CheckIcon,
 		OpenInNewIcon,
 	},
 

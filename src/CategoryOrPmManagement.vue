@@ -110,7 +110,7 @@
 					@edit="onEditElement" />
 			</div>
 			<div v-else>
-				<NcEmptyContent>
+				<NcEmptyContent :title="emptyContentText">
 					<template #icon>
 						<ShapeIcon v-if="type === 'category'"
 							class="icon"
@@ -118,9 +118,6 @@
 						<TagIcon v-else
 							class="icon"
 							:size="20" />
-					</template>
-					<template #desc>
-						{{ emptyContentText }}
 					</template>
 				</NcEmptyContent>
 			</div>

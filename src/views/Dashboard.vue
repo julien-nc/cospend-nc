@@ -4,17 +4,16 @@
 		:show-more-text="title"
 		:loading="state === 'loading'">
 		<template #empty-content>
-			<NcEmptyContent>
+			<NcEmptyContent :title="t('cospend', 'No recent activity')">
 				<template #icon>
 					<CospendIcon />
 				</template>
-				<template #desc>
-					{{ t('cospend', 'No recent activity') }}
-					<div class="empty-content-button">
-						<a class="button" :href="cospendUrl">
+				<template #action>
+					<a :href="cospendUrl">
+						<NcButton>
 							{{ t('cospend', 'Go to Cospend') }}
-						</a>
-					</div>
+						</NcButton>
+					</a>
 				</template>
 			</NcEmptyContent>
 		</template>
@@ -22,13 +21,15 @@
 </template>
 
 <script>
+import CospendIcon from '../components/icons/CospendIcon.vue'
+
 import axios from '@nextcloud/axios'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import moment from '@nextcloud/moment'
 import { DashboardWidget } from '@nextcloud/vue-dashboard'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import CospendIcon from '../components/icons/CospendIcon.vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 export default {
 	name: 'Dashboard',
@@ -37,6 +38,7 @@ export default {
 		CospendIcon,
 		DashboardWidget,
 		NcEmptyContent,
+		NcButton,
 	},
 
 	props: {
@@ -208,7 +210,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-::v-deep .empty-content-button {
-	margin-top: 10px;
-}
+// nothing
 </style>

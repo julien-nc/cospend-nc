@@ -9,12 +9,10 @@
 				:title="project.name"
 				@click="onProjectClicked(project)" />
 		</ul>
-		<NcEmptyContent v-if="cospend.projects.length === 1 && cospend.projects[projectId]">
-			{{ t('cospend', 'Only one project available, in which this bill already exists') }}
-		</NcEmptyContent>
-		<NcEmptyContent v-else-if="cospend.projects.length === 0">
-			{{ t('cospend', 'No projects found') }}
-		</NcEmptyContent>
+		<NcEmptyContent v-if="cospend.projects.length === 1 && cospend.projects[projectId]"
+			:title="t('cospend', 'Only one project available, in which this bill already exists')" />
+		<NcEmptyContent v-else-if="cospend.projects.length === 0"
+			:title="t('cospend', 'No projects found')" />
 	</div>
 </template>
 <script>

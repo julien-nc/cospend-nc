@@ -1,5 +1,6 @@
 .icon-cospend {
-    background-image: url('../img/app_black.svg');
+	background-image: url('../img/app_black.svg');
+	filter: var(--background-invert-if-dark);
 }
 
 /* for NC <= 24 */

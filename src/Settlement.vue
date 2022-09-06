@@ -137,11 +137,11 @@
 			</tbody>
 		</v-table>
 		<NcEmptyContent v-else
-			class="central-empty-content">
+			class="central-empty-content"
+			:title="t('cospend', 'No transactions found')">
 			<template #icon>
 				<ReimburseIcon />
 			</template>
-			{{ t('cospend', 'No transactions found') }}
 		</NcEmptyContent>
 
 		<h3>
@@ -187,11 +187,11 @@
 			<tfoot />
 		</v-table>
 		<NcEmptyContent v-else
-			class="central-empty-content">
+			class="central-empty-content"
+			:title="t('cospend', 'No balances found')">
 			<template #icon>
 				<CospendIcon />
 			</template>
-			{{ t('cospend', 'No balances found') }}
 		</NcEmptyContent>
 
 		<hr>

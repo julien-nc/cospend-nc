@@ -118,11 +118,11 @@
 			class="nomember">
 			{{ t('cospend', 'Add at least 2 members to start creating bills') }}
 		</h3>
-		<NcEmptyContent v-else-if="bills.length === 0 && !loading">
+		<NcEmptyContent v-else-if="bills.length === 0 && !loading"
+			:title="t('cospend', 'No bills to show')">
 			<template #icon>
 				<CospendIcon />
 			</template>
-			{{ t('cospend', 'No bills to show') }}
 		</NcEmptyContent>
 		<h2 v-show="loading"
 			class="icon-loading-small loading-icon" />

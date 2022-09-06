@@ -23,7 +23,7 @@
 			:list-size="showSidebar ? 30 : 20"
 			:show-details="shouldShowDetailsToggle"
 			@update:showDetails="showList">
-			<template slot="list">
+			<template #list>
 				<BillList
 					v-if="currentProjectId"
 					ref="billList"
@@ -75,21 +75,20 @@
 				:project-id="currentProjectId"
 				@auto-settled="onAutoSettled" />
 			<NcEmptyContent v-else-if="!isMobile"
-				class="central-empty-content">
+				class="central-empty-content"
+				:title="currentProjectId ? t('cospend', 'Project {name}', { name: currentProjectId }) : t('cospend', 'Select a project')">
 				<template #icon>
 					<CospendIcon />
 				</template>
-				<span class="emptyContentInnerWrapper">
-					{{ currentProjectId ? t('cospend', 'Project {name}', { name: currentProjectId }) : t('cospend', 'Select a project') }}
+				<template #action>
 					<NcButton
-						class="emptyContentCreateBillButton"
 						@click="onNewBillClicked(null)">
 						<template #icon>
 							<PlusIcon :size="20" />
 						</template>
 						{{ t('cospend', 'Create a bill') }}
 					</NcButton>
-				</span>
+				</template>
 			</NcEmptyContent>
 			<div v-if="!isMobile"
 				class="content-buttons">
@@ -1041,24 +1040,10 @@ export default {
 ::v-deep .central-empty-content {
 	margin-left: auto;
 	margin-right: auto;
-
-	.empty-content__icon {
-		mask-size: 64px auto;
-		-webkit-mask-size: 64px auto;
-	}
-	.emptyContentInnerWrapper {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
 }
 
 .iconButton {
 	padding: 0;
-}
-
-.emptyContentCreateBillButton {
-	margin-top: 12px;
 }
 </style>
 

@@ -40,11 +40,11 @@
 			</NcAppNavigationItem>
 			<h2 v-if="loading"
 				class="icon-loading-small loading-icon" />
-			<NcEmptyContent v-else-if="sortedProjectIds.length === 0">
+			<NcEmptyContent v-else-if="sortedProjectIds.length === 0"
+				:title="t('cospend', 'No projects yet')">
 				<template #icon>
 					<FolderIcon :size="20" />
 				</template>
-				{{ t('cospend', 'No projects yet') }}
 			</NcEmptyContent>
 			<AppNavigationProjectItem
 				v-for="id in sortedProjectIds"

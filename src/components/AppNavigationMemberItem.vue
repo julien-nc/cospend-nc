@@ -5,6 +5,9 @@
 		:editable="maintenerAccess"
 		:edit-label="t('cospend', 'Rename member')"
 		:force-menu="false"
+		:menu-open="menuOpen"
+		@contextmenu.native.stop.prevent="menuOpen = true"
+		@update:menuOpen="onUpdateMenuOpen"
 		@update:title="onRename"
 		@click="onClick">
 		<div v-if="maintenerAccess"
@@ -191,6 +194,7 @@ export default {
 	data() {
 		return {
 			constants,
+			menuOpen: false,
 		}
 	},
 	computed: {
@@ -381,6 +385,9 @@ export default {
 				return sh.id === accessId
 			})
 			this.project.shares.splice(index, 1)
+		},
+		onUpdateMenuOpen(isOpen) {
+			this.menuOpen = isOpen
 		},
 	},
 

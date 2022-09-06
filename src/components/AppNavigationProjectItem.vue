@@ -20,6 +20,9 @@
 		:allow-collapse="true"
 		:open="selected"
 		:force-menu="false"
+		:menu-open="menuOpen"
+		@contextmenu.native.stop.prevent="menuOpen = true"
+		@update:menuOpen="onUpdateMenuOpen"
 		@click="onProjectClick">
 		<template #icon>
 			<FolderIcon v-if="selected"
@@ -173,6 +176,7 @@ export default {
 		return {
 			deleting: false,
 			deletionTimer: null,
+			menuOpen: false,
 		}
 	},
 	computed: {
@@ -230,6 +234,9 @@ export default {
 		},
 		onMemberEdited(projectid, memberid) {
 			this.$emit('member-edited', projectid, memberid)
+		},
+		onUpdateMenuOpen(isOpen) {
+			this.menuOpen = isOpen
 		},
 	},
 }

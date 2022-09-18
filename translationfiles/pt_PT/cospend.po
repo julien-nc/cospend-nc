@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-09-04 18:28+0200\n"
-"PO-Revision-Date: 2022-09-04 16:29\n"
+"PO-Revision-Date: 2022-09-18 09:37\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -211,7 +211,7 @@ msgstr "Não tem permissão para editar esta despesa"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:708
 msgid "You are not allowed to access the destination project"
-msgstr ""
+msgstr "Você não tem autorização para aceder ao planeamento de destino"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:750
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:846
@@ -602,12 +602,12 @@ msgstr "Essa despesa não existe"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3676
 msgid "Cannot match payer"
-msgstr ""
+msgstr "Não foi possível encontrar um pagador correspondente"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3706
 #, php-format
 msgid "Cannot create new bill: %1$s"
-msgstr ""
+msgstr "Não foi possível criar a nova despesa: %1$s"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3995
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4167
@@ -818,7 +818,7 @@ msgstr "CSV malformado, nenhum pagador na linha %1$s"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5878
 msgid "Malformed CSV, impossible to find the column names"
-msgstr ""
+msgstr "CSV malformado, não foi possível encontrar os nomes das colunas"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5972
 msgid "daily"
@@ -846,7 +846,7 @@ msgstr "Escolha um planeamento"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "Create a bill"
-msgstr ""
+msgstr "Criar uma despesa"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "Toggle sidebar"
@@ -862,7 +862,7 @@ msgstr "O membro {name} já existe"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:6
 msgid "Impossible to move bill. No candidate project found."
-msgstr ""
+msgstr "Não foi possível mover a despesa. Não foram encontrados planeamentos candidatos."
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Failed to get projects"
@@ -1820,7 +1820,7 @@ msgstr "Configurações"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:249
 msgid "Share"
-msgstr ""
+msgstr "Partilhar"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:250
 msgid "Add member"
@@ -1862,7 +1862,7 @@ msgstr "Eliminar esta despesa"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:262
 msgid "Move bill"
-msgstr ""
+msgstr "Mover despesa"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:263
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:313

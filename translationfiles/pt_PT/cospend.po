@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-09-04 18:28+0200\n"
-"PO-Revision-Date: 2022-09-18 09:37\n"
+"PO-Revision-Date: 2022-09-19 10:03\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -211,7 +211,7 @@ msgstr "Não tem permissão para editar esta despesa"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:708
 msgid "You are not allowed to access the destination project"
-msgstr "Você não tem autorização para aceder ao planeamento de destino"
+msgstr "Não tem autorização para aceder ao planeamento de destino"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:750
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:846
@@ -2009,23 +2009,23 @@ msgstr "Não foi possível copiar a hiperligação de convidado para a área de 
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:319
 msgid "Move bill \"{bill}\" to a different project:"
-msgstr ""
+msgstr "Mover a despesa \"{bill}\" para um planeamento diferente:"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:320
 msgid "Only one project available, in which this bill already exists"
-msgstr ""
+msgstr "Só há um planeamento disponível, no qual esta despesa já existe"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:321
 msgid "No projects found"
-msgstr ""
+msgstr "Não foram encontrados quaisquer planeamentos"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:322
 msgid "Bill moved to \"{project}\" successfully"
-msgstr ""
+msgstr "A despesa foi movida para \"{project}\" com sucesso"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:323
 msgid "Failed to move bill"
-msgstr ""
+msgstr "Falhou ao mover a despesa"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:324
 msgid "Rename project {n}"

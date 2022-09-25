@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-09-04 18:28+0200\n"
-"PO-Revision-Date: 2022-09-04 16:29\n"
+"PO-Revision-Date: 2022-09-25 14:39\n"
 "Last-Translator: \n"
 "Language-Team: Norwegian\n"
 "Language: no_NO\n"
@@ -19,57 +19,57 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:95
 msgid "You have created a new bill {bill} in project {project}"
-msgstr ""
+msgstr "Du har opprettet en ny regning {bill} i prosjektet {project}"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:95
 msgid "{user} has created a new bill {bill} in project {project}"
-msgstr ""
+msgstr "{user} har opprettet en ny regning {bill} i prosjektet {project}"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:98
 msgid "You have deleted the bill {bill} of project {project}"
-msgstr ""
+msgstr "Du har slettet regningen {bill} i prosjektet {project}"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:98
 msgid "{user} has deleted the bill {bill} of project {project}"
-msgstr ""
+msgstr "{user} har slettet regningen {bill} for prosjektet {project}"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:101
 msgid "You have shared the project {project} with {who}"
-msgstr ""
+msgstr "Du har delt prosjektet {project} med {who}"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:101
 msgid "{user} has shared the project {project} with {who}"
-msgstr ""
+msgstr "{user} har delt prosjektet {project} med {who}"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:104
 msgid "You have removed {who} from the project {project}"
-msgstr ""
+msgstr "Du har fjernet {who} fra prosjektet {project}"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:104
 msgid "{user} has removed {who} from the project {project}"
-msgstr ""
+msgstr "{user} har fjernet {who} fra prosjektet {project}"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:107
 msgid "You have updated the bill {bill} of project {project}"
-msgstr ""
+msgstr "Du har oppdatert regningen {bill} i prosjektet {project}"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:107
 msgid "{user} has updated the bill {bill} of project {project}"
-msgstr ""
+msgstr "{user} har oppdatert regningen {bill} for prosjektet {project}"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:182
 msgid "A guest user"
-msgstr ""
+msgstr "Gjestebruker"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/BillSetting.php:42
 msgid "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted"
-msgstr ""
+msgstr "En <strong>faktura</strong> i Cospendprogrammet har blitt oppdatert/slettet"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/CospendProvider.php:285
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/CospendProvider.php:293
 #, php-format
 msgid "circle %1$s"
-msgstr ""
+msgstr "sirkel %1$s"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/Filter.php:54
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Notification/Notifier.php:85
@@ -77,11 +77,11 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:2
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/templates/admin.php:8
 msgid "Cospend"
-msgstr ""
+msgstr "Cospend"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/Setting.php:55
 msgid "Changes in the <strong>Cospend app</strong>"
-msgstr ""
+msgstr "Endringer i <strong>Cospend appen</strong>"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:182
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:210
@@ -89,40 +89,40 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:313
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:335
 msgid "Cospend public access"
-msgstr ""
+msgstr "Cospend offentlig tilgang"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:183
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:211
 #, php-format
 msgid "Enter password of project %s"
-msgstr ""
+msgstr "Skriv inn passordet for prosjektet %s"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:238
 msgid "Enter project id and password"
-msgstr ""
+msgstr "Oppgi prosjekt-id og passord"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:269
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:382
 #, php-format
 msgid "Enter link password of project %s"
-msgstr ""
+msgstr "Oppgi lenkepassordet for prosjektet %s"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:275
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:314
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:361
 #, php-format
 msgid "Project %s"
-msgstr ""
+msgstr "Prosjekt %s"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:278
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:360
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:381
 msgid "Cospend shared link access"
-msgstr ""
+msgstr "Cospend delt link-tilgang"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:282
 msgid "No such share link"
-msgstr ""
+msgstr "Lenke for deling finnes ikke"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:283
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:336
@@ -137,7 +137,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5945
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5948
 msgid "Access denied"
-msgstr ""
+msgstr "Ingen tilgang"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:399
 msgid "No such share link or public access"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-09-04 18:28+0200\n"
-"PO-Revision-Date: 2022-09-04 16:29\n"
+"PO-Revision-Date: 2022-09-26 14:43\n"
 "Last-Translator: \n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -89,7 +89,7 @@ msgstr "Wijzigingen in de <strong>Cospend-app</strong>"
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:313
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:335
 msgid "Cospend public access"
-msgstr ""
+msgstr "Cospend publieke toegang"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:183
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:211
@@ -99,13 +99,13 @@ msgstr "Voeg een wachtwoord in voor project %s"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:238
 msgid "Enter project id and password"
-msgstr ""
+msgstr "Vul je e-mailadres en wachtwoord in"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:269
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:382
 #, php-format
 msgid "Enter link password of project %s"
-msgstr ""
+msgstr "Voeg een wachtwoord in voor project %s"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:275
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:314
@@ -118,11 +118,11 @@ msgstr "Project %s"
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:360
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:381
 msgid "Cospend shared link access"
-msgstr ""
+msgstr "Cospend gedeelde link toegang"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:282
 msgid "No such share link"
-msgstr ""
+msgstr "Gedeelde link bestaat niet"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:283
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:336
@@ -141,7 +141,7 @@ msgstr "Toegang geweigerd"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:399
 msgid "No such share link or public access"
-msgstr ""
+msgstr "Geen gedeelde link of openbare toegang"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:469
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1030
@@ -175,31 +175,31 @@ msgstr "Onbevoegde actie"
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:501
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:534
 msgid "You are not allowed to delete this bill"
-msgstr ""
+msgstr "U heeft geen toestemming om deze rekening te verwijderen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:551
 msgid "You are not allowed to get this project's info"
-msgstr ""
+msgstr "U heeft geen toestemming om de informatie van dit project te ontvangen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:573
 msgid "You are not allowed to get this project's statistics"
-msgstr ""
+msgstr "U heeft geen toestemming om de statistieken van dit project te ontvangen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:590
 msgid "You are not allowed to get this project's settlement"
-msgstr ""
+msgstr "U heeft geen toestemming om de schikking van dit project te ontvangen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:610
 msgid "You are not allowed to settle this project automatically"
-msgstr ""
+msgstr "U heeft geen toestemming om dit project automatisch te vereffenen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:625
 msgid "You are not allowed to access this project"
-msgstr ""
+msgstr "U heeft geen toegang tot deze pagina"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:654
 msgid "You are not allowed to edit this member"
-msgstr ""
+msgstr "U mag deze gebruiker niet bewerken"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:688
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:702
@@ -207,11 +207,11 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1511
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1565
 msgid "You are not allowed to edit this bill"
-msgstr ""
+msgstr "U heeft geen toestemming om deze rekening te wijzigen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:708
 msgid "You are not allowed to access the destination project"
-msgstr ""
+msgstr "U hebt geen toegang tot deze map"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:750
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:846
@@ -219,29 +219,29 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1434
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1459
 msgid "You are not allowed to add bills"
-msgstr ""
+msgstr "U heeft geen toestemming om rekeningen toe te voegen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:815
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2889
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2970
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:3011
 msgid "You are not allowed to edit this project"
-msgstr ""
+msgstr "U heeft geen toestemming om deze pagina te wijzigen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:867
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1298
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1329
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1351
 msgid "You are not allowed to add members"
-msgstr ""
+msgstr "U mag geen deelnemers toevoegen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:908
 msgid "You are not allowed to get the bill list"
-msgstr ""
+msgstr "U heeft geen toegang tot dit bestand"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:953
 msgid "Anonymous project creation is not allowed on this server"
-msgstr ""
+msgstr "Anonieme project creatie is niet toegestaan op deze server"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:998
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1024
@@ -250,7 +250,7 @@ msgstr "Project niet gevonden"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1004
 msgid "Bad password or share link"
-msgstr ""
+msgstr "Onjuist wachtwoord of openbare link"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1383
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1492
@@ -259,7 +259,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1669
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:290
 msgid "Guest access"
-msgstr ""
+msgstr "Gast toegang"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1386
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1495
@@ -268,7 +268,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1672
 #, php-format
 msgid "Share link (%s)"
-msgstr ""
+msgstr "Deel link (%s)"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1388
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1497
@@ -278,20 +278,20 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:353
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:355
 msgid "Share link"
-msgstr ""
+msgstr "Deel link"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2067
 msgid "You are not allowed to give such shared access level"
-msgstr ""
+msgstr "U bent niet gemachtigd om een dergelijk toegangsniveau te geven"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2090
 msgid "You are not allowed to edit this shared access"
-msgstr ""
+msgstr "U bent niet bevoegd om deze gedeelde toegang te wijzigen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2110
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2124
 msgid "You are not allowed to edit guest access level"
-msgstr ""
+msgstr "U bent niet gemachtigd om een dergelijk toegangsniveau te geven"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2166
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2196
@@ -305,7 +305,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2382
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2403
 msgid "You are not allowed to manage payment modes"
-msgstr ""
+msgstr "U bent niet bevoegd om betaalwijzen te beheren"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2422
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2453
@@ -319,7 +319,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2640
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2661
 msgid "You are not allowed to manage categories"
-msgstr ""
+msgstr "U heeft geen rechten om categorieën te beheren"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2680
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2709
@@ -331,30 +331,30 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2848
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2869
 msgid "You are not allowed to manage currencies"
-msgstr ""
+msgstr "U heeft geen rechten om valuta te beheren"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2911
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2951
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2992
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:3033
 msgid "You are not allowed to remove this shared access"
-msgstr ""
+msgstr "U bent niet bevoegd om deze gedeelde toegang te wijzigen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2930
 msgid "You are not allowed to add public shared accesses"
-msgstr ""
+msgstr "U bent niet bevoegd om deze gedeelde toegang te wijzigen"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:3093
 msgid "You are not allowed to export this project settlement"
-msgstr ""
+msgstr "U heeft geen toestemming om deze projectafwikkeling te exporteren"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:3119
 msgid "You are not allowed to export this project statistics"
-msgstr ""
+msgstr "U heeft geen toestemming om de statistieken van dit project te exporteren"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:3143
 msgid "You are not allowed to export this project"
-msgstr ""
+msgstr "U bent niet bevoegd om dit project te exporteren"
 
 #: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Dashboard/CospendWidget.php:59
 msgid "Cospend activity"

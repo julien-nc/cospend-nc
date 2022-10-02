@@ -1,1 +1,1 @@
-Shared budget manager
+Manager de buget partajabil

@@ -302,8 +302,8 @@ export default {
 			})
 
 			// add current user (who is absent from autocomplete suggestions)
-			// if it matches the query
-			if (this.currentUser && this.query) {
+			// if it matches the query and if it is not the selected project member
+			if (this.currentUser && this.currentUser.uid !== this.selectedMember?.userid && this.query) {
 				const lowerCurrent = this.currentUser.displayName.toLowerCase()
 				const lowerQuery = this.query.toLowerCase()
 				// don't add it if it's selected
@@ -455,6 +455,7 @@ export default {
 			this.$set(member, 'name', this.selectedAffectUser.name)
 			this.$emit('member-edited', this.projectId, this.selectedMemberId)
 			this.selectedAffectUser = null
+			this.selectedMemberId = null
 		},
 		onMemberEdited(memberid) {
 			this.$emit('member-edited', this.projectId, memberid)
@@ -530,11 +531,12 @@ export default {
 
 #affectDiv {
 	display: flex;
+	flex-direction: column;
 }
 
 .affectMemberInput,
 .affectUserInput {
-	width: 49%;
+	margin: 4px 0;
 }
 
 .renameProject {

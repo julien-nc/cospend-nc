@@ -247,18 +247,16 @@ export default {
 
 ::v-deep .selectedproject,
 ::v-deep .selectedmember {
-	&.selectedmember,
-	> a,
-	> div {
+	> .app-navigation-entry {
 		background: var(--color-primary-light, lightgrey);
 	}
 
-	> a {
+	> .app-navigation-entry a {
 		font-weight: bold;
 	}
 }
 
-::v-deep .selectedmember > a {
+::v-deep .selectedmember > .app-navigation-entry a {
 	text-decoration: underline;
 }
 

@@ -633,7 +633,6 @@ export default {
 
 .addBillItem {
 	padding-left: 40px;
-	padding-right: 44px;
 }
 
 .nobill, .nomember {

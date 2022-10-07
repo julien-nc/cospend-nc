@@ -17,11 +17,8 @@
 				class="app-navigation-entry-bullet-wrapper memberColorPicker"
 				:value="`#${member.color}`"
 				@input="updateColor">
-				<div
-					v-show="!member.activated"
-					:class="{ disabledMask: true, nopad: !inNavigation }" />
-				<ColoredAvatar
-					class="itemAvatar"
+				<CospendTogglableAvatar
+					:enabled="member.activated"
 					:color="member.color"
 					:size="24"
 					:disable-menu="true"
@@ -34,10 +31,8 @@
 		<div v-else
 			slot="icon"
 			class="memberItemAvatar">
-			<div v-show="!member.activated"
-				:class="{ disabledMask: true, nopad: !inNavigation }" />
-			<ColoredAvatar
-				class="itemAvatar"
+			<CospendTogglableAvatar
+				:enabled="member.activated"
 				:color="member.color"
 				:size="24"
 				:disable-menu="true"
@@ -142,7 +137,7 @@ import NcActionRadio from '@nextcloud/vue/dist/Components/NcActionRadio.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
 
-import ColoredAvatar from './ColoredAvatar.vue'
+import CospendTogglableAvatar from './avatar/CospendTogglableAvatar.vue'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import cospend from '../state.js'
@@ -154,13 +149,13 @@ import { showError } from '@nextcloud/dialogs'
 export default {
 	name: 'AppNavigationMemberItem',
 	components: {
+		CospendTogglableAvatar,
 		NcAppNavigationItem,
 		NcActionButton,
 		NcActionRadio,
 		NcActionSeparator,
 		NcActionInput,
 		NcColorPicker,
-		ColoredAvatar,
 		WeightIcon,
 		PaletteIcon,
 		DeleteIcon,

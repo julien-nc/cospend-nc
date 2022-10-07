@@ -11,9 +11,9 @@
 		:internal-search="true"
 		@input="onMemberSelected">
 		<template #option="{option}">
-			<ColoredAvatar
+			<CospendTogglableAvatar
 				v-if="option.id"
-				class="itemAvatar"
+				:enabled="option.activated"
 				:color="option.color"
 				:size="34"
 				:disable-menu="true"
@@ -22,13 +22,12 @@
 				:is-no-user="option.userid === undefined || option.userid === '' || option.userid === null"
 				:user="option.userid"
 				:display-name="option.name" />
-			<div v-if="option.id && !option.activated" class="payerDisabledMask disabled" />
 			<span class="select-display-name">{{ option.displayName }}</span>
 		</template>
 		<template #singleLabel="{option}">
-			<ColoredAvatar
+			<CospendTogglableAvatar
 				v-if="option.id"
-				class="itemAvatar"
+				:enabled="option.activated"
 				:color="option.color"
 				:size="34"
 				:disable-menu="true"
@@ -37,7 +36,6 @@
 				:is-no-user="option.userid === undefined || option.userid === '' || option.userid === null"
 				:user="option.userid"
 				:display-name="option.name" />
-			<div v-if="option.id && !option.activated" class="payerDisabledMask disabled" />
 			<span class="select-display-name">{{ option.displayName }}</span>
 		</template>
 	</NcMultiselect>
@@ -45,14 +43,16 @@
 
 <script>
 import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
-import ColoredAvatar from './ColoredAvatar.vue'
+
+import CospendTogglableAvatar from './avatar/CospendTogglableAvatar.vue'
+
 import { getSmartMemberName } from '../utils.js'
 
 export default {
 	name: 'MemberMultiSelect',
 
 	components: {
-		ColoredAvatar,
+		CospendTogglableAvatar,
 		NcMultiselect,
 	},
 

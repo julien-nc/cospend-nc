@@ -160,7 +160,7 @@
 						@search-change="asyncFind"
 						@input="clickAffectUserItem">
 						<template #option="{option}">
-							<Avatar
+							<NcAvatar
 								:is-no-user="false"
 								:show-user-status="false"
 								:user="option.user" />

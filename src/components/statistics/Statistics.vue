@@ -169,8 +169,8 @@
 					:key="value.member.id">
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
 						<div class="owerAvatar">
-							<ColoredAvatar
-								class="itemAvatar"
+							<CospendTogglableAvatar
+								:enabled="!isMemberDisabled(value.member.id)"
 								:color="getMemberColor(value.member.id)"
 								:size="24"
 								:disable-menu="true"
@@ -179,7 +179,6 @@
 								:is-no-user="getMemberUserId(value.member.id) === ''"
 								:user="getMemberUserId(value.member.id)"
 								:display-name="getMemberName(value.member.id)" />
-							<div v-if="isMemberDisabled(value.member.id)" class="disabledMask" />
 						</div>{{ myGetSmartMemberName(value.member.id) }}
 					</td>
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
@@ -341,8 +340,8 @@
 					class="avatared"
 					:style="'border: 2px solid #' + myGetMemberColor(mid) + ';'">
 					<div class="owerAvatar">
-						<ColoredAvatar
-							class="itemAvatar"
+						<CospendTogglableAvatar
+							:enabled="!isMemberDisabled(mid)"
 							:color="getMemberColor(mid)"
 							:size="24"
 							:disable-menu="true"
@@ -351,7 +350,6 @@
 							:is-no-user="getMemberUserId(mid) === ''"
 							:user="getMemberUserId(mid)"
 							:display-name="getMemberName(mid)" />
-						<div v-if="isMemberDisabled(mid)" class="disabledMask" />
 					</div>{{ myGetSmartMemberName(mid) }}
 				</v-th>
 				<v-th sort-key="total">
@@ -363,8 +361,8 @@
 					:key="value.memberid">
 					<td v-if="value.memberid !== 0" :style="'border: 2px solid #' + myGetMemberColor(value.memberid) + ';'">
 						<div class="owerAvatar">
-							<ColoredAvatar
-								class="itemAvatar"
+							<CospendTogglableAvatar
+								:enabled="!isMemberDisabled(value.memberid)"
 								:color="getMemberColor(value.memberid)"
 								:size="24"
 								:disable-menu="true"
@@ -373,7 +371,6 @@
 								:is-no-user="getMemberUserId(value.memberid) === ''"
 								:user="getMemberUserId(value.memberid)"
 								:display-name="getMemberName(value.memberid)" />
-							<div v-if="isMemberDisabled(value.memberid)" class="disabledMask" />
 						</div>{{ myGetSmartMemberName(value.memberid) }}
 					</td>
 					<td v-else style="padding-left: 5px; border: 2px solid lightgrey;">
@@ -417,7 +414,7 @@ import CurrencyIcon from '../icons/CurrencyIcon.vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDetails.js'
 
-import ColoredAvatar from '../ColoredAvatar.vue'
+import CospendTogglableAvatar from '../avatar/CospendTogglableAvatar.vue'
 import MemberMultiSelect from '../MemberMultiSelect.vue'
 import CategoryMultiSelect from '../CategoryMultiSelect.vue'
 import PaymentModeMultiSelect from '../PaymentModeMultiSelect.vue'
@@ -436,8 +433,8 @@ export default {
 	name: 'Statistics',
 
 	components: {
+		CospendTogglableAvatar,
 		CurrencyIcon,
-		ColoredAvatar,
 		MemberMultiSelect,
 		PieChartJs,
 		BarChartJs,

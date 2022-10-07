@@ -256,7 +256,7 @@ export default {
 	}
 }
 
-::v-deep .selectedmember > .app-navigation-entry a {
+::v-deep .selectedmember .app-navigation-entry__title {
 	text-decoration: underline;
 }
 

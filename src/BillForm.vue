@@ -2,8 +2,8 @@
 	<NcAppContentDetails class="bill-form-content">
 		<h2 class="bill-title">
 			<div class="billFormAvatar">
-				<ColoredAvatar
-					class="itemAvatar"
+				<CospendTogglableAvatar
+					:enabled="!payerDisabled"
 					:color="payerColor"
 					:size="44"
 					:disable-menu="true"
@@ -13,7 +13,6 @@
 					:is-no-user="payerUserId === ''"
 					:user="payerUserId"
 					:display-name="payerName" />
-				<div v-if="payerDisabled" class="disabledMask" />
 			</div>
 			<span>
 				{{ billFormattedTitle }}
@@ -434,8 +433,8 @@
 							class="owerEntry">
 							<div class="owerAvatar"
 								v-on="(editionAccess && members[ower.id].activated) ? { click: () => onOwerAvatarClick(ower.id) } : {}">
-								<ColoredAvatar
-									class="itemAvatar"
+								<CospendTogglableAvatar
+									:enabled="!isMemberDisabled(ower.id)"
 									:color="getMemberColor(ower.id)"
 									:size="24"
 									:disable-menu="true"
@@ -444,7 +443,6 @@
 									:is-no-user="getMemberUserId(ower.id) === ''"
 									:user="getMemberUserId(ower.id)"
 									:display-name="getMemberName(ower.id)" />
-								<div v-if="isMemberDisabled(ower.id)" class="disabledMask" />
 							</div>
 							<input
 								:id="'dum' + ower.id"
@@ -473,8 +471,8 @@
 							class="owerEntry">
 							<div class="owerAvatar"
 								@click="onOwerAvatarClick(ower.id)">
-								<ColoredAvatar
-									class="itemAvatar"
+								<CospendTogglableAvatar
+									:enabled="!isMemberDisabled(ower.id)"
 									:color="getMemberColor(ower.id)"
 									:size="24"
 									:disable-menu="true"
@@ -483,7 +481,6 @@
 									:is-no-user="getMemberUserId(ower.id) === ''"
 									:user="getMemberUserId(ower.id)"
 									:display-name="getMemberName(ower.id)" />
-								<div v-if="isMemberDisabled(ower.id)" class="disabledMask" />
 							</div>
 							<input
 								:id="'dum' + ower.id"
@@ -513,8 +510,8 @@
 							:key="ower.id"
 							class="owerEntry">
 							<div class="owerAvatar">
-								<ColoredAvatar
-									class="itemAvatar"
+								<CospendTogglableAvatar
+									:enabled="!isMemberDisabled(ower.id)"
 									:color="getMemberColor(ower.id)"
 									:size="24"
 									:disable-menu="true"
@@ -523,7 +520,6 @@
 									:is-no-user="getMemberUserId(ower.id) === ''"
 									:user="getMemberUserId(ower.id)"
 									:display-name="getMemberName(ower.id)" />
-								<div v-if="isMemberDisabled(ower.id)" class="disabledMask" />
 							</div>
 							<label
 								class="numberlabel"
@@ -546,8 +542,8 @@
 							:key="ower.id"
 							class="owerEntry">
 							<div class="owerAvatar">
-								<ColoredAvatar
-									class="itemAvatar"
+								<CospendTogglableAvatar
+									:enabled="!isMemberDisabled(ower.id)"
 									:color="getMemberColor(ower.id)"
 									:size="24"
 									:disable-menu="true"
@@ -556,7 +552,6 @@
 									:is-no-user="getMemberUserId(ower.id) === ''"
 									:user="getMemberUserId(ower.id)"
 									:display-name="getMemberName(ower.id)" />
-								<div v-if="isMemberDisabled(ower.id)" class="disabledMask" />
 							</div>
 							<label
 								class="numberlabel"
@@ -622,7 +617,7 @@ import NcDatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker.js
 import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDetails.js'
 import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 
-import ColoredAvatar from './components/ColoredAvatar.vue'
+import CospendTogglableAvatar from './components/avatar/CospendTogglableAvatar.vue'
 import MemberMultiSelect from './components/MemberMultiSelect.vue'
 
 import { generateUrl } from '@nextcloud/router'
@@ -644,11 +639,11 @@ export default {
 	name: 'BillForm',
 
 	components: {
+		CospendTogglableAvatar,
 		CurrencyIcon,
 		CospendIcon,
 		NcDatetimePicker,
 		NcAppContentDetails,
-		ColoredAvatar,
 		NcMultiselect,
 		MemberMultiSelect,
 		NcButton,

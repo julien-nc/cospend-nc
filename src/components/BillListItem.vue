@@ -12,8 +12,8 @@
 			{{ parseFloat(bill.amount).toFixed(2) }} ({{ smartPayerName }} → {{ smartOwerNames }})
 		</template>
 		<template #icon>
-			<ColoredAvatar
-				:class="{ newBillAvatar: bill.id === 0 }"
+			<CospendTogglableAvatar
+				:enabled="!payerDisabled"
 				:color="payerColor"
 				:size="40"
 				:disable-menu="true"
@@ -22,7 +22,6 @@
 				:is-no-user="payerUserId === ''"
 				:user="payerUserId"
 				:display-name="payerName" />
-			<div v-if="payerDisabled" class="billItemDisabledMask disabled" />
 			<div v-if="bill.repeat !== 'n'" class="billItemRepeatMask show">
 				<CalendarSyncIcon :size="16" />
 			</div>
@@ -64,7 +63,7 @@ import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import SwapHorizontalIcon from 'vue-material-design-icons/SwapHorizontal.vue'
 
-import ColoredAvatar from './ColoredAvatar.vue'
+import CospendTogglableAvatar from './avatar/CospendTogglableAvatar.vue'
 
 import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
@@ -78,8 +77,8 @@ export default {
 	name: 'BillListItem',
 
 	components: {
+		CospendTogglableAvatar,
 		NcListItem,
-		ColoredAvatar,
 		CalendarSyncIcon,
 		UndoIcon,
 		DeleteIcon,

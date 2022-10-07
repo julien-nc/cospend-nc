@@ -24,8 +24,8 @@
 						<td :style="'border: 2px solid #' + myGetMemberColor(value.member.id) + ';'">
 							<div v-if="value.member.id !== 0"
 								class="owerAvatar">
-								<ColoredAvatar
-									class="itemAvatar"
+								<CospendTogglableAvatar
+									:enabled="!isMemberDisabled(value.member.id)"
 									:color="getMemberColor(value.member.id)"
 									:size="24"
 									:disable-menu="true"
@@ -34,7 +34,6 @@
 									:is-no-user="getMemberUserId(value.member.id) === ''"
 									:user="getMemberUserId(value.member.id)"
 									:display-name="getMemberName(value.member.id)" />
-								<div v-if="isMemberDisabled(value.member.id)" class="disabledMask" />
 							</div>{{ (value.member.id !== 0) ? myGetSmartMemberName(value.member.id) : value.member.name }}
 						</td>
 						<td v-for="(st, month) in stats"
@@ -59,7 +58,7 @@
 </template>
 
 <script>
-import ColoredAvatar from '../ColoredAvatar.vue'
+import CospendTogglableAvatar from '../avatar/CospendTogglableAvatar.vue'
 
 import { getSmartMemberName } from '../../utils.js'
 import cospend from '../../state.js'
@@ -69,7 +68,7 @@ export default {
 	name: 'MemberMonthly',
 
 	components: {
-		ColoredAvatar,
+		CospendTogglableAvatar,
 		LineChartJs,
 	},
 

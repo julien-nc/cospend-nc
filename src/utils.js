@@ -139,7 +139,7 @@ export function evalAlgebricFormula(formula) {
 	return calc
 }
 
-function hexToRgb(hex) {
+export function hexToRgb(hex) {
 	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
 	return result
 		? {
@@ -202,7 +202,7 @@ export function getComplementaryColor(hex) {
 }
 
 // this formula was found here : https://stackoverflow.com/a/596243/7692836
-function getColorBrightness(rgb) {
+export function getColorBrightness(rgb) {
 	return 0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b
 }
 

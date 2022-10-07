@@ -102,8 +102,8 @@
 				<tr v-for="value in displayData" :key="value.from + ':' + value.to">
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.from) + ';'">
 						<div class="owerAvatar">
-							<ColoredAvatar
-								class="itemAvatar"
+							<CospendTogglableAvatar
+								:enabled="!isMemberDisabled(value.from)"
 								:color="getMemberColor(value.from)"
 								:size="24"
 								:disable-menu="true"
@@ -112,14 +112,13 @@
 								:is-no-user="getMemberUserId(value.from) === ''"
 								:user="getMemberUserId(value.from)"
 								:display-name="getMemberName(value.from)" />
-							<div v-if="isMemberDisabled(value.from)" class="disabledMask" />
 						</div>
 						{{ myGetSmartMemberName(project.id, value.from) }}
 					</td>
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.to) + ';'">
 						<div class="owerAvatar">
-							<ColoredAvatar
-								class="itemAvatar"
+							<CospendTogglableAvatar
+								:enabled="!isMemberDisabled(value.to)"
 								:color="getMemberColor(value.to)"
 								:size="24"
 								:disable-menu="true"
@@ -128,7 +127,6 @@
 								:is-no-user="getMemberUserId(value.to) === ''"
 								:user="getMemberUserId(value.to)"
 								:display-name="getMemberName(value.to)" />
-							<div v-if="isMemberDisabled(value.to)" class="disabledMask" />
 						</div>
 						{{ myGetSmartMemberName(project.id, value.to) }}
 					</td>
@@ -165,8 +163,8 @@
 					:key="value.mid">
 					<td :style="'border: 2px solid #' + myGetMemberColor(value.mid) + ';'">
 						<div class="owerAvatar">
-							<ColoredAvatar
-								class="itemAvatar"
+							<CospendTogglableAvatar
+								:enabled="!isMemberDisabled(value.mid)"
 								:color="getMemberColor(value.mid)"
 								:size="24"
 								:disable-menu="true"
@@ -175,7 +173,6 @@
 								:is-no-user="getMemberUserId(value.mid) === ''"
 								:user="getMemberUserId(value.mid)"
 								:display-name="getMemberName(value.mid)" />
-							<div v-if="isMemberDisabled(value.mid)" class="disabledMask" />
 						</div>{{ myGetSmartMemberName(project.id, value.mid) }}
 					</td>
 					<td :class="getBalanceClass(value.balance)"
@@ -251,7 +248,7 @@ import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDeta
 import NcDatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 
-import ColoredAvatar from './components/ColoredAvatar.vue'
+import CospendTogglableAvatar from './components/avatar/CospendTogglableAvatar.vue'
 
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
@@ -265,9 +262,9 @@ export default {
 	name: 'Settlement',
 
 	components: {
+		CospendTogglableAvatar,
 		ReimburseIcon,
 		CospendIcon,
-		ColoredAvatar,
 		NcAppContentDetails,
 		NcDatetimePicker,
 		NcEmptyContent,

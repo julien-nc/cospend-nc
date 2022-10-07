@@ -394,10 +394,6 @@ export default {
 	left: 8px;
 }
 
-.disabledMask {
-	z-index: 99;
-}
-
 .itemAvatar {
 	margin-top: 16px;
 	margin-right: 2px;

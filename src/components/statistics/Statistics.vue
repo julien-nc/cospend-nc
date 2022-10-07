@@ -1347,9 +1347,6 @@ export default {
 	.owerAvatar {
 		margin-left: 0;
 	}
-	.disabledMask {
-		left: 0;
-	}
 }
 
 #paidForTable {

@@ -42,17 +42,6 @@ body {
 	margin: 10px 6px 10px 0px;
 	cursor: pointer;
 }
-.memberAvatarDisabled .disabledMask {
-	display: block;
-}
-.disabledMask {
-	width: 26px;
-	height: 26px;
-	background-image: url('./images/forbidden.svg');
-	position: absolute;
-	top: 9px;
-	left: 24px;
-}
 .memberAvatar {
 	width: 26px;
 	height: 44px;
@@ -63,29 +52,14 @@ body {
 		height: 24px;
 		margin: 2px 5px 2px 5px;
 	}
-	.owerAvatarDisabled {
-		margin-left: -21px;
-	}
 	.owerAvatar img {
 		margin-bottom: 2px;
-	}
-	.owerAvatarDisabled .disabledMask {
-		top: -1px;
 	}
 }
 .owerAvatar {
 	display: inline-block;
 	vertical-align: middle;
 	height: 26px;
-	.disabledMask {
-		display: block;
-		position: relative;
-		top: -31px;
-		left: -1px;
-	}
-}
-.owerAvatarDisabled {
-	margin-left: -26px;
 }
 
 input[type=number] {

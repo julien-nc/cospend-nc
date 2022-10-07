@@ -132,13 +132,4 @@ export default {
 	overflow: hidden;
 	white-space: nowrap;
 }
-
-.payerDisabledMask.disabled {
-	display: block;
-	width: 36px;
-	height: 36px;
-	background-image: url('../../css/images/forbidden.svg');
-	margin: 0 0 0 -1px;
-	position: absolute;
-}
 </style>

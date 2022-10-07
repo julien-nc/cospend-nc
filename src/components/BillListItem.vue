@@ -310,15 +310,6 @@ export default {
 	bottom: 12px;
 }
 
-::v-deep .billItemDisabledMask.disabled {
-	display: block;
-	width: 42px;
-	height: 42px;
-	background: url('../../css/images/forbidden.svg') no-repeat;
-	position: absolute;
-	left: 7px;
-}
-
 ::v-deep .billItemRepeatMask.show {
 	display: block;
 	color: var(--color-main-text);

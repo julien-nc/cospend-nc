@@ -1741,14 +1741,6 @@ export default {
 			left: 0px;
 			top: 0px;
 		}
-		.disabledMask {
-			width: 46px;
-			height: 46px;
-			display: block;
-			position: relative;
-			left: -1px;
-			top: -45px;
-		}
 	}
 	.duplicate-bill {
 		width: 44px;

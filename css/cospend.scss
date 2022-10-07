@@ -154,6 +154,9 @@ a.billitem .app-content-list-item-icon {
 .memberColorPicker .trigger {
 	height: 100% !important;
 }
+.app-sidebar {
+	top: 0 !important;
+}
 /* dirty hack to make things right in settings sidebar */
 .multiselect__content-wrapper {
 	z-index: 10000 !important;

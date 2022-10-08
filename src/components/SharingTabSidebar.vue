@@ -392,7 +392,7 @@ import cospend from '../state.js'
 import * as constants from '../constants.js'
 import * as network from '../network.js'
 import axios from '@nextcloud/axios'
-import { Timer } from '../utils.js'
+import { Timer, hexToDarkerHex, getComplementaryColor } from '../utils.js'
 import ClippyIcon from './icons/ClippyIcon.vue'
 
 export default {
@@ -448,8 +448,8 @@ export default {
 			shareLinkQrcodeUrl: null,
 			qrcodeColor: cospend.themeColorDark,
 			// the svg api is dead, glory to the svg api
-			// qrcodeImageUrl: generateUrl('/svg/cospend/cospend_square_bg?color=' + hexToDarkerHex(getComplementaryColor(cospend.themeColorDark)).replace('#', '')),
-			qrcodeImageUrl: imagePath('cospend', 'cospend_square_bg.svg'),
+			qrcodeImageUrl: generateUrl('/apps/cospend/svg/cospend_square_bg?color=' + hexToDarkerHex(getComplementaryColor(cospend.themeColorDark)).replace('#', '')),
+			// qrcodeImageUrl: imagePath('cospend', 'cospend_square_bg.svg'),
 			showPasswordAccess: false,
 		}
 	},

@@ -12,6 +12,7 @@
 return [
 	'routes' => [
 		['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
+		['name' => 'page#getSvgFromApp', 'url' => '/svg/{fileName}', 'verb' => 'GET'],
 		['name' => 'page#indexProject', 'url' => '/p/{projectId}', 'verb' => 'GET'],
 		['name' => 'page#indexBill', 'url' => '/p/{projectId}/b/{billId}', 'verb' => 'GET'],
 

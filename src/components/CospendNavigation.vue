@@ -238,10 +238,12 @@ export default {
 	top: 0;
 	z-index: 1000;
 	border-bottom: 1px solid var(--color-border);
-	background-color: var(--color-main-background-blur, var(--color-main-background));
-	backdrop-filter: var(--filter-background-blur, none);
-	&:hover {
-		background-color: var(--color-background-hover);
+	::v-deep .app-navigation-entry {
+		background-color: var(--color-main-background-blur, var(--color-main-background));
+		backdrop-filter: var(--filter-background-blur, none);
+		&:hover {
+			background-color: var(--color-background-hover);
+		}
 	}
 }
 

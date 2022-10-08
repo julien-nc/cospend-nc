@@ -382,7 +382,7 @@ import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 import { getCurrentUser } from '@nextcloud/auth'
-import { generateUrl, generateOcsUrl, imagePath } from '@nextcloud/router'
+import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import {
 	showSuccess,
 	showError,
@@ -449,7 +449,6 @@ export default {
 			qrcodeColor: cospend.themeColorDark,
 			// the svg api is dead, glory to the svg api
 			qrcodeImageUrl: generateUrl('/apps/cospend/svg/cospend_square_bg?color=' + hexToDarkerHex(getComplementaryColor(cospend.themeColorDark)).replace('#', '')),
-			// qrcodeImageUrl: imagePath('cospend', 'cospend_square_bg.svg'),
 			showPasswordAccess: false,
 		}
 	},

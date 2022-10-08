@@ -72,9 +72,9 @@ export default {
 			if (this.displayName) {
 				const parts = this.displayName.split(/\s+/)
 				const initials = parts.length > 1
-					? parts[0][1] + parts[1][0]
+					? parts[0][0] + parts[1][0]
 					: parts.length > 0
-						? parts[0][1]
+						? parts[0][0]
 						: '?'
 				return initials.toUpperCase()
 			}

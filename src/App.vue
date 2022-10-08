@@ -74,9 +74,9 @@
 				v-else-if="mode === 'settle'"
 				:project-id="currentProjectId"
 				@auto-settled="onAutoSettled" />
-			<NcEmptyContent v-else-if="!isMobile"
+			<NcEmptyContent v-else-if="!isMobile && currentProjectId"
 				class="central-empty-content"
-				:title="currentProjectId ? t('cospend', 'Project {name}', { name: currentProjectId }) : t('cospend', 'Select a project')">
+				:title="t('cospend', 'Project {name}', { name: currentProjectId })">
 				<template #icon>
 					<CospendIcon />
 				</template>
@@ -88,6 +88,13 @@
 						</template>
 						{{ t('cospend', 'Create a bill') }}
 					</NcButton>
+				</template>
+			</NcEmptyContent>
+			<NcEmptyContent v-else-if="!isMobile && !currentProjectId"
+				class="central-empty-content"
+				:title="t('cospend', 'Select a project')">
+				<template #icon>
+					<CospendIcon />
 				</template>
 			</NcEmptyContent>
 			<div v-if="!isMobile"

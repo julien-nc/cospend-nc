@@ -74,7 +74,7 @@
 				v-else-if="mode === 'settle'"
 				:project-id="currentProjectId"
 				@auto-settled="onAutoSettled" />
-			<NcEmptyContent v-else-if="!isMobile && currentProjectId"
+			<NcEmptyContent v-else-if="mode === 'normal' && currentProjectId"
 				class="central-empty-content"
 				:title="t('cospend', 'Project {name}', { name: currentProjectId })">
 				<template #icon>
@@ -90,7 +90,7 @@
 					</NcButton>
 				</template>
 			</NcEmptyContent>
-			<NcEmptyContent v-else-if="!isMobile && !currentProjectId"
+			<NcEmptyContent v-else-if="mode === 'normal' && !currentProjectId"
 				class="central-empty-content"
 				:title="t('cospend', 'Select a project')">
 				<template #icon>
@@ -191,7 +191,7 @@ export default {
 	},
 	data() {
 		return {
-			mode: 'edition',
+			mode: 'normal',
 			cospend,
 			projects: {},
 			bills: {},
@@ -530,7 +530,7 @@ export default {
 			return res
 		},
 		selectProject(projectid, save = true, pushState = false, restoreSelectedBill = false) {
-			this.mode = 'edition'
+			this.mode = 'normal'
 			this.currentBill = null
 			this.selectedMemberId = null
 			this.selectedCategoryFilter = null
@@ -553,7 +553,7 @@ export default {
 			}
 		},
 		deselectProject() {
-			this.mode = 'edition'
+			this.mode = 'normal'
 			this.currentBill = null
 			cospend.currentProjectId = null
 		},
@@ -731,6 +731,7 @@ export default {
 				this.updateProjectInfo(projectid)
 				if (selectBillId !== null && this.bills[projectid][selectBillId]) {
 					this.currentBill = this.bills[projectid][selectBillId]
+					this.mode = 'edition'
 					if (pushState) {
 						window.history.pushState(
 							null,

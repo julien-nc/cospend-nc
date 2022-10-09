@@ -74,9 +74,10 @@
 				v-else-if="mode === 'settle'"
 				:project-id="currentProjectId"
 				@auto-settled="onAutoSettled" />
-			<NcEmptyContent v-else-if="mode === 'normal' && currentProjectId"
+			<NcEmptyContent v-show="mode === 'normal' && currentProjectId"
 				class="central-empty-content"
-				:title="t('cospend', 'Project {name}', { name: currentProjectId })">
+				:title="t('cospend', 'What do you want to do?')"
+				:description="t('cospend', 'These actions are available in the sidebar project context menu.')">
 				<template #icon>
 					<CospendIcon />
 				</template>
@@ -88,9 +89,37 @@
 						</template>
 						{{ t('cospend', 'Create a bill') }}
 					</NcButton>
+					<NcButton
+						@click="onDetailClicked(currentProjectId)">
+						<template #icon>
+							<CogIcon :size="20" />
+						</template>
+						{{ t('cospend', 'Show project settings') }}
+					</NcButton>
+					<NcButton
+						@click="onShareClicked(currentProjectId)">
+						<template #icon>
+							<ShareVariantIcon :size="20" />
+						</template>
+						{{ t('cospend', 'Share the project') }}
+					</NcButton>
+					<NcButton
+						@click="onStatsClicked(currentProjectId)">
+						<template #icon>
+							<ChartLineIcon :size="20" />
+						</template>
+						{{ t('cospend', 'Show project statistics') }}
+					</NcButton>
+					<NcButton
+						@click="onSettleClicked(currentProjectId)">
+						<template #icon>
+							<ReimburseIcon :size="20" />
+						</template>
+						{{ t('cospend', 'Show project settlement plan') }}
+					</NcButton>
 				</template>
 			</NcEmptyContent>
-			<NcEmptyContent v-else-if="mode === 'normal' && !currentProjectId"
+			<NcEmptyContent v-show="mode === 'normal' && !currentProjectId"
 				class="central-empty-content"
 				:title="t('cospend', 'Select a project')">
 				<template #icon>
@@ -131,6 +160,11 @@
 
 <script>
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
+import ChartLineIcon from 'vue-material-design-icons/ChartLine.vue'
+import CogIcon from 'vue-material-design-icons/Cog.vue'
+
+import ReimburseIcon from './components/icons/ReimburseIcon.vue'
 
 import CospendIcon from './components/icons/CospendIcon.vue'
 
@@ -168,6 +202,7 @@ import { rgbObjToHex, slugify } from './utils.js'
 export default {
 	name: 'App',
 	components: {
+		ReimburseIcon,
 		CospendIcon,
 		CospendNavigation,
 		CospendSettingsDialog,
@@ -180,9 +215,12 @@ export default {
 		NcAppContent,
 		NcEmptyContent,
 		NcButton,
-		PlusIcon,
 		MoveToProjectList,
 		NcModal,
+		PlusIcon,
+		CogIcon,
+		ShareVariantIcon,
+		ChartLineIcon,
 	},
 	mixins: [isMobile],
 	provide() {

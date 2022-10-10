@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.5.0 – 2022-10-10
+### Added
+- Bring back svg api (just in cospend) for QRCode embedded logo
+- Right click support for navigation items
+- Implement CospendTogglableAvatar to simplify the avatar mess everywhere
+
+### Changed
+- use @nc/vue 7.0.0-beta.7
+
+### Fixed
+- lot of adjustments to make it work with the new design
+
 ## 1.4.10 – 2022-09-04
 ### Added
 - move bill between projects

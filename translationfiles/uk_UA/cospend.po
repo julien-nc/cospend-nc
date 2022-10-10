@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-09-04 18:28+0200\n"
-"PO-Revision-Date: 2022-09-04 16:29\n"
+"POT-Creation-Date: 2022-10-10 17:56+0200\n"
+"PO-Revision-Date: 2022-10-10 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
@@ -17,917 +17,937 @@ msgstr ""
 "X-Crowdin-File: /master/translationfiles/templates/cospend.pot\n"
 "X-Crowdin-File-ID: 60\n"
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:95
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:95
 msgid "You have created a new bill {bill} in project {project}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:95
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:95
 msgid "{user} has created a new bill {bill} in project {project}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:98
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:98
 msgid "You have deleted the bill {bill} of project {project}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:98
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:98
 msgid "{user} has deleted the bill {bill} of project {project}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:101
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:101
 msgid "You have shared the project {project} with {who}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:101
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:101
 msgid "{user} has shared the project {project} with {who}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:104
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:104
 msgid "You have removed {who} from the project {project}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:104
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:104
 msgid "{user} has removed {who} from the project {project}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:107
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:107
 msgid "You have updated the bill {bill} of project {project}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:107
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:107
 msgid "{user} has updated the bill {bill} of project {project}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/ActivityManager.php:182
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:182
 msgid "A guest user"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/BillSetting.php:42
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/BillSetting.php:42
 msgid "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/CospendProvider.php:285
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/CospendProvider.php:293
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/CospendProvider.php:285
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/CospendProvider.php:293
 #, php-format
 msgid "circle %1$s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/Filter.php:54
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Notification/Notifier.php:85
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Search/CospendSearchProvider.php:99
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:2
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/templates/admin.php:8
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/Filter.php:54
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Notification/Notifier.php:85
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Search/CospendSearchProvider.php:99
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:2
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/admin.php:8
 msgid "Cospend"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Activity/Setting.php:55
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/Setting.php:55
 msgid "Changes in the <strong>Cospend app</strong>"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:182
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:210
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:237
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:313
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:335
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:248
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:276
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:303
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:379
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:401
 msgid "Cospend public access"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:183
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:211
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:249
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:277
 #, php-format
 msgid "Enter password of project %s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:238
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:304
 msgid "Enter project id and password"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:269
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:382
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:335
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:448
 #, php-format
 msgid "Enter link password of project %s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:275
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:314
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:361
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:341
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:380
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:427
 #, php-format
 msgid "Project %s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:278
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:360
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:381
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:344
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:426
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:447
 msgid "Cospend shared link access"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:282
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:348
 msgid "No such share link"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:283
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:336
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:400
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:3069
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:3072
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:3075
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5736
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5739
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5742
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5942
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5945
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5948
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:349
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:402
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:466
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:3135
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:3138
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:3141
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5736
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5739
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5742
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5942
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5945
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5948
 msgid "Access denied"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:399
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:465
 msgid "No such share link or public access"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:469
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1030
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1063
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1089
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1111
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1128
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1163
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1213
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1236
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1267
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1600
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1648
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1698
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1731
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1759
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1780
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1808
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1829
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1868
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1897
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1927
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1951
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1975
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1992
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2023
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2044
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:535
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1096
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1129
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1155
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1177
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1194
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1229
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1279
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1302
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1333
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1666
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1714
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1764
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1797
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1825
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1846
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1874
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1895
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1934
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1963
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1993
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2017
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2041
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2058
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2089
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2110
 msgid "Unauthorized action"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:501
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:534
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:567
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:600
 msgid "You are not allowed to delete this bill"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:551
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:617
 msgid "You are not allowed to get this project's info"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:573
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:639
 msgid "You are not allowed to get this project's statistics"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:590
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:656
 msgid "You are not allowed to get this project's settlement"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:610
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:676
 msgid "You are not allowed to settle this project automatically"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:625
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:691
 msgid "You are not allowed to access this project"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:654
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:720
 msgid "You are not allowed to edit this member"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:688
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:702
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:790
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1511
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1565
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:754
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:768
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:856
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1577
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1631
 msgid "You are not allowed to edit this bill"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:708
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:774
 msgid "You are not allowed to access the destination project"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:750
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:846
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1401
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1434
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1459
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:816
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:912
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1467
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1500
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1525
 msgid "You are not allowed to add bills"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:815
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2889
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2970
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:3011
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:881
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2955
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:3036
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:3077
 msgid "You are not allowed to edit this project"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:867
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1298
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1329
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1351
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:933
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1364
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1395
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1417
 msgid "You are not allowed to add members"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:908
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:974
 msgid "You are not allowed to get the bill list"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:953
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1019
 msgid "Anonymous project creation is not allowed on this server"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:998
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1024
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1064
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1090
 msgid "Project not found"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1004
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1070
 msgid "Bad password or share link"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1383
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1492
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1537
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1629
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1669
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:290
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1449
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1558
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1603
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1695
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1735
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:297
 msgid "Guest access"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1386
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1495
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1540
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1632
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1672
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1452
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1561
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1606
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1698
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1738
 #, php-format
 msgid "Share link (%s)"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1388
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1497
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1542
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1634
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:1674
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:353
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:355
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1454
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1563
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1608
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1700
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1740
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:360
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:362
 msgid "Share link"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2067
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2133
 msgid "You are not allowed to give such shared access level"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2090
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2156
 msgid "You are not allowed to edit this shared access"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2110
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2124
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2176
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2190
 msgid "You are not allowed to edit guest access level"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2166
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2196
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2217
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2237
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2255
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2286
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2313
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2335
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2354
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2382
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2403
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2232
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2262
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2283
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2303
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2321
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2352
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2379
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2401
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2420
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2448
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2469
 msgid "You are not allowed to manage payment modes"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2422
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2453
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2475
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2495
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2513
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2544
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2571
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2593
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2612
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2640
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2661
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2488
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2519
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2541
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2561
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2579
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2610
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2637
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2659
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2678
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2706
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2727
 msgid "You are not allowed to manage categories"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2680
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2709
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2731
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2750
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2780
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2801
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2820
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2848
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2869
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2746
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2775
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2797
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2816
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2846
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2867
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2886
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2914
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2935
 msgid "You are not allowed to manage currencies"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2911
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2951
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2992
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:3033
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2977
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:3017
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:3058
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:3099
 msgid "You are not allowed to remove this shared access"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:2930
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2996
 msgid "You are not allowed to add public shared accesses"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:3093
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:3159
 msgid "You are not allowed to export this project settlement"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:3119
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:3185
 msgid "You are not allowed to export this project statistics"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Controller/PageController.php:3143
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:3209
 msgid "You are not allowed to export this project"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Dashboard/CospendWidget.php:59
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Dashboard/CospendWidget.php:59
 msgid "Cospend activity"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version000406Date20200426154317.php:92
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:140
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:92
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:140
 msgid "Grocery"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version000406Date20200426154317.php:93
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:145
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:93
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:145
 msgid "Bar/Party"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version000406Date20200426154317.php:94
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:150
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:94
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:150
 msgid "Rent"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version000406Date20200426154317.php:95
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:155
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:95
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:155
 msgid "Bill"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version000406Date20200426154317.php:96
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:160
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:96
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:160
 msgid "Excursion/Culture"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version000406Date20200426154317.php:97
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:165
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:97
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:165
 msgid "Health"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version000406Date20200426154317.php:98
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:170
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:98
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:170
 msgid "Shopping"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version000406Date20200426154317.php:100
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:175
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:100
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:175
 msgid "Restaurant"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version000406Date20200426154317.php:101
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:180
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:101
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:180
 msgid "Accommodation"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version000406Date20200426154317.php:102
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:185
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:102
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:185
 msgid "Transport"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version000406Date20200426154317.php:103
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:190
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:103
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:190
 msgid "Sport"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version010314Date20210828143421.php:67
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version010314Date20210828143421.php:75
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:198
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version010314Date20210828143421.php:67
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version010314Date20210828143421.php:75
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:198
 msgid "Credit card"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version010314Date20210828143421.php:68
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version010314Date20210828143421.php:82
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:204
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version010314Date20210828143421.php:68
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version010314Date20210828143421.php:82
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:204
 msgid "Cash"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version010314Date20210828143421.php:69
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version010314Date20210828143421.php:89
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:210
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version010314Date20210828143421.php:69
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version010314Date20210828143421.php:89
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:210
 msgid "Check"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version010314Date20210828143421.php:70
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version010314Date20210828143421.php:96
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:216
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version010314Date20210828143421.php:70
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version010314Date20210828143421.php:96
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:216
 msgid "Transfer"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version010314Date20210828143421.php:71
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Migration/Version010314Date20210828143421.php:103
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:222
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version010314Date20210828143421.php:71
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version010314Date20210828143421.php:103
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:222
 msgid "Online service"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Notification/Notifier.php:114
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Notification/Notifier.php:114
 msgid "Cospend project shared"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Notification/Notifier.php:115
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Notification/Notifier.php:115
 #, php-format
 msgid "User \"%s\" shared Cospend project \"%s\" with you."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Notification/Notifier.php:125
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Notification/Notifier.php:125
 #, php-format
 msgid "{user} shared project %s with you"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Notification/Notifier.php:143
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Notification/Notifier.php:143
 msgid "Cospend project share removed"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Notification/Notifier.php:144
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Notification/Notifier.php:144
 #, php-format
 msgid "User \"%s\" stopped sharing Cospend project \"%s\" with you."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Notification/Notifier.php:156
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Notification/Notifier.php:156
 #, php-format
 msgid "{user} stopped sharing project %s with you"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Search/CospendSearchProvider.php:213
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Search/CospendSearchProvider.php:213
 #, php-format
 msgid "in %1$s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:230
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:217
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/constants.js:44
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:230
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:223
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/constants.js:44
 msgid "Reimbursement"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:500
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:500
 msgid "Invalid project id"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:562
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:562
 #, php-format
 msgid "A project with id \"%1$s\" already exists"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:612
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1335
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:612
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1335
 msgid "Not Found"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:958
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:958
 msgid "Average per month"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1190
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1226
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1230
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1788
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3397
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3451
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3471
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3475
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1190
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1226
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1230
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1788
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3397
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3451
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3471
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3475
 msgid "Invalid value"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1192
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1882
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1192
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1882
 msgid "Invalid frequency"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1200
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1200
 msgid "Timestamp (or date) field is required"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1204
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1204
 msgid "Invalid date"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1215
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1218
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1215
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1218
 msgid "This field is required"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1221
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1233
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3460
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3478
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1221
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1233
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3460
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3478
 msgid "Not a valid choice"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1540
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1540
 msgid "Error when getting project settlement transactions"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1567
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1567
 msgid "Error when adding a bill"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1770
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1941
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1770
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1941
 msgid "Invalid member name"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1775
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1775
 msgid "Name already exists"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1797
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1797
 msgid "Not a valid decimal value"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1835
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1835
 msgid "This project have no such member"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1862
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1862
 msgid "Name can't be empty"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1871
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1871
 msgid "Invalid email address"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1889
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1896
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1889
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1896
 msgid "Invalid sort order"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1920
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1920
 msgid "There is no such project"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1949
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1949
 msgid "Weight is not a valid decimal value"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1961
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1961
 msgid "Invalid color value"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1983
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1983
 msgid "This project already has this member"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:1986
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1986
 msgid "Name field is required"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3382
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3382
 msgid "There is no such bill"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3676
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3676
 msgid "Cannot match payer"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3706
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3706
 #, php-format
 msgid "Cannot create new bill: %1$s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:3995
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4167
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4320
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3995
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4167
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4320
 msgid "Not found"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4053
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4053
 msgid "This project has no such payment mode"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4056
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4232
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4354
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4056
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4232
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4354
 msgid "Incorrect field values"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4229
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4229
 msgid "This project has no such category"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4351
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4351
 msgid "This project have no such currency"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4449
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4449
 msgid "You are not authorized to give such access level"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4452
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4452
 msgid "Already shared with this user"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4455
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4455
 msgid "Impossible to share the project with its owner"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4458
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4458
 msgid "No such user"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4565
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4623
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4735
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4944
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5089
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4565
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4623
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4735
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4944
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5089
 msgid "No such share"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4819
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4819
 msgid "No such shared access"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4881
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4881
 msgid "Already shared with this group"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:4884
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4884
 msgid "No such group"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5022
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5022
 msgid "Already shared with this circle"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5026
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5026
 msgid "No such circle"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5029
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5029
 msgid "Circles app is not enabled"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5121
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:194
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5121
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:200
 msgid "Who pays?"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5122
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:195
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5122
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:201
 msgid "To whom?"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5123
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:30
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:196
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5123
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:36
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:202
 msgid "How much?"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5164
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5164
 #, php-format
 msgid "%1$s is not a folder"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5166
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5166
 #, php-format
 msgid "%1$s is not writeable"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5171
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5171
 #, php-format
 msgid "Impossible to create %1$s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5213
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:199
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:428
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5213
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:205
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:435
 msgid "Member name"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5214
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:429
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5214
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:436
 msgid "Paid"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5215
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:430
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:463
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5215
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:437
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:470
 msgid "Spent"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5216
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:200
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:302
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:432
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5216
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:206
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:309
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:439
 msgid "Balance"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5497
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5497
 #, php-format
 msgid "Malformed CSV, bad column names at line %1$s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5552
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5552
 #, php-format
 msgid "Malformed CSV, invalid member on line %1$s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5570
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5819
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5570
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5819
 #, php-format
 msgid "Malformed CSV, missing or invalid date/timestamp on line %1$s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5596
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5596
 #, php-format
 msgid "Malformed CSV, invalid payer weight on line %1$s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5601
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5609
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5601
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5609
 #, php-format
 msgid "Malformed CSV, invalid owers on line %1$s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5619
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5619
 #, php-format
 msgid "Malformed CSV, invalid amount on line %1$s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5657
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5895
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5657
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5895
 #, php-format
 msgid "Error in project creation, %1$s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5668
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5668
 #, php-format
 msgid "Error when adding payment mode %1$s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5677
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5903
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5677
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5903
 #, php-format
 msgid "Error when adding category %1$s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5686
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5686
 #, php-format
 msgid "Error when adding currency %1$s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5696
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5912
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5696
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5912
 #, php-format
 msgid "Error when adding member %1$s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5730
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5937
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5730
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5937
 #, php-format
 msgid "Error when adding bill %1$s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5796
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5796
 msgid "Malformed CSV, cannot have an empty ower"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5841
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5841
 #, php-format
 msgid "Malformed CSV, bad amount on line %1$s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5857
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5857
 #, php-format
 msgid "Malformed CSV, no payer on line %1$s"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5878
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5878
 msgid "Malformed CSV, impossible to find the column names"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5972
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5972
 msgid "daily"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:5987
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5987
 msgid "weekly"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/lib/Service/ProjectService.php:6008
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:6008
 msgid "monthly"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:3
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:3
 msgid " "
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:1
-msgid "Project {name}"
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:1
+msgid "What do you want to do?"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:1
-msgid "Select a project"
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:2
+msgid "These actions are available in the sidebar project context menu."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:2
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "Create a bill"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:3
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:4
+msgid "Show project settings"
+msgstr ""
+
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:5
+msgid "Share the project"
+msgstr ""
+
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:6
+msgid "Show project statistics"
+msgstr ""
+
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:7
+msgid "Show project settlement plan"
+msgstr ""
+
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:8
+msgid "Select a project"
+msgstr ""
+
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:9
 msgid "Toggle sidebar"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:4
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:10
 msgid "Nothing to repeat"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:5
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:11
 msgid "Member {name} already exists"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:6
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:12
 msgid "Impossible to move bill. No candidate project found."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:7
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:13
 msgid "Failed to get projects"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:8
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:9
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:14
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:15
 msgid "Failed to get bills"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:10
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:16
 msgid "Invalid project name"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:11
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:17
 msgid "Failed to create project"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:12
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:18
 msgid "Deleted project {id}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:13
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:19
 msgid "Failed to delete project"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:14
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:20
 msgid "Failed to update balances"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:15
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:21
 msgid "Created member {name}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:16
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:22
 msgid "Failed to add member"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:17
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:244
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:382
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:23
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:250
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:389
 msgid "Failed to add shared access"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:18
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:24
 msgid "Failed to save member"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:19
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:25
 msgid "Member deleted."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:20
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:26
 msgid "Member saved."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:21
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:27
 msgid "Project saved"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:22
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:28
 msgid "Failed to edit project"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:23
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:29
 msgid "{nb} bill was created"
 msgid_plural "{nb} bills were created"
 msgstr[0] ""
@@ -935,470 +955,470 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:24
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:30
 msgid "link"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:25
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:75
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:31
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:81
 msgid "Press Shift+Enter to validate"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:26
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:32
 msgid "Impossible to duplicate a bill with a disabled payer"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:26
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:32
 msgid "Duplicate bill"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:27
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:33
 msgid "What?"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:28
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:34
 msgid "What is the bill about?"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:29
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:35
 msgid "Attach share link to personal file"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:31
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:33
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:52
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:64
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:375
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:37
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:39
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:58
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:70
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:382
 msgid "More information"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:32
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:38
 msgid "Convert to"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:34
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:40
 msgid "Who paid?"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:35
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:337
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:421
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:41
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:344
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:428
 msgid "Choose a member"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:36
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:37
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:189
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:42
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:43
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:195
 msgid "When?"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:38
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:412
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:44
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:419
 msgid "Payment mode"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:39
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:45
 msgid "Choose a payment mode"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:40
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:414
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:46
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:421
 msgid "Category"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:41
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:47
 msgid "Choose or add a category"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:42
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:48
 msgid "Comment"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:43
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:49
 msgid "More details about the bill (300 char. max)"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:44
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:50
 msgid "Repeat"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:45
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:327
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:51
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:334
 msgid "No"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:46
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:328
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:52
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:335
 msgid "Daily"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:47
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:329
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:53
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:336
 msgid "Weekly"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:48
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:54
 msgid "Bi-weekly (every 2 weeks)"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:49
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:55
 msgid "Semi-monthly (twice a month)"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:50
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:330
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:56
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:337
 msgid "Monthly"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:51
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:57
 msgid "Yearly"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:53
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:59
 msgid "Frequency"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:54
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:60
 msgid "Leave empty for maximum frequency"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:55
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:61
 msgid "Include all active members on repeat"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:56
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:62
 msgid "Repeat until"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:57
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:63
 msgid "No limit"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:58
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:64
 msgid "Repeat now"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:59
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:65
 msgid "Bill type"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:60
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:66
 msgid "Classic, even split"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:61
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:67
 msgid "Even split with optional personal parts"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:62
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:68
 msgid "Custom owed amount per member"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:63
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:69
 msgid "Custom share per member"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:65
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:71
 msgid "Ignore member weights"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:66
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:72
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:67
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:73
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:68
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:74
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:69
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:75
 msgid "Custom share mode, uneven split: Choose a payer, set the bill amount and enter a custom share number for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: Someone pays an electricity bill for the month but one member was only there during half the month. This member should then pay half a share (0.5) while the others pay a full share (1)."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:70
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:76
 msgid "For whom?"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:71
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:77
 msgid "All/None"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:72
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:78
 msgid "Personal amount"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:73
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:79
 msgid "Custom amount"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:74
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:80
 msgid "Custom share number"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:76
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:77
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:79
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:80
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:166
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:82
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:83
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:85
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:86
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:172
 msgid "None"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:78
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:84
 msgid "Add payment mode \"{name}\""
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:81
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:87
 msgid "Add category \"{name}\""
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:82
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:88
 msgid "Bill : {what}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:83
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:89
 msgid "Create the bill"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:83
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:89
 msgid "Create the bills"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:84
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:90
 msgid "Failed to add payment mode"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:85
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:91
 msgid "Failed to add category"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:86
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:229
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:318
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:407
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:468
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/utils.js:59
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:92
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:235
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:325
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:414
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:475
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/utils.js:59
 msgid "You"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:87
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:93
 msgid "Impossible to save bill, invalid values"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:88
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:94
 msgid "Bill saved"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:89
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:95
 msgid "Failed to save bill"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:90
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:92
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:94
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:96
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:96
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:98
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:100
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:102
 msgid "Bill values are not valid"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:91
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:97
 msgid "Personal parts are bigger than the paid amount"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:93
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:99
 msgid "There is no custom amount"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:95
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:101
 msgid "There is no custom share number"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:97
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:218
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:103
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:224
 msgid "Failed to create bill"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:98
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:104
 msgid "Bill created"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:99
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:105
 msgid "Choose file"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:100
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:106
 msgid "Failed to generate share link to file"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:101
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:107
 msgid "This is just a currency converter. Bill amount can be entered in another currency and then converted to \"{maincur}\". Value is always stored in \"{maincur}\"."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:102
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:104
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:107
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:212
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:216
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:345
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:348
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:395
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:108
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:110
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:113
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:218
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:222
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:352
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:355
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:402
 msgid "Info"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:103
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:109
 msgid "You can type simple math operations and validate by pressing Enter key."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:105
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:111
 msgid "Bill repetition process runs once a day as a background job. If your bills are not automatically repeated, ask your Nextcloud administrator to check if \"Cron\" method is selected in admin settings."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:106
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "You can also manually repeat the current bill with the \"Repeat now\" button."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:108
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:114
 msgid "New bill"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:109
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:115
 msgid "Filters"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:110
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:131
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:116
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:137
 msgid "Close filters"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:111
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:415
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:444
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:117
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:422
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:451
 msgid "Select a category"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:112
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:413
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:118
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:420
 msgid "Select a payment mode"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:113
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:119
 msgid "Multi select actions"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:114
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:120
 msgid "Leave multiple select mode"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:115
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:121
 msgid "Assign a category"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:116
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:122
 msgid "Assign a payment mode"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:117
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:123
 msgid "Select bills to make grouped actions"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:118
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:124
 msgid "Delete selected bills"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:119
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:125
 msgid "Add at least 2 members to start creating bills"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:120
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:126
 msgid "No bills to show"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:121
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:122
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:127
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:128
 msgid "No more bills"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:123
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:129
 msgid "All payment modes"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:124
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:125
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:461
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/utils.js:107
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:130
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:131
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:468
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/utils.js:107
 msgid "No payment mode"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:126
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:132
 msgid "All categories"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:127
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:128
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:458
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/utils.js:87
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:133
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:134
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:465
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/utils.js:87
 msgid "No category"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:129
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "Leave multiple selection mode"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:130
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:136
 msgid "Enter multiple selection mode"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:132
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:138
 msgid "Open filters"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:133
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:139
 msgid "Bill deleted"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:134
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:140
 msgid "Failed to delete bill"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:135
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:136
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:141
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:142
 msgid "Failed to save bills"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:137
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:143
 msgid "Bills edited"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:138
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:144
 msgid "Confirm deletion"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:139
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:241
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:253
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:264
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:314
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:145
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:247
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:259
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:270
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:321
 msgid "Delete"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:140
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:169
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:260
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:268
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:316
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:146
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:175
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:266
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:274
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:323
 msgid "Cancel"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:141
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:147
 msgid "Bills deleted"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:142
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:148
 msgid "Failed to delete bills"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:143
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:149
 msgid "Are you sure you want to delete {nb} bill?"
 msgid_plural "Are you sure you want to delete {nb} bills?"
 msgstr[0] ""
@@ -1406,1141 +1426,1142 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:144
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:150
 msgid "Alphabetical"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:145
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:151
 msgid "Manual"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:146
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:152
 msgid "Most used"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:147
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:153
 msgid "Most recently used"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:148
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:265
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:154
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:271
 msgid "Color"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:149
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:266
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:155
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:272
 msgid "Icon"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:150
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:156
 msgid "Category sort method"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:150
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:156
 msgid "Payment mode sort method"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:151
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:157
 msgid "Add category"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:151
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:157
 msgid "Add payment mode"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:152
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:158
 msgid "Category name"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:152
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:158
 msgid "Payment mode name"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:153
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:159
 msgid "Add this category"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:153
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:159
 msgid "Add this payment mode"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:154
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:160
 msgid "Category list"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:154
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:160
 msgid "Payment mode list"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:155
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:161
 msgid "Drag categories to set manual order"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:155
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:161
 msgid "Drag payment modes to set manual order"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:156
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:162
 msgid "No categories"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:156
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:162
 msgid "No payment modes"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:157
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:162
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:163
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:168
 msgid "Name should not be empty"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:158
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "Failed to add {name}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:159
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:165
 msgid "{name} was added"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:160
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:166
 msgid "Failed to delete category"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:161
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:167
 msgid "Failed to delete payment mode"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:163
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:169
 msgid "Failed to edit category"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:164
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:170
 msgid "Order saved"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:165
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:171
 msgid "Main currency"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:167
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:173
 msgid "Set main currency name"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:168
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:174
 msgid "Main currency name"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:170
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:269
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:317
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:176
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:275
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:324
 msgid "Save"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:171
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:177
 msgid "Add currency"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:172
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:267
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:297
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:301
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:178
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:273
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:304
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:308
 msgid "Name"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:173
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:315
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:179
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:322
 msgid "Currency name"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:174
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:180
 msgid "Exchange rate to main currency"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:175
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:181
 msgid "(1 of this currency = X of main currency)"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:176
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:182
 msgid "Add this currency"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:177
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Currency list"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:178
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "No currencies to display"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:179
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:182
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:185
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:188
 msgid "Currency name should not be empty."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:180
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:186
 msgid "Exchange rate should be a number."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:181
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:187
 msgid "Currency {n} added."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:183
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:189
 msgid "Settlement of project {name}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:184
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:409
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:190
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:416
 msgid "Export"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:185
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:191
 msgid "Add these payments to the project"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:186
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:192
 msgid "Center settlement on"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:187
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:193
 msgid "Nobody (optimal)"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:188
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:194
 msgid "Settlement date"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:190
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:196
 msgid "Set to beginning of this day"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:191
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:197
 msgid "Set to beginning of this week"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:192
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:198
 msgid "Set to beginning of this month"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:193
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:199
 msgid "Settlement plan on {date}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:193
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:199
 msgid "Settlement plan"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:197
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:203
 msgid "No transactions found"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:198
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:204
 msgid "Balances on {date}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:198
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:204
 msgid "Balances"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:201
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:207
 msgid "No balances found"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:202
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:208
 msgid "Individual reimbursement"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:203
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:420
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:209
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:427
 msgid "Payer"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:204
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:210
 msgid "Receiver"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:205
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:211
 msgid "Create bill ({amount})"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:206
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:212
 msgid "Failed to get settlement"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:207
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:213
 msgid "Project settlement bills added."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:208
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:214
 msgid "Project settlement exported in {path}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:209
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:215
 msgid "Set a maximum date to only consider bills until then."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:210
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:216
 msgid "Useful if you want to settle at a precise date and ignore the bills created since then."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:211
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "Automatic settlement will create bills one second before the maximum date."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:213
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:219
 msgid "This feature is useful when a member with a negative balance wants to get out of the project but you don't want to make a full settlement plan."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:214
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:220
 msgid "Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:215
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:221
 msgid "Make sure the \"real\" reimbursement has been done between those 2 members in real life. Then press \"Create bill\" to automatically create the corresponding bill."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:219
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:225
 msgid "{user} have updated the bill {billName}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:220
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:226
 msgid "{user} has updated the bill {billName}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:221
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "{user} have created a new bill {billName}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:222
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "{user} has created a new bill {billName}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:223
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:229
 msgid "{user} have deleted the bill {billName}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:224
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:230
 msgid "{user} has deleted the bill {billName}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:225
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:231
 msgid "{user} have shared the project with {who}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:226
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:232
 msgid "{user} has shared the project with {who}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:227
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:233
 msgid "{user} have removed {who} from the project"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:228
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:234
 msgid "{user} has removed {who} from the project"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:230
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:236
 msgid "you"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:231
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:232
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:237
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:238
 msgid "No more activity"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:233
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:239
 msgid "Rename member"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:234
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:240
 msgid "Change color"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:235
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:241
 msgid "Weight"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:236
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:242
 msgid "No access"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:237
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:361
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:368
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:377
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:243
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:368
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:375
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:384
 msgid "Viewer"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:238
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:362
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:369
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:378
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:244
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:369
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:376
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:385
 msgid "Participant"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:239
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:363
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:370
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:379
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:245
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:370
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:377
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:386
 msgid "Maintainer"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:240
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:364
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:371
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:380
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:246
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:371
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:378
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:387
 msgid "Admin"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:241
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:247
 msgid "Deactivate"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:242
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:248
 msgid "Reactivate"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:243
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:249
 msgid "A member is already named like that."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:245
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:383
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:251
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:390
 msgid "Failed to edit shared access level"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:246
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:388
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:252
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:395
 msgid "Failed to delete shared access"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:247
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:253
 msgid "Are you sure?"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:248
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:397
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:254
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:404
 msgid "Settings"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:249
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:255
 msgid "Share"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:250
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:256
 msgid "Add member"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:251
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:257
 msgid "Statistics"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:252
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:258
 msgid "Project settlement"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:254
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:333
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:260
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:340
 msgid "Add a member"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:255
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:261
 msgid "Everyone"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:256
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:258
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:262
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:264
 msgid "Everyone except {member}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:257
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:263
 msgid "{member1} and {member2}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:259
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:265
 msgid "Member list is not up to date. Reloading in 5 sec."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:261
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:267
 msgid "Delete this bill"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:262
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:268
 msgid "Move bill"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:263
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:313
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:269
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:320
 msgid "Edit"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:270
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:276
 msgid "New project"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:271
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:277
 msgid "New project name"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:272
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:278
 msgid "New empty project"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:273
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:288
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:279
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:295
 msgid "Import csv project"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:274
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:289
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:280
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:296
 msgid "Import SplitWise project"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:275
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:281
 msgid "No projects yet"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:276
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:277
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:282
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:283
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:286
 msgid "Cospend settings"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:278
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:279
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:309
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:310
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:284
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:285
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:316
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:317
 msgid "Project imported"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:280
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:287
 msgid "About Cospend"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:281
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:288
 msgid "Thanks for using Cospend"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:282
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:289
 msgid "Bug/issue tracker"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:283
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:290
 msgid "Translation"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:284
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:291
 msgid "User documentation"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:285
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:292
 msgid "Admin documentation"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:286
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:293
 msgid "Developer documentation"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:287
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:294
 msgid "Import projects"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:291
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:298
 msgid "Copy guest access link"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:292
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:299
 msgid "Export location"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:293
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:300
 msgid "Select export directory"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:294
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:301
 msgid "Sort criterias"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:295
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:302
 msgid "How projects are sorted in navigation sidebar"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:296
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:303
 msgid "Projects order"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:298
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:305
 msgid "Last activity"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:299
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:306
 msgid "How members are sorted"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:300
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:307
 msgid "Members order"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:303
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:310
 msgid "Misc"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:304
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:311
 msgid "Maximum decimal precision to show in balances"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:305
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:312
 msgid "Maximum precision"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:306
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:313
 msgid "Do you want to see and choose time in bill dates?"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:307
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "Use time in dates"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:308
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Choose where to write output files (stats, settlement, export)"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:311
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "Guest link copied to clipboard."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:312
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:319
 msgid "Guest link could not be copied to clipboard."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:319
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:326
 msgid "Move bill \"{bill}\" to a different project:"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:320
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:327
 msgid "Only one project available, in which this bill already exists"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:321
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:328
 msgid "No projects found"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:322
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:329
 msgid "Bill moved to \"{project}\" successfully"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:323
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:330
 msgid "Failed to move bill"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:324
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:331
 msgid "Rename project {n}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:325
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:332
 msgid "Disable bill deletion"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:326
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:333
 msgid "Automatic export"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:331
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:338
 msgid "Export project"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:332
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:339
 msgid "Members"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:334
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:341
 msgid "Enter a member name"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:335
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:342
 msgid "No result"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:336
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:343
 msgid "Associate a project member with a Nextcloud user"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:338
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:345
 msgid "Choose a Nextcloud user"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:339
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:346
 msgid "Type to search users"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:340
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:347
 msgid "New member name"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:341
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:348
 msgid "New member (or Nextcloud user) name"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:342
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:349
 msgid "Create simple member"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:343
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:350
 msgid "Failed to add member."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:344
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:351
 msgid "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:346
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:353
 msgid "Choose a project member, then a Nextcloud user to associate with."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:347
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:354
 msgid "You can cut the link with a Nextcloud user by renaming the member."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:349
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:356
 msgid "Share project with a user, group or circle …"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:350
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:357
 msgid "Start typing to search"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:351
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:358
 msgid "Scan this QRCode with your mobile device to add project \"{name}\" in MoneyBuster or PayForMe"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:352
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:359
 msgid "QRCode content: "
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:354
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:361
 msgid "Create a new share link"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:356
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:376
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:363
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:383
 msgid "Link copied"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:356
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:376
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:363
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:383
 msgid "Copy to clipboard"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:357
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:364
 msgid "Show QRCode for mobile clients"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:358
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:365
 msgid "Label"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:359
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:366
 msgid "Password protect"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:360
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:367
 msgid "Set link password"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:365
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:372
 msgid "Delete link"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:366
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:373
 msgid "Add another link"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:367
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:374
 msgid "Project owner"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:372
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:379
 msgid "Delete access"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:373
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:380
 msgid "Show deprecated password protected access"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:374
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:381
 msgid "Password protected access"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:381
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:388
 msgid "Set project password"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:384
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:386
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:391
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:393
 msgid "Share link saved"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:385
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:387
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:392
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:394
 msgid "Failed to edit share link"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:389
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:391
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:396
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:398
 msgid "Link could not be copied to clipboard."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:390
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:397
 msgid "Password should not be empty."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:392
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:399
 msgid "Guest access level changed."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:393
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:400
 msgid "Failed to edit guest access level"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:394
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:401
 msgid "Password protected access is now deprecated. You can use the share links instead, they can be password protected too."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:396
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:403
 msgid "Sharing"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:398
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:405
 msgid "Activity"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:399
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:406
 msgid "Categories"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:400
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:407
 msgid "Payment modes"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:401
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:408
 msgid "Currencies"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:402
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:409
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} {currency} spent"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:403
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:410
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} spent"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:404
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:411
 msgid "Member/Month"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:405
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:406
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:455
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:456
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:412
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:413
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:462
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:463
 msgid "All members"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:408
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:415
 msgid "Statistics of project {name}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:410
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:417
 msgid "Minimum date"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:411
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:418
 msgid "Maximum date"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:416
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:423
 msgid "Minimum amount"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:417
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:424
 msgid "Maximum amount"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:418
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:425
 msgid "Convert in currency"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:419
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:426
 msgid "Main project's currency"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:422
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:429
 msgid "Show disabled members"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:423
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:430
 msgid "Chart type"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:424
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:431
 msgid "Pie"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:425
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:432
 msgid "Bar"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:426
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:433
 msgid "Total paid by all the members: {t}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:427
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:434
 msgid "Global stats"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:431
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:438
 msgid "Filtered balance"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:433
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:440
 msgid "Monthly paid per member"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:434
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:441
 msgid "Payments per member per month"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:435
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:442
 msgid "Monthly spent per member"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:436
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:443
 msgid "Spendings per member per month"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:437
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:444
 msgid "Monthly paid per category"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:438
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:445
 msgid "Payments per category per month"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:439
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:446
 msgid "Category/Month"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:440
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:447
 msgid "Monthly paid per payment mode"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:441
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:448
 msgid "Payments per payment mode per month"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:442
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:449
 msgid "Payment mode/Month"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:443
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:450
 msgid "Who paid for this category?"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:445
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:452
 msgid "What did they pay for?"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:446
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:453
 msgid "Select a member"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:447
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:454
 msgid "Who paid for whom?"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:448
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:455
 msgid "paid for"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:449
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:456
 msgid "Total paid"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:450
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:457
 msgid "Total owed"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:451
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:458
 msgid "Total owed by {name}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:452
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:459
 msgid "Total paid by {name}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:453
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:459
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:460
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:466
 msgid "All except reimbursement"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:454
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:457
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:460
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:461
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:464
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:467
 msgid "All"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:462
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:469
 msgid "Payed"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:464
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:471
 msgid "Who paid (outside circle) and spent (inside pie)?"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:465
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:472
 msgid "Who paid and spent?"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:466
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:473
 msgid "How much was paid per category?"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:467
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:474
 msgid "How much was paid per payment mode?"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:469
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:476
 msgid "No recent activity"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:470
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:477
 msgid "Go to Cospend"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:471
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:478
 msgid "{user} shared {project} with {who}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:472
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:479
 msgid "{user} unshared {project} with {who}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:473
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:480
 msgid "{user} created {bill}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:474
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:481
 msgid "{user} deleted {bill}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/specialVueFakeDummyForL10nScript.js:475
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:482
 msgid "{user} edited {bill}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/main.js:48
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/main.js:48
 msgid "Failed to restore options values."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/network.js:27
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:27
 msgid "Failed to save option values"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/network.js:42
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:42
 msgid "Cospend setting saved."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/network.js:47
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:47
 msgid "Failed to save Cospend setting."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/network.js:63
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:63
 msgid "Project {name} exported in {path}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/network.js:67
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:67
 msgid "Failed to export project"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/network.js:409
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:409
 msgid "Failed to add currency"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/network.js:428
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:428
 msgid "Failed to delete currency"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/network.js:451
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:451
 msgid "Failed to edit currency"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/network.js:472
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:472
 msgid "Failed to get statistics."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/network.js:487
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:487
 msgid "Project statistics exported in {path}"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/network.js:491
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:491
 msgid "Failed to export project statistics"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/network.js:539
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:539
 msgid "Failed to add project settlement bills"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/network.js:559
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:559
 msgid "Failed to export project settlement"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/utils.js:11
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/utils.js:11
 msgid "Choose csv project file"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/utils.js:23
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/utils.js:23
 msgid "Choose SplitWise project file"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/src/utils.js:43
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/utils.js:43
 msgid "Failed to import project file"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/templates/admin.php:9
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/templates/admin.php:18
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/admin.php:9
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/admin.php:18
 msgid "Allow guests to create projects"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/templates/admin.php:10
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/admin.php:10
 msgid "Enabling this option will allow any visitor to create a project without having to log in."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/templates/admin.php:11
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/admin.php:11
 msgid "This can be useful if you are in a local network and want to let anybody create a project."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/templates/admin.php:12
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/admin.php:12
 msgid "Or maybe you are very generous and want to allow the entire world to use Cospend without having an account on your Nextcloud instance."
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/templates/logincontent.php:2
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/templates/sharepassword.php:10
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/logincontent.php:2
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/sharepassword.php:10
 msgid "Authentication"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/templates/logincontent.php:7
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/logincontent.php:7
 msgid "Wrong project Id or password"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/templates/logincontent.php:12
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/logincontent.php:12
 msgid "Project ID/name"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/templates/logincontent.php:21
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/logincontent.php:21
 msgid "Project password (aka Access code)"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/templates/sharepassword.php:15
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/sharepassword.php:15
 msgid "Wrong link password"
 msgstr ""
 
-#: /datadisk/tera/julien/html/dev/server25/apps/cospend/templates/sharepassword.php:27
+#: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/sharepassword.php:27
 msgid "Share link password"
 msgstr ""
 

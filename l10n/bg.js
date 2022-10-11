@@ -149,7 +149,6 @@ OC.L10N.register(
     "daily" : "ежедневно",
     "weekly" : "седмично",
     "monthly" : "месечно",
-    "Project {name}" : "Проект {name}",
     "Select a project" : "Изберете проект",
     "Toggle sidebar" : "Превключване на страничната лента",
     "Nothing to repeat" : "Няма нищо за повтаряне",

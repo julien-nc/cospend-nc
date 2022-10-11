@@ -149,7 +149,6 @@ OC.L10N.register(
     "daily" : "täglich",
     "weekly" : "wöchentlich",
     "monthly" : "monatlich",
-    "Project {name}" : "Projekt {name}",
     "Select a project" : "Projekt auswählen",
     "Toggle sidebar" : "Seitenleiste ein-/ausblenden",
     "Nothing to repeat" : "Nichts zu wiederholen",

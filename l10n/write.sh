@@ -15,7 +15,7 @@ rename 's/tr_TR/tr/g' *.js*
 rename 's/ko_KR/ko/g' *.js*
 rename 's/ca_ES/ca/g' *.js*
 rename 's/ro_RO/ro/g' *.js*
-rename 's/no_NO/no/g' *.js*
+rename 's/no_NO/nb/g' *.js*
 rename 's/cs_CZ/cs/g' *.js*
 rename 's/fi_FI/fi/g' *.js*
 rename 's/hu_HU/hu/g' *.js*

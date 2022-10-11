@@ -149,7 +149,6 @@ OC.L10N.register(
     "daily" : "napi",
     "weekly" : "heti",
     "monthly" : "havi",
-    "Project {name}" : "Projekt {name}",
     "Select a project" : "Projekt kiválasztása",
     "Toggle sidebar" : "Oldalsáv átkapcsolása",
     "Nothing to repeat" : "Nincs mit ismételni",

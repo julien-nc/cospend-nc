@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 1.5.0 – 2022-10-10
+## 1.5.1 – 2022-10-11
 ### Added
 - Bring back svg api (just in cospend) for QRCode embedded logo
 - Right click support for navigation items

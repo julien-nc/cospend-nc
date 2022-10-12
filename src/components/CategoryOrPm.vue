@@ -36,7 +36,7 @@
 		</div>
 		<div v-if="editMode"
 			class="one-element-edit">
-			<NcColorPicker ref="col"
+			<NcColorPicker
 				class="app-navigation-entry-bullet-wrapper"
 				value=""
 				@input="updateColor">

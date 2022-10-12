@@ -13,11 +13,12 @@
 		<div v-if="maintenerAccess"
 			slot="icon"
 			class="memberItemAvatar">
-			<NcColorPicker ref="col"
+			<NcColorPicker
 				class="app-navigation-entry-bullet-wrapper memberColorPicker"
 				:value="`#${member.color}`"
 				@input="updateColor">
 				<CospendTogglableAvatar
+					ref="avatar"
 					:enabled="member.activated"
 					:color="member.color"
 					:size="24"
@@ -317,7 +318,8 @@ export default {
 			this.$emit('member-edited', this.projectId, this.member.id)
 		},
 		onMenuColorClick() {
-			this.$refs.col.$el.querySelector('.trigger').click()
+			this.menuOpen = false
+			this.$refs.avatar.$el.click()
 		},
 		deleteAccessOfUser() {
 			if (this.access !== null && !this.access.manually_added) {

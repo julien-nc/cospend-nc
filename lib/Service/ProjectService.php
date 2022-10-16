@@ -5506,7 +5506,11 @@ class ProjectService {
 							// normal line: bill/category/payment mode/currency
 							$previousLineEmpty = false;
 							if ($currentSection === 'categories') {
-								$icon = $data[$columns['icon']];
+								if (mb_strlen($data[$columns['icon']], 'UTF-8') && preg_match('!\S!u', $data[$columns['icon']])) {
+									$icon = $data[$columns['icon']];
+								} else {
+									$icon = null;
+								}
 								$color = $data[$columns['color']];
 								$categoryid = $data[$columns['categoryid']];
 								$categoryname = $data[$columns['categoryname']];
@@ -5517,7 +5521,11 @@ class ProjectService {
 									'name' => $categoryname,
 								];
 							} elseif ($currentSection === 'paymentmodes') {
-								$icon = $data[$columns['icon']];
+								if (mb_strlen($data[$columns['icon']], 'UTF-8') && preg_match('!\S!u', $data[$columns['icon']])) {
+									$icon = $data[$columns['icon']];
+								} else {
+									$icon = null;
+								}
 								$color = $data[$columns['color']];
 								$paymentmodeid = $data[$columns['paymentmodeid']];
 								$paymentmodename = $data[$columns['paymentmodename']];
@@ -5543,7 +5551,7 @@ class ProjectService {
 								$weight = $data[$columns['weight']];
 								$active = $data[$columns['active']];
 								$color = $data[$columns['color']];
-								if (strlen($name) > 1
+								if (strlen($name) > 0
 									&& is_numeric($weight)
 									&& is_numeric($active)
 									&& preg_match('/^#[0-9A-Fa-f]+$/', $color) !== false

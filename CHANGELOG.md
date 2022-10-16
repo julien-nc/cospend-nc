@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.5.2 – 2022-10-16
+### Fixed
+- change color action
+- get guest avatar color when creating member
+- check if category/pm icons are valid utf-8 chars when importing
+
 ## 1.5.1 – 2022-10-11
 ### Added
 - Bring back svg api (just in cospend) for QRCode embedded logo

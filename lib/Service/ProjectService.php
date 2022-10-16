@@ -1367,6 +1367,11 @@ class ProjectService {
 			if ($dbColor === null) {
 				$av = $this->avatarManager->getGuestAvatar($dbName);
 				$dbColor = $av->avatarBackgroundColor($dbName);
+				$dbColor = [
+					'r' => $dbColor->red(),
+					'g' => $dbColor->green(),
+					'b' => $dbColor->blue(),
+				];
 			} else {
 				$dbColor = Utils::hexToRgb($dbColor);
 			}
@@ -2460,20 +2465,11 @@ class ProjectService {
 			if ($dbColor === null) {
 				$av = $this->avatarManager->getGuestAvatar($dbName);
 				$avatarBgColor = $av->avatarBackgroundColor($dbName);
-				try {
-					$dbColor = [
-						'r' => $avatarBgColor->{'r'},
-						'g' => $avatarBgColor->{'g'},
-						'b' => $avatarBgColor->{'b'},
-					];
-				} catch (Exception | Throwable $e) {
-					// NC >= 25
-					$dbColor = [
-						'r' => $avatarBgColor->red(),
-						'g' => $avatarBgColor->green(),
-						'b' => $avatarBgColor->blue(),
-					];
-				}
+				$dbColor = [
+					'r' => $avatarBgColor->red(),
+					'g' => $avatarBgColor->green(),
+					'b' => $avatarBgColor->blue(),
+				];
 			} else {
 				$dbColor = Utils::hexToRgb($dbColor);
 			}
@@ -3269,6 +3265,11 @@ class ProjectService {
 			if ($dbColor === null) {
 				$av = $this->avatarManager->getGuestAvatar($dbName);
 				$dbColor = $av->avatarBackgroundColor($dbName);
+				$dbColor = [
+					'r' => $dbColor->red(),
+					'g' => $dbColor->green(),
+					'b' => $dbColor->blue(),
+				];
 			} else {
 				$dbColor = Utils::hexToRgb($dbColor);
 			}
@@ -3318,6 +3319,11 @@ class ProjectService {
 				if ($dbColor === null) {
 					$av = $this->avatarManager->getGuestAvatar($dbName);
 					$dbColor = $av->avatarBackgroundColor($dbName);
+					$dbColor = [
+						'r' => $dbColor->red(),
+						'g' => $dbColor->green(),
+						'b' => $dbColor->blue(),
+					];
 				} else {
 					$dbColor = Utils::hexToRgb($dbColor);
 				}

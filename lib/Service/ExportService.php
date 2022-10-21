@@ -371,30 +371,30 @@ class ExportService extends AbstractService {
 
 	/**
 	 * Return the directory where things will be exported. If the directory does not exist, it will be created.
-	 * If an error occurs, a error message string is returned.
+	 * If an error occurs, an error message string is returned.
 	 *
 	 * @param Folder $userFolder
-	 * @param string $outPath
+	 * @param string $outputPath
 	 * @return Folder
 	 * @throws ErrorMessageException
 	 */
-	protected function getExportDirectory(Folder $userFolder, string $outPath): Folder {
+	protected function getExportDirectory(Folder $userFolder, string $outputPath): Folder {
 		try {
-			if (!$userFolder->nodeExists($outPath)) {
-				$folder = $userFolder->newFolder($outPath);
+			if ($userFolder->nodeExists($outputPath)) {
+				$folder = $userFolder->get($outputPath);
 			} else {
-				$folder = $userFolder->get($outPath);
+				$folder = $userFolder->newFolder($outputPath);
 			}
 		} catch (NotFoundException|NotPermittedException $exception) {
 			$this->logger->debug($exception->getMessage(), ['exception' => $exception]);
 
-			throw new ErrorMessageException($this->translation->t('Impossible to create %1$s', [$outPath]));
+			throw new ErrorMessageException($this->translation->t('Impossible to create %1$s', [$outputPath]));
 		}
 
 		if ($folder->getType() !== FileInfo::TYPE_FOLDER) {
-			throw new ErrorMessageException($this->translation->t('%1$s is not a folder', [$outPath]));
+			throw new ErrorMessageException($this->translation->t('%1$s is not a folder', [$outputPath]));
 		} elseif (!$folder->isCreatable()) {
-			throw new ErrorMessageException($this->translation->t('%1$s is not writeable', [$outPath]));
+			throw new ErrorMessageException($this->translation->t('%1$s is not writeable', [$outputPath]));
 		} else {
 			return $folder;
 		}

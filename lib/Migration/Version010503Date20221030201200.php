@@ -6,6 +6,7 @@ use Closure;
 use Doctrine\DBAL\Schema\SchemaException;
 use OCP\DB\Exception;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
@@ -39,7 +40,7 @@ class Version010503Date20221030201200 extends SimpleMigrationStep {
 
 		$existingProjectIds = [];
 		while ($row = $result->fetch()) {
-			$existingProjectIds[] = $queryBuilder->createNamedParameter($row['id']);
+			$existingProjectIds[] = $queryBuilder->createNamedParameter($row['id'], IQueryBuilder::PARAM_STR);
 		}
 
 		$result->closeCursor();
@@ -59,7 +60,7 @@ class Version010503Date20221030201200 extends SimpleMigrationStep {
 
 		$existingBillIds = [];
 		while ($row = $result->fetch()) {
-			$existingBillIds[] = $queryBuilder->createNamedParameter((int)$row['id']);
+			$existingBillIds[] = $queryBuilder->createNamedParameter((int)$row['id'], IQueryBuilder::PARAM_INT);
 		}
 
 		$result->closeCursor();

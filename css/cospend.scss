@@ -10,6 +10,9 @@ body {
 	// this works but is sketchy
 	// overflow: visible !important;
 	height: auto;
+
+	// Fix content shifting to the top on Nextcloud 25.0.
+	position: relative;
 }
 @media only screen and (max-width: 1024px) {
 	// fix max height being unset in mobile view by server style

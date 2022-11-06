@@ -11,6 +11,12 @@ body {
 	// overflow: visible !important;
 	height: auto;
 }
+
+// fix scroll on mobile NextCloud 25.0
+.app-content-wrapper {
+	overflow: auto;
+}
+
 @media only screen and (max-width: 1024px) {
 	// fix max height being unset in mobile view by server style
 	.app-content-list {

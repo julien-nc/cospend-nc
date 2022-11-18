@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.5.4 – 2022-11-18
+### Fixed
+- Fix scroll not working on mobile
+  [#184](https://github.com/eneiluj/cospend-nc/pull/184) @eliandoran
+- Fix content shifting to the top in bill form
+  [#183](https://github.com/eneiluj/cospend-nc/pull/183) @eliandoran
+- fix bill items style by removing list marker
+
 ## 1.5.2 – 2022-10-16
 ### Fixed
 - change color action

@@ -1,32 +1,6 @@
 <template>
 	<div class="manage-elements">
 		<div>
-			<div id="order-selection">
-				<label for="order-select">
-					<SortIcon
-						class="icon"
-						:size="20" />
-					<span>{{ sortOrderLabel }}</span>
-				</label>
-				<select id="order-select"
-					:disabled="!adminAccess"
-					:value="sortOrderValue"
-					@input="onSortChange">
-					<option :value="constants.SORT_ORDER.ALPHA">
-						{{ t('cospend', 'Alphabetical') }}
-					</option>
-					<option :value="constants.SORT_ORDER.MANUAL">
-						{{ t('cospend', 'Manual') }}
-					</option>
-					<option :value="constants.SORT_ORDER.MOST_USED">
-						{{ t('cospend', 'Most used') }}
-					</option>
-					<option :value="constants.SORT_ORDER.MOST_RECENTLY_USED">
-						{{ t('cospend', 'Most recently used') }}
-					</option>
-				</select>
-			</div>
-			<hr>
 			<div v-show="editionAccess">
 				<h3>
 					<PlusIcon
@@ -71,6 +45,32 @@
 				</div>
 				<hr>
 			</div>
+			<div id="order-selection">
+				<h3 for="order-select">
+					<SortIcon
+						class="icon"
+						:size="20" />
+					<span>{{ sortOrderLabel }}</span>
+				</h3>
+				<select id="order-select"
+					:disabled="!adminAccess"
+					:value="sortOrderValue"
+					@input="onSortChange">
+					<option :value="constants.SORT_ORDER.ALPHA">
+						{{ t('cospend', 'Alphabetical') }}
+					</option>
+					<option :value="constants.SORT_ORDER.MANUAL">
+						{{ t('cospend', 'Manual') }}
+					</option>
+					<option :value="constants.SORT_ORDER.MOST_USED">
+						{{ t('cospend', 'Most used') }}
+					</option>
+					<option :value="constants.SORT_ORDER.MOST_RECENTLY_USED">
+						{{ t('cospend', 'Most recently used') }}
+					</option>
+				</select>
+			</div>
+			<hr>
 			<h3>
 				<ShapeIcon v-if="type === 'category'"
 					class="icon"
@@ -455,15 +455,10 @@ h3 {
 
 #order-selection {
 	display: flex;
-	align-items: center;
-	label,
+	flex-direction: column;
+	align-items: start;
 	select {
-		display: inline-flex;
-		width: 49%;
-
-		.icon {
-			padding-left: 12px;
-		}
+		margin-left: 38px;
 	}
 }
 </style>

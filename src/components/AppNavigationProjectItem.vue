@@ -19,6 +19,7 @@
 		:class="{ selectedproject: selected }"
 		:allow-collapse="true"
 		:open="selected"
+		:force-display-actions="true"
 		:force-menu="false"
 		:menu-open="menuOpen"
 		@contextmenu.native.stop.prevent="menuOpen = true"

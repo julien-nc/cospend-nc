@@ -6,6 +6,7 @@
 				v-show="!loading"
 				class="addBillItem"
 				:title="(editionAccess && oneActiveMember) ? t('cospend', 'New bill') : ''"
+				:force-display-actions="editionAccess && oneActiveMember"
 				@click="onAddBillClicked">
 				<template #icon>
 					<PlusIcon v-show="editionAccess && oneActiveMember" :size="20" />

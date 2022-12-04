@@ -4,7 +4,7 @@ Nextcloud Cospend 是一款群组/共享支出管理工具。 由伟大的 [IHat
 
 您可在租赁房屋、与朋友外出度假时的任何需要共享金钱的情况使用。
 
-It lets you create projects with members and bills. Each member has a balance computed from the project bills. This way you can see who owes the group and who the group owes. Ultimately you can ask for a settlement plan telling you which payments to make to reset members balances.
+它可以让您创建带有会员和账单的项目。 每个成员都有根据项目账单计算的余额。 这种方式你可以看到谁欠该群组以及谁欠该群组。 Ultimately you can ask for a settlement plan telling you which payments to make to reset members balances.
 
 Project members are independent from Nextcloud users. Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
 

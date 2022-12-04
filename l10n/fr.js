@@ -34,7 +34,7 @@ OC.L10N.register(
     "You are not allowed to access this project" : "Vous n'êtes pas autorisé à accéder à ce projet",
     "You are not allowed to edit this member" : "Vous n'êtes pas autorisé à éditer ce membre",
     "You are not allowed to edit this bill" : "Vous n'êtes pas autorisé à éditer cette facture",
-    "You are not allowed to access the destination project" : "Vous n'êtes pas autorisé à accéder au projet de destination",
+    "You are not allowed to access the destination project" : "Vous n'êtes pas autorisé à accéder au projet cible",
     "You are not allowed to add bills" : "Vous n’êtes pas autorisé à ajouter des factures",
     "You are not allowed to edit this project" : "Vous n'êtes pas autorisé à éditer ce projet",
     "You are not allowed to add members" : "Vous n’êtes pas autorisé à ajouter des membres",

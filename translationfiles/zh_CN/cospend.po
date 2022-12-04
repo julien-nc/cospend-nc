@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2022-10-10 17:56+0200\n"
-"PO-Revision-Date: 2022-10-10 15:58\n"
+"PO-Revision-Date: 2022-12-04 14:40\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -19,57 +19,57 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:95
 msgid "You have created a new bill {bill} in project {project}"
-msgstr ""
+msgstr "您已经在项目 {bill} 创建了一个新的账单 {project}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:95
 msgid "{user} has created a new bill {bill} in project {project}"
-msgstr ""
+msgstr "{user} 在项目 {bill} 创建了一个新的账单 {project}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:98
 msgid "You have deleted the bill {bill} of project {project}"
-msgstr ""
+msgstr "您已删除项目 {bill} 的 {project} 账单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:98
 msgid "{user} has deleted the bill {bill} of project {project}"
-msgstr ""
+msgstr "{user} 已删除项目 {bill} 的项目 {project}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:101
 msgid "You have shared the project {project} with {who}"
-msgstr ""
+msgstr "您已经与 {project} 分享了项目 {who}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:101
 msgid "{user} has shared the project {project} with {who}"
-msgstr ""
+msgstr "{user} 已与 {project} 共享项目 {who}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:104
 msgid "You have removed {who} from the project {project}"
-msgstr ""
+msgstr "您已将 {who} 移出项目 {project}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:104
 msgid "{user} has removed {who} from the project {project}"
-msgstr ""
+msgstr "{user} 已将 {who} 移出项目 {project}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:107
 msgid "You have updated the bill {bill} of project {project}"
-msgstr ""
+msgstr "您已更新项目 {bill} 的项目 {project}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:107
 msgid "{user} has updated the bill {bill} of project {project}"
-msgstr ""
+msgstr "{user} 更新了项目 {bill} 的项目 {project}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:182
 msgid "A guest user"
-msgstr ""
+msgstr "访客用户"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/BillSetting.php:42
 msgid "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted"
-msgstr ""
+msgstr "Cospend app中的一个 <strong>账单</strong> 已被更新/创建/删除"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/CospendProvider.php:285
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/CospendProvider.php:293
 #, php-format
 msgid "circle %1$s"
-msgstr ""
+msgstr "圈%1$s"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/Filter.php:54
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Notification/Notifier.php:85
@@ -81,7 +81,7 @@ msgstr "账单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/Setting.php:55
 msgid "Changes in the <strong>Cospend app</strong>"
-msgstr ""
+msgstr "<strong>Cospend app</strong>中的变更"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:248
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:276
@@ -89,40 +89,40 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:379
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:401
 msgid "Cospend public access"
-msgstr ""
+msgstr "Cospend公共访问"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:249
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:277
 #, php-format
 msgid "Enter password of project %s"
-msgstr ""
+msgstr "输入项目 %s 的密码"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:304
 msgid "Enter project id and password"
-msgstr ""
+msgstr "输入项目ID和密码"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:335
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:448
 #, php-format
 msgid "Enter link password of project %s"
-msgstr ""
+msgstr "输入项目 %s 的链接密码"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:341
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:380
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:427
 #, php-format
 msgid "Project %s"
-msgstr ""
+msgstr "项目 %s"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:344
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:426
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:447
 msgid "Cospend shared link access"
-msgstr ""
+msgstr "Cospend共享链接访问权限"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:348
 msgid "No such share link"
-msgstr ""
+msgstr "没有这种共享链接"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:349
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:402
@@ -137,11 +137,11 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5945
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5948
 msgid "Access denied"
-msgstr ""
+msgstr "拒绝访问"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:465
 msgid "No such share link or public access"
-msgstr ""
+msgstr "没有这种共享链接或公共访问"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:535
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1096
@@ -170,36 +170,36 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2089
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2110
 msgid "Unauthorized action"
-msgstr ""
+msgstr "未经授权的行动"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:567
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:600
 msgid "You are not allowed to delete this bill"
-msgstr ""
+msgstr "您无权删除此账单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:617
 msgid "You are not allowed to get this project's info"
-msgstr ""
+msgstr "您无权获取此项目的信息"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:639
 msgid "You are not allowed to get this project's statistics"
-msgstr ""
+msgstr "您无权获取此项目的统计数据"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:656
 msgid "You are not allowed to get this project's settlement"
-msgstr ""
+msgstr "您无权获得此项目的结算数据"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:676
 msgid "You are not allowed to settle this project automatically"
-msgstr ""
+msgstr "您无权自动结算此项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:691
 msgid "You are not allowed to access this project"
-msgstr ""
+msgstr "您无权访问此项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:720
 msgid "You are not allowed to edit this member"
-msgstr ""
+msgstr "您无权编辑此成员"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:754
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:768
@@ -207,11 +207,11 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1577
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1631
 msgid "You are not allowed to edit this bill"
-msgstr ""
+msgstr "您无权编辑此账单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:774
 msgid "You are not allowed to access the destination project"
-msgstr ""
+msgstr "您无权访问目标项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:816
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:912
@@ -219,38 +219,38 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1500
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1525
 msgid "You are not allowed to add bills"
-msgstr ""
+msgstr "您无权添加账单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:881
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2955
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:3036
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:3077
 msgid "You are not allowed to edit this project"
-msgstr ""
+msgstr "您无权编辑此项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:933
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1364
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1395
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1417
 msgid "You are not allowed to add members"
-msgstr ""
+msgstr "您无权添加成员"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:974
 msgid "You are not allowed to get the bill list"
-msgstr ""
+msgstr "您无权获取账单列表"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1019
 msgid "Anonymous project creation is not allowed on this server"
-msgstr ""
+msgstr "此服务器不允许创建匿名项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1064
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1090
 msgid "Project not found"
-msgstr ""
+msgstr "未发现项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1070
 msgid "Bad password or share link"
-msgstr ""
+msgstr "密码或共享链接错误"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1449
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1558
@@ -259,7 +259,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1735
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:297
 msgid "Guest access"
-msgstr ""
+msgstr "访客访问"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1452
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1561
@@ -268,7 +268,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1738
 #, php-format
 msgid "Share link (%s)"
-msgstr ""
+msgstr "分享链接(%s)"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1454
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1563
@@ -278,20 +278,20 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:360
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:362
 msgid "Share link"
-msgstr ""
+msgstr "分享链接"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2133
 msgid "You are not allowed to give such shared access level"
-msgstr ""
+msgstr "您无权给这种共享访问级别"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2156
 msgid "You are not allowed to edit this shared access"
-msgstr ""
+msgstr "您无权编辑此共享访问权限"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2176
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2190
 msgid "You are not allowed to edit guest access level"
-msgstr ""
+msgstr "您无权编辑访客访问级别"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2232
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2262
@@ -305,7 +305,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2448
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2469
 msgid "You are not allowed to manage payment modes"
-msgstr ""
+msgstr "您无权管理支付模式"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2488
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2519
@@ -319,7 +319,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2706
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2727
 msgid "You are not allowed to manage categories"
-msgstr ""
+msgstr "您无权管理类别"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2746
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2775
@@ -331,44 +331,44 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2914
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2935
 msgid "You are not allowed to manage currencies"
-msgstr ""
+msgstr "您无权管理货币"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2977
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:3017
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:3058
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:3099
 msgid "You are not allowed to remove this shared access"
-msgstr ""
+msgstr "您无权删除此共享访问权限"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2996
 msgid "You are not allowed to add public shared accesses"
-msgstr ""
+msgstr "您无权添加公共共享访问权限"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:3159
 msgid "You are not allowed to export this project settlement"
-msgstr ""
+msgstr "您无权获得此项目的结算数据"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:3185
 msgid "You are not allowed to export this project statistics"
-msgstr ""
+msgstr "您无权获取此项目的统计数据"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:3209
 msgid "You are not allowed to export this project"
-msgstr ""
+msgstr "您无权导出此项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Dashboard/CospendWidget.php:59
 msgid "Cospend activity"
-msgstr ""
+msgstr "Cospend活动"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:92
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:140
 msgid "Grocery"
-msgstr ""
+msgstr "杂货"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:93
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:145
 msgid "Bar/Party"
-msgstr ""
+msgstr "酒吧/Party"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:94
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:150
@@ -378,12 +378,12 @@ msgstr "租金"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:95
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:155
 msgid "Bill"
-msgstr ""
+msgstr "账单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:96
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:160
 msgid "Excursion/Culture"
-msgstr ""
+msgstr "旅行/文化活动"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:97
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:165
@@ -393,27 +393,27 @@ msgstr "健康"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:98
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:170
 msgid "Shopping"
-msgstr ""
+msgstr "购物"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:100
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:175
 msgid "Restaurant"
-msgstr ""
+msgstr "餐厅"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:101
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:180
 msgid "Accommodation"
-msgstr ""
+msgstr "酒店住宿"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:102
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:185
 msgid "Transport"
-msgstr ""
+msgstr "交通"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:103
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:190
 msgid "Sport"
-msgstr ""
+msgstr "运动"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version010314Date20210828143421.php:67
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version010314Date20210828143421.php:75
@@ -437,17 +437,17 @@ msgstr "支票"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version010314Date20210828143421.php:96
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:216
 msgid "Transfer"
-msgstr ""
+msgstr "转帐"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version010314Date20210828143421.php:71
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version010314Date20210828143421.php:103
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:222
 msgid "Online service"
-msgstr ""
+msgstr "在线服务"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Notification/Notifier.php:114
 msgid "Cospend project shared"
-msgstr ""
+msgstr "Cospend项目已共享"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Notification/Notifier.php:115
 #, php-format
@@ -457,50 +457,50 @@ msgstr "用户 “%s” 和您共享了 Cospend 项目 “%s”。"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Notification/Notifier.php:125
 #, php-format
 msgid "{user} shared project %s with you"
-msgstr ""
+msgstr "{user} 与您共享的项目 %s"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Notification/Notifier.php:143
 msgid "Cospend project share removed"
-msgstr ""
+msgstr "项目费用分享已删除"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Notification/Notifier.php:144
 #, php-format
 msgid "User \"%s\" stopped sharing Cospend project \"%s\" with you."
-msgstr "用户 “%s” 取消了和您共享 Cospend 项目 “%s”。"
+msgstr "用户%s停止了与您分享费用项目 \"%s\"。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Notification/Notifier.php:156
 #, php-format
 msgid "{user} stopped sharing project %s with you"
-msgstr ""
+msgstr "{user} 停止了与您分享项目 %s"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Search/CospendSearchProvider.php:213
 #, php-format
 msgid "in %1$s"
-msgstr ""
+msgstr "在 %1$s"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:230
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:223
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/constants.js:44
 msgid "Reimbursement"
-msgstr ""
+msgstr "报销"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:500
 msgid "Invalid project id"
-msgstr ""
+msgstr "无效的项目 id"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:562
 #, php-format
 msgid "A project with id \"%1$s\" already exists"
-msgstr ""
+msgstr "一个 id 为%1$s的项目已存在"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:612
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1335
 msgid "Not Found"
-msgstr ""
+msgstr "找不到"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:958
 msgid "Average per month"
-msgstr ""
+msgstr "每月平均数"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1190
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1226
@@ -511,143 +511,143 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3471
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3475
 msgid "Invalid value"
-msgstr ""
+msgstr "无效的值"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1192
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1882
 msgid "Invalid frequency"
-msgstr ""
+msgstr "无效频率"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1200
 msgid "Timestamp (or date) field is required"
-msgstr ""
+msgstr "时间戳 (或日期) 字段是必需的"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1204
 msgid "Invalid date"
-msgstr ""
+msgstr "无效数据"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1215
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1218
 msgid "This field is required"
-msgstr ""
+msgstr "此字段为必填"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1221
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1233
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3460
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3478
 msgid "Not a valid choice"
-msgstr ""
+msgstr "无效选项"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1540
 msgid "Error when getting project settlement transactions"
-msgstr ""
+msgstr "获取项目结算交易时出错"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1567
 msgid "Error when adding a bill"
-msgstr ""
+msgstr "添加账单时出错"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1770
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1941
 msgid "Invalid member name"
-msgstr ""
+msgstr "成员名无效。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1775
 msgid "Name already exists"
-msgstr ""
+msgstr "名称已存在"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1797
 msgid "Not a valid decimal value"
-msgstr ""
+msgstr "不是有效的小数"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1835
 msgid "This project have no such member"
-msgstr ""
+msgstr "此项目没有这个成员"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1862
 msgid "Name can't be empty"
-msgstr ""
+msgstr "名称不能为空"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1871
 msgid "Invalid email address"
-msgstr ""
+msgstr "无效的电子邮件地址"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1889
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1896
 msgid "Invalid sort order"
-msgstr ""
+msgstr "无效排序顺序"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1920
 msgid "There is no such project"
-msgstr ""
+msgstr "没有这样的项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1949
 msgid "Weight is not a valid decimal value"
-msgstr ""
+msgstr "权重不是有效的十进制值"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1961
 msgid "Invalid color value"
-msgstr ""
+msgstr "无效的颜色值"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1983
 msgid "This project already has this member"
-msgstr ""
+msgstr "这个项目已经有这个成员"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:1986
 msgid "Name field is required"
-msgstr ""
+msgstr "名称字段是必填的"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3382
 msgid "There is no such bill"
-msgstr ""
+msgstr "没有这种账单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3676
 msgid "Cannot match payer"
-msgstr ""
+msgstr "无法匹配付款人"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3706
 #, php-format
 msgid "Cannot create new bill: %1$s"
-msgstr ""
+msgstr "无法创建新账单： %1$s"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3995
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4167
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4320
 msgid "Not found"
-msgstr ""
+msgstr "找不到"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4053
 msgid "This project has no such payment mode"
-msgstr ""
+msgstr "此项目没有这种支付模式"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4056
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4232
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4354
 msgid "Incorrect field values"
-msgstr ""
+msgstr "不正确的字段值"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4229
 msgid "This project has no such category"
-msgstr ""
+msgstr "此项目没有此类别"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4351
 msgid "This project have no such currency"
-msgstr ""
+msgstr "此项目没有这种货币"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4449
 msgid "You are not authorized to give such access level"
-msgstr ""
+msgstr "您无权授予此访问级别"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4452
 msgid "Already shared with this user"
-msgstr ""
+msgstr "已经与该用户分享"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4455
 msgid "Impossible to share the project with its owner"
-msgstr ""
+msgstr "无法与项目所有者共享"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4458
 msgid "No such user"
-msgstr ""
+msgstr "没有这个用户"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4565
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4623
@@ -655,41 +655,41 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4944
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5089
 msgid "No such share"
-msgstr ""
+msgstr "没有这种分享"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4819
 msgid "No such shared access"
-msgstr ""
+msgstr "没有这种共享访问"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4881
 msgid "Already shared with this group"
-msgstr ""
+msgstr "已经分享到这个组"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4884
 msgid "No such group"
-msgstr ""
+msgstr "无此组"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5022
 msgid "Already shared with this circle"
-msgstr ""
+msgstr "已经与此圈子共享"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5026
 msgid "No such circle"
-msgstr ""
+msgstr "没有此圈子"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5029
 msgid "Circles app is not enabled"
-msgstr ""
+msgstr "圈应用未启用"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5121
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:200
 msgid "Who pays?"
-msgstr "谁支付?"
+msgstr "谁付款？"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5122
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:201
 msgid "To whom?"
-msgstr "给谁"
+msgstr "对谁？"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5123
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:36
@@ -700,17 +700,17 @@ msgstr "多少钱？"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5164
 #, php-format
 msgid "%1$s is not a folder"
-msgstr ""
+msgstr "%1$s 不是一个文件夹"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5166
 #, php-format
 msgid "%1$s is not writeable"
-msgstr ""
+msgstr "%1$s 不可写"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5171
 #, php-format
 msgid "Impossible to create %1$s"
-msgstr ""
+msgstr "无法创建 %1$s"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5213
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:205
@@ -739,86 +739,86 @@ msgstr "余额"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5497
 #, php-format
 msgid "Malformed CSV, bad column names at line %1$s"
-msgstr ""
+msgstr "CSV格式不正确，在第 %1$s 行"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5552
 #, php-format
 msgid "Malformed CSV, invalid member on line %1$s"
-msgstr ""
+msgstr "CSV格式不正确，在第 %1$s 行上无效的成员"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5570
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5819
 #, php-format
 msgid "Malformed CSV, missing or invalid date/timestamp on line %1$s"
-msgstr ""
+msgstr "错误的 CSV，缺少或无效的日期/时间戳在行 %1$s"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5596
 #, php-format
 msgid "Malformed CSV, invalid payer weight on line %1$s"
-msgstr ""
+msgstr "错误的 CSV，无效的付款人权重 %1$s 行"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5601
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5609
 #, php-format
 msgid "Malformed CSV, invalid owers on line %1$s"
-msgstr ""
+msgstr "CSV格式不正确，在第 %1$s 行上无效的成员"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5619
 #, php-format
 msgid "Malformed CSV, invalid amount on line %1$s"
-msgstr ""
+msgstr "错误的 CSV，第 %1$s 行上的无效金额"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5657
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5895
 #, php-format
 msgid "Error in project creation, %1$s"
-msgstr ""
+msgstr "创建项目时发生错误， %1$s"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5668
 #, php-format
 msgid "Error when adding payment mode %1$s"
-msgstr ""
+msgstr "添加支付模式 %1$s时出错"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5677
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5903
 #, php-format
 msgid "Error when adding category %1$s"
-msgstr ""
+msgstr "添加类别 %1$s 时出错"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5686
 #, php-format
 msgid "Error when adding currency %1$s"
-msgstr ""
+msgstr "添加货币 %1$s 时出错"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5696
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5912
 #, php-format
 msgid "Error when adding member %1$s"
-msgstr ""
+msgstr "添加成员 %1$s 时出错"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5730
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5937
 #, php-format
 msgid "Error when adding bill %1$s"
-msgstr ""
+msgstr "添加账单 %1$s 时出错"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5796
 msgid "Malformed CSV, cannot have an empty ower"
-msgstr ""
+msgstr "CSV格式不正确，不能有一个空的ower"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5841
 #, php-format
 msgid "Malformed CSV, bad amount on line %1$s"
-msgstr ""
+msgstr "错误的 CSV，第 %1$s 行上的无效金额"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5857
 #, php-format
 msgid "Malformed CSV, no payer on line %1$s"
-msgstr ""
+msgstr "错误的 CSV，第 %1$s 行上没有付款人"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5878
 msgid "Malformed CSV, impossible to find the column names"
-msgstr ""
+msgstr "CSV格式不正确，不能找到列名称"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5972
 msgid "daily"
@@ -838,51 +838,51 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:1
 msgid "What do you want to do?"
-msgstr ""
+msgstr "您想要做什么？"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "These actions are available in the sidebar project context menu."
-msgstr ""
+msgstr "这些操作可以在侧边栏项目上下文菜单中找到。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "Create a bill"
-msgstr ""
+msgstr "创建帐单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:4
 msgid "Show project settings"
-msgstr ""
+msgstr "显示项目设置"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:5
 msgid "Share the project"
-msgstr ""
+msgstr "共享项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:6
 msgid "Show project statistics"
-msgstr ""
+msgstr "显示项目统计"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Show project settlement plan"
-msgstr ""
+msgstr "显示项目结算计划"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:8
 msgid "Select a project"
-msgstr ""
+msgstr "选择项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:9
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "切换边栏"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:10
 msgid "Nothing to repeat"
-msgstr ""
+msgstr "没有要重复的内容"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:11
 msgid "Member {name} already exists"
-msgstr ""
+msgstr "成员 {name} 已存在"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:12
 msgid "Impossible to move bill. No candidate project found."
-msgstr ""
+msgstr "无法移动账单。未找到候选项目。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:13
 msgid "Failed to get projects"
@@ -891,11 +891,11 @@ msgstr "获取项目失败"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:14
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:15
 msgid "Failed to get bills"
-msgstr ""
+msgstr "获取账单失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:16
 msgid "Invalid project name"
-msgstr ""
+msgstr "项目名不正确"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:17
 msgid "Failed to create project"
@@ -925,19 +925,19 @@ msgstr "无法添加评论"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:250
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:389
 msgid "Failed to add shared access"
-msgstr ""
+msgstr "添加共享访问失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:24
 msgid "Failed to save member"
-msgstr ""
+msgstr "保存成员失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:25
 msgid "Member deleted."
-msgstr ""
+msgstr "成员已删除。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:26
 msgid "Member saved."
-msgstr ""
+msgstr "成员已保存."
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:27
 msgid "Project saved"
@@ -945,12 +945,12 @@ msgstr "工程已保存"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:28
 msgid "Failed to edit project"
-msgstr ""
+msgstr "编辑项目失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:29
 msgid "{nb} bill was created"
 msgid_plural "{nb} bills were created"
-msgstr[0] ""
+msgstr[0] "{nb} 张账单已创建"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:30
 msgid "link"
@@ -959,27 +959,27 @@ msgstr "链接"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:31
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:81
 msgid "Press Shift+Enter to validate"
-msgstr ""
+msgstr "按 Shift+Enter 验证"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:32
 msgid "Impossible to duplicate a bill with a disabled payer"
-msgstr ""
+msgstr "无法复制，非允许的付款人"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:32
 msgid "Duplicate bill"
-msgstr ""
+msgstr "重复的帐单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:33
 msgid "What?"
-msgstr "内容？"
+msgstr "什么?"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:34
 msgid "What is the bill about?"
-msgstr ""
+msgstr "关于什么的账单？"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:35
 msgid "Attach share link to personal file"
-msgstr ""
+msgstr "将共享链接附加到个人文件"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:37
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:39
@@ -987,21 +987,21 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:70
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:382
 msgid "More information"
-msgstr ""
+msgstr "更多信息"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:38
 msgid "Convert to"
-msgstr ""
+msgstr "转换为"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:40
 msgid "Who paid?"
-msgstr ""
+msgstr "谁付款？"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:41
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:344
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:428
 msgid "Choose a member"
-msgstr ""
+msgstr "选择成员"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:42
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:43
@@ -1016,7 +1016,7 @@ msgstr "支付模式"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:45
 msgid "Choose a payment mode"
-msgstr ""
+msgstr "选择付款模式"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:46
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:421
@@ -1025,24 +1025,24 @@ msgstr "类别"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:47
 msgid "Choose or add a category"
-msgstr ""
+msgstr "选择或添加类别"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:48
 msgid "Comment"
-msgstr ""
+msgstr "评论"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:49
 msgid "More details about the bill (300 char. max)"
-msgstr ""
+msgstr "关于账单的更多细节（最高300个字符）"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:50
 msgid "Repeat"
-msgstr ""
+msgstr "重复"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:51
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:334
 msgid "No"
-msgstr "取消"
+msgstr "否"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:52
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:335
@@ -1056,11 +1056,11 @@ msgstr "每周"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:54
 msgid "Bi-weekly (every 2 weeks)"
-msgstr ""
+msgstr "双周(每2周)"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:55
 msgid "Semi-monthly (twice a month)"
-msgstr ""
+msgstr "半月(每月两次)"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:56
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:337
@@ -1069,31 +1069,31 @@ msgstr "每月"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:57
 msgid "Yearly"
-msgstr ""
+msgstr "每年一次"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:59
 msgid "Frequency"
-msgstr ""
+msgstr "频率"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:60
 msgid "Leave empty for maximum frequency"
-msgstr ""
+msgstr "留空为最大频率"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:61
 msgid "Include all active members on repeat"
-msgstr ""
+msgstr "重复时包括所有有效成员"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:62
 msgid "Repeat until"
-msgstr ""
+msgstr "重复到"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:63
 msgid "No limit"
-msgstr ""
+msgstr "无限制"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:64
 msgid "Repeat now"
-msgstr ""
+msgstr "现在重复"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:65
 msgid "Bill type"
@@ -1113,11 +1113,11 @@ msgstr "自定义每个成员拖欠的金额"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:69
 msgid "Custom share per member"
-msgstr ""
+msgstr "自定义成员的共享"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:71
 msgid "Ignore member weights"
-msgstr ""
+msgstr "忽略成员权重"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:72
 msgid "Classic mode: Choose a payer, enter a bill amount and select who is concerned by the whole spending, the bill is then split equitably between selected members. Real life example: One person pays the whole restaurant bill and everybody agrees to evenly split the cost."
@@ -1125,7 +1125,7 @@ msgstr "经典模式：选择一个支付人，输入账单的金额，选择这
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:73
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
-msgstr ""
+msgstr "经典+个人模式：这个模式类似于典型模式。选择一个支付人，输入实际消费支出的金额。然后选择和此消费相关的成员。另外，可以设定属于某个成员的个人消费金额。多个账单将会被创建：一部分属于团队共同支出，另外一部分属于每个个人的支出。实际生活示例：我们在购物结账的时候，账单里其中一部分购买的物品是整个团队公用的，但也有掺杂了一些个人物品（例如单独一件衬衫），其他团队成员并不希望为此个人物品买单。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:74
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
@@ -1133,7 +1133,7 @@ msgstr "自定义模式，不平均摊分：选择一个支付人，忽略账单
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:75
 msgid "Custom share mode, uneven split: Choose a payer, set the bill amount and enter a custom share number for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: Someone pays an electricity bill for the month but one member was only there during half the month. This member should then pay half a share (0.5) while the others pay a full share (1)."
-msgstr ""
+msgstr "自定义共享模式，不平衡的分割：选择一个付款人，设置账单金额，并为每个成员输入一个自定义共享号码。 然后按\"创建账单\"。将创建多个账单。 实际生活实例：有人支付该月份的电费，但有一名成员在半个月内才在那里。 该成员然后应支付一半份额(0.5)，而其他成员则支付全额份额(1)。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:76
 msgid "For whom?"
@@ -1141,19 +1141,19 @@ msgstr "为谁购买？"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:77
 msgid "All/None"
-msgstr ""
+msgstr "全部/无"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:78
 msgid "Personal amount"
-msgstr ""
+msgstr "个人金额"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:79
 msgid "Custom amount"
-msgstr ""
+msgstr "自定义金额"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:80
 msgid "Custom share number"
-msgstr ""
+msgstr "自定义成员的共享"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:82
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:83
@@ -1161,15 +1161,15 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:86
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:172
 msgid "None"
-msgstr "未设置"
+msgstr "无"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:84
 msgid "Add payment mode \"{name}\""
-msgstr ""
+msgstr "添加付款模式 \"{name}\""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:87
 msgid "Add category \"{name}\""
-msgstr ""
+msgstr "添加类别 \"{name}\""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:88
 msgid "Bill : {what}"
@@ -1177,19 +1177,19 @@ msgstr "账单 : {what}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:89
 msgid "Create the bill"
-msgstr ""
+msgstr "创建帐单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:89
 msgid "Create the bills"
-msgstr ""
+msgstr "创建账单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:90
 msgid "Failed to add payment mode"
-msgstr ""
+msgstr "添加支付模式失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:91
 msgid "Failed to add category"
-msgstr ""
+msgstr "添加类别失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:92
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:235
@@ -1198,15 +1198,15 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:475
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/utils.js:59
 msgid "You"
-msgstr ""
+msgstr "你"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:93
 msgid "Impossible to save bill, invalid values"
-msgstr ""
+msgstr "无法保存账单，无效值"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:94
 msgid "Bill saved"
-msgstr ""
+msgstr "账单已保存"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:95
 msgid "Failed to save bill"
@@ -1217,19 +1217,19 @@ msgstr "保存账单失败"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:100
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:102
 msgid "Bill values are not valid"
-msgstr ""
+msgstr "账单值无效"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:97
 msgid "Personal parts are bigger than the paid amount"
-msgstr ""
+msgstr "个人部分大于已付金额"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:99
 msgid "There is no custom amount"
-msgstr ""
+msgstr "没有自定义金额"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:101
 msgid "There is no custom share number"
-msgstr ""
+msgstr "没有自定义共享号码"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:103
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:224
@@ -1238,19 +1238,19 @@ msgstr "创建账单失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:104
 msgid "Bill created"
-msgstr ""
+msgstr "已创建账单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:105
 msgid "Choose file"
-msgstr ""
+msgstr "选择文件"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:106
 msgid "Failed to generate share link to file"
-msgstr ""
+msgstr "无法生成共享链接到文件"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:107
 msgid "This is just a currency converter. Bill amount can be entered in another currency and then converted to \"{maincur}\". Value is always stored in \"{maincur}\"."
-msgstr ""
+msgstr "这只是一个货币转换器。账单金额可以用另一种货币输入，然后转换为 \"{maincur}\"。 值总是保存在\"{maincur} \"中。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:108
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:110
@@ -1261,19 +1261,19 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:355
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:402
 msgid "Info"
-msgstr ""
+msgstr "信息"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:109
 msgid "You can type simple math operations and validate by pressing Enter key."
-msgstr ""
+msgstr "您可以输入简单的数学操作并按回车键验证。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:111
 msgid "Bill repetition process runs once a day as a background job. If your bills are not automatically repeated, ask your Nextcloud administrator to check if \"Cron\" method is selected in admin settings."
-msgstr ""
+msgstr "账单重复过程每天运行一次，作为背景工作。 如果您的账单没有自动重复，请您的Nextcloud管理员检查是否在管理设置中选择了“Cron”方法。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:112
 msgid "You can also manually repeat the current bill with the \"Repeat now\" button."
-msgstr ""
+msgstr "您也可以用\"现在重复\"按钮手动重复当前账单。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:114
 msgid "New bill"
@@ -1281,98 +1281,98 @@ msgstr "新建账单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:115
 msgid "Filters"
-msgstr ""
+msgstr "筛选器"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:116
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:137
 msgid "Close filters"
-msgstr ""
+msgstr "关闭过滤器"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:117
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:422
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:451
 msgid "Select a category"
-msgstr ""
+msgstr "选择一个类别"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:118
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:420
 msgid "Select a payment mode"
-msgstr ""
+msgstr "选择支付模式"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:119
 msgid "Multi select actions"
-msgstr ""
+msgstr "多选操作"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:120
 msgid "Leave multiple select mode"
-msgstr ""
+msgstr "离开多个选择模式"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:121
 msgid "Assign a category"
-msgstr ""
+msgstr "分配类别"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:122
 msgid "Assign a payment mode"
-msgstr ""
+msgstr "分配付款模式"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:123
 msgid "Select bills to make grouped actions"
-msgstr ""
+msgstr "选择要进行分组动作的账单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:124
 msgid "Delete selected bills"
-msgstr ""
+msgstr "删除选定的账单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:125
 msgid "Add at least 2 members to start creating bills"
-msgstr ""
+msgstr "添加至少两个成员开始创建账单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:126
 msgid "No bills to show"
-msgstr ""
+msgstr "没有要显示的账单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:127
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:128
 msgid "No more bills"
-msgstr ""
+msgstr "没有更多账单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:129
 msgid "All payment modes"
-msgstr ""
+msgstr "所有付款方式"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:130
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:131
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:468
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/utils.js:107
 msgid "No payment mode"
-msgstr ""
+msgstr "没有付款模式"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:132
 msgid "All categories"
-msgstr ""
+msgstr "所有类别"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:133
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:134
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:465
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/utils.js:87
 msgid "No category"
-msgstr ""
+msgstr "没有类别"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:135
 msgid "Leave multiple selection mode"
-msgstr ""
+msgstr "离开多个选择模式"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:136
 msgid "Enter multiple selection mode"
-msgstr ""
+msgstr "离开多个选择模式"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:138
 msgid "Open filters"
-msgstr ""
+msgstr "打开过滤器"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:139
 msgid "Bill deleted"
-msgstr ""
+msgstr "帐单已删除"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:140
 msgid "Failed to delete bill"
@@ -1381,15 +1381,15 @@ msgstr "删除账单失败"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:141
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:142
 msgid "Failed to save bills"
-msgstr ""
+msgstr "保存账单失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:143
 msgid "Bills edited"
-msgstr ""
+msgstr "账单已编辑"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:144
 msgid "Confirm deletion"
-msgstr ""
+msgstr "删除确认"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:145
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:247
@@ -1405,198 +1405,198 @@ msgstr "删除"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:274
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:323
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:147
 msgid "Bills deleted"
-msgstr ""
+msgstr "帐单已删除"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:148
 msgid "Failed to delete bills"
-msgstr ""
+msgstr "删除账单失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:149
 msgid "Are you sure you want to delete {nb} bill?"
 msgid_plural "Are you sure you want to delete {nb} bills?"
-msgstr[0] ""
+msgstr[0] "您确定要删除 {nb} 账单吗？"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:150
 msgid "Alphabetical"
-msgstr ""
+msgstr "按字母顺序"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:151
 msgid "Manual"
-msgstr ""
+msgstr "手动模式"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:152
 msgid "Most used"
-msgstr ""
+msgstr "最常用的"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:153
 msgid "Most recently used"
-msgstr ""
+msgstr "最近使用"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:154
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:271
 msgid "Color"
-msgstr ""
+msgstr "顏色"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:155
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:272
 msgid "Icon"
-msgstr ""
+msgstr "图标"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:156
 msgid "Category sort method"
-msgstr ""
+msgstr "分类排序方法"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:156
 msgid "Payment mode sort method"
-msgstr ""
+msgstr "付款模式排序方法"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:157
 msgid "Add category"
-msgstr ""
+msgstr "添加类别"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:157
 msgid "Add payment mode"
-msgstr ""
+msgstr "添加支付模式"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:158
 msgid "Category name"
-msgstr ""
+msgstr "类别名称"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:158
 msgid "Payment mode name"
-msgstr ""
+msgstr "支付模式名称"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:159
 msgid "Add this category"
-msgstr ""
+msgstr "添加此类别"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:159
 msgid "Add this payment mode"
-msgstr ""
+msgstr "添加此支付模式"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:160
 msgid "Category list"
-msgstr ""
+msgstr "分类列表"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:160
 msgid "Payment mode list"
-msgstr ""
+msgstr "付款模式列表"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:161
 msgid "Drag categories to set manual order"
-msgstr ""
+msgstr "拖动类别以设置手动顺序"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:161
 msgid "Drag payment modes to set manual order"
-msgstr ""
+msgstr "拖动支付模式以设置手动顺序"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:162
 msgid "No categories"
-msgstr ""
+msgstr "暂无分类"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:162
 msgid "No payment modes"
-msgstr ""
+msgstr "没有付款方式"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:163
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:168
 msgid "Name should not be empty"
-msgstr ""
+msgstr "名称不应为空"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:164
 msgid "Failed to add {name}"
-msgstr ""
+msgstr "添加 {name} 失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:165
 msgid "{name} was added"
-msgstr ""
+msgstr "{name} 已添加"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:166
 msgid "Failed to delete category"
-msgstr ""
+msgstr "删除分类失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:167
 msgid "Failed to delete payment mode"
-msgstr ""
+msgstr "删除支付模式失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:169
 msgid "Failed to edit category"
-msgstr ""
+msgstr "编辑类别失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:170
 msgid "Order saved"
-msgstr ""
+msgstr "订单已保存"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:171
 msgid "Main currency"
-msgstr ""
+msgstr "主要货币"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:173
 msgid "Set main currency name"
-msgstr ""
+msgstr "设置主要货币名称"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:174
 msgid "Main currency name"
-msgstr ""
+msgstr "主要货币名称"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:176
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:275
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:324
 msgid "Save"
-msgstr ""
+msgstr "保存"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:177
 msgid "Add currency"
-msgstr ""
+msgstr "添加货币"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:178
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:273
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:304
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:308
 msgid "Name"
-msgstr ""
+msgstr "名称"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:179
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:322
 msgid "Currency name"
-msgstr ""
+msgstr "货币名称"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:180
 msgid "Exchange rate to main currency"
-msgstr ""
+msgstr "主要货币的汇率"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:181
 msgid "(1 of this currency = X of main currency)"
-msgstr ""
+msgstr "(1 当前货币 = X 主要货币)"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:182
 msgid "Add this currency"
-msgstr ""
+msgstr "添加此货币"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:183
 msgid "Currency list"
-msgstr ""
+msgstr "货币列表"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:184
 msgid "No currencies to display"
-msgstr ""
+msgstr "没有要显示的货币"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:185
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:188
 msgid "Currency name should not be empty."
-msgstr ""
+msgstr "货币名称不能为空。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:186
 msgid "Exchange rate should be a number."
-msgstr ""
+msgstr "汇率应为数字。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:187
 msgid "Currency {n} added."
-msgstr ""
+msgstr "货币 {n} 已添加。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:189
 msgid "Settlement of project {name}"
@@ -1609,80 +1609,80 @@ msgstr "导出"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:191
 msgid "Add these payments to the project"
-msgstr ""
+msgstr "将这些付款添加到项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:192
 msgid "Center settlement on"
-msgstr ""
+msgstr "中心结算于"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:193
 msgid "Nobody (optimal)"
-msgstr ""
+msgstr "没有人(最佳)"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:194
 msgid "Settlement date"
-msgstr ""
+msgstr "结算日期"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:196
 msgid "Set to beginning of this day"
-msgstr ""
+msgstr "设置为这天开始"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:197
 msgid "Set to beginning of this week"
-msgstr ""
+msgstr "设置为本周开始"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:198
 msgid "Set to beginning of this month"
-msgstr ""
+msgstr "设置为本月开始"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:199
 msgid "Settlement plan on {date}"
-msgstr ""
+msgstr "{date} 的结算计划"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:199
 msgid "Settlement plan"
-msgstr ""
+msgstr "结算计划"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:203
 msgid "No transactions found"
-msgstr ""
+msgstr "未找到交易"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:204
 msgid "Balances on {date}"
-msgstr ""
+msgstr "{date} 的余额"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:204
 msgid "Balances"
-msgstr ""
+msgstr "余额"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:207
 msgid "No balances found"
-msgstr ""
+msgstr "未找到余额"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:208
 msgid "Individual reimbursement"
-msgstr ""
+msgstr "个人补偿"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:209
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:427
 msgid "Payer"
-msgstr ""
+msgstr "付款人"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:210
 msgid "Receiver"
-msgstr ""
+msgstr "接收者"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:211
 msgid "Create bill ({amount})"
-msgstr ""
+msgstr "创建帐单({amount})"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:212
 msgid "Failed to get settlement"
-msgstr ""
+msgstr "未能得到结算"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:213
 msgid "Project settlement bills added."
-msgstr ""
+msgstr "项目结算账单已添加。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:214
 msgid "Project settlement exported in {path}"
@@ -1690,120 +1690,120 @@ msgstr "项目结算已导出到 {path}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:215
 msgid "Set a maximum date to only consider bills until then."
-msgstr ""
+msgstr "将最大日期设置为只审议账单直到那时。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:216
 msgid "Useful if you want to settle at a precise date and ignore the bills created since then."
-msgstr ""
+msgstr "如果您想在一个精确的日期结算，并忽略从那时起创建的账单，那么这很有用。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:217
 msgid "Automatic settlement will create bills one second before the maximum date."
-msgstr ""
+msgstr "自动结算将在最大日期前创建1秒的账单。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:219
 msgid "This feature is useful when a member with a negative balance wants to get out of the project but you don't want to make a full settlement plan."
-msgstr ""
+msgstr "当余额为负的成员想退出项目，但您不想制定完整的结算计划时，此功能非常有用。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:220
 msgid "Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money."
-msgstr ""
+msgstr "选择一个希望得到零余额的付款人，然后选择一个将是唯一一个获得补偿的人的接收人。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:221
 msgid "Make sure the \"real\" reimbursement has been done between those 2 members in real life. Then press \"Create bill\" to automatically create the corresponding bill."
-msgstr ""
+msgstr "确保在现实生活中这两个成员之间完成了“真正的”补偿。然后按“创建账单”，自动创建相应的账单。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:225
 msgid "{user} have updated the bill {billName}"
-msgstr ""
+msgstr "{user} 更新了账单 {billName}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:226
 msgid "{user} has updated the bill {billName}"
-msgstr ""
+msgstr "{user} 更新了账单 {billName}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "{user} have created a new bill {billName}"
-msgstr ""
+msgstr "{user} 创建了新的账单 {billName}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "{user} has created a new bill {billName}"
-msgstr ""
+msgstr "{user} 创建了新的账单 {billName}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:229
 msgid "{user} have deleted the bill {billName}"
-msgstr ""
+msgstr "{user} 已删除帐单 {billName}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:230
 msgid "{user} has deleted the bill {billName}"
-msgstr ""
+msgstr "{user} 已删除帐单 {billName}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:231
 msgid "{user} have shared the project with {who}"
-msgstr ""
+msgstr "{user} 和 {who} 分享了这个项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:232
 msgid "{user} has shared the project with {who}"
-msgstr ""
+msgstr "{user} 和 {who} 分享了这个项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:233
 msgid "{user} have removed {who} from the project"
-msgstr ""
+msgstr "{user} 已将 {who} 移出项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:234
 msgid "{user} has removed {who} from the project"
-msgstr ""
+msgstr "{user} 已将 {who} 移出项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:236
 msgid "you"
-msgstr ""
+msgstr "你"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:237
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:238
 msgid "No more activity"
-msgstr ""
+msgstr "没有更多活动"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:239
 msgid "Rename member"
-msgstr ""
+msgstr "重命名成员"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:240
 msgid "Change color"
-msgstr ""
+msgstr "更改颜色"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:241
 msgid "Weight"
-msgstr ""
+msgstr "权重"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:242
 msgid "No access"
-msgstr ""
+msgstr "无访问"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:243
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:368
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:375
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:384
 msgid "Viewer"
-msgstr ""
+msgstr "浏览者"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:244
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:369
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:376
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:385
 msgid "Participant"
-msgstr ""
+msgstr "参与者"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:245
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:370
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:377
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:386
 msgid "Maintainer"
-msgstr ""
+msgstr "维护者"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:246
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:371
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:378
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:387
 msgid "Admin"
-msgstr ""
+msgstr "管理员"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:247
 msgid "Deactivate"
@@ -1815,21 +1815,21 @@ msgstr "重新激活"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:249
 msgid "A member is already named like that."
-msgstr ""
+msgstr "成员已经这样命名。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:251
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:390
 msgid "Failed to edit shared access level"
-msgstr ""
+msgstr "编辑共享访问级别失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:252
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:395
 msgid "Failed to delete shared access"
-msgstr ""
+msgstr "删除共享访问失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:253
 msgid "Are you sure?"
-msgstr ""
+msgstr "您确定吗？"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:254
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:404
@@ -1838,7 +1838,7 @@ msgstr "设置"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:255
 msgid "Share"
-msgstr ""
+msgstr "分享"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:256
 msgid "Add member"
@@ -1846,29 +1846,29 @@ msgstr "添加成员"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:257
 msgid "Statistics"
-msgstr ""
+msgstr "统计"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:258
 msgid "Project settlement"
-msgstr ""
+msgstr "项目解决"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:260
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:340
 msgid "Add a member"
-msgstr ""
+msgstr "添加成员"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:261
 msgid "Everyone"
-msgstr ""
+msgstr "每个人"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:262
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:264
 msgid "Everyone except {member}"
-msgstr ""
+msgstr "除 {member} 以外的所有人"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:263
 msgid "{member1} and {member2}"
-msgstr ""
+msgstr "{member1} 和 {member2}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:265
 msgid "Member list is not up to date. Reloading in 5 sec."
@@ -1876,16 +1876,16 @@ msgstr "成员列表尚未更新。5秒内重新加载。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:267
 msgid "Delete this bill"
-msgstr ""
+msgstr "删除此帐单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:268
 msgid "Move bill"
-msgstr ""
+msgstr "移动帐单"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:269
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:320
 msgid "Edit"
-msgstr ""
+msgstr "编辑"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:276
 msgid "New project"
@@ -1893,370 +1893,370 @@ msgstr "新建项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:277
 msgid "New project name"
-msgstr ""
+msgstr "新项目名称"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:278
 msgid "New empty project"
-msgstr ""
+msgstr "新建空项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:279
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:295
 msgid "Import csv project"
-msgstr ""
+msgstr "导入 csv 项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:280
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:296
 msgid "Import SplitWise project"
-msgstr ""
+msgstr "导入 SplitWise 项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:281
 msgid "No projects yet"
-msgstr ""
+msgstr "尚无项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:282
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:283
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:286
 msgid "Cospend settings"
-msgstr ""
+msgstr "Cospend设置"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:284
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:285
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:316
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:317
 msgid "Project imported"
-msgstr ""
+msgstr "项目已导入"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:287
 msgid "About Cospend"
-msgstr ""
+msgstr "关于Cospend"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:288
 msgid "Thanks for using Cospend"
-msgstr ""
+msgstr "感谢您使用Cospend"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:289
 msgid "Bug/issue tracker"
-msgstr ""
+msgstr "错误/问题跟踪器"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:290
 msgid "Translation"
-msgstr ""
+msgstr "翻译"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:291
 msgid "User documentation"
-msgstr ""
+msgstr "用户文档"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:292
 msgid "Admin documentation"
-msgstr ""
+msgstr "管理员文档"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:293
 msgid "Developer documentation"
-msgstr ""
+msgstr "开发者文档"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:294
 msgid "Import projects"
-msgstr ""
+msgstr "导入项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:298
 msgid "Copy guest access link"
-msgstr ""
+msgstr "复制访客访问链接"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:299
 msgid "Export location"
-msgstr ""
+msgstr "导出路径"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:300
 msgid "Select export directory"
-msgstr ""
+msgstr "选择导出目录"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:301
 msgid "Sort criterias"
-msgstr ""
+msgstr "排序条件"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:302
 msgid "How projects are sorted in navigation sidebar"
-msgstr ""
+msgstr "项目如何在导航侧边栏中排序"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:303
 msgid "Projects order"
-msgstr ""
+msgstr "项目顺序"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:305
 msgid "Last activity"
-msgstr ""
+msgstr "最后活动"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:306
 msgid "How members are sorted"
-msgstr ""
+msgstr "如何排序成员"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:307
 msgid "Members order"
-msgstr ""
+msgstr "成员顺序"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:310
 msgid "Misc"
-msgstr ""
+msgstr "其他"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:311
 msgid "Maximum decimal precision to show in balances"
-msgstr ""
+msgstr "余额中显示的最大小数精度"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:312
 msgid "Maximum precision"
-msgstr ""
+msgstr "最大精度"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:313
 msgid "Do you want to see and choose time in bill dates?"
-msgstr ""
+msgstr "您想要在账单日期中看到并选择时间吗？"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "Use time in dates"
-msgstr ""
+msgstr "在日期中使用时间"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Choose where to write output files (stats, settlement, export)"
-msgstr ""
+msgstr "选择写入输出文件的位置 (统计、结算、导出)"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "Guest link copied to clipboard."
-msgstr ""
+msgstr "访客链接已复制到剪贴板。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:319
 msgid "Guest link could not be copied to clipboard."
-msgstr ""
+msgstr "访客链接无法复制到剪贴板。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:326
 msgid "Move bill \"{bill}\" to a different project:"
-msgstr ""
+msgstr "将账单\"{bill}\" 移动到另一个项目："
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:327
 msgid "Only one project available, in which this bill already exists"
-msgstr ""
+msgstr "只有一个项目已经存在此账单。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:328
 msgid "No projects found"
-msgstr ""
+msgstr "未找到项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:329
 msgid "Bill moved to \"{project}\" successfully"
-msgstr ""
+msgstr "帐单已成功移动到\"{project}\""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:330
 msgid "Failed to move bill"
-msgstr ""
+msgstr "移动账单失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:331
 msgid "Rename project {n}"
-msgstr ""
+msgstr "重命名项目 {n}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:332
 msgid "Disable bill deletion"
-msgstr ""
+msgstr "禁用账单删除"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:333
 msgid "Automatic export"
-msgstr ""
+msgstr "自动导出"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:338
 msgid "Export project"
-msgstr ""
+msgstr "导出项目"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:339
 msgid "Members"
-msgstr ""
+msgstr "成员"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:341
 msgid "Enter a member name"
-msgstr ""
+msgstr "输入成员名称"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:342
 msgid "No result"
-msgstr ""
+msgstr "没有结果"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:343
 msgid "Associate a project member with a Nextcloud user"
-msgstr ""
+msgstr "将项目成员与Nextcloud用户关联"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:345
 msgid "Choose a Nextcloud user"
-msgstr ""
+msgstr "选择Nextcloud用户"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:346
 msgid "Type to search users"
-msgstr ""
+msgstr "输入搜索用户"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:347
 msgid "New member name"
-msgstr ""
+msgstr "新成员名称"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:348
 msgid "New member (or Nextcloud user) name"
-msgstr ""
+msgstr "新成员 (或Nextcloud 用户) 名称"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:349
 msgid "Create simple member"
-msgstr ""
+msgstr "创建简单成员"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:350
 msgid "Failed to add member."
-msgstr ""
+msgstr "添加成员失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:351
 msgid "You can add a simple member or a Nextcloud user to the project. You can give Nextcloud users access to the project in the context menu. You can also give access to Nextcloud users that are not members in the Sharing tab."
-msgstr ""
+msgstr "您可以向项目中添加一个简单的成员或Nextcloud用户。您可以在上下文菜单中给Nextcloud用户访问项目的权限。您还可以在Sharing选项卡中授予非成员的Nextcloud用户访问权限。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:353
 msgid "Choose a project member, then a Nextcloud user to associate with."
-msgstr ""
+msgstr "选择一个项目成员，然后选择一个Nextcloud用户与之关联。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:354
 msgid "You can cut the link with a Nextcloud user by renaming the member."
-msgstr ""
+msgstr "您可以通过重命名会员来切断与Nextcloud用户的链接。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:356
 msgid "Share project with a user, group or circle …"
-msgstr ""
+msgstr "与用户、群组或圈子共享项目 …"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:357
 msgid "Start typing to search"
-msgstr ""
+msgstr "开始输入搜索"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:358
 msgid "Scan this QRCode with your mobile device to add project \"{name}\" in MoneyBuster or PayForMe"
-msgstr ""
+msgstr "用您的移动设备扫描此二维码以添加项目 \"{name}\" 在 MoneyBuster 或 PayForMe"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:359
 msgid "QRCode content: "
-msgstr ""
+msgstr "QRCode 内容： "
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:361
 msgid "Create a new share link"
-msgstr ""
+msgstr "创建一个新的共享链接"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:363
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:383
 msgid "Link copied"
-msgstr ""
+msgstr "链接已复制"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:363
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:383
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "复制到剪贴板"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:364
 msgid "Show QRCode for mobile clients"
-msgstr ""
+msgstr "显示移动客户端的 QRCode"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:365
 msgid "Label"
-msgstr ""
+msgstr "标签"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:366
 msgid "Password protect"
-msgstr ""
+msgstr "密码保护"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:367
 msgid "Set link password"
-msgstr ""
+msgstr "设置链接密码"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:372
 msgid "Delete link"
-msgstr ""
+msgstr "删除链接"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:373
 msgid "Add another link"
-msgstr ""
+msgstr "添加另一个链接"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:374
 msgid "Project owner"
-msgstr ""
+msgstr "项目所有者"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:379
 msgid "Delete access"
-msgstr ""
+msgstr "删除权限"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:380
 msgid "Show deprecated password protected access"
-msgstr ""
+msgstr "显示过时的密码保护访问"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:381
 msgid "Password protected access"
-msgstr ""
+msgstr "密码保护访问"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:388
 msgid "Set project password"
-msgstr ""
+msgstr "设置项目密码"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:391
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:393
 msgid "Share link saved"
-msgstr ""
+msgstr "共享链接已保存"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:392
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:394
 msgid "Failed to edit share link"
-msgstr ""
+msgstr "编辑共享链接失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:396
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:398
 msgid "Link could not be copied to clipboard."
-msgstr ""
+msgstr "链接无法复制到剪贴板。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:397
 msgid "Password should not be empty."
-msgstr ""
+msgstr "密码不应为空。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:399
 msgid "Guest access level changed."
-msgstr ""
+msgstr "访客访问级别已更改。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:400
 msgid "Failed to edit guest access level"
-msgstr ""
+msgstr "编辑访客访问级别失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:401
 msgid "Password protected access is now deprecated. You can use the share links instead, they can be password protected too."
-msgstr ""
+msgstr "密码保护的访问授权现在已经废弃。您可以使用共享链接，他们也可以是密码保护。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:403
 msgid "Sharing"
-msgstr ""
+msgstr "分享"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:405
 msgid "Activity"
-msgstr ""
+msgstr "活动"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:406
 msgid "Categories"
-msgstr ""
+msgstr "类别"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:407
 msgid "Payment modes"
-msgstr ""
+msgstr "支付方式"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:408
 msgid "Currencies"
-msgstr ""
+msgstr "货币"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:409
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} {currency} spent"
-msgstr ""
+msgstr "{nb} 个账单， {nbMembers} 个活跃会员， {spentAmount} {currency} 已花费了"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:410
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} spent"
-msgstr ""
+msgstr "{nb} 个账单， {nbMembers} 个活跃会员， {spentAmount} 被花了"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:411
 msgid "Member/Month"
-msgstr ""
+msgstr "成员/月"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:412
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:413
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:462
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:463
 msgid "All members"
-msgstr ""
+msgstr "所有成员"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:415
 msgid "Statistics of project {name}"
@@ -2280,120 +2280,120 @@ msgstr "最大金额"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:425
 msgid "Convert in currency"
-msgstr ""
+msgstr "货币转换"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:426
 msgid "Main project's currency"
-msgstr ""
+msgstr "主要项目货币"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:429
 msgid "Show disabled members"
-msgstr ""
+msgstr "显示已禁用成员"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:430
 msgid "Chart type"
-msgstr ""
+msgstr "图表类型"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:431
 msgid "Pie"
-msgstr ""
+msgstr "饼状图"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:432
 msgid "Bar"
-msgstr ""
+msgstr "条状"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:433
 msgid "Total paid by all the members: {t}"
-msgstr ""
+msgstr "所有成员的总付款: {t}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:434
 msgid "Global stats"
-msgstr ""
+msgstr "全局统计"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:438
 msgid "Filtered balance"
-msgstr ""
+msgstr "过滤余额"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:440
 msgid "Monthly paid per member"
-msgstr ""
+msgstr "每位成员的月支出"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:441
 msgid "Payments per member per month"
-msgstr ""
+msgstr "每月每个成员的付款"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:442
 msgid "Monthly spent per member"
-msgstr ""
+msgstr "每位成员的月花费"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:443
 msgid "Spendings per member per month"
-msgstr ""
+msgstr "每个成员每月的支出"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:444
 msgid "Monthly paid per category"
-msgstr ""
+msgstr "按类别每月支付"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:445
 msgid "Payments per category per month"
-msgstr ""
+msgstr "每月每个类别的付款"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:446
 msgid "Category/Month"
-msgstr ""
+msgstr "类别/月"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:447
 msgid "Monthly paid per payment mode"
-msgstr ""
+msgstr "按支付模式每月支付"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:448
 msgid "Payments per payment mode per month"
-msgstr ""
+msgstr "每月每个支付模式的付款"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:449
 msgid "Payment mode/Month"
-msgstr ""
+msgstr "付款模式/月"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:450
 msgid "Who paid for this category?"
-msgstr ""
+msgstr "谁为这个类别付款？"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:452
 msgid "What did they pay for?"
-msgstr ""
+msgstr "他们支付了什么费用？"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:453
 msgid "Select a member"
-msgstr ""
+msgstr "选择成员"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:454
 msgid "Who paid for whom?"
-msgstr ""
+msgstr "谁为谁付款？"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:455
 msgid "paid for"
-msgstr ""
+msgstr "支付"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:456
 msgid "Total paid"
-msgstr ""
+msgstr "支付总额"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:457
 msgid "Total owed"
-msgstr ""
+msgstr "欠款总额"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:458
 msgid "Total owed by {name}"
-msgstr ""
+msgstr "{name} 的欠款总额"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:459
 msgid "Total paid by {name}"
-msgstr ""
+msgstr "支付总额 由 {name}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:460
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:466
 msgid "All except reimbursement"
-msgstr ""
+msgstr "除偿还费用外的所有费用"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:461
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:464
@@ -2403,71 +2403,71 @@ msgstr "全部"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:469
 msgid "Payed"
-msgstr ""
+msgstr "已支付"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:471
 msgid "Who paid (outside circle) and spent (inside pie)?"
-msgstr ""
+msgstr "谁付钱（外圈）和花钱（在圈内）？"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:472
 msgid "Who paid and spent?"
-msgstr ""
+msgstr "谁付费和花费？"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:473
 msgid "How much was paid per category?"
-msgstr ""
+msgstr "每个类别支付多少款项？"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:474
 msgid "How much was paid per payment mode?"
-msgstr ""
+msgstr "每个付款模式支付多少？"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:476
 msgid "No recent activity"
-msgstr ""
+msgstr "没有最近的活动"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:477
 msgid "Go to Cospend"
-msgstr ""
+msgstr "转到Cospend"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:478
 msgid "{user} shared {project} with {who}"
-msgstr ""
+msgstr "{user} 分享了 {project} 与 {who}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:479
 msgid "{user} unshared {project} with {who}"
-msgstr ""
+msgstr "{user} 与 {project} 未共享 {who}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:480
 msgid "{user} created {bill}"
-msgstr ""
+msgstr "{user} 创建了 {bill}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:481
 msgid "{user} deleted {bill}"
-msgstr ""
+msgstr "{user} 刪除 {bill}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:482
 msgid "{user} edited {bill}"
-msgstr ""
+msgstr "{user} 編輯了 {bill}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/main.js:48
 msgid "Failed to restore options values."
-msgstr ""
+msgstr "恢复选项值失败。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:27
 msgid "Failed to save option values"
-msgstr ""
+msgstr "保存选项值失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:42
 msgid "Cospend setting saved."
-msgstr ""
+msgstr "已保存Cospend设置."
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:47
 msgid "Failed to save Cospend setting."
-msgstr ""
+msgstr "保存Cospend 设置失败。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:63
 msgid "Project {name} exported in {path}"
-msgstr ""
+msgstr "项目 {name} 导出于 {path}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:67
 msgid "Failed to export project"
@@ -2475,19 +2475,19 @@ msgstr "导出项目失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:409
 msgid "Failed to add currency"
-msgstr ""
+msgstr "添加货币失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:428
 msgid "Failed to delete currency"
-msgstr ""
+msgstr "删除货币失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:451
 msgid "Failed to edit currency"
-msgstr ""
+msgstr "编辑货币失败"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:472
 msgid "Failed to get statistics."
-msgstr ""
+msgstr "获取统计数据失败。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/network.js:487
 msgid "Project statistics exported in {path}"
@@ -2511,11 +2511,11 @@ msgstr "选择 csv 项目文件"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/utils.js:23
 msgid "Choose SplitWise project file"
-msgstr ""
+msgstr "选择 SplitWise 文件"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/src/utils.js:43
 msgid "Failed to import project file"
-msgstr ""
+msgstr "导入项目文件失败。"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/admin.php:9
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/admin.php:18
@@ -2545,7 +2545,7 @@ msgstr "项目ID或密码错误"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/logincontent.php:12
 msgid "Project ID/name"
-msgstr ""
+msgstr "项目 ID/名称"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/logincontent.php:21
 msgid "Project password (aka Access code)"
@@ -2553,9 +2553,9 @@ msgstr "项目密码 (既访问控制码)"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/sharepassword.php:15
 msgid "Wrong link password"
-msgstr ""
+msgstr "错误的链接密码"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/sharepassword.php:27
 msgid "Share link password"
-msgstr ""
+msgstr "分享链接密码"
 

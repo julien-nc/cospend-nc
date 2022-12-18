@@ -2546,8 +2546,12 @@ class ProjectService {
 	 * @return bool
 	 */
 	private function isUserInCircle(string $userId, string $circleId): bool {
-		$circlesManager = \OC::$server->get(\OCA\Circles\CirclesManager::class);
-		$circlesManager->startSuperSession();
+		try {
+			$circlesManager = \OC::$server->get(\OCA\Circles\CirclesManager::class);
+			$circlesManager->startSuperSession();
+		} catch (Exception $e) {
+			return false;
+		}
 		try {
 			$circle = $circlesManager->getCircle($circleId);
 		} catch (\OCA\Circles\Exceptions\CircleNotFoundException $e) {
@@ -3136,8 +3140,12 @@ class ProjectService {
 
 		$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 		if ($circlesEnabled) {
-			$circlesManager = \OC::$server->get(\OCA\Circles\CirclesManager::class);
-			$circlesManager->startSuperSession();
+			try {
+				$circlesManager = \OC::$server->get(\OCA\Circles\CirclesManager::class);
+				$circlesManager->startSuperSession();
+			} catch (Exception $e) {
+				return [];
+			}
 			$qb = $this->db->getQueryBuilder();
 			$qb->select('projectid', 'userid', 'id', 'accesslevel')
 				->from('cospend_shares')
@@ -4963,8 +4971,12 @@ class ProjectService {
 		// check if circleId exists
 		$circlesEnabled = $this->appManager->isEnabledForUser('circles');
 		if ($circlesEnabled) {
-			$circlesManager = \OC::$server->get(\OCA\Circles\CirclesManager::class);
-			$circlesManager->startSuperSession();
+			try {
+				$circlesManager = \OC::$server->get(\OCA\Circles\CirclesManager::class);
+				$circlesManager->startSuperSession();
+			} catch (Exception $e) {
+				return ['message' => $this->trans->t('Impossible to get the circle manager')];
+			}
 
 			$exists = true;
 			$circleName = '';

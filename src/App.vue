@@ -45,6 +45,7 @@
 					@items-deleted="onBillsDeleted"
 					@multi-bill-edit="onMultiBillEdit"
 					@reset-selection="onResetSelection"
+					@duplicate-bill="onDuplicateBill"
 					@new-bill-clicked="onNewBillClicked"
 					@move-bill-clicked="onMoveBillClicked" />
 			</template>

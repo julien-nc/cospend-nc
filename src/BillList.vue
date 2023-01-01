@@ -140,7 +140,8 @@
 				:select-mode="selectMode"
 				@clicked="onItemClicked"
 				@delete="onItemDeleted"
-				@move="onItemMove(bill)" />
+				@move="onItemMove(bill)"
+				@duplicate-bill="$emit('duplicate-bill', $event)" />
 		</transition-group>
 		<InfiniteLoading v-if="!loading && bills.length > 30"
 			:identifier="projectId"

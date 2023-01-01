@@ -27,6 +27,16 @@
 			</div>
 		</template>
 		<template #actions>
+			<NcActionButton v-if="editionAccess && !selectMode && bill.id !== 0 && !payerDisabled"
+				:close-after-click="true"
+				@click="onDuplicateClick">
+				<template #icon>
+					<ContentDuplicateIcon
+						class="icon"
+						:size="20" />
+				</template>
+				{{ t('cospend', 'Duplicate bill') }}
+			</NcActionButton>
 			<NcActionButton v-if="editionAccess && !selectMode && (deletionEnabled || bill.id === 0)"
 				:close-after-click="true"
 				@click="onDeleteClick">
@@ -62,6 +72,7 @@ import CheckboxBlankOutlineIcon from 'vue-material-design-icons/CheckboxBlankOut
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import SwapHorizontalIcon from 'vue-material-design-icons/SwapHorizontal.vue'
+import ContentDuplicateIcon from 'vue-material-design-icons/ContentDuplicate.vue'
 
 import CospendTogglableAvatar from './avatar/CospendTogglableAvatar.vue'
 
@@ -86,6 +97,7 @@ export default {
 		CheckboxMarkedIcon,
 		NcActionButton,
 		SwapHorizontalIcon,
+		ContentDuplicateIcon,
 	},
 
 	props: {
@@ -291,6 +303,16 @@ export default {
 		},
 		onSelectorClick(e) {
 			this.$nextTick(() => this.onItemClick())
+		},
+		onDuplicateClick() {
+			const owerIds = this.bill.owerIds.filter((owerId) => {
+				return this.members[owerId].activated
+			})
+			const billWithoutDisabledOwers = {
+				...this.bill,
+				owerIds,
+			}
+			this.$emit('duplicate-bill', billWithoutDisabledOwers)
 		},
 	},
 }

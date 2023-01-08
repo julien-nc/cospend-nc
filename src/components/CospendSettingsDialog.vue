@@ -190,14 +190,11 @@
 				<h3 class="app-settings-section__hint">
 					{{ t('cospend', 'Do you want to see and choose time in bill dates?') }}
 				</h3>
-				<input id="use-time-cb"
-					v-model="useTime"
-					class="checkbox"
-					type="checkbox"
-					@input="onUseTimeChange">
-				<label for="use-time-cb">
+				<NcCheckboxRadioSwitch
+					:checked.sync="useTime"
+					@update:checked="onUseTimeChange">
 					{{ t('cospend', 'Use time in dates') }}
-				</label>
+				</NcCheckboxRadioSwitch>
 			</NcAppSettingsSection>
 		</NcAppSettingsDialog>
 	</div>
@@ -213,6 +210,7 @@ import ClippyIcon from './icons/ClippyIcon.vue'
 import NcAppSettingsDialog from '@nextcloud/vue/dist/Components/NcAppSettingsDialog.js'
 import NcAppSettingsSection from '@nextcloud/vue/dist/Components/NcAppSettingsSection.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { getFilePickerBuilder, showError, showSuccess } from '@nextcloud/dialogs'
@@ -228,6 +226,7 @@ export default {
 		NcAppSettingsDialog,
 		NcAppSettingsSection,
 		NcButton,
+		NcCheckboxRadioSwitch,
 		FileImportIcon,
 		CheckIcon,
 		OpenInNewIcon,
@@ -297,9 +296,9 @@ export default {
 			cospend.maxPrecision = this.maxPrecision
 			this.$emit('update-max-precision')
 		},
-		onUseTimeChange(e) {
-			this.$emit('save-option', 'useTime', e.target.checked ? '1' : '0')
-			cospend.useTime = e.target.checked
+		onUseTimeChange(checked) {
+			this.$emit('save-option', 'useTime', checked ? '1' : '0')
+			cospend.useTime = checked
 		},
 		onImportClick() {
 			importCospendProject(() => {

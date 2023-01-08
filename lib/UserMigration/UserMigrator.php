@@ -22,7 +22,8 @@ use Throwable;
 class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 	use TMigratorBasicVersionHandling;
 
-	private const PATH_ROOT = Application::APP_ID . '/';
+	private const PATH_ROOT = Application::APP_ID;
+	private const PROJECTS_PATH = self::PATH_ROOT . '/projects';
 	private ProjectService $projectService;
 	private IL10N $l10n;
 	private ProjectMapper $projectMapper;
@@ -55,13 +56,13 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 	 * @since 24.0.0
 	 */
 	public function export(IUser $user, IExportDestination $exportDestination, OutputInterface $output): void {
-		$output->writeln('Exporting Cospend projects in ' . self::PATH_ROOT . '…');
+		$output->writeln('Exporting Cospend projects in ' . self::PROJECTS_PATH . '…');
 		$userId = $user->getUID();
 		/** @var Project[] $projects */
 		$projects = $this->projectMapper->getProjects($userId);
 		foreach ($projects as $project) {
 			try {
-				$exportFilePath = self::PATH_ROOT . $project->getId() . '.csv';
+				$exportFilePath = self::PROJECTS_PATH . '/' . $project->getId() . '.csv';
 				$content = '';
 				foreach ($this->projectService->getJsonProject($project->getId()) as $chunk) {
 					$content .= $chunk;
@@ -85,17 +86,30 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 			return;
 		}
 
-		$output->writeln('Importing Cospend projects from ' . self::PATH_ROOT . '…');
+		$output->writeln('Importing Cospend projects from ' . self::PROJECTS_PATH . '…');
+		// no idea why this does not work
+		// zip->locateName($path) works with the trashbin app but not here
+		/*
+		if (!$importSource->pathExists(self::PATH_ROOT)) {
+			$output->writeln('No Cospend directory, skipping import…');
+			return;
+		}
+		if (!$importSource->pathExists(self::PROJECTS_PATH)) {
+			$output->writeln('No "projects" directory for Cospend, skipping import…');
+			return;
+		}
+		*/
 
 		$userId = $user->getUID();
-		$fileList = $importSource->getFolderListing(self::PATH_ROOT);
+		$fileList = $importSource->getFolderListing(self::PROJECTS_PATH . '/');
 		foreach ($fileList as $fileName) {
 			try {
-				$handler = $importSource->getFileAsStream(self::PATH_ROOT . $fileName);
+				$handler = $importSource->getFileAsStream(self::PROJECTS_PATH . '/' . $fileName);
 				$projectName = preg_replace('/\.csv$/', '', $fileName);
 				$this->projectService->importCsvProjectAtomicWrapper($handler, $userId, $projectName);
 			} catch (Throwable $e) {
-//				throw new UserMigrationException('Could not import Cospend project in ' . $fileName, 0, $e);
+				// throw new UserMigrationException('Could not import Cospend project in ' . $fileName, 0, $e);
+				$output->writeln('Error when importing Cospend project in ' . $fileName);
 			}
 		}
 	}
@@ -124,6 +138,6 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 	 * @since 24.0.0
 	 */
 	public function getDescription(): string {
-		return $this->l10n->t('Cospend projects');
+		return $this->l10n->t('Cospend projects and user settings');
 	}
 }

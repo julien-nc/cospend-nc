@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.5.5 – 2023-01-08
+### Added
+- User migration for projects and personal settings
+- Add 'duplicate bill' action on bill list item
+
+### Fixed
+- visual bug with a checkbox in the settings dialog
+- safer failure when importing the circles manager
+
 ## 1.5.4 – 2022-11-18
 ### Fixed
 - Fix scroll not working on mobile

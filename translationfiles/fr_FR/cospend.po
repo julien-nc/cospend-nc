@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-01-08 16:02+0100\n"
-"PO-Revision-Date: 2023-01-08 15:09\n"
+"PO-Revision-Date: 2023-01-08 15:26\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -672,7 +672,7 @@ msgstr "Groupe introuvable"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4979
 msgid "Impossible to get the circle manager"
-msgstr ""
+msgstr "Impossible d'obtenir le gestionnaire de cercle"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5041
 msgid "Already shared with this circle"
@@ -839,7 +839,7 @@ msgstr "mensuel"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/UserMigration/UserMigrator.php:141
 msgid "Cospend projects and user settings"
-msgstr ""
+msgstr "Projets Cospend et paramètres utilisateur"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:3
 msgid " "

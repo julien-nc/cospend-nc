@@ -2,7 +2,7 @@
 <html lang="en">
  <head>
   <meta charset="UTF-8">
-  <title>Dashboard for /home/runner/html/nextcloud/apps/cospend/lib/Settings</title>
+  <title>Dashboard for /home/runner/html/nextcloud/apps/cospend/lib/UserMigration</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="../_css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="../_css/nv.d3.min.css" rel="stylesheet" type="text/css">
@@ -17,7 +17,7 @@
       <nav aria-label="breadcrumb">
        <ol class="breadcrumb">
          <li class="breadcrumb-item"><a href="../index.html">/home/runner/html/nextcloud/apps/cospend/lib</a></li>
-         <li class="breadcrumb-item"><a href="index.html">Settings</a></li>
+         <li class="breadcrumb-item"><a href="index.html">UserMigration</a></li>
          <li class="breadcrumb-item active">(Dashboard)</li>
 
        </ol>
@@ -58,7 +58,7 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="Admin.php.html#9">OCA\Cospend\Settings\Admin</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserMigrator.php.html#22">OCA\Cospend\UserMigration\UserMigrator</a></td><td class="text-right">0%</td></tr>
 
        </tbody>
       </table>
@@ -75,6 +75,7 @@
         </tr>
        </thead>
        <tbody>
+       <tr><td><a href="UserMigrator.php.html#22">OCA\Cospend\UserMigration\UserMigrator</a></td><td class="text-right">182</td></tr>
 
        </tbody>
       </table>
@@ -112,10 +113,13 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="Admin.php.html#15"><abbr title="OCA\Cospend\Settings\Admin::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
-       <tr><td><a href="Admin.php.html#23"><abbr title="OCA\Cospend\Settings\Admin::getForm">getForm</abbr></a></td><td class="text-right">0%</td></tr>
-       <tr><td><a href="Admin.php.html#36"><abbr title="OCA\Cospend\Settings\Admin::getSection">getSection</abbr></a></td><td class="text-right">0%</td></tr>
-       <tr><td><a href="Admin.php.html#48"><abbr title="OCA\Cospend\Settings\Admin::getPriority">getPriority</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserMigrator.php.html#30"><abbr title="OCA\Cospend\UserMigration\UserMigrator::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserMigrator.php.html#46"><abbr title="OCA\Cospend\UserMigration\UserMigrator::getEstimatedExportSize">getEstimatedExportSize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserMigrator.php.html#57"><abbr title="OCA\Cospend\UserMigration\UserMigrator::export">export</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserMigrator.php.html#82"><abbr title="OCA\Cospend\UserMigration\UserMigrator::import">import</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserMigrator.php.html#108"><abbr title="OCA\Cospend\UserMigration\UserMigrator::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserMigrator.php.html#117"><abbr title="OCA\Cospend\UserMigration\UserMigrator::getDisplayName">getDisplayName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserMigrator.php.html#126"><abbr title="OCA\Cospend\UserMigration\UserMigrator::getDescription">getDescription</abbr></a></td><td class="text-right">0%</td></tr>
 
        </tbody>
       </table>
@@ -132,6 +136,8 @@
         </tr>
        </thead>
        <tbody>
+       <tr><td><a href="UserMigrator.php.html#57"><abbr title="OCA\Cospend\UserMigration\UserMigrator::export">export</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="UserMigrator.php.html#82"><abbr title="OCA\Cospend\UserMigration\UserMigrator::import">import</abbr></a></td><td class="text-right">20</td></tr>
 
        </tbody>
       </table>
@@ -178,7 +184,7 @@ $(document).ready(function() {
       .yAxis.tickFormat(d3.format('d'));
 
     d3.select('#methodCoverageDistribution svg')
-      .datum(getCoverageDistributionData([4,0,0,0,0,0,0,0,0,0,0,0], "Method Coverage"))
+      .datum(getCoverageDistributionData([7,0,0,0,0,0,0,0,0,0,0,0], "Method Coverage"))
       .transition().duration(500).call(chart);
 
     nv.utils.windowResize(chart.update);
@@ -228,7 +234,7 @@ $(document).ready(function() {
     chart.yAxis.axisLabel('Cyclomatic Complexity');
 
     d3.select('#classComplexity svg')
-      .datum(getComplexityData([[0,4,"<a href=\"Admin.php.html#9\">OCA\\Cospend\\Settings\\Admin<\/a>"]], 'Class Complexity'))
+      .datum(getComplexityData([[0,13,"<a href=\"UserMigrator.php.html#22\">OCA\\Cospend\\UserMigration\\UserMigrator<\/a>"]], 'Class Complexity'))
       .transition()
       .duration(500)
       .call(chart);
@@ -252,7 +258,7 @@ $(document).ready(function() {
     chart.yAxis.axisLabel('Method Complexity');
 
     d3.select('#methodComplexity svg')
-      .datum(getComplexityData([[0,1,"<a href=\"Admin.php.html#15\">OCA\\Cospend\\Settings\\Admin::__construct<\/a>"],[0,1,"<a href=\"Admin.php.html#23\">OCA\\Cospend\\Settings\\Admin::getForm<\/a>"],[0,1,"<a href=\"Admin.php.html#36\">OCA\\Cospend\\Settings\\Admin::getSection<\/a>"],[0,1,"<a href=\"Admin.php.html#48\">OCA\\Cospend\\Settings\\Admin::getPriority<\/a>"]], 'Method Complexity'))
+      .datum(getComplexityData([[0,1,"<a href=\"UserMigrator.php.html#30\">OCA\\Cospend\\UserMigration\\UserMigrator::__construct<\/a>"],[0,1,"<a href=\"UserMigrator.php.html#46\">OCA\\Cospend\\UserMigration\\UserMigrator::getEstimatedExportSize<\/a>"],[0,4,"<a href=\"UserMigrator.php.html#57\">OCA\\Cospend\\UserMigration\\UserMigrator::export<\/a>"],[0,4,"<a href=\"UserMigrator.php.html#82\">OCA\\Cospend\\UserMigration\\UserMigrator::import<\/a>"],[0,1,"<a href=\"UserMigrator.php.html#108\">OCA\\Cospend\\UserMigration\\UserMigrator::getId<\/a>"],[0,1,"<a href=\"UserMigrator.php.html#117\">OCA\\Cospend\\UserMigration\\UserMigrator::getDisplayName<\/a>"],[0,1,"<a href=\"UserMigrator.php.html#126\">OCA\\Cospend\\UserMigration\\UserMigrator::getDescription<\/a>"]], 'Method Complexity'))
       .transition()
       .duration(500)
       .call(chart);

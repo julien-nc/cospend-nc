@@ -11,11 +11,11 @@
 
 namespace OCA\Cospend\AppInfo;
 
+use OCA\Cospend\UserMigration\UserMigrator;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
-use OCP\Notification\IManager as INotificationManager;
 
 use OCA\Cospend\Search\CospendSearchProvider;
 use OCA\Cospend\Dashboard\CospendWidget;
@@ -78,13 +78,13 @@ class Application extends App implements IBootstrap {
 	 */
 	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_ID, $urlParams);
-		// $container = $this->getContainer();
 	}
 
 	public function register(IRegistrationContext $context): void {
 		$context->registerNotifierService(Notifier::class);
 		$context->registerSearchProvider(CospendSearchProvider::class);
 		$context->registerDashboardWidget(CospendWidget::class);
+		$context->registerUserMigrator(UserMigrator::class);
 	}
 
 	public function boot(IBootContext $context): void {

@@ -13,6 +13,7 @@
 namespace OCA\Cospend\Service;
 
 use Exception;
+use Generator;
 use OCP\Files\FileInfo;
 use OCP\IL10N;
 use OCP\IConfig;
@@ -5277,7 +5278,6 @@ class ProjectService {
 		}
 		$folder = $userFolder->get($outPath);
 
-		$projectInfo = $this->getProjectInfo($projectid);
 
 		// create file
 		$filename = $projectid.'.csv';
@@ -5292,11 +5292,19 @@ class ProjectService {
 		}
 		$file = $folder->newFile($filename);
 		$handler = $file->fopen('w');
+		foreach ($this->getJsonProject($projectid) as $chunk) {
+			fwrite($handler, $chunk);
+		}
+
+		fclose($handler);
+		$file->touch();
+		return ['path' => $outPath . '/' . $filename];
+	}
+
+	public function getJsonProject(string $projectId): Generator {
 		// members
-		fwrite(
-			$handler,
-			"name,weight,active,color\n"
-		);
+		yield "name,weight,active,color\n";
+		$projectInfo = $this->getProjectInfo($projectId);
 		$members = $projectInfo['members'];
 		$memberIdToName = [];
 		$memberIdToWeight = [];
@@ -5306,22 +5314,15 @@ class ProjectService {
 			$memberIdToWeight[$member['id']] = $member['weight'];
 			$memberIdToActive[$member['id']] = (int) $member['activated'];
 			$c = $member['color'];
-			fwrite(
-				$handler,
-				'"' . $member['name'] . '",'
+			yield '"' . $member['name'] . '",'
 				. (float) $member['weight'] . ','
 				. (int) $member['activated'] . ',"'
 				. sprintf("#%02x%02x%02x", $c['r'] ?? 0, $c['g'] ?? 0, $c['b'] ?? 0) . '"'
-				. "\n"
-			);
+				. "\n";
 		}
 		// bills
-		fwrite($handler, "\n");
-		fwrite(
-			$handler,
-			"what,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,repeatfreq,repeatallactive,repeatuntil,categoryid,paymentmode,paymentmodeid,comment\n"
-		);
-		$bills = $this->getBills($projectid);
+		yield "\nwhat,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,repeatfreq,repeatallactive,repeatuntil,categoryid,paymentmode,paymentmodeid,comment\n";
+		$bills = $this->getBills($projectId);
 		foreach ($bills as $bill) {
 			$owerNames = [];
 			foreach ($bill['owers'] as $ower) {
@@ -5335,9 +5336,7 @@ class ProjectService {
 			$payer_active = $memberIdToActive[$payer_id];
 			$dateTime = DateTime::createFromFormat('U', $bill['timestamp']);
 			$oldDateStr = $dateTime->format('Y-m-d');
-			fwrite(
-				$handler,
-				'"' . $bill['what'] . '",'
+			yield '"' . $bill['what'] . '",'
 				. (float) $bill['amount'] . ','
 				. $oldDateStr . ','
 				. $bill['timestamp'] . ',"'
@@ -5353,64 +5352,49 @@ class ProjectService {
 				. $bill['paymentmode'] . ','
 				. $bill['paymentmodeid'] . ',"'
 				. urlencode($bill['comment']) . '"'
-				. "\n"
-			);
+				. "\n";
 		}
 
 		// write categories
 		$categories = $projectInfo['categories'];
 		if (count($categories) > 0) {
-			fwrite($handler, "\n");
-			fwrite($handler, "categoryname,categoryid,icon,color\n");
+			yield "\ncategoryname,categoryid,icon,color\n";
 			foreach ($categories as $id => $cat) {
-				fwrite(
-					$handler,
-					'"' . $cat['name'] . '",' .
+				yield '"' . $cat['name'] . '",' .
 					(int) $id . ',"' .
 					$cat['icon'] . '","' .
 					$cat['color'] . '"' .
-					"\n"
-				);
+					"\n";
 			}
 		}
 
 		// write payment modes
 		$paymentModes = $projectInfo['paymentmodes'];
 		if (count($paymentModes) > 0) {
-			fwrite($handler, "\n");
-			fwrite($handler, "paymentmodename,paymentmodeid,icon,color\n");
+			yield "\npaymentmodename,paymentmodeid,icon,color\n";
 			foreach ($paymentModes as $id => $pm) {
-				fwrite(
-					$handler,
-					'"' . $pm['name'] . '",' .
+				yield '"' . $pm['name'] . '",' .
 					(int) $id . ',"' .
 					$pm['icon'] . '","' .
 					$pm['color'] . '"' .
-					"\n"
-				);
+					"\n";
 			}
 		}
 
 		// write currencies
 		$currencies = $projectInfo['currencies'];
 		if (count($currencies) > 0) {
-			fwrite($handler, "\n");
-			fwrite($handler, "currencyname,exchange_rate\n");
+			yield "\ncurrencyname,exchange_rate\n";
 			// main currency
-			fwrite($handler, '"' . $projectInfo['currencyname'] . '",1' . "\n");
+			yield '"' . $projectInfo['currencyname'] . '",1' . "\n";
 			foreach ($currencies as $cur) {
-				fwrite(
-					$handler,
-					'"' . $cur['name']
+				yield '"' . $cur['name']
 					. '",' . (float) $cur['exchange_rate']
-					. "\n"
-				);
+					. "\n";
 			}
 		}
 
-		fclose($handler);
-		$file->touch();
-		return ['path' => $outPath . '/' . $filename];
+		return [];
 	}
 
 	/**
@@ -5422,16 +5406,17 @@ class ProjectService {
 	 *
 	 * This could be done with TTransactional::atomic() when we drop support for NC < 24
 	 *
-	 * @param string $path
+	 * @param $handle
 	 * @param string $userId
+	 * @param string $projectName
 	 * @return array
+	 * @throws Throwable
 	 * @throws \OCP\DB\Exception
-	 * @throws \Throwable
 	 */
-	public function importCsvProjectAtomicWrapper(string $path, string $userId): array {
+	public function importCsvProjectAtomicWrapper($handle, string $userId, string $projectName): array {
 		$this->db->beginTransaction();
 		try {
-			$result = $this->importCsvProject($path, $userId);
+			$result = $this->importCsvProjectStream($handle, $userId, $projectName);
 			$this->db->commit();
 			return $result;
 		} catch (Throwable $e) {
@@ -5454,310 +5439,8 @@ class ProjectService {
 			$file = $userFolder->get($cleanPath);
 			if ($file->getType() === FileInfo::TYPE_FILE) {
 				if (($handle = $file->fopen('r')) !== false) {
-					$columns = [];
-					$membersByName = [];
-					$bills = [];
-					$currencies = [];
-					$mainCurrencyName = null;
-					$categories = [];
-					$categoryIdConv = [];
-					$paymentModes = [];
-					$paymentModeIdConv = [];
-					$previousLineEmpty = false;
-					$currentSection = null;
-					$row = 0;
-					while (($data = fgetcsv($handle, 0, ',')) !== false) {
-						$uni = array_unique($data);
-						if ($data === [null] || (count($uni) === 1 && $uni[0] === '')) {
-							$previousLineEmpty = true;
-						} elseif ($row === 0 || $previousLineEmpty) {
-							// determine which section we're entering
-							$previousLineEmpty = false;
-							$nbCol = count($data);
-							$columns = [];
-							for ($c = 0; $c < $nbCol; $c++) {
-								if ($data[$c] !== '') {
-									$columns[$data[$c]] = $c;
-								}
-							}
-							if (array_key_exists('what', $columns)
-								&& array_key_exists('amount', $columns)
-								&& (array_key_exists('date', $columns) || array_key_exists('timestamp', $columns))
-								&& array_key_exists('payer_name', $columns)
-								&& array_key_exists('payer_weight', $columns)
-								&& array_key_exists('owers', $columns)
-							) {
-								$currentSection = 'bills';
-							} elseif (array_key_exists('name', $columns)
-								&& array_key_exists('weight', $columns)
-								&& array_key_exists('active', $columns)
-								&& array_key_exists('color', $columns)
-							) {
-								$currentSection = 'members';
-							} elseif (array_key_exists('icon', $columns)
-								&& array_key_exists('color', $columns)
-								&& array_key_exists('paymentmodeid', $columns)
-								&& array_key_exists('paymentmodename', $columns)
-							) {
-								$currentSection = 'paymentmodes';
-							} elseif (array_key_exists('icon', $columns)
-								&& array_key_exists('color', $columns)
-								&& array_key_exists('categoryid', $columns)
-								&& array_key_exists('categoryname', $columns)
-							) {
-								$currentSection = 'categories';
-							} elseif (array_key_exists('exchange_rate', $columns)
-								&& array_key_exists('currencyname', $columns)
-							) {
-								$currentSection = 'currencies';
-							} else {
-								fclose($handle);
-								return ['message' => $this->trans->t('Malformed CSV, bad column names at line %1$s', [$row + 1])];
-							}
-						} else {
-							// normal line: bill/category/payment mode/currency
-							$previousLineEmpty = false;
-							if ($currentSection === 'categories') {
-								if (mb_strlen($data[$columns['icon']], 'UTF-8') && preg_match('!\S!u', $data[$columns['icon']])) {
-									$icon = $data[$columns['icon']];
-								} else {
-									$icon = null;
-								}
-								$color = $data[$columns['color']];
-								$categoryid = $data[$columns['categoryid']];
-								$categoryname = $data[$columns['categoryname']];
-								$categories[] = [
-									'icon' => $icon,
-									'color' => $color,
-									'id' => $categoryid,
-									'name' => $categoryname,
-								];
-							} elseif ($currentSection === 'paymentmodes') {
-								if (mb_strlen($data[$columns['icon']], 'UTF-8') && preg_match('!\S!u', $data[$columns['icon']])) {
-									$icon = $data[$columns['icon']];
-								} else {
-									$icon = null;
-								}
-								$color = $data[$columns['color']];
-								$paymentmodeid = $data[$columns['paymentmodeid']];
-								$paymentmodename = $data[$columns['paymentmodename']];
-								$paymentModes[] = [
-									'icon' => $icon,
-									'color' => $color,
-									'id' => $paymentmodeid,
-									'name' => $paymentmodename,
-								];
-							} elseif ($currentSection === 'currencies') {
-								$name = $data[$columns['currencyname']];
-								$exchange_rate = $data[$columns['exchange_rate']];
-								if (((float) $exchange_rate) === 1.0) {
-									$mainCurrencyName = $name;
-								} else {
-									$currencies[] = [
-										'name' => $name,
-										'exchange_rate' => $exchange_rate,
-									];
-								}
-							} elseif ($currentSection === 'members') {
-								$name = trim($data[$columns['name']]);
-								$weight = $data[$columns['weight']];
-								$active = $data[$columns['active']];
-								$color = $data[$columns['color']];
-								if (strlen($name) > 0
-									&& is_numeric($weight)
-									&& is_numeric($active)
-									&& preg_match('/^#[0-9A-Fa-f]+$/', $color) !== false
-								) {
-									$membersByName[$name] = [
-										'weight' => $weight,
-										'active' => (int) $active !== 0,
-										'color' => $color,
-									];
-								} else {
-									fclose($handle);
-									return ['message' => $this->trans->t('Malformed CSV, invalid member on line %1$s', [$row + 1])];
-								}
-							} elseif ($currentSection === 'bills') {
-								$what = $data[$columns['what']];
-								$amount = $data[$columns['amount']];
-								$timestamp = null;
-								// priority to timestamp
-								if (array_key_exists('timestamp', $columns)) {
-									$timestamp = $data[$columns['timestamp']];
-								} elseif (array_key_exists('date', $columns)) {
-									$date = $data[$columns['date']];
-									$datetime = DateTime::createFromFormat('Y-m-d', $date);
-									if ($datetime !== false) {
-										$timestamp = $datetime->getTimestamp();
-									}
-								}
-								if ($timestamp === null) {
-									fclose($handle);
-									return ['message' => $this->trans->t('Malformed CSV, missing or invalid date/timestamp on line %1$s', [$row + 1])];
-								}
-								$payer_name = $data[$columns['payer_name']];
-								$payer_weight = $data[$columns['payer_weight']];
-								$owers = $data[$columns['owers']];
-								$payer_active = array_key_exists('payer_active', $columns) ? $data[$columns['payer_active']] : 1;
-								$repeat = array_key_exists('repeat', $columns) ? $data[$columns['repeat']] : Application::FREQUENCIES['no'];
-								$categoryid = array_key_exists('categoryid', $columns) ? (int) $data[$columns['categoryid']] : null;
-								$paymentmode = array_key_exists('paymentmode', $columns) ? $data[$columns['paymentmode']] : null;
-								$paymentmodeid = array_key_exists('paymentmodeid', $columns) ? $data[$columns['paymentmodeid']] : null;
-								$repeatallactive = array_key_exists('repeatallactive', $columns) ? $data[$columns['repeatallactive']] : 0;
-								$repeatuntil = array_key_exists('repeatuntil', $columns) ? $data[$columns['repeatuntil']] : null;
-								$repeatfreq = array_key_exists('repeatfreq', $columns) ? $data[$columns['repeatfreq']] : 1;
-								$comment = array_key_exists('comment', $columns) ? urldecode($data[$columns['comment']] ?? '') : null;
-
-								// manage members
-								if (!isset($membersByName[$payer_name])) {
-									$membersByName[$payer_name] = [
-										'active' => ((int) $payer_active) !== 0,
-										'weight' => 1.0,
-										'color' => null,
-									];
-									if (is_numeric($payer_weight)) {
-										$membersByName[$payer_name]['weight'] = (float) $payer_weight;
-									} else {
-										fclose($handle);
-										return ['message' => $this->trans->t('Malformed CSV, invalid payer weight on line %1$s', [$row + 1])];
-									}
-								}
-								if (strlen($owers) === 0) {
-									fclose($handle);
-									return ['message' => $this->trans->t('Malformed CSV, invalid owers on line %1$s', [$row + 1])];
-								}
-								if ($what !== 'deleteMeIfYouWant') {
-									$owersArray = explode(',', $owers);
-									foreach ($owersArray as $ower) {
-										$strippedOwer = trim($ower);
-										if (strlen($strippedOwer) === 0) {
-											fclose($handle);
-											return ['message' => $this->trans->t('Malformed CSV, invalid owers on line %1$s', [$row + 1])];
-										}
-										if (!isset($membersByName[$strippedOwer])) {
-											$membersByName[$strippedOwer]['weight'] = 1.0;
-											$membersByName[$strippedOwer]['active'] = true;
-											$membersByName[$strippedOwer]['color'] = null;
-										}
-									}
-									if (!is_numeric($amount)) {
-										fclose($handle);
-										return ['message' => $this->trans->t('Malformed CSV, invalid amount on line %1$s', [$row + 1])];
-									}
-									$bills[] = [
-										'what' => $what,
-										'comment' => $comment,
-										'timestamp' => $timestamp,
-										'amount' => $amount,
-										'payer_name' => $payer_name,
-										'owers' => $owersArray,
-										'paymentmode' => $paymentmode,
-										'paymentmodeid' => $paymentmodeid,
-										'categoryid' => $categoryid,
-										'repeat' => $repeat,
-										'repeatuntil' => $repeatuntil,
-										'repeatallactive' => $repeatallactive,
-										'repeatfreq' => $repeatfreq,
-									];
-								}
-							}
-						}
-						$row++;
-					}
-					fclose($handle);
-
-					$memberNameToId = [];
-
-					// add project
-					$user = $this->userManager->get($userId);
-					$userEmail = $user->getEMailAddress();
 					$projectName = preg_replace('/\.csv$/', '', $file->getName());
-					$projectid = Utils::slugify($projectName);
-					$createDefaultCategories = (count($categories) === 0);
-					$createDefaultPaymentModes = (count($paymentModes) === 0);
-					$projResult = $this->createProject(
-						$projectName, $projectid, '', $userEmail, $userId,
-						$createDefaultCategories, $createDefaultPaymentModes
-					);
-					if (!isset($projResult['id'])) {
-						return ['message' => $this->trans->t('Error in project creation, %1$s', [$projResult['message'] ?? ''])];
-					}
-					// set project main currency
-					if ($mainCurrencyName !== null) {
-						$this->editProject($projectid, $projectName, null, null, null, $mainCurrencyName);
-					}
-					// add payment modes
-					foreach ($paymentModes as $pm) {
-						$insertedPmId = $this->addPaymentMode($projectid, $pm['name'], $pm['icon'], $pm['color']);
-						if (!is_numeric($insertedPmId)) {
-							$this->deleteProject($projectid);
-							return ['message' => $this->trans->t('Error when adding payment mode %1$s', [$pm['name']])];
-						}
-						$paymentModeIdConv[$pm['id']] = $insertedPmId;
-					}
-					// add categories
-					foreach ($categories as $cat) {
-						$insertedCatId = $this->addCategory($projectid, $cat['name'], $cat['icon'], $cat['color']);
-						if (!is_numeric($insertedCatId)) {
-							$this->deleteProject($projectid);
-							return ['message' => $this->trans->t('Error when adding category %1$s', [$cat['name']])];
-						}
-						$categoryIdConv[$cat['id']] = $insertedCatId;
-					}
-					// add currencies
-					foreach ($currencies as $cur) {
-						$insertedCurId = $this->addCurrency($projectid, $cur['name'], $cur['exchange_rate']);
-						if (!is_numeric($insertedCurId)) {
-							$this->deleteProject($projectid);
-							return ['message' => $this->trans->t('Error when adding currency %1$s', [$cur['name']])];
-						}
-					}
-					// add members
-					foreach ($membersByName as $memberName => $member) {
-						$insertedMember = $this->addMember(
-							$projectid, $memberName, $member['weight'], $member['active'], $member['color'] ?? null
-						);
-						if (!is_array($insertedMember)) {
-							$this->deleteProject($projectid);
-							return ['message' => $this->trans->t('Error when adding member %1$s', [$memberName])];
-						}
-						$memberNameToId[$memberName] = $insertedMember['id'];
-					}
-					$dbPaymentModes = $this->getCategoriesOrPaymentModes($projectid, false);
-					// add bills
-					foreach ($bills as $bill) {
-						// manage category id if this is a custom category
-						$catId = $bill['categoryid'];
-						if (is_numeric($catId) && (int) $catId > 0) {
-							$catId = $categoryIdConv[$catId];
-						}
-						// manage payment mode id if this is a custom payment mode
-						$pmId = $bill['paymentmodeid'];
-						if (is_numeric($pmId) && (int) $pmId > 0) {
-							$pmId = $paymentModeIdConv[$pmId];
-						}
-						$payerId = $memberNameToId[$bill['payer_name']];
-						$owerIds = [];
-						foreach ($bill['owers'] as $owerName) {
-							$strippedOwer = trim($owerName);
-							$owerIds[] = $memberNameToId[$strippedOwer];
-						}
-						$owerIdsStr = implode(',', $owerIds);
-						$addBillResult = $this->addBill(
-							$projectid, null, $bill['what'], $payerId,
-							$owerIdsStr, $bill['amount'], $bill['repeat'],
-							$bill['paymentmode'], $pmId,
-							$catId, $bill['repeatallactive'],
-							$bill['repeatuntil'], $bill['timestamp'], $bill['comment'], $bill['repeatfreq'],
-							$dbPaymentModes
-						);
-						if (!isset($addBillResult['inserted_id'])) {
-							$this->deleteProject($projectid);
-							return ['message' => $this->trans->t('Error when adding bill %1$s', [$bill['what']])];
-						}
-					}
-
-					return ['project_id' => $projectid];
+					return $this->importCsvProjectAtomicWrapper($handle, $userId, $projectName);
 				} else {
 					return ['message' => $this->trans->t('Access denied')];
 				}
@@ -5767,6 +5450,311 @@ class ProjectService {
 		} else {
 			return ['message' => $this->trans->t('Access denied')];
 		}
+	}
+
+	public function importCsvProjectStream($handle, string $userId, string $projectName): array {
+		$columns = [];
+		$membersByName = [];
+		$bills = [];
+		$currencies = [];
+		$mainCurrencyName = null;
+		$categories = [];
+		$categoryIdConv = [];
+		$paymentModes = [];
+		$paymentModeIdConv = [];
+		$previousLineEmpty = false;
+		$currentSection = null;
+		$row = 0;
+		while (($data = fgetcsv($handle, 0, ',')) !== false) {
+			$uni = array_unique($data);
+			if ($data === [null] || (count($uni) === 1 && $uni[0] === '')) {
+				$previousLineEmpty = true;
+			} elseif ($row === 0 || $previousLineEmpty) {
+				// determine which section we're entering
+				$previousLineEmpty = false;
+				$nbCol = count($data);
+				$columns = [];
+				for ($c = 0; $c < $nbCol; $c++) {
+					if ($data[$c] !== '') {
+						$columns[$data[$c]] = $c;
+					}
+				}
+				if (array_key_exists('what', $columns)
+					&& array_key_exists('amount', $columns)
+					&& (array_key_exists('date', $columns) || array_key_exists('timestamp', $columns))
+					&& array_key_exists('payer_name', $columns)
+					&& array_key_exists('payer_weight', $columns)
+					&& array_key_exists('owers', $columns)
+				) {
+					$currentSection = 'bills';
+				} elseif (array_key_exists('name', $columns)
+					&& array_key_exists('weight', $columns)
+					&& array_key_exists('active', $columns)
+					&& array_key_exists('color', $columns)
+				) {
+					$currentSection = 'members';
+				} elseif (array_key_exists('icon', $columns)
+					&& array_key_exists('color', $columns)
+					&& array_key_exists('paymentmodeid', $columns)
+					&& array_key_exists('paymentmodename', $columns)
+				) {
+					$currentSection = 'paymentmodes';
+				} elseif (array_key_exists('icon', $columns)
+					&& array_key_exists('color', $columns)
+					&& array_key_exists('categoryid', $columns)
+					&& array_key_exists('categoryname', $columns)
+				) {
+					$currentSection = 'categories';
+				} elseif (array_key_exists('exchange_rate', $columns)
+					&& array_key_exists('currencyname', $columns)
+				) {
+					$currentSection = 'currencies';
+				} else {
+					fclose($handle);
+					return ['message' => $this->trans->t('Malformed CSV, bad column names at line %1$s', [$row + 1])];
+				}
+			} else {
+				// normal line: bill/category/payment mode/currency
+				$previousLineEmpty = false;
+				if ($currentSection === 'categories') {
+					if (mb_strlen($data[$columns['icon']], 'UTF-8') && preg_match('!\S!u', $data[$columns['icon']])) {
+						$icon = $data[$columns['icon']];
+					} else {
+						$icon = null;
+					}
+					$color = $data[$columns['color']];
+					$categoryid = $data[$columns['categoryid']];
+					$categoryname = $data[$columns['categoryname']];
+					$categories[] = [
+						'icon' => $icon,
+						'color' => $color,
+						'id' => $categoryid,
+						'name' => $categoryname,
+					];
+				} elseif ($currentSection === 'paymentmodes') {
+					if (mb_strlen($data[$columns['icon']], 'UTF-8') && preg_match('!\S!u', $data[$columns['icon']])) {
+						$icon = $data[$columns['icon']];
+					} else {
+						$icon = null;
+					}
+					$color = $data[$columns['color']];
+					$paymentmodeid = $data[$columns['paymentmodeid']];
+					$paymentmodename = $data[$columns['paymentmodename']];
+					$paymentModes[] = [
+						'icon' => $icon,
+						'color' => $color,
+						'id' => $paymentmodeid,
+						'name' => $paymentmodename,
+					];
+				} elseif ($currentSection === 'currencies') {
+					$name = $data[$columns['currencyname']];
+					$exchange_rate = $data[$columns['exchange_rate']];
+					if (((float) $exchange_rate) === 1.0) {
+						$mainCurrencyName = $name;
+					} else {
+						$currencies[] = [
+							'name' => $name,
+							'exchange_rate' => $exchange_rate,
+						];
+					}
+				} elseif ($currentSection === 'members') {
+					$name = trim($data[$columns['name']]);
+					$weight = $data[$columns['weight']];
+					$active = $data[$columns['active']];
+					$color = $data[$columns['color']];
+					if (strlen($name) > 0
+						&& is_numeric($weight)
+						&& is_numeric($active)
+						&& preg_match('/^#[0-9A-Fa-f]+$/', $color) !== false
+					) {
+						$membersByName[$name] = [
+							'weight' => $weight,
+							'active' => (int) $active !== 0,
+							'color' => $color,
+						];
+					} else {
+						fclose($handle);
+						return ['message' => $this->trans->t('Malformed CSV, invalid member on line %1$s', [$row + 1])];
+					}
+				} elseif ($currentSection === 'bills') {
+					$what = $data[$columns['what']];
+					$amount = $data[$columns['amount']];
+					$timestamp = null;
+					// priority to timestamp
+					if (array_key_exists('timestamp', $columns)) {
+						$timestamp = $data[$columns['timestamp']];
+					} elseif (array_key_exists('date', $columns)) {
+						$date = $data[$columns['date']];
+						$datetime = DateTime::createFromFormat('Y-m-d', $date);
+						if ($datetime !== false) {
+							$timestamp = $datetime->getTimestamp();
+						}
+					}
+					if ($timestamp === null) {
+						fclose($handle);
+						return ['message' => $this->trans->t('Malformed CSV, missing or invalid date/timestamp on line %1$s', [$row + 1])];
+					}
+					$payer_name = $data[$columns['payer_name']];
+					$payer_weight = $data[$columns['payer_weight']];
+					$owers = $data[$columns['owers']];
+					$payer_active = array_key_exists('payer_active', $columns) ? $data[$columns['payer_active']] : 1;
+					$repeat = array_key_exists('repeat', $columns) ? $data[$columns['repeat']] : Application::FREQUENCIES['no'];
+					$categoryid = array_key_exists('categoryid', $columns) ? (int) $data[$columns['categoryid']] : null;
+					$paymentmode = array_key_exists('paymentmode', $columns) ? $data[$columns['paymentmode']] : null;
+					$paymentmodeid = array_key_exists('paymentmodeid', $columns) ? $data[$columns['paymentmodeid']] : null;
+					$repeatallactive = array_key_exists('repeatallactive', $columns) ? $data[$columns['repeatallactive']] : 0;
+					$repeatuntil = array_key_exists('repeatuntil', $columns) ? $data[$columns['repeatuntil']] : null;
+					$repeatfreq = array_key_exists('repeatfreq', $columns) ? $data[$columns['repeatfreq']] : 1;
+					$comment = array_key_exists('comment', $columns) ? urldecode($data[$columns['comment']] ?? '') : null;
+
+					// manage members
+					if (!isset($membersByName[$payer_name])) {
+						$membersByName[$payer_name] = [
+							'active' => ((int) $payer_active) !== 0,
+							'weight' => 1.0,
+							'color' => null,
+						];
+						if (is_numeric($payer_weight)) {
+							$membersByName[$payer_name]['weight'] = (float) $payer_weight;
+						} else {
+							fclose($handle);
+							return ['message' => $this->trans->t('Malformed CSV, invalid payer weight on line %1$s', [$row + 1])];
+						}
+					}
+					if (strlen($owers) === 0) {
+						fclose($handle);
+						return ['message' => $this->trans->t('Malformed CSV, invalid owers on line %1$s', [$row + 1])];
+					}
+					if ($what !== 'deleteMeIfYouWant') {
+						$owersArray = explode(',', $owers);
+						foreach ($owersArray as $ower) {
+							$strippedOwer = trim($ower);
+							if (strlen($strippedOwer) === 0) {
+								fclose($handle);
+								return ['message' => $this->trans->t('Malformed CSV, invalid owers on line %1$s', [$row + 1])];
+							}
+							if (!isset($membersByName[$strippedOwer])) {
+								$membersByName[$strippedOwer]['weight'] = 1.0;
+								$membersByName[$strippedOwer]['active'] = true;
+								$membersByName[$strippedOwer]['color'] = null;
+							}
+						}
+						if (!is_numeric($amount)) {
+							fclose($handle);
+							return ['message' => $this->trans->t('Malformed CSV, invalid amount on line %1$s', [$row + 1])];
+						}
+						$bills[] = [
+							'what' => $what,
+							'comment' => $comment,
+							'timestamp' => $timestamp,
+							'amount' => $amount,
+							'payer_name' => $payer_name,
+							'owers' => $owersArray,
+							'paymentmode' => $paymentmode,
+							'paymentmodeid' => $paymentmodeid,
+							'categoryid' => $categoryid,
+							'repeat' => $repeat,
+							'repeatuntil' => $repeatuntil,
+							'repeatallactive' => $repeatallactive,
+							'repeatfreq' => $repeatfreq,
+						];
+					}
+				}
+			}
+			$row++;
+		}
+		fclose($handle);
+
+		$memberNameToId = [];
+
+		// add project
+		$user = $this->userManager->get($userId);
+		$userEmail = $user->getEMailAddress();
+		$projectid = Utils::slugify($projectName);
+		$createDefaultCategories = (count($categories) === 0);
+		$createDefaultPaymentModes = (count($paymentModes) === 0);
+		$projResult = $this->createProject(
+			$projectName, $projectid, '', $userEmail, $userId,
+			$createDefaultCategories, $createDefaultPaymentModes
+		);
+		if (!isset($projResult['id'])) {
+			return ['message' => $this->trans->t('Error in project creation, %1$s', [$projResult['message'] ?? ''])];
+		}
+		// set project main currency
+		if ($mainCurrencyName !== null) {
+			$this->editProject($projectid, $projectName, null, null, null, $mainCurrencyName);
+		}
+		// add payment modes
+		foreach ($paymentModes as $pm) {
+			$insertedPmId = $this->addPaymentMode($projectid, $pm['name'], $pm['icon'], $pm['color']);
+			if (!is_numeric($insertedPmId)) {
+				$this->deleteProject($projectid);
+				return ['message' => $this->trans->t('Error when adding payment mode %1$s', [$pm['name']])];
+			}
+			$paymentModeIdConv[$pm['id']] = $insertedPmId;
+		}
+		// add categories
+		foreach ($categories as $cat) {
+			$insertedCatId = $this->addCategory($projectid, $cat['name'], $cat['icon'], $cat['color']);
+			if (!is_numeric($insertedCatId)) {
+				$this->deleteProject($projectid);
+				return ['message' => $this->trans->t('Error when adding category %1$s', [$cat['name']])];
+			}
+			$categoryIdConv[$cat['id']] = $insertedCatId;
+		}
+		// add currencies
+		foreach ($currencies as $cur) {
+			$insertedCurId = $this->addCurrency($projectid, $cur['name'], $cur['exchange_rate']);
+			if (!is_numeric($insertedCurId)) {
+				$this->deleteProject($projectid);
+				return ['message' => $this->trans->t('Error when adding currency %1$s', [$cur['name']])];
+			}
+		}
+		// add members
+		foreach ($membersByName as $memberName => $member) {
+			$insertedMember = $this->addMember(
+				$projectid, $memberName, $member['weight'], $member['active'], $member['color'] ?? null
+			);
+			if (!is_array($insertedMember)) {
+				$this->deleteProject($projectid);
+				return ['message' => $this->trans->t('Error when adding member %1$s', [$memberName])];
+			}
+			$memberNameToId[$memberName] = $insertedMember['id'];
+		}
+		$dbPaymentModes = $this->getCategoriesOrPaymentModes($projectid, false);
+		// add bills
+		foreach ($bills as $bill) {
+			// manage category id if this is a custom category
+			$catId = $bill['categoryid'];
+			if (is_numeric($catId) && (int) $catId > 0) {
+				$catId = $categoryIdConv[$catId];
+			}
+			// manage payment mode id if this is a custom payment mode
+			$pmId = $bill['paymentmodeid'];
+			if (is_numeric($pmId) && (int) $pmId > 0) {
+				$pmId = $paymentModeIdConv[$pmId];
+			}
+			$payerId = $memberNameToId[$bill['payer_name']];
+			$owerIds = [];
+			foreach ($bill['owers'] as $owerName) {
+				$strippedOwer = trim($owerName);
+				$owerIds[] = $memberNameToId[$strippedOwer];
+			}
+			$owerIdsStr = implode(',', $owerIds);
+			$addBillResult = $this->addBill(
+				$projectid, null, $bill['what'], $payerId,
+				$owerIdsStr, $bill['amount'], $bill['repeat'],
+				$bill['paymentmode'], $pmId,
+				$catId, $bill['repeatallactive'],
+				$bill['repeatuntil'], $bill['timestamp'], $bill['comment'], $bill['repeatfreq'],
+				$dbPaymentModes
+			);
+			if (!isset($addBillResult['inserted_id'])) {
+				$this->deleteProject($projectid);
+				return ['message' => $this->trans->t('Error when adding bill %1$s', [$bill['what']])];
+			}
+		}
+		return ['project_id' => $projectid];
 	}
 
 	/**

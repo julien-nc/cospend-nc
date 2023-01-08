@@ -14,6 +14,14 @@ namespace OCA\Cospend\Db;
 
 use OCP\AppFramework\Db\Entity;
 
+/**
+ * @method string getId()
+ * @method void setId(string $id)
+ * @method string getUserid()
+ * @method void setUserid(string $userid)
+ * @method string getName()
+ * @method void setName(string $name)
+ */
 class Project extends Entity {
 
 	protected $userid;

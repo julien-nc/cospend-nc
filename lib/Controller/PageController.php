@@ -3216,7 +3216,7 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 */
 	public function importCsvProject(string $path): DataResponse {
-		$result = $this->projectService->importCsvProjectAtomicWrapper($path, $this->userId);
+		$result = $this->projectService->importCsvProject($path, $this->userId);
 		if (isset($result['project_id'])) {
 			$projInfo = $this->projectService->getProjectInfo($result['project_id']);
 			$projInfo['myaccesslevel'] = Application::ACCESS_LEVELS['admin'];

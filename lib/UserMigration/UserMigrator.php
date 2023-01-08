@@ -8,6 +8,7 @@ use OCA\Cospend\AppInfo\Application;
 use OCA\Cospend\Db\Project;
 use OCA\Cospend\Db\ProjectMapper;
 use OCA\Cospend\Service\ProjectService;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\UserMigration\IExportDestination;
@@ -24,18 +25,22 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 
 	private const PATH_ROOT = Application::APP_ID;
 	private const PROJECTS_PATH = self::PATH_ROOT . '/projects';
+	private const SETTINGS_PATH = self::PATH_ROOT . '/settings.json';
 	private ProjectService $projectService;
 	private IL10N $l10n;
 	private ProjectMapper $projectMapper;
+	private IConfig $config;
 
 	public function __construct(
 		ProjectService $projectService,
 		ProjectMapper $projectMapper,
+		IConfig $config,
 		IL10N $l10n
 	) {
 		$this->l10n = $l10n;
 		$this->projectService = $projectService;
 		$this->projectMapper = $projectMapper;
+		$this->config = $config;
 	}
 
 	/**
@@ -72,6 +77,16 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 				throw new UserMigrationException('Could not export Cospend projects', 0, $e);
 			}
 		}
+
+		// settings
+		$userSettings = [];
+		foreach ($this->config->getUserKeys($userId, Application::APP_ID) as $key) {
+			$value = $this->config->getUserValue($userId, Application::APP_ID, $key, null);
+			if ($value !== null) {
+				$userSettings[$key] = $value;
+			}
+		}
+		$exportDestination->addFileContents(self::SETTINGS_PATH, json_encode($userSettings));
 	}
 
 	/**
@@ -110,6 +125,17 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 			} catch (Throwable $e) {
 				// throw new UserMigrationException('Could not import Cospend project in ' . $fileName, 0, $e);
 				$output->writeln('Error when importing Cospend project in ' . $fileName);
+			}
+		}
+
+		// settings
+		if ($importSource->pathExists(self::SETTINGS_PATH)) {
+			$settingsFileContent = $importSource->getFileContents(self::SETTINGS_PATH);
+			$settings = json_decode($settingsFileContent, true);
+			if ($settings !== false && is_array($settings)) {
+				foreach ($settings as $key => $value) {
+					$this->config->setUserValue($userId, Application::APP_ID, $key, $value);
+				}
 			}
 		}
 	}

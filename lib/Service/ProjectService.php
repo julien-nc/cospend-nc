@@ -12,6 +12,7 @@
 
 namespace OCA\Cospend\Service;
 
+use DateTimeZone;
 use Exception;
 use Generator;
 use OCP\Files\FileInfo;
@@ -3536,7 +3537,7 @@ class ProjectService {
 	public function cronRepeatBills(?int $billId = null): array {
 		$result = [];
 		$projects = [];
-		$now = new DateTime();
+		$now = new DateTimeImmutable();
 		// in case cron job wasn't executed during several days,
 		// continue trying to repeat bills as long as there was at least one repeated
 		$continue = true;
@@ -3557,6 +3558,8 @@ class ProjectService {
 			}
 			$req = $qb->executeQuery();
 			$bills = [];
+			/** @var DateTimeZone[] $timezoneByProjectId */
+			$timezoneByProjectId = [];
 			while ($row = $req->fetch()) {
 				$id = $row['id'];
 				$what = $row['what'];
@@ -3574,14 +3577,16 @@ class ProjectService {
 					'projectid' => $projectid,
 					'timestamp' => $timestamp
 				];
+				if (!isset($timezoneByProjectId[$projectid])) {
+					$timezoneByProjectId[$projectid] = $this->getProjectTimeZone($projectid);
+				}
 			}
 			$req->closeCursor();
 			$qb->resetQueryParts();
 
 			foreach ($bills as $bill) {
-				// Use DateTimeImmutable instead of DateTime so that $billDate->add() returns a
-				// new instance instead of modifying $billDate
-				$billDate = DateTimeImmutable::createFromFormat('U', $bill['timestamp']);
+				$billProjectId = $bill['projectid'];
+				$billDate = (new DateTimeImmutable())->setTimestamp($bill['timestamp'])->setTimezone($timezoneByProjectId[$billProjectId]);
 				$nextDate = $this->getNextRepetitionDate($bill, $billDate);
 
 				// Unknown repeat interval
@@ -3614,6 +3619,23 @@ class ProjectService {
 			}
 		}
 		return $result;
+	}
+
+	private function getProjectTimeZone(string $projectId): DateTimeZone {
+		$projectInfo = $this->getProjectInfo($projectId);
+		$userId = $projectInfo['userid'];
+		$timeZone = $this->config->getUserValue($userId, 'core', 'timezone', null);
+		$serverTimeZone = date_default_timezone_get() ?: 'UTC';
+
+		if ($timeZone === null) {
+			$timeZone = $serverTimeZone;
+		}
+
+		try {
+			return new DateTimeZone($timeZone);
+		} catch (Exception $e) {
+			return new DateTimeZone($serverTimeZone);
+		}
 	}
 
 	private function copyBillPaymentModeOver(string $projectid, array $bill, string $toProjectId): int {
@@ -3733,10 +3755,11 @@ class ProjectService {
 	 *
 	 * @param string $projectid
 	 * @param int $billid
-	 * @param $datetime
+	 * @param DateTimeImmutable $targetDatetime
 	 * @return int|null
+	 * @throws \OCP\DB\Exception
 	 */
-	private function repeatBill(string $projectid, int $billid, $datetime): ?int {
+	private function repeatBill(string $projectid, int $billid, DateTimeImmutable $targetDatetime): ?int {
 		$bill = $this->getBill($projectid, $billid);
 
 		$owerIds = [];
@@ -3765,8 +3788,8 @@ class ProjectService {
 
 		// if bill should be repeated only until...
 		if ($bill['repeatuntil'] !== null && $bill['repeatuntil'] !== '') {
-			$untilDate = DateTime::createFromFormat('Y-m-d', $bill['repeatuntil']);
-			if ($datetime > $untilDate) {
+			$untilDate = DateTimeImmutable::createFromFormat('Y-m-d', $bill['repeatuntil']);
+			if ($targetDatetime > $untilDate) {
 				$this->editBill(
 					$projectid, $billid, null, null, null, null,
 					null, Application::FREQUENCIES['no'], null, null,
@@ -3781,7 +3804,7 @@ class ProjectService {
 			$owerIdsStr, $bill['amount'], $bill['repeat'],
 			$bill['paymentmode'], $bill['paymentmodeid'],
 			$bill['categoryid'], $bill['repeatallactive'], $bill['repeatuntil'],
-			$datetime->getTimestamp(), $bill['comment'], $bill['repeatfreq']
+			$targetDatetime->getTimestamp(), $bill['comment'], $bill['repeatfreq']
 		);
 
 		$newBillId = $addBillResult['inserted_id'] ?? 0;
@@ -3804,36 +3827,30 @@ class ProjectService {
 	 *
 	 * @param array $bill
 	 * @param DateTimeImmutable $billDate
-	 * @return DateTime|null
+	 * @return DateTimeImmutable|null
+	 * @throws Exception
 	 */
-	private function getNextRepetitionDate(array $bill, DateTimeImmutable $billDate): ?DateTime {
-		$nextDate = null;
+	private function getNextRepetitionDate(array $bill, DateTimeImmutable $billDate): ?DateTimeImmutable {
 		switch ($bill['repeat']) {
 			case Application::FREQUENCIES['daily']:
 				if ($bill['repeatfreq'] < 2) {
-					$tmpImmuDate = $billDate->add(new DateInterval('P1D'));
+					return $billDate->add(new DateInterval('P1D'));
 				} else {
-					$tmpImmuDate = $billDate->add(new DateInterval('P' . $bill['repeatfreq'] . 'D'));
+					return $billDate->add(new DateInterval('P' . $bill['repeatfreq'] . 'D'));
 				}
-				$nextDate = new DateTime();
-				$nextDate->setTimestamp($tmpImmuDate->getTimestamp());
 				break;
 
 			case Application::FREQUENCIES['weekly']:
 				if ($bill['repeatfreq'] < 2) {
-					$tmpImmuDate = $billDate->add(new DateInterval('P7D'));
+					return $billDate->add(new DateInterval('P7D'));
 				} else {
 					$nbDays = 7 * $bill['repeatfreq'];
-					$tmpImmuDate = $billDate->add(new DateInterval('P' . $nbDays . 'D'));
+					return $billDate->add(new DateInterval('P' . $nbDays . 'D'));
 				}
-				$nextDate = new DateTime();
-				$nextDate->setTimestamp($tmpImmuDate->getTimestamp());
 				break;
 
 			case Application::FREQUENCIES['bi_weekly']:
-				$tmpImmuDate = $billDate->add(new DateInterval('P14D'));
-				$nextDate = new DateTime();
-				$nextDate->setTimestamp($tmpImmuDate->getTimestamp());
+				return $billDate->add(new DateInterval('P14D'));
 				break;
 
 			case Application::FREQUENCIES['semi_monthly']:
@@ -3841,20 +3858,19 @@ class ProjectService {
 				$month = (int) $billDate->format('m');
 				$year = (int) $billDate->format('Y');
 
-				$nextDate = new DateTime();
 				// first of next month
 				if ($day >= 15) {
 					if ($month === 12) {
 						$nextYear = $year + 1;
 						$nextMonth = 1;
-						$nextDate->setDate($nextYear, $nextMonth, 1);
+						return $billDate->setDate($nextYear, $nextMonth, 1);
 					} else {
 						$nextMonth = $month + 1;
-						$nextDate->setDate($year, $nextMonth, 1);
+						return $billDate->setDate($year, $nextMonth, 1);
 					}
 				} else {
 					// 15 of same month
-					$nextDate->setDate($year, $month, 15);
+					return $billDate->setDate($year, $month, 15);
 				}
 				break;
 
@@ -3866,16 +3882,13 @@ class ProjectService {
 				$nextMonth = (($billMonth + $freq - 1) % 12) + 1;
 
 				// same day of month if possible, otherwise at end of month
-				$nextDate = new DateTime();
-				// to get the time
-				$nextDate->setTimestamp($billDate->getTimestamp());
-				$nextDate->setDate($nextYear, $nextMonth, 1);
+				$firstOfNextMonth = $billDate->setDate($nextYear, $nextMonth, 1);
 				$billDay = (int) $billDate->format('d');
-				$nbDaysInNextMonth = (int) $nextDate->format('t');
-				if ($billDay > $nbDaysInNextMonth) {
-					$nextDate->setDate($nextYear, $nextMonth, $nbDaysInNextMonth);
+				$nbDaysInTargetMonth = (int) $firstOfNextMonth->format('t');
+				if ($billDate > $nbDaysInTargetMonth) {
+					return $billDate->setDate($nextYear, $nextMonth, $nbDaysInTargetMonth);
 				} else {
-					$nextDate->setDate($nextYear, $nextMonth, $billDay);
+					return $billDate->setDate($nextYear, $nextMonth, $billDay);
 				}
 				break;
 
@@ -3887,20 +3900,17 @@ class ProjectService {
 				$nextYear = $billYear + $freq;
 
 				// same day of month if possible, otherwise at end of month + same month
-				$nextDate = new DateTime();
-				// to get the time
-				$nextDate->setTimestamp($billDate->getTimestamp());
-				$nextDate->setDate($nextYear, $billMonth, 1);
-				$nbDaysInNextMonth = (int) $nextDate->format('t');
-				if ($billDay > $nbDaysInNextMonth) {
-					$nextDate->setDate($nextYear, $billMonth, $nbDaysInNextMonth);
+				$firstDayOfTargetMonth = $billDate->setDate($nextYear, $billMonth, 1);
+				$nbDaysInTargetMonth = (int) $firstDayOfTargetMonth->format('t');
+				if ($billDay > $nbDaysInTargetMonth) {
+					return $billDate->setDate($nextYear, $billMonth, $nbDaysInTargetMonth);
 				} else {
-					$nextDate->setDate($nextYear, $billMonth, $billDay);
+					return $billDate->setDate($nextYear, $billMonth, $billDay);
 				}
 				break;
 		}
 
-		return $nextDate;
+		return null;
 	}
 
 	/**

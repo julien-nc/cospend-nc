@@ -3885,7 +3885,7 @@ class ProjectService {
 				$firstOfNextMonth = $billDate->setDate($nextYear, $nextMonth, 1);
 				$billDay = (int) $billDate->format('d');
 				$nbDaysInTargetMonth = (int) $firstOfNextMonth->format('t');
-				if ($billDate > $nbDaysInTargetMonth) {
+				if ($billDay > $nbDaysInTargetMonth) {
 					return $billDate->setDate($nextYear, $nextMonth, $nbDaysInTargetMonth);
 				} else {
 					return $billDate->setDate($nextYear, $nextMonth, $billDay);

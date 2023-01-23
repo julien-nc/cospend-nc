@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ master, test ]
+    branches: [ main, test ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 env:
   APP_ID: cospend
@@ -20,9 +20,9 @@ jobs:
         php-versions: ['7.4', '8.0', '8.1']
         databases: ['sqlite', 'mysql', 'pgsql']
         server-versions: ['stable25', 'master']
-        #exclude:
-        #  - php-versions: 7.3
-        #    server-versions: stable24
+        exclude:
+          - php-versions: 7.4
+            server-versions: master
 
     name: php${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
 

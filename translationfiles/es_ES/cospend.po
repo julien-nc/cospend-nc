@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-01-08 16:02+0100\n"
-"PO-Revision-Date: 2023-01-08 15:09\n"
+"PO-Revision-Date: 2023-01-09 15:28\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -123,7 +123,7 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:348
 msgid "No such share link"
-msgstr ""
+msgstr "No existe el enlace compartido"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:349
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:402
@@ -142,7 +142,7 @@ msgstr "Acceso denegado"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:465
 msgid "No such share link or public access"
-msgstr ""
+msgstr "No existe enlace para compartir ni acceso público"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:535
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1096
@@ -212,7 +212,7 @@ msgstr "No tienes permisos para editar esta factura"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:774
 msgid "You are not allowed to access the destination project"
-msgstr ""
+msgstr "No tienes permiso para acceder al proyecto destino"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:816
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:912
@@ -251,7 +251,7 @@ msgstr "Proyecto no encontrado"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1070
 msgid "Bad password or share link"
-msgstr ""
+msgstr "Mala contraseña o enlace compartido"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1449
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1558
@@ -260,7 +260,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1735
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:298
 msgid "Guest access"
-msgstr ""
+msgstr "Acceso de invitado"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1452
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:1561
@@ -287,7 +287,7 @@ msgstr "No tienes permisos para dar este nivel de acceso compartido"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2156
 msgid "You are not allowed to edit this shared access"
-msgstr ""
+msgstr "No tienes permiso para editar este acceso compartido"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2176
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:2190

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-01-08 16:02+0100\n"
-"PO-Revision-Date: 2023-01-08 15:09\n"
+"PO-Revision-Date: 2023-01-15 13:42\n"
 "Last-Translator: \n"
 "Language-Team: Hungarian\n"
 "Language: hu_HU\n"
@@ -212,7 +212,7 @@ msgstr "Nem szerkesztheted ezt a számlát"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:774
 msgid "You are not allowed to access the destination project"
-msgstr ""
+msgstr "Nincs jogosultságod a célprojekt eléréséhez"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:816
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Controller/PageController.php:912
@@ -603,12 +603,12 @@ msgstr "Nincs ilyen számla"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3691
 msgid "Cannot match payer"
-msgstr ""
+msgstr "Nincs illeszkedő kifizető"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:3721
 #, php-format
 msgid "Cannot create new bill: %1$s"
-msgstr ""
+msgstr "Nem létrehozható az új számla: %1$s"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4010
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4182
@@ -672,7 +672,7 @@ msgstr "Nincs ilyen csoport"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:4979
 msgid "Impossible to get the circle manager"
-msgstr ""
+msgstr "Nem lehet elérni a körök szolgáltatóját"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5041
 msgid "Already shared with this circle"
@@ -823,7 +823,7 @@ msgstr "Rossz formátumú CSV, nincs fizetó a %1$s. sorban"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5892
 msgid "Malformed CSV, impossible to find the column names"
-msgstr ""
+msgstr "Hibás CSV, az oszlopnevek nem találhatóak"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:5986
 msgid "daily"
@@ -839,7 +839,7 @@ msgstr "havi"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/UserMigration/UserMigrator.php:141
 msgid "Cospend projects and user settings"
-msgstr ""
+msgstr "Cospend projektet és felhasználói beállítások"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:3
 msgid " "
@@ -847,31 +847,31 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:1
 msgid "What do you want to do?"
-msgstr ""
+msgstr "Mit szeretnél tenni?"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "These actions are available in the sidebar project context menu."
-msgstr ""
+msgstr "Ezek a műveletek a oldalsáv projektes környezeti menüjében érhetőek el."
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "Create a bill"
-msgstr ""
+msgstr "Számla létrehozása"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:4
 msgid "Show project settings"
-msgstr ""
+msgstr "Projekt beállításainak megjelenítése"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:5
 msgid "Share the project"
-msgstr ""
+msgstr "Projekt megosztása"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:6
 msgid "Show project statistics"
-msgstr ""
+msgstr "Projekt statisztikáinak megjelenítése"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Show project settlement plan"
-msgstr ""
+msgstr "Projektelszámolási terv megjelenítése"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:8
 msgid "Select a project"
@@ -891,7 +891,7 @@ msgstr "{name} tag már létezik"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:12
 msgid "Impossible to move bill. No candidate project found."
-msgstr ""
+msgstr "Nem lehet mozgatni a számlát. Nem található jelölt projekt."
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:13
 msgid "Failed to get projects"
@@ -1328,7 +1328,7 @@ msgstr "Fizetési mód hozzárendelése"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:123
 msgid "Select bills to make grouped actions"
-msgstr ""
+msgstr "Számlák kiválasztása csoportos műveletekhez"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:124
 msgid "Delete selected bills"
@@ -1621,7 +1621,7 @@ msgstr "Exportálás"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:191
 msgid "Add these payments to the project"
-msgstr ""
+msgstr "Ezen kifizetések projekthez történő hozzáadása"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:192
 msgid "Center settlement on"
@@ -1841,7 +1841,7 @@ msgstr "Nem sikerült törölni a megosztási hozzáférést"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:253
 msgid "Are you sure?"
-msgstr ""
+msgstr "Biztos vagy benne?"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:254
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:405
@@ -1850,7 +1850,7 @@ msgstr "Beállítások"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:255
 msgid "Share"
-msgstr ""
+msgstr "Megosztás"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:256
 msgid "Add member"
@@ -1888,11 +1888,11 @@ msgstr "Taglista elavult. Újratöltés 5 másodpercen belül."
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:268
 msgid "Delete this bill"
-msgstr ""
+msgstr "Számla törlése"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:269
 msgid "Move bill"
-msgstr ""
+msgstr "Számla mozgatása"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:270
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:321
@@ -2040,23 +2040,23 @@ msgstr "Nem tudjuk a vendéghivatkozást a vágólapra másolni."
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:327
 msgid "Move bill \"{bill}\" to a different project:"
-msgstr ""
+msgstr "\"{bill}\" számla mozgatása másik projektbe:"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:328
 msgid "Only one project available, in which this bill already exists"
-msgstr ""
+msgstr "Csak egy olyan projekt elérhető, melyben ez a számla létezik"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:329
 msgid "No projects found"
-msgstr ""
+msgstr "Nem található projekt"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:330
 msgid "Bill moved to \"{project}\" successfully"
-msgstr ""
+msgstr "A számlát a \"{project}\" projektbe sikeresen átmozgattuk"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:331
 msgid "Failed to move bill"
-msgstr ""
+msgstr "Nem tudtuk átmozgatni a számlát"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:332
 msgid "Rename project {n}"
@@ -2292,7 +2292,7 @@ msgstr "Maximális mennyiség"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:426
 msgid "Convert in currency"
-msgstr ""
+msgstr "Átváltás pénznembe"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:427
 msgid "Main project's currency"
@@ -2304,15 +2304,15 @@ msgstr "Letiltott tagok megjelenítése"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:431
 msgid "Chart type"
-msgstr ""
+msgstr "Diagramtípus"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:432
 msgid "Pie"
-msgstr ""
+msgstr "Körcikk"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:433
 msgid "Bar"
-msgstr ""
+msgstr "Oszlop"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:434
 msgid "Total paid by all the members: {t}"
@@ -2415,7 +2415,7 @@ msgstr "Összes"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:470
 msgid "Payed"
-msgstr ""
+msgstr "Fizetett"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:472
 msgid "Who paid (outside circle) and spent (inside pie)?"
@@ -2423,7 +2423,7 @@ msgstr "Ki fizetett (külső kör) és költött (belső torta)?"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:473
 msgid "Who paid and spent?"
-msgstr ""
+msgstr "Ki fizetett és költött?"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:474
 msgid "How much was paid per category?"

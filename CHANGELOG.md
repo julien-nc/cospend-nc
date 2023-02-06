@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.5.6 – 2023-02-06
+### Fixed
+- fix bill repetition, get user timezone and use immutable dates
+  [#191](https://github.com/eneiluj/cospend-nc/pull/191) @jonasbb
+
 ## 1.5.5 – 2023-01-08
 ### Added
 - User migration for projects and personal settings

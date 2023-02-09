@@ -68,10 +68,10 @@ Any feedback will be appreciated.
 
 ## Screenshots
 
-![1](https://github.com/eneiluj/cospend-nc/raw/master/img/screenshots/cospend1.jpg)
-![2](https://github.com/eneiluj/cospend-nc/raw/master/img/screenshots/cospend2.jpg)
-![3](https://github.com/eneiluj/cospend-nc/raw/master/img/screenshots/cospend3.jpg)
-![4](https://github.com/eneiluj/cospend-nc/raw/master/img/screenshots/cospend4.jpg)
+![1](https://github.com/julien-nc/cospend-nc/raw/main/img/screenshots/cospend1.jpg)
+![2](https://github.com/julien-nc/cospend-nc/raw/main/img/screenshots/cospend2.jpg)
+![3](https://github.com/julien-nc/cospend-nc/raw/main/img/screenshots/cospend3.jpg)
+![4](https://github.com/julien-nc/cospend-nc/raw/main/img/screenshots/cospend4.jpg)
 
 ## Nightly
 

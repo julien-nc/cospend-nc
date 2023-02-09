@@ -69,7 +69,7 @@ jobs:
           sudo apt install python3-pip git sudo \
             unzip curl wget sed make rsync -y
           sudo -H pip3 install anybadge
-          sudo curl --location --output /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
+          sudo curl --location --output /usr/local/bin/phpunit https://phar.phpunit.de/phpunit-9.5.phar
           sudo chmod +x /usr/local/bin/phpunit
           mkdir -p ~/html
           echo "git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b ${{ matrix.server-versions }} ~/html/nextcloud"

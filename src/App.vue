@@ -176,15 +176,6 @@ import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
 
-import CospendNavigation from './components/CospendNavigation.vue'
-import CospendSettingsDialog from './components/CospendSettingsDialog.vue'
-import BillForm from './BillForm.vue'
-import BillList from './BillList.vue'
-import Statistics from './components/statistics/Statistics.vue'
-import Settlement from './Settlement.vue'
-import Sidebar from './components/Sidebar.vue'
-import MoveToProjectList from './components/MoveToProjectList.vue'
-
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
@@ -199,6 +190,15 @@ import cospend from './state.js'
 import * as network from './network.js'
 import * as constants from './constants.js'
 import { rgbObjToHex, slugify } from './utils.js'
+
+const Statistics = () => import('./components/statistics/Statistics.vue')
+const Settlement = () => import('./Settlement.vue')
+const CospendNavigation = () => import('./components/CospendNavigation.vue')
+const CospendSettingsDialog = () => import('./components/CospendSettingsDialog.vue')
+const BillForm = () => import('./BillForm.vue')
+const BillList = () => import('./BillList.vue')
+const Sidebar = () => import('./components/Sidebar.vue')
+const MoveToProjectList = () => import('./components/MoveToProjectList.vue')
 
 export default {
 	name: 'App',

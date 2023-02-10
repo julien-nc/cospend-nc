@@ -387,13 +387,14 @@ import {
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
-import QRCode from './QRCode.vue'
 import cospend from '../state.js'
 import * as constants from '../constants.js'
 import * as network from '../network.js'
 import axios from '@nextcloud/axios'
 import { Timer, hexToDarkerHex, getComplementaryColor } from '../utils.js'
 import ClippyIcon from './icons/ClippyIcon.vue'
+
+const QRCode = () => import('./QRCode.vue')
 
 export default {
 	name: 'SharingTabSidebar',

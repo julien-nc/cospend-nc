@@ -1,4 +1,3 @@
-/* jshint esversion: 6 */
 /**
  * Nextcloud - cospend
  *
@@ -12,10 +11,7 @@
 
 import { generateUrl } from '@nextcloud/router'
 
-// eslint-disable-next-line
-'use strict'
-
-document.addEventListener('DOMContentLoaded', function(event) {
+document.addEventListener('DOMContentLoaded', (event) => {
 	const pageUrlWithProjectid = (document.URL.includes('/loginproject'))
 	const pidInput = document.getElementById('projectidInput')
 	const pwdInput = document.getElementById('passwordInput')

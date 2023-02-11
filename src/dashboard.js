@@ -9,17 +9,17 @@
  * @copyright Julien Veyssier 2020
  */
 
-import Vue from 'vue'
-import './bootstrap.js'
-import Dashboard from './views/Dashboard.vue'
+__webpack_nonce__ = btoa(OC.requestToken) // eslint-disable-line
+__webpack_public_path__ = OC.linkTo('cospend', 'js/') // eslint-disable-line
 
-document.addEventListener('DOMContentLoaded', function() {
-
-	OCA.Dashboard.register('cospend_activity', (el, { widget }) => {
+document.addEventListener('DOMContentLoaded', () => {
+	OCA.Dashboard.register('cospend_activity', async (el, { widget }) => {
+		const { default: Vue } = await import(/* webpackChunkName: "dashboard-lazy" */'vue')
+		const { default: Dashboard } = await import(/* webpackChunkName: "dashboard-lazy" */'./views/Dashboard.vue')
+		Vue.mixin({ methods: { t, n } })
 		const View = Vue.extend(Dashboard)
 		new View({
 			propsData: { title: widget.title },
 		}).$mount(el)
 	})
-
 })

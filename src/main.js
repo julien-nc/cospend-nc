@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 /**
  * Nextcloud - cospend
  *
@@ -32,14 +30,8 @@ Vue.use(VueClipboard)
 Vue.use(SmartTable)
 Vue.directive('tooltip', Tooltip)
 
-// eslint-disable-next-line
-__webpack_nonce__ = btoa(getRequestToken())
-
-// eslint-disable-next-line
-__webpack_public_path__ = generateFilePath('cospend', '', 'js/')
-
-// eslint-disable-next-line
-'use strict'
+__webpack_nonce__ = btoa(getRequestToken()) // eslint-disable-line
+__webpack_public_path__ = generateFilePath('cospend', '', 'js/') // eslint-disable-line
 
 function restoreOptions() {
 	network.getOptionValues().then((response) => {
@@ -84,7 +76,7 @@ function getOptionValuesSuccess(response) {
 	main()
 }
 
-document.addEventListener('DOMContentLoaded', function(event) {
+document.addEventListener('DOMContentLoaded', (event) => {
 	cospend.pageIsPublic = (document.URL.includes('/cospend/project') || document.URL.includes('/cospend/s/'))
 	if (!cospend.pageIsPublic) {
 		restoreOptions()
@@ -113,14 +105,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
 })
 
 function main() {
-	/*
-	// eslint-disable-next-line
-	new Vue({
-		el: '#content',
-		render: h => h(App),
-	})
-	*/
-
 	const View = Vue.extend(App)
 	new View().$mount('#content')
 }

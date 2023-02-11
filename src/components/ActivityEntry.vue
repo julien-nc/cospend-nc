@@ -28,11 +28,12 @@ import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+
+import NcUserBubble from '@nextcloud/vue/dist/Components/NcUserBubble.js'
+
 import moment from '@nextcloud/moment'
 import { getCurrentUser } from '@nextcloud/auth'
 import RichText from '@juliushaertl/vue-richtext'
-
-import NcUserBubble from '@nextcloud/vue/dist/Components/NcUserBubble.js'
 
 const icons = {
 	bill_update: {

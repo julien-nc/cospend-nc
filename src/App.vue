@@ -78,48 +78,49 @@
 			<NcEmptyContent v-show="mode === 'normal' && currentProjectId"
 				class="central-empty-content"
 				:title="t('cospend', 'What do you want to do?')"
-				:description="t('cospend', 'These actions are available in the sidebar project context menu.')">
+				:description="t('cospend', 'These actions are also available in the sidebar project context menu.')">
 				<template #icon>
 					<CospendIcon />
 				</template>
-				<template #action>
-					<NcButton
-						@click="onNewBillClicked(null)">
-						<template #icon>
-							<PlusIcon :size="20" />
-						</template>
-						{{ t('cospend', 'Create a bill') }}
-					</NcButton>
-					<NcButton
-						@click="onDetailClicked(currentProjectId)">
-						<template #icon>
-							<CogIcon :size="20" />
-						</template>
-						{{ t('cospend', 'Show project settings') }}
-					</NcButton>
-					<NcButton
-						@click="onShareClicked(currentProjectId)">
-						<template #icon>
-							<ShareVariantIcon :size="20" />
-						</template>
-						{{ t('cospend', 'Share the project') }}
-					</NcButton>
-					<NcButton
-						@click="onStatsClicked(currentProjectId)">
-						<template #icon>
-							<ChartLineIcon :size="20" />
-						</template>
-						{{ t('cospend', 'Show project statistics') }}
-					</NcButton>
-					<NcButton
-						@click="onSettleClicked(currentProjectId)">
-						<template #icon>
-							<ReimburseIcon :size="20" />
-						</template>
-						{{ t('cospend', 'Show project settlement plan') }}
-					</NcButton>
-				</template>
 			</NcEmptyContent>
+			<div v-show="mode === 'normal' && currentProjectId"
+				class="project-actions">
+				<NcButton
+					@click="onNewBillClicked(null)">
+					<template #icon>
+						<PlusIcon :size="20" />
+					</template>
+					{{ t('cospend', 'Create a bill') }}
+				</NcButton>
+				<NcButton
+					@click="onDetailClicked(currentProjectId)">
+					<template #icon>
+						<CogIcon :size="20" />
+					</template>
+					{{ t('cospend', 'Show project settings') }}
+				</NcButton>
+				<NcButton
+					@click="onShareClicked(currentProjectId)">
+					<template #icon>
+						<ShareVariantIcon :size="20" />
+					</template>
+					{{ t('cospend', 'Share the project') }}
+				</NcButton>
+				<NcButton
+					@click="onStatsClicked(currentProjectId)">
+					<template #icon>
+						<ChartLineIcon :size="20" />
+					</template>
+					{{ t('cospend', 'Show project statistics') }}
+				</NcButton>
+				<NcButton
+					@click="onSettleClicked(currentProjectId)">
+					<template #icon>
+						<ReimburseIcon :size="20" />
+					</template>
+					{{ t('cospend', 'Show project settlement plan') }}
+				</NcButton>
+			</div>
 			<NcEmptyContent v-show="mode === 'normal' && !currentProjectId"
 				class="central-empty-content"
 				:title="t('cospend', 'Select a project')">
@@ -160,20 +161,6 @@
 </template>
 
 <script>
-import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
-import ChartLineIcon from 'vue-material-design-icons/ChartLine.vue'
-import CogIcon from 'vue-material-design-icons/Cog.vue'
-
-import ReimburseIcon from './components/icons/ReimburseIcon.vue'
-
-import CospendIcon from './components/icons/CospendIcon.vue'
-
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
-import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
 
 import { generateUrl } from '@nextcloud/router'
@@ -191,6 +178,17 @@ import * as network from './network.js'
 import * as constants from './constants.js'
 import { rgbObjToHex, slugify } from './utils.js'
 
+// import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+// import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+
+const PlusIcon = () => import('vue-material-design-icons/Plus.vue')
+const ShareVariantIcon = () => import('vue-material-design-icons/ShareVariant.vue')
+const ChartLineIcon = () => import('vue-material-design-icons/ChartLine.vue')
+const CogIcon = () => import('vue-material-design-icons/Cog.vue')
+
+const ReimburseIcon = () => import('./components/icons/ReimburseIcon.vue')
+const CospendIcon = () => import('./components/icons/CospendIcon.vue')
+
 const Statistics = () => import('./components/statistics/Statistics.vue')
 const Settlement = () => import('./Settlement.vue')
 const CospendNavigation = () => import('./components/CospendNavigation.vue')
@@ -199,6 +197,12 @@ const BillForm = () => import('./BillForm.vue')
 const BillList = () => import('./BillList.vue')
 const Sidebar = () => import('./components/Sidebar.vue')
 const MoveToProjectList = () => import('./components/MoveToProjectList.vue')
+
+const NcModal = () => import('@nextcloud/vue/dist/Components/NcModal.js')
+const NcButton = () => import('@nextcloud/vue/dist/Components/NcButton.js')
+const NcEmptyContent = () => import('@nextcloud/vue/dist/Components/NcEmptyContent.js')
+const NcContent = () => import('@nextcloud/vue/dist/Components/NcContent.js')
+const NcAppContent = () => import('@nextcloud/vue/dist/Components/NcAppContent.js')
 
 export default {
 	name: 'App',
@@ -1087,6 +1091,12 @@ export default {
 ::v-deep .central-empty-content {
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.project-actions {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .iconButton {

@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 export const ACCESS = {
 	NO_ACCESS: 0,
 	VIEWER: 1,

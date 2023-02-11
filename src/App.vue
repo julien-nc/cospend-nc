@@ -178,9 +178,6 @@ import * as network from './network.js'
 import * as constants from './constants.js'
 import { rgbObjToHex, slugify } from './utils.js'
 
-// import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-// import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-
 const PlusIcon = () => import('vue-material-design-icons/Plus.vue')
 const ShareVariantIcon = () => import('vue-material-design-icons/ShareVariant.vue')
 const ChartLineIcon = () => import('vue-material-design-icons/ChartLine.vue')

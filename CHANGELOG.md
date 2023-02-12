@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.5.7 – 2023-02-12
+### Changed
+- lazy load frontend scripts
+
+### Fixed
+- adjust to changes in NcActionInput, fix public link label and password inputs
+
 ## 1.5.6 – 2023-02-06
 ### Fixed
 - fix bill repetition, get user timezone and use immutable dates

@@ -622,7 +622,7 @@ export default {
 			this.savePassword(access, '')
 		},
 		submitPassword(access, e) {
-			const password = e.target[1].value
+			const password = e.target[0].value
 			this.savePassword(access, password)
 		},
 		savePassword(access, password) {
@@ -642,7 +642,7 @@ export default {
 			})
 		},
 		submitLabel(access, e) {
-			const label = e.target[1].value
+			const label = e.target[0].value
 			network.editSharedAccess(this.projectId, access, label, null).then((response) => {
 				this.$set(access, 'label', label)
 				showSuccess(t('cospend', 'Share link saved'))

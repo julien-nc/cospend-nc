@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## 1.5.7 – 2023-02-12
 ### Changed
 - lazy load frontend scripts
+- update npm pkgs
 
 ### Fixed
 - adjust to changes in NcActionInput, fix public link label and password inputs

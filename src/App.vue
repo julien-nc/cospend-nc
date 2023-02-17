@@ -49,91 +49,93 @@
 					@new-bill-clicked="onNewBillClicked"
 					@move-bill-clicked="onMoveBillClicked" />
 			</template>
-			<BillForm
-				v-if="currentBill !== null && mode === 'edition'"
-				:bill="currentBill"
-				:members="currentMembers"
-				:edition-access="editionAccess"
-				@bill-created="onBillCreated"
-				@bill-saved="onBillSaved"
-				@custom-bills-created="onCustomBillsCreated"
-				@perso-bills-created="onPersoBillsCreated"
-				@duplicate-bill="onDuplicateBill"
-				@repeat-bill-now="onRepeatBillNow" />
-			<NcModal v-if="showMoveModal"
-				size="normal"
-				@close="showMoveModal = false">
-				<MoveToProjectList
-					:bill="billToMove"
+			<div>
+				<BillForm
+					v-if="currentBill !== null && mode === 'edition'"
+					:bill="currentBill"
+					:members="currentMembers"
+					:edition-access="editionAccess"
+					@bill-created="onBillCreated"
+					@bill-saved="onBillSaved"
+					@custom-bills-created="onCustomBillsCreated"
+					@perso-bills-created="onPersoBillsCreated"
+					@duplicate-bill="onDuplicateBill"
+					@repeat-bill-now="onRepeatBillNow" />
+				<NcModal v-if="showMoveModal"
+					size="normal"
+					@close="showMoveModal = false">
+					<MoveToProjectList
+						:bill="billToMove"
+						:project-id="currentProjectId"
+						@item-moved="onBillMoved" />
+				</NcModal>
+				<Statistics
+					v-else-if="mode === 'stats'"
+					:project-id="currentProjectId" />
+				<Settlement
+					v-else-if="mode === 'settle'"
 					:project-id="currentProjectId"
-					@item-moved="onBillMoved" />
-			</NcModal>
-			<Statistics
-				v-else-if="mode === 'stats'"
-				:project-id="currentProjectId" />
-			<Settlement
-				v-else-if="mode === 'settle'"
-				:project-id="currentProjectId"
-				@auto-settled="onAutoSettled" />
-			<NcEmptyContent v-show="mode === 'normal' && currentProjectId"
-				class="central-empty-content"
-				:title="t('cospend', 'What do you want to do?')"
-				:description="t('cospend', 'These actions are also available in the sidebar project context menu.')">
-				<template #icon>
-					<CospendIcon />
-				</template>
-			</NcEmptyContent>
-			<div v-show="mode === 'normal' && currentProjectId"
-				class="project-actions">
-				<NcButton
-					@click="onNewBillClicked(null)">
+					@auto-settled="onAutoSettled" />
+				<NcEmptyContent v-show="mode === 'normal' && currentProjectId"
+					class="central-empty-content"
+					:title="t('cospend', 'What do you want to do?')"
+					:description="t('cospend', 'These actions are also available in the sidebar project context menu.')">
 					<template #icon>
-						<PlusIcon :size="20" />
+						<CospendIcon />
 					</template>
-					{{ t('cospend', 'Create a bill') }}
-				</NcButton>
-				<NcButton
-					@click="onDetailClicked(currentProjectId)">
+				</NcEmptyContent>
+				<div v-show="mode === 'normal' && currentProjectId"
+					class="project-actions">
+					<NcButton
+						@click="onNewBillClicked(null)">
+						<template #icon>
+							<PlusIcon :size="20" />
+						</template>
+						{{ t('cospend', 'Create a bill') }}
+					</NcButton>
+					<NcButton
+						@click="onDetailClicked(currentProjectId)">
+						<template #icon>
+							<CogIcon :size="20" />
+						</template>
+						{{ t('cospend', 'Show project settings') }}
+					</NcButton>
+					<NcButton
+						@click="onShareClicked(currentProjectId)">
+						<template #icon>
+							<ShareVariantIcon :size="20" />
+						</template>
+						{{ t('cospend', 'Share the project') }}
+					</NcButton>
+					<NcButton
+						@click="onStatsClicked(currentProjectId)">
+						<template #icon>
+							<ChartLineIcon :size="20" />
+						</template>
+						{{ t('cospend', 'Show project statistics') }}
+					</NcButton>
+					<NcButton
+						@click="onSettleClicked(currentProjectId)">
+						<template #icon>
+							<ReimburseIcon :size="20" />
+						</template>
+						{{ t('cospend', 'Show project settlement plan') }}
+					</NcButton>
+				</div>
+				<NcEmptyContent v-show="mode === 'normal' && !currentProjectId"
+					class="central-empty-content"
+					:title="t('cospend', 'Select a project')">
 					<template #icon>
-						<CogIcon :size="20" />
+						<CospendIcon />
 					</template>
-					{{ t('cospend', 'Show project settings') }}
-				</NcButton>
-				<NcButton
-					@click="onShareClicked(currentProjectId)">
-					<template #icon>
-						<ShareVariantIcon :size="20" />
-					</template>
-					{{ t('cospend', 'Share the project') }}
-				</NcButton>
-				<NcButton
-					@click="onStatsClicked(currentProjectId)">
-					<template #icon>
-						<ChartLineIcon :size="20" />
-					</template>
-					{{ t('cospend', 'Show project statistics') }}
-				</NcButton>
-				<NcButton
-					@click="onSettleClicked(currentProjectId)">
-					<template #icon>
-						<ReimburseIcon :size="20" />
-					</template>
-					{{ t('cospend', 'Show project settlement plan') }}
-				</NcButton>
-			</div>
-			<NcEmptyContent v-show="mode === 'normal' && !currentProjectId"
-				class="central-empty-content"
-				:title="t('cospend', 'Select a project')">
-				<template #icon>
-					<CospendIcon />
-				</template>
-			</NcEmptyContent>
-			<div v-if="!isMobile"
-				class="content-buttons">
-				<NcButton
-					v-tooltip.bottom="{ content: t('cospend', 'Toggle sidebar') }"
-					class="icon-menu"
-					@click="onMainDetailClicked" />
+				</NcEmptyContent>
+				<div v-if="!isMobile"
+					class="content-buttons">
+					<NcButton
+						v-tooltip.bottom="{ content: t('cospend', 'Toggle sidebar') }"
+						class="icon-menu"
+						@click="onMainDetailClicked" />
+				</div>
 			</div>
 		</NcAppContent>
 		<CospendSettingsDialog

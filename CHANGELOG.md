@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.5.8 – 2023-02-17
+### Fixed
+- fix main empty content buttons in mobile view
+
 ## 1.5.7 – 2023-02-12
 ### Changed
 - lazy load frontend scripts

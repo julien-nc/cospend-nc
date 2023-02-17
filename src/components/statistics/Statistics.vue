@@ -500,7 +500,6 @@ export default {
 			return Object.values(this.members)
 		},
 		membersWithStatsArray() {
-			console.debug('SSSS', this.stats)
 			return this.stats
 				? this.membersArray.filter((member) => {
 					return this.stats.memberIds.includes(member.id)

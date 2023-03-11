@@ -20,6 +20,7 @@ use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\DB\Exception;
 use OCP\IConfig;
 use OCP\IL10N;
 
@@ -623,6 +624,18 @@ class PageController extends ApiController {
 	/**
 	 * @NoAdminRequired
 	 *
+	 * @param string $projectid
+	 * @param int|null $tsMin
+	 * @param int|null $tsMax
+	 * @param int|null $paymentModeId
+	 * @param int|null $categoryId
+	 * @param float|null $amountMin
+	 * @param float|null $amountMax
+	 * @param string $showDisabled
+	 * @param int|null $currencyId
+	 * @param int|null $payerId
+	 * @return DataResponse
+	 * @throws Exception
 	 */
 	public function webGetProjectStatistics(string $projectid, ?int $tsMin = null, ?int $tsMax = null, ?int $paymentModeId = null,
 											?int   $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
@@ -1971,6 +1984,20 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 * @CORS
+	 *
+	 * @param string $projectid
+	 * @param string $password
+	 * @param int|null $tsMin
+	 * @param int|null $tsMax
+	 * @param int|null $paymentModeId
+	 * @param int|null $categoryId
+	 * @param float|null $amountMin
+	 * @param float|null $amountMax
+	 * @param string $showDisabled
+	 * @param int|null $currencyId
+	 * @param int|null $payerId
+	 * @return DataResponse
+	 * @throws Exception
 	 */
 	public function apiGetProjectStatistics(string $projectid, string $password, ?int $tsMin = null, ?int $tsMax = null,
 											?int   $paymentModeId = null, ?int $categoryId = null,
@@ -2000,6 +2027,19 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 * @CORS
+	 *
+	 * @param string $projectid
+	 * @param int|null $tsMin
+	 * @param int|null $tsMax
+	 * @param int|null $paymentModeId
+	 * @param int|null $categoryId
+	 * @param float|null $amountMin
+	 * @param float|null $amountMax
+	 * @param string $showDisabled
+	 * @param int|null $currencyId
+	 * @param int|null $payerId
+	 * @return DataResponse
+	 * @throws Exception
 	 */
 	public function apiPrivGetProjectStatistics(string $projectid, ?int $tsMin = null, ?int $tsMax = null,
 												?int   $paymentModeId = null,

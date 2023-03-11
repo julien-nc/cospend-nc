@@ -753,8 +753,8 @@ class ProjectService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getProjectStatistics(string $projectId, ?string $memberOrder = null, ?int $tsMin = null, ?int $tsMax = null,
-										 ?int   $paymentModeId = null, ?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
-										 bool   $showDisabled = true, ?int $currencyId = null, ?int $payerId = null): array {
+										 ?int $paymentModeId = null, ?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
+										 bool $showDisabled = true, ?int $currencyId = null, ?int $payerId = null): array {
 		$timeZone = $this->dateTimeZone->getTimeZone();
 		$membersWeight = [];
 		$membersNbBills = [];
@@ -2242,6 +2242,7 @@ class ProjectService {
 	 * @param int|null $tsMin
 	 * @param int|null $tsMax
 	 * @param string|null $paymentMode
+	 * @param int|null $paymentModeId
 	 * @param int|null $category
 	 * @param float|null $amountMin
 	 * @param float|null $amountMax
@@ -2336,7 +2337,7 @@ class ProjectService {
 		while ($row = $req->fetch()){
 			$dbBillId = (int) $row['id'];
 			// if first time we see the bill : add it to bill list
-			if (!array_key_exists($dbBillId, $billDict)) {
+			if (!isset($billDict[$dbBillId])) {
 				$dbAmount = (float) $row['amount'];
 				$dbWhat = $row['what'];
 				$dbComment = $row['comment'];

@@ -27,7 +27,7 @@
 			</div>
 		</template>
 		<template #actions>
-			<NcActionButton v-if="editionAccess && !selectMode && bill.id !== 0 && !payerDisabled"
+			<NcActionButton v-if="editionAccess && !selectMode && bill.id !== 0 && !payerDisabled && !timerOn"
 				:close-after-click="true"
 				@click="onDuplicateClick">
 				<template #icon>

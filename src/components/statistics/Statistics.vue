@@ -104,12 +104,11 @@
 				{{ t('cospend', 'Payer') }}
 			</label>
 			<MemberMultiSelect
-				id="memberMultiSelect"
 				:project-id="project.id"
 				:value="selectedFilterPayer"
 				:placeholder="t('cospend', 'Choose a member')"
 				:members="filterMembers"
-				@input="memberFilterSelected" />
+				@input="payerFilterSelected" />
 			<input id="showDisabled"
 				ref="showDisabledFilter"
 				type="checkbox"
@@ -1081,7 +1080,7 @@ export default {
 				this.selectedMemberId = selected.id
 			}
 		},
-		memberFilterSelected(selected) {
+		payerFilterSelected(selected) {
 			if (selected !== null) {
 				this.selectedFilterPayer = selected
 				this.getStats()
@@ -1186,6 +1185,7 @@ export default {
 				|| (dateMax !== null && dateMax !== '')
 				|| (paymentModeId !== null)
 				|| (categoryId !== null)
+				|| (payerId !== null)
 				|| (amountMin !== null && amountMin !== '')
 				|| (amountMax !== null && amountMax !== '')
 			)

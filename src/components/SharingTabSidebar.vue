@@ -125,7 +125,7 @@
 					placement="bottom">
 					<NcActionInput
 						type="text"
-						:value="access.label"
+						:value="access.label ?? ''"
 						:disabled="!editionAccess || myAccessLevel < access.accesslevel"
 						@submit="submitLabel(access, $event)">
 						<template #icon>

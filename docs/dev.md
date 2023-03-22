@@ -274,3 +274,31 @@ The core part of the endpoint (`/api/projects/<project_token>/<project_password>
 | [Edit Category         ](#edit-category          ) | `<base_endpoint>/category/<category_id>`                      | PUT    | Anonymous/Logged |
 | [Delete Category       ](#delete-category        ) | `<base_endpoint>/category/<category_id>`                      | DELETE | Anonymous/Logged |
 
+### Ping
+### Create Project
+### Get Project Info
+### Set Project Info
+### Delete project
+### Get Members
+### Add Member
+### Add Member V2
+### Edit Member
+### Delete Member
+### Get Bills
+### Get Bills V2
+### Get Bills V3
+### Add Bill
+### Edit Bill
+### Delete Bill
+### Get Project Statistics
+### Get Project Settlement
+### Auto Settlement
+### Add Currency
+### Edit Currency
+### Delete Currency
+### Add Payment Mode
+### Edit Payment Mode
+### Delete Payment Mode
+### Add Category
+### Edit Category
+### Delete Category

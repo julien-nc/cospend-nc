@@ -186,5 +186,46 @@ and have a correct result:
 </details>
 
 
+### Second method: App Password (UI)
+This second method gives a larger access to your account, not just to cospend or to a single cospend's project.
 
-Detailed API description will come later.
+#### Obtaining the credentials
+First of all, you need a **password**. Open your Nextcloud UI, visit your personal settings, under Security (https://mynextcloud.org/settings/user/security). Under _Devices & Sessions_, create a new app password. Make good note of the given password (a series of alphanumericals separated by dashes). This is your `<app_password>`.
+
+The next bit of information is your Nextcloud's **username** (used to login, not your profile name neither your email address). This is your `<username>`
+
+To work on a project, you will also need its **ID**. Note that this is different than the `<project_token>` used earlier. Here, we don't need to create a guest access to a project. The project ID is the name of the project, in lower case, with spaces replaced by dashes. When you click on the project in the web UI, you will see the ID in the address bar: `https://mynextcloud.org/apps/cospend/p/<project_id>`
+
+If you use this method, your API path will have the following shape: `<root_url>/api-priv/projects/<project_id>/<command>`
+
+**Do note:**
+* This URL starts with `api-priv` instead of `api`. This is for logged in clients, that don't require a project's password.
+* There's no more password on the project
+#### Using the credentials
+This method uses [HTTP Basic Authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#basic_authentication_scheme). Most libraries and languages offer an easy method for that (e.g. `curl -u "<username>:<app_password>" <url>`). If you need to do it manually:
+* Prepare the string
+* Base64 encode it
+* Pass the result to a header `Authorization: Basic `
+
+For instance:
+```bash
+curl -u "johndoe:mypassword" https://example.com
+# equivalent to:
+encoded=$(echo -n "johndoe:mypassword" | base64) # -n mandatory, otherwise \n is also encoded
+curl -H "Authorization: Basic $encoded" https://example.com
+```
+
+In order for the header to be correctly interpreted, you also need an additional header: `OCS-APIRequest: true`. For instance:
+```
+curl -H "OCS-APIRequest: true" -u "<username>:<app_password>" <url>
+```
+#### Trying
+You can now try your first `<command>`: `/statistics`. If you've followed correctly, your request should look like this:
+
+```bash
+curl -s -u "<username>:<app_password" -H "OCS-APIRequest: true" \
+https://mynextcloud.org/index.php/apps/cospend/api/projects/<project_id>/statistics
+```
+And obtain the same result as before.
+
+

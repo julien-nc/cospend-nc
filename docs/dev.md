@@ -229,3 +229,48 @@ https://mynextcloud.org/index.php/apps/cospend/api/projects/<project_id>/statist
 And obtain the same result as before.
 
 
+
+## Specifications
+Now that you've managed to land your first succesful request, let's dive into the concrete API specification.
+
+As explained above, depending on your authentication method, the endpoint will look slightly different.
+The core part of the endpoint (`/api/projects/<project_token>/<project_password>` for anonymous, and `/api-priv/projects/<project_id>` for logged in) will be substituted by `<base_endpoint>`. If `<base_endpoint>` is not mentioned, the endpoint is relative to the root url.
+
+**Examples**:
+|        Endpoint         | Full URL(s)                                                                                                                                                                                         |
+| :---------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|       `/api/ping`       | `https://mynextcloud.org/index.php/apps/cospend/api/ping`                                                                                                                                           |
+| `<base_endpoint>/bills` | *`https://mynextcloud.org/index.php/apps/cospend/api/projects/<project_token>/<project_password>/bills` <br> *`https://mynextcloud.org/index.php/apps/cospend/api-priv/projects/<project_id>/bills` |
+
+
+| Name                                               | Endpoint                                                      | Method | Anonymous/Logged |
+| -------------------------------------------------- | :------------------------------------------------------------ | :----- | ---------------- |
+| [Ping                  ](#ping                   ) | `/api/ping`                                                   | GET    | **Logged**       |
+| [Create Project        ](#create-project         ) | `/api/projects` (anonymous),<br>`/api-priv/projects` (logged) | POST   | Anonymous/Logged |
+| [Get Project Info      ](#get-project-info       ) | `<base_endpoint>/`                                            | GET    | Anonymous/Logged |
+| [Set Project Info      ](#set-project-info       ) | `<base_endpoint>/`                                            | PUT    | Anonymous/Logged |
+| [Delete project        ](#delete-project         ) | `<base_endpoint>/`                                            | DELETE | Anonymous/Logged |
+| [Get Members           ](#get-members            ) | `<base_endpoint>/members`                                     | GET    | Anonymous/Logged |
+| [Add Member            ](#add-member             ) | `<base_endpoint>/members`                                     | POST   | Anonymous/Logged |
+| [Add Member V2         ](#add-member-v2          ) | `/apiv2/projects/<project_token>/<project_password>/members`  | POST   | **Anonymous**    |
+| [Edit Member           ](#edit-member            ) | `<base_endpoint>/members/<member_id>`                         | PUT    | Anonymous/Logged |
+| [Delete Member         ](#delete-member          ) | `<base_endpoint>/members/<member_id>`                         | DELETE | Anonymous/Logged |
+| [Get Bills             ](#get-bills              ) | `<base_endpoint>/bills`                                       | GET    | Anonymous/Logged |
+| [Get Bills V2          ](#get-bills-v2           ) | `/apiv2/projects/<project_token>/<project_password>/bills`    | GET    | **Anonymous**    |
+| [Get Bills V3          ](#get-bills-v3           ) | `/apiv3/projects/<project_token>/<project_password>/bills`    | GET    | **Anonymous**    |
+| [Add Bill              ](#add-bill               ) | `<base_endpoint>/bills`                                       | POST   | Anonymous/Logged |
+| [Edit Bill             ](#edit-bill              ) | `<base_endpoint>/bills/<bill_id>`                             | PUT    | Anonymous/Logged |
+| [Delete Bill           ](#delete-bill            ) | `<base_endpoint>/bills/<bill_id>`                             | DELETE | Anonymous/Logged |
+| [Get Project Statistics](#get-project-statistics ) | `<base_endpoint>/statistics`                                  | GET    | Anonymous/Logged |
+| [Get Project Settlement](#get-project-settlement ) | `<base_endpoint>/settle`                                      | GET    | Anonymous/Logged |
+| [Auto Settlement       ](#auto-settlement        ) | `<base_endpoint>/autosettlement`                              | GET    | Anonymous/Logged |
+| [Add Currency          ](#add-currency           ) | `<base_endpoint>/currency`                                    | POST   | Anonymous/Logged |
+| [Edit Currency         ](#edit-currency          ) | `<base_endpoint>/currency/<currency_id>`                      | PUT    | Anonymous/Logged |
+| [Delete Currency       ](#delete-currency        ) | `<base_endpoint>/currency/<currency_id>`                      | DELETE | Anonymous/Logged |
+| [Add Payment Mode      ](#add-payment-mode       ) | `<base_endpoint>/paymentmode`                                 | POST   | Anonymous/Logged |
+| [Edit Payment Mode     ](#edit-payment-mode      ) | `<base_endpoint>/paymentmode/<pm_id>`                         | PUT    | Anonymous/Logged |
+| [Delete Payment Mode   ](#delete-payment-mode    ) | `<base_endpoint>/paymentmode/<pm_id>`                         | DELETE | Anonymous/Logged |
+| [Add Category          ](#add-category           ) | `<base_endpoint>/category/`                                   | POST   | Anonymous/Logged |
+| [Edit Category         ](#edit-category          ) | `<base_endpoint>/category/<category_id>`                      | PUT    | Anonymous/Logged |
+| [Delete Category       ](#delete-category        ) | `<base_endpoint>/category/<category_id>`                      | DELETE | Anonymous/Logged |
+

@@ -20,7 +20,9 @@ use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\DB\Exception;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
 
@@ -95,6 +97,7 @@ class PageController extends ApiController {
 	 * @var IAppManager
 	 */
 	private $appManager;
+	private IEventDispatcher $eventDispatcher;
 
 	public function __construct(string $appName,
 								IRequest $request,
@@ -109,7 +112,8 @@ class PageController extends ApiController {
 								IRootFolder $root,
 								IInitialState $initialStateService,
 								IAppManager $appManager,
-								?string $userId){
+								IEventDispatcher $eventDispatcher,
+								?string $userId) {
 		parent::__construct($appName, $request,
 							'PUT, POST, GET, DELETE, PATCH, OPTIONS',
 							'Authorization, Content-Type, Accept',
@@ -126,6 +130,7 @@ class PageController extends ApiController {
 		$this->userId = $userId;
 		$this->initialStateService = $initialStateService;
 		$this->appManager = $appManager;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -138,6 +143,7 @@ class PageController extends ApiController {
 		$this->initialStateService->provideInitialState('activity_enabled', $activityEnabled ? '1' : '0');
 		$this->initialStateService->provideInitialState('pathProjectId', $projectId ?? '');
 		$this->initialStateService->provideInitialState('pathBillId', $billId ?? 0);
+		$this->eventDispatcher->dispatchTyped(new RenderReferenceEvent());
 		$response = new TemplateResponse('cospend', 'main', []);
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedImageDomain('*')

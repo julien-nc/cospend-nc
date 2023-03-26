@@ -217,14 +217,22 @@
 							:size="20" />
 						{{ t('cospend', 'Comment') }}
 					</label>
-					<textarea
+					<!--textarea
 						id="comment"
 						v-model="myBill.comment"
 						maxlength="300"
 						class="input-bill-comment"
 						:readonly="!editionAccess"
 						:placeholder="t('cospend', 'More details about the bill (300 char. max)')"
-						@input="onBillEdited" />
+						@input="onBillEdited" /-->
+					<NcRichContenteditable
+						:value.sync="myBill.comment"
+						class="input-bill-comment"
+						:maxlength="300"
+						:multiline="true"
+						:contenteditable="editionAccess"
+						:placeholder="t('cospend', 'More details about the bill (300 char. max)')"
+						@update:value="onBillEdited" />
 				</div>
 				<div class="bill-repeat">
 					<label for="repeatbill">
@@ -616,6 +624,7 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcDatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker.js'
 import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDetails.js'
 import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcRichContenteditable from '@nextcloud/vue/dist/Components/NcRichContenteditable.js'
 
 import CospendTogglableAvatar from './components/avatar/CospendTogglableAvatar.vue'
 import MemberMultiSelect from './components/MemberMultiSelect.vue'
@@ -647,6 +656,7 @@ export default {
 		NcMultiselect,
 		MemberMultiSelect,
 		NcButton,
+		NcRichContenteditable,
 		AccountIcon,
 		AccountGroupIcon,
 		TagIcon,
@@ -1877,6 +1887,10 @@ button {
 	> label {
 		width: 200px;
 	}
+}
+
+.input-bill-comment {
+	flex-grow: 1;
 }
 
 .bill-repeat-now,

@@ -18,6 +18,7 @@
 namespace OCA\Cospend\Controller;
 
 use OCP\AppFramework\Services\IInitialState;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IServerContainer;
 use PHPUnit\Framework\TestCase;
@@ -170,6 +171,7 @@ class PageNUtilsControllerTest extends TestCase {
 			$c->get(IRootFolder::class),
 			$c->get(IInitialState::class),
 			$c->get(IAppManager::class),
+			$c->get(IEventDispatcher::class),
 			'test'
 		);
 
@@ -189,6 +191,7 @@ class PageNUtilsControllerTest extends TestCase {
 			$c->get(IRootFolder::class),
 			$c->get(IInitialState::class),
 			$c->get(IAppManager::class),
+			$c->get(IEventDispatcher::class),
 			'test2'
 		);
 

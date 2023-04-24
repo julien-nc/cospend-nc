@@ -918,7 +918,132 @@ This is a complement to the [previous endpoint](#add-member). This brings to ano
 * Return: `"OK"`
 * Errors:
   * If the `<member_id>` is not found, returns `"Not found"` with code 404.
+
 ### Get Bills (logged in)
+This endpoint is slightly different whether you're anonymous or logged in, although the endpoint is the same.
+* Availability: Logged in requests.
+* Endpoint: `<base_endpoint>/bills` (**Only logged in base endpoint**)
+* Method: GET
+* Parameters:
+  * `lastchanged`: An integer, representing a Unix timestamp. The lower limit for bills' `lastchanged` field. Aka, returns all bills that have been last modified after this date. **Note: any data will be accepted**, make sure you pass correct values. Even letters and special characters won't yield an error.
+* Return: An **object** (contrary to the anonymous endpoint), with the following entries:
+  * `bills` [list]: A list of objects, each representing one bill (one elemenent from the web UI). They are sorted ascendingly by their field `timestamp`. Each bill is composed of the following entries:
+    * `id` [integer]: ID of the bill.
+    * `amount` [number]: Amount of the bill.
+    * `what` [string]: Name/title of the bill.
+    * `comment` [string]: Comment of the bill
+    * `timestamp` [int]: Unix timestamp of the _creation_ of the bill.
+    * `date` [string]: Human-readable date of the _creation_ of the bill, in the format `YYYY-MM-DD`. Time is not present in this field.
+    * `payer_id` [int]: ID of the Cospend member that paid the bill.
+    * `owers` [list]: List of objects, containing details about people owing money on this bill. Each object contains the following:
+      * `id` [int]: Cospend ID of this ower
+      * `weight` [number]: Weight of the ower in this particular bill
+      * `name` [string]: The ower's Nextcloud's full name.
+      * `activated` [boolean]: Whether the ower is active or not.
+    * `owerIds` [list]: List of which member is listed as owers in this bill. This is the same information as present in `owers`, but this only contains the list of member ID of the owers, and nothing else.
+    * `repeat` [string]: The [repeat cycle](#repeat) of the bill.
+    * `paymentmode` [string]: Legacy Payment mode ID, defined by a single character (or `n` if no payment or a non-default payment mode is selected, see [this note](#payment-modes-id)).
+    * `paymentmodeid` [integer]: The modern ID of the payment mode used for this bill; 0 means no payment mode has been selected. If the payment mode is one of the default ones, this is redundant to `paymentmode`.
+    * `categoryid` [integer]: Similarly represents the ID of the category of the bill. 0 means no category has been selected.
+    * `lastchanged` [integer]: Unix timestamp of the moment this bill was last edited/changed.
+    * `repeatallactive` [integer]: Whether the bill should repeat for all members currently active or specifically the current owers of the bill. See [this note](#repeat) for how it's used.
+    * `repeatuntil` [integer]: Unix timestamp of the datetime after which the bill will stop repeating. `null` if no date has been set.
+    * `repeatfreq` [integer]: Modifier of the frequency for repeating. See [this note](#repeat) for what it means.
+  * `allbillsid` [list]: A list of all the IDs of existing bills. Even if the bills have been filtered out by the `lastchanged` parameter, their ID will still appear here.
+  * `timestamp` [integer]: Unix timestamp of the time of the request
+
+* Example usage:
+  ```console
+  ~$ curl -s -u 'johndoe:mypassword' https://mynextcloud.org/index.php/apps/cospend/api-priv/projects/my-first-project/bills
+  ```
+
+  <details>
+    <summary>Sample answer</summary>
+
+    ```json
+    {
+      "bills": [
+        {
+          "id": 1,
+          "amount": 200,
+          "what": "First bill",
+          "comment": "",
+          "timestamp": 1678636575,
+          "date": "2023-03-12",
+          "payer_id": 1,
+          "owers": [
+            {
+              "id": 1,
+              "weight": 1,
+              "name": "John Doe",
+              "activated": true
+            },
+            {
+              "id": 2,
+              "weight": 1,
+              "name": "Alice Doe",
+              "activated": true
+            }
+          ],
+          "owerIds": [
+            1,
+            2
+          ],
+          "repeat": "n",
+          "paymentmode": "n",
+          "paymentmodeid": 0,
+          "categoryid": 0,
+          "lastchanged": 1680875221,
+          "repeatallactive": 0,
+          "repeatuntil": null,
+          "repeatfreq": 1
+        },
+        {
+          "id": 2,
+          "amount": 66,
+          "what": "Yet another bill",
+          "comment": "",
+          "timestamp": 1678645901,
+          "date": "2023-03-12",
+          "payer_id": 1,
+          "owers": [
+            {
+              "id": 1,
+              "weight": 1,
+              "name": "Olivier",
+              "activated": true
+            },
+            {
+              "id": 2,
+              "weight": 1,
+              "name": "Coralie",
+              "activated": true
+            }
+          ],
+          "owerIds": [
+            1,
+            2
+          ],
+          "repeat": "n",
+          "paymentmode": "n",
+          "paymentmodeid": 0,
+          "categoryid": 0,
+          "lastchanged": 1678645916,
+          "repeatallactive": 0,
+          "repeatuntil": null,
+          "repeatfreq": 1
+        }
+      ],
+      "allBillIds": [
+        2,
+        1
+      ],
+      "timestamp": 1680875473
+    }
+    ```
+  </details>
+
+
 ### Get Bills (anonymous)
 ### Get Bills V2
 ### Get Bills V3

@@ -1991,3 +1991,9 @@ Edit a payment mode. The name is mandatory, while other fields are optional; how
  ```
 
 ### Delete Category
+* Availability: Logged in and Anonymous requests
+* Method: DELETE
+* Endpoint: `<base_endpoint>/category/<categoryid>`
+* Return: `<categoryid>`, the ID of the deleted category (same as provided), as an integer.
+* Errors:
+  * If `<categoryid>` doesn't match any existing category, `{"message": "Not found"}` with code 400

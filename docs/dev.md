@@ -1758,6 +1758,69 @@ Note: statistics include operations on the numbers; due to their nature, operati
   </details>
 
 ### Get Project Settlement
+* Availability: Logged in and Anonymous requests
+* Method: GET
+* Endpoint: `<base_endpoint>/settle`
+* Parameters:
+  * `centeredOn` [integer]: A member ID. Make the settlement centered on a member, meaning how much that user must receive and give to everyone else to have a balance of 0. Any number is accepted, which will appear like a "virtual" or "transient" member that must simple receive money from people and giving it away to other members.
+  * `maxTimestamp` [integer]: Represents a Unix timestamp. Only retrieve bills paid before that moment to compute the balances.
+* Return: An object with the keys `transactions` (what transactions must be done to settle), and `balances` (list of total balances for each member).
+  * `transactions` [list]: A list of objects. Each item represents one transaction that must be carried, with the keys `from` and `to` (integers, members ID) and the keys `amount` (number, how much must be paid).
+  * `balances` [object]: Each key is a member's ID, and the value is the current balance of that member.
+
+* Example usage:
+  ```console
+    ~$ curl  -s 'https://mynextcloud.org/index.php/apps/cospend/api/projects/bb9d1bced1d3896e6672db461753e93d/no-pass/settle'
+  ```
+  <details>
+    <summary>Sample answer</summary>
+
+    ```json
+    {
+      "transactions": [
+        {
+          "to": 1,
+          "amount": 1105.6666666667002,
+          "from": 2
+        }
+      ],
+      "balances": {
+        "2": -1105.6666666667002,
+        "1": 1105.6666666667002
+      }
+    }
+    ```
+    </details>
+
+  ```console
+    ~$ curl  -s 'https://mynextcloud.org/index.php/apps/cospend/api/projects/bb9d1bced1d3896e6672db461753e93d/no-pass/settle?centeredOn=52432335'
+  ```
+  <details>
+    <summary>Sample answer</summary>
+
+    ```json
+    {
+      "transactions": [
+        {
+          "from": 2,
+          "to": 52432335,
+          "amount": 1105.6666666667002
+        },
+        {
+          "from": 52432335,
+          "to": 1,
+          "amount": 1105.6666666667002
+        }
+      ],
+      "balances": {
+        "2": -1105.6666666667002,
+        "1": 1105.6666666667002
+      }
+    }
+
+    ```
+    </details>
+
 ### Auto Settlement
 ### Add Currency
 ### Edit Currency

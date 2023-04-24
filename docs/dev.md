@@ -798,6 +798,65 @@ Create a project. To create it anonymously, the permission `allowAnonymousCreati
   {"message": "DELETED"}
  ```
 ### Get Members
+* Availability: Logged and Anonymous requests
+* Method: GET
+* Endpoint: `<base_endpoint>/members`
+* Parameters:
+  * `lastchanged`: An integer, representing a Unix timestamp. Only return users that have deen changed _after_ this moment.
+* Return: A list of objects, each containing information about a member (not links). This is the same information as you would get in the `members` section of the [project information](#get-project-info). Specifically, each objects of the list looks like the following:
+  * `activated` [boolean]: Whether this user is activated or not.
+  * `userId` [string]: The user's nextcloud ID (username).
+  * `name` [string]: The user's nextcloud full name.
+  * `id` [integer]: The user's cospend ID in this project.
+  * `weight` [integer]: The user's [weight](user.md#what-is-a-member-ok_woman-) in this project.
+  * `color` [object]: An object containing the RGB components (0ver 255) of the color of the user. Specifically:
+    * `r` [integer]: the Red component (0-255),
+    * `g` [integer]: the Green component (0-255),
+    * `b` [integer]: the Blue component (0-255).
+  * `lastchanged` [integer]: Unix timestamp of the last modification of the user.
+
+* Example usage:
+ ```console
+  ~$ curl -u 'johndoe:mypassword' https://mynextcloud.org/index.php/apps/cospend/api-priv/projects/my-first-project/members
+  ```
+
+  <details >
+    <summary>Sample answer</summary>
+
+  ```json
+  {
+    [
+      {
+        "activated": true,
+        "userid": "alicedoe",
+        "name": "Alice Doe",
+        "id": 2,
+        "weight": 1,
+        "color": {
+          "r": 110,
+          "g": 166,
+          "b": 143
+        },
+        "lastchanged": 1678636572
+      },
+      {
+        "activated": true,
+        "userid": "johndoe",
+        "name": "John Doe",
+        "id": 1,
+        "weight": 1,
+        "color": {
+          "r": 0,
+          "g": 130,
+          "b": 201
+        },
+        "lastchanged": 1678636568
+      }
+    ]
+  }
+  ```
+  </details>
+
 ### Add Member
 ### Add Member V2
 ### Edit Member

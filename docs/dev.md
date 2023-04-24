@@ -1362,6 +1362,23 @@ This is equivalent to [the logged in equivalent](#get-bills-logged-in). Check th
   * If the field `payer` is specified but is not a vaid member ID: `{"payer": "Not a valid choice"}`.
   * If *any* of the integers of `payed_for` is not a number, returns `{"payed_for": "Invalid value"}`; if either of them isn't a valid member ID, returns `{"payed_fo": "Not a valid choice"}`.
 
+### Edit Bills
+Using anonymous access, it's possible to edit bills in batches.
+Instead of specifying the bills as a part of the URL, the bills are passed as a parameter (coma-separated integers).
+The other parameters are the same as [Edit Bill](#edit-bill).
+The values are applied identically to all of the bills passed.
+
+Note that in case of an error (notably if one of the ID is invalid), all bills before the error are processed, but the ones after are not.
+* Availability: Anonymous requests only
+* Method: PUT
+* Endpoint: `<base_endpoint>/bills`
+* Parameters:
+  * `bills`: Coma-separated integers, each being a valid existing bill to edit.
+  * Same as [Edit Bill](#edit-bill).
+* Return: The same coma-separated list of IDs passed as parameter.
+* Errors:
+  * Same errors than [Edit Bill](#edit-bill).
+
 ### Delete Bill
 ### Get Project Statistics
 ### Get Project Settlement

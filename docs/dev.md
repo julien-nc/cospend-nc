@@ -1822,6 +1822,16 @@ Note: statistics include operations on the numbers; due to their nature, operati
     </details>
 
 ### Auto Settlement
+This function calls the same method as [Get Project Settlement](#get-project-settlement), then actually creates the bills that would have been returned.
+If the member of the project decide it's time to settle, they could first call the former endpoint, perform the recommended transcations, then automatically create the bills with this endpoint.
+
+Each bill created with this method will have the tile `<member_from_name> → <member_to_name>` (using the full names).
+* Availability: Logged in and Anonymous requests
+* Method: GET
+* Endpoint: `<base_endpoint>/autosettlement`
+* Return: `{"success": true}`
+* Errors:
+  * If any of the bill has an issue while being created, `{"message": "Error when adding a bill"}` is returned, with code 403. All bills before the creation will be created, the error'ed bill and the following won't.
 ### Add Currency
 ### Edit Currency
 ### Delete Currency

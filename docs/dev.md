@@ -1320,6 +1320,34 @@ This is equivalent to [the logged in equivalent](#get-bills-logged-in). Check th
   10,9
   ```
 ### Add Bill
+* Availability: Logged in and Anonymous requests
+* Method: POST
+* Endpoint: `<base_endpoint>/bills`
+* Parameters:
+  * `date`: A string indicating the date of the payment (optional, but one of `timestamp` and `date` is mandatory)
+  * `what`: A string indicating the subject of the bill (optionnal)
+  * `payer`: An integer (mandatory)
+  * `payed_for`: A string, being a list of coma-separated of integers, each representing a member ID, to indicate the owers of the bill; can be a single integer if there is only one ower.
+  * `amount`: A number (integer or floating point) to indicate the value of the bill (mandatory)
+  * `repeat`: A string (one character) to indicating the [reapeating mode](#repeat) (optional, `n` by default)
+  * `paymentmode`: A string (one character) referring to the `old_id` of a [payment mode](#payment-modes-id) (optional)
+  * `paymentmodeid`: An integer representing the `id` of a [payment mode](#payment-modes-id) (optional)
+  * `categoryid`: An integer representing the `id` of a category (optional).
+  * `repeatallactive`: An integer to indicate if a bill should [repeat](#repeat) for all active members or only the ones indicated (optional, defaults to 0).
+  * `repeatuntil`: An integer, representing a Unix timestamp of the moment after which a bill should stop repeating (optional; if a bill is repeating and this is not specified, the bill will repeat infinitely)
+  * `repeatfreq`: An integer, represeting the frequency of the [bill repetition](#repeat).
+  * `timestamp`: An integer, representing a Unix timestamp of the date and time of the bill; takes precedence over `date` (Optional, but one of `timestamp` and `date` is mandatory),
+  * `comment`: A string to indicate a comment to the bill (optionnal)
+* Return: A single integer, representing the ID of the bill that has just been added.
+* Errors:
+  * If neither `timestamp` nor `date` are specified, returns `{"message": "Timestamp (or date) field is required"}` with code 400.
+  * If `timestamp` is not specified, `date` is specified and `date` can't be interpreted as a valid date, returns `{"date": "Invalid date"}` with code 400.
+  * If the field `amount` is not specified, returns `{"amount": "This field is required"}` with code 400.
+  * If the field `payer` is not specified, returns `{"payer": "This field is required"}` with code 400.
+  * If the field `payer` is specified but is not a vaid member ID: `{"payer": "Not a valid choice"}` with code 400.
+  * If `payed_for` if not specified, or can't be interpreted as a list of numbers, returns `{"payer": "Invalid value"}` with code 400.
+  * If *any* of the integers of `payed_for` is not a valid member ID, returns `{"payed_for": "Not a valid choice"}` with code 400.
+
 ### Edit Bill
 ### Delete Bill
 ### Get Project Statistics

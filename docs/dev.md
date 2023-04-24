@@ -1832,7 +1832,18 @@ Each bill created with this method will have the tile `<member_from_name> → <m
 * Return: `{"success": true}`
 * Errors:
   * If any of the bill has an issue while being created, `{"message": "Error when adding a bill"}` is returned, with code 403. All bills before the creation will be created, the error'ed bill and the following won't.
+
 ### Add Currency
+* Availability: Logged in and Anonymous requests
+* Method: POST
+* Endpoint: `<base_endpoint>/currency`
+* Parameters:
+  * `name`: The name of the currency (mandatory).
+  * `currency`: A number representing the exchange rate. 1 of this currency = X of main currency (mandatory).
+* Return: A simple integer, the ID of the newly created currency.
+* Errors:
+  * If you don't have the permissions to manage currencies, `{"message": "You are not allowed to manage currencies"}`, with code 401.
+
 ### Edit Currency
 ### Delete Currency
 ### Add Payment Mode

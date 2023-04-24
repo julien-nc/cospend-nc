@@ -1170,6 +1170,11 @@ This endpoint is slightly different whether you're anonymous or logged in, altho
   </details>
 
 ### Get Bills V2
+This is equivalent to [the logged in equivalent](#get-bills-logged-in). Check the other section for detailed specifications.
+* Availability: Anonymous requests
+* Endpoint: `/apiv2/projects/<project_token>/<project_password>/bills`
+* Method: GET
+
 ### Get Bills V3
 ### Add Bill
 ### Edit Bill

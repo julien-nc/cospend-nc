@@ -1402,6 +1402,361 @@ Note that in case of an error (notably if one of the ID is invalid), all bills b
 * Errors:
   * If *any* of the ID provided doesn't match a valid bill, returns `{"message": "Not Found"}`, with code 400.
 ### Get Project Statistics
+This endpoint will retrieve all the bills that *match all* the filters passed as parameters, and compute statistics on them.
+
+Note: statistics include operations on the numbers; due to their nature, operations on floating points may be slightly erroneous; make you take that into account when displaying your results. Remember that [`0.1 + 0.2 != 0.3`](https://blog.reverberate.org/2016/02/06/floating-point-demystified-part2.html)
+* Availability: Logged in and Anonymous requests
+* Method: GET
+* Endpoint: `<base_endpoint>//statistics`
+* Parameters:
+  * `tsMin`: An integer, representing a Unix timestamp; compute stats only on bills paid *after* that moment
+  * `tsMax`: An integer, representing a Unix timestamp; compute stats only on bills paid *before* that moment
+	* `paymentModeId`: An integer, representing a [payment mode's ID](#payment-modes-id); compute stats only on bills with that payment mode ID
+  * `categoryId`: An integer, representing a category's ID; compute stats only on bills with that category ID.
+  * `amountMin`: A number representing a minimum amount for bills; compute stats only on bills with a *greater* amount than this.
+  * `amountMax`: A number representing a minimum amount for bills; compute stats only on bills with a *lower* amount than this.
+	* `showDisabled`: A string, to indicate if stats should be computer on all the active members only (default) or all members including the disabled ones. `0` to show all members, anything else to only show active members.
+  * `currencyId`: An integer, representing a currency's ID; compute stats only on bills paid with that currency.
+  * `payerId`: An integer, representing a member's ID in the project; compute stats only on bills paid by that member.
+* Return: an object, with the following fields:
+  * `stats`: a list of objects; each entry represents some stats on the members. Sorted aphabetically by their lowercase `name`. Each entry contains the following fields:
+    * `balance` [number]: How much that member ows others or is owed by other members, overall, regardless of the filters passed.
+    * `filtered_balance` [number]: The balance of the user after applying the filters passed as parameters.
+    * `paid` [number]: How much that member paid across the bills (sum of the total of the bills paid by that member).
+    * `spent` [number]: How much that member spent across bills (sum of how much that user owes in each bills, including the ones not paid by that user).
+    * `member`: An object giving information on the user. The same information as returned in [Get Members](#get-members).
+  * `memberMonthlyPaidStats` [object]: An object, grouping how many each member _paid_ on each month. Each entry is a month (`YYYY-MM`), except one special entry that is `Average per month`.
+    * For each month (and the special `Average per month`), there is the ID of each member that contributed that month (as a string), and how much they paid over that month.
+    * The special "ID" `"0"` is the total for that month (e.g. member `"1"` paid 500, member `"2"` paid 100, then "member" `"0"` paid 1500)
+  * `memberMonthlySpentStats` [object]: An object, with the same construction as `memberMonthlyPaidStats` but declines how many each member _spent_ on each month.
+  * `categoryStats`: An object OR a list, saying how much has been spent in each category.
+    * If no bill has a category, the result is a list containing a single number, representing the total spent (in the "None" category)
+    * If at least one bill has a category, the result is an object; keys are the categories' ID, and the values are how much has been spent in that category. Additionally, "category `"0"`" represents the bills without category.
+  * `categoryMonthlyStats`: Similarly, an object OR a list, giving how much has been spent monthly for each category.
+    * If no bill has a category, the result is a list containing a single object (same format as `memberMonthlyPaidStats`: one key `YYYY-MM` per month plus an additional `"Average per month"`)
+    * If at least one bill has a category, the result is an object, which keys are the categories' ID and the values are the monthly stats (as above); the special "category `"0"` represents all the bills without category.
+  * `paymentModeStats`: Similarly, an object OR a list, for how much as been spent with each payment mode overall.
+  * `paymentModeMonthlyStats`: Similarly, an object OR a list, for how much as been spent during each month with each payment mode.
+  * `categoryMemberStats`: Similarly, an object OR a list, for how much each member spent per category. Keys are the categories' ID, values are an object; in this object, keys are the members' ID and values are how much this member spent on this category.
+  * `memberIds` [list]: List of integers, representing the IDs of all the _active_ members of the project.
+  * `allMemberIds` [list]: List of integers, representing the IDs of all the members of the project (even the disabled ones).
+  * `membersPaidFor` [object]: An object representing how much each member paid for other members.
+    * Each key is a member ID. Values are object to indicate how much a member (parent) paid for each other member (children), in which the keys are members' ID. There is also a special `"total"` key, representing how much the (parent) member paid in total.
+    * There is an additional special key `total`, leading to another object with members ID as keys. Each line represents how much was paid for this user (how much this member spent, this is the same as `stats.spent` above)
+  * `realMonths` [list]: List of all the months (still in the format `YYYY-MM`) that the stats cover.
+* Example usage:
+  ```console
+  ## In this, no bill has a category
+  ~$ curl  -s 'https://mynextcloud.org/index.php/apps/cospend/api/projects/bb9d1bced1d3896e6672db461753e93d/no-pass/statistics'
+  ```
+  <details>
+    <summary>Sample answer</summary>
+
+  ```json
+  {
+    "stats": [
+      {
+        "balance": -1105.6666666667002,
+        "filtered_balance": -1105.6666666667002,
+        "paid": 1000,
+        "spent": 2105.6666666667,
+        "member": {
+          "activated": true,
+          "userid": "alicedoe",
+          "name": "Alice Doe",
+          "id": 2,
+          "weight": 1,
+          "color": {
+            "r": 110,
+            "g": 166,
+            "b": 143
+          },
+          "lastchanged": 1678636572
+        }
+      },
+      {
+        "balance": 1105.6666666667002,
+        "filtered_balance": 1105.6666666667002,
+        "paid": 2600.00000000003,
+        "spent": 1494.33333333333,
+        "member": {
+          "activated": true,
+          "userid": "johndoe",
+          "name": "John Doe",
+          "id": 1,
+          "weight": 1,
+          "color": {
+            "r": 0,
+            "g": 130,
+            "b": 201
+          },
+          "lastchanged": 1678636568
+        }
+      }
+    ],
+    "memberMonthlyPaidStats": {
+      "2023-03": {
+        "2": 0,
+        "1": 266,
+        "0": 266
+      },
+      "2023-04": {
+        "2": 1000,
+        "1": 2334.00000000003,
+        "0": 3334.00000000003
+      },
+      "Average per month": {
+        "2": 500,
+        "1": 1300.000000000015,
+        "0": 1800.000000000015
+      }
+    },
+    "memberMonthlySpentStats": {
+      "2023-03": {
+        "2": 133,
+        "1": 133,
+        "0": 266
+      },
+      "2023-04": {
+        "2": 1972.6666666667002,
+        "1": 1361.33333333333,
+        "0": 3334.00000000003
+      },
+      "Average per month": {
+        "2": 1052.83333333335,
+        "1": 747.166666666665,
+        "0": 1800.000000000015
+      }
+    },
+    "categoryStats": [
+      3600.00000000003
+    ],
+    "categoryMonthlyStats": [
+      {
+        "2023-03": 266,
+        "2023-04": 3334.00000000003,
+        "Average per month": 1800.000000000015
+      }
+    ],
+    "paymentModeStats": {
+      "0": 2800.00000000003,
+      "3": 600,
+      "26": 200
+    },
+    "paymentModeMonthlyStats": {
+      "0": {
+        "2023-03": 266,
+        "2023-04": 2534.00000000003,
+        "Average per month": 1400.000000000015
+      },
+      "3": {
+        "2023-04": 600,
+        "Average per month": 300
+      },
+      "26": {
+        "2023-04": 200,
+        "Average per month": 100
+      }
+    },
+    "categoryMemberStats": [
+      {
+        "2": 1000,
+        "1": 2600.00000000003
+      }
+    ],
+    "memberIds": [
+      2,
+      1
+    ],
+    "allMemberIds": [
+      2,
+      1
+    ],
+    "membersPaidFor": {
+      "2": {
+        "2": 550,
+        "1": 450,
+        "total": 1000
+      },
+      "total": {
+        "2": 2105.6666666667,
+        "1": 1494.33333333333
+      },
+      "1": {
+        "2": 1555.6666666667002,
+        "1": 1044.33333333333,
+        "total": 2600.00000000003
+      }
+    },
+    "realMonths": [
+      "2023-03",
+      "2023-04"
+    ]
+  }
+  ```
+  </details>
+
+  ```console
+  ## The same, but >one< bill has a category
+  ~$ curl  -s 'https://mynextcloud.org/index.php/apps/cospend/api/projects/bb9d1bced1d3896e6672db461753e93d/no-pass/statistics'
+  ```
+
+  <details>
+    <summary>Sample answer</summary>
+
+    ```json
+    {
+    "stats": [
+      {
+        "balance": -1105.6666666667002,
+        "filtered_balance": -1105.6666666667002,
+        "paid": 1000,
+        "spent": 2105.6666666667,
+        "member": {
+          "activated": true,
+          "userid": "alicedoe",
+          "name": "Alice Doe",
+          "id": 2,
+          "weight": 1,
+          "color": {
+            "r": 110,
+            "g": 166,
+            "b": 143
+          },
+          "lastchanged": 1678636572
+        }
+      },
+      {
+        "balance": 1105.6666666667002,
+        "filtered_balance": 1105.6666666667002,
+        "paid": 2600.00000000003,
+        "spent": 1494.33333333333,
+        "member": {
+          "activated": true,
+          "userid": "johndoe",
+          "name": "John Doe",
+          "id": 1,
+          "weight": 1,
+          "color": {
+            "r": 0,
+            "g": 130,
+            "b": 201
+          },
+          "lastchanged": 1678636568
+        }
+      }
+    ],
+    "memberMonthlyPaidStats": {
+      "2023-03": {
+        "2": 0,
+        "1": 266,
+        "0": 266
+      },
+      "2023-04": {
+        "2": 1000,
+        "1": 2334.00000000003,
+        "0": 3334.00000000003
+      },
+      "Average per month": {
+        "2": 500,
+        "1": 1300.000000000015,
+        "0": 1800.000000000015
+      }
+    },
+    "memberMonthlySpentStats": {
+      "2023-03": {
+        "2": 133,
+        "1": 133,
+        "0": 266
+      },
+      "2023-04": {
+        "2": 1972.6666666667002,
+        "1": 1361.33333333333,
+        "0": 3334.00000000003
+      },
+      "Average per month": {
+        "2": 1052.83333333335,
+        "1": 747.166666666665,
+        "0": 1800.000000000015
+      }
+    },
+    "categoryStats": {
+      "0": 2700.00000000003,
+      "9": 900
+    },
+    "categoryMonthlyStats": {
+      "0": {
+        "2023-03": 266,
+        "2023-04": 2434.00000000003,
+        "Average per month": 1350.000000000015
+      },
+      "9": {
+        "2023-04": 900,
+        "Average per month": 450
+      }
+    },
+    "paymentModeStats": {
+      "0": 2800.00000000003,
+      "3": 600,
+      "26": 200
+    },
+    "paymentModeMonthlyStats": {
+      "0": {
+        "2023-03": 266,
+        "2023-04": 2534.00000000003,
+        "Average per month": 1400.000000000015
+      },
+      "3": {
+        "2023-04": 600,
+        "Average per month": 300
+      },
+      "26": {
+        "2023-04": 200,
+        "Average per month": 100
+      }
+    },
+    "categoryMemberStats": {
+      "0": {
+        "2": 100,
+        "1": 2600.00000000003
+      },
+      "9": {
+        "2": 900,
+        "1": 0
+      }
+    },
+    "memberIds": [
+      2,
+      1
+    ],
+    "allMemberIds": [
+      2,
+      1
+    ],
+    "membersPaidFor": {
+      "2": {
+        "2": 550,
+        "1": 450,
+        "total": 1000
+      },
+      "total": {
+        "2": 2105.6666666667,
+        "1": 1494.33333333333
+      },
+      "1": {
+        "2": 1555.6666666667002,
+        "1": 1044.33333333333,
+        "total": 2600.00000000003
+      }
+    },
+    "realMonths": [
+      "2023-03",
+      "2023-04"
+    ]
+  }
+  ```
+  </details>
+
 ### Get Project Settlement
 ### Auto Settlement
 ### Add Currency

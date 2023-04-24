@@ -1858,6 +1858,14 @@ Each bill created with this method will have the tile `<member_from_name> → <m
   * If `name` is empty or if the exchange rate is 0, `{"message": "Incorrect field values"}`, with code 400.
 
 ### Delete Currency
+* Availability: Logged in and Anonymous requests
+* Method: DELETE
+* Endpoint: `<base_endpoint>/currency/<currency_id>`
+* Return: The ID of the deleted currency (same as passed in the URL)
+* Errors:
+  * If you don't have the permissions to manage currencies, `{"message": "You are not allowed to manage currencies"}`, with code 401.
+  * If the `<currency_id>` doesn't match an existing currency, `{"message": "Not found"}`, with code 400.
+
 ### Add Payment Mode
 ### Edit Payment Mode
 ### Delete Payment Mode

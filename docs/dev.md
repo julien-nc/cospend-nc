@@ -420,6 +420,23 @@ As a general rule, everything related to the `old_id` (so the `paymentmode` in t
 
 
 ### Ping
+* Availability: logged requests
+* Method: `GET`
+* Path: `/api/ping`
+* Return: Name of the user making the request, in a 1-element list.
+* Errors:
+  * If the request is made without proper authentication, an error is returned
+  * If the authentication is incorrect, an empty message is returned
+* Example usage:
+  ```console
+  ## no proper login
+  ~$ curl https://mynextcloud.org/index.php/apps/cospend/api/ping
+  {"message":"Current user is not logged in"}
+
+  ## correct usage
+  ~$ curl-u "johndoe:mypassword" https://mynextcloud.org/index.php/apps/cospend/api/ping
+  ["Johndoe"]
+  ```
 ### Create Project
 ### Get Project Info
 ### Set Project Info

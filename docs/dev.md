@@ -1845,6 +1845,18 @@ Each bill created with this method will have the tile `<member_from_name> → <m
   * If you don't have the permissions to manage currencies, `{"message": "You are not allowed to manage currencies"}`, with code 401.
 
 ### Edit Currency
+* Availability: Logged in and Anonymous requests
+* Method: PUT
+* Endpoint: `<base_endpoint>/currency/<currency_id>`
+* Parameters:
+  * `name`: New name of the currency.
+  * `rate`: New exchange rate of the currency.
+* Return:
+* Errors:
+  * If you don't have the permissions to manage currencies, `{"message": "You are not allowed to manage currencies"}`, with code 401.
+  * If the `<currency_id>` doesn't match an existing currency, `{"message": "This project have no such currency"}`, with code 400.
+  * If `name` is empty or if the exchange rate is 0, `{"message": "Incorrect field values"}`, with code 400.
+
 ### Delete Currency
 ### Add Payment Mode
 ### Edit Payment Mode

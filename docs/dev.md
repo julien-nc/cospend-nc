@@ -1349,6 +1349,19 @@ This is equivalent to [the logged in equivalent](#get-bills-logged-in). Check th
   * If *any* of the integers of `payed_for` is not a valid member ID, returns `{"payed_for": "Not a valid choice"}` with code 400.
 
 ### Edit Bill
+* Availability: Logged in and Anonymous requests
+* Method: PUT
+* Endpoint: `<base_endpoint>/bills/<bill_id>`
+* Parameters: They are the same as [Add Bill](#add-bill); note that the endpoint contains the `bill_id`.
+* Return:
+  * The ID of the bill edited
+* Errors (all return code 400):
+  * If the `<bill_id>` from the endpoint doesn't match an existing bill, returns `{"message": "There is no such bill"}`.
+  * If the `repeat` character is not [valid](#repeat), returns `{"repeat": "Invalid value"}`
+  * If `date` is invalid (and `timestamp` is not specified), returns `{"date": "Invalid value"}`.
+  * If the field `payer` is specified but is not a vaid member ID: `{"payer": "Not a valid choice"}`.
+  * If *any* of the integers of `payed_for` is not a number, returns `{"payed_for": "Invalid value"}`; if either of them isn't a valid member ID, returns `{"payed_fo": "Not a valid choice"}`.
+
 ### Delete Bill
 ### Get Project Statistics
 ### Get Project Settlement

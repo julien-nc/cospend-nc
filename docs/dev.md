@@ -1387,6 +1387,20 @@ Note that in case of an error (notably if one of the ID is invalid), all bills b
 * Errors:
   * If the ID provided doesn't match a valid bill, returns `{"message": "Not Found"}`, with code 400.
 
+### Delete Bills
+Similarly to [Edit Bills](#edit-bills), this is an anonymous-only helper endpoint, to allow to delete bills in batches.
+Specify the bills as coma-separated integers, each representing one of the bills to delete.
+
+Note that in case of an error (notably if one of the ID is invalid), all bills before the error are processed, but the ones after are not.
+
+* Availability: Anonymous requests
+* Endpoint: `<base_endpoint>/bills`
+* Method: DELETE
+* Parameters:
+  * `bills`: Coma-separated integers, each being a valid existing bill to edit.
+* Return: `OK`
+* Errors:
+  * If *any* of the ID provided doesn't match a valid bill, returns `{"message": "Not Found"}`, with code 400.
 ### Get Project Statistics
 ### Get Project Settlement
 ### Auto Settlement

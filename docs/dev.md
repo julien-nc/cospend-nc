@@ -786,6 +786,17 @@ Create a project. To create it anonymously, the permission `allowAnonymousCreati
   "UPDATED"
  ```
 ### Delete project
+* Availability: Logged and Anonymous requests (must have the `Admin` [access level](#a-note-about-access-levels))
+* Method: DELETE
+* Endpoint: `<base_endpoint>`
+* Return: `{"message": "DELETED"}`
+* Errors:
+  * If the ID of the project doesn't exist, returns `{"message": "Not found"}` with code 404
+* Example usage:
+ ```console
+  ~$ curl -s -X DELETE -u 'johndoe:mypassword' https://mynextcloud.org/index.php/apps/cospend/api-priv/projects/my-first-project
+  {"message": "DELETED"}
+ ```
 ### Get Members
 ### Add Member
 ### Add Member V2

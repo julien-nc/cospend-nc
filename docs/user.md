@@ -73,7 +73,7 @@ This link is accessible in projects context menu => "guest link".
 
 ## <a id='s2-1-1' />Guest access permissions
 
-There are 4 levels of guest link permissions : 
+There are 4 levels of guest link permissions :
 
 * Viewer : read-only access
 * Participant : can create, modify or delete bills

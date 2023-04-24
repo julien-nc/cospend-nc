@@ -27,7 +27,8 @@
     - [Add Member V2](#add-member-v2)
     - [Edit Member](#edit-member)
     - [Delete Member](#delete-member)
-    - [Get Bills](#get-bills)
+    - [Get Bills (logged in)](#get-bills-logged-in)
+    - [Get Bills (anonymous)](#get-bills-anonymous)
     - [Get Bills V2](#get-bills-v2)
     - [Get Bills V3](#get-bills-v3)
     - [Add Bill](#add-bill)
@@ -428,7 +429,8 @@ As a general rule, everything related to the `old_id` (so the `paymentmode` in t
 ### Add Member V2
 ### Edit Member
 ### Delete Member
-### Get Bills
+### Get Bills (logged in)
+### Get Bills (anonymous)
 ### Get Bills V2
 ### Get Bills V3
 ### Add Bill

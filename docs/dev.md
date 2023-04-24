@@ -1380,6 +1380,13 @@ Note that in case of an error (notably if one of the ID is invalid), all bills b
   * Same errors than [Edit Bill](#edit-bill).
 
 ### Delete Bill
+* Availability: Logged in and Anonymous requests.
+* Method: DELETE
+* Endpoint: `<base_endpoint>/bills/<bill_id`
+* Return: `OK`
+* Errors:
+  * If the ID provided doesn't match a valid bill, returns `{"message": "Not Found"}`, with code 400.
+
 ### Get Project Statistics
 ### Get Project Settlement
 ### Auto Settlement

@@ -10,6 +10,7 @@
       - [Using the credentials](#using-the-credentials)
       - [Trying](#trying-1)
   - [Specifications](#specifications)
+    - [Cheatsheet/quick access](#cheatsheetquick-access)
     - [Additional details](#additional-details)
       - [A note about errors](#a-note-about-errors)
       - [A note about access levels](#a-note-about-access-levels)
@@ -33,9 +34,10 @@
     - [Get Bills V3](#get-bills-v3)
     - [Add Bill](#add-bill)
     - [Edit Bill](#edit-bill)
+    - [Edit Bills](#edit-bills)
     - [Delete Bill](#delete-bill)
+    - [Delete Bills](#delete-bills)
     - [Get Project Statistics](#get-project-statistics)
-    - [Get Project Settlement](#get-project-settlement)
     - [Auto Settlement](#auto-settlement)
     - [Add Currency](#add-currency)
     - [Edit Currency](#edit-currency)
@@ -92,8 +94,6 @@ This assumes you already have a project created, and want to use your API on spe
 
 If you use this method, your API path will have the following shape: `<root_url>/api/projects/<project_token>/<project_password>/<command>`
 #### Get the `<project_token>`
-
-
 
 Go to the project settings in the UI, open the Sharing tab, and create a share link. Your link should look something like this:
 `https://mynextcloud.org/apps/cospend/s/ba3355eaecc6254ad1755fa8e7cdf54a)`
@@ -287,6 +287,7 @@ The core part of the endpoint (`/api/projects/<project_token>/<project_password>
 |       `/api/ping`       | `https://mynextcloud.org/index.php/apps/cospend/api/ping`                                                                                                                                           |
 | `<base_endpoint>/bills` | *`https://mynextcloud.org/index.php/apps/cospend/api/projects/<project_token>/<project_password>/bills` <br> *`https://mynextcloud.org/index.php/apps/cospend/api-priv/projects/<project_id>/bills` |
 
+### Cheatsheet/quick access
 
 | Name                                               | Endpoint                                                      | Method | Anonymous/Logged |
 | -------------------------------------------------- | :------------------------------------------------------------ | :----- | ---------------- |

@@ -438,6 +438,29 @@ As a general rule, everything related to the `old_id` (so the `paymentmode` in t
   ["Johndoe"]
   ```
 ### Create Project
+Create a project. To create it anonymously, the permission `allowAnonymousCreation` must be enabled (in Nextcloud's Administration settings > Misc > Cospend >  Allow guests to create projects)
+* Availability: Logged and Anonymous requests
+* Method: `POST`
+* Endpoint: `/api/projects` (anonymous), or `/api-priv/projects` (logged in)
+* Parameters:
+  * `name`: Displayed name of the project (mandatory)
+  * `id`: A string, unique name across the instance. Must **not** contain a forward slash (`/`) As a comparison, the web lowercases the name and replaces spaces with dashes (`My First Project` -> `my-first-project`). (mandatory)
+  * `password`: A password for the project (this is the deprecated password protected access, share link password)
+  * `contact_email`: A contact email for the the project (optional)
+* Return: The ID of the newly created project (the same provided in `id`).
+* Errors:
+  * If the `id` contains a forward slash, `{"message": "Invalid project id"}` with code 400
+  * If the `id` is already used, `{"message": "A project with id <id> already exists"}` with code 400
+* Example usage:
+  ```console
+  ~$ curl -s -X POST \
+    --data-urlencode 'name=My First Project'\
+    --data-urlencode 'id=my-first-project'\
+    -u 'johndoe:mypassword'\
+    'https://mynextcloud.org/index.php/apps/cospend/api-priv/projects'
+
+  "my-first-project"
+  ```
 ### Get Project Info
 ### Set Project Info
 ### Delete project

@@ -880,6 +880,18 @@ Users with anonymous access wishing to add a member and link it to a Nextcloud u
   * If the `name` field is not specified, returns `{"message": "Name field is required"}`
 
 ### Add Member V2
+This is a complement to the [previous endpoint](#add-member). This brings to anonymous users the possibility to add a member and link them to a Nextcloud user.
+* Availability: Anonymous requests
+* Endpoint: `/apiv2/projects/<project_token>/<project_password>/members`
+* Method: POST
+* Note: This endpoint allows you to link a Nextcloud user as a Cospend member. Not specifying `userid` is strictly the same as the [basic `addmember`](#add-member)
+* Parameters:
+  * `name`: Name of the user to add. Mandatory.
+  * `weight`: Weight the user should have; a positive number, decimal or integer. Defaults to 1.
+  * `active`: Boolean, whether the user is active or not. Defaults to True.
+  * `color`: The color of the user. Must start by a pound sign, followed by 3 or 6 hexadecimal characters. Defaults to Null
+  * `userid`: Nextcloud ID (username)  of the user to link to that member.
+* Return: An object describing the user, with the same fields as the parameters, and the additional field `id` containing the id of the newly created member.
 ### Edit Member
 ### Delete Member
 ### Get Bills (logged in)

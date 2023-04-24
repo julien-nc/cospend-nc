@@ -1924,6 +1924,13 @@ Edit a payment mode. The name is mandatory, while other fields are optional; how
  ```
 
 ### Delete Payment Mode
+* Availability: Logged in and Anonymous requests
+* Method: DELETE
+* Endpoint: `<base_endpoint>/paymentmode/<pm_id>`
+* Return: `<pm_id>`, the ID of the deleted payment mode (same as provided), as an integer.
+* Errors:
+  * If `<pm_id>` doesn't match any existing payment mode, `{"message": "Not found"}` with code 400
+
 ### Add Category
 ### Edit Category
 ### Delete Category

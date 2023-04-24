@@ -10,6 +10,13 @@
       - [Using the credentials](#using-the-credentials)
       - [Trying](#trying-1)
   - [Specifications](#specifications)
+    - [Additional details](#additional-details)
+      - [A note about errors](#a-note-about-errors)
+      - [A note about access levels](#a-note-about-access-levels)
+      - [Autoexport](#autoexport)
+      - [Sort](#sort)
+      - [Repeat](#repeat)
+      - [Payment Modes' ID](#payment-modes-id)
     - [Ping](#ping)
     - [Create Project](#create-project)
     - [Get Project Info](#get-project-info)
@@ -314,6 +321,106 @@ The core part of the endpoint (`/api/projects/<project_token>/<project_password>
 | [Add Category          ](#add-category           ) | `<base_endpoint>/category/`                                   | POST   | Anonymous/Logged |
 | [Edit Category         ](#edit-category          ) | `<base_endpoint>/category/<category_id>`                      | PUT    | Anonymous/Logged |
 | [Delete Category       ](#delete-category        ) | `<base_endpoint>/category/<category_id>`                      | DELETE | Anonymous/Logged |
+
+### Additional details
+#### A note about errors
+While some errors are explicit and specific to a situation, many situations have the same error for the same behavior. In order to make the following specification more readable, non-specific errors are explained here
+
+
+* Missing login for private API
+  * Situation: the credentials are missing altogether, although using a logged in endpoint (`.../api-priv/...`)
+  * Error message: `{"message":"CORS requires basic auth"}`
+* The credentials are invalid
+  * Situation: you're using a logged in endpoint, but your credentials are incorrect (althrough present)
+  * Error message: `{"message":""}`
+* The URL is incorrect
+  * Situation: You're using anonymous or logged in requests, and the endpoint you're accessing doesn't exist, and can't exist (nb: this doesn't apply if e.g. the project name is incorrect). This happens a lot when debugging.
+  * Example: `curl  -u 'johndoe:password' https://mynextcloud.org/index.php/apps/cospend/api/pingdawd` <--
+  *  _No error message_. Only a line-feed (`\n`) character is returned.
+
+#### A note about access levels
+Users or tokens can have an access level, described by an integer from 1 to 4. They are defined as the following:
+<!--FIXME precise levels? -->
+* 1: Viewer, can view everything (read-only access)
+* 2: Participant, can read and write bills, as a normal participant
+* 3: Maintainer,
+* 4: Admin,
+
+#### Autoexport
+Autoexport is defined by a single character, with the following matches:
+* `n`: No
+* `d`: Daily
+* `w`: Weekly
+* `m`: Monthly
+
+#### Sort
+Categories and Payment Modes can be sorted. A single character characterizes the method, with the following matches:
+* `a`: Alphabetical,
+* `m`: Manual,
+* `u`: Most Used,
+* `r`: Most Recently used,
+
+#### Repeat
+Bills can be set to be repeating/recurring. Check the [user guide](./user.md#repeating-bills) for additional information of what each field actually  does. The `repeat` field is again defined by a single character, with the following matches:
+* `n`: never
+* `d`: daily (every X day)
+* `w`: weekly (every X weeks, every 7*X days)
+* `b`: bi-weekly (every 2 weeks, every 14 days)
+* `s`: semi-monthly (twice a month, on the 1st and 15th of each month)
+* `m`: monthly (every X months)
+* `y`: yearly (every X years)
+
+The field `repeatfreq` is the modifier for the repeat. It's an integer, that in practice replaces the X in the above matches. It is ignored for bi-weekly and semi-monthly repetitions.
+
+`repeatuntil` is simply a date, defined as a Unix timestamp.  For a bill that is set to repeat, at each cron run, the current "computed next run" for the bill is compared to the `repeatuntil` field.
+
+`repeatallactive` determines if the bill should just copy the set list of owers (False) or all current active members as the new owers (True). Note that this is not a boolean, but an integer. A value of 1 indicates True/ticked (repeat using all active members), while _any other value_ indicates False/unticked (only use the same list of owers). Default False value set by the web interface is 0. If you set a different value through the API (e.g. 5), the same value will be given back upon query. For obvious reasons it is **not recommmended** to use other values than 0 and 1.
+
+
+
+#### Payment Modes' ID
+Payment modes are defined by two ID: `id`, which is an integer, unique across all projects of this NC instance, and `old_id`, which is a single character.
+
+While `id` is faily standard, `old_id` requires a bit more attention. It is only defined for the 5 default payment modes:
+* `c` is `Credit card`
+* `b` is `Cash`
+* `f` is `Check`
+* `t` is `Transfer`
+* `o` is `Online Service`.
+
+Manually created payment modes still have a standard `id`, but their `old_id` is `null`.
+
+There is however another small specificity. When references are made to payment modes, another letter, `n` can appear. See for example an exract from an output from [Get Bills](#get-bills-logged-in) (many fields are omitted, this is for illustration purpose):
+```json
+{
+  "bills": [
+    {
+      "id": 1,
+      "amount": 66,
+      "what": "Yet another bill",
+      "paymentmode": "n",
+      "paymentmodeid": 0,
+      <....>
+    }
+    {
+      "id": 2,
+      "amount": 100,
+      "what": "New Bill",
+      "paymentmode": "n",
+      "paymentmodeid": 26,
+      <....>
+    }
+  ]
+}
+```
+
+Notice how the first bill, with ID 1, has `paymentmode="n"` and `paymentmodeid=0`. Having both of those means there are no payment mode set (`None`).
+The `n` indicates there are no `old_id` for this paymment mode.
+
+The second bill, however, has `paymentmode="n"`, as before, but `paymentmodeid=26`. In this, this shows the payment mode is a manually created payment mode (with `id` 26).
+
+As a general rule, everything related to the `old_id` (so the `paymentmode` in the latter case) can safely be ignored.
+
 
 ### Ping
 ### Create Project

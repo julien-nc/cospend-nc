@@ -292,20 +292,23 @@ The core part of the endpoint (`/api/projects/<project_token>/<project_password>
 | -------------------------------------------------- | :------------------------------------------------------------ | :----- | ---------------- |
 | [Ping                  ](#ping                   ) | `/api/ping`                                                   | GET    | **Logged**       |
 | [Create Project        ](#create-project         ) | `/api/projects` (anonymous),<br>`/api-priv/projects` (logged) | POST   | Anonymous/Logged |
-| [Get Project Info      ](#get-project-info       ) | `<base_endpoint>/`                                            | GET    | Anonymous/Logged |
-| [Set Project Info      ](#set-project-info       ) | `<base_endpoint>/`                                            | PUT    | Anonymous/Logged |
-| [Delete project        ](#delete-project         ) | `<base_endpoint>/`                                            | DELETE | Anonymous/Logged |
+| [Get Project Info      ](#get-project-info       ) | `<base_endpoint>`                                             | GET    | Anonymous/Logged |
+| [Set Project Info      ](#set-project-info       ) | `<base_endpoint>`                                             | PUT    | Anonymous/Logged |
+| [Delete project        ](#delete-project         ) | `<base_endpoint>`                                             | DELETE | Anonymous/Logged |
 | [Get Members           ](#get-members            ) | `<base_endpoint>/members`                                     | GET    | Anonymous/Logged |
 | [Add Member            ](#add-member             ) | `<base_endpoint>/members`                                     | POST   | Anonymous/Logged |
 | [Add Member V2         ](#add-member-v2          ) | `/apiv2/projects/<project_token>/<project_password>/members`  | POST   | **Anonymous**    |
 | [Edit Member           ](#edit-member            ) | `<base_endpoint>/members/<member_id>`                         | PUT    | Anonymous/Logged |
 | [Delete Member         ](#delete-member          ) | `<base_endpoint>/members/<member_id>`                         | DELETE | Anonymous/Logged |
-| [Get Bills             ](#get-bills              ) | `<base_endpoint>/bills`                                       | GET    | Anonymous/Logged |
+| [Get Bills (logged in) ](#get-bills-logged-in    ) | `<base_endpoint>/bills`                                       | GET    | **Logged**       |
+| [Get Bills (anonymous) ](#get-bills-anonymous    ) | `<base_endpoint>/bills`                                       | GET    | **Anonymous**    |
 | [Get Bills V2          ](#get-bills-v2           ) | `/apiv2/projects/<project_token>/<project_password>/bills`    | GET    | **Anonymous**    |
 | [Get Bills V3          ](#get-bills-v3           ) | `/apiv3/projects/<project_token>/<project_password>/bills`    | GET    | **Anonymous**    |
 | [Add Bill              ](#add-bill               ) | `<base_endpoint>/bills`                                       | POST   | Anonymous/Logged |
 | [Edit Bill             ](#edit-bill              ) | `<base_endpoint>/bills/<bill_id>`                             | PUT    | Anonymous/Logged |
+| [Edit Bills            ](#edit-bills             ) | `<base_endpoint>/bills`                                       | PUT    | **Anonymous**    |
 | [Delete Bill           ](#delete-bill            ) | `<base_endpoint>/bills/<bill_id>`                             | DELETE | Anonymous/Logged |
+| [Delete Bills          ](#delete-bills           ) | `<base_endpoint>/bills`                                       | DELETE | **Anonymous**    |
 | [Get Project Statistics](#get-project-statistics ) | `<base_endpoint>/statistics`                                  | GET    | Anonymous/Logged |
 | [Get Project Settlement](#get-project-settlement ) | `<base_endpoint>/settle`                                      | GET    | Anonymous/Logged |
 | [Auto Settlement       ](#auto-settlement        ) | `<base_endpoint>/autosettlement`                              | GET    | Anonymous/Logged |
@@ -315,7 +318,7 @@ The core part of the endpoint (`/api/projects/<project_token>/<project_password>
 | [Add Payment Mode      ](#add-payment-mode       ) | `<base_endpoint>/paymentmode`                                 | POST   | Anonymous/Logged |
 | [Edit Payment Mode     ](#edit-payment-mode      ) | `<base_endpoint>/paymentmode/<pm_id>`                         | PUT    | Anonymous/Logged |
 | [Delete Payment Mode   ](#delete-payment-mode    ) | `<base_endpoint>/paymentmode/<pm_id>`                         | DELETE | Anonymous/Logged |
-| [Add Category          ](#add-category           ) | `<base_endpoint>/category/`                                   | POST   | Anonymous/Logged |
+| [Add Category          ](#add-category           ) | `<base_endpoint>/category`                                    | POST   | Anonymous/Logged |
 | [Edit Category         ](#edit-category          ) | `<base_endpoint>/category/<category_id>`                      | PUT    | Anonymous/Logged |
 | [Delete Category       ](#delete-category        ) | `<base_endpoint>/category/<category_id>`                      | DELETE | Anonymous/Logged |
 

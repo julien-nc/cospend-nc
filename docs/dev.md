@@ -912,6 +912,12 @@ This is a complement to the [previous endpoint](#add-member). This brings to ano
   * If the member ID (in the URL) is not a valid existing member, returns `{"name": "This project have no such member"}` with code 403.
 
 ### Delete Member
+* Availability: Logged and Anonymous requests.
+* Endpoint: `<base_endpoint>/members/<member_id>`
+* Method: DELETE
+* Return: `"OK"`
+* Errors:
+  * If the `<member_id>` is not found, returns `"Not found"` with code 404.
 ### Get Bills (logged in)
 ### Get Bills (anonymous)
 ### Get Bills V2

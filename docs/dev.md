@@ -893,6 +893,24 @@ This is a complement to the [previous endpoint](#add-member). This brings to ano
   * `userid`: Nextcloud ID (username)  of the user to link to that member.
 * Return: An object describing the user, with the same fields as the parameters, and the additional field `id` containing the id of the newly created member.
 ### Edit Member
+* Availability: Logged and Anonymous users
+* Endpoint: `<base_endpoint>/members/<member_id>`
+* Method: PUT
+* Parameters:
+  * `memberid`: ID of the cospend member to edit. Mandatory.
+  * `name`: New name of the member.
+  * `weight`: New weight of the member.
+  * `activated`: Is the member active or not.
+  * `color`: New color of the member.
+  * `userid`: Nextcloud ID (username) of a user to link to the member.
+* Return:
+* Errors:
+  * If the member name already exists, returns `{"name": "Name already exists"}` with code 403.
+  * If the color isn't a valid 3 or 6 hexadecimal characters prefixed with a pound sign, returns `{"color": "Invalid value"}` with code 403.
+  * If the name is invalid (contains a forward slash `/`), returns `{"name": "Invalid member name"}` with code 403.
+  * If the weight is not a valid positive number, returns `{"weight": "Not a valid decimal value"}` with code 403
+  * If the member ID (in the URL) is not a valid existing member, returns `{"name": "This project have no such member"}` with code 403.
+
 ### Delete Member
 ### Get Bills (logged in)
 ### Get Bills (anonymous)

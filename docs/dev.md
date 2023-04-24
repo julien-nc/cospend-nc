@@ -263,15 +263,11 @@ encoded=$(echo -n "johndoe:mypassword" | base64) # -n mandatory, otherwise \n is
 curl -H "Authorization: Basic $encoded" https://example.com
 ```
 
-In order for the header to be correctly interpreted, you also need an additional header: `OCS-APIRequest: true`. For instance:
-```
-curl -H "OCS-APIRequest: true" -u "<username>:<app_password>" <url>
-```
 #### Trying
 You can now try your first `<command>`: `/statistics`. If you've followed correctly, your request should look like this:
 
 ```bash
-curl -s -u "<username>:<app_password" -H "OCS-APIRequest: true" \
+curl -s -u "<username>:<app_password" \
 https://mynextcloud.org/index.php/apps/cospend/api/projects/<project_id>/statistics
 ```
 And obtain the same result as before.

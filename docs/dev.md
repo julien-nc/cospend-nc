@@ -752,7 +752,39 @@ Create a project. To create it anonymously, the permission `allowAnonymousCreati
     }
     ```
   </details>
+
 ### Set Project Info
+* Availability:
+* Method: PUT
+* Endpoint: `<base_endpoint>`
+* Parameters:
+  * `name`: New name of the project (**NB**: this doesn't change the project ID used in the API)
+  * `contact_email`: New contact email for the project. Must be a valid (non-overloaded) address.
+  * `autoexport`: Set the [auto-export policy](#autoexport).
+  * `currencyname`: Set the main currency of the project.
+  * `deletion_disabled`: Whether the deletion of bills is allowed (ticks or not the box "Disable bills deletion" from the web UI). Values `0`, `false` and an empty value untick the box, everything else ticks the box.
+  * `categorysort`: A [valid character](#sort) to set the sort mode for the categories.
+  * `paymentmodesort`: A [valid character](#sort) to set the sort mode for the payment modes.
+* Return: `"UPDATED"`
+* Errors:
+  * If the email address is not deemed valid, return is `{"contact_email": ["Invalid email address"]}`
+  * If `autoexport` is not valid, return is `{"autoexport": ["Invalid frequency"]}`
+  * If the `categorysortorder` is not one of the [valid character](#sort), return is `{"categorysort": ["Invalid sort order"]}`
+  * If the `paymentmodesortorder` is not one of the [valid character](#sort), return is `{"paymentmodesort": ["Invalid sort order"]}`
+* Example usage:
+ ```console
+  ~$ curl -s -X PUT \
+      -d 'name=My Project New Name&\
+        contact_email=contactme@example.org&\
+        autoexport=d&\
+        currencyname=USD&\
+        deletion_disabled=1&\
+        categorysort=m&\
+        paymentmodesort=u' \
+      -u 'johndoe:mypassword' \
+      https://mynextcloud.org/index.php/apps/cospend/api-priv/projects/my-first-project
+  "UPDATED"
+ ```
 ### Delete project
 ### Get Members
 ### Add Member

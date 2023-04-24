@@ -1045,6 +1045,130 @@ This endpoint is slightly different whether you're anonymous or logged in, altho
 
 
 ### Get Bills (anonymous)
+This endpoint is slightly different whether you're anonymous or logged in, although the endpoint is the same. It allows you to _limit_ the results, but not _filter_ them.
+* Availability: Anonymous requests
+* Endpoint: `<base_endpoint>/bills` (**Only anonymous base endpoint**)
+* Method: GET
+* Parameters:
+  * `lastchanged`: An integer, representing a Unix timestamp. The lower limit for bills' `lastchanged` field. Aka, returns all bills that have been last modified after this date. **Note: any data will be accepted**, make sure you pass correct values. Even letters and special characters won't yield an error.
+  * `limit`: An integer, how may items should be returned at maximum.
+  * `offset`: An integer (starting at 0), defining from which position of the list should the limit apply. Ignored if `limit` is not specified. Default to 0 (no element discarded).
+  * `reverse`: A boolean, to determine if the list of bills should be sorted ascending (default, false) or descending (true). `0` and `false` mean False, everything else means True.
+* Return: A **list** (contrary to the logged in endpoint) of all the bills. This is the same as the list of `bills` returned by the [logged in endpoint](#get-bills-logged-in). This method doesn't return `allBillIds` or `timestamp`, it just returns the list of bills. As such, the parameters passed influence how this list is returned. The parameters are applied in the following order (assuming all of them have been provided):
+  1. Get all of the bills with that have been modified after `lastchanged`
+  2. Sort the list ascending or descending according to `reverse`
+  3. Discard elements before `offset`
+  4. Discard elements after `limit`.
+
+  Assuming, without parameters, the bills returned would be `[1,2,3,4,5]`, and the parameters are `reverse=true&offset=2&limit=2`, the end result will be `[3,2].
+* Errors:
+  * Negative `offset` or `limit` throws an error 500, with message `parse error: Invalid numeric literal at line 1, column 10`.
+
+* Example usage:
+  ```console
+  $~ curl  -s 'https://mynextcloud.org/index.php/apps/cospend/api/projects/bb9d1bced1d3896e6672db461753e93d/no-pass/bills?reverse=truelimit=2&offset=1'
+  ```
+
+  <details>
+    <summary>Sample answer</summary>
+
+    ```json
+    [
+      {
+        "id": 5,
+        "amount": 351,
+        "what": "A nice bill",
+        "comment": "",
+        "timestamp": 1679234191,
+        "date": "2023-03-19",
+        "payer_id": 3,
+        "owers": [
+          {
+            "id": 3,
+            "weight": 1,
+            "name": "John Doe",
+            "activated": true
+          }
+        ],
+        "owerIds": [
+          3
+        ],
+        "repeat": "n",
+        "paymentmode": "n",
+        "paymentmodeid": 0,
+        "categoryid": 0,
+        "lastchanged": 1679234239,
+        "repeatallactive": 0,
+        "repeatuntil": null,
+        "repeatfreq": 1
+      },
+      {
+        "id": 6,
+        "amount": 69,
+        "what": "A nice bill",
+        "comment": "",
+        "timestamp": 1679234191,
+        "date": "2023-03-19",
+        "payer_id": 3,
+        "owers": [
+          {
+            "id": 4,
+            "weight": 1,
+            "name": "Alice Doe",
+            "activated": true
+          }
+        ],
+        "owerIds": [
+          4
+        ],
+        "repeat": "n",
+        "paymentmode": "n",
+        "paymentmodeid": 0,
+        "categoryid": 0,
+        "lastchanged": 1679234239,
+        "repeatallactive": 0,
+        "repeatuntil": null,
+        "repeatfreq": 1
+      },
+      {
+        "id": 3,
+        "amount": 100,
+        "what": "My first bill",
+        "comment": "",
+        "timestamp": 1679234084,
+        "date": "2023-03-19",
+        "payer_id": 3,
+        "owers": [
+          {
+            "id": 3,
+            "weight": 1,
+            "name": "John Doe",
+            "activated": true
+          },
+          {
+            "id": 4,
+            "weight": 1,
+            "name": "Alice Doe",
+            "activated": true
+          }
+        ],
+        "owerIds": [
+          3,
+          4
+        ],
+        "repeat": "n",
+        "paymentmode": "n",
+        "paymentmodeid": 0,
+        "categoryid": 0,
+        "lastchanged": 1679234133,
+        "repeatallactive": 0,
+        "repeatuntil": null,
+        "repeatfreq": 1
+      }
+    ]
+    ```
+  </details>
+
 ### Get Bills V2
 ### Get Bills V3
 ### Add Bill

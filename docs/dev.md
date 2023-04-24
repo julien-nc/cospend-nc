@@ -858,6 +858,27 @@ Create a project. To create it anonymously, the permission `allowAnonymousCreati
   </details>
 
 ### Add Member
+This will add a member to the project, to associate to bills. The method differs slightly for logged in and anonymous users. To preserve compatibiltiy with IHateMoney, the anonymous version of this endpoint doesn't allow to link the member to a Nextcloud user, while the logged in endpoint allows it.
+
+Users with anonymous access wishing to add a member and link it to a Nextcloud user should use the [v2 endpoint](#add-member-v2) just below.
+
+* Availability: Logged and Anonymous requests
+* Endpoint: `<base_endpoint>/members`
+* Method: POST
+* Parameters:
+  * `name`: Name of the user to add. Mandatory.
+  * `weight`: Weight the user should have; a positive number, decimal or integer. Defaults to 1.
+  * `active`: Boolean, whether the user is active or not. Defaults to True.
+  * `color`: The color of the user. Must start by a pound sign, followed by 3 or 6 hexadecimal characters. Defaults to Null
+  * `userid`: **Only for logged in endpoint**, not for anonymous. Nextcloud ID (username) of the user to link to that member.
+
+* Return: ID of the newly created member, as a simple integer.
+* Errors:
+  * If the weight is not a valid positive number, returns `{"message": "Weight is not a valid decimal value"}`
+  * If the color isn't a valid 3 or 6 hexadecimal characters prefixed with a pound sign, returns `{"message": "Invalid color value"}`
+  * If the name is already present in the list of members, returns `{"message": "This project already has this member"}`
+  * If the `name` field is not specified, returns `{"message": "Name field is required"}`
+
 ### Add Member V2
 ### Edit Member
 ### Delete Member

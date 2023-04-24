@@ -1954,4 +1954,40 @@ Edit a payment mode. The name is mandatory, while other fields are optional; how
  ```
 
 ### Edit Category
+Edit a payment mode. The name is mandatory, while other fields are optional; however non-used fields will delete the information. So you should specify all fields you don't intend to delete, even if it means re-specifying the same fields as when creating.
+* Availability: Logged in and Anonymous requests
+* Method: PUT
+* Endpoint: `<base_endpoint>/category/<categoryid>`
+* Parameters:
+  * `name`: Name of the new payment mode (mandatory)
+  * `icon`: The icon of the payment mode, as a string (optional).
+  * `color`: Color of the icon (format `#RRGGBB`).
+
+* Return: The whole new object. Roughly the same as in [Get project info](#get-project-info), except that `order` is not present, but instead `project_id` is returned.
+  * `name` [string]
+  * `icon` [string]
+  * `color` [string]
+  * `id` [integer]
+  * `projectid` [string]
+  * `old_id` [string]
+* Errors:
+  * If the `<categoryid>` is not a valid category ID, `{"message": "This project has no such payment mode"}`, with code 400
+  * If `name` is not specified, `{"message": "Incorrect field value"}` with code 400.
+* Example usage:
+ ```console
+  ~$ curl -X PUT \
+    --data-urlencode 'name=Edited category'\
+    --data-urlencode 'color=#aabbcc'\
+    -u 'johndoe:mypassword' \
+    'https://mynextcloud.org/index.php/apps/cospend/api-priv/projects/my-first-project/category/57'
+
+  {
+    "name": "Edited category",
+    "icon": "",
+    "color": "#aabbcc",
+    "id": 57,
+    "projectid": "my-first-project"
+  }
+ ```
+
 ### Delete Category

@@ -1887,6 +1887,42 @@ Each bill created with this method will have the tile `<member_from_name> → <m
   31
  ```
 ### Edit Payment Mode
+Edit a payment mode. The name is mandatory, while other fields are optional; however non-used fields will delete the information. So you should specify all fields you don't intend to delete, even if it means re-specifying the same fields as when creating.
+* Availability: Logged in and Anonymous requests
+* Method: PUT
+* Endpoint: `<base_endpoint>/paymentmode/<pm_id>`
+* Parameters:
+  * `name`: Name of the new payment mode (mandatory)
+  * `icon`: The icon of the payment mode, as a string (optional).
+  * `color`: Color of the icon (format `#RRGGBB`).
+
+* Return: The whole new object. Roughly the same as in [Get project info](#get-project-info), except that `order` is not present, but instead `project_id` is returned.
+  * `name` [string]
+  * `icon` [string]
+  * `color` [string]
+  * `id` [integer]
+  * `projectid` [string]
+  * `old_id` [string]
+* Errors:
+  * If the `<pm_id>` is not a valid payment mode ID, `{"message": "This project has no such payment mode"}`, with code 400
+  * If `name` is not specified, `{"message": "Incorrect field value"}` with code 400.
+* Example usage:
+ ```console
+  ~$ curl -X PUT \
+    --data-urlencode 'name=My first edited payment mode'\
+    -u 'johndow:mypassword' \
+    'https://mynextcloud.org/index.php/apps/cospend/api-priv/projects/my-first-project/paymentmode/32
+
+  {
+    "name": "My first edited payment mode",
+    "icon": "",
+    "color": null,
+    "id": 32,
+    "projectid": "my-first-project",
+    "old_id": null
+  }
+ ```
+
 ### Delete Payment Mode
 ### Add Category
 ### Edit Category

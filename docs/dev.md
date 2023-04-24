@@ -1932,5 +1932,26 @@ Edit a payment mode. The name is mandatory, while other fields are optional; how
   * If `<pm_id>` doesn't match any existing payment mode, `{"message": "Not found"}` with code 400
 
 ### Add Category
+* Availability: Logged in and Anonymous requests
+* Method: POST
+* Endpoint: `<base_endpoint>/category`
+* Parameters:
+  * `name`: Name of the new category (mandatory)
+  * `icon`: The icon of the category, as a string (optional).
+  * `color`: Color of the category (format `#RRGGBB`). Any text will be accepted and stored as-is, but it will just not be possible to display it, it will default to black on the official Cospend web app (optional).
+  * `order`: Which position should the category have when sorting is manual (default 0); **Only available on anonymous endpoint** (optionlal)
+
+* Return: The ID of the newly created category, an integer.
+* Example usage:
+ ```console
+  ~$ curl -s -X POST \
+    --data-urlencode 'color=#DEAA12' \
+    --data-urlencode 'name=A Nice Category' \
+    --data-urlencode 'icon=💯' \
+    -u 'johndoe:mypassword' \
+    'https://mynextcloud.org/index.php/apps/cospend/api-priv/projects/my-first-project/category'
+  57
+ ```
+
 ### Edit Category
 ### Delete Category

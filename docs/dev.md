@@ -1176,6 +1176,149 @@ This is equivalent to [the logged in equivalent](#get-bills-logged-in). Check th
 * Method: GET
 
 ### Get Bills V3
+* Availability: Anonymous requests
+* Endpoint: `/apiv3/projects/<project_token>/<project_password>/bills`
+* Method: GET
+* Parameters:
+  * `lastchanged`, `offset`, `limit`, `reverse`: the same as [the v2 counterpart](#get-bills-v2)
+  * `payerId`: An integer, representing one cospend member's ID. Filter bills to only keep the ones that were paid by this member. It only applies to `payer_id`, not to owerIds.
+  * `categoryId`: An integer, representing a category's ID. Filter bills to only keep the ones that have this category indicated.
+  * `paymentModeId`: Similarly, an integer representing a payment mode's ID. Filter bills to only keep the ones that have this payment mode indicated. Note, this is the payment mode ID (an integer), not the [legacy ID](#payment-modes-id) (a letter)
+  * `includeBillId`: An integer, representing the ID of one (1) bill, to forcefully include despite the limit filtering. This is only available when `limit` is used, otherwise the parameter is ignored. This
+  * `searchTerm`:
+* Return: An object, containing the following:
+  * `nb_bills` [integer]: The number of bills _filtered_, before _limits_. The number here may be different from the actual number of bills in `bills`, if you've used `limit`.
+  * `bills` [list]: List of bills, with the same structure of other method ([logged in](#get-bills-logged-in), [anonymous](#get-bills-anonymous), [anonymous v2](#get-bills-v2))
+<!-- * Errors:
+  * -->
+* Example usage:
+  ```console
+  $~ curl -s 'https://mynextcloud.org/index.php/apps/cospend/apiv3/projects/bb9d1bced1d3896e6672db461753e93d/no-pass/bills?limit=2'
+  ```
+
+  <details>
+    <summary>Sample answer</summary>
+
+    ```json
+    {
+      "nb_bills": 3,
+      "bills": [
+        {
+          "id": 3,
+          "amount": 100,
+          "what": "My first bill",
+          "comment": "",
+          "timestamp": 1679234084,
+          "date": "2023-03-19",
+          "payer_id": 3,
+          "owers": [
+            {
+              "id": 3,
+              "weight": 1,
+              "name": "John Doe",
+              "activated": true
+            },
+            {
+              "id": 4,
+              "weight": 1,
+              "name": "Alice Doe",
+              "activated": true
+            }
+          ],
+          "owerIds": [
+            3,
+            4
+          ],
+          "repeat": "n",
+          "paymentmode": "n",
+          "paymentmodeid": 0,
+          "categoryid": 0,
+          "lastchanged": 1679234133,
+          "repeatallactive": 0,
+          "repeatuntil": null,
+          "repeatfreq": 1
+        },
+        {
+          "id": 5,
+          "amount": 351,
+          "what": "A nice bill",
+          "comment": "",
+          "timestamp": 1679234191,
+          "date": "2023-03-19",
+          "payer_id": 3,
+          "owers": [
+            {
+              "id": 3,
+              "weight": 1,
+              "name": "John Doe",
+              "activated": true
+            }
+          ],
+          "owerIds": [
+            3
+          ],
+          "repeat": "n",
+          "paymentmode": "n",
+          "paymentmodeid": 0,
+          "categoryid": 0,
+          "lastchanged": 1679234239,
+          "repeatallactive": 0,
+          "repeatuntil": null,
+          "repeatfreq": 1
+        }
+      ]
+    }
+    ```
+  </details>
+
+  Some more examples, to understand the difference between _limiting_ and _filtering_
+
+  ```console
+  $~ curl -s 'https://mynextcloud.org/index.php/apps/cospend/apiv3/projects/bb9d1bced1d3896e6672db461753e93d/no-pass/bills' \
+    | jq -r '.bills[].id' # get the ID of each returned bills, no **filter** or **limit**
+
+  1,2,7,8,10,9,11,12
+
+
+  $~ curl -s 'https://mynextcloud.org/index.php/apps/cospend/apiv3/projects/bb9d1bced1d3896e6672db461753e93d/no-pass/bills?limit=3' \
+    | jq -r '.bills[].id' # **limit** to 3 items
+
+  1,2,7
+
+  $~ curl -s 'https://mynextcloud.org/index.php/apps/cospend/apiv3/projects/bb9d1bced1d3896e6672db461753e93d/no-pass/bills?limit=3&offset=4' \
+    | jq -r '.bills[].id' # same **limit** but offset by 4
+
+  10,9,11
+
+  $~ curl -s 'https://mynextcloud.org/index.php/apps/cospend/apiv3/projects/bb9d1bced1d3896e6672db461753e93d/no-pass/bills?payerId=1' \
+    | jq -r '.bills[].id' # **filter** only the bills made by a specific member.
+
+  ## all bills but 11 and 12 are paid by member 1.
+  1,2,7,8,10,9
+
+  $~ curl -s 'https://mynextcloud.org/index.php/apps/cospend/apiv3/projects/bb9d1bced1d3896e6672db461753e93d/no-pass/bills?limit=3&offset=4&payerId=1' \
+    | jq -r '.bills[].id' # merge the two previous: first **filter** to user 1, then **limit** to 3 results, offset by 4
+
+  ## from the offset of 4, the limit is not "reached"
+  10,9
+
+  $~ curl -s 'https://mynextcloud.org/index.php/apps/cospend/apiv3/projects/bb9d1bced1d3896e6672db461753e93d/no-pass/bills?limit=3&offset=4&payerId=1' \
+    | jq -r '.nb_bills' # same request, but get the field nb_bills instead of listing the bills' ID
+
+  ## despite returning only bills 10 and 9 (after **limit**), nb_bills returns the number of bills after **filter** but excluding **limits**
+  6
+
+  $~ curl -s 'https://mynextcloud.org/index.php/apps/cospend/apiv3/projects/bb9d1bced1d3896e6672db461753e93d/no-pass/bills?limit=3&offset=4&payerId=1&includeBillId=10' \
+    | jq -r '.bills[].id' # Same, but forcefully include bill 10 (already included)
+
+  10,9
+
+  $~ curl -s 'https://mynextcloud.org/index.php/apps/cospend/apiv3/projects/bb9d1bced1d3896e6672db461753e93d/no-pass/bills?limit=3&offset=4&payerId=1&includeBillId=12' \
+    | jq -r '.bills[].id' # Same, but forcefully include bill 12 (not yet included)
+
+  ## includeBillId is a **limiting** option, doesn't take precedence over **filtering**. Bill 12 wouldn't have been returned after filtering, so it's not included after limiting.
+  10,9
+  ```
 ### Add Bill
 ### Edit Bill
 ### Delete Bill

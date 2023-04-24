@@ -462,6 +462,296 @@ Create a project. To create it anonymously, the permission `allowAnonymousCreati
   "my-first-project"
   ```
 ### Get Project Info
+* Availability: Logged and Anonymous requests
+* Method: GET
+* Endpoint: `<base_endpoint>`
+* Return:
+  * `name` [string]: Name of the project.
+  * `contact_email` [string]: Email of the project owner.
+  * `id` [string]: ID of the project (as used in the logged in endpoint).
+  * `guestaccesslevel` [integer]: [Access level](#a-note-about-access-levels) for guests <!-- FIXME -->.
+  * `autoexport` [string]: Is the project set to auto-export (values: `"y"` or `"n"`).
+  * `currencyname` [string]: Name of the currency of the project. `null` if the currency hasn't been set.
+  * `lastchanged` [integer]: Unix timestamp of the last modification of the project <!-- FIXME -->.
+  * `active_members` [list]: List of active members. This is a list, each entry containing the following:
+    * `activated` [boolean]: Whether this user is activated or not.
+    * `userId` [string]: The user's nextcloud ID (username)
+    * `name` [string]: The user's nextcloud full name.
+    * `id` [integer]: The user's cospend ID in this project <!--FIXME: scope?-->
+    * `weight` [integer]: The user's [weight](user.md#what-is-a-member-ok_woman-) in this project
+    * `color` [object]: An object containing the RGB components (0ver 255) of the color of the user. Specifically:
+      * `r` [integer]: the Red component (0-255)
+      * `g` [integer]: the Green component (0-255)
+      * `b` [integer]: the Blue component (0-255)
+    * `lastchanged` [integer]: Unix timestamp of the last modification of the user <!--FIXME-->
+  * `members` [list]: this has the same content as the `active_members` entry. The difference is <!--FIXME-->
+  * `balance` [object]: An object, in which keys are the members' project integer ID, and the values are the current balance of each member (as a number, positive or negative). By definition, the sum of the balance equal 0.
+  * `nb_bills` [integer]: Total number of bills in this project.
+  * `total_spent` [number]: Sum of all the bills' sums.
+  * `shares` [list]: List of accesses to the project. They can be of 2 types: Users or links (this is what is available in the web interface, under the project's Sharing tab.):
+    * Users: an object with the following entries:
+      * `userId` [string]: The user's nextcloud ID (username)
+      * `name` [string]: The user's nextcloud full name
+      * `id` [integer]: The user's cospend ID in this project <!--FIXME: scope?-->.
+      * `accesslevel` []: The user's [access level](#a-note-about-access-levels).
+      * `type` [string]: A single character `"u"`, to indicate the type of access (means "User").
+      * `manually_added` [boolean]: Was this share created manually or automatically.
+    * Links: an object with the following entries:
+      * `token` [string]: The token used for guest access. This is the `<project_token>` explained [earlier](#get-the-project_token).
+      * `id` [integer]: The link's cospend ID in this project 4.
+      * `accesslevel` []: The [access level](#a-note-about-access-levels) of the link.
+      * `label` [string, optional]: Label given to the link. If none is specified, `null`.
+      * `password` [string, optional]: Password give to the link. If none is specified, `null`. **Remember**: if you're using the API with a link that doesn't have a password, you need to use the [default password](#get-the-project_password)
+      * `type` [string]: A single character `"l"`, to indicate the type of access (means "Link").
+  * `currencies` [list]: A list of all secondary currencies. If none, the list is just empty. Each entry is an object with the following entries:
+    * `name` [string]: Name of the currency
+    * `exhange_rate` [number]: The factor between for this currency (_1 of this currency = X of main currency_)
+    * `id` [integer]: ID of the currency for this project
+  * `categories` [object]: An object containing all the categories. The keys are the categories' ID. For each category, the object is the following:
+    * `name` [string]: Name of the category.
+    * `icon` [string]: Single unicode character containing the emoji used as the icon of the category.
+    * `color` [string]: RGB string, prefixed with a pound sign, that represents the color of the category.
+    * `id` [integer]: ID of the currency (this is the *same* as the key that leads to this object). **The ID is global across all your projects**. Category `"1"` is only availably in a single project for instance.
+    * `order` [integer]: Order of the category, when sorting is manual
+  * `paymentmodes` [object]: Payment modes, with the same format as `categories`: this is an object, the keys are the payment modes' ID, and the values are objects. The objects have the following shape:
+    * `name` [string]: Name of the payment method.
+    * `icon` [string]: Single unicode character containing the emoji used as the icon of the payment method.
+    * `color` [string]: RGB string, prefixed with a pound sign, that represents the color of the payment method.
+    * `id` [integer]: ID of the currency (this is the *same* as the key that leads to this object). **The ID is global across all your projects**. Payment method `"1"` is only availably in a single project for instance.
+    * `order` [integer]: Order of the payment method, when sorting is manual.
+    * `old_id` [string]: Legacy name for the ID of the payment method.
+  * `deletion_disabled` [boolean]: false,
+  * `categorysort` [string]: How the categories are sorted. See the [corresponding note](#sort)
+  * `paymentmodesort` [string]: Similar to `categorysort`, but for payment modes. See the [corresponding note](#sort)
+  * `myaccesslevel` [integer]: [Access level](#a-note-about-access-levels) of the user making the request.
+
+* Errors:
+  *
+* Example usage:
+  ```console
+  ~$ curl -s -u 'johndoe:mypassword' https://mynextcloud.org/index.php/apps/cospend/api-priv/projects/my-first-project
+  ```
+  <details >
+    <summary>Sample answer</summary>
+
+    ```json
+    {
+      "name": "My First Project",
+      "contact_email": "johndoe@mynextcloud.org",
+      "id": "my-first-project",
+      "guestaccesslevel": 2,
+      "autoexport": "n",
+      "currencyname": "EUR",
+      "lastchanged": 1678648595,
+      "active_members": [
+        {
+          "activated": true,
+          "userid": "alicedoe",
+          "name": "Alice Doe",
+          "id": 2,
+          "weight": 1,
+          "color": {
+            "r": 110,
+            "g": 166,
+            "b": 143
+          },
+          "lastchanged": 1678636572
+        },
+        {
+          "activated": true,
+          "userid": "johndoe",
+          "name": "John Doe",
+          "id": 1,
+          "weight": 1,
+          "color": {
+            "r": 0,
+            "g": 130,
+            "b": 201
+          },
+          "lastchanged": 1678636568
+        }
+      ],
+      "members": [
+        {
+          "activated": true,
+          "userid": "alicedoe",
+          "name": "Alice Doe",
+          "id": 2,
+          "weight": 1,
+          "color": {
+            "r": 110,
+            "g": 166,
+            "b": 143
+          },
+          "lastchanged": 1678636572
+        },
+        {
+          "activated": true,
+          "userid": "johndoe",
+          "name": "John Doe",
+          "id": 1,
+          "weight": 1,
+          "color": {
+            "r": 0,
+            "g": 130,
+            "b": 201
+          },
+          "lastchanged": 1678636568
+        }
+      ],
+      "balance": {
+        "2": -83,
+        "1": 83
+      },
+      "nb_bills": 2,
+      "total_spent": 166,
+      "shares": [
+        {
+          "userid": "alicedoe",
+          "name": "Alice Doe",
+          "id": 3,
+          "accesslevel": 2,
+          "type": "u",
+          "manually_added": false
+        },
+        {
+          "token": "bb9d1bced1d3896e6672db461753e93d",
+          "id": 4,
+          "accesslevel": 2,
+          "label": null,
+          "password": null,
+          "type": "l"
+        }
+      ],
+      "currencies": [],
+      "categories": {
+        "1": {
+          "name": "Grocery",
+          "icon": "🛒",
+          "color": "#ffaa00",
+          "id": 1,
+          "order": 0
+        },
+        "2": {
+          "name": "Bar/Party",
+          "icon": "🎉",
+          "color": "#aa55ff",
+          "id": 2,
+          "order": 0
+        },
+        "3": {
+          "name": "Rent",
+          "icon": "🏠",
+          "color": "#da8733",
+          "id": 3,
+          "order": 0
+        },
+        "4": {
+          "name": "Bill",
+          "icon": "🌩",
+          "color": "#4aa6b0",
+          "id": 4,
+          "order": 0
+        },
+        "5": {
+          "name": "Excursion/Culture",
+          "icon": "🚸",
+          "color": "#0055ff",
+          "id": 5,
+          "order": 0
+        },
+        "6": {
+          "name": "Health",
+          "icon": "💚",
+          "color": "#bf090c",
+          "id": 6,
+          "order": 0
+        },
+        "7": {
+          "name": "Shopping",
+          "icon": "🛍",
+          "color": "#e167d1",
+          "id": 7,
+          "order": 0
+        },
+        "8": {
+          "name": "Restaurant",
+          "icon": "🍴",
+          "color": "#d0d5e1",
+          "id": 8,
+          "order": 0
+        },
+        "9": {
+          "name": "Accommodation",
+          "icon": "🛌",
+          "color": "#5de1a3",
+          "id": 9,
+          "order": 0
+        },
+        "10": {
+          "name": "Transport",
+          "icon": "🚌",
+          "color": "#6f2ee1",
+          "id": 10,
+          "order": 0
+        },
+        "11": {
+          "name": "Sport",
+          "icon": "🎾",
+          "color": "#69e177",
+          "id": 11,
+          "order": 0
+        }
+      },
+      "paymentmodes": {
+        "1": {
+          "name": "Credit card",
+          "icon": "💳",
+          "color": "#FF7F50",
+          "id": 1,
+          "order": 0,
+          "old_id": "c"
+        },
+        "2": {
+          "name": "Cash",
+          "icon": "💵",
+          "color": "#556B2F",
+          "id": 2,
+          "order": 0,
+          "old_id": "b"
+        },
+        "3": {
+          "name": "Check",
+          "icon": "🎫",
+          "color": "#A9A9A9",
+          "id": 3,
+          "order": 0,
+          "old_id": "f"
+        },
+        "4": {
+          "name": "Transfer",
+          "icon": "⇄",
+          "color": "#00CED1",
+          "id": 4,
+          "order": 0,
+          "old_id": "t"
+        },
+        "5": {
+          "name": "Online service",
+          "icon": "🌎",
+          "color": "#9932CC",
+          "id": 5,
+          "order": 0,
+          "old_id": "o"
+        }
+      },
+      "deletion_disabled": false,
+      "categorysort": "a",
+      "paymentmodesort": "a",
+      "myaccesslevel": 4
+    }
+    ```
+  </details>
 ### Set Project Info
 ### Delete project
 ### Get Members

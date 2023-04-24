@@ -422,7 +422,7 @@ As a general rule, everything related to the `old_id` (so the `paymentmode` in t
 ### Ping
 * Availability: logged requests
 * Method: `GET`
-* Path: `/api/ping`
+* Endpoint: `/api/ping`
 * Return: Name of the user making the request, in a 1-element list.
 * Errors:
   * If the request is made without proper authentication, an error is returned

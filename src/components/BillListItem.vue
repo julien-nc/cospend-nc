@@ -47,7 +47,7 @@
 				</template>
 				{{ deleteIconTitle }}
 			</NcActionButton>
-			<NcActionButton v-if="!pageIsPublic && editionAccess && !selectMode && !timerOn"
+			<NcActionButton v-if="!pageIsPublic && editionAccess && !selectMode && !timerOn && bill.id !== 0"
 				:close-after-click="true"
 				@click="onMoveClick">
 				<template #icon>

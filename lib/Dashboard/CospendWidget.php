@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2020 Julien Veyssier <eneiluj@posteo.net>
+ * @copyright Copyright (c) 2020 Julien Veyssier <julien-nc@posteo.net>
  *
- * @author Julien Veyssier <eneiluj@posteo.net>
+ * @author Julien Veyssier <julien-nc@posteo.net>
  *
  * @license GNU AGPL version 3 or any later version
  *

@@ -1,7 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2021 Julien Veyssier <eneiluj@posteo.net>
+  - @copyright Copyright (c) 2021 Julien Veyssier <julien-nc@posteo.net>
   -
-  - @author Julien Veyssier <eneiluj@posteo.net>
+  - @author Julien Veyssier <julien-nc@posteo.net>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -37,10 +37,10 @@
 				<h3 class="app-settings-section__hint">
 					{{ t('cospend', 'Bug/issue tracker') + ': ' }}
 				</h3>
-				<a href="https://github.com/eneiluj/cospend-nc/issues"
+				<a href="https://github.com/julien-nc/cospend-nc/issues"
 					target="_blank"
 					class="external">
-					https://github.com/eneiluj/cospend-nc/issues
+					https://github.com/julien-nc/cospend-nc/issues
 					<OpenInNewIcon :size="16" />
 				</a>
 				<h3 class="app-settings-section__hint">
@@ -55,28 +55,28 @@
 				<h3 class="app-settings-section__hint">
 					{{ t('cospend', 'User documentation') + ': ' }}
 				</h3>
-				<a href="https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md"
+				<a href="https://github.com/julien-nc/cospend-nc/blob/master/docs/user.md"
 					target="_blank"
 					class="external">
-					https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md
+					https://github.com/julien-nc/cospend-nc/blob/master/docs/user.md
 					<OpenInNewIcon :size="16" />
 				</a>
 				<h3 class="app-settings-section__hint">
 					{{ t('cospend', 'Admin documentation') + ': ' }}
 				</h3>
-				<a href="https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md"
+				<a href="https://github.com/julien-nc/cospend-nc/blob/master/docs/admin.md"
 					target="_blank"
 					class="external">
-					https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md
+					https://github.com/julien-nc/cospend-nc/blob/master/docs/admin.md
 					<OpenInNewIcon :size="16" />
 				</a>
 				<h3 class="app-settings-section__hint">
 					{{ t('cospend', 'Developer documentation') + ': ' }}
 				</h3>
-				<a href="https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md"
+				<a href="https://github.com/julien-nc/cospend-nc/blob/master/docs/dev.md"
 					target="_blank"
 					class="external">
-					https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md
+					https://github.com/julien-nc/cospend-nc/blob/master/docs/dev.md
 					<OpenInNewIcon :size="16" />
 				</a>
 			</NcAppSettingsSection>

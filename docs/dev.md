@@ -4,7 +4,7 @@ Clone this repository and build:
 
 ``` bash
 cd /var/www/.../nextcloud/apps
-git clone https://github.com/eneiluj/cospend-nc cospend
+git clone https://github.com/julien-nc/cospend-nc cospend
 cd cospend
 npm ci
 npm run watch

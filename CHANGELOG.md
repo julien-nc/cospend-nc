@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.5.9 – 2023-05-14
+
+### Changed
+
+- update npm pkgs, use latest @nextcloud/vue
+- use NcRichContenteditable in bill form for comment
+
+### Fixed
+
+- do not show move action for new bills
+- fix all vue warnings about accessibility or deprecated props
+- fix bill repetition bug producing way too many bills
+  [#201](https://github.com/julien-nc/cospend-nc/issues/201) @v3DJG6GL @ouaisbahouais
+
 ## 1.5.8 – 2023-02-17
 ### Fixed
 - fix main empty content buttons in mobile view
@@ -21,7 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## 1.5.6 – 2023-02-06
 ### Fixed
 - fix bill repetition, get user timezone and use immutable dates
-  [#191](https://github.com/eneiluj/cospend-nc/pull/191) @jonasbb
+  [#191](https://github.com/julien-nc/cospend-nc/pull/191) @jonasbb
 
 ## 1.5.5 – 2023-01-08
 ### Added
@@ -35,9 +49,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## 1.5.4 – 2022-11-18
 ### Fixed
 - Fix scroll not working on mobile
-  [#184](https://github.com/eneiluj/cospend-nc/pull/184) @eliandoran
+  [#184](https://github.com/julien-nc/cospend-nc/pull/184) @eliandoran
 - Fix content shifting to the top in bill form
-  [#183](https://github.com/eneiluj/cospend-nc/pull/183) @eliandoran
+  [#183](https://github.com/julien-nc/cospend-nc/pull/183) @eliandoran
 - fix bill items style by removing list marker
 
 ## 1.5.2 – 2022-10-16
@@ -61,47 +75,47 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## 1.4.10 – 2022-09-04
 ### Added
 - move bill between projects
-  [#165](https://github.com/eneiluj/cospend-nc/pull/165) @Almamu
+  [#165](https://github.com/julien-nc/cospend-nc/pull/165) @Almamu
 
 ### Changed
 - better search icon (member or user avatar)
 - improve import performance by grouping the db requests in a transaction
 - click on current project: deselect user and reload bill list, emphasize selected member name
-  [#168](https://github.com/eneiluj/cospend-nc/issues/168) @siccovansas
+  [#168](https://github.com/julien-nc/cospend-nc/issues/168) @siccovansas
 
 ### Fixed
 - invisible colors for navigation items
-  [#160](https://github.com/eneiluj/cospend-nc/issues/160) @Ezwen
+  [#160](https://github.com/julien-nc/cospend-nc/issues/160) @Ezwen
 - make import more resistant to malformed csv files
-  [#97](https://github.com/eneiluj/cospend-nc/issues/97) @mrclschstr
+  [#97](https://github.com/julien-nc/cospend-nc/issues/97) @mrclschstr
 - fix splitwise import
-  [#159](https://github.com/eneiluj/cospend-nc/issues/159) @iluvatyr
+  [#159](https://github.com/julien-nc/cospend-nc/issues/159) @iluvatyr
 
 ## 1.4.8 – 2022-06-07
 ### Added
 - new "payer" stats filter
 - option to choose between pie chart and histograms for some stat charts
 - search and filter by amount
-  [#135](https://github.com/eneiluj/cospend-nc/issues/135) @Zaptro
+  [#135](https://github.com/julien-nc/cospend-nc/issues/135) @Zaptro
 - parse some common date formats in bill edition form
-  [#139](https://github.com/eneiluj/cospend-nc/issues/139) @xstable
+  [#139](https://github.com/julien-nc/cospend-nc/issues/139) @xstable
 - basic history/path/url state management
 
 ### Changed
 - move to material design icons
 - many style improvements
 - filtering is now done on the server side
-  [#135](https://github.com/eneiluj/cospend-nc/issues/135) @Zaptro
+  [#135](https://github.com/julien-nc/cospend-nc/issues/135) @Zaptro
 - use ListItem component from @nextcloud/vue
 - reset selected bill after creation
-  [#146](https://github.com/eneiluj/cospend-nc/issues/146) @marcelklehr
+  [#146](https://github.com/julien-nc/cospend-nc/issues/146) @marcelklehr
 - use latest vue-chartjs and chartjs (4.1.1 and 3.8.0)
 - improve stats table style with sticky average column
 - emphasize hovered stat table cell in the related line chart
 
 ### Fixed
 - bug when duplicating a bill that was just created
-  [#140](https://github.com/eneiluj/cospend-nc/issues/140) @xstable
+  [#140](https://github.com/julien-nc/cospend-nc/issues/140) @xstable
 - get rid of SVG api requests as it's been removed in NC 25
 - bill owers effectiveness for new bills
 
@@ -109,13 +123,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - changed instances of 'she/he', 'his/hers', etc to 'they'/'them'/'their' @hexadecatrienoic
 - move project import in new project actions
-[#104](https://github.com/eneiluj/cospend-nc/issues/104) @derMart
+[#104](https://github.com/julien-nc/cospend-nc/issues/104) @derMart
 
 ### Fixed
 - app-content not displayed when loaded in mobile view
-[#126](https://github.com/eneiluj/cospend-nc/issues/126) @brunothg
+[#126](https://github.com/julien-nc/cospend-nc/issues/126) @brunothg
 - warning in API (edit and create bill)
-[#127](https://github.com/eneiluj/cospend-nc/issues/127) @rm76
+[#127](https://github.com/julien-nc/cospend-nc/issues/127) @rm76
 
 ## 1.4.5 – 2022-03-11
 ### Changed
@@ -134,7 +148,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix auto share deletion when renaming a member linked with a user
 - fix multiselect issue when selecting the selected item
 - fix project import with spaces in member names
-  [#97](https://github.com/eneiluj/cospend-nc/issues/97) @mrclschstr
+  [#97](https://github.com/julien-nc/cospend-nc/issues/97) @mrclschstr
 
 ## 1.4.4 – 2022-03-04
 ### Added
@@ -151,7 +165,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - provide access level on getProjectInfo web and private API endpoints
 - provide guest access level as 'myaccesslevel' in public API
 - typos leading to warning logs
-  [#121](https://github.com/eneiluj/cospend-nc/issues/121) @daniel1v
+  [#121](https://github.com/julien-nc/cospend-nc/issues/121) @daniel1v
 
 ## 1.4.3 – 2021-11-12
 ### Changed
@@ -166,17 +180,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - individual settlement bugs
-  [#94](https://github.com/eneiluj/cospend-nc/issues/94) @redpixy
+  [#94](https://github.com/julien-nc/cospend-nc/issues/94) @redpixy
 
 ## 1.4.1 – 2021-10-13
 ### Fixed
 - amount formula evaluation, replace comas only when a coma is typed
-  [#86](https://github.com/eneiluj/cospend-nc/issues/86) @aniqueta
+  [#86](https://github.com/julien-nc/cospend-nc/issues/86) @aniqueta
 - member edition/deletion failure because of color check
-  [#90](https://github.com/eneiluj/cospend-nc/issues/90) @quizilkend
-  [#92](https://github.com/eneiluj/cospend-nc/issues/92) @datenangebot
+  [#90](https://github.com/julien-nc/cospend-nc/issues/90) @quizilkend
+  [#92](https://github.com/julien-nc/cospend-nc/issues/92) @datenangebot
 - member order in sidebar
-  [#89](https://github.com/eneiluj/cospend-nc/issues/89) @valkalon
+  [#89](https://github.com/julien-nc/cospend-nc/issues/89) @valkalon
 
 ## 1.3.19 – 2021-09-17
 ### Changed
@@ -189,42 +203,42 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - category and payment mode creation directly in bill form multiselect
 - custom payment modes
-  [#69](https://github.com/eneiluj/cospend-nc/issues/69) @AllesMeins
+  [#69](https://github.com/julien-nc/cospend-nc/issues/69) @AllesMeins
 - password protection for share links
-  [#9](https://github.com/eneiluj/cospend-nc/issues/9) @simonspa
+  [#9](https://github.com/julien-nc/cospend-nc/issues/9) @simonspa
 - bill list filters (category and payment mode)
-  [#80](https://github.com/eneiluj/cospend-nc/issues/80) @webflo-dev
+  [#80](https://github.com/julien-nc/cospend-nc/issues/80) @webflo-dev
 - QRCode for share links (to add the project in mobile clients)
 
 ### Changed
 - set current time as default to new bills
-  [#73](https://github.com/eneiluj/cospend-nc/issues/73) @TtuxX
+  [#73](https://github.com/julien-nc/cospend-nc/issues/73) @TtuxX
 - allow bill creation with only one member
-  [#62](https://github.com/eneiluj/cospend-nc/issues/62) @hellojaccc
-  [#18](https://github.com/eneiluj/cospend-nc/issues/18) @xetyr
+  [#62](https://github.com/julien-nc/cospend-nc/issues/62) @hellojaccc
+  [#18](https://github.com/julien-nc/cospend-nc/issues/18) @xetyr
 - many design improvements
 - progressively get rid of public access stuff
 - fix import with files that were edited with LibreOffice like software
-  [#79](https://github.com/eneiluj/cospend-nc/issues/79) @TtuxX
+  [#79](https://github.com/julien-nc/cospend-nc/issues/79) @TtuxX
 - change export format, keep import compatible with the old one
 
 ### Fixed
 - fix error when user ID is null in activity provider
-  [#74](https://github.com/eneiluj/cospend-nc/issues/74) @arifer612
-  [#75](https://github.com/eneiluj/cospend-nc/issues/75) @apg1980
-  [#83](https://github.com/eneiluj/cospend-nc/issues/83) @Thovi98
+  [#74](https://github.com/julien-nc/cospend-nc/issues/74) @arifer612
+  [#75](https://github.com/julien-nc/cospend-nc/issues/75) @apg1980
+  [#83](https://github.com/julien-nc/cospend-nc/issues/83) @Thovi98
 - make bill form left column a bit more responsive
-  [#82](https://github.com/eneiluj/cospend-nc/issues/82) @siccovansas
+  [#82](https://github.com/julien-nc/cospend-nc/issues/82) @siccovansas
 
 ## 1.3.12 – 2021-08-05
 ### Added
 - button to duplicate selected bill as new bill
-  [#70](https://github.com/eneiluj/cospend-nc/issues/70) @TtuxX
+  [#70](https://github.com/julien-nc/cospend-nc/issues/70) @TtuxX
 
 ### Fixed
 - issues with issing accessibility stuff in public pages or when accessibility app is not installed
-  [#70](https://github.com/eneiluj/cospend-nc/issues/70) @TtuxX
-  [#68](https://github.com/eneiluj/cospend-nc/issues/68) @la-balisa
+  [#70](https://github.com/julien-nc/cospend-nc/issues/70) @TtuxX
+  [#68](https://github.com/julien-nc/cospend-nc/issues/68) @la-balisa
 
 ## 1.3.11 – 2021-08-05
 ### Added
@@ -235,9 +249,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - issue with decimal numbers in new bill custom share mode
-  [#20](https://github.com/eneiluj/cospend-nc/issues/20) @mayonezo
+  [#20](https://github.com/julien-nc/cospend-nc/issues/20) @mayonezo
 - add member in public pages
-  [#68](https://github.com/eneiluj/cospend-nc/issues/68) @la-balisa
+  [#68](https://github.com/julien-nc/cospend-nc/issues/68) @la-balisa
 
 ## 1.3.10 – 2021-07-22
 ### Added
@@ -246,9 +260,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - new setting to choose member order in navigation (balance or name)
 - public link labels
 - new member monthly spent stats table/chart
-  [#58](https://github.com/eneiluj/cospend-nc/issues/58) @Raspikabek
+  [#58](https://github.com/julien-nc/cospend-nc/issues/58) @Raspikabek
 - new 'most used' and 'most recently used' category orders
-  [#26](https://github.com/eneiluj/cospend-nc/issues/26) @itatabitovski
+  [#26](https://github.com/julien-nc/cospend-nc/issues/26) @itatabitovski
 - hover interactions between stats tables and charts (both ways)
 - new average column for category and payment mode monthly stat tables
 
@@ -264,7 +278,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - don't fetch dashboard widget content if tab is not visible
 - improve activity and notifications icons and content
 - allow empty bill title on creation and edition
-  [#28](https://github.com/eneiluj/cospend-nc/issues/28) @whtv
+  [#28](https://github.com/julien-nc/cospend-nc/issues/28) @whtv
 
 ### Fixed
 - some class injections
@@ -272,12 +286,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - padding issues in settlement/stats tables
 - PHP 7.2 compatibility
 - character escaping in projects/bills titles
-  [#60](https://github.com/eneiluj/cospend-nc/issues/60) @sihagen
+  [#60](https://github.com/julien-nc/cospend-nc/issues/60) @sihagen
 
 ## 1.3.7 – 2021-06-21
 ### Fixed
 - mistakely using new DB methods
-  [#57](https://github.com/eneiluj/cospend-nc/issues/57) @rettenbs
+  [#57](https://github.com/julien-nc/cospend-nc/issues/57) @rettenbs
 
 ## 1.3.6 – 2021-06-18
 ### Fixed
@@ -292,56 +306,56 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - issue with global user search in some cases
-[#54](https://github.com/eneiluj/cospend-nc/issues/54) @susinths
+[#54](https://github.com/julien-nc/cospend-nc/issues/54) @susinths
 - auto delete shares with unexisting users
 
 ## 1.3.4 – 2021-05-06
 ### Fixed
 - fix payment mode in stats again
-[#52](https://github.com/eneiluj/cospend-nc/issues/52) @jonasbb @Byter3
+[#52](https://github.com/julien-nc/cospend-nc/issues/52) @jonasbb @Byter3
 
 ## 1.3.3 – 2021-05-06
 ### Fixed
 - missing fallback payment mode in stats
-[#52](https://github.com/eneiluj/cospend-nc/issues/52) @jonasbb @Byter3
+[#52](https://github.com/julien-nc/cospend-nc/issues/52) @jonasbb @Byter3
 
 ## 1.3.2 – 2021-05-03
 ### Added
 - new option to display/set dates instead of datetimes
-[#46](https://github.com/eneiluj/cospend-nc/issues/46) @pawlosck
+[#46](https://github.com/julien-nc/cospend-nc/issues/46) @pawlosck
 - bill repetition frequency for daily, weekly, monthly and yearly
-[#47](https://github.com/eneiluj/cospend-nc/issues/47) @pawlosck
+[#47](https://github.com/julien-nc/cospend-nc/issues/47) @pawlosck
 - payment mode stats (monthly and global)
 
 ### Changed
 - new bill default time is 00:00:00
-[#46](https://github.com/eneiluj/cospend-nc/issues/46) @pawlosck
+[#46](https://github.com/julien-nc/cospend-nc/issues/46) @pawlosck
 
 ### Fixed
 - use absolute URLs for activity icons
 - fix perso amounts and custom owed amount with coma
-[#44](https://github.com/eneiluj/cospend-nc/issues/44) @ndi123
+[#44](https://github.com/julien-nc/cospend-nc/issues/44) @ndi123
 - fix strange JS number operations behaviour
-[#44](https://github.com/eneiluj/cospend-nc/issues/44) @ndi123
+[#44](https://github.com/julien-nc/cospend-nc/issues/44) @ndi123
 - fix member avatar color with Avatar wrapper component handling custom color prop
 - use user timezone in statistics generation
-[#45](https://github.com/eneiluj/cospend-nc/issues/45) @pawlosck
+[#45](https://github.com/julien-nc/cospend-nc/issues/45) @pawlosck
 - bill deletion activity
 - avoid some db queries in activity manager
 
 ## 1.3.0 – 2021-03-15
 ### Added
 - individual settlement
-[#29](https://github.com/eneiluj/cospend-nc/issues/29) @FrouxBY
+[#29](https://github.com/julien-nc/cospend-nc/issues/29) @FrouxBY
 
 ### Changed
 - adjust project navigation item icons
 
 ### Fixed
 - custom mode selected for existing bills when switching from new bill
-[#42](https://github.com/eneiluj/cospend-nc/issues/42) @mayonezo
+[#42](https://github.com/julien-nc/cospend-nc/issues/42) @mayonezo
 - get rid of old avatars, reduces load on server
-[#37](https://github.com/eneiluj/cospend-nc/issues/37) @normen
+[#37](https://github.com/julien-nc/cospend-nc/issues/37) @normen
 
 ## 1.2.9 – 2021-01-29
 ### Changed
@@ -349,7 +363,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - bump nc-vue to fix issue with iOS devices
-[#33](https://github.com/eneiluj/cospend-nc/issues/33) @ndi123
+[#33](https://github.com/julien-nc/cospend-nc/issues/33) @ndi123
 
 ## 1.2.8 – 2021-01-19
 ### Changed
@@ -359,19 +373,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - db queries with functions, issues with Postgres
-[#30](https://github.com/eneiluj/cospend-nc/issues/30) @lkempf
+[#30](https://github.com/julien-nc/cospend-nc/issues/30) @lkempf
 - popover scroll problem
 
 ## 1.2.7 – 2020-12-27
 ### Added
 - option to disable bill deletion
-[#13](https://github.com/eneiluj/cospend-nc/issues/13) @LJJS
+[#13](https://github.com/julien-nc/cospend-nc/issues/13) @LJJS
 - choose between alphabetical and manual categories order
-[#26](https://github.com/eneiluj/cospend-nc/issues/26) @itatabitovski
+[#26](https://github.com/julien-nc/cospend-nc/issues/26) @itatabitovski
 - reorder categories by drag'n'drop
-[#26](https://github.com/eneiluj/cospend-nc/issues/26) @itatabitovski
+[#26](https://github.com/julien-nc/cospend-nc/issues/26) @itatabitovski
 - new bill creation mode 'custom shares' (ignoring member weights or not)
-[#20](https://github.com/eneiluj/cospend-nc/issues/20) @stildalf
+[#20](https://github.com/julien-nc/cospend-nc/issues/20) @stildalf
 
 ### Changed
 - improve categories and currencies design
@@ -382,10 +396,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## 1.2.4 – 2020-12-19
 ### Added
 - biweekly and semi monthly repetition frequencies
-[#19](https://github.com/eneiluj/cospend-nc/issues/19) @DrMantisTobbogan
+[#19](https://github.com/julien-nc/cospend-nc/issues/19) @DrMantisTobbogan
 - hint about repetition in UI
 - button to repeat a bill 'now'
-[#22](https://github.com/eneiluj/cospend-nc/issues/22) @Nadeige
+[#22](https://github.com/julien-nc/cospend-nc/issues/22) @Nadeige
 
 ### Changed
 - improve simple member multiselect item design
@@ -394,7 +408,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - parse GET params and select project if an ID was given
 - add missing primary key for projects table
-[#24](https://github.com/eneiluj/cospend-nc/issues/24) @acsfer
+[#24](https://github.com/julien-nc/cospend-nc/issues/24) @acsfer
 
 ## 1.2.2 – 2020-11-26
 ### Added
@@ -417,19 +431,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - line charts didn't fill color of first dataset
 - members monthly stats bug with disabled members
 - crash when missing window.OCA.Theming.cacheBuster
-[#17](https://github.com/eneiluj/cospend-nc/issues/17) @xetyr
+[#17](https://github.com/julien-nc/cospend-nc/issues/17) @xetyr
 
 ## 1.2.0 – 2020-11-08
 ### Added
 - automatic releases with GitHub actions
 - automatically add/remove shared access to NC users when adding/removing them as project members
-[#6](https://github.com/eneiluj/cospend-nc/issues/6) @simonspa
+[#6](https://github.com/julien-nc/cospend-nc/issues/6) @simonspa
 - empty content for project list, bill list, main content
-[#7](https://github.com/eneiluj/cospend-nc/issues/7) @simonspa
+[#7](https://github.com/julien-nc/cospend-nc/issues/7) @simonspa
 - loading icons here and there
 - multi selection mode to delete or assign category/payment mode to multiple bills @pichette
 - partial initial bill list load, load the rest with infinite scrolling
-[#11](https://github.com/eneiluj/cospend-nc/issues/11) @simonspa
+[#11](https://github.com/julien-nc/cospend-nc/issues/11) @simonspa
 - protocol based mobile client QRCode links
 
 ### Changed
@@ -477,16 +491,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - unified search now triggers internal search as well
 - fix paginated unified search
 - allow 2 digits member weight
-[#121](https://gitlab.com/eneiluj/cospend-nc/issues/121) @ratte-rizzo
+[#121](https://gitlab.com/julien-nc/cospend-nc/issues/121) @ratte-rizzo
 
 ## 1.1.0 – 2020-09-15
 ### Added
 - option to choose project list sorting criteria
-[#114](https://gitlab.com/eneiluj/cospend-nc/issues/114) @ratte-rizzo
+[#114](https://gitlab.com/julien-nc/cospend-nc/issues/114) @ratte-rizzo
 - unified search for bills
 - dashboard widget showing activity
 - add 'max precision' setting to display correct precise balances
-[#117](https://gitlab.com/eneiluj/cospend-nc/issues/117) @ja-nko
+[#117](https://gitlab.com/julien-nc/cospend-nc/issues/117) @ja-nko
 
 ### Changed
 - use latest nc-vue 2.6.5
@@ -496,12 +510,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - clean UI code, now eslint-compliant
 - really delete members when possible
-[#116](https://gitlab.com/eneiluj/cospend-nc/issues/116) @mrbenjoi
+[#116](https://gitlab.com/julien-nc/cospend-nc/issues/116) @mrbenjoi
 
 ## 1.0.5 – 2020-08-03
 ### Fixed
 - String.replaceAll does not exist in chrome based browsers
-[#113](https://gitlab.com/eneiluj/cospend-nc/issues/113) @Neutrino1986
+[#113](https://gitlab.com/julien-nc/cospend-nc/issues/113) @Neutrino1986
 
 ## 1.0.4 – 2020-08-02
 ### Changed
@@ -509,16 +523,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - fix comma replacement in simple math
-[#15](https://gitlab.com/eneiluj/cospend-nc/issues/15) @simonspa
+[#15](https://gitlab.com/julien-nc/cospend-nc/issues/15) @simonspa
 - sharing access level disabled conditions
 - don't show public links with more permissions than the current user
 - settlement bills payment mode was not set
-[#112](https://gitlab.com/eneiluj/cospend-nc/issues/112) @simonspa
+[#112](https://gitlab.com/julien-nc/cospend-nc/issues/112) @simonspa
 
 ## 1.0.3 – 2020-07-24
 ### Added
 - simple math for amount fields in bill form
-[#15](https://gitlab.com/eneiluj/cospend-nc/issues/15) @rouvenV
+[#15](https://gitlab.com/julien-nc/cospend-nc/issues/15) @rouvenV
 - a few animations with vue2-transitions
 - member (and access) management in settings sidebar tab
 
@@ -537,7 +551,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - bug when doing repetitive shared access add/del
 - disabled flag was not sent in member edition request
 - bill form display on mobile view
-[#109](https://gitlab.com/eneiluj/cospend-nc/issues/109) @Joniator
+[#109](https://gitlab.com/julien-nc/cospend-nc/issues/109) @Joniator
 - delay member color edition to avoid many requests
 
 ## 1.0.1 – 2020-07-01
@@ -547,7 +561,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## 1.0.0 – 2020-07-01
 ### Changed
 - complete UI rewrite in Vue.js
-[#103](https://gitlab.com/eneiluj/cospend-nc/issues/103) @call-me-matt @archit3kt @simonspa @newhinton
+[#103](https://gitlab.com/julien-nc/cospend-nc/issues/103) @call-me-matt @archit3kt @simonspa @newhinton
 
 ### Fixed
 - avoid some backend crashes related to circles
@@ -555,16 +569,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## 0.5.5 – 2020-06-03
 ### Added
 - bill counter
-[#100](https://gitlab.com/eneiluj/cospend-nc/issues/100) @miguelangel.caballerobracero
+[#100](https://gitlab.com/julien-nc/cospend-nc/issues/100) @miguelangel.caballerobracero
 
 ### Changed
 - improve payer/ower naming (you -> all except A, B)
-[#101](https://gitlab.com/eneiluj/cospend-nc/issues/101) @call-me-matt
+[#101](https://gitlab.com/julien-nc/cospend-nc/issues/101) @call-me-matt
 - begin to use vue.js, currency management fully converted
 
 ### Fixed
 - import project (some bills were missing)
-[#100](https://gitlab.com/eneiluj/cospend-nc/issues/100) @miguelangel.caballerobracero
+[#100](https://gitlab.com/julien-nc/cospend-nc/issues/100) @miguelangel.caballerobracero
 - amount preview with negative amount
 [#100](https://gitlab.com/eneiluj/cospend-nc/issues/100) @miguelangel.caballerobracero
 - include port number in guest link

@@ -1,7 +1,7 @@
 # Nextcloud Cospend 💰
 
-![CI](https://github.com/eneiluj/cospend-nc/workflows/CI/badge.svg?branch=master&event=push)
-[![coverage report](https://github.com/eneiluj/cospend-nc/raw/gh-pages/coverage.svg)](https://eneiluj.github.io/cospend-nc/)
+![CI](https://github.com/julien-nc/cospend-nc/workflows/CI/badge.svg?branch=master&event=push)
+[![coverage report](https://github.com/julien-nc/cospend-nc/raw/gh-pages/coverage.svg)](https://julien-nc.github.io/cospend-nc/)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/moneybuster/localized.svg)](https://crowdin.com/project/moneybuster)
 
 Nextcloud Cospend is a group/shared budget manager.
@@ -15,7 +15,7 @@ This way you can see who owes the group and who the group owes. Ultimately you c
 Project members are independent from Nextcloud users.
 Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
 
-[MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) and on the [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
+[MoneyBuster](https://gitlab.com/julien-nc/moneybuster) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) and on the [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
 [PayForMe](https://github.com/mayflower/PayForMe) iOS client is currently being developped!
 
@@ -41,7 +41,7 @@ This app is under development.
 
 🌍 Help us to translate this app on [Nextcloud-Cospend/MoneyBuster Crowdin project](https://crowdin.com/project/moneybuster).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://github.com/eneiluj/cospend-nc/blob/master/CONTRIBUTING.md).
+⚒ Check out other ways to help in the [contribution guidelines](https://github.com/julien-nc/cospend-nc/blob/master/CONTRIBUTING.md).
 
 Link to Nextcloud application website : https://apps.nextcloud.com/apps/cospend
 
@@ -54,11 +54,11 @@ I develop this app during my free time.
 
 ## Documentation
 
-* [User documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
-* [Admin documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
-* [Developer documentation](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
-* [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
-* [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
+* [User documentation](https://github.com/julien-nc/cospend-nc/blob/master/docs/user.md)
+* [Admin documentation](https://github.com/julien-nc/cospend-nc/blob/master/docs/admin.md)
+* [Developer documentation](https://github.com/julien-nc/cospend-nc/blob/master/docs/dev.md)
+* [CHANGELOG](https://github.com/julien-nc/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [AUTHORS](https://github.com/julien-nc/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## Known issues
 

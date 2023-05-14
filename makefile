@@ -8,7 +8,7 @@ webserveruser ?= www-data
 occ_dir ?= /var/www/html/dev/server21
 
 GITHUB_TOKEN := $(shell cat ~/.nextcloud/secrets/GITHUB_TOKEN | tr -d '\n')
-GITHUB_REPO=eneiluj/cospend-nc
+GITHUB_REPO=julien-nc/cospend-nc
 
 build_tools_directory=$(CURDIR)/build/tools
 npm=$(shell which npm 2> /dev/null)

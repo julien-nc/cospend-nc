@@ -6,7 +6,7 @@ If your language is not present in the project, send me a private message in Cro
 
 # Report a bug
 
-[Here](https://github.com/eneiluj/cospend-nc/issues/new/choose) is the link to submit a new issue.
+[Here](https://github.com/julien-nc/cospend-nc/issues/new/choose) is the link to submit a new issue.
 
 Please check if the issue has already been fixed or if it is already currently discussed in an existing issue.
 
@@ -20,7 +20,7 @@ Don't forget to mention :
 
 # Suggest a feature
 
-You can also submit a [new issue](https://github.com/eneiluj/cospend-nc/issues/new/choose) to suggest a change or to make a feature request.
+You can also submit a [new issue](https://github.com/julien-nc/cospend-nc/issues/new/choose) to suggest a change or to make a feature request.
 
 Please make sure the feature you ask for is not too specific to your use case and make sense in the project.
 
@@ -43,7 +43,7 @@ git clone https://github.com/yourlogin/cospend-nc cospend
 cd cospend
 
 # on your local master branch, to get changes from original project's master branch :
-git pull https://github.com/eneiluj/cospend-nc master
+git pull https://github.com/julien-nc/cospend-nc master
 
 # create a branch to work on a future merge request
 git checkout -b new_feature1
@@ -57,14 +57,14 @@ git push origin new_feature1
 
 # you want to update your master branch
 git checkout master
-git pull https://github.com/eneiluj/cospend-nc master
+git pull https://github.com/julien-nc/cospend-nc master
 
 # optional expert git trick ;-) :
 # you've started to work on new_feature1 and in the meantime,
 # the master branch of original project integrated some new stuff.
 # If you want to get the new stuff in your new_feature1 branch :
 git checkout master
-git pull https://github.com/eneiluj/cospend-nc master
+git pull https://github.com/julien-nc/cospend-nc master
 git checkout new_feature1
 # rebasing a branch means trying to put the commits of local branch on top of requested branch
 # in this example : remove your changes, get new stuff from master, put your changes on top !

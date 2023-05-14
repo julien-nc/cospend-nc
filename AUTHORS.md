@@ -1,6 +1,6 @@
 # Authors
 
-* Julien Veyssier <eneiluj@posteo.net> @eneiluj (Developer)
+* Julien Veyssier <julien-nc@posteo.net> @julien-nc (Developer)
 * @Almamu (Developer)
 * @simonspa (Developer, Tester)
 * @chiefbrain (Developer)

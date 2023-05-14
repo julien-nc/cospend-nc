@@ -9,16 +9,6 @@ class UtilsTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testEndswith(): void {
-		$this->assertFalse(Utils::endswith('a', 'bcd'));
-		$this->assertFalse(Utils::endswith('abcdef', 'gh'));
-
-		$this->assertTrue(Utils::endswith('string.abc', '.abc'));
-	}
-
-	/**
-	 * @return void
-	 */
 	public function testHexToRgb(): void {
 		$this->assertEquals(
 			[

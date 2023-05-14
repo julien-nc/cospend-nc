@@ -37,52 +37,17 @@ use OCP\Search\SearchResult;
 
 use OCP\IDateTimeFormatter;
 use DateTime;
+use OCP\Search\SearchResultEntry;
 
 class CospendSearchProvider implements IProvider {
 
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-	/**
-	 * @var IDateTimeFormatter
-	 */
-	private $dateFormatter;
-	/**
-	 * @var ProjectService
-	 */
-	private $projectService;
-
-	/**
-	 * CospendSearchProvider constructor.
-	 *
-	 * @param IAppManager $appManager
-	 * @param IL10N $l10n
-	 * @param IConfig $config
-	 * @param IURLGenerator $urlGenerator
-	 * @param IDateTimeFormatter $dateFormatter
-	 * @param ProjectService $projectService
-	 */
-	public function __construct(IAppManager $appManager,
-								IL10N $l10n,
-								IConfig $config,
-								IURLGenerator $urlGenerator,
-								IDateTimeFormatter $dateFormatter,
-								ProjectService $projectService) {
-		$this->appManager = $appManager;
-		$this->l10n = $l10n;
-		$this->config = $config;
-		$this->urlGenerator = $urlGenerator;
-		$this->dateFormatter = $dateFormatter;
-		$this->projectService = $projectService;
+	public function __construct(
+		private IAppManager $appManager,
+		private IL10N $l10n,
+		private IURLGenerator $urlGenerator,
+		private IDateTimeFormatter $dateFormatter,
+		private ProjectService $projectService
+	) {
 	}
 
 	/**
@@ -149,10 +114,10 @@ class CospendSearchProvider implements IProvider {
 		$resultBills = array_slice($resultBills, $offset, $limit);
 
 		// build formatted
-		$formattedResults = array_map(function (array $bill) use ($projectsById):CospendSearchResultEntry {
+		$formattedResults = array_map(function (array $bill) use ($projectsById):SearchResultEntry {
 			$projectId = $bill['projectId'];
 			$thumbnailUrl = $this->getThumbnailUrl($bill);
-			return new CospendSearchResultEntry(
+			return new SearchResultEntry(
 				$thumbnailUrl,
 				$this->getMainText($bill, $projectsById[$projectId]),
 				$this->getSubline($bill, $projectsById[$projectId]),

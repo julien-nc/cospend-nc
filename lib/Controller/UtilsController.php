@@ -19,22 +19,13 @@ use OCP\AppFramework\Controller;
 
 class UtilsController extends Controller {
 
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-	/**
-	 * @var string|null
-	 */
-	private $userId;
-
-	public function __construct(string $appName,
-								IRequest $request,
-								IConfig $config,
-								?string $userId) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private IConfig $config,
+		private ?string $userId
+	) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
-		$this->userId = $userId;
 	}
 
 	/**

@@ -21,25 +21,11 @@ use OCA\Cospend\Db\ProjectMapper;
 
 class UserService {
 
-	/**
-	 * @var ProjectMapper
-	 */
-	private $projectMapper;
-	/**
-	 * @var IGroupManager
-	 */
-	private $groupManager;
-	/**
-	 * @var IDBConnection
-	 */
-	private $dbconnection;
-
-	public function __construct (ProjectMapper $projectMapper,
-								IGroupManager $groupManager,
-								IDBConnection $dbconnection) {
-		$this->projectMapper = $projectMapper;
-		$this->groupManager = $groupManager;
-		$this->dbconnection = $dbconnection;
+	public function __construct(
+		private ProjectMapper $projectMapper,
+		private IGroupManager $groupManager,
+		private IDBConnection $dbconnection
+	) {
 	}
 
 	public function findUsers($projectid): array {

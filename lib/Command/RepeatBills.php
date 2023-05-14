@@ -20,14 +20,8 @@ use OCA\Cospend\Service\ProjectService;
 
 class RepeatBills extends Command {
 
-	/**
-	 * @var ProjectService
-	 */
-	private $projectService;
-
-	public function __construct(ProjectService $projectService) {
+	public function __construct(private ProjectService $projectService) {
 		parent::__construct();
-		$this->projectService = $projectService;
 	}
 
 	protected function configure() {

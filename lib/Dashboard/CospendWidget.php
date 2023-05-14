@@ -32,17 +32,10 @@ use OCP\Util;
 
 class CospendWidget implements IWidget {
 
-	/** @var IL10N */
-	private $l10n;
-	/**
-	 * @var IURLGenerator
-	 */
-	private $url;
-
-	public function __construct(IL10N $l10n,
-								IURLGenerator $url) {
-		$this->l10n = $l10n;
-		$this->url = $url;
+	public function __construct(
+		private IL10N $l10n,
+		private IURLGenerator $url
+	) {
 	}
 
 	/**

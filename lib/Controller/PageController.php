@@ -49,88 +49,27 @@ use OCA\Cospend\AppInfo\Application;
 
 class PageController extends ApiController {
 
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-	/**
-	 * @var IManager
-	 */
-	private $shareManager;
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-	/**
-	 * @var IL10N
-	 */
-	private $trans;
-	/**
-	 * @var BillMapper
-	 */
-	private $billMapper;
-	/**
-	 * @var ProjectService
-	 */
-	private $projectService;
-	/**
-	 * @var ActivityManager
-	 */
-	private $activityManager;
-	/**
-	 * @var IDBConnection
-	 */
-	private $dbconnection;
-	/**
-	 * @var IRootFolder
-	 */
-	private $root;
-	/**
-	 * @var string|null
-	 */
-	private $userId;
-	/**
-	 * @var IInitialState
-	 */
-	private $initialStateService;
-	/**
-	 * @var IAppManager
-	 */
-	private $appManager;
-	private IEventDispatcher $eventDispatcher;
-
-	public function __construct(string $appName,
-								IRequest $request,
-								IConfig $config,
-								IManager $shareManager,
-								IUserManager $userManager,
-								IL10N $trans,
-								BillMapper $billMapper,
-								ProjectService $projectService,
-								ActivityManager $activityManager,
-								IDBConnection $dbconnection,
-								IRootFolder $root,
-								IInitialState $initialStateService,
-								IAppManager $appManager,
-								IEventDispatcher $eventDispatcher,
-								?string $userId) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private IConfig $config,
+		private IManager $shareManager,
+		private IUserManager $userManager,
+		private IL10N $trans,
+		private BillMapper $billMapper,
+		private ProjectService $projectService,
+		private ActivityManager $activityManager,
+		private IDBConnection $dbconnection,
+		private IRootFolder $root,
+		private IInitialState $initialStateService,
+		private IAppManager $appManager,
+		private IEventDispatcher $eventDispatcher,
+		private ?string $userId
+	) {
 		parent::__construct($appName, $request,
 							'PUT, POST, GET, DELETE, PATCH, OPTIONS',
 							'Authorization, Content-Type, Accept',
 							1728000);
-		$this->config = $config;
-		$this->shareManager = $shareManager;
-		$this->userManager = $userManager;
-		$this->trans = $trans;
-		$this->billMapper = $billMapper;
-		$this->projectService = $projectService;
-		$this->activityManager = $activityManager;
-		$this->dbconnection = $dbconnection;
-		$this->root = $root;
-		$this->userId = $userId;
-		$this->initialStateService = $initialStateService;
-		$this->appManager = $appManager;
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**

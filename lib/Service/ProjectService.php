@@ -45,151 +45,78 @@ use function str_replace;
 
 class ProjectService {
 
-	/**
-	 * @var IL10N
-	 */
-	private $trans;
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-	/**
-	 * @var ProjectMapper
-	 */
-	private $projectMapper;
-	/**
-	 * @var BillMapper
-	 */
-	private $billMapper;
-	/**
-	 * @var ActivityManager
-	 */
-	private $activityManager;
-	/**
-	 * @var IAvatarManager
-	 */
-	private $avatarManager;
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-	/**
-	 * @var IAppManager
-	 */
-	private $appManager;
-	/**
-	 * @var IGroupManager
-	 */
-	private $groupManager;
-	/**
-	 * @var IDateTimeZone
-	 */
-	private $dateTimeZone;
-	/**
-	 * @var IRootFolder
-	 */
-	private $root;
-	/**
-	 * @var INotificationManager
-	 */
-	private $notificationManager;
-	/**
-	 * @var IDBConnection
-	 */
-	private $db;
-	/**
-	 * @var array
-	 */
-	private $hardCodedCategoryNames;
-	/**
-	 * @var array[]
-	 */
-	public $defaultCategories;
-	/**
-	 * @var array[]
-	 */
-	public $defaultPaymentModes;
+	private array $defaultCategories;
+	private array $defaultPaymentModes;
+	private array $hardCodedCategoryNames;
 
-	public function __construct (IL10N $trans,
-								 IConfig $config,
-								 ProjectMapper $projectMapper,
-								 BillMapper $billMapper,
-								 ActivityManager $activityManager,
-								 IAvatarManager $avatarManager,
-								 IUserManager $userManager,
-								 IAppManager $appManager,
-								 IGroupManager $groupManager,
-								 IDateTimeZone $dateTimeZone,
-								 IRootFolder $root,
-								 INotificationManager $notificationManager,
-								 IDBConnection $db) {
-		$this->trans = $trans;
-		$this->config = $config;
-		$this->projectMapper = $projectMapper;
-		$this->billMapper = $billMapper;
-		$this->activityManager = $activityManager;
-		$this->avatarManager = $avatarManager;
-		$this->userManager = $userManager;
-		$this->appManager = $appManager;
-		$this->groupManager = $groupManager;
-		$this->dateTimeZone = $dateTimeZone;
-		$this->root = $root;
-		$this->notificationManager = $notificationManager;
-		$this->db = $db;
-
+	public function __construct(
+		private IL10N           $l10n,
+		private IConfig         $config,
+		private ProjectMapper   $projectMapper,
+		private BillMapper      $billMapper,
+		private ActivityManager $activityManager,
+		private IAvatarManager  $avatarManager,
+		private IUserManager    $userManager,
+		private IAppManager     $appManager,
+		private IGroupManager   $groupManager,
+		private IDateTimeZone   $dateTimeZone,
+		private IRootFolder     $root,
+		private INotificationManager $notificationManager,
+		private IDBConnection $db
+	) {
 		$this->defaultCategories = [
 			[
-				'name' => $this->trans->t('Grocery'),
+				'name' => $this->l10n->t('Grocery'),
 				'icon' => '🛒',
 				'color' => '#ffaa00',
 			],
 			[
-				'name' => $this->trans->t('Bar/Party'),
+				'name' => $this->l10n->t('Bar/Party'),
 				'icon' => '🎉',
 				'color' => '#aa55ff',
 			],
 			[
-				'name' => $this->trans->t('Rent'),
+				'name' => $this->l10n->t('Rent'),
 				'icon' => '🏠',
 				'color' => '#da8733',
 			],
 			[
-				'name' => $this->trans->t('Bill'),
+				'name' => $this->l10n->t('Bill'),
 				'icon' => '🌩',
 				'color' => '#4aa6b0',
 			],
 			[
-				'name' => $this->trans->t('Excursion/Culture'),
+				'name' => $this->l10n->t('Excursion/Culture'),
 				'icon' => '🚸',
 				'color' => '#0055ff',
 			],
 			[
-				'name' => $this->trans->t('Health'),
+				'name' => $this->l10n->t('Health'),
 				'icon' => '💚',
 				'color' => '#bf090c',
 			],
 			[
-				'name' => $this->trans->t('Shopping'),
+				'name' => $this->l10n->t('Shopping'),
 				'icon' => '🛍',
 				'color' => '#e167d1',
 			],
 			[
-				'name' => $this->trans->t('Restaurant'),
+				'name' => $this->l10n->t('Restaurant'),
 				'icon' => '🍴',
 				'color' => '#d0d5e1',
 			],
 			[
-				'name' => $this->trans->t('Accommodation'),
+				'name' => $this->l10n->t('Accommodation'),
 				'icon' => '🛌',
 				'color' => '#5de1a3',
 			],
 			[
-				'name' => $this->trans->t('Transport'),
+				'name' => $this->l10n->t('Transport'),
 				'icon' => '🚌',
 				'color' => '#6f2ee1',
 			],
 			[
-				'name' => $this->trans->t('Sport'),
+				'name' => $this->l10n->t('Sport'),
 				'icon' => '🎾',
 				'color' => '#69e177',
 			],
@@ -197,31 +124,31 @@ class ProjectService {
 
 		$this->defaultPaymentModes = [
 			[
-				'name' => $this->trans->t('Credit card'),
+				'name' => $this->l10n->t('Credit card'),
 				'icon' => '💳',
 				'color' => '#FF7F50',
 				'old_id' => 'c',
 			],
 			[
-				'name' => $this->trans->t('Cash'),
+				'name' => $this->l10n->t('Cash'),
 				'icon' => '💵',
 				'color' => '#556B2F',
 				'old_id' => 'b',
 			],
 			[
-				'name' => $this->trans->t('Check'),
+				'name' => $this->l10n->t('Check'),
 				'icon' => '🎫',
 				'color' => '#A9A9A9',
 				'old_id' => 'f',
 			],
 			[
-				'name' => $this->trans->t('Transfer'),
+				'name' => $this->l10n->t('Transfer'),
 				'icon' => '⇄',
 				'color' => '#00CED1',
 				'old_id' => 't',
 			],
 			[
-				'name' => $this->trans->t('Online service'),
+				'name' => $this->l10n->t('Online service'),
 				'icon' => '🌎',
 				'color' => '#9932CC',
 				'old_id' => 'o',
@@ -229,7 +156,7 @@ class ProjectService {
 		];
 
 		$this->hardCodedCategoryNames = [
-			'-11' => $this->trans->t('Reimbursement'),
+			'-11' => $this->l10n->t('Reimbursement'),
 		];
 	}
 
@@ -499,7 +426,7 @@ class ProjectService {
 		if ($dbid === null) {
 			// check if id is valid
 			if (strpos($id, '/') !== false) {
-				return ['message' => $this->trans->t('Invalid project id')];
+				return ['message' => $this->l10n->t('Invalid project id')];
 			}
 			$dbPassword = '';
 			if ($password !== null && $password !== '') {
@@ -561,7 +488,7 @@ class ProjectService {
 
 			return ['id' => $id];
 		} else {
-			return ['message' => $this->trans->t('A project with id "%1$s" already exists', [$id])];
+			return ['message' => $this->l10n->t('A project with id "%1$s" already exists', [$id])];
 		}
 	}
 
@@ -611,7 +538,7 @@ class ProjectService {
 
 			return ['message' => 'DELETED'];
 		} else {
-			return ['error' => $this->trans->t('Not Found')];
+			return ['error' => $this->l10n->t('Not Found')];
 		}
 	}
 
@@ -957,7 +884,7 @@ class ProjectService {
 			}
 		}
 		// monthly paid and spent average
-		$averageKey = $this->trans->t('Average per month');
+		$averageKey = $this->l10n->t('Average per month');
 		// number of months with actual bills
 		$nbMonth = count(array_keys($memberMonthlyPaidStats));
 		$realMonths = array_keys($memberMonthlyPaidStats);
@@ -1189,9 +1116,9 @@ class ProjectService {
 		}
 
 		if ($repeat === null || $repeat === '' || strlen($repeat) !== 1) {
-			return ['repeat' => $this->trans->t('Invalid value')];
+			return ['repeat' => $this->l10n->t('Invalid value')];
 		} elseif (!in_array($repeat, array_values(Application::FREQUENCIES))) {
-			return ['repeat' => $this->trans->t('Invalid frequency')];
+			return ['repeat' => $this->l10n->t('Invalid frequency')];
 		}
 		if ($repeatuntil !== null && $repeatuntil === '') {
 			$repeatuntil = null;
@@ -1199,11 +1126,11 @@ class ProjectService {
 		// priority to timestamp (moneybuster might send both for a moment)
 		if ($timestamp === null || !is_numeric($timestamp)) {
 			if ($date === null || $date === '') {
-				return ['message' => $this->trans->t('Timestamp (or date) field is required')];
+				return ['message' => $this->l10n->t('Timestamp (or date) field is required')];
 			} else {
 				$datetime = DateTime::createFromFormat('Y-m-d', $date);
 				if ($datetime === false) {
-					return ['date' => $this->trans->t('Invalid date')];
+					return ['date' => $this->l10n->t('Invalid date')];
 				}
 				$dateTs = $datetime->getTimestamp();
 			}
@@ -1214,25 +1141,25 @@ class ProjectService {
 			$what = '';
 		}
 		if ($amount === null) {
-			return ['amount' => $this->trans->t('This field is required')];
+			return ['amount' => $this->l10n->t('This field is required')];
 		}
 		if ($payer === null) {
-			return ['payer' => $this->trans->t('This field is required')];
+			return ['payer' => $this->l10n->t('This field is required')];
 		}
 		if ($this->getMemberById($projectid, $payer) === null) {
-			return ['payer' => $this->trans->t('Not a valid choice')];
+			return ['payer' => $this->l10n->t('Not a valid choice')];
 		}
 		// check owers
 		$owerIds = explode(',', $payed_for);
 		if ($payed_for === null || $payed_for === '' || count($owerIds) === 0) {
-			return ['payed_for' => $this->trans->t('Invalid value')];
+			return ['payed_for' => $this->l10n->t('Invalid value')];
 		}
 		foreach ($owerIds as $owerId) {
 			if (!is_numeric($owerId)) {
-				return ['payed_for' => $this->trans->t('Invalid value')];
+				return ['payed_for' => $this->l10n->t('Invalid value')];
 			}
 			if ($this->getMemberById($projectid, $owerId) === null) {
-				return ['payed_for' => $this->trans->t('Not a valid choice')];
+				return ['payed_for' => $this->l10n->t('Not a valid choice')];
 			}
 		}
 		// payment mode
@@ -1334,7 +1261,7 @@ class ProjectService {
 
 			return ['success' => true];
 		} else {
-			return ['message' => $this->trans->t('Not Found')];
+			return ['message' => $this->l10n->t('Not Found')];
 		}
 	}
 
@@ -1544,7 +1471,7 @@ class ProjectService {
 		$settlement = $this->getProjectSettlement($projectid, $centeredOn, $maxTimestamp);
 		$transactions = $settlement['transactions'];
 		if (!is_array($transactions)) {
-			return ['message' => $this->trans->t('Error when getting project settlement transactions')];
+			return ['message' => $this->l10n->t('Error when getting project settlement transactions')];
 		}
 
 		$members = $this->getMembers($projectid);
@@ -1571,7 +1498,7 @@ class ProjectService {
 				0, null, $ts, null, null, $paymentModes
 			);
 			if (!isset($addBillResult['inserted_id'])) {
-				return ['message' => $this->trans->t('Error when adding a bill')];
+				return ['message' => $this->l10n->t('Error when adding a bill')];
 			}
 		}
 		return ['success' => true];
@@ -1774,12 +1701,12 @@ class ProjectService {
 
 			if (!is_null($name)) {
 				if (strpos($name, '/') !== false) {
-					return ['name' => $this->trans->t('Invalid member name')];
+					return ['name' => $this->l10n->t('Invalid member name')];
 				} else {
 					// get existing member with this name
 					$memberWithSameName = $this->getMemberByName($projectid, $name);
 					if ($memberWithSameName && $memberWithSameName['id'] !== $memberid) {
-						return ['name' => $this->trans->t('Name already exists')];
+						return ['name' => $this->l10n->t('Name already exists')];
 					}
 				}
 			}
@@ -1792,7 +1719,7 @@ class ProjectService {
 				) {
 					// fine
 				} else {
-					return ['color' => $this->trans->t('Invalid value')];
+					return ['color' => $this->l10n->t('Invalid value')];
 				}
 			}
 
@@ -1801,7 +1728,7 @@ class ProjectService {
 				if ($weight > 0.0) {
 					$qb->set('weight', $qb->createNamedParameter($weight, IQueryBuilder::PARAM_STR));
 				} else {
-					return ['weight' => $this->trans->t('Not a valid decimal value')];
+					return ['weight' => $this->l10n->t('Not a valid decimal value')];
 				}
 			}
 			if (!is_null($activated)) {
@@ -1839,7 +1766,7 @@ class ProjectService {
 
 			return $this->getMemberById($projectid, $memberid);
 		} else {
-			return ['name' => $this->trans->t('This project have no such member')];
+			return ['name' => $this->l10n->t('This project have no such member')];
 		}
 	}
 
@@ -1866,7 +1793,7 @@ class ProjectService {
 
 		if ($name !== null) {
 			if ($name === '') {
-				return ['name' => [$this->trans->t('Name can\'t be empty')]];
+				return ['name' => [$this->l10n->t('Name can\'t be empty')]];
 			}
 			$qb->set('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR));
 		}
@@ -1875,7 +1802,7 @@ class ProjectService {
 			if (filter_var($contact_email, FILTER_VALIDATE_EMAIL)) {
 				$qb->set('email', $qb->createNamedParameter($contact_email, IQueryBuilder::PARAM_STR));
 			} else {
-				return ['contact_email' => [$this->trans->t('Invalid email address')]];
+				return ['contact_email' => [$this->l10n->t('Invalid email address')]];
 			}
 		}
 		if ($password !== null && $password !== '') {
@@ -1886,21 +1813,21 @@ class ProjectService {
 			if (in_array($autoexport, array_values(Application::FREQUENCIES))) {
 				$qb->set('autoexport', $qb->createNamedParameter($autoexport, IQueryBuilder::PARAM_STR));
 			} else {
-				return ['autoexport' => [$this->trans->t('Invalid frequency')]];
+				return ['autoexport' => [$this->l10n->t('Invalid frequency')]];
 			}
 		}
 		if ($categorysort !== null && $categorysort !== '') {
 			if (in_array($categorysort, array_values(Application::SORT_ORDERS))) {
 				$qb->set('categorysort', $qb->createNamedParameter($categorysort, IQueryBuilder::PARAM_STR));
 			} else {
-				return ['categorysort' => [$this->trans->t('Invalid sort order')]];
+				return ['categorysort' => [$this->l10n->t('Invalid sort order')]];
 			}
 		}
 		if ($paymentmodesort !== null && $paymentmodesort !== '') {
 			if (in_array($paymentmodesort, array_values(Application::SORT_ORDERS))) {
 				$qb->set('paymentmodesort', $qb->createNamedParameter($paymentmodesort, IQueryBuilder::PARAM_STR));
 			} else {
-				return ['paymentmodesort' => [$this->trans->t('Invalid sort order')]];
+				return ['paymentmodesort' => [$this->l10n->t('Invalid sort order')]];
 			}
 		}
 		if ($deletion_disabled !== null) {
@@ -1924,7 +1851,7 @@ class ProjectService {
 
 			return ['success' => true];
 		} else {
-			return ['message' => $this->trans->t('There is no such project')];
+			return ['message' => $this->l10n->t('There is no such project')];
 		}
 	}
 
@@ -1945,7 +1872,7 @@ class ProjectService {
 		if ($name !== null && $name !== '') {
 			if ($this->getMemberByName($projectid, $name) === null && $this->getMemberByUserid($projectid, $userid) === null) {
 				if (strpos($name, '/') !== false) {
-					return ['error' => $this->trans->t('Invalid member name')];
+					return ['error' => $this->l10n->t('Invalid member name')];
 				}
 
 				$weightToInsert = 1.0;
@@ -1953,7 +1880,7 @@ class ProjectService {
 					if ($weight > 0.0) {
 						$weightToInsert = $weight;
 					} else {
-						return ['error' => $this->trans->t('Weight is not a valid decimal value')];
+						return ['error' => $this->l10n->t('Weight is not a valid decimal value')];
 					}
 				}
 
@@ -1965,7 +1892,7 @@ class ProjectService {
 					) {
 						// fine
 					} else {
-						return ['error' => $this->trans->t('Invalid color value')];
+						return ['error' => $this->l10n->t('Invalid color value')];
 					}
 				}
 
@@ -1987,10 +1914,10 @@ class ProjectService {
 
 				return $this->getMemberByName($projectid, $name);
 			} else {
-				return ['error' => $this->trans->t('This project already has this member')];
+				return ['error' => $this->l10n->t('This project already has this member')];
 			}
 		} else {
-			return ['error' => $this->trans->t('Name field is required')];
+			return ['error' => $this->l10n->t('Name field is required')];
 		}
 	}
 
@@ -3396,7 +3323,7 @@ class ProjectService {
 
 		// first check the bill exists
 		if ($this->getBill($projectid, $billid) === null) {
-			return ['message' => $this->trans->t('There is no such bill')];
+			return ['message' => $this->l10n->t('There is no such bill')];
 		}
 		// then edit the hell of it
 		if ($what !== null) {
@@ -3411,7 +3338,7 @@ class ProjectService {
 			if (in_array($repeat, array_values(Application::FREQUENCIES))) {
 				$qb->set('repeat', $qb->createNamedParameter($repeat, IQueryBuilder::PARAM_STR));
 			} else {
-				return ['repeat' => $this->trans->t('Invalid value')];
+				return ['repeat' => $this->l10n->t('Invalid value')];
 			}
 		}
 
@@ -3465,7 +3392,7 @@ class ProjectService {
 				$dateTs = $datetime->getTimestamp();
 				$qb->set('timestamp', $qb->createNamedParameter($dateTs, IQueryBuilder::PARAM_INT));
 			} else {
-				return ['date' => $this->trans->t('Invalid value')];
+				return ['date' => $this->l10n->t('Invalid value')];
 			}
 		}
 		if ($amount !== null) {
@@ -3474,7 +3401,7 @@ class ProjectService {
 		if ($payer !== null) {
 			$member = $this->getMemberById($projectid, $payer);
 			if ($member === null) {
-				return ['payer' => $this->trans->t('Not a valid choice')];
+				return ['payer' => $this->l10n->t('Not a valid choice')];
 			} else {
 				$qb->set('payerid', $qb->createNamedParameter($payer, IQueryBuilder::PARAM_INT));
 			}
@@ -3485,14 +3412,14 @@ class ProjectService {
 		if ($payed_for !== null && $payed_for !== '') {
 			$owerIds = explode(',', $payed_for);
 			if (count($owerIds) === 0) {
-				return ['payed_for' => $this->trans->t('Invalid value')];
+				return ['payed_for' => $this->l10n->t('Invalid value')];
 			} else {
 				foreach ($owerIds as $owerId) {
 					if (!is_numeric($owerId)) {
-						return ['payed_for' => $this->trans->t('Invalid value')];
+						return ['payed_for' => $this->l10n->t('Invalid value')];
 					}
 					if ($this->getMemberById($projectid, $owerId) === null) {
-						return ['payed_for' => $this->trans->t('Not a valid choice')];
+						return ['payed_for' => $this->l10n->t('Not a valid choice')];
 					}
 				}
 			}
@@ -3711,7 +3638,7 @@ class ProjectService {
 		});
 
 		if (count($newPayer) < 1) {
-			return ['message' => $this->trans->t('Cannot match payer')];
+			return ['message' => $this->l10n->t('Cannot match payer')];
 		}
 
 		$newPayer = array_shift($newPayer);
@@ -3741,7 +3668,7 @@ class ProjectService {
 		);
 
 		if (!isset($result['inserted_id'])) {
-			return ['message' => $this->trans->t('Cannot create new bill: %1$s', $result['message'])];
+			return ['message' => $this->l10n->t('Cannot create new bill: %1$s', $result['message'])];
 		}
 
 		// remove the old bill
@@ -4018,7 +3945,7 @@ class ProjectService {
 
 			return ['success' => true];
 		} else {
-			return ['message' => $this->trans->t('Not found')];
+			return ['message' => $this->l10n->t('Not found')];
 		}
 	}
 
@@ -4076,10 +4003,10 @@ class ProjectService {
 
 				return $this->getPaymentMode($projectid, $pmid);
 			} else {
-				return ['message' => $this->trans->t('This project has no such payment mode')];
+				return ['message' => $this->l10n->t('This project has no such payment mode')];
 			}
 		} else {
-			return ['message' => $this->trans->t('Incorrect field values')];
+			return ['message' => $this->l10n->t('Incorrect field values')];
 		}
 	}
 
@@ -4190,7 +4117,7 @@ class ProjectService {
 
 			return ['success' => true];
 		} else {
-			return ['message' => $this->trans->t('Not found')];
+			return ['message' => $this->l10n->t('Not found')];
 		}
 	}
 
@@ -4252,10 +4179,10 @@ class ProjectService {
 
 				return $this->getCategory($projectid, $categoryid);
 			} else {
-				return ['message' => $this->trans->t('This project has no such category')];
+				return ['message' => $this->l10n->t('This project has no such category')];
 			}
 		} else {
-			return ['message' => $this->trans->t('Incorrect field values')];
+			return ['message' => $this->l10n->t('Incorrect field values')];
 		}
 	}
 
@@ -4343,7 +4270,7 @@ class ProjectService {
 
 			return ['success' => true];
 		} else {
-			return ['message' => $this->trans->t('Not found')];
+			return ['message' => $this->l10n->t('Not found')];
 		}
 	}
 
@@ -4374,10 +4301,10 @@ class ProjectService {
 
 				return $this->getCurrency($projectid, $currencyid);
 			} else {
-				return ['message' => $this->trans->t('This project have no such currency')];
+				return ['message' => $this->l10n->t('This project have no such currency')];
 			}
 		} else {
-			return ['message' => $this->trans->t('Incorrect field values')];
+			return ['message' => $this->l10n->t('Incorrect field values')];
 		}
 	}
 
@@ -4472,16 +4399,16 @@ class ProjectService {
 
 						return $response;
 					} else {
-						return ['message' => $this->trans->t('You are not authorized to give such access level')];
+						return ['message' => $this->l10n->t('You are not authorized to give such access level')];
 					}
 				} else {
-					return ['message' => $this->trans->t('Already shared with this user')];
+					return ['message' => $this->l10n->t('Already shared with this user')];
 				}
 			} else {
-				return ['message' => $this->trans->t('Impossible to share the project with its owner')];
+				return ['message' => $this->l10n->t('Impossible to share the project with its owner')];
 			}
 		} else {
-			return ['message' => $this->trans->t('No such user')];
+			return ['message' => $this->l10n->t('No such user')];
 		}
 	}
 
@@ -4588,7 +4515,7 @@ class ProjectService {
 
 			return ['success' => true];
 		} else {
-			return ['message' => $this->trans->t('No such share')];
+			return ['message' => $this->l10n->t('No such share')];
 		}
 	}
 
@@ -4646,7 +4573,7 @@ class ProjectService {
 
 			return ['success' => true];
 		} else {
-			return ['message' => $this->trans->t('No such share')];
+			return ['message' => $this->l10n->t('No such share')];
 		}
 	}
 
@@ -4758,7 +4685,7 @@ class ProjectService {
 
 			return ['success' => true];
 		} else {
-			return ['message' => $this->trans->t('No such share')];
+			return ['message' => $this->l10n->t('No such share')];
 		}
 	}
 
@@ -4842,7 +4769,7 @@ class ProjectService {
 
 			return ['success' => true];
 		} else {
-			return ['message' => $this->trans->t('No such shared access')];
+			return ['message' => $this->l10n->t('No such shared access')];
 		}
 	}
 
@@ -4904,10 +4831,10 @@ class ProjectService {
 					'name' => $groupName,
 				];
 			} else {
-				return ['message' => $this->trans->t('Already shared with this group')];
+				return ['message' => $this->l10n->t('Already shared with this group')];
 			}
 		} else {
-			return ['message' => $this->trans->t('No such group')];
+			return ['message' => $this->l10n->t('No such group')];
 		}
 	}
 
@@ -4967,7 +4894,7 @@ class ProjectService {
 
 			return ['success' => true];
 		} else {
-			return ['message' => $this->trans->t('No such share')];
+			return ['message' => $this->l10n->t('No such share')];
 		}
 	}
 
@@ -4987,7 +4914,7 @@ class ProjectService {
 				$circlesManager = \OC::$server->get(\OCA\Circles\CirclesManager::class);
 				$circlesManager->startSuperSession();
 			} catch (Exception $e) {
-				return ['message' => $this->trans->t('Impossible to get the circle manager')];
+				return ['message' => $this->l10n->t('Impossible to get the circle manager')];
 			}
 
 			$exists = true;
@@ -5049,14 +4976,14 @@ class ProjectService {
 					];
 				} else {
 					$circlesManager->stopSession();
-					return ['message' => $this->trans->t('Already shared with this circle')];
+					return ['message' => $this->l10n->t('Already shared with this circle')];
 				}
 			} else {
 				$circlesManager->stopSession();
-				return ['message' => $this->trans->t('No such circle')];
+				return ['message' => $this->l10n->t('No such circle')];
 			}
 		} else {
-			return ['message' => $this->trans->t('Circles app is not enabled')];
+			return ['message' => $this->l10n->t('Circles app is not enabled')];
 		}
 	}
 
@@ -5116,7 +5043,7 @@ class ProjectService {
 
 			$response = ['success' => true];
 		} else {
-			$response = ['message' => $this->trans->t('No such share')];
+			$response = ['message' => $this->l10n->t('No such share')];
 		}
 		return $response;
 	}
@@ -5148,9 +5075,9 @@ class ProjectService {
 		$handler = $file->fopen('w');
 		fwrite(
 			$handler,
-			'"' . $this->trans->t('Who pays?')
-			. '","' . $this->trans->t('To whom?')
-			. '","' . $this->trans->t('How much?')
+			'"' . $this->l10n->t('Who pays?')
+			. '","' . $this->l10n->t('To whom?')
+			. '","' . $this->l10n->t('How much?')
 			. '"' . "\n"
 		);
 		$settlement = $this->getProjectSettlement($projectid, $centeredOn, $maxTimestamp);
@@ -5191,14 +5118,14 @@ class ProjectService {
 		if ($userFolder->nodeExists($outPath)) {
 			$folder = $userFolder->get($outPath);
 			if ($folder->getType() !== FileInfo::TYPE_FOLDER) {
-				return $this->trans->t('%1$s is not a folder', [$outPath]);
+				return $this->l10n->t('%1$s is not a folder', [$outPath]);
 			} elseif (!$folder->isCreatable()) {
-				return $this->trans->t('%1$s is not writeable', [$outPath]);
+				return $this->l10n->t('%1$s is not writeable', [$outPath]);
 			} else {
 				return '';
 			}
 		} else {
-			return $this->trans->t('Impossible to create %1$s', [$outPath]);
+			return $this->l10n->t('Impossible to create %1$s', [$outPath]);
 		}
 	}
 
@@ -5240,10 +5167,10 @@ class ProjectService {
 		$handler = $file->fopen('w');
 		fwrite(
 			$handler,
-			$this->trans->t('Member name')
-			. ',' . $this->trans->t('Paid')
-			. ',' . $this->trans->t('Spent')
-			. ',' . $this->trans->t('Balance')
+			$this->l10n->t('Member name')
+			. ',' . $this->l10n->t('Paid')
+			. ',' . $this->l10n->t('Spent')
+			. ',' . $this->l10n->t('Balance')
 			. "\n"
 		);
 		$allStats = $this->getProjectStatistics(
@@ -5294,7 +5221,7 @@ class ProjectService {
 		$filename = $projectid.'.csv';
 		if ($name !== null) {
 			$filename = $name;
-			if (!Utils::endswith($filename, '.csv')) {
+			if (!str_ends_with($filename, '.csv')) {
 				$filename .= '.csv';
 			}
 		}
@@ -5453,13 +5380,13 @@ class ProjectService {
 					$projectName = preg_replace('/\.csv$/', '', $file->getName());
 					return $this->importCsvProjectAtomicWrapper($handle, $userId, $projectName);
 				} else {
-					return ['message' => $this->trans->t('Access denied')];
+					return ['message' => $this->l10n->t('Access denied')];
 				}
 			} else {
-				return ['message' => $this->trans->t('Access denied')];
+				return ['message' => $this->l10n->t('Access denied')];
 			}
 		} else {
-			return ['message' => $this->trans->t('Access denied')];
+			return ['message' => $this->l10n->t('Access denied')];
 		}
 	}
 
@@ -5522,7 +5449,7 @@ class ProjectService {
 					$currentSection = 'currencies';
 				} else {
 					fclose($handle);
-					return ['message' => $this->trans->t('Malformed CSV, bad column names at line %1$s', [$row + 1])];
+					return ['message' => $this->l10n->t('Malformed CSV, bad column names at line %1$s', [$row + 1])];
 				}
 			} else {
 				// normal line: bill/category/payment mode/currency
@@ -5585,7 +5512,7 @@ class ProjectService {
 						];
 					} else {
 						fclose($handle);
-						return ['message' => $this->trans->t('Malformed CSV, invalid member on line %1$s', [$row + 1])];
+						return ['message' => $this->l10n->t('Malformed CSV, invalid member on line %1$s', [$row + 1])];
 					}
 				} elseif ($currentSection === 'bills') {
 					$what = $data[$columns['what']];
@@ -5603,7 +5530,7 @@ class ProjectService {
 					}
 					if ($timestamp === null) {
 						fclose($handle);
-						return ['message' => $this->trans->t('Malformed CSV, missing or invalid date/timestamp on line %1$s', [$row + 1])];
+						return ['message' => $this->l10n->t('Malformed CSV, missing or invalid date/timestamp on line %1$s', [$row + 1])];
 					}
 					$payer_name = $data[$columns['payer_name']];
 					$payer_weight = $data[$columns['payer_weight']];
@@ -5629,12 +5556,12 @@ class ProjectService {
 							$membersByName[$payer_name]['weight'] = (float) $payer_weight;
 						} else {
 							fclose($handle);
-							return ['message' => $this->trans->t('Malformed CSV, invalid payer weight on line %1$s', [$row + 1])];
+							return ['message' => $this->l10n->t('Malformed CSV, invalid payer weight on line %1$s', [$row + 1])];
 						}
 					}
 					if (strlen($owers) === 0) {
 						fclose($handle);
-						return ['message' => $this->trans->t('Malformed CSV, invalid owers on line %1$s', [$row + 1])];
+						return ['message' => $this->l10n->t('Malformed CSV, invalid owers on line %1$s', [$row + 1])];
 					}
 					if ($what !== 'deleteMeIfYouWant') {
 						$owersArray = explode(',', $owers);
@@ -5642,7 +5569,7 @@ class ProjectService {
 							$strippedOwer = trim($ower);
 							if (strlen($strippedOwer) === 0) {
 								fclose($handle);
-								return ['message' => $this->trans->t('Malformed CSV, invalid owers on line %1$s', [$row + 1])];
+								return ['message' => $this->l10n->t('Malformed CSV, invalid owers on line %1$s', [$row + 1])];
 							}
 							if (!isset($membersByName[$strippedOwer])) {
 								$membersByName[$strippedOwer]['weight'] = 1.0;
@@ -5652,7 +5579,7 @@ class ProjectService {
 						}
 						if (!is_numeric($amount)) {
 							fclose($handle);
-							return ['message' => $this->trans->t('Malformed CSV, invalid amount on line %1$s', [$row + 1])];
+							return ['message' => $this->l10n->t('Malformed CSV, invalid amount on line %1$s', [$row + 1])];
 						}
 						$bills[] = [
 							'what' => $what,
@@ -5689,7 +5616,7 @@ class ProjectService {
 			$createDefaultCategories, $createDefaultPaymentModes
 		);
 		if (!isset($projResult['id'])) {
-			return ['message' => $this->trans->t('Error in project creation, %1$s', [$projResult['message'] ?? ''])];
+			return ['message' => $this->l10n->t('Error in project creation, %1$s', [$projResult['message'] ?? ''])];
 		}
 		// set project main currency
 		if ($mainCurrencyName !== null) {
@@ -5700,7 +5627,7 @@ class ProjectService {
 			$insertedPmId = $this->addPaymentMode($projectid, $pm['name'], $pm['icon'], $pm['color']);
 			if (!is_numeric($insertedPmId)) {
 				$this->deleteProject($projectid);
-				return ['message' => $this->trans->t('Error when adding payment mode %1$s', [$pm['name']])];
+				return ['message' => $this->l10n->t('Error when adding payment mode %1$s', [$pm['name']])];
 			}
 			$paymentModeIdConv[$pm['id']] = $insertedPmId;
 		}
@@ -5709,7 +5636,7 @@ class ProjectService {
 			$insertedCatId = $this->addCategory($projectid, $cat['name'], $cat['icon'], $cat['color']);
 			if (!is_numeric($insertedCatId)) {
 				$this->deleteProject($projectid);
-				return ['message' => $this->trans->t('Error when adding category %1$s', [$cat['name']])];
+				return ['message' => $this->l10n->t('Error when adding category %1$s', [$cat['name']])];
 			}
 			$categoryIdConv[$cat['id']] = $insertedCatId;
 		}
@@ -5718,7 +5645,7 @@ class ProjectService {
 			$insertedCurId = $this->addCurrency($projectid, $cur['name'], $cur['exchange_rate']);
 			if (!is_numeric($insertedCurId)) {
 				$this->deleteProject($projectid);
-				return ['message' => $this->trans->t('Error when adding currency %1$s', [$cur['name']])];
+				return ['message' => $this->l10n->t('Error when adding currency %1$s', [$cur['name']])];
 			}
 		}
 		// add members
@@ -5728,7 +5655,7 @@ class ProjectService {
 			);
 			if (!is_array($insertedMember)) {
 				$this->deleteProject($projectid);
-				return ['message' => $this->trans->t('Error when adding member %1$s', [$memberName])];
+				return ['message' => $this->l10n->t('Error when adding member %1$s', [$memberName])];
 			}
 			$memberNameToId[$memberName] = $insertedMember['id'];
 		}
@@ -5762,7 +5689,7 @@ class ProjectService {
 			);
 			if (!isset($addBillResult['inserted_id'])) {
 				$this->deleteProject($projectid);
-				return ['message' => $this->trans->t('Error when adding bill %1$s', [$bill['what']])];
+				return ['message' => $this->l10n->t('Error when adding bill %1$s', [$bill['what']])];
 			}
 		}
 		return ['project_id' => $projectid];
@@ -5818,7 +5745,7 @@ class ProjectService {
 							foreach ($owersArray as $ower) {
 								if (strlen($ower) === 0) {
 									fclose($handle);
-									return ['message' => $this->trans->t('Malformed CSV, cannot have an empty ower')];
+									return ['message' => $this->l10n->t('Malformed CSV, cannot have an empty ower')];
 								}
 								if (!array_key_exists($ower, $membersWeight)) {
 									$membersWeight[$ower] = 1.0;
@@ -5841,7 +5768,7 @@ class ProjectService {
 							$datetime = DateTime::createFromFormat('Y-m-d', $date);
 							if ($datetime === false) {
 								fclose($handle);
-								return ['message' => $this->trans->t('Malformed CSV, missing or invalid date/timestamp on line %1$s', [$row])];
+								return ['message' => $this->l10n->t('Malformed CSV, missing or invalid date/timestamp on line %1$s', [$row])];
 							}
 							$timestamp = $datetime->getTimestamp();
 
@@ -5863,7 +5790,7 @@ class ProjectService {
 								$amount = $data[$c];
 								if (!is_numeric($amount)) {
 									fclose($handle);
-									return ['message' => $this->trans->t('Malformed CSV, bad amount on line %1$s', [$row])];
+									return ['message' => $this->l10n->t('Malformed CSV, bad amount on line %1$s', [$row])];
 								}
 								if ($amount < 0) {
 									$negativeCols[] = $c;
@@ -5879,7 +5806,7 @@ class ProjectService {
 									$payer_name = $owersArray[$c - 5];
 									if (empty($payer_name)) {
 										fclose($handle);
-										return ['message' => $this->trans->t('Malformed CSV, no payer on line %1$s', [$row])];
+										return ['message' => $this->l10n->t('Malformed CSV, no payer on line %1$s', [$row])];
 									}
 									$bill = [
 										'what' => $what,
@@ -5900,7 +5827,7 @@ class ProjectService {
 					fclose($handle);
 
 					if (!$columnNamesLineFound) {
-						return ['message' => $this->trans->t('Malformed CSV, impossible to find the column names')];
+						return ['message' => $this->l10n->t('Malformed CSV, impossible to find the column names')];
 					}
 
 					$memberNameToId = [];
@@ -5917,7 +5844,7 @@ class ProjectService {
 						$userId, $createDefaultCategories
 					);
 					if (!isset($projResult['id'])) {
-						return ['message' => $this->trans->t('Error in project creation, %1$s', [$projResult['message'] ?? ''])];
+						return ['message' => $this->l10n->t('Error in project creation, %1$s', [$projResult['message'] ?? ''])];
 					}
 					// add categories
 					$catNameToId = [];
@@ -5925,7 +5852,7 @@ class ProjectService {
 						$insertedCatId = $this->addCategory($projectid, $categoryName, null, '#000000');
 						if (!is_numeric($insertedCatId)) {
 							$this->deleteProject($projectid);
-							return ['message' => $this->trans->t('Error when adding category %1$s', [$categoryName])];
+							return ['message' => $this->l10n->t('Error when adding category %1$s', [$categoryName])];
 						}
 						$catNameToId[$categoryName] = $insertedCatId;
 					}
@@ -5934,7 +5861,7 @@ class ProjectService {
 						$insertedMember = $this->addMember($projectid, $memberName, $weight);
 						if (!is_array($insertedMember)) {
 							$this->deleteProject($projectid);
-							return ['message' => $this->trans->t('Error when adding member %1$s', [$memberName])];
+							return ['message' => $this->l10n->t('Error when adding member %1$s', [$memberName])];
 						}
 						$memberNameToId[$memberName] = $insertedMember['id'];
 					}
@@ -5959,18 +5886,18 @@ class ProjectService {
 						);
 						if (!isset($addBillResult['inserted_id'])) {
 							$this->deleteProject($projectid);
-							return ['message' => $this->trans->t('Error when adding bill %1$s', [$bill['what']])];
+							return ['message' => $this->l10n->t('Error when adding bill %1$s', [$bill['what']])];
 						}
 					}
 					return ['project_id' => $projectid];
 				} else {
-					return ['message' => $this->trans->t('Access denied')];
+					return ['message' => $this->l10n->t('Access denied')];
 				}
 			} else {
-				return ['message' => $this->trans->t('Access denied')];
+				return ['message' => $this->l10n->t('Access denied')];
 			}
 		} else {
-			return ['message' => $this->trans->t('Access denied')];
+			return ['message' => $this->l10n->t('Access denied')];
 		}
 	}
 
@@ -5994,7 +5921,7 @@ class ProjectService {
 		$minDayTimestamp = $maxDayTimestamp - 24*60*60;
 
 		$dateMaxDay->modify('-1 day');
-		$dailySuffix = '_'.$this->trans->t('daily').'_'.$dateMaxDay->format('Y-m-d');
+		$dailySuffix = '_'.$this->l10n->t('daily').'_'.$dateMaxDay->format('Y-m-d');
 
 		// last week
 		$now = new DateTime();
@@ -6009,7 +5936,7 @@ class ProjectService {
 		$minWeekTimestamp = $maxWeekTimestamp - 7*24*60*60;
 		$dateWeekMin = new DateTime($y.'-'.$m.'-'.$d);
 		$dateWeekMin->modify('-7 day');
-		$weeklySuffix = '_'.$this->trans->t('weekly').'_'.$dateWeekMin->format('Y-m-d');
+		$weeklySuffix = '_'.$this->l10n->t('weekly').'_'.$dateWeekMin->format('Y-m-d');
 
 		// last month
 		$now = new DateTime();
@@ -6030,7 +5957,7 @@ class ProjectService {
 		$d = (int) $now->format('d');
 		$dateMonthMin = new DateTime($y.'-'.$m.'-'.$d);
 		$minMonthTimestamp = $dateMonthMin->getTimestamp();
-		$monthlySuffix = '_'.$this->trans->t('monthly').'_'.$dateMonthMin->format('Y-m');
+		$monthlySuffix = '_'.$this->l10n->t('monthly').'_'.$dateMonthMin->format('Y-m');
 
 //		$weekFilterArray = [];
 //		$weekFilterArray['tsmin'] = $minWeekTimestamp;

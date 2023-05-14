@@ -24,46 +24,13 @@ use OCP\Notification\INotifier;
 
 class Notifier implements INotifier {
 
-	/** @var IFactory */
-	protected $factory;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var INotificationManager */
-	protected $notificationManager;
-
-	/** @var IURLGenerator */
-	protected $url;
-	/**
-	 * @var string|null
-	 */
-	private $userId;
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-
-	/**
-	 * @param IFactory $factory
-	 * @param IConfig $config
-	 * @param IUserManager $userManager
-	 * @param INotificationManager $notificationManager
-	 * @param IURLGenerator $urlGenerator
-	 * @param string|null $userId
-	 */
-	public function __construct(IFactory $factory,
-								IConfig $config,
-								IUserManager $userManager,
-								INotificationManager $notificationManager,
-								IURLGenerator $urlGenerator,
-								?string $userId) {
-		$this->factory = $factory;
-		$this->userManager = $userManager;
-		$this->notificationManager = $notificationManager;
-		$this->url = $urlGenerator;
-		$this->userId = $userId;
-		$this->config = $config;
+	public function __construct(
+		private IFactory $factory,
+		private IConfig $config,
+		private IUserManager $userManager,
+		private IURLGenerator $url,
+		private ?string $userId
+	) {
 	}
 
 	/**
@@ -76,7 +43,7 @@ class Notifier implements INotifier {
 		return 'cospend';
 	}
 	/**
-	 * Human readable name describing the notifier
+	 * Human-readable name describing the notifier
 	 *
 	 * @return string
 	 * @since 17.0.0

@@ -14,19 +14,12 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 
 class RepeatBills extends TimedJob {
-	/**
-	 * @var ProjectService
-	 */
-	private $projectService;
 
-	/**
-	 * @param ITimeFactory $time
-	 * @param ProjectService $projectService
-	 */
-	public function __construct(ITimeFactory $time, ProjectService $projectService) {
+	public function __construct(
+		ITimeFactory $time,
+		private ProjectService $projectService
+	) {
 		parent::__construct($time);
-		$this->projectService = $projectService;
-
 		// Run each day
 		$this->setInterval(24 * 60 * 60);
 	}

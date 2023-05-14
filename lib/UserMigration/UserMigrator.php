@@ -26,21 +26,13 @@ class UserMigrator implements IMigrator, ISizeEstimationMigrator {
 	private const PATH_ROOT = Application::APP_ID;
 	private const PROJECTS_PATH = self::PATH_ROOT . '/projects';
 	private const SETTINGS_PATH = self::PATH_ROOT . '/settings.json';
-	private ProjectService $projectService;
-	private IL10N $l10n;
-	private ProjectMapper $projectMapper;
-	private IConfig $config;
 
 	public function __construct(
-		ProjectService $projectService,
-		ProjectMapper $projectMapper,
-		IConfig $config,
-		IL10N $l10n
+		private ProjectService $projectService,
+		private ProjectMapper $projectMapper,
+		private IConfig $config,
+		private IL10N $l10n
 	) {
-		$this->l10n = $l10n;
-		$this->projectService = $projectService;
-		$this->projectMapper = $projectMapper;
-		$this->config = $config;
 	}
 
 	/**

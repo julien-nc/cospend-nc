@@ -5,23 +5,6 @@ namespace OCA\Cospend;
 class Utils {
 
 	/**
-	 * TODO: after dropping php7.x support, replace with https://www.php.net/manual/de/function.str-ends-with.php
-	 *
-	 * @param string $string
-	 * @param string $test
-	 * @return bool
-	 */
-	public static function endswith(string $string, string $test): bool {
-		$strlen = strlen($string);
-		$testlen = strlen($test);
-		if ($testlen > $strlen) {
-			return false;
-		}
-
-		return substr_compare($string, $test, $strlen - $testlen, $testlen) === 0;
-	}
-
-	/**
 	 * Convert hexadecimal color into RGB array
 	 *
 	 * @param string $color

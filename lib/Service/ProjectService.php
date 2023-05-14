@@ -2145,7 +2145,7 @@ class ProjectService {
 			'id' => $dbBillId,
 			'amount' => $dbAmount,
 			'what' => $dbWhat,
-			'comment' => $dbComment,
+			'comment' => $dbComment ?? '',
 			'timestamp' => $dbTimestamp,
 			'date' => $dbDate->format('Y-m-d'),
 			'payer_id' => $dbPayerId,
@@ -3523,8 +3523,9 @@ class ProjectService {
 				}
 
 				// Repeat if $nextDate is in the past (or today)
-				$diff = $now->diff($nextDate);
-				if ($nextDate->format('Y-m-d') === $now->format('Y-m-d') || $diff->invert) {
+				$nowTs = $now->getTimestamp();
+				$nextDateTs = $nextDate->getTimestamp();
+				if ($nowTs > $nextDateTs || $nextDate->format('Y-m-d') === $now->format('Y-m-d')) {
 					$newBillId = $this->repeatBill($bill['projectid'], $bill['id'], $nextDate);
 					// bill was not repeated (because of disabled owers or repeatuntil)
 					if ($newBillId === null) {

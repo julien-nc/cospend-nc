@@ -45,8 +45,8 @@ use function str_replace;
 
 class ProjectService {
 
-	private array $defaultCategories;
-	private array $defaultPaymentModes;
+	public array $defaultCategories;
+	public array $defaultPaymentModes;
 	private array $hardCodedCategoryNames;
 
 	public function __construct(

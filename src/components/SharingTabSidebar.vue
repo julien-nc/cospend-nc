@@ -343,7 +343,9 @@
 					:readonly="newPasswordReadonly"
 					@focus="newPasswordReadonly = false; $event.target.select()"
 					@keyup.enter="setPassword">
-				<NcButton @click="setPassword">
+				<NcButton
+					:aria-label="t('cospend', 'Set project password')"
+					@click="setPassword">
 					<template #icon>
 						<CheckIcon :size="20" />
 					</template>

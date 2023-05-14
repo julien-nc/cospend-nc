@@ -5,7 +5,7 @@
 			<NcAppNavigationItem
 				v-show="!loading"
 				class="addBillItem"
-				:title="(editionAccess && oneActiveMember) ? t('cospend', 'New bill') : ''"
+				:name="(editionAccess && oneActiveMember) ? t('cospend', 'New bill') : ''"
 				:force-display-actions="editionAccess && oneActiveMember"
 				@click="onAddBillClicked">
 				<template #icon>

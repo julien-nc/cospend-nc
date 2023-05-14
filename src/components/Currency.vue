@@ -5,14 +5,16 @@
 			<label class="one-currency-label-label">{{ currency.name }}</label>
 			<label class="one-currency-label-label">(x{{ currency.exchange_rate }})</label>
 			<NcButton v-show="editionAccess"
-				v-tooltip.top="{ content: t('cospend', 'Edit') }"
+				:title="t('cospend', 'Edit')"
+				:aria-label="t('cospend', 'Edit')"
 				@click="onClickEdit">
 				<template #icon>
 					<PencilIcon :size="20" />
 				</template>
 			</NcButton>
 			<NcButton v-show="editionAccess"
-				v-tooltip.top="{ content: t('cospend', 'Delete') }"
+				:title="t('cospend', 'Delete')"
+				:aria-label="t('cospend', 'Delete')"
 				class="deleteCurrencyButton"
 				@click="onClickDelete">
 				<template #icon>
@@ -45,14 +47,16 @@
 				step="0.0001"
 				min="0">
 			<NcButton
-				v-tooltip.top="{ content: t('cospend', 'Cancel') }"
+				:title="t('cospend', 'Cancel')"
+				:aria-label="t('cospend', 'Cancel')"
 				@click="onClickCancel">
 				<template #icon>
 					<UndoIcon :size="20" />
 				</template>
 			</NcButton>
 			<NcButton
-				v-tooltip.top="{ content: t('cospend', 'Save') }"
+				:title="t('cospend', 'Save')"
+				:aria-label="t('cospend', 'Save')"
 				type="primary"
 				@click="onClickEditOk">
 				<template #icon>

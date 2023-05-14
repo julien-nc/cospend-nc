@@ -11,7 +11,8 @@
 				id="main-currency-label">
 				<label id="main-currency-label-label">{{ project.currencyname || t('cospend', 'None') }}</label>
 				<NcButton v-show="project.myaccesslevel >= constants.ACCESS.MAINTENER"
-					v-tooltip.top="{ content: t('cospend', 'Set main currency name') }"
+					:title="t('cospend', 'Set main currency name')"
+					:aria-label="t('cospend', 'Set main currency name')"
 					@click="editMode=true; $nextTick(() => $refs.mainCurrencyEdit.focus());">
 					<template #icon>
 						<PencilIcon :size="20" />
@@ -29,14 +30,16 @@
 					@keyup.enter="onEditMainOkClick"
 					@focus="$event.target.select()">
 				<NcButton
-					v-tooltip.top="{ content: t('cospend', 'Cancel') }"
+					:title="t('cospend', 'Cancel')"
+					:aria-label="t('cospend', 'Cancel currency edition')"
 					@click="editMode=false">
 					<template #icon>
 						<UndoIcon :size="20" />
 					</template>
 				</NcButton>
 				<NcButton
-					v-tooltip.top="{ content: t('cospend', 'Save') }"
+					:title="t('cospend', 'Save')"
+					:aria-label="t('cospend', 'Save currency')"
 					type="primary"
 					@click="onEditMainOkClick">
 					<template #icon>
@@ -84,7 +87,8 @@
 				</div>
 				<div class="addCurrencyButtonWrapper">
 					<NcButton
-						v-tooltip.top="{ content: t('cospend', 'Add this currency') }"
+						:title="t('cospend', 'Add this currency')"
+						:aria-label="t('cospend', 'Add this currency')"
 						type="primary"
 						@click="onAddCurrency">
 						<template #icon>

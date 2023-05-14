@@ -132,9 +132,14 @@
 				<div v-if="!isMobile"
 					class="content-buttons">
 					<NcButton
-						v-tooltip.bottom="{ content: t('cospend', 'Toggle sidebar') }"
+						:title="t('cospend', 'Toggle sidebar')"
+						:aria-label="t('cospend', 'Toggle sidebar')"
 						class="icon-menu"
-						@click="onMainDetailClicked" />
+						@click="onMainDetailClicked">
+						<template #icon>
+							<MenuIcon />
+						</template>
+					</NcButton>
 				</div>
 			</div>
 		</NcAppContent>
@@ -181,6 +186,7 @@ import * as constants from './constants.js'
 import { rgbObjToHex, slugify } from './utils.js'
 
 const PlusIcon = () => import('vue-material-design-icons/Plus.vue')
+const MenuIcon = () => import('vue-material-design-icons/Menu.vue')
 const ShareVariantIcon = () => import('vue-material-design-icons/ShareVariant.vue')
 const ChartLineIcon = () => import('vue-material-design-icons/ChartLine.vue')
 const CogIcon = () => import('vue-material-design-icons/Cog.vue')
@@ -222,6 +228,7 @@ export default {
 		MoveToProjectList,
 		NcModal,
 		PlusIcon,
+		MenuIcon,
 		CogIcon,
 		ShareVariantIcon,
 		ChartLineIcon,

@@ -7,7 +7,9 @@
 				type="text"
 				:placeholder="t('cospend', 'Rename project {n}', { n: project.name }, undefined, { escape: false })"
 				@keyup.enter="onRenameProject">
-			<NcButton @click="onRenameProject">
+			<NcButton
+				:aria-label="t('cospend', 'Rename project')"
+				@click="onRenameProject">
 				<template #icon>
 					<CheckIcon :size="20" />
 				</template>
@@ -52,7 +54,7 @@
 		</div>
 		<NcAppNavigationItem v-if="!pageIsPublic"
 			class="exportItem"
-			:title="t('cospend', 'Export project')"
+			:name="t('cospend', 'Export project')"
 			@click="onExportClick">
 			<template #icon>
 				<ContentSaveIcon
@@ -66,7 +68,9 @@
 				<span class="tcontent">
 					{{ t('cospend', 'Members') }}
 				</span>
-				<NcButton @click="onInfoAddClicked">
+				<NcButton
+					:aria-label="t('cospend', 'More information on adding members')"
+					@click="onInfoAddClicked">
 					<template #icon>
 						<InformationVariantIcon :size="20" />
 					</template>
@@ -131,7 +135,9 @@
 					<span class="tcontent">
 						{{ t('cospend', 'Associate a project member with a Nextcloud user') }}
 					</span>
-					<NcButton @click="onInfoAssociateClicked">
+					<NcButton
+						:aria-label="t('cospend', 'More information on adding Nextcloud users as members')"
+						@click="onInfoAssociateClicked">
 						<template #icon>
 							<InformationVariantIcon :size="20" />
 						</template>

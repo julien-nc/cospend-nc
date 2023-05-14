@@ -4,7 +4,7 @@
 			<NcAppNavigationItem v-if="!pageIsPublic && !loading"
 				class="addProjectItem"
 				:editable="true"
-				:title="t('cospend', 'New project')"
+				:name="t('cospend', 'New project')"
 				:edit-placeholder="t('cospend', 'New project name')"
 				:edit-label="t('cospend', 'New empty project')"
 				:loading="importingProject"
@@ -71,7 +71,7 @@
 						{{ t('cospend', 'Cospend settings') }}
 					</button-->
 					<NcAppNavigationItem
-						:title="t('cospend', 'Cospend settings')"
+						:name="t('cospend', 'Cospend settings')"
 						@click="showSettings">
 						<template #icon>
 							<CogIcon

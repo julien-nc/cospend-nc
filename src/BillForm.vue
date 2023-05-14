@@ -25,18 +25,17 @@
 			</a>
 			<NcButton
 				v-if="isNewBill"
-				v-tooltip.bottom="{ content: t('cospend', 'Press Shift+Enter to validate') }"
+				:title="t('cospend', 'Press Shift+Enter to validate')"
 				type="primary"
 				@click="onCreateClick">
 				<template #icon>
 					<CheckIcon :size="20" />
 				</template>
-				<span>
-					{{ createBillButtonText }}
-				</span>
+				{{ createBillButtonText }}
 			</NcButton>
 			<NcButton v-else
-				v-tooltip.bottom="{ content: payerDisabled ? t('cospend', 'Impossible to duplicate a bill with a disabled payer') : t('cospend', 'Duplicate bill') }"
+				:title="payerDisabled ? t('cospend', 'Impossible to duplicate a bill with a disabled payer') : t('cospend', 'Duplicate bill')"
+				:aria-label="payerDisabled ? t('cospend', 'Impossible to duplicate a bill with a disabled payer') : t('cospend', 'Duplicate bill')"
 				:disabled="payerDisabled"
 				@click="onDuplicate">
 				<template #icon>
@@ -97,7 +96,8 @@
 							@keyup.enter="onAmountEnterPressed"
 							@focus="$event.target.select()">
 						<NcButton
-							v-tooltip.top="{ content: t('cospend', 'More information') }"
+							:title="t('cospend', 'More information')"
+							:aria-label="t('cospend', 'More information on amount input field')"
 							@click="onAmountInfoClicked">
 							<template #icon>
 								<InformationVariantIcon :size="20" />
@@ -125,7 +125,8 @@
 							</option>
 						</select>
 						<NcButton
-							v-tooltip.top="{ content: t('cospend', 'More information') }"
+							:title="t('cospend', 'More information')"
+							:aria-label="t('cospend', 'More information on currency conversion')"
 							@click="onConvertInfoClicked">
 							<template #icon>
 								<InformationVariantIcon :size="20" />
@@ -270,7 +271,8 @@
 							</option>
 						</select>
 						<NcButton
-							v-tooltip.top="{ content: t('cospend', 'More information') }"
+							:title="t('cospend', 'More information')"
+							:aria-label="t('cospend', 'More information on bill repetition')"
 							@click="onRepeatInfoClicked">
 							<template #icon>
 								<InformationVariantIcon :size="20" />
@@ -377,7 +379,8 @@
 							</option>
 						</select>
 						<NcButton
-							v-tooltip.bottom="{ content: t('cospend', 'More information') }"
+							:title="t('cospend', 'More information')"
+							:aria-label="t('cospend', 'More information on bill mode')"
 							@click="onHintClick">
 							<template #icon>
 								<InformationVariantIcon :size="20" />
@@ -584,15 +587,13 @@
 				</div>
 				<NcButton
 					v-if="isNewBill"
-					v-tooltip.bottom="{ content: t('cospend', 'Press Shift+Enter to validate') }"
+					:title="t('cospend', 'Press Shift+Enter to validate')"
 					type="primary"
 					@click="onCreateClick">
 					<template #icon>
 						<CheckIcon :size="20" />
 					</template>
-					<span>
-						{{ createBillButtonText }}
-					</span>
+					{{ createBillButtonText }}
 				</NcButton>
 			</div>
 		</div>

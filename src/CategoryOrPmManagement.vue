@@ -11,7 +11,8 @@
 				<div class="add-element">
 					<NcColorPicker class="app-navigation-entry-bullet-wrapper" value="" @input="updateAddColor">
 						<NcButton
-							v-tooltip.top="{ content: t('cospend', 'Color') }"
+							:title="t('cospend', 'Color')"
+							:aria-label="t('cospend', 'Color')"
 							:style="{ backgroundColor: newColor }">
 							<template #icon>
 								<PaletteIcon :size="20" />
@@ -21,7 +22,8 @@
 					<NcEmojiPicker :show-preview="true"
 						@select="selectEmoji">
 						<NcButton
-							v-tooltip.top="{ content: t('cospend', 'Icon') }"
+							:title="t('cospend', 'Icon')"
+							:aria-label="t('cospend', 'Icon')"
 							class="emojiButton">
 							{{ newIcon }}
 						</NcButton>
@@ -35,7 +37,8 @@
 						@focus="$event.target.select()"
 						@keyup.enter="onAddElement">
 					<NcButton
-						v-tooltip.top="{ content: addTooltip }"
+						:title="addTooltip"
+						:aria-label="addTooltip"
 						type="primary"
 						@click="onAddElement">
 						<template #icon>

@@ -1,6 +1,6 @@
 <template>
 	<NcAppNavigationItem v-if="deleting"
-		:title="t('cospend', 'Are you sure?')"
+		:name="t('cospend', 'Are you sure?')"
 		:undo="true"
 		@undo="cancelDeletion">
 		<template #counter>
@@ -15,7 +15,7 @@
 		</template>
 	</NcAppNavigationItem>
 	<NcAppNavigationItem v-else
-		:title="project.name"
+		:name="project.name"
 		:class="{ selectedproject: selected }"
 		:allow-collapse="true"
 		:open="selected"
@@ -90,7 +90,7 @@
 		</template>
 		<template #default>
 			<NcAppNavigationItem v-if="members.length < 1"
-				:title="t('cospend', 'Add a member')"
+				:name="t('cospend', 'Add a member')"
 				@click="onAddMemberClick">
 				<template #icon>
 					<PlusIcon :size="20" />

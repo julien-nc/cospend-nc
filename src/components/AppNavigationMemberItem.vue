@@ -1,7 +1,7 @@
 <template>
 	<NcAppNavigationItem v-show="memberVisible"
 		:class="{ memberItem: true, selectedmember: selected }"
-		:title="nameTitle"
+		:name="nameTitle"
 		:editable="maintenerAccess"
 		:edit-label="t('cospend', 'Rename member')"
 		:force-menu="false"

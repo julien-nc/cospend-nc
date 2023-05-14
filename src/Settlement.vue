@@ -37,7 +37,10 @@
 				<label for="max-date">
 					{{ t('cospend', 'Settlement date') }}
 				</label>
-				<NcButton @click="onDateInfoClicked">
+				<NcButton
+					:title="t('cospend', 'Information on settlement date')"
+					:aria-label="t('cospend', 'Information on settlement date')"
+					@click="onDateInfoClicked">
 					<template #icon>
 						<InformationVariantIcon :size="20" />
 					</template>
@@ -55,21 +58,24 @@
 					confirm
 					@change="onChangeMaxDate" />
 				<NcButton
-					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this day') }"
+					:title="t('cospend', 'Set to beginning of this day')"
+					:aria-label="t('cospend', 'Set to beginning of this day')"
 					@click="onDayBeginningClicked">
 					<template #icon>
 						<CalendarTodayIcon :size="20" />
 					</template>
 				</NcButton>
 				<NcButton
-					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this week') }"
+					:title="t('cospend', 'Set to beginning of this week')"
+					:aria-label="t('cospend', 'Set to beginning of this week')"
 					@click="onWeekBeginningClicked">
 					<template #icon>
 						<CalendarWeekIcon :size="20" />
 					</template>
 				</NcButton>
 				<NcButton
-					v-tooltip.bottom="{ content: t('cospend', 'Set to beginning of this month') }"
+					:title="t('cospend', 'Set to beginning of this month')"
+					:aria-label="t('cospend', 'Set to beginning of this month')"
 					@click="onMonthBeginningClicked">
 					<template #icon>
 						<CalendarMonthIcon :size="20" />
@@ -193,7 +199,10 @@
 
 		<hr>
 		<h2 class="individualTitle">
-			<NcButton @click="onIndividualInfoClicked">
+			<NcButton
+				:title="t('cospend', 'Information on individual reimbursement')"
+				:aria-label="t('cospend', 'Information on individual reimbursement')"
+				@click="onIndividualInfoClicked">
 				<template #icon>
 					<InformationVariantIcon :size="20" />
 				</template>

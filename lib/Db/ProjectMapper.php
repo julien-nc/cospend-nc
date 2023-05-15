@@ -56,4 +56,37 @@ class ProjectMapper extends QBMapper {
 
 		return $this->findEntities($qb);
 	}
+
+	/**
+	 * @param string $projectId
+	 * @return void
+	 * @throws \OCP\DB\Exception
+	 */
+	public function deleteBillOwersOfProject(string $projectId): void {
+		// old style
+		/*
+		$query = 'DELETE FROM `*PREFIX*cospend_bill_owers`
+		WHERE `billid` IN (
+			SELECT `id` FROM `*PREFIX*cospend_bills` WHERE `projectid` = ?
+		)';
+		$this->db->executeQuery($query, [$projectId]);
+		*/
+
+		// inspired from the tables app
+		$qb = $this->db->getQueryBuilder();
+
+		$qb2 = $this->db->getQueryBuilder();
+		$qb2->select('id')
+			->from('cospend_bills')
+			->where(
+				$qb2->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			);
+
+		$qb->delete('cospend_bill_owers')
+			->where(
+				$qb2->expr()->in('billid', $qb->createFunction($qb2->getSQL()), IQueryBuilder::PARAM_STR_ARRAY)
+			);
+		$qb->executeStatement();
+		$qb->resetQueryParts();
+	}
 }

@@ -503,12 +503,7 @@ class ProjectService {
 		if ($projectToDelete !== null) {
 			$qb = $this->db->getQueryBuilder();
 
-			// TODO do that with one request
-			// delete project bills
-			$bills = $this->getBills($projectid);
-			foreach ($bills as $bill) {
-				$this->deleteBillOwersOfBill($bill['id']);
-			}
+			$this->projectMapper->deleteBillOwersOfProject($projectid);
 
 			$associatedTableNames = [
 				'cospend_bills',

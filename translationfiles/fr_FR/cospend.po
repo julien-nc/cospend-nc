@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-01-08 16:02+0100\n"
-"PO-Revision-Date: 2023-01-08 15:26\n"
+"PO-Revision-Date: 2023-05-16 21:38\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: moneybuster\n"
 "X-Crowdin-Project-ID: 340933\n"
 "X-Crowdin-Language: fr\n"
-"X-Crowdin-File: /master/translationfiles/templates/cospend.pot\n"
-"X-Crowdin-File-ID: 60\n"
+"X-Crowdin-File: /main/translationfiles/templates/cospend.pot\n"
+"X-Crowdin-File-ID: 195\n"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:95
 msgid "You have created a new bill {bill} in project {project}"
@@ -78,7 +78,7 @@ msgstr "le cercle %1$s"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:2
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/admin.php:8
 msgid "Cospend"
-msgstr "Cospend"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/Setting.php:55
 msgid "Changes in the <strong>Cospend app</strong>"
@@ -384,7 +384,7 @@ msgstr "Facture"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:96
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:161
 msgid "Excursion/Culture"
-msgstr "Excursion/Culture"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:97
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:166
@@ -394,12 +394,12 @@ msgstr "Santé"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:98
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:171
 msgid "Shopping"
-msgstr "Shopping"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:100
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:176
 msgid "Restaurant"
-msgstr "Restaurant"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:101
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:181
@@ -409,12 +409,12 @@ msgstr "Logement"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:102
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:186
 msgid "Transport"
-msgstr "Transport"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:103
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:191
 msgid "Sport"
-msgstr "Sport"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version010314Date20210828143421.php:67
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version010314Date20210828143421.php:75
@@ -1272,7 +1272,7 @@ msgstr "Il s'agit juste d'un convertisseur de devises. Le montant de la facture 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:356
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:403
 msgid "Info"
-msgstr "Info"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:109
 msgid "You can type simple math operations and validate by pressing Enter key."
@@ -1665,7 +1665,7 @@ msgstr "Balances au {date}"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:204
 msgid "Balances"
-msgstr "Balances"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:207
 msgid "No balances found"
@@ -1801,7 +1801,7 @@ msgstr "Spectateur"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:377
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:386
 msgid "Participant"
-msgstr "Participant"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:245
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:371
@@ -1815,7 +1815,7 @@ msgstr "Mainteneur"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:379
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:388
 msgid "Admin"
-msgstr "Admin"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:247
 msgid "Deactivate"
@@ -2162,7 +2162,7 @@ msgstr "Afficher le QRCode pour les clients mobiles"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:366
 msgid "Label"
-msgstr "Label"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:367
 msgid "Password protect"

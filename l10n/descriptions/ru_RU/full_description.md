@@ -12,7 +12,7 @@ Nextcloud Cospend - это менеджер группового/общего б
 
 Клиент для iOS [PayForMe](https://github.com/mayflower/PayForMe) в настоящее время разрабатывается!
 
-## Возможности
+## Features
 
 * создание/редактирование/удаление проектов, участников, счетов, категорий счетов, валют
 * ⚖ проверка балансов участников
@@ -41,7 +41,7 @@ Nextcloud Cospend - это менеджер группового/общего б
 * [Пользовательская документация](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
 * [Документация по админу](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
 * [Документация для разработчиков](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
-* [ИСТОРИЯ ИЗМЕНЕНИЙ](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
 * [АВТОРЫ](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## Известные проблемы
@@ -49,3 +49,4 @@ Nextcloud Cospend - это менеджер группового/общего б
 * он не делает вас богатым
 
 Мы будем признательны за любую обратную связь.
+

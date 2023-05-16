@@ -14,7 +14,6 @@ OC.L10N.register(
     "A guest user" : "Гостински корисник",
     "A <strong>bill</strong> inside the Cospend app has been updated/created/deleted" : "<strong>Сметка</strong> во Cospend апликацијата е ажурирана/креирана/избришана",
     "circle %1$s" : "круг %1$s",
-    "Cospend" : "Cospend",
     "Changes in the <strong>Cospend app</strong>" : "Промени во <strong>Cospend апликацијата</strong>",
     "Cospend public access" : "Cospend јавен пристап",
     "Enter password of project %s" : "Внеси лозинка на проектот %s",

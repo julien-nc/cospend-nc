@@ -1,14 +1,12 @@
 OC.L10N.register(
     "cospend",
     {
-    "Cospend" : "Cospend",
     "Grocery" : "Market",
     "Bar/Party" : "Bar/Parti",
     "Rent" : "Kira",
     "Bill" : "Fatura",
     "Health" : "Sağlık",
     "Shopping" : "Alışveriş",
-    "Restaurant" : "Restaurant",
     "Accommodation" : "Konaklama",
     "Transport" : "Ulaşım",
     "Sport" : "Spor",
@@ -23,7 +21,6 @@ OC.L10N.register(
     "Failed to add member" : "Üye eklenemedi",
     "Project saved" : "Proje kayıt edildi",
     "Failed to edit project" : "Proje düzenlenemedi",
-    "link" : "link",
     "What?" : "Ne?",
     "When?" : "Ne zaman?",
     "Bill type" : "Fatura tipi",

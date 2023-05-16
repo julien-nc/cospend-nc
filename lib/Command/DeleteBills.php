@@ -12,15 +12,13 @@
 
 namespace OCA\Cospend\Command;
 
+use DateTime;
 use OCA\Cospend\Db\BillMapper;
-use OCA\Cospend\Db\ProjectMapper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-
-use OCA\Cospend\Service\ProjectService;
 
 class DeleteBills extends Command {
 
@@ -37,15 +35,21 @@ class DeleteBills extends Command {
 				'The id of the project'
 			)
 			->addOption(
+				'simulate',
+				's',
+				InputOption::VALUE_NONE,
+				'Only simulate bill deletion and print bills that would be deleted'
+			)
+			->addOption(
 				'what',
 				'w',
-				InputOption::VALUE_OPTIONAL,
+				InputOption::VALUE_REQUIRED,
 				'Only delete the bills with this "what" value'
 			)
 			->addOption(
 				'min_timestamp',
 				't',
-				InputOption::VALUE_OPTIONAL,
+				InputOption::VALUE_REQUIRED,
 				'Only delete the bills after this timestamp'
 			);
 	}
@@ -55,9 +59,26 @@ class DeleteBills extends Command {
 		$what = $input->getOption('what');
 		$minTs = $input->getOption('min_timestamp');
 		$minTs = $minTs === null ? null : (int) $minTs;
-		$nbDeleted = $this->billMapper->deleteBills($projectId, $what, $minTs);
-		$output->writeln($nbDeleted['bills'].' bills deleted');
-		$output->writeln($nbDeleted['billOwers'].' bill owers deleted');
+
+		if ($input->getOption('simulate')) {
+			$output->writeln('This is just a simulation');
+		}
+
+		$billsToDelete = $this->billMapper->getBills($projectId, $what, $minTs);
+		foreach ($billsToDelete as $bill) {
+			$ts = $bill->getTimestamp();
+			$date = (new DateTime())->setTimestamp($ts)->format('c');
+			$output->writeln('DELETE [' . $bill->getId() . '] ' . $bill->getWhat() . ' ; ' . $bill->getAmount() . ' ; ' . $date);
+		}
+
+		if ($input->getOption('simulate')) {
+			$output->writeln('0 bill deleted');
+			$output->writeln('0 bill ower deleted');
+		} else {
+			$nbDeleted = $this->billMapper->deleteBills($projectId, $what, $minTs);
+			$output->writeln($nbDeleted['bills'] . ' bills deleted');
+			$output->writeln($nbDeleted['billOwers'] . ' bill owers deleted');
+		}
 		return 0;
 	}
 }

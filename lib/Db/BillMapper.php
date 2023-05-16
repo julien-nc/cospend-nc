@@ -118,4 +118,32 @@ class BillMapper extends QBMapper {
 			'billOwers' => $nbBillOwersDeleted,
 		];
 	}
+
+	/**
+	 * @param string $projectId
+	 * @param string|null $what
+	 * @param int|null $minTimestamp
+	 * @return Bill[]
+	 * @throws \OCP\DB\Exception
+	 */
+	public function getBills(string $projectId, ?string $what = null, ?int $minTimestamp = null): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from('cospend_bills')
+			->where(
+				$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
+			);
+		if ($what !== null) {
+			$qb->andWhere(
+				$qb->expr()->eq('what', $qb->createNamedParameter($what, IQueryBuilder::PARAM_STR))
+			);
+		}
+		if ($minTimestamp !== null) {
+			$qb->andWhere(
+				$qb->expr()->gt('timestamp', $qb->createNamedParameter($minTimestamp, IQueryBuilder::PARAM_INT))
+			);
+		}
+		return $this->findEntities($qb);
+	}
 }

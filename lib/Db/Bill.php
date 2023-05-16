@@ -14,6 +14,18 @@ namespace OCA\Cospend\Db;
 
 use OCP\AppFramework\Db\Entity;
 
+/**
+ * @method string getWhat()
+ * @method void setWhat(string $what)
+ * @method string getComment()
+ * @method void setComment(string $comment)
+ * @method int getPayerid()
+ * @method void setPayerid(int $payerid)
+ * @method int getAmount()
+ * @method void setAmount(int $amount)
+ * @method int getTimestamp()
+ * @method void setTimestamp(int $timestamp)
+ */
 class Bill extends Entity {
 
 	protected $what;

@@ -1,12 +1,12 @@
 # Nextcloud Cospend 💰
 
-Nextcloud Cospend 是一款群组/共享支出管理工具。 由伟大的 [IHateMoney](https://github.com/spiral-project/ihatemoney/) 启发。 由伟大的 [IHateMoney](https://github.com/spiral-project/ihatemoney/) 启发。
+Nextcloud Cospend 是一款群组/共享支出管理工具。 由伟大的 [IHateMoney](https://github.com/spiral-project/ihatemoney/) 启发。
 
 您可在租赁房屋、与朋友外出度假时的任何需要共享金钱的情况使用。
 
 它可以让您创建带有会员和账单的项目。 每个成员都有根据项目账单计算的余额。 这种方式你可以看到谁欠该群组以及谁欠该群组。 Ultimately you can ask for a settlement plan telling you which payments to make to reset members balances.
 
-Project members are independent from Nextcloud users. Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
+Project members are independent from Nextcloud users. Project members are independent from Nextcloud users. Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access. Each project has an ID and a password for guest access.
 
 [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) Android client is [available in F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) and on the [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
@@ -49,3 +49,4 @@ This app is under development.
 * it does not make you rich
 
 Any feedback will be appreciated.
+

@@ -49,3 +49,4 @@ Diese App ist in Entwicklung.
 * Es macht dich nicht reich
 
 Jedes Feedback ist willkommen.
+

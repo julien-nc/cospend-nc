@@ -1,12 +1,12 @@
 # Nextcloud Cospend 💰
 
-Nextcloud Cospend управлява бюджет за група/споделен бюджет. Приложението е вдъхновено от великолепното [IHateMoney](https://github.com/spiral-project/ihatemoney/).
+Nextcloud Cospend is a group/shared budget manager. It was inspired by the great [IHateMoney](https://github.com/spiral-project/ihatemoney/).
 
 Можете да го използвате, когато делите къща, когато ходите на почивка с приятели и винаги, когато делите пари с други хора.
 
-То Ви дава възможност да създавате проекти за хора и сметки. Всеки член на групата има салдо, изчислено от сметките по проекта. Така можете да виждате кой ръководи групата и кои са нейни членове. В крайна сметка можете да помолите за план за уреждане на сметките, който да Ви дава информация кои плащания да се извършат за възстановяване на салдата на членовете.
+It lets you create projects with members and bills. Each member has a balance computed from the project bills. This way you can see who owes the group and who the group owes. Ultimately you can ask for a settlement plan telling you which payments to make to reset members balances.
 
-Членовете по проекта са независими от потребителите на Nextcloud. Лица без акаунт в Nextcloud могат да влизат в проекти и да ги променят. Всеки проект има идентификационен номер и парола за влизане на гости.
+Project members are independent from Nextcloud users. Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
 
 [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) за Android се [предлага за F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) и в [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
@@ -49,3 +49,4 @@ Nextcloud Cospend управлява бюджет за група/споделе
 * не Ви прави богати
 
 Всяка обратна връзка ще бъде оценена.
+

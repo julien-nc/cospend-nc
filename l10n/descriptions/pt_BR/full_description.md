@@ -49,3 +49,4 @@ Este aplicativo está em desenvolvimento.
 * isso não te faz rico
 
 Qualquer retorno será apreciado.
+

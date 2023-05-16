@@ -1,12 +1,12 @@
 # Nextcloud Cospend 💰
 
-Το Nextcloud Cospend είναι ένας ομαδικός/κοινόχρηστος διαχειριστής προϋπολογισμού. Εμπνευσμένο από το μεγάλο [IHateMoney](https://github.com/spiral-project/ihatemoney/).
+Nextcloud Cospend is a group/shared budget manager. It was inspired by the great [IHateMoney](https://github.com/spiral-project/ihatemoney/).
 
 Μπορείτε να το χρησιμοποιήσετε όταν μοιράζεστε ένα σπίτι, όταν κάνετε διακοπές με φίλους, όποτε μοιράζεστε χρήματα με άλλους.
 
-Σας επιτρέπει να δημιουργείτε έργα με μέλη και λογαριασμούς. Κάθε μέλος έχει ένα υπόλοιπο λογαριασμού που υπολογίζεται από τους λογαριασμούς του έργου. Με αυτόν τον τρόπο μπορείτε να δείτε ποιος χρωστάει στην ομάδα και σε ποιον οφείλει η ομάδα. Εν τέλει μπορείτε να ζητήσετε για ένα σχέδιο διακανονισμού, το οποίο θα σας ενημερώνει σχετικά με τις πληρωμές που πρέπει να κάνετε για να ισορροπήσετε τα υπόλοιπα των μελών.
+It lets you create projects with members and bills. Each member has a balance computed from the project bills. This way you can see who owes the group and who the group owes. Ultimately you can ask for a settlement plan telling you which payments to make to reset members balances.
 
-Τα μέλη του έργου είναι ανεξάρτητα από τους χρήστες του Nextcloud. Στα έργα μπορούν να έχουν πρόσβαση και να τα τροποποιήσουν άτομα χωρίς λογαριασμό Nextcloud. Κάθε έργο έχει αναγνωριστικό και κωδικό πρόσβασης για την πρόσβαση των επισκεπτών.
+Project members are independent from Nextcloud users. Projects can be accessed and modified by people without a Nextcloud account. Each project has an ID and a password for guest access.
 
 Η Android εφαρμογή του [MoneyBuster](https://gitlab.com/eneiluj/moneybuster) είναι [διαθέσιμη στο F-Droid](https://f-droid.org/packages/net.eneiluj.moneybuster/) και στο [Play store](https://play.google.com/store/apps/details?id=net.eneiluj.moneybuster).
 
@@ -49,3 +49,4 @@
 * δε σε κάνει πλούσιο
 
 Οποιοδήποτε σχόλιο για τη βελτίωση της εφαρμογής θα εκτιμηθεί.
+

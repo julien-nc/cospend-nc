@@ -41,11 +41,12 @@ Esta aplicación está en desarrollo.
 * [Documentacion para el usuario](https://github.com/eneiluj/cospend-nc/blob/master/docs/user.md)
 * [Documentacion para el administrador](https://github.com/eneiluj/cospend-nc/blob/master/docs/admin.md)
 * [Documentación para desarrolladores](https://github.com/eneiluj/cospend-nc/blob/master/docs/dev.md)
-* [Últimos cambios](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
-* [Autores](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
+* [CHANGELOG](https://github.com/eneiluj/cospend-nc/blob/master/CHANGELOG.md#change-log)
+* [AUTHORS](https://github.com/eneiluj/cospend-nc/blob/master/AUTHORS.md#authors)
 
 ## Problemas conocidos
 
 * no te hace rico
 
-Cualquier comentario o crítica es bienvenido.
+Any feedback will be appreciated.
+

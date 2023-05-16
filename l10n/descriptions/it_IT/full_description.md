@@ -49,3 +49,4 @@ Questa app è in fase di sviluppo.
 * non ti rende ricco
 
 Ogni feedback é apprezzato.
+

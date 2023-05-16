@@ -49,3 +49,4 @@ Ta aplikacja jest w trakcie tworzenia.
 * it does not make you rich
 
 Any feedback will be appreciated.
+

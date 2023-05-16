@@ -1,1 +1,1 @@
-Менаџер на буџет
+Shared budget manager

@@ -1,1 +1,1 @@
-Megosztott költségvetés-kezelő
+Shared budget manager

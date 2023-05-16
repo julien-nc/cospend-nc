@@ -49,3 +49,4 @@ This app is under development.
 * it does not make you rich
 
 Any feedback will be appreciated.
+

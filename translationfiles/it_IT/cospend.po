@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-01-08 16:02+0100\n"
-"PO-Revision-Date: 2023-01-08 15:09\n"
+"PO-Revision-Date: 2023-05-16 21:38\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "Language: it_IT\n"
@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: moneybuster\n"
 "X-Crowdin-Project-ID: 340933\n"
 "X-Crowdin-Language: it\n"
-"X-Crowdin-File: /master/translationfiles/templates/cospend.pot\n"
-"X-Crowdin-File-ID: 60\n"
+"X-Crowdin-File: /main/translationfiles/templates/cospend.pot\n"
+"X-Crowdin-File-ID: 195\n"
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/ActivityManager.php:95
 msgid "You have created a new bill {bill} in project {project}"
@@ -78,7 +78,7 @@ msgstr "cerchio %1$s"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:2
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/templates/admin.php:8
 msgid "Cospend"
-msgstr "Cospend"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Activity/Setting.php:55
 msgid "Changes in the <strong>Cospend app</strong>"
@@ -394,7 +394,7 @@ msgstr "Salute"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:98
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:171
 msgid "Shopping"
-msgstr "Shopping"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:100
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:176
@@ -414,7 +414,7 @@ msgstr "Transporto"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version000406Date20200426154317.php:103
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:191
 msgid "Sport"
-msgstr "Sport"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version010314Date20210828143421.php:67
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Migration/Version010314Date20210828143421.php:75
@@ -477,7 +477,7 @@ msgstr "{user} ha smesso di condividere il progetto %s con te"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Search/CospendSearchProvider.php:213
 #, php-format
 msgid "in %1$s"
-msgstr "in %1$s"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/lib/Service/ProjectService.php:231
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:223
@@ -1053,7 +1053,7 @@ msgstr "Ripeti"
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:51
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:335
 msgid "No"
-msgstr "No"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:52
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:336
@@ -1272,7 +1272,7 @@ msgstr "Questo è solo un convertitore di valuta. L'importo della spesa può ess
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:356
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:403
 msgid "Info"
-msgstr "Info"
+msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server26/apps/cospend/specialVueFakeDummyForL10nScript.js:109
 msgid "You can type simple math operations and validate by pressing Enter key."

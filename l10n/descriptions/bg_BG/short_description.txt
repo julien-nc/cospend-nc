@@ -1,1 +1,1 @@
-Управлява споделен бюджет
+Shared budget manager

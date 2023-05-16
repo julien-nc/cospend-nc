@@ -15,7 +15,7 @@ Le client iOS [PayForMe](https://github.com/mayflower/PayForMe) est en cours de 
 ## Fonctionnalités
 
 * ✎ créer/modifier/supprimer des projets, membres, factures, catégories de factures, devises
-* ⚖ voir les soldes des membres
+* ⚖ check member balances
 * 🗠 afficher les statistiques des projets
 * ♻ afficher un plan de remboursement
 * 🎇 créer automatiquement les factures correspondant au plan de remboursement
@@ -49,3 +49,4 @@ Cette application est en cours de développement.
 * ça ne vous rend pas riche
 
 Tout retour sera apprécié.
+

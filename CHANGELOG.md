@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.5.10 – 2023-05-16
+
+### Added
+
+- Bill deletion occ command
+
 ## 1.5.9 – 2023-05-14
 
 ### Changed

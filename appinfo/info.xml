@@ -21,7 +21,7 @@
 	<screenshot>https://github.com/julien-nc/cospend-nc/raw/main/img/screenshots/cospend3.jpg</screenshot>
 	<screenshot>https://github.com/julien-nc/cospend-nc/raw/main/img/screenshots/cospend4.jpg</screenshot>
 	<dependencies>
-		<nextcloud min-version="26" max-version="27"/>
+		<nextcloud min-version="26" max-version="28"/>
 	</dependencies>
 	<background-jobs>
 		<job>OCA\Cospend\Cron\RepeatBills</job>

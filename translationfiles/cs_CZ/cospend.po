@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-05-16 23:39+0200\n"
-"PO-Revision-Date: 2023-06-17 08:34\n"
+"PO-Revision-Date: 2023-06-18 08:31\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -1726,7 +1726,7 @@ msgstr "Nenalezeny žádné zůstatky"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:226
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "Information on individual reimbursement"
-msgstr ""
+msgstr "Informace o jednotlivých náhradách"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "Individual reimbursement"
@@ -2123,7 +2123,7 @@ msgstr "Přejmenovat projekt {n}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:363
 msgid "Rename project"
-msgstr ""
+msgstr "Přejmenovat projekt"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:364
 msgid "Disable bill deletion"
@@ -2143,7 +2143,7 @@ msgstr "Členové"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:372
 msgid "More information on adding members"
-msgstr ""
+msgstr "Další informací l přidávání členů"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:374
 msgid "Enter a member name"
@@ -2159,7 +2159,7 @@ msgstr "Přiřadit člena projektu k uživateli v Nextcloud"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:377
 msgid "More information on adding Nextcloud users as members"
-msgstr ""
+msgstr "Další informace o přidávání uživatelů Nextcloud jako členů"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:379
 msgid "Choose a Nextcloud user"

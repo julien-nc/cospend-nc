@@ -1,48 +1,51 @@
 <template>
-	<NcMultiselect
+	<NcSelect
 		:value="selectedMemberItem"
-		class="memberMultiSelect multiSelect"
+		class="memberMultiSelect"
 		label="displayName"
-		track-by="id"
 		:disabled="disabled"
 		:placeholder="placeholder"
 		:options="formattedOptions"
-		:user-select="true"
-		:internal-search="true"
+		:append-to-body="false"
+		:clearable="false"
 		@input="onMemberSelected">
-		<template #option="{option}">
-			<CospendTogglableAvatar
-				v-if="option.id"
-				:enabled="option.activated"
-				:color="option.color"
-				:size="34"
-				:disable-menu="true"
-				:disable-tooltip="true"
-				:show-user-status="false"
-				:is-no-user="option.userid === undefined || option.userid === '' || option.userid === null"
-				:user="option.userid"
-				:display-name="option.name" />
-			<span class="select-display-name">{{ option.displayName }}</span>
+		<template #option="option">
+			<div class="memberSelectOption">
+				<CospendTogglableAvatar
+					v-if="option.id"
+					:enabled="option.activated"
+					:color="option.color"
+					:size="34"
+					:disable-menu="true"
+					:disable-tooltip="true"
+					:show-user-status="false"
+					:is-no-user="option.userid === undefined || option.userid === '' || option.userid === null"
+					:user="option.userid"
+					:display-name="option.name" />
+				<span class="select-display-name">{{ option.displayName }}</span>
+			</div>
 		</template>
-		<template #singleLabel="{option}">
-			<CospendTogglableAvatar
-				v-if="option.id"
-				:enabled="option.activated"
-				:color="option.color"
-				:size="34"
-				:disable-menu="true"
-				:disable-tooltip="true"
-				:show-user-status="false"
-				:is-no-user="option.userid === undefined || option.userid === '' || option.userid === null"
-				:user="option.userid"
-				:display-name="option.name" />
-			<span class="select-display-name">{{ option.displayName }}</span>
+		<template #selected-option="option">
+			<div class="memberSelectOption">
+				<CospendTogglableAvatar
+					v-if="option.id"
+					:enabled="option.activated"
+					:color="option.color"
+					:size="34"
+					:disable-menu="true"
+					:disable-tooltip="true"
+					:show-user-status="false"
+					:is-no-user="option.userid === undefined || option.userid === '' || option.userid === null"
+					:user="option.userid"
+					:display-name="option.name" />
+				<span class="select-display-name">{{ option.displayName }}</span>
+			</div>
 		</template>
-	</NcMultiselect>
+	</NcSelect>
 </template>
 
 <script>
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
 import CospendTogglableAvatar from './avatar/CospendTogglableAvatar.vue'
 
@@ -53,7 +56,7 @@ export default {
 
 	components: {
 		CospendTogglableAvatar,
-		NcMultiselect,
+		NcSelect,
 	},
 
 	props: {
@@ -123,13 +126,18 @@ export default {
 <style scoped lang="scss">
 .memberMultiSelect {
 	height: 44px;
-}
 
-.select-display-name {
-	margin-left: 5px;
-	margin-right: auto;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	white-space: nowrap;
+	.memberSelectOption {
+		display: flex;
+		align-items: center;
+	}
+
+	.select-display-name {
+		margin-left: 5px;
+		margin-right: auto;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+	}
 }
 </style>

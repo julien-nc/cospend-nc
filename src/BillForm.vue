@@ -433,7 +433,7 @@
 							type="checkbox"
 							class="checkbox"
 							:disabled="!editionAccess"
-							@input="onBillEdited">
+							@input="onBillEdited(null, false)">
 						<label for="checkAllNone" class="checkboxlabel">{{ t('cospend', 'All/None') }}</label>
 					</div>
 					<div v-if="!isNewBill || newBillMode === 'normal'">
@@ -1230,7 +1230,7 @@ export default {
 					this.myBill.owerIds.splice(this.myBill.owerIds.indexOf(value), 1)
 				}
 			}
-			this.onBillEdited(null, true)
+			this.onBillEdited(null, false)
 		},
 		onBillEdited(e, delayed = true) {
 			if (!this.isNewBill && !this.noBill) {

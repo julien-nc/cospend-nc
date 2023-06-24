@@ -1,25 +1,23 @@
 <template>
-	<NcMultiselect
+	<NcSelect
 		:value="selectedPmItem"
-		class="pmMultiSelect multiSelect"
+		class="pmMultiSelect"
 		label="displayName"
-		track-by="id"
 		:disabled="disabled"
+		:clearable="false"
 		:placeholder="placeholder"
 		:options="formattedOptions"
-		:user-select="false"
-		:internal-search="true"
 		@input="onPmSelected" />
 </template>
 
 <script>
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
 export default {
 	name: 'PaymentModeMultiSelect',
 
 	components: {
-		NcMultiselect,
+		NcSelect,
 	},
 
 	props: {

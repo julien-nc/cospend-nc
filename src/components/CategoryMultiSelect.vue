@@ -1,25 +1,23 @@
 <template>
-	<NcMultiselect
+	<NcSelect
 		:value="selectedCategoryItem"
-		class="categoryMultiSelect multiSelect"
+		class="categoryMultiSelect"
 		label="displayName"
-		track-by="id"
 		:disabled="disabled"
+		:clearable="false"
 		:placeholder="placeholder"
 		:options="formattedOptions"
-		:user-select="false"
-		:internal-search="true"
 		@input="onCategorySelected" />
 </template>
 
 <script>
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
 export default {
 	name: 'CategoryMultiSelect',
 
 	components: {
-		NcMultiselect,
+		NcSelect,
 	},
 
 	props: {

@@ -626,9 +626,7 @@ export default {
 			display: flex;
 			flex-direction: column;
 			padding: 0 10px 0 10px;
-			.multiselect {
-				width: 100%;
-			}
+			gap: 12px;
 		}
 	}
 }

@@ -176,18 +176,17 @@
 							:size="20" />
 						{{ t('cospend', 'Payment mode') }}
 					</label>
-					<NcMultiselect
-						id="paymentModeMultiSelect"
+					<NcSelect
 						:value="selectedPaymentModeItem"
-						class="paymentModeMultiSelect  multiSelect"
-						label="name"
-						track-by="id"
-						:disabled="!editionAccess"
+						class="paymentModeMultiSelect"
 						:placeholder="t('cospend', 'Choose a payment mode')"
 						:options="formattedPaymentModes"
-						:user-select="false"
-						:internal-search="true"
-						@search-change="pmQueryChanged"
+						:no-wrap="true"
+						label="name"
+						:disabled="!editionAccess"
+						:clearable="false"
+						input-id="paymentModeMultiSelect"
+						@search="pmQueryChanged"
 						@input="paymentModeSelected" />
 				</div>
 				<div class="bill-category">
@@ -197,18 +196,17 @@
 							:size="20" />
 						{{ t('cospend', 'Category') }}
 					</label>
-					<NcMultiselect
-						id="categoryMultiSelect"
+					<NcSelect
 						:value="selectedCategoryItem"
-						class="categoryMultiSelect  multiSelect"
-						label="name"
-						track-by="id"
-						:disabled="!editionAccess"
+						class="categoryMultiSelect"
 						:placeholder="t('cospend', 'Choose or add a category')"
 						:options="formattedCategories"
-						:user-select="false"
-						:internal-search="true"
-						@search-change="categoryQueryChanged"
+						:no-wrap="true"
+						label="name"
+						:disabled="!editionAccess"
+						:clearable="false"
+						input-id="categoryMultiSelect"
+						@search="categoryQueryChanged"
 						@input="categorySelected" />
 				</div>
 				<div class="bill-comment">
@@ -624,8 +622,8 @@ import CurrencyIcon from './components/icons/CurrencyIcon.vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcDatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker.js'
 import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDetails.js'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 import NcRichContenteditable from '@nextcloud/vue/dist/Components/NcRichContenteditable.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
 import CospendTogglableAvatar from './components/avatar/CospendTogglableAvatar.vue'
 import MemberMultiSelect from './components/MemberMultiSelect.vue'
@@ -654,7 +652,7 @@ export default {
 		CospendIcon,
 		NcDatetimePicker,
 		NcAppContentDetails,
-		NcMultiselect,
+		NcSelect,
 		MemberMultiSelect,
 		NcButton,
 		NcRichContenteditable,

@@ -1,44 +1,44 @@
 <template>
 	<div>
-		<NcMultiselect
+		<NcSelect
 			v-if="editionAccess"
 			v-model="selectedSharee"
 			class="shareInput"
 			:placeholder="t('cospend', 'Share project with a user, group or circle …')"
 			:options="formatedSharees"
-			:user-select="true"
+			:append-to-body="false"
 			label="displayName"
-			track-by="multiselectKey"
-			:internal-search="true"
-			@search-change="asyncFind"
+			@search="asyncFind"
 			@input="clickShareeItem">
-			<template #option="{option}">
-				<NcAvatar v-if="option.type === constants.SHARE_TYPE.USER"
-					class="avatar-option"
-					:user="option.user"
-					:show-user-status="false" />
-				<NcAvatar v-else-if="[constants.SHARE_TYPE.GROUP, constants.SHARE_TYPE.CIRCLE].includes(option.type)"
-					class="avatar-option"
-					:display-name="option.name"
-					:is-no-user="true"
-					:show-user-status="false" />
-				<span class="multiselect-name">
-					{{ option.displayName }}
-				</span>
-				<div v-if="option.type === constants.SHARE_TYPE.USER" class="multiselect-icon">
-					<AccountIcon :size="20" />
-				</div>
-				<div v-else-if="option.type === constants.SHARE_TYPE.GROUP" class="multiselect-icon">
-					<AccountGroupIcon :size="20" />
-				</div>
-				<div v-else-if="option.type === constants.SHARE_TYPE.CIRCLE" class="multiselect-icon">
-					<GoogleCirclesCommunitiesIcon :size="20" />
+			<template #option="option">
+				<div class="shareSelectOption">
+					<NcAvatar v-if="option.type === constants.SHARE_TYPE.USER"
+						class="avatar-option"
+						:user="option.user"
+						:show-user-status="false" />
+					<NcAvatar v-else-if="[constants.SHARE_TYPE.GROUP, constants.SHARE_TYPE.CIRCLE].includes(option.type)"
+						class="avatar-option"
+						:display-name="option.name"
+						:is-no-user="true"
+						:show-user-status="false" />
+					<span class="multiselect-name">
+						{{ option.displayName }}
+					</span>
+					<div v-if="option.type === constants.SHARE_TYPE.USER" class="multiselect-icon">
+						<AccountIcon :size="20" />
+					</div>
+					<div v-else-if="option.type === constants.SHARE_TYPE.GROUP" class="multiselect-icon">
+						<AccountGroupIcon :size="20" />
+					</div>
+					<div v-else-if="option.type === constants.SHARE_TYPE.CIRCLE" class="multiselect-icon">
+						<GoogleCirclesCommunitiesIcon :size="20" />
+					</div>
 				</div>
 			</template>
 			<template #noOptions>
 				{{ t('cospend', 'Start typing to search') }}
 			</template>
-		</NcMultiselect>
+		</NcSelect>
 
 		<NcModal v-if="shareLinkQrcodeUrl"
 			size="small"
@@ -371,7 +371,7 @@ import TextBoxIcon from 'vue-material-design-icons/TextBox.vue'
 import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
 import QrcodeIcon from 'vue-material-design-icons/Qrcode.vue'
 
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
@@ -411,7 +411,7 @@ export default {
 		NcActionCheckbox,
 		NcActionLink,
 		NcActionSeparator,
-		NcMultiselect,
+		NcSelect,
 		NcModal,
 		NcButton,
 		QRCode,
@@ -487,7 +487,7 @@ export default {
 					displayName: item.label,
 					type: item.type,
 					value: item.value,
-					multiselectKey: item.type + ':' + item.id,
+					id: item.type + ':' + item.id,
 				}
 			})
 		},
@@ -772,6 +772,11 @@ export default {
 
 .shareInput {
 	width: 100%;
+
+	.shareSelectOption {
+		display: flex;
+		align-items: center;
+	}
 
 	.multiselect-name {
 		flex-grow: 1;

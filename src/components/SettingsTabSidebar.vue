@@ -82,44 +82,41 @@
 					{{ t('cospend', 'Add a member') }}
 				</span>
 			</h4>
-			<NcMultiselect
+			<NcSelect
 				v-if="maintenerAccess"
 				ref="addUserInput"
 				v-model="selectedAddUser"
 				class="addUserInput"
 				label="displayName"
 				track-by="multiselectKey"
+				:append-to-body="false"
 				:placeholder="newMemberPlaceholder"
 				:options="formatedUsers"
-				:user-select="true"
-				:internal-search="true"
-				@search-change="asyncFind"
+				@search="asyncFind"
 				@input="clickAddUserItem">
-				<template #option="{option}">
-					<NcAvatar v-if="option.type === 's'"
-						:is-no-user="true"
-						:show-user-status="false"
-						:user="option.name" />
-					<NcAvatar v-else
-						:is-no-user="false"
-						:show-user-status="false"
-						:user="option.user" />
-					<span class="select-display-name">{{ option.displayName }}</span>
-					<div v-if="option.type === 'u'" class="select-icon">
-						<AccountIcon :size="20" />
-					</div>
-					<div v-else-if="option.type === 's'" class="select-icon">
-						<AccountPlusIcon :size="20" />
+				<template #option="option">
+					<div class="addUserSelectOption">
+						<NcAvatar v-if="option.type === 's'"
+							:is-no-user="true"
+							:show-user-status="false"
+							:user="option.name" />
+						<NcAvatar v-else
+							:is-no-user="false"
+							:show-user-status="false"
+							:user="option.user" />
+						<span class="select-display-name">{{ option.displayName }}</span>
+						<div v-if="option.type === 'u'" class="select-icon">
+							<AccountIcon :size="20" />
+						</div>
+						<div v-else-if="option.type === 's'" class="select-icon">
+							<AccountPlusIcon :size="20" />
+						</div>
 					</div>
 				</template>
 				<template #noOptions>
 					{{ t('cospend', 'Enter a member name') }}
 				</template>
-				<!-- this slot is not forwarded yet -->
-				<template #noResult>
-					{{ t('cospend', 'No result') }}
-				</template>
-			</NcMultiselect>
+			</NcSelect>
 			<AppNavigationMemberItem
 				v-for="member in sortedMembers"
 				:key="member.id"
@@ -152,34 +149,34 @@
 						:placeholder="t('cospend', 'Choose a member')"
 						:members="activeMembers"
 						@input="affectMemberSelected" />
-					<NcMultiselect
+					<NcSelect
 						v-if="maintenerAccess"
 						v-model="selectedAffectUser"
 						class="affectUserInput"
 						label="displayName"
-						track-by="multiselectKey"
 						:disabled="!selectedMemberId"
+						:append-to-body="false"
 						:placeholder="t('cospend', 'Choose a Nextcloud user')"
 						:options="formatedUsersAffect"
-						:user-select="true"
-						:internal-search="true"
-						@search-change="asyncFind"
+						@search="asyncFind"
 						@input="clickAffectUserItem">
-						<template #option="{option}">
-							<NcAvatar
-								:is-no-user="false"
-								:show-user-status="false"
-								:user="option.user" />
-							<span class="select-display-name">{{ option.displayName }}</span>
-							<span :class="option.icon + ' select-icon'" />
-							<div class="select-icon">
-								<AccountIcon :size="20" />
+						<template #option="option">
+							<div class="affectUserSelectOption">
+								<NcAvatar
+									:is-no-user="false"
+									:show-user-status="false"
+									:user="option.user" />
+								<span class="select-display-name">{{ option.displayName }}</span>
+								<span :class="option.icon + ' select-icon'" />
+								<div class="select-icon">
+									<AccountIcon :size="20" />
+								</div>
 							</div>
 						</template>
 						<template #noOptions>
 							{{ t('cospend', 'Type to search users') }}
 						</template>
-					</NcMultiselect>
+					</NcSelect>
 				</div>
 			</div>
 		</div>
@@ -196,7 +193,7 @@ import ContentSaveIcon from 'vue-material-design-icons/ContentSave.vue'
 import CalendarMonthIcon from 'vue-material-design-icons/CalendarMonth.vue'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 
@@ -214,7 +211,7 @@ import { getSortedMembers } from '../utils.js'
 export default {
 	name: 'SettingsTabSidebar',
 	components: {
-		NcMultiselect,
+		NcSelect,
 		NcAppNavigationItem,
 		AppNavigationMemberItem,
 		NcAvatar,
@@ -304,6 +301,7 @@ export default {
 					type: item.type,
 					value: item.value,
 					multiselectKey: item.type + ':' + item.id,
+					id: item.type + ':' + item.id,
 				}
 			})
 
@@ -321,6 +319,7 @@ export default {
 						type: 'u',
 						value: this.currentUser.displayName,
 						multiselectKey: 'u:' + this.currentUser.uid,
+						id: 'u:' + this.currentUser.uid,
 					})
 				}
 			}
@@ -348,6 +347,7 @@ export default {
 					type: item.type,
 					value: item.value,
 					multiselectKey: item.type + ':' + item.id,
+					id: item.type + ':' + item.id,
 				}
 			})
 
@@ -365,6 +365,7 @@ export default {
 						type: 'u',
 						value: this.currentUser.displayName,
 						multiselectKey: 'u:' + this.currentUser.uid,
+						id: 'u:' + this.currentUser.uid,
 					})
 				}
 			}
@@ -533,6 +534,11 @@ export default {
 .addUserInput {
 	width: 100%;
 	margin: 0 0 20px 0;
+
+	.addUserSelectOption {
+		display: flex;
+		align-items: center;
+	}
 }
 
 #affectDiv {
@@ -543,6 +549,11 @@ export default {
 .affectMemberInput,
 .affectUserInput {
 	margin: 4px 0;
+
+	.affectUserSelectOption {
+		display: flex;
+		align-items: center;
+	}
 }
 
 .renameProject {

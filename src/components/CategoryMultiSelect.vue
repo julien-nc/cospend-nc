@@ -72,6 +72,6 @@ export default {
 
 <style scoped lang="scss">
 .categoryMultiSelect {
-	height: 44px;
+	height: 48px;
 }
 </style>

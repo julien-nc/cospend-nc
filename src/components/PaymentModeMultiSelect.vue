@@ -72,6 +72,6 @@ export default {
 
 <style scoped lang="scss">
 .pmMultiSelect {
-	height: 44px;
+	height: 48px;
 }
 </style>

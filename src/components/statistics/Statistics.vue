@@ -109,12 +109,14 @@
 				:placeholder="t('cospend', 'Choose a member')"
 				:members="filterMembers"
 				@input="payerFilterSelected" />
-			<input id="showDisabled"
-				ref="showDisabledFilter"
-				type="checkbox"
-				class="checkbox"
-				@change="getStats">
-			<label for="showDisabled" class="checkboxlabel">{{ t('cospend', 'Show disabled members') }}</label>
+			<div />
+			<div />
+			<NcCheckboxRadioSwitch
+				:checked.sync="showDisabled"
+				class="checkFilter"
+				@update:checked="getStats">
+				{{ t('cospend', 'Show disabled members') }}
+			</NcCheckboxRadioSwitch>
 			<label for="prefChartType">
 				<ChartBarIcon
 					class="icon"
@@ -412,6 +414,7 @@ import CurrencyIcon from '../icons/CurrencyIcon.vue'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDetails.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 
 import CospendTogglableAvatar from '../avatar/CospendTogglableAvatar.vue'
 import MemberMultiSelect from '../MemberMultiSelect.vue'
@@ -441,6 +444,7 @@ export default {
 		Monthly,
 		NcAppContentDetails,
 		NcButton,
+		NcCheckboxRadioSwitch,
 		CategoryMultiSelect,
 		PaymentModeMultiSelect,
 		CalendarStartIcon,
@@ -485,6 +489,7 @@ export default {
 			exporting: false,
 			loadingStats: false,
 			preferredChartType: 'pie',
+			showDisabled: false,
 		}
 	},
 
@@ -1166,7 +1171,6 @@ export default {
 			const categoryId = this.selectedFilterCategory.id
 			const amountMin = this.$refs.amountMinFilter.value || null
 			const amountMax = this.$refs.amountMaxFilter.value || null
-			const showDisabled = this.$refs.showDisabledFilter.checked
 			const currencyId = this.$refs.currencySelect.value
 			const payerId = this.selectedFilterPayer.id
 			const req = {
@@ -1176,7 +1180,7 @@ export default {
 				categoryId,
 				amountMin,
 				amountMax,
-				showDisabled: showDisabled ? '1' : '0',
+				showDisabled: this.showDisabled ? '1' : '0',
 				currencyId,
 				payerId,
 			}
@@ -1208,7 +1212,6 @@ export default {
 			const category = this.selectedFilterCategory.id
 			const amountMin = this.$refs.amountMinFilter.value
 			const amountMax = this.$refs.amountMaxFilter.value
-			const showDisabled = this.$refs.showDisabledFilter.checked
 			const currencyId = this.$refs.currencySelect.value
 			const req = {
 				tsMin,
@@ -1217,7 +1220,7 @@ export default {
 				category,
 				amountMin,
 				amountMax,
-				showDisabled: showDisabled ? '1' : '0',
+				showDisabled: this.showDisabled ? '1' : '0',
 				currencyId,
 			}
 			network.exportStats(this.projectId, req, this.exportStatsDone)
@@ -1245,10 +1248,20 @@ export default {
 	margin-left: 20px;
 	display: grid;
 	grid-template: 1fr / 1fr 1fr 1fr 1fr;
-}
 
-#stats-filters select {
-	width: 130px;
+	select,
+	#amount-min-stats,
+	#amount-max-stats,
+	#currency-stats,
+	#date-min-stats,
+	#date-max-stats {
+		width: 200px;
+	}
+
+	.checkFilter {
+		grid-column: 3/5;
+		margin: 8px 0 0 10px;
+	}
 }
 
 #stats-filters label {

@@ -302,17 +302,13 @@
 						</div>
 					</div>
 					<div class="bill-repeat-include">
-						<input
-							id="repeatallactive"
-							:checked="myBill.repeatallactive"
-							class="checkbox"
-							type="checkbox"
+						<NcCheckboxRadioSwitch
+							:checked="myBill.repeatallactive === 1"
 							:disabled="!editionAccess"
-							@input="onRepeatAllActiveChanged">
-						<label for="repeatallactive" class="checkboxlabel">
+							class="nc-checkbox"
+							@update:checked="onRepeatAllActiveChanged">
 							{{ t('cospend', 'Include all active members on repeat') }}
-						</label>
-						<br>
+						</NcCheckboxRadioSwitch>
 					</div>
 					<div class="bill-repeat-until">
 						<label>
@@ -386,15 +382,12 @@
 						</NcButton>
 					</div>
 					<div v-if="isNewBill && newBillMode === 'customShare'" class="checkbox-line">
-						<input
-							id="ignore-weights"
-							class="checkbox"
-							type="checkbox"
-							:checked="ignoreWeights"
-							@input="onIgnoreWeightsChange">
-						<label for="ignore-weights" class="checkboxlabel">
+						<NcCheckboxRadioSwitch
+							:checked.sync="ignoreWeights"
+							class="nc-checkbox"
+							@update:checked="onIgnoreWeightsChange">
 							{{ t('cospend', 'Ignore member weights') }}
-						</label>
+						</NcCheckboxRadioSwitch>
 					</div>
 					<transition name="fade">
 						<div v-if="newBillMode === 'normal' && showHint"
@@ -426,22 +419,23 @@
 					</label>
 					<div v-if="!['custom', 'customShare'].includes(newBillMode)"
 						class="owerAllNoneDiv">
-						<div />
-						<input
-							id="checkAllNone"
-							v-model="selectAllNoneOwers"
-							type="checkbox"
-							class="checkbox"
+						<NcCheckboxRadioSwitch
+							:checked.sync="selectAllNoneOwers"
 							:disabled="!editionAccess"
-							@input="onBillEdited(null, false)">
-						<label for="checkAllNone" class="checkboxlabel">{{ t('cospend', 'All/None') }}</label>
+							class="nc-checkbox"
+							@update:checked="onBillEdited(null, false)">
+							{{ t('cospend', 'All/None') }}
+						</NcCheckboxRadioSwitch>
 					</div>
 					<div v-if="!isNewBill || newBillMode === 'normal'">
 						<div v-for="ower in activatedOrOwer"
 							:key="ower.id"
 							class="owerEntry">
-							<div class="owerAvatar"
-								v-on="(editionAccess && members[ower.id].activated) ? { click: () => onOwerAvatarClick(ower.id) } : {}">
+							<NcCheckboxRadioSwitch
+								:checked="myBill.owerIds.includes(ower.id)"
+								:disabled="!editionAccess || !members[ower.id].activated"
+								class="nc-checkbox"
+								@update:checked="onOwerChecked2($event, ower.id)">
 								<CospendTogglableAvatar
 									:enabled="!isMemberDisabled(ower.id)"
 									:color="getMemberColor(ower.id)"
@@ -452,34 +446,25 @@
 									:is-no-user="getMemberUserId(ower.id) === ''"
 									:user="getMemberUserId(ower.id)"
 									:display-name="getMemberName(ower.id)" />
-							</div>
-							<input
-								:id="'dum' + ower.id"
-								:checked="myBill.owerIds.includes(ower.id)"
-								:value="ower.id"
-								number
-								class="checkbox"
-								type="checkbox"
-								:disabled="!editionAccess || !members[ower.id].activated"
-								@input="onOwerChecked">
-							<label
-								class="checkboxlabel"
-								:for="'dum' + ower.id">
-								{{ ower.name }}
-							</label>
-							<label v-if="myBill.owerIds.includes(ower.id)"
-								:for="'dum' + ower.id"
-								class="spentlabel">
-								({{ owerAmount[ower.id] || 0 }})
-							</label>
+								<span
+									class="owerCheckboxName">
+									{{ ower.name }}
+								</span>
+								<span v-if="myBill.owerIds.includes(ower.id)"
+									class="spentlabel">
+									&nbsp;({{ owerAmount[ower.id] || 0 }})
+								</span>
+							</NcCheckboxRadioSwitch>
 						</div>
 					</div>
 					<div v-else-if="newBillMode === 'perso'">
 						<div v-for="ower in activatedOrOwer"
 							:key="ower.id"
 							class="owerEntry">
-							<div class="owerAvatar"
-								@click="onOwerAvatarClick(ower.id)">
+							<NcCheckboxRadioSwitch
+								:checked="myBill.owerIds.includes(ower.id)"
+								class="nc-checkbox"
+								@update:checked="onOwerChecked2($event, ower.id)">
 								<CospendTogglableAvatar
 									:enabled="!isMemberDisabled(ower.id)"
 									:color="getMemberColor(ower.id)"
@@ -490,20 +475,11 @@
 									:is-no-user="getMemberUserId(ower.id) === ''"
 									:user="getMemberUserId(ower.id)"
 									:display-name="getMemberName(ower.id)" />
-							</div>
-							<input
-								:id="'dum' + ower.id"
-								:checked="myBill.owerIds.includes(ower.id)"
-								:value="ower.id"
-								class="checkbox"
-								type="checkbox"
-								number
-								@input="onOwerChecked">
-							<label
-								class="checkboxlabel"
-								:for="'dum' + ower.id">
-								{{ ower.name }}
-							</label>
+								<span
+									class="owerCheckboxName">
+									{{ ower.name }}
+								</span>
+							</NcCheckboxRadioSwitch>
 							<input v-show="myBill.owerIds.includes(ower.id)"
 								:ref="'amountdum' + ower.id"
 								class="amountinput"
@@ -624,6 +600,7 @@ import NcDatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker.js
 import NcAppContentDetails from '@nextcloud/vue/dist/Components/NcAppContentDetails.js'
 import NcRichContenteditable from '@nextcloud/vue/dist/Components/NcRichContenteditable.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 
 import CospendTogglableAvatar from './components/avatar/CospendTogglableAvatar.vue'
 import MemberMultiSelect from './components/MemberMultiSelect.vue'
@@ -653,6 +630,7 @@ export default {
 		NcDatetimePicker,
 		NcAppContentDetails,
 		NcSelect,
+		NcCheckboxRadioSwitch,
 		MemberMultiSelect,
 		NcButton,
 		NcRichContenteditable,
@@ -1096,8 +1074,8 @@ export default {
 			this.myBill.repeatfreq = parseInt(e.target.value)
 			this.onBillEdited(null, false)
 		},
-		onRepeatAllActiveChanged(e) {
-			this.myBill.repeatallactive = e.target.checked
+		onRepeatAllActiveChanged(checked) {
+			this.myBill.repeatallactive = checked ? 1 : 0
 			this.onBillEdited(null, false)
 		},
 		paymentModeSelected(selected) {
@@ -1218,6 +1196,19 @@ export default {
 			} else {
 				return this.members[mid].color
 			}
+		},
+		onOwerChecked2(checked, value) {
+			console.debug('ccccccccccccc', checked, value)
+			if (checked) {
+				if (!this.myBill.owerIds.includes(value)) {
+					this.myBill.owerIds.push(value)
+				}
+			} else {
+				if (this.myBill.owerIds.includes(value)) {
+					this.myBill.owerIds.splice(this.myBill.owerIds.indexOf(value), 1)
+				}
+			}
+			this.onBillEdited(null, false)
 		},
 		onOwerChecked(e) {
 			const value = parseInt(e.target.value)
@@ -1667,8 +1658,7 @@ export default {
 		onCustomShareAmountChange() {
 			this.owerCustomShareAmount = this.getOwersCustomShareAmount()
 		},
-		onIgnoreWeightsChange(e) {
-			this.ignoreWeights = e.target.checked
+		onIgnoreWeightsChange(checked) {
 			this.owerCustomShareAmount = this.getOwersCustomShareAmount()
 		},
 		onGeneratePubLinkClick() {
@@ -1796,6 +1786,10 @@ button {
 				width: 44px;
 			}
 		}
+
+		.owerCheckboxName {
+			margin-left: 6px;
+		}
 	}
 }
 
@@ -1834,7 +1828,7 @@ button {
 		width: 24px;
 	}
 	input {
-		margin-left: 8px;
+		margin-left: 16px;
 	}
 }
 

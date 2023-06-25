@@ -17,15 +17,12 @@
 			<br>
 		</div>
 		<div v-if="adminAccess" class="deletion-disabled-line">
-			<input
+			<NcCheckboxRadioSwitch
 				id="deletion-disabled"
-				class="checkbox"
-				type="checkbox"
 				:checked="project.deletion_disabled"
-				@input="onDisableDeletionChange">
-			<label for="deletion-disabled" class="checkboxlabel">
+				@update:checked="onDisableDeletionChange">
 				{{ t('cospend', 'Disable bill deletion') }}
-			</label>
+			</NcCheckboxRadioSwitch>
 		</div>
 		<div id="autoExport">
 			<label for="autoExportSelect">
@@ -196,6 +193,7 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 
 import AppNavigationMemberItem from './AppNavigationMemberItem.vue'
 import MemberMultiSelect from './MemberMultiSelect.vue'
@@ -215,6 +213,7 @@ export default {
 		NcAppNavigationItem,
 		AppNavigationMemberItem,
 		NcAvatar,
+		NcCheckboxRadioSwitch,
 		MemberMultiSelect,
 		CalendarMonthIcon,
 		ContentSaveIcon,
@@ -472,8 +471,8 @@ export default {
 			this.$emit('project-edited', this.projectId)
 			this.newProjectName = ''
 		},
-		onDisableDeletionChange(e) {
-			cospend.projects[this.projectId].deletion_disabled = e.target.checked
+		onDisableDeletionChange(checked) {
+			cospend.projects[this.projectId].deletion_disabled = checked
 			this.$emit('project-edited', this.projectId)
 		},
 		onMultiselectEnterPressed(elem) {
@@ -564,10 +563,7 @@ export default {
 }
 
 .deletion-disabled-line {
-	line-height: 44px;
-	label {
-		margin-left: 10px;
-	}
+	margin-left: 12px;
 }
 
 .exportItem {

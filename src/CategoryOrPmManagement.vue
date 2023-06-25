@@ -113,7 +113,9 @@
 					@edit="onEditElement" />
 			</div>
 			<div v-else>
-				<NcEmptyContent :title="emptyContentText">
+				<NcEmptyContent
+					:name="emptyContentText"
+					:title="emptyContentText">
 					<template #icon>
 						<ShapeIcon v-if="type === 'category'"
 							class="icon"

@@ -4,7 +4,9 @@
 		:show-more-text="title"
 		:loading="state === 'loading'">
 		<template #empty-content>
-			<NcEmptyContent :title="t('cospend', 'No recent activity')">
+			<NcEmptyContent
+				:name="t('cospend', 'No recent activity')"
+				:title="t('cospend', 'No recent activity')">
 				<template #icon>
 					<CospendIcon />
 				</template>

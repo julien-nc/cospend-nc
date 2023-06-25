@@ -142,6 +142,7 @@
 		</v-table>
 		<NcEmptyContent v-else
 			class="central-empty-content"
+			:name="t('cospend', 'No transactions found')"
 			:title="t('cospend', 'No transactions found')">
 			<template #icon>
 				<ReimburseIcon />
@@ -191,6 +192,7 @@
 		</v-table>
 		<NcEmptyContent v-else
 			class="central-empty-content"
+			:name="t('cospend', 'No balances found')"
 			:title="t('cospend', 'No balances found')">
 			<template #icon>
 				<CospendIcon />

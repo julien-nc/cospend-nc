@@ -10,8 +10,10 @@
 				@click="onProjectClicked(project)" />
 		</ul>
 		<NcEmptyContent v-if="cospend.projects.length === 1 && cospend.projects[projectId]"
+			:name="t('cospend', 'Only one project available, in which this bill already exists')"
 			:title="t('cospend', 'Only one project available, in which this bill already exists')" />
 		<NcEmptyContent v-else-if="cospend.projects.length === 0"
+			:name="t('cospend', 'No projects found')"
 			:title="t('cospend', 'No projects found')" />
 	</div>
 </template>

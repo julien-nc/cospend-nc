@@ -78,6 +78,7 @@
 					@auto-settled="onAutoSettled" />
 				<NcEmptyContent v-show="mode === 'normal' && currentProjectId"
 					class="central-empty-content"
+					:name="t('cospend', 'What do you want to do?')"
 					:title="t('cospend', 'What do you want to do?')"
 					:description="t('cospend', 'These actions are also available in the sidebar project context menu.')">
 					<template #icon>
@@ -124,6 +125,7 @@
 				</div>
 				<NcEmptyContent v-show="mode === 'normal' && !currentProjectId"
 					class="central-empty-content"
+					:name="t('cospend', 'Select a project')"
 					:title="t('cospend', 'Select a project')">
 					<template #icon>
 						<CospendIcon />

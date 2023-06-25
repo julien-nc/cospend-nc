@@ -41,6 +41,7 @@
 			<h2 v-if="loading"
 				class="icon-loading-small loading-icon" />
 			<NcEmptyContent v-else-if="sortedProjectIds.length === 0"
+				:name="t('cospend', 'No projects yet')"
 				:title="t('cospend', 'No projects yet')">
 				<template #icon>
 					<FolderIcon :size="20" />

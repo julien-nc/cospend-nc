@@ -23,12 +23,14 @@
 	<div id="settings-container">
 		<NcAppSettingsDialog
 			class="cospend-settings-dialog"
+			:name="t('cospend', 'Cospend settings')"
 			:title="t('cospend', 'Cospend settings')"
 			:open.sync="showSettings"
 			:show-navigation="true"
 			container="#settings-container">
 			<NcAppSettingsSection
 				id="about"
+				:name="t('cospend', 'About Cospend')"
 				:title="t('cospend', 'About Cospend')"
 				class="app-settings-section">
 				<h3 class="app-settings-section__hint">
@@ -82,6 +84,7 @@
 			</NcAppSettingsSection>
 			<NcAppSettingsSection v-if="!pageIsPublic"
 				id="import"
+				:name="t('cospend', 'Import projects')"
 				:title="t('cospend', 'Import projects')"
 				class="app-settings-section">
 				<div class="oneLine">
@@ -105,6 +108,7 @@
 			</NcAppSettingsSection>
 			<NcAppSettingsSection v-if="!pageIsPublic"
 				id="guest-access"
+				:name="t('cospend', 'Guest access')"
 				:title="t('cospend', 'Guest access')"
 				class="app-settings-section">
 				<a :href="guestLink" @click.prevent.stop="onGuestLinkClick">
@@ -122,6 +126,7 @@
 			</NcAppSettingsSection>
 			<NcAppSettingsSection v-if="!pageIsPublic"
 				id="export"
+				:name="t('cospend', 'Export location')"
 				:title="t('cospend', 'Export location')"
 				class="app-settings-section">
 				<h3 class="app-settings-section__hint">
@@ -137,6 +142,7 @@
 			</NcAppSettingsSection>
 			<NcAppSettingsSection
 				id="sort"
+				:name="t('cospend', 'Sort criterias')"
 				:title="t('cospend', 'Sort criterias')"
 				class="app-settings-section">
 				<div v-if="!pageIsPublic">
@@ -172,6 +178,7 @@
 			</NcAppSettingsSection>
 			<NcAppSettingsSection
 				id="misc"
+				:name="t('cospend', 'Misc')"
 				:title="t('cospend', 'Misc')"
 				class="app-settings-section">
 				<h3 class="app-settings-section__hint">

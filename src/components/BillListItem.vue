@@ -2,12 +2,16 @@
 	<NcListItem
 		:class="{ billItem: true, newBill: bill.id === 0, selected}"
 		:title="billFormattedTitle"
+		:name="billFormattedTitle"
 		:active="selected"
 		:bold="selected"
 		:details="billDetails"
 		:counter-number="deleteCounter"
 		:force-display-actions="true"
 		@click="onItemClick">
+		<template #subname>
+			{{ parseFloat(bill.amount).toFixed(2) }} ({{ smartPayerName }} → {{ smartOwerNames }})
+		</template>
 		<template #subtitle>
 			{{ parseFloat(bill.amount).toFixed(2) }} ({{ smartPayerName }} → {{ smartOwerNames }})
 		</template>

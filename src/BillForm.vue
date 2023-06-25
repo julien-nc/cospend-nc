@@ -436,24 +436,26 @@
 								:disabled="!editionAccess || !members[ower.id].activated"
 								class="nc-checkbox"
 								@update:checked="onOwerChecked2($event, ower.id)">
-								<CospendTogglableAvatar
-									:enabled="!isMemberDisabled(ower.id)"
-									:color="getMemberColor(ower.id)"
-									:size="24"
-									:disable-menu="true"
-									:disable-tooltip="true"
-									:show-user-status="false"
-									:is-no-user="getMemberUserId(ower.id) === ''"
-									:user="getMemberUserId(ower.id)"
-									:display-name="getMemberName(ower.id)" />
-								<span
-									class="owerCheckboxName">
-									{{ ower.name }}
-								</span>
-								<span v-if="myBill.owerIds.includes(ower.id)"
-									class="spentlabel">
-									&nbsp;({{ owerAmount[ower.id] || 0 }})
-								</span>
+								<div class="nc-checkbox-content">
+									<CospendTogglableAvatar
+										:enabled="!isMemberDisabled(ower.id)"
+										:color="getMemberColor(ower.id)"
+										:size="24"
+										:disable-menu="true"
+										:disable-tooltip="true"
+										:show-user-status="false"
+										:is-no-user="getMemberUserId(ower.id) === ''"
+										:user="getMemberUserId(ower.id)"
+										:display-name="getMemberName(ower.id)" />
+									<span
+										class="owerCheckboxName">
+										{{ ower.name }}
+									</span>
+									<span v-if="myBill.owerIds.includes(ower.id)"
+										class="spentlabel">
+										&nbsp;({{ owerAmount[ower.id] || 0 }})
+									</span>
+								</div>
 							</NcCheckboxRadioSwitch>
 						</div>
 					</div>
@@ -465,20 +467,22 @@
 								:checked="myBill.owerIds.includes(ower.id)"
 								class="nc-checkbox"
 								@update:checked="onOwerChecked2($event, ower.id)">
-								<CospendTogglableAvatar
-									:enabled="!isMemberDisabled(ower.id)"
-									:color="getMemberColor(ower.id)"
-									:size="24"
-									:disable-menu="true"
-									:disable-tooltip="true"
-									:show-user-status="false"
-									:is-no-user="getMemberUserId(ower.id) === ''"
-									:user="getMemberUserId(ower.id)"
-									:display-name="getMemberName(ower.id)" />
-								<span
-									class="owerCheckboxName">
-									{{ ower.name }}
-								</span>
+								<div class="nc-checkbox-content">
+									<CospendTogglableAvatar
+										:enabled="!isMemberDisabled(ower.id)"
+										:color="getMemberColor(ower.id)"
+										:size="24"
+										:disable-menu="true"
+										:disable-tooltip="true"
+										:show-user-status="false"
+										:is-no-user="getMemberUserId(ower.id) === ''"
+										:user="getMemberUserId(ower.id)"
+										:display-name="getMemberName(ower.id)" />
+									<span
+										class="owerCheckboxName">
+										{{ ower.name }}
+									</span>
+								</div>
 							</NcCheckboxRadioSwitch>
 							<input v-show="myBill.owerIds.includes(ower.id)"
 								:ref="'amountdum' + ower.id"
@@ -1828,7 +1832,11 @@ button {
 		width: 24px;
 	}
 	input {
+		// TODO remove when switching to nc/vue 8 because nccheckbox does not overlap anymore :-)
 		margin-left: 16px;
+	}
+	.nc-checkbox-content {
+		display: flex;
 	}
 }
 

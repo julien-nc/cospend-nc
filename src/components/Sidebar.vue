@@ -1,8 +1,10 @@
 <template>
 	<NcAppSidebar v-show="show"
+		:name="title"
 		:title="title"
 		:compact="true"
 		:background="backgroundImageUrl"
+		:subname="subtitle"
 		:subtitle="subtitle"
 		:active="activeTab"
 		@update:active="onActiveChanged"
@@ -22,7 +24,9 @@
 			:name="t('cospend', 'Sharing')"
 			:order="1">
 			<template #icon>
-				<ShareVariantIcon :size="20" />
+				<ShareVariantIcon
+					:title="t('cospend', 'Sharing')"
+					:size="20" />
 			</template>
 			<SharingTabSidebar
 				:project="project"
@@ -33,7 +37,9 @@
 			:name="t('cospend', 'Settings')"
 			:order="2">
 			<template #icon>
-				<CogIcon :size="20" />
+				<CogIcon
+					:title="t('cospend', 'Settings')"
+					:size="20" />
 			</template>
 			<SettingsTabSidebar
 				ref="settingsTab"
@@ -49,7 +55,9 @@
 			:name="t('cospend', 'Activity')"
 			:order="3">
 			<template #icon>
-				<LightningBoltIcon :size="20" />
+				<LightningBoltIcon
+					:title="t('cospend', 'Activity')"
+					:size="20" />
 			</template>
 			<ActivityTabSidebar
 				:project-id="projectId" />
@@ -59,7 +67,9 @@
 			:name="t('cospend', 'Categories')"
 			:order="4">
 			<template #icon>
-				<ShapeIcon :size="20" />
+				<ShapeIcon
+					:title="t('cospend', 'Categories')"
+					:size="20" />
 			</template>
 			<CategoryOrPmManagement
 				:project-id="projectId"
@@ -72,7 +82,9 @@
 			:name="t('cospend', 'Payment modes')"
 			:order="5">
 			<template #icon>
-				<TagIcon :size="20" />
+				<TagIcon
+					:title="t('cospend', 'Payment modes')"
+					:size="20" />
 			</template>
 			<CategoryOrPmManagement
 				:project-id="projectId"
@@ -85,7 +97,9 @@
 			:name="t('cospend', 'Currencies')"
 			:order="6">
 			<template #icon>
-				<CurrencyIcon :size="20" />
+				<CurrencyIcon
+					:title="t('cospend', 'Currencies')"
+					:size="20" />
 			</template>
 			<CurrencyManagement
 				:project-id="projectId"

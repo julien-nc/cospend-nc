@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-05-16 23:39+0200\n"
-"PO-Revision-Date: 2023-05-16 21:41\n"
+"PO-Revision-Date: 2023-07-03 16:06\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -78,7 +78,7 @@ msgstr "círculo %1$s"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:2
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/templates/admin.php:8
 msgid "Cospend"
-msgstr ""
+msgstr "Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/Setting.php:55
 msgid "Changes in the <strong>Cospend app</strong>"
@@ -106,7 +106,7 @@ msgstr "Insira o ID do projeto e senha"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:394
 #, php-format
 msgid "Enter link password of project %s"
-msgstr ""
+msgstr "Digite a senha do link do projeto %s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:287
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:326
@@ -119,11 +119,11 @@ msgstr "Projeto %s"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:372
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:393
 msgid "Cospend shared link access"
-msgstr ""
+msgstr "Acesso do link compartilhado Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:294
 msgid "No such share link"
-msgstr ""
+msgstr "Link de compartilhamento não encontrado"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:295
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:348
@@ -142,7 +142,7 @@ msgstr "Acesso negado"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:411
 msgid "No such share link or public access"
-msgstr ""
+msgstr "Link de compartilhamento ou acesso público não encontrado"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:481
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:1054
@@ -212,7 +212,7 @@ msgstr "Você não tem permissão para editar esta conta"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:732
 msgid "You are not allowed to access the destination project"
-msgstr ""
+msgstr "Você não tem permissão para acessar o projeto de destino"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:774
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:870
@@ -251,7 +251,7 @@ msgstr "Projeto não encontrado"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:1028
 msgid "Bad password or share link"
-msgstr ""
+msgstr "Senha ou link de compartilhamento incorreto"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:1407
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:1516
@@ -260,7 +260,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:1693
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:324
 msgid "Guest access"
-msgstr ""
+msgstr "Acesso de convidado"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:1410
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:1519
@@ -269,7 +269,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:1696
 #, php-format
 msgid "Share link (%s)"
-msgstr ""
+msgstr "Compartilhar link (%s)"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:1412
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:1521
@@ -279,7 +279,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:394
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:396
 msgid "Share link"
-msgstr ""
+msgstr "Compartilhar link"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:2118
 msgid "You are not allowed to give such shared access level"
@@ -287,7 +287,7 @@ msgstr "Você não tem permissão para fornecer esse nível de acesso compartilh
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:2141
 msgid "You are not allowed to edit this shared access"
-msgstr ""
+msgstr "Você não têm permissão para modificar este acesso compartilhado"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:2161
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:2175
@@ -306,7 +306,7 @@ msgstr "Você não tem permissão para editar o nível de acesso de convidado"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:2433
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:2454
 msgid "You are not allowed to manage payment modes"
-msgstr ""
+msgstr "Você não tem permissão para modificar formas de pagamento"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:2473
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:2504
@@ -448,7 +448,7 @@ msgstr "Serviço online"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:81
 msgid "Cospend project shared"
-msgstr ""
+msgstr "Projeto Cospend compartilhado"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:82
 #, php-format
@@ -458,11 +458,11 @@ msgstr "Usuário \"%s\" compartilhou um projeto Cospend \"%s\" com você."
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:92
 #, php-format
 msgid "{user} shared project %s with you"
-msgstr ""
+msgstr "{user} compartilhou o projeto %s com você"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:110
 msgid "Cospend project share removed"
-msgstr ""
+msgstr "Compartilhamento de projeto removido"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:111
 #, php-format
@@ -472,12 +472,12 @@ msgstr "Usuário \"%s\" parou de compartilhar o projeto Cospend \"%s\" com você
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Notification/Notifier.php:123
 #, php-format
 msgid "{user} stopped sharing project %s with you"
-msgstr ""
+msgstr "{user} parou de compartilhar o projeto %s com você"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Search/CospendSearchProvider.php:178
 #, php-format
 msgid "in %1$s"
-msgstr ""
+msgstr "em %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:159
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:243
@@ -517,7 +517,7 @@ msgstr "Valor inválido"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1116
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1811
 msgid "Invalid frequency"
-msgstr ""
+msgstr "Frequência inválida"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1124
 msgid "Timestamp (or date) field is required"
@@ -566,7 +566,7 @@ msgstr "Este projeto não tem tal membro"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1791
 msgid "Name can't be empty"
-msgstr ""
+msgstr "O nome não pode ficar vazio"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1800
 msgid "Invalid email address"
@@ -575,7 +575,7 @@ msgstr "Endereço de email invalido"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1818
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1825
 msgid "Invalid sort order"
-msgstr ""
+msgstr "Ordenação inválida"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1849
 msgid "There is no such project"
@@ -587,7 +587,7 @@ msgstr "O peso não é um valor decimal válido"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1890
 msgid "Invalid color value"
-msgstr ""
+msgstr "Cor inválida"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:1912
 msgid "This project already has this member"
@@ -603,12 +603,12 @@ msgstr "Não existe tal nota"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3637
 msgid "Cannot match payer"
-msgstr ""
+msgstr "Não corresponde ao pagante"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3667
 #, php-format
 msgid "Cannot create new bill: %1$s"
-msgstr ""
+msgstr "Não é possível criar a despesa: %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3944
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4116
@@ -618,7 +618,7 @@ msgstr "Não encontrado"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4002
 msgid "This project has no such payment mode"
-msgstr ""
+msgstr "Este projeto não possui essa forma de pagamento"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4005
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4181
@@ -628,7 +628,7 @@ msgstr "Valores do campo estão incorretos"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4178
 msgid "This project has no such category"
-msgstr ""
+msgstr "Esse projeto não possui essa categoria"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4300
 msgid "This project have no such currency"
@@ -672,7 +672,7 @@ msgstr "Grupo inexistente"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4913
 msgid "Impossible to get the circle manager"
-msgstr ""
+msgstr "Impossível obter o gerente do círculo"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4975
 msgid "Already shared with this circle"
@@ -749,29 +749,29 @@ msgstr "CSV mal formatado, nomes de coluna inválida na linha %1$s"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5511
 #, php-format
 msgid "Malformed CSV, invalid member on line %1$s"
-msgstr ""
+msgstr "CSV inválido, membro inválido na linha %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5529
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5767
 #, php-format
 msgid "Malformed CSV, missing or invalid date/timestamp on line %1$s"
-msgstr ""
+msgstr "CSV inválido, data na linha %1$s faltando ou inválida"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5555
 #, php-format
 msgid "Malformed CSV, invalid payer weight on line %1$s"
-msgstr ""
+msgstr "CSV inválido, peso do pagador inválido na linha %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5560
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5568
 #, php-format
 msgid "Malformed CSV, invalid owers on line %1$s"
-msgstr ""
+msgstr "CSV inválido, devedor inválido na linha %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5578
 #, php-format
 msgid "Malformed CSV, invalid amount on line %1$s"
-msgstr ""
+msgstr "CSV inválido, quantia inválida na linha %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5615
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5843
@@ -782,7 +782,7 @@ msgstr "Erro na criação do projeto, %1$s"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5626
 #, php-format
 msgid "Error when adding payment mode %1$s"
-msgstr ""
+msgstr "Erro ao adicionar forma de pagamento %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5635
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5851
@@ -823,7 +823,7 @@ msgstr "CSV mal formatado, sem devedor na linha %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5826
 msgid "Malformed CSV, impossible to find the column names"
-msgstr ""
+msgstr "CSV inválido, impossível encontrar os nomes das colunas"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:5920
 msgid "daily"
@@ -839,7 +839,7 @@ msgstr "mensalmente"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/UserMigration/UserMigrator.php:159
 msgid "Cospend projects and user settings"
-msgstr ""
+msgstr "Projetos e configurações de usuário do Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:3
 msgid " "
@@ -847,35 +847,35 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:1
 msgid "What do you want to do?"
-msgstr ""
+msgstr "O que você deseja fazer?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "These actions are also available in the sidebar project context menu."
-msgstr ""
+msgstr "Estas ações também estão disponíveis no menu da barra lateral."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "Create a bill"
-msgstr ""
+msgstr "Criar uma despesa"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:4
 msgid "Show project settings"
-msgstr ""
+msgstr "Exibir configurações do projeto"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:5
 msgid "Share the project"
-msgstr ""
+msgstr "Compartilhar projeto"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:6
 msgid "Show project statistics"
-msgstr ""
+msgstr "Exibir estatísticas do projeto"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:7
 msgid "Show project settlement plan"
-msgstr ""
+msgstr "Exibir plano de liquidação"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:8
 msgid "Select a project"
-msgstr ""
+msgstr "Selecionar um projeto"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:9
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:10
@@ -892,7 +892,7 @@ msgstr "Membro {name} já existe"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:13
 msgid "Impossible to move bill. No candidate project found."
-msgstr ""
+msgstr "Impossível mover a despesa. Nenhum projeto encontrado."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:14
 msgid "Failed to get projects"
@@ -961,11 +961,11 @@ msgstr "Falha ao editar projeto"
 msgid "{nb} bill was created"
 msgid_plural "{nb} bills were created"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "{nb} despesas criadas"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:31
 msgid "link"
-msgstr ""
+msgstr "link"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:32
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:88
@@ -975,13 +975,13 @@ msgstr "Pressione Shift+Enter para validar"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:33
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:34
 msgid "Impossible to duplicate a bill with a disabled payer"
-msgstr ""
+msgstr "Impossível duplicar uma despesa com pagador desabilitado"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:33
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:34
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:281
 msgid "Duplicate bill"
-msgstr ""
+msgstr "Duplicar despesa"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:35
 msgid "What?"
@@ -993,7 +993,7 @@ msgstr "De que se trata esta fatura?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:37
 msgid "Attach share link to personal file"
-msgstr ""
+msgstr "Anexar link de compartilhamento ao arquivo pessoal"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:39
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:42
@@ -1005,7 +1005,7 @@ msgstr "Mais Informações"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:40
 msgid "More information on amount input field"
-msgstr ""
+msgstr "Mais informação no campo de quantia"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:41
 msgid "Convert to"
@@ -1013,17 +1013,17 @@ msgstr "Converter para"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:43
 msgid "More information on currency conversion"
-msgstr ""
+msgstr "Mais informação sobre conversão de moeda"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:44
 msgid "Who paid?"
-msgstr ""
+msgstr "Quem pagou?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:45
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:378
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:463
 msgid "Choose a member"
-msgstr ""
+msgstr "Escolha um membro"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:46
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:47
@@ -1038,7 +1038,7 @@ msgstr "Modo de pagamento"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:49
 msgid "Choose a payment mode"
-msgstr ""
+msgstr "Escolha um método de pagamento"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:50
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:456
@@ -1047,7 +1047,7 @@ msgstr "Categoria"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:51
 msgid "Choose or add a category"
-msgstr ""
+msgstr "Escolha ou adicione uma categoria"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:52
 msgid "Comment"
@@ -1588,7 +1588,7 @@ msgstr "Nome da moeda principal"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:186
 msgid "Cancel currency edition"
-msgstr ""
+msgstr "Cancelar edição da moeda"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:187
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:301
@@ -1600,7 +1600,7 @@ msgstr "Salvar"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:188
 msgid "Save currency"
-msgstr ""
+msgstr "Salvar moeda"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:189
 msgid "Add currency"
@@ -1663,7 +1663,7 @@ msgstr "Exportar"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:204
 msgid "Add these payments to the project"
-msgstr ""
+msgstr "Adicionar estes pagamentos ao projeto"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:205
 msgid "Center settlement on"
@@ -1680,7 +1680,7 @@ msgstr "Data de liquidação"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:208
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:209
 msgid "Information on settlement date"
-msgstr ""
+msgstr "Informação sobre a data de liquidação"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:211
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:212
@@ -1724,24 +1724,24 @@ msgstr "Nenhum saldo encontrado"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:226
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "Information on individual reimbursement"
-msgstr ""
+msgstr "Informação sobre o reembolso individual"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "Individual reimbursement"
-msgstr ""
+msgstr "Reembolso individual"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:229
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:462
 msgid "Payer"
-msgstr ""
+msgstr "Pagador"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:230
 msgid "Receiver"
-msgstr ""
+msgstr "Recebedor"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:231
 msgid "Create bill ({amount})"
-msgstr ""
+msgstr "Criar despesa ({amount})"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:232
 msgid "Failed to get settlement"
@@ -1769,68 +1769,68 @@ msgstr "A liquidação automática criará contas um segundo antes da data máxi
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:239
 msgid "This feature is useful when a member with a negative balance wants to get out of the project but you don't want to make a full settlement plan."
-msgstr ""
+msgstr "Essa funcionalidade é útil quando um membro com saldo negativo quer sair do projeto, mas você não quer fazer um plano de liquidação completo."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:240
 msgid "Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money."
-msgstr ""
+msgstr "Selecione um pagador que deseja chegar a saldo zero, então um recebedor que será o único a receber o valor do reembolso."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:241
 msgid "Make sure the \"real\" reimbursement has been done between those 2 members in real life. Then press \"Create bill\" to automatically create the corresponding bill."
-msgstr ""
+msgstr "Tenha certeza que o reembolso \"real\" aconteceu entre os membros na vida real. Clique em \"Criar despesa\" para criar automaticamente a despesa correspondente."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:245
 msgid "{user} have updated the bill {billName}"
-msgstr ""
+msgstr "{user} atualizou a despesa {billName}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:246
 msgid "{user} has updated the bill {billName}"
-msgstr ""
+msgstr "{user} atualizou a despesa {billName}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:247
 msgid "{user} have created a new bill {billName}"
-msgstr ""
+msgstr "{user} criou a despesa {billName}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:248
 msgid "{user} has created a new bill {billName}"
-msgstr ""
+msgstr "{user} criou a despesa {billName}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:249
 msgid "{user} have deleted the bill {billName}"
-msgstr ""
+msgstr "{user} removeu a despesa {billName}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:250
 msgid "{user} has deleted the bill {billName}"
-msgstr ""
+msgstr "{user} removeu a despesa {billName}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:251
 msgid "{user} have shared the project with {who}"
-msgstr ""
+msgstr "{user} compartilhou o projeto com {who}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:252
 msgid "{user} has shared the project with {who}"
-msgstr ""
+msgstr "{user} compartilhou o projeto com {who}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:253
 msgid "{user} have removed {who} from the project"
-msgstr ""
+msgstr "{user} removou {who} do projeto"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:254
 msgid "{user} has removed {who} from the project"
-msgstr ""
+msgstr "{user} removou {who} do projeto"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:256
 msgid "you"
-msgstr ""
+msgstr "você"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:257
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:258
 msgid "No more activity"
-msgstr ""
+msgstr "Não há mais atividade"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:259
 msgid "Rename member"
-msgstr ""
+msgstr "Renomear membro"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:260
 msgid "Change color"
@@ -1870,7 +1870,7 @@ msgstr "Mantenedor"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:412
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:421
 msgid "Admin"
-msgstr ""
+msgstr "Administrador"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:267
 msgid "Deactivate"
@@ -1896,7 +1896,7 @@ msgstr "Falha ao remover acesso compartilhado"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:273
 msgid "Are you sure?"
-msgstr ""
+msgstr "Você tem certeza?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:274
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:439
@@ -1905,7 +1905,7 @@ msgstr "Configurações"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:275
 msgid "Share"
-msgstr ""
+msgstr "Compartilhar"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:276
 msgid "Add member"
@@ -1922,7 +1922,7 @@ msgstr "Plano de quitação do projeto"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:280
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:373
 msgid "Add a member"
-msgstr ""
+msgstr "Adicionar membro"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:282
 msgid "Everyone"
@@ -1943,11 +1943,11 @@ msgstr "Lista de membros não está atualizada. Recarregando em 5 segundos."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:288
 msgid "Delete this bill"
-msgstr ""
+msgstr "Excluir esta despesa"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:289
 msgid "Move bill"
-msgstr ""
+msgstr "Mover despesa"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:290
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:291
@@ -1966,7 +1966,7 @@ msgstr "Novo nome de projeto"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:305
 msgid "New empty project"
-msgstr ""
+msgstr "Novo projeto vazio"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:306
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:322
@@ -1986,54 +1986,54 @@ msgstr "Ainda não há projetos"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:310
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:313
 msgid "Cospend settings"
-msgstr ""
+msgstr "Configurações do Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:311
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:312
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:343
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:344
 msgid "Project imported"
-msgstr ""
+msgstr "Projeto importado"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:314
 msgid "About Cospend"
-msgstr ""
+msgstr "Sobre o Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:315
 msgid "Thanks for using Cospend"
-msgstr ""
+msgstr "Obrigado por usar o Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:316
 msgid "Bug/issue tracker"
-msgstr ""
+msgstr "Rastreador de bug/problema"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:317
 msgid "Translation"
-msgstr ""
+msgstr "Tradução"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:318
 msgid "User documentation"
-msgstr ""
+msgstr "Documentação de usuário"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:319
 msgid "Admin documentation"
-msgstr ""
+msgstr "Documentação de administrador"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:320
 msgid "Developer documentation"
-msgstr ""
+msgstr "Documentação de desenvolvedor"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:321
 msgid "Import projects"
-msgstr ""
+msgstr "Importar projetos"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:325
 msgid "Copy guest access link"
-msgstr ""
+msgstr "Copiar link de acesso de convidado"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:326
 msgid "Export location"
-msgstr ""
+msgstr "Local de exportação"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:327
 msgid "Select export directory"
@@ -2370,7 +2370,7 @@ msgstr "Moeda do projeto principal"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:464
 msgid "Show disabled members"
-msgstr "Mostrar membros desativados"
+msgstr "Exibir membros desativados"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:465
 msgid "Chart type"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-05-16 23:39+0200\n"
-"PO-Revision-Date: 2023-05-16 21:41\n"
+"PO-Revision-Date: 2023-07-05 16:34\n"
 "Last-Translator: \n"
 "Language-Team: Hungarian\n"
 "Language: hu_HU\n"
@@ -78,7 +78,7 @@ msgstr "kör %1$s"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:2
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/templates/admin.php:8
 msgid "Cospend"
-msgstr ""
+msgstr "Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/Setting.php:55
 msgid "Changes in the <strong>Cospend app</strong>"
@@ -414,7 +414,7 @@ msgstr "Közlekedés"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version000406Date20200426154317.php:103
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:119
 msgid "Sport"
-msgstr ""
+msgstr "Sport"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version010314Date20210828143421.php:67
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Migration/Version010314Date20210828143421.php:75
@@ -851,7 +851,7 @@ msgstr "Mit szeretnél tenni?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "These actions are also available in the sidebar project context menu."
-msgstr ""
+msgstr "Ezek a műveletek a oldalsáv projekt menüjében is elérhetőek."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "Create a bill"
@@ -1005,7 +1005,7 @@ msgstr "Több információ"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:40
 msgid "More information on amount input field"
-msgstr ""
+msgstr "Több információ az összeg beviteli mezőről"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:41
 msgid "Convert to"
@@ -1013,7 +1013,7 @@ msgstr "Konvertálás"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:43
 msgid "More information on currency conversion"
-msgstr ""
+msgstr "Több információ a pénznemek közötti váltásról"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:44
 msgid "Who paid?"
@@ -1096,7 +1096,7 @@ msgstr "Évente"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:64
 msgid "More information on bill repetition"
-msgstr ""
+msgstr "Több információ a számlák ismétléséről"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:65
 msgid "Frequency"
@@ -1144,7 +1144,7 @@ msgstr "Egyéni részesedés tagonként"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:77
 msgid "More information on bill mode"
-msgstr ""
+msgstr "Több információ a számlák típusairól"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:78
 msgid "Ignore member weights"
@@ -1586,7 +1586,7 @@ msgstr "Fő pénznem neve"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:186
 msgid "Cancel currency edition"
-msgstr ""
+msgstr "Pénznem szerkesztésének elvetése"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:187
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:301
@@ -1598,7 +1598,7 @@ msgstr "Mentés"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:188
 msgid "Save currency"
-msgstr ""
+msgstr "Pénznem elmentése"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:189
 msgid "Add currency"
@@ -1678,7 +1678,7 @@ msgstr "Elszámolás dátuma"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:208
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:209
 msgid "Information on settlement date"
-msgstr ""
+msgstr "Információ az elszámolás napjáról"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:211
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:212
@@ -1722,7 +1722,7 @@ msgstr "Nincs egyenleg"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:226
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "Information on individual reimbursement"
-msgstr ""
+msgstr "Információ az egyéni visszatérítésekről"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "Individual reimbursement"
@@ -2119,7 +2119,7 @@ msgstr "{n} projekt átnevezése"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:363
 msgid "Rename project"
-msgstr ""
+msgstr "Projekt átnevezése"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:364
 msgid "Disable bill deletion"
@@ -2139,7 +2139,7 @@ msgstr "Tagok"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:372
 msgid "More information on adding members"
-msgstr ""
+msgstr "Több információ tagok hozzáadásáról"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:374
 msgid "Enter a member name"
@@ -2155,7 +2155,7 @@ msgstr "Projekttag Nextcloud felhasználóval való társítása"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:377
 msgid "More information on adding Nextcloud users as members"
-msgstr ""
+msgstr "Több információ Nextcloud felhasználók tagként való hozzáadásáról"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:379
 msgid "Choose a Nextcloud user"

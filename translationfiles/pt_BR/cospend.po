@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-05-16 23:39+0200\n"
-"PO-Revision-Date: 2023-07-05 16:34\n"
+"PO-Revision-Date: 2023-07-06 16:43\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -2061,11 +2061,11 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:334
 msgid "Members order"
-msgstr ""
+msgstr "Ordenação dos membros"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:337
 msgid "Misc"
-msgstr ""
+msgstr "Diversos"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:338
 msgid "Maximum decimal precision to show in balances"
@@ -2121,7 +2121,7 @@ msgstr "Renomear projeto {n}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:363
 msgid "Rename project"
-msgstr ""
+msgstr "Renomear projeto"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:364
 msgid "Disable bill deletion"
@@ -2137,19 +2137,19 @@ msgstr "Exportar projeto"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:371
 msgid "Members"
-msgstr ""
+msgstr "Membros"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:372
 msgid "More information on adding members"
-msgstr ""
+msgstr "Mais informações sobre adicionar membros"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:374
 msgid "Enter a member name"
-msgstr ""
+msgstr "Digite um nome de membro"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:375
 msgid "No result"
-msgstr ""
+msgstr "Sem resultados"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:376
 msgid "Associate a project member with a Nextcloud user"
@@ -2218,7 +2218,7 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:397
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:417
 msgid "Link copied"
-msgstr ""
+msgstr "Link copiado"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:397
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:417
@@ -2231,7 +2231,7 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:399
 msgid "Label"
-msgstr ""
+msgstr "Título"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:400
 msgid "Password protect"
@@ -2307,7 +2307,7 @@ msgstr "Compartilhamento"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:440
 msgid "Activity"
-msgstr ""
+msgstr "Atividade"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:441
 msgid "Categories"
@@ -2315,7 +2315,7 @@ msgstr "Categorias"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:442
 msgid "Payment modes"
-msgstr ""
+msgstr "Formas de pagamento"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:443
 msgid "Currencies"
@@ -2323,11 +2323,11 @@ msgstr "Moedas"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:444
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} {currency} spent"
-msgstr ""
+msgstr "{nb} despesas, {nbMembers} membros ativos, {spentAmount} {currency} gasto"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:445
 msgid "{nb} bills, {nbMembers} active members, {spentAmount} spent"
-msgstr ""
+msgstr "{nb} despesas, {nbMembers} membros ativos, {spentAmount} gasto"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:446
 msgid "Member/Month"
@@ -2362,7 +2362,7 @@ msgstr "Valor máximo"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:460
 msgid "Convert in currency"
-msgstr ""
+msgstr "Converter em moeda"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:461
 msgid "Main project's currency"
@@ -2374,15 +2374,15 @@ msgstr "Exibir membros desativados"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:465
 msgid "Chart type"
-msgstr ""
+msgstr "Tipo de gráfico"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:466
 msgid "Pie"
-msgstr ""
+msgstr "Pizza"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:467
 msgid "Bar"
-msgstr ""
+msgstr "Barras"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:468
 msgid "Total paid by all the members: {t}"

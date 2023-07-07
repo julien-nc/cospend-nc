@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-05-16 23:39+0200\n"
-"PO-Revision-Date: 2023-07-06 16:43\n"
+"PO-Revision-Date: 2023-07-07 16:45\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -1156,7 +1156,7 @@ msgstr "Modo clássico: Escolha um pagador, digite um valor da despesa e secione
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:80
 msgid "Classic+personal mode: This mode is similar to the classic one. Choose a payer and enter a bill amount corresponding to what was actually paid. Then select who is concerned by the bill and optionally set an amount related to personal stuff for some members. Multiple bills will be created: one for the shared spending and one for each personal part. Real life example: We go shopping, part of what was bought concerns the group but someone also added something personal (like a shirt) which the others don't want to collectively pay."
-msgstr ""
+msgstr "Modo clássico + pessoal: Esse modo é semelhante ao modo clássico. Escolha um pagador e coloque o valor da despesa correspondente a de quem pagou. Então selecione a quem a despesa interessa e opcionalmente selecione um valor customizado para alguns membros. Várias despesas serão criadas: uma para a despesa compartilhada e uma para cada parte pessoal. Exemplo real: Vamos fazer compras, parte do que compramos é do grupo, mas alguém inclui algo pessoal (como uma camiseta) que não queremos cobrar dos demais."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:81
 msgid "Custom mode, uneven split: Choose a payer, ignore the bill amount (which is disabled) and enter a custom owed amount for each member who is concerned. Then press \"Create the bills\". Multiple bills will be created. Real life example: One person pays the whole restaurant bill but there are big price differences between what each person ate."
@@ -2057,7 +2057,7 @@ msgstr "Última atividade"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:333
 msgid "How members are sorted"
-msgstr ""
+msgstr "Como os membros são ordenados"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:334
 msgid "Members order"
@@ -2069,7 +2069,7 @@ msgstr "Diversos"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:338
 msgid "Maximum decimal precision to show in balances"
-msgstr ""
+msgstr "Quantidade máxima de casas decimais para mostrar nos saldos"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:339
 msgid "Maximum precision"
@@ -2077,11 +2077,11 @@ msgstr "Precisão máxima"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:340
 msgid "Do you want to see and choose time in bill dates?"
-msgstr ""
+msgstr "Você deseja ver e selecionar horário nas datas das despesas?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:341
 msgid "Use time in dates"
-msgstr ""
+msgstr "Utilizar hora em datas"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:342
 msgid "Choose where to write output files (stats, settlement, export)"
@@ -2097,23 +2097,23 @@ msgstr "Não foi possível copiar o link do convidado para a área de transferê
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:357
 msgid "Move bill \"{bill}\" to a different project:"
-msgstr ""
+msgstr "Mover despesa \"{bill}\" para um projeto diferente:"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:358
 msgid "Only one project available, in which this bill already exists"
-msgstr ""
+msgstr "Apenas um projeto disponível, onde esta despesa já existe"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:359
 msgid "No projects found"
-msgstr ""
+msgstr "Nenhum projeto encontrado"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:360
 msgid "Bill moved to \"{project}\" successfully"
-msgstr ""
+msgstr "Despesa movida para \"{project}\" com sucesso"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:361
 msgid "Failed to move bill"
-msgstr ""
+msgstr "Falha ao mover despesa"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:362
 msgid "Rename project {n}"
@@ -2157,7 +2157,7 @@ msgstr "Associar um membro do projeto a um usuário da Nextcloud"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:377
 msgid "More information on adding Nextcloud users as members"
-msgstr ""
+msgstr "Mais informações sobre como adicionar usuários Nextcloud como membros"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:379
 msgid "Choose a Nextcloud user"
@@ -2165,7 +2165,7 @@ msgstr "Escolha um usuário do Nextcloud"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:380
 msgid "Type to search users"
-msgstr ""
+msgstr "Digite para pesquisar usuários"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:381
 msgid "New member name"
@@ -2201,19 +2201,19 @@ msgstr "Compartilhar projeto com um usuário, grupo ou circle …"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:391
 msgid "Start typing to search"
-msgstr ""
+msgstr "Digite para pesquisar"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:392
 msgid "Scan this QRCode with your mobile device to add project \"{name}\" in MoneyBuster or PayForMe"
-msgstr ""
+msgstr "Escaneie este QR-Code com seu celular para adicionar o projeto \"{name}\" no MoneyBuster ou PayForMe"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:393
 msgid "QRCode content: "
-msgstr ""
+msgstr "Conteúdo do QRCode: "
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:395
 msgid "Create a new share link"
-msgstr ""
+msgstr "Criar link de compartilhamento"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:397
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:417
@@ -2223,11 +2223,11 @@ msgstr "Link copiado"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:397
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:417
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Copiar para a área de transferência"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:398
 msgid "Show QRCode for mobile clients"
-msgstr ""
+msgstr "Mostrar QRCode para celulares"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:399
 msgid "Label"
@@ -2235,11 +2235,11 @@ msgstr "Título"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:400
 msgid "Password protect"
-msgstr ""
+msgstr "Proteção por senha"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:401
 msgid "Set link password"
-msgstr ""
+msgstr "Configurar senha do link"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:406
 msgid "Delete link"
@@ -2247,7 +2247,7 @@ msgstr "Excluir link"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:407
 msgid "Add another link"
-msgstr ""
+msgstr "Adicionar outro link"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:408
 msgid "Project owner"
@@ -2259,7 +2259,7 @@ msgstr "Excluir acesso"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:414
 msgid "Show deprecated password protected access"
-msgstr ""
+msgstr "Mostrar acessos por senha (descontinuado)"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:415
 msgid "Password protected access"
@@ -2268,17 +2268,17 @@ msgstr "Acesso protegido com senha"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:422
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:423
 msgid "Set project password"
-msgstr ""
+msgstr "Definir senha do projeto"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:426
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:428
 msgid "Share link saved"
-msgstr ""
+msgstr "Link de compartilhamento salvo"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:427
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:429
 msgid "Failed to edit share link"
-msgstr ""
+msgstr "Falha ao editar link de compartilhamento"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:431
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:433
@@ -2299,7 +2299,7 @@ msgstr "Falha ao editar o nível de acesso de convidado"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:436
 msgid "Password protected access is now deprecated. You can use the share links instead, they can be password protected too."
-msgstr ""
+msgstr "O acesso por senha está descontinuado. Você pode usar os links de compartilhamento em vez disso, eles também podem ser protegidos por senha."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:438
 msgid "Sharing"
@@ -2386,7 +2386,7 @@ msgstr "Barras"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:468
 msgid "Total paid by all the members: {t}"
-msgstr ""
+msgstr "Total pago por todos os membros: {t}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:469
 msgid "Global stats"
@@ -2398,7 +2398,7 @@ msgstr "Saldo filtrado"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:475
 msgid "Monthly paid per member"
-msgstr ""
+msgstr "Pagamento mensal por membro"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:476
 msgid "Payments per member per month"
@@ -2406,15 +2406,15 @@ msgstr "Pagamentos por membro por mês"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:477
 msgid "Monthly spent per member"
-msgstr ""
+msgstr "Gasto mensal por membro"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:478
 msgid "Spendings per member per month"
-msgstr ""
+msgstr "Gasto por membro por mês"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:479
 msgid "Monthly paid per category"
-msgstr ""
+msgstr "Pagamento mensal por categoria"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:480
 msgid "Payments per category per month"
@@ -2426,11 +2426,11 @@ msgstr "Categoria/Mês"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:482
 msgid "Monthly paid per payment mode"
-msgstr ""
+msgstr "Pagamento mensal por modo de pagamento"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:483
 msgid "Payments per payment mode per month"
-msgstr ""
+msgstr "Pagamentos por forma de pagamento por mês"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:484
 msgid "Payment mode/Month"

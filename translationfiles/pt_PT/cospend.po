@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-05-16 23:39+0200\n"
-"PO-Revision-Date: 2023-05-16 21:41\n"
+"PO-Revision-Date: 2023-07-23 09:23\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -78,7 +78,7 @@ msgstr "círculo %1$s"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:2
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/templates/admin.php:8
 msgid "Cospend"
-msgstr ""
+msgstr "Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/Setting.php:55
 msgid "Changes in the <strong>Cospend app</strong>"
@@ -851,7 +851,7 @@ msgstr "O que pretende fazer?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "These actions are also available in the sidebar project context menu."
-msgstr ""
+msgstr "Estas operações também estão disponíveis no menu de contexto da barra lateral do planeamento."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "Create a bill"
@@ -1005,7 +1005,7 @@ msgstr "Mais informação"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:40
 msgid "More information on amount input field"
-msgstr ""
+msgstr "Mais informação sobre o campo do montante"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:41
 msgid "Convert to"
@@ -1013,7 +1013,7 @@ msgstr "Converter para"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:43
 msgid "More information on currency conversion"
-msgstr ""
+msgstr "Mais informação sobre a conversão de moeda"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:44
 msgid "Who paid?"

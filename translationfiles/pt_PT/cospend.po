@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-05-16 23:39+0200\n"
-"PO-Revision-Date: 2023-07-23 09:23\n"
+"PO-Revision-Date: 2023-07-24 09:40\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -1096,7 +1096,7 @@ msgstr "Anualmente"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:64
 msgid "More information on bill repetition"
-msgstr ""
+msgstr "Mais informação sobre a repetição da despesa"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:65
 msgid "Frequency"
@@ -1144,7 +1144,7 @@ msgstr "Partilha personalizada para cada membro"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:77
 msgid "More information on bill mode"
-msgstr ""
+msgstr "Mais informação sobre o modo da despesa"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:78
 msgid "Ignore member weights"
@@ -1476,7 +1476,7 @@ msgstr "Alfabética"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:162
 msgid "Manual"
-msgstr ""
+msgstr "Manual"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:163
 msgid "Most used"
@@ -1586,7 +1586,7 @@ msgstr "Nome da moeda principal"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:186
 msgid "Cancel currency edition"
-msgstr ""
+msgstr "Cancelar a edição da moeda"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:187
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:301
@@ -1598,7 +1598,7 @@ msgstr "Guardar"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:188
 msgid "Save currency"
-msgstr ""
+msgstr "Guardar moeda"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:189
 msgid "Add currency"
@@ -1678,7 +1678,7 @@ msgstr "Data da liquidação"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:208
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:209
 msgid "Information on settlement date"
-msgstr ""
+msgstr "Informação sobre a data da liquidação"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:211
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:212
@@ -1722,7 +1722,7 @@ msgstr "Não foram encontrados quaisquer saldos"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:226
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "Information on individual reimbursement"
-msgstr ""
+msgstr "Informação sobre o reembolso individual"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "Individual reimbursement"
@@ -2119,7 +2119,7 @@ msgstr "Renomear planeamento {n}"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:363
 msgid "Rename project"
-msgstr ""
+msgstr "Renomear planeamento"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:364
 msgid "Disable bill deletion"
@@ -2139,7 +2139,7 @@ msgstr "Membros"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:372
 msgid "More information on adding members"
-msgstr ""
+msgstr "Mais informação sobre como adicionar membros"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:374
 msgid "Enter a member name"
@@ -2155,7 +2155,7 @@ msgstr "Associar um membro do planeamento a um utilizador do Nextcloud"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:377
 msgid "More information on adding Nextcloud users as members"
-msgstr ""
+msgstr "Mais informação sobre como adicionar utilizadores do Nextcloud como membros"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:379
 msgid "Choose a Nextcloud user"

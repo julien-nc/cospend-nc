@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-05-16 23:39+0200\n"
-"PO-Revision-Date: 2023-05-16 21:41\n"
+"PO-Revision-Date: 2023-10-04 22:23\n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
@@ -212,7 +212,7 @@ msgstr "Вы не можете редактировать этот счет"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:732
 msgid "You are not allowed to access the destination project"
-msgstr ""
+msgstr "У вас нет доступа к этому проекту"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:774
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:870
@@ -603,12 +603,12 @@ msgstr "Такого счета нет"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3637
 msgid "Cannot match payer"
-msgstr ""
+msgstr "Не удается найти плательщика"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3667
 #, php-format
 msgid "Cannot create new bill: %1$s"
-msgstr ""
+msgstr "Не удается создать новый счет: %1$s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:3944
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Service/ProjectService.php:4116
@@ -839,7 +839,7 @@ msgstr "ежемесячно"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/UserMigration/UserMigrator.php:159
 msgid "Cospend projects and user settings"
-msgstr ""
+msgstr "Проекты и настройки пользователя Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:3
 msgid " "
@@ -847,7 +847,7 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:1
 msgid "What do you want to do?"
-msgstr ""
+msgstr "Что вы хотите сделать?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "These actions are also available in the sidebar project context menu."
@@ -855,15 +855,15 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "Create a bill"
-msgstr ""
+msgstr "Создать счет"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:4
 msgid "Show project settings"
-msgstr ""
+msgstr "Показать настройки проекта"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:5
 msgid "Share the project"
-msgstr ""
+msgstr "Поделиться проектом"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:6
 msgid "Show project statistics"
@@ -1405,7 +1405,7 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:146
 msgid "Bill deleted"
-msgstr ""
+msgstr "Счет удален"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:147
 msgid "Failed to delete bill"
@@ -1414,7 +1414,7 @@ msgstr "Не удалось удалить счет"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:148
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:149
 msgid "Failed to save bills"
-msgstr ""
+msgstr "Не удалось сохранить счет"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:150
 msgid "Bills edited"
@@ -1598,11 +1598,11 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:354
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:355
 msgid "Save"
-msgstr ""
+msgstr "Сохранить"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:188
 msgid "Save currency"
-msgstr ""
+msgstr "Сохранить валюту"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:189
 msgid "Add currency"
@@ -1735,11 +1735,11 @@ msgstr ""
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:229
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:462
 msgid "Payer"
-msgstr ""
+msgstr "Плательщик"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:230
 msgid "Receiver"
-msgstr ""
+msgstr "Получатель"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:231
 msgid "Create bill ({amount})"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-05-16 23:39+0200\n"
-"PO-Revision-Date: 2023-05-16 21:41\n"
+"PO-Revision-Date: 2023-10-07 09:05\n"
 "Last-Translator: \n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -78,7 +78,7 @@ msgstr "krąg %1$s"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:2
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/templates/admin.php:8
 msgid "Cospend"
-msgstr ""
+msgstr "Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/Setting.php:55
 msgid "Changes in the <strong>Cospend app</strong>"
@@ -106,7 +106,7 @@ msgstr "Wprowadź identyfikator projektu i hasło"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:394
 #, php-format
 msgid "Enter link password of project %s"
-msgstr ""
+msgstr "Wprowadź hasło linku do projektu %s"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:287
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:326
@@ -119,11 +119,11 @@ msgstr "Projekt '%s'"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:372
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:393
 msgid "Cospend shared link access"
-msgstr ""
+msgstr "Link publiczny Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:294
 msgid "No such share link"
-msgstr ""
+msgstr "Brak takiego linku udostępniania"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:295
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:348
@@ -212,7 +212,7 @@ msgstr "Nie masz uprawnień do edycji tego rachunku"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:732
 msgid "You are not allowed to access the destination project"
-msgstr ""
+msgstr "Nie masz dostępu do tego projektu"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:774
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:870
@@ -251,7 +251,7 @@ msgstr "Nie można odnaleźć projektu"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:1028
 msgid "Bad password or share link"
-msgstr ""
+msgstr "Błędne hasło lub link publiczny"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:1407
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:1516

@@ -3592,7 +3592,7 @@ class ProjectService {
 		$originCategories = $this->getCategoriesOrPaymentModes($projectid);
 		$destinationCategories = $this->getCategoriesOrPaymentModes($toProjectId);
 
-		if ($bill['categoryid'] !== 0) {
+		if ($bill['categoryid'] !== 0 && $bill['categoryid'] !== Application::CAT_REIMBURSEMENT) {
 			$originCategory = array_filter($originCategories, static function ($val) use ($bill) {
 				return $val['id'] === $bill['categoryid'];
 			});

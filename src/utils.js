@@ -14,7 +14,7 @@ export function importCospendProject(importBeginCallback, importSuccessCallback,
 		},
 		false,
 		['text/csv'],
-		true
+		true,
 	)
 }
 
@@ -26,7 +26,7 @@ export function importSWProject(importBeginCallback, importSuccessCallback, impo
 		},
 		false,
 		['text/csv'],
-		true
+		true,
 	)
 }
 
@@ -41,7 +41,7 @@ export function importProject(targetPath, isSplitWise = false, importBeginCallba
 	}).catch((error) => {
 		showError(
 			t('cospend', 'Failed to import project file')
-			+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+			+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 		)
 	}).then(() => {
 		if (importEndCallback) {

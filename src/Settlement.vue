@@ -410,7 +410,7 @@ export default {
 				this.getSettlementFail()
 				showError(
 					t('cospend', 'Failed to get settlement')
-					+ ': ' + error.response?.request?.responseText
+					+ ': ' + error.response?.request?.responseText,
 				)
 			}).then(() => {
 				this.loading = false
@@ -462,7 +462,7 @@ export default {
 				+ t('cospend', 'Useful if you want to settle at a precise date and ignore the bills created since then.')
 				+ ' '
 				+ t('cospend', 'Automatic settlement will create bills one second before the maximum date.'),
-				t('cospend', 'Info')
+				t('cospend', 'Info'),
 			)
 		},
 		onIndividualInfoClicked() {
@@ -472,7 +472,7 @@ export default {
 				+ t('cospend', 'Select a payer who wants to get a zero balance, then a receiver who will be the only one to get the reimbursement money.')
 				+ ' '
 				+ t('cospend', 'Make sure the "real" reimbursement has been done between those 2 members in real life. Then press "Create bill" to automatically create the corresponding bill.'),
-				t('cospend', 'Info')
+				t('cospend', 'Info'),
 			)
 		},
 		onDayBeginningClicked() {
@@ -527,7 +527,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to create bill')
-					+ ': ' + error.response?.request?.responseText
+					+ ': ' + error.response?.request?.responseText,
 				)
 			})
 		},

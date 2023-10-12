@@ -599,7 +599,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to add shared access')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
 				console.error(error)
 			}).then(() => {
@@ -612,7 +612,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to edit shared access level')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
 				console.error(error)
 			})
@@ -638,7 +638,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to edit share link')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
 				console.error(error)
 			})
@@ -651,7 +651,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to edit share link')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
 				console.error(error)
 			})
@@ -665,7 +665,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to delete shared access')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
 				console.error(error)
 			})
@@ -734,14 +734,14 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to edit guest access level')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},
 		oldLinkInfoClick() {
 			OC.dialogs.info(
 				t('cospend', 'Password protected access is now deprecated. You can use the share links instead, they can be password protected too.'),
-				t('cospend', 'Info')
+				t('cospend', 'Info'),
 			)
 		},
 	},

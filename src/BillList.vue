@@ -463,7 +463,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to delete bill')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},
@@ -506,7 +506,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to save bills')
-						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 					)
 				})
 			}
@@ -522,7 +522,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to save bills')
-						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 					)
 				})
 			}
@@ -538,7 +538,7 @@ export default {
 						'Are you sure you want to delete {nb} bill?',
 						'Are you sure you want to delete {nb} bills?',
 						this.selectedBillIds.length,
-						{ nb: this.selectedBillIds.length }
+						{ nb: this.selectedBillIds.length },
 					),
 					t('cospend', 'Confirm deletion'),
 					{
@@ -556,12 +556,12 @@ export default {
 							}).catch((error) => {
 								showError(
 									t('cospend', 'Failed to delete bills')
-									+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+									+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 								)
 							})
 						}
 					},
-					true
+					true,
 				)
 			}
 		},

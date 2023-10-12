@@ -291,7 +291,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to add {name}', { name })
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},
@@ -315,7 +315,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to delete category')
-						+ ': ' + error.response.request.responseText
+						+ ': ' + error.response.request.responseText,
 					)
 				})
 			} else {
@@ -324,7 +324,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to delete payment mode')
-						+ ': ' + error.response.request.responseText
+						+ ': ' + error.response.request.responseText,
 					)
 				})
 			}
@@ -352,7 +352,7 @@ export default {
 					this.editElementFail(element, backupElement)
 					showError(
 						t('cospend', 'Failed to edit category')
-						+ ': ' + error.response.request.responseText
+						+ ': ' + error.response.request.responseText,
 					)
 				})
 			} else {

@@ -348,7 +348,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to add shared access')
-						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 					)
 				})
 			} else if (this.access !== null && level === 0) {
@@ -360,7 +360,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to edit shared access level')
-						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 					)
 				})
 			}
@@ -373,7 +373,7 @@ export default {
 				console.error(error)
 				showError(
 					t('cospend', 'Failed to delete shared access')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},

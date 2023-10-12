@@ -1105,7 +1105,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to add payment mode')
-						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 					)
 					console.error(error)
 				})
@@ -1141,7 +1141,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to add category')
-						+ ': ' + error.response?.request?.responseText
+						+ ': ' + error.response?.request?.responseText,
 					)
 					console.error(error)
 				})
@@ -1267,7 +1267,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to save bill')
-						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 					)
 				}).then(() => {
 					this.billLoading = false
@@ -1549,7 +1549,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to create bill')
-					+ ': ' + error.response?.request?.responseText
+					+ ': ' + error.response?.request?.responseText,
 				)
 			}).then(() => {
 				this.createBillDone()
@@ -1671,7 +1671,7 @@ export default {
 				(targetPath) => {
 					this.generatePublicLinkToFile(targetPath)
 				},
-				false, null, true
+				false, null, true,
 			)
 		},
 		generatePublicLinkToFile(targetPath) {
@@ -1685,27 +1685,27 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to generate share link to file')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},
 		onConvertInfoClicked() {
 			OC.dialogs.info(
 				t('cospend', 'This is just a currency converter. Bill amount can be entered in another currency and then converted to "{maincur}". Value is always stored in "{maincur}".', { maincur: this.project.currencyname }),
-				t('cospend', 'Info')
+				t('cospend', 'Info'),
 			)
 		},
 		onAmountInfoClicked() {
 			OC.dialogs.info(
 				t('cospend', 'You can type simple math operations and validate by pressing Enter key.'),
-				t('cospend', 'Info')
+				t('cospend', 'Info'),
 			)
 		},
 		onRepeatInfoClicked() {
 			OC.dialogs.info(
 				t('cospend', 'Bill repetition process runs once a day as a background job. If your bills are not automatically repeated, ask your Nextcloud administrator to check if "Cron" method is selected in admin settings.')
 					+ ' ' + t('cospend', 'You can also manually repeat the current bill with the "Repeat now" button.'),
-				t('cospend', 'Info')
+				t('cospend', 'Info'),
 			)
 		},
 		onDuplicate() {

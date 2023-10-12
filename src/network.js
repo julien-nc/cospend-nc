@@ -25,7 +25,7 @@ export function saveOptionValue(optionValues) {
 			.catch((error) => {
 				showError(
 					t('cospend', 'Failed to save option values')
-					+ ': ' + error.response.request.responseText
+					+ ': ' + error.response.request.responseText,
 				)
 			})
 	}
@@ -39,12 +39,12 @@ export function setAllowAnonymousCreation(val) {
 	axios.put(url, req)
 		.then((response) => {
 			showSuccess(
-				t('cospend', 'Cospend setting saved.')
+				t('cospend', 'Cospend setting saved.'),
 			)
 		})
 		.catch((error) => {
 			showError(
-				t('cospend', 'Failed to save Cospend setting.')
+				t('cospend', 'Failed to save Cospend setting.'),
 			)
 			console.debug(error)
 		})
@@ -65,7 +65,7 @@ export function exportProject(filename, projectid, projectName) {
 		.catch((error) => {
 			showError(
 				t('cospend', 'Failed to export project')
-				+ ': ' + error.response.request.responseText
+				+ ': ' + error.response.request.responseText,
 			)
 		})
 }
@@ -84,7 +84,7 @@ export function getProjects() {
 export function getBills(
 	projectid, offset, limit,
 	payerId = null, categoryId = null, paymentModeId = null,
-	includeBillId = null, searchTerm = null
+	includeBillId = null, searchTerm = null,
 ) {
 	const req = {
 		params: {
@@ -407,7 +407,7 @@ export function addCurrency(projectid, name, rate, successCB) {
 		.catch((error) => {
 			showError(
 				t('cospend', 'Failed to add currency')
-				+ ': ' + error.response.request.responseText
+				+ ': ' + error.response.request.responseText,
 			)
 		})
 }
@@ -426,7 +426,7 @@ export function deleteCurrency(projectid, currency, successCB) {
 		.catch((error) => {
 			showError(
 				t('cospend', 'Failed to delete currency')
-				+ ': ' + error.response.request.responseText
+				+ ': ' + error.response.request.responseText,
 			)
 		})
 }
@@ -449,7 +449,7 @@ export function editCurrency(projectid, currency, backupCurrency, failCB) {
 			failCB(currency, backupCurrency)
 			showError(
 				t('cospend', 'Failed to edit currency')
-				+ ': ' + error.response.request.responseText
+				+ ': ' + error.response.request.responseText,
 			)
 		})
 }
@@ -489,7 +489,7 @@ export function exportStats(projectid, params, doneCB) {
 		.catch((error) => {
 			showError(
 				t('cospend', 'Failed to export project statistics')
-				+ ': ' + error.response.request.responseText
+				+ ': ' + error.response.request.responseText,
 			)
 		})
 		.then(() => {
@@ -537,7 +537,7 @@ export function autoSettlement(projectid, centeredOn, maxTimestamp, precision, s
 		.catch((error) => {
 			showError(
 				t('cospend', 'Failed to add project settlement bills')
-				+ ': ' + error.response.request.responseText
+				+ ': ' + error.response.request.responseText,
 			)
 		})
 }
@@ -557,7 +557,7 @@ export function exportSettlement(projectid, centeredOn, maxTimestamp, successCB)
 		.catch((error) => {
 			showError(
 				t('cospend', 'Failed to export project settlement')
-				+ ': ' + error.response.request.responseText
+				+ ': ' + error.response.request.responseText,
 			)
 		})
 }

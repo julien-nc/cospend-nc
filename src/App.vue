@@ -599,7 +599,7 @@ export default {
 				window.history.pushState(
 					null,
 					null,
-					generateUrl('/apps/cospend/p/{projectId}', { projectId: cospend.currentProjectId })
+					generateUrl('/apps/cospend/p/{projectId}', { projectId: cospend.currentProjectId }),
 				)
 			}
 		},
@@ -707,7 +707,7 @@ export default {
 				window.history.pushState(
 					null,
 					null,
-					generateUrl('/apps/cospend/p/{projectId}/b/0', { projectId: cospend.currentProjectId })
+					generateUrl('/apps/cospend/p/{projectId}/b/0', { projectId: cospend.currentProjectId }),
 				)
 			}
 		},
@@ -729,7 +729,7 @@ export default {
 					generateUrl('/apps/cospend/p/{projectId}/b/{billId}', {
 						projectId: cospend.currentProjectId,
 						billId,
-					})
+					}),
 				)
 			}
 		},
@@ -761,7 +761,7 @@ export default {
 				console.debug(error)
 				showError(
 					t('cospend', 'Failed to get projects')
-					+ ': ' + error.response.request.responseText
+					+ ': ' + error.response.request.responseText,
 				)
 			})
 		},
@@ -771,7 +771,7 @@ export default {
 			const pmFilter = this.selectedPaymentModeFilter
 			const searchTerm = this.filterQuery
 			network.getBills(
-				projectid, 0, 50, this.selectedMemberId, catFilter, pmFilter, selectBillId, searchTerm
+				projectid, 0, 50, this.selectedMemberId, catFilter, pmFilter, selectBillId, searchTerm,
 			).then((response) => {
 				this.currentProject.nbBills = response.data.nb_bills
 				this.bills[projectid] = {}
@@ -790,7 +790,7 @@ export default {
 							generateUrl('/apps/cospend/p/{projectId}/b/{billId}', {
 								projectId: cospend.currentProjectId,
 								billId: selectBillId,
-							})
+							}),
 						)
 					}
 				}
@@ -800,7 +800,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to get bills')
-					+ ': ' + error.response?.request?.responseText
+					+ ': ' + error.response?.request?.responseText,
 				)
 				console.error(error)
 			}).then(() => {
@@ -813,7 +813,7 @@ export default {
 			const searchTerm = this.filterQuery
 			network.getBills(
 				projectid, this.billLists[projectid].length, 20, this.selectedMemberId,
-				catFilter, pmFilter, null, searchTerm
+				catFilter, pmFilter, null, searchTerm,
 			).then((response) => {
 				this.currentProject.nbBills = response.data.nb_bills
 				if (!response.data.bills || response.data.bills.length === 0) {
@@ -828,7 +828,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to get bills')
-					+ ': ' + error.response?.request?.responseText
+					+ ': ' + error.response?.request?.responseText,
 				)
 			}).then(() => {
 			})
@@ -873,7 +873,7 @@ export default {
 				console.error(error)
 				showError(
 					t('cospend', 'Failed to create project')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},
@@ -896,7 +896,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to delete project')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},
@@ -918,7 +918,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to update balances')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},
@@ -950,7 +950,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to add member')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},
@@ -978,7 +978,7 @@ export default {
 				}).catch((error) => {
 					showError(
 						t('cospend', 'Failed to add shared access')
-						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+						+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 					)
 				})
 			}
@@ -1000,7 +1000,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to save member')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},
@@ -1033,7 +1033,7 @@ export default {
 			}).catch((error) => {
 				showError(
 					t('cospend', 'Failed to edit project')
-					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText)
+					+ ': ' + (error.response?.data?.message || error.response?.request?.responseText),
 				)
 			})
 		},

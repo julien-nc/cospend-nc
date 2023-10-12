@@ -1228,6 +1228,7 @@ export default {
 			this.onBillEdited(null, false)
 		},
 		onBillEdited(e, delayed = true) {
+			this.computeAmountFormula()
 			if (!this.isNewBill && !this.noBill) {
 				if (delayed) {
 					delay(() => {

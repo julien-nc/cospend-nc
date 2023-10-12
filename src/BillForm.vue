@@ -1333,17 +1333,26 @@ export default {
 			}
 		},
 		onAmountEnterPressed() {
+			if (this.computeAmountFormula()) {
+				this.onBillEdited(null, false)
+			}
+		},
+		/**
+		 * @return {boolean} true if a formula has really been computed
+		 */
+		computeAmountFormula() {
 			// try to evaluate the current algebric formula
 			if (isNaN(this.currentFormula)) {
 				const calc = evalAlgebricFormula(this.currentFormula)
 				this.myBill.amount = isNaN(calc) ? 0 : calc
 				this.currentFormula = null
-				this.onBillEdited(null, false)
 				// update custom share ower amounts
 				if (this.isNewBill && this.newBillMode === 'customShare') {
 					this.owerCustomShareAmount = this.getOwersCustomShareAmount()
 				}
+				return true
 			}
+			return false
 		},
 		onPersoAmountInput(e) {
 			if (e.data === ',') {
@@ -1373,6 +1382,7 @@ export default {
 			this.showHint = !this.showHint
 		},
 		onCreateClick() {
+			this.computeAmountFormula()
 			if (this.newBillMode === 'normal') {
 				this.createNormalBill()
 			} else if (this.newBillMode === 'perso') {

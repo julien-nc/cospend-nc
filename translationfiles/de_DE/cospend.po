@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-05-16 23:39+0200\n"
-"PO-Revision-Date: 2023-06-07 15:41\n"
+"PO-Revision-Date: 2023-10-25 11:10\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -78,7 +78,7 @@ msgstr "Gruppe %1$s"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:2
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/templates/admin.php:8
 msgid "Cospend"
-msgstr ""
+msgstr "Cospend"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Activity/Setting.php:55
 msgid "Changes in the <strong>Cospend app</strong>"
@@ -212,7 +212,7 @@ msgstr "Du bist nicht berechtigt, diese Ausgabe zu bearbeiten"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:732
 msgid "You are not allowed to access the destination project"
-msgstr ""
+msgstr "Du bist nicht berechtigt, auf das Zielprojekt zuzugreifen"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:774
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/Controller/PageController.php:870
@@ -839,7 +839,7 @@ msgstr "monatlich"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/lib/UserMigration/UserMigrator.php:159
 msgid "Cospend projects and user settings"
-msgstr ""
+msgstr "Cospend Projekte und Benutzereinstellungen"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialAppInfoFakeDummyForL10nScript.php:3
 msgid " "
@@ -851,7 +851,7 @@ msgstr "Was möchtest du tun?"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:2
 msgid "These actions are also available in the sidebar project context menu."
-msgstr ""
+msgstr "Diese Aktionen sind auch im Kontextmenü der seitlichen Menüleiste verfügbar."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:3
 msgid "Create a bill"
@@ -1586,7 +1586,7 @@ msgstr "Name der Hauptwährung"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:186
 msgid "Cancel currency edition"
-msgstr ""
+msgstr "Bearbeiten der Währung abbrechen"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:187
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:301
@@ -1868,7 +1868,7 @@ msgstr "Betreuer"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:412
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:421
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:267
 msgid "Deactivate"
@@ -2111,7 +2111,7 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:361
 msgid "Failed to move bill"
-msgstr ""
+msgstr "Die Ausgabe konnte nicht verschoben werden"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:362
 msgid "Rename project {n}"

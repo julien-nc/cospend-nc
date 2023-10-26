@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: moneybuster\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-05-16 23:39+0200\n"
-"PO-Revision-Date: 2023-10-25 11:10\n"
+"PO-Revision-Date: 2023-10-26 11:41\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -1678,7 +1678,7 @@ msgstr "Abrechnungsdatum"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:208
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:209
 msgid "Information on settlement date"
-msgstr ""
+msgstr "Informationen zum Abrechnungsdatum"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:211
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:212
@@ -1722,7 +1722,7 @@ msgstr "Keine Salden gefunden"
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:226
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:227
 msgid "Information on individual reimbursement"
-msgstr ""
+msgstr "Informationen über individuelle Rückerstattung"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:228
 msgid "Individual reimbursement"
@@ -2095,11 +2095,11 @@ msgstr "Gast-Link konnte nicht in die Zwischenablage kopiert werden."
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:357
 msgid "Move bill \"{bill}\" to a different project:"
-msgstr ""
+msgstr "Ausgabe \"{bill}\" in ein anderes Projekt verschieben:"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:358
 msgid "Only one project available, in which this bill already exists"
-msgstr ""
+msgstr "Es existiert nur ein Projekt und diese Ausgabe ist bereits darin hinterlegt"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:359
 msgid "No projects found"
@@ -2107,7 +2107,7 @@ msgstr "Keine Projekte gefunden"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:360
 msgid "Bill moved to \"{project}\" successfully"
-msgstr ""
+msgstr "Ausgabe erfolgreich nach \"{project}\" verschoben"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:361
 msgid "Failed to move bill"
@@ -2139,7 +2139,7 @@ msgstr "Mitglieder"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:372
 msgid "More information on adding members"
-msgstr ""
+msgstr "Weitere Informationen zum Hinzufügen von Mitgliedern"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:374
 msgid "Enter a member name"
@@ -2155,7 +2155,7 @@ msgstr "Ein Projektmitglied mit einem Nextcloud-Benutzer verknüpfen"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:377
 msgid "More information on adding Nextcloud users as members"
-msgstr ""
+msgstr "Weitere Informationen zum Hinzufügen von Nextcloud-Benutzern als Mitglieder"
 
 #: /datadisk/tera/julien/html/dev/server/apps/cospend/specialVueFakeDummyForL10nScript.js:379
 msgid "Choose a Nextcloud user"

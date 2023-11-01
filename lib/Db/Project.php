@@ -80,7 +80,7 @@ class Project extends Entity implements \JsonSerializable {
 			'autoexport' => $this->autoexport,
 			'lastchanged' => (int)$this->lastchanged,
 			'guestaccesslevel' => (int)$this->guestaccesslevel,
-			'deletiondisabled' => (int)$this->deletiondisabled,
+			'deletiondisabled' => ((int)$this->deletiondisabled) === 1,
 			'categorysort' => $this->categorysort,
 			'paymentmodesort' => $this->paymentmodesort,
 			'currencyname' => $this->currencyname,

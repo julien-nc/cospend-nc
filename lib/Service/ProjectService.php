@@ -407,108 +407,31 @@ class ProjectService {
 	 * @param string|null $contact_email
 	 * @param string $userid
 	 * @param bool $createDefaultCategories
+	 * @param bool $createDefaultPaymentModes
 	 * @return array
-	 * @throws \OCP\DB\Exception
 	 */
-	public function createProject(string $name, string $id, ?string $password, ?string $contact_email, string $userid = '',
-								  bool $createDefaultCategories = true, bool $createDefaultPaymentModes = true): array {
-		$qb = $this->db->getQueryBuilder();
-
-		$qb->select('id')
-			->from('cospend_projects', 'p')
-			->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR))
-			);
-		$req = $qb->executeQuery();
-
-		$dbid = null;
-		while ($row = $req->fetch()){
-			$dbid = $row['id'];
-			break;
-		}
-		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
-		if ($dbid === null) {
-			// check if id is valid
-			if (strpos($id, '/') !== false) {
-				return ['message' => $this->l10n->t('Invalid project id')];
-			}
-			$dbPassword = '';
-			if ($password !== null && $password !== '') {
-				$dbPassword = password_hash($password, PASSWORD_DEFAULT);
-			}
-			if ($contact_email === null) {
-				$contact_email = '';
-			}
-			$ts = (new DateTime())->getTimestamp();
-			$qb->insert('cospend_projects')
-				->values([
-					'userid' => $qb->createNamedParameter($userid, IQueryBuilder::PARAM_STR),
-					'id' => $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR),
-					'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
-					'password' => $qb->createNamedParameter($dbPassword, IQueryBuilder::PARAM_STR),
-					'email' => $qb->createNamedParameter($contact_email, IQueryBuilder::PARAM_STR),
-					'lastchanged' => $qb->createNamedParameter($ts, IQueryBuilder::PARAM_INT)
-				]);
-			$qb->executeStatement();
-			$qb = $qb->resetQueryParts();
-
-			// create default categories
-			if ($createDefaultCategories) {
-				foreach ($this->defaultCategories as $category) {
-					$icon = urlencode($category['icon']);
-					$color = $category['color'];
-					$name = $category['name'];
-					$qb->insert('cospend_categories')
-						->values([
-							'projectid' => $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR),
-							'encoded_icon' => $qb->createNamedParameter($icon, IQueryBuilder::PARAM_STR),
-							'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
-							'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
-						]);
-					$qb->executeStatement();
-					$qb = $qb->resetQueryParts();
-				}
-			}
-
-			// create default payment modes
-			if ($createDefaultPaymentModes) {
-				foreach ($this->defaultPaymentModes as $pm) {
-					$icon = urlencode($pm['icon']);
-					$color = $pm['color'];
-					$name = $pm['name'];
-					$oldId = $pm['old_id'];
-					$qb->insert('cospend_paymentmodes')
-						->values([
-							'projectid' => $qb->createNamedParameter($id, IQueryBuilder::PARAM_STR),
-							'encoded_icon' => $qb->createNamedParameter($icon, IQueryBuilder::PARAM_STR),
-							'color' => $qb->createNamedParameter($color, IQueryBuilder::PARAM_STR),
-							'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
-							'old_id' => $qb->createNamedParameter($oldId, IQueryBuilder::PARAM_STR),
-						]);
-					$qb->executeStatement();
-					$qb = $qb->resetQueryParts();
-				}
-			}
-
-			return ['id' => $id];
-		} else {
-			return ['message' => $this->l10n->t('A project with id "%1$s" already exists', [$id])];
-		}
+	public function createProject(
+		string $name, string $id, ?string $password, ?string $contact_email, string $userid = '',
+		bool $createDefaultCategories = true, bool $createDefaultPaymentModes = true
+	): array {
+		return $this->projectMapper->createProject(
+			$name, $id, $password, $contact_email, $this->defaultCategories, $this->defaultPaymentModes,
+			$userid, $createDefaultCategories, $createDefaultPaymentModes
+		);
 	}
 
 	/**
 	 * Delete a project and all associated data
 	 *
-	 * @param string $projectid
+	 * @param string $projectId
 	 * @return array
 	 */
-	public function deleteProject(string $projectid): array {
-		$projectToDelete = $this->getProjectById($projectid);
+	public function deleteProject(string $projectId): array {
+		$projectToDelete = $this->getProjectById($projectId);
 		if ($projectToDelete !== null) {
 			$qb = $this->db->getQueryBuilder();
 
-			$this->projectMapper->deleteBillOwersOfProject($projectid);
+			$this->projectMapper->deleteBillOwersOfProject($projectId);
 
 			$associatedTableNames = [
 				'cospend_bills',
@@ -522,7 +445,7 @@ class ProjectService {
 			foreach ($associatedTableNames as $tableName) {
 				$qb->delete($tableName)
 					->where(
-						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+						$qb->expr()->eq('projectid', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 					);
 				$qb->executeStatement();
 				$qb = $qb->resetQueryParts();
@@ -531,7 +454,7 @@ class ProjectService {
 			// delete project
 			$qb->delete('cospend_projects')
 				->where(
-					$qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
+					$qb->expr()->eq('id', $qb->createNamedParameter($projectId, IQueryBuilder::PARAM_STR))
 				);
 			$qb->executeStatement();
 			$qb->resetQueryParts();
@@ -545,84 +468,50 @@ class ProjectService {
 	/**
 	 * Get all project data
 	 *
-	 * @param string $projectid
-	 * @return array
+	 * @param string $projectId
+	 * @return array|null
+	 * @throws \OCP\DB\Exception
 	 */
-	public function getProjectInfo(string $projectid): ?array {
-		$projectInfo = null;
-
-		$qb = $this->db->getQueryBuilder();
-
-		$qb->select('id', 'password', 'name', 'email', 'userid', 'lastchanged', 'guestaccesslevel',
-			'autoexport', 'currencyname', 'deletiondisabled', 'categorysort', 'paymentmodesort')
-			->from('cospend_projects')
-			->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($projectid, IQueryBuilder::PARAM_STR))
-			);
-		$req = $qb->executeQuery();
-
-		$dbProjectId = null;
-		while ($row = $req->fetch()){
-			$dbProjectId = $row['id'];
-			$dbName = $row['name'];
-			$dbEmail= $row['email'];
-			$dbUserId = $row['userid'];
-			$dbGuestAccessLevel = (int) $row['guestaccesslevel'];
-			$dbLastchanged = (int) $row['lastchanged'];
-			$dbAutoexport= $row['autoexport'];
-			$dbCurrencyName = $row['currencyname'];
-			$dbDeletionDisabled = ((int) $row['deletiondisabled']) === 1;
-			$dbCategorySort = $row['categorysort'];
-			$dbPaymentModeSort = $row['paymentmodesort'];
-			break;
+	public function getProjectInfo(string $projectId): ?array {
+		try {
+			$dbProject = $this->projectMapper->find($projectId);
+		} catch (Exception | Throwable $e) {
+			return null;
 		}
-		$req->closeCursor();
-		$qb->resetQueryParts();
-		if ($dbProjectId !== null) {
-			$smallStats = $this->getSmallStats($dbProjectId);
-			$members = $this->getMembers($dbProjectId, 'lowername');
-			$activeMembers = [];
-			foreach ($members as $member) {
-				if ($member['activated']) {
-					$activeMembers[] = $member;
-				}
+		$dbProjectId = $dbProject->getId();
+
+		$smallStats = $this->getSmallStats($dbProjectId);
+		$members = $this->getMembers($dbProjectId, 'lowername');
+		$activeMembers = [];
+		foreach ($members as $member) {
+			if ($member['activated']) {
+				$activeMembers[] = $member;
 			}
-			$balance = $this->getBalance($dbProjectId);
-			$currencies = $this->getCurrencies($dbProjectId);
-			$categories = $this->getCategoriesOrPaymentModes($dbProjectId);
-			$paymentModes = $this->getCategoriesOrPaymentModes($dbProjectId, false);
-			// get all shares
-			$userShares = $this->getUserShares($dbProjectId);
-			$groupShares = $this->getGroupShares($dbProjectId);
-			$circleShares = $this->getCircleShares($dbProjectId);
-			$publicShares = $this->getPublicShares($dbProjectId);
-			$shares = array_merge($userShares, $groupShares, $circleShares, $publicShares);
-
-			$projectInfo = [
-				'userid' => $dbUserId,
-				'name' => $dbName,
-				'contact_email' => $dbEmail,
-				'id' => $dbProjectId,
-				'guestaccesslevel' => $dbGuestAccessLevel,
-				'autoexport' => $dbAutoexport,
-				'currencyname' => $dbCurrencyName,
-				'lastchanged' => $dbLastchanged,
-				'active_members' => $activeMembers,
-				'members' => $members,
-				'balance' => $balance,
-				'nb_bills' => $smallStats['nb_bills'],
-				'total_spent' => $smallStats['total_spent'],
-				'shares' => $shares,
-				'currencies' => $currencies,
-				'categories' => $categories,
-				'paymentmodes' => $paymentModes,
-				'deletion_disabled' => $dbDeletionDisabled,
-				'categorysort' => $dbCategorySort,
-				'paymentmodesort' => $dbPaymentModeSort,
-			];
 		}
+		$balance = $this->getBalance($dbProjectId);
+		$currencies = $this->getCurrencies($dbProjectId);
+		$categories = $this->getCategoriesOrPaymentModes($dbProjectId);
+		$paymentModes = $this->getCategoriesOrPaymentModes($dbProjectId, false);
+		// get all shares
+		$userShares = $this->getUserShares($dbProjectId);
+		$groupShares = $this->getGroupShares($dbProjectId);
+		$circleShares = $this->getCircleShares($dbProjectId);
+		$publicShares = $this->getPublicShares($dbProjectId);
+		$shares = array_merge($userShares, $groupShares, $circleShares, $publicShares);
 
-		return $projectInfo;
+		$extraProjectInfo = [
+			'active_members' => $activeMembers,
+			'members' => $members,
+			'balance' => $balance,
+			'nb_bills' => $smallStats['nb_bills'],
+			'total_spent' => $smallStats['total_spent'],
+			'shares' => $shares,
+			'currencies' => $currencies,
+			'categories' => $categories,
+			'paymentmodes' => $paymentModes,
+		];
+
+		return array_merge($extraProjectInfo, $dbProject->jsonSerialize());
 	}
 
 	/**
@@ -630,6 +519,7 @@ class ProjectService {
 	 *
 	 * @param string $projectId
 	 * @return array
+	 * @throws \OCP\DB\Exception
 	 */
 	private function getSmallStats(string $projectId): array {
 		$nbBills = 0;
@@ -685,9 +575,11 @@ class ProjectService {
 	 * @return array
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getProjectStatistics(string $projectId, ?string $memberOrder = null, ?int $tsMin = null, ?int $tsMax = null,
-										 ?int $paymentModeId = null, ?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
-										 bool $showDisabled = true, ?int $currencyId = null, ?int $payerId = null): array {
+	public function getProjectStatistics(
+		string $projectId, ?string $memberOrder = null, ?int $tsMin = null, ?int $tsMax = null,
+		?int $paymentModeId = null, ?int $categoryId = null, ?float $amountMin = null, ?float $amountMax = null,
+		bool $showDisabled = true, ?int $currencyId = null, ?int $payerId = null
+	): array {
 		$timeZone = $this->dateTimeZone->getTimeZone();
 		$membersWeight = [];
 		$membersNbBills = [];

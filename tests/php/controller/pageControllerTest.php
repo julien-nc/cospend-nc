@@ -94,22 +94,18 @@ class PageNUtilsControllerTest extends TestCase {
 		$c = $this->container;
 		$sc = $c->get(IServerContainer::class);
 		$this->config = $c->get(IConfig::class);
+		$this->billMapper = new BillMapper($sc->getDatabaseConnection());
+		$this->projectMapper = new ProjectMapper($sc->getDatabaseConnection());
 
 		$this->activityManager = new ActivityManager(
 			$sc->getActivityManager(),
 			new UserService(
-				new ProjectMapper(
-					$sc->getDatabaseConnection()
-				),
+				$this->projectMapper,
 				$c->get(IGroupManager::class),
 				$sc->getDatabaseConnection()
 			),
-			new ProjectMapper(
-				$sc->getDatabaseConnection()
-			),
-			new BillMapper(
-				$sc->getDatabaseConnection()
-			),
+			$this->projectMapper,
+			$this->billMapper,
 			$sc->getL10N($c->get('AppName')),
 			$c->get(LoggerInterface::class),
 			'test'
@@ -118,18 +114,12 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->activityManager2 = new ActivityManager(
 			$sc->getActivityManager(),
 			new UserService(
-				new ProjectMapper(
-					$sc->getDatabaseConnection()
-				),
+				$this->projectMapper,
 				$c->get(IGroupManager::class),
 				$sc->getDatabaseConnection()
 			),
-			new ProjectMapper(
-				$sc->getDatabaseConnection()
-			),
-			new BillMapper(
-				$sc->getDatabaseConnection()
-			),
+			$this->projectMapper,
+			$this->billMapper,
 			$sc->getL10N($c->get('AppName')),
 			$c->get(LoggerInterface::class),
 			'test2'
@@ -138,12 +128,8 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->projectService = new ProjectService(
 			$sc->getL10N($c->get('AppName')),
 			$sc->getConfig(),
-			new ProjectMapper(
-				$sc->getDatabaseConnection()
-			),
-			new BillMapper(
-				$sc->getDatabaseConnection()
-			),
+			$this->projectMapper,
+			$this->billMapper,
 			$this->activityManager,
 			$sc->getAvatarManager(),
 			$c->get(IUserManager::class),
@@ -162,9 +148,7 @@ class PageNUtilsControllerTest extends TestCase {
 			$c->get(IShareManager::class),
 			$c->get(IUserManager::class),
 			$sc->getL10N($c->get('AppName')),
-			new BillMapper(
-				$sc->getDatabaseConnection()
-			),
+			$this->billMapper,
 			$this->projectService,
 			$this->activityManager,
 			$sc->getDatabaseConnection(),
@@ -182,9 +166,7 @@ class PageNUtilsControllerTest extends TestCase {
 			$c->get(IShareManager::class),
 			$c->get(IUserManager::class),
 			$sc->getL10N($c->get('AppName')),
-			new BillMapper(
-				$sc->getDatabaseConnection()
-			),
+			$this->billMapper,
 			$this->projectService,
 			$this->activityManager,
 			$sc->getDatabaseConnection(),
@@ -561,7 +543,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$idBill1 = $data;
 
 		// check bill values
-		$bill = $this->projectService->getBill('superproj', $idBill1);
+		$bill = $this->billMapper->getBill('superproj', $idBill1);
 		$this->assertNotNull($bill);
 		$this->assertEquals('boomerang', $bill['what']);
 		$this->assertEquals('2019-01-22', $bill['date']);
@@ -625,7 +607,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$data = $resp->getData();
 		$idBillPm = $data;
 
-		$bill = $this->projectService->getBill('superproj', $idBillPm);
+		$bill = $this->billMapper->getBill('superproj', $idBillPm);
 		$this->assertNotNull($bill);
 		$this->assertEquals($oneDefPm['old_id'], $bill['paymentmode']);
 		$this->assertEquals($oneDefPm['id'], $bill['paymentmodeid']);
@@ -651,7 +633,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$data = $resp->getData();
 		$this->assertEquals($idBillPm, $data);
 
-		$bill = $this->projectService->getBill('superproj', $idBillPm);
+		$bill = $this->billMapper->getBill('superproj', $idBillPm);
 		$this->assertNotNull($bill);
 		$this->assertEquals($otherDefPm['old_id'], $bill['paymentmode']);
 		$this->assertEquals($otherDefPm['id'], $bill['paymentmodeid']);
@@ -665,7 +647,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
 		$this->assertEquals($idBillPm, $data);
-		$bill = $this->projectService->getBill('superproj', $idBillPm);
+		$bill = $this->billMapper->getBill('superproj', $idBillPm);
 		$this->assertNotNull($bill);
 		$this->assertEquals($oneDefPm['old_id'], $bill['paymentmode']);
 		$this->assertEquals($oneDefPm['id'], $bill['paymentmodeid']);
@@ -682,7 +664,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals(200, $status);
 		$data = $resp->getData();
 		$idBillOldPmId = $data;
-		$bill = $this->projectService->getBill('superproj', $idBillOldPmId);
+		$bill = $this->billMapper->getBill('superproj', $idBillOldPmId);
 		$this->assertNotNull($bill);
 		$this->assertEquals('c', $bill['paymentmode']);
 		$this->assertTrue(isset($bill['paymentmodeid']));
@@ -782,7 +764,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals(200, $status);
 
 		// check bill values
-		$bill = $this->projectService->getBill('superproj', $idBill1);
+		$bill = $this->billMapper->getBill('superproj', $idBill1);
 		$this->assertNotNull($bill);
 		$this->assertEquals('kangaroo', $bill['what']);
 		$this->assertEquals('2039-02-02', $bill['date']);
@@ -840,7 +822,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$status = $resp->getStatus();
 		$this->assertEquals(200, $status);
 		// check bill values
-		$bill = $this->projectService->getBill('superproj', $idBill1);
+		$bill = $this->billMapper->getBill('superproj', $idBill1);
 		$this->assertNotNull($bill);
 		$this->assertEquals(123456789, $bill['timestamp']);
 
@@ -1220,13 +1202,13 @@ class PageNUtilsControllerTest extends TestCase {
 
 		$repeated = $this->projectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
-		$repeatedBill = $this->projectService->getBill('superproj', $idBill2);
+		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
 		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
 
 		$this->assertEquals(2, count($repeated));
 		foreach ($repeated as $r) {
-			$bill = $this->projectService->getBill('superproj', $r['new_bill_id']);
+			$bill = $this->billMapper->getBill('superproj', $r['new_bill_id']);
 			$this->assertNotNull($bill);
 			$this->assertEquals('kangaroo', $bill['what']);
 			$this->assertEquals($idMember2, $bill['payer_id']);
@@ -1249,13 +1231,13 @@ class PageNUtilsControllerTest extends TestCase {
 
 		$repeated = $this->projectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
-		$repeatedBill = $this->projectService->getBill('superproj', $idBill2);
+		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
 		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
 
 		$this->assertEquals(1, count($repeated));
 		foreach ($repeated as $r) {
-			$bill = $this->projectService->getBill('superproj', $r['new_bill_id']);
+			$bill = $this->billMapper->getBill('superproj', $r['new_bill_id']);
 			$this->assertNotNull($bill);
 			$this->assertEquals('kangaroo', $bill['what']);
 			$this->assertEquals($idMember2, $bill['payer_id']);
@@ -1278,13 +1260,13 @@ class PageNUtilsControllerTest extends TestCase {
 
 		$repeated = $this->projectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
-		$repeatedBill = $this->projectService->getBill('superproj', $idBill2);
+		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
 		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
 
 		$this->assertEquals(3, count($repeated));
 		foreach ($repeated as $r) {
-			$bill = $this->projectService->getBill('superproj', $r['new_bill_id']);
+			$bill = $this->billMapper->getBill('superproj', $r['new_bill_id']);
 			$this->assertNotNull($bill);
 			$this->assertEquals('kangaroo', $bill['what']);
 			$this->assertEquals($idMember2, $bill['payer_id']);
@@ -1307,13 +1289,13 @@ class PageNUtilsControllerTest extends TestCase {
 
 		$repeated = $this->projectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
-		$repeatedBill = $this->projectService->getBill('superproj', $idBill2);
+		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
 		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
 
 		$this->assertEquals(2, count($repeated));
 		foreach ($repeated as $r) {
-			$bill = $this->projectService->getBill('superproj', $r['new_bill_id']);
+			$bill = $this->billMapper->getBill('superproj', $r['new_bill_id']);
 			$this->assertNotNull($bill);
 			$this->assertEquals('kangaroo', $bill['what']);
 			$this->assertEquals($idMember2, $bill['payer_id']);
@@ -1336,13 +1318,13 @@ class PageNUtilsControllerTest extends TestCase {
 
 		$repeated = $this->projectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
-		$repeatedBill = $this->projectService->getBill('superproj', $idBill2);
+		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
 		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
 
 		$this->assertEquals(10, count($repeated));
 		foreach ($repeated as $r) {
-			$bill = $this->projectService->getBill('superproj', $r['new_bill_id']);
+			$bill = $this->billMapper->getBill('superproj', $r['new_bill_id']);
 			$this->assertNotNull($bill);
 			$this->assertEquals('kangaroo', $bill['what']);
 			$this->assertEquals($idMember2, $bill['payer_id']);
@@ -1365,13 +1347,13 @@ class PageNUtilsControllerTest extends TestCase {
 
 		$repeated = $this->projectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
-		$repeatedBill = $this->projectService->getBill('superproj', $idBill2);
+		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
 		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
 
 		$this->assertEquals(5, count($repeated));
 		foreach ($repeated as $r) {
-			$bill = $this->projectService->getBill('superproj', $r['new_bill_id']);
+			$bill = $this->billMapper->getBill('superproj', $r['new_bill_id']);
 			$this->assertNotNull($bill);
 			$this->assertEquals('kangaroo', $bill['what']);
 			$this->assertEquals($idMember2, $bill['payer_id']);
@@ -1394,13 +1376,13 @@ class PageNUtilsControllerTest extends TestCase {
 
 		$repeated = $this->projectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
-		$repeatedBill = $this->projectService->getBill('superproj', $idBill2);
+		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
 		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
 
 		$this->assertEquals(2, count($repeated));
 		foreach ($repeated as $r) {
-			$bill = $this->projectService->getBill('superproj', $r['new_bill_id']);
+			$bill = $this->billMapper->getBill('superproj', $r['new_bill_id']);
 			$this->assertNotNull($bill);
 			$this->assertEquals('kangaroo', $bill['what']);
 			$this->assertEquals($idMember2, $bill['payer_id']);
@@ -1423,13 +1405,13 @@ class PageNUtilsControllerTest extends TestCase {
 
 		$repeated = $this->projectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
-		$repeatedBill = $this->projectService->getBill('superproj', $idBill2);
+		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
 		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
 
 		$this->assertEquals(1, count($repeated));
 		foreach ($repeated as $r) {
-			$bill = $this->projectService->getBill('superproj', $r['new_bill_id']);
+			$bill = $this->billMapper->getBill('superproj', $r['new_bill_id']);
 			$this->assertNotNull($bill);
 			$this->assertEquals('kangaroo', $bill['what']);
 			$this->assertEquals($idMember2, $bill['payer_id']);
@@ -1452,13 +1434,13 @@ class PageNUtilsControllerTest extends TestCase {
 
 		$repeated = $this->projectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
-		$repeatedBill = $this->projectService->getBill('superproj', $idBill2);
+		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
 		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
 
 		$this->assertEquals(2, count($repeated));
 		foreach ($repeated as $r) {
-			$bill = $this->projectService->getBill('superproj', $r['new_bill_id']);
+			$bill = $this->billMapper->getBill('superproj', $r['new_bill_id']);
 			$this->assertNotNull($bill);
 			$this->assertEquals('kangaroo', $bill['what']);
 			$this->assertEquals($idMember2, $bill['payer_id']);
@@ -1481,13 +1463,13 @@ class PageNUtilsControllerTest extends TestCase {
 
 		$repeated = $this->projectService->cronRepeatBills($idBill2);
 		// check repeated bill repeat value
-		$repeatedBill = $this->projectService->getBill('superproj', $idBill2);
+		$repeatedBill = $this->billMapper->getBill('superproj', $idBill2);
 		$this->assertNotNull($repeatedBill);
 		$this->assertEquals(Application::FREQUENCIES['no'], $repeatedBill['repeat']);
 
 		$this->assertEquals(2, count($repeated));
 		foreach ($repeated as $r) {
-			$bill = $this->projectService->getBill('superproj', $r['new_bill_id']);
+			$bill = $this->billMapper->getBill('superproj', $r['new_bill_id']);
 			$this->assertNotNull($bill);
 			$this->assertEquals('kangaroo', $bill['what']);
 			$this->assertEquals($idMember2, $bill['payer_id']);
@@ -1681,10 +1663,10 @@ class PageNUtilsControllerTest extends TestCase {
 		$data = $resp->getData();
 		$idBillSearch3 = $data;
 
-		$bills = $this->projectService->searchBills('superprojS', 'mega');
+		$bills = $this->billMapper->searchBills('superprojS', 'mega');
 		$this->assertEquals(1, count($bills));
 		$this->assertEquals($idBillSearch3, $bills[0]['id']);
-		$bills = $this->projectService->searchBills('superprojS', 'two');
+		$bills = $this->billMapper->searchBills('superprojS', 'two');
 		$this->assertEquals(1, count($bills));
 		$this->assertEquals($idBillSearch2, $bills[0]['id']);
 
@@ -1911,7 +1893,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$toProject = $this->createAndPopulateProject($toProjectId);
 
 		// get the bills created for the first project
-		$bills = $this->projectService->getBills($projectId);
+		$bills = $this->billMapper->getBills($projectId);
 
 		// find the bill with payment method and category
 		$bill = array_filter($bills, static function ($bill) {
@@ -1928,7 +1910,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertNotEquals($bill['id'], $respData);
 
 		// bill moved, ensure the new bill has the right data in it
-		$bill = $this->projectService->getBill($toProjectId, $respData);
+		$bill = $this->billMapper->getBill($toProjectId, $respData);
 
 		$this->assertNotNull($bill);
 
@@ -1960,7 +1942,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$this->assertEquals(200, $status);
 		$respData = $resp->getData();
 
-		$bill = $this->projectService->getBill($toProjectId, $respData);
+		$bill = $this->billMapper->getBill($toProjectId, $respData);
 
 		$this->assertNotEquals($bill['paymentmodeid'], $paymentMode);
 		$this->assertNotEquals($bill['categoryid'], $category);
@@ -2000,7 +1982,7 @@ class PageNUtilsControllerTest extends TestCase {
 		$data = $resp->getData();
 
 		// get the new bill and check the owerIds info too
-		$bill = $this->projectService->getBill($toProjectId, $data);
+		$bill = $this->billMapper->getBill($toProjectId, $data);
 		$this->assertEquals(1, count($bill['owerIds']));
 		// ensure payment mode and category are right too
 		$this->assertEquals(0, $bill['paymentmodeid']);

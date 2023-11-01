@@ -488,14 +488,14 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 *
 	 */
-	public function webDeleteBill(string $projectid, int $billid): DataResponse {
+	public function webDeleteBill(string $projectid, int $billid, bool $moveToTrash = true): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
 			$billObj = null;
-			if ($this->projectService->getBill($projectid, $billid) !== null) {
+			if ($this->billMapper->getBill($projectid, $billid) !== null) {
 				$billObj = $this->billMapper->find($billid);
 			}
 
-			$result = $this->projectService->deleteBill($projectid, $billid);
+			$result = $this->projectService->deleteBill($projectid, $billid, false, $moveToTrash);
 			if (isset($result['success'])) {
 				if (!is_null($billObj)) {
 					$this->activityManager->triggerEvent(
@@ -520,14 +520,14 @@ class PageController extends ApiController {
 	 * @NoAdminRequired
 	 *
 	 */
-	public function webDeleteBills(string $projectid, array $billIds): DataResponse {
+	public function webDeleteBills(string $projectid, array $billIds, bool $moveToTrash = true): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
 			foreach ($billIds as $billid) {
 				$billObj = null;
-				if ($this->projectService->getBill($projectid, $billid) !== null) {
+				if ($this->billMapper->getBill($projectid, $billid) !== null) {
 					$billObj = $this->billMapper->find($billid);
 				}
-				$result = $this->projectService->deleteBill($projectid, $billid);
+				$result = $this->projectService->deleteBill($projectid, $billid, false, $moveToTrash);
 				if (!isset($result['success'])) {
 					return new DataResponse($result, 400);
 				} else {
@@ -912,12 +912,12 @@ class PageController extends ApiController {
 								?int $paymentModeId = null, ?int $includeBillId = null, ?string $searchTerm = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
 			if ($limit) {
-				$bills = $this->projectService->getBillsWithLimit(
+				$bills = $this->billMapper->getBillsWithLimit(
 					$projectid, null, null, null, $paymentModeId, $categoryId, null, null,
 					$lastchanged, $limit, $reverse, $offset, $payerId, $includeBillId, $searchTerm
 				);
 			} else {
-				$bills = $this->projectService->getBills(
+				$bills = $this->billMapper->getBills(
 					$projectid, null, null, null, $paymentModeId, $categoryId, null, null,
 					$lastchanged, null, $reverse, $payerId
 				);
@@ -1169,13 +1169,13 @@ class PageController extends ApiController {
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password']))
 		) {
 			if ($limit) {
-				$bills = $this->projectService->getBillsWithLimit(
+				$bills = $this->billMapper->getBillsWithLimit(
 					$publicShareInfo['projectid'] ?? $projectid, null, null,
 					null, null, null, null, null,
 					$lastchanged, $limit, $reverse, $offset
 				);
 			} else {
-				$bills = $this->projectService->getBills(
+				$bills = $this->billMapper->getBills(
 					$publicShareInfo['projectid'] ?? $projectid, null, null,
 					null, null, null, null, null,
 					$lastchanged, null, $reverse
@@ -1215,13 +1215,13 @@ class PageController extends ApiController {
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password']))
 		) {
 			if ($limit) {
-				$bills = $this->projectService->getBillsWithLimit(
+				$bills = $this->billMapper->getBillsWithLimit(
 					$publicShareInfo['projectid'] ?? $projectid, null, null,
 					null, $paymentModeId, $categoryId, null, null,
 					$lastchanged, $limit, $reverse, $offset, $payerId, $includeBillId, $searchTerm
 				);
 			} else {
-				$bills = $this->projectService->getBills(
+				$bills = $this->billMapper->getBills(
 					$publicShareInfo['projectid'] ?? $projectid, null, null,
 					null, $paymentModeId, $categoryId, null, null,
 					$lastchanged, null, $reverse, $payerId
@@ -1247,7 +1247,10 @@ class PageController extends ApiController {
 	 */
 	public function apiPrivGetBills(string $projectid, ?int $lastchanged = null): DataResponse {
 		if ($this->projectService->userCanAccessProject($this->userId, $projectid)) {
-			$bills = $this->projectService->getBills($projectid, null, null, null, null, null, null, null, $lastchanged);
+			$bills = $this->billMapper->getBills(
+				$projectid, null, null, null, null, null,
+				null, null, $lastchanged
+			);
 			$billIds = $this->projectService->getAllBillIds($projectid);
 			$ts = (new DateTime())->getTimestamp();
 			return new DataResponse([
@@ -1275,7 +1278,7 @@ class PageController extends ApiController {
 			|| ($publicShareInfo !== null
 				&& (is_null($publicShareInfo['password']) || $password === $publicShareInfo['password']))
 		) {
-			$bills = $this->projectService->getBills(
+			$bills = $this->billMapper->getBills(
 				$publicShareInfo['projectid'] ?? $projectid, null, null,
 				null, null, null, null, null, $lastchanged
 			);
@@ -1633,7 +1636,7 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiDeleteBill(string $projectid, string $password, int $billid): DataResponse {
+	public function apiDeleteBill(string $projectid, string $password, int $billid, bool $moveToTrash = true): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['participant'])
@@ -1642,11 +1645,11 @@ class PageController extends ApiController {
 				&& $publicShareInfo['accesslevel'] >= Application::ACCESS_LEVELS['participant'])
 		) {
 			$billObj = null;
-			if ($this->projectService->getBill($publicShareInfo['projectid'] ?? $projectid, $billid) !== null) {
+			if ($this->billMapper->getBill($publicShareInfo['projectid'] ?? $projectid, $billid) !== null) {
 				$billObj = $this->billMapper->find($billid);
 			}
 
-			$result = $this->projectService->deleteBill($publicShareInfo['projectid'] ?? $projectid, $billid);
+			$result = $this->projectService->deleteBill($publicShareInfo['projectid'] ?? $projectid, $billid, false, $moveToTrash);
 			if (isset($result['success'])) {
 				if (!is_null($billObj)) {
 					if (is_null($publicShareInfo)) {
@@ -1681,7 +1684,7 @@ class PageController extends ApiController {
 	 * @PublicPage
 	 * @CORS
 	 */
-	public function apiDeleteBills(string $projectid, string $password, array $billIds): DataResponse {
+	public function apiDeleteBills(string $projectid, string $password, array $billIds, bool $moveToTrash = true): DataResponse {
 		$publicShareInfo = $this->projectService->getProjectInfoFromShareToken($projectid);
 		if (
 			($this->checkLogin($projectid, $password) && $this->projectService->getGuestAccessLevel($projectid) >= Application::ACCESS_LEVELS['participant'])
@@ -1699,11 +1702,11 @@ class PageController extends ApiController {
 			}
 			foreach ($billIds as $billid) {
 				$billObj = null;
-				if ($this->projectService->getBill($publicShareInfo['projectid'] ?? $projectid, $billid) !== null) {
+				if ($this->billMapper->getBill($publicShareInfo['projectid'] ?? $projectid, $billid) !== null) {
 					$billObj = $this->billMapper->find($billid);
 				}
 
-				$result = $this->projectService->deleteBill($publicShareInfo['projectid'] ?? $projectid, $billid);
+				$result = $this->projectService->deleteBill($publicShareInfo['projectid'] ?? $projectid, $billid, false, $moveToTrash);
 				if (!isset($result['success'])) {
 					return new DataResponse($result, 404);
 				} else {
@@ -1730,14 +1733,14 @@ class PageController extends ApiController {
 	 * @NoCSRFRequired
 	 * @CORS
 	 */
-	public function apiPrivDeleteBill(string $projectid, int $billid): DataResponse {
+	public function apiPrivDeleteBill(string $projectid, int $billid, bool $moveToTrash = true): DataResponse {
 		if ($this->projectService->getUserMaxAccessLevel($this->userId, $projectid) >= Application::ACCESS_LEVELS['participant']) {
 			$billObj = null;
-			if ($this->projectService->getBill($projectid, $billid) !== null) {
+			if ($this->billMapper->getBill($projectid, $billid) !== null) {
 				$billObj = $this->billMapper->find($billid);
 			}
 
-			$result = $this->projectService->deleteBill($projectid, $billid);
+			$result = $this->projectService->deleteBill($projectid, $billid, false, $moveToTrash);
 			if (isset($result['success'])) {
 				if (!is_null($billObj)) {
 					$this->activityManager->triggerEvent(

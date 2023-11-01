@@ -24,6 +24,7 @@ declare(strict_types=1);
  */
 namespace OCA\Cospend\Search;
 
+use OCA\Cospend\Db\BillMapper;
 use OCA\Cospend\Service\ProjectService;
 use OCA\Cospend\AppInfo\Application;
 use OCP\App\IAppManager;
@@ -46,7 +47,8 @@ class CospendSearchProvider implements IProvider {
 		private IL10N $l10n,
 		private IURLGenerator $urlGenerator,
 		private IDateTimeFormatter $dateFormatter,
-		private ProjectService $projectService
+		private ProjectService $projectService,
+		private BillMapper $billMapper,
 	) {
 	}
 
@@ -100,7 +102,7 @@ class CospendSearchProvider implements IProvider {
 
 		// search bills for each project
 		foreach ($projects as $project) {
-			$searchResults = $this->projectService->searchBills($project['id'], $term);
+			$searchResults = $this->billMapper->searchBills($project['id'], $term);
 			$resultBills = array_merge($resultBills, $searchResults);
 		}
 
